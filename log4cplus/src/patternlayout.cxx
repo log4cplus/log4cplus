@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.17  2003/08/05 15:56:24  tcsmith
+// Fixed a UNICODE compilation error.
+//
 // Revision 1.16  2003/08/04 01:42:51  tcsmith
 // 1)  Deprecated the "Pattern" property in favor of the "ConverstionPattern" property.
 // 1)  Fixed several compilation warnings.
@@ -153,6 +156,10 @@ namespace log4cplus {
             virtual log4cplus::tstring convert(const InternalLoggingEvent& event);
 
         private:
+          // Disable copy
+            BasicPatternConverter(const BasicPatternConverter&);
+            BasicPatternConverter& operator=(BasicPatternConverter&);
+            
             LogLevelManager& llmCache;
             Type type;
         };
