@@ -4,12 +4,13 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
+// $Log: not supported by cvs2svn $
 
 #include <log4cplus/appender.h>
 #include <log4cplus/layout.h>
@@ -23,11 +24,19 @@ using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
 
 
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::ErrorHandler dtor
+///////////////////////////////////////////////////////////////////////////////
+
 ErrorHandler::~ErrorHandler()
 {
 }
 
 
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::OnlyOnceErrorHandler public methods
+///////////////////////////////////////////////////////////////////////////////
 
 void
 OnlyOnceErrorHandler::error(const std::string& err) 
@@ -39,20 +48,26 @@ OnlyOnceErrorHandler::error(const std::string& err)
 }
 
 
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::Appender ctors
+///////////////////////////////////////////////////////////////////////////////
+
 Appender::Appender()
  : layout(new SimpleLayout()),
    name(""),
-   threshold(NULL),
+   threshold(NOT_SET_LOG_LEVEL),
    errorHandler(new OnlyOnceErrorHandler()),
    closed(false)
 {
 }
 
 
+
 Appender::Appender(log4cplus::helpers::Properties properties)
  : layout(new SimpleLayout()),
    name(""),
-   threshold(NULL),
+   threshold(NOT_SET_LOG_LEVEL),
    errorHandler(new OnlyOnceErrorHandler()),
    closed(false)
 {
@@ -83,6 +98,10 @@ Appender::Appender(log4cplus::helpers::Properties properties)
 }
 
 
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::Appender public methods
+///////////////////////////////////////////////////////////////////////////////
+
 void 
 Appender::destructorImpl()
 {
@@ -98,43 +117,6 @@ Appender::destructorImpl()
 }
 
 
-ErrorHandler* 
-Appender::getErrorHandler()
-{
-    return errorHandler.get();
-}
-
-
-Layout* 
-Appender::getLayout()
-{
-    return layout.get();
-}
-
-
-std::string 
-Appender::getName()
-{
-    return name;
-}
-
-
-const Priority* 
-Appender::getThreshold()
-{
-    return threshold;
-}
-
-
-bool 
-Appender::isAsSevereAsThreshold(const Priority* priority)
-{
-    if(priority == NULL) {
-        return false;
-    }
-    return ((threshold == NULL) || priority->isGreaterOrEqual(threshold));
-}
-
 
 void 
 Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
@@ -145,13 +127,37 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
             return;
         }
 
-        if(!isAsSevereAsThreshold(event.priority)) {
+        if(!isAsSevereAsThreshold(event.ll)) {
             return;
         }
 
         append(event);
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
 }
+
+
+
+std::string 
+Appender::getName()
+{
+    return name;
+}
+
+
+
+void 
+Appender::setName(const std::string& name)
+{
+    this->name = name;
+}
+
+
+ErrorHandler* 
+Appender::getErrorHandler()
+{
+    return errorHandler.get();
+}
+
 
 
 void 
@@ -169,6 +175,7 @@ Appender::setErrorHandler(std::auto_ptr<ErrorHandler> eh)
 }
 
 
+
 void 
 Appender::setLayout(std::auto_ptr<Layout> lo)
 {
@@ -178,23 +185,11 @@ Appender::setLayout(std::auto_ptr<Layout> lo)
 }
 
 
-void 
-Appender::setName(const std::string& name)
+
+Layout* 
+Appender::getLayout()
 {
-    this->name = name;
-}
-
-
-void 
-Appender::setThreshold(const Priority* th)
-{
-    delete this->threshold;
-    this->threshold = NULL; // If th is NULL, we NULL out the
-                            // threshold value in this instance
-
-    if(th != NULL) {
-        this->threshold = new Priority( *th );
-    }
+    return layout.get();
 }
 
 

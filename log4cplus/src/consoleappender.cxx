@@ -4,12 +4,13 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
+// $Log: not supported by cvs2svn $
 
 #include <log4cplus/layout.h>
 #include <log4cplus/consoleappender.h>
@@ -20,9 +21,15 @@
 using namespace std;
 using namespace log4cplus::helpers;
 
+
+//////////////////////////////////////////////////////////////////////////////
+// log4cplus::ConsoleAppender ctors and dtor
+//////////////////////////////////////////////////////////////////////////////
+
 log4cplus::ConsoleAppender::ConsoleAppender()
 {
 }
+
 
 
 log4cplus::ConsoleAppender::ConsoleAppender(log4cplus::helpers::Properties properties)
@@ -31,11 +38,17 @@ log4cplus::ConsoleAppender::ConsoleAppender(log4cplus::helpers::Properties prope
 }
 
 
+
 log4cplus::ConsoleAppender::~ConsoleAppender()
 {
     destructorImpl();
 }
 
+
+
+//////////////////////////////////////////////////////////////////////////////
+// log4cplus::ConsoleAppender public methods
+//////////////////////////////////////////////////////////////////////////////
 
 void 
 log4cplus::ConsoleAppender::close()
@@ -44,6 +57,10 @@ log4cplus::ConsoleAppender::close()
 }
 
 
+
+//////////////////////////////////////////////////////////////////////////////
+// log4cplus::ConsoleAppender protected methods
+//////////////////////////////////////////////////////////////////////////////
 
 // Normally, append() methods do not need to be locked since they are
 // called by doAppend() which performs the locking.  However, this locks
