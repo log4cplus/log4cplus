@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/04/19 23:04:31  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.4  2003/04/18 22:24:11  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -344,7 +347,9 @@ log4cplus::pattern::BasicPatternConverter::convert
         {
             if(event.file != 0) {
                 log4cplus::tostringstream buf;
-                buf << event.file << LOG4CPLUS_TEXT(':') << event.line;
+                buf << LOG4CPLUS_C_STR_TO_TSTRING(event.file)
+                    << LOG4CPLUS_TEXT(':') 
+                    << event.line;
                 return buf.str();
             }
             else {
