@@ -78,6 +78,7 @@ if test x$multi_threaded = xtrue ; then
     echo "****************************************"
     CPPFLAGS="$CPPFLAGS -D_REENTRANT"
     AC_CHECK_LIB(pthread, pthread_create)
+    AC_CHECK_LIB(pthreads, pthread_create)
 else
     echo "****************************************"
     echo "Creating a single-threaded library"
