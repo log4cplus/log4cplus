@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/05/04 00:29:00  tcsmith
+// Removed the static initializer class.
+//
 // Revision 1.5  2003/04/18 21:15:17  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -25,18 +28,19 @@
 #include <log4cplus/helpers/loglog.h>
 
 using namespace std;
+using namespace log4cplus;
 using namespace log4cplus::helpers;
 
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// public methods
+// static methods
 ///////////////////////////////////////////////////////////////////////////////
 
-LogLog&
-log4cplus::helpers::getLogLog()
+SharedObjectPtr<LogLog>
+LogLog::getLogLog()
 {
-    static LogLog singleton;
+    static SharedObjectPtr<LogLog> singleton(new LogLog());
     return singleton;
 }
 
