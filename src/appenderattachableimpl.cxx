@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/06/03 20:23:05  tcsmith
+// Added a check for a NULL Appender in removeAppender().
+//
 // Revision 1.5  2003/05/14 23:06:40  tcsmith
 // Corrected removeAllAppenders() to used the synchronization macros instead
 // of a creating a Guard on the mutex.
@@ -38,14 +41,14 @@ using namespace log4cplus::helpers;
 //////////////////////////////////////////////////////////////////////////////
 
 AppenderAttachableImpl::AppenderAttachableImpl()
- : mutex(LOG4CPLUS_MUTEX_CREATE)
+ : appender_list_mutex(LOG4CPLUS_MUTEX_CREATE)
 {
 }
 
 
 AppenderAttachableImpl::~AppenderAttachableImpl()
 {
-   LOG4CPLUS_MUTEX_FREE( mutex );
+   LOG4CPLUS_MUTEX_FREE( appender_list_mutex );
 }
 
 
@@ -57,7 +60,7 @@ AppenderAttachableImpl::~AppenderAttachableImpl()
 void
 AppenderAttachableImpl::addAppender(SharedAppenderPtr newAppender)
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
+    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( appender_list_mutex )
         if(newAppender == NULL) {
             getLogLog().warn( LOG4CPLUS_TEXT("Tried to add NULL appender") );
             return;
@@ -76,7 +79,7 @@ AppenderAttachableImpl::addAppender(SharedAppenderPtr newAppender)
 AppenderAttachableImpl::ListType
 AppenderAttachableImpl::getAllAppenders()
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
+    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( appender_list_mutex )
         return appenderList;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
 }
@@ -86,7 +89,7 @@ AppenderAttachableImpl::getAllAppenders()
 SharedAppenderPtr 
 AppenderAttachableImpl::getAppender(const log4cplus::tstring& name)
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
+    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( appender_list_mutex )
         for(ListType::iterator it=appenderList.begin(); 
             it!=appenderList.end(); 
             ++it)
@@ -105,7 +108,7 @@ AppenderAttachableImpl::getAppender(const log4cplus::tstring& name)
 void 
 AppenderAttachableImpl::removeAllAppenders()
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
+    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( appender_list_mutex )
         appenderList.erase(appenderList.begin(), appenderList.end());
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
 }
@@ -120,7 +123,7 @@ AppenderAttachableImpl::removeAppender(SharedAppenderPtr appender)
         return;
     }
 
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
+    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( appender_list_mutex )
         ListType::iterator it =
             std::find(appenderList.begin(), appenderList.end(), appender);
         if(it != appenderList.end()) {
@@ -144,7 +147,7 @@ AppenderAttachableImpl::appendLoopOnAppenders(const spi::InternalLoggingEvent& e
 {
     int count = 0;
 
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
+    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( appender_list_mutex )
         for(ListType::const_iterator it=appenderList.begin();
             it!=appenderList.end();
             ++it)
