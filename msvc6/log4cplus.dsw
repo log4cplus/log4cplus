@@ -60,6 +60,21 @@ Package=<4>
 
 ###############################################################################
 
+Project: "loggingserver"=.\loggingserver.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "loglog_test"=.\tests\loglog_test.dsp - Package Owner=<4>
 
 Package=<5>
@@ -106,6 +121,21 @@ Package=<4>
 ###############################################################################
 
 Project: "priority_test"=.\tests\priority_test.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "socket_test"=.\tests\socket_test.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
