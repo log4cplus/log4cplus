@@ -8,6 +8,7 @@ INCLUDES = -I../include
 
 liblog4cplus_a_SOURCES = appenderattachableimpl.cxx \
                          appender.cxx \
+                         configurator.cxx \
                          consoleappender.cxx \
 			 factory.cxx \
                          fileappender.cxx \
@@ -22,7 +23,6 @@ liblog4cplus_a_SOURCES = appenderattachableimpl.cxx \
                          patternlayout.cxx \
                          pointer.cxx \
 			 property.cxx \
-			 propertyconfig.cxx \
                          threads.cxx
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@

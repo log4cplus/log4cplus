@@ -10,12 +10,15 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/04/03 23:46:14  tcsmith
+// Renamed from propertyconfig.cxx
+//
 // Revision 1.3  2003/04/03 01:21:36  tcsmith
 // Changed to support the rename of Category to Logger and Priority to
 // LogLevel.
 //
 
-#include <log4cplus/propertyconfig.h>
+#include <log4cplus/configurator.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/factory.h>
