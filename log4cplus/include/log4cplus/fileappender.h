@@ -18,9 +18,9 @@
 
 #include <log4cplus/config.h>
 #include <log4cplus/appender.h>
-#include "log4cplus/helpers/property.h"
+#include <log4cplus/fstreams.h>
+#include <log4cplus/helpers/property.h>
 
-#include <fstream>
 
 namespace log4cplus {
 
@@ -45,7 +45,7 @@ namespace log4cplus {
         virtual void append(const spi::InternalLoggingEvent& event);
 
       // Data
-        std::ofstream out;
+        log4cplus::tofstream out;
 	log4cplus::tstring filename;
 
     private:
