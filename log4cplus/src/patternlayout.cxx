@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/04/19 23:32:52  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.5  2003/04/19 23:04:31  tcsmith
 // Fixed UNICODE support.
 //
@@ -180,7 +183,6 @@ namespace log4cplus {
           // Types
             enum ParserState { LITERAL_STATE, 
                                CONVERTER_STATE,
-                               MINUS_STATE,
                                DOT_STATE,
                                MIN_STATE,
                                MAX_STATE };
@@ -195,7 +197,7 @@ namespace log4cplus {
             FormattingInfo formattingInfo;
             std::vector<PatternConverter*> list;
             ParserState state;
-            int pos;
+            tstring::size_type pos;
             log4cplus::tstring currentLiteral;
         };
     }
@@ -390,7 +392,7 @@ log4cplus::pattern::LoggerPatternConverter::convert
         // We substract 1 from 'len' when assigning to 'end' to avoid out of
         // bounds exception in return r.substring(end+1, len). This can happen
         // if precision is 1 and the logger name ends with a dot. 
-        int end = len - 1;
+        tstring::size_type end = len - 1;
         for(int i=precision; i>0; --i) {
             end = name.rfind(LOG4CPLUS_TEXT('.'), end - 1);
             if(end == tstring::npos) {
@@ -413,8 +415,8 @@ log4cplus::pattern::DatePatternConverter::DatePatternConverter
                                                 const log4cplus::tstring& pattern, 
                                                 bool use_gmtime)
 : PatternConverter(info),
-  format(pattern),
-  use_gmtime(use_gmtime)
+  use_gmtime(use_gmtime),
+  format(pattern)
 {
 }
 
@@ -464,7 +466,7 @@ log4cplus::pattern::PatternParser::extractOption()
     if (   (pos < pattern.length()) 
         && (pattern.at(pos) == LOG4CPLUS_TEXT('{'))) 
     {
-        int end = pattern.find_first_of(LOG4CPLUS_TEXT('}'), pos);
+        tstring::size_type end = pattern.find_first_of(LOG4CPLUS_TEXT('}'), pos);
         if (end > pos) {
             log4cplus::tstring r = pattern.substr(pos + 1, end - pos - 1);
             pos = end + 1;
@@ -492,7 +494,7 @@ log4cplus::pattern::PatternParser::extractPrecisionOption()
 PatternConverterList
 log4cplus::pattern::PatternParser::parse() 
 {
-    char c;
+    tchar c;
     pos = 0;
     while(pos < pattern.length()) {
         c = pattern.at(pos++);

@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  2003/05/01 19:35:25  tcsmith
+// Fixed VC++ compiler "performance warning".
+//
 // Revision 1.7  2003/04/19 23:04:32  tcsmith
 // Fixed UNICODE support.
 //
@@ -77,7 +80,7 @@ log4cplus::helpers::Properties::init(log4cplus::tistream& input)
     while(!input.eof()) {
         input.getline(buffer, BUFFER_SIZE);
         tstring tmp(buffer);
-        int idx = tmp.find('=');
+        tstring::size_type idx = tmp.find('=');
         if(idx != tstring::npos) {
             setProperty(tmp.substr(0, idx), tmp.substr(idx + 1));
         }
@@ -158,7 +161,7 @@ log4cplus::helpers::Properties::getPropertySubset(const log4cplus::tstring& pref
 
     vector<tstring> keys = propertyNames();
     for(vector<tstring>::iterator it=keys.begin(); it!=keys.end(); ++it) {
-        int pos = (*it).find(prefix);
+        tstring::size_type pos = (*it).find(prefix);
         if(pos != tstring::npos) {
             ret.setProperty( (*it).substr(prefix.size()), getProperty(*it) );
         }
