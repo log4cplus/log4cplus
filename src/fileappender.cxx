@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.18  2003/07/30 05:19:02  tcsmith
+// Added the "immediateFlush" field to the FileAppender class.
+//
 // Revision 1.17  2003/06/29 02:05:01  tcsmith
 // Now using the new #defined type for open_mode.
 //
@@ -83,7 +86,8 @@ log4cplus::FileAppender::FileAppender(const log4cplus::tstring& filename,
 
 log4cplus::FileAppender::FileAppender(const Properties& properties, 
                                       LOG4CPLUS_OPEN_MODE_TYPE mode)
-: Appender(properties)
+: Appender(properties),
+  immediateFlush(true)
 {
      tstring filename = properties.getProperty( LOG4CPLUS_TEXT("File") );
      if(filename.length() == 0) {
