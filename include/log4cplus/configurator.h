@@ -18,6 +18,7 @@
 
 #include <log4cplus/config.h>
 #include <log4cplus/appender.h>
+#include <log4cplus/hierarchy.h>
 #include <log4cplus/logger.h>
 #include <log4cplus/helpers/property.h>
 
@@ -197,15 +198,15 @@ namespace log4cplus {
          *
          * <p>Use the <code>#</code> character at the beginning of a line for comments.
          */
-        virtual void configure();
+        virtual void configure(Hierarchy& h = Logger::getDefaultHierarchy());
 
     protected:
         // Methods
         void replaceEnvironVariables();
-        void configureLoggers();
+        void configureLoggers(Hierarchy& h);
         void configureLogger(log4cplus::Logger logger, const log4cplus::tstring& config);
         void configureAppenders();
-        void configureAdditivity();
+        void configureAdditivity(Hierarchy& h);
 
         // Types
         typedef std::map<log4cplus::tstring, log4cplus::SharedAppenderPtr> AppenderMap;
