@@ -125,6 +125,10 @@ SOURCE=..\src\hierarchy.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\hierarchylocker.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\layout.cxx
 # End Source File
 # Begin Source File
