@@ -20,12 +20,15 @@
 #include <log4cplus/logger.h>
 #include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/pointer.h>
+#include <log4cplus/helpers/threads.h>
 #include <map>
 #include <memory>
 #include <vector>
 
 
 namespace log4cplus {
+    // Forward Declarations
+    class HierarchyLocker;
 
     /**
      * This class is specialized in retrieving loggers by name and
@@ -181,7 +184,7 @@ namespace log4cplus {
         /**
          * Get the root of this hierarchy.
          */
-        virtual Logger getRoot();
+        virtual Logger getRoot() const;
 
         /**
          * Reset all values contained in this hierarchy instance to their
@@ -202,6 +205,11 @@ namespace log4cplus {
          * Set the default LoggerFactory instance.
          */
         virtual void setLoggerFactory(std::auto_ptr<spi::LoggerFactory> factory);
+        
+        /**
+         * Returns the default LoggerFactory instance.
+         */
+        virtual spi::LoggerFactory* getLoggerFactory() { return defaultFactory.get(); }
 
         /**
          * Shutting down a hierarchy will <em>safely</em> close and remove
@@ -225,6 +233,19 @@ namespace log4cplus {
         typedef std::map<log4cplus::tstring, Logger> LoggerMap;
 
       // Methods
+        /**
+         * This is the implementation of the <code>getInstance()</code> method.
+         * NOTE: This method does not lock the <code>hashtable_mutex</code>.
+         */
+        virtual Logger getInstanceImpl(const log4cplus::tstring& name, 
+                                       spi::LoggerFactory& factory);
+        
+        /**
+         * This is the implementation of the <code>getCurrentLoggers()</code>.
+         * NOTE: This method does not lock the <code>hashtable_mutex</code>.
+         */
+        virtual void initializeLoggerList(LoggerList& list) const;
+        
         /**
          * This method loops through all the *potential* parents of
          * logger'. There 3 possible cases:
@@ -280,9 +301,9 @@ namespace log4cplus {
        Hierarchy& operator=(const Hierarchy&);
 
     // Friends
-       friend class spi::LoggerImpl;
+       friend class log4cplus::spi::LoggerImpl;
+       friend class log4cplus::HierarchyLocker;
     };
-
 
 } // end namespace log4cplus
 
