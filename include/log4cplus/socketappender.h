@@ -69,7 +69,7 @@ namespace log4cplus {
     public:
       // Ctors
         SocketAppender(const log4cplus::tstring& host, int port, 
-                       const log4cplus::tstring& serverName = "");
+                       const log4cplus::tstring& serverName = tstring());
         SocketAppender(log4cplus::helpers::Properties properties);
 
       // Dtor
@@ -90,8 +90,11 @@ namespace log4cplus {
     };
 
     namespace helpers {
+        LOG4CPLUS_EXPORT
         SocketBuffer convertToBuffer(const log4cplus::spi::InternalLoggingEvent& event,
                                      const log4cplus::tstring& serverName);
+
+        LOG4CPLUS_EXPORT
         log4cplus::spi::InternalLoggingEvent readFromBuffer(SocketBuffer& buffer);
     } // end namespace helpers
 

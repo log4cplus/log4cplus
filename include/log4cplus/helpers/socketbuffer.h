@@ -26,7 +26,7 @@ namespace log4cplus {
         /**
          *
          */
-        class SocketBuffer {
+        class LOG4CPLUS_EXPORT SocketBuffer {
         public:
             SocketBuffer(size_t max);
             SocketBuffer(const SocketBuffer& rhs);

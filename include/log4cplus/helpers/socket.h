@@ -40,7 +40,7 @@ namespace log4cplus {
         typedef SOCKET SOCKET_TYPE;
 #endif
 
-        class AbstractSocket {
+        class LOG4CPLUS_EXPORT AbstractSocket {
         public:
           // ctor and dtor
             AbstractSocket();
@@ -71,7 +71,7 @@ namespace log4cplus {
          * This class implements client sockets (also called just "sockets").
          * A socket is an endpoint for communication between two machines.
          */
-        class Socket : public AbstractSocket {
+        class LOG4CPLUS_EXPORT Socket : public AbstractSocket {
         public:
           // ctor and dtor
             Socket();
@@ -91,7 +91,7 @@ namespace log4cplus {
          * based on that request, and then possibly returns a result to the
          * requester.
          */
-        class ServerSocket : public AbstractSocket {
+        class LOG4CPLUS_EXPORT ServerSocket : public AbstractSocket {
         public:
           // ctor and dtor
             ServerSocket(int port);
@@ -100,14 +100,14 @@ namespace log4cplus {
         };
 
 
-        SOCKET_TYPE openSocket(unsigned short port, SocketState& state);
-        SOCKET_TYPE connectSocket(const log4cplus::tstring& hostn,
-                                  unsigned short port, SocketState& state);
-        SOCKET_TYPE acceptSocket(SOCKET_TYPE sock, SocketState& state);
-        int closeSocket(SOCKET_TYPE sock);
+        LOG4CPLUS_EXPORT SOCKET_TYPE openSocket(unsigned short port, SocketState& state);
+        LOG4CPLUS_EXPORT SOCKET_TYPE connectSocket(const log4cplus::tstring& hostn,
+                                                   unsigned short port, SocketState& state);
+        LOG4CPLUS_EXPORT SOCKET_TYPE acceptSocket(SOCKET_TYPE sock, SocketState& state);
+        LOG4CPLUS_EXPORT int closeSocket(SOCKET_TYPE sock);
 
-        int read(SOCKET_TYPE sock, SocketBuffer& buffer);
-        int write(SOCKET_TYPE sock, const SocketBuffer& buffer);
+        LOG4CPLUS_EXPORT int read(SOCKET_TYPE sock, SocketBuffer& buffer);
+        LOG4CPLUS_EXPORT int write(SOCKET_TYPE sock, const SocketBuffer& buffer);
 
     } // end namespace helpers
 } // end namespace log4cplus
