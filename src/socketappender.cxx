@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/05/04 07:25:16  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/socketappender.h>
 #include <log4cplus/layout.h>
@@ -155,7 +158,12 @@ log4cplus::helpers::readFromBuffer(SocketBuffer& buffer)
     LogLevel ll = buffer.readInt();
     tstring ndc = buffer.readString(sizeOfChar);
     if(serverName.length() > 0) {
-        ndc = serverName + LOG4CPLUS_TEXT(" - ") + ndc;
+        if(ndc.length() == 0) {
+            ndc = serverName;
+        }
+        else {
+            ndc = serverName + LOG4CPLUS_TEXT(" - ") + ndc;
+        }
     }
     tstring message = buffer.readString(sizeOfChar);
     LOG4CPLUS_THREAD_KEY_TYPE thread = buffer.readInt();
