@@ -24,7 +24,7 @@
 namespace log4cplus {
     namespace helpers {
         LOG4CPLUS_EXPORT size_t strftime(tchar* s, size_t max, 
-			                 const tchar* format, const struct tm* tm);
+                                         const tchar* format, const struct tm* tm);
     }
 }
 
