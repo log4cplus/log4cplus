@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/04/19 23:15:47  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.2  2003/04/18 21:26:16  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -70,8 +73,8 @@ LoggerImpl::callAppenders(const InternalLoggingEvent& event)
     // No appenders in hierarchy, warn user only once.
     if(!hierarchy.emittedNoAppenderWarning && writes == 0) {
         getLogLog().error(  LOG4CPLUS_TEXT("No appenders could be found for logger (") 
-			  + getName() 
-			  + LOG4CPLUS_TEXT(")."));
+                          + getName() 
+                          + LOG4CPLUS_TEXT(")."));
         getLogLog().error(LOG4CPLUS_TEXT("Please initialize the log4cplus system properly."));
         hierarchy.emittedNoAppenderWarning = true;
     }
