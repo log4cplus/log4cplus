@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/04/19 23:04:31  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.4  2003/04/18 22:08:19  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -27,18 +30,6 @@
 
 using namespace log4cplus;
 using namespace log4cplus::helpers;
-
-
-///////////////////////////////////////////////////////////////////////////////
-// File Local definitions
-///////////////////////////////////////////////////////////////////////////////
-
-namespace {
-    class _static_NDC_initializer {
-    public:
-        _static_NDC_initializer() { getNDC(); }
-    } initializer;
-}
 
 
 
