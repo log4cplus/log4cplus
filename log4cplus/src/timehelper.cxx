@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/08/05 09:20:08  tcsmith
+// Modified the getFormattedTime() method to increase performance.
+//
 // Revision 1.5  2003/06/29 16:36:10  tcsmith
 // Removed the setTime(long) method.
 //
@@ -197,7 +200,12 @@ Time::getFormattedTime(const log4cplus::tstring& fmt, bool use_gmtime) const
     size_t pos = ret.find( LOG4CPLUS_TEXT("%q") );
     if(pos != tstring::npos) {
         tstring tmp(ret.substr(0, pos));
-        tmp += convertIntegerToString((tv_usec / 1000));
+        tstring seconds( convertIntegerToString((tv_usec / 1000)) );
+        switch(seconds.length()) {
+            case 1: tmp += LOG4CPLUS_TEXT("00"); break;
+            case 2: tmp += LOG4CPLUS_TEXT("0"); break;
+        }
+        tmp += seconds;
         tmp += ret.substr(pos + 2);
         ret = tmp;
     }
@@ -205,7 +213,12 @@ Time::getFormattedTime(const log4cplus::tstring& fmt, bool use_gmtime) const
     pos = ret.find( LOG4CPLUS_TEXT("%Q") );
     if(pos != tstring::npos) {
         tstring tmp(ret.substr(0, pos));
-        tmp += convertIntegerToString((tv_usec / 1000));
+        tstring seconds( convertIntegerToString((tv_usec / 1000)) );
+        switch(seconds.length()) {
+            case 1: tmp += LOG4CPLUS_TEXT("00"); break;
+            case 2: tmp += LOG4CPLUS_TEXT("0"); break;
+        }
+        tmp += seconds;
 #if defined(HAVE_GETTIMEOFDAY)
         tstring usecs( convertIntegerToString((tv_usec % 1000)) );
         switch(usecs.length()) {
