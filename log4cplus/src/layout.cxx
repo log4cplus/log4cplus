@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.16  2003/06/23 20:56:43  tcsmith
+// Modified to support the changes in the spi::InternalLoggingEvent class.
+//
 // Revision 1.15  2003/06/13 17:45:24  tcsmith
 // Added: using namespace std.
 //
@@ -70,7 +73,7 @@ SimpleLayout::formatAndAppend(log4cplus::tostream& output,
     output << llmCache.toString(event.getLogLevel()) 
            << LOG4CPLUS_TEXT(" - ")
            << event.getMessage() 
-           << endl;
+           << LOG4CPLUS_TEXT("\n");
 }
 
 
@@ -89,7 +92,7 @@ TTCCLayout::TTCCLayout(bool use_gmtime)
 TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
 : Layout(properties),
   dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S,%q") ),
-  use_gmtime(true)
+  use_gmtime(false)
 {
     if(properties.exists( LOG4CPLUS_TEXT("DateFormat") )) {
         dateFormat  = properties.getProperty( LOG4CPLUS_TEXT("DateFormat") );
@@ -125,7 +128,7 @@ TTCCLayout::formatAndAppend(log4cplus::tostream& output,
            << event.getNDC() 
            << LOG4CPLUS_TEXT("> - ")
            << event.getMessage()
-           << endl;
+           << LOG4CPLUS_TEXT("\n");
 }
 
 
