@@ -106,7 +106,9 @@ namespace log4cplus {
              *  owns <code>object</code>.)
              */
             bool put(std::auto_ptr<T> object) {
-                return putVal(object->getTypeName(), object.release());
+		 bool putValResult = putVal(object->getTypeName(), object.get());
+		 object.release();
+		 return putValResult; 
             }
 
             /**
