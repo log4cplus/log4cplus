@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(src/logger.cxx)
-AM_INIT_AUTOMAKE(log4cplus, 0.9.5)
+AM_INIT_AUTOMAKE(log4cplus, 0.9.6)
 AM_CONFIG_HEADER(include/log4cplus/config.h)
 
 #
@@ -37,6 +37,8 @@ dnl Checks for library functions.
 AC_FUNC_ALLOCA
 AC_FUNC_STRFTIME
 AC_STRUCT_TM
+AC_CHECK_FUNCS(gmtime_r)
+AC_CHECK_FUNCS(localtime_r)
 
 dnl Check for single-threaded compilation
 AC_ARG_ENABLE(threads,
@@ -68,6 +70,7 @@ AC_OUTPUT([Makefile
            tests/Makefile 
            tests/appender_test/Makefile 
            tests/fileappender_test/Makefile 
+           tests/filter_test/Makefile 
            tests/hierarchy_test/Makefile 
            tests/loglog_test/Makefile 
            tests/ndc_test/Makefile 
