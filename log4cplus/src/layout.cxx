@@ -47,6 +47,10 @@ TTCCLayout::TTCCLayout()
 }
 
 
+TTCCLayout::~TTCCLayout()
+{
+}
+
 
 void
 TTCCLayout::formatAndAppend(std::ostream& output, const log4cplus::spi::InternalLoggingEvent& event)
