@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/07/19 15:23:18  tcsmith
+// Added dtors to Socket and ServerSocket.
+//
 // Revision 1.1  2003/05/04 07:25:16  tcsmith
 // Initial version.
 //
@@ -22,7 +25,7 @@
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 
-#ifndef WIN32
+#if !defined(_WIN32)
 #  include <errno.h>
 #  include <unistd.h>
 #  define GET_LAST_ERROR errno

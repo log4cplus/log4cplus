@@ -18,7 +18,7 @@
 
 #include <log4cplus/config.h>
 
-#if defined(HAVE_SYSLOG_H) && !defined(WIN32)
+#if defined(HAVE_SYSLOG_H) && !defined(_WIN32)
 #include <log4cplus/appender.h>
 
 namespace log4cplus {

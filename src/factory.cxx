@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.13  2003/07/30 05:51:22  tcsmith
+// Modified to remove "unused parameter" warning.
+//
 // Revision 1.12  2003/06/23 20:15:00  tcsmith
 // Added NullAppenderFactory.
 //
@@ -143,7 +146,7 @@ namespace log4cplus {
     };
 
 
-#if defined(WIN32)
+#if defined(_WIN32)
     class NTEventLogAppenderFactory : public AppenderFactory {
     public:
         SharedAppenderPtr createObject(const Properties& props)
@@ -277,7 +280,7 @@ namespace log4cplus {
         reg.put(auto_ptr<AppenderFactory>(new RollingFileAppenderFactory()));
         reg.put(auto_ptr<AppenderFactory>(new DailyRollingFileAppenderFactory()));
         reg.put(auto_ptr<AppenderFactory>(new SocketAppenderFactory()));
-#if defined(WIN32)
+#if defined(_WIN32)
         reg.put(auto_ptr<AppenderFactory>(new NTEventLogAppenderFactory()));
 #elif defined(HAVE_SYSLOG_H)
         reg.put(auto_ptr<AppenderFactory>(new SysLogAppenderFactory()));

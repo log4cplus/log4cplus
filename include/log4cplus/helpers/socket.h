@@ -33,7 +33,7 @@ namespace log4cplus {
                            message_truncated
                          };
 
-#ifndef WIN32
+#if !defined(_WIN32)
         typedef int SOCKET_TYPE;
 #define INVALID_SOCKET -1
 #else

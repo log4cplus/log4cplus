@@ -16,11 +16,7 @@
 #ifndef LOG4CPLUS_CONFIG_WIN32_HEADER_
 #define LOG4CPLUS_CONFIG_WIN32_HEADER_
 
-#if (defined(_WIN32) && !defined(WIN32)) 
-#define WIN32
-#endif 
-
-#ifdef WIN32
+#ifdef _WIN32
 
 /* Define if you have the ftime function.  */
 #define HAVE_FTIME 1
@@ -50,6 +46,6 @@
 #endif
 
 
-#endif // WIN32
+#endif // _WIN32
 #endif // LOG4CPLUS_CONFIG_WIN32_HEADER_
 

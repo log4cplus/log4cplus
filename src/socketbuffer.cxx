@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/05/21 22:11:00  tcsmith
+// Added appendSize_t() method.
+//
 // Revision 1.1  2003/05/04 07:25:16  tcsmith
 // Initial version.
 //
@@ -18,7 +21,7 @@
 #include <log4cplus/helpers/socketbuffer.h>
 #include <log4cplus/helpers/loglog.h>
 
-#ifndef WIN32
+#if !defined(_WIN32)
 #  include <netdb.h>
 #endif
 
