@@ -20,7 +20,11 @@
 #include <log4cplus/appender.h>
 #include <log4cplus/helpers/socket.h>
 
-#define LOG4CPLUS_MAX_MESSAGE_SIZE (8*1024)
+#ifndef UNICODE
+#  define LOG4CPLUS_MAX_MESSAGE_SIZE (8*1024)
+#else
+#  define LOG4CPLUS_MAX_MESSAGE_SIZE (2*8*1024)
+#endif
 
 
 namespace log4cplus {
