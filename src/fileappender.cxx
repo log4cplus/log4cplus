@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <sstream>
 #include <stdio.h>
+#include <stdlib.h>
 
 using namespace std;
 using namespace log4cplus::helpers;
@@ -120,8 +121,25 @@ log4cplus::RollingFileAppender::RollingFileAppender(const std::string& filename,
 log4cplus::RollingFileAppender::RollingFileAppender(log4cplus::helpers::Properties properties)
 : FileAppender(properties, std::ios::app)
 {
-    // TODO --> get maxFileSize and maxBackupIndex from properties
-    init(10*1024*1024, 1);
+    int maxFileSize = 10*1024*1024;
+    int maxBackupIndex = 1;
+    if(properties.exists("MaxFileSize")) {
+	string tmp = properties.getProperty("MaxFileSize");
+	maxFileSize = atoi(tmp.c_str());
+	if(tmp.find("MB") == (tmp.length() - 2)) {
+	    maxFileSize *= (1024 * 1024); // convert to megabytes
+	}
+	if(tmp.find("KB") == (tmp.length() - 2)) {
+	    maxFileSize *= 1024; // convert to kilobytes
+	}
+    }
+
+    if(properties.exists("MaxBackupIndex")) {
+	string tmp = properties.getProperty("MaxBackupIndex");
+	maxBackupIndex = atoi(tmp.c_str());
+    }
+
+    init(maxFileSize, maxBackupIndex);
 }
 
 
@@ -136,8 +154,8 @@ log4cplus::RollingFileAppender::~RollingFileAppender()
 void
 log4cplus::RollingFileAppender::init(long maxFileSize, int maxBackupIndex)
 {
-    this->maxFileSize = maxFileSize;
-    this->maxBackupIndex = maxBackupIndex;
+    this->maxFileSize = max(maxFileSize, MINIMUM_ROLLING_LOG_SIZE);
+    this->maxBackupIndex = max(maxBackupIndex, 1);
 }
 
 
