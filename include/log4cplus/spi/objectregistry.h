@@ -27,9 +27,14 @@
 namespace log4cplus {
     namespace spi {
 
-	/**
-	 * 
-	 */
+        /**
+         * This template class is used as a "Object Registry".  Objects are
+         * "entered" into the registry with a "name" using the <code>put()</code>
+         * method.  (The registry then owns the object.)  These object can
+         * then be retrieved using the <code>get()</code> method.
+         * <p>
+         * <b>Note:</b>  This class is Thread-safe.
+         */
         template<class T>
         class ObjectRegistry {
         public:
@@ -38,12 +43,27 @@ namespace log4cplus {
             ~ObjectRegistry();
 
           // public methods
+            /**
+             * Tests to see whether or not an object is bound in the
+             * registry as <code>name</code>.
+             */
             bool exists(const std::string& name) const;
 
+            /**
+             * Used the enter an object into the registry.  (The registry now
+             * owns <code>object</code>.)
+             */
             bool put(const std::string& name, std::auto_ptr<T> object);
 
+            /**
+             * Used to retrieve an object from the registry.  (The registry
+             * owns the returned pointer.)
+             */
             T* get(const std::string& name) const;
 
+            /**
+             * Returns the names of all registered objects.
+             */
             std::vector<std::string> getAllNames() const;
 
         private:
@@ -55,7 +75,11 @@ namespace log4cplus {
             ObjectMap data;
         };
 
-        
+
+        // ------------------------------------------------------------
+        // ObjectRegistry template implementation
+        // ------------------------------------------------------------
+
         template<class T>
         ObjectRegistry<T>::ObjectRegistry()
          : mutex(LOG4CPLUS_MUTEX_CREATE)
