@@ -151,8 +151,6 @@ namespace log4cplus {
          * Get the current nesting depth of this diagnostic context.
          *
          * @see #setMaxDepth
-         *
-         * @todo Remove this method.  It is not needed with NDCContextCreator.
          */
         int getDepth();
 
@@ -230,7 +228,6 @@ namespace log4cplus {
          * this particular problem.
          *
          * @see #getDepth
-         * @todo Remove this method.  It is not needed with NDCContextCreator.
          */
         void setMaxDepth(unsigned int maxDepth);
 
