@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.15  2003/08/27 14:55:16  tcsmith
+// Modified initializeFactoryRegistry() to fix for the AIX compiler.
+//
 // Revision 1.14  2003/08/08 05:34:04  tcsmith
 // Changed the #if checks to look for _WIN32 and not WIN32.
 //
@@ -180,7 +183,8 @@ namespace log4cplus {
     public:
         std::auto_ptr<Layout> createObject(const Properties& props)
         {
-            return std::auto_ptr<Layout>(new log4cplus::SimpleLayout(props));
+             std::auto_ptr<Layout> tmp(new log4cplus::SimpleLayout(props));
+             return tmp;
         }
 
         tstring getTypeName() { 
@@ -193,7 +197,8 @@ namespace log4cplus {
     public:
         std::auto_ptr<Layout> createObject(const Properties& props)
         {
-            return std::auto_ptr<Layout>(new log4cplus::TTCCLayout(props));
+            std::auto_ptr<Layout> tmp(new log4cplus::TTCCLayout(props));
+            return tmp;
         }
 
         tstring getTypeName() { 
@@ -206,7 +211,8 @@ namespace log4cplus {
     public:
         std::auto_ptr<Layout> createObject(const Properties& props)
         {
-            return std::auto_ptr<Layout>(new log4cplus::PatternLayout(props));
+            std::auto_ptr<Layout> tmp(new log4cplus::PatternLayout(props));
+            return tmp;
         }
 
         tstring getTypeName() { 

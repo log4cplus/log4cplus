@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.14  2003/07/30 03:19:29  tcsmith
+// Added support for the "Threshold" property.
+//
 // Revision 1.13  2003/06/23 20:56:43  tcsmith
 // Modified to support the changes in the spi::InternalLoggingEvent class.
 //
@@ -130,7 +133,7 @@ Appender::Appender(const log4cplus::helpers::Properties properties)
         Properties layoutProperties =
                 properties.getPropertySubset( LOG4CPLUS_TEXT("layout.") );
         try {
-            std::auto_ptr<Layout> newLayout = factory->createObject(layoutProperties);
+            std::auto_ptr<Layout> newLayout(factory->createObject(layoutProperties));
             if(newLayout.get() == 0) {
                 getLogLog().error(  LOG4CPLUS_TEXT("Failed to create appender: ")
                                   + factoryName);
