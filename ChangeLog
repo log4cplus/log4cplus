@@ -1,3 +1,14 @@
+Version 0.9.5 (May 19 2003)
+  - Removed the LOG4CPLUS_*_STR logging macros.
+  - Added support to disable the TRACE, DEBUG, and INFO macros by defining
+    LOG4CPLUS_DISABLE_*
+  - Added a static doConfigure() method to PropertyConfigurator and
+    BasicConfigurator.
+  - Fixed problems with the configure script on several platforms.
+  - Optimized single-threaded mode.
+  - Fixed some problems with the MSVC++ 7 compiler.
+
+
 Version 0.9.4 (May-5-2003)
   Added SocketAppender class.
   Now builds loggingserver to act as a source of logging messages from a
