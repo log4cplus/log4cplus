@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/05/04 07:25:16  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/config.h>
 #include <log4cplus/logger.h>
