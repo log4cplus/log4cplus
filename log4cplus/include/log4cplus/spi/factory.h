@@ -159,17 +159,17 @@ namespace log4cplus {
         /**
          * Returns the "singleton" <code>AppenderFactoryRegistry</code>.
          */
-        AppenderFactoryRegistry& getAppenderFactoryRegistry();
+        LOG4CPLUS_EXPORT AppenderFactoryRegistry& getAppenderFactoryRegistry();
 
         /**
          * Returns the "singleton" <code>LayoutFactoryRegistry</code>.
          */
-        LayoutFactoryRegistry& getLayoutFactoryRegistry();
+        LOG4CPLUS_EXPORT LayoutFactoryRegistry& getLayoutFactoryRegistry();
 
         /**
          * Returns the "singleton" <code>FilterFactoryRegistry</code>.
          */
-        FilterFactoryRegistry& getFilterFactoryRegistry();
+        LOG4CPLUS_EXPORT FilterFactoryRegistry& getFilterFactoryRegistry();
 
     }
 }
