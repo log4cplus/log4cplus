@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.17  2003/09/10 07:01:36  tcsmith
+// Added support for NetBSD.
+//
 // Revision 1.16  2003/08/27 15:22:38  tcsmith
 // Corrected the getCurrentThreadName() method for MacOS X and DEC cxx.
 //
@@ -116,9 +119,9 @@ void
 log4cplus::thread::yield()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
-    sched_yield();
+    ::sched_yield();
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    Sleep(0);
+    ::Sleep(0);
 #endif
 }
 
@@ -126,7 +129,7 @@ log4cplus::thread::yield()
 log4cplus::tstring 
 log4cplus::thread::getCurrentThreadName()
 {
-#if defined(__DECCXX) || defined(__APPLE__) || ((defined(__MWERKS__) && defined(__MACOS__))) || defined(__FreeBSD__) || defined(__NetBSD__)
+#if 1
     log4cplus::tostringstream tmp;
     tmp << LOG4CPLUS_GET_CURRENT_THREAD;
 
