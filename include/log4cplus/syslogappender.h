@@ -44,6 +44,11 @@ namespace log4cplus {
 
       // Data
         tstring ident;
+
+    private:
+      // Disallow copying of instances of this class
+        SysLogAppender(const SysLogAppender&);
+        SysLogAppender& operator=(const SysLogAppender&);
     };
 
 } // end namespace log4cplus

@@ -80,6 +80,11 @@ namespace log4cplus {
 
         virtual void formatAndAppend(log4cplus::tostream& output, 
                                      const log4cplus::spi::InternalLoggingEvent& event);
+
+    private: 
+      // Disallow copying of instances of this class
+        SimpleLayout(const SimpleLayout&);
+        SimpleLayout& operator=(const SimpleLayout&);
     };
 
 
@@ -133,6 +138,11 @@ namespace log4cplus {
     protected:
        log4cplus::tstring dateFormat;
        bool use_gmtime;
+
+    private: 
+      // Disallow copying of instances of this class
+        TTCCLayout(const TTCCLayout&);
+        TTCCLayout& operator=(const TTCCLayout&);
     };
 
 
@@ -465,9 +475,14 @@ namespace log4cplus {
     protected:
         void init(const log4cplus::tstring& pattern);
 
-        // Data
+      // Data
         log4cplus::tstring pattern;
         std::vector<pattern::PatternConverter*> parsedPattern;
+
+    private: 
+      // Disallow copying of instances of this class
+        PatternLayout(const PatternLayout&);
+        PatternLayout& operator=(const PatternLayout&);
     };
 
 

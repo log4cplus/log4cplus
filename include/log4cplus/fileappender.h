@@ -51,6 +51,10 @@ namespace log4cplus {
     private:
         void init(const log4cplus::tstring& filename,
                   std::ios::openmode mode);
+
+      // Disallow copying of instances of this class
+        FileAppender(const FileAppender&);
+        FileAppender& operator=(const FileAppender&);
     };
 
 

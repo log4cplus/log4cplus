@@ -274,6 +274,10 @@ namespace log4cplus {
        bool emittedNoAppenderWarning;
        bool emittedNoResourceBundleWarning;
 
+     // Disallow copying of instances of this class
+       Hierarchy(const Hierarchy&);
+       Hierarchy& operator=(const Hierarchy&);
+
     // Friends
        friend class spi::LoggerImpl;
     };

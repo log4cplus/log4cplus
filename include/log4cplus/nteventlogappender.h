@@ -48,12 +48,17 @@ namespace log4cplus {
          */
         void addRegistryInfo();
 
-        // Data
+      // Data
         log4cplus::tstring server;
         log4cplus::tstring log;
         log4cplus::tstring source;
         HANDLE hEventLog;
         SID* pCurrentUserSID;
+
+    private:
+      // Disallow copying of instances of this class
+        NTEventLogAppender(const NTEventLogAppender&);
+        NTEventLogAppender& operator=(const NTEventLogAppender&);
     };
 
 } // end namespace log4cplus
