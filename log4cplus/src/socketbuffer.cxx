@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2004/02/14 16:58:14  tcsmith
+// Added support for CYGWIN.
+//
 // Revision 1.5  2003/11/21 21:23:29  tcsmith
 // Fixed memory alignment errors on Solaris.
 //
@@ -67,7 +70,7 @@ log4cplus::helpers::SocketBuffer::SocketBuffer(const SocketBuffer& rhs)
 
 log4cplus::helpers::SocketBuffer::~SocketBuffer()
 {
-    delete buffer;
+    delete [] buffer;
 }
 
 
