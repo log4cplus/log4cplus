@@ -51,6 +51,11 @@ namespace log4cplus {
                                      const log4cplus::spi::InternalLoggingEvent& event) = 0;
     protected:
         LogLevelManager& llmCache;
+        
+    private:
+      // Disable copy
+        Layout(const Layout&);
+        Layout& operator=(Layout&);
     };
 
 
