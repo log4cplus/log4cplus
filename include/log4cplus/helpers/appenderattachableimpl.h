@@ -40,7 +40,7 @@ namespace log4cplus {
         {
         public:
           // Data
-            LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
+            LOG4CPLUS_MUTEX_PTR_DECLARE appender_list_mutex;
 
           // Ctors
             AppenderAttachableImpl();
