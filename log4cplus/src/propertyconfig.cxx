@@ -4,12 +4,13 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
+// $Log: not supported by cvs2svn $
 
 #include <log4cplus/propertyconfig.h>
 #include <log4cplus/helpers/loglog.h>
@@ -51,7 +52,7 @@ void
 log4cplus::PropertyConfigurator::configure()
 {
     configureAppenders();
-    configureCategories();
+    configureLoggers();
     configureAdditivity();
 }
 
@@ -62,26 +63,26 @@ log4cplus::PropertyConfigurator::configure()
 //////////////////////////////////////////////////////////////////////////////
 
 void
-log4cplus::PropertyConfigurator::configureCategories()
+log4cplus::PropertyConfigurator::configureLoggers()
 {
-    if(properties.exists("rootCategory")) {
-        Category rootCat = Category::getRoot();
-        configureCategory(rootCat, properties.getProperty("rootCategory"));
+    if(properties.exists("rootLogger")) {
+        Logger root = Logger::getRoot();
+        configureLogger(root, properties.getProperty("rootLogger"));
     }
 
-    Properties categoryProperties = properties.getPropertySubset("category.");
-    vector<string> categories = categoryProperties.propertyNames();
-    for(vector<string>::iterator it=categories.begin(); it!=categories.end(); ++it) {
-        Category cat = Category::getInstance(*it);
-        configureCategory(cat, categoryProperties.getProperty(*it));
+    Properties loggerProperties = properties.getPropertySubset("logger.");
+    vector<string> loggers = loggerProperties.propertyNames();
+    for(vector<string>::iterator it=loggers.begin(); it!=loggers.end(); ++it) {
+        Logger log = Logger::getInstance(*it);
+        configureLogger(log, loggerProperties.getProperty(*it));
     }
 }
 
 
 
 void
-log4cplus::PropertyConfigurator::configureCategory(log4cplus::Category cat, 
-                                                   const std::string& config)
+log4cplus::PropertyConfigurator::configureLogger(log4cplus::Logger logger, 
+                                                 const std::string& config)
 {
     // Remove all spaces from config
     string configString;
@@ -95,26 +96,26 @@ log4cplus::PropertyConfigurator::configureCategory(log4cplus::Category cat,
              back_insert_iterator<vector<string> >(tokens));
 
     if(tokens.size() == 0) {
-        getLogLog().error("PropertyConfigurator::configureCategory()- Invalid config " \
-                          "string(Category = " + cat.getName() + "): \"" + config + "\"");
+        getLogLog().error("PropertyConfigurator::configureLogger()- Invalid config " \
+                          "string(Logger = " + logger.getName() + "): \"" + config + "\"");
         return;
     }
 
-    // Set the priority
-    string priority = tokens[0];
-    if(priority != "INHERITED") {
-        cat.setPriority( static_cast<Priority::PriorityLevel>(Priority::toPriority(priority).toInt()) );
+    // Set the loglevel
+    string loglevel = tokens[0];
+    if(loglevel != "INHERITED") {
+        logger.setLogLevel( getLogLevelManager().fromString(loglevel) );
     }
 
     // Set the Appenders
     for(int j=1; j<tokens.size(); ++j) {
         AppenderMap::iterator appenderIt = appenders.find(tokens[j]);
         if(appenderIt == appenders.end()) {
-            getLogLog().error("PropertyConfigurator::configureCategory()- Invalid " \
+            getLogLog().error("PropertyConfigurator::configureLogger()- Invalid " \
                               "appender: " + tokens[j]);
             continue;
         }
-        cat.addAppender( (*appenderIt).second );
+        logger.addAppender( (*appenderIt).second );
     }
 }
 
@@ -166,15 +167,15 @@ log4cplus::PropertyConfigurator::configureAdditivity()
         it!=additivitysProps.end(); 
         ++it) 
     {
-        Category cat = Category::getInstance(*it);
+        Logger logger = Logger::getInstance(*it);
         string actualValue = additivityProperties.getProperty(*it);
         string value = tolower(actualValue);
 
         if(value == "true") {
-            cat.setAdditivity(true);
+            logger.setAdditivity(true);
         }
         else if(value == "false") {
-            cat.setAdditivity(false);
+            logger.setAdditivity(false);
         }
         else {
             getLogLog().warn("Invalid Additivity value: \"" + actualValue + "\"");
