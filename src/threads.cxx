@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/04/18 21:58:47  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.6  2003/04/03 01:31:43  tcsmith
 // Standardized the formatting.
 //
@@ -154,6 +157,7 @@ log4cplus::thread::threadStartFunc(LPVOID arg)
 
 #ifdef LOG4CPLUS_USE_PTHREADS
     pthread_exit(NULL);
+    return NULL;
 #endif
 #ifdef LOG4CPLUS_USE_WIN32_THREADS
     return NULL;
