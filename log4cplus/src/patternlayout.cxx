@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/06/04 18:59:00  tcsmith
+// Modified to use the "time" function defined in the timehelper.h header.
+//
 // Revision 1.8  2003/05/21 22:14:46  tcsmith
 // Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
 // of data".
@@ -745,7 +748,7 @@ PatternLayout::PatternLayout(const log4cplus::tstring& pattern)
 }
 
 
-PatternLayout::PatternLayout(log4cplus::helpers::Properties properties)
+PatternLayout::PatternLayout(const log4cplus::helpers::Properties& properties)
 {
     if(!properties.exists( LOG4CPLUS_TEXT("Pattern") )) {
         throw std::runtime_error("Pattern not specified in properties");

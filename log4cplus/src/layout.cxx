@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  2003/06/04 19:38:35  tcsmith
+// Added a use_gmtime flag to TTCCLayout to specifiy whether dates should be
+// logged using gmtime or localtime function calls.
+//
 // Revision 1.9  2003/06/04 18:59:00  tcsmith
 // Modified to use the "time" function defined in the timehelper.h header.
 //
@@ -98,7 +102,7 @@ TTCCLayout::TTCCLayout(bool use_gmtime)
 }
 
 
-TTCCLayout::TTCCLayout(log4cplus::helpers::Properties properties)
+TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
 : Layout(properties),
   dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S") ),
   use_gmtime(true)

@@ -49,7 +49,7 @@ namespace log4cplus {
     class LOG4CPLUS_EXPORT Layout {
     public:
         Layout() : llmCache(getLogLevelManager()) {}
-        Layout(log4cplus::helpers::Properties properties) 
+        Layout(const log4cplus::helpers::Properties& properties) 
           : llmCache(getLogLevelManager())  {}
         virtual ~Layout() {}
 
@@ -76,7 +76,7 @@ namespace log4cplus {
     class LOG4CPLUS_EXPORT SimpleLayout : public Layout {
     public:
         SimpleLayout() {}
-        SimpleLayout(log4cplus::helpers::Properties properties) : Layout(properties) {}
+        SimpleLayout(const log4cplus::helpers::Properties& properties) : Layout(properties) {}
 
         virtual void formatAndAppend(log4cplus::tostream& output, 
                                      const log4cplus::spi::InternalLoggingEvent& event);
@@ -129,7 +129,7 @@ namespace log4cplus {
     public:
       // Ctor and dtor
         TTCCLayout(bool use_gmtime = true);
-        TTCCLayout(log4cplus::helpers::Properties properties);
+        TTCCLayout(const log4cplus::helpers::Properties& properties);
         virtual ~TTCCLayout();
 
         virtual void formatAndAppend(log4cplus::tostream& output, 
@@ -466,7 +466,7 @@ namespace log4cplus {
     public:
       // Ctors and dtor
         PatternLayout(const log4cplus::tstring& pattern);
-        PatternLayout(log4cplus::helpers::Properties properties);
+        PatternLayout(const log4cplus::helpers::Properties& properties);
         virtual ~PatternLayout();
 
         virtual void formatAndAppend(log4cplus::tostream& output, 
