@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/04/18 21:00:41  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.5  2003/04/12 13:51:08  tcsmith
 // No longer dynamically allocate the object in the "singleton" method.
 //
@@ -21,6 +24,7 @@
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/fileappender.h>
+#include <log4cplus/syslogappender.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
 
@@ -74,6 +78,19 @@ namespace log4cplus {
     };
 
 
+#if defined(HAVE_SYSLOG_H)
+    class SysLogAppenderFactory : public AppenderFactory {
+        SharedAppenderPtr createObject(const Properties& props)
+        {
+            return SharedAppenderPtr(new log4cplus::SysLogAppender(props));
+        }
+
+        tstring getTypeName() { 
+	    return LOG4CPLUS_TEXT("log4cplus::SysLogAppender"); 
+	}
+    };
+#endif
+
     class SimpleLayoutFactory : public LayoutFactory {
         std::auto_ptr<Layout> createObject(const Properties& props)
         {
@@ -125,6 +142,9 @@ namespace {
             reg.put(auto_ptr<AppenderFactory>(new ConsoleAppenderFactory()));
             reg.put(auto_ptr<AppenderFactory>(new FileAppenderFactory()));
             reg.put(auto_ptr<AppenderFactory>(new RollingFileAppenderFactory()));
+#if defined(HAVE_SYSLOG_H)
+            reg.put(auto_ptr<AppenderFactory>(new SysLogAppenderFactory()));
+#endif
 
             LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
             reg2.put(auto_ptr<LayoutFactory>(new SimpleLayoutFactory()));
