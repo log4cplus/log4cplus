@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/05/22 21:17:32  tcsmith
+// Moved the sleep() method into sleep.cxx
+//
 // Revision 1.8  2003/04/29 17:38:45  tcsmith
 // Added "return NULL" to the threadStartFunc() method to make the Sun Forte
 // compiler happy.
@@ -26,11 +29,12 @@
 
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
+#include <log4cplus/helpers/timehelper.h>
+
 #include <exception>
 #include <sstream>
 #include <stdexcept>
 #include <errno.h>
-#include <time.h>
 
 #ifdef LOG4CPLUS_USE_PTHREADS
 #    include <sched.h>
