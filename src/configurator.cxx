@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.19  2003/12/07 06:48:57  tcsmith
+// Fixed bug #827804 - "UMR in ConfigurationWatchdogThread".
+//
 // Revision 1.18  2003/10/22 06:02:46  tcsmith
 // Explicitly use the log4cplus::helpers::sleep() method.
 //
@@ -510,6 +513,7 @@ namespace log4cplus {
           lastModTime(Time::gettimeofday()),
           lock(NULL)
         {
+            updateLastModTime();
             if(waitSecs <= 0) {
                 waitSecs = 1;
             }
@@ -523,6 +527,7 @@ namespace log4cplus {
         virtual void addAppender(Logger &logger, log4cplus::SharedAppenderPtr& appender);
         
         bool checkForFileModification();
+        void updateLastModTime();
         virtual ~ConfigurationWatchDogThread(){}
         
     private:
@@ -549,9 +554,9 @@ ConfigurationWatchDogThread::run()
             // reconfigure the Hierarchy
             theLock.resetConfiguration();
             reconfigure();
+            updateLastModTime();
             
             // release the lock
-            lastModTime = Time::gettimeofday();
             lock = NULL;
         }
         
@@ -603,6 +608,18 @@ ConfigurationWatchDogThread::checkForFileModification()
 #endif
     
     return modified;
+}
+
+
+
+void 
+ConfigurationWatchDogThread::updateLastModTime()
+{
+    struct stat fileStatus;
+    if(::stat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(), &fileStatus) == -1) {
+        return;  // stat() returned error, so the file must not exist
+    }
+    lastModTime = Time(fileStatus.st_mtime);
 }
 
 
