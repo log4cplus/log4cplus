@@ -13,6 +13,7 @@
 
 #include <log4cplus/propertyconfig.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/factory.h>
 
 #include <algorithm>
@@ -49,10 +50,9 @@ log4cplus::PropertyConfigurator::~PropertyConfigurator()
 void
 log4cplus::PropertyConfigurator::configure()
 {
-    getLogLog().debug("PropertyConfigurator::configure()- Entering...");
     configureAppenders();
     configureCategories();
-    getLogLog().debug("PropertyConfigurator::configure()- Exiting...");
+    configureAdditivity();
 }
 
 
@@ -83,52 +83,35 @@ void
 log4cplus::PropertyConfigurator::configureCategory(log4cplus::Category cat, 
                                                    const std::string& config)
 {
-    getLogLog().debug("PropertyConfigurator::configureCategory()- Entering...");
-    getLogLog().debug("   Category = " + cat.getName());
-    getLogLog().debug("   Config = " + config);
-
-    string configString = config;
-
-    // Remove all spaces from configString
-    int pos = configString.find_first_of(' ');
-    while(pos != string::npos) {
-        configString.erase(pos, 1);
-        pos = configString.find_first_of(' ');
-    }
-    getLogLog().debug("   Trimmed Config = " + configString);
+    // Remove all spaces from config
+    string configString;
+    remove_copy_if(config.begin(), config.end(),
+                   back_insert_iterator<string>(configString),
+                   bind1st(equal_to<char>(), ' '));
 
     // "Tokenize" configString
-    vector<string> configs( count(configString.begin(), configString.end(), ',')  + 1 );
+    vector<string> tokens;
+    tokenize(configString, ',',
+             back_insert_iterator<vector<string> >(tokens));
 
-    for(int i=0, count=0; i<configString.size(); ++i) {
-        if(configString[i] == ',') {
-            count++;
-        }
-        else {
-            configs[count] += configString[i];
-        }
-    }
-
-    if(configs[0].length() == 0) {
+    if(tokens.size() == 0) {
         getLogLog().error("PropertyConfigurator::configureCategory()- Invalid config " \
                           "string(Category = " + cat.getName() + "): \"" + config + "\"");
         return;
     }
 
     // Set the priority
-    string priority = configs[0];
-    getLogLog().debug("   Priority = " + priority);
+    string priority = tokens[0];
     if(priority != "INHERITED") {
         cat.setPriority( static_cast<Priority::PriorityLevel>(Priority::toPriority(priority).toInt()) );
     }
 
     // Set the Appenders
-    for(int j=1; j<configs.size(); ++j) {
-        getLogLog().debug("   Appender = " + configs[j]);
-        AppenderMap::iterator appenderIt = appenders.find(configs[j]);
+    for(int j=1; j<tokens.size(); ++j) {
+        AppenderMap::iterator appenderIt = appenders.find(tokens[j]);
         if(appenderIt == appenders.end()) {
             getLogLog().error("PropertyConfigurator::configureCategory()- Invalid " \
-                              "appender: " + configs[j]);
+                              "appender: " + tokens[j]);
             continue;
         }
         cat.addAppender( (*appenderIt).second );
@@ -144,19 +127,16 @@ log4cplus::PropertyConfigurator::configureAppenders()
     vector<string> appendersProps = appenderProperties.propertyNames();
     for(vector<string>::iterator it=appendersProps.begin(); it!=appendersProps.end(); ++it) {
         if( (*it).find('.') == string::npos ) {
-            getLogLog().debug("PropertyConfigurator::configureAppenders()- Appender: " 
-			      + *it);
             string factoryName = appenderProperties.getProperty(*it);
-            getLogLog().debug("PropertyConfigurator::configureAppenders()- FactoryName: "
-			      + factoryName);
             AppenderFactory* factory = getAppenderFactoryRegistry().get(factoryName);
             if(factory == 0) {
                 getLogLog().error("PropertyConfigurator::configureAppenders()- Cannot " \
                                   "find AppenderFactory: " + factoryName);
                 continue;
             }
+
             Properties properties = appenderProperties.getPropertySubset( (*it) + "." );
-	    try {
+            try {
                 SharedAppenderPtr appender = factory->createObject(properties);
                 if(appender.get() == 0) {
                     getLogLog().error("PropertyConfigurator::configureAppenders()- Failed " \
@@ -166,15 +146,41 @@ log4cplus::PropertyConfigurator::configureAppenders()
                     appender->setName(*it);
                     appenders[*it] = appender;
                 }
-	    }
-	    catch(std::exception& e) {
-		getLogLog().error("PropertyConfigurator::configureAppenders()- Error " \
-				  "while creating Appender: " + string(e.what()));
-		continue;
-	    }
-
+            }
+            catch(std::exception& e) {
+                getLogLog().error("PropertyConfigurator::configureAppenders()- Error " \
+                                  "while creating Appender: " + string(e.what()));
+            }
         }
     } // end for loop
+}
+
+
+void
+log4cplus::PropertyConfigurator::configureAdditivity()
+{
+    Properties additivityProperties = properties.getPropertySubset("additivity.");
+    vector<string> additivitysProps = additivityProperties.propertyNames();
+
+    for(vector<string>::iterator it=additivitysProps.begin(); 
+        it!=additivitysProps.end(); 
+        ++it) 
+    {
+        Category cat = Category::getInstance(*it);
+        string actualValue = additivityProperties.getProperty(*it);
+        string value = tolower(actualValue);
+
+        if(value == "true") {
+            cat.setAdditivity(true);
+        }
+        else if(value == "false") {
+            cat.setAdditivity(false);
+        }
+        else {
+            getLogLog().warn("Invalid Additivity value: \"" + actualValue + "\"");
+        }
+    }
+
 }
 
 
