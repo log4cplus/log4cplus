@@ -2,7 +2,7 @@
 if MULTI_THREADED
 noinst_PROGRAMS = loggingserver
 loggingserver_SOURCES = loggingserver.cxx
-loggingserver_LDADD = $(top_builddir)/src/liblog4cplus.la -lstdc++
+loggingserver_LDADD = $(top_builddir)/src/liblog4cplus.la 
 endif
 
 lib_LTLIBRARIES = liblog4cplus.la

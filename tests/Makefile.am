@@ -10,6 +10,7 @@ SINGLE_THREADED_TESTS = appender_test \
 	  patternlayout_test \
           priority_test \
 	  propertyconfig_test \
+	  shutdown_test \
 	  socket_test
 
 if MULTI_THREADED

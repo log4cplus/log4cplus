@@ -37,9 +37,6 @@ namespace log4cplus {
           // Ctors
              /**
               * Instantiate a LoggingEvent from the supplied parameters.
-              *           
-              * <p>Except {@link #timeStamp} all the other fields of
-              * <code>LoggingEvent</code> are filled when actually needed.
               * <p>
               * @param logger The logger of this event.
               * @param ll       The LogLevel of this event.
@@ -48,7 +45,7 @@ namespace log4cplus {
              InternalLoggingEvent(const log4cplus::tstring& logger,
                                   LogLevel ll,
                                   const log4cplus::tstring& message,
-                                  const char* file,
+                                  const char* filename,
                                   int line)
               : loggerName(logger),
                 ll(ll),
@@ -56,7 +53,8 @@ namespace log4cplus {
                 message(message),
                 thread( LOG4CPLUS_GET_CURRENT_THREAD_NAME ),
                 timestamp(log4cplus::helpers::Time::gettimeofday()),
-                file(file),
+                file( filename ? LOG4CPLUS_C_STR_TO_TSTRING(filename) 
+                               : log4cplus::tstring() ),
                 line(line)
              {
              }
@@ -67,7 +65,7 @@ namespace log4cplus {
                                   const log4cplus::tstring& message,
                                   const log4cplus::tstring& thread,
                                   log4cplus::helpers::Time time,
-                                  const char* file,
+                                  const log4cplus::tstring& file,
                                   int line)
               : loggerName(logger),
                 ll(ll),
@@ -103,7 +101,7 @@ namespace log4cplus {
             const log4cplus::helpers::Time timestamp;
 
             /** The is the file where this log statement was written */
-            const char* file;
+            const log4cplus::tstring file;
 
             /** The is the line where this log statement was written */
             const int line;

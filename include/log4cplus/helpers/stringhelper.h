@@ -21,19 +21,18 @@
 
 
 namespace log4cplus {
-
     namespace helpers {
 
         /**
          * Returns <code>s</code> in upper case.
          */
-        LOG4CPLUS_EXPORT tstring toUpper(const tstring& s);
+        LOG4CPLUS_EXPORT log4cplus::tstring toUpper(const log4cplus::tstring& s);
 
 
         /**
          * Returns <code>s</code> in lower case.
          */
-        LOG4CPLUS_EXPORT tstring toLower(const tstring& s);
+        LOG4CPLUS_EXPORT log4cplus::tstring toLower(const log4cplus::tstring& s);
 
 
         /**

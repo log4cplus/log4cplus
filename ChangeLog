@@ -1,3 +1,12 @@
+Version 0.9.7 (???)
+  - Added the "operator!=" to log4cplus::helpers::SharedObjectPtr.
+  - Renamed the tolower and toupper methods to avoid a name collision with a
+    macro with the DEC CXX compiler.
+  - Added TYPE_SOCKLEN_T to configure.in (checking for whether <sys/socket.h> 
+    defines `socklen_t').
+  - 
+
+
 Version 0.9.6 (June 10 2003)
   - Fixed multiple compiler warnings for the MSVC++ 7 compiler
   - Modified configure.in so that it can now build on Solaris.

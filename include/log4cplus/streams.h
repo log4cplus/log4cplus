@@ -22,40 +22,45 @@
 #include <iostream>
 #ifdef HAVE_SSTREAM
 #  include <sstream>
+#  define LOG4CPLUS_STREAM_NAMESPACE std
 #elif defined(HAVE_STRSTREAM)
 #  include <strstream>
-#  define LOG4CPLUS_OSTRSTREAM_NAMESPACE std
+#  if defined(__DECCXX) && !defined(__USE_STD_IOSTREAM)
+#    define LOG4CPLUS_STREAM_NAMESPACE
+#  else
+#    define LOG4CPLUS_STREAM_NAMESPACE std
+#  endif
 #elif defined(HAVE_STRSTREAM_H)
 #  include <strstream.h>
-#  define LOG4CPLUS_OSTRSTREAM_NAMESPACE
+#  define LOG4CPLUS_STREAM_NAMESPACE
 #else
 #  error "There doesn't appear to be any s*stream headers!!"
 #endif
 
 #ifdef UNICODE
     namespace log4cplus {
-        typedef std::wostream tostream;
-        typedef std::wistream tistream;
-        typedef std::wostringstream tostringstream;
-        static tostream &tcout = std::wcout;
-        static tostream &tcerr = std::wcerr;
+        typedef LOG4CPLUS_STREAM_NAMESPACE::wostream tostream;
+        typedef LOG4CPLUS_STREAM_NAMESPACE::wistream tistream;
+        typedef LOG4CPLUS_STREAM_NAMESPACE::wostringstream tostringstream;
+        static tostream &tcout = LOG4CPLUS_STREAM_NAMESPACE::wcout;
+        static tostream &tcerr = LOG4CPLUS_STREAM_NAMESPACE::wcerr;
     }
 
 LOG4CPLUS_EXPORT log4cplus::tostream& operator <<(log4cplus::tostream&, const char* psz );
 
 #else
     namespace log4cplus {
-        typedef std::ostream tostream;
-        typedef std::istream tistream;
-        static tostream &tcout = std::cout;
-        static tostream &tcerr = std::cerr;
+        typedef LOG4CPLUS_STREAM_NAMESPACE::ostream tostream;
+        typedef LOG4CPLUS_STREAM_NAMESPACE::istream tistream;
+        static tostream &tcout = LOG4CPLUS_STREAM_NAMESPACE::cout;
+        static tostream &tcerr = LOG4CPLUS_STREAM_NAMESPACE::cerr;
 #ifdef HAVE_SSTREAM
-        typedef std::ostringstream tostringstream;
+        typedef LOG4CPLUS_STREAM_NAMESPACE::ostringstream tostringstream;
 #else
-        class tostringstream : public LOG4CPLUS_OSTRSTREAM_NAMESPACE::ostrstream {
+        class tostringstream : public LOG4CPLUS_STREAM_NAMESPACE::ostrstream {
         public:
             tstring str() { 
-                char *ptr = LOG4CPLUS_OSTRSTREAM_NAMESPACE::ostrstream::str(); 
+                char *ptr = LOG4CPLUS_STREAM_NAMESPACE::ostrstream::str(); 
                 if(ptr) {
                     return tstring(ptr, pcount());
                 }
