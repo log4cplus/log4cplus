@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.13  2003/06/23 20:56:43  tcsmith
+// Modified to support the changes in the spi::InternalLoggingEvent class.
+//
 // Revision 1.12  2003/06/06 17:04:27  tcsmith
 // Changed the ctor to take a 'const' Properties object.
 //
@@ -142,6 +145,13 @@ Appender::Appender(const log4cplus::helpers::Properties properties)
             return;
         }
 
+    }
+
+    // Support for appender.Threshold in properties configuration file
+    if(properties.exists(LOG4CPLUS_TEXT("Threshold"))) {
+        tstring tmp = properties.getProperty(LOG4CPLUS_TEXT("Threshold"));
+        tmp = log4cplus::helpers::toUpper(tmp);
+        threshold = log4cplus::getLogLevelManager().fromString(tmp);
     }
 
     // Configure the filters
