@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.14  2003/08/04 01:10:12  tcsmith
+// Modified the getCurrentThreadName() method to use convertIntegerToString().
+//
 // Revision 1.13  2003/07/19 15:41:04  tcsmith
 // Cleaned up the threadStartFunc() method.
 //
@@ -117,7 +120,11 @@ log4cplus::thread::yield()
 log4cplus::tstring 
 log4cplus::thread::getCurrentThreadName()
 {
+#if (defined(__APPLE__) || (defined(__MWERKS__) && defined(__MACOS__)))
+    return convertIntegerToString(long(LOG4CPLUS_GET_CURRENT_THREAD));
+#else
     return convertIntegerToString(LOG4CPLUS_GET_CURRENT_THREAD);
+#endif
 }
 
 
