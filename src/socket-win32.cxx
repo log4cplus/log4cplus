@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/08/15 06:34:55  tcsmith
+// Added some casts to remove compilation warnings.
+//
 // Revision 1.3  2003/08/08 06:02:36  tcsmith
 // Added #pragma statement.
 //
@@ -88,7 +91,7 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
                                   unsigned short port, SocketState& state)
 {
     SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
-    if(sock < 0) {
+    if(sock == INVALID_SOCKET) {
         return INVALID_SOCKET;
     }
 
