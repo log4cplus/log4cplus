@@ -77,6 +77,7 @@ namespace log4cplus {
             Socket();
             Socket(SOCKET_TYPE sock, SocketState state, int err);
             Socket(const tstring& address, int port);
+            virtual ~Socket();
 
           // methods
             virtual bool read(SocketBuffer& buffer);
@@ -95,6 +96,7 @@ namespace log4cplus {
         public:
           // ctor and dtor
             ServerSocket(int port);
+            virtual ~ServerSocket();
 
             Socket accept();
         };

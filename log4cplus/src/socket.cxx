@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/05/04 07:25:16  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>
@@ -143,6 +146,12 @@ log4cplus::helpers::Socket::Socket(SOCKET_TYPE sock, SocketState state, int err)
 
 
 
+log4cplus::helpers::Socket::~Socket()
+{
+}
+
+
+
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -189,6 +198,12 @@ log4cplus::helpers::ServerSocket::ServerSocket(int port)
     if(sock == INVALID_SOCKET) {
         err = errno;
     }
+}
+
+
+
+log4cplus::helpers::ServerSocket::~ServerSocket()
+{
 }
 
 
