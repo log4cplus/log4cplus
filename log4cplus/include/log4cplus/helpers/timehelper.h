@@ -78,12 +78,6 @@ namespace log4cplus {
             void setTime(long millis);
 
             /**
-             * Returns this Time as milliseconds since Epoch (Same as the
-             * Java <code>System.currentMillis()</code> specification).
-             */
-            long long getMillis() const;
-
-            /**
              * Returns this Time as a <code>time_t></code> value.
              */
             time_t getTime() const;
