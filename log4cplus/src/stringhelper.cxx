@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  2003/07/30 06:03:00  tcsmith
+// Made changes to support Mac OS X builds.
+//
 // Revision 1.9  2003/06/13 17:51:37  tcsmith
 // Changed to use the old style C headers.
 //
@@ -74,7 +77,7 @@ log4cplus::helpers::tostring(const std::wstring& src)
     std::string ret;
     ret.resize(src.size());
     for (unsigned int i=0; i<src.size(); i++) {
-        ret[i] = src[i] < 256 ? src[i] : ' ';
+        ret[i] = (src[i] < 256 ? static_cast<char>(src[i]) : ' ');
     }
 
     return ret;
