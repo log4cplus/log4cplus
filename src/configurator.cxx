@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  2003/05/19 14:36:31  tcsmith
+// Added doConfigure() static methods.
+//
 // Revision 1.9  2003/05/04 01:07:42  tcsmith
 // Modified PropertyConfigurator so that it can be used to configure a
 // Hierarchy other than the default one.
@@ -55,6 +58,17 @@ using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Forward declarations
+//////////////////////////////////////////////////////////////////////////////
+
+namespace log4cplus {
+    void initializeLog4cplus();
+}
+
+
 
 //////////////////////////////////////////////////////////////////////////////
 // File LOCAL methods
@@ -177,6 +191,7 @@ log4cplus::PropertyConfigurator::doConfigure(const log4cplus::tstring& file)
 void
 log4cplus::PropertyConfigurator::configure(Hierarchy& h)
 {
+    initializeLog4cplus();
     configureAppenders();
     configureLoggers(h);
     configureAdditivity(h);
