@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/06/03 20:22:00  tcsmith
+// Modified the close() method to set "closed = true;".
+//
 // Revision 1.4  2003/05/21 22:14:46  tcsmith
 // Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
 // of data".
@@ -53,7 +56,7 @@ log4cplus::SocketAppender::SocketAppender(const log4cplus::tstring& host, int po
 
 
 
-log4cplus::SocketAppender::SocketAppender(log4cplus::helpers::Properties properties)
+log4cplus::SocketAppender::SocketAppender(const Properties properties)
  : Appender(properties),
    port(9998)
 {

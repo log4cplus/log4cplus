@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/06/03 20:19:42  tcsmith
+// Modified the close() method to set "closed = true;".
+//
 // Revision 1.8  2003/04/19 23:04:31  tcsmith
 // Fixed UNICODE support.
 //
@@ -48,7 +51,7 @@ log4cplus::FileAppender::FileAppender(const log4cplus::tstring& filename,
 }
 
 
-log4cplus::FileAppender::FileAppender(log4cplus::helpers::Properties properties,
+log4cplus::FileAppender::FileAppender(const Properties properties,
                                       std::ios::openmode mode)
 : Appender(properties)
 {
@@ -150,7 +153,7 @@ log4cplus::RollingFileAppender::RollingFileAppender(const log4cplus::tstring& fi
 
 
 
-log4cplus::RollingFileAppender::RollingFileAppender(log4cplus::helpers::Properties properties)
+log4cplus::RollingFileAppender::RollingFileAppender(const Properties properties)
 : FileAppender(properties, std::ios::app)
 {
     int maxFileSize = 10*1024*1024;

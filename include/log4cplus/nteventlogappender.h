@@ -29,7 +29,7 @@ namespace log4cplus {
         NTEventLogAppender(const log4cplus::tstring& server, 
                            const log4cplus::tstring& log, 
                            const log4cplus::tstring& source);
-        NTEventLogAppender(log4cplus::helpers::Properties properties);
+        NTEventLogAppender(const log4cplus::helpers::Properties properties);
 
       // dtor
         virtual ~NTEventLogAppender();

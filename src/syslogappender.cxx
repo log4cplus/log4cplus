@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/06/03 20:19:41  tcsmith
+// Modified the close() method to set "closed = true;".
+//
 // Revision 1.3  2003/05/21 22:19:39  tcsmith
 // Changed getSysLogLevel(), so that it has a default return value to remove
 // a compiler warning message.
@@ -46,7 +49,7 @@ log4cplus::SysLogAppender::SysLogAppender(const tstring& ident)
 }
 
 
-log4cplus::SysLogAppender::SysLogAppender(Properties properties)
+log4cplus::SysLogAppender::SysLogAppender(const Properties properties)
 : Appender(properties)
 {
     ident = properties.getProperty( LOG4CPLUS_TEXT("ident") );
