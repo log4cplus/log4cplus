@@ -84,7 +84,11 @@ namespace log4cplus {
         /******************************************************************************
          *                       Class SharedObject (from pp. 204-205)                *
          ******************************************************************************/
+#if (_MSC_VER >= 1300)
+        class SharedObject {
+#else
         class LOG4CPLUS_EXPORT SharedObject {
+#endif
         public:
             void addReference();
             void removeReference();
@@ -157,7 +161,7 @@ namespace log4cplus {
           // Methods
             void init() {
                 if(pointee == 0) return;
-                pointee->addReference();
+                ((SharedObject*)pointee)->addReference();
             }
             void validate() const {
                 if(pointee == 0) throw std::runtime_error("NullPointer");
