@@ -16,9 +16,7 @@ tcsmith@user.sourceforge.net.
 
 Current Status
 ==============
-This library is currently in Beta.  The goal is have approximately the same 
-level of functionality of log4j 1.1.3 before the first release.  The current
-estimate for the first Production release is September 2003.
+This library has now reached "Production" status.  
 
 
 Tested on the following platforms
