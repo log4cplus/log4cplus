@@ -11,7 +11,8 @@
 // distribution in the LICENSE.APL file.
 //
 
-/** @file */
+/** @file 
+ * This header defines the Logger class and the logging macros. */
 
 #ifndef _LOG4CPLUS_LOGGERHEADER_
 #define _LOG4CPLUS_LOGGERHEADER_
@@ -39,7 +40,8 @@ namespace log4cplus {
     class DefaultLoggerFactory;
 
 
-    /** @var This is a list of {@link Logger Loggers}. */
+    /** \typedef std::vector<Logger> LoggerList
+     * This is a list of {@link Logger Loggers}. */
     typedef std::vector<Logger> LoggerList;
 
 
@@ -206,8 +208,6 @@ namespace log4cplus {
 
         /**
          * Set the LogLevel of this Logger.
-         * <p>
-         * NULL values are admitted.
          */
         void setLogLevel(LogLevel);
 
@@ -260,13 +260,17 @@ namespace log4cplus {
         Logger getParent();
 
     protected:
+      // Data
+        /** This is a pointer to the implementation class. */
+        spi::LoggerImpl *value;
+
+    private:
       // Ctors
         /**
          * This constructor created a new <code>Logger</code> instance 
          * with a pointer to a Logger implementation.
          * <p>
-         * It is intended to be used by sub-classes only. You should not
-         * create loggers directly.
+         * You should not create loggers directly.
          *
          * @param ptr A pointer to the Logger implementation.  This value
          *            cannot be NULL.  
@@ -274,11 +278,6 @@ namespace log4cplus {
         Logger(spi::LoggerImpl *ptr);
         Logger(const spi::SharedLoggerImplPtr& val);
 
-      // Data
-        /** This is a pointer to the implementation class. */
-        spi::LoggerImpl *value;
-
-    private:
       // Methods
         void init();
         void validate(const char *file, int line) const;
@@ -309,7 +308,7 @@ namespace log4cplus {
      * <code>"ENTER: " + msg</code> log message if TRACE_LOG_LEVEL is enabled
      * for <code>logger</code>.
      * <p>
-     * @see LOG4CPLUS_TRACE_STR
+     * @see LOG4CPLUS_TRACE
      */
     class LOG4CPLUS_EXPORT TraceLogger {
     public:
@@ -332,6 +331,12 @@ namespace log4cplus {
 } // end namespace log4cplus
 
 
+/**
+ * @def LOG4CPLUS_TRACE(logger, logEvent)  This macro creates a TraceLogger 
+ * to log a TRACE_LOG_LEVEL message to <code>logger</code> upon entry and
+ * exiting of a method.  
+ * <code>logEvent</code> will be streamed into an <code>ostream</code>.
+ */
 #if !defined(LOG4CPLUS_DISABLE_DEBUG) && !defined(NDEBUG)
 #define LOG4CPLUS_TRACE(logger, logEvent) \
     log4cplus::TraceLogger _log4cplus_trace_logger(logger, logEvent);
@@ -342,8 +347,7 @@ namespace log4cplus {
 /**
  * @def LOG4CPLUS_DEBUG(logger, logEvent)  This macro is used to log a
  * DEBUG_LOG_LEVEL message to <code>logger</code>.  
- * <code>log</code> will be streamed into an <code>ostream</code>.
- * 
+ * <code>logEvent</code> will be streamed into an <code>ostream</code>.
  */
 #if !defined(LOG4CPLUS_DISABLE_DEBUG)
 #define LOG4CPLUS_DEBUG(logger, logEvent) \
@@ -356,6 +360,11 @@ namespace log4cplus {
 #define LOG4CPLUS_DEBUG(logger, logEvent) 
 #endif
 
+/**
+ * @def LOG4CPLUS_INFO(logger, logEvent)  This macro is used to log a
+ * INFO_LOG_LEVEL message to <code>logger</code>.  
+ * <code>logEvent</code> will be streamed into an <code>ostream</code>.
+ */
 #if !defined(LOG4CPLUS_DISABLE_INFO)
 #define LOG4CPLUS_INFO(logger, logEvent) \
     if(logger.isEnabledFor(log4cplus::INFO_LOG_LEVEL)) { \
@@ -367,6 +376,11 @@ namespace log4cplus {
 #define LOG4CPLUS_INFO(logger, logEvent)
 #endif
 
+/**
+ * @def LOG4CPLUS_WARN(logger, logEvent)  This macro is used to log a
+ * WARN_LOG_LEVEL message to <code>logger</code>.  
+ * <code>logEvent</code> will be streamed into an <code>ostream</code>.
+ */
 #if !defined(LOG4CPLUS_DISABLE_WARN)
 #define LOG4CPLUS_WARN(logger, logEvent) \
     if(logger.isEnabledFor(log4cplus::WARN_LOG_LEVEL)) { \
@@ -375,9 +389,14 @@ namespace log4cplus {
         logger.forcedLog(log4cplus::WARN_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
 #else
-#define LOG4CPLUS_WARN_STR(logger, logEvent)
+#define LOG4CPLUS_WARN(logger, logEvent)
 #endif
 
+/**
+ * @def LOG4CPLUS_ERROR(logger, logEvent)  This macro is used to log a
+ * ERROR_LOG_LEVEL message to <code>logger</code>.  
+ * <code>logEvent</code> will be streamed into an <code>ostream</code>.
+ */
 #define LOG4CPLUS_ERROR(logger, logEvent) \
     if(logger.isEnabledFor(log4cplus::ERROR_LOG_LEVEL)) { \
         log4cplus::tostringstream _log4cplus_buf; \
@@ -385,6 +404,11 @@ namespace log4cplus {
         logger.forcedLog(log4cplus::ERROR_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
 
+/**
+ * @def LOG4CPLUS_FATAL(logger, logEvent)  This macro is used to log a
+ * FATAL_LOG_LEVEL message to <code>logger</code>.  
+ * <code>logEvent</code> will be streamed into an <code>ostream</code>.
+ */
 #define LOG4CPLUS_FATAL(logger, logEvent) \
     if(logger.isEnabledFor(log4cplus::FATAL_LOG_LEVEL)) { \
         log4cplus::tostringstream _log4cplus_buf; \
