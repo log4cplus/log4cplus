@@ -1,3 +1,13 @@
+Version 0.9.9 (August 9 2003)
+  - Fixed many MSVC++ compilation errors (6 and 7).
+  - Updated the MSVC++ projects
+  - Modified the Time::getFormattedTime() method to increase performance
+  - Modified Hierarcy::getInstanceImpl() to "deep copy" Logger names.
+  - Corrected some of the PatternLayout documentation to work better with
+    doxygen.
+  - Some Borland C++ Builder 6 fixes.
+
+
 Version 0.9.8 (August 3 2003)
   - Changed the LogLog class so that it is now reference counted.
   - Restored the LOG4CPLUS_*_STR logging macros.
