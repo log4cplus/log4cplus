@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  2003/06/03 20:20:51  tcsmith
+// Changed the logging in the destructorImpl() method.
+//
 // Revision 1.9  2003/05/28 17:39:54  tcsmith
 // Added filtering support.
 //
@@ -41,6 +44,20 @@
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
+
+
+///////////////////////////////////////////////////////////////////////////////
+// file LOCAL methods
+///////////////////////////////////////////////////////////////////////////////
+
+namespace {
+    log4cplus::tstring asString(int i) {
+        log4cplus::tostringstream tmp;
+        tmp << i;
+        return tmp.str();
+    }
+}
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -119,7 +136,37 @@ Appender::Appender(log4cplus::helpers::Properties properties)
         }
 
     }
+
+    // Configure the filters
+    Properties filterProps = properties.getPropertySubset( LOG4CPLUS_TEXT("filters.") );
+    int filterCount = 0;
+    FilterPtr filterChain;
+    while( filterProps.exists(asString(++filterCount)) ) {
+        tstring filterName = asString(filterCount);
+        tstring factoryName = filterProps.getProperty(filterName);
+        FilterFactory* factory = getFilterFactoryRegistry().get(factoryName);
+
+        if(factory == 0) {
+            tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Cannot find FilterFactory: ");
+            getLogLog().error(err + factoryName);
+            continue;
+        }
+        FilterPtr filter = factory->createObject
+                      (filterProps.getPropertySubset(filterName + LOG4CPLUS_TEXT(".")));
+        if(filter.get() == 0) {
+            tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Failed to create filter: ");
+            getLogLog().error(err + filterName);
+        }
+        if(filterChain.get() == 0) {
+            filterChain = filter;
+        }
+        else {
+            filterChain->appendFilter(filter);
+        }
+    }
+    setFilter(filterChain);
 }
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -160,9 +207,9 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
             return;
         }
 
-	if(checkFilter(filter.get(), event) == DENY) {
+        if(checkFilter(filter.get(), event) == DENY) {
             return;
-	}
+        }
 
         append(event);
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
