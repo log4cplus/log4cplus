@@ -8,5 +8,5 @@ ndc_test_SOURCES = main.cxx
 
 AM_CPPFLAGS = -D_REENTRANT
 
-ndc_test_LDADD = $(top_builddir)/src/liblog4cplus.a -lstdc++ -lpthread
+ndc_test_LDADD = $(top_builddir)/src/liblog4cplus.la -lstdc++ -lpthread
 
