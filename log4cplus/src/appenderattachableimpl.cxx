@@ -11,11 +11,15 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/04/03 00:27:41  tcsmith
+// Standardized the formatting.
+//
 
 #include <log4cplus/appender.h>
 #include <log4cplus/helpers/appenderattachableimpl.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
+
 #include <algorithm>
 
 using namespace log4cplus;
@@ -48,7 +52,7 @@ AppenderAttachableImpl::addAppender(SharedAppenderPtr newAppender)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
         if(newAppender == NULL) {
-            getLogLog().warn("Tried to add NULL appender");
+            getLogLog().warn( LOG4CPLUS_TEXT("Tried to add NULL appender") );
             return;
         }
 
@@ -73,7 +77,7 @@ AppenderAttachableImpl::getAllAppenders()
 
 
 SharedAppenderPtr 
-AppenderAttachableImpl::getAppender(const std::string& name)
+AppenderAttachableImpl::getAppender(const log4cplus::tstring& name)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
         for(ListType::iterator it=appenderList.begin(); 
@@ -115,7 +119,7 @@ AppenderAttachableImpl::removeAppender(SharedAppenderPtr appender)
 
 
 void 
-AppenderAttachableImpl::removeAppender(const std::string& name)
+AppenderAttachableImpl::removeAppender(const log4cplus::tstring& name)
 {
     removeAppender(getAppender(name));
 }

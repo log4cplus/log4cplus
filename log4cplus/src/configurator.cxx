@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/04/05 20:14:38  tcsmith
+// Added replaceEnvironVariables() implementation.
+//
 // Revision 1.2  2003/04/04 00:31:14  tcsmith
 // Changed to support the rename of propertyconfig.h to configurator.h
 //
@@ -37,8 +40,8 @@ using namespace log4cplus::spi;
 // File LOCAL methods
 //////////////////////////////////////////////////////////////////////////////
 
-#define DELIM_START "${"
-#define DELIM_STOP "}"
+#define DELIM_START LOG4CPLUS_TEXT("${")
+#define DELIM_STOP LOG4CPLUS_TEXT("}")
 #define DELIM_START_LEN 2
 #define DELIM_STOP_LEN 1
 
@@ -70,15 +73,15 @@ namespace {
      *
      * @param val The string on which variable substitution is performed.
      */
-    std::string substEnvironVars(const std::string& val) {
-        std::string sbuf;
+     log4cplus::tstring substEnvironVars(const log4cplus::tstring& val) {
+     log4cplus::tstring sbuf;
 
         int i = 0;
         int j, k;
 
         while(true) {
             j=val.find(DELIM_START, i);
-            if(j == std::string::npos) {
+            if(j == log4cplus::tstring::npos) {
                 if(i==0)
                     return val;
                 else {
@@ -89,19 +92,20 @@ namespace {
             else {
                 sbuf += val.substr(i, j - i);
                 k = val.find(DELIM_STOP, j);
-                if(k == std::string::npos) {
-                    getLogLog().error(  '"' + val
-                                      +  "\" has no closing brace. Opening brace "\
-                                      "at position TODO.");
+                if(k == log4cplus::tstring::npos) {
+                    getLogLog().error(   LOG4CPLUS_TEXT('"') + val
+                                      +  LOG4CPLUS_TEXT("\" has no closing brace. ") \
+                                         LOG4CPLUS_TEXT("Opening brace at position TODO."));
                     return val;
                 }
                 else {
                     j += DELIM_START_LEN;
-                    std::string key = val.substr(j, k - j);
-                    char* replacement = getenv(key.c_str());
+                    log4cplus::tstring key = val.substr(j, k - j);
+                    char* replacement = 
+                            getenv(LOG4CPLUS_TSTRING_TO_STRING(key).c_str());
 
                     if(replacement != 0)
-                        sbuf += replacement;
+                        sbuf += LOG4CPLUS_STRING_TO_TSTRING(replacement);
                     i = k + DELIM_STOP_LEN;
                 }
             }
@@ -117,12 +121,12 @@ namespace {
 // log4cplus::PropertyConfigurator ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::PropertyConfigurator::PropertyConfigurator(const std::string& propertyFile)
+log4cplus::PropertyConfigurator::PropertyConfigurator(const log4cplus::tstring& propertyFile)
 : propertyFilename(propertyFile),
   properties(propertyFile)
 {
     replaceEnvironVariables();
-    properties = properties.getPropertySubset("log4cplus.");
+    properties = properties.getPropertySubset( LOG4CPLUS_TEXT("log4cplus.") );
 }
 
 
@@ -155,18 +159,18 @@ void
 log4cplus::PropertyConfigurator::replaceEnvironVariables()
 {
 
-    std::vector<std::string> keys = properties.propertyNames();
-    std::vector<std::string>::iterator it = keys.begin();
+    std::vector<log4cplus::tstring> keys = properties.propertyNames();
+    std::vector<log4cplus::tstring>::iterator it = keys.begin();
     for(; it!=keys.end(); ++it) {
-        std::string key = *it;
-        std::string val = properties.getProperty(key);
-        std::string subKey = substEnvironVars(key);
+        log4cplus::tstring key = *it;
+        log4cplus::tstring val = properties.getProperty(key);
+        log4cplus::tstring subKey = substEnvironVars(key);
         if(subKey != key) {
             properties.removeProperty(key);
             properties.setProperty(subKey, val);
         }
 
-        std::string subVal = substEnvironVars(val);
+        log4cplus::tstring subVal = substEnvironVars(val);
         if(subVal != val) {
             properties.setProperty(subKey, subVal);
         }
@@ -179,14 +183,16 @@ log4cplus::PropertyConfigurator::replaceEnvironVariables()
 void
 log4cplus::PropertyConfigurator::configureLoggers()
 {
-    if(properties.exists("rootLogger")) {
+    if(properties.exists( LOG4CPLUS_TEXT("rootLogger") )) {
         Logger root = Logger::getRoot();
-        configureLogger(root, properties.getProperty("rootLogger"));
+        configureLogger(root, 
+                        properties.getProperty(LOG4CPLUS_TEXT("rootLogger")));
     }
 
-    Properties loggerProperties = properties.getPropertySubset("logger.");
-    vector<string> loggers = loggerProperties.propertyNames();
-    for(vector<string>::iterator it=loggers.begin(); it!=loggers.end(); ++it) {
+    Properties loggerProperties = 
+            properties.getPropertySubset(LOG4CPLUS_TEXT("logger."));
+    vector<tstring> loggers = loggerProperties.propertyNames();
+    for(vector<tstring>::iterator it=loggers.begin(); it!=loggers.end(); ++it) {
         Logger log = Logger::getInstance(*it);
         configureLogger(log, loggerProperties.getProperty(*it));
     }
@@ -196,28 +202,32 @@ log4cplus::PropertyConfigurator::configureLoggers()
 
 void
 log4cplus::PropertyConfigurator::configureLogger(log4cplus::Logger logger, 
-                                                 const std::string& config)
+                                                 const log4cplus::tstring& config)
 {
     // Remove all spaces from config
-    string configString;
+    tstring configString;
     remove_copy_if(config.begin(), config.end(),
-                   back_insert_iterator<string>(configString),
-                   bind1st(equal_to<char>(), ' '));
+                   back_insert_iterator<tstring>(configString),
+                   bind1st(equal_to<tchar>(), ' '));
 
     // "Tokenize" configString
-    vector<string> tokens;
+    vector<tstring> tokens;
     tokenize(configString, ',',
-             back_insert_iterator<vector<string> >(tokens));
+             back_insert_iterator<vector<tstring> >(tokens));
 
     if(tokens.size() == 0) {
-        getLogLog().error("PropertyConfigurator::configureLogger()- Invalid config " \
-                          "string(Logger = " + logger.getName() + "): \"" + config + "\"");
+        getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()- " \
+                                         "Invalid config string(Logger = ")
+                          + logger.getName() 
+                          + LOG4CPLUS_TEXT("): \"") 
+                          + config 
+                          + LOG4CPLUS_TEXT("\""));
         return;
     }
 
     // Set the loglevel
-    string loglevel = tokens[0];
-    if(loglevel != "INHERITED") {
+    tstring loglevel = tokens[0];
+    if(loglevel != LOG4CPLUS_TEXT("INHERITED")) {
         logger.setLogLevel( getLogLevelManager().fromString(loglevel) );
     }
 
@@ -225,8 +235,9 @@ log4cplus::PropertyConfigurator::configureLogger(log4cplus::Logger logger,
     for(int j=1; j<tokens.size(); ++j) {
         AppenderMap::iterator appenderIt = appenders.find(tokens[j]);
         if(appenderIt == appenders.end()) {
-            getLogLog().error("PropertyConfigurator::configureLogger()- Invalid " \
-                              "appender: " + tokens[j]);
+        getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()- " \
+                                         "Invalid appender: ")
+                          + tokens[j]);
             continue;
         }
         logger.addAppender( (*appenderIt).second );
@@ -238,24 +249,33 @@ log4cplus::PropertyConfigurator::configureLogger(log4cplus::Logger logger,
 void
 log4cplus::PropertyConfigurator::configureAppenders()
 {
-    Properties appenderProperties = properties.getPropertySubset("appender.");
-    vector<string> appendersProps = appenderProperties.propertyNames();
-    for(vector<string>::iterator it=appendersProps.begin(); it!=appendersProps.end(); ++it) {
-        if( (*it).find('.') == string::npos ) {
-            string factoryName = appenderProperties.getProperty(*it);
+    Properties appenderProperties = 
+         properties.getPropertySubset(LOG4CPLUS_TEXT("appender."));
+    vector<tstring> appendersProps = appenderProperties.propertyNames();
+    for(vector<tstring>::iterator it=appendersProps.begin(); 
+        it!=appendersProps.end(); 
+        ++it) 
+    {
+        if( (*it).find( LOG4CPLUS_TEXT('.') ) == tstring::npos ) {
+            tstring factoryName = appenderProperties.getProperty(*it);
             AppenderFactory* factory = getAppenderFactoryRegistry().get(factoryName);
             if(factory == 0) {
-                getLogLog().error("PropertyConfigurator::configureAppenders()- Cannot " \
-                                  "find AppenderFactory: " + factoryName);
+                getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::" \
+                                                 "configureAppenders()- " \
+                                                 "Cannot find AppenderFactory: ")
+                                  + factoryName);
                 continue;
             }
 
-            Properties properties = appenderProperties.getPropertySubset( (*it) + "." );
+            Properties properties = 
+                    appenderProperties.getPropertySubset((*it) + LOG4CPLUS_TEXT("."));
             try {
                 SharedAppenderPtr appender = factory->createObject(properties);
                 if(appender.get() == 0) {
-                    getLogLog().error("PropertyConfigurator::configureAppenders()- Failed " \
-                                      "to create appender: " + *it);
+                    getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::" \
+                                                     "configureAppenders()- " \
+                                                     "Failed to create appender: ")
+                                      + *it);
                 }
                 else {
                     appender->setName(*it);
@@ -263,8 +283,10 @@ log4cplus::PropertyConfigurator::configureAppenders()
                 }
             }
             catch(std::exception& e) {
-                getLogLog().error("PropertyConfigurator::configureAppenders()- Error " \
-                                  "while creating Appender: " + string(e.what()));
+                getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::" \
+                                                 "configureAppenders()- " \
+                                                 "Error while creating Appender: ")
+                                  + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
             }
         }
     } // end for loop
@@ -274,25 +296,28 @@ log4cplus::PropertyConfigurator::configureAppenders()
 void
 log4cplus::PropertyConfigurator::configureAdditivity()
 {
-    Properties additivityProperties = properties.getPropertySubset("additivity.");
-    vector<string> additivitysProps = additivityProperties.propertyNames();
+    Properties additivityProperties = 
+            properties.getPropertySubset(LOG4CPLUS_TEXT("additivity."));
+    vector<tstring> additivitysProps = additivityProperties.propertyNames();
 
-    for(vector<string>::iterator it=additivitysProps.begin(); 
+    for(vector<tstring>::iterator it=additivitysProps.begin(); 
         it!=additivitysProps.end(); 
         ++it) 
     {
         Logger logger = Logger::getInstance(*it);
-        string actualValue = additivityProperties.getProperty(*it);
-        string value = tolower(actualValue);
+        tstring actualValue = additivityProperties.getProperty(*it);
+        tstring value = tolower(actualValue);
 
-        if(value == "true") {
+        if(value == LOG4CPLUS_TEXT("true")) {
             logger.setAdditivity(true);
         }
-        else if(value == "false") {
+        else if(value == LOG4CPLUS_TEXT("false")) {
             logger.setAdditivity(false);
         }
         else {
-            getLogLog().warn("Invalid Additivity value: \"" + actualValue + "\"");
+            getLogLog().warn(  LOG4CPLUS_TEXT("Invalid Additivity value: \"") 
+                             + actualValue 
+                             + LOG4CPLUS_TEXT("\""));
         }
     }
 
@@ -305,10 +330,12 @@ log4cplus::PropertyConfigurator::configureAdditivity()
 //////////////////////////////////////////////////////////////////////////////
 
 log4cplus::BasicConfigurator::BasicConfigurator()
-: log4cplus::PropertyConfigurator("")
+: log4cplus::PropertyConfigurator( LOG4CPLUS_TEXT("") )
 {
-    properties.setProperty("rootLogger", "DEBUG, STDOUT");
-    properties.setProperty("appender.STDOUT", "log4cplus::ConsoleAppender");
+    properties.setProperty(LOG4CPLUS_TEXT("rootLogger"), 
+                           LOG4CPLUS_TEXT("DEBUG, STDOUT"));
+    properties.setProperty(LOG4CPLUS_TEXT("appender.STDOUT"), 
+                           LOG4CPLUS_TEXT("log4cplus::ConsoleAppender"));
 }
 
 
