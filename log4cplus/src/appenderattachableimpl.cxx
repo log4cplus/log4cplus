@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/05/14 23:06:40  tcsmith
+// Corrected removeAllAppenders() to used the synchronization macros instead
+// of a creating a Guard on the mutex.
+//
 // Revision 1.4  2003/04/18 21:00:35  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -111,6 +115,11 @@ AppenderAttachableImpl::removeAllAppenders()
 void 
 AppenderAttachableImpl::removeAppender(SharedAppenderPtr appender)
 {
+    if(appender == NULL) {
+        getLogLog().warn( LOG4CPLUS_TEXT("Tried to remove NULL appender") );
+        return;
+    }
+
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
         ListType::iterator it =
             std::find(appenderList.begin(), appenderList.end(), appender);
