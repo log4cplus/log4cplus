@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/09/10 06:45:47  tcsmith
+// Changed connectSocket() to check for INVALID_SOCKET.
+//
 // Revision 1.4  2003/08/15 06:34:55  tcsmith
 // Added some casts to remove compilation warnings.
 //
@@ -136,7 +139,7 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
 
 
 SOCKET_TYPE
-log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& state)
+log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& /*state*/)
 {
     return ::accept(sock, NULL, NULL);
 }
