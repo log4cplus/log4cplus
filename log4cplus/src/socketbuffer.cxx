@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/05/04 07:25:16  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/helpers/socketbuffer.h>
 #include <log4cplus/helpers/loglog.h>
@@ -254,6 +257,20 @@ log4cplus::helpers::SocketBuffer::appendInt(unsigned int val)
 
 
 void
+log4cplus::helpers::SocketBuffer::appendSize_t(size_t val)
+{
+    if((pos + sizeof(size_t)) > maxsize) {
+        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendInt(size_t)- Attempt to write beyond end of buffer"));
+        return;
+    }
+
+    *((size_t*)&buffer[pos]) = htonl(val);
+    pos += sizeof(size_t);
+    size = pos;
+}
+
+
+void
 log4cplus::helpers::SocketBuffer::appendString(const tstring& str)
 {
 #ifndef UNICODE
@@ -264,7 +281,7 @@ log4cplus::helpers::SocketBuffer::appendString(const tstring& str)
         return;
     }
 
-    appendInt(strlen);
+    appendSize_t(strlen);
     memcpy(&buffer[pos], str.c_str(), strlen);
     pos += strlen;
     size = pos;
