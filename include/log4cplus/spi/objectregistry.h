@@ -31,7 +31,7 @@ namespace log4cplus {
          * This is the base class used to implement the functionality required
          * by the ObjectRegistry template class.
          */
-        class ObjectRegistryBase {
+        class LOG4CPLUS_EXPORT ObjectRegistryBase {
         public:
           // public methods
             /**

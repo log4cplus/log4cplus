@@ -24,9 +24,9 @@
 
 
 namespace log4cplus {
-
     namespace helpers {
-        class Properties {
+
+        class LOG4CPLUS_EXPORT Properties {
         public:
             Properties();
             Properties(log4cplus::tistream& input);
@@ -55,7 +55,7 @@ namespace log4cplus {
              * property list, and its defaults, recursively, are then checked. 
              * The method returns <code>null</code> if the property is not found.
              */
-	    log4cplus::tstring getProperty(const log4cplus::tstring& key) const;
+            log4cplus::tstring getProperty(const log4cplus::tstring& key) const;
 
             /**
              * Searches for the property with the specified key in this property
@@ -64,7 +64,7 @@ namespace log4cplus {
              * The method returns the default value argument if the property is 
              * not found.
              */
-	    log4cplus::tstring getProperty(const log4cplus::tstring& key,
+            log4cplus::tstring getProperty(const log4cplus::tstring& key,
                                            const log4cplus::tstring& defaultVal) const;
 
             /**
@@ -91,6 +91,7 @@ namespace log4cplus {
 
         protected:
           // Types
+//            LOG4CPLUS_EXPIMP_TEMPLATE template class LOG4CPLUS_EXPORT std::map<log4cplus::tstring, log4cplus::tstring>;
             typedef std::map<log4cplus::tstring, log4cplus::tstring> StringMap;
 
           // Methods

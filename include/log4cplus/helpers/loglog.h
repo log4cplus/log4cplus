@@ -29,7 +29,7 @@ namespace log4cplus {
         /**
          * Returns a reference to the <code>LogLog</code> singleton.
          */
-        LogLog& getLogLog();
+        LOG4CPLUS_EXPORT LogLog& getLogLog();
 
 
         /**
@@ -45,7 +45,7 @@ namespace log4cplus {
          * <code>System.err</code>. All internal messages are prepended with
          * the string "log4clus: ".
          */
-        class LogLog {
+        class LOG4CPLUS_EXPORT LogLog {
         public:
             /**
              * Allows to enable/disable log4cplus internal logging.
@@ -99,7 +99,7 @@ namespace log4cplus {
             LogLog(const LogLog&);
 
           // Friends
-            friend LogLog& getLogLog();
+            friend LOG4CPLUS_EXPORT LogLog& getLogLog();
         };
 
     }; // end namespace helpers

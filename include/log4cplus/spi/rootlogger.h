@@ -32,7 +32,7 @@ namespace log4cplus {
          * getChainedLogLevel method always returns the value of the
          * ll field without walking the hierarchy.
          */
-        class RootLogger : public LoggerImpl {
+        class LOG4CPLUS_EXPORT RootLogger : public LoggerImpl {
         public:
           // Ctors
             /**

@@ -34,7 +34,7 @@ namespace log4cplus {
         /**
          * This is the base class for all factories.
          */
-        class BaseFactory {
+        class LOG4CPLUS_EXPORT BaseFactory {
         public:
             virtual ~BaseFactory() {}
 
@@ -46,7 +46,7 @@ namespace log4cplus {
          * This abstract class defines the "Factory" interface to create "Appender"
          * objects.
          */
-        class AppenderFactory : public BaseFactory {
+        class LOG4CPLUS_EXPORT AppenderFactory : public BaseFactory {
         public:
             AppenderFactory(){}
             virtual ~AppenderFactory(){}
@@ -67,7 +67,7 @@ namespace log4cplus {
          * This abstract class defines the "Factory" interface to create "Layout"
          * objects.
          */
-        class LayoutFactory : public BaseFactory {
+        class LOG4CPLUS_EXPORT LayoutFactory : public BaseFactory {
         public:
             LayoutFactory(){}
             virtual ~LayoutFactory(){}
@@ -94,7 +94,7 @@ namespace log4cplus {
          * <b>Note:</b>  This class is Thread-safe.
          */
         template<class T>
-        class FactoryRegistry : ObjectRegistryBase {
+        class LOG4CPLUS_EXPORT FactoryRegistry : ObjectRegistryBase {
         public:
             virtual ~FactoryRegistry() {
                 clear();

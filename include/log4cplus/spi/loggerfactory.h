@@ -31,7 +31,7 @@ namespace log4cplus {
          * Implement this interface to create new instances of Logger or
          * a sub-class of Logger.
          */
-        class LoggerFactory {
+        class LOG4CPLUS_EXPORT LoggerFactory {
         public:
             /**
              * Creates a new <code>Logger</code> object.

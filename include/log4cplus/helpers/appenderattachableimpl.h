@@ -39,7 +39,7 @@ namespace log4cplus {
         /**
          * This Interface is for attaching Appenders to objects.
          */
-        class AppenderAttachableImpl : public log4cplus::spi::AppenderAttachable {
+        class LOG4CPLUS_EXPORT AppenderAttachableImpl : public log4cplus::spi::AppenderAttachable {
         public:
           // Data
             LOG4CPLUS_MUTEX_PTR_DECLARE mutex;

@@ -40,8 +40,8 @@ namespace log4cplus {
          * <p>See the <a href="../../../../manual.html">user manual</a> for an
          * introduction on this class. 
          */
-        class LoggerImpl : public log4cplus::helpers::SharedObject,
-                           public log4cplus::helpers::AppenderAttachableImpl
+        class LOG4CPLUS_EXPORT LoggerImpl : public log4cplus::helpers::SharedObject,
+                                            public log4cplus::helpers::AppenderAttachableImpl
         {
         public:
           // Methods
@@ -110,7 +110,7 @@ namespace log4cplus {
             /**
              * Return the logger name.  
              */
-	    log4cplus::tstring getName() const { return name; }
+            log4cplus::tstring getName() const { return name; }
 
             /**
              * Get the additivity flag for this Logger instance.
@@ -151,7 +151,7 @@ namespace log4cplus {
 
           // Data
             /** The name of this logger */
-	    log4cplus::tstring name;
+            log4cplus::tstring name;
 
             /**
              * The assigned LogLevel of this logger.
