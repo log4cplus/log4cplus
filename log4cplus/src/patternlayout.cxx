@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.16  2003/08/04 01:42:51  tcsmith
+// 1)  Deprecated the "Pattern" property in favor of the "ConverstionPattern" property.
+// 1)  Fixed several compilation warnings.
+//
 // Revision 1.15  2003/07/19 15:35:12  tcsmith
 // Fixed the FULL_LOCATION_CONVERTER output.
 //
@@ -345,7 +349,9 @@ log4cplus::pattern::BasicPatternConverter::convert
     case FULL_LOCATION_CONVERTER:
         {
             if(event.getFile().length() > 0) {
-                return event.getFile() + ":" + convertIntegerToString(event.getLine());
+                return   event.getFile() 
+                       + LOG4CPLUS_TEXT(":") 
+                       + convertIntegerToString(event.getLine());
             }
             else {
                 return LOG4CPLUS_TEXT(":");
