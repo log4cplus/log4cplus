@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/05/21 22:16:00  tcsmith
+// Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
+// of data".
+//
 // Revision 1.1  2003/05/04 07:25:16  tcsmith
 // Initial version.
 //
@@ -19,9 +23,9 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
 
-#include <sys/errno.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <errno.h>
 #include <netdb.h>
 #include <unistd.h>
 
