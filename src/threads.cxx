@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.16  2003/08/27 15:22:38  tcsmith
+// Corrected the getCurrentThreadName() method for MacOS X and DEC cxx.
+//
 // Revision 1.15  2003/08/09 06:58:21  tcsmith
 // Fixed the getCurrentThreadName() method for MacOS X.
 //
@@ -123,7 +126,7 @@ log4cplus::thread::yield()
 log4cplus::tstring 
 log4cplus::thread::getCurrentThreadName()
 {
-#if defined(__DECCXX) || defined(__APPLE__) || ((defined(__MWERKS__) && defined(__MACOS__)))
+#if defined(__DECCXX) || defined(__APPLE__) || ((defined(__MWERKS__) && defined(__MACOS__))) || defined(__FreeBSD__) || defined(__NetBSD__)
     log4cplus::tostringstream tmp;
     tmp << LOG4CPLUS_GET_CURRENT_THREAD;
 
