@@ -17,6 +17,7 @@
 #define _LOG4CPLUS_THREADS_HEADER_
 
 #include <log4cplus/config.h>
+#include <log4cplus/tstring.h>
 #include <log4cplus/helpers/sleep.h>
 #include <log4cplus/helpers/pointer.h>
 #include <memory>
@@ -45,12 +46,12 @@ namespace log4cplus {
 
 #ifdef LOG4CPLUS_USE_PTHREADS
         void* threadStartFunc(void*);
-#endif
-#ifdef LOG4CPLUS_USE_WIN32_THREADS
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
         DWORD WINAPI threadStartFunc(LPVOID arg);
 #endif
 
         LOG4CPLUS_EXPORT void yield();
+        LOG4CPLUS_EXPORT log4cplus::tstring getCurrentThreadName();
 
         /**
          * There are many cross-platform C++ Threading libraries.  The goal of
@@ -81,8 +82,7 @@ namespace log4cplus {
         // Friends
 #ifdef LOG4CPLUS_USE_PTHREADS
         friend void* threadStartFunc(void*);
-#endif
-#ifdef LOG4CPLUS_USE_WIN32_THREADS
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
         friend DWORD WINAPI threadStartFunc(LPVOID arg);
 #endif
 
