@@ -119,3 +119,21 @@ log4cplus::helpers::Properties::setProperty(const std::string& key,
     data[key] = value;
 }
 
+
+log4cplus::helpers::Properties 
+log4cplus::helpers::Properties::getPropertySubset(const std::string& prefix) const
+{
+    Properties ret;
+
+    vector<string> keys = propertyNames();
+    for(vector<string>::iterator it=keys.begin(); it!=keys.end(); ++it) {
+        int pos = (*it).find(prefix);
+        if(pos != std::string::npos) {
+            ret.setProperty( (*it).substr(prefix.size()), getProperty(*it) );
+        }
+    }
+
+    return ret;
+}
+
+
