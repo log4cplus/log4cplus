@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/06/12 23:50:22  tcsmith
+// Modified to support the rename of the toupper and tolower methods.
+//
 // Revision 1.8  2003/06/06 17:04:31  tcsmith
 // Changed the ctor to take a 'const' Properties object.
 //
@@ -50,7 +53,8 @@ log4cplus::ConsoleAppender::ConsoleAppender(bool logToStdErr)
 
 
 log4cplus::ConsoleAppender::ConsoleAppender(const log4cplus::helpers::Properties properties)
- : Appender(properties)
+ : Appender(properties),
+   logToStdErr(false)
 {
     tstring val = toLower(properties.getProperty(LOG4CPLUS_TEXT("logToStdErr")));
     if(val == LOG4CPLUS_TEXT("true")) {
