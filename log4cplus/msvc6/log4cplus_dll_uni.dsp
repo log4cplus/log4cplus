@@ -153,6 +153,10 @@ SOURCE=..\src\nteventlogappender.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\nullappender.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\objectregistry.cxx
 # End Source File
 # Begin Source File
@@ -282,6 +286,10 @@ SOURCE=..\include\log4cplus\ndc.h
 # Begin Source File
 
 SOURCE=..\include\log4cplus\nteventlogappender.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\include\log4cplus\nullappender.h
 # End Source File
 # Begin Source File
 
