@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
@@ -18,7 +18,7 @@
 
 #include <log4cplus/config.h>
 #include <log4cplus/layout.h>
-#include <log4cplus/priority.h>
+#include <log4cplus/loglevel.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/property.h>
 #include <memory>
@@ -115,8 +115,7 @@ namespace log4cplus {
         /**
          * Set the layout for this appender. Note that some appenders have
          * their own (fixed) layouts or do not use one. For example, the
-         * {@link org.apache.log4j.net.SocketAppender} ignores the layout set
-         * here. 
+         * SocketAppender ignores the layout set here. 
          */
         virtual void setLayout(std::auto_ptr<Layout> layout);
 
@@ -128,30 +127,29 @@ namespace log4cplus {
         virtual Layout* getLayout();
 
         /**
-         * Returns this appenders threshold priority. See the {@link
+         * Returns this appenders threshold LogLevel. See the {@link
          * #setThreshold} method for the meaning of this option.
          */
-        const Priority* getThreshold();
+        LogLevel getThreshold() const { return threshold; }
 
         /**
-         * Set the threshold priority. All log events with lower priority
-         * than the threshold priority are ignored by the appender.
+         * Set the threshold LogLevel. All log events with lower LogLevel
+         * than the threshold LogLevel are ignored by the appender.
          * <p>
          * In configuration files this option is specified by setting the
-         * value of the <b>Threshold</b> option to a priority
+         * value of the <b>Threshold</b> option to a LogLevel
          * string, such as "DEBUG", "INFO" and so on.
          */
-        void setThreshold(const Priority* threshold);
+        void setThreshold(LogLevel th) { threshold = th; }
 
         /**
-         * Check whether the message priority is below the appender's
+         * Check whether the message LogLevel is below the appender's
          * threshold. If there is no threshold set, then the return value is
          * always <code>true</code>.
          */
-        virtual bool isAsSevereAsThreshold(const Priority* priority);
-        bool isAsSevereAsThreshold(const Priority& priority) 
-            {return isAsSevereAsThreshold(&priority); }
-
+        virtual bool isAsSevereAsThreshold(LogLevel ll) const {
+            return ((ll != NOT_SET_LOG_LEVEL) && (ll >= threshold));
+        }
 
     protected:
       // Methods
@@ -170,8 +168,8 @@ namespace log4cplus {
         /** Appenders are named. */
         std::string name;
 
-        /** There is no priority threshold filtering by default.  */
-        const Priority* threshold;
+        /** There is no LogLevel threshold filtering by default.  */
+        LogLevel threshold;
 
         /** It is assumed and enforced that errorHandler is never null. */
         std::auto_ptr<ErrorHandler> errorHandler;
