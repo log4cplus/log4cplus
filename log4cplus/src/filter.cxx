@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/06/04 00:13:57  tcsmith
+// Corrected some of the filtering implementations.
+//
 // Revision 1.1  2003/05/28 17:36:03  tcsmith
 // Initial version.
 //
@@ -125,19 +128,19 @@ LogLevelMatchFilter::decide(const InternalLoggingEvent& event) const
     }
 
     bool matchOccured = (logLevelToMatch == event.ll);
-        
-    if(acceptOnMatch) {
-        return (matchOccured ? ACCEPT : DENY);
+       
+    if(matchOccurred) {
+        return (acceptOnMatch ? ACCEPT : DENY);
     }
     else {
-        return (matchOccured ? DENY : ACCEPT);
+        return NEUTRAL;
     }
 }
 
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// LogLevelMatchFilter implementation
+// LogLevelRangeFilter implementation
 ///////////////////////////////////////////////////////////////////////////////
 
 LogLevelRangeFilter::LogLevelRangeFilter()
