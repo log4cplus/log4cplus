@@ -30,6 +30,14 @@
 namespace log4cplus {
     namespace helpers {
 
+#if (_MSC_VER >= 1300)
+        // Added to remove the following warning from MSVC++ 7:
+        // warning C4275: non dll-interface class 'std::runtime_error' used as 
+        //                base for dll-interface class 
+        //                'log4cplus::helpers::NullPointerException'
+        class LOG4CPLUS_EXPORT std::runtime_error;
+#endif
+
         class LOG4CPLUS_EXPORT NullPointerException : public std::runtime_error {
         public:
             NullPointerException(const std::string& what_arg) : std::runtime_error(what_arg) {}
