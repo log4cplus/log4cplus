@@ -27,13 +27,13 @@ namespace log4cplus {
         /**
          * Returns <code>s</code> in upper case.
          */
-        tstring toupper(const tstring& s);
+        LOG4CPLUS_EXPORT tstring toupper(const tstring& s);
 
 
         /**
          * Returns <code>s</code> in lower case.
          */
-        tstring tolower(const tstring& s);
+        LOG4CPLUS_EXPORT tstring tolower(const tstring& s);
 
 
         /**
@@ -67,6 +67,34 @@ namespace log4cplus {
             }
             if(tmp.length() > 0) *_result = tmp;
         }
+
+
+        /**
+         * This iterator can be used in place of the back_insert_iterator
+         * for compilers that don't have a std::basic_string class that
+         * has the <code>push_back</code> method.
+         */
+        template <class _Container>
+        class string_append_iterator {
+        protected:
+            _Container* container;
+        public:
+            typedef _Container          container_type;
+            typedef void                value_type;
+            typedef void                difference_type;
+            typedef void                pointer;
+            typedef void                reference;
+
+            explicit string_append_iterator(_Container& __x) : container(&__x) {}
+            string_append_iterator<_Container>&
+            operator=(const typename _Container::value_type& __value) {
+                *container += __value;
+                return *this;
+            }
+            string_append_iterator<_Container>& operator*() { return *this; }
+            string_append_iterator<_Container>& operator++() { return *this; }
+            string_append_iterator<_Container>& operator++(int) { return *this; }
+        };
 
     } 
 }
