@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/06/27 15:45:51  tcsmith
+// Removed getMillis() method.
+//
 // Revision 1.3  2003/06/23 20:54:33  tcsmith
 // Added mutliplication and division operator implementations for the Time
 // class.
@@ -125,15 +128,6 @@ Time::setTime(struct tm* t)
     }
 
     return time;
-}
-
-
-
-void
-Time::setTime(long millis)
-{
-    tv_sec = millis / 1000;
-    tv_usec = (millis % 1000) * 1000;
 }
 
 
