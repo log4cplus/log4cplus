@@ -1,3 +1,15 @@
+Version 0.9.6 (June 10 2003)
+  - Fixed multiple compiler warnings for the MSVC++ 7 compiler
+  - Modified configure.in so that it can now build on Solaris.
+  - Modified the configure script so that it can build a single-threaded
+    library (--enable-threads=no)
+  - Added "Filtering" to Appenders.
+  - Fixed Bug #741515 - "LogLog is causing a core on HP".
+  - Fixed Bug #733944 - "logging in system/local time"
+  - Fixed Bug #749040 - "Use of gmtime and localtime not thread-safe"
+  - Fixed Bug #750232 - "Copying of Hierarchy should not be allowed"
+  - Added an MSVC++ project to build log4cplus as a static library.
+
 Version 0.9.5 (May 19 2003)
   - Removed the LOG4CPLUS_*_STR logging macros.
   - Added support to disable the TRACE, DEBUG, and INFO macros by defining
