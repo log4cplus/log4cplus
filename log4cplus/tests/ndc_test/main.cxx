@@ -18,7 +18,8 @@ main()
     try {
         SharedObjectPtr<Appender> append_1(new ConsoleAppender());
         append_1->setName("First");
-	append_1->setLayout( std::auto_ptr<Layout>(new log4cplus::TTCCLayout()) );
+        std::auto_ptr<Layout> layout( new TTCCLayout() );
+	    append_1->setLayout(layout);
         Logger::getRoot().addAppender(append_1);
 
         Logger logger = Logger::getInstance("test");
