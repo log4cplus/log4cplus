@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/05/04 07:08:23  tcsmith
+// Replaced the static initialization class with the initializeFactoryRegistry()
+// method.
+//
 // Revision 1.8  2003/04/19 20:59:01  tcsmith
 // Added NTEventLogAppender support.
 //
@@ -49,6 +53,7 @@ using namespace log4cplus::spi;
 
 namespace log4cplus {
     class ConsoleAppenderFactory : public AppenderFactory {
+    public:
         SharedAppenderPtr createObject(const Properties& props)
         {
             return SharedAppenderPtr(new log4cplus::ConsoleAppender(props));
@@ -62,6 +67,7 @@ namespace log4cplus {
 
 
     class FileAppenderFactory : public AppenderFactory {
+    public:
         SharedAppenderPtr createObject(const Properties& props)
         {
             return SharedAppenderPtr(new log4cplus::FileAppender(props));
@@ -75,6 +81,7 @@ namespace log4cplus {
 
 
     class RollingFileAppenderFactory : public AppenderFactory {
+    public:
         SharedAppenderPtr createObject(const Properties& props)
         {
             return SharedAppenderPtr(new log4cplus::RollingFileAppender(props));
@@ -87,6 +94,7 @@ namespace log4cplus {
 
 
     class SocketAppenderFactory : public AppenderFactory {
+    public:
         SharedAppenderPtr createObject(const Properties& props)
         {
             return SharedAppenderPtr(new log4cplus::SocketAppender(props));
@@ -100,6 +108,7 @@ namespace log4cplus {
 
 #if defined(WIN32)
     class NTEventLogAppenderFactory : public AppenderFactory {
+    public:
         SharedAppenderPtr createObject(const Properties& props)
         {
             return SharedAppenderPtr(new log4cplus::NTEventLogAppender(props));
@@ -112,6 +121,7 @@ namespace log4cplus {
 
 #elif defined(HAVE_SYSLOG_H)
     class SysLogAppenderFactory : public AppenderFactory {
+    public:
         SharedAppenderPtr createObject(const Properties& props)
         {
             return SharedAppenderPtr(new log4cplus::SysLogAppender(props));
@@ -124,6 +134,7 @@ namespace log4cplus {
 #endif
 
     class SimpleLayoutFactory : public LayoutFactory {
+    public:
         std::auto_ptr<Layout> createObject(const Properties& props)
         {
             return std::auto_ptr<Layout>(new log4cplus::SimpleLayout(props));
@@ -136,6 +147,7 @@ namespace log4cplus {
 
 
     class TTCCLayoutFactory : public LayoutFactory {
+    public:
         std::auto_ptr<Layout> createObject(const Properties& props)
         {
             return std::auto_ptr<Layout>(new log4cplus::TTCCLayout(props));
@@ -148,6 +160,7 @@ namespace log4cplus {
 
 
     class PatternLayoutFactory : public LayoutFactory {
+    public:
         std::auto_ptr<Layout> createObject(const Properties& props)
         {
             return std::auto_ptr<Layout>(new log4cplus::PatternLayout(props));
@@ -155,6 +168,59 @@ namespace log4cplus {
 
         tstring getTypeName() { 
             return LOG4CPLUS_TEXT("log4cplus::PatternLayout"); 
+        }
+    };
+
+
+
+    class DenyAllFilterFactory : public FilterFactory {
+    public:
+        FilterPtr createObject(const Properties& props)
+        {
+            return FilterPtr(new log4cplus::spi::DenyAllFilter());
+        }
+
+        tstring getTypeName() { 
+            return LOG4CPLUS_TEXT("log4cplus::spi::DenyAllFilter"); 
+        }
+    };
+
+
+    class LogLevelMatchFilterFactory : public FilterFactory {
+    public:
+        FilterPtr createObject(const Properties& props)
+        {
+            return FilterPtr(new log4cplus::spi::LogLevelMatchFilter(props));
+        }
+
+        tstring getTypeName() { 
+            return LOG4CPLUS_TEXT("log4cplus::spi::LogLevelMatchFilter"); 
+        }
+    };
+
+
+    class LogLevelRangeFilterFactory : public FilterFactory {
+    public:
+        FilterPtr createObject(const Properties& props)
+        {
+            return FilterPtr(new log4cplus::spi::LogLevelRangeFilter(props));
+        }
+
+        tstring getTypeName() { 
+            return LOG4CPLUS_TEXT("log4cplus::spi::LogLevelRangeFilter"); 
+        }
+    };
+
+
+    class StringMatchFilterFactory : public FilterFactory {
+    public:
+        FilterPtr createObject(const Properties& props)
+        {
+            return FilterPtr(new log4cplus::spi::StringMatchFilter(props));
+        }
+
+        tstring getTypeName() { 
+            return LOG4CPLUS_TEXT("log4cplus::spi::StringMatchFilter"); 
         }
     };
 }
@@ -182,6 +248,12 @@ namespace log4cplus {
         reg2.put(auto_ptr<LayoutFactory>(new SimpleLayoutFactory()));
         reg2.put(auto_ptr<LayoutFactory>(new TTCCLayoutFactory()));
         reg2.put(auto_ptr<LayoutFactory>(new PatternLayoutFactory()));
+
+        FilterFactoryRegistry& reg3 = getFilterFactoryRegistry();
+        reg3.put(auto_ptr<FilterFactory>(new DenyAllFilterFactory()));
+        reg3.put(auto_ptr<FilterFactory>(new LogLevelMatchFilterFactory()));
+        reg3.put(auto_ptr<FilterFactory>(new LogLevelRangeFilterFactory()));
+        reg3.put(auto_ptr<FilterFactory>(new StringMatchFilterFactory()));
     }
 }
 
@@ -206,5 +278,15 @@ log4cplus::spi::getLayoutFactoryRegistry()
     static LayoutFactoryRegistry singleton;
     return singleton;
 }
+
+
+
+FilterFactoryRegistry&
+log4cplus::spi::getFilterFactoryRegistry()
+{
+    static FilterFactoryRegistry singleton;
+    return singleton;
+}
+
 
 
