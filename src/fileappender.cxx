@@ -11,6 +11,11 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.15  2003/06/26 21:34:02  baldheadedguy
+// Added LOG4CPLUS_TEXT to strings in DailyRollingFileAppender::getFilename and
+// DailyRollingFileAppender constructor.  In both cases, the comiple was failing
+// under UNICODE.
+//
 // Revision 1.14  2003/06/23 23:14:12  tcsmith
 // Corrected the DailyRollingFileAppender's weekly and montly calculations.
 //
@@ -62,14 +67,13 @@ using namespace log4cplus::helpers;
 ///////////////////////////////////////////////////////////////////////////////
 
 log4cplus::FileAppender::FileAppender(const log4cplus::tstring& filename, 
-                                      ios::open_mode mode)
+                                      int mode)
 {
     init(filename, mode);
 }
 
 
-log4cplus::FileAppender::FileAppender(const Properties& properties,
-                                      ios::open_mode mode)
+log4cplus::FileAppender::FileAppender(const Properties& properties, int mode)
 : Appender(properties)
 {
      tstring filename = properties.getProperty( LOG4CPLUS_TEXT("File") );
@@ -84,8 +88,7 @@ log4cplus::FileAppender::FileAppender(const Properties& properties,
 
 
 void
-log4cplus::FileAppender::init(const log4cplus::tstring& filename,
-                              ios::open_mode mode)
+log4cplus::FileAppender::init(const log4cplus::tstring& filename, int mode)
 {
     this->filename = filename;
     out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), mode);
