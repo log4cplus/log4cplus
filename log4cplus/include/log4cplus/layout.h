@@ -37,14 +37,14 @@ namespace log4cplus {
     }
 
 
-    log4cplus::tstring getFormattedTime(time_t time, const log4cplus::tstring& fmt);
+    LOG4CPLUS_EXPORT log4cplus::tstring getFormattedTime(time_t time, const log4cplus::tstring& fmt);
 
 
     /**
      * This class is used to layout strings sent to an {@link
      * #Appender}.
      */
-    class Layout {
+    class LOG4CPLUS_EXPORT Layout {
     public:
         Layout() : llmCache(getLogLevelManager()) {}
         Layout(log4cplus::helpers::Properties properties) 
@@ -71,7 +71,7 @@ namespace log4cplus {
      *
      * <p>{@link PatternLayout} offers a much more powerful alternative.
      */
-    class SimpleLayout : public Layout {
+    class LOG4CPLUS_EXPORT SimpleLayout : public Layout {
     public:
         SimpleLayout() {}
         SimpleLayout(log4cplus::helpers::Properties properties) : Layout(properties) {}
@@ -123,7 +123,7 @@ namespace log4cplus {
      * 
      *  <p>{@link PatternLayout} offers a much more flexible alternative.
      */
-    class TTCCLayout : public Layout {
+    class LOG4CPLUS_EXPORT TTCCLayout : public Layout {
     public:
       // Ctor and dtor
         TTCCLayout();
@@ -134,7 +134,7 @@ namespace log4cplus {
                                      const log4cplus::spi::InternalLoggingEvent& event);
 
     protected:
-	log4cplus::tstring dateFormat;
+       log4cplus::tstring dateFormat;
     };
 
 
@@ -454,7 +454,7 @@ namespace log4cplus {
      * Philip E. Margolis' highly recommended book "C -- a Software
      * Engineering Approach", ISBN 0-387-97389-3.
      */
-    class PatternLayout : public Layout {
+    class LOG4CPLUS_EXPORT PatternLayout : public Layout {
     public:
       // Ctors and dtor
         PatternLayout(const log4cplus::tstring& pattern);
@@ -468,7 +468,7 @@ namespace log4cplus {
         void init(const log4cplus::tstring& pattern);
 
         // Data
-	log4cplus::tstring pattern;
+        log4cplus::tstring pattern;
         std::vector<pattern::PatternConverter*> parsedPattern;
     };
 

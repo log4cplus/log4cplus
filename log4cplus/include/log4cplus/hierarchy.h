@@ -45,7 +45,7 @@ namespace log4cplus {
      * to the provision node. Other descendants of the same ancestor add
      * themselves to the previously created provision node.
      */
-    class Hierarchy {
+    class LOG4CPLUS_EXPORT Hierarchy {
     public:
         // DISABLE_OFF should be set to a value lower than all possible
         // priorities.
@@ -275,7 +275,7 @@ namespace log4cplus {
        bool emittedNoResourceBundleWarning;
 
     // Friends
-        friend class spi::LoggerImpl;
+       friend class spi::LoggerImpl;
     };
 
 

@@ -27,7 +27,7 @@ namespace log4cplus {
     /**
      * Appends log events to a file. 
      */
-    class FileAppender : public Appender {
+    class LOG4CPLUS_EXPORT FileAppender : public Appender {
     public:
       // Ctors
         FileAppender(const log4cplus::tstring& filename, 
@@ -46,7 +46,7 @@ namespace log4cplus {
 
       // Data
         log4cplus::tofstream out;
-	log4cplus::tstring filename;
+        log4cplus::tstring filename;
 
     private:
         void init(const log4cplus::tstring& filename,
@@ -59,7 +59,7 @@ namespace log4cplus {
      * RollingFileAppender extends FileAppender to backup the log files when 
      * they reach a certain size. 
      */
-    class RollingFileAppender : public FileAppender {
+    class LOG4CPLUS_EXPORT RollingFileAppender : public FileAppender {
     public:
       // Ctors
         RollingFileAppender(const log4cplus::tstring& filename,

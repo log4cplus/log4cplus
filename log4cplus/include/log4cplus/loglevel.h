@@ -38,17 +38,17 @@ namespace log4cplus {
     typedef const log4cplus::tstring& (*LogLevelToStringMethod)(LogLevel);
     typedef LogLevel (*StringToLogLevelMethod)(const log4cplus::tstring&);
 
-    const log4cplus::tstring& defaultLogLevelToStringMethod(LogLevel);
-    LogLevel defaultStringToLogLevelMethod(const log4cplus::tstring&);
+    LOG4CPLUS_EXPORT const log4cplus::tstring& defaultLogLevelToStringMethod(LogLevel);
+    LOG4CPLUS_EXPORT LogLevel defaultStringToLogLevelMethod(const log4cplus::tstring&);
 
-    class LogLevelManager {
+    class LOG4CPLUS_EXPORT LogLevelManager {
     public:
         LogLevelManager();
 
         const log4cplus::tstring& toString(LogLevel ll) const 
-	      { return toStringMethod(ll); }
+             { return toStringMethod(ll); }
         LogLevel fromString(const log4cplus::tstring& s) const 
-	      { return fromStringMethod(s); }
+             { return fromStringMethod(s); }
 
         LogLevelToStringMethod setToStringMapper(LogLevelToStringMethod newToString) {
             LogLevelToStringMethod tmp = toStringMethod;
@@ -67,7 +67,7 @@ namespace log4cplus {
         StringToLogLevelMethod fromStringMethod;
     };
 
-    LogLevelManager& getLogLevelManager();
+    LOG4CPLUS_EXPORT LogLevelManager& getLogLevelManager();
 
 }
 
