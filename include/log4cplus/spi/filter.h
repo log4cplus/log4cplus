@@ -11,7 +11,8 @@
 // distribution in the LICENSE.APL file.
 //
 
-/** @file */
+/** @file 
+ * This header defines Filter and all of it's subclasses. */
 
 #ifndef LOG4CPLUS_SPI_FILTER_HEADER_
 #define LOG4CPLUS_SPI_FILTER_HEADER_
@@ -26,14 +27,14 @@ namespace log4cplus {
     namespace spi {
 
 
-        enum FilterResult { DENY, /** The log event must be dropped immediately 
+        enum FilterResult { DENY, /**< The log event must be dropped immediately 
                                    *  without consulting with the remaining 
                                    *  filters, if any, in the chain. */
-                            NEUTRAL, /** This filter is neutral with respect to
-                                      *  the log event. The remaining filters, if 
+                            NEUTRAL, /**< This filter is neutral with respect to
+                                      *  the log event; the remaining filters, if 
                                       *  if any, should be consulted for a final 
                                       *  decision. */
-                            ACCEPT /** The log event must be logged immediately 
+                            ACCEPT /**< The log event must be logged immediately 
                                     *  without consulting with the remaining 
                                     *  filters, if any, in the chain. */
                           };
@@ -55,20 +56,15 @@ namespace log4cplus {
 
         /**
          * Users should extend this class to implement customized logging
-         * event filtering. Note that {@link org.apache.log4j.Category} and {@link
-         * org.apache.log4j.AppenderSkeleton}, the parent class of all standard
-         * appenders, have built-in filtering rules. It is suggested that you
-         * first use and understand the built-in rules before rushing to write
-         * your own custom filters.
+         * event filtering. Note that the {@link Logger} and {@link
+         * Appender} classes have built-in filtering rules. It is suggested 
+	 * that you first use and understand the built-in rules before rushing
+	 * to write your own custom filters.
          *
          * <p>This abstract class assumes and also imposes that filters be
          * organized in a linear chain. The {@link #decide
          * decide(LoggingEvent)} method of each filter is called sequentially,
          * in the order of their addition to the chain.
-         *
-         * <p>The {@link #decide decide(LoggingEvent)} method must return one
-         * of the integer constants {@link #DENY}, {@link #NEUTRAL} or {@link
-         * #ACCEPT}.
          *
          * <p>If the value {@link #DENY} is returned, then the log event is
          * dropped immediately without consulting with the remaining
@@ -142,11 +138,10 @@ namespace log4cplus {
          * <p>The filter admits two options <b>LogLevelToMatch</b> and
          * <b>AcceptOnMatch</b>. If there is an exact match between the value
          * of the LogLevelToMatch option and the LogLevel of the {@link
-         * LoggingEvent}, then the {@link #decide} method returns {@link
-         * Filter#ACCEPT} in case the <b>AcceptOnMatch</b> option value is set
-         * to <code>true</code>, if it is <code>false</code> then {@link
-         * Filter#DENY} is returned. If there is no match, {@link
-         * Filter#NEUTRAL} is returned.
+         * LoggingEvent}, then the {@link #decide} method returns 
+         * {@link #ACCEPT} in case the <b>AcceptOnMatch</b> option value is set
+         * to <code>true</code>, if it is <code>false</code> then {@link #DENY}
+         * is returned. If there is no match, {@link #NEUTRAL} is returned.
          */
         class LOG4CPLUS_EXPORT LogLevelMatchFilter : public Filter {
         public:
@@ -156,24 +151,12 @@ namespace log4cplus {
             /**
              * Return the decision of this filter.
              *
-             * Returns {@link Filter#NEUTRAL} if the <b>LogLevelToMatch</b>
-             * option is not set.  Otherwise, the returned decision is defined
-             * according to the following table:
-             *
-             * <p><table border=1>
-             * <tr><th rowspan="2" BGCOLOR="#AAAAFF">Did a LogLevel match occur?</th>
-             *     <th colspan="2" BGCOLOR="#CCCCCC">AcceptOnMatch setting</th>
-             *
-             * <tr><td BGCOLOR="#CCCCCC" align="center">TRUE</td>
-             *     <td BGCOLOR="#CCCCCC" align="center">FALSE</td>
-             *
-             * <tr><td BGCOLOR="#AAAAFF" align="center">TRUE</td>
-             *     <td>{@link Filter#ACCEPT}</td><td>{@link Filter#DENY}</td>
-             * <tr><td BGCOLOR="#AAAAFF" align="center">FALSE</td>
-             *     <td>{@link Filter#DENY}</td><td>{@link Filter#ACCEPT}</td>
-             *     <caption align="bottom">Filter decision in function of whether a match
-             *     occured and the AcceptOnMatch settings</caption>
-             * </table>
+             * Returns {@link #NEUTRAL} if the <b>LogLevelToMatch</b>
+             * option is not set or if there is no match.  Otherwise, if
+	     * there is a match, then the returned decision is {@link #ACCEPT}
+	     * if the <b>AcceptOnMatch</b> property is set to <code>true</code>. 
+	     * The returned decision is {@link #DENY} if the <b>AcceptOnMatch</b>
+	     * property is set to <code>false</code>.
              */
             virtual FilterResult decide(const InternalLoggingEvent& event) const;
 
@@ -196,12 +179,12 @@ namespace log4cplus {
          * <p>The filter admits three options <b>LogLevelMin</b>, <b>LogLevelMax</b>
          * and <b>AcceptOnMatch</b>.
          *
-         * <p>If the LogLevel of the {@link LoggingEvent} is not between Min and Max
-         * (inclusive), then {@link Filter#DENY} is returned.
+         * <p>If the LogLevel of the Logging event is not between Min and Max
+         * (inclusive), then {@link #DENY} is returned.
          *
          * <p> If the Logging event LogLevel is within the specified range, then if
-         * <b>AcceptOnMatch</b> is true, {@link Filter#ACCEPT} is returned, and if
-         * <b>AcceptOnMatch</b> is false, {@link Filter#NEUTRAL} is returned.
+         * <b>AcceptOnMatch</b> is true, {@link #ACCEPT} is returned, and if
+         * <b>AcceptOnMatch</b> is false, {@link #NEUTRAL} is returned.
          *
          * <p>If <code>LogLevelMin</code> is not defined, then there is no
          * minimum acceptable LogLevel (ie a LogLevel is never rejected for
@@ -210,9 +193,8 @@ namespace log4cplus {
          * LogLevel is never rejected for beeing too "high"/important).
          *
          * <p>Refer to the {@link
-         * org.apache.log4j.AppenderSkeleton#setThreshold setThreshold} method
-         * available to <code>all</code> appenders extending {@link
-         * org.apache.log4j.AppenderSkeleton} for a more convenient way to
+         * Appender#setThreshold setThreshold} method
+         * available to <code>all</code> appenders for a more convenient way to
          * filter out events by LogLevel.
          */
         class LOG4CPLUS_EXPORT LogLevelRangeFilter : public Filter {
@@ -244,11 +226,11 @@ namespace log4cplus {
          *
          * <p>The filter admits two options <b>StringToMatch</b> and
          * <b>AcceptOnMatch</b>. If there is a match between the value of the
-         * StringToMatch option and the message of the {@link LoggingEvent},
-         * then the {@link #decide} method returns {@link Filter#ACCEPT} if
+         * StringToMatch option and the message of the Logging event,
+         * then the {@link #decide} method returns {@link #ACCEPT} if
          * the <b>AcceptOnMatch</b> option value is true, if it is false then
-         * {@link Filter#DENY} is returned. If there is no match, {@link
-         * Filter#NEUTRAL} is returned.
+         * {@link #DENY} is returned. If there is no match, {@link #NEUTRAL} 
+	 * is returned.
          */
         class LOG4CPLUS_EXPORT StringMatchFilter : public Filter {
         public:
@@ -257,7 +239,7 @@ namespace log4cplus {
             StringMatchFilter(const log4cplus::helpers::Properties& p);
 
             /**
-             * Returns {@link Filter#NEUTRAL} is there is no string match.
+             * Returns {@link #NEUTRAL} is there is no string match.
              */
             virtual FilterResult decide(const InternalLoggingEvent& event) const;
 
