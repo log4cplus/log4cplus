@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/04/19 07:23:06  tcsmith
+// Added SysLogAppenderFactory.
+//
 // Revision 1.6  2003/04/18 21:00:41  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -24,6 +27,7 @@
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/fileappender.h>
+#include <log4cplus/nteventlogappender.h>
 #include <log4cplus/syslogappender.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
@@ -47,8 +51,8 @@ namespace log4cplus {
         }
 
         tstring getTypeName() { 
-	    return LOG4CPLUS_TEXT("log4cplus::ConsoleAppender"); 
-	}
+            return LOG4CPLUS_TEXT("log4cplus::ConsoleAppender"); 
+        }
     };
 
 
@@ -60,8 +64,8 @@ namespace log4cplus {
         }
 
         tstring getTypeName() { 
-	    return LOG4CPLUS_TEXT("log4cplus::FileAppender"); 
-	}
+            return LOG4CPLUS_TEXT("log4cplus::FileAppender"); 
+        }
     };
 
 
@@ -73,12 +77,24 @@ namespace log4cplus {
         }
 
         tstring getTypeName() { 
-	    return LOG4CPLUS_TEXT("log4cplus::RollingFileAppender"); 
-	}
+            return LOG4CPLUS_TEXT("log4cplus::RollingFileAppender"); 
+        }
     };
 
 
-#if defined(HAVE_SYSLOG_H)
+#if defined(WIN32)
+    class NTEventLogAppenderFactory : public AppenderFactory {
+        SharedAppenderPtr createObject(const Properties& props)
+        {
+            return SharedAppenderPtr(new log4cplus::NTEventLogAppender(props));
+        }
+
+        tstring getTypeName() { 
+            return LOG4CPLUS_TEXT("log4cplus::NTEventLogAppender"); 
+        }
+    };
+
+#elif defined(HAVE_SYSLOG_H)
     class SysLogAppenderFactory : public AppenderFactory {
         SharedAppenderPtr createObject(const Properties& props)
         {
@@ -86,8 +102,8 @@ namespace log4cplus {
         }
 
         tstring getTypeName() { 
-	    return LOG4CPLUS_TEXT("log4cplus::SysLogAppender"); 
-	}
+            return LOG4CPLUS_TEXT("log4cplus::SysLogAppender"); 
+        }
     };
 #endif
 
@@ -98,8 +114,8 @@ namespace log4cplus {
         }
 
         tstring getTypeName() { 
-	    return LOG4CPLUS_TEXT("log4cplus::SimpleLayout"); 
-	}
+            return LOG4CPLUS_TEXT("log4cplus::SimpleLayout"); 
+        }
     };
 
 
@@ -110,8 +126,8 @@ namespace log4cplus {
         }
 
         tstring getTypeName() { 
-	    return LOG4CPLUS_TEXT("log4cplus::TTCCLayout"); 
-	}
+            return LOG4CPLUS_TEXT("log4cplus::TTCCLayout"); 
+        }
     };
 
 
@@ -122,8 +138,8 @@ namespace log4cplus {
         }
 
         tstring getTypeName() { 
-	    return LOG4CPLUS_TEXT("log4cplus::PatternLayout"); 
-	}
+            return LOG4CPLUS_TEXT("log4cplus::PatternLayout"); 
+        }
     };
 }
 
@@ -142,7 +158,9 @@ namespace {
             reg.put(auto_ptr<AppenderFactory>(new ConsoleAppenderFactory()));
             reg.put(auto_ptr<AppenderFactory>(new FileAppenderFactory()));
             reg.put(auto_ptr<AppenderFactory>(new RollingFileAppenderFactory()));
-#if defined(HAVE_SYSLOG_H)
+#if defined(WIN32)
+            reg.put(auto_ptr<AppenderFactory>(new NTEventLogAppenderFactory()));
+#elif defined(HAVE_SYSLOG_H)
             reg.put(auto_ptr<AppenderFactory>(new SysLogAppenderFactory()));
 #endif
 
