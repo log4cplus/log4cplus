@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.21  2003/08/29 05:03:40  tcsmith
+// Changed rolloverFiles() to take a log4cplus::tstring instead of a std::string.
+//
 // Revision 1.20  2003/08/28 05:09:38  tcsmith
 // The DailyRollingFileAppender now performs a "rollover" on close().  If the "rollover
 // file" exists, then it will be renamed according to the pattern that is used by the
@@ -543,7 +546,8 @@ log4cplus::helpers::Time
 DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
 {
     switch(schedule) {
-    case MONTHLY: {
+    case MONTHLY: 
+        {
             struct tm nextMonthTime;
             t.localtime(&nextMonthTime);
             nextMonthTime.tm_mon += 1;
@@ -557,23 +561,18 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
 
             return ret;
         }
-        break;
 
     case WEEKLY:
         return (t + Time(604800)); // 7 * 24 * 60 * 60 seconds
-        break;
 
     case DAILY:
         return (t + Time(86400)); //      24 * 60 * 60 seconds
-        break;
 
     case TWICE_DAILY:
         return (t + Time(43200)); //      12 * 60 * 60 seconds
-        break;
 
     case HOURLY:
         return (t + Time(3600));  //           60 * 60 seconds
-        break;
 
     case MINUTELY:
         return (t + Time(60));    //                60 seconds
