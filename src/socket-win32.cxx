@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/09/28 03:48:14  tcsmith
+// Removed compilation warning.
+//
 // Revision 1.5  2003/09/10 06:45:47  tcsmith
 // Changed connectSocket() to check for INVALID_SOCKET.
 //
@@ -157,7 +160,21 @@ log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
 size_t
 log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
-    return ::recv(sock, buffer.getBuffer(), static_cast<int>(buffer.getMaxSize()), 0);
+    size_t res, read = 0;
+ 
+    do
+    { 
+        res = ::recv(sock, 
+                     buffer.getBuffer() + read, 
+                     static_cast<int>(buffer.getMaxSize() - read),
+                     0);
+        if( res <= 0 ) {
+            return res;
+        }
+        read += res;
+    } while( read < buffer.getMaxSize() );
+ 
+    return read;
 }
 
 
