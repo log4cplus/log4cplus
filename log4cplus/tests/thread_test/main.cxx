@@ -5,9 +5,9 @@
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
+#include <log4cplus/streams.h>
 #include <exception>
 #include <iostream>
-#include <sstream>
 #include <string>
 
 
@@ -47,7 +47,7 @@ SlowObject *global;
 
 class TestThread : public AbstractThread {
 public:
-    TestThread(std::string n) 
+    TestThread(tstring n) 
      : name(n), logger(Logger::getInstance("test.TestThread")) 
      {
      }
@@ -56,7 +56,7 @@ public:
 
 private:
    Logger logger;
-   std::string name;
+   tstring name;
 };
 
 
@@ -78,12 +78,12 @@ main()
         Logger::getRoot().addAppender(append_1);
         append_1->setName("cout");
 
-	append_1 = 0;
+	    append_1 = 0;
 
         log4cplus::helpers::SharedObjectPtr<TestThread> threads[NUM_THREADS];
         int i = 0;
         for(i=0; i<NUM_THREADS; ++i) {
-            stringstream s;
+            tostringstream s;
             s << "Thread-" << i;
             threads[i] = new TestThread(s.str());
         }
