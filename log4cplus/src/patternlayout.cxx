@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.14  2003/06/29 16:48:24  tcsmith
+// Modified to support that move of the getLogLog() method into the LogLog
+// class.
+//
 // Revision 1.13  2003/06/23 20:56:43  tcsmith
 // Modified to support the changes in the spi::InternalLoggingEvent class.
 //
@@ -342,7 +346,7 @@ log4cplus::pattern::BasicPatternConverter::convert
                 log4cplus::tostringstream buf;
                 buf << event.getFile()
                     << LOG4CPLUS_TEXT(":") 
-                    << event.getFile();
+                    << event.getLine();
                 return buf.str();
             }
             else {
@@ -486,10 +490,6 @@ log4cplus::pattern::PatternParser::parse()
                 switch (pattern.at(pos)) {
                 case ESCAPE_CHAR:
                     currentLiteral += c;
-                    pos++; // move pointer
-                    break;
-                case LOG4CPLUS_TEXT('n'):
-                    currentLiteral += LOG4CPLUS_TEXT('\n');
                     pos++; // move pointer
                     break;
                 default:
