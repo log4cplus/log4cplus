@@ -1,11 +1,12 @@
-Version 0.9.7 (June 23 2003)
+Version 0.9.7 (June 28 2003)
   - Added the log4cplus::DailyRollingFileAppender class.
   - Added the log4cplus::helper::Time class.  Now log with millisecond 
     granularity. (microsecond granularity if the gettimeofday() function is
     available.)
-  - Fixed Bug #757989 - "TraceLogger should not hold a Logger reference"
   - Changed log4cplus::spi::InternalLoggingEvent from a POD to a class and
-    introduced several performance ehancements to that class. 
+    introduced several performance ehancements to that class.  This class
+    can now be extended to introduce "customized" logging.
+  - Fixed Bug #757989 - "TraceLogger should not hold a Logger reference"
   - Added TYPE_SOCKLEN_T to configure.in (checking for whether <sys/socket.h> 
     defines `socklen_t').
   - Added the "operator!=" to log4cplus::helpers::SharedObjectPtr.
