@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/06/29 16:36:10  tcsmith
+// Removed the setTime(long) method.
+//
 // Revision 1.4  2003/06/27 15:45:51  tcsmith
 // Removed getMillis() method.
 //
@@ -33,6 +36,7 @@
 
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/streams.h>
+#include <log4cplus/helpers/stringhelper.h>
 
 #include <iomanip>
 
@@ -192,23 +196,27 @@ Time::getFormattedTime(const log4cplus::tstring& fmt, bool use_gmtime) const
 
     size_t pos = ret.find( LOG4CPLUS_TEXT("%q") );
     if(pos != tstring::npos) {
-        tostringstream tmp;
-        tmp << ret.substr(0, pos);
-        tmp << (tv_usec / 1000);
-        tmp << ret.substr(pos + 2);
-        ret = tmp.str();
+        tstring tmp(ret.substr(0, pos));
+        tmp += convertIntegerToString((tv_usec / 1000));
+        tmp += ret.substr(pos + 2);
+        ret = tmp;
     }
 
     pos = ret.find( LOG4CPLUS_TEXT("%Q") );
     if(pos != tstring::npos) {
-        tostringstream tmp;
-        tmp << ret.substr(0, pos);
-        tmp << (tv_usec / 1000);
+        tstring tmp(ret.substr(0, pos));
+        tmp += convertIntegerToString((tv_usec / 1000));
 #if defined(HAVE_GETTIMEOFDAY)
-        tmp << LOG4CPLUS_TEXT(".") << setw(3) << setfill('0') << (tv_usec % 1000);
+        tstring usecs( convertIntegerToString((tv_usec % 1000)) );
+        switch(usecs.length()) {
+            case 1: tmp += LOG4CPLUS_TEXT(".00"); break;
+            case 2: tmp += LOG4CPLUS_TEXT(".0"); break;
+            case 3: tmp += LOG4CPLUS_TEXT("."); break;
+        }
+        tmp += usecs;
 #endif
-        tmp << ret.substr(pos + 2);
-        ret = tmp.str();
+        tmp += ret.substr(pos + 2);
+        ret = tmp;
     }
 
     return ret;
