@@ -54,7 +54,7 @@ namespace log4cplus {
                       _OutputIter _result, bool collapseTokens = true) 
         {
             _StringType tmp;
-            for(int i=0, count=0; i<s.length(); ++i) {
+            for(typename _StringType::size_type i=0; i<s.length(); ++i) {
                 if(s[i] == c) {
                     *_result = tmp;
                     ++_result;
