@@ -10,9 +10,12 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/04/19 07:25:34  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/syslogappender.h>
-#if defined(HAVE_SYSLOG_H)
+#if defined(HAVE_SYSLOG_H) && !defined(WIN32)
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
