@@ -22,6 +22,7 @@
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/threads.h>
+#include <log4cplus/spi/filter.h>
 #include <log4cplus/spi/objectregistry.h>
 #include <map>
 #include <memory>
@@ -63,6 +64,7 @@ namespace log4cplus {
         };
 
 
+
         /**
          * This abstract class defines the "Factory" interface to create "Layout"
          * objects.
@@ -73,7 +75,7 @@ namespace log4cplus {
             virtual ~LayoutFactory(){}
 
             /**
-             * Create an "Layout" object.
+             * Create a "Layout" object.
              */
             virtual std::auto_ptr<Layout> createObject(const log4cplus::helpers::Properties& props) = 0;
 
@@ -82,6 +84,29 @@ namespace log4cplus {
              */
             virtual log4cplus::tstring getTypeName() = 0;
         };
+
+
+
+        /**
+         * This abstract class defines the "Factory" interface to create "Appender"
+         * objects.
+         */
+        class LOG4CPLUS_EXPORT FilterFactory : public BaseFactory {
+        public:
+            FilterFactory(){}
+            virtual ~FilterFactory(){}
+
+            /**
+             * Create a "Filter" object.
+             */
+            virtual FilterPtr createObject(const log4cplus::helpers::Properties& props) = 0;
+
+            /**
+             * Returns the typename of the "Filter" objects this factory creates.
+             */
+            virtual log4cplus::tstring getTypeName() = 0;
+        };
+
 
 
         /**
@@ -128,6 +153,7 @@ namespace log4cplus {
 
         typedef FactoryRegistry<AppenderFactory> AppenderFactoryRegistry;
         typedef FactoryRegistry<LayoutFactory> LayoutFactoryRegistry;
+        typedef FactoryRegistry<FilterFactory> FilterFactoryRegistry;
 
 
         /**
@@ -139,6 +165,11 @@ namespace log4cplus {
          * Returns the "singleton" <code>LayoutFactoryRegistry</code>.
          */
         LayoutFactoryRegistry& getLayoutFactoryRegistry();
+
+        /**
+         * Returns the "singleton" <code>FilterFactoryRegistry</code>.
+         */
+        FilterFactoryRegistry& getFilterFactoryRegistry();
 
     }
 }
