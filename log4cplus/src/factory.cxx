@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.11  2003/06/12 23:12:35  tcsmith
+// Added DailyRollingFileAppenderFactory implementation.
+//
 // Revision 1.10  2003/05/28 17:39:12  tcsmith
 // Added Filter factories.
 //
@@ -38,6 +41,7 @@
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/fileappender.h>
 #include <log4cplus/nteventlogappender.h>
+#include <log4cplus/nullappender.h>
 #include <log4cplus/socketappender.h>
 #include <log4cplus/syslogappender.h>
 #include <log4cplus/helpers/loglog.h>
@@ -64,6 +68,20 @@ namespace log4cplus {
 
         tstring getTypeName() { 
             return LOG4CPLUS_TEXT("log4cplus::ConsoleAppender"); 
+        }
+    };
+
+
+
+    class NullAppenderFactory : public AppenderFactory {
+    public:
+        SharedAppenderPtr createObject(const Properties& props)
+        {
+            return SharedAppenderPtr(new log4cplus::NullAppender(props));
+        }
+
+        tstring getTypeName() { 
+            return LOG4CPLUS_TEXT("log4cplus::NullAppender"); 
         }
     };
 
@@ -251,6 +269,7 @@ namespace log4cplus {
     void initializeFactoryRegistry() {
         AppenderFactoryRegistry& reg = getAppenderFactoryRegistry();
         reg.put(auto_ptr<AppenderFactory>(new ConsoleAppenderFactory()));
+        reg.put(auto_ptr<AppenderFactory>(new NullAppenderFactory()));
         reg.put(auto_ptr<AppenderFactory>(new FileAppenderFactory()));
         reg.put(auto_ptr<AppenderFactory>(new RollingFileAppenderFactory()));
         reg.put(auto_ptr<AppenderFactory>(new DailyRollingFileAppenderFactory()));
