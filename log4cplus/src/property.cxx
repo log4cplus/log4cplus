@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/05/01 19:54:30  tcsmith
+// Fixed: "warning: comparison between signed and unsigned".
+//
 // Revision 1.8  2003/05/01 19:35:25  tcsmith
 // Fixed VC++ compiler "performance warning".
 //
@@ -59,6 +62,10 @@ log4cplus::helpers::Properties::Properties(log4cplus::tistream& input)
 
 log4cplus::helpers::Properties::Properties(const log4cplus::tstring& inputFile)
 {
+    if(inputFile.length() == 0) {
+        return;
+    }
+
     tifstream file;
     file.open(LOG4CPLUS_TSTRING_TO_STRING(inputFile).c_str());
     if(!file) {
