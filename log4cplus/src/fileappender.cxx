@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.22  2003/09/10 06:42:17  tcsmith
+// Modified calculateNextRolloverTime() to remove the unnecessary break statements
+// in the switch statement.
+//
 // Revision 1.21  2003/08/29 05:03:40  tcsmith
 // Changed rolloverFiles() to take a log4cplus::tstring instead of a std::string.
 //
@@ -137,17 +141,22 @@ log4cplus::FileAppender::FileAppender(const Properties& properties,
 : Appender(properties),
   immediateFlush(true)
 {
-     tstring filename = properties.getProperty( LOG4CPLUS_TEXT("File") );
-     if(filename.length() == 0) {
-         getErrorHandler()->error( LOG4CPLUS_TEXT("Invalid filename") );
-         return;
-     }
-     if(properties.exists( LOG4CPLUS_TEXT("ImmediateFlush") )) {
-         tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("ImmediateFlush") );
-         immediateFlush = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
-     }
+    bool append = (mode == ios::app);
+    tstring filename = properties.getProperty( LOG4CPLUS_TEXT("File") );
+    if(filename.length() == 0) {
+        getErrorHandler()->error( LOG4CPLUS_TEXT("Invalid filename") );
+        return;
+    }
+    if(properties.exists( LOG4CPLUS_TEXT("ImmediateFlush") )) {
+        tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("ImmediateFlush") );
+        immediateFlush = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
+    }
+    if(properties.exists( LOG4CPLUS_TEXT("Append") )) {
+        tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("Append") );
+        append = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
+    }
 
-     init(filename, mode);
+    init(filename, (append ? ios::app : ios::trunc));
 }
 
 
