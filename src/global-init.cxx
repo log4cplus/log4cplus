@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/08/08 05:36:51  tcsmith
+// Changed the #if checks to look for _WIN32 and not WIN32.
+//
 // Revision 1.4  2003/06/29 16:48:24  tcsmith
 // Modified to support that move of the getLogLog() method into the LogLog
 // class.
@@ -46,6 +49,7 @@ namespace log4cplus {
             getNDC();
             Logger::getRoot();
             initializeFactoryRegistry();
+            initialized = true;
         }
     }
 }
