@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.13  2003/06/23 20:56:43  tcsmith
+// Modified to support the changes in the spi::InternalLoggingEvent class.
+//
 // Revision 1.12  2003/06/13 20:56:24  tcsmith
 // Made changes to make the DEC cXX 6.1 compiler happy.
 //
@@ -350,8 +353,8 @@ DailyRollingFileAppender::init(DailyRollingFileSchedule schedule)
     now.usec(0);
     struct tm time;
     now.localtime(&time);
-    time.tm_sec = 0;
 
+    time.tm_sec = 0;
     switch(schedule) {
     case MONTHLY:
         time.tm_mday = 1;
@@ -360,7 +363,7 @@ DailyRollingFileAppender::init(DailyRollingFileSchedule schedule)
         break;
 
     case WEEKLY:
-        time.tm_mday += (7 - time.tm_wday);
+        time.tm_mday -= (time.tm_wday % 7);
         time.tm_hour = 0;
         time.tm_min = 0;
         break;
@@ -453,13 +456,14 @@ DailyRollingFileAppender::rollover()
 
 
 log4cplus::helpers::Time
-DailyRollingFileAppender::calculateNextRolloverTime(const log4cplus::helpers::Time& t)
+DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
 {
     switch(schedule) {
     case MONTHLY: {
             struct tm nextMonthTime;
             t.localtime(&nextMonthTime);
             nextMonthTime.tm_mon += 1;
+	    nextMonthTime.tm_isdst = 0;
 
             Time ret;
             if(ret.setTime(&nextMonthTime) == -1) {
@@ -498,7 +502,7 @@ DailyRollingFileAppender::calculateNextRolloverTime(const log4cplus::helpers::Ti
 
 
 log4cplus::tstring
-DailyRollingFileAppender::getFilename(const log4cplus::helpers::Time& t)
+DailyRollingFileAppender::getFilename(const log4cplus::helpers::Time& t) const
 {
     tstring pattern;
     switch(schedule) {
