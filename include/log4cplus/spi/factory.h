@@ -17,7 +17,11 @@
 #define LOG4CPLUS_SPI_FACTORY_HEADER_
 
 #include <log4cplus/config.h>
+#include <log4cplus/appender.h>
+#include <log4cplus/layout.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/helpers/threads.h>
+#include <log4cplus/spi/objectregistry.h>
 #include <map>
 #include <memory>
 #include <string>
@@ -26,57 +30,60 @@
 
 namespace log4cplus {
     namespace spi {
-        // Forward Declarations
-        class FactoryRegistry;
 
-        /**
-         * Returns a reference to the <code>FactoryRegistry</code> singleton.
-         */
-        FactoryRegistry& getFactoryRegistry();
-
-        class Factory {
+	/**
+	 * This abstract class defines the "Factory" interface to create "Appender"
+	 * objects.
+	 */
+        class AppenderFactory {
         public:
-            Factory(){}
-            virtual ~Factory(){}
+            AppenderFactory(){}
+            virtual ~AppenderFactory(){}
 
-            virtual void* createObject(const std::string& configPrefix,
-                                       const log4cplus::helpers::Properties& props) = 0;
+	    /**
+	     * Create an "Appender" object.
+	     */
+            virtual SharedAppenderPtr createObject(const log4cplus::helpers::Properties& props) = 0;
 
+	    /**
+	     * Returns the typename of the "Appender" objects this factory creates.
+	     */
             virtual std::string getTypeName() = 0;
         };
 
 
-        
-        class FactoryRegistry {
+	/**
+	 * This abstract class defines the "Factory" interface to create "Layout"
+	 * objects.
+	 */
+        class LayoutFactory {
         public:
-            bool registerFactory(const std::string& name,
-                                 std::auto_ptr<Factory> factory);
+            LayoutFactory(){}
+            virtual ~LayoutFactory(){}
 
-            bool exists(const std::string& name) const;
+	    /**
+	     * Create an "Layout" object.
+	     */
+            virtual std::auto_ptr<Layout> createObject(const log4cplus::helpers::Properties& props) = 0;
 
-            Factory* getFactory(const std::string& name) const;
-
-            std::vector<std::string> getAllNames() const;
-
-        private:
-          // Ctor and Dtor
-            FactoryRegistry();
-            ~FactoryRegistry();
-
-          // Types
-            typedef std::map<std::string, Factory*> FactoryMap;
-
-          // Data
-            LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
-            FactoryMap data;
-
-          // Friends
-            friend FactoryRegistry& getFactoryRegistry();
+	    /**
+	     * Returns the typename of the "Layout" objects this factory creates.
+	     */
+            virtual std::string getTypeName() = 0;
         };
 
-        
+        typedef ObjectRegistry<AppenderFactory> AppenderFactoryRegistry;
+        typedef ObjectRegistry<LayoutFactory> LayoutFactoryRegistry;
 
-        
+	/**
+	 * Returns the "singleton" <code>AppenderFactoryRegistry</code>.
+	 */
+        AppenderFactoryRegistry& getAppenderFactoryRegistry();
+
+	/**
+	 * Returns the "singleton" <code>LayoutFactoryRegistry</code>.
+	 */
+        LayoutFactoryRegistry& getLayoutFactoryRegistry();
 
     }
 }
