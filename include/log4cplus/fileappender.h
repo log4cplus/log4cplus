@@ -30,7 +30,7 @@ namespace log4cplus {
     public:
       // Ctors
         FileAppender(const std::string& filename, 
-                     std::ios::open_mode mode = std::ios::trunc);
+                     std::ios::openmode mode = std::ios::trunc);
 
       // Dtor
         virtual ~FileAppender();
