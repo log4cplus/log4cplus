@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
@@ -17,7 +17,7 @@
 #define _LOG4CPLUS_SPI_INTERNAL_LOGGING_EVENT_HEADER_
 
 #include <log4cplus/config.h>
-#include <log4cplus/category.h>
+#include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
 #include <string>
 #include <time.h>
@@ -40,17 +40,17 @@ namespace log4cplus {
               * <p>Except {@link #timeStamp} all the other fields of
               * <code>LoggingEvent</code> are filled when actually needed.
               * <p>
-              * @param category The category of this event.
-              * @param priority The priority of this event.
+              * @param logger The logger of this event.
+              * @param ll       The LogLevel of this event.
               * @param message  The message of this event.
               */
-             InternalLoggingEvent(const std::string& category,
-                                  const Priority& priority,
+             InternalLoggingEvent(const std::string& logger,
+                                  LogLevel ll,
                                   const std::string& message,
                                   const char* file,
                                   int line)
-              : categoryName(category),
-                priority(priority),
+              : loggerName(logger),
+                ll(ll),
                 ndc(log4cplus::getNDC().get()),
                 message(message),
                 thread( LOG4CPLUS_GET_CURRENT_THREAD ),
@@ -63,12 +63,12 @@ namespace log4cplus {
 
 
           // Data
-            /** The category of the logging event. It is set by 
+            /** The logger of the logging event. It is set by 
              * the LoggingEvent constructor. */
-            const std::string categoryName;
+            const std::string loggerName;
 
-            /** Priority of logging event. */
-            const Priority priority;
+            /** LogLevel of logging event. */
+            const LogLevel ll;
 
             /** The nested diagnostic context (NDC) of logging event. */
             const std::string ndc;

@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
@@ -85,7 +85,7 @@ namespace log4cplus {
      * context for the current thread without any user intervention.
      * Hence, even if a servlet is serving multiple clients
      * simultaneously, the logs emanating from the same code (belonging to
-     * the same category) can still be distinguished because each client
+     * the same logger) can still be distinguished because each client
      * request will have a different NDC tag.
      *
      * <p>Heavy duty systems should call the {@link #remove} method when
