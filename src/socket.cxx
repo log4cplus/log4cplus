@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/08/08 05:36:51  tcsmith
+// Changed the #if checks to look for _WIN32 and not WIN32.
+//
 // Revision 1.2  2003/07/19 15:23:18  tcsmith
 // Added dtors to Socket and ServerSocket.
 //
@@ -116,7 +119,7 @@ log4cplus::helpers::AbstractSocket::copy(const log4cplus::helpers::AbstractSocke
     err = rhs.err;
     rhs.sock = INVALID_SOCKET;
     rhs.state = not_opened;
-    err = 0;
+    rhs.err = 0;
 }
 
 
