@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/04/04 00:31:14  tcsmith
+// Changed to support the rename of propertyconfig.h to configurator.h
+//
 // Revision 1.1  2003/04/03 23:46:14  tcsmith
 // Renamed from propertyconfig.cxx
 //
@@ -30,6 +33,85 @@ using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
 
+//////////////////////////////////////////////////////////////////////////////
+// File LOCAL methods
+//////////////////////////////////////////////////////////////////////////////
+
+#define DELIM_START "${"
+#define DELIM_STOP "}"
+#define DELIM_START_LEN 2
+#define DELIM_STOP_LEN 1
+
+namespace {
+    /**
+     * Perform variable substitution in string <code>val</code> from
+     * environment variables.
+     *
+     * <p>The variable substitution delimeters are <b>${</b> and <b>}</b>.
+     *
+     * <p>For example, if the System properties contains "key=value", then
+     * the call
+     * <pre>
+     * string s = substEnvironVars("Value of key is ${key}.");
+     * </pre>
+     *
+     * will set the variable <code>s</code> to "Value of key is value.".
+     *
+     * <p>If no value could be found for the specified key, then
+     * substitution defaults to the empty string.
+     *
+     * <p>For example, if there is no environment variable "inexistentKey", 
+     * then the call
+     *
+     * <pre>
+     * string s = substEnvironVars("Value of inexistentKey is [${inexistentKey}]");
+     * </pre>
+     * will set <code>s</code> to "Value of inexistentKey is []"
+     *
+     * @param val The string on which variable substitution is performed.
+     */
+    std::string substEnvironVars(const std::string& val) {
+        std::string sbuf;
+
+        int i = 0;
+        int j, k;
+
+        while(true) {
+            j=val.find(DELIM_START, i);
+            if(j == std::string::npos) {
+                if(i==0)
+                    return val;
+                else {
+                    sbuf += val.substr(i);
+                    return sbuf;
+                }
+            }
+            else {
+                sbuf += val.substr(i, j - i);
+                k = val.find(DELIM_STOP, j);
+                if(k == std::string::npos) {
+                    getLogLog().error(  '"' + val
+                                      +  "\" has no closing brace. Opening brace "\
+                                      "at position TODO.");
+                    return val;
+                }
+                else {
+                    j += DELIM_START_LEN;
+                    std::string key = val.substr(j, k - j);
+                    char* replacement = getenv(key.c_str());
+
+                    if(replacement != 0)
+                        sbuf += replacement;
+                    i = k + DELIM_STOP_LEN;
+                }
+            }
+        } // end while loop
+    
+    } // end substEnvironVars()
+  
+}
+
+
 
 //////////////////////////////////////////////////////////////////////////////
 // log4cplus::PropertyConfigurator ctor and dtor
@@ -39,6 +121,7 @@ log4cplus::PropertyConfigurator::PropertyConfigurator(const std::string& propert
 : propertyFilename(propertyFile),
   properties(propertyFile)
 {
+    replaceEnvironVariables();
     properties = properties.getPropertySubset("log4cplus.");
 }
 
@@ -67,6 +150,31 @@ log4cplus::PropertyConfigurator::configure()
 //////////////////////////////////////////////////////////////////////////////
 // log4cplus::PropertyConfigurator protected methods
 //////////////////////////////////////////////////////////////////////////////
+
+void
+log4cplus::PropertyConfigurator::replaceEnvironVariables()
+{
+
+    std::vector<std::string> keys = properties.propertyNames();
+    std::vector<std::string>::iterator it = keys.begin();
+    for(; it!=keys.end(); ++it) {
+        std::string key = *it;
+        std::string val = properties.getProperty(key);
+        std::string subKey = substEnvironVars(key);
+        if(subKey != key) {
+            properties.removeProperty(key);
+            properties.setProperty(subKey, val);
+        }
+
+        std::string subVal = substEnvironVars(val);
+        if(subVal != val) {
+            properties.setProperty(subKey, subVal);
+        }
+    }
+
+}
+
+
 
 void
 log4cplus::PropertyConfigurator::configureLoggers()
