@@ -17,7 +17,7 @@
 #define _LOG4CPLUS_SPI_INTERNAL_LOGGING_EVENT_HEADER_
 
 #include <log4cplus/config.h>
-#include <log4cplus/logger.h>
+#include <log4cplus/loglevel.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/tstring.h>
 #include <time.h>
