@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
@@ -17,7 +17,7 @@
 #define _LOG4CPLUS_HIERARCHY_HEADER_
 
 #include <log4cplus/config.h>
-#include <log4cplus/category.h>
+#include <log4cplus/logger.h>
 #include <log4cplus/helpers/pointer.h>
 #include <map>
 #include <memory>
@@ -27,17 +27,17 @@
 namespace log4cplus {
 
     /**
-     * This class is specialized in retrieving categories by name and
-     * also maintaining the category hierarchy.
+     * This class is specialized in retrieving loggers by name and
+     * also maintaining the logger hierarchy.
      *
      * <p><em>The casual user should not have to deal with this class
      * directly.</em>  However, if you are in an environment where
      * multiple applications run in the same process, then read on.
      *
-     * <p>The structure of the category hierarchy is maintained by the
+     * <p>The structure of the logger hierarchy is maintained by the
      * {@link #getInstance} method. The hierarchy is such that children
      * link to their parent but parents do not have any pointers to their
-     * children. Moreover, categories can be instantiated in any order, in
+     * children. Moreover, loggers can be instantiated in any order, in
      * particular descendant before ancestor.
      *
      * <p>In case a descendant is created before a particular ancestor,
@@ -49,12 +49,12 @@ namespace log4cplus {
     public:
         // DISABLE_OFF should be set to a value lower than all possible
         // priorities.
-        static const int DISABLE_OFF;
-        static const int DISABLE_OVERRIDE;
+        static const LogLevel DISABLE_OFF;
+        static const LogLevel DISABLE_OVERRIDE;
 
       // Ctors
         /**
-         * Create a new Category hierarchy.
+         * Create a new Logger hierarchy.
          *
          * @param root The root of the new hierarchy.
          */
@@ -65,9 +65,9 @@ namespace log4cplus {
 
       // Methods
         /**
-         * This call will clear all category definitions from the internal
+         * This call will clear all logger definitions from the internal
          * hashtable. Invoking this method will irrevocably mess up the
-         * category hierarchy.
+         * logger hierarchy.
          *                     
          * <p>You should <em>really</em> know what you are doing before
          * invoking this method.
@@ -75,24 +75,24 @@ namespace log4cplus {
         virtual void clear();
 
         /**
-         * Returns <code>true </code>if the named category exists 
+         * Returns <code>true </code>if the named logger exists 
          * (in the default hierarchy).
          *                
-         * @param name The name of the category to search for.
+         * @param name The name of the logger to search for.
          */
         virtual bool exists(const std::string& name);
 
         /**
-         * Similar to {@link #disable(Priority)} except that the priority
+         * Similar to {@link #disable(LogLevel)} except that the LogLevel
          * argument is given as a std::string.  
          */
-        virtual void disable(const std::string& priorityStr);
+        virtual void disable(const std::string& loglevelStr);
 
         /**
-         * Disable all logging requests of priority <em>equal to or
-         * below</em> the priority parameter <code>p</code>, for
-         * <em>all</em> categories in this hierarchy. Logging requests of
-         * higher priority then <code>p</code> remain unaffected.
+         * Disable all logging requests of LogLevel <em>equal to or
+         * below</em> the ll parameter <code>p</code>, for
+         * <em>all</em> loggers in this hierarchy. Logging requests of
+         * higher LogLevel then <code>p</code> remain unaffected.
          *
          * <p>Nevertheless, if the {@link
          * BasicConfigurator#DISABLE_OVERRIDE_KEY} system property is set to
@@ -103,99 +103,94 @@ namespace log4cplus {
          * <p>The "disable" family of methods are there for speed. They
          * allow printing methods such as debug, info, etc. to return
          * immediately after an integer comparison without walking the
-         * category hierarchy. In most modern computers an integer
-         * comparison is measured in nanoseconds where as a category walk is
+         * logger hierarchy. In most modern computers an integer
+         * comparison is measured in nanoseconds where as a logger walk is
          * measured in units of microseconds.
-         *
-         * <p>Other configurators define alternate ways of overriding the
-         * disable override flag. See {@link PropertyConfigurator} and
-         * {@link org.apache.log4j.xml.DOMConfigurator}.
          */
-        virtual void disable(const Priority& p);
-        void disable(Priority::PriorityLevel p) { disable(Priority(p)); };
+        virtual void disable(LogLevel ll);
 
         /**
-         * Disable all logging requests regardless of category and priority.
+         * Disable all logging requests regardless of logger and LogLevel.
          * This method is equivalent to calling {@link #disable} with the
-         * argument {@link Priority#FATAL_PRI}, the highest possible priority.
+         * argument FATAL_LOG_LEVEL, the highest possible LogLevel.
          */
         virtual void disableAll();
 
         /**
-         * Disable all Debug logging requests regardless of category.
+         * Disable all Debug logging requests regardless of logger.
          * This method is equivalent to calling {@link #disable} with the
-         * argument {@link Priority#DEBUG_PRI}.
+         * argument DEBUG_LOG_LEVEL.
          */
         virtual void disableDebug();
 
         /**
-         * Disable all Info logging requests regardless of category.
+         * Disable all Info logging requests regardless of logger.
          * This method is equivalent to calling {@link #disable} with the
-         * argument {@link Priority#INFO_PRI}.
+         * argument INFO_LOG_LEVEL.
          */
         virtual void disableInfo();
 
         /**
          * Undoes the effect of calling any of {@link #disable}, {@link
          * #disableAll}, {@link #disableDebug} and {@link #disableInfo}
-         * methods. More precisely, invoking this method sets the Category
+         * methods. More precisely, invoking this method sets the Logger
          * class internal variable called <code>disable</code> to its
          * default "off" value.
          */
         virtual void enableAll();
 
         /**
-         * Return a new category instance named as the first parameter using
+         * Return a new logger instance named as the first parameter using
          * the default factory. 
          *                
-         * <p>If a category of that name already exists, then it will be
-         * returned.  Otherwise, a new category will be instantiated and
+         * <p>If a logger of that name already exists, then it will be
+         * returned.  Otherwise, a new logger will be instantiated and
          * then linked with its existing ancestors as well as children.
          *                                    
-         * @param name The name of the category to retrieve.
+         * @param name The name of the logger to retrieve.
          */
-        virtual Category getInstance(const std::string& name);
+        virtual Logger getInstance(const std::string& name);
 
         /**
-         * Return a new category instance named as the first parameter using
+         * Return a new logger instance named as the first parameter using
          * <code>factory</code>.
          *                
-         * <p>If a category of that name already exists, then it will be
-         * returned.  Otherwise, a new category will be instantiated by the
+         * <p>If a logger of that name already exists, then it will be
+         * returned.  Otherwise, a new logger will be instantiated by the
          * <code>factory</code> parameter and linked with its existing
          * ancestors as well as children.
          *                                         
-         * @param name The name of the category to retrieve.
-         * @param factory The factory that will make the new category instance.
+         * @param name The name of the logger to retrieve.
+         * @param factory The factory that will make the new logger instance.
          */
-        virtual Category getInstance(const std::string& name, spi::CategoryFactory& factory);
+        virtual Logger getInstance(const std::string& name, spi::LoggerFactory& factory);
 
         /**
-         * Returns all the currently defined categories in this hierarchy.
+         * Returns all the currently defined loggers in this hierarchy.
          *
-         * <p>The root category is <em>not</em> included in the returned list. 
+         * <p>The root logger is <em>not</em> included in the returned list. 
          */
-        virtual CategoryList getCurrentCategories();
+        virtual LoggerList getCurrentLoggers();
 
         /** 
-         * Is the {@link Priority} specified by <code>level</code> enabled? 
+         * Is the LogLevel specified by <code>level</code> enabled? 
          */
         virtual bool isDisabled(int level);
 
         /**
          * Get the root of this hierarchy.
          */
-        virtual Category getRoot();
+        virtual Logger getRoot();
 
         /**
          * Reset all values contained in this hierarchy instance to their
-         * default.  This removes all appenders from all categories, sets
-         * the priority of all non-root categories to <code>null</code>,
-         * sets their additivity flag to <code>true</code> and sets the priority
-         * of the root category to {@link Priority#DEBUG_PRI DEBUG_PRI}.  Moreover,
-         * message disabling is set its default "off" value.
+         * default.  This removes all appenders from all loggers, sets
+         * the LogLevel of all non-root loggers to <code>NOT_SET_LOG_LEVEL</code>,
+         * sets their additivity flag to <code>true</code> and sets the LogLevel
+         * of the root logger to DEBUG_LOG_LEVEL.  Moreover, message disabling
+         * is set its default "off" value.
          *
-         * <p>Existing categories are not removed. They are just reset.
+         * <p>Existing loggers are not removed. They are just reset.
          *
          * <p>This method should be used sparingly and with care as it will
          * block all logging until it is completed.</p>
@@ -203,77 +198,76 @@ namespace log4cplus {
         virtual void resetConfiguration(); 
 
         /**
-         * Set the default CategoryFactory instance.
+         * Set the default LoggerFactory instance.
          */
-        virtual void setCategoryFactory(std::auto_ptr<spi::CategoryFactory> factory);
+        virtual void setLoggerFactory(std::auto_ptr<spi::LoggerFactory> factory);
 
         /**
          * Shutting down a hierarchy will <em>safely</em> close and remove
-         * all appenders in all categories including the root category.
+         * all appenders in all loggers including the root logger.
          *                
-         * <p>Some appenders such as {@link org.apache.log4j.net.SocketAppender}
-         * and {@link AsyncAppender} need to be closed before the
-         * application exists. Otherwise, pending logging events might be
+         * <p>Some appenders such as SocketAppender need to be closed before the
+         * application exits. Otherwise, pending logging events might be
          * lost.
          *
          * <p>The <code>shutdown</code> method is careful to close nested
          * appenders before closing regular appenders. This is allows
-         * configurations where a regular appender is attached to a category
+         * configurations where a regular appender is attached to a logger
          * and again to a nested appender.
          */
         virtual void shutdown();
 
     private:
       // Types
-        typedef std::vector<Category> ProvisionNode;
+        typedef std::vector<Logger> ProvisionNode;
         typedef std::map<std::string, ProvisionNode> ProvisionNodeMap;
-        typedef std::map<std::string, Category> CategoryMap;
+        typedef std::map<std::string, Logger> LoggerMap;
 
       // Methods
         /**
          * This method loops through all the *potential* parents of
-         * cat'. There 3 possible cases:
+         * logger'. There 3 possible cases:
          *
-         * 1) No entry for the potential parent of 'cat' exists
+         * 1) No entry for the potential parent of 'logger' exists
          *
          *    We create a ProvisionNode for this potential parent and insert
-         *    'cat' in that provision node.
+         *    'logger' in that provision node.
          *
-         * 2) There is an entry of type Category for the potential parent.
+         * 2) There is an entry of type Logger for the potential parent.
          *
-         *    The entry is 'cat's nearest existing parent. We update cat's
+         *    The entry is 'logger's nearest existing parent. We update logger's
          *    parent field with this entry. We also break from the loop
          *    because updating our parent's parent is our parent's
          *    responsibility.
          *
          * 3) There entry is of type ProvisionNode for this potential parent.
          *
-         *    We add 'cat' to the list of children for this potential parent.
+         *    We add 'logger' to the list of children for this potential parent.
          */
-        void updateParents(Category cat);
+        void updateParents(Logger logger);
 
         /**
          * We update the links for all the children that placed themselves
-         * in the provision node 'pn'. The second argument 'cat' is a
-         * reference for the newly created Category, parent of all the
+         * in the provision node 'pn'. The second argument 'logger' is a
+         * reference for the newly created Logger, parent of all the
          * children in 'pn'
          *
          * We loop on all the children 'c' in 'pn':
          *
          *    If the child 'c' has been already linked to a child of
-         *    'cat' then there is no need to update 'c'.
+         *    'logger' then there is no need to update 'c'.
          *
-         *   Otherwise, we set cat's parent field to c's parent and set
-         *   c's parent field to cat.
+         *   Otherwise, we set logger's parent field to c's parent and set
+         *   c's parent field to logger.
          */
-        void updateChildren(ProvisionNode& pn, Category cat);
+        void updateChildren(ProvisionNode& pn, Logger logger);
 
     // Data
        LOG4CPLUS_MUTEX_PTR_DECLARE hashtable_mutex;
-       std::auto_ptr<spi::CategoryFactory> defaultFactory;
+       std::auto_ptr<spi::LoggerFactory> defaultFactory;
        ProvisionNodeMap provisionNodes;
-       CategoryMap categoryPtrs;
-       Category *root;
+       LoggerMap loggerPtrs;
+       Logger *root;
 
        int disableValue;
 
@@ -281,7 +275,7 @@ namespace log4cplus {
        bool emittedNoResourceBundleWarning;
 
     // Friends
-        friend class spi::CategoryImpl;
+        friend class spi::LoggerImpl;
     };
 
 
