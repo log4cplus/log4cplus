@@ -28,7 +28,7 @@ namespace log4cplus {
     class LOG4CPLUS_EXPORT ConsoleAppender : public Appender {
     public:
       // Ctors
-        ConsoleAppender(bool logToStdErr = false);
+        ConsoleAppender(bool logToStdErr = false, bool immediateFlush = false);
         ConsoleAppender(const log4cplus::helpers::Properties properties);
 
       // Dtor
@@ -42,6 +42,11 @@ namespace log4cplus {
 
       // Data
         bool logToStdErr;
+        /**
+         * Immediate flush means that the underlying output stream
+         * will be flushed at the end of each append operation.
+         */
+        bool immediateFlush;
     };
 
 } // end namespace log4cplus
