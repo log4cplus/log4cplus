@@ -37,19 +37,18 @@ namespace log4cplus {
 
     typedef const log4cplus::tstring& (*LogLevelToStringMethod)(LogLevel);
     typedef LogLevel (*StringToLogLevelMethod)(const log4cplus::tstring&);
-    typedef int (*LogLevelToSysLogMethod)(LogLevel);
 
     const log4cplus::tstring& defaultLogLevelToStringMethod(LogLevel);
     LogLevel defaultStringToLogLevelMethod(const log4cplus::tstring&);
-    int defaultLogLevelToSysLogMethod(LogLevel);
 
     class LogLevelManager {
     public:
         LogLevelManager();
 
-        const log4cplus::tstring& toString(LogLevel ll) const { return toStringMethod(ll); }
-        LogLevel fromString(const log4cplus::tstring& s) const { return fromStringMethod(s); }
-        int toSysLog(LogLevel ll) const { return toSysLogMethod(ll); }
+        const log4cplus::tstring& toString(LogLevel ll) const 
+	      { return toStringMethod(ll); }
+        LogLevel fromString(const log4cplus::tstring& s) const 
+	      { return fromStringMethod(s); }
 
         LogLevelToStringMethod setToStringMapper(LogLevelToStringMethod newToString) {
             LogLevelToStringMethod tmp = toStringMethod;
@@ -63,16 +62,9 @@ namespace log4cplus {
             return tmp;
         }
 
-        LogLevelToSysLogMethod setStringMapper(LogLevelToSysLogMethod newToSysLog) {
-            LogLevelToSysLogMethod tmp = toSysLogMethod;
-            toSysLogMethod = newToSysLog;
-            return tmp;
-        }
-
     private:
         LogLevelToStringMethod toStringMethod;
         StringToLogLevelMethod fromStringMethod;
-        LogLevelToSysLogMethod toSysLogMethod;
     };
 
     LogLevelManager& getLogLevelManager();
