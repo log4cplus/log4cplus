@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  2003/07/30 05:03:25  tcsmith
+// Changed LogLevelManager so that the "toString" and "fromString" methods are
+// list based.
+//
 // Revision 1.7  2003/06/12 23:51:45  tcsmith
 // Modified to support the rename of the toupper and tolower methods.
 //
@@ -43,12 +47,14 @@
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 
+#define _ALL_STRING LOG4CPLUS_TEXT("ALL")
 #define _TRACE_STRING LOG4CPLUS_TEXT("TRACE")
 #define _DEBUG_STRING LOG4CPLUS_TEXT("DEBUG")
 #define _INFO_STRING LOG4CPLUS_TEXT("INFO")
 #define _WARN_STRING LOG4CPLUS_TEXT("WARN")
 #define _ERROR_STRING LOG4CPLUS_TEXT("ERROR")
 #define _FATAL_STRING LOG4CPLUS_TEXT("FATAL")
+#define _OFF_STRING LOG4CPLUS_TEXT("OFF")
 #define _NOTSET_STRING LOG4CPLUS_TEXT("NOTSET")
 #define _UNKNOWN_STRING LOG4CPLUS_TEXT("UNKNOWN")
 
@@ -84,12 +90,14 @@ namespace {
     log4cplus::tstring
     defaultLogLevelToStringMethod(LogLevel ll) {
         switch(ll) {
-            case FATAL_LOG_LEVEL: return _FATAL_STRING;
-            case ERROR_LOG_LEVEL: return _ERROR_STRING;
-            case WARN_LOG_LEVEL: return _WARN_STRING;
-            case INFO_LOG_LEVEL: return _INFO_STRING;
-            case DEBUG_LOG_LEVEL: return _DEBUG_STRING;
-            case TRACE_LOG_LEVEL: return _TRACE_STRING;
+            case OFF_LOG_LEVEL:     return _OFF_STRING;
+            case FATAL_LOG_LEVEL:   return _FATAL_STRING;
+            case ERROR_LOG_LEVEL:   return _ERROR_STRING;
+            case WARN_LOG_LEVEL:    return _WARN_STRING;
+            case INFO_LOG_LEVEL:    return _INFO_STRING;
+            case DEBUG_LOG_LEVEL:   return _DEBUG_STRING;
+            case TRACE_LOG_LEVEL:   return _TRACE_STRING;
+            //case ALL_LOG_LEVEL:     return _ALL_STRING;
             case NOT_SET_LOG_LEVEL: return _NOTSET_STRING;
         };
         
@@ -101,12 +109,14 @@ namespace {
     defaultStringToLogLevelMethod(const log4cplus::tstring& arg) {
         log4cplus::tstring s = log4cplus::helpers::toUpper(arg);
         
+        if(s == _ALL_STRING)   return ALL_LOG_LEVEL;
         if(s == _TRACE_STRING) return TRACE_LOG_LEVEL;
         if(s == _DEBUG_STRING) return DEBUG_LOG_LEVEL;
         if(s == _INFO_STRING)  return INFO_LOG_LEVEL;
         if(s == _WARN_STRING)  return WARN_LOG_LEVEL;
         if(s == _ERROR_STRING) return ERROR_LOG_LEVEL;
         if(s == _FATAL_STRING) return FATAL_LOG_LEVEL;
+        if(s == _OFF_STRING)   return OFF_LOG_LEVEL;
         
         return NOT_SET_LOG_LEVEL;
     }

@@ -35,6 +35,11 @@ namespace log4cplus {
      */
     typedef int LogLevel;
 
+    /** \var const LogLevel OFF_LOG_LEVEL
+     * The <code>OFF_LOG_LEVEL</code> LogLevel is used during configuration to
+     * turn off logging. */
+    const LogLevel OFF_LOG_LEVEL     = 60000;
+
     /** \var const LogLevel FATAL_LOG_LEVEL
      * The <code>FATAL_LOG_LEVEL</code> LogLevel designates very severe error
      * events that will presumably lead the application to abort.  */
@@ -65,6 +70,11 @@ namespace log4cplus {
      * The <code>TRACE_LOG_LEVEL</code> LogLevel is used to "trace" entry
      * and exiting of methods. */
     const LogLevel TRACE_LOG_LEVEL   = 0;
+    
+    /** \var const LogLevel ALL_LOG_LEVEL
+     * The <code>ALL_LOG_LEVEL</code> LogLevel is used during configuration to
+     * turn on all logging. */
+    const LogLevel ALL_LOG_LEVEL     = TRACE_LOG_LEVEL;
 
     /** \var const LogLevel NOT_SET_LOG_LEVEL
      * The <code>NOT_SET_LOG_LEVEL</code> LogLevel is used to indicated that
