@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/04/18 21:21:53  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.1  2003/04/03 01:40:46  tcsmith
 // Renamed from category.cxx
 //
@@ -168,9 +171,8 @@ Logger::init() {
 void
 Logger::validate(const char *file, int line) const
 {
-    if (value == NULL) {
-        getLogLog().error(LOG4CPLUS_TEXT("Logger::validate()- Internal log4cplus error: " \
-				         "NullPointerException"));
+    if(value == NULL) {
+        getLogLog().error(LOG4CPLUS_TEXT("Logger::validate()- Internal log4cplus error: NullPointerException"));
         log4cplus::helpers::throwNullPointerException(file, line);
     }
 }

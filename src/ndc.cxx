@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/04/18 22:08:19  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.3  2003/04/03 01:06:41  tcsmith
 // Standardized the formatting.
 //
@@ -174,7 +177,7 @@ NDC::get()
         getLogLog().error(LOG4CPLUS_TEXT("NDC::get()- exception occured"));
     }
 
-    return "";
+    return LOG4CPLUS_TEXT("");
 }
 
 
@@ -224,7 +227,7 @@ NDC::pop()
         getLogLog().error(LOG4CPLUS_TEXT("NDC::pop()- exception occured"));
     }
 
-    return "";
+    return LOG4CPLUS_TEXT("");
 }
 
 
@@ -245,7 +248,7 @@ NDC::peek()
         getLogLog().error(LOG4CPLUS_TEXT("NDC::peek()- exception occured"));
     }
 
-    return "";
+    return LOG4CPLUS_TEXT("");
 }
 
 

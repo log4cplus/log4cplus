@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/04/19 21:31:07  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/nteventlogappender.h>
 #include <log4cplus/loglevel.h>
@@ -105,7 +108,7 @@ namespace {
 
 
     void 
-    regSetString(HKEY hkey, const std::string& name, const std::string& value)
+    regSetString(HKEY hkey, const log4cplus::tstring& name, const log4cplus::tstring& value)
     {
         RegSetValueEx(hkey, 
                       name.c_str(), 
@@ -118,7 +121,7 @@ namespace {
 
 
     void 
-    regSetDword(HKEY hkey, const std::string& name, DWORD value)
+    regSetDword(HKEY hkey, const log4cplus::tstring& name, DWORD value)
     {
         RegSetValueEx(hkey, 
                       name.c_str(), 
@@ -318,10 +321,14 @@ NTEventLogAppender::addRegistryInfo()
     
     hkey = regGetKey(subkey, &disposition);
     if(disposition == REG_CREATED_NEW_KEY) {
-        regSetString(hkey, "EventMessageFile", "NTEventLogAppender.dll");
-        regSetString(hkey, "CategoryMessageFile", "NTEventLogAppender.dll");
-        regSetDword(hkey, "TypesSupported", (DWORD)7);
-        regSetDword(hkey, "CategoryCount", (DWORD)5);
+        regSetString(hkey, 
+                     LOG4CPLUS_TEXT("EventMessageFile"), 
+                     LOG4CPLUS_TEXT("NTEventLogAppender.dll"));
+        regSetString(hkey, 
+                     LOG4CPLUS_TEXT("CategoryMessageFile"), 
+                     LOG4CPLUS_TEXT("NTEventLogAppender.dll"));
+        regSetDword(hkey, LOG4CPLUS_TEXT("TypesSupported"), (DWORD)7);
+        regSetDword(hkey, LOG4CPLUS_TEXT("CategoryCount"), (DWORD)5);
     }
     
     RegCloseKey(hkey);
