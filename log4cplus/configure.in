@@ -47,5 +47,6 @@ AC_OUTPUT([Makefile
            tests/patternlayout_test/Makefile 
            tests/priority_test/Makefile 
 	   tests/propertyconfig_test/Makefile
+	   tests/socket_test/Makefile
            tests/thread_test/Makefile, ])
 
