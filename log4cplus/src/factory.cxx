@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/04/03 00:41:11  tcsmith
+// Standardized the formatting.
+//
 
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/consoleappender.h>
@@ -131,13 +134,8 @@ namespace {
 AppenderFactoryRegistry&
 log4cplus::spi::getAppenderFactoryRegistry()
 {
-    static AppenderFactoryRegistry *instance = NULL;
-
-    if(instance == NULL) {
-        instance = new AppenderFactoryRegistry();
-    }
-
-    return *instance;
+    static AppenderFactoryRegistry singleton;
+    return singleton;
 }
 
 
@@ -145,13 +143,8 @@ log4cplus::spi::getAppenderFactoryRegistry()
 LayoutFactoryRegistry&
 log4cplus::spi::getLayoutFactoryRegistry()
 {
-    static LayoutFactoryRegistry *instance = NULL;
-
-    if(instance == NULL) {
-        instance = new LayoutFactoryRegistry();
-    }
-
-    return *instance;
+    static LayoutFactoryRegistry singleton;
+    return singleton;
 }
 
 
