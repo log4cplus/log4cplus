@@ -7,7 +7,7 @@ log4cplus.logger.test.log_3=WARN, R3
 
 log4cplus.appender.STDOUT=log4cplus::ConsoleAppender
 log4cplus.appender.STDOUT.layout=log4cplus::PatternLayout
-log4cplus.appender.STDOUT.layout.Pattern=%d{%m/%d/%y %H:%M:%S} [%t] %-5p %c{2} %%%x%% - %m [%l]%n
+log4cplus.appender.STDOUT.layout.ConversionPattern=%d{%m/%d/%y %H:%M:%S} [%t] %-5p %c{2} %%%x%% - %m [%l]%n
 
 log4cplus.appender.R=log4cplus::RollingFileAppender
 log4cplus.appender.R.File=output.log
