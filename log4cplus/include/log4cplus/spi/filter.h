@@ -132,9 +132,7 @@ namespace log4cplus {
              * Always returns the {@link DENY} regardless of the 
              * {@link InternalLoggingEvent} parameter.
              */
-            virtual FilterResult decide(const InternalLoggingEvent& event) const {
-                return DENY;
-            }
+            virtual FilterResult decide(const InternalLoggingEvent& event) const;
         };
 
 
