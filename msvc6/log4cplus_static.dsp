@@ -290,6 +290,10 @@ SOURCE=..\include\log4cplus\helpers\appenderattachableimpl.h
 # End Source File
 # Begin Source File
 
+SOURCE="..\include\log4cplus\config-macosx.h"
+# End Source File
+# Begin Source File
+
 SOURCE="..\include\log4cplus\config-win32.h"
 # End Source File
 # Begin Source File
@@ -326,6 +330,10 @@ SOURCE=..\include\log4cplus\hierarchy.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\include\log4cplus\hierarchylocker.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\include\log4cplus\layout.h
 # End Source File
 # Begin Source File
@@ -343,6 +351,10 @@ SOURCE=..\include\log4cplus\spi\loggerimpl.h
 # Begin Source File
 
 SOURCE=..\include\log4cplus\spi\loggingevent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\include\log4cplus\loggingmacros.h
 # End Source File
 # Begin Source File
 
