@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/04/18 21:07:05  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.2  2003/04/03 02:03:09  tcsmith
 // Changed defaultLogLevelToSysLogMethod() so that it returns -1 for unknow
 // LogLevels.
@@ -79,27 +82,9 @@ log4cplus::defaultStringToLogLevelMethod(const log4cplus::tstring& arg)
 
 
 
-int 
-log4cplus::defaultLogLevelToSysLogMethod(LogLevel ll)
-{
-    switch(ll) {
-        case FATAL_LOG_LEVEL: return 0;
-        case ERROR_LOG_LEVEL: return 3;
-        case WARN_LOG_LEVEL: return 4;
-        case INFO_LOG_LEVEL: return 5;
-        case DEBUG_LOG_LEVEL: return 6;
-        case TRACE_LOG_LEVEL: return -1;
-    };
-
-    return -1;
-}
-
-
-
 LogLevelManager::LogLevelManager() 
 : toStringMethod(defaultLogLevelToStringMethod),
-  fromStringMethod(defaultStringToLogLevelMethod),
-  toSysLogMethod(defaultLogLevelToSysLogMethod)
+  fromStringMethod(defaultStringToLogLevelMethod)
 {
 }
 
