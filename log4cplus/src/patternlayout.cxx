@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  2003/05/21 22:14:46  tcsmith
+// Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
+// of data".
+//
 // Revision 1.7  2003/05/01 19:49:32  tcsmith
 // Fixed: "warning: comparison between signed and unsigned".
 //
@@ -30,16 +34,11 @@
 
 #include <log4cplus/layout.h>
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/helpers/strftime.h>
+#include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
 
 #include <stdlib.h>
 #include <exception>
-
-#include <ctime>
-#ifdef TM_IN_SYS_TIME
-#include <sys/time.h>
-#endif
 
 using namespace std;
 using namespace log4cplus;
@@ -430,15 +429,18 @@ log4cplus::pattern::DatePatternConverter::convert
                                             (const InternalLoggingEvent& event)
 {
     tchar buffer[BUFFER_SIZE];
+    struct tm tmpTime;
     struct tm* time;
+
     if(use_gmtime) {
-        time = gmtime(&event.timestamp);
+        time = log4cplus::helpers::gmtime(&event.timestamp, &tmpTime);
     }
     else {
-        time = localtime(&event.timestamp);
+        time = log4cplus::helpers::localtime(&event.timestamp, &tmpTime);
     }
 
-    size_t result = log4cplus::helpers::strftime(buffer, BUFFER_SIZE, format.c_str(), time);
+    size_t result = log4cplus::helpers::strftime(buffer, BUFFER_SIZE, 
+                                                 format.c_str(), time);
     if(result > 0) {
         return log4cplus::tstring(buffer, result);
     }
