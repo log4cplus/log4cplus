@@ -32,8 +32,8 @@ namespace log4cplus {
     typedef std::wstring tstring;
 
     namespace helpers {
-        std::string tostring(const std::wstring&);
-        std::wstring towstring(const std::string&);
+        LOG4CPLUS_EXPORT std::string tostring(const std::wstring&);
+        LOG4CPLUS_EXPORT std::wstring towstring(const std::string&);
     }
 
 }
