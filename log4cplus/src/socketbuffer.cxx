@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/09/28 04:26:02  tcsmith
+// Added include for <winsock.h> on WIN32.
+//
 // Revision 1.3  2003/08/08 05:36:51  tcsmith
 // Changed the #if checks to look for _WIN32 and not WIN32.
 //
@@ -130,7 +133,8 @@ log4cplus::helpers::SocketBuffer::readShort()
     }
 
     unsigned short ret;
-    ret = ntohs( *((unsigned short*)&buffer[pos]) );
+    memcpy(&ret, buffer + pos, sizeof(ret));
+    ret = ntohs(ret);
     pos += sizeof(unsigned short);
 
     return ret;
@@ -151,9 +155,10 @@ log4cplus::helpers::SocketBuffer::readInt()
     }
 
     unsigned int ret;
-    ret = ntohl( *((unsigned int*)&buffer[pos]) );
+    memcpy (&ret, buffer + pos, sizeof(ret));
+    ret = ntohl(ret);
     pos += sizeof(unsigned int);
-
+    
     return ret;
 }
 
@@ -257,7 +262,8 @@ log4cplus::helpers::SocketBuffer::appendInt(unsigned int val)
         return;
     }
 
-    *((unsigned int*)&buffer[pos]) = htonl(val);
+    int i = htonl(val);
+    memcpy(buffer + pos, &i, sizeof (i));
     pos += sizeof(unsigned int);
     size = pos;
 }
@@ -272,7 +278,8 @@ log4cplus::helpers::SocketBuffer::appendSize_t(size_t val)
         return;
     }
 
-    *((size_t*)&buffer[pos]) = htonl(val);
+    size_t st = htonl(val);
+    memcpy(buffer + pos, &st, sizeof(st));
     pos += sizeof(size_t);
     size = pos;
 }
@@ -290,7 +297,7 @@ log4cplus::helpers::SocketBuffer::appendString(const tstring& str)
     }
 
     appendSize_t(strlen);
-    memcpy(&buffer[pos], str.c_str(), strlen);
+    memcpy(&buffer[pos], str.data(), strlen);
     pos += strlen;
     size = pos;
 #else
