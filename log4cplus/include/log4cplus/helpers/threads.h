@@ -17,6 +17,7 @@
 #define _LOG4CPLUS_THREADS_HEADER_
 
 #include <log4cplus/config.h>
+#include <log4cplus/helpers/sleep.h>
 #include <log4cplus/helpers/pointer.h>
 #include <memory>
 
@@ -26,7 +27,7 @@ namespace log4cplus {
     namespace thread {
 
         /**
-         * This is used to lock a mutex.  The dtor unlocks the mutes.
+         * This is used to lock a mutex.  The dtor unlocks the mutex.
          */
         class LOG4CPLUS_EXPORT Guard {
         public:
@@ -49,8 +50,6 @@ namespace log4cplus {
         DWORD WINAPI threadStartFunc(LPVOID arg);
 #endif
 
-        LOG4CPLUS_EXPORT void sleep(unsigned long secs, 
-                                    unsigned long nanosecs = 0);
         LOG4CPLUS_EXPORT void yield();
 
         /**
