@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/08/08 06:02:36  tcsmith
+// Added #pragma statement.
+//
 // Revision 1.2  2003/05/21 22:16:00  tcsmith
 // Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
 // of data".
@@ -148,7 +151,7 @@ log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
 size_t
 log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
-    return ::recv(sock, buffer.getBuffer(), buffer.getMaxSize(), 0);
+    return ::recv(sock, buffer.getBuffer(), static_cast<int>(buffer.getMaxSize()), 0);
 }
 
 
@@ -156,6 +159,6 @@ log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 size_t
 log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
-    return ::send(sock, buffer.getBuffer(), buffer.getSize(), 0);
+    return ::send(sock, buffer.getBuffer(), static_cast<int>(buffer.getSize()), 0);
 }
 
