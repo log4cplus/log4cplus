@@ -40,8 +40,13 @@ namespace log4cplus {
 
             /** "unlocks" <code>mutex</code>. */
             ~Guard() { LOG4CPLUS_MUTEX_UNLOCK( _mutex ); }
+
         private:
             LOG4CPLUS_MUTEX_PTR_DECLARE _mutex;
+ 
+            // disable copy
+            Guard(const Guard&);
+            Guard& operator=(const Guard&);
         };
 
 #ifdef LOG4CPLUS_USE_PTHREADS
