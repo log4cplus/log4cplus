@@ -1,0 +1,34 @@
+
+Short Description
+=================
+log4cplus is a A C++ implementation of the popular log4j Java API providing 
+flexible, thread-safe, and arbitrarily granular control over log management 
+and configuration. See http://jakarta.apache.org/log4j/ for more info on log4j.
+
+
+Latest Project Information
+==========================
+The latest up-to-date information for this project can be found at
+http://log4cplus.sourceforge.net.  Please submit bugs, patches, feature
+requests, etc. there.  You make also contact me directly: 
+tcsmith@user.sourceforge.net.
+
+
+Current Status
+==============
+This library is currently in Beta.  The goal is have approximately the same 
+level of functionality of log4j 1.1.3 before the first release.  The current
+estimate for the first release is March 2002.
+
+
+Tested on the following platforms
+=================================
+Linux(2.4.3 kernel)  gcc 2.95.3
+Windows 98           MS Visual C++ 6.0
+
+
+License
+=======
+This library is licensed under the Apache Public License.  Please read the
+included license.apl for details.
+
