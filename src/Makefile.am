@@ -17,6 +17,7 @@ liblog4cplus_a_SOURCES = appenderattachableimpl.cxx \
                          layout.cxx \
                          loglog.cxx \
                          ndc.cxx \
+			 objectregistry.cxx \
                          patternlayout.cxx \
                          pointer.cxx \
                          priority.cxx \
