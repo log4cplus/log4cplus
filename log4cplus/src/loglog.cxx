@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/04/18 21:15:17  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.4  2003/04/12 13:51:08  tcsmith
 // No longer dynamically allocate the object in the "singleton" method.
 //
@@ -23,18 +26,6 @@
 
 using namespace std;
 using namespace log4cplus::helpers;
-
-
-///////////////////////////////////////////////////////////////////////////////
-// File LOCAL definitions
-///////////////////////////////////////////////////////////////////////////////
-
-namespace {
-    class _static_LogLog_initializer {
-    public:
-        _static_LogLog_initializer() { log4cplus::helpers::getLogLog(); }
-    } initializer;
-}
 
 
 
