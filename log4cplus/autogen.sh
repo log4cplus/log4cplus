@@ -5,7 +5,7 @@ libtoolize --force --automake
 autoheader
 aclocal $ACLOCAL_FLAGS
 autoconf
-automake   --add-missing
+automake --ignore-deps  --add-missing
 
 echo 'run "configure; make"'
 
