@@ -106,8 +106,8 @@ namespace log4cplus {
         LOG4CPLUS_EXPORT SOCKET_TYPE acceptSocket(SOCKET_TYPE sock, SocketState& state);
         LOG4CPLUS_EXPORT int closeSocket(SOCKET_TYPE sock);
 
-        LOG4CPLUS_EXPORT int read(SOCKET_TYPE sock, SocketBuffer& buffer);
-        LOG4CPLUS_EXPORT int write(SOCKET_TYPE sock, const SocketBuffer& buffer);
+        LOG4CPLUS_EXPORT size_t read(SOCKET_TYPE sock, SocketBuffer& buffer);
+        LOG4CPLUS_EXPORT size_t write(SOCKET_TYPE sock, const SocketBuffer& buffer);
 
     } // end namespace helpers
 } // end namespace log4cplus

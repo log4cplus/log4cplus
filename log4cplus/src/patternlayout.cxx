@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/05/01 19:49:32  tcsmith
+// Fixed: "warning: comparison between signed and unsigned".
+//
 // Revision 1.6  2003/04/19 23:32:52  tcsmith
 // Fixed UNICODE support.
 //
@@ -57,8 +60,8 @@ namespace log4cplus {
          * their output.
          */
         struct FormattingInfo {
-            int  minLen;
-            int  maxLen;
+            int minLen;
+            size_t maxLen;
             bool leftAlign;
             FormattingInfo() { reset(); }
 
@@ -86,7 +89,7 @@ namespace log4cplus {
 
         private:
             int minLen;
-            int maxLen;
+            size_t maxLen;
             bool leftAlign;
         };
 
@@ -190,7 +193,7 @@ namespace log4cplus {
           // Methods
             log4cplus::tstring extractOption();
             int extractPrecisionOption();
-            void finalizeConverter(char c);
+            void finalizeConverter(log4cplus::tchar c);
 
           // Data
             log4cplus::tstring pattern;
@@ -250,12 +253,12 @@ log4cplus::pattern::PatternConverter::formatAndAppend
                      (log4cplus::tostream& output, const InternalLoggingEvent& event)
 {
     log4cplus::tstring s = convert(event);
-    int len = s.length();
+    size_t len = s.length();
 
     if(len > maxLen) {
         output << s.substr(len - maxLen);
     }
-    else if(len < minLen) {
+    else if(static_cast<int>(len) < minLen) {
         if(leftAlign) {
             output << s;
             output << log4cplus::tstring(minLen - len, LOG4CPLUS_TEXT(' '));
@@ -387,7 +390,7 @@ log4cplus::pattern::LoggerPatternConverter::convert
         return name;
     }
     else {
-        int len = name.length();
+        size_t len = name.length();
 
         // We substract 1 from 'len' when assigning to 'end' to avoid out of
         // bounds exception in return r.substring(end+1, len). This can happen
@@ -435,7 +438,7 @@ log4cplus::pattern::DatePatternConverter::convert
         time = localtime(&event.timestamp);
     }
 
-    int result = log4cplus::helpers::strftime(buffer, BUFFER_SIZE, format.c_str(), time);
+    size_t result = log4cplus::helpers::strftime(buffer, BUFFER_SIZE, format.c_str(), time);
     if(result > 0) {
         return log4cplus::tstring(buffer, result);
     }
@@ -608,7 +611,7 @@ log4cplus::pattern::PatternParser::parse()
 
 
 void
-log4cplus::pattern::PatternParser::finalizeConverter(char c) 
+log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c) 
 {
     PatternConverter* pc = 0;
     switch (c) {

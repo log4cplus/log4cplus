@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/05/04 07:25:16  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>
@@ -101,13 +104,13 @@ log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& state)
     struct sockaddr_in net_client;
     socklen_t len = sizeof(struct sockaddr);
     SOCKET_TYPE clientSock;
-    struct hostent *hostptr;
+//    struct hostent *hostptr;
 
     while(   (clientSock = ::accept(sock, (struct sockaddr*)&net_client, &len)) == -1
           && (errno == EINTR))
         ;
 
-    //hostptr = gethostbyaddr((char*)&(net_client.sin_addr.s_addr), 4, AF_INET);
+//    hostptr = gethostbyaddr((char*)&(net_client.sin_addr.s_addr), 4, AF_INET);
     if(clientSock != INVALID_SOCKET) {
         state = ok;
     }
@@ -125,7 +128,7 @@ log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
 
 
 
-int
+size_t
 log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
     return ::read(sock, buffer.getBuffer(), buffer.getMaxSize());
@@ -133,7 +136,7 @@ log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 
 
 
-int
+size_t
 log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
     return ::write(sock, buffer.getBuffer(), buffer.getSize());

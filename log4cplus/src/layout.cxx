@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/04/19 23:04:31  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.6  2003/04/18 21:19:42  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -38,10 +41,10 @@ log4cplus::tstring
 log4cplus::getFormattedTime(time_t time, const log4cplus::tstring& fmt)
 {
     tchar buffer[BUFFER_SIZE];
-    int len = log4cplus::helpers::strftime(buffer, 
-                                           BUFFER_SIZE, 
-                                           fmt.c_str(), 
-                                           gmtime(&time));
+    size_t len = log4cplus::helpers::strftime(buffer, 
+                                              BUFFER_SIZE, 
+                                              fmt.c_str(), 
+                                              gmtime(&time));
     buffer[len] = '\0';
     return tstring(buffer);
 }
