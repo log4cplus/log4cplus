@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/06/12 23:10:54  tcsmith
+// Added the Time class implementation.
+//
 // Revision 1.1  2003/06/04 18:54:31  tcsmith
 // Renamed strftime.cxx to timehelper.cxx
 //
@@ -42,6 +45,7 @@
 
 
 #define BUFFER_SIZE 40
+#define ONE_SEC_IN_USEC 1000000
 
 
 using namespace std;
@@ -210,7 +214,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt, bool use_gmtime) const
         tmp << ret.substr(0, pos);
         tmp << (tv_usec / 1000);
 #if defined(HAVE_GETTIMEOFDAY)
-	tmp << LOG4CPLUS_TEXT(".") << setw(3) << setfill('0') << (tv_usec % 1000);
+        tmp << LOG4CPLUS_TEXT(".") << setw(3) << setfill('0') << (tv_usec % 1000);
 #endif
         tmp << ret.substr(pos + 2);
         ret = tmp.str();
@@ -227,6 +231,11 @@ Time::operator+=(const Time& rhs)
     tv_sec += rhs.tv_sec;
     tv_usec += rhs.tv_usec;
 
+    if(tv_usec > ONE_SEC_IN_USEC) {
+        ++tv_sec;
+        tv_usec -= ONE_SEC_IN_USEC;
+    }
+
     return *this;
 }
 
@@ -237,6 +246,40 @@ Time::operator-=(const Time& rhs)
 {
     tv_sec -= rhs.tv_sec;
     tv_usec -= rhs.tv_usec;
+
+    if(tv_usec < 0) {
+        --tv_sec;
+        tv_usec += ONE_SEC_IN_USEC;
+    }
+
+    return *this;
+}
+
+
+
+Time&
+Time::operator/=(long rhs)
+{
+    long rem_secs = tv_sec % rhs;
+    tv_sec /= rhs;
+    
+    tv_usec /= rhs;
+    tv_usec += ((rem_secs * ONE_SEC_IN_USEC) / rhs);
+
+    return *this;
+}
+
+
+
+Time&
+Time::operator*=(long rhs)
+{
+    long new_usec = tv_usec * rhs;
+    long overflow_sec = new_usec / ONE_SEC_IN_USEC;
+    tv_usec = new_usec % ONE_SEC_IN_USEC;
+
+    tv_sec *= rhs;
+    tv_sec += overflow_sec;
 
     return *this;
 }
@@ -266,12 +309,28 @@ operator-(const Time& lhs, const Time& rhs)
 
 
 
+const Time
+operator/(const Time& lhs, long rhs)
+{
+    return Time(lhs) /= rhs;
+}
+
+
+
+const Time
+operator*(const Time& lhs, long rhs)
+{
+    return Time(lhs) *= rhs;
+}
+
+
+
 bool
 operator<(const Time& lhs, const Time& rhs)
 {
     return (   (lhs.sec() < rhs.sec())
             || (   (lhs.sec() == rhs.sec()) 
-		&& (lhs.usec() < rhs.usec())) );
+                && (lhs.usec() < rhs.usec())) );
 }
 
 
@@ -289,7 +348,7 @@ operator>(const Time& lhs, const Time& rhs)
 {
     return (   (lhs.sec() > rhs.sec())
             || (   (lhs.sec() == rhs.sec()) 
-		&& (lhs.usec() > rhs.usec())) );
+                && (lhs.usec() > rhs.usec())) );
 }
 
 
