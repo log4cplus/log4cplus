@@ -1,12 +1,12 @@
 
 
-lib_LIBRARIES = liblog4cplus.a
+lib_LTLIBRARIES = liblog4cplus.la
 
 AM_CPPFLAGS = -D_REENTRANT
 
 INCLUDES = -I../include 
 
-liblog4cplus_a_SOURCES = appenderattachableimpl.cxx \
+liblog4cplus_la_SOURCES = appenderattachableimpl.cxx \
                          appender.cxx \
                          configurator.cxx \
                          consoleappender.cxx \
@@ -23,8 +23,10 @@ liblog4cplus_a_SOURCES = appenderattachableimpl.cxx \
                          patternlayout.cxx \
                          pointer.cxx \
 			 property.cxx \
+			 rootlogger.cxx \
+			 stringhelper.cxx \
                          threads.cxx
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-#liblog4cplus_la_LDFLAGS = -version-info @LT_VERSION@
+liblog4cplus_la_LDFLAGS = -version-info @LT_VERSION@
 
