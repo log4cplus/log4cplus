@@ -27,12 +27,9 @@ main()
         LOG4CPLUS_WARN(root, "Starting test loop....")
         Time start = Time::gettimeofday();
         std::string msg("This is a WARNING...");
-        for(int i=0; i<LOOP_COUNT; ++i) {
-//            LOG4CPLUS_WARN(logger, "This is a WARNING...")
-            if(logger.isEnabledFor(log4cplus::WARN_LOG_LEVEL)) {
-                logger.forcedLog(log4cplus::WARN_LOG_LEVEL, 
-                                 msg, __FILE__, __LINE__);
-            }
+        int i = 0;
+        for(i=0; i<LOOP_COUNT; ++i) {
+            LOG4CPLUS_WARN(logger, msg)
         }
         Time end = Time::gettimeofday();
         Time diff = end - start;
@@ -40,7 +37,7 @@ main()
         LOG4CPLUS_WARN(root, "Logging average: " << (diff/LOOP_COUNT) << endl)
 
         start = Time::gettimeofday();
-        for(int i=0; i<LOOP_COUNT; ++i) {
+        for(i=0; i<LOOP_COUNT; ++i) {
             std::stringstream buffer;
 	    buffer /*<< "test"*/ << 123122;
 	    tstring tmp = buffer.str();
@@ -50,7 +47,7 @@ main()
         LOG4CPLUS_WARN(root, "tostringstream average: " << (diff/LOOP_COUNT) << endl)
 
         start = Time::gettimeofday();
-        for(int i=0; i<LOOP_COUNT; ++i) {
+        for(i=0; i<LOOP_COUNT; ++i) {
 	    log4cplus::spi::InternalLoggingEvent e(logger.getName(), log4cplus::WARN_LOG_LEVEL,
 			                         msg, 0, 0);
         }
@@ -61,7 +58,7 @@ main()
         LOG4CPLUS_WARN(root, "Creating log object average: " << (diff/LOOP_COUNT) << endl)
 
         start = Time::gettimeofday();
-        for(int i=0; i<LOOP_COUNT; ++i) {
+        for(i=0; i<LOOP_COUNT; ++i) {
 	    log4cplus::spi::InternalLoggingEvent e(logger.getName(), log4cplus::WARN_LOG_LEVEL,
 			                           msg, 0, 0);
 	    e.getNDC();
@@ -73,7 +70,7 @@ main()
         LOG4CPLUS_WARN(root, "Creating FULL log object average: " << (diff/LOOP_COUNT) << endl)
         
         start = Time::gettimeofday();
-        for(int i=0; i<LOOP_COUNT; ++i) {
+        for(i=0; i<LOOP_COUNT; ++i) {
             log4cplus::spi::InternalLoggingEvent e(logger.getName(), log4cplus::WARN_LOG_LEVEL,
 			                           msg, 0, 0);
 	    e.getNDC();
@@ -84,7 +81,7 @@ main()
         LOG4CPLUS_WARN(root, "getNDC() average: " << (diff/LOOP_COUNT) << endl)
         
         start = Time::gettimeofday();
-        for(int i=0; i<LOOP_COUNT; ++i) {
+        for(i=0; i<LOOP_COUNT; ++i) {
             log4cplus::spi::InternalLoggingEvent e(logger.getName(), log4cplus::WARN_LOG_LEVEL,
 			                           msg, 0, 0);
 	    e.getThread();
