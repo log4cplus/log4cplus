@@ -17,8 +17,8 @@
 #define _LOG4CPLUS_SPI_LOGGER_FACTORY_HEADER
 
 #include <log4cplus/config.h>
+#include <log4cplus/tstring.h>
 #include <log4cplus/helpers/pointer.h>
-#include <string>
 
 
 namespace log4cplus {
@@ -36,7 +36,7 @@ namespace log4cplus {
             /**
              * Creates a new <code>Logger</code> object.
              */
-            virtual Logger makeNewLoggerInstance(const std::string& name,
+            virtual Logger makeNewLoggerInstance(const log4cplus::tstring& name,
                                                  Hierarchy& h) = 0; 
             virtual ~LoggerFactory(){}
         };

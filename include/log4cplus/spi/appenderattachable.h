@@ -17,8 +17,8 @@
 #define _LOG4CPLUS_SPI_APPENDER_ATTACHABLE_HEADER_
 
 #include <log4cplus/config.h>
+#include <log4cplus/tstring.h>
 #include <log4cplus/helpers/pointer.h>
-#include <string>
 #include <vector>
 
 namespace log4cplus {
@@ -48,7 +48,7 @@ namespace log4cplus {
             /**
              * Get an appender by name.
              */
-            virtual SharedAppenderPtr getAppender(const std::string& name) = 0;
+            virtual SharedAppenderPtr getAppender(const log4cplus::tstring& name) = 0;
 
             /**
              * Remove all previously added appenders.
@@ -64,7 +64,7 @@ namespace log4cplus {
              * Remove the appender with the name passed as parameter from the
              * list of appenders.  
              */
-            virtual void removeAppender(const std::string& name) = 0;
+            virtual void removeAppender(const log4cplus::tstring& name) = 0;
 
           // Dtor
             virtual ~AppenderAttachable(){}

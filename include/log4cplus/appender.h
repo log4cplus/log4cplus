@@ -19,10 +19,11 @@
 #include <log4cplus/config.h>
 #include <log4cplus/layout.h>
 #include <log4cplus/loglevel.h>
+#include <log4cplus/tstring.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/property.h>
+
 #include <memory>
-#include <string>
 
 
 namespace log4cplus {
@@ -41,7 +42,7 @@ namespace log4cplus {
     class ErrorHandler {
     public:
         virtual ~ErrorHandler();
-        virtual void error(const std::string& err) = 0;
+        virtual void error(const log4cplus::tstring& err) = 0;
     };
 
 
@@ -51,7 +52,7 @@ namespace log4cplus {
       // Ctor
         OnlyOnceErrorHandler() : firstTime(true){}
 
-        virtual void error(const std::string& err);
+        virtual void error(const log4cplus::tstring& err);
 
     private:
         bool firstTime;
@@ -93,13 +94,13 @@ namespace log4cplus {
          * Get the name of this appender. The name uniquely identifies the
          * appender.  
          */
-        virtual std::string getName();
+        virtual log4cplus::tstring getName();
 
         /**
          * Set the name of this appender. The name is used by other
          * components to identify this appender.
          */
-        virtual void setName(const std::string& name);
+        virtual void setName(const log4cplus::tstring& name);
 
         /** 
          * Set the {@link ErrorHandler} for this Appender.
@@ -166,7 +167,7 @@ namespace log4cplus {
         std::auto_ptr<Layout> layout;
 
         /** Appenders are named. */
-        std::string name;
+	log4cplus::tstring name;
 
         /** There is no LogLevel threshold filtering by default.  */
         LogLevel threshold;

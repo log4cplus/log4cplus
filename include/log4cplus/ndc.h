@@ -17,9 +17,10 @@
 #define _LO4CPLUS_NDC_HEADER_
 
 #include <log4cplus/config.h>
+#include <log4cplus/tstring.h>
 #include <log4cplus/helpers/threads.h>
+
 #include <map>
-#include <string>
 #include <stack>
 
 
@@ -144,7 +145,7 @@ namespace log4cplus {
         /**
          * Used when printing the diagnostic context.
          */
-        std::string get();
+	log4cplus::tstring get();
 
         /**
          * Get the current nesting depth of this diagnostic context.
@@ -166,7 +167,7 @@ namespace log4cplus {
          *
          * @see NDCContextCreator
          */
-        std::string pop();
+	log4cplus::tstring pop();
 
         /**
          * Looks at the last diagnostic context at the top of this NDC
@@ -177,7 +178,7 @@ namespace log4cplus {
          *                          
          * @return String The innermost diagnostic context.
          */
-        std::string peek();
+	log4cplus::tstring peek();
 
         /**
          * Push new diagnostic context information for the current thread.
@@ -189,7 +190,7 @@ namespace log4cplus {
          *
          * @see NDCContextCreator
          */
-        void push(const std::string& message);
+        void push(const log4cplus::tstring& message);
 
         /**
          * Remove the diagnostic context for this thread.
@@ -261,12 +262,12 @@ namespace log4cplus {
      */
     struct DiagnosticContext {
       // Ctors
-        DiagnosticContext(const std::string& message, DiagnosticContext *parent);
-        DiagnosticContext(const std::string& message);
+        DiagnosticContext(const log4cplus::tstring& message, DiagnosticContext *parent);
+        DiagnosticContext(const log4cplus::tstring& message);
 
       // Data
-        std::string message; /*!< The message at this context level. */
-        std::string fullMessage; /*!< The entire message stack. */
+	log4cplus::tstring message; /*!< The message at this context level. */
+	log4cplus::tstring fullMessage; /*!< The entire message stack. */
     };
 
 
@@ -277,7 +278,7 @@ namespace log4cplus {
     class NDCContextCreator {
     public:
         /** Pushes <code>msg</code> onto the NDC stack. */
-        NDCContextCreator(const std::string& msg) { getNDC().push(msg); }
+        NDCContextCreator(const log4cplus::tstring& msg) { getNDC().push(msg); }
 
         /** Pops the NDC stack. */
         ~NDCContextCreator() { getNDC().pop(); }

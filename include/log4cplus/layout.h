@@ -18,10 +18,10 @@
 
 #include <log4cplus/config.h>
 #include <log4cplus/loglevel.h>
+#include <log4cplus/streams.h>
+#include <log4cplus/tstring.h>
 #include <log4cplus/helpers/property.h>
 
-#include <iostream>
-#include <string>
 #include <time.h>
 #include <vector>
 
@@ -37,7 +37,7 @@ namespace log4cplus {
     }
 
 
-    std::string getFormattedTime(time_t time, const std::string& fmt);
+    log4cplus::tstring getFormattedTime(time_t time, const log4cplus::tstring& fmt);
 
 
     /**
@@ -51,7 +51,7 @@ namespace log4cplus {
           : llmCache(getLogLevelManager())  {}
         virtual ~Layout() {}
 
-        virtual void formatAndAppend(std::ostream& output, 
+        virtual void formatAndAppend(log4cplus::tostream& output, 
                                      const log4cplus::spi::InternalLoggingEvent& event) = 0;
     protected:
         LogLevelManager& llmCache;
@@ -76,7 +76,7 @@ namespace log4cplus {
         SimpleLayout() {}
         SimpleLayout(log4cplus::helpers::Properties properties) : Layout(properties) {}
 
-        virtual void formatAndAppend(std::ostream& output, 
+        virtual void formatAndAppend(log4cplus::tostream& output, 
                                      const log4cplus::spi::InternalLoggingEvent& event);
     };
 
@@ -130,11 +130,11 @@ namespace log4cplus {
         TTCCLayout(log4cplus::helpers::Properties properties);
         virtual ~TTCCLayout();
 
-        virtual void formatAndAppend(std::ostream& output, 
+        virtual void formatAndAppend(log4cplus::tostream& output, 
                                      const log4cplus::spi::InternalLoggingEvent& event);
 
     protected:
-        std::string dateFormat;
+	log4cplus::tstring dateFormat;
     };
 
 
@@ -457,18 +457,18 @@ namespace log4cplus {
     class PatternLayout : public Layout {
     public:
       // Ctors and dtor
-        PatternLayout(const std::string& pattern);
+        PatternLayout(const log4cplus::tstring& pattern);
         PatternLayout(log4cplus::helpers::Properties properties);
         virtual ~PatternLayout();
 
-        virtual void formatAndAppend(std::ostream& output, 
+        virtual void formatAndAppend(log4cplus::tostream& output, 
                                      const log4cplus::spi::InternalLoggingEvent& event);
 
     protected:
-        void init(const std::string& pattern);
+        void init(const log4cplus::tstring& pattern);
 
         // Data
-        std::string pattern;
+	log4cplus::tstring pattern;
         std::vector<pattern::PatternConverter*> parsedPattern;
     };
 
