@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/04/19 23:04:31  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.2  2003/04/18 21:21:53  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -155,7 +158,7 @@ Logger::getParent() {
         return Logger(value->parent);
     }
     else {
-        getLogLog().error(LOG4CPLUS_TEXT("********* This logger has no parent: " + getName()));
+        value->getLogLog().error(LOG4CPLUS_TEXT("********* This logger has no parent: " + getName()));
         return *this;
     }
 }
@@ -172,7 +175,8 @@ void
 Logger::validate(const char *file, int line) const
 {
     if(value == NULL) {
-        getLogLog().error(LOG4CPLUS_TEXT("Logger::validate()- Internal log4cplus error: NullPointerException"));
+        SharedObjectPtr<LogLog> loglog = LogLog::getLogLog();
+        loglog->error(LOG4CPLUS_TEXT("Logger::validate()- Internal log4cplus error: NullPointerException"));
         log4cplus::helpers::throwNullPointerException(file, line);
     }
 }

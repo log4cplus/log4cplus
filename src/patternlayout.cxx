@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.13  2003/06/23 20:56:43  tcsmith
+// Modified to support the changes in the spi::InternalLoggingEvent class.
+//
 // Revision 1.12  2003/06/13 15:27:48  tcsmith
 // Modified to support changes to the InternalLoggingEvent.
 //
@@ -75,7 +78,7 @@ namespace log4cplus {
             FormattingInfo() { reset(); }
 
             void reset();
-            void dump();
+            void dump(log4cplus::helpers::LogLog&);
         };
 
 
@@ -86,7 +89,7 @@ namespace log4cplus {
          * class simply uses an array of PatternConverter objects to format
          * and append a logging event.
          */
-        class PatternConverter {
+        class PatternConverter : protected log4cplus::helpers::LogLogUser {
         public:
             PatternConverter(const FormattingInfo& info);
             virtual ~PatternConverter() {}
@@ -184,7 +187,7 @@ namespace log4cplus {
          * <p>
          * @see PatternLayout for the formatting of the "pattern" string.
          */
-        class PatternParser {
+        class PatternParser : protected log4cplus::helpers::LogLogUser {
         public:
             PatternParser(const log4cplus::tstring& pattern);
             std::vector<PatternConverter*> parse();
@@ -230,13 +233,13 @@ log4cplus::pattern::FormattingInfo::reset() {
 
 
 void 
-log4cplus::pattern::FormattingInfo::dump() {
+log4cplus::pattern::FormattingInfo::dump(log4cplus::helpers::LogLog& loglog) {
     log4cplus::tostringstream buf;
     buf << LOG4CPLUS_TEXT("min=") << minLen
         << LOG4CPLUS_TEXT(", max=") << maxLen
         << LOG4CPLUS_TEXT(", leftAlign=")
         << (buf ? LOG4CPLUS_TEXT("true") : LOG4CPLUS_TEXT("false"));
-    getLogLog().debug(buf.str());
+    loglog.debug(buf.str());
 }
 
 
@@ -589,7 +592,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
             pc = new LoggerPatternConverter(formattingInfo, 
                                             extractPrecisionOption());
             getLogLog().debug( LOG4CPLUS_TEXT("LOGGER converter.") );
-            formattingInfo.dump();      
+            formattingInfo.dump(getLogLog());      
             break;
 
         case LOG4CPLUS_TEXT('d'):
@@ -607,7 +610,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
                 //else {
                 //    getLogLog().debug("LOCAL DATE converter.");
                 //}
-                //formattingInfo.dump();      
+                //formattingInfo.dump(getLogLog());      
             }
             break;
 
@@ -616,7 +619,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
                           (formattingInfo, 
                            BasicPatternConverter::FILE_CONVERTER);
             //getLogLog().debug("FILE NAME converter.");
-            //formattingInfo.dump();      
+            //formattingInfo.dump(getLogLog());      
             break;
 
         case LOG4CPLUS_TEXT('l'):
@@ -624,7 +627,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
                           (formattingInfo, 
                            BasicPatternConverter::FULL_LOCATION_CONVERTER);
             //getLogLog().debug("FULL LOCATION converter.");
-            //formattingInfo.dump();      
+            //formattingInfo.dump(getLogLog());      
             break;
 
         case LOG4CPLUS_TEXT('L'):
@@ -632,7 +635,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
                           (formattingInfo, 
                            BasicPatternConverter::LINE_CONVERTER);
             //getLogLog().debug("LINE NUMBER converter.");
-            //formattingInfo.dump();      
+            //formattingInfo.dump(getLogLog());      
             break;
 
         case LOG4CPLUS_TEXT('m'):
@@ -640,7 +643,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
                           (formattingInfo, 
                            BasicPatternConverter::MESSAGE_CONVERTER);
             //getLogLog().debug("MESSAGE converter.");
-            //formattingInfo.dump();      
+            //formattingInfo.dump(getLogLog());      
             break;
 
         case LOG4CPLUS_TEXT('n'):
@@ -648,7 +651,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
                           (formattingInfo, 
                            BasicPatternConverter::NEWLINE_CONVERTER);
             //getLogLog().debug("MESSAGE converter.");
-            //formattingInfo.dump();      
+            //formattingInfo.dump(getLogLog());      
             break;
 
         case LOG4CPLUS_TEXT('p'):
@@ -656,7 +659,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
                           (formattingInfo, 
                            BasicPatternConverter::LOGLEVEL_CONVERTER);
             //getLogLog().debug("LOGLEVEL converter.");
-            //formattingInfo.dump();
+            //formattingInfo.dump(getLogLog());
             break;
 
         case LOG4CPLUS_TEXT('t'):
@@ -664,7 +667,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
                           (formattingInfo, 
                            BasicPatternConverter::THREAD_CONVERTER);
             //getLogLog().debug("THREAD converter.");
-            //formattingInfo.dump();      
+            //formattingInfo.dump(getLogLog());      
             break;
 
         case LOG4CPLUS_TEXT('x'):

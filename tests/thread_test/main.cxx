@@ -67,7 +67,7 @@ main()
     global = globalContainer.get();
 
     try {
-        log4cplus::helpers::getLogLog().setInternalDebugging(true);
+        log4cplus::helpers::LogLog::getLogLog()->setInternalDebugging(true);
         Logger logger = Logger::getInstance("main");
         Logger::getRoot().setLogLevel(INFO_LOG_LEVEL);
         LogLevel ll = logger.getLogLevel();

@@ -16,7 +16,7 @@ int
 main()
 {
     cout << "Entering main()..." << endl;
-    getLogLog().setInternalDebugging(true);
+    LogLog::getLogLog()->setInternalDebugging(true);
     try {
         SharedObjectPtr<Appender> append_1(new ConsoleAppender());
         append_1->setName("First");

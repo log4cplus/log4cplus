@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/06/23 20:56:43  tcsmith
+// Modified to support the changes in the spi::InternalLoggingEvent class.
+//
 // Revision 1.8  2003/06/13 15:27:48  tcsmith
 // Modified to support changes to the InternalLoggingEvent.
 //
@@ -176,7 +179,8 @@ log4cplus::helpers::readFromBuffer(SocketBuffer& buffer)
 {
     unsigned char msgVersion = buffer.readByte();
     if(msgVersion != LOG4CPLUS_MESSAGE_VERSION) {
-        getLogLog().warn(LOG4CPLUS_TEXT("helpers::readFromBuffer() received socket message with an invalid version"));
+        SharedObjectPtr<LogLog> loglog = log4cplus::helpers::LogLog::getLogLog();
+        loglog->warn(LOG4CPLUS_TEXT("helpers::readFromBuffer() received socket message with an invalid version"));
     }
 
     unsigned char sizeOfChar = buffer.readByte();

@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.12  2003/06/12 23:50:22  tcsmith
+// Modified to support the rename of the toupper and tolower methods.
+//
 // Revision 1.11  2003/06/03 20:25:57  tcsmith
 // Modified configure() so that it calls initializeLog4cplus().
 //
@@ -110,7 +113,9 @@ namespace {
      *
      * @param val The string on which variable substitution is performed.
      */
-    log4cplus::tstring substEnvironVars(const log4cplus::tstring& val) {
+    log4cplus::tstring substEnvironVars(const log4cplus::tstring& val,
+                                        log4cplus::helpers::LogLog& loglog) 
+    {
        log4cplus::tstring sbuf;
 
        tstring::size_type i = 0;
@@ -130,9 +135,9 @@ namespace {
                 sbuf += val.substr(i, j - i);
                 k = val.find(DELIM_STOP, j);
                 if(k == log4cplus::tstring::npos) {
-                    getLogLog().error(  LOG4CPLUS_TEXT('"') + val
-                                      + LOG4CPLUS_TEXT("\" has no closing brace. ") 
-                                      + LOG4CPLUS_TEXT("Opening brace at position TODO."));
+                    loglog.error(  LOG4CPLUS_TEXT('"') + val
+                                 + LOG4CPLUS_TEXT("\" has no closing brace. ") 
+                                 + LOG4CPLUS_TEXT("Opening brace at position TODO."));
                     return val;
                 }
                 else {
@@ -215,13 +220,13 @@ log4cplus::PropertyConfigurator::replaceEnvironVariables()
     for(; it!=keys.end(); ++it) {
         log4cplus::tstring key = *it;
         log4cplus::tstring val = properties.getProperty(key);
-        log4cplus::tstring subKey = substEnvironVars(key);
+        log4cplus::tstring subKey = substEnvironVars(key, getLogLog());
         if(subKey != key) {
             properties.removeProperty(key);
             properties.setProperty(subKey, val);
         }
 
-        log4cplus::tstring subVal = substEnvironVars(val);
+        log4cplus::tstring subVal = substEnvironVars(val, getLogLog());
         if(subVal != val) {
             properties.setProperty(subKey, subVal);
         }

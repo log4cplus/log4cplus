@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/06/03 20:25:19  tcsmith
+// Modified initializeLog4cplus() so that it can safely be called multiple
+// times.
+//
 // Revision 1.2  2003/05/04 08:41:33  tcsmith
 // Formatting cleanup.
 //
@@ -34,7 +38,7 @@ namespace log4cplus {
     void initializeLog4cplus() {
         static bool initialized = false;
         if(!initialized) {
-            log4cplus::helpers::getLogLog();
+            log4cplus::helpers::LogLog::getLogLog();
             getNDC();
             Logger::getRoot();
             initializeFactoryRegistry();

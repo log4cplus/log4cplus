@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.11  2003/06/13 15:25:07  tcsmith
+// Added the getCurrentThreadName() function.
+//
 // Revision 1.10  2003/06/04 18:56:41  tcsmith
 // Modified to use the new timehelper.h header.
 //
@@ -122,7 +125,8 @@ log4cplus::thread::getCurrentThreadName()
 #endif
 {
     if(arg == NULL) {
-        getLogLog().error(LOG4CPLUS_TEXT("log4cplus::thread::threadStartFunc()- arg is NULL"));
+        SharedObjectPtr<LogLog> loglog = LogLog::getLogLog();
+        loglog->error(LOG4CPLUS_TEXT("log4cplus::thread::threadStartFunc()- arg is NULL"));
     }
     else {
         AbstractThread* thread = static_cast<AbstractThread*>(arg);
