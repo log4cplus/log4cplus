@@ -1,5 +1,18 @@
+Version 1.0.2 (February 10, 2004)
+  - Added "ImmediateFlush" configuration option to log4cplus::ConsoleAppender.
+  - Added do while loops around the logging statements in the macros.
+  - Fixed Bug #875960 - "log4cplus::ConfigureAndWatchThread crash"
+  - Fixed Bug #992034 - "rpm[build] -ta log4cplus-1.0.1.tar.gz doesn't work"
+  - Fixed Bug #875724 - "ConfigureAndWatchThread and mounted file systems"
+  - Fixed Bug #842280 - "'Append' mode when using FileAppended from cfg file."
+    All FileAppenders now have the "Append" configuration option.  If this is
+    "true" any existing files will be opened with ios::append, otherwise they 
+    will be opened with ios::trunc.
+  - Fixed Bug #805203 - "%q ConversionFormat does not accept modifiers"
+
+
 Version 1.0.1 (December 18, 2003)
-  - Fixed Bug #831311 - "loggingserver.cxx clientsock.read()
+  - Fixed Bug #831311 - "loggingserver.cxx clientsock.read()"
   - Fixed Bug #851074 - "build problem HPUX 11, gcc 3.3"
   - Fixed Bug #805242 - "Crash in log4cplus::helpers::SocketBuffer::appendSize_t"
   - Fixed Bug #808119 - "TRACE_METHOD not displaying file name in log"
