@@ -4,12 +4,15 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
+// $Log: not supported by cvs2svn $
+
+#ifndef LOG4CPLUS_SINGLE_THREADED
 
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
@@ -26,8 +29,9 @@
 using namespace log4cplus::helpers;
 
 
-#ifndef LOG4CPLUS_SINGLE_THREADED
-
+///////////////////////////////////////////////////////////////////////////////
+// public methods
+///////////////////////////////////////////////////////////////////////////////
 
 LOG4CPLUS_MUTEX_PTR_DECLARE 
 log4cplus::thread::createNewMutex()
@@ -67,22 +71,6 @@ log4cplus::thread::createPthreadKey()
     return key;
 }
 #endif
-
-
-log4cplus::thread::Guard::~Guard()
-{
-    try {
-        LOG4CPLUS_MUTEX_UNLOCK( _mutex );
-    }
-    catch(std::exception& e) {
-        helpers::getLogLog().error(std::string("**** Guard::~Guard() exception: ") + e.what());
-        throw;
-    }
-    catch(...) {
-        helpers::getLogLog().error("**** Guard::~Guard() exception!!!!");
-        throw;
-    }
-}
 
 
 
@@ -170,6 +158,11 @@ log4cplus::thread::threadStartFunc(LPVOID arg)
 }
 
 
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::thread::AbstractThread ctor and dtor
+///////////////////////////////////////////////////////////////////////////////
+
 log4cplus::thread::AbstractThread::AbstractThread()
 : running(false)
 {
@@ -182,6 +175,10 @@ log4cplus::thread::AbstractThread::~AbstractThread()
 }
 
 
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::thread::AbstractThread public methods
+///////////////////////////////////////////////////////////////////////////////
 
 void
 log4cplus::thread::AbstractThread::start()
