@@ -47,6 +47,13 @@ TTCCLayout::TTCCLayout()
 }
 
 
+TTCCLayout::TTCCLayout(log4cplus::helpers::Properties properties)
+: Layout(properties),
+  dateFormat("%m-%d-%y %H:%M:%S")
+{
+}
+
+
 TTCCLayout::~TTCCLayout()
 {
 }
