@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/05/04 08:40:30  tcsmith
+// Fixed the readFromBuffer() to properly prepend the ServerName to the NDC.
+//
 // Revision 1.1  2003/05/04 07:25:16  tcsmith
 // Initial version.
 //
@@ -140,7 +143,9 @@ log4cplus::helpers::convertToBuffer(const log4cplus::spi::InternalLoggingEvent& 
     buffer.appendString(event.message);
     buffer.appendInt(event.thread);
     buffer.appendInt(event.timestamp);
-    buffer.appendString( (event.file == 0 ? tstring() : tstring(event.file)) );
+    buffer.appendString( (  event.file == 0 
+                          ? tstring() 
+                          : LOG4CPLUS_C_STR_TO_TSTRING(event.file)) );
     buffer.appendInt(event.line);
 
     return buffer;
