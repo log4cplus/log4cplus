@@ -28,20 +28,11 @@ namespace log4cplus {
     namespace spi {
 
         /**
-         * This template class is used as a "Object Registry".  Objects are
-         * "entered" into the registry with a "name" using the <code>put()</code>
-         * method.  (The registry then owns the object.)  These object can
-         * then be retrieved using the <code>get()</code> method.
-         * <p>
-         * <b>Note:</b>  This class is Thread-safe.
+         * This is the base class used to implement the functionality required
+         * by the ObjectRegistry template class.
          */
-        template<class T>
-        class ObjectRegistry {
+        class ObjectRegistryBase {
         public:
-          // Ctor and Dtor
-            ObjectRegistry();
-            ~ObjectRegistry();
-
           // public methods
             /**
              * Tests to see whether or not an object is bound in the
@@ -50,25 +41,40 @@ namespace log4cplus {
             bool exists(const std::string& name) const;
 
             /**
-             * Used the enter an object into the registry.  (The registry now
+             * Returns the names of all registered objects.
+             */
+            std::vector<std::string> getAllNames() const;
+
+        protected:
+          // Ctor and Dtor
+            ObjectRegistryBase();
+            virtual ~ObjectRegistryBase();
+
+          // protected methods
+            /**
+             * Used to enter an object into the registry.  (The registry now
              * owns <code>object</code>.)
              */
-            bool put(const std::string& name, std::auto_ptr<T> object);
+            bool putVal(const std::string& name, void* object);
 
             /**
              * Used to retrieve an object from the registry.  (The registry
              * owns the returned pointer.)
              */
-            T* get(const std::string& name) const;
+            void* getVal(const std::string& name) const;
 
             /**
-             * Returns the names of all registered objects.
+             * Deletes <code>object</code>.
              */
-            std::vector<std::string> getAllNames() const;
+            virtual void deleteObject(void *object) const = 0;
 
-        private:
+            /**
+             * Deletes all objects from this registry.
+             */
+            virtual void clear();
+
           // Types
-            typedef std::map<std::string, T*> ObjectMap;
+            typedef std::map<std::string, void*> ObjectMap;
 
           // Data
             LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
@@ -76,88 +82,44 @@ namespace log4cplus {
         };
 
 
-        // ------------------------------------------------------------
-        // ObjectRegistry template implementation
-        // ------------------------------------------------------------
 
+        /**
+         * This template class is used as a "Object Registry".  Objects are
+         * "entered" into the registry with a "name" using the <code>put()</code>
+         * method.  (The registry then owns the object.)  These object can
+         * then be retrieved using the <code>get()</code> method.
+         * <p>
+         * <b>Note:</b>  This class is Thread-safe.
+         */
         template<class T>
-        ObjectRegistry<T>::ObjectRegistry()
-         : mutex(LOG4CPLUS_MUTEX_CREATE)
-        {
-        }
-
-
-        template<class T>
-        ObjectRegistry<T>::~ObjectRegistry()
-        {
-            LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-            for(ObjectMap::iterator it=data.begin(); it!=data.end(); ++it) {
-                delete (*it).second;
+        class ObjectRegistry : ObjectRegistryBase {
+        public:
+            virtual ~ObjectRegistry() {
+                clear();
             }
-            LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
-            LOG4CPLUS_MUTEX_FREE( mutex );
-        }
 
+          // public methods
+            /**
+             * Used to enter an object into the registry.  (The registry now
+             * owns <code>object</code>.)
+             */
+            bool put(const std::string& name, std::auto_ptr<T> object) {
+                return putVal(name, object.release());
+            }
 
-        template<class T>
-        bool
-        ObjectRegistry<T>::exists(const std::string& name) const
-        {
-            LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-                return data.find(name) != data.end();
-            LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
-        }
+            /**
+             * Used to retrieve an object from the registry.  (The registry
+             * owns the returned pointer.)
+             */
+            T* get(const std::string& name) const {
+                return static_cast<T*>(getVal(name));
+            }
 
-
-        template<class T>
-        bool
-        ObjectRegistry<T>::put(const string& name, auto_ptr<T> object)
-        {
-            LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-                ObjectMap::value_type value(name, object.release());
-                pair<ObjectMap::iterator, bool> ret = data.insert(value);
-
-                if(ret.second) {
-                    return true;
-                }
-                else {
-                    delete value.second;
-                    return false;
-                }
-            LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
-        }
-
-
-        template<class T>
-        T*
-        ObjectRegistry<T>::get(const string& name) const
-        {
-            bool found = exists(name);
-            LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-                if(found) {
-                    return data.find(name)->second;
-                }
-                else {
-                    return 0;
-                }
-            LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
-        }
-
-
-        template<class T>
-        vector<string>
-        ObjectRegistry<T>::getAllNames() const
-        {
-            LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-            vector<string> tmp;
-                for(ObjectMap::const_iterator it=data.begin(); it!=data.end(); ++it) {
-                    tmp.push_back( (*it).first );
-                }
-
-                return tmp;
-            LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
-        }
-
+        protected:
+            virtual void deleteObject(void *object) const {
+                delete static_cast<T*>(object);
+            }
+        };
 
     }
 }
