@@ -75,41 +75,85 @@ namespace log4cplus {
 
     /** 
      * This method type defined the signature of methods that convert LogLevels
-     * into strings. */
-    typedef const log4cplus::tstring& (*LogLevelToStringMethod)(LogLevel);
+     * into strings. 
+     * <p>
+     * <b>Note:</b> Must return an empty <code>tstring</code> for unrecognized values.
+     */
+    typedef log4cplus::tstring (*LogLevelToStringMethod)(LogLevel);
 
-
+    /** 
+     * This method type defined the signature of methods that convert strings
+     * into LogLevels. 
+     * <p>
+     * <b>Note:</b> Must return <code>NOT_SET_LOG_LEVE</code> for unrecognized values.
+     */
     typedef LogLevel (*StringToLogLevelMethod)(const log4cplus::tstring&);
 
-    LOG4CPLUS_EXPORT const log4cplus::tstring& defaultLogLevelToStringMethod(LogLevel);
-    LOG4CPLUS_EXPORT LogLevel defaultStringToLogLevelMethod(const log4cplus::tstring&);
+    
 
+    /**
+     * This class is used to "manage" LogLevel definitions.  This class is also
+     * how "derived" LogLevels are created. Here are the steps to creating a
+     * "derived" LogLevel:
+     * <ol>
+     *   <li>Create a LogLevel constant (greater than 0)</li>
+     *   <li>Define a string to represent that constant</li>
+     *   <li>Implement a LogLevelToStringMethod method.</li>
+     *   <li>Implement a StringToLogLevelMethod method.</li>
+     *   <li>create a "static initializer" that registers those 2 methods
+     *       with the LogLevelManager singleton.</li>
+     * </ol>
+     */
     class LOG4CPLUS_EXPORT LogLevelManager {
     public:
         LogLevelManager();
+        ~LogLevelManager();
 
-        const log4cplus::tstring& toString(LogLevel ll) const 
-             { return toStringMethod(ll); }
-        LogLevel fromString(const log4cplus::tstring& s) const 
-             { return fromStringMethod(s); }
+        /**
+         * This method is called by all Layout classes to convert a LogLevel
+         * into a string.
+         * <p>
+         * Note: It traverses the list of <code>LogLevelToStringMethod</code>
+         *       to do this, so all "derived" LogLevels are recognized as well.
+         */
+        log4cplus::tstring toString(LogLevel ll) const;
+        
+        /**
+         * This method is called by all classes internally to log4cplus to
+         * convert a string into a LogLevel.
+         * <p>
+         * Note: It traverses the list of <code>StringToLogLevelMethod</code>
+         *       to do this, so all "derived" LogLevels are recognized as well.
+         */
+        LogLevel fromString(const log4cplus::tstring& s) const;
 
-        LogLevelToStringMethod setToStringMapper(LogLevelToStringMethod newToString) {
-            LogLevelToStringMethod tmp = toStringMethod;
-            toStringMethod = newToString;
-            return tmp;
-        }
+        /**
+         * When creating a "derived" LogLevel, a <code>LogLevelToStringMethod</code>
+         * should be defined and registered with the LogLevelManager by calling
+         * this method.
+         * <p>
+         * @see pushFromStringMethod
+         */
+        void pushToStringMethod(LogLevelToStringMethod newToString);
 
-        StringToLogLevelMethod setFromStringMapper(StringToLogLevelMethod newFromString) {
-            StringToLogLevelMethod tmp = fromStringMethod;
-            fromStringMethod = newFromString;
-            return tmp;
-        }
+        /**
+         * When creating a "derived" LogLevel, a <code>StringToLogLevelMethod</code>
+         * should be defined and registered with the LogLevelManager by calling
+         * this method.
+         * <p>
+         * @see pushToStringMethod
+         */
+        void pushFromStringMethod(StringToLogLevelMethod newFromString);
 
     private:
-        LogLevelToStringMethod toStringMethod;
-        StringToLogLevelMethod fromStringMethod;
+      // Data
+        void* toStringMethods;
+        void* fromStringMethods;
     };
 
+    /**
+     * Returns the singleton LogLevelManager.
+     */
     LOG4CPLUS_EXPORT LogLevelManager& getLogLevelManager();
 
 }

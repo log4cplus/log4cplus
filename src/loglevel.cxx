@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/06/12 23:51:45  tcsmith
+// Modified to support the rename of the toupper and tolower methods.
+//
 // Revision 1.6  2003/05/02 22:43:04  tcsmith
 // Moved the LogLevel string defintions out of the defaultLogLevelToStringMethod()
 // method.
@@ -49,60 +52,72 @@ using namespace log4cplus::helpers;
 #define _NOTSET_STRING LOG4CPLUS_TEXT("NOTSET")
 #define _UNKNOWN_STRING LOG4CPLUS_TEXT("UNKNOWN")
 
+#define GET_TO_STRING_NODE static_cast<ToStringNode*>(this->toStringMethods)
+#define GET_FROM_STRING_NODE static_cast<FromStringNode*>(this->fromStringMethods)
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+// file LOCAL definitions
+//////////////////////////////////////////////////////////////////////////////
+
 namespace {
-    static log4cplus::tstring FATAL_LOG_LEVEL_STR(_FATAL_STRING);
-    static log4cplus::tstring ERROR_LOG_LEVEL_STR(_ERROR_STRING);
-    static log4cplus::tstring WARN_LOG_LEVEL_STR(_WARN_STRING);
-    static log4cplus::tstring INFO_LOG_LEVEL_STR(_INFO_STRING);
-    static log4cplus::tstring DEBUG_LOG_LEVEL_STR(_DEBUG_STRING);
-    static log4cplus::tstring TRACE_LOG_LEVEL_STR(_TRACE_STRING);
-    static log4cplus::tstring NOT_SET_LOG_LEVEL_STR(_NOTSET_STRING);
-    static log4cplus::tstring UNKNOWN(_UNKNOWN_STRING);
-}
+    class ToStringNode {
+    public:
+        ToStringNode(LogLevelToStringMethod m) : method(m), next(0) {}
 
-
-
-const log4cplus::tstring& 
-log4cplus::defaultLogLevelToStringMethod(LogLevel ll)
-{
-    switch(ll) {
-        case FATAL_LOG_LEVEL: return FATAL_LOG_LEVEL_STR;
-        case ERROR_LOG_LEVEL: return ERROR_LOG_LEVEL_STR;
-        case WARN_LOG_LEVEL: return WARN_LOG_LEVEL_STR;
-        case INFO_LOG_LEVEL: return INFO_LOG_LEVEL_STR;
-        case DEBUG_LOG_LEVEL: return DEBUG_LOG_LEVEL_STR;
-        case TRACE_LOG_LEVEL: return TRACE_LOG_LEVEL_STR;
-        case NOT_SET_LOG_LEVEL: return NOT_SET_LOG_LEVEL_STR;
+        LogLevelToStringMethod method;
+        ToStringNode* next;
     };
+    
+    
+    class FromStringNode {
+    public:
+        FromStringNode(StringToLogLevelMethod m) : method(m), next(0) {}
 
-    return UNKNOWN;
+        StringToLogLevelMethod method;
+        FromStringNode* next;
+    };
+    
+    
+    
+    log4cplus::tstring
+    defaultLogLevelToStringMethod(LogLevel ll) {
+        switch(ll) {
+            case FATAL_LOG_LEVEL: return _FATAL_STRING;
+            case ERROR_LOG_LEVEL: return _ERROR_STRING;
+            case WARN_LOG_LEVEL: return _WARN_STRING;
+            case INFO_LOG_LEVEL: return _INFO_STRING;
+            case DEBUG_LOG_LEVEL: return _DEBUG_STRING;
+            case TRACE_LOG_LEVEL: return _TRACE_STRING;
+            case NOT_SET_LOG_LEVEL: return _NOTSET_STRING;
+        };
+        
+        return tstring();
+    }
+    
+    
+    LogLevel
+    defaultStringToLogLevelMethod(const log4cplus::tstring& arg) {
+        log4cplus::tstring s = log4cplus::helpers::toUpper(arg);
+        
+        if(s == _TRACE_STRING) return TRACE_LOG_LEVEL;
+        if(s == _DEBUG_STRING) return DEBUG_LOG_LEVEL;
+        if(s == _INFO_STRING)  return INFO_LOG_LEVEL;
+        if(s == _WARN_STRING)  return WARN_LOG_LEVEL;
+        if(s == _ERROR_STRING) return ERROR_LOG_LEVEL;
+        if(s == _FATAL_STRING) return FATAL_LOG_LEVEL;
+        
+        return NOT_SET_LOG_LEVEL;
+    }
+    
 }
 
 
 
-LogLevel 
-log4cplus::defaultStringToLogLevelMethod(const log4cplus::tstring& arg)
-{
-    log4cplus::tstring s = log4cplus::helpers::toUpper(arg);
-
-    if(s == _TRACE_STRING) return TRACE_LOG_LEVEL;
-    if(s == _DEBUG_STRING) return DEBUG_LOG_LEVEL;
-    if(s == _INFO_STRING)  return INFO_LOG_LEVEL;
-    if(s == _WARN_STRING)  return WARN_LOG_LEVEL;
-    if(s == _ERROR_STRING) return ERROR_LOG_LEVEL;
-    if(s == _FATAL_STRING) return FATAL_LOG_LEVEL;
-
-    return NOT_SET_LOG_LEVEL;
-}
-
-
-
-LogLevelManager::LogLevelManager() 
-: toStringMethod(defaultLogLevelToStringMethod),
-  fromStringMethod(defaultStringToLogLevelMethod)
-{
-}
-
+//////////////////////////////////////////////////////////////////////////////
+// public static methods
+//////////////////////////////////////////////////////////////////////////////
 
 LogLevelManager&
 log4cplus::getLogLevelManager() 
@@ -112,3 +127,105 @@ log4cplus::getLogLevelManager()
 }
 
 
+
+//////////////////////////////////////////////////////////////////////////////
+// log4cplus::LogLevelManager ctors and dtor
+//////////////////////////////////////////////////////////////////////////////
+
+LogLevelManager::LogLevelManager() 
+: toStringMethods(new ToStringNode(defaultLogLevelToStringMethod)),
+  fromStringMethods(new FromStringNode(defaultStringToLogLevelMethod))
+{
+}
+
+
+
+LogLevelManager::~LogLevelManager() 
+{
+    ToStringNode* toStringTmp = GET_TO_STRING_NODE;
+    while(toStringTmp) {
+        ToStringNode* tmp = toStringTmp;
+        toStringTmp = toStringTmp->next;
+        delete tmp;
+    }
+    
+    FromStringNode* fromStringTmp = GET_FROM_STRING_NODE;
+    while(fromStringTmp) {
+        FromStringNode* tmp = fromStringTmp;
+        fromStringTmp = fromStringTmp->next;
+        delete tmp;
+    }
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+// log4cplus::LogLevelManager public methods
+//////////////////////////////////////////////////////////////////////////////
+
+log4cplus::tstring 
+LogLevelManager::toString(LogLevel ll) const
+{
+    ToStringNode* toStringTmp = GET_TO_STRING_NODE;
+    while(toStringTmp) {
+        tstring ret = toStringTmp->method(ll);
+        if(ret.length() > 0) {
+            return ret;
+        }
+        toStringTmp = toStringTmp->next;
+    }
+    
+    return _UNKNOWN_STRING;
+}
+
+
+
+LogLevel 
+LogLevelManager::fromString(const log4cplus::tstring& s) const
+{
+    FromStringNode* fromStringTmp = GET_FROM_STRING_NODE;
+    while(fromStringTmp) {
+        LogLevel ret = fromStringTmp->method(s);
+        if(ret != NOT_SET_LOG_LEVEL) {
+            return ret;
+        }
+        fromStringTmp = fromStringTmp->next;
+    }
+    
+    return NOT_SET_LOG_LEVEL;
+}
+
+
+
+void 
+LogLevelManager::pushToStringMethod(LogLevelToStringMethod newToString)
+{
+    ToStringNode* toStringTmp = GET_TO_STRING_NODE;
+    while(1) {
+        if(toStringTmp->next) {
+            toStringTmp = toStringTmp->next;
+        }
+        else {
+            toStringTmp->next = new ToStringNode(newToString);
+            break;
+        }
+    }
+}
+
+
+
+void 
+LogLevelManager::pushFromStringMethod(StringToLogLevelMethod newFromString)
+{
+    FromStringNode* fromStringTmp = GET_FROM_STRING_NODE;
+    while(1) {
+        if(fromStringTmp->next) {
+            fromStringTmp = fromStringTmp->next;
+        }
+        else {
+            fromStringTmp->next = new FromStringNode(newFromString);
+            break;
+        }
+    }
+}
+        
