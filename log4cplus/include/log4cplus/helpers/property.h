@@ -77,6 +77,10 @@ namespace log4cplus {
              */
             void setProperty(const std::string& key, const std::string& value);
 
+            /**
+             * Removed the property index by <code>key</code> from this map.
+             */
+            bool removeProperty(const std::string& key);
 
             /**
              * Returns a subset of the "properties" whose keys start with
