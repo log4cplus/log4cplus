@@ -17,6 +17,22 @@
 #ifndef _LOG4CPLUS_LOGGING_MACROS_HEADER_
 #define _LOG4CPLUS_LOGGING_MACROS_HEADER_
 
+#if defined(LOG4CPLUS_DISABLE_FATAL) && !defined(LOG4CPLUS_DISABLE_ERROR)
+#define LOG4CPLUS_DISABLE_ERROR
+#endif
+#if defined(LOG4CPLUS_DISABLE_ERROR) && !defined(LOG4CPLUS_DISABLE_WARN)
+#define LOG4CPLUS_DISABLE_WARN
+#endif
+#if defined(LOG4CPLUS_DISABLE_WARN) && !defined(LOG4CPLUS_DISABLE_INFO)
+#define LOG4CPLUS_DISABLE_INFO
+#endif
+#if defined(LOG4CPLUS_DISABLE_INFO) && !defined(LOG4CPLUS_DISABLE_DEBUG)
+#define LOG4CPLUS_DISABLE_DEBUG
+#endif
+#if defined(LOG4CPLUS_DISABLE_DEBUG) && !defined(LOG4CPLUS_DISABLE_TRACE)
+#define LOG4CPLUS_DISABLE_TRACE
+#endif
+
 
 /**
  * @def LOG4CPLUS_TRACE(logger, logEvent)  This macro creates a TraceLogger 
@@ -24,7 +40,7 @@
  * exiting of a method.  
  * <code>logEvent</code> will be streamed into an <code>ostream</code>.
  */
-#if !defined(LOG4CPLUS_DISABLE_TRACE) && !defined(NDEBUG)
+#if !defined(LOG4CPLUS_DISABLE_TRACE)
 #define LOG4CPLUS_TRACE_METHOD(logger, logEvent) \
     log4cplus::TraceLogger _log4cplus_trace_logger(logger, logEvent);
 #define LOG4CPLUS_TRACE(logger, logEvent) \
