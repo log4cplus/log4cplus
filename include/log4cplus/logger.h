@@ -31,7 +31,6 @@
 namespace log4cplus {
     // Forward declarations
     namespace spi {
-        struct InternalLoggingEvent;
         class LoggerImpl;
         typedef helpers::SharedObjectPtr<LoggerImpl> SharedLoggerImplPtr;
     }

@@ -29,13 +29,6 @@
 
 namespace log4cplus {
 
-    // Forward Declarations
-    namespace spi {
-        struct InternalLoggingEvent;
-    }
-
-
-
     /**
      * This class is used to "handle" errors encountered in an {@link
      * #Appender}.

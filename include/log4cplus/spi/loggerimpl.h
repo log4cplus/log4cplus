@@ -29,9 +29,6 @@
 namespace log4cplus {
     namespace spi {
 
-        // Forward declarations
-        struct InternalLoggingEvent;
-
         /**
          * This is the central class in the log4cplus package. One of the
          * distintive features of log4cplus are hierarchical loggers and their

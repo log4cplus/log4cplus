@@ -22,6 +22,7 @@
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/spi/loggingevent.h>
 
 #include <vector>
 
@@ -29,9 +30,6 @@
 namespace log4cplus {
 
     // Forward Declarations
-    namespace spi {
-        struct InternalLoggingEvent;
-    }
     namespace pattern {
         class PatternConverter;
     }
