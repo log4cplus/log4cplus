@@ -11,10 +11,14 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/05/22 23:57:41  tcsmith
+// Corrected the file header information.
+//
 
 #include <log4cplus/helpers/sleep.h>
+#include <log4cplus/helpers/timehelper.h>
+
 #include <errno.h>
-#include <time.h>
 
 using namespace log4cplus;
 
