@@ -26,11 +26,11 @@ using namespace log4cplus::helpers;
 
 
 log4cplus::FileAppender::FileAppender(const std::string& filename, 
-                                      std::ios::open_mode mode)
+                                      std::ios::openmode mode)
 : out(filename.c_str(), mode),
   filename(filename)
 {
-    if(!out.is_open()) {
+    if(!out.good()) {
         getErrorHandler()->error("Unable to open file: " + filename);
         return;
     }
