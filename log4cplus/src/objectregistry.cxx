@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/04/03 01:10:38  tcsmith
+// Standardized the formatting.
+//
 
 #include <log4cplus/spi/objectregistry.h>
 
@@ -40,7 +43,7 @@ log4cplus::spi::ObjectRegistryBase::~ObjectRegistryBase()
 ///////////////////////////////////////////////////////////////////////////////
 
 bool
-log4cplus::spi::ObjectRegistryBase::exists(const std::string& name) const
+log4cplus::spi::ObjectRegistryBase::exists(const log4cplus::tstring& name) const
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
         return data.find(name) != data.end();
@@ -48,11 +51,11 @@ log4cplus::spi::ObjectRegistryBase::exists(const std::string& name) const
 }
 
 
-std::vector<std::string>
+std::vector<log4cplus::tstring>
 log4cplus::spi::ObjectRegistryBase::getAllNames() const
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        std::vector<std::string> tmp;
+        std::vector<log4cplus::tstring> tmp;
         for(ObjectMap::const_iterator it=data.begin(); it!=data.end(); ++it) {
             tmp.push_back( (*it).first );
         }
@@ -68,7 +71,7 @@ log4cplus::spi::ObjectRegistryBase::getAllNames() const
 ///////////////////////////////////////////////////////////////////////////////
 
 bool
-log4cplus::spi::ObjectRegistryBase::putVal(const std::string& name, void* object)
+log4cplus::spi::ObjectRegistryBase::putVal(const log4cplus::tstring& name, void* object)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
         ObjectMap::value_type value(name, object);
@@ -86,7 +89,7 @@ log4cplus::spi::ObjectRegistryBase::putVal(const std::string& name, void* object
 
 
 void*
-log4cplus::spi::ObjectRegistryBase::getVal(const std::string& name) const
+log4cplus::spi::ObjectRegistryBase::getVal(const log4cplus::tstring& name) const
 {
     bool found = exists(name);
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )

@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/04/03 01:31:43  tcsmith
+// Standardized the formatting.
+//
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
@@ -135,7 +138,7 @@ log4cplus::thread::threadStartFunc(LPVOID arg)
 #endif
 {
     if(arg == NULL) {
-        getLogLog().error("log4cplus::thread::threadStartFunc()- arg is NULL");
+        getLogLog().error(LOG4CPLUS_TEXT("log4cplus::thread::threadStartFunc()- arg is NULL"));
     }
     else {
         AbstractThread* thread = static_cast<AbstractThread*>(arg);

@@ -11,14 +11,17 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/04/03 00:49:07  tcsmith
+// Standardized the formatting.
+//
 
 #include <log4cplus/fileappender.h>
 #include <log4cplus/layout.h>
+#include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <algorithm>
-#include <sstream>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -32,7 +35,7 @@ using namespace log4cplus::helpers;
 // log4cplus::FileAppender ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-log4cplus::FileAppender::FileAppender(const std::string& filename, 
+log4cplus::FileAppender::FileAppender(const log4cplus::tstring& filename, 
                                       std::ios::openmode mode)
 {
     init(filename, mode);
@@ -43,9 +46,9 @@ log4cplus::FileAppender::FileAppender(log4cplus::helpers::Properties properties,
                                       std::ios::openmode mode)
 : Appender(properties)
 {
-     string filename = properties.getProperty("File");   
+     tstring filename = properties.getProperty( LOG4CPLUS_TEXT("File") );
      if(filename.length() == 0) {
-         getErrorHandler()->error("Invalid filename");
+         getErrorHandler()->error( LOG4CPLUS_TEXT("Invalid filename") );
          return;
      }
 
@@ -55,28 +58,30 @@ log4cplus::FileAppender::FileAppender(log4cplus::helpers::Properties properties,
 
 
 void
-log4cplus::FileAppender::init(const std::string& filename,
+log4cplus::FileAppender::init(const log4cplus::tstring& filename,
                               std::ios::openmode mode)
 {
     this->filename = filename;
     out.open(filename.c_str(), mode);
 
     if(!out.good()) {
-        getErrorHandler()->error("Unable to open file: " + filename);
+        getErrorHandler()->error(  LOG4CPLUS_TEXT("Unable to open file: ") 
+                                 + filename);
         return;
     }
-    getLogLog().debug("Just opened file: " + filename);
+    getLogLog().debug(LOG4CPLUS_TEXT("Just opened file: ") + filename);
 
     int columns = 80;
-    std::string tmp;
+    log4cplus::tstring tmp;
     tmp.resize(columns);
-    std::fill_n(tmp.begin(), columns, '#');
+    std::fill_n(tmp.begin(), columns, LOG4CPLUS_TEXT('#'));
     
     out << tmp << std::endl
-        << "#" << std::endl
-        << "# Created Appender on: " 
-        << getFormattedTime(time(NULL), "%m-%d-%y %H:%M:%S") << std::endl
-        << "#" << std::endl
+        << LOG4CPLUS_TEXT("#") << std::endl
+        << LOG4CPLUS_TEXT("# Created Appender on: ")
+        << getFormattedTime(time(0), LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S")) 
+        << std::endl
+        << LOG4CPLUS_TEXT("#") << std::endl
         << tmp << std::endl;
 }
 
@@ -113,7 +118,8 @@ void
 log4cplus::FileAppender::append(const spi::InternalLoggingEvent& event)
 {
     if(!out.is_open()) {
-        getErrorHandler()->error("file is not open: " + filename);
+        getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
+                                 + filename);
         return;
     }
 
@@ -127,7 +133,7 @@ log4cplus::FileAppender::append(const spi::InternalLoggingEvent& event)
 // log4cplus::RollingFileAppender ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-log4cplus::RollingFileAppender::RollingFileAppender(const std::string& filename,
+log4cplus::RollingFileAppender::RollingFileAppender(const log4cplus::tstring& filename,
                                                     long maxFileSize,
                                                     int maxBackupIndex)
 : FileAppender(filename, std::ios::app)
@@ -142,20 +148,21 @@ log4cplus::RollingFileAppender::RollingFileAppender(log4cplus::helpers::Properti
 {
     int maxFileSize = 10*1024*1024;
     int maxBackupIndex = 1;
-    if(properties.exists("MaxFileSize")) {
-        string tmp = toupper( properties.getProperty("MaxFileSize") );
-        maxFileSize = atoi(tmp.c_str());
-        if(tmp.find("MB") == (tmp.length() - 2)) {
+    if(properties.exists( LOG4CPLUS_TEXT("MaxFileSize") )) {
+        tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("MaxFileSize") );
+        tmp = toupper(tmp);
+        maxFileSize = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
+        if(tmp.find( LOG4CPLUS_TEXT("MB") ) == (tmp.length() - 2)) {
             maxFileSize *= (1024 * 1024); // convert to megabytes
         }
-        if(tmp.find("KB") == (tmp.length() - 2)) {
+        if(tmp.find( LOG4CPLUS_TEXT("KB") ) == (tmp.length() - 2)) {
             maxFileSize *= 1024; // convert to kilobytes
         }
     }
 
-    if(properties.exists("MaxBackupIndex")) {
-        string tmp = properties.getProperty("MaxBackupIndex");
-        maxBackupIndex = atoi(tmp.c_str());
+    if(properties.exists( LOG4CPLUS_TEXT("MaxBackupIndex") )) {
+        tstring tmp = properties.getProperty(LOG4CPLUS_TEXT("MaxBackupIndex"));
+        maxBackupIndex = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
     }
 
     init(maxFileSize, maxBackupIndex);
@@ -190,7 +197,8 @@ void
 log4cplus::RollingFileAppender::append(const spi::InternalLoggingEvent& event)
 {
     if(!out.is_open()) {
-        getErrorHandler()->error("file is not open: " + filename);
+        getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
+                                 + filename);
         return;
     }
 
@@ -209,19 +217,22 @@ log4cplus::RollingFileAppender::rollover()
     // If maxBackups <= 0, then there is no file renaming to be done.
     if(maxBackupIndex > 0) {
         // Delete the oldest file
-        std::ostringstream buffer;
-        buffer << filename << '.' << maxBackupIndex;
+        log4cplus::tostringstream buffer;
+        buffer << filename << LOG4CPLUS_TEXT('.') << maxBackupIndex;
         remove(buffer.str().c_str());
 
         // Map {(maxBackupIndex - 1), ..., 2, 1} to {maxBackupIndex, ..., 3, 2}
         for(int i=maxBackupIndex - 1; i >= 1; i--) {
-            std::ostringstream source;
-            std::ostringstream target;
+            log4cplus::tostringstream source;
+            log4cplus::tostringstream target;
 
-            source << filename << '.' << i;
-            target << filename << '.' << (i+1);
+            source << filename << LOG4CPLUS_TEXT('.') << i;
+            target << filename << LOG4CPLUS_TEXT('.') << (i+1);
             if(rename(source.str().c_str(), target.str().c_str()) == 0) {
-                getLogLog().debug("Renamed file " + source.str() + " to " + target.str());
+                getLogLog().debug(  LOG4CPLUS_TEXT("Renamed file ") 
+                                  + source.str() 
+                                  + LOG4CPLUS_TEXT(" to ")
+                                  + target.str());
             }
         }
 
@@ -231,15 +242,19 @@ log4cplus::RollingFileAppender::rollover()
                      // flags should remain unchanged on a close
 
         // Rename fileName to fileName.1
-        std::string target = filename + ".1";
-        getLogLog().debug("Renaming file " + filename + " to " + target);
+        log4cplus::tstring target = filename + LOG4CPLUS_TEXT(".1");
+        getLogLog().debug(  LOG4CPLUS_TEXT("Renaming file ") 
+                          + filename 
+                          + LOG4CPLUS_TEXT(" to ")
+                          + target);
         rename(filename.c_str(), target.c_str());
 
         // Open a new file
         out.open(filename.c_str(), std::ios::out | std::ios::trunc);
     }
     else {
-        getLogLog().debug(filename + " has no backups specified");
+        getLogLog().debug(  filename 
+                          + LOG4CPLUS_TEXT(" has no backups specified"));
         // Close the current file
         out.close();
         out.clear(); // reset flags since the C++ standard specified that all the
