@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/06/23 20:56:43  tcsmith
+// Modified to support the changes in the spi::InternalLoggingEvent class.
+//
 // Revision 1.5  2003/06/06 17:04:31  tcsmith
 // Changed the ctor to take a 'const' Properties object.
 //
@@ -32,6 +35,8 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
+
+#pragma comment(lib, "advapi32.lib")
 
 
 using namespace log4cplus;
