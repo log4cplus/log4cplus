@@ -17,6 +17,7 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                          consoleappender.cxx \
 			 factory.cxx \
                          fileappender.cxx \
+                         filter.cxx \
 			 global-init.cxx \
                          hierarchy.cxx \
                          layout.cxx \
@@ -24,7 +25,6 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                          loggerimpl.cxx \
                          loglevel.cxx \
                          loglog.cxx \
-                         loglogimpl.cxx \
                          ndc.cxx \
 			 objectregistry.cxx \
                          patternlayout.cxx \

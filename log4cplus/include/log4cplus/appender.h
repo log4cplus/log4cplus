@@ -22,6 +22,7 @@
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/spi/filter.h>
 
 #include <memory>
 
@@ -88,7 +89,7 @@ namespace log4cplus {
          * delegating actual logging to the subclasses specific {@link
          * AppenderSkeleton#append} method.
          */
-        virtual void doAppend(const log4cplus::spi::InternalLoggingEvent& event);
+        void doAppend(const log4cplus::spi::InternalLoggingEvent& event);
 
         /**
          * Get the name of this appender. The name uniquely identifies the
@@ -126,6 +127,16 @@ namespace log4cplus {
          * This class owns the returned pointer.
          */
         virtual Layout* getLayout();
+
+	/**
+	 * Set the filter chain on this Appender.
+	 */
+	void setFilter(log4cplus::spi::FilterPtr f) { filter = f; }
+
+	/**
+	 * Get the filter chain on this Appender.
+	 */
+	log4cplus::spi::FilterPtr getFilter() const { return filter; }
 
         /**
          * Returns this appenders threshold LogLevel. See the {@link
@@ -171,6 +182,10 @@ namespace log4cplus {
 
         /** There is no LogLevel threshold filtering by default.  */
         LogLevel threshold;
+
+        /** The first filter in the filter chain. Set to <code>null</code>
+         *  initially. */
+        log4cplus::spi::FilterPtr filter;
 
         /** It is assumed and enforced that errorHandler is never null. */
         std::auto_ptr<ErrorHandler> errorHandler;

@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  2003/05/14 23:07:16  tcsmith
+// Fixed some TABs.
+//
 // Revision 1.7  2003/04/18 21:00:34  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -152,6 +155,10 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
         if(!isAsSevereAsThreshold(event.ll)) {
             return;
         }
+
+	if(checkFilter(filter.get(), event) == DENY) {
+            return;
+	}
 
         append(event);
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
