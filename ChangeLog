@@ -1,3 +1,13 @@
+Version 1.0.1 (December 18, 2003)
+  - Fixed Bug #831311 - "loggingserver.cxx clientsock.read()
+  - Fixed Bug #851074 - "build problem HPUX 11, gcc 3.3"
+  - Fixed Bug #805242 - "Crash in log4cplus::helpers::SocketBuffer::appendSize_t"
+  - Fixed Bug #808119 - "TRACE_METHOD not displaying file name in log"
+  - Fixed Bug #827804 - "UMR in ConfigurationWatchdogThread"
+  - Fixed Bug #851116 - "Can not build"
+  - Added the OFF_LOG_LEVEL and the ALL_LOG_LEVEL LogLevels.
+
+
 Version 1.0 (September 6 2003)
   - Fix Bug #96934.  (fileappender.cxx would not compile in a UNICODE build)
   - Fixed compilation warning in MSVC for pointer.h
