@@ -20,6 +20,7 @@
 
 #include <log4cplus/config.h>
 #include <log4cplus/tstring.h>
+#include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/threads.h>
 
 #include <map>
@@ -101,7 +102,7 @@ namespace log4cplus {
      * #cloneStack cloneStack} method and pass the reference to any other
      * thread, in particular to a child.
      */
-    class LOG4CPLUS_EXPORT NDC {
+    class LOG4CPLUS_EXPORT NDC : protected log4cplus::helpers::LogLogUser {
     public:
         /**
          * Clear any nested diagnostic information if any. This method is

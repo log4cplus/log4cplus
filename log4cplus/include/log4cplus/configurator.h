@@ -20,6 +20,7 @@
 #include <log4cplus/appender.h>
 #include <log4cplus/hierarchy.h>
 #include <log4cplus/logger.h>
+#include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/property.h>
 
 #include <map>
@@ -47,7 +48,8 @@ namespace log4cplus {
      * configuration file being parsed.  The corresponding value replaces
      * the ${variableName} sequence.
      */
-    class LOG4CPLUS_EXPORT PropertyConfigurator {
+    class LOG4CPLUS_EXPORT PropertyConfigurator : protected log4cplus::helpers::LogLogUser
+    {
     public:
         // ctor and dtor
         PropertyConfigurator(const log4cplus::tstring& propertyFile);

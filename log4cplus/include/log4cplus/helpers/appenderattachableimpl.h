@@ -19,8 +19,9 @@
 #include <log4cplus/config.h>
 #include <log4cplus/layout.h>
 #include <log4cplus/tstring.h>
-#include <log4cplus/helpers/threads.h>
+#include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/pointer.h>
+#include <log4cplus/helpers/threads.h>
 #include <log4cplus/spi/appenderattachable.h>
 
 #include <memory>
@@ -33,7 +34,10 @@ namespace log4cplus {
         /**
          * This Interface is for attaching Appenders to objects.
          */
-        class LOG4CPLUS_EXPORT AppenderAttachableImpl : public log4cplus::spi::AppenderAttachable {
+        class LOG4CPLUS_EXPORT AppenderAttachableImpl 
+                                   : public log4cplus::spi::AppenderAttachable,
+                                     protected log4cplus::helpers::LogLogUser
+        {
         public:
           // Data
             LOG4CPLUS_MUTEX_PTR_DECLARE mutex;

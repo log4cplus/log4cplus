@@ -18,6 +18,7 @@
 
 #include <log4cplus/config.h>
 #include <log4cplus/logger.h>
+#include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/pointer.h>
 #include <map>
 #include <memory>
@@ -45,7 +46,7 @@ namespace log4cplus {
      * to the provision node. Other descendants of the same ancestor add
      * themselves to the previously created provision node.
      */
-    class LOG4CPLUS_EXPORT Hierarchy {
+    class LOG4CPLUS_EXPORT Hierarchy : protected log4cplus::helpers::LogLogUser {
     public:
         // DISABLE_OFF should be set to a value lower than all possible
         // priorities.
