@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/09/05 08:10:10  tcsmith
+// No longer uses MSG_NOSIGNAL when it is not defined.
+//
 // Revision 1.6  2003/08/27 14:58:03  tcsmith
 // Made some minor changes to make the socket code more robust.
 //
@@ -35,7 +38,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
 
-#if defined(__APPLE__) || defined(__FreeBSD__)
+#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__)
 #include <netinet/in.h>
 #endif
 
