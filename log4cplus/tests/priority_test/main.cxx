@@ -29,27 +29,27 @@ main()
     Logger subTest = Logger::getInstance("test.subtest");
     LogLevelManager& llm = getLogLevelManager();
 
-    LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()))
-    LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()))
-    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()))
+    LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()));
+    LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()));
+    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()));
 
-    LOG4CPLUS_FATAL(root, "\nSetting test.subtest to WARN")
+    LOG4CPLUS_FATAL(root, "\nSetting test.subtest to WARN");
     subTest.setLogLevel(WARN_LOG_LEVEL);
-    LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()))
-    LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()))
-    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()))
+    LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()));
+    LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()));
+    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()));
 
-    LOG4CPLUS_FATAL(root, "\nSetting test to ERROR")
+    LOG4CPLUS_FATAL(root, "\nSetting test to ERROR");
     test.setLogLevel(ERROR_LOG_LEVEL);
-    LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()))
-    LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()))
-    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()))
+    LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()));
+    LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()));
+    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()));
 
-    LOG4CPLUS_FATAL(root, "\nSetting test.subtest to NOT_SET_LOG_LEVEL")
+    LOG4CPLUS_FATAL(root, "\nSetting test.subtest to NOT_SET_LOG_LEVEL");
     subTest.setLogLevel(NOT_SET_LOG_LEVEL);
-    LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()))
-    LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()))
-    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()) << '\n')
+    LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()));
+    LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()));
+    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()) << '\n');
 
     writeLogMessage();
     cout << "Returned from writeLogMessage()..." << endl;
