@@ -4,17 +4,18 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
+// $Log: not supported by cvs2svn $
 
 #include <log4cplus/hierarchy.h>
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/spi/categoryimpl.h>
-#include <log4cplus/spi/rootcategory.h>
+#include <log4cplus/spi/loggerimpl.h>
+#include <log4cplus/spi/rootlogger.h>
 #include <iostream>
 #include <string>
 #include <utility>
@@ -22,8 +23,8 @@
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 
-const int log4cplus::Hierarchy::DISABLE_OFF = -1;
-const int log4cplus::Hierarchy::DISABLE_OVERRIDE = -2;
+const LogLevel log4cplus::Hierarchy::DISABLE_OFF = -1;
+const LogLevel log4cplus::Hierarchy::DISABLE_OVERRIDE = -2;
 
 
 
@@ -42,13 +43,13 @@ namespace {
 
 Hierarchy::Hierarchy()
   : hashtable_mutex(LOG4CPLUS_MUTEX_CREATE),
-    defaultFactory(new DefaultCategoryFactory()),
+    defaultFactory(new DefaultLoggerFactory()),
     root(NULL),
-    disableValue(DISABLE_OFF),  // Don't disable any priority level by default.
+    disableValue(DISABLE_OFF),  // Don't disable any LogLevel level by default.
     emittedNoAppenderWarning(false),
     emittedNoResourceBundleWarning(false)
 {
-    root = new Category( new spi::RootCategory(*this, Priority(Priority::DEBUG_PRI)) );
+    root = new Logger( new spi::RootLogger(*this, DEBUG_LOG_LEVEL) );
 }
 
 
@@ -65,7 +66,7 @@ Hierarchy::clear()
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
         provisionNodes.erase(provisionNodes.begin(), provisionNodes.end());
-        categoryPtrs.erase(categoryPtrs.begin(), categoryPtrs.end());
+        loggerPtrs.erase(loggerPtrs.begin(), loggerPtrs.end());
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
 }
 
@@ -74,26 +75,26 @@ bool
 Hierarchy::exists(const std::string& name)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
-        CategoryMap::iterator it = categoryPtrs.find(name);
-        return it != categoryPtrs.end();
+        LoggerMap::iterator it = loggerPtrs.find(name);
+        return it != loggerPtrs.end();
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
 }
 
 
 void 
-Hierarchy::disable(const std::string& priorityStr)
+Hierarchy::disable(const std::string& loglevelStr)
 {
     if(disableValue != DISABLE_OVERRIDE) {
-        disableValue = Priority::toPriority(priorityStr).toInt();
+        disableValue = getLogLevelManager().fromString(loglevelStr);
     }
 }
 
 
 void 
-Hierarchy::disable(const Priority& p)
+Hierarchy::disable(LogLevel ll) 
 {
     if(disableValue != DISABLE_OVERRIDE) {
-        disableValue = p.toInt();
+        disableValue = ll;
     }
 }
 
@@ -101,21 +102,21 @@ Hierarchy::disable(const Priority& p)
 void 
 Hierarchy::disableAll() 
 { 
-    disable(Priority::FATAL_PRI); 
+    disable(FATAL_LOG_LEVEL);
 }
 
 
 void 
 Hierarchy::disableDebug() 
 { 
-    disable(Priority::DEBUG_PRI); 
+    disable(DEBUG_LOG_LEVEL);
 }
 
 
 void 
 Hierarchy::disableInfo() 
 { 
-    disable(Priority::INFO_PRI); 
+    disable(INFO_LOG_LEVEL);
 }
 
 
@@ -126,25 +127,25 @@ Hierarchy::enableAll()
 }
 
 
-Category 
+Logger 
 Hierarchy::getInstance(const std::string& name) 
 { 
     return getInstance(name, *defaultFactory); 
 }
 
 
-Category 
-Hierarchy::getInstance(const std::string& name, spi::CategoryFactory& factory)
+Logger 
+Hierarchy::getInstance(const std::string& name, spi::LoggerFactory& factory)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
-        CategoryMap::iterator it = categoryPtrs.find(name);
-        if(it != categoryPtrs.end()) {
+        LoggerMap::iterator it = loggerPtrs.find(name);
+        if(it != loggerPtrs.end()) {
             return (*it).second;
         }
         else {
-            // Need to create a new category
-            Category cat = factory.makeNewCategoryInstance(name, *this);
-            bool inserted = categoryPtrs.insert(std::make_pair(name, cat)).second;
+            // Need to create a new logger
+            Logger cat = factory.makeNewLoggerInstance(name, *this);
+            bool inserted = loggerPtrs.insert(std::make_pair(name, cat)).second;
             if(!inserted) {
                 getLogLog().error("Hierarchy::getInstance()- Insert failed");
                 throw std::runtime_error("Hierarchy::getInstance()- Insert failed");
@@ -174,21 +175,21 @@ Hierarchy::isDisabled(int level)
 }
 
 
-Category 
+Logger 
 Hierarchy::getRoot() 
 { 
     return *root; 
 }
 
 
-CategoryList 
-Hierarchy::getCurrentCategories()
+LoggerList 
+Hierarchy::getCurrentLoggers()
 {
-    CategoryList ret;
+    LoggerList ret;
  
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
-        for(CategoryMap::iterator it=categoryPtrs.begin(); 
-            it!= categoryPtrs.end(); 
+        for(LoggerMap::iterator it=loggerPtrs.begin(); 
+            it!= loggerPtrs.end(); 
             ++it) 
         {
             ret.push_back((*it).second);
@@ -202,15 +203,15 @@ Hierarchy::getCurrentCategories()
 void 
 Hierarchy::resetConfiguration()
 {
-    getRoot().setPriority(Priority::DEBUG_PRI);
+    getRoot().setLogLevel(DEBUG_LOG_LEVEL);
     disableValue = DISABLE_OFF;
 
     shutdown();
 
-    CategoryList cats = getCurrentCategories();
-    CategoryList::iterator it = cats.begin();
+    LoggerList cats = getCurrentLoggers();
+    LoggerList::iterator it = cats.begin();
     while(it != cats.end()) {
-        (*it).setPriority(NULL);
+        (*it).setLogLevel(NOT_SET_LOG_LEVEL);
         (*it).setAdditivity(true);
         ++it;
     }
@@ -219,7 +220,7 @@ Hierarchy::resetConfiguration()
 
 
 void 
-Hierarchy::setCategoryFactory(std::auto_ptr<spi::CategoryFactory> factory) 
+Hierarchy::setLoggerFactory(std::auto_ptr<spi::LoggerFactory> factory) 
 { 
     defaultFactory = factory; 
 }
@@ -228,16 +229,16 @@ Hierarchy::setCategoryFactory(std::auto_ptr<spi::CategoryFactory> factory)
 void 
 Hierarchy::shutdown()
 {
-    Category rootCat = getRoot();
-    CategoryList cats = getCurrentCategories();
+    Logger root = getRoot();
+    LoggerList cats = getCurrentLoggers();
 
     // begin by closing nested appenders
     // then, remove all appenders
-    rootCat.closeNestedAppenders();
-    rootCat.removeAllAppenders();
+    root.closeNestedAppenders();
+    root.removeAllAppenders();
 
     // repeat
-    CategoryList::iterator it = cats.begin();
+    LoggerList::iterator it = cats.begin();
     while(it != cats.end()) {
         (*it).closeNestedAppenders();
         (*it).removeAllAppenders();
@@ -247,7 +248,7 @@ Hierarchy::shutdown()
 
 
 void 
-Hierarchy::updateParents(Category cat)
+Hierarchy::updateParents(Logger cat)
 {
     std::string name = cat.getName();
     int length = name.length();
@@ -260,8 +261,8 @@ Hierarchy::updateParents(Category cat)
     {
         std::string substr = name.substr(0, i);
 
-        CategoryMap::iterator it = categoryPtrs.find(substr);
-        if(it != categoryPtrs.end()) {
+        LoggerMap::iterator it = loggerPtrs.find(substr);
+        if(it != loggerPtrs.end()) {
             parentFound = true;
             cat.value->parent = it->second.value;
             break;  // no need to update the ancestors of the closest ancestor
@@ -282,7 +283,7 @@ Hierarchy::updateParents(Category cat)
                     throw std::runtime_error("Hierarchy::updateParents()- Insert failed");
                 }
             }
-        } // end if Category found
+        } // end if Logger found
     } // end for loop
 
     if(!parentFound) {
@@ -292,11 +293,11 @@ Hierarchy::updateParents(Category cat)
 
 
 void 
-Hierarchy::updateChildren(ProvisionNode& pn, Category cat)
+Hierarchy::updateChildren(ProvisionNode& pn, Logger cat)
 {
 
     for(ProvisionNode::iterator it=pn.begin(); it!=pn.end(); ++it) {
-        Category& c = *it;
+        Logger& c = *it;
         // Unless this child already points to a correct (lower) parent,
         // make cat.parent point to c.parent and c.parent to cat.
         if( !startsWith(c.value->parent->getName(), cat.getName()) ) {
