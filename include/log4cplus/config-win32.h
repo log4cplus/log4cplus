@@ -18,10 +18,14 @@
 #ifdef WIN32
 
 #define HAVE_SSTREAM 1
-#ifdef LOG4CPLUS_BUILD_DLL
-#  define LOG4CPLUS_EXPORT __declspec(dllexport)
+#ifdef LOG4CPLUS_STATIC
+#  define LOG4CPLUS_EXPORT
 #else
-#  define LOG4CPLUS_EXPORT __declspec(dllimport)
+#  ifdef LOG4CPLUS_BUILD_DLL
+#    define LOG4CPLUS_EXPORT __declspec(dllexport)
+#  else
+#    define LOG4CPLUS_EXPORT __declspec(dllimport)
+#  endif
 #endif
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
