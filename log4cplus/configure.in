@@ -30,6 +30,7 @@ AC_OUTPUT([Makefile
            tests/loglog_test/Makefile 
            tests/ndc_test/Makefile 
            tests/ostream_test/Makefile
+           tests/patternlayout_test/Makefile 
            tests/priority_test/Makefile 
            tests/thread_test/Makefile, ])
 
