@@ -27,13 +27,38 @@ using namespace log4cplus::helpers;
 
 log4cplus::FileAppender::FileAppender(const std::string& filename, 
                                       std::ios::openmode mode)
-: out(filename.c_str(), mode),
-  filename(filename)
 {
+    init(filename, mode);
+}
+
+
+log4cplus::FileAppender::FileAppender(log4cplus::helpers::Properties properties,
+                                      std::ios::openmode mode)
+: Appender(properties)
+{
+     string filename = properties.getProperty("File");   
+     if(filename.length() == 0) {
+         getErrorHandler()->error("Invalid filename");
+         return;
+     }
+
+     init(filename, mode);
+}
+
+
+
+void
+log4cplus::FileAppender::init(const std::string& filename,
+                              std::ios::openmode mode)
+{
+    this->filename = filename;
+    out.open(filename.c_str(), mode);
+
     if(!out.good()) {
         getErrorHandler()->error("Unable to open file: " + filename);
         return;
     }
+    getLogLog().debug("Just opened file: " + filename);
 
     int columns = 80;
     std::string tmp;
@@ -46,8 +71,8 @@ log4cplus::FileAppender::FileAppender(const std::string& filename,
         << getFormattedTime(time(NULL), "%m-%d-%y %H:%M:%S") << std::endl
         << "#" << std::endl
         << tmp << std::endl;
-
 }
+
 
 
 log4cplus::FileAppender::~FileAppender()
@@ -85,10 +110,18 @@ log4cplus::FileAppender::append(const spi::InternalLoggingEvent& event)
 log4cplus::RollingFileAppender::RollingFileAppender(const std::string& filename,
                                                     long maxFileSize,
                                                     int maxBackupIndex)
- : FileAppender(filename, std::ios::app),
-   maxFileSize(max(maxFileSize, MINIMUM_ROLLING_LOG_SIZE)),
-   maxBackupIndex(maxBackupIndex)
+: FileAppender(filename, std::ios::app)
 {
+    init(maxFileSize, maxBackupIndex);
+}
+
+
+
+log4cplus::RollingFileAppender::RollingFileAppender(log4cplus::helpers::Properties properties)
+: FileAppender(properties, std::ios::app)
+{
+    // TODO --> get maxFileSize and maxBackupIndex from properties
+    init(10*1024*1024, 1);
 }
 
 
@@ -96,6 +129,15 @@ log4cplus::RollingFileAppender::RollingFileAppender(const std::string& filename,
 log4cplus::RollingFileAppender::~RollingFileAppender()
 {
     destructorImpl();
+}
+
+
+
+void
+log4cplus::RollingFileAppender::init(long maxFileSize, int maxBackupIndex)
+{
+    this->maxFileSize = maxFileSize;
+    this->maxBackupIndex = maxBackupIndex;
 }
 
 
