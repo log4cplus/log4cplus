@@ -23,7 +23,6 @@
 #include <memory>
 
 
-#ifndef LOG4CPLUS_SINGLE_THREADED
 namespace log4cplus {
     namespace thread {
 
@@ -49,6 +48,7 @@ namespace log4cplus {
             Guard& operator=(const Guard&);
         };
 
+#ifndef LOG4CPLUS_SINGLE_THREADED
 #ifdef LOG4CPLUS_USE_PTHREADS
         void* threadStartFunc(void*);
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
@@ -92,10 +92,10 @@ namespace log4cplus {
 #endif
 
         };
+#endif // LOG4CPLUS_SINGLE_THREADED
 
     } // end namespace thread 
 } // end namespace log4cplus 
-#endif // LOG4CPLUS_SINGLE_THREADED
 
 
 #endif // _LOG4CPLUS_THREADS_HEADER_
