@@ -14,6 +14,7 @@
 #include <log4cplus/fileappender.h>
 #include <log4cplus/layout.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <algorithm>
 #include <sstream>
@@ -124,19 +125,19 @@ log4cplus::RollingFileAppender::RollingFileAppender(log4cplus::helpers::Properti
     int maxFileSize = 10*1024*1024;
     int maxBackupIndex = 1;
     if(properties.exists("MaxFileSize")) {
-	string tmp = properties.getProperty("MaxFileSize");
-	maxFileSize = atoi(tmp.c_str());
-	if(tmp.find("MB") == (tmp.length() - 2)) {
-	    maxFileSize *= (1024 * 1024); // convert to megabytes
-	}
-	if(tmp.find("KB") == (tmp.length() - 2)) {
-	    maxFileSize *= 1024; // convert to kilobytes
-	}
+        string tmp = toupper( properties.getProperty("MaxFileSize") );
+        maxFileSize = atoi(tmp.c_str());
+        if(tmp.find("MB") == (tmp.length() - 2)) {
+            maxFileSize *= (1024 * 1024); // convert to megabytes
+        }
+        if(tmp.find("KB") == (tmp.length() - 2)) {
+            maxFileSize *= 1024; // convert to kilobytes
+        }
     }
 
     if(properties.exists("MaxBackupIndex")) {
-	string tmp = properties.getProperty("MaxBackupIndex");
-	maxBackupIndex = atoi(tmp.c_str());
+        string tmp = properties.getProperty("MaxBackupIndex");
+        maxBackupIndex = atoi(tmp.c_str());
     }
 
     init(maxFileSize, maxBackupIndex);
@@ -196,8 +197,9 @@ log4cplus::RollingFileAppender::rollover()
 
             source << filename << '.' << i;
             target << filename << '.' << (i+1);
-            getLogLog().debug("Renaming file " + source.str() + " to " + target.str());
-            rename(source.str().c_str(), target.str().c_str());
+            if(rename(source.str().c_str(), target.str().c_str()) == 0) {
+                getLogLog().debug("Renamed file " + source.str() + " to " + target.str());
+            }
         }
 
         // Close the current file
