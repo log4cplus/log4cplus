@@ -4,12 +4,13 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
+// $Log: not supported by cvs2svn $
 
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/consoleappender.h>
@@ -22,6 +23,11 @@ using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
+
+
+///////////////////////////////////////////////////////////////////////////////
+// LOCAL file class definitions
+///////////////////////////////////////////////////////////////////////////////
 
 namespace log4cplus {
     class ConsoleAppenderFactory : public AppenderFactory {
@@ -88,6 +94,40 @@ namespace log4cplus {
 
 
 
+///////////////////////////////////////////////////////////////////////////////
+// LOCAL file initialization 
+///////////////////////////////////////////////////////////////////////////////
+
+namespace {
+
+    class _static_FactoryRegistry_initializer {
+    public:
+        _static_FactoryRegistry_initializer() { 
+            AppenderFactoryRegistry& reg = getAppenderFactoryRegistry();
+            reg.put("log4cplus::ConsoleAppender", 
+                    auto_ptr<AppenderFactory>(new ConsoleAppenderFactory()));
+            reg.put("log4cplus::FileAppender", 
+                    auto_ptr<AppenderFactory>(new FileAppenderFactory()));
+            reg.put("log4cplus::RollingFileAppender", 
+                    auto_ptr<AppenderFactory>(new RollingFileAppenderFactory()));
+
+            LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
+            reg2.put("log4cplus::SimpleLayout", 
+                     auto_ptr<LayoutFactory>(new SimpleLayoutFactory()));
+            reg2.put("log4cplus::TTCCLayout", 
+                     auto_ptr<LayoutFactory>(new TTCCLayoutFactory()));
+            reg2.put("log4cplus::PatternLayout", 
+                     auto_ptr<LayoutFactory>(new PatternLayoutFactory()));
+        }
+    } initializer;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// public methods
+///////////////////////////////////////////////////////////////////////////////
+
 AppenderFactoryRegistry&
 log4cplus::spi::getAppenderFactoryRegistry()
 {
@@ -114,30 +154,5 @@ log4cplus::spi::getLayoutFactoryRegistry()
     return *instance;
 }
 
-
-
-namespace {
-
-    class _static_FactoryRegistry_initializer {
-    public:
-        _static_FactoryRegistry_initializer() { 
-            AppenderFactoryRegistry& reg = getAppenderFactoryRegistry();
-            reg.put("log4cplus::ConsoleAppender", 
-                    auto_ptr<AppenderFactory>(new ConsoleAppenderFactory()));
-            reg.put("log4cplus::FileAppender", 
-                    auto_ptr<AppenderFactory>(new FileAppenderFactory()));
-            reg.put("log4cplus::RollingFileAppender", 
-                    auto_ptr<AppenderFactory>(new RollingFileAppenderFactory()));
-
-            LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
-            reg2.put("log4cplus::SimpleLayout", 
-                     auto_ptr<LayoutFactory>(new SimpleLayoutFactory()));
-            reg2.put("log4cplus::TTCCLayout", 
-                     auto_ptr<LayoutFactory>(new TTCCLayoutFactory()));
-            reg2.put("log4cplus::PatternLayout", 
-                     auto_ptr<LayoutFactory>(new PatternLayoutFactory()));
-        }
-    } initializer;
-}
 
 
