@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/05/04 07:25:16  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/config.h>
 #include <log4cplus/consoleappender.h>
@@ -89,7 +92,6 @@ loggingserver::ClientThread::run()
         }
 
         unsigned int msgSize = msgSizeBuffer.readInt();
-	cout << "ClientThread::run()- Message size: " << msgSize << endl;
 
         SocketBuffer buffer(msgSize);
         if(!clientsock.read(buffer)) {
