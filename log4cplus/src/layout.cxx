@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/06/04 18:59:00  tcsmith
+// Modified to use the "time" function defined in the timehelper.h header.
+//
 // Revision 1.8  2003/05/21 22:14:46  tcsmith
 // Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
 // of data".
@@ -26,6 +29,7 @@
 //
 
 #include <log4cplus/layout.h>
+#include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
 
@@ -42,15 +46,24 @@ using namespace log4cplus::spi;
 ///////////////////////////////////////////////////////////////////////////////
 
 log4cplus::tstring
-log4cplus::getFormattedTime(time_t time, const log4cplus::tstring& fmt)
+log4cplus::getFormattedTime(time_t time, const log4cplus::tstring& fmt,
+                            bool use_gmtime)
 {
     tchar buffer[BUFFER_SIZE];
     struct tm tmp;
+    struct tm* tPtr = 0;
+   
+    if(use_gmtime) {
+        tPtr = log4cplus::helpers::gmtime(&time, &tmp);
+    }
+    else {
+        tPtr = log4cplus::helpers::localtime(&time, &tmp);
+    }
 
     size_t len = log4cplus::helpers::strftime(buffer, 
                                               BUFFER_SIZE, 
                                               fmt.c_str(), 
-                                              log4cplus::helpers::gmtime(&time, &tmp));
+                                              tPtr);
 
     buffer[len] = '\0';
     return tstring(buffer);
@@ -78,16 +91,24 @@ SimpleLayout::formatAndAppend(log4cplus::tostream& output,
 // log4cplus::TTCCLayout ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-TTCCLayout::TTCCLayout()
-: dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S") )
+TTCCLayout::TTCCLayout(bool use_gmtime)
+: dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S") ),
+  use_gmtime(use_gmtime)
 {
 }
 
 
 TTCCLayout::TTCCLayout(log4cplus::helpers::Properties properties)
 : Layout(properties),
-  dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S") )
+  dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S") ),
+  use_gmtime(true)
 {
+    if(properties.exists( LOG4CPLUS_TEXT("DateFormat") )) {
+        dateFormat  = properties.getProperty( LOG4CPLUS_TEXT("DateFormat") );
+    }
+
+    tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("Use_gmtime") );
+    use_gmtime = (tolower(tmp) == LOG4CPLUS_TEXT("true"));
 }
 
 
@@ -105,7 +126,7 @@ void
 TTCCLayout::formatAndAppend(log4cplus::tostream& output, 
                             const log4cplus::spi::InternalLoggingEvent& event)
 {
-    output << getFormattedTime(event.timestamp, dateFormat) 
+    output << getFormattedTime(event.timestamp, dateFormat, use_gmtime) 
            << LOG4CPLUS_TEXT(" [")
            << event.thread 
            << LOG4CPLUS_TEXT("] ")
