@@ -8,5 +8,5 @@ loglog_test_SOURCES = main.cxx
 
 AM_CPPFLAGS = -D_REENTRANT
 
-loglog_test_LDADD = $(top_builddir)/src/liblog4cplus.a -lstdc++ -lpthread
+loglog_test_LDADD = $(top_builddir)/src/liblog4cplus.la -lstdc++ -lpthread
 

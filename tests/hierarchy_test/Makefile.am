@@ -8,5 +8,5 @@ hierarchy_test_SOURCES = main.cxx
 
 AM_CPPFLAGS = -D_REENTRANT
 
-hierarchy_test_LDADD = $(top_builddir)/src/liblog4cplus.a -lstdc++ -lpthread
+hierarchy_test_LDADD = $(top_builddir)/src/liblog4cplus.la -lstdc++ -lpthread
 

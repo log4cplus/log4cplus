@@ -8,5 +8,5 @@ patternlayout_test_SOURCES = main.cxx
 
 AM_CPPFLAGS = -D_REENTRANT
 
-patternlayout_test_LDADD = $(top_builddir)/src/liblog4cplus.a -lstdc++ -lpthread
+patternlayout_test_LDADD = $(top_builddir)/src/liblog4cplus.la -lstdc++ -lpthread
 
