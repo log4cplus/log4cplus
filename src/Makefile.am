@@ -1,16 +1,17 @@
 
+if MULTI_THREADED
 noinst_PROGRAMS = loggingserver
 loggingserver_SOURCES = loggingserver.cxx
-loggingserver_LDADD = $(top_builddir)/src/liblog4cplus.la -lstdc++ -lpthread
-
+loggingserver_LDADD = $(top_builddir)/src/liblog4cplus.la -lstdc++
+endif
 
 lib_LTLIBRARIES = liblog4cplus.la
 
-AM_CPPFLAGS = -D_REENTRANT
+AM_CPPFLAGS = -Wall
 
 INCLUDES = -I../include 
 
-liblog4cplus_la_SOURCES = appenderattachableimpl.cxx \
+SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                          appender.cxx \
                          configurator.cxx \
                          consoleappender.cxx \
@@ -23,20 +24,29 @@ liblog4cplus_la_SOURCES = appenderattachableimpl.cxx \
                          loggerimpl.cxx \
                          loglevel.cxx \
                          loglog.cxx \
+                         loglogimpl.cxx \
                          ndc.cxx \
 			 objectregistry.cxx \
                          patternlayout.cxx \
                          pointer.cxx \
 			 property.cxx \
 			 rootlogger.cxx \
+			 sleep.cxx \
 			 socket.cxx \
 			 socket-unix.cxx \
 			 socketappender.cxx \
 			 socketbuffer.cxx \
 			 stringhelper.cxx \
 			 strftime.cxx \
-			 syslogappender.cxx \
-                         threads.cxx
+			 syslogappender.cxx
+
+if MULTI_THREADED
+LIB_SRC = $(SINGLE_THREADED_SRC) threads.cxx
+else
+LIB_SRC = $(SINGLE_THREADED_SRC)
+endif
+
+liblog4cplus_la_SOURCES = $(LIB_SRC)
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
 liblog4cplus_la_LDFLAGS = -version-info @LT_VERSION@
