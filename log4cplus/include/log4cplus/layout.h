@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
@@ -17,6 +17,7 @@
 #define _LOG4CPLUS_LAYOUT_HEADER_
 
 #include <log4cplus/config.h>
+#include <log4cplus/loglevel.h>
 #include <log4cplus/helpers/property.h>
 
 #include <iostream>
@@ -45,18 +46,21 @@ namespace log4cplus {
      */
     class Layout {
     public:
-        Layout() {}
-        Layout(log4cplus::helpers::Properties properties) {}
+        Layout() : llmCache(getLogLevelManager()) {}
+        Layout(log4cplus::helpers::Properties properties) 
+          : llmCache(getLogLevelManager())  {}
         virtual ~Layout() {}
 
         virtual void formatAndAppend(std::ostream& output, 
                                      const log4cplus::spi::InternalLoggingEvent& event) = 0;
+    protected:
+        LogLevelManager& llmCache;
     };
 
 
 
     /**
-     * SimpleLayout consists of the priority of the log statement,
+     * SimpleLayout consists of the LogLevel of the log statement,
      * followed by " - " and then the log message itself. For example,
      *
      * <pre>
@@ -79,7 +83,7 @@ namespace log4cplus {
 
 
     /**
-     * TTCC layout format consists of time, thread, category and nested
+     * TTCC layout format consists of time, thread, logger and nested
      * diagnostic context information, hence the name.
      * 
      * <p>Each of the four fields can be individually enabled or
@@ -99,15 +103,13 @@ namespace log4cplus {
      * 331 [main] INFO  org.apache.log4j.examples.SortAlgo.DUMP - Element [1] = 1
      * 343 [main] INFO  org.apache.log4j.examples.Sort - The next log statement should be an error message.
      * 346 [main] ERROR org.apache.log4j.examples.SortAlgo.DUMP - Tried to dump an uninitialized array.
-     *        at org.apache.log4j.examples.SortAlgo.dump(SortAlgo.java:58)
-     *        at org.apache.log4j.examples.Sort.main(Sort.java:64)
      * 467 [main] INFO  org.apache.log4j.examples.Sort - Exiting main method.
      * </pre>
      * 
      *  <p>The first field is the number of milliseconds elapsed since the
      *  start of the program. The second field is the thread outputting the
-     *  log statement. The third field is the priority, the fourth field is
-     *  the category to which the statement belongs.
+     *  log statement. The third field is the LogLevel, the fourth field is
+     *  the logger to which the statement belongs.
      * 
      *  <p>The fifth field (just before the '-') is the nested diagnostic
      *  context.  Note the nested diagnostic context may be empty as in the
@@ -156,15 +158,15 @@ namespace log4cplus {
      * <p>Each conversion specifier starts with a percent sign (%) and is
      * followed by optional <em>format modifiers</em> and a <em>conversion
      * character</em>. The conversion character specifies the type of
-     * data, e.g. category, priority, date, thread name. The format
+     * data, e.g. logger, LogLevel, date, thread name. The format
      * modifiers control such things as field width, padding, left and
      * right justification. The following is a simple example.
      * 
      * <p>Let the conversion pattern be <b>"%-5p [%t]: %m%n"</b> and assume
-     * that the log4j environment was set to use a PatternLayout. Then the
+     * that the log4cplus environment was set to use a PatternLayout. Then the
      * statements
      * <pre>
-     * Category root = Category.getRoot();
+     * Logger root = Logger.getRoot();
      * root.debug("Message 1");
      * root.warn("Message 2");   
      * </pre>
@@ -178,7 +180,7 @@ namespace log4cplus {
      * conversion specifiers. The pattern parser knows when it has reached
      * the end of a conversion specifier when it reads a conversion
      * character. In the example above the conversion specifier
-     * <b>%-5p</b> means the priority of the logging event should be left
+     * <b>%-5p</b> means the LogLevel of the logging event should be left
      * justified to a width of five characters.
      * 
      * The recognized conversion characters are
@@ -193,16 +195,16 @@ namespace log4cplus {
      * <tr>
      *   <td align=center><b>c</b></td>
      * 
-     *   <td>Used to output the category of the logging event. The
-     *   category conversion specifier can be optionally followed by
+     *   <td>Used to output the logger of the logging event. The
+     *   logger conversion specifier can be optionally followed by
      *   <em>precision specifier</em>, that is a decimal constant in
      *   brackets.
      * 
      *   <p>If a precision specifier is given, then only the corresponding
-     *   number of right most components of the category name will be
-     *   printed. By default the category name is printed in full.
+     *   number of right most components of the logger name will be
+     *   printed. By default the logger name is printed in full.
      * 
-     *   <p>For example, for the category name "a.b.c" the pattern
+     *   <p>For example, for the logger name "a.b.c" the pattern
      *   <b>%c{2}</b> will output "b.c".
      * 
      * </td>
@@ -306,7 +308,7 @@ namespace log4cplus {
      * 
      * <tr>
      *   <td align=center><b>p</b></td>
-     *   <td>Used to output the priority of the logging event.</td>
+     *   <td>Used to output the LogLevel of the logging event.</td>
      * </tr>
      * 
      * <tr>
@@ -369,7 +371,7 @@ namespace log4cplus {
      * are dropped. This behavior deviates from the printf function in C
      * where truncation is done from the end.
      * 
-     * <p>Below are various format modifier examples for the category
+     * <p>Below are various format modifier examples for the logger
      * conversion specifier.
      * 
      * <p>
@@ -388,13 +390,13 @@ namespace log4cplus {
      * <td align=center>20</td>
      * <td align=center>none</td>
      * 
-     * <td>Left pad with spaces if the category name is less than 20
+     * <td>Left pad with spaces if the logger name is less than 20
      * characters long.
      * </tr>
      * 
      * <tr> <td align=center>%-20c</td> <td align=center>true</td> <td
      * align=center>20</td> <td align=center>none</td> <td>Right pad with
-     * spaces if the category name is less than 20 characters long.
+     * spaces if the logger name is less than 20 characters long.
      * </tr>
      * 
      * <tr>
@@ -403,7 +405,7 @@ namespace log4cplus {
      * <td align=center>none</td>
      * <td align=center>30</td>
      * 
-     * <td>Truncate from the beginning if the category name is longer than 30
+     * <td>Truncate from the beginning if the logger name is longer than 30
      * characters.
      * </tr>
      * 
@@ -413,8 +415,8 @@ namespace log4cplus {
      * <td align=center>20</td>
      * <td align=center>30</td>
      * 
-     * <td>Left pad with spaces if the category name is shorter than 20
-     * characters. However, if category name is longer than 30 characters,
+     * <td>Left pad with spaces if the logger name is shorter than 20
+     * characters. However, if logger name is longer than 30 characters,
      * then truncate from the beginning.   
      * </tr>
      * 
@@ -424,8 +426,8 @@ namespace log4cplus {
      * <td align=center>20</td>
      * <td align=center>30</td>
      *  
-     * <td>Right pad with spaces if the category name is shorter than 20
-     * characters. However, if category name is longer than 30 characters,
+     * <td>Right pad with spaces if the logger name is shorter than 20
+     * characters. However, if logger name is longer than 30 characters,
      * then truncate from the beginning.   
      * </tr>
      * 
@@ -442,7 +444,7 @@ namespace log4cplus {
      * 
      * <p><dd>Similar to the TTCC layout except that the relative time is
      * right padded if less than 6 digits, thread name is right padded if
-     * less than 15 characters and truncated if longer and the category
+     * less than 15 characters and truncated if longer and the logger
      * name is left padded if shorter than 30 characters and truncated if
      * longer.
      *  
