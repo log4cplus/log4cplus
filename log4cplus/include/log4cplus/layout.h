@@ -177,8 +177,10 @@ namespace log4cplus {
      * 
      * <p>
      * <table border="1" CELLPADDING="8">
-     * <th>Conversion Character</th>
-     * <th>Effect</th>
+     * <tr>
+     * <td>Conversion Character</td>
+     * <td>Effect</td>
+     * </tr>
      * 
      * <tr>
      *   <td align=center><b>c</b></td>
@@ -364,12 +366,14 @@ namespace log4cplus {
      * 
      * <p>
      * <TABLE BORDER=1 CELLPADDING=8>
-     * <th>Format modifier
-     * <th>left justify
-     * <th>minimum width
-     * <th>maximum width
-     * <th>comment
-     * 
+     * <tr>
+     * <td>Format modifier</td>
+     * <td>left justify</td>
+     * <td>minimum width</td>
+     * <td>maximum width</td>
+     * <td>comment</td>
+     * </tr>
+     *
      * <tr>
      * <td align=center>%20c</td>
      * <td align=center>false</td>
@@ -378,10 +382,12 @@ namespace log4cplus {
      * 
      * <td>Left pad with spaces if the category name is less than 20
      * characters long.
+     * </tr>
      * 
      * <tr> <td align=center>%-20c</td> <td align=center>true</td> <td
      * align=center>20</td> <td align=center>none</td> <td>Right pad with
      * spaces if the category name is less than 20 characters long.
+     * </tr>
      * 
      * <tr>
      * <td align=center>%.30c</td>
@@ -391,6 +397,7 @@ namespace log4cplus {
      * 
      * <td>Truncate from the beginning if the category name is longer than 30
      * characters.
+     * </tr>
      * 
      * <tr>
      * <td align=center>%20.30c</td>
@@ -401,6 +408,7 @@ namespace log4cplus {
      * <td>Left pad with spaces if the category name is shorter than 20
      * characters. However, if category name is longer than 30 characters,
      * then truncate from the beginning.   
+     * </tr>
      * 
      * <tr>
      * <td align=center>%-20.30c</td>
@@ -411,6 +419,7 @@ namespace log4cplus {
      * <td>Right pad with spaces if the category name is shorter than 20
      * characters. However, if category name is longer than 30 characters,
      * then truncate from the beginning.   
+     * </tr>
      * 
      * </table>
      * 
