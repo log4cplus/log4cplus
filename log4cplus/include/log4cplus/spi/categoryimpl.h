@@ -44,17 +44,7 @@ namespace log4cplus {
                              public log4cplus::helpers::AppenderAttachableImpl
         {
         public:
-        // Methods
-            /**
-             * If <code>assertion</code> parameter is <code>false</code>, then
-             * logs <code>msg</code> as an {@link #error(const std::string&) error} 
-             * statement.
-             *
-             * @param assertion 
-             * @param msg The message to print if <code>assertion</code> is
-             * false.
-             */
-            void assertion(bool assert, const std::string& msg);
+          // Methods
 
             /**
              * Call the appenders in the hierrachy starting at
@@ -83,139 +73,16 @@ namespace log4cplus {
              *                      
              * @return boolean True if this category is enabled for <code>priority</code>.
              */
-            virtual bool isEnabledFor(const Priority& priority) const ;
-            bool isEnabledFor(int priority) const 
-                { return isEnabledFor( Priority(static_cast<Priority::PriorityLevel>(priority))); };
-
-            /**
-             *  Check whether this category is enabled for the {@link Priority#DEBUG_PRI}
-             *  priority.
-             *  <p>
-             *  This function is intended to lessen the computational cost of
-             *  disabled log debug statements.
-             *  <p>
-             *  For some <code>cat</code> Category object, when you write,
-             *  <pre>
-             *      cat.debug("This is entry name: " + n );
-             *  </pre>
-             *  
-             *  <p>You incur the cost constructing the message, concatenatiion in
-             *  this case, regardless of whether the message is logged or not.
-             * 
-             *  <p>If you are worried about speed, then you should write
-             *  <pre>
-             *    if(cat.isDebugEnabled()) { 
-             *      cat.debug("This is entry name: " + n );
-             *    }
-             *  </pre>
-             * 
-             *  <p>This way you will not incur the cost of parameter
-             *  construction if debugging is disabled for <code>cat</code>. On
-             *  the other hand, if the <code>cat</code> is debug enabled, you
-             *  will incur the cost of evaluating whether the category is debug
-             *  enabled twice. Once in <code>isDebugEnabled</code> and once in
-             *  the <code>debug</code>.  This is an insignificant overhead
-             *  since evaluating a category takes about 1% of the time it
-             *  takes to actually log.
-             * 
-             *  @return boolean - <code>true</code> if this category is debug
-             *  enabled, <code>false</code> otherwise.
-             */
-            bool isDebugEnabled() { return isEnabledFor(Priority::DEBUG_PRI); }
-
-            /**
-             * Check whether this category is enabled for the info priority.
-             * See also {@link #isDebugEnabled}.
-             *
-             * @return boolean - <code>true</code> if this category is enabled
-             * for priority info, <code>false</code> otherwise.
-             */
-            bool isInfoEnabled() { return isEnabledFor(Priority::INFO_PRI); }
-
-            /**
-             * Check whether this category is enabled for the warn priority.
-             * See also {@link #isDebugEnabled}.
-             *
-             * @return boolean - <code>true</code> if this category is enabled
-             * for priority info, <code>false</code> otherwise.
-             */
-            bool isWarnEnabled() { return isEnabledFor(Priority::WARN_PRI); }
+            virtual bool isEnabledFor(const Priority& priority) const;
+            bool isEnabledFor(int priority) const { 
+                return isEnabledFor( Priority(static_cast<Priority::PriorityLevel>(priority))); 
+            }
 
             /**
              * This generic form is intended to be used by wrappers. 
              */
             virtual void log(const Priority& priority, const std::string& message,
                              const char* file=NULL, int line=-1);
-
-            /** 
-             * Log a message with the {@link Priority#FATAL_PRI FATAL_PRI} priority.
-             * <p>
-             * This method first checks if this category is <code>FATAL</code>
-             * enabled by comparing the priority of this category with the {@link
-             * Priority#FATAL_PRI FATAL_PRI} priority. If this category is
-             * <code>FATAL</code> enabled, then it proceeds to call all the
-             * registered appenders in this category and also higher in the
-             * hierarchy depending on the value of the additivity flag.
-             *
-             * @param message the message object to log. 
-             */
-            virtual void fatal(const std::string& message, const char* file=NULL, int line=-1);
-
-            /** 
-             * Log a message with the {@link Priority#ERROR_PRI ERROR_PRI} priority.
-             * <p>
-             * This method first checks if this category is <code>ERROR</code>
-             * enabled by comparing the priority of this category with the {@link
-             * Priority#ERROR_PRI ERROR_PRI} priority. If this category is
-             * <code>ERROR</code> enabled, then it proceeds to call all the
-             * registered appenders in this category and also higher in the
-             * hierarchy depending on the value of the additivity flag.
-             *
-             * @param message the message object to log. 
-             */
-            virtual void error(const std::string& message, const char* file=NULL, int line=-1);
-
-            /** 
-             * Log a message with the {@link Priority#WARN_PRI WARN_PRI} priority.
-             * <p>
-             * This method first checks if this category is <code>WARN</code>
-             * enabled by comparing the priority of this category with the {@link
-             * Priority#WARN_PRI WARN_PRI} priority. If this category is
-             * <code>WARN</code> enabled, then it proceeds to call all the
-             * registered appenders in this category and also higher in the
-             * hierarchy depending on the value of the additivity flag.
-             * 
-             * @param message the message object to log. 
-             */
-            virtual void warn(const std::string& message, const char* file=NULL, int line=-1);
-
-            /** 
-             * Log a message with the {@link Priority#INFO_PRI INFO_PRI} priority.
-             *
-             * <p>This method first checks if this category is <code>INFO</code>
-             * enabled by comparing the priority of this category with the {@link
-             * Priority#INFO_PRI INFO_PRI} priority. If this category is
-             * <code>INFO</code> enabled, then it proceeds to call all the
-             * registered appenders in this category and also higher in the
-             * hierarchy depending on the value of the additivity flag.
-             *
-             * @param message the message object to log. 
-             */
-            virtual void info(const std::string& message, const char* file=NULL, int line=-1);
-
-            /** 
-             * Log a message with the {@link Priority#DEBUG_PRI DEBUG_PRI} priority.
-             *
-             * <p>This method first checks if this category is <code>DEBUG</code>
-             * enabled by comparing the priority of this category with the {@link
-             * Priority#DEBUG_PRI DEBUG_PRI} priority. If this category is
-             * <code>DEBUG</code> enabled, then it proceeds to call all the
-             * registered appenders in this category and also higher in the
-             * hierarchy depending on the value of the additivity flag.
-             *
-             * @param message the message object to log. 
-             */
-            virtual void debug(const std::string& message, const char* file=NULL, int line=-1);
 
             /**
              * Starting from this category, search the category hierarchy for a
@@ -225,7 +92,7 @@ namespace log4cplus {
              * <p>The Category class is designed so that this method executes as
              * quickly as possible.
              */
-             virtual Priority getChainedPriority() const;
+            virtual Priority getChainedPriority() const;
 
             /**
              * Returns the assigned {@link Priority}, if any, for this Category.  
