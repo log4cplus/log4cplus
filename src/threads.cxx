@@ -100,18 +100,18 @@ log4cplus::thread::yield()
 
 #define MILLIS_TO_NANOS 1000000
 #define SEC_TO_MILLIS 1000
-#define MAX_SECS_HELD_IN_DWORD (DWORD)4294966        // 2**32/1000
+#define MAX_SLEEP_SECONDS (DWORD)4294966        // (2**32-2)/1000
 
 void
 log4cplus::thread::sleep(unsigned long secs, unsigned long nanosecs)
 {
 #ifdef LOG4CPLUS_USE_PTHREADS
-    timespec sleeptime = { secs, nanosecs };
+    timespec sleep_time = { secs, nanosecs };
     timespec remain;
-    while (nanosleep(&sleeptime, &remain)) {
+    while (nanosleep(&sleep_time, &remain)) {
         if (errno == EINTR) {
-            sleeptime.tv_sec  = remain.tv_sec;
-            sleeptime.tv_nsec = remain.tv_nsec;               
+            sleep_time.tv_sec  = remain.tv_sec;
+            sleep_time.tv_nsec = remain.tv_nsec;               
             continue;
         }
         else {
@@ -120,18 +120,19 @@ log4cplus::thread::sleep(unsigned long secs, unsigned long nanosecs)
     }
 #endif
 #ifdef LOG4CPLUS_USE_WIN32_THREADS
-    // Sleep for the specified number of nano seconds
-    Sleep(nanosecs / static_cast<unsigned long>(MILLIS_TO_NANOS));
-    
-    // Now sleep for the specified number of seconds.  This may mean we
-    // have to enter a loop if secs converted to milliseconds is greater
-    // than what a DWORD can hold
-    DWORD numSleepLoops = secs / MAX_SECS_HELD_IN_DWORD;
-    for(DWORD i=0; i<numSleepLoops; ++i) {
-        Sleep(MAX_SECS_HELD_IN_DWORD * SEC_TO_MILLIS);
+    DWORD nano_millis = nanosecs / static_cast<unsigned long>(MILLIS_TO_NANOS);
+    if (secs <= MAX_SLEEP_SECONDS) {
+        Sleep((secs * SEC_TO_MILLIS) + nano_millis);
+        return;
+    }
+        
+    DWORD no_of_max_sleeps = secs / MAX_SLEEP_SECONDS;
+            
+    for(DWORD i = 0; i < no_of_max_sleeps; i++) {
+        Sleep(MAX_SLEEP_SECONDS * 1000);
     }
                
-    Sleep((secs % MAX_SECS_HELD_IN_DWORD) * SEC_TO_MILLIS);
+    Sleep((secs % MAX_SLEEP_SECONDS) * SEC_TO_MILLIS + nano_millis);
 #endif
 }
 
