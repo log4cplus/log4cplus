@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(src/logger.cxx)
-AM_INIT_AUTOMAKE(log4cplus, 0.9.7)
+AM_INIT_AUTOMAKE(log4cplus, 0.9.8)
 AM_CONFIG_HEADER(include/log4cplus/config.h)
 
 #
@@ -43,6 +43,8 @@ AC_CHECK_FUNCS(gmtime_r)
 AC_CHECK_FUNCS(localtime_r)
 AC_CHECK_FUNCS(gettimeofday)
 AC_CHECK_FUNCS(ftime)
+AC_CHECK_FUNCS(stat)
+AC_CHECK_FUNCS(lstat)
 
 dnl Check for the existance of type socklen_t.
 AC_DEFUN([TYPE_SOCKLEN_T],
@@ -92,6 +94,8 @@ AC_OUTPUT([Makefile
            src/Makefile 
            tests/Makefile 
            tests/appender_test/Makefile 
+           tests/configandwatch_test/Makefile 
+           tests/customloglevel_test/Makefile 
            tests/fileappender_test/Makefile 
            tests/filter_test/Makefile 
            tests/hierarchy_test/Makefile 
@@ -99,6 +103,7 @@ AC_OUTPUT([Makefile
            tests/ndc_test/Makefile 
            tests/ostream_test/Makefile
            tests/patternlayout_test/Makefile 
+           tests/performance_test/Makefile 
            tests/priority_test/Makefile 
 	   tests/propertyconfig_test/Makefile
 	   tests/socket_test/Makefile
