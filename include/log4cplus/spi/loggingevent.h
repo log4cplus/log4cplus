@@ -48,10 +48,10 @@ namespace log4cplus {
                                   const log4cplus::tstring& message,
                                   const char* filename,
                                   int line)
-              : loggerName(logger),
+              : message(message),
+                loggerName(logger),
                 ll(ll),
                 ndc(),
-                message(message),
                 thread(),
                 timestamp(log4cplus::helpers::Time::gettimeofday()),
                 file( filename ? LOG4CPLUS_C_STR_TO_TSTRING(filename) 
@@ -70,10 +70,10 @@ namespace log4cplus {
                                   log4cplus::helpers::Time time,
                                   const log4cplus::tstring& file,
                                   int line)
-              : loggerName(logger),
+              : message(message),
+                loggerName(logger),
                 ll(ll),
                 ndc(ndc),
-                message(message),
                 thread(thread),
                 timestamp(time),
                 file(file),
@@ -84,10 +84,10 @@ namespace log4cplus {
              }
 
              InternalLoggingEvent(const log4cplus::spi::InternalLoggingEvent& rhs)
-              : loggerName(rhs.getLoggerName()),
+              : message(rhs.getMessage()),
+                loggerName(rhs.getLoggerName()),
                 ll(rhs.getLogLevel()),
                 ndc(rhs.getNDC()),
-                message(rhs.getMessage()),
                 thread(rhs.getThread()),
                 timestamp(rhs.getTimestamp()),
                 file(rhs.getFile()),
@@ -96,6 +96,14 @@ namespace log4cplus {
                 ndcCached(true)
              {
              }
+
+            virtual ~InternalLoggingEvent();
+
+
+          // public virtual methods
+            virtual const log4cplus::tstring& getMessage() const;
+
+            virtual int getType() const;
 
 
           // public methods
@@ -106,15 +114,15 @@ namespace log4cplus {
             const log4cplus::tstring& getNDC() const { 
                 if(!ndcCached) {
                     ndc = log4cplus::getNDC().get();
+                    ndcCached = true;
                 }
                 return ndc; 
             }
 
-            const log4cplus::tstring& getMessage() const { return message; }
-
             const log4cplus::tstring& getThread() const {
                 if(!threadCached) {
                     thread = LOG4CPLUS_GET_CURRENT_THREAD_NAME;
+                    threadCached = true;
                 }
                 return thread; 
             }
@@ -125,6 +133,18 @@ namespace log4cplus {
 
             int getLine() const { return line; }
  
+          // public operators
+            log4cplus::spi::InternalLoggingEvent&
+            operator=(const log4cplus::spi::InternalLoggingEvent& rhs);
+
+          // public constants
+            static const int DEFAULT_TYPE;
+
+        protected:
+          // Data
+            /** The application supplied message of logging event. */
+            log4cplus::tstring message;
+
         private:
           // Data
             /** The logger of the logging event. It is set by 
@@ -132,37 +152,29 @@ namespace log4cplus {
             log4cplus::tstring loggerName;
 
             /** LogLevel of logging event. */
-            const LogLevel ll;
+            LogLevel ll;
 
             /** The nested diagnostic context (NDC) of logging event. */
             mutable log4cplus::tstring ndc;
-
-            /** The application supplied message of logging event. */
-            const log4cplus::tstring message;
 
             /** The name of thread in which this logging event was generated. */
             mutable log4cplus::tstring thread;
 
             /** The number of milliseconds elapsed from 1/1/1970 until logging event
              *  was created. */
-            const log4cplus::helpers::Time timestamp;
+            log4cplus::helpers::Time timestamp;
 
             /** The is the file where this log statement was written */
-            const log4cplus::tstring file;
+            log4cplus::tstring file;
 
             /** The is the line where this log statement was written */
-            const int line;
+            int line;
 
             /** Indicates whether or not the Threadname has been retrieved. */
             mutable bool threadCached;
 
             /** Indicates whether or not the NDC has been retrieved. */
             mutable bool ndcCached;
-
-          // private operators
-            log4cplus::spi::InternalLoggingEvent&
-            operator=(const log4cplus::spi::InternalLoggingEvent& rhs);
-
         };
 
     } // end namespace spi
