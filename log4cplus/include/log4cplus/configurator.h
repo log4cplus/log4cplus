@@ -201,6 +201,7 @@ namespace log4cplus {
 
     protected:
         // Methods
+	void replaceEnvironVariables();
         void configureLoggers();
         void configureLogger(log4cplus::Logger logger, const std::string& config);
         void configureAppenders();
