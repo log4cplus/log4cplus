@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.12  2003/06/13 15:27:48  tcsmith
+// Modified to support changes to the InternalLoggingEvent.
+//
 // Revision 1.11  2003/06/11 22:55:41  tcsmith
 // Updated to support the changes in the InternalLoggingEvent class.
 //
@@ -311,18 +314,18 @@ log4cplus::pattern::BasicPatternConverter::convert
                                             (const InternalLoggingEvent& event)
 {
     switch(type) {
-    case LOGLEVEL_CONVERTER: return llmCache.toString(event.ll);
-    case NDC_CONVERTER:      return event.ndc;
-    case MESSAGE_CONVERTER:  return event.message;
+    case LOGLEVEL_CONVERTER: return llmCache.toString(event.getLogLevel());
+    case NDC_CONVERTER:      return event.getNDC();
+    case MESSAGE_CONVERTER:  return event.getMessage();
     case NEWLINE_CONVERTER:  return LOG4CPLUS_TEXT("\n");
-    case FILE_CONVERTER:     return event.file;
-    case THREAD_CONVERTER:   return event.thread; 
+    case FILE_CONVERTER:     return event.getFile();
+    case THREAD_CONVERTER:   return event.getThread(); 
 
     case LINE_CONVERTER:
         {
-            if(event.line != -1) {
+            if(event.getLine() != -1) {
                log4cplus::tostringstream buf;
-                buf << event.line;
+                buf << event.getLine();
                 return buf.str();
             }
             else {
@@ -332,11 +335,11 @@ log4cplus::pattern::BasicPatternConverter::convert
 
     case FULL_LOCATION_CONVERTER:
         {
-            if(event.file.length() > 0) {
+            if(event.getFile().length() > 0) {
                 log4cplus::tostringstream buf;
-                buf << event.file
+                buf << event.getFile()
                     << LOG4CPLUS_TEXT(":") 
-                    << event.line;
+                    << event.getFile();
                 return buf.str();
             }
             else {
@@ -367,7 +370,7 @@ log4cplus::tstring
 log4cplus::pattern::LoggerPatternConverter::convert
                                             (const InternalLoggingEvent& event)
 {
-    const log4cplus::tstring& name = event.loggerName;
+    const log4cplus::tstring& name = event.getLoggerName();
     if (precision <= 0) {
         return name;
     }
@@ -411,7 +414,7 @@ log4cplus::tstring
 log4cplus::pattern::DatePatternConverter::convert
                                             (const InternalLoggingEvent& event)
 {
-    return event.timestamp.getFormattedTime(format, use_gmtime);
+    return event.getTimestamp().getFormattedTime(format, use_gmtime);
 }
 
 

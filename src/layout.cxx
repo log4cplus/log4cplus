@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.15  2003/06/13 17:45:24  tcsmith
+// Added: using namespace std.
+//
 // Revision 1.14  2003/06/12 23:50:21  tcsmith
 // Modified to support the rename of the toupper and tolower methods.
 //
@@ -64,9 +67,9 @@ void
 SimpleLayout::formatAndAppend(log4cplus::tostream& output, 
                               const log4cplus::spi::InternalLoggingEvent& event)
 {
-    output << llmCache.toString(event.ll) 
+    output << llmCache.toString(event.getLogLevel()) 
            << LOG4CPLUS_TEXT(" - ")
-           << event.message 
+           << event.getMessage() 
            << endl;
 }
 
@@ -111,17 +114,17 @@ void
 TTCCLayout::formatAndAppend(log4cplus::tostream& output, 
                             const log4cplus::spi::InternalLoggingEvent& event)
 {
-    output << event.timestamp.getFormattedTime(dateFormat, use_gmtime) 
+    output << event.getTimestamp().getFormattedTime(dateFormat, use_gmtime) 
            << LOG4CPLUS_TEXT(" [")
-           << event.thread 
+           << event.getThread()
            << LOG4CPLUS_TEXT("] ")
-           << llmCache.toString(event.ll) 
+           << llmCache.toString(event.getLogLevel()) 
            << LOG4CPLUS_TEXT(" ")
-           << event.loggerName 
+           << event.getLoggerName()
            << LOG4CPLUS_TEXT(" <")
-           << event.ndc 
+           << event.getNDC() 
            << LOG4CPLUS_TEXT("> - ")
-           << event.message
+           << event.getMessage()
            << endl;
 }
 

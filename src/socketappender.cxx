@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  2003/06/13 15:27:48  tcsmith
+// Modified to support changes to the InternalLoggingEvent.
+//
 // Revision 1.7  2003/06/11 22:58:38  tcsmith
 // Updated to support the changes in the InternalLoggingEvent class.
 //
@@ -154,15 +157,15 @@ log4cplus::helpers::convertToBuffer(const log4cplus::spi::InternalLoggingEvent& 
 #endif
 
     buffer.appendString(serverName);
-    buffer.appendString(event.loggerName);
-    buffer.appendInt(event.ll);
-    buffer.appendString(event.ndc);
-    buffer.appendString(event.message);
-    buffer.appendString(event.thread);
-    buffer.appendInt( static_cast<unsigned int>(event.timestamp.sec()) );
-    buffer.appendInt( static_cast<unsigned int>(event.timestamp.usec()) );
-    buffer.appendString(event.file);
-    buffer.appendInt(event.line);
+    buffer.appendString(event.getLoggerName());
+    buffer.appendInt(event.getLogLevel());
+    buffer.appendString(event.getNDC());
+    buffer.appendString(event.getMessage());
+    buffer.appendString(event.getThread());
+    buffer.appendInt( static_cast<unsigned int>(event.getTimestamp().sec()) );
+    buffer.appendInt( static_cast<unsigned int>(event.getTimestamp().usec()) );
+    buffer.appendString(event.getFile());
+    buffer.appendInt(event.getLine());
 
     return buffer;
 }
