@@ -1,6 +1,6 @@
 // Module:  Log4CPLUS
-// File:    threads.cxx
-// Created: 6/2001
+// File:    sleep.cxx
+// Created: 5/2003
 // Author:  Tad E. Smith
 //
 //
@@ -11,16 +11,6 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
-// Revision 1.8  2003/04/29 17:38:45  tcsmith
-// Added "return NULL" to the threadStartFunc() method to make the Sun Forte
-// compiler happy.
-//
-// Revision 1.7  2003/04/18 21:58:47  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.6  2003/04/03 01:31:43  tcsmith
-// Standardized the formatting.
-//
 
 #include <log4cplus/helpers/sleep.h>
 #include <errno.h>
