@@ -55,6 +55,7 @@ namespace log4cplus {
                 message(message),
                 thread( LOG4CPLUS_GET_CURRENT_THREAD ),
                 timestamp(time(NULL)),
+                clock_ticks(clock()),
                 file(file),
                 line(line)
              {
@@ -81,6 +82,9 @@ namespace log4cplus {
             /** The number of milliseconds elapsed from 1/1/1970 until logging event
              *  was created. */
             const time_t timestamp;
+
+            /** The number of clock ticks since the program started running. */
+            const clock_t clock_ticks;
 
             /** The is the file where this log statement was written */
             const char* file;
