@@ -20,6 +20,7 @@
 #include <log4cplus/loglevel.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/tstring.h>
+#include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
@@ -39,7 +40,7 @@ namespace log4cplus {
      * This class is used to layout strings sent to an {@link
      * #Appender}.
      */
-    class LOG4CPLUS_EXPORT Layout {
+    class LOG4CPLUS_EXPORT Layout : protected :: log4cplus::helpers::LogLogUser {
     public:
         Layout() : llmCache(getLogLevelManager()) {}
         Layout(const log4cplus::helpers::Properties& properties) 

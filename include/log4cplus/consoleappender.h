@@ -18,7 +18,6 @@
 
 #include <log4cplus/config.h>
 #include <log4cplus/appender.h>
-#include <log4cplus/helpers/loglog.h>
 
 namespace log4cplus {
     /**

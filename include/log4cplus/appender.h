@@ -20,6 +20,7 @@
 #include <log4cplus/layout.h>
 #include <log4cplus/loglevel.h>
 #include <log4cplus/tstring.h>
+#include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/spi/filter.h>
@@ -41,7 +42,9 @@ namespace log4cplus {
 
 
 
-    class LOG4CPLUS_EXPORT OnlyOnceErrorHandler : public ErrorHandler {
+    class LOG4CPLUS_EXPORT OnlyOnceErrorHandler : public ErrorHandler,
+                                                  protected log4cplus::helpers::LogLogUser
+    {
     public:
       // Ctor
         OnlyOnceErrorHandler() : firstTime(true){}
@@ -57,7 +60,10 @@ namespace log4cplus {
      * Extend this class for implementing your own strategies for printing log
      * statements.
      */
-    class LOG4CPLUS_EXPORT Appender : public log4cplus::helpers::SharedObject {
+    class LOG4CPLUS_EXPORT Appender : public log4cplus::helpers::SharedObject,
+                                      protected log4cplus::helpers::LogLogUser
+
+    {
     public:
       // Ctor
         Appender();

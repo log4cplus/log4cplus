@@ -18,6 +18,7 @@
 
 #include <log4cplus/config.h>
 #include <log4cplus/tstring.h>
+#include <log4cplus/helpers/logloguser.h>
 
 
 namespace log4cplus {
@@ -26,7 +27,8 @@ namespace log4cplus {
         /**
          *
          */
-        class LOG4CPLUS_EXPORT SocketBuffer {
+        class LOG4CPLUS_EXPORT SocketBuffer : protected log4cplus::helpers::LogLogUser
+        {
         public:
             SocketBuffer(size_t max);
             SocketBuffer(const SocketBuffer& rhs);
