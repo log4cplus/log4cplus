@@ -54,12 +54,17 @@ namespace log4cplus {
                 ndc(),
                 thread(),
                 timestamp(log4cplus::helpers::Time::gettimeofday()),
+#if !defined(BORLAND)
                 file( filename ? LOG4CPLUS_C_STR_TO_TSTRING(filename) 
                                : log4cplus::tstring() ),
+#endif
                 line(line),
                 threadCached(false),
                 ndcCached(false)
              {
+#if defined(BORLAND)
+                 if(filename) file = LOG4CPLUS_C_STR_TO_TSTRING(filename);
+#endif
              }
 
              InternalLoggingEvent(const log4cplus::tstring& logger,

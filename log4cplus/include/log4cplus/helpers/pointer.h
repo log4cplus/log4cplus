@@ -126,7 +126,7 @@ namespace log4cplus {
             SharedObjectPtr(const SharedObjectPtr& rhs) : pointee(rhs.pointee) { init(); };
 
           // Dtor
-            ~SharedObjectPtr() {if (pointee != 0) pointee->removeReference(); }
+            ~SharedObjectPtr() {if (pointee != 0) ((SharedObject *)pointee)->removeReference(); }
 
           // Operators
             bool operator==(const SharedObjectPtr& rhs) const { return (pointee == rhs.pointee); }
