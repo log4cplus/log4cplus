@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.17  2003/06/29 02:05:01  tcsmith
+// Now using the new #defined type for open_mode.
+//
 // Revision 1.16  2003/06/28 17:56:19  tcsmith
 // Changed the FileAppender ctors to take an 'int' instead of 'open_mode'.
 //
@@ -70,7 +73,9 @@ using namespace log4cplus::helpers;
 ///////////////////////////////////////////////////////////////////////////////
 
 log4cplus::FileAppender::FileAppender(const log4cplus::tstring& filename, 
-                                      LOG4CPLUS_OPEN_MODE_TYPE mode)
+                                      LOG4CPLUS_OPEN_MODE_TYPE mode,
+                                      bool immediateFlush)
+: immediateFlush(immediateFlush)
 {
     init(filename, mode);
 }
@@ -84,6 +89,10 @@ log4cplus::FileAppender::FileAppender(const Properties& properties,
      if(filename.length() == 0) {
          getErrorHandler()->error( LOG4CPLUS_TEXT("Invalid filename") );
          return;
+     }
+     if(properties.exists( LOG4CPLUS_TEXT("ImmediateFlush") )) {
+         tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("ImmediateFlush") );
+         immediateFlush = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
      }
 
      init(filename, mode);
@@ -104,19 +113,6 @@ log4cplus::FileAppender::init(const log4cplus::tstring& filename,
         return;
     }
     getLogLog().debug(LOG4CPLUS_TEXT("Just opened file: ") + filename);
-
-    int columns = 80;
-    log4cplus::tstring commentline;
-    commentline.resize(columns);
-    fill_n(commentline.begin(), columns, LOG4CPLUS_TEXT('#'));
-    
-    out << commentline << endl
-        << LOG4CPLUS_TEXT("#") << endl
-        << LOG4CPLUS_TEXT("# Created Appender on: ")
-        << Time::gettimeofday().getFormattedTime(LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S")) 
-        << endl
-        << LOG4CPLUS_TEXT("#") << endl
-        << commentline << endl;
 }
 
 
@@ -159,6 +155,9 @@ log4cplus::FileAppender::append(const spi::InternalLoggingEvent& event)
     }
 
     layout->formatAndAppend(out, event);
+    if(immediateFlush) {
+        out.flush();
+    }
 }
 
 
@@ -170,8 +169,9 @@ log4cplus::FileAppender::append(const spi::InternalLoggingEvent& event)
 
 log4cplus::RollingFileAppender::RollingFileAppender(const log4cplus::tstring& filename,
                                                     long maxFileSize,
-                                                    int maxBackupIndex)
-: FileAppender(filename, ios::app)
+                                                    int maxBackupIndex,
+                                                    bool immediateFlush)
+: FileAppender(filename, ios::app, immediateFlush)
 {
     init(maxFileSize, maxBackupIndex);
 }
@@ -238,6 +238,9 @@ log4cplus::RollingFileAppender::append(const spi::InternalLoggingEvent& event)
     }
 
     layout->formatAndAppend(out, event);
+    if(immediateFlush) {
+        out.flush();
+    }
         
     if(out.tellp() > maxFileSize) {
         rollover();
@@ -312,8 +315,9 @@ log4cplus::RollingFileAppender::rollover()
 ///////////////////////////////////////////////////////////////////////////////
 
 DailyRollingFileAppender::DailyRollingFileAppender(const log4cplus::tstring& filename,
-                                                   DailyRollingFileSchedule schedule)
-: FileAppender(filename, ios::app)
+                                                   DailyRollingFileSchedule schedule,
+                                                   bool immediateFlush)
+: FileAppender(filename, ios::app, immediateFlush)
 {
     init(schedule);
 }
@@ -437,6 +441,9 @@ DailyRollingFileAppender::append(const spi::InternalLoggingEvent& event)
     }
 
     layout->formatAndAppend(out, event);
+    if(immediateFlush) {
+        out.flush();
+    }
 }
 
 
@@ -544,7 +551,4 @@ DailyRollingFileAppender::getFilename(const log4cplus::helpers::Time& t) const
 
     return filename + LOG4CPLUS_TEXT(".") + t.getFormattedTime(pattern, false);
 }
-
-
-
 
