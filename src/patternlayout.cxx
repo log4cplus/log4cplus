@@ -4,12 +4,13 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
+// $Log: not supported by cvs2svn $
 
 #include <log4cplus/layout.h>
 #include <log4cplus/helpers/loglog.h>
@@ -97,7 +98,7 @@ namespace log4cplus {
         public:
             enum Type { RELATIVE_TIME_CONVERTER,
                         THREAD_CONVERTER,
-                        PRIORITY_CONVERTER,
+                        LOGLEVEL_CONVERTER,
                         NDC_CONVERTER,
                         MESSAGE_CONVERTER,
                         NEWLINE_CONVERTER,
@@ -108,6 +109,7 @@ namespace log4cplus {
             virtual std::string convert(const InternalLoggingEvent& event);
 
         private:
+            LogLevelManager& llmCache;
             const long CLOCKS_PER_MILLIS;
             Type type;
         };
@@ -115,12 +117,12 @@ namespace log4cplus {
 
 
         /**
-         * This PatternConverter is used to format the Category field found in
+         * This PatternConverter is used to format the Logger field found in
          * the InternalLoggingEvent object.
          */
-        class CategoryPatternConverter : public PatternConverter {
+        class LoggerPatternConverter : public PatternConverter {
         public:
-            CategoryPatternConverter(const FormattingInfo& info, int precision);
+            LoggerPatternConverter(const FormattingInfo& info, int precision);
             virtual std::string convert(const InternalLoggingEvent& event);
 
         private:
@@ -278,6 +280,7 @@ log4cplus::pattern::LiteralPatternConverter::LiteralPatternConverter
 log4cplus::pattern::BasicPatternConverter::BasicPatternConverter
                                         (const FormattingInfo& info, Type type)
 : PatternConverter(info),
+  llmCache(getLogLevelManager()),
   CLOCKS_PER_MILLIS(CLOCKS_PER_SEC / MILLIS_PER_SEC),
   type(type)
 {
@@ -296,7 +299,7 @@ log4cplus::pattern::BasicPatternConverter::convert
                                             (const InternalLoggingEvent& event)
 {
     switch(type) {
-    case PRIORITY_CONVERTER: return event.priority.toString();
+    case LOGLEVEL_CONVERTER: return llmCache.toString(event.ll);
     case NDC_CONVERTER:      return event.ndc;
     case MESSAGE_CONVERTER:  return event.message;
     case NEWLINE_CONVERTER:  return "\n";
@@ -347,10 +350,10 @@ log4cplus::pattern::BasicPatternConverter::convert
 
 
 ////////////////////////////////////////////////
-// CategoryPatternConverter methods:
+// LoggerPatternConverter methods:
 ////////////////////////////////////////////////
 
-log4cplus::pattern::CategoryPatternConverter::CategoryPatternConverter
+log4cplus::pattern::LoggerPatternConverter::LoggerPatternConverter
                                     (const FormattingInfo& info, int precision)
 : PatternConverter(info),
   precision(precision)
@@ -360,10 +363,10 @@ log4cplus::pattern::CategoryPatternConverter::CategoryPatternConverter
 
 
 std::string
-log4cplus::pattern::CategoryPatternConverter::convert
+log4cplus::pattern::LoggerPatternConverter::convert
                                             (const InternalLoggingEvent& event)
 {
-    const std::string& name = event.categoryName;
+    const std::string& name = event.loggerName;
     if (precision <= 0) {
         return name;
     }
@@ -372,7 +375,7 @@ log4cplus::pattern::CategoryPatternConverter::convert
 
         // We substract 1 from 'len' when assigning to 'end' to avoid out of
         // bounds exception in return r.substring(end+1, len). This can happen
-        // if precision is 1 and the category name ends with a dot. 
+        // if precision is 1 and the logger name ends with a dot. 
         int end = len - 1;
         for(int i=precision; i>0; --i) {
             end = name.rfind('.', end - 1);
@@ -594,9 +597,9 @@ log4cplus::pattern::PatternParser::finalizeConverter(char c)
     PatternConverter* pc = 0;
     switch (c) {
         case 'c':
-            pc = new CategoryPatternConverter(formattingInfo, 
-                                              extractPrecisionOption());
-            getLogLog().debug("CATEGORY converter.");
+            pc = new LoggerPatternConverter(formattingInfo, 
+                                            extractPrecisionOption());
+            getLogLog().debug("LOGGER converter.");
             formattingInfo.dump();      
             break;
 
@@ -662,8 +665,8 @@ log4cplus::pattern::PatternParser::finalizeConverter(char c)
         case 'p':
             pc = new BasicPatternConverter
                           (formattingInfo, 
-                           BasicPatternConverter::PRIORITY_CONVERTER);
-            //getLogLog().debug("PRIORITY converter.");
+                           BasicPatternConverter::LOGLEVEL_CONVERTER);
+            //getLogLog().debug("LOGLEVEL converter.");
             //formattingInfo.dump();
             break;
 
