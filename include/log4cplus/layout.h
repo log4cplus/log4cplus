@@ -84,7 +84,7 @@ namespace log4cplus {
 
 
     /**
-     * TTCC layout format consists of time, thread, logger and nested
+     * TTCC layout format consists of time, thread, Logger and nested
      * diagnostic context information, hence the name.
      * 
      * <p>The time format depends on the <code>DateFormat</code> used.  Use the
@@ -117,7 +117,7 @@ namespace log4cplus {
      *  first two statements. The text after the '-' is the message of the
      *  statement.
      * 
-     *  <p>{@link PatternLayout} offers a much more flexible alternative.
+     *  <p>PatternLayout offers a much more flexible alternative.
      */
     class LOG4CPLUS_EXPORT TTCCLayout : public Layout {
     public:
@@ -145,9 +145,9 @@ namespace log4cplus {
     /**
      * A flexible layout configurable with pattern string.
      * 
-     * <p>The goal of this class is to {@link #format format} a {@link
-     * LoggingEvent} and return the results as a String. The results
-     * depend on the <em>conversion pattern</em>.
+     * <p>The goal of this class is to format a InternalLoggingEvent and return 
+     * the results as a string. The results depend on the <em>conversion 
+     * pattern</em>.
      * 
      * <p>The conversion pattern is closely related to the conversion
      * pattern of the printf function in C. A conversion pattern is
@@ -157,10 +157,10 @@ namespace log4cplus {
      * <p><i>You are free to insert any literal text within the conversion
      * pattern.</i>
      * 
-     * <p>Each conversion specifier starts with a percent sign (%) and is
+     * <p>Each conversion specifier starts with a percent sign (%%) and is
      * followed by optional <em>format modifiers</em> and a <em>conversion
      * character</em>. The conversion character specifies the type of
-     * data, e.g. logger, LogLevel, date, thread name. The format
+     * data, e.g. Logger, LogLevel, date, thread name. The format
      * modifiers control such things as field width, padding, left and
      * right justification. The following is a simple example.
      * 
@@ -169,8 +169,8 @@ namespace log4cplus {
      * statements
      * <pre>
      * Logger root = Logger.getRoot();
-     * root.debug("Message 1");
-     * root.warn("Message 2");   
+     * LOG4CPLUS_DEBUG(root, "Message 1");
+     * LOG4CPLUS_WARN(root, "Message 2");
      * </pre>
      * would yield the output
      * <pre>
@@ -182,7 +182,7 @@ namespace log4cplus {
      * conversion specifiers. The pattern parser knows when it has reached
      * the end of a conversion specifier when it reads a conversion
      * character. In the example above the conversion specifier
-     * <b>%-5p</b> means the LogLevel of the logging event should be left
+     * <b>"%-5p"</b> means the LogLevel of the logging event should be left
      * justified to a width of five characters.
      * 
      * The recognized conversion characters are
@@ -215,37 +215,41 @@ namespace log4cplus {
      * <tr> 
      *   <td align=center><b>d</b></td> 
      *
-     *   <td>Used to output the date of the logging event in <b>GMT</b> time. 
+     *   <td>Used to output the date of the logging event in <b>localtime</b>. 
      *
      *   <p>The date conversion specifier may be followed by a <em>date format
-     *   specifier</em> enclosed between braces. For example, <b>%d{%H:%M:%s}</b>
-     *   or <b>%d{%d&nbsp;%b&nbsp;%Y&nbsp;%H:%M:%s}</b>.  If no date format 
-     *   specifier is given then b>%d{%d&nbsp;%m&nbsp;%Y&nbsp;%H:%M:%s}</b> is
-     *   assumed.
+     *   specifier</em> enclosed between braces. For example, <b>%%d{%%H:%%M:%%s}</b>
+     *   or <b>%%d{%%d&nbsp;%%b&nbsp;%%Y&nbsp;%%H:%%M:%%s}</b>.  If no date format 
+     *   specifier is given then <b>%%d{%%d&nbsp;%%m&nbsp;%%Y&nbsp;%%H:%%M:%%s}</b>
+     *   is assumed.
      *
      *   <p>The Following format options are possible:
-     *   <li>%a -- Abbreviated weekday name
-     *   <li>%A -- Full weekday name
-     *   <li>%b -- Abbreviated month name
-     *   <li>%B -- Full month name
-     *   <li>%c -- Standard date and time string
-     *   <li>%d -- Day of month as a decimal(1-31)
-     *   <li>%H -- Hour(0-23)
-     *   <li>%I -- Hour(1-12)
-     *   <li>%j -- Day of year as a decimal(1-366)
-     *   <li>%m -- Month as decimal(1-12)
-     *   <li>%M -- Minute as decimal(0-59)
-     *   <li>%p -- Locale's equivalent of AM or PM
-     *   <li>%S -- Second as decimal(0-59)
-     *   <li>%U -- Week of year, Sunday being first day(0-53)
-     *   <li>%w -- Weekday as a decimal(0-6, Sunday being 0)
-     *   <li>%W -- Week of year, Monday being first day(0-53)
-     *   <li>%x -- Standard date string
-     *   <li>%X -- Standard time string
-     *   <li>%y -- Year in decimal without century(0-99)
-     *   <li>%Y -- Year including century as decimal
-     *   <li>%Z -- Time zone name
-     *   <li>%% -- The percent sign
+     *   <ul>
+     *   <li>%%a -- Abbreviated weekday name</li>
+     *   <li>%%A -- Full weekday name</li>
+     *   <li>%%b -- Abbreviated month name</li>
+     *   <li>%%B -- Full month name</li>
+     *   <li>%%c -- Standard date and time string</li>
+     *   <li>%%d -- Day of month as a decimal(1-31)</li>
+     *   <li>%%H -- Hour(0-23)</li>
+     *   <li>%%I -- Hour(1-12)</li>
+     *   <li>%%j -- Day of year as a decimal(1-366)</li>
+     *   <li>%%m -- Month as decimal(1-12)</li>
+     *   <li>%%M -- Minute as decimal(0-59)</li>
+     *   <li>%%p -- Locale's equivalent of AM or PM</li>
+     *   <li>%%q -- milliseconds as decimal(0-999) -- <b>Log4CPLUS specific</b>
+     *   <li>%%Q -- fractional milliseconds as decimal(0-999.999) -- <b>Log4CPLUS specific</b>
+     *   <li>%%S -- Second as decimal(0-59)</li>
+     *   <li>%%U -- Week of year, Sunday being first day(0-53)</li>
+     *   <li>%%w -- Weekday as a decimal(0-6, Sunday being 0)</li>
+     *   <li>%%W -- Week of year, Monday being first day(0-53)</li>
+     *   <li>%%x -- Standard date string</li>
+     *   <li>%%X -- Standard time string</li>
+     *   <li>%%y -- Year in decimal without century(0-99)</li>
+     *   <li>%%Y -- Year including century as decimal</li>
+     *   <li>%%Z -- Time zone name</li>
+     *   <li>%% -- The percent sign</li>
+     *   </ul>
      *
      *   <p>Lookup the documentation for the <code>strftime()</code> function
      *   found in the <code>&lt;ctime&gt;</code> header for more information.
@@ -275,7 +279,7 @@ namespace log4cplus {
      * <tr>
      * <td align=center><b>l</b></td>
      * 
-     *   <td>Equivalent to using "%F:%L
+     *   <td>Equivalent to using "%F:%L"
      * 
      *   <p><b>NOTE:</b> Unlike log4j, there is no performance penalty for
      *   calling this method.
@@ -330,8 +334,8 @@ namespace log4cplus {
      * </tr>
      * 
      * <tr>
-     *   <td align=center><b>%</b></td>
-     *   <td>The sequence %% outputs a single percent sign.
+     *   <td align=center><b>"%%"</b></td>
+     *   <td>The sequence "%%" outputs a single percent sign.
      *   </td>     
      * </tr>
      *  
@@ -432,10 +436,10 @@ namespace log4cplus {
      * 
      * <dl>
      * 
-     * <p><dt><b>%r [%t] %-5p %c %x - %m\n</b> 
+     * <p><dt><b>"%r [%t] %-5p %c %x - %m%n"</b> 
      * <p><dd>This is essentially the TTCC layout.
      * 
-     * <p><dt><b>%-6r [%15.15t] %-5p %30.30c %x - %m\n</b>
+     * <p><dt><b>"%-6r [%15.15t] %-5p %30.30c %x - %m%n"</b>
      * 
      * <p><dd>Similar to the TTCC layout except that the relative time is
      * right padded if less than 6 digits, thread name is right padded if
