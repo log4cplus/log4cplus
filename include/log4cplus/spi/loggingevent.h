@@ -21,6 +21,7 @@
 #include <log4cplus/ndc.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/helpers/threads.h>
 
 namespace log4cplus {
     namespace spi {
@@ -53,7 +54,7 @@ namespace log4cplus {
                 ll(ll),
                 ndc(log4cplus::getNDC().get()),
                 message(message),
-                thread( LOG4CPLUS_GET_CURRENT_THREAD ),
+                thread( LOG4CPLUS_GET_CURRENT_THREAD_NAME ),
                 timestamp(log4cplus::helpers::Time::gettimeofday()),
                 file(file),
                 line(line)
@@ -64,8 +65,8 @@ namespace log4cplus {
                                   LogLevel ll,
                                   const log4cplus::tstring& ndc,
                                   const log4cplus::tstring& message,
-                                  LOG4CPLUS_THREAD_KEY_TYPE thread,
-				  log4cplus::helpers::Time time,
+                                  const log4cplus::tstring& thread,
+                                  log4cplus::helpers::Time time,
                                   const char* file,
                                   int line)
               : loggerName(logger),
@@ -95,7 +96,7 @@ namespace log4cplus {
             const log4cplus::tstring message;
 
             /** The name of thread in which this logging event was generated. */
-            const LOG4CPLUS_THREAD_KEY_TYPE thread;
+            const log4cplus::tstring thread;
 
             /** The number of milliseconds elapsed from 1/1/1970 until logging event
              *  was created. */
