@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/04/18 22:24:11  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.3  2003/04/03 01:17:30  tcsmith
 // Changed to support the rename of Category to Logger and Priority to
 // LogLevel.
@@ -18,6 +21,7 @@
 
 #include <log4cplus/layout.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/strftime.h>
 #include <log4cplus/spi/loggingevent.h>
 
 #include <stdlib.h>
@@ -216,7 +220,7 @@ log4cplus::pattern::FormattingInfo::dump() {
     buf << LOG4CPLUS_TEXT("min=") << minLen
         << LOG4CPLUS_TEXT(", max=") << maxLen
         << LOG4CPLUS_TEXT(", leftAlign=")
-	<< (buf ? LOG4CPLUS_TEXT("true") : LOG4CPLUS_TEXT("false"));
+        << (buf ? LOG4CPLUS_TEXT("true") : LOG4CPLUS_TEXT("false"));
     getLogLog().debug(buf.str());
 }
 
@@ -306,18 +310,20 @@ log4cplus::pattern::BasicPatternConverter::convert
     case NDC_CONVERTER:      return event.ndc;
     case MESSAGE_CONVERTER:  return event.message;
     case NEWLINE_CONVERTER:  return LOG4CPLUS_TEXT("\n");
-    case FILE_CONVERTER:     return (event.file ? event.file : log4cplus::tstring());
+    case FILE_CONVERTER:     return (  event.file
+                                     ? LOG4CPLUS_C_STR_TO_TSTRING(event.file) 
+                                     : log4cplus::tstring());
 
     case RELATIVE_TIME_CONVERTER:
         {
-	    log4cplus::tostringstream buf;
+            log4cplus::tostringstream buf;
             buf << (event.clock_ticks / CLOCKS_PER_MILLIS);
             return buf.str();
         }
 
     case THREAD_CONVERTER:        
         {
-	    log4cplus::tostringstream buf;
+            log4cplus::tostringstream buf;
             buf << event.thread;
             return buf.str();
         }
@@ -325,7 +331,7 @@ log4cplus::pattern::BasicPatternConverter::convert
     case LINE_CONVERTER:
         {
             if(event.line != -1) {
-	       log4cplus::tostringstream buf;
+               log4cplus::tostringstream buf;
                 buf << event.line;
                 return buf.str();
             }
@@ -337,7 +343,7 @@ log4cplus::pattern::BasicPatternConverter::convert
     case FULL_LOCATION_CONVERTER:
         {
             if(event.file != 0) {
-		log4cplus::tostringstream buf;
+                log4cplus::tostringstream buf;
                 buf << event.file << LOG4CPLUS_TEXT(':') << event.line;
                 return buf.str();
             }
@@ -413,7 +419,7 @@ log4cplus::tstring
 log4cplus::pattern::DatePatternConverter::convert
                                             (const InternalLoggingEvent& event)
 {
-    char buffer[BUFFER_SIZE];
+    tchar buffer[BUFFER_SIZE];
     struct tm* time;
     if(use_gmtime) {
         time = gmtime(&event.timestamp);
@@ -422,7 +428,7 @@ log4cplus::pattern::DatePatternConverter::convert
         time = localtime(&event.timestamp);
     }
 
-    int result = strftime(buffer, BUFFER_SIZE, format.c_str(), time);
+    int result = log4cplus::helpers::strftime(buffer, BUFFER_SIZE, format.c_str(), time);
     if(result > 0) {
         return log4cplus::tstring(buffer, result);
     }
@@ -471,7 +477,7 @@ log4cplus::pattern::PatternParser::extractPrecisionOption()
     log4cplus::tstring opt = extractOption();
     int r = 0;
     if(opt.length() > 0) {
-        r = atoi(opt.c_str());
+        r = atoi(LOG4CPLUS_TSTRING_TO_STRING(opt).c_str());
     }
     return r;
 }
@@ -561,7 +567,7 @@ log4cplus::pattern::PatternParser::parse()
                 state = MAX_STATE;
             }
             else {
-		log4cplus::tostringstream buf;
+                log4cplus::tostringstream buf;
                 buf << LOG4CPLUS_TEXT("Error occured in position ")
                     << pos
                     << LOG4CPLUS_TEXT(".\n Was expecting digit, instead got char \"")
@@ -697,7 +703,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(char c)
             break;
 
         default:
-	    log4cplus::tostringstream buf;
+            log4cplus::tostringstream buf;
             buf << LOG4CPLUS_TEXT("Unexpected char [")
                 << c
                 << LOG4CPLUS_TEXT("] at position ")

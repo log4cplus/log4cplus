@@ -11,11 +11,15 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/04/18 21:19:42  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.5  2003/04/03 00:58:59  tcsmith
 // Standardized the formatting.
 //
 
 #include <log4cplus/layout.h>
+#include <log4cplus/helpers/strftime.h>
 #include <log4cplus/spi/loggingevent.h>
 
 
@@ -33,10 +37,13 @@ using namespace log4cplus::spi;
 log4cplus::tstring
 log4cplus::getFormattedTime(time_t time, const log4cplus::tstring& fmt)
 {
-    char buffer[BUFFER_SIZE];
-    int len = strftime(buffer, BUFFER_SIZE, fmt.c_str(), gmtime(&time));
+    tchar buffer[BUFFER_SIZE];
+    int len = log4cplus::helpers::strftime(buffer, 
+                                           BUFFER_SIZE, 
+                                           fmt.c_str(), 
+                                           gmtime(&time));
     buffer[len] = '\0';
-    return LOG4CPLUS_C_STR_TO_TSTRING(buffer);
+    return tstring(buffer);
 }
 
 
@@ -50,9 +57,9 @@ SimpleLayout::formatAndAppend(log4cplus::tostream& output,
                               const log4cplus::spi::InternalLoggingEvent& event)
 {
     output << llmCache.toString(event.ll) 
-	   << LOG4CPLUS_TEXT(" - ")
-	   << event.message 
-	   << std::endl;
+           << LOG4CPLUS_TEXT(" - ")
+           << event.message 
+           << std::endl;
 }
 
 
@@ -89,15 +96,15 @@ TTCCLayout::formatAndAppend(log4cplus::tostream& output,
                             const log4cplus::spi::InternalLoggingEvent& event)
 {
     output << getFormattedTime(event.timestamp, dateFormat) 
-	   << LOG4CPLUS_TEXT(" [")
+           << LOG4CPLUS_TEXT(" [")
            << event.thread 
-	   << LOG4CPLUS_TEXT("] ")
+           << LOG4CPLUS_TEXT("] ")
            << llmCache.toString(event.ll) 
-	   << LOG4CPLUS_TEXT(" ")
+           << LOG4CPLUS_TEXT(" ")
            << event.loggerName 
-	   << LOG4CPLUS_TEXT(" <")
+           << LOG4CPLUS_TEXT(" <")
            << event.ndc 
-	   << LOG4CPLUS_TEXT("> - ")
+           << LOG4CPLUS_TEXT("> - ")
            << event.message
            << std::endl;
 }

@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/04/18 21:37:35  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.3  2003/04/03 01:32:46  tcsmith
 // Changed to support the rename of Category to Logger and Priority to
 // LogLevel.
@@ -158,8 +161,7 @@ Hierarchy::getInstance(const log4cplus::tstring& name, spi::LoggerFactory& facto
                 updateChildren(it2->second, cat);
                 bool deleted = provisionNodes.erase(name);
                 if(!deleted) {
-                    getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstance()- " \
-                                                     "Delete failed"));
+                    getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstance()- Delete failed"));
                     throw std::runtime_error("Hierarchy::getInstance()- Delete failed");
                 }
             }
@@ -282,8 +284,7 @@ Hierarchy::updateParents(Logger cat)
                     provisionNodes.insert(std::make_pair(substr, node));
                 //bool inserted = provisionNodes.insert(std::make_pair(substr, node)).second;
                 if(!tmp.second) {
-                    getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::updateParents()- " \
-                                                     "Insert failed"));
+                    getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::updateParents()- Insert failed"));
                     throw std::runtime_error("Hierarchy::updateParents()- Insert failed");
                 }
             }

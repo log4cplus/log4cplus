@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/04/18 21:52:35  tcsmith
+// Converted from using std::ifstream to using log4cplus::tifstream.
+//
 // Revision 1.5  2003/04/18 21:32:22  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -51,7 +54,7 @@ log4cplus::helpers::Properties::Properties(log4cplus::tistream& input)
 log4cplus::helpers::Properties::Properties(const log4cplus::tstring& inputFile)
 {
     tifstream file;
-    file.open(inputFile.c_str());
+    file.open(LOG4CPLUS_TSTRING_TO_STRING(inputFile).c_str());
     if(!file) {
         return;
     }
@@ -67,7 +70,7 @@ log4cplus::helpers::Properties::init(log4cplus::tistream& input)
         return;
     }
 
-    char buffer[BUFFER_SIZE];
+    tchar buffer[BUFFER_SIZE];
     while(!input.eof()) {
         input.getline(buffer, BUFFER_SIZE);
         tstring tmp(buffer);

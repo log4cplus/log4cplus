@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/04/19 21:35:14  tcsmith
+// Replaced use of back_insert_iterator with string_append_iterator.
+//
 // Revision 1.4  2003/04/18 21:00:38  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -219,8 +222,7 @@ log4cplus::PropertyConfigurator::configureLogger(log4cplus::Logger logger,
              back_insert_iterator<vector<tstring> >(tokens));
 
     if(tokens.size() == 0) {
-        getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()- " \
-                                         "Invalid config string(Logger = ")
+        getLogLog().error(  LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()- Invalid config string(Logger = ")
                           + logger.getName() 
                           + LOG4CPLUS_TEXT("): \"") 
                           + config 
@@ -238,8 +240,7 @@ log4cplus::PropertyConfigurator::configureLogger(log4cplus::Logger logger,
     for(int j=1; j<tokens.size(); ++j) {
         AppenderMap::iterator appenderIt = appenders.find(tokens[j]);
         if(appenderIt == appenders.end()) {
-        getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()- " \
-                                         "Invalid appender: ")
+        getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()- Invalid appender: ")
                           + tokens[j]);
             continue;
         }
@@ -263,10 +264,9 @@ log4cplus::PropertyConfigurator::configureAppenders()
             tstring factoryName = appenderProperties.getProperty(*it);
             AppenderFactory* factory = getAppenderFactoryRegistry().get(factoryName);
             if(factory == 0) {
-                getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::" \
-                                                 "configureAppenders()- " \
-                                                 "Cannot find AppenderFactory: ")
-                                  + factoryName);
+                tstring err = 
+                    LOG4CPLUS_TEXT("PropertyConfigurator::configureAppenders()- Cannot find AppenderFactory: ");
+                getLogLog().error(err + factoryName);
                 continue;
             }
 
@@ -275,10 +275,9 @@ log4cplus::PropertyConfigurator::configureAppenders()
             try {
                 SharedAppenderPtr appender = factory->createObject(properties);
                 if(appender.get() == 0) {
-                    getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::" \
-                                                     "configureAppenders()- " \
-                                                     "Failed to create appender: ")
-                                      + *it);
+                    tstring err = 
+                        LOG4CPLUS_TEXT("PropertyConfigurator::configureAppenders()- Failed to create appender: ");
+                    getLogLog().error(err + *it);
                 }
                 else {
                     appender->setName(*it);
@@ -286,10 +285,9 @@ log4cplus::PropertyConfigurator::configureAppenders()
                 }
             }
             catch(std::exception& e) {
-                getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::" \
-                                                 "configureAppenders()- " \
-                                                 "Error while creating Appender: ")
-                                  + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
+                tstring err = 
+                    LOG4CPLUS_TEXT("PropertyConfigurator::configureAppenders()- Error while creating Appender: ");
+                getLogLog().error(err + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
             }
         }
     } // end for loop

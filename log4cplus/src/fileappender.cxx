@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/04/18 21:56:39  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.6  2003/04/03 00:49:07  tcsmith
 // Standardized the formatting.
 //
@@ -62,7 +65,7 @@ log4cplus::FileAppender::init(const log4cplus::tstring& filename,
                               std::ios::openmode mode)
 {
     this->filename = filename;
-    out.open(filename.c_str(), mode);
+    out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), mode);
 
     if(!out.good()) {
         getErrorHandler()->error(  LOG4CPLUS_TEXT("Unable to open file: ") 
@@ -219,7 +222,7 @@ log4cplus::RollingFileAppender::rollover()
         // Delete the oldest file
         log4cplus::tostringstream buffer;
         buffer << filename << LOG4CPLUS_TEXT('.') << maxBackupIndex;
-        remove(buffer.str().c_str());
+        remove(LOG4CPLUS_TSTRING_TO_STRING(buffer.str()).c_str());
 
         // Map {(maxBackupIndex - 1), ..., 2, 1} to {maxBackupIndex, ..., 3, 2}
         for(int i=maxBackupIndex - 1; i >= 1; i--) {
@@ -228,7 +231,9 @@ log4cplus::RollingFileAppender::rollover()
 
             source << filename << LOG4CPLUS_TEXT('.') << i;
             target << filename << LOG4CPLUS_TEXT('.') << (i+1);
-            if(rename(source.str().c_str(), target.str().c_str()) == 0) {
+            if(rename(LOG4CPLUS_TSTRING_TO_STRING(source.str()).c_str(), 
+                      LOG4CPLUS_TSTRING_TO_STRING(target.str()).c_str()) == 0) 
+            {
                 getLogLog().debug(  LOG4CPLUS_TEXT("Renamed file ") 
                                   + source.str() 
                                   + LOG4CPLUS_TEXT(" to ")
@@ -247,10 +252,12 @@ log4cplus::RollingFileAppender::rollover()
                           + filename 
                           + LOG4CPLUS_TEXT(" to ")
                           + target);
-        rename(filename.c_str(), target.c_str());
+        rename(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), 
+               LOG4CPLUS_TSTRING_TO_STRING(target).c_str());
 
         // Open a new file
-        out.open(filename.c_str(), std::ios::out | std::ios::trunc);
+        out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), 
+                 std::ios::out | std::ios::trunc);
     }
     else {
         getLogLog().debug(  filename 
@@ -261,7 +268,8 @@ log4cplus::RollingFileAppender::rollover()
                      // flags should remain unchanged on a close
 
         // Open it up again in truncation mode
-        out.open(filename.c_str(), std::ios::out | std::ios::trunc);
+        out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), 
+                 std::ios::out | std::ios::trunc);
     }
 }
 
