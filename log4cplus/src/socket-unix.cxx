@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/07/30 06:03:30  tcsmith
+// Made changes to support Mac OS X builds.
+//
 // Revision 1.3  2003/07/19 15:30:22  tcsmith
 // Changed the "errno.h" include statement for Solaris.
 //
@@ -26,7 +29,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
 
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(__FreeBSD__)
 #include <netinet/in.h>
 #endif
 
