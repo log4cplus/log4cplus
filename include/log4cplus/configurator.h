@@ -21,6 +21,7 @@
 #include <log4cplus/hierarchy.h>
 #include <log4cplus/logger.h>
 #include <log4cplus/helpers/logloguser.h>
+#include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/property.h>
 
 #include <map>
@@ -33,27 +34,27 @@ namespace log4cplus {
      * the expected format.
      * 
      * <p><em>All option values admit variable substitution.</em> For
-     * example, if <code>java.home</code> system property is set to
+     * example, if <code>userhome</code> environment property is set to
      * <code>/home/xyz</code> and the File option is set to the string
-     * <code>${java.home}/test.log</code>, then File option will be
+     * <code>${userhome}/test.log</code>, then File option will be
      * interpreted as the string <code>/home/xyz/test.log</code>.
-     * 
-     * <p>The value of the substituted variable can be defined as a system
-     * property or in the configuration file itself.
      * 
      * <p>The syntax of variable substitution is similar to that of UNIX
      * shells. The string between an opening <b>&quot;${&quot;</b> and
      * closing <b>&quot;}&quot;</b> is interpreted as a key. Its value is
-     * searched in the system properties, and if not found then in the
-     * configuration file being parsed.  The corresponding value replaces
+     * searched in the environment properties.  The corresponding value replaces
      * the ${variableName} sequence.
      */
     class LOG4CPLUS_EXPORT PropertyConfigurator : protected log4cplus::helpers::LogLogUser
     {
     public:
         // ctor and dtor
-        PropertyConfigurator(const log4cplus::tstring& propertyFile);
-        PropertyConfigurator(log4cplus::tistream& propertyStream);
+        PropertyConfigurator(const log4cplus::tstring& propertyFile,
+                             Hierarchy& h = Logger::getDefaultHierarchy());
+        PropertyConfigurator(const log4cplus::helpers::Properties& props,
+                             Hierarchy& h = Logger::getDefaultHierarchy());
+        PropertyConfigurator(log4cplus::tistream& propertyStream,
+                             Hierarchy& h = Logger::getDefaultHierarchy());
         virtual ~PropertyConfigurator();
 
         /**
@@ -65,7 +66,8 @@ namespace log4cplus {
          * config.configure();
          * </code>
          */
-        static void doConfigure(const log4cplus::tstring& configFilename);
+        static void doConfigure(const log4cplus::tstring& configFilename,
+                                Hierarchy& h = Logger::getDefaultHierarchy());
 
         /**
          * Read configuration from a file. <b>The existing configuration is
@@ -212,20 +214,26 @@ namespace log4cplus {
          *
          * <p>Use the <code>#</code> character at the beginning of a line for comments.
          */
-        virtual void configure(Hierarchy& h = Logger::getDefaultHierarchy());
+        virtual void configure();
 
     protected:
-        // Methods
+      // Methods
+        void init();  // called by the ctor
+        void reconfigure();
         void replaceEnvironVariables();
-        void configureLoggers(Hierarchy& h);
+        void configureLoggers();
         void configureLogger(log4cplus::Logger logger, const log4cplus::tstring& config);
         void configureAppenders();
-        void configureAdditivity(Hierarchy& h);
+        void configureAdditivity();
+        
+        virtual Logger getLogger(const log4cplus::tstring& name);
+        virtual void addAppender(Logger &logger, log4cplus::SharedAppenderPtr& appender);
 
-        // Types
+      // Types
         typedef std::map<log4cplus::tstring, log4cplus::SharedAppenderPtr> AppenderMap;
 
-        // Data
+      // Data
+        Hierarchy& h;
         log4cplus::tstring propertyFilename;
         log4cplus::helpers::Properties properties; 
         AppenderMap appenders;
@@ -240,7 +248,7 @@ namespace log4cplus {
     class LOG4CPLUS_EXPORT BasicConfigurator : public PropertyConfigurator {
     public:
       // ctor and dtor
-        BasicConfigurator();
+        BasicConfigurator(Hierarchy& h = Logger::getDefaultHierarchy());
         virtual ~BasicConfigurator();
 
         /**
@@ -252,9 +260,31 @@ namespace log4cplus {
          * config.configure();
          * </code>
          */
-        static void doConfigure();
+        static void doConfigure(Hierarchy& h = Logger::getDefaultHierarchy());
     };
    
+
+#if !defined(LOG4CPLUS_SINGLE_THREADED)
+    // Forward Declarations
+    class ConfigurationWatchDogThread;
+    
+    
+    class LOG4CPLUS_EXPORT ConfigureAndWatchThread {
+    public:
+      // ctor and dtor
+        ConfigureAndWatchThread(const log4cplus::tstring& propertyFile,
+                                unsigned int millis = 60 * 1000);
+        virtual ~ConfigureAndWatchThread();
+
+    private:
+      // Disallow copying of instances of this class
+       ConfigureAndWatchThread(const ConfigureAndWatchThread&);
+       ConfigureAndWatchThread& operator=(const ConfigureAndWatchThread&);
+       
+      // Data
+        log4cplus::helpers::SharedObjectPtr<ConfigurationWatchDogThread> watchDogThread;
+    };
+#endif
 
 } // end namespace log4cplus
 
