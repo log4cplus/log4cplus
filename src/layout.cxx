@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.12  2003/06/11 22:48:33  tcsmith
+// Modified to use the new log4cplus::helpers::Time type.
+//
 // Revision 1.11  2003/06/09 18:13:16  tcsmith
 // Changed the ctor to take a 'const' Properties object.
 //
@@ -67,7 +70,7 @@ SimpleLayout::formatAndAppend(log4cplus::tostream& output,
 ///////////////////////////////////////////////////////////////////////////////
 
 TTCCLayout::TTCCLayout(bool use_gmtime)
-: dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S") ),
+: dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S,%q") ),
   use_gmtime(use_gmtime)
 {
 }
@@ -75,7 +78,7 @@ TTCCLayout::TTCCLayout(bool use_gmtime)
 
 TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
 : Layout(properties),
-  dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S") ),
+  dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S,%q") ),
   use_gmtime(true)
 {
     if(properties.exists( LOG4CPLUS_TEXT("DateFormat") )) {
