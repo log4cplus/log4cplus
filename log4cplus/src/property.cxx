@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.12  2003/10/22 05:46:38  tcsmith
+// Now strip trailing \r.  (A property file can be created on Windows and used
+// on *nix.)
+//
 // Revision 1.11  2003/06/09 23:06:54  tcsmith
 // Added support for "comment" lines in the property file.
 //
@@ -99,7 +103,12 @@ log4cplus::helpers::Properties::init(log4cplus::tistream& input)
         {
             // Check if we have a trailing \r because we are 
             // reading a properties file produced on Windows.
-            int buffLen = strlen(buffer);
+            size_t buffLen = 
+#ifdef UNICODE
+				wcslen(buffer);
+#else
+				strlen(buffer);
+#endif
             if((buffLen > 0) && buffer[buffLen-1] == '\r') {
                 // Remove trailing 'Windows' \r
                 buffer[buffLen-1] = '\0';
