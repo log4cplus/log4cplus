@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.14  2003/06/12 23:50:21  tcsmith
+// Modified to support the rename of the toupper and tolower methods.
+//
 // Revision 1.13  2003/06/12 23:11:54  tcsmith
 // Changed the default TTCCLayout date pattern to include milliseconds.
 //
@@ -47,6 +50,7 @@
 #include <log4cplus/spi/loggingevent.h>
 
 
+using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
@@ -63,7 +67,7 @@ SimpleLayout::formatAndAppend(log4cplus::tostream& output,
     output << llmCache.toString(event.ll) 
            << LOG4CPLUS_TEXT(" - ")
            << event.message 
-           << std::endl;
+           << endl;
 }
 
 
@@ -118,7 +122,7 @@ TTCCLayout::formatAndAppend(log4cplus::tostream& output,
            << event.ndc 
            << LOG4CPLUS_TEXT("> - ")
            << event.message
-           << std::endl;
+           << endl;
 }
 
 
