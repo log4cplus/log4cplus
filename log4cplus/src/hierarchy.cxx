@@ -11,13 +11,15 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/04/03 01:32:46  tcsmith
+// Changed to support the rename of Category to Logger and Priority to
+// LogLevel.
+//
 
 #include <log4cplus/hierarchy.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggerimpl.h>
 #include <log4cplus/spi/rootlogger.h>
-#include <iostream>
-#include <string>
 #include <utility>
 
 using namespace log4cplus;
@@ -29,7 +31,7 @@ const LogLevel log4cplus::Hierarchy::DISABLE_OVERRIDE = -2;
 
 
 namespace {
-    bool startsWith(std::string teststr, std::string substr) {
+    bool startsWith(log4cplus::tstring teststr, log4cplus::tstring substr) {
         bool val = false;
         if(teststr.length() > substr.length()) {
             val =  teststr.substr(0, substr.length()) == substr;
@@ -72,7 +74,7 @@ Hierarchy::clear()
 
 
 bool
-Hierarchy::exists(const std::string& name)
+Hierarchy::exists(const log4cplus::tstring& name)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
         LoggerMap::iterator it = loggerPtrs.find(name);
@@ -82,7 +84,7 @@ Hierarchy::exists(const std::string& name)
 
 
 void 
-Hierarchy::disable(const std::string& loglevelStr)
+Hierarchy::disable(const log4cplus::tstring& loglevelStr)
 {
     if(disableValue != DISABLE_OVERRIDE) {
         disableValue = getLogLevelManager().fromString(loglevelStr);
@@ -128,14 +130,14 @@ Hierarchy::enableAll()
 
 
 Logger 
-Hierarchy::getInstance(const std::string& name) 
+Hierarchy::getInstance(const log4cplus::tstring& name) 
 { 
     return getInstance(name, *defaultFactory); 
 }
 
 
 Logger 
-Hierarchy::getInstance(const std::string& name, spi::LoggerFactory& factory)
+Hierarchy::getInstance(const log4cplus::tstring& name, spi::LoggerFactory& factory)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
         LoggerMap::iterator it = loggerPtrs.find(name);
@@ -147,7 +149,7 @@ Hierarchy::getInstance(const std::string& name, spi::LoggerFactory& factory)
             Logger cat = factory.makeNewLoggerInstance(name, *this);
             bool inserted = loggerPtrs.insert(std::make_pair(name, cat)).second;
             if(!inserted) {
-                getLogLog().error("Hierarchy::getInstance()- Insert failed");
+                getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstance()- Insert failed"));
                 throw std::runtime_error("Hierarchy::getInstance()- Insert failed");
             }
 
@@ -156,7 +158,8 @@ Hierarchy::getInstance(const std::string& name, spi::LoggerFactory& factory)
                 updateChildren(it2->second, cat);
                 bool deleted = provisionNodes.erase(name);
                 if(!deleted) {
-                    getLogLog().error("Hierarchy::getInstance()- Delete failed");
+                    getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstance()- " \
+                                                     "Delete failed"));
                     throw std::runtime_error("Hierarchy::getInstance()- Delete failed");
                 }
             }
@@ -250,16 +253,16 @@ Hierarchy::shutdown()
 void 
 Hierarchy::updateParents(Logger cat)
 {
-    std::string name = cat.getName();
+    log4cplus::tstring name = cat.getName();
     int length = name.length();
     bool parentFound = false;
 
     // if name = "w.x.y.z", loop thourgh "w.x.y", "w.x" and "w", but not "w.x.y.z"
-    for(unsigned int i=name.find_last_of('.', length-1); 
-        i != std::string::npos; 
-        i = name.find_last_of('.', i-1)) 
+    for(unsigned int i=name.find_last_of(LOG4CPLUS_TEXT('.'), length-1); 
+        i != log4cplus::tstring::npos; 
+        i = name.find_last_of(LOG4CPLUS_TEXT('.'), i-1)) 
     {
-        std::string substr = name.substr(0, i);
+        log4cplus::tstring substr = name.substr(0, i);
 
         LoggerMap::iterator it = loggerPtrs.find(substr);
         if(it != loggerPtrs.end()) {
@@ -279,7 +282,8 @@ Hierarchy::updateParents(Logger cat)
                     provisionNodes.insert(std::make_pair(substr, node));
                 //bool inserted = provisionNodes.insert(std::make_pair(substr, node)).second;
                 if(!tmp.second) {
-                    getLogLog().error("Hierarchy::updateParents()- Insert failed");
+                    getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::updateParents()- " \
+                                                     "Insert failed"));
                     throw std::runtime_error("Hierarchy::updateParents()- Insert failed");
                 }
             }
