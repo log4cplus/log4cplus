@@ -312,8 +312,8 @@ namespace log4cplus {
      */
     class LOG4CPLUS_EXPORT TraceLogger {
     public:
-        TraceLogger(Logger& logger, const log4cplus::tstring& msg) 
-          : logger(logger), msg(msg) 
+        TraceLogger(const Logger& l, const log4cplus::tstring& msg) 
+          : logger(l), msg(msg) 
         { if(logger.isEnabledFor(TRACE_LOG_LEVEL))
               logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg); 
         }
@@ -324,7 +324,7 @@ namespace log4cplus {
         }
 
     private:
-        Logger& logger;
+        Logger logger;
         log4cplus::tstring msg;
     };
 
