@@ -267,7 +267,7 @@ namespace log4cplus {
        std::auto_ptr<spi::LoggerFactory> defaultFactory;
        ProvisionNodeMap provisionNodes;
        LoggerMap loggerPtrs;
-       Logger *root;
+       Logger root;
 
        int disableValue;
 
