@@ -74,7 +74,7 @@ log4cplus::thread::Guard::~Guard()
     try {
         LOG4CPLUS_MUTEX_UNLOCK( _mutex );
     }
-    catch(exception& e) {
+    catch(std::exception& e) {
         helpers::getLogLog().error(std::string("**** Guard::~Guard() exception: ") + e.what());
         throw;
     }
