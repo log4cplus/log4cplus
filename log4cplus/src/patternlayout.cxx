@@ -14,8 +14,10 @@
 #include <log4cplus/layout.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
+
 #include <stdlib.h>
 #include <ctime>
+#include <exception>
 
 
 using namespace log4cplus;
@@ -298,7 +300,7 @@ log4cplus::pattern::BasicPatternConverter::convert
     case NDC_CONVERTER:      return event.ndc;
     case MESSAGE_CONVERTER:  return event.message;
     case NEWLINE_CONVERTER:  return "\n";
-    case FILE_CONVERTER:     return event.file;
+    case FILE_CONVERTER:     return (event.file ? event.file : std::string());
 
     case RELATIVE_TIME_CONVERTER:
         {
@@ -316,16 +318,26 @@ log4cplus::pattern::BasicPatternConverter::convert
 
     case LINE_CONVERTER:
         {
-            std::ostringstream buf;
-            buf << event.line;
-            return buf.str();
+            if(event.line != -1) {
+                std::ostringstream buf;
+                buf << event.line;
+                return buf.str();
+            }
+            else {
+                return std::string();
+            }
         }
 
     case FULL_LOCATION_CONVERTER:
         {
-            std::ostringstream buf;
-            buf << event.file << ':' << event.line;
-            return buf.str();
+            if(event.file != 0) {
+                std::ostringstream buf;
+                buf << event.file << ':' << event.line;
+                return buf.str();
+            }
+            else {
+                return std::string(":");
+            }
         }
     }
 
@@ -610,7 +622,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(char c)
         case 'F':
             pc = new BasicPatternConverter
                           (formattingInfo, 
-			   BasicPatternConverter::FILE_CONVERTER);
+                           BasicPatternConverter::FILE_CONVERTER);
             //getLogLog().debug("FILE NAME converter.");
             //formattingInfo.dump();      
             break;
@@ -618,7 +630,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(char c)
         case 'l':
             pc = new BasicPatternConverter
                           (formattingInfo, 
-			   BasicPatternConverter::FULL_LOCATION_CONVERTER);
+                           BasicPatternConverter::FULL_LOCATION_CONVERTER);
             //getLogLog().debug("FULL LOCATION converter.");
             //formattingInfo.dump();      
             break;
@@ -626,7 +638,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(char c)
         case 'L':
             pc = new BasicPatternConverter
                           (formattingInfo, 
-			   BasicPatternConverter::LINE_CONVERTER);
+                           BasicPatternConverter::LINE_CONVERTER);
             //getLogLog().debug("LINE NUMBER converter.");
             //formattingInfo.dump();      
             break;
@@ -634,7 +646,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(char c)
         case 'm':
             pc = new BasicPatternConverter
                           (formattingInfo, 
-			   BasicPatternConverter::MESSAGE_CONVERTER);
+                           BasicPatternConverter::MESSAGE_CONVERTER);
             //getLogLog().debug("MESSAGE converter.");
             //formattingInfo.dump();      
             break;
@@ -642,7 +654,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(char c)
         case 'n':
             pc = new BasicPatternConverter
                           (formattingInfo, 
-			   BasicPatternConverter::NEWLINE_CONVERTER);
+                           BasicPatternConverter::NEWLINE_CONVERTER);
             //getLogLog().debug("MESSAGE converter.");
             //formattingInfo.dump();      
             break;
@@ -650,7 +662,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(char c)
         case 'p':
             pc = new BasicPatternConverter
                           (formattingInfo, 
-			   BasicPatternConverter::PRIORITY_CONVERTER);
+                           BasicPatternConverter::PRIORITY_CONVERTER);
             //getLogLog().debug("PRIORITY converter.");
             //formattingInfo.dump();
             break;
@@ -658,7 +670,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(char c)
         case 'r':
             pc = new BasicPatternConverter
                           (formattingInfo, 
-			   BasicPatternConverter::RELATIVE_TIME_CONVERTER);
+                           BasicPatternConverter::RELATIVE_TIME_CONVERTER);
             //getLogLog().debug("RELATIVE time converter.");
             //formattingInfo.dump();
             break;
@@ -666,7 +678,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(char c)
         case 't':
             pc = new BasicPatternConverter
                           (formattingInfo, 
-			   BasicPatternConverter::THREAD_CONVERTER);
+                           BasicPatternConverter::THREAD_CONVERTER);
             //getLogLog().debug("THREAD converter.");
             //formattingInfo.dump();      
             break;
@@ -674,7 +686,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(char c)
         case 'x':
             pc = new BasicPatternConverter
                           (formattingInfo, 
-			   BasicPatternConverter::NDC_CONVERTER);
+                           BasicPatternConverter::NDC_CONVERTER);
             //getLogLog().debug("NDC converter.");      
             break;
 
@@ -704,9 +716,27 @@ log4cplus::pattern::PatternParser::finalizeConverter(char c)
 ////////////////////////////////////////////////
 
 PatternLayout::PatternLayout(const std::string& pattern)
-: pattern(pattern),
-  parsedPattern(PatternParser(pattern).parse())
 {
+    init(pattern);
+}
+
+
+PatternLayout::PatternLayout(log4cplus::helpers::Properties properties)
+{
+    if(!properties.exists("Pattern")) {
+        throw std::runtime_error("Pattern not specified in properties");
+    }
+
+    init(properties.getProperty("Pattern"));
+}
+
+
+void
+PatternLayout::init(const std::string& pattern)
+{
+    this->pattern = pattern;
+    this->parsedPattern = PatternParser(pattern).parse();
+
     // Let's validate that our parser didn't give us any NULLs.  If it did,
     // we will convert them to a valid PatternConverter that does nothing so
     // at least we don't core.
@@ -723,7 +753,7 @@ PatternLayout::PatternLayout(const std::string& pattern)
         getLogLog().warn("PatternLayout pattern is empty.  Using default...");
         parsedPattern.push_back
            (new BasicPatternConverter(FormattingInfo(), 
-				      BasicPatternConverter::MESSAGE_CONVERTER));
+                                      BasicPatternConverter::MESSAGE_CONVERTER));
     }
 }
 
