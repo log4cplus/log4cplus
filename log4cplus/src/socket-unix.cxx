@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/08/05 06:21:51  tcsmith
+// Fixed FreeBSD compilation problem.
+//
 // Revision 1.4  2003/07/30 06:03:30  tcsmith
 // Made changes to support Mac OS X builds.
 //
@@ -61,6 +64,9 @@ log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = INADDR_ANY;
     server.sin_port = htons(port);
+
+    int optval = 1;
+    setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval) );
 
     if(bind(sock, (struct sockaddr*)&server, sizeof(server)) < 0) {
         return INVALID_SOCKET;
@@ -153,7 +159,8 @@ log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 size_t
 log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
-    return ::write(sock, buffer.getBuffer(), buffer.getSize());
+     return ::send( sock, buffer.getBuffer(), buffer.getSize(), MSG_NOSIGNAL );
+     // return ::write(sock, buffer.getBuffer(), buffer.getSize());
 }
 
 
