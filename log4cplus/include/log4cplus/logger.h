@@ -314,20 +314,23 @@ namespace log4cplus {
      */
     class LOG4CPLUS_EXPORT TraceLogger {
     public:
-        TraceLogger(const Logger& l, const log4cplus::tstring& msg) 
-          : logger(l), msg(msg) 
+        TraceLogger(const Logger& l, const log4cplus::tstring& msg,
+                    const char* file=NULL, int line=-1) 
+          : logger(l), msg(msg), file(file), line(line)
         { if(logger.isEnabledFor(TRACE_LOG_LEVEL))
-              logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg); 
+              logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg, file, line); 
         }
 
         ~TraceLogger()
         { if(logger.isEnabledFor(TRACE_LOG_LEVEL))
-              logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("EXIT:  ") + msg); 
+              logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("EXIT:  ") + msg, file, line); 
         }
 
     private:
         Logger logger;
         log4cplus::tstring msg;
+        const char* file;
+        int line;
     };
 
 } // end namespace log4cplus
