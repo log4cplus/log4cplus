@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/06/13 17:51:37  tcsmith
+// Changed to use the old style C headers.
+//
 // Revision 1.8  2003/06/12 23:47:40  tcsmith
 // Renamed the tolower and toupper methods to avoid a name collision with a
 // macro with the DEC CXX compiler.
@@ -100,7 +103,11 @@ log4cplus::helpers::toUpper(const log4cplus::tstring& s)
     std::transform(s.begin(), s.end(),
                    string_append_iterator<tstring>(ret),
 #ifdef UNICODE
+#  if (defined(__MWERKS__) && defined(__MACOS__))
+                   std::towupper);
+#  else
                    ::towupper);
+#  endif
 #else
                    ::toupper);
 #endif
@@ -116,7 +123,11 @@ log4cplus::helpers::toLower(const log4cplus::tstring& s)
     std::transform(s.begin(), s.end(),
                    string_append_iterator<tstring>(ret),
 #ifdef UNICODE
+#  if (defined(__MWERKS__) && defined(__MACOS__))
+                   std::towlower);
+#  else
                    ::towlower);
+#  endif
 #else
                    ::tolower);
 #endif
