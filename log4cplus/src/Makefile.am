@@ -20,6 +20,7 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                          filter.cxx \
 			 global-init.cxx \
                          hierarchy.cxx \
+                         hierarchylocker.cxx \
                          layout.cxx \
                          logger.cxx \
                          loggerimpl.cxx \
