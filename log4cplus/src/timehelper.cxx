@@ -1,5 +1,5 @@
 // Module:  Log4CPLUS
-// File:    strftime.cxx
+// File:    timehelper.cxx
 // Created: 4/2003
 // Author:  Tad E. Smith
 //
@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/06/04 18:54:31  tcsmith
+// Renamed strftime.cxx to timehelper.cxx
+//
 // Revision 1.2  2003/04/19 23:51:17  tcsmith
 // Now call the strftime() function in the global namespace.
 //
@@ -19,6 +22,15 @@
 //
 
 #include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/streams.h>
+
+#include <iomanip>
+#include <sys/time.h>
+
+#if defined(HAVE_FTIME)
+#include <sys/timeb.h>
+#endif
+
 
 #if defined(HAVE_GMTIME_R) && !defined(LOG4CPLUS_SINGLE_THREADED)
 #define LOG4CPLUS_NEED_GMTIME_R
@@ -29,50 +41,280 @@
 #endif
 
 
+#define BUFFER_SIZE 40
+
+
+using namespace std;
 using namespace log4cplus;
+using namespace log4cplus::helpers;
 
 
 
 //////////////////////////////////////////////////////////////////////////////
-// Global methods
+// Time ctors
 //////////////////////////////////////////////////////////////////////////////
 
-size_t
-log4cplus::helpers::strftime(tchar* s, size_t max, 
-                             const tchar* format, const struct tm* tm)
+Time::Time()
+: tv_sec(0),
+  tv_usec(0)
 {
-#ifdef UNICODE
-    return ::wcsftime(s, max, format, tm);
+}
+
+
+
+
+Time::Time(long tv_sec, long tv_usec)
+: tv_sec(tv_sec),
+  tv_usec(tv_usec)
+{
+}
+
+
+
+
+Time::Time(time_t time)
+: tv_sec(time),
+  tv_usec(0)
+{
+}
+
+
+
+Time
+Time::gettimeofday()
+{
+#if defined(HAVE_GETTIMEOFDAY)
+    timeval tp;
+    ::gettimeofday(&tp, 0);
+
+    return Time(tp.tv_sec, tp.tv_usec);
+#elif defined(HAVE_FTIME)
+    struct timeb tp;
+    ::ftime(&tp);
+
+    return Time(tp.time, tp.millitm * 1000);
 #else
-    return ::strftime(s, max, format, tm);
+#warning "Time::gettimeofday()- low resolution timer: gettimeofday and ftime unavailable"
+    return Time(::time(0), 0);
 #endif
 }
 
 
 
-struct tm*
-log4cplus::helpers::gmtime(const time_t *clock, struct tm *res)
+
+//////////////////////////////////////////////////////////////////////////////
+// Time methods
+//////////////////////////////////////////////////////////////////////////////
+
+int
+Time::setTime(struct tm* t)
 {
+    time_t time = ::mktime(t);
+    if(time != -1) {
+        tv_sec = time;
+    }
+
+    return time;
+}
+
+
+
+void
+Time::setTime(long millis)
+{
+    tv_sec = millis / 1000;
+    tv_usec = (millis % 1000) * 1000;
+}
+
+
+
+long long
+Time::getMillis() const
+{
+    long long tmp = tv_sec;
+    return ((tmp * 1000) + (tv_usec / 1000));
+}
+
+
+
+time_t
+Time::getTime() const
+{
+    return tv_sec;
+}
+
+
+
+void
+Time::gmtime(struct tm* t) const
+{
+    time_t clock = tv_sec;
 #ifdef LOG4CPLUS_NEED_GMTIME_R
-    return ::gmtime_r(clock, res);
+    ::gmtime_r(&clock, t);
 #else
-    res = res;  // remove compiler warning
-    return ::gmtime(clock);
+    struct tm* tmp = ::gmtime(&clock);
+    *t = *tmp;
 #endif
 }
 
 
 
-struct tm*
-log4cplus::helpers::localtime(const time_t *clock, struct tm *res)
+void
+Time::localtime(struct tm* t) const
 {
+    time_t clock = tv_sec;
 #ifdef LOG4CPLUS_NEED_LOCALTIME_R
-    return ::localtime_r(clock, res);
+    ::localtime_r(&clock, t);
 #else
-    res = res;  // remove compiler warning
-    return ::localtime(clock);
+    struct tm* tmp = ::localtime(&clock);
+    *t = *tmp;
 #endif
 }
 
+
+
+log4cplus::tstring
+Time::getFormattedTime(const log4cplus::tstring& fmt, bool use_gmtime) const
+{
+    tchar buffer[BUFFER_SIZE];
+    struct tm time;
+
+    if(use_gmtime) {
+        gmtime(&time);
+    }
+    else {
+        localtime(&time);
+    }
+
+#ifdef UNICODE
+    size_t len = ::wcsftime(buffer, BUFFER_SIZE, fmt.c_str(), &time);
+#else
+    size_t len = ::strftime(buffer, BUFFER_SIZE, fmt.c_str(), &time);
+#endif
+
+    buffer[len] = '\0';
+    tstring ret(buffer);
+
+    size_t pos = ret.find( LOG4CPLUS_TEXT("%q") );
+    if(pos != tstring::npos) {
+        tostringstream tmp;
+        tmp << ret.substr(0, pos);
+        tmp << (tv_usec / 1000);
+        tmp << ret.substr(pos + 2);
+        ret = tmp.str();
+    }
+
+    pos = ret.find( LOG4CPLUS_TEXT("%Q") );
+    if(pos != tstring::npos) {
+        tostringstream tmp;
+        tmp << ret.substr(0, pos);
+        tmp << (tv_usec / 1000);
+#if defined(HAVE_GETTIMEOFDAY)
+	tmp << LOG4CPLUS_TEXT(".") << setw(3) << setfill('0') << (tv_usec % 1000);
+#endif
+        tmp << ret.substr(pos + 2);
+        ret = tmp.str();
+    }
+
+    return ret;
+}
+
+
+
+Time&
+Time::operator+=(const Time& rhs)
+{
+    tv_sec += rhs.tv_sec;
+    tv_usec += rhs.tv_usec;
+
+    return *this;
+}
+
+
+
+Time&
+Time::operator-=(const Time& rhs)
+{
+    tv_sec -= rhs.tv_sec;
+    tv_usec -= rhs.tv_usec;
+
+    return *this;
+}
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Time globals
+//////////////////////////////////////////////////////////////////////////////
+
+
+const Time
+operator+(const Time& lhs, const Time& rhs)
+{
+    return Time(lhs) += rhs;
+}
+
+
+
+const Time
+operator-(const Time& lhs, const Time& rhs)
+{
+    return Time(lhs) -= rhs;
+}
+
+
+
+bool
+operator<(const Time& lhs, const Time& rhs)
+{
+    return (   (lhs.sec() < rhs.sec())
+            || (   (lhs.sec() == rhs.sec()) 
+		&& (lhs.usec() < rhs.usec())) );
+}
+
+
+
+bool
+operator<=(const Time& lhs, const Time& rhs)
+{
+    return ((lhs < rhs) || (lhs == rhs));
+}
+
+
+
+bool
+operator>(const Time& lhs, const Time& rhs)
+{
+    return (   (lhs.sec() > rhs.sec())
+            || (   (lhs.sec() == rhs.sec()) 
+		&& (lhs.usec() > rhs.usec())) );
+}
+
+
+
+bool
+operator>=(const Time& lhs, const Time& rhs)
+{
+    return ((lhs > rhs) || (lhs == rhs));
+}
+
+
+
+bool
+operator==(const Time& lhs, const Time& rhs)
+{
+    return (   lhs.sec() == rhs.sec()
+            && lhs.usec() == rhs.usec());
+}
+
+
+
+bool
+operator!=(const Time& lhs, const Time& rhs)
+{
+    return !(lhs == rhs);
+}
 
 
