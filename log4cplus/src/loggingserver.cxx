@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/06/23 20:56:43  tcsmith
+// Modified to support the changes in the spi::InternalLoggingEvent class.
+//
 // Revision 1.3  2003/05/04 08:43:11  tcsmith
 // Now takes a port and a config file name as parameters on startup.
 //
@@ -28,6 +31,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/threads.h>
+#include <log4cplus/spi/loggerimpl.h>
 #include <log4cplus/spi/loggingevent.h>
 
 #include <iostream>
