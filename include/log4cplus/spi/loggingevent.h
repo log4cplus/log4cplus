@@ -160,8 +160,8 @@ namespace log4cplus {
             mutable bool ndcCached;
 
           // private operators
-	    log4cplus::spi::InternalLoggingEvent&
-	    operator=(const log4cplus::spi::InternalLoggingEvent& rhs);
+            log4cplus::spi::InternalLoggingEvent&
+            operator=(const log4cplus::spi::InternalLoggingEvent& rhs);
 
         };
 
