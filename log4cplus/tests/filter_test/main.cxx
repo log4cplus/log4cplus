@@ -14,7 +14,7 @@ static Logger logger = Logger::getInstance("log");
 void
 printDebug()
 {
-    LOG4CPLUS_TRACE(logger, "::printDebug()");
+    LOG4CPLUS_TRACE_METHOD(logger, "::printDebug()");
     LOG4CPLUS_DEBUG(logger, "This is a DEBUG message");
     LOG4CPLUS_INFO(logger, "This is a INFO message");
     LOG4CPLUS_WARN(logger, "This is a WARN message");

@@ -29,7 +29,7 @@ public:
     { logger.setLogLevel(TRACE_LOG_LEVEL); }
 
     void doSomething() {
-        LOG4CPLUS_TRACE(logger, "SlowObject::doSomething()")
+        LOG4CPLUS_TRACE_METHOD(logger, "SlowObject::doSomething()")
         LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
             LOG4CPLUS_INFO(logger, "Actually doing something...")
             sleep(0, 75 * MILLIS_TO_NANOS);
