@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.15  2003/07/19 15:35:12  tcsmith
+// Fixed the FULL_LOCATION_CONVERTER output.
+//
 // Revision 1.14  2003/06/29 16:48:24  tcsmith
 // Modified to support that move of the getLogLog() method into the LogLog
 // class.
@@ -54,6 +57,7 @@
 #include <log4cplus/layout.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/loggingevent.h>
 
 #include <stdlib.h>
@@ -117,7 +121,7 @@ namespace log4cplus {
         class LiteralPatternConverter : public PatternConverter {
         public:
             LiteralPatternConverter(const log4cplus::tstring& str);
-            virtual log4cplus::tstring convert(const InternalLoggingEvent& event) {
+            virtual log4cplus::tstring convert(const InternalLoggingEvent&) {
                 return str;
             }
 
@@ -331,9 +335,7 @@ log4cplus::pattern::BasicPatternConverter::convert
     case LINE_CONVERTER:
         {
             if(event.getLine() != -1) {
-               log4cplus::tostringstream buf;
-                buf << event.getLine();
-                return buf.str();
+                return convertIntegerToString(event.getLine());
             }
             else {
                 return log4cplus::tstring();
@@ -343,11 +345,7 @@ log4cplus::pattern::BasicPatternConverter::convert
     case FULL_LOCATION_CONVERTER:
         {
             if(event.getFile().length() > 0) {
-                log4cplus::tostringstream buf;
-                buf << event.getFile()
-                    << LOG4CPLUS_TEXT(":") 
-                    << event.getLine();
-                return buf.str();
+                return event.getFile() + ":" + convertIntegerToString(event.getLine());
             }
             else {
                 return LOG4CPLUS_TEXT(":");
@@ -710,11 +708,23 @@ PatternLayout::PatternLayout(const log4cplus::tstring& pattern)
 
 PatternLayout::PatternLayout(const log4cplus::helpers::Properties& properties)
 {
-    if(!properties.exists( LOG4CPLUS_TEXT("Pattern") )) {
-        throw std::runtime_error("Pattern not specified in properties");
+    bool hasPattern = properties.exists( LOG4CPLUS_TEXT("Pattern") );
+    bool hasConversionPattern = properties.exists( LOG4CPLUS_TEXT("ConversionPattern") );
+    
+    if(hasPattern) {
+        getLogLog().warn( LOG4CPLUS_TEXT("PatternLayout- the \"Pattern\" property has been deprecated.  Use \"ConversionPattern\" instead."));
+    }
+    
+    if(hasConversionPattern) {
+        init(properties.getProperty( LOG4CPLUS_TEXT("ConversionPattern") ));
+    }
+    else if(hasPattern) {
+        init(properties.getProperty( LOG4CPLUS_TEXT("Pattern") ));
+    }
+    else {
+        throw std::runtime_error("ConversionPattern not specified in properties");
     }
 
-    init(properties.getProperty( LOG4CPLUS_TEXT("Pattern") ));
 }
 
 
