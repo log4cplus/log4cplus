@@ -87,6 +87,11 @@ namespace log4cplus {
         log4cplus::tstring host;
         int port;
         log4cplus::tstring serverName;
+
+    private:
+      // Disallow copying of instances of this class
+        SocketAppender(const SocketAppender&);
+        SocketAppender& operator=(const SocketAppender&);
     };
 
     namespace helpers {

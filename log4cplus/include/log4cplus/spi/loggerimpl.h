@@ -180,6 +180,10 @@ namespace log4cplus {
             /** Loggers need to know what Hierarchy they are in. */
             Hierarchy& hierarchy;
 
+          // Disallow copying of instances of this class
+            LoggerImpl(const LoggerImpl&);
+            LoggerImpl& operator=(const LoggerImpl&);
+
           // Friends
             friend class log4cplus::Logger;
             friend class log4cplus::DefaultLoggerFactory;
