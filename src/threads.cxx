@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.13  2003/07/19 15:41:04  tcsmith
+// Cleaned up the threadStartFunc() method.
+//
 // Revision 1.12  2003/06/29 16:48:25  tcsmith
 // Modified to support that move of the getLogLog() method into the LogLog
 // class.
@@ -41,6 +44,7 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
 
 #include <exception>
@@ -113,10 +117,7 @@ log4cplus::thread::yield()
 log4cplus::tstring 
 log4cplus::thread::getCurrentThreadName()
 {
-    log4cplus::tostringstream tmp;
-    tmp << LOG4CPLUS_GET_CURRENT_THREAD;
-
-    return tmp.str();
+    return convertIntegerToString(LOG4CPLUS_GET_CURRENT_THREAD);
 }
 
 
