@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/04/03 00:35:22  tcsmith
+// Standardized the formatting.
+//
 
 #include <log4cplus/appender.h>
 #include <log4cplus/layout.h>
@@ -72,27 +75,27 @@ Appender::Appender(log4cplus::helpers::Properties properties)
    closed(false)
 {
     if(properties.exists("layout")) {
-	string factoryName = properties.getProperty("layout");
-	LayoutFactory* factory = getLayoutFactoryRegistry().get(factoryName);
+        string factoryName = properties.getProperty("layout");
+        LayoutFactory* factory = getLayoutFactoryRegistry().get(factoryName);
         if(factory == 0) {
             getLogLog().error("Cannot find LayoutFactory: \"" + factoryName + "\"");
             return;
-	}
+        }
 
-	Properties layoutProperties = properties.getPropertySubset("layout.");
-	try {
+        Properties layoutProperties = properties.getPropertySubset("layout.");
+        try {
             std::auto_ptr<Layout> newLayout = factory->createObject(layoutProperties);
-	    if(newLayout.get() == 0) {
+            if(newLayout.get() == 0) {
                 getLogLog().error("Failed to create appender: " + factoryName);
             }
             else {
                 layout = newLayout;
             }
-	}
-	catch(std::exception& e) {
-	    getLogLog().error("Error while creating Layout: " + string(e.what()));
-	    return;
-	}
+        }
+        catch(std::exception& e) {
+            getLogLog().error("Error while creating Layout: " + string(e.what()));
+            return;
+        }
 
     }
 }
