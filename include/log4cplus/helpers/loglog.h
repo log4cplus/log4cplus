@@ -18,19 +18,12 @@
 
 #include <log4cplus/config.h>
 #include <log4cplus/tstring.h>
+#include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/threads.h>
 
 
 namespace log4cplus {
     namespace helpers {
-        // forward declarations
-        class LogLog;
-
-        /**
-         * Returns a reference to the <code>LogLog</code> singleton.
-         */
-        LOG4CPLUS_EXPORT LogLog& getLogLog();
-
 
         /**
          * This class used to output log statements from within the log4cplus package.
@@ -42,11 +35,18 @@ namespace log4cplus {
          *
          * <p>All log4cplus internal debug calls go to <code>cout</code>
          * where as internal error messages are sent to
-         * <code>System.err</code>. All internal messages are prepended with
+         * <code>cerr</code>. All internal messages are prepended with
          * the string "log4clus: ".
          */
-        class LOG4CPLUS_EXPORT LogLog {
+        class LOG4CPLUS_EXPORT LogLog : public log4cplus::helpers::SharedObject {
         public:
+          // Static methods
+            /**
+             * Returns a reference to the <code>LogLog</code> singleton.
+             */
+            static log4cplus::helpers::SharedObjectPtr<LogLog> getLogLog();
+
+
             /**
              * Allows to enable/disable log4cplus internal logging.
              */
@@ -81,7 +81,7 @@ namespace log4cplus {
             void warn(const log4cplus::tstring& msg);
 
           // Dtor
-            ~LogLog();
+            virtual ~LogLog();
 
           // Data
             LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
@@ -97,9 +97,6 @@ namespace log4cplus {
           // Ctors
             LogLog();
             LogLog(const LogLog&);
-
-          // Friends
-            friend LOG4CPLUS_EXPORT LogLog& getLogLog();
         };
 
     } // end namespace helpers
