@@ -25,6 +25,7 @@ liblog4cplus_la_SOURCES = appenderattachableimpl.cxx \
 			 property.cxx \
 			 rootlogger.cxx \
 			 stringhelper.cxx \
+			 syslogappender.cxx \
                          threads.cxx
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
