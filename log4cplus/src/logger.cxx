@@ -11,12 +11,15 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/04/03 01:40:46  tcsmith
+// Renamed from category.cxx
+//
 
 #include <log4cplus/logger.h>
 #include <log4cplus/appender.h>
 #include <log4cplus/hierarchy.h>
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/spi/rootlogger.h>
+#include <log4cplus/spi/loggerimpl.h>
 #include <stdexcept>
 
 using namespace log4cplus;
@@ -24,7 +27,7 @@ using namespace log4cplus::helpers;
 
 
 Logger 
-DefaultLoggerFactory::makeNewLoggerInstance(const std::string& name, Hierarchy& h)
+DefaultLoggerFactory::makeNewLoggerInstance(const log4cplus::tstring& name, Hierarchy& h)
 { 
     return Logger( new spi::LoggerImpl(name, h) );
 }
@@ -44,7 +47,7 @@ Logger::getDefaultHierarchy()
 
 
 bool 
-Logger::exists(const std::string& name) 
+Logger::exists(const log4cplus::tstring& name) 
 {
     return getDefaultHierarchy().exists(name); 
 }
@@ -58,14 +61,14 @@ Logger::getCurrentLoggers()
 
 
 Logger 
-Logger::getInstance(const std::string& name) 
+Logger::getInstance(const log4cplus::tstring& name) 
 { 
     return getDefaultHierarchy().getInstance(name); 
 }
 
 
 Logger 
-Logger::getInstance(const std::string& name, spi::LoggerFactory& factory)
+Logger::getInstance(const log4cplus::tstring& name, spi::LoggerFactory& factory)
 { 
     return getDefaultHierarchy().getInstance(name, factory); 
 }
@@ -149,7 +152,7 @@ Logger::getParent() {
         return Logger(value->parent);
     }
     else {
-        getLogLog().error("********* This logger has no parent: " + getName());
+        getLogLog().error(LOG4CPLUS_TEXT("********* This logger has no parent: " + getName()));
         return *this;
     }
 }
@@ -166,7 +169,8 @@ void
 Logger::validate(const char *file, int line) const
 {
     if (value == NULL) {
-        getLogLog().error("Logger::validate()- Internal log4cplus error: NullPointerException");
+        getLogLog().error(LOG4CPLUS_TEXT("Logger::validate()- Internal log4cplus error: " \
+				         "NullPointerException"));
         log4cplus::helpers::throwNullPointerException(file, line);
     }
 }
@@ -198,7 +202,7 @@ Logger::isEnabledFor(LogLevel ll) const
 
 
 void 
-Logger::log(LogLevel ll, const std::string& message,
+Logger::log(LogLevel ll, const log4cplus::tstring& message,
             const char* file, int line)
 {
     validate(__FILE__, __LINE__);
@@ -238,7 +242,7 @@ Logger::getHierarchy() const
 }
 
 
-std::string 
+log4cplus::tstring 
 Logger::getName() const
 {
     validate(__FILE__, __LINE__);
@@ -279,7 +283,7 @@ Logger::getAllAppenders()
 
 
 SharedAppenderPtr 
-Logger::getAppender(const std::string& name)
+Logger::getAppender(const log4cplus::tstring& name)
 {
     validate(__FILE__, __LINE__);
     return value->getAppender(name);
@@ -303,7 +307,7 @@ Logger::removeAppender(SharedAppenderPtr appender)
 
 
 void 
-Logger::removeAppender(const std::string& name)
+Logger::removeAppender(const log4cplus::tstring& name)
 {
     validate(__FILE__, __LINE__);
     value->removeAppender(name);
@@ -311,7 +315,7 @@ Logger::removeAppender(const std::string& name)
 
 
 void 
-Logger::forcedLog(LogLevel ll, const std::string& message,
+Logger::forcedLog(LogLevel ll, const log4cplus::tstring& message,
                     const char* file, int line)
 {
     validate(__FILE__, __LINE__);
