@@ -31,9 +31,9 @@ namespace log4cplus {
     public:
       // Ctors
         FileAppender(const log4cplus::tstring& filename, 
-                     ios::open_mode mode = ios::trunc);
+                     LOG4CPLUS_FSTREAM_NAMESPACE::ios::open_mode mode = LOG4CPLUS_FSTREAM_NAMESPACE::ios::trunc);
         FileAppender(const log4cplus::helpers::Properties& properties,
-                     ios::open_mode mode = ios::trunc);
+                     LOG4CPLUS_FSTREAM_NAMESPACE::ios::open_mode mode = LOG4CPLUS_FSTREAM_NAMESPACE::ios::trunc);
 
       // Dtor
         virtual ~FileAppender();
@@ -50,7 +50,7 @@ namespace log4cplus {
 
     private:
         void init(const log4cplus::tstring& filename,
-                  ios::open_mode mode);
+                  LOG4CPLUS_FSTREAM_NAMESPACE::ios::open_mode mode);
 
       // Disallow copying of instances of this class
         FileAppender(const FileAppender&);
@@ -111,7 +111,7 @@ namespace log4cplus {
     protected:
         virtual void append(const spi::InternalLoggingEvent& event);
         void rollover();
-	log4cplus::helpers::Time calculateNextRolloverTime(const log4cplus::helpers::Time& t);
+        log4cplus::helpers::Time calculateNextRolloverTime(const log4cplus::helpers::Time& t);
         log4cplus::tstring getFilename(const log4cplus::helpers::Time& t);
 
       // Data

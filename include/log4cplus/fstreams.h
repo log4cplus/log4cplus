@@ -20,15 +20,22 @@
 
 #include <fstream>
 
+#if defined(__DECCXX) && !defined(__USE_STD_IOSTREAM)
+#  define LOG4CPLUS_FSTREAM_NAMESPACE
+#else
+#  define LOG4CPLUS_FSTREAM_NAMESPACE std
+#endif
+
+
 #ifdef UNICODE
     namespace log4cplus {
-        typedef std::wofstream tofstream;
-        typedef std::wifstream tifstream;
+        typedef LOG4CPLUS_FSTREAM_NAMESPACE::wofstream tofstream;
+        typedef LOG4CPLUS_FSTREAM_NAMESPACE::wifstream tifstream;
     }
 #else
     namespace log4cplus {
-        typedef std::ofstream tofstream;
-        typedef std::ifstream tifstream;
+        typedef LOG4CPLUS_FSTREAM_NAMESPACE::ofstream tofstream;
+        typedef LOG4CPLUS_FSTREAM_NAMESPACE::ifstream tifstream;
     }
 #endif // UNICODE
 

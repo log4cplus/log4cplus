@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.11  2003/06/12 23:55:49  tcsmith
+// Initial implementation of the DailyRollingFileAppender class.
+//
 // Revision 1.10  2003/06/06 17:04:31  tcsmith
 // Changed the ctor to take a 'const' Properties object.
 //
@@ -132,7 +135,7 @@ log4cplus::FileAppender::close()
 void
 log4cplus::FileAppender::append(const spi::InternalLoggingEvent& event)
 {
-    if(!out.is_open()) {
+    if(!out.good()) {
         getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
                                  + filename);
         return;
@@ -211,7 +214,7 @@ log4cplus::RollingFileAppender::~RollingFileAppender()
 void
 log4cplus::RollingFileAppender::append(const spi::InternalLoggingEvent& event)
 {
-    if(!out.is_open()) {
+    if(!out.good()) {
         getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
                                  + filename);
         return;
@@ -406,7 +409,7 @@ DailyRollingFileAppender::~DailyRollingFileAppender()
 void
 DailyRollingFileAppender::append(const spi::InternalLoggingEvent& event)
 {
-    if(!out.is_open()) {
+    if(!out.good()) {
         getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
                                  + filename);
         return;
