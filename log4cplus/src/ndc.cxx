@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/05/21 22:14:46  tcsmith
+// Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
+// of data".
+//
 // Revision 1.6  2003/05/04 01:37:22  tcsmith
 // Removed the static initializer class.
 //
@@ -54,11 +58,18 @@ log4cplus::getNDC()
 ///////////////////////////////////////////////////////////////////////////////
 
 DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message, DiagnosticContext* parent)
- : message(message),
-   fullMessage( (parent == NULL) ? message : 
-                                   parent->fullMessage + LOG4CPLUS_TEXT(" ") + message )
-
+ : message(message)
 {
+    // NOTE: fullMessage used to be initialized in an initialization list, but
+    //       apparently the Borland compiler has trouble with the conditional in
+    //       the initialization list.  I could have used a #if check for BORLAND,
+    //       but I didn't really want to clutter the code, so please leave as is.
+    if(parent == NULL) {
+        fullMessage = message;
+    }
+    else {
+        fullMessage = parent->fullMessage + LOG4CPLUS_TEXT(" ") + message;
+    }
 }
 
 
