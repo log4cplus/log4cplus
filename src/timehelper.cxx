@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/06/23 20:54:33  tcsmith
+// Added mutliplication and division operator implementations for the Time
+// class.
+//
 // Revision 1.2  2003/06/12 23:10:54  tcsmith
 // Added the Time class implementation.
 //
@@ -28,12 +32,14 @@
 #include <log4cplus/streams.h>
 
 #include <iomanip>
-#include <sys/time.h>
 
 #if defined(HAVE_FTIME)
 #include <sys/timeb.h>
 #endif
 
+#if defined(HAVE_GETTIMEOFDAY)
+#include <sys/time.h>
+#endif
 
 #if defined(HAVE_GMTIME_R) && !defined(LOG4CPLUS_SINGLE_THREADED)
 #define LOG4CPLUS_NEED_GMTIME_R
@@ -128,15 +134,6 @@ Time::setTime(long millis)
 {
     tv_sec = millis / 1000;
     tv_usec = (millis % 1000) * 1000;
-}
-
-
-
-long long
-Time::getMillis() const
-{
-    long long tmp = tv_sec;
-    return ((tmp * 1000) + (tv_usec / 1000));
 }
 
 
