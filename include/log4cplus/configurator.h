@@ -53,6 +53,7 @@ namespace log4cplus {
     public:
         // ctor and dtor
         PropertyConfigurator(const log4cplus::tstring& propertyFile);
+        PropertyConfigurator(log4cplus::tistream& propertyStream);
         virtual ~PropertyConfigurator();
 
         /**
