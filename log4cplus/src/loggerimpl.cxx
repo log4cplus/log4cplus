@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/04/19 23:16:37  tcsmith
+// Removed TABs from the file.
+//
 // Revision 1.3  2003/04/19 23:15:47  tcsmith
 // Fixed UNICODE support.
 //
@@ -51,7 +54,6 @@ LoggerImpl::LoggerImpl(const log4cplus::tstring& name, Hierarchy& h)
 
 LoggerImpl::~LoggerImpl() 
 { 
-    getLogLog().debug(LOG4CPLUS_TEXT("Destroying Logger: ") + name);
 }
 
 
