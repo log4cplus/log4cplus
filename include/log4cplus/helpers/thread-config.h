@@ -93,8 +93,13 @@ namespace log4cplus {
  *
  * @see BEGIN_SYNCHRONIZE_ON_MUTEX
  */
-#define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex ) \
-           {::log4cplus::thread::Guard _sync_guard_object(mutex);
+#ifndef LOG4CPLUS_SINGLE_THREADED
+#  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex ) \
+             {::log4cplus::thread::Guard _sync_guard_object(mutex);
+#else
+#  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex ) {
+#endif
+
 #define LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX }
 
 
