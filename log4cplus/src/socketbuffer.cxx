@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/11/21 21:23:29  tcsmith
+// Fixed memory alignment errors on Solaris.
+//
 // Revision 1.4  2003/09/28 04:26:02  tcsmith
 // Added include for <winsock.h> on WIN32.
 //
@@ -31,6 +34,10 @@
 #  include <netdb.h>
 #else
 #include <winsock.h>
+#endif
+
+#if defined(__CYGWIN__)
+#include <cygwin/in.h>
 #endif
 
 using namespace log4cplus;
