@@ -36,7 +36,8 @@ namespace log4cplus {
     public:
       // Ctors
         FileAppender(const log4cplus::tstring& filename, 
-                     LOG4CPLUS_OPEN_MODE_TYPE mode = LOG4CPLUS_FSTREAM_NAMESPACE::ios::trunc);
+                     LOG4CPLUS_OPEN_MODE_TYPE mode = LOG4CPLUS_FSTREAM_NAMESPACE::ios::trunc,
+                     bool immediateFlush = true);
         FileAppender(const log4cplus::helpers::Properties& properties,
                      LOG4CPLUS_OPEN_MODE_TYPE mode = LOG4CPLUS_FSTREAM_NAMESPACE::ios::trunc);
 
@@ -50,6 +51,20 @@ namespace log4cplus {
         virtual void append(const spi::InternalLoggingEvent& event);
 
       // Data
+        /**
+         * Immediate flush means that the underlying writer or output stream
+         * will be flushed at the end of each append operation. Immediate
+         * flush is slower but ensures that each append request is actually
+         * written. If <code>immediateFlush</code> is set to
+         * <code>false</code>, then there is a good chance that the last few
+         * logs events are not actually written to persistent media if and
+         * when the application crashes.
+         *  
+         * <p>The <code>immediateFlush</code> variable is set to
+         * <code>true</code> by default.
+         */
+        bool immediateFlush;
+
         log4cplus::tofstream out;
         log4cplus::tstring filename;
 
@@ -73,7 +88,8 @@ namespace log4cplus {
       // Ctors
         RollingFileAppender(const log4cplus::tstring& filename,
                             long maxFileSize = 10*1024*1024, // 10 MB
-                            int maxBackupIndex = 1);
+                            int maxBackupIndex = 1,
+                            bool immediateFlush = true);
         RollingFileAppender(const log4cplus::helpers::Properties& properties);
 
       // Dtor
@@ -107,7 +123,8 @@ namespace log4cplus {
     public:
       // Ctors
         DailyRollingFileAppender(const log4cplus::tstring& filename,
-                                 DailyRollingFileSchedule schedule = DAILY);
+                                 DailyRollingFileSchedule schedule = DAILY,
+                                 bool immediateFlush = true);
         DailyRollingFileAppender(const log4cplus::helpers::Properties& properties);
 
       // Dtor
