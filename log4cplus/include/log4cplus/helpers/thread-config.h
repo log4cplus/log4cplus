@@ -40,8 +40,7 @@ namespace log4cplus {
     }
 }
 
-#else
-#ifdef LOG4CPLUS_USE_WIN32_THREADS
+#elif LOG4CPLUS_USE_WIN32_THREADS
 #   include <windows.h>
 #   define LOG4CPLUS_MUTEX_PTR_DECLARE CRITICAL_SECTION*
 #   define LOG4CPLUS_MUTEX_CREATE ::log4cplus::thread::createNewMutex()
@@ -64,8 +63,7 @@ namespace log4cplus {
     }
 }
 
-#else
-#ifdef LOG4CPLUS_SINGLE_THREADED
+#elif LOG4CPLUS_SINGLE_THREADED
 #   define LOG4CPLUS_MUTEX_PTR_DECLARE int*
 #   define LOG4CPLUS_MUTEX_CREATE NULL
 #   define LOG4CPLUS_MUTEX_ASSIGN( mutex_a, mutex_b) mutex_a = mutex_b;
@@ -82,8 +80,6 @@ namespace log4cplus {
 
 #else
 #   error "You Must define a Threading model"
-#endif
-#endif
 #endif
 
 /**
