@@ -126,7 +126,9 @@ namespace log4cplus {
 
           // Operators
             bool operator==(const SharedObjectPtr& rhs) const { return (pointee == rhs.pointee); }
+            bool operator!=(const SharedObjectPtr& rhs) const { return (pointee != rhs.pointee); }
             bool operator==(const T* rhs) const { return (pointee == rhs); }
+            bool operator!=(const T* rhs) const { return (pointee != rhs); }
             T* operator->() const {validate(); return pointee; }
             T& operator*() const {validate(); return *pointee; }
             SharedObjectPtr& operator=(const SharedObjectPtr& rhs) {
