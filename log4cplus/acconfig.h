@@ -18,21 +18,21 @@
 
 @BOTTOM@
 
-#ifdef WIN32
+#ifdef _WIN32
 #  include <log4cplus/config-win32.h>
 
 #elif (defined(__APPLE__) || (defined(__MWERKS__) && defined(__MACOS__)))
 #  include <log4cplus/config-macosx.h>
 
-#endif // WIN32
+#endif // _WIN32
 
-#ifndef WIN32 
+#if !defined(_WIN32)
 #  if !defined(LOG4CPLUS_SINGLE_THREADED)
 #    define LOG4CPLUS_USE_PTHREADS
 #  endif
 #  define LOG4CPLUS_EXPORT
 
-#endif // !WIN32
+#endif // !_WIN32
 
 #include <log4cplus/helpers/thread-config.h>
 

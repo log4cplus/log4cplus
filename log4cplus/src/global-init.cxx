@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/06/29 16:48:24  tcsmith
+// Modified to support that move of the getLogLog() method into the LogLog
+// class.
+//
 // Revision 1.3  2003/06/03 20:25:19  tcsmith
 // Modified initializeLog4cplus() so that it can safely be called multiple
 // times.
@@ -47,7 +51,7 @@ namespace log4cplus {
 }
 
 
-#if !defined(WIN32) || !defined(LOG4CPLUS_BUILD_DLL)
+#if !defined(_WIN32) || !defined(LOG4CPLUS_BUILD_DLL)
 namespace {
 
     class _static_log4cplus_initializer {

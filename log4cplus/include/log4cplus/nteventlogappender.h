@@ -16,7 +16,7 @@
 #define _LOG4CPLUS_NT_EVENT_LOG_APPENDER_HEADER_
 
 #include <log4cplus/config.h>
-#if defined(WIN32)
+#if defined(_WIN32)
 
 #include <log4cplus/appender.h>
 
@@ -66,6 +66,6 @@ namespace log4cplus {
 
 } // end namespace log4cplus
 
-#endif // WIN32
+#endif // _WIN32
 #endif //_LOG4CPLUS_NT_EVENT_LOG_APPENDER_HEADER_
 
