@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/08/08 05:36:51  tcsmith
+// Changed the #if checks to look for _WIN32 and not WIN32.
+//
 // Revision 1.2  2003/05/21 22:11:00  tcsmith
 // Added appendSize_t() method.
 //
@@ -23,6 +26,8 @@
 
 #if !defined(_WIN32)
 #  include <netdb.h>
+#else
+#include <winsock.h>
 #endif
 
 using namespace log4cplus;
