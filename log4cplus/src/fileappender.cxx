@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.16  2003/06/28 17:56:19  tcsmith
+// Changed the FileAppender ctors to take an 'int' instead of 'open_mode'.
+//
 // Revision 1.15  2003/06/26 21:34:02  baldheadedguy
 // Added LOG4CPLUS_TEXT to strings in DailyRollingFileAppender::getFilename and
 // DailyRollingFileAppender constructor.  In both cases, the comiple was failing
@@ -67,13 +70,14 @@ using namespace log4cplus::helpers;
 ///////////////////////////////////////////////////////////////////////////////
 
 log4cplus::FileAppender::FileAppender(const log4cplus::tstring& filename, 
-                                      int mode)
+                                      LOG4CPLUS_OPEN_MODE_TYPE mode)
 {
     init(filename, mode);
 }
 
 
-log4cplus::FileAppender::FileAppender(const Properties& properties, int mode)
+log4cplus::FileAppender::FileAppender(const Properties& properties, 
+                                      LOG4CPLUS_OPEN_MODE_TYPE mode)
 : Appender(properties)
 {
      tstring filename = properties.getProperty( LOG4CPLUS_TEXT("File") );
@@ -88,7 +92,8 @@ log4cplus::FileAppender::FileAppender(const Properties& properties, int mode)
 
 
 void
-log4cplus::FileAppender::init(const log4cplus::tstring& filename, int mode)
+log4cplus::FileAppender::init(const log4cplus::tstring& filename, 
+                              LOG4CPLUS_OPEN_MODE_TYPE mode)
 {
     this->filename = filename;
     out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), mode);
@@ -469,7 +474,7 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
             struct tm nextMonthTime;
             t.localtime(&nextMonthTime);
             nextMonthTime.tm_mon += 1;
-	    nextMonthTime.tm_isdst = 0;
+            nextMonthTime.tm_isdst = 0;
 
             Time ret;
             if(ret.setTime(&nextMonthTime) == -1) {
