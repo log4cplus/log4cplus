@@ -98,7 +98,6 @@ main()
                 sleep(0, 200 * MILLIS_TO_NANOS);
             }
         }
-        log4cplus::Logger::shutdown();
         LOG4CPLUS_INFO(logger, "Exiting main()...")
     }
     catch(std::exception &e) {
@@ -108,6 +107,7 @@ main()
         LOG4CPLUS_FATAL(Logger::getRoot(), "main()- Exception occured")
     }
 
+    log4cplus::Logger::shutdown();
     return 0;
 }
 
