@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.14  2003/06/23 23:14:12  tcsmith
+// Corrected the DailyRollingFileAppender's weekly and montly calculations.
+//
 // Revision 1.13  2003/06/23 20:56:43  tcsmith
 // Modified to support the changes in the spi::InternalLoggingEvent class.
 //
@@ -335,7 +338,7 @@ DailyRollingFileAppender::DailyRollingFileAppender(const Properties& properties)
         theSchedule = MINUTELY;
     }
     else {
-        getLogLog().warn(  "DailyRollingFileAppender::ctor()- \"Schedule\" not valid: "
+        getLogLog().warn(  LOG4CPLUS_TEXT("DailyRollingFileAppender::ctor()- \"Schedule\" not valid: ")
                          + properties.getProperty(LOG4CPLUS_TEXT("Schedule")));
     }
 
@@ -507,27 +510,27 @@ DailyRollingFileAppender::getFilename(const log4cplus::helpers::Time& t) const
     tstring pattern;
     switch(schedule) {
     case MONTHLY:
-        pattern = "%Y-%m";
+        pattern = LOG4CPLUS_TEXT("%Y-%m");
         break;
 
     case WEEKLY:
-        pattern = "%Y-%W";
+        pattern = LOG4CPLUS_TEXT("%Y-%W");
         break;
 
     case DAILY:
-        pattern = "%Y-%m-%d";
+        pattern = LOG4CPLUS_TEXT("%Y-%m-%d");
         break;
 
     case TWICE_DAILY:
-        pattern = "%Y-%m-%d-%p";
+        pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%p");
         break;
 
     case HOURLY:
-        pattern = "%Y-%m-%d-%H";
+        pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%H");
         break;
 
     case MINUTELY:
-        pattern = "%Y-%m-%d-%H-%M";
+        pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%H-%M");
         break;
     };
 
