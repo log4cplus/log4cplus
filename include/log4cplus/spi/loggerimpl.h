@@ -96,7 +96,7 @@ namespace log4cplus {
             /**
              * Set the LogLevel of this Logger.
              */
-            void setLogLevel(LogLevel ll) { this->ll = ll; }
+            void setLogLevel(LogLevel _ll) { this->ll = _ll; }
 
             /**
              * Return the the {@link Hierarchy} where this <code>Logger</code>
