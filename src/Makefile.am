@@ -25,6 +25,7 @@ liblog4cplus_la_SOURCES = appenderattachableimpl.cxx \
 			 property.cxx \
 			 rootlogger.cxx \
 			 stringhelper.cxx \
+			 strftime.cxx \
 			 syslogappender.cxx \
                          threads.cxx
 
