@@ -22,6 +22,10 @@
 #include <map>
 #include <vector>
 
+#if (defined(__MWERKS__) && defined(__MACOS__))
+using std::size_t;
+#endif
+
 
 namespace log4cplus {
     namespace helpers {

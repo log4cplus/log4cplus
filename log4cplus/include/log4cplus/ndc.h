@@ -26,6 +26,10 @@
 #include <map>
 #include <stack>
 
+#if (defined(__MWERKS__) && defined(__MACOS__))
+using std::size_t;
+#endif
+
 
 namespace log4cplus {
     // Forward declarations

@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/07/19 15:30:22  tcsmith
+// Changed the "errno.h" include statement for Solaris.
+//
 // Revision 1.2  2003/05/21 22:16:00  tcsmith
 // Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
 // of data".
@@ -22,6 +25,10 @@
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
+
+#ifdef __APPLE__
+#include <netinet/in.h>
+#endif
 
 #include <sys/types.h>
 #include <sys/socket.h>
