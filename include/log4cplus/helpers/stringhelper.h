@@ -19,6 +19,8 @@
 #include <log4cplus/config.h>
 #include <log4cplus/tstring.h>
 
+#include <algorithm>
+
 
 namespace log4cplus {
     namespace helpers {
@@ -65,6 +67,36 @@ namespace log4cplus {
                     tmp += s[i];
             }
             if(tmp.length() > 0) *_result = tmp;
+        }
+        
+        
+        
+        template<class intType>
+        inline tstring convertIntegerToString(intType value) 
+        {
+            if(value == 0) {
+                return "0";
+            }
+            
+            std::string ret;
+            ret.reserve(20);
+            bool negative = false;
+            if(value < 0) {
+                negative = true;
+                ret.push_back('-');
+            }
+            
+            // convert to string in reverse order
+            while(value != 0) {
+                intType mod = value % 10;
+                value = value / 10;
+                ret.push_back('0' + mod);
+            }
+            
+            // now reverse the string to get it in proper order
+            std::reverse(ret.begin() + (negative ? 1 : 0), ret.end());
+            
+            return LOG4CPLUS_STRING_TO_TSTRING(ret);
         }
 
 
