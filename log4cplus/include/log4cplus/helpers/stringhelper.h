@@ -91,7 +91,7 @@ namespace log4cplus {
             while(value != 0) {
                 intType mod = value % 10;
                 value = value / 10;
-                buffer[bufferPos++] = '0' + mod;
+                buffer[bufferPos++] = '0' + static_cast<char>(mod);
             }
             
             // now reverse the string to get it in proper order
