@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/04/19 22:53:48  tcsmith
+// Removed CRLFs.
+//
 // Revision 1.3  2003/04/19 22:52:21  tcsmith
 // Added tostring and towstring method implementations.
 //
@@ -22,6 +25,7 @@
 //
 
 #include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/streams.h>
 
 #include <iterator>
 #include <algorithm>
@@ -38,6 +42,13 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #ifdef UNICODE
+log4cplus::tostream& 
+operator <<(log4cplus::tostream& stream, const char* str)
+{
+    return (stream << log4cplus::helpers::towstring(str));
+}
+
+
 std::string 
 log4cplus::helpers::tostring(const std::wstring& src)
 {
