@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/04/03 02:03:09  tcsmith
+// Changed defaultLogLevelToSysLogMethod() so that it returns -1 for unknow
+// LogLevels.
+//
 // Revision 1.1  2003/04/03 01:42:19  tcsmith
 // Renamed from priority.cxx
 //
@@ -23,18 +27,25 @@
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 
+#define _TRACE_STRING LOG4CPLUS_TEXT("TRACE")
+#define _DEBUG_STRING LOG4CPLUS_TEXT("DEBUG")
+#define _INFO_STRING LOG4CPLUS_TEXT("INFO")
+#define _WARN_STRING LOG4CPLUS_TEXT("WARN")
+#define _ERROR_STRING LOG4CPLUS_TEXT("ERROR")
+#define _FATAL_STRING LOG4CPLUS_TEXT("FATAL")
+#define _NOTSET_STRING LOG4CPLUS_TEXT("NOTSET")
 
-const std::string& 
+const log4cplus::tstring& 
 log4cplus::defaultLogLevelToStringMethod(LogLevel ll)
 {
-    static std::string FATAL_LOG_LEVEL_STR("FATAL");
-    static std::string ERROR_LOG_LEVEL_STR("ERROR");
-    static std::string WARN_LOG_LEVEL_STR("WARN");
-    static std::string INFO_LOG_LEVEL_STR("INFO");
-    static std::string DEBUG_LOG_LEVEL_STR("DEBUG");
-    static std::string TRACE_LOG_LEVEL_STR("TRACE");
-    static std::string NOT_SET_LOG_LEVEL_STR("NOTSET");
-    static std::string UNKNOWN("UNKNOWN");
+    static log4cplus::tstring FATAL_LOG_LEVEL_STR(_FATAL_STRING);
+    static log4cplus::tstring ERROR_LOG_LEVEL_STR(_ERROR_STRING);
+    static log4cplus::tstring WARN_LOG_LEVEL_STR(_WARN_STRING);
+    static log4cplus::tstring INFO_LOG_LEVEL_STR(_INFO_STRING);
+    static log4cplus::tstring DEBUG_LOG_LEVEL_STR(_DEBUG_STRING);
+    static log4cplus::tstring TRACE_LOG_LEVEL_STR(_TRACE_STRING);
+    static log4cplus::tstring NOT_SET_LOG_LEVEL_STR(_NOTSET_STRING);
+    static log4cplus::tstring UNKNOWN("UNKNOWN");
 
     switch(ll) {
         case FATAL_LOG_LEVEL: return FATAL_LOG_LEVEL_STR;
@@ -52,16 +63,16 @@ log4cplus::defaultLogLevelToStringMethod(LogLevel ll)
 
 
 LogLevel 
-log4cplus::defaultStringToLogLevelMethod(const std::string& arg)
+log4cplus::defaultStringToLogLevelMethod(const log4cplus::tstring& arg)
 {
-    std::string s = log4cplus::helpers::toupper(arg);
+    log4cplus::tstring s = log4cplus::helpers::toupper(arg);
 
-    if(s == "TRACE") return TRACE_LOG_LEVEL;
-    if(s == "DEBUG") return DEBUG_LOG_LEVEL;
-    if(s == "INFO")  return INFO_LOG_LEVEL;
-    if(s == "WARN")  return WARN_LOG_LEVEL;
-    if(s == "ERROR") return ERROR_LOG_LEVEL;
-    if(s == "FATAL") return FATAL_LOG_LEVEL;
+    if(s == _TRACE_STRING) return TRACE_LOG_LEVEL;
+    if(s == _DEBUG_STRING) return DEBUG_LOG_LEVEL;
+    if(s == _INFO_STRING)  return INFO_LOG_LEVEL;
+    if(s == _WARN_STRING)  return WARN_LOG_LEVEL;
+    if(s == _ERROR_STRING) return ERROR_LOG_LEVEL;
+    if(s == _FATAL_STRING) return FATAL_LOG_LEVEL;
 
     return NOT_SET_LOG_LEVEL;
 }
@@ -96,8 +107,8 @@ LogLevelManager::LogLevelManager()
 LogLevelManager&
 log4cplus::getLogLevelManager() 
 {
-    static LogLevelManager instance;
-    return instance;
+    static LogLevelManager singleton;
+    return singleton;
 }
 
 
