@@ -48,6 +48,7 @@ namespace log4cplus {
             void appendByte(unsigned char val);
             void appendShort(unsigned short val);
             void appendInt(unsigned int val);
+            void appendSize_t(size_t val);
             void appendString(const tstring& str);
             void appendBuffer(const SocketBuffer& buffer);
 
