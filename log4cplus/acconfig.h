@@ -22,6 +22,7 @@
 #  if !defined(LOG4CPLUS_SINGLE_THREADED)
 #    define LOG4CPLUS_USE_PTHREADS
 #  endif
+#  define LOG4CPLUS_EXPORT
 
 #endif // WIN32
 
