@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/04/19 23:31:23  tcsmith
+// Added operator <<(log4cplus::tostream& stream, const char* str)
+//
 // Revision 1.4  2003/04/19 22:53:48  tcsmith
 // Removed CRLFs.
 //
@@ -52,10 +55,10 @@ operator <<(log4cplus::tostream& stream, const char* str)
 std::string 
 log4cplus::helpers::tostring(const std::wstring& src)
 {
-    std::string ret;
+    std::wstring ret;
     ret.resize(src.size());
     for (unsigned int i=0; i<src.size(); i++) {
-        ret[i] = static_cast<tchar>(src[i]);
+        ret[i] = src[i] < 256 ? src[i] : ' ';
     }
 
     return ret;
@@ -65,10 +68,10 @@ log4cplus::helpers::tostring(const std::wstring& src)
 std::wstring 
 log4cplus::helpers::towstring(const std::string& src)
 {
-    std::wstring ret;
+    std::string ret;
     ret.resize(src.size());
     for (unsigned int i=0; i<src.size(); i++) {
-        ret[i] = src[i] < 256 ? src[i] : ' ';
+        ret[i] = static_cast<tchar>(src[i]);
     }
 
     return ret;
