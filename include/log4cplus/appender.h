@@ -61,7 +61,7 @@ namespace log4cplus {
 
     /**
      * Extend this class for implementing your own strategies for printing log
-     * statements. 
+     * statements.
      */
     class LOG4CPLUS_EXPORT Appender : public log4cplus::helpers::SharedObject {
     public:
@@ -92,7 +92,7 @@ namespace log4cplus {
 
         /**
          * Get the name of this appender. The name uniquely identifies the
-         * appender.  
+         * appender.
          */
         virtual log4cplus::tstring getName();
 
@@ -102,21 +102,21 @@ namespace log4cplus {
          */
         virtual void setName(const log4cplus::tstring& name);
 
-        /** 
+        /**
          * Set the {@link ErrorHandler} for this Appender.
          */
         virtual void setErrorHandler(std::auto_ptr<ErrorHandler> eh);
 
-        /** 
+        /**
          * Return the currently set {@link ErrorHandler} for this
-         * Appender.  
+         * Appender.
          */
         virtual ErrorHandler* getErrorHandler();
 
         /**
          * Set the layout for this appender. Note that some appenders have
          * their own (fixed) layouts or do not use one. For example, the
-         * SocketAppender ignores the layout set here. 
+         * SocketAppender ignores the layout set here.
          */
         virtual void setLayout(std::auto_ptr<Layout> layout);
 
