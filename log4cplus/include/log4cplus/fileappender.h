@@ -18,8 +18,9 @@
 
 #include <log4cplus/config.h>
 #include <log4cplus/appender.h>
+#include "log4cplus/helpers/property.h"
+
 #include <fstream>
-//#include "log4cplus/helpers/loglog.h"
 
 namespace log4cplus {
 
@@ -30,6 +31,8 @@ namespace log4cplus {
     public:
       // Ctors
         FileAppender(const std::string& filename, 
+                     std::ios::openmode mode = std::ios::trunc);
+        FileAppender(log4cplus::helpers::Properties properties,
                      std::ios::openmode mode = std::ios::trunc);
 
       // Dtor
@@ -44,6 +47,10 @@ namespace log4cplus {
       // Data
         std::ofstream out;
         std::string filename;
+
+    private:
+        void init(const std::string& filename,
+                  std::ios::openmode mode);
     };
 
 
@@ -58,6 +65,7 @@ namespace log4cplus {
         RollingFileAppender(const std::string& filename,
                             long maxFileSize = 10*1024*1024, // 10 MB
                             int maxBackupIndex = 1);
+        RollingFileAppender(log4cplus::helpers::Properties properties);
 
       // Dtor
         virtual ~RollingFileAppender();
@@ -69,6 +77,9 @@ namespace log4cplus {
       // Data
         long maxFileSize;
         int maxBackupIndex;
+
+    private:
+        void init(long maxFileSize, int maxBackupIndex);
     };
 
 }; // end namespace log4cplus
