@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  2003/05/02 16:36:49  tcsmith
+// Added "#include <log4cplus/spi/loggerimpl.h>" for VC++ .NET
+//
 // Revision 1.7  2003/05/01 19:43:33  tcsmith
 // Fixed: "warning: comparison between signed and unsigned".
 //
@@ -155,11 +158,11 @@ log4cplus::PropertyConfigurator::~PropertyConfigurator()
 //////////////////////////////////////////////////////////////////////////////
 
 void
-log4cplus::PropertyConfigurator::configure()
+log4cplus::PropertyConfigurator::configure(Hierarchy& h)
 {
     configureAppenders();
-    configureLoggers();
-    configureAdditivity();
+    configureLoggers(h);
+    configureAdditivity(h);
 }
 
 
@@ -194,10 +197,10 @@ log4cplus::PropertyConfigurator::replaceEnvironVariables()
 
 
 void
-log4cplus::PropertyConfigurator::configureLoggers()
+log4cplus::PropertyConfigurator::configureLoggers(Hierarchy& h)
 {
     if(properties.exists( LOG4CPLUS_TEXT("rootLogger") )) {
-        Logger root = Logger::getRoot();
+        Logger root = h.getRoot();
         configureLogger(root, 
                         properties.getProperty(LOG4CPLUS_TEXT("rootLogger")));
     }
@@ -206,7 +209,7 @@ log4cplus::PropertyConfigurator::configureLoggers()
             properties.getPropertySubset(LOG4CPLUS_TEXT("logger."));
     vector<tstring> loggers = loggerProperties.propertyNames();
     for(vector<tstring>::iterator it=loggers.begin(); it!=loggers.end(); ++it) {
-        Logger log = Logger::getInstance(*it);
+        Logger log = h.getInstance(*it);
         configureLogger(log, loggerProperties.getProperty(*it));
     }
 }
@@ -247,8 +250,8 @@ log4cplus::PropertyConfigurator::configureLogger(log4cplus::Logger logger,
     for(vector<tstring>::size_type j=1; j<tokens.size(); ++j) {
         AppenderMap::iterator appenderIt = appenders.find(tokens[j]);
         if(appenderIt == appenders.end()) {
-        getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()- Invalid appender: ")
-                          + tokens[j]);
+            getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()- Invalid appender: ")
+                              + tokens[j]);
             continue;
         }
         logger.addAppender( (*appenderIt).second );
@@ -302,7 +305,7 @@ log4cplus::PropertyConfigurator::configureAppenders()
 
 
 void
-log4cplus::PropertyConfigurator::configureAdditivity()
+log4cplus::PropertyConfigurator::configureAdditivity(Hierarchy& h)
 {
     Properties additivityProperties = 
             properties.getPropertySubset(LOG4CPLUS_TEXT("additivity."));
@@ -312,7 +315,7 @@ log4cplus::PropertyConfigurator::configureAdditivity()
         it!=additivitysProps.end(); 
         ++it) 
     {
-        Logger logger = Logger::getInstance(*it);
+        Logger logger = h.getInstance(*it);
         tstring actualValue = additivityProperties.getProperty(*it);
         tstring value = tolower(actualValue);
 
