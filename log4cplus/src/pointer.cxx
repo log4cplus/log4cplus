@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/06/13 17:49:30  tcsmith
+// Changed to use the old style C headers.
+//
 // Revision 1.5  2003/04/19 23:04:32  tcsmith
 // Fixed UNICODE support.
 //
@@ -22,8 +25,8 @@
 //
 
 #include <log4cplus/streams.h>
-#include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/pointer.h>
+#include <log4cplus/helpers/threads.h>
 #include <assert.h>
 #include <stdio.h>
 
@@ -58,7 +61,6 @@ SharedObject::~SharedObject()
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         if(!destroyed) {
-            getLogLog().error(LOG4CPLUS_TEXT("SharedObject::~SharedObject()- This object MUST be destroyed"));
             assert(destroyed);
         }
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
@@ -75,12 +77,10 @@ void
 SharedObject::addReference()
 {
     if(destroyed) {
-        getLogLog().error(LOG4CPLUS_TEXT("SharedObject::addReference()- This object is already destroyed"));
         assert(!destroyed);
     }
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         if(destroyed) {
-            getLogLog().error(LOG4CPLUS_TEXT("SharedObject::addReference()- This object is already destroyed"));
             assert(!destroyed);
         }
         ++count;
@@ -92,12 +92,10 @@ void
 SharedObject::removeReference()
 {
     if(destroyed) {
-        getLogLog().error(LOG4CPLUS_TEXT("SharedObject::removedReference()- This objectis already destroyed"));
         assert(!destroyed);
     }
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         if(destroyed) {
-            getLogLog().error(LOG4CPLUS_TEXT("SharedObject::removeReference()- This object is already destroyed"));
             assert(!destroyed);
         }
         if(--count == 0) destroyed = true;
