@@ -54,8 +54,7 @@ namespace log4cplus {
                 ndc(log4cplus::getNDC().get()),
                 message(message),
                 thread( LOG4CPLUS_GET_CURRENT_THREAD ),
-                timestamp(time(NULL)),
-                clock_ticks(clock()),
+                timestamp(log4cplus::helpers::Time::gettimeofday()),
                 file(file),
                 line(line)
              {
@@ -66,7 +65,7 @@ namespace log4cplus {
                                   const log4cplus::tstring& ndc,
                                   const log4cplus::tstring& message,
                                   LOG4CPLUS_THREAD_KEY_TYPE thread,
-                                  time_t time,
+				  log4cplus::helpers::Time time,
                                   const char* file,
                                   int line)
               : loggerName(logger),
@@ -75,7 +74,6 @@ namespace log4cplus {
                 message(message),
                 thread(thread),
                 timestamp(time),
-                clock_ticks(0),
                 file(file),
                 line(line)
              {
@@ -101,10 +99,7 @@ namespace log4cplus {
 
             /** The number of milliseconds elapsed from 1/1/1970 until logging event
              *  was created. */
-            const time_t timestamp;
-
-            /** The number of clock ticks since the program started running. */
-            const clock_t clock_ticks;
+            const log4cplus::helpers::Time timestamp;
 
             /** The is the file where this log statement was written */
             const char* file;
