@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/04/19 23:04:31  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.4  2003/04/19 07:22:18  tcsmith
 // Removed all LogLevelToSysLogMethod methods.
 //
@@ -42,9 +45,7 @@ using namespace log4cplus::helpers;
 #define _NOTSET_STRING LOG4CPLUS_TEXT("NOTSET")
 #define _UNKNOWN_STRING LOG4CPLUS_TEXT("UNKNOWN")
 
-const log4cplus::tstring& 
-log4cplus::defaultLogLevelToStringMethod(LogLevel ll)
-{
+namespace {
     static log4cplus::tstring FATAL_LOG_LEVEL_STR(_FATAL_STRING);
     static log4cplus::tstring ERROR_LOG_LEVEL_STR(_ERROR_STRING);
     static log4cplus::tstring WARN_LOG_LEVEL_STR(_WARN_STRING);
@@ -53,7 +54,13 @@ log4cplus::defaultLogLevelToStringMethod(LogLevel ll)
     static log4cplus::tstring TRACE_LOG_LEVEL_STR(_TRACE_STRING);
     static log4cplus::tstring NOT_SET_LOG_LEVEL_STR(_NOTSET_STRING);
     static log4cplus::tstring UNKNOWN(_UNKNOWN_STRING);
+}
 
+
+
+const log4cplus::tstring& 
+log4cplus::defaultLogLevelToStringMethod(LogLevel ll)
+{
     switch(ll) {
         case FATAL_LOG_LEVEL: return FATAL_LOG_LEVEL_STR;
         case ERROR_LOG_LEVEL: return ERROR_LOG_LEVEL_STR;
