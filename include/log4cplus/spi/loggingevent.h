@@ -93,8 +93,8 @@ namespace log4cplus {
             int line;
         };
 
-    }; // end namespace spi
-}; // end namespace log4cplus
+    } // end namespace spi
+} // end namespace log4cplus
 
 #endif // _LOG4CPLUS_SPI_INTERNAL_LOGGING_EVENT_HEADER_
 

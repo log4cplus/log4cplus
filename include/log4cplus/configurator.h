@@ -230,7 +230,7 @@ namespace log4cplus {
     };
    
 
-}; // end namespace log4cplus
+} // end namespace log4cplus
 
 #endif // _CONFIGURATOR_HEADER_
 

@@ -41,8 +41,8 @@ namespace log4cplus {
             virtual ~LoggerFactory(){}
         };
 
-    }; // end namespace spi
-}; // end namespace log4cplus
+    } // end namespace spi
+} // end namespace log4cplus
 
 #endif // _LOG4CPLUS_SPI_LOGGER_FACTORY_HEADER
 

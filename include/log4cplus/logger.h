@@ -331,7 +331,7 @@ namespace log4cplus {
         log4cplus::tstring msg;
     };
 
-}; // end namespace log4cplus
+} // end namespace log4cplus
 
 
 #define LOG4CPLUS_TRACE_STR(logger, logEvent) \

@@ -82,7 +82,7 @@ namespace log4cplus {
         void init(long maxFileSize, int maxBackupIndex);
     };
 
-}; // end namespace log4cplus
+} // end namespace log4cplus
 
 #endif // _LOG4CPLUS_FILE_APPENDER_HEADER_
 

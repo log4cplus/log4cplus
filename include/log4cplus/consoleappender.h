@@ -42,7 +42,7 @@ namespace log4cplus {
         virtual void append(const spi::InternalLoggingEvent& event);
     };
 
-}; // end namespace log4cplus
+} // end namespace log4cplus
 
 #endif // _LOG4CPLUS_CONSOLE_APPENDER_HEADER_
 
