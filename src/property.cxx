@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.11  2003/06/09 23:06:54  tcsmith
+// Added support for "comment" lines in the property file.
+//
 // Revision 1.10  2003/05/19 15:58:26  tcsmith
 // Added a check in the ctor for a valid filename.  If if is not valid, do
 // not attempt to open that file.
@@ -94,6 +97,14 @@ log4cplus::helpers::Properties::init(log4cplus::tistream& input)
         input.getline(buffer, BUFFER_SIZE);
         if(buffer[0] != PROPERTIES_COMMENT_CHAR)
         {
+            // Check if we have a trailing \r because we are 
+            // reading a properties file produced on Windows.
+            int buffLen = strlen(buffer);
+            if((buffLen > 0) && buffer[buffLen-1] == '\r') {
+                // Remove trailing 'Windows' \r
+                buffer[buffLen-1] = '\0';
+            }
+
             tstring tmp(buffer);
             tstring::size_type idx = tmp.find('=');
             if(idx != tstring::npos) {
