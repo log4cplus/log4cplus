@@ -22,7 +22,12 @@ using namespace log4cplus::helpers;
 
 log4cplus::ConsoleAppender::ConsoleAppender()
 {
-    setLayout( std::auto_ptr<Layout>(new TTCCLayout()) );
+}
+
+
+log4cplus::ConsoleAppender::ConsoleAppender(log4cplus::helpers::Properties properties)
+ : Appender(properties)
+{
 }
 
 
