@@ -17,10 +17,8 @@
 #define LOG4CPLUS_HELPERS_STRINGHELPER_HEADER_
 
 #include <log4cplus/config.h>
+#include <log4cplus/tstring.h>
 
-#include <string>
-#include <iterator>
-#include <cctype>
 
 namespace log4cplus {
 
@@ -29,29 +27,13 @@ namespace log4cplus {
         /**
          * Returns <code>s</code> in upper case.
          */
-        template <class _StringType>
-        _StringType toupper(const _StringType& s)
-        {
-            _StringType ret;
-            transform(s.begin(), s.end(),
-                      std::back_insert_iterator<_StringType>(ret),
-                      ::toupper);
-            return ret;
-        }
+        tstring toupper(const tstring& s);
 
 
         /**
          * Returns <code>s</code> in lower case.
          */
-        template <class _StringType>
-        _StringType tolower(const _StringType& s)
-        {
-            _StringType ret;
-            transform(s.begin(), s.end(),
-                      std::back_insert_iterator<_StringType>(ret),
-                      ::tolower);
-            return ret;
-        }
+        tstring tolower(const tstring& s);
 
 
         /**
@@ -63,7 +45,7 @@ namespace log4cplus {
          * <b>Example:</b>
          * <pre>
          *   string s = // Set string with '.' as delimiters
-         *   list<std::string> tokens;
+         *   list<log4cplus::tstring> tokens;
          *   tokenize(s, '.', back_insert_iterator<list<string> >(tokens));
          * </pre>
          */
@@ -88,7 +70,6 @@ namespace log4cplus {
 
     } 
 }
-
 
 #endif // LOG4CPLUS_HELPERS_STRINGHELPER_HEADER_
 
