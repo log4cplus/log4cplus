@@ -11,6 +11,7 @@ liblog4cplus_a_SOURCES = appenderattachableimpl.cxx \
                          category.cxx \
                          categoryimpl.cxx \
                          consoleappender.cxx \
+			 factory.cxx \
                          fileappender.cxx \
                          hierarchy.cxx \
                          layout.cxx \
@@ -19,6 +20,7 @@ liblog4cplus_a_SOURCES = appenderattachableimpl.cxx \
                          patternlayout.cxx \
                          pointer.cxx \
                          priority.cxx \
+			 property.cxx \
                          threads.cxx
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
