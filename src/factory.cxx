@@ -24,11 +24,10 @@ using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
 
 namespace log4cplus {
-    class ConsoleAppenderFactory : public Factory {
-        void* createObject(const string& configPrefix,
-                           const Properties& props)
+    class ConsoleAppenderFactory : public AppenderFactory {
+        SharedAppenderPtr createObject(const Properties& props)
         {
-            return new log4cplus::ConsoleAppender();
+            return SharedAppenderPtr(new log4cplus::ConsoleAppender(props));
         }
 
         string getTypeName() { return "log4cplus::ConsoleAppender"; }
@@ -36,17 +35,10 @@ namespace log4cplus {
 
 
 
-    class FileAppenderFactory : public Factory {
-        void* createObject(const string& configPrefix,
-                           const Properties& props)
+    class FileAppenderFactory : public AppenderFactory {
+        SharedAppenderPtr createObject(const Properties& props)
         {
-            string key = configPrefix + "." + "File";
-            if(!props.exists(key)) {
-                return NULL;
-            }
-            else {
-                return new log4cplus::FileAppender(props.getProperty(key));
-            }
+            return SharedAppenderPtr(new log4cplus::FileAppender(props));
         }
 
         string getTypeName() { return "log4cplus::FileAppender"; }
@@ -54,21 +46,72 @@ namespace log4cplus {
 
 
 
-    class RollingFileAppenderFactory : public Factory {
-        void* createObject(const string& configPrefix,
-                           const Properties& props)
+    class RollingFileAppenderFactory : public AppenderFactory {
+        SharedAppenderPtr createObject(const Properties& props)
         {
-            string key = configPrefix + "." + "File";
-            if(!props.exists(key)) {
-                return NULL;
-            }
-            else {
-                return new log4cplus::RollingFileAppender(props.getProperty(key));
-            }
+            return SharedAppenderPtr(new log4cplus::RollingFileAppender(props));
         }
 
         string getTypeName() { return "log4cplus::RollingFileAppender"; }
     };
+
+
+    class SimpleLayoutFactory : public LayoutFactory {
+        std::auto_ptr<Layout> createObject(const Properties& props)
+        {
+            return std::auto_ptr<Layout>(new log4cplus::SimpleLayout(props));
+        }
+
+        string getTypeName() { return "log4cplus::SimpleLayout"; }
+    };
+
+
+    class TTCCLayoutFactory : public LayoutFactory {
+        std::auto_ptr<Layout> createObject(const Properties& props)
+        {
+            return std::auto_ptr<Layout>(new log4cplus::TTCCLayout(props));
+        }
+
+        string getTypeName() { return "log4cplus::TTCCLayout"; }
+    };
+
+
+    class PatternLayoutFactory : public LayoutFactory {
+        std::auto_ptr<Layout> createObject(const Properties& props)
+        {
+            return std::auto_ptr<Layout>(new log4cplus::PatternLayout(props));
+        }
+
+        string getTypeName() { return "log4cplus::PatternLayout"; }
+    };
+}
+
+
+
+AppenderFactoryRegistry&
+log4cplus::spi::getAppenderFactoryRegistry()
+{
+    static AppenderFactoryRegistry *instance = NULL;
+
+    if(instance == NULL) {
+        instance = new AppenderFactoryRegistry();
+    }
+
+    return *instance;
+}
+
+
+
+LayoutFactoryRegistry&
+log4cplus::spi::getLayoutFactoryRegistry()
+{
+    static LayoutFactoryRegistry *instance = NULL;
+
+    if(instance == NULL) {
+        instance = new LayoutFactoryRegistry();
+    }
+
+    return *instance;
 }
 
 
@@ -78,111 +121,23 @@ namespace {
     class _static_FactoryRegistry_initializer {
     public:
         _static_FactoryRegistry_initializer() { 
-            FactoryRegistry& registry = log4cplus::spi::getFactoryRegistry();
-            registry.registerFactory("log4cplus::ConsoleAppender", 
-                                     auto_ptr<Factory>(new ConsoleAppenderFactory()));
-            registry.registerFactory("log4cplus::FileAppender", 
-                                     auto_ptr<Factory>(new FileAppenderFactory()));
-            registry.registerFactory("log4cplus::RollingFileAppender", 
-                                     auto_ptr<Factory>(new RollingFileAppenderFactory()));
+            AppenderFactoryRegistry& reg = getAppenderFactoryRegistry();
+            reg.put("log4cplus::ConsoleAppender", 
+                    auto_ptr<AppenderFactory>(new ConsoleAppenderFactory()));
+            reg.put("log4cplus::FileAppender", 
+                    auto_ptr<AppenderFactory>(new FileAppenderFactory()));
+            reg.put("log4cplus::RollingFileAppender", 
+                    auto_ptr<AppenderFactory>(new RollingFileAppenderFactory()));
 
+            LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
+            reg2.put("log4cplus::SimpleLayout", 
+                     auto_ptr<LayoutFactory>(new SimpleLayoutFactory()));
+            reg2.put("log4cplus::TTCCLayout", 
+                     auto_ptr<LayoutFactory>(new TTCCLayoutFactory()));
+            reg2.put("log4cplus::PatternLayout", 
+                     auto_ptr<LayoutFactory>(new PatternLayoutFactory()));
         }
     } initializer;
 }
 
-
-FactoryRegistry&
-log4cplus::spi::getFactoryRegistry()
-{
-    static FactoryRegistry *instance = NULL;
-
-    if(instance == NULL) {
-        instance = new FactoryRegistry();
-    }
-
-    return *instance;
-}
-
-
-
-
-log4cplus::spi::FactoryRegistry::FactoryRegistry()
-: mutex(LOG4CPLUS_MUTEX_CREATE)
-{
-}
-
-
-
-log4cplus::spi::FactoryRegistry::~FactoryRegistry() 
-{
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        for(FactoryMap::iterator it=data.begin(); it!=data.end(); ++it) {
-            delete (*it).second;
-        }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
-    LOG4CPLUS_MUTEX_FREE( mutex );
-}
-
-
-
-
-bool 
-log4cplus::spi::FactoryRegistry::exists(const std::string& name) const 
-{
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        return data.find(name) != data.end();
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
-}
-
-
-
-
-bool
-log4cplus::spi::FactoryRegistry::registerFactory(const string& name,
-                                                 auto_ptr<Factory> factory)
-{
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        FactoryMap::value_type value(name, factory.release());
-        pair<FactoryMap::iterator, bool> ret = data.insert(value);
-
-        if(ret.second) {
-            return true;
-        }
-        else {
-            delete value.second;
-            return false;
-        }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
-}
-
-
-
-Factory* 
-log4cplus::spi::FactoryRegistry::getFactory(const string& name) const
-{
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        if(exists(name)) {
-            return data.find(name)->second;
-        }
-        else {
-            return NULL;
-        }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
-}
-
-
-
-
-vector<string> 
-log4cplus::spi::FactoryRegistry::getAllNames() const
-{
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        vector<string> tmp;
-        for(FactoryMap::const_iterator it=data.begin(); it!=data.end(); ++it) {
-            tmp.push_back( (*it).first );
-        }
-
-        return tmp;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
-}
 
