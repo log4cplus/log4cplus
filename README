@@ -18,12 +18,12 @@ Current Status
 ==============
 This library is currently in Beta.  The goal is have approximately the same 
 level of functionality of log4j 1.1.3 before the first release.  The current
-estimate for the first Production release is July 2003.
+estimate for the first Production release is September 2003.
 
 
 Tested on the following platforms
 =================================
-Linux          gcc 2.95.4
+Linux          gcc 3.2.2
 Windows 2000   MS Visual C++ 6.0
 
 

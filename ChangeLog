@@ -1,3 +1,17 @@
+Version 0.9.10 (August 27 2003)
+  - Fixed singled-threaded build compilation issues
+  - The DailyRollingFileAppender no longer truncates files
+  - The DailyRollingFileAppender now performs a "rollover" on close().  If the 
+    "rollover file" exists, then it will be renamed according to the pattern 
+    that is used by the RollingFileAppender class.  (Thanks Philip Green for
+    the suggestion.)
+  - Some socket-unix.cxx corrections.
+  - Fixed the *Factory initialization so that it compile with the HP aCC
+    compiler.
+  - Corrected the getCurrentThreadName() for MacOS X and DEC.
+  - "make install" now installs the header files.
+
+
 Version 0.9.9 (August 9 2003)
   - Fixed many MSVC++ compilation errors (6 and 7).
   - Updated the MSVC++ projects
