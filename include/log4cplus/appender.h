@@ -159,7 +159,7 @@ namespace log4cplus {
          * threshold. If there is no threshold set, then the return value is
          * always <code>true</code>.
          */
-        virtual bool isAsSevereAsThreshold(LogLevel ll) const {
+        bool isAsSevereAsThreshold(LogLevel ll) const {
             return ((ll != NOT_SET_LOG_LEVEL) && (ll >= threshold));
         }
 
