@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/06/29 02:04:23  tcsmith
+// Added the clone() method.
+//
 // Revision 1.1  2003/06/27 15:44:34  tcsmith
 // Initial version.
 //
@@ -69,7 +72,8 @@ InternalLoggingEvent::getType() const
 std::auto_ptr<InternalLoggingEvent>
 InternalLoggingEvent::clone() const
 {
-    return std::auto_ptr<InternalLoggingEvent>(new InternalLoggingEvent(*this));
+    std::auto_ptr<InternalLoggingEvent> tmp(new InternalLoggingEvent(*this));
+    return tmp;
 }
 
 
