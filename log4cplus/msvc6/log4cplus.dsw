@@ -1,0 +1,149 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "appender_test"=.\tests\appender_test.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "fileappender_test"=.\tests\fileappender_test.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "hierarchy_test"=.\tests\hierarchy_test.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "log4cplus_dll"=.\log4cplus_dll.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "loglog_test"=.\tests\loglog_test.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ndc_test"=.\tests\ndc_test.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ostream_test"=.\tests\ostream_test.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "priority_test"=.\tests\priority_test.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "thread_test"=.\tests\thread_test.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+
