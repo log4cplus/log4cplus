@@ -43,7 +43,7 @@ namespace log4cplus {
     class LOG4CPLUS_EXPORT Layout : protected :: log4cplus::helpers::LogLogUser {
     public:
         Layout() : llmCache(getLogLevelManager()) {}
-        Layout(const log4cplus::helpers::Properties& properties) 
+        Layout(const log4cplus::helpers::Properties&) 
           : llmCache(getLogLevelManager())  {}
         virtual ~Layout() {}
 
@@ -122,7 +122,7 @@ namespace log4cplus {
     class LOG4CPLUS_EXPORT TTCCLayout : public Layout {
     public:
       // Ctor and dtor
-        TTCCLayout(bool use_gmtime = true);
+        TTCCLayout(bool use_gmtime = false);
         TTCCLayout(const log4cplus::helpers::Properties& properties);
         virtual ~TTCCLayout();
 
@@ -132,7 +132,7 @@ namespace log4cplus {
     protected:
        log4cplus::tstring dateFormat;
        bool use_gmtime;
-
+     
     private: 
       // Disallow copying of instances of this class
         TTCCLayout(const TTCCLayout&);
