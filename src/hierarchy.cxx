@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/05/21 22:13:49  tcsmith
+// Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
+// of data".
+//
 // Revision 1.6  2003/05/01 19:37:36  tcsmith
 // Fixed VC++ compiler "performance warning".
 //
@@ -60,14 +64,13 @@ Hierarchy::Hierarchy()
     emittedNoAppenderWarning(false),
     emittedNoResourceBundleWarning(false)
 {
-    root = new Logger( new spi::RootLogger(*this, DEBUG_LOG_LEVEL) );
+    root = Logger( new spi::RootLogger(*this, DEBUG_LOG_LEVEL) );
 }
 
 
 Hierarchy::~Hierarchy()
 {
     shutdown();
-    delete root;
     LOG4CPLUS_MUTEX_FREE( hashtable_mutex );
 }
 
@@ -189,7 +192,7 @@ Hierarchy::isDisabled(int level)
 Logger 
 Hierarchy::getRoot() 
 { 
-    return *root; 
+    return root; 
 }
 
 
@@ -240,7 +243,6 @@ Hierarchy::setLoggerFactory(std::auto_ptr<spi::LoggerFactory> factory)
 void 
 Hierarchy::shutdown()
 {
-    Logger root = getRoot();
     LoggerList cats = getCurrentLoggers();
 
     // begin by closing nested appenders
@@ -298,7 +300,7 @@ Hierarchy::updateParents(Logger cat)
     } // end for loop
 
     if(!parentFound) {
-        cat.value->parent = root->value;
+        cat.value->parent = root.value;
     }
 }
 
