@@ -1,3 +1,22 @@
+Version 0.9.8 (August 3 2003)
+  - Changed the LogLog class so that it is now reference counted.
+  - Restored the LOG4CPLUS_*_STR logging macros.
+  - Added support to disable the ERROR and FATAL macros by defining
+    LOG4CPLUS_DISABLE_*
+  - API Change:  The LOG4CPLUS_TRACE macro now has behavior similar to all of 
+    the other logging macros.  If the old behavior is desired, then the new
+    LOG4CPLUS_TRACE_METHOD macro should be used.
+  - Modified Appender class to support the "Threshold" property.
+  - "localtime" is now the default time in log4cplus.
+  - The FileAppender no longer prints out the "header" when it opens a file.
+  - Added the "immediateFlush" field to the FileAppender class.
+  - Changed the API of the LogLevelManager class.
+  - Initial port work done to run on MacOS X.
+  - Added the HierarchyLocker class
+  - Added the ConfigureAndWatchThread class for runtime dynamic reconfiguration.
+  - Added several performance enhancements to the InternalLoggingEvent class.
+
+
 Version 0.9.7 (June 28 2003)
   - Added the log4cplus::DailyRollingFileAppender class.
   - Added the log4cplus::helper::Time class.  Now log with millisecond 
