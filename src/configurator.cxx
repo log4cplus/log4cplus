@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.15  2003/08/04 01:26:01  tcsmith
+// Added the ConfigureAndWatchThread and ConfigurationWatchDogThread classes.
+//
 // Revision 1.14  2003/07/20 19:57:40  baldheadedguy
 // Updated to include an istream constructor so that the calling program
 // can open the configuration file and deal with the exceptions if the file
@@ -615,5 +618,4 @@ ConfigureAndWatchThread::~ConfigureAndWatchThread()
 }
 
 #endif
-        
-        
+
