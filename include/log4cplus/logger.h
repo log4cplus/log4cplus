@@ -174,6 +174,18 @@ namespace log4cplus {
         void forcedLog(LogLevel ll, const log4cplus::tstring& message,
                        const char* file=NULL, int line=-1);
 
+        /**
+         * Call the appenders in the hierrachy starting at
+         * <code>this</code>.  If no appenders could be found, emit a
+         * warning.
+         * <p>
+         * This method calls all the appenders inherited from the
+         * hierarchy circumventing any evaluation of whether to log or not
+         * to log the particular log request.
+         *
+         * @param spi::InternalLoggingEvent the event to log.
+         */
+        void callAppenders(const spi::InternalLoggingEvent& event);
 
         /**
          * Starting from this logger, search the logger hierarchy for a
@@ -261,20 +273,6 @@ namespace log4cplus {
          */
         Logger(spi::LoggerImpl *ptr);
         Logger(const spi::SharedLoggerImplPtr& val);
-
-      // Methods
-        /**
-         * Call the appenders in the hierrachy starting at
-         * <code>this</code>.  If no appenders could be found, emit a
-         * warning.
-         * <p>
-         * This method calls all the appenders inherited from the
-         * hierarchy circumventing any evaluation of whether to log or not
-         * to log the particular log request.
-         *                                   
-         * @param spi::InternalLoggingEvent the event to log. 
-         */
-        void callAppenders(const spi::InternalLoggingEvent& event);
 
       // Data
         /** This is a pointer to the implementation class. */
