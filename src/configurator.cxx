@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.16  2003/08/04 03:08:53  tcsmith
+// Fixed the "no newline at the end of file" warning.
+//
 // Revision 1.15  2003/08/04 01:26:01  tcsmith
 // Added the ConfigureAndWatchThread and ConfigurationWatchDogThread classes.
 //
@@ -155,7 +158,7 @@ namespace {
                     buffer << '"' << val
                            << "\" has no closing brace. "
                            << "Opening brace at position " << j << ".";
-                    loglog.error( LOG4CPLUS_TSTRING_TO_STRING(buffer.str()) );
+                    loglog.error(buffer.str());
                     return val;
                 }
                 else {
