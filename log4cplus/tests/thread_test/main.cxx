@@ -1,7 +1,7 @@
 
-#include <log4cplus/logger.h>
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/layout.h>
+#include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
@@ -78,6 +78,8 @@ main()
         Logger::getRoot().addAppender(append_1);
         append_1->setName("cout");
 
+	append_1 = 0;
+
         log4cplus::helpers::SharedObjectPtr<TestThread> threads[NUM_THREADS];
         int i = 0;
         for(i=0; i<NUM_THREADS; ++i) {
@@ -96,7 +98,8 @@ main()
                 sleep(0, 200 * MILLIS_TO_NANOS);
             }
         }
-        LOG4CPLUS_DEBUG(logger, "Exiting main()...")
+        log4cplus::Logger::shutdown();
+        LOG4CPLUS_INFO(logger, "Exiting main()...")
     }
     catch(std::exception &e) {
         LOG4CPLUS_FATAL(Logger::getRoot(), "main()- Exception occured: " << e.what())

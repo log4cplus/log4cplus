@@ -26,8 +26,10 @@ AC_LANG_CPLUSPLUS
 dnl Checks for libraries.
 AC_PROG_RANLIB 
 AC_CHECK_LIB(rt, nanosleep)
-AC_CHECK_LIB(socket, accept)
-AC_CHECK_LIB(nsl, gethostent)
+dnl AC_CHECK_LIB(socket, accept)
+dnl AC_CHECK_LIB(nsl, gethostent)
+AC_CHECK_FUNC(gethostent, , AC_CHECK_LIB(nsl, gethostent))
+AC_CHECK_FUNC(setsockopt, , AC_CHECK_LIB(socket, setsockopt))
 
 dnl Checks for header files.
 AC_STDC_HEADERS
@@ -39,6 +41,26 @@ AC_FUNC_STRFTIME
 AC_STRUCT_TM
 AC_CHECK_FUNCS(gmtime_r)
 AC_CHECK_FUNCS(localtime_r)
+AC_CHECK_FUNCS(gettimeofday)
+AC_CHECK_FUNCS(ftime)
+
+dnl Check for the existance of type socklen_t.
+AC_DEFUN([TYPE_SOCKLEN_T],
+[AC_CACHE_CHECK([for socklen_t], ac_cv_type_socklen_t,
+[
+  AC_TRY_COMPILE(
+  [#include <sys/types.h>
+   #include <sys/socket.h>],
+  [socklen_t len = 42; return 0;],
+   ac_cv_type_socklen_t=yes,
+   ac_cv_type_socklen_t=no)
+])
+  if test $ac_cv_type_socklen_t != yes; then
+    AC_DEFINE(socklen_t, int)
+  fi
+])
+TYPE_SOCKLEN_T
+		
 
 dnl Check for single-threaded compilation
 AC_ARG_ENABLE(threads,
@@ -79,5 +101,7 @@ AC_OUTPUT([Makefile
            tests/priority_test/Makefile 
 	   tests/propertyconfig_test/Makefile
 	   tests/socket_test/Makefile
+	   tests/shutdown_test/Makefile
+	   tests/time_test/Makefile
            tests/thread_test/Makefile ])
 

@@ -13,6 +13,9 @@
 
 @TOP@
 
+/* Define if your <sys/socket.h> declares type socklen_t.  */
+#undef socklen_t
+
 @BOTTOM@
 
 #ifdef WIN32

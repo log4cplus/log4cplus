@@ -6,5 +6,5 @@ INCLUDES = -I$(top_srcdir)/include
 
 priority_test_SOURCES = main.cxx func.cxx
 
-priority_test_LDADD = $(top_builddir)/src/liblog4cplus.la -lstdc++
+priority_test_LDADD = $(top_builddir)/src/liblog4cplus.la 
 

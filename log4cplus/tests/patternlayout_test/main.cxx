@@ -21,8 +21,8 @@ main()
         SharedObjectPtr<Appender> append_1(new ConsoleAppender());
         append_1->setName("First");
 
-//	std::string pattern = "%d{%m/%d/%y %H:%M:%S} [%t] %-5p %c{2} %%%x%% - %m [%l]%n";
-	std::string pattern = "%d{%c} [%t] %-5p [%.15c{3}] %%%x%% - %m [%l]%n";
+	std::string pattern = "%d{%m/%d/%y %H:%M:%S,%Q} [%t] %-5p %c{2} %%%x%% - %m [%l]%n";
+//	std::string pattern = "%d{%c} [%t] %-5p [%.15c{3}] %%%x%% - %m [%l]%n";
 	append_1->setLayout( std::auto_ptr<Layout>(new PatternLayout(pattern)) );
         Logger::getRoot().addAppender(append_1);
 
