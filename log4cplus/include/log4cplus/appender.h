@@ -20,6 +20,7 @@
 #include <log4cplus/layout.h>
 #include <log4cplus/priority.h>
 #include <log4cplus/helpers/pointer.h>
+#include <log4cplus/helpers/property.h>
 #include <memory>
 #include <string>
 
@@ -37,8 +38,9 @@ namespace log4cplus {
      * This class is used to "handle" errors encountered in an {@link
      * #Appender}.
      */
-    class ErrorHandler{
+    class ErrorHandler {
     public:
+        virtual ~ErrorHandler();
         virtual void error(const std::string& err) = 0;
     };
 
@@ -48,6 +50,7 @@ namespace log4cplus {
     public:
       // Ctor
         OnlyOnceErrorHandler() : firstTime(true){}
+
         virtual void error(const std::string& err);
 
     private:
@@ -63,13 +66,14 @@ namespace log4cplus {
     public:
       // Ctor
         Appender();
+        Appender(log4cplus::helpers::Properties properties);
 
       // Dtor
         virtual ~Appender(){};
 
         void destructorImpl();
 
-	  // Methods
+      // Methods
         /**
          * Release any resources allocated within the appender such as file
          * handles, network connections, etc.
