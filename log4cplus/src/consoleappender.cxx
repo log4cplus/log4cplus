@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  2003/10/29 16:08:33  tcsmith
+// Ensure that "logToStdErr" is set in the ctor.
+//
 // Revision 1.9  2003/06/12 23:50:22  tcsmith
 // Modified to support the rename of the toupper and tolower methods.
 //
@@ -45,20 +48,26 @@ using namespace log4cplus::helpers;
 // log4cplus::ConsoleAppender ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::ConsoleAppender::ConsoleAppender(bool logToStdErr)
-: logToStdErr(logToStdErr)
+log4cplus::ConsoleAppender::ConsoleAppender(bool logToStdErr, bool immediateFlush)
+: logToStdErr(logToStdErr),
+  immediateFlush(immediateFlush)
 {
 }
 
 
 
 log4cplus::ConsoleAppender::ConsoleAppender(const log4cplus::helpers::Properties properties)
- : Appender(properties),
-   logToStdErr(false)
+: Appender(properties),
+  logToStdErr(false),
+  immediateFlush(false)
 {
     tstring val = toLower(properties.getProperty(LOG4CPLUS_TEXT("logToStdErr")));
     if(val == LOG4CPLUS_TEXT("true")) {
         logToStdErr = true;
+    }
+    if(properties.exists( LOG4CPLUS_TEXT("ImmediateFlush") )) {
+        tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("ImmediateFlush") );
+        immediateFlush = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
     }
 }
 
@@ -96,7 +105,11 @@ void
 log4cplus::ConsoleAppender::append(const spi::InternalLoggingEvent& event)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( getLogLog().mutex )
-        layout->formatAndAppend((logToStdErr ? tcerr : tcout), event);
+        log4cplus::tostream& output = (logToStdErr ? tcerr : tcout);
+        layout->formatAndAppend(output, event);
+        if(immediateFlush) {
+            output.flush();
+        }
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
 }
 
