@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/04/19 21:33:10  tcsmith
+// Replaced use of back_insert_iterator with string_append_iterator.
+//
 // Revision 1.1  2003/04/18 22:25:30  tcsmith
 // Initial version.
 //
@@ -21,7 +24,7 @@
 #include <algorithm>
 
 #ifdef UNICODE
-#  include <ccwtype>
+#  include <cwctype>
 #else
 #  include <cctype>
 #endif
@@ -30,6 +33,35 @@
 //////////////////////////////////////////////////////////////////////////////
 // Global Methods
 //////////////////////////////////////////////////////////////////////////////
+
+#ifdef UNICODE
+std::string 
+log4cplus::helpers::tostring(const std::wstring& src)
+{
+    std::string ret;
+    ret.resize(src.size());
+    for (unsigned int i=0; i<src.size(); i++) {
+        ret[i] = static_cast<tchar>(src[i]);
+    }
+
+    return ret;
+}
+
+
+std::wstring 
+log4cplus::helpers::towstring(const std::string& src)
+{
+    std::wstring ret;
+    ret.resize(src.size());
+    for (unsigned int i=0; i<src.size(); i++) {
+        ret[i] = src[i] < 256 ? src[i] : ' ';
+    }
+
+    return ret;
+}
+#endif
+
+
 
 log4cplus::tstring
 log4cplus::helpers::toupper(const log4cplus::tstring& s)
