@@ -19,7 +19,6 @@
 #include <log4cplus/config.h>
 #include <log4cplus/helpers/pointer.h>
 #include <memory>
-#include <string>
 
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
