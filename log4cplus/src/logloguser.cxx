@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/06/29 16:49:34  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/logloguser.h>
@@ -34,6 +37,12 @@ LogLogUser::LogLogUser()
 }
 
 
+LogLogUser::LogLogUser(const LogLogUser& rhs)
+{
+    loglogRef = new SharedObjectPtr<LogLog>(*static_cast<LogLogPtr*>(rhs.loglogRef));
+}
+
+
 LogLogUser::~LogLogUser()
 {
     delete static_cast<LogLogPtr*>(loglogRef);
@@ -52,4 +61,17 @@ LogLogUser::getLogLog() const
     return **ptr;
 }
 
+
+LogLogUser&
+LogLogUser::operator=(const LogLogUser& rhs)
+{
+    if(this == &rhs) {
+        return *this;
+    }
+    
+    delete static_cast<LogLogPtr*>(loglogRef);
+    loglogRef = new SharedObjectPtr<LogLog>(*static_cast<LogLogPtr*>(rhs.loglogRef));
+    
+    return *this;
+}
 

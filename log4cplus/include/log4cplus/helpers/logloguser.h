@@ -33,10 +33,14 @@ namespace log4cplus {
         public:
           // ctor and dtor
             LogLogUser();
+            LogLogUser(const LogLogUser&);
             virtual ~LogLogUser();
 
           // public methods
             LogLog& getLogLog() const;
+            
+          // operators
+            LogLogUser& operator=(const LogLogUser& rhs);
 
         private:
           // Data
