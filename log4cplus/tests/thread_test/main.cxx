@@ -22,17 +22,19 @@ using namespace log4cplus::thread;
 
 class SlowObject {
 public:
-    SlowObject() : mutex( LOG4CPLUS_MUTEX_CREATE ), logger(Logger::getInstance("SlowObject")) {}
+    SlowObject() 
+      : mutex( LOG4CPLUS_MUTEX_CREATE ), 
+        logger(Logger::getInstance("SlowObject")) 
+    { logger.setLogLevel(TRACE_LOG_LEVEL); }
 
     void doSomething() {
-	LOG4CPLUS_DEBUG_STR(logger, "Entering doSomething()...")
+        LOG4CPLUS_TRACE_STR(logger, "SlowObject::doSomething()")
         LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-	    LOG4CPLUS_INFO_STR(logger, "Actually doing something...")
+            LOG4CPLUS_INFO_STR(logger, "Actually doing something...")
             sleep(0, 75 * MILLIS_TO_NANOS);
-	    LOG4CPLUS_INFO_STR(logger, "Actually doing something...DONE")
+            LOG4CPLUS_INFO_STR(logger, "Actually doing something...DONE")
         LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
         yield();
-	LOG4CPLUS_DEBUG_STR(logger, "Exiting doSomething()...")
     }
 
 private:
@@ -45,7 +47,9 @@ SlowObject *global;
 class TestThread : public AbstractThread {
 public:
     TestThread(std::string n) 
-     : name(n), logger(Logger::getInstance("test.TestThread")) {}
+     : name(n), logger(Logger::getInstance("test.TestThread")) 
+     {
+     }
 
     virtual void run();
 
@@ -69,7 +73,7 @@ main()
         cout << "main Priority: " << getLogLevelManager().toString(ll) << endl;
 
         helpers::SharedObjectPtr<Appender> append_1(new ConsoleAppender());
-	append_1->setLayout( std::auto_ptr<Layout>(new log4cplus::TTCCLayout()) );
+        append_1->setLayout( std::auto_ptr<Layout>(new log4cplus::TTCCLayout()) );
         Logger::getRoot().addAppender(append_1);
         append_1->setName("cout");
 
@@ -84,7 +88,7 @@ main()
         for(i=0; i<NUM_THREADS; ++i) {
             threads[i]->start();
         }
-	LOG4CPLUS_DEBUG_STR(logger, "All Threads started...")
+        LOG4CPLUS_DEBUG_STR(logger, "All Threads started...")
 
         for(i=0; i<NUM_THREADS; ++i) {
             while(threads[i]->isRunning()) {
@@ -94,10 +98,10 @@ main()
         LOG4CPLUS_DEBUG_STR(logger, "Exiting main()...")
     }
     catch(std::exception &e) {
-	LOG4CPLUS_FATAL(Logger::getRoot(), "main()- Exception occured: " << e.what())
+        LOG4CPLUS_FATAL(Logger::getRoot(), "main()- Exception occured: " << e.what())
     }
     catch(...) {
-	LOG4CPLUS_FATAL_STR(Logger::getRoot(), "main()- Exception occured")
+        LOG4CPLUS_FATAL_STR(Logger::getRoot(), "main()- Exception occured")
     }
 
     return 0;
@@ -111,21 +115,20 @@ TestThread::run()
         LOG4CPLUS_WARN_STR(logger, name + " TestThread.run()- Starting...")
         NDC& ndc = getNDC();
         NDCContextCreator _first_ndc(name);
-	LOG4CPLUS_DEBUG_STR(logger, "Entering Run()...")
+        LOG4CPLUS_DEBUG_STR(logger, "Entering Run()...")
         for(int i=0; i<NUM_LOOPS; ++i) {
             NDCContextCreator _ndc("loop");
             global->doSomething();
-	    LOG4CPLUS_INFO_STR(logger, "Exiting loop...")
         }
-	LOG4CPLUS_DEBUG_STR(logger, "Exiting run()...")
+        LOG4CPLUS_DEBUG_STR(logger, "Exiting run()...")
 
         ndc.remove();
     }
     catch(exception& e) {
-	LOG4CPLUS_FATAL(logger, "TestThread.run()- Exception occurred: " << e.what())
+        LOG4CPLUS_FATAL(logger, "TestThread.run()- Exception occurred: " << e.what())
     }
     catch(...) {
-	LOG4CPLUS_FATAL_STR(logger, "TestThread.run()- Exception occurred!!")
+        LOG4CPLUS_FATAL_STR(logger, "TestThread.run()- Exception occurred!!")
     }
     LOG4CPLUS_WARN(logger, name << " TestThread.run()- Finished")
 } // end "run"
