@@ -20,6 +20,7 @@
 
 #define HAVE_SSTREAM 1
 #define HAVE_GETTIMEOFDAY 1
+#define socklen_t int
 
 // Metrowerks MacOS X compilers don't have nanosleep() by default, use single for now
 #ifdef __MWERKS__
