@@ -26,7 +26,7 @@ main()
 
         LOG4CPLUS_WARN(root, "Starting test loop....")
         Time start = Time::gettimeofday();
-        std::string msg("This is a WARNING...");
+        tstring msg("This is a WARNING...");
         int i = 0;
         for(i=0; i<LOOP_COUNT; ++i) {
             LOG4CPLUS_WARN(logger, msg)
@@ -38,9 +38,9 @@ main()
 
         start = Time::gettimeofday();
         for(i=0; i<LOOP_COUNT; ++i) {
-            std::stringstream buffer;
-	    buffer /*<< "test"*/ << 123122;
-	    tstring tmp = buffer.str();
+            tostringstream buffer;
+	        buffer /*<< "test"*/ << 123122;
+	        tstring tmp = buffer.str();
         }
         end = Time::gettimeofday();
         diff = end - start;
