@@ -42,7 +42,7 @@
  */
 #if !defined(LOG4CPLUS_DISABLE_TRACE)
 #define LOG4CPLUS_TRACE_METHOD(logger, logEvent) \
-    log4cplus::TraceLogger _log4cplus_trace_logger(logger, logEvent);
+    log4cplus::TraceLogger _log4cplus_trace_logger(logger, logEvent, __FILE__, __LINE__);
 #define LOG4CPLUS_TRACE(logger, logEvent) \
     if(logger.isEnabledFor(log4cplus::TRACE_LOG_LEVEL)) { \
         log4cplus::tostringstream _log4cplus_buf; \
