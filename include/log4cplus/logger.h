@@ -314,9 +314,9 @@ namespace log4cplus {
      */
     class LOG4CPLUS_EXPORT TraceLogger {
     public:
-        TraceLogger(const Logger& l, const log4cplus::tstring& msg,
-                    const char* file=NULL, int line=-1) 
-          : logger(l), msg(msg), file(file), line(line)
+        TraceLogger(const Logger& l, const log4cplus::tstring& _msg,
+                    const char* _file=NULL, int _line=-1) 
+          : logger(l), msg(_msg), file(_file), line(_line)
         { if(logger.isEnabledFor(TRACE_LOG_LEVEL))
               logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg, file, line); 
         }
