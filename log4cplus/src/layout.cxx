@@ -4,12 +4,13 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
+// $Log: not supported by cvs2svn $
 
 #include <log4cplus/layout.h>
 #include <log4cplus/spi/loggingevent.h>
@@ -22,6 +23,10 @@ using namespace log4cplus::spi;
 #define BUFFER_SIZE 20
 
 
+///////////////////////////////////////////////////////////////////////////////
+// public methods
+///////////////////////////////////////////////////////////////////////////////
+
 std::string 
 log4cplus::getFormattedTime(time_t time, const std::string& fmt)
 {
@@ -33,13 +38,22 @@ log4cplus::getFormattedTime(time_t time, const std::string& fmt)
 
 
 
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::SimpleLayout public methods
+///////////////////////////////////////////////////////////////////////////////
+
 void
-SimpleLayout::formatAndAppend(std::ostream& output, const log4cplus::spi::InternalLoggingEvent& event)
+SimpleLayout::formatAndAppend(std::ostream& output, 
+                              const log4cplus::spi::InternalLoggingEvent& event)
 {
-    output << event.priority << " - " << event.message << std::endl;
+    output << llmCache.toString(event.ll) << " - " << event.message << std::endl;
 }
 
 
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::TTCCLayout ctors and dtor
+///////////////////////////////////////////////////////////////////////////////
 
 TTCCLayout::TTCCLayout()
 : dateFormat("%m-%d-%y %H:%M:%S")
@@ -59,19 +73,22 @@ TTCCLayout::~TTCCLayout()
 }
 
 
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::TTCCLayout public methods
+///////////////////////////////////////////////////////////////////////////////
+
 void
-TTCCLayout::formatAndAppend(std::ostream& output, const log4cplus::spi::InternalLoggingEvent& event)
+TTCCLayout::formatAndAppend(std::ostream& output, 
+                            const log4cplus::spi::InternalLoggingEvent& event)
 {
     output << getFormattedTime(event.timestamp, dateFormat) << " ["
            << event.thread << "] "
-           << event.priority << " "
-           << event.categoryName << " <"
+           << llmCache.toString(event.ll) << " "
+           << event.loggerName << " <"
            << event.ndc << "> - "
-           << event.message;
-    if(event.file != NULL) {
-        output << " [" << event.file << ':' << event.line << ']';
-    }
-    output << std::endl;
+           << event.message
+           << std::endl;
 }
 
 

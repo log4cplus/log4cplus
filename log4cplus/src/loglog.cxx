@@ -4,12 +4,13 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
+// $Log: not supported by cvs2svn $
 
 #include <log4cplus/helpers/loglog.h>
 #include <iostream>
@@ -18,6 +19,10 @@ using namespace std;
 using namespace log4cplus::helpers;
 
 
+///////////////////////////////////////////////////////////////////////////////
+// File LOCAL definitions
+///////////////////////////////////////////////////////////////////////////////
+
 namespace {
     class _static_LogLog_initializer {
     public:
@@ -25,6 +30,11 @@ namespace {
     } initializer;
 }
 
+
+
+///////////////////////////////////////////////////////////////////////////////
+// public methods
+///////////////////////////////////////////////////////////////////////////////
 
 LogLog&
 log4cplus::helpers::getLogLog()
@@ -37,6 +47,11 @@ log4cplus::helpers::getLogLog()
     return *instance;
 }
 
+
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::helpers::LogLog ctor and dtor
+///////////////////////////////////////////////////////////////////////////////
 
 LogLog::LogLog()
  : mutex(LOG4CPLUS_MUTEX_CREATE),
@@ -55,17 +70,24 @@ LogLog::~LogLog()
 }
 
 
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::helpers::LogLog public methods
+///////////////////////////////////////////////////////////////////////////////
+
 void
 LogLog::setInternalDebugging(bool enabled)
 {
     debugEnabled = enabled;
 }
 
+
 void
 LogLog::setQuietMode(bool quietModeVal)
 {
     quietMode = quietModeVal;
 }
+
 
 void
 LogLog::debug(const std::string& msg)
