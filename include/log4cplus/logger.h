@@ -301,8 +301,40 @@ namespace log4cplus {
     };
 
 
+
+    /**
+     * This class is used to produce "Trace" logging.  When an instance of
+     * this class is created, it will log a <code>"ENTER: " + msg</code>
+     * log message if TRACE_LOG_LEVEL is enabled for <code>logger</code>.
+     * When an instance of this class is destroyed, it will log a
+     * <code>"ENTER: " + msg</code> log message if TRACE_LOG_LEVEL is enabled
+     * for <code>logger</code>.
+     * <p>
+     * @see LOG4CPLUS_TRACE_STR
+     */
+    class TraceLogger {
+    public:
+        TraceLogger(Logger& logger, const std::string& msg) 
+          : logger(logger), msg(msg) 
+        { if(logger.isEnabledFor(TRACE_LOG_LEVEL))
+              logger.forcedLog(TRACE_LOG_LEVEL, "ENTER: " + msg); 
+        }
+
+        ~TraceLogger()
+        { if(logger.isEnabledFor(TRACE_LOG_LEVEL))
+              logger.forcedLog(TRACE_LOG_LEVEL, "EXIT:  " + msg); 
+        }
+
+    private:
+        Logger& logger;
+        std::string msg;
+    };
+
 }; // end namespace log4cplus
 
+
+#define LOG4CPLUS_TRACE_STR(logger, logEvent) \
+    log4cplus::TraceLogger _log4cplus_trace_logger(logger, logEvent);
 
 /**
  * @def LOG4CPLUS_DEBUG(logger, logEvent)  This macro is used to log a
@@ -311,49 +343,49 @@ namespace log4cplus {
  * 
  */
 #define LOG4CPLUS_DEBUG(logger, logEvent) \
-    if(logger.isEnabledFor(DEBUG_LOG_LEVEL)) { \
+    if(logger.isEnabledFor(log4cplus::DEBUG_LOG_LEVEL)) { \
         std::ostringstream _log4cplus_buf; \
         _log4cplus_buf << logEvent; \
-        logger.forcedLog(DEBUG_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
+        logger.forcedLog(log4cplus::DEBUG_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
 #define LOG4CPLUS_DEBUG_STR(logger, logEvent) \
-    logger.log(DEBUG_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
+    logger.log(log4cplus::DEBUG_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
 
 #define LOG4CPLUS_INFO(logger, logEvent) \
-    if(logger.isEnabledFor(INFO_LOG_LEVEL)) { \
+    if(logger.isEnabledFor(log4cplus::INFO_LOG_LEVEL)) { \
         std::ostringstream _log4cplus_buf; \
         _log4cplus_buf << logEvent; \
-        logger.forcedLog(INFO_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
+        logger.forcedLog(log4cplus::INFO_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
 #define LOG4CPLUS_INFO_STR(logger, logEvent) \
     logger.log(INFO_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
 
 #define LOG4CPLUS_WARN(logger, logEvent) \
-    if(logger.isEnabledFor(WARN_LOG_LEVEL)) { \
+    if(logger.isEnabledFor(log4cplus::WARN_LOG_LEVEL)) { \
         std::ostringstream _log4cplus_buf; \
         _log4cplus_buf << logEvent; \
-        logger.forcedLog(WARN_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
+        logger.forcedLog(log4cplus::WARN_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
 #define LOG4CPLUS_WARN_STR(logger, logEvent) \
-    logger.log(WARN_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
+    logger.log(log4cplus::WARN_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
 
 #define LOG4CPLUS_ERROR(logger, logEvent) \
-    if(logger.isEnabledFor(ERROR_LOG_LEVEL)) { \
+    if(logger.isEnabledFor(log4cplus::ERROR_LOG_LEVEL)) { \
         std::ostringstream _log4cplus_buf; \
         _log4cplus_buf << logEvent; \
-        logger.forcedLog(ERROR_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
+        logger.forcedLog(log4cplus::ERROR_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
 #define LOG4CPLUS_ERROR_STR(logger, logEvent) \
-    logger.log(ERROR_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
+    logger.log(log4cplus::ERROR_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
 
 #define LOG4CPLUS_FATAL(logger, logEvent) \
-    if(logger.isEnabledFor(FATAL_LOG_LEVEL)) { \
+    if(logger.isEnabledFor(log4cplus::FATAL_LOG_LEVEL)) { \
         std::ostringstream _log4cplus_buf; \
         _log4cplus_buf << logEvent; \
-        logger.forcedLog(FATAL_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
+        logger.forcedLog(log4cplus::FATAL_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
 #define LOG4CPLUS_FATAL_STR(logger, logEvent) \
-    logger.log(FATAL_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
+    logger.log(log4cplus::FATAL_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
 
 
 #endif // _LOG4CPLUS_LOGGERHEADER_
