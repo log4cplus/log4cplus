@@ -31,9 +31,9 @@ namespace log4cplus {
     public:
       // Ctors
         FileAppender(const log4cplus::tstring& filename, 
-                     LOG4CPLUS_FSTREAM_NAMESPACE::ios::open_mode mode = LOG4CPLUS_FSTREAM_NAMESPACE::ios::trunc);
+                     int mode = LOG4CPLUS_FSTREAM_NAMESPACE::ios::trunc);
         FileAppender(const log4cplus::helpers::Properties& properties,
-                     LOG4CPLUS_FSTREAM_NAMESPACE::ios::open_mode mode = LOG4CPLUS_FSTREAM_NAMESPACE::ios::trunc);
+                     int mode = LOG4CPLUS_FSTREAM_NAMESPACE::ios::trunc);
 
       // Dtor
         virtual ~FileAppender();
@@ -49,8 +49,7 @@ namespace log4cplus {
         log4cplus::tstring filename;
 
     private:
-        void init(const log4cplus::tstring& filename,
-                  LOG4CPLUS_FSTREAM_NAMESPACE::ios::open_mode mode);
+        void init(const log4cplus::tstring& filename, int mode);
 
       // Disallow copying of instances of this class
         FileAppender(const FileAppender&);
