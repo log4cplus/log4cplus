@@ -1,3 +1,10 @@
+Version 0.9.4 (May-5-2003)
+  Added SocketAppender class.
+  Now builds loggingserver to act as a source of logging messages from a
+  SocketAppender.
+  Numerous fixes needed for various compilers.
+
+
 Version 0.9.3 (Apr-19-2003)
   Added preliminary UNICODE support. (Little testing.)  Thanks Michael CATANZARITI
   Now built as a shared library instead of a static library.
