@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/04/03 01:23:34  tcsmith
+// Standardized the formatting.
+//
 
 #include <log4cplus/helpers/property.h>
 #include <iostream>
@@ -126,6 +129,13 @@ log4cplus::helpers::Properties::setProperty(const std::string& key,
                                             const std::string& value) 
 {
     data[key] = value;
+}
+
+
+bool
+log4cplus::helpers::Properties::removeProperty(const std::string& key)
+{
+    return data.erase(key);
 }
 
 
