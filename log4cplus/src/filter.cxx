@@ -11,8 +11,12 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/05/28 17:36:03  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/spi/filter.h>
+#include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 
 using namespace log4cplus;
@@ -71,6 +75,18 @@ Filter::appendFilter(FilterPtr filter)
 
 
 ///////////////////////////////////////////////////////////////////////////////
+// DenyAllFilter implementation
+///////////////////////////////////////////////////////////////////////////////
+
+FilterResult
+DenyAllFilter::decide(const InternalLoggingEvent&) const
+{
+    return DENY;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////
 // LogLevelMatchFilter implementation
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -110,11 +126,11 @@ LogLevelMatchFilter::decide(const InternalLoggingEvent& event) const
 
     bool matchOccured = (logLevelToMatch == event.ll);
         
-    if(acceptOnMatch ^ matchOccured) {
-        return DENY;
+    if(acceptOnMatch) {
+        return (matchOccured ? ACCEPT : DENY);
     }
     else {
-        return ACCEPT;
+        return (matchOccured ? DENY : ACCEPT);
     }
 }
 
@@ -158,7 +174,7 @@ LogLevelRangeFilter::init()
 FilterResult
 LogLevelRangeFilter::decide(const InternalLoggingEvent& event) const
 {
-    if((logLevelMin != NOT_SET_LOG_LEVEL) && (event.ll >= logLevelMin)) {
+    if((logLevelMin != NOT_SET_LOG_LEVEL) && (event.ll < logLevelMin)) {
         // priority of event is less than minimum
         return DENY;
     }
