@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/05/04 08:41:33  tcsmith
+// Formatting cleanup.
+//
 // Revision 1.1  2003/05/04 07:25:16  tcsmith
 // Initial version.
 //
@@ -29,10 +32,13 @@ namespace log4cplus {
 
 namespace log4cplus {
     void initializeLog4cplus() {
-        log4cplus::helpers::getLogLog();
-        getNDC();
-        Logger::getRoot();
-        initializeFactoryRegistry();
+        static bool initialized = false;
+        if(!initialized) {
+            log4cplus::helpers::getLogLog();
+            getNDC();
+            Logger::getRoot();
+            initializeFactoryRegistry();
+        }
     }
 }
 
@@ -50,6 +56,7 @@ namespace {
 
 
 #else /* Built as part of a WIN32 DLL */ 
+
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,  // handle to DLL module
                     DWORD fdwReason,     // reason for calling function
                     LPVOID lpReserved )  // reserved
@@ -78,3 +85,5 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,  // handle to DLL module
 }
  
 #endif
+
+
