@@ -12,9 +12,10 @@ using namespace log4cplus;
 int
 main(int argc, char **argv)
 {
-    log4cplus::thread::sleep(1);
+    log4cplus::helpers::sleep(1);
     tstring serverName = (argc > 1 ? LOG4CPLUS_C_STR_TO_TSTRING(argv[1]) : tstring());
-	tstring host = LOG4CPLUS_TEXT("192.168.2.10");
+//    tstring host = LOG4CPLUS_TEXT("192.168.2.10");
+    tstring host = LOG4CPLUS_TEXT("192.168.2.169");
     SharedAppenderPtr append_1(new SocketAppender(host, 9998, serverName));
     append_1->setName( LOG4CPLUS_TEXT("First") );
     Logger::getRoot().addAppender(append_1);
@@ -32,7 +33,7 @@ main(int argc, char **argv)
     LOG4CPLUS_INFO(test, "This is a char: " << 'x')
     LOG4CPLUS_INFO(test, "This is a short: " << (short)-100)
     LOG4CPLUS_INFO(test, "This is a unsigned short: " << (unsigned short)100)
-    log4cplus::thread::sleep(0, 500000);
+    log4cplus::helpers::sleep(0, 500000);
     LOG4CPLUS_INFO(test, "This is a int: " << (int)1000)
     LOG4CPLUS_INFO(test, "This is a unsigned int: " << (unsigned int)1000)
     LOG4CPLUS_INFO(test, "This is a long(hex): " << hex << (long)100000000)

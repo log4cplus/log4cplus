@@ -6,7 +6,5 @@ INCLUDES = -I$(top_srcdir)/include
 
 priority_test_SOURCES = main.cxx func.cxx
 
-AM_CPPFLAGS = -D_REENTRANT
-
-priority_test_LDADD = $(top_builddir)/src/liblog4cplus.la -lstdc++ -lpthread
+priority_test_LDADD = $(top_builddir)/src/liblog4cplus.la -lstdc++
 

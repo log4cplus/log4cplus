@@ -7,7 +7,6 @@
 using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
-using namespace log4cplus::thread;
 
 
 
@@ -18,8 +17,7 @@ main()
     getLogLog().setInternalDebugging(true);
     Logger root = Logger::getRoot();
     try {
-        PropertyConfigurator configurator("log4cplus.properties");
-        configurator.configure();
+        PropertyConfigurator::doConfigure("log4cplus.properties");
         Logger fileCat = Logger::getInstance("filelogger");
 
 	LOG4CPLUS_WARN(root, "Testing....")
