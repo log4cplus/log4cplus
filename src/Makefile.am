@@ -8,19 +8,19 @@ INCLUDES = -I../include
 
 liblog4cplus_a_SOURCES = appenderattachableimpl.cxx \
                          appender.cxx \
-                         category.cxx \
-                         categoryimpl.cxx \
                          consoleappender.cxx \
 			 factory.cxx \
                          fileappender.cxx \
                          hierarchy.cxx \
                          layout.cxx \
+                         logger.cxx \
+                         loggerimpl.cxx \
+                         loglevel.cxx \
                          loglog.cxx \
                          ndc.cxx \
 			 objectregistry.cxx \
                          patternlayout.cxx \
                          pointer.cxx \
-                         priority.cxx \
 			 property.cxx \
 			 propertyconfig.cxx \
                          threads.cxx
