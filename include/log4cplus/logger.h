@@ -51,7 +51,7 @@ namespace log4cplus {
      * See the <a href="../../../../manual.html">user manual</a> for an
      * introduction on this class.
      */
-    class Logger : public log4cplus::spi::AppenderAttachable {
+    class LOG4CPLUS_EXPORT Logger : public log4cplus::spi::AppenderAttachable {
     public:
       // Static Methods
         /**
@@ -208,7 +208,7 @@ namespace log4cplus {
         /**
          * Return the logger name.  
          */
-	log4cplus::tstring getName() const;
+        log4cplus::tstring getName() const;
 
         /**
          * Get the additivity flag for this Logger instance.  
@@ -296,7 +296,7 @@ namespace log4cplus {
      * This class is used to create the default implementation of
      * the Logger class
      */
-    class DefaultLoggerFactory : public spi::LoggerFactory {
+    class LOG4CPLUS_EXPORT DefaultLoggerFactory : public spi::LoggerFactory {
     public:
         Logger makeNewLoggerInstance(const log4cplus::tstring& name, Hierarchy& h);
     };
@@ -313,7 +313,7 @@ namespace log4cplus {
      * <p>
      * @see LOG4CPLUS_TRACE_STR
      */
-    class TraceLogger {
+    class LOG4CPLUS_EXPORT TraceLogger {
     public:
         TraceLogger(Logger& logger, const log4cplus::tstring& msg) 
           : logger(logger), msg(msg) 
@@ -328,7 +328,7 @@ namespace log4cplus {
 
     private:
         Logger& logger;
-	log4cplus::tstring msg;
+        log4cplus::tstring msg;
     };
 
 }; // end namespace log4cplus

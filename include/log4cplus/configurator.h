@@ -46,7 +46,7 @@ namespace log4cplus {
      * configuration file being parsed.  The corresponding value replaces
      * the ${variableName} sequence.
      */
-    class PropertyConfigurator {
+    class LOG4CPLUS_EXPORT PropertyConfigurator {
     public:
         // ctor and dtor
         PropertyConfigurator(const log4cplus::tstring& propertyFile);
@@ -201,7 +201,7 @@ namespace log4cplus {
 
     protected:
         // Methods
-	void replaceEnvironVariables();
+        void replaceEnvironVariables();
         void configureLoggers();
         void configureLogger(log4cplus::Logger logger, const log4cplus::tstring& config);
         void configureAppenders();
@@ -211,7 +211,7 @@ namespace log4cplus {
         typedef std::map<log4cplus::tstring, log4cplus::SharedAppenderPtr> AppenderMap;
 
         // Data
-	log4cplus::tstring propertyFilename;
+        log4cplus::tstring propertyFilename;
         log4cplus::helpers::Properties properties; 
         AppenderMap appenders;
     };
@@ -222,7 +222,7 @@ namespace log4cplus {
      * Use this class to quickly configure the package. For file based 
      * configuration see PropertyConfigurator.
      */
-    class BasicConfigurator : public PropertyConfigurator {
+    class LOG4CPLUS_EXPORT BasicConfigurator : public PropertyConfigurator {
     public:
       // ctor and dtor
         BasicConfigurator();

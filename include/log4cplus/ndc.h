@@ -33,7 +33,7 @@ namespace log4cplus {
     /**
      * Return a reference to the singleton object.
      */
-    NDC& getNDC();
+    LOG4CPLUS_EXPORT NDC& getNDC();
 
     /**
      * The NDC class implements <i>nested diagnostic contexts</i> as
@@ -99,7 +99,7 @@ namespace log4cplus {
      * #cloneStack cloneStack} method and pass the reference to any other
      * thread, in particular to a child.
      */
-    class NDC {
+    class LOG4CPLUS_EXPORT NDC {
     public:
         /**
          * Clear any nested diagnostic information if any. This method is
@@ -145,7 +145,7 @@ namespace log4cplus {
         /**
          * Used when printing the diagnostic context.
          */
-	log4cplus::tstring get();
+        log4cplus::tstring get();
 
         /**
          * Get the current nesting depth of this diagnostic context.
@@ -167,7 +167,7 @@ namespace log4cplus {
          *
          * @see NDCContextCreator
          */
-	log4cplus::tstring pop();
+        log4cplus::tstring pop();
 
         /**
          * Looks at the last diagnostic context at the top of this NDC
@@ -178,7 +178,7 @@ namespace log4cplus {
          *                          
          * @return String The innermost diagnostic context.
          */
-	log4cplus::tstring peek();
+        log4cplus::tstring peek();
 
         /**
          * Push new diagnostic context information for the current thread.
@@ -252,7 +252,7 @@ namespace log4cplus {
         NDC& operator=(const NDC&);
 
       // Friends
-        friend NDC& getNDC();
+        friend LOG4CPLUS_EXPORT NDC& getNDC();
     };
 
 
@@ -260,14 +260,14 @@ namespace log4cplus {
     /**
      * This is the internal object that is stored on the NDC stack.
      */
-    struct DiagnosticContext {
+    struct LOG4CPLUS_EXPORT DiagnosticContext {
       // Ctors
         DiagnosticContext(const log4cplus::tstring& message, DiagnosticContext *parent);
         DiagnosticContext(const log4cplus::tstring& message);
 
       // Data
-	log4cplus::tstring message; /*!< The message at this context level. */
-	log4cplus::tstring fullMessage; /*!< The entire message stack. */
+        log4cplus::tstring message; /*!< The message at this context level. */
+        log4cplus::tstring fullMessage; /*!< The entire message stack. */
     };
 
 
@@ -275,7 +275,7 @@ namespace log4cplus {
      * This class ensures that a {@link NDC#push} call is always matched with
      * a {@link NDC#pop} call even in the face of exceptions.
      */
-    class NDCContextCreator {
+    class LOG4CPLUS_EXPORT NDCContextCreator {
     public:
         /** Pushes <code>msg</code> onto the NDC stack. */
         NDCContextCreator(const log4cplus::tstring& msg) { getNDC().push(msg); }

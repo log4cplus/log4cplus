@@ -39,7 +39,7 @@ namespace log4cplus {
      * This class is used to "handle" errors encountered in an {@link
      * #Appender}.
      */
-    class ErrorHandler {
+    class LOG4CPLUS_EXPORT ErrorHandler {
     public:
         virtual ~ErrorHandler();
         virtual void error(const log4cplus::tstring& err) = 0;
@@ -47,7 +47,7 @@ namespace log4cplus {
 
 
 
-    class OnlyOnceErrorHandler : public ErrorHandler {
+    class LOG4CPLUS_EXPORT OnlyOnceErrorHandler : public ErrorHandler {
     public:
       // Ctor
         OnlyOnceErrorHandler() : firstTime(true){}
@@ -63,7 +63,7 @@ namespace log4cplus {
      * Extend this class for implementing your own strategies for printing log
      * statements. 
      */
-    class Appender : public log4cplus::helpers::SharedObject {
+    class LOG4CPLUS_EXPORT Appender : public log4cplus::helpers::SharedObject {
     public:
       // Ctor
         Appender();
@@ -167,7 +167,7 @@ namespace log4cplus {
         std::auto_ptr<Layout> layout;
 
         /** Appenders are named. */
-	log4cplus::tstring name;
+        log4cplus::tstring name;
 
         /** There is no LogLevel threshold filtering by default.  */
         LogLevel threshold;
