@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/04/18 21:32:22  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.4  2003/04/05 20:09:17  tcsmith
 // Added the removeProperty() method.
 //
@@ -19,7 +22,7 @@
 //
 
 #include <log4cplus/helpers/property.h>
-#include <fstream>
+#include <log4cplus/fstreams.h>
 
 using namespace std;
 using namespace log4cplus;
@@ -47,7 +50,7 @@ log4cplus::helpers::Properties::Properties(log4cplus::tistream& input)
 
 log4cplus::helpers::Properties::Properties(const log4cplus::tstring& inputFile)
 {
-    ifstream file;
+    tifstream file;
     file.open(inputFile.c_str());
     if(!file) {
         return;
