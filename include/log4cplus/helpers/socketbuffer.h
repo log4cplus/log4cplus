@@ -43,13 +43,12 @@ namespace log4cplus {
             unsigned char readByte();
             unsigned short readShort();
             unsigned int readInt();
-            tstring readString();
+            tstring readString(unsigned char sizeOfChar);
 
             void appendByte(unsigned char val);
             void appendShort(unsigned short val);
             void appendInt(unsigned int val);
             void appendString(const tstring& str);
-            void appendString(const char* str);
             void appendBuffer(const SocketBuffer& buffer);
 
         private:
