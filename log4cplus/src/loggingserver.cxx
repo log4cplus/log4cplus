@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/05/04 08:43:11  tcsmith
+// Now takes a port and a config file name as parameters on startup.
+//
 // Revision 1.2  2003/05/04 07:39:48  tcsmith
 // Removed a debug message.
 //
@@ -109,7 +112,7 @@ loggingserver::ClientThread::run()
         }
         
         spi::InternalLoggingEvent event = readFromBuffer(buffer);
-        Logger logger = Logger::getInstance(event.loggerName);
+        Logger logger = Logger::getInstance(event.getLoggerName());
         logger.callAppenders(event);   
     }
 }

@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.12  2003/06/13 20:56:24  tcsmith
+// Made changes to make the DEC cXX 6.1 compiler happy.
+//
 // Revision 1.11  2003/06/12 23:55:49  tcsmith
 // Initial implementation of the DailyRollingFileAppender class.
 //
@@ -330,7 +333,7 @@ DailyRollingFileAppender::DailyRollingFileAppender(const Properties& properties)
     }
     else {
         getLogLog().warn(  "DailyRollingFileAppender::ctor()- \"Schedule\" not valid: "
-			 + properties.getProperty(LOG4CPLUS_TEXT("Schedule")));
+                         + properties.getProperty(LOG4CPLUS_TEXT("Schedule")));
     }
 
     init(theSchedule);
@@ -415,7 +418,7 @@ DailyRollingFileAppender::append(const spi::InternalLoggingEvent& event)
         return;
     }
 
-    if(event.timestamp >= nextRolloverTime) {
+    if(event.getTimestamp() >= nextRolloverTime) {
         rollover();
     }
 
@@ -455,7 +458,7 @@ DailyRollingFileAppender::calculateNextRolloverTime(const log4cplus::helpers::Ti
     switch(schedule) {
     case MONTHLY: {
             struct tm nextMonthTime;
-	    t.localtime(&nextMonthTime);
+            t.localtime(&nextMonthTime);
             nextMonthTime.tm_mon += 1;
 
             Time ret;

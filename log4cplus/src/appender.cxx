@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.12  2003/06/06 17:04:27  tcsmith
+// Changed the ctor to take a 'const' Properties object.
+//
 // Revision 1.11  2003/06/04 00:19:15  tcsmith
 // Modified the Appender(Properties) ctor to build the filtering chain
 // specified in the properties file.
@@ -207,7 +210,7 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
             return;
         }
 
-        if(!isAsSevereAsThreshold(event.ll)) {
+        if(!isAsSevereAsThreshold(event.getLogLevel())) {
             return;
         }
 

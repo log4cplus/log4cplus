@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/06/06 17:04:31  tcsmith
+// Changed the ctor to take a 'const' Properties object.
+//
 // Revision 1.4  2003/06/03 20:19:42  tcsmith
 // Modified the close() method to set "closed = true;".
 //
@@ -269,7 +272,7 @@ NTEventLogAppender::getEventType(const InternalLoggingEvent& event)
 {
     WORD ret_val;
     
-    switch ((int)event.ll)
+    switch ((int)event.getLogLevel())
     {
     case FATAL_LOG_LEVEL:
     case ERROR_LOG_LEVEL:
@@ -295,7 +298,7 @@ NTEventLogAppender::getEventCategory(const InternalLoggingEvent& event)
 {
     WORD ret_val;
     
-    switch (event.ll)
+    switch (event.getLogLevel())
     {
     case FATAL_LOG_LEVEL:
         ret_val = 1;

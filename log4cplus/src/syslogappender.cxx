@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/06/06 17:04:31  tcsmith
+// Changed the ctor to take a 'const' Properties object.
+//
 // Revision 1.4  2003/06/03 20:19:41  tcsmith
 // Modified the close() method to set "closed = true;".
 //
@@ -115,7 +118,7 @@ log4cplus::SysLogAppender::getSysLogLevel(const LogLevel& ll) const
 void
 log4cplus::SysLogAppender::append(const spi::InternalLoggingEvent& event)
 {
-    int level = getSysLogLevel(event.ll);
+    int level = getSysLogLevel(event.getLogLevel());
     if(level != -1) {
         log4cplus::tostringstream buf;
         layout->formatAndAppend(buf, event);

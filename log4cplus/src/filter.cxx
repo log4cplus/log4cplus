@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/06/12 23:50:21  tcsmith
+// Modified to support the rename of the toupper and tolower methods.
+//
 // Revision 1.4  2003/06/09 18:12:07  tcsmith
 // Fixed compilation error.
 //
@@ -133,7 +136,7 @@ LogLevelMatchFilter::decide(const InternalLoggingEvent& event) const
         return NEUTRAL;
     }
 
-    bool matchOccured = (logLevelToMatch == event.ll);
+    bool matchOccured = (logLevelToMatch == event.getLogLevel());
        
     if(matchOccured) {
         return (acceptOnMatch ? ACCEPT : DENY);
@@ -183,12 +186,12 @@ LogLevelRangeFilter::init()
 FilterResult
 LogLevelRangeFilter::decide(const InternalLoggingEvent& event) const
 {
-    if((logLevelMin != NOT_SET_LOG_LEVEL) && (event.ll < logLevelMin)) {
+    if((logLevelMin != NOT_SET_LOG_LEVEL) && (event.getLogLevel() < logLevelMin)) {
         // priority of event is less than minimum
         return DENY;
     }
 
-    if((logLevelMax != NOT_SET_LOG_LEVEL) && (event.ll > logLevelMax)) {
+    if((logLevelMax != NOT_SET_LOG_LEVEL) && (event.getLogLevel() > logLevelMax)) {
         // priority of event is greater than maximum
         return DENY;
     }
@@ -238,11 +241,13 @@ StringMatchFilter::init()
 FilterResult
 StringMatchFilter::decide(const InternalLoggingEvent& event) const
 {
-    if(stringToMatch.length() == 0 || event.message.length() == 0) {
+    const tstring& message = event.getMessage();
+
+    if(stringToMatch.length() == 0 || message.length() == 0) {
         return NEUTRAL;
     }
 
-    if(event.message.find(stringToMatch) == tstring::npos) {
+    if(message.find(stringToMatch) == tstring::npos) {
         return NEUTRAL;
     }
     else {  // we've got a match
