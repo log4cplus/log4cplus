@@ -117,62 +117,45 @@ namespace log4cplus {
             ~SharedObjectPtr() {if (pointee != 0) pointee->removeReference(); }
 
           // Operators
-            SharedObjectPtr& operator=(const SharedObjectPtr& rhs);                     
-            SharedObjectPtr& operator=(T* rhs);                     
             bool operator==(const SharedObjectPtr& rhs) const { return (pointee == rhs.pointee); }
             bool operator==(const T* rhs) const { return (pointee == rhs); }
             T* operator->() const {validate(); return pointee; }
             T& operator*() const {validate(); return *pointee; }
+            SharedObjectPtr& operator=(const SharedObjectPtr& rhs) {
+                if (pointee != rhs.pointee) {
+                    T* oldPointee = pointee;
+                    pointee = rhs.pointee;
+                    init();
+                    if(oldPointee != 0) oldPointee->removeReference();
+                }
+                return *this;
+            }
+            SharedObjectPtr& operator=(T* rhs) {
+                if (pointee != rhs) {
+                    T* oldPointee = pointee;
+                    pointee = rhs;
+                    init();
+                    if(oldPointee != 0) oldPointee->removeReference();
+                }
+                return *this;
+            }
 
           // Methods
             T* get() const { return pointee; }
 
         private:
+          // Methods
+            void init() {
+                if(pointee == 0) return;
+                pointee->addReference();
+            }
             void validate() const {
                 if(pointee == 0) throw std::runtime_error("NullPointer");
             }
+
+          // Data
             T* pointee;
-            void init();
         };
-
-
-        template<class T>
-        SharedObjectPtr<T>& SharedObjectPtr<T>::operator=(T* rhs)
-        {
-            if (pointee != rhs) {
-                T* oldPointee = pointee;
-
-                pointee = rhs;
-                init();
-                if(oldPointee != 0) oldPointee->removeReference();
-            }
-
-            return *this;
-        }
-
-
-        template<class T>
-        SharedObjectPtr<T>&  SharedObjectPtr<T>::operator=(const SharedObjectPtr& rhs)
-        {
-            if (pointee != rhs.pointee) {
-                T* oldPointee = pointee;
-
-                pointee = rhs.pointee;
-                init();
-
-                if(oldPointee != 0) oldPointee->removeReference();
-            }
-
-            return *this;
-        }
-
-
-        template<class T>
-        void SharedObjectPtr<T>::init()
-        {
-            if(pointee == 0) return;
-            pointee->addReference();
-        }
 
     } // end namespace helpers
 } // end namespace log4cplus
