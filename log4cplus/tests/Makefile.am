@@ -6,5 +6,6 @@ SUBDIRS = appender_test \
           ostream_test \
 	  patternlayout_test \
           priority_test \
+	  propertyconfig_test \
           thread_test
 
