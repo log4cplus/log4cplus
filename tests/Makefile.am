@@ -4,6 +4,7 @@ SUBDIRS = appender_test \
           loglog_test \
           ndc_test \
           ostream_test \
+	  patternlayout_test \
           priority_test \
           thread_test
 
