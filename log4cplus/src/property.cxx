@@ -11,15 +11,18 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/04/05 20:09:17  tcsmith
+// Added the removeProperty() method.
+//
 // Revision 1.3  2003/04/03 01:23:34  tcsmith
 // Standardized the formatting.
 //
 
 #include <log4cplus/helpers/property.h>
-#include <iostream>
 #include <fstream>
 
 using namespace std;
+using namespace log4cplus;
 
 #define BUFFER_SIZE 2048
 
@@ -35,14 +38,14 @@ log4cplus::helpers::Properties::Properties()
 
 
 
-log4cplus::helpers::Properties::Properties(std::istream& input)
+log4cplus::helpers::Properties::Properties(log4cplus::tistream& input)
 {
     init(input);
 }
 
 
 
-log4cplus::helpers::Properties::Properties(const std::string& inputFile)
+log4cplus::helpers::Properties::Properties(const log4cplus::tstring& inputFile)
 {
     ifstream file;
     file.open(inputFile.c_str());
@@ -55,7 +58,7 @@ log4cplus::helpers::Properties::Properties(const std::string& inputFile)
 
 
 void 
-log4cplus::helpers::Properties::init(std::istream& input) 
+log4cplus::helpers::Properties::init(log4cplus::tistream& input) 
 {
     if(input.fail()) {
         return;
@@ -64,9 +67,9 @@ log4cplus::helpers::Properties::init(std::istream& input)
     char buffer[BUFFER_SIZE];
     while(!input.eof()) {
         input.getline(buffer, BUFFER_SIZE);
-        string tmp(buffer);
+        tstring tmp(buffer);
         int idx = tmp.find('=');
-        if(idx != string::npos) {
+        if(idx != tstring::npos) {
             setProperty(tmp.substr(0, idx), tmp.substr(idx + 1));
         }
     }
@@ -84,12 +87,12 @@ log4cplus::helpers::Properties::~Properties()
 // log4cplus::helpers::Properties public methods
 ///////////////////////////////////////////////////////////////////////////////
 
-string
-log4cplus::helpers::Properties::getProperty(const string& key) const 
+tstring
+log4cplus::helpers::Properties::getProperty(const tstring& key) const 
 {
     StringMap::const_iterator it = data.find(key);
     if(it == data.end()) {
-        return "";
+        return LOG4CPLUS_TEXT("");
     }
     else {
         return it->second;
@@ -98,9 +101,9 @@ log4cplus::helpers::Properties::getProperty(const string& key) const
 
 
 
-string
-log4cplus::helpers::Properties::getProperty(const string& key,
-                                            const string& defaultVal) const 
+tstring
+log4cplus::helpers::Properties::getProperty(const tstring& key,
+                                            const tstring& defaultVal) const 
 {
     if(exists(key)) {
         return getProperty(key);
@@ -111,10 +114,10 @@ log4cplus::helpers::Properties::getProperty(const string& key,
 }
 
 
-vector<string>
+vector<tstring>
 log4cplus::helpers::Properties::propertyNames() const 
 {
-    vector<string> tmp;
+    vector<tstring> tmp;
     for(StringMap::const_iterator it=data.begin(); it!=data.end(); ++it) {
         tmp.push_back(it->first);
     }
@@ -125,29 +128,29 @@ log4cplus::helpers::Properties::propertyNames() const
 
 
 void
-log4cplus::helpers::Properties::setProperty(const std::string& key, 
-                                            const std::string& value) 
+log4cplus::helpers::Properties::setProperty(const log4cplus::tstring& key, 
+                                            const log4cplus::tstring& value) 
 {
     data[key] = value;
 }
 
 
 bool
-log4cplus::helpers::Properties::removeProperty(const std::string& key)
+log4cplus::helpers::Properties::removeProperty(const log4cplus::tstring& key)
 {
     return data.erase(key);
 }
 
 
 log4cplus::helpers::Properties 
-log4cplus::helpers::Properties::getPropertySubset(const std::string& prefix) const
+log4cplus::helpers::Properties::getPropertySubset(const log4cplus::tstring& prefix) const
 {
     Properties ret;
 
-    vector<string> keys = propertyNames();
-    for(vector<string>::iterator it=keys.begin(); it!=keys.end(); ++it) {
+    vector<tstring> keys = propertyNames();
+    for(vector<tstring>::iterator it=keys.begin(); it!=keys.end(); ++it) {
         int pos = (*it).find(prefix);
-        if(pos != std::string::npos) {
+        if(pos != tstring::npos) {
             ret.setProperty( (*it).substr(prefix.size()), getProperty(*it) );
         }
     }
