@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.19  2003/08/05 06:24:12  tcsmith
+// Now initialize the "immediateFlush" field in all ctors.
+//
 // Revision 1.18  2003/07/30 05:19:02  tcsmith
 // Added the "immediateFlush" field to the FileAppender class.
 //
@@ -69,6 +72,43 @@ using namespace log4cplus;
 using namespace log4cplus::helpers;
 
 #define MINIMUM_ROLLING_LOG_SIZE 200*1024L
+
+
+///////////////////////////////////////////////////////////////////////////////
+// File LOCAL definitions
+///////////////////////////////////////////////////////////////////////////////
+
+namespace {
+    
+    void rolloverFiles(const std::string& filename, unsigned int maxBackupIndex)
+    {
+        SharedObjectPtr<LogLog> loglog = LogLog::getLogLog();
+
+        // Delete the oldest file
+        log4cplus::tostringstream buffer;
+        buffer << filename << LOG4CPLUS_TEXT('.') << maxBackupIndex;
+        remove(LOG4CPLUS_TSTRING_TO_STRING(buffer.str()).c_str());
+
+        // Map {(maxBackupIndex - 1), ..., 2, 1} to {maxBackupIndex, ..., 3, 2}
+        for(int i=maxBackupIndex - 1; i >= 1; i--) {
+            log4cplus::tostringstream source;
+            log4cplus::tostringstream target;
+
+            source << filename << LOG4CPLUS_TEXT('.') << i;
+            target << filename << LOG4CPLUS_TEXT('.') << (i+1);
+            if(rename(LOG4CPLUS_TSTRING_TO_STRING(source.str()).c_str(), 
+                      LOG4CPLUS_TSTRING_TO_STRING(target.str()).c_str()) == 0) 
+            {
+                loglog->debug(  LOG4CPLUS_TEXT("Renamed file ") 
+                              + source.str() 
+                              + LOG4CPLUS_TEXT(" to ")
+                              + target.str());
+            }
+        }
+    } // end rolloverFiles()
+    
+}
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -258,27 +298,7 @@ log4cplus::RollingFileAppender::rollover()
 {
     // If maxBackups <= 0, then there is no file renaming to be done.
     if(maxBackupIndex > 0) {
-        // Delete the oldest file
-        log4cplus::tostringstream buffer;
-        buffer << filename << LOG4CPLUS_TEXT('.') << maxBackupIndex;
-        remove(LOG4CPLUS_TSTRING_TO_STRING(buffer.str()).c_str());
-
-        // Map {(maxBackupIndex - 1), ..., 2, 1} to {maxBackupIndex, ..., 3, 2}
-        for(int i=maxBackupIndex - 1; i >= 1; i--) {
-            log4cplus::tostringstream source;
-            log4cplus::tostringstream target;
-
-            source << filename << LOG4CPLUS_TEXT('.') << i;
-            target << filename << LOG4CPLUS_TEXT('.') << (i+1);
-            if(rename(LOG4CPLUS_TSTRING_TO_STRING(source.str()).c_str(), 
-                      LOG4CPLUS_TSTRING_TO_STRING(target.str()).c_str()) == 0) 
-            {
-                getLogLog().debug(  LOG4CPLUS_TEXT("Renamed file ") 
-                                  + source.str() 
-                                  + LOG4CPLUS_TEXT(" to ")
-                                  + target.str());
-            }
-        }
+        rolloverFiles(filename, maxBackupIndex);
 
         // Close the current file
         out.close();
@@ -320,8 +340,10 @@ log4cplus::RollingFileAppender::rollover()
 
 DailyRollingFileAppender::DailyRollingFileAppender(const log4cplus::tstring& filename,
                                                    DailyRollingFileSchedule schedule,
-                                                   bool immediateFlush)
-: FileAppender(filename, ios::app, immediateFlush)
+                                                   bool immediateFlush,
+                                                   int maxBackupIndex)
+: FileAppender(filename, ios::app, immediateFlush),
+  maxBackupIndex(maxBackupIndex)
 {
     init(schedule);
 }
@@ -329,7 +351,8 @@ DailyRollingFileAppender::DailyRollingFileAppender(const log4cplus::tstring& fil
 
 
 DailyRollingFileAppender::DailyRollingFileAppender(const Properties& properties)
-: FileAppender(properties)
+: FileAppender(properties, ios::app),
+  maxBackupIndex(10)
 {
     DailyRollingFileSchedule theSchedule = DAILY;
     tstring scheduleStr = properties.getProperty(LOG4CPLUS_TEXT("Schedule"));\
@@ -356,6 +379,11 @@ DailyRollingFileAppender::DailyRollingFileAppender(const Properties& properties)
     else {
         getLogLog().warn(  LOG4CPLUS_TEXT("DailyRollingFileAppender::ctor()- \"Schedule\" not valid: ")
                          + properties.getProperty(LOG4CPLUS_TEXT("Schedule")));
+    }
+    
+    if(properties.exists( LOG4CPLUS_TEXT("MaxBackupIndex") )) {
+        tstring tmp = properties.getProperty(LOG4CPLUS_TEXT("MaxBackupIndex"));
+        maxBackupIndex = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
     }
 
     init(theSchedule);
@@ -426,6 +454,19 @@ DailyRollingFileAppender::~DailyRollingFileAppender()
 
 
 ///////////////////////////////////////////////////////////////////////////////
+// log4cplus::DailyRollingFileAppender public methods
+///////////////////////////////////////////////////////////////////////////////
+
+void
+DailyRollingFileAppender::close()
+{
+    rollover();
+    FileAppender::close();
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////
 // log4cplus::DailyRollingFileAppender protected methods
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -460,7 +501,21 @@ DailyRollingFileAppender::rollover()
     out.clear(); // reset flags since the C++ standard specified that all the
                  // flags should remain unchanged on a close
 
-    // Rename fileName to fileName.1
+    // If we've already rolled over this time period, we'll make sure that we
+    // don't overwrite any of those previous files.
+    rolloverFiles(scheduledFilename, maxBackupIndex);
+    log4cplus::tostringstream backupTarget;
+    backupTarget << scheduledFilename << LOG4CPLUS_TEXT('.') << 1;
+    if( rename(LOG4CPLUS_TSTRING_TO_STRING(scheduledFilename).c_str(), 
+               LOG4CPLUS_TSTRING_TO_STRING(backupTarget.str()).c_str()) == 0 )
+    {
+        getLogLog().debug(  LOG4CPLUS_TEXT("Renamed file ") 
+                          + scheduledFilename 
+                          + LOG4CPLUS_TEXT(" to ")
+                          + backupTarget.str());
+    }
+    
+    // Rename filename to scheduledFilename
     getLogLog().debug(  LOG4CPLUS_TEXT("Renaming file ") + filename 
                       + LOG4CPLUS_TEXT(" to ") + scheduledFilename);
     rename(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), 
@@ -471,8 +526,10 @@ DailyRollingFileAppender::rollover()
              ios::out | ios::trunc);
 
     // Calculate the next rollover time
-    scheduledFilename = getFilename(nextRolloverTime);
-    nextRolloverTime = calculateNextRolloverTime(nextRolloverTime);
+    if(Time::gettimeofday() >= nextRolloverTime) {
+        scheduledFilename = getFilename(nextRolloverTime);
+        nextRolloverTime = calculateNextRolloverTime(nextRolloverTime);
+    }
 }
 
 
