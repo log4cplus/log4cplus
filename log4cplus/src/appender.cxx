@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/05/28 17:39:54  tcsmith
+// Added filtering support.
+//
 // Revision 1.8  2003/05/14 23:07:16  tcsmith
 // Fixed some TABs.
 //
@@ -126,15 +129,16 @@ Appender::Appender(log4cplus::helpers::Properties properties)
 void
 Appender::destructorImpl()
 {
+    getLogLog().debug(  LOG4CPLUS_TEXT("Destroying appender named [")
+                      + name
+                      + LOG4CPLUS_TEXT("]."));
+
     // An appender might be closed then destroyed. There is no
     // point in closing twice.
     if(closed) {
         return;
     }
 
-    getLogLog().debug(  LOG4CPLUS_TEXT("Destroying appender named [")
-                      + name
-                      + LOG4CPLUS_TEXT("]."));
     close();
     closed = true;
 }
