@@ -26,6 +26,7 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                          loglevel.cxx \
                          loglog.cxx \
                          ndc.cxx \
+                         nullappender.cxx \
 			 objectregistry.cxx \
                          patternlayout.cxx \
                          pointer.cxx \
