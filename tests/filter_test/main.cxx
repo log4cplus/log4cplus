@@ -26,6 +26,15 @@ printDebug()
 int
 main()
 {
+#ifdef WIN32
+    cout << "=-=-=-= NOTICE =-=-=-=" << endl
+         << "Make sure you copy the log4cplus\\tests\\filter_test\\log4cplus.properties"
+         << " file into the directory you run this test from"
+         << endl
+         << "=-=-=-=-=-=-=-=-=-=-=-=" 
+         << endl << endl;
+#endif
+
     cout << "Entering main()..." << endl;
     getLogLog().setInternalDebugging(true);
     Logger root = Logger::getRoot();
