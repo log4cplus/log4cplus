@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/08/03 16:57:08  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/hierarchylocker.h>
 #include <log4cplus/helpers/loglog.h>
@@ -26,9 +29,9 @@ using namespace log4cplus::helpers;
 // log4cplus::HierarchyLocker ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-HierarchyLocker::HierarchyLocker(Hierarchy& h)
+HierarchyLocker::HierarchyLocker(Hierarchy& _h)
 : hierarchyLocker(h.hashtable_mutex),
-  h(h),
+  h(_h),
   loggerList()
 {
     // Get a copy of all of the Hierarchy's Loggers (except the Root Logger)
