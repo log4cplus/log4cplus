@@ -119,6 +119,8 @@ namespace log4cplus {
           // Operators
             Time& operator+=(const Time& rhs);
             Time& operator-=(const Time& rhs);
+            Time& operator/=(long rhs);
+            Time& operator*=(long rhs);
 
         private:
           // Data
@@ -136,6 +138,12 @@ LOG4CPLUS_EXPORT const log4cplus::helpers::Time operator+
 LOG4CPLUS_EXPORT const log4cplus::helpers::Time operator-
                                    (const log4cplus::helpers::Time& lhs,
                                     const log4cplus::helpers::Time& rhs);
+LOG4CPLUS_EXPORT const log4cplus::helpers::Time operator/
+                                   (const log4cplus::helpers::Time& lhs,
+                                    long rhs);
+LOG4CPLUS_EXPORT const log4cplus::helpers::Time operator*
+                                   (const log4cplus::helpers::Time& lhs,
+                                    long rhs);
 
 LOG4CPLUS_EXPORT bool operator<(const log4cplus::helpers::Time& lhs,
                                 const log4cplus::helpers::Time& rhs);
