@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/12/07 07:40:34  tcsmith
+// Changed ctor() to remove warnings for the SUN CC compiler.
+//
 // Revision 1.1  2003/08/03 16:57:08  tcsmith
 // Initial version.
 //
@@ -30,8 +33,8 @@ using namespace log4cplus::helpers;
 //////////////////////////////////////////////////////////////////////////////
 
 HierarchyLocker::HierarchyLocker(Hierarchy& _h)
-: hierarchyLocker(h.hashtable_mutex),
-  h(_h),
+: h(_h),
+  hierarchyLocker(h.hashtable_mutex),
   loggerList()
 {
     // Get a copy of all of the Hierarchy's Loggers (except the Root Logger)
