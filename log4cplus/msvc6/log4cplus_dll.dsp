@@ -117,6 +117,10 @@ SOURCE=..\src\fileappender.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\filter.cxx
+# End Source File
+# Begin Source File
+
 SOURCE="..\src\global-init.cxx"
 # End Source File
 # Begin Source File
@@ -134,6 +138,10 @@ SOURCE=..\src\logger.cxx
 # Begin Source File
 
 SOURCE=..\src\loggerimpl.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\loggingserver.cxx
 # End Source File
 # Begin Source File
 
@@ -173,6 +181,10 @@ SOURCE=..\src\rootlogger.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\sleep.cxx
+# End Source File
+# Begin Source File
+
 SOURCE="..\src\socket-win32.cxx"
 # End Source File
 # Begin Source File
@@ -189,15 +201,15 @@ SOURCE=..\src\socketbuffer.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\strftime.cxx
-# End Source File
-# Begin Source File
-
 SOURCE=..\src\stringhelper.cxx
 # End Source File
 # Begin Source File
 
 SOURCE=..\src\threads.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\timehelper.cxx
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -238,6 +250,10 @@ SOURCE=..\include\log4cplus\spi\factory.h
 # Begin Source File
 
 SOURCE=..\include\log4cplus\fileappender.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\include\log4cplus\spi\filter.h
 # End Source File
 # Begin Source File
 
@@ -301,6 +317,10 @@ SOURCE=..\include\log4cplus\spi\rootlogger.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\include\log4cplus\helpers\sleep.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\include\log4cplus\helpers\socket.h
 # End Source File
 # Begin Source File
@@ -321,15 +341,15 @@ SOURCE=..\include\log4cplus\helpers\stringhelper.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\include\log4cplus\syslogappender.h
-# End Source File
-# Begin Source File
-
 SOURCE="..\include\log4cplus\helpers\thread-config.h"
 # End Source File
 # Begin Source File
 
 SOURCE=..\include\log4cplus\helpers\threads.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\include\log4cplus\helpers\timehelper.h
 # End Source File
 # Begin Source File
 
