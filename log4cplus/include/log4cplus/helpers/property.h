@@ -17,6 +17,7 @@
 #define LOG4CPLUS_HELPERS_PROPERTY_HEADER_
 
 #include <log4cplus/config.h>
+#include <log4cplus/streams.h>
 #include <log4cplus/tstring.h>
 #include <map>
 #include <vector>
@@ -28,7 +29,7 @@ namespace log4cplus {
         class Properties {
         public:
             Properties();
-            Properties(std::istream& input);
+            Properties(log4cplus::tistream& input);
             Properties(const log4cplus::tstring& inputFile);
             virtual ~Properties();
 
@@ -93,7 +94,7 @@ namespace log4cplus {
             typedef std::map<log4cplus::tstring, log4cplus::tstring> StringMap;
 
           // Methods
-            void init(std::istream& input);
+            void init(log4cplus::tistream& input);
 
           // Data
             StringMap data;
