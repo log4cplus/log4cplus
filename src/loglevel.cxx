@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/05/02 22:43:04  tcsmith
+// Moved the LogLevel string defintions out of the defaultLogLevelToStringMethod()
+// method.
+//
 // Revision 1.5  2003/04/19 23:04:31  tcsmith
 // Fixed UNICODE support.
 //
@@ -79,7 +83,7 @@ log4cplus::defaultLogLevelToStringMethod(LogLevel ll)
 LogLevel 
 log4cplus::defaultStringToLogLevelMethod(const log4cplus::tstring& arg)
 {
-    log4cplus::tstring s = log4cplus::helpers::toupper(arg);
+    log4cplus::tstring s = log4cplus::helpers::toUpper(arg);
 
     if(s == _TRACE_STRING) return TRACE_LOG_LEVEL;
     if(s == _DEBUG_STRING) return DEBUG_LOG_LEVEL;

@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/06/09 18:12:07  tcsmith
+// Fixed compilation error.
+//
 // Revision 1.3  2003/06/08 17:39:12  tcsmith
 // Corrected the LogLevelMatchFilter::decide() implementation.
 //
@@ -108,7 +111,7 @@ LogLevelMatchFilter::LogLevelMatchFilter(const Properties& properties)
     init();
 
     tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("AcceptOnMatch") );
-    acceptOnMatch = (tolower(tmp) == LOG4CPLUS_TEXT("true"));
+    acceptOnMatch = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
 
     tmp = properties.getProperty( LOG4CPLUS_TEXT("LogLevelToMatch") );
     logLevelToMatch = getLogLevelManager().fromString(tmp);
@@ -158,7 +161,7 @@ LogLevelRangeFilter::LogLevelRangeFilter(const Properties& properties)
     init();
 
     tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("AcceptOnMatch") );
-    acceptOnMatch = (tolower(tmp) == LOG4CPLUS_TEXT("true"));
+    acceptOnMatch = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
 
     tmp = properties.getProperty( LOG4CPLUS_TEXT("LogLevelMin") );
     logLevelMin = getLogLevelManager().fromString(tmp);
@@ -219,7 +222,7 @@ StringMatchFilter::StringMatchFilter(const Properties& properties)
     init();
 
     tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("AcceptOnMatch") );
-    acceptOnMatch = (tolower(tmp) == LOG4CPLUS_TEXT("true"));
+    acceptOnMatch = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
 
     stringToMatch = properties.getProperty( LOG4CPLUS_TEXT("StringToMatch") );
 }
