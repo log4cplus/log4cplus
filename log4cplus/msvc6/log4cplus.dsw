@@ -3,7 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "appender_test"=.\tests\appender_test.dsp - Package Owner=<4>
+Project: "appender_test"=".\tests\appender_test.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -18,7 +18,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "fileappender_test"=.\tests\fileappender_test.dsp - Package Owner=<4>
+Project: "fileappender_test"=".\tests\fileappender_test.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -33,7 +33,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "hierarchy_test"=.\tests\hierarchy_test.dsp - Package Owner=<4>
+Project: "hierarchy_test"=".\tests\hierarchy_test.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -48,7 +48,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "log4cplus_dll"=.\log4cplus_dll.dsp - Package Owner=<4>
+Project: "log4cplus_dll"=".\log4cplus_dll.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -60,7 +60,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "loggingserver"=.\loggingserver.dsp - Package Owner=<4>
+Project: "log4cplus_static"=".\log4cplus_static\log4cplus_static.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -68,29 +68,11 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name log4cplus_dll
-    End Project Dependency
 }}}
 
 ###############################################################################
 
-Project: "loglog_test"=.\tests\loglog_test.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name log4cplus_dll
-    End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "ndc_test"=.\tests\ndc_test.dsp - Package Owner=<4>
+Project: "loggingserver"=".\loggingserver.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -105,7 +87,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ostream_test"=.\tests\ostream_test.dsp - Package Owner=<4>
+Project: "loglog_test"=".\tests\loglog_test.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -120,7 +102,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "priority_test"=.\tests\priority_test.dsp - Package Owner=<4>
+Project: "ndc_test"=".\tests\ndc_test.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -135,7 +117,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "socket_test"=.\tests\socket_test.dsp - Package Owner=<4>
+Project: "ostream_test"=".\tests\ostream_test.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -150,7 +132,52 @@ Package=<4>
 
 ###############################################################################
 
-Project: "thread_test"=.\tests\thread_test.dsp - Package Owner=<4>
+Project: "priority_test"=".\tests\priority_test.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "property_config"=".\tests\property_config.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "socket_test"=".\tests\socket_test.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "thread_test"=".\tests\thread_test.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
