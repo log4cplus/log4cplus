@@ -50,14 +50,6 @@ CategoryImpl::~CategoryImpl()
 //////////////////////////////////////////////////////////////////////////////
 // Category Methods
 //////////////////////////////////////////////////////////////////////////////
-void 
-CategoryImpl::assertion(bool assertionVal, const std::string& msg)
-{
-    if(!assertionVal) {
-        error(msg);
-    }
-}
-
 
 void 
 CategoryImpl::callAppenders(const InternalLoggingEvent& event)
@@ -112,41 +104,6 @@ CategoryImpl::log(const Priority& priority,
     }
 }
 
-
-
-void 
-CategoryImpl::fatal(const std::string& message, const char* file, int line)
-{
-    log( Priority(Priority::FATAL_PRI), message, file, line );
-}
-
-
-void 
-CategoryImpl::error(const std::string& message, const char* file, int line)
-{
-    log( Priority(Priority::ERROR_PRI), message, file, line );
-}
-
-
-void 
-CategoryImpl::warn(const std::string& message, const char* file, int line)
-{
-    log( Priority(Priority::WARN_PRI), message, file, line );
-}
-
-
-void 
-CategoryImpl::info(const std::string& message, const char* file, int line)
-{
-    log( Priority(Priority::INFO_PRI), message, file, line );
-}
-
-
-void 
-CategoryImpl::debug(const std::string& message, const char* file, int line)
-{
-    log( Priority(Priority::DEBUG_PRI), message, file, line );
-}
 
 
 Priority 
