@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/08/27 14:58:03  tcsmith
+// Made some minor changes to make the socket code more robust.
+//
 // Revision 1.5  2003/08/05 06:21:51  tcsmith
 // Fixed FreeBSD compilation problem.
 //
@@ -159,7 +162,12 @@ log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 size_t
 log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
-     return ::send( sock, buffer.getBuffer(), buffer.getSize(), MSG_NOSIGNAL );
+#if defined(MSG_NOSIGNAL)
+    int flags = MSG_NOSIGNAL;
+#else
+    int flags = 0;
+#endif
+     return ::send( sock, buffer.getBuffer(), buffer.getSize(), flags );
      // return ::write(sock, buffer.getBuffer(), buffer.getSize());
 }
 
