@@ -11,10 +11,12 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/04/19 22:55:27  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/helpers/strftime.h>
 
-#include <ctime>
 #ifdef TM_IN_SYS_TIME
 #include <sys/time.h>
 #endif
@@ -35,7 +37,7 @@ log4cplus::helpers::strftime(tchar* s, size_t max,
 #ifdef UNICODE
     return ::wcsftime(s, max, format, tm);
 #else
-    return std::strftime(s, max, format, tm);
+    return ::strftime(s, max, format, tm);
 #endif
 }
 
