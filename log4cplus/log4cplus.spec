@@ -1,5 +1,5 @@
 Name: log4cplus
-Version: 0.9.10
+Version: 1.0
 Release: 1
 
 Summary: log4cplus, C++ logging library
@@ -15,7 +15,9 @@ Prefix: %_prefix
 BuildRoot: %_tmppath/%name-%version-root
 
 %description
-log4cplus is the C++ port of the log4j library
+log4cplus is a simple to use C++ logging API providing thread-safe, 
+flexible, and arbitrarily granular control over log management and 
+configuration. It is modeled after the Java log4j API.
 
 %package devel
 Summary: log4cplus headers, static libraries
