@@ -72,12 +72,6 @@ namespace log4cplus {
             int setTime(struct tm* t);
 
             /**
-             * Sets this Time using milliseconds since Epoch (Same as the
-             * Java <code>System.currentMillis()</code> specification).
-             */
-            void setTime(long millis);
-
-            /**
              * Returns this Time as a <code>time_t></code> value.
              */
             time_t getTime() const;
