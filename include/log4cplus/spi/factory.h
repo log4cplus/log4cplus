@@ -19,12 +19,12 @@
 #include <log4cplus/config.h>
 #include <log4cplus/appender.h>
 #include <log4cplus/layout.h>
+#include <log4cplus/tstring.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/threads.h>
 #include <log4cplus/spi/objectregistry.h>
 #include <map>
 #include <memory>
-#include <string>
 #include <vector>
 
 
@@ -32,10 +32,21 @@ namespace log4cplus {
     namespace spi {
 
         /**
+         * This is the base class for all factories.
+         */
+        class BaseFactory {
+        public:
+            virtual ~BaseFactory() {}
+
+            virtual log4cplus::tstring getTypeName() = 0;
+        };
+
+
+        /**
          * This abstract class defines the "Factory" interface to create "Appender"
          * objects.
          */
-        class AppenderFactory {
+        class AppenderFactory : public BaseFactory {
         public:
             AppenderFactory(){}
             virtual ~AppenderFactory(){}
@@ -48,7 +59,7 @@ namespace log4cplus {
             /**
              * Returns the typename of the "Appender" objects this factory creates.
              */
-            virtual std::string getTypeName() = 0;
+            virtual log4cplus::tstring getTypeName() = 0;
         };
 
 
@@ -56,7 +67,7 @@ namespace log4cplus {
          * This abstract class defines the "Factory" interface to create "Layout"
          * objects.
          */
-        class LayoutFactory {
+        class LayoutFactory : public BaseFactory {
         public:
             LayoutFactory(){}
             virtual ~LayoutFactory(){}
@@ -69,11 +80,53 @@ namespace log4cplus {
             /**
              * Returns the typename of the "Layout" objects this factory creates.
              */
-            virtual std::string getTypeName() = 0;
+            virtual log4cplus::tstring getTypeName() = 0;
         };
 
-        typedef ObjectRegistry<AppenderFactory> AppenderFactoryRegistry;
-        typedef ObjectRegistry<LayoutFactory> LayoutFactoryRegistry;
+
+        /**
+         * This template class is used as a "Factory Registry".  Objects are
+         * "entered" into the registry with a "name" using the 
+         * <code>put()</code> method.  (The registry then owns the object.)  
+         * These object can then be retrieved using the <code>get()</code> 
+         * method.
+         * <p>
+         * <b>Note:</b>  This class is Thread-safe.
+         */
+        template<class T>
+        class FactoryRegistry : ObjectRegistryBase {
+        public:
+            virtual ~FactoryRegistry() {
+                clear();
+            }
+
+          // public methods
+            /**
+             * Used to enter an object into the registry.  (The registry now
+             *  owns <code>object</code>.)
+             */
+            bool put(std::auto_ptr<T> object) {
+                return putVal(object->getTypeName(), object.release());
+            }
+
+            /**
+             * Used to retrieve an object from the registry.  (The registry
+             * owns the returned pointer.)
+             */
+            T* get(const log4cplus::tstring& name) const {
+                return static_cast<T*>(getVal(name));
+            }
+
+        protected:
+            virtual void deleteObject(void *object) const {
+                delete static_cast<T*>(object);
+            }
+        };
+
+
+        typedef FactoryRegistry<AppenderFactory> AppenderFactoryRegistry;
+        typedef FactoryRegistry<LayoutFactory> LayoutFactoryRegistry;
+
 
         /**
          * Returns the "singleton" <code>AppenderFactoryRegistry</code>.
