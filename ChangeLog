@@ -15,6 +15,10 @@ Version 0.9.8 (August 3 2003)
   - Added the HierarchyLocker class
   - Added the ConfigureAndWatchThread class for runtime dynamic reconfiguration.
   - Added several performance enhancements to the InternalLoggingEvent class.
+  - Renamed the PatternLayout "Pattern" configuration option to 
+    "ConversionPattern".
+  - Added 3 new tests: configandwatch_test, customloglevel_test, and 
+    performance_test.  (No MSVC projects created for these tests, yet.)
 
 
 Version 0.9.7 (June 28 2003)
