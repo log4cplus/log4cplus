@@ -27,13 +27,13 @@ namespace log4cplus {
         /**
          * Returns <code>s</code> in upper case.
          */
-        LOG4CPLUS_EXPORT tstring toupper(const tstring& s);
+        LOG4CPLUS_EXPORT tstring toUpper(const tstring& s);
 
 
         /**
          * Returns <code>s</code> in lower case.
          */
-        LOG4CPLUS_EXPORT tstring tolower(const tstring& s);
+        LOG4CPLUS_EXPORT tstring toLower(const tstring& s);
 
 
         /**
