@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/05/01 19:21:16  tcsmith
+// Corrected the tostring() and towstring() methods.
+//
 // Revision 1.5  2003/04/19 23:31:23  tcsmith
 // Added operator <<(log4cplus::tostream& stream, const char* str)
 //
@@ -55,7 +58,7 @@ operator <<(log4cplus::tostream& stream, const char* str)
 std::string 
 log4cplus::helpers::tostring(const std::wstring& src)
 {
-    std::wstring ret;
+    std::string ret;
     ret.resize(src.size());
     for (unsigned int i=0; i<src.size(); i++) {
         ret[i] = src[i] < 256 ? src[i] : ' ';
@@ -68,7 +71,7 @@ log4cplus::helpers::tostring(const std::wstring& src)
 std::wstring 
 log4cplus::helpers::towstring(const std::string& src)
 {
-    std::string ret;
+    std::wstring ret;
     ret.resize(src.size());
     for (unsigned int i=0; i<src.size(); i++) {
         ret[i] = static_cast<tchar>(src[i]);
