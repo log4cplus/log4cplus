@@ -4,12 +4,13 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
+// $Log: not supported by cvs2svn $
 
 #include <log4cplus/fileappender.h>
 #include <log4cplus/layout.h>
@@ -26,6 +27,10 @@ using namespace log4cplus::helpers;
 
 #define MINIMUM_ROLLING_LOG_SIZE 200*1024L
 
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::FileAppender ctors and dtor
+///////////////////////////////////////////////////////////////////////////////
 
 log4cplus::FileAppender::FileAppender(const std::string& filename, 
                                       std::ios::openmode mode)
@@ -83,6 +88,11 @@ log4cplus::FileAppender::~FileAppender()
 }
 
 
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::FileAppender public methods
+///////////////////////////////////////////////////////////////////////////////
+
 void 
 log4cplus::FileAppender::close()
 {
@@ -92,6 +102,10 @@ log4cplus::FileAppender::close()
 }
 
 
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::FileAppender protected methods
+///////////////////////////////////////////////////////////////////////////////
 
 // This method does not need to be locked since it is called by
 // doAppend() which performs the locking
@@ -108,6 +122,10 @@ log4cplus::FileAppender::append(const spi::InternalLoggingEvent& event)
 
 
 
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::RollingFileAppender ctors and dtor
+///////////////////////////////////////////////////////////////////////////////
 
 log4cplus::RollingFileAppender::RollingFileAppender(const std::string& filename,
                                                     long maxFileSize,
@@ -145,13 +163,6 @@ log4cplus::RollingFileAppender::RollingFileAppender(log4cplus::helpers::Properti
 
 
 
-log4cplus::RollingFileAppender::~RollingFileAppender()
-{
-    destructorImpl();
-}
-
-
-
 void
 log4cplus::RollingFileAppender::init(long maxFileSize, int maxBackupIndex)
 {
@@ -160,6 +171,18 @@ log4cplus::RollingFileAppender::init(long maxFileSize, int maxBackupIndex)
 }
 
 
+
+log4cplus::RollingFileAppender::~RollingFileAppender()
+{
+    destructorImpl();
+}
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::RollingFileAppender protected methods
+///////////////////////////////////////////////////////////////////////////////
 
 // This method does not need to be locked since it is called by
 // doAppend() which performs the locking
@@ -226,4 +249,5 @@ log4cplus::RollingFileAppender::rollover()
         out.open(filename.c_str(), std::ios::out | std::ios::trunc);
     }
 }
+
 
