@@ -11,11 +11,15 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/05/04 07:39:48  tcsmith
+// Removed a debug message.
+//
 // Revision 1.1  2003/05/04 07:25:16  tcsmith
 // Initial version.
 //
 
 #include <log4cplus/config.h>
+#include <log4cplus/configurator.h>
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/socketappender.h>
 #include <log4cplus/helpers/loglog.h>
@@ -34,8 +38,8 @@ using namespace log4cplus::thread;
 namespace loggingserver {
     class ClientThread : public AbstractThread {
     public:
-        ClientThread(SharedAppenderPtr appender, Socket clientsock)
-        : appender(appender), clientsock(clientsock) 
+        ClientThread(Socket clientsock)
+        : clientsock(clientsock) 
         {
             cout << "Received a client connection!!!!" << endl;
         }
@@ -46,8 +50,8 @@ namespace loggingserver {
         }
 
         virtual void run();
+
     private:
-        SharedAppenderPtr appender;
         Socket clientsock;
     };
 
@@ -57,16 +61,22 @@ namespace loggingserver {
 
 
 int
-main()
+main(int argc, char** argv)
 {
-    SharedAppenderPtr append_1(new ConsoleAppender());
-    append_1->setName("First");
-    append_1->setLayout( std::auto_ptr<Layout>(new log4cplus::TTCCLayout()) );
+    if(argc < 3) {
+        cout << "Usage: port config_file" << endl;
+        return 1;
+    }
+    int port = atoi(argv[1]);
+    tstring configFile = LOG4CPLUS_C_STR_TO_TSTRING(argv[2]);
 
-    ServerSocket serverSocket(9998);
+    PropertyConfigurator config(configFile);
+    config.configure();
+
+    ServerSocket serverSocket(port);
     while(1) {
         loggingserver::ClientThread *thr = 
-            new loggingserver::ClientThread(append_1, serverSocket.accept());
+            new loggingserver::ClientThread(serverSocket.accept());
         thr->start();
     }
 
@@ -97,7 +107,10 @@ loggingserver::ClientThread::run()
         if(!clientsock.read(buffer)) {
             return;
         }
-        appender->doAppend( readFromBuffer(buffer) );   
+        
+        spi::InternalLoggingEvent event = readFromBuffer(buffer);
+        Logger logger = Logger::getInstance(event.loggerName);
+        logger.callAppenders(event);   
     }
 }
 
