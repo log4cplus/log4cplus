@@ -21,8 +21,8 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/helpers/timehelper.h>
 
-#include <time.h>
 #include <vector>
 
 
@@ -37,7 +37,8 @@ namespace log4cplus {
     }
 
 
-    LOG4CPLUS_EXPORT log4cplus::tstring getFormattedTime(time_t time, const log4cplus::tstring& fmt);
+    LOG4CPLUS_EXPORT log4cplus::tstring getFormattedTime(time_t time, 
+                                                         const log4cplus::tstring& fmt);
 
 
     /**
