@@ -11,7 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 
-/** @file */
+/** @file 
+ * This header defined the NDC class.
+ */
 
 #ifndef _LO4CPLUS_NDC_HEADER_
 #define _LO4CPLUS_NDC_HEADER_
@@ -51,25 +53,25 @@ namespace log4cplus {
      * come into play.
      *
      * <p><em><b>Note that NDCs are managed on a per thread
-     * basis</b></em>. NDC operations such as {@link #push push}, {@link
+     * basis</b></em>. NDC operations such as {@link #push}, {@link
      * #pop}, {@link #clear}, {@link #getDepth} and {@link #setMaxDepth}
      * affect the NDC of the <em>current</em> thread only. NDCs of other
      * threads remain unaffected.
      *
-     * <p>For example, a servlet can build a per client request NDC
+     * <p>For example, a server can build a per client request NDC
      * consisting the clients host name and other information contained in
      * the the request. <em>Cookies</em> are another source of distinctive
-     * information. To build an NDC one uses the {@link #push push}
+     * information. To build an NDC one uses the {@link #push}
      * operation. Simply put,
      *
      * <p><ul>
      *   <li>Contexts can be nested.
      *
-     *   <p><li>When entering a context, call <code>NDC.push</code>. As a
+     *   <p><li>When entering a context, call <code>getNDC().push()</code>. As a
      *   side effect, if there is no nested diagnostic context for the
      *   current thread, this method will create it.
      *
-     *   <p><li>When leaving a context, call <code>NDC.pop</code>.
+     *   <p><li>When leaving a context, call <code>getNDC().pop()</code>.
      *
      *   <p><li><b>When exiting a thread make sure to call {@link #remove
      *   NDC.remove()}</b>.  
@@ -81,10 +83,10 @@ namespace log4cplus {
      * and the context set in the NDC.  Use of the {@link NDCContextCreator}
      * class can automate this process and make your code exception-safe.
      *
-     * <p>If configured to do so, {@link PatternLayout} and {@link
-     * TTCCLayout} instances automatically retrieve the nested diagnostic
+     * <p>If configured to do so, {@link #PatternLayout} and {@link
+     * #TTCCLayout} instances automatically retrieve the nested diagnostic
      * context for the current thread without any user intervention.
-     * Hence, even if a servlet is serving multiple clients
+     * Hence, even if a server is serving multiple clients
      * simultaneously, the logs emanating from the same code (belonging to
      * the same logger) can still be distinguished because each client
      * request will have a different NDC tag.
