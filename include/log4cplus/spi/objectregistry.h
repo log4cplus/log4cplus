@@ -17,10 +17,10 @@
 #define LOG4CPLUS_SPI_OBJECT_REGISTRY_HEADER_
 
 #include <log4cplus/config.h>
+#include <log4cplus/tstring.h>
 #include <log4cplus/helpers/threads.h>
 #include <map>
 #include <memory>
-#include <string>
 #include <vector>
 
 
@@ -38,12 +38,12 @@ namespace log4cplus {
              * Tests to see whether or not an object is bound in the
              * registry as <code>name</code>.
              */
-            bool exists(const std::string& name) const;
+            bool exists(const log4cplus::tstring& name) const;
 
             /**
              * Returns the names of all registered objects.
              */
-            std::vector<std::string> getAllNames() const;
+            std::vector<log4cplus::tstring> getAllNames() const;
 
         protected:
           // Ctor and Dtor
@@ -55,13 +55,13 @@ namespace log4cplus {
              * Used to enter an object into the registry.  (The registry now
              * owns <code>object</code>.)
              */
-            bool putVal(const std::string& name, void* object);
+            bool putVal(const log4cplus::tstring& name, void* object);
 
             /**
              * Used to retrieve an object from the registry.  (The registry
              * owns the returned pointer.)
              */
-            void* getVal(const std::string& name) const;
+            void* getVal(const log4cplus::tstring& name) const;
 
             /**
              * Deletes <code>object</code>.
@@ -74,51 +74,11 @@ namespace log4cplus {
             virtual void clear();
 
           // Types
-            typedef std::map<std::string, void*> ObjectMap;
+            typedef std::map<log4cplus::tstring, void*> ObjectMap;
 
           // Data
             LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
             ObjectMap data;
-        };
-
-
-
-        /**
-         * This template class is used as a "Object Registry".  Objects are
-         * "entered" into the registry with a "name" using the <code>put()</code>
-         * method.  (The registry then owns the object.)  These object can
-         * then be retrieved using the <code>get()</code> method.
-         * <p>
-         * <b>Note:</b>  This class is Thread-safe.
-         */
-        template<class T>
-        class ObjectRegistry : ObjectRegistryBase {
-        public:
-            virtual ~ObjectRegistry() {
-                clear();
-            }
-
-          // public methods
-            /**
-             * Used to enter an object into the registry.  (The registry now
-             * owns <code>object</code>.)
-             */
-            bool put(const std::string& name, std::auto_ptr<T> object) {
-                return putVal(name, object.release());
-            }
-
-            /**
-             * Used to retrieve an object from the registry.  (The registry
-             * owns the returned pointer.)
-             */
-            T* get(const std::string& name) const {
-                return static_cast<T*>(getVal(name));
-            }
-
-        protected:
-            virtual void deleteObject(void *object) const {
-                delete static_cast<T*>(object);
-            }
         };
 
     }
