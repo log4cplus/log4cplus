@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "LOG4CPLUS_DLL_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "LOG4CPLUS_BUILD_DLL" /D "UNICODE" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "LOG4CPLUS_BUILD_DLL" /FD /c
 # SUBTRACT CPP /YX /Yc /Yu
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -54,7 +54,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386 /out:"Release/log4cplus.dll"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /machine:I386 /out:"Release/log4cplus.dll"
 
 !ELSEIF  "$(CFG)" == "log4cplus_dll - Win32 Debug"
 
@@ -80,7 +80,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /out:"Debug/log4cplusd.dll" /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /debug /machine:I386 /out:"Debug/log4cplusd.dll" /pdbtype:sept
 
 !ENDIF 
 
@@ -114,6 +114,10 @@ SOURCE=..\src\factory.cxx
 # Begin Source File
 
 SOURCE=..\src\fileappender.cxx
+# End Source File
+# Begin Source File
+
+SOURCE="..\src\global-init.cxx"
 # End Source File
 # Begin Source File
 
@@ -166,6 +170,22 @@ SOURCE=..\src\property.cxx
 # Begin Source File
 
 SOURCE=..\src\rootlogger.cxx
+# End Source File
+# Begin Source File
+
+SOURCE="..\src\socket-win32.cxx"
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\socket.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\socketappender.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\socketbuffer.cxx
 # End Source File
 # Begin Source File
 
@@ -278,6 +298,18 @@ SOURCE=..\include\log4cplus\helpers\property.h
 # Begin Source File
 
 SOURCE=..\include\log4cplus\spi\rootlogger.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\include\log4cplus\helpers\socket.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\include\log4cplus\socketappender.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\include\log4cplus\helpers\socketbuffer.h
 # End Source File
 # Begin Source File
 
