@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  2003/05/21 22:14:46  tcsmith
+// Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
+// of data".
+//
 // Revision 1.7  2003/04/19 23:04:31  tcsmith
 // Fixed UNICODE support.
 //
@@ -22,7 +26,7 @@
 //
 
 #include <log4cplus/layout.h>
-#include <log4cplus/helpers/strftime.h>
+#include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
 
 
@@ -30,7 +34,7 @@ using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
 
-#define BUFFER_SIZE 20
+#define BUFFER_SIZE 40
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -41,10 +45,13 @@ log4cplus::tstring
 log4cplus::getFormattedTime(time_t time, const log4cplus::tstring& fmt)
 {
     tchar buffer[BUFFER_SIZE];
+    struct tm tmp;
+
     size_t len = log4cplus::helpers::strftime(buffer, 
                                               BUFFER_SIZE, 
                                               fmt.c_str(), 
-                                              gmtime(&time));
+                                              log4cplus::helpers::gmtime(&time, &tmp));
+
     buffer[len] = '\0';
     return tstring(buffer);
 }
