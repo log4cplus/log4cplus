@@ -1,6 +1,7 @@
 
 
 SINGLE_THREADED_TESTS = appender_test \
+          customloglevel_test \
           fileappender_test \
           filter_test \
           hierarchy_test \
@@ -14,7 +15,7 @@ SINGLE_THREADED_TESTS = appender_test \
 	  socket_test
 
 if MULTI_THREADED
-SUBDIRS = $(SINGLE_THREADED_TESTS) thread_test
+SUBDIRS = $(SINGLE_THREADED_TESTS) thread_test configandwatch_test
 else
 SUBDIRS = $(SINGLE_THREADED_TESTS)
 endif
