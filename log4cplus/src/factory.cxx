@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  2003/04/19 20:59:01  tcsmith
+// Added NTEventLogAppender support.
+//
 // Revision 1.7  2003/04/19 07:23:06  tcsmith
 // Added SysLogAppenderFactory.
 //
@@ -28,6 +31,7 @@
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/fileappender.h>
 #include <log4cplus/nteventlogappender.h>
+#include <log4cplus/socketappender.h>
 #include <log4cplus/syslogappender.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
@@ -78,6 +82,18 @@ namespace log4cplus {
 
         tstring getTypeName() { 
             return LOG4CPLUS_TEXT("log4cplus::RollingFileAppender"); 
+        }
+    };
+
+
+    class SocketAppenderFactory : public AppenderFactory {
+        SharedAppenderPtr createObject(const Properties& props)
+        {
+            return SharedAppenderPtr(new log4cplus::SocketAppender(props));
+        }
+
+        tstring getTypeName() { 
+            return LOG4CPLUS_TEXT("log4cplus::SocketAppender"); 
         }
     };
 
@@ -146,31 +162,29 @@ namespace log4cplus {
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// LOCAL file initialization 
+// LOCAL file methods 
 ///////////////////////////////////////////////////////////////////////////////
 
-namespace {
-
-    class _static_FactoryRegistry_initializer {
-    public:
-        _static_FactoryRegistry_initializer() { 
-            AppenderFactoryRegistry& reg = getAppenderFactoryRegistry();
-            reg.put(auto_ptr<AppenderFactory>(new ConsoleAppenderFactory()));
-            reg.put(auto_ptr<AppenderFactory>(new FileAppenderFactory()));
-            reg.put(auto_ptr<AppenderFactory>(new RollingFileAppenderFactory()));
+namespace log4cplus {
+    void initializeFactoryRegistry() {
+        AppenderFactoryRegistry& reg = getAppenderFactoryRegistry();
+        reg.put(auto_ptr<AppenderFactory>(new ConsoleAppenderFactory()));
+        reg.put(auto_ptr<AppenderFactory>(new FileAppenderFactory()));
+        reg.put(auto_ptr<AppenderFactory>(new RollingFileAppenderFactory()));
+        reg.put(auto_ptr<AppenderFactory>(new SocketAppenderFactory()));
 #if defined(WIN32)
-            reg.put(auto_ptr<AppenderFactory>(new NTEventLogAppenderFactory()));
+        reg.put(auto_ptr<AppenderFactory>(new NTEventLogAppenderFactory()));
 #elif defined(HAVE_SYSLOG_H)
-            reg.put(auto_ptr<AppenderFactory>(new SysLogAppenderFactory()));
+        reg.put(auto_ptr<AppenderFactory>(new SysLogAppenderFactory()));
 #endif
 
-            LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
-            reg2.put(auto_ptr<LayoutFactory>(new SimpleLayoutFactory()));
-            reg2.put(auto_ptr<LayoutFactory>(new TTCCLayoutFactory()));
-            reg2.put(auto_ptr<LayoutFactory>(new PatternLayoutFactory()));
-        }
-    } initializer;
+        LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
+        reg2.put(auto_ptr<LayoutFactory>(new SimpleLayoutFactory()));
+        reg2.put(auto_ptr<LayoutFactory>(new TTCCLayoutFactory()));
+        reg2.put(auto_ptr<LayoutFactory>(new PatternLayoutFactory()));
+    }
 }
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -192,6 +206,5 @@ log4cplus::spi::getLayoutFactoryRegistry()
     static LayoutFactoryRegistry singleton;
     return singleton;
 }
-
 
 
