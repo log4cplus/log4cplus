@@ -30,6 +30,7 @@ namespace log4cplus {
     public:
       // Ctors
         ConsoleAppender();
+	ConsoleAppender(log4cplus::helpers::Properties properties);
 
       // Dtor
         ~ConsoleAppender();
