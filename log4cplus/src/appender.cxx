@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/04/18 21:00:34  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.6  2003/04/07 16:35:21  tcsmith
 // Fixed gcc 3.2 compilation error.
 //
@@ -49,7 +52,7 @@ ErrorHandler::~ErrorHandler()
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-OnlyOnceErrorHandler::error(const log4cplus::tstring& err) 
+OnlyOnceErrorHandler::error(const log4cplus::tstring& err)
 {
     if(firstTime) {
         getLogLog().error(err);
@@ -85,13 +88,13 @@ Appender::Appender(log4cplus::helpers::Properties properties)
        log4cplus::tstring factoryName = properties.getProperty( LOG4CPLUS_TEXT("layout") );
         LayoutFactory* factory = getLayoutFactoryRegistry().get(factoryName);
         if(factory == 0) {
-            getLogLog().error(  LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"") 
+            getLogLog().error(  LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"")
                               + factoryName
                               + LOG4CPLUS_TEXT("\"") );
             return;
         }
 
-        Properties layoutProperties = 
+        Properties layoutProperties =
                 properties.getPropertySubset( LOG4CPLUS_TEXT("layout.") );
         try {
             std::auto_ptr<Layout> newLayout = factory->createObject(layoutProperties);
@@ -117,7 +120,7 @@ Appender::Appender(log4cplus::helpers::Properties properties)
 // log4cplus::Appender public methods
 ///////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 Appender::destructorImpl()
 {
     // An appender might be closed then destroyed. There is no
@@ -135,7 +138,7 @@ Appender::destructorImpl()
 
 
 
-void 
+void
 Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
@@ -156,7 +159,7 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
 
 
 
-log4cplus::tstring 
+log4cplus::tstring
 Appender::getName()
 {
     return name;
@@ -164,14 +167,14 @@ Appender::getName()
 
 
 
-void 
+void
 Appender::setName(const log4cplus::tstring& name)
 {
     this->name = name;
 }
 
 
-ErrorHandler* 
+ErrorHandler*
 Appender::getErrorHandler()
 {
     return errorHandler.get();
@@ -179,7 +182,7 @@ Appender::getErrorHandler()
 
 
 
-void 
+void
 Appender::setErrorHandler(std::auto_ptr<ErrorHandler> eh)
 {
     if(eh.get() == NULL) {
@@ -195,7 +198,7 @@ Appender::setErrorHandler(std::auto_ptr<ErrorHandler> eh)
 
 
 
-void 
+void
 Appender::setLayout(std::auto_ptr<Layout> lo)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
@@ -205,7 +208,7 @@ Appender::setLayout(std::auto_ptr<Layout> lo)
 
 
 
-Layout* 
+Layout*
 Appender::getLayout()
 {
     return layout.get();
