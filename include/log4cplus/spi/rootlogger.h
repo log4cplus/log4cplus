@@ -46,7 +46,7 @@ namespace log4cplus {
              * Return the assigned LogLevel value without walking the logger
              * hierarchy.
              */
-            LogLevel getChainedLogLevel();
+            virtual LogLevel getChainedLogLevel() const;
 
             /**
              * Setting a NOT_SET_LOG_LEVEL value to the LogLevel of the root logger 
