@@ -10,6 +10,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.13  2003/06/29 16:48:24  tcsmith
+// Modified to support that move of the getLogLog() method into the LogLog
+// class.
+//
 // Revision 1.12  2003/06/12 23:50:22  tcsmith
 // Modified to support the rename of the toupper and tolower methods.
 //
@@ -171,7 +175,13 @@ log4cplus::PropertyConfigurator::PropertyConfigurator(const log4cplus::tstring& 
     properties = properties.getPropertySubset( LOG4CPLUS_TEXT("log4cplus.") );
 }
 
-
+log4cplus::PropertyConfigurator::PropertyConfigurator(log4cplus::tistream& propertyStream)
+: propertyFilename(LOG4CPLUS_TEXT("UNAVAILABLE")),
+  properties(propertyStream)
+{
+    replaceEnvironVariables();
+    properties = properties.getPropertySubset( LOG4CPLUS_TEXT("log4cplus.") );
+}
 
 log4cplus::PropertyConfigurator::~PropertyConfigurator()
 {
