@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/04/19 22:52:21  tcsmith
+// Added tostring and towstring method implementations.
+//
 // Revision 1.2  2003/04/19 21:33:10  tcsmith
 // Replaced use of back_insert_iterator with string_append_iterator.
 //
