@@ -282,7 +282,7 @@ namespace log4cplus {
     private:
       // Methods
         void init();
-        inline void validate(const char *file, int line) const;
+        void validate(const char *file, int line) const;
 
       // Friends
         friend class spi::LoggerImpl;
