@@ -124,11 +124,15 @@ namespace log4cplus {
       // Ctors
         DailyRollingFileAppender(const log4cplus::tstring& filename,
                                  DailyRollingFileSchedule schedule = DAILY,
-                                 bool immediateFlush = true);
+                                 bool immediateFlush = true,
+                                 int maxBackupIndex = 10);
         DailyRollingFileAppender(const log4cplus::helpers::Properties& properties);
 
       // Dtor
         virtual ~DailyRollingFileAppender();
+        
+      // Methods
+        virtual void close();
 
     protected:
         virtual void append(const spi::InternalLoggingEvent& event);
@@ -140,6 +144,7 @@ namespace log4cplus {
         DailyRollingFileSchedule schedule;
         log4cplus::tstring scheduledFilename;
         log4cplus::helpers::Time nextRolloverTime;
+        int maxBackupIndex;
 
     private:
         void init(DailyRollingFileSchedule schedule);
