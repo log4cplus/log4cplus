@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/05/04 07:25:16  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>
@@ -136,7 +139,7 @@ log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
 
 
 
-int
+size_t
 log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
     return ::recv(sock, buffer.getBuffer(), buffer.getMaxSize(), 0);
@@ -144,7 +147,7 @@ log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 
 
 
-int
+size_t
 log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
     return ::send(sock, buffer.getBuffer(), buffer.getSize(), 0);

@@ -45,7 +45,7 @@ namespace log4cplus {
             /**
              * Returns the number of entries in this map.
              */
-            int size() const {
+            size_t size() const {
                 return data.size();
             }
 

@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/05/04 01:37:22  tcsmith
+// Removed the static initializer class.
+//
 // Revision 1.5  2003/04/19 23:04:31  tcsmith
 // Fixed UNICODE support.
 //
@@ -172,7 +175,7 @@ NDC::get()
 }
 
 
-int 
+size_t 
 NDC::getDepth()
 {
     try {
@@ -292,7 +295,7 @@ NDC::remove()
 
 
 void 
-NDC::setMaxDepth(unsigned int maxDepth)
+NDC::setMaxDepth(size_t maxDepth)
 {
     try {
         DiagnosticContextStack* ptr = getPtr();

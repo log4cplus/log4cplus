@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/05/04 17:47:13  tcsmith
+// Fixed for UNICODE.
+//
 // Revision 1.2  2003/05/04 08:40:30  tcsmith
 // Fixed the readFromBuffer() to properly prepend the ServerName to the NDC.
 //
@@ -110,7 +113,7 @@ log4cplus::SocketAppender::append(const spi::InternalLoggingEvent& event)
     SocketBuffer buffer = convertToBuffer(event, serverName);
     SocketBuffer msgBuffer(LOG4CPLUS_MAX_MESSAGE_SIZE);
 
-    msgBuffer.appendInt(buffer.getSize());
+    msgBuffer.appendSize_t(buffer.getSize());
     msgBuffer.appendBuffer(buffer);
 
     socket.write(msgBuffer);
@@ -156,6 +159,10 @@ log4cplus::spi::InternalLoggingEvent
 log4cplus::helpers::readFromBuffer(SocketBuffer& buffer)
 {
     unsigned char msgVersion = buffer.readByte();
+    if(msgVersion != LOG4CPLUS_MESSAGE_VERSION) {
+        getLogLog().warn(LOG4CPLUS_TEXT("helpers::readFromBuffer() received socket message with an invalid version"));
+    }
+
     unsigned char sizeOfChar = buffer.readByte();
 
     tstring serverName = buffer.readString(sizeOfChar);

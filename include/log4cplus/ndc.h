@@ -152,7 +152,7 @@ namespace log4cplus {
          *
          * @see #setMaxDepth
          */
-        int getDepth();
+        size_t getDepth();
 
         /**
          * Clients should call this method before leaving a diagnostic
@@ -213,7 +213,7 @@ namespace log4cplus {
          * <p>For example, the combination
          * <pre>
          *    void foo() {
-         *    &nbsp;  int depth = NDC.getDepth();
+         *    &nbsp;  size_t depth = NDC.getDepth();
          *
          *    &nbsp;  ... complex sequence of calls
          *
@@ -229,7 +229,7 @@ namespace log4cplus {
          *
          * @see #getDepth
          */
-        void setMaxDepth(unsigned int maxDepth);
+        void setMaxDepth(size_t maxDepth);
 
       // Dtor
         ~NDC();

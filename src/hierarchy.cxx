@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/05/01 19:37:36  tcsmith
+// Fixed VC++ compiler "performance warning".
+//
 // Revision 1.5  2003/04/19 23:04:31  tcsmith
 // Fixed UNICODE support.
 //
@@ -259,11 +262,11 @@ void
 Hierarchy::updateParents(Logger cat)
 {
     log4cplus::tstring name = cat.getName();
-    int length = name.length();
+    size_t length = name.length();
     bool parentFound = false;
 
     // if name = "w.x.y.z", loop thourgh "w.x.y", "w.x" and "w", but not "w.x.y.z"
-    for(unsigned int i=name.find_last_of(LOG4CPLUS_TEXT('.'), length-1); 
+    for(size_t i=name.find_last_of(LOG4CPLUS_TEXT('.'), length-1); 
         i != log4cplus::tstring::npos; 
         i = name.find_last_of(LOG4CPLUS_TEXT('.'), i-1)) 
     {
