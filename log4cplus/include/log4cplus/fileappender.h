@@ -31,9 +31,9 @@ namespace log4cplus {
     public:
       // Ctors
         FileAppender(const log4cplus::tstring& filename, 
-                     std::ios::openmode mode = std::ios::trunc);
-        FileAppender(const log4cplus::helpers::Properties properties,
-                     std::ios::openmode mode = std::ios::trunc);
+                     ios::open_mode mode = ios::trunc);
+        FileAppender(const log4cplus::helpers::Properties& properties,
+                     ios::open_mode mode = ios::trunc);
 
       // Dtor
         virtual ~FileAppender();
@@ -50,7 +50,7 @@ namespace log4cplus {
 
     private:
         void init(const log4cplus::tstring& filename,
-                  std::ios::openmode mode);
+                  ios::open_mode mode);
 
       // Disallow copying of instances of this class
         FileAppender(const FileAppender&);
@@ -69,7 +69,7 @@ namespace log4cplus {
         RollingFileAppender(const log4cplus::tstring& filename,
                             long maxFileSize = 10*1024*1024, // 10 MB
                             int maxBackupIndex = 1);
-        RollingFileAppender(const log4cplus::helpers::Properties properties);
+        RollingFileAppender(const log4cplus::helpers::Properties& properties);
 
       // Dtor
         virtual ~RollingFileAppender();
@@ -84,6 +84,43 @@ namespace log4cplus {
 
     private:
         void init(long maxFileSize, int maxBackupIndex);
+    };
+
+
+
+    enum DailyRollingFileSchedule { MONTHLY, WEEKLY, DAILY,
+                                    TWICE_DAILY, HOURLY, MINUTELY};
+
+    /**
+     * DailyRollingFileAppender extends {@link FileAppender} so that the
+     * underlying file is rolled over at a user chosen frequency.
+     *
+     * <p>
+     *         
+     */
+    class LOG4CPLUS_EXPORT DailyRollingFileAppender : public FileAppender {
+    public:
+      // Ctors
+        DailyRollingFileAppender(const log4cplus::tstring& filename,
+                                 DailyRollingFileSchedule schedule = DAILY);
+        DailyRollingFileAppender(const log4cplus::helpers::Properties& properties);
+
+      // Dtor
+        virtual ~DailyRollingFileAppender();
+
+    protected:
+        virtual void append(const spi::InternalLoggingEvent& event);
+        void rollover();
+	log4cplus::helpers::Time calculateNextRolloverTime(const log4cplus::helpers::Time& t);
+        log4cplus::tstring getFilename(const log4cplus::helpers::Time& t);
+
+      // Data
+        DailyRollingFileSchedule schedule;
+        log4cplus::tstring scheduledFilename;
+        log4cplus::helpers::Time nextRolloverTime;
+
+    private:
+        void init(DailyRollingFileSchedule schedule);
     };
 
 } // end namespace log4cplus
