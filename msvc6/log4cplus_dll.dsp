@@ -141,6 +141,10 @@ SOURCE=..\src\loggerimpl.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\loggingevent.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\loggingserver.cxx
 # End Source File
 # Begin Source File
