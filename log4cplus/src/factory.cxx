@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.16  2003/09/28 04:02:14  tcsmith
+// Made some fixes for the VisualAge 5 compiler on AIX.
+//
 // Revision 1.15  2003/08/27 14:55:16  tcsmith
 // Modified initializeFactoryRegistry() to fix for the AIX compiler.
 //
@@ -165,6 +168,20 @@ namespace log4cplus {
         }
     };
 
+
+    class Win32DebugAppenderFactory : public AppenderFactory {
+    public:
+        SharedAppenderPtr createObject(const Properties& props)
+        {
+            return SharedAppenderPtr(new log4cplus::Win32DebugAppender(props));
+        }
+
+        tstring getTypeName() { 
+            return LOG4CPLUS_TEXT("log4cplus::Win32DebugAppender"); 
+        }
+    };
+
+
 #elif defined(HAVE_SYSLOG_H)
     class SysLogAppenderFactory : public AppenderFactory {
     public:
@@ -298,9 +315,11 @@ namespace log4cplus {
 #if defined(_WIN32)
         auto_ptr<AppenderFactory> ptr7(new NTEventLogAppenderFactory());
         reg.put(ptr7);
-#elif defined(HAVE_SYSLOG_H)
-        auto_ptr<AppenderFactory> ptr8(new SysLogAppenderFactory());
+        auto_ptr<AppenderFactory> ptr8(new Win32DebugAppenderFactory());
         reg.put(ptr8);
+#elif defined(HAVE_SYSLOG_H)
+        auto_ptr<AppenderFactory> ptr9(new SysLogAppenderFactory());
+        reg.put(ptr9);
 #endif
 
         LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
