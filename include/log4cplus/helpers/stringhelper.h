@@ -70,33 +70,37 @@ namespace log4cplus {
         }
         
         
-        
+         
         template<class intType>
         inline tstring convertIntegerToString(intType value) 
         {
             if(value == 0) {
-                return "0";
+                return LOG4CPLUS_TEXT("0");
             }
             
-            std::string ret;
-            ret.reserve(20);
-            bool negative = false;
+            char buffer[20];
+            char ret[20];
+            unsigned int bufferPos = 0;
+            unsigned int retPos = 0;
+
             if(value < 0) {
-                negative = true;
-                ret.push_back('-');
+                ret[retPos++] = '-';
             }
             
             // convert to string in reverse order
             while(value != 0) {
                 intType mod = value % 10;
                 value = value / 10;
-                ret.push_back('0' + mod);
+                buffer[bufferPos++] = '0' + mod;
             }
             
             // now reverse the string to get it in proper order
-            std::reverse(ret.begin() + (negative ? 1 : 0), ret.end());
+            while(bufferPos > 0) {
+                ret[retPos++] = buffer[--bufferPos];
+            }
+            ret[retPos] = 0;
             
-            return LOG4CPLUS_STRING_TO_TSTRING(ret);
+            return LOG4CPLUS_C_STR_TO_TSTRING(ret);
         }
 
 
