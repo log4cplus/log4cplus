@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/05/26 19:19:56  tcsmith
+// Fixed Bug #741515 - "LogLog is causing a core on HP".
+//
 // Revision 1.4  2003/04/19 23:16:37  tcsmith
 // Removed TABs from the file.
 //
@@ -30,7 +33,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/spi/rootlogger.h>
-#include <cassert>
+#include <assert.h>
 #include <stdexcept>
 
 using namespace log4cplus;

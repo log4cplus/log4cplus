@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/04/19 23:04:32  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.4  2003/04/18 21:13:25  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -21,9 +24,10 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/pointer.h>
-#include <cassert>
-#include <cstdio>
+#include <assert.h>
+#include <stdio.h>
 
+using namespace std;
 using namespace log4cplus::helpers;
 
 
@@ -39,7 +43,7 @@ log4cplus::helpers::throwNullPointerException(const char* file, int line)
         << file
         << LOG4CPLUS_TEXT(" line=")
         << line
-        << std::endl;
+        << endl;
 
     throw NullPointerException(LOG4CPLUS_TSTRING_TO_STRING(buf.str()));
 }
