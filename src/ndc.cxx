@@ -4,12 +4,13 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
+// $Log: not supported by cvs2svn $
 
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
@@ -22,6 +23,10 @@ using namespace log4cplus;
 using namespace log4cplus::helpers;
 
 
+///////////////////////////////////////////////////////////////////////////////
+// File Local definitions
+///////////////////////////////////////////////////////////////////////////////
+
 namespace {
     class _static_NDC_initializer {
     public:
@@ -31,6 +36,10 @@ namespace {
 
 
 
+///////////////////////////////////////////////////////////////////////////////
+// public methods
+///////////////////////////////////////////////////////////////////////////////
+
 NDC& 
 log4cplus::getNDC()
 {
@@ -38,6 +47,11 @@ log4cplus::getNDC()
     return singleton;
 }
 
+
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::DiagnosticContext ctors
+///////////////////////////////////////////////////////////////////////////////
 
 DiagnosticContext::DiagnosticContext(const std::string& message, DiagnosticContext* parent)
  : message(message),
@@ -55,6 +69,10 @@ DiagnosticContext::DiagnosticContext(const std::string& message)
 
 
 
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::NDC ctor and dtor
+///////////////////////////////////////////////////////////////////////////////
+
 NDC::NDC() 
  : threadLocal(LOG4CPLUS_THREAD_LOCAL_INIT)
 {
@@ -66,6 +84,11 @@ NDC::~NDC()
     LOG4CPLUS_THREAD_LOCAL_CLEANUP( threadLocal );
 }
 
+
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::NDC public methods
+///////////////////////////////////////////////////////////////////////////////
 
 void
 NDC::clear()
