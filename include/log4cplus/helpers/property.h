@@ -33,6 +33,9 @@ namespace log4cplus {
             Properties(const log4cplus::tstring& inputFile);
             virtual ~Properties();
 
+          // constants
+            static const tchar PROPERTIES_COMMENT_CHAR;
+
           // methods
             /**
              * Tests to see if <code>key</code> can be found in this map.
