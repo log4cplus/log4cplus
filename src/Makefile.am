@@ -21,6 +21,7 @@ liblog4cplus_a_SOURCES = appenderattachableimpl.cxx \
                          pointer.cxx \
                          priority.cxx \
 			 property.cxx \
+			 propertyconfig.cxx \
                          threads.cxx
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
