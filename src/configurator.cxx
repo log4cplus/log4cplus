@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.18  2003/10/22 06:02:46  tcsmith
+// Explicitly use the log4cplus::helpers::sleep() method.
+//
 // Revision 1.17  2003/08/05 15:57:18  tcsmith
 // Fixed a UNICODE compilation error.
 //
@@ -585,7 +588,9 @@ bool
 ConfigurationWatchDogThread::checkForFileModification() 
 { 
     struct stat fileStatus;
-    ::stat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(), &fileStatus);
+    if(::stat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(), &fileStatus) == -1) {
+        return false;  // stat() returned error, so the file must not exist
+    }
     Time modTime(fileStatus.st_mtime);
     bool modified = (modTime > lastModTime);
     
