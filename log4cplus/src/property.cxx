@@ -4,12 +4,13 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
+// $Log: not supported by cvs2svn $
 
 #include <log4cplus/helpers/property.h>
 #include <iostream>
@@ -18,6 +19,12 @@
 using namespace std;
 
 #define BUFFER_SIZE 2048
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::helpers::Properties ctors and dtor
+///////////////////////////////////////////////////////////////////////////////
 
 log4cplus::helpers::Properties::Properties() 
 {
@@ -29,7 +36,6 @@ log4cplus::helpers::Properties::Properties(std::istream& input)
 {
     init(input);
 }
-
 
 
 
@@ -65,12 +71,15 @@ log4cplus::helpers::Properties::init(std::istream& input)
 
 
 
-
 log4cplus::helpers::Properties::~Properties() 
 {
 }
 
 
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::helpers::Properties public methods
+///////////////////////////////////////////////////////////////////////////////
 
 string
 log4cplus::helpers::Properties::getProperty(const string& key) const 

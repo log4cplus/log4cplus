@@ -4,12 +4,13 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) The Apache Software Foundation. All rights reserved.
+// Copyright (C) Tad E. Smith  All rights reserved.
 //
 // This software is published under the terms of the Apache Software
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
+// $Log: not supported by cvs2svn $
 
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/pointer.h>
@@ -18,6 +19,10 @@
 
 using namespace log4cplus::helpers;
 
+
+///////////////////////////////////////////////////////////////////////////////
+// public methods
+///////////////////////////////////////////////////////////////////////////////
 
 void
 log4cplus::helpers::throwNullPointerException(const char* file, int line)
@@ -37,6 +42,10 @@ log4cplus::helpers::throwNullPointerException(const char* file, int line)
 
 
 
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::helpers::SharedObject dtor
+///////////////////////////////////////////////////////////////////////////////
+
 SharedObject::~SharedObject()
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
@@ -48,6 +57,11 @@ SharedObject::~SharedObject()
     LOG4CPLUS_MUTEX_FREE( access_mutex );
 }
 
+
+
+///////////////////////////////////////////////////////////////////////////////
+// log4cplus::helpers::SharedObject public methods
+///////////////////////////////////////////////////////////////////////////////
 
 void
 SharedObject::addReference()
