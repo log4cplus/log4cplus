@@ -29,7 +29,7 @@ namespace log4cplus {
     class LOG4CPLUS_EXPORT ConsoleAppender : public Appender {
     public:
       // Ctors
-        ConsoleAppender();
+        ConsoleAppender(bool logToStdErr = false);
         ConsoleAppender(log4cplus::helpers::Properties properties);
 
       // Dtor
@@ -40,6 +40,9 @@ namespace log4cplus {
 
     protected:
         virtual void append(const spi::InternalLoggingEvent& event);
+
+      // Data
+        bool logToStdErr;
     };
 
 } // end namespace log4cplus
