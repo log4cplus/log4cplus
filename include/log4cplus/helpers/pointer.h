@@ -84,7 +84,7 @@ namespace log4cplus {
         /******************************************************************************
          *                       Class SharedObject (from pp. 204-205)                *
          ******************************************************************************/
-#if (_MSC_VER < 1300)
+#if (defined(_MSC_VER) && (_MSC_VER >= 1300))
         class SharedObject {
 #else
         class LOG4CPLUS_EXPORT SharedObject {
