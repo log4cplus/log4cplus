@@ -1,3 +1,8 @@
+Version 1.0 (September 6 2003)
+  - Fix Bug #96934.  (fileappender.cxx would not compile in a UNICODE build)
+  - Fixed compilation warning in MSVC for pointer.h
+
+
 Version 0.9.10 (August 27 2003)
   - Fixed singled-threaded build compilation issues
   - The DailyRollingFileAppender no longer truncates files
