@@ -37,11 +37,6 @@ namespace log4cplus {
     }
 
 
-    LOG4CPLUS_EXPORT log4cplus::tstring getFormattedTime(time_t time, 
-                                                         const log4cplus::tstring& fmt,
-                                                         bool use_gmtime = true);
-
-
     /**
      * This class is used to layout strings sent to an {@link
      * #Appender}.
@@ -318,13 +313,6 @@ namespace log4cplus {
      *   <td align=center><b>p</b></td>
      *   <td>Used to output the LogLevel of the logging event.</td>
      * </tr>
-     * 
-     * <tr>
-     *   <td align=center><b>r</b></td>
-     * 
-     *   <td>Used to output the number of milliseconds elapsed since the start
-     *   of the application until the creation of the logging event.</td>
-     * </tr>  
      * 
      * <tr>
      *   <td align=center><b>t</b></td>
