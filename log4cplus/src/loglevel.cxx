@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/04/03 01:42:19  tcsmith
+// Renamed from priority.cxx
+//
 
 #include <log4cplus/loglevel.h>
 #include <log4cplus/helpers/loglog.h>
@@ -74,10 +77,10 @@ log4cplus::defaultLogLevelToSysLogMethod(LogLevel ll)
         case WARN_LOG_LEVEL: return 4;
         case INFO_LOG_LEVEL: return 5;
         case DEBUG_LOG_LEVEL: return 6;
-        case TRACE_LOG_LEVEL: return 7;
+        case TRACE_LOG_LEVEL: return -1;
     };
 
-    return 7;
+    return -1;
 }
 
 
