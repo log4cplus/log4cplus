@@ -27,6 +27,7 @@ dnl Checks for libraries.
 AC_PROG_RANLIB 
 AC_CHECK_LIB(rt, nanosleep)
 AC_CHECK_LIB(socket, accept)
+AC_CHECK_LIB(nsl, gethostent)
 
 dnl Checks for header files.
 AC_STDC_HEADERS
@@ -75,5 +76,5 @@ AC_OUTPUT([Makefile
            tests/priority_test/Makefile 
 	   tests/propertyconfig_test/Makefile
 	   tests/socket_test/Makefile
-           tests/thread_test/Makefile, ])
+           tests/thread_test/Makefile ])
 
