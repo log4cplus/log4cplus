@@ -149,6 +149,10 @@ SOURCE=..\src\loglog.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\logloguser.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\ndc.cxx
 # End Source File
 # Begin Source File
@@ -282,6 +286,10 @@ SOURCE=..\include\log4cplus\loglevel.h
 # Begin Source File
 
 SOURCE=..\include\log4cplus\helpers\loglog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\include\log4cplus\helpers\logloguser.h
 # End Source File
 # Begin Source File
 
