@@ -58,8 +58,8 @@ namespace log4cplus {
          * Users should extend this class to implement customized logging
          * event filtering. Note that the {@link Logger} and {@link
          * Appender} classes have built-in filtering rules. It is suggested 
-	 * that you first use and understand the built-in rules before rushing
-	 * to write your own custom filters.
+         * that you first use and understand the built-in rules before rushing
+         * to write your own custom filters.
          *
          * <p>This abstract class assumes and also imposes that filters be
          * organized in a linear chain. The {@link #decide
@@ -153,10 +153,10 @@ namespace log4cplus {
              *
              * Returns {@link #NEUTRAL} if the <b>LogLevelToMatch</b>
              * option is not set or if there is no match.  Otherwise, if
-	     * there is a match, then the returned decision is {@link #ACCEPT}
-	     * if the <b>AcceptOnMatch</b> property is set to <code>true</code>. 
-	     * The returned decision is {@link #DENY} if the <b>AcceptOnMatch</b>
-	     * property is set to <code>false</code>.
+             * there is a match, then the returned decision is {@link #ACCEPT}
+             * if the <b>AcceptOnMatch</b> property is set to <code>true</code>. 
+             * The returned decision is {@link #DENY} if the <b>AcceptOnMatch</b>
+             * property is set to <code>false</code>.
              */
             virtual FilterResult decide(const InternalLoggingEvent& event) const;
 
@@ -230,7 +230,7 @@ namespace log4cplus {
          * then the {@link #decide} method returns {@link #ACCEPT} if
          * the <b>AcceptOnMatch</b> option value is true, if it is false then
          * {@link #DENY} is returned. If there is no match, {@link #NEUTRAL} 
-	 * is returned.
+         * is returned.
          */
         class LOG4CPLUS_EXPORT StringMatchFilter : public Filter {
         public:
