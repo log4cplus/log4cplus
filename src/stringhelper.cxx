@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  2003/06/12 23:47:40  tcsmith
+// Renamed the tolower and toupper methods to avoid a name collision with a
+// macro with the DEC CXX compiler.
+//
 // Revision 1.7  2003/05/04 07:10:48  tcsmith
 // Corrected the tostring() and towstring() methods.
 //
@@ -42,8 +46,11 @@
 #ifdef UNICODE
 #  include <cwctype>
 #else
-#  include <cctype>
+#  include <ctype.h>
 #endif
+
+using namespace log4cplus;
+
 
 
 //////////////////////////////////////////////////////////////////////////////
