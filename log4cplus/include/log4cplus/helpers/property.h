@@ -33,8 +33,8 @@ namespace log4cplus {
         class LOG4CPLUS_EXPORT Properties {
         public:
             Properties();
-            Properties(log4cplus::tistream& input);
-            Properties(const log4cplus::tstring& inputFile);
+            explicit Properties(log4cplus::tistream& input);
+            explicit Properties(const log4cplus::tstring& inputFile);
             virtual ~Properties();
 
           // constants
