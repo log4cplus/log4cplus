@@ -17,6 +17,8 @@
 #define _LOG4CPLUS_LAYOUT_HEADER_
 
 #include <log4cplus/config.h>
+#include <log4cplus/helpers/property.h>
+
 #include <iostream>
 #include <string>
 #include <time.h>
@@ -43,8 +45,10 @@ namespace log4cplus {
      */
     class Layout {
     public:
-	Layout() {}
-	virtual ~Layout() {}
+        Layout() {}
+        Layout(log4cplus::helpers::Properties properties) {}
+        virtual ~Layout() {}
+
         virtual void formatAndAppend(std::ostream& output, 
                                      const log4cplus::spi::InternalLoggingEvent& event) = 0;
     };
@@ -65,6 +69,9 @@ namespace log4cplus {
      */
     class SimpleLayout : public Layout {
     public:
+        SimpleLayout() {}
+        SimpleLayout(log4cplus::helpers::Properties properties) : Layout(properties) {}
+
         virtual void formatAndAppend(std::ostream& output, 
                                      const log4cplus::spi::InternalLoggingEvent& event);
     };
@@ -118,6 +125,7 @@ namespace log4cplus {
     public:
       // Ctor and dtor
         TTCCLayout();
+        TTCCLayout(log4cplus::helpers::Properties properties);
         virtual ~TTCCLayout();
 
         virtual void formatAndAppend(std::ostream& output, 
@@ -235,7 +243,7 @@ namespace log4cplus {
      *   <li>%Z -- Time zone name
      *   <li>%% -- The percent sign
      *
-	 *   <p>Lookup the documentation for the <code>strftime()</code> function
+     *   <p>Lookup the documentation for the <code>strftime()</code> function
      *   found in the <code>&lt;ctime&gt;</code> header for more information.
      * </td>
      * </tr>
@@ -446,14 +454,18 @@ namespace log4cplus {
      */
     class PatternLayout : public Layout {
     public:
-      // Ctor
+      // Ctors and dtor
         PatternLayout(const std::string& pattern);
+        PatternLayout(log4cplus::helpers::Properties properties);
         virtual ~PatternLayout();
 
         virtual void formatAndAppend(std::ostream& output, 
                                      const log4cplus::spi::InternalLoggingEvent& event);
 
     protected:
+        void init(const std::string& pattern);
+
+        // Data
         std::string pattern;
         std::vector<pattern::PatternConverter*> parsedPattern;
     };
