@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/05/21 22:14:46  tcsmith
+// Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
+// of data".
+//
 // Revision 1.3  2003/05/04 17:47:13  tcsmith
 // Fixed for UNICODE.
 //
@@ -81,6 +85,7 @@ log4cplus::SocketAppender::close()
 {
     getLogLog().debug(LOG4CPLUS_TEXT("Entering SocketAppender::close()..."));
     socket.close();
+    closed = true;
 }
 
 

@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  2003/04/19 23:04:31  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.7  2003/04/18 21:56:39  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -75,17 +78,17 @@ log4cplus::FileAppender::init(const log4cplus::tstring& filename,
     getLogLog().debug(LOG4CPLUS_TEXT("Just opened file: ") + filename);
 
     int columns = 80;
-    log4cplus::tstring tmp;
-    tmp.resize(columns);
-    std::fill_n(tmp.begin(), columns, LOG4CPLUS_TEXT('#'));
+    log4cplus::tstring commentline;
+    commentline.resize(columns);
+    std::fill_n(commentline.begin(), columns, LOG4CPLUS_TEXT('#'));
     
-    out << tmp << std::endl
+    out << commentline << std::endl
         << LOG4CPLUS_TEXT("#") << std::endl
         << LOG4CPLUS_TEXT("# Created Appender on: ")
         << getFormattedTime(time(0), LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S")) 
         << std::endl
         << LOG4CPLUS_TEXT("#") << std::endl
-        << tmp << std::endl;
+        << commentline << std::endl;
 }
 
 
@@ -106,6 +109,7 @@ log4cplus::FileAppender::close()
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         out.close();
+        closed = true;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
 }
 

@@ -10,6 +10,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/05/21 22:19:39  tcsmith
+// Changed getSysLogLevel(), so that it has a default return value to remove
+// a compiler warning message.
+//
 // Revision 1.2  2003/04/19 21:35:31  tcsmith
 // Added WIN32 check.
 //
@@ -67,6 +71,7 @@ log4cplus::SysLogAppender::close()
     getLogLog().debug("Entering SysLogAppender::close()...");
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         ::closelog();
+        closed = true;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
 }
 

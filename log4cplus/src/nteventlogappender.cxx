@@ -10,6 +10,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/05/21 22:17:33  tcsmith
+// Fixed compiler warning: "conversion from 'size_t' to 'DWORD', possible loss
+// of data".
+//
 // Revision 1.2  2003/04/19 23:04:31  tcsmith
 // Fixed UNICODE support.
 //
@@ -197,6 +201,11 @@ NTEventLogAppender::init()
 NTEventLogAppender::~NTEventLogAppender()
 {
     destructorImpl();
+
+    if(pCurrentUserSID != NULL) {
+        FreeSid(pCurrentUserSID);
+        pCurrentUserSID = NULL;
+    }
 }
 
 
@@ -212,11 +221,7 @@ NTEventLogAppender::close()
         ::DeregisterEventSource(hEventLog);
         hEventLog = NULL;
     }
-
-    if(pCurrentUserSID != NULL) {
-        FreeSid(pCurrentUserSID);
-        pCurrentUserSID = NULL;
-    }
+    closed = true;
 }
 
 

@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/05/04 01:29:19  tcsmith
+// Added the ability to log to stderr.
+//
 // Revision 1.5  2003/04/18 21:00:40  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -66,6 +69,7 @@ void
 log4cplus::ConsoleAppender::close()
 {
     getLogLog().debug(LOG4CPLUS_TEXT("Entering ConsoleAppender::close().."));
+    closed = true;
 }
 
 
