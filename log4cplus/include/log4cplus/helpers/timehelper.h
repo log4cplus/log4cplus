@@ -121,6 +121,9 @@ namespace log4cplus {
             Time& operator-=(const Time& rhs);
             Time& operator/=(long rhs);
             Time& operator*=(long rhs);
+	    bool operator==(const Time& rhs) { return tv_sec == rhs.tv_sec &&
+		                                      tv_usec == rhs.tv_usec; }
+	    bool operator!=(const Time& rhs) { return !(*this == rhs); }
 
         private:
           // Data
