@@ -38,7 +38,8 @@ namespace log4cplus {
 
 
     LOG4CPLUS_EXPORT log4cplus::tstring getFormattedTime(time_t time, 
-                                                         const log4cplus::tstring& fmt);
+                                                         const log4cplus::tstring& fmt,
+                                                         bool use_gmtime = true);
 
 
     /**
@@ -87,9 +88,9 @@ namespace log4cplus {
      * TTCC layout format consists of time, thread, logger and nested
      * diagnostic context information, hence the name.
      * 
-     * <p>Each of the four fields can be individually enabled or
-     * disabled. The time format depends on the <code>DateFormat</code>
-     * used.
+     * <p>The time format depends on the <code>DateFormat</code> used.  Use the
+     * <code>Use_gmtime</code> to specify whether messages should be logged using
+     * <code>localtime</code> or <code>gmtime</code>.
      * 
      * <p>Here is an example TTCCLayout output with the {@link RelativeTimeDateFormat}.
      * 
@@ -117,17 +118,12 @@ namespace log4cplus {
      *  first two statements. The text after the '-' is the message of the
      *  statement.
      * 
-     *  <p><b>WARNING</b> Do not use the same TTCCLayout instance from
-     *  within different appenders. The TTCCLayout is not thread safe when
-     *  used in his way. However, it is perfectly safe to use a TTCCLayout
-     *  instance from just one appender.
-     * 
      *  <p>{@link PatternLayout} offers a much more flexible alternative.
      */
     class LOG4CPLUS_EXPORT TTCCLayout : public Layout {
     public:
       // Ctor and dtor
-        TTCCLayout();
+        TTCCLayout(bool use_gmtime = true);
         TTCCLayout(log4cplus::helpers::Properties properties);
         virtual ~TTCCLayout();
 
@@ -136,6 +132,7 @@ namespace log4cplus {
 
     protected:
        log4cplus::tstring dateFormat;
+       bool use_gmtime;
     };
 
 
