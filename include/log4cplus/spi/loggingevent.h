@@ -101,16 +101,30 @@ namespace log4cplus {
 
 
           // public virtual methods
+            /** The application supplied message of logging event. */
             virtual const log4cplus::tstring& getMessage() const;
 
-            virtual int getType() const;
+            /** Returns the 'type' of InternalLoggingEvent.  Derived classes
+             *  should override this method.  (NOTE: Values <= 1000 are
+             *  reserved for log4cplus and should not be used.)
+             */
+            virtual unsigned int getType() const;
+
+           /** Returns a copy of this object.  Derived classes
+             *  should override this method.
+            virtual std::auto_ptr<InternalLoggingEvent> clone() const;
+
 
 
           // public methods
+            /** The logger of the logging event. It is set by 
+             * the LoggingEvent constructor. */
             const log4cplus::tstring& getLoggerName() const { return loggerName; }
 
+            /** LogLevel of logging event. */
             LogLevel getLogLevel() const { return ll; }
 
+            /** The nested diagnostic context (NDC) of logging event. */
             const log4cplus::tstring& getNDC() const { 
                 if(!ndcCached) {
                     ndc = log4cplus::getNDC().get();
@@ -119,6 +133,7 @@ namespace log4cplus {
                 return ndc; 
             }
 
+            /** The name of thread in which this logging event was generated. */
             const log4cplus::tstring& getThread() const {
                 if(!threadCached) {
                     thread = LOG4CPLUS_GET_CURRENT_THREAD_NAME;
@@ -127,52 +142,37 @@ namespace log4cplus {
                 return thread; 
             }
 
+            /** The number of milliseconds elapsed from 1/1/1970 until logging event
+             *  was created. */
             const log4cplus::helpers::Time& getTimestamp() const { return timestamp; }
 
+            /** The is the file where this log statement was written */
             const log4cplus::tstring& getFile() const { return file; }
 
+            /** The is the line where this log statement was written */
             int getLine() const { return line; }
  
           // public operators
             log4cplus::spi::InternalLoggingEvent&
             operator=(const log4cplus::spi::InternalLoggingEvent& rhs);
 
-          // public constants
-            static const int DEFAULT_TYPE;
+          // static methods
+            static unsigned int getDefaultType();
 
         protected:
           // Data
-            /** The application supplied message of logging event. */
             log4cplus::tstring message;
 
         private:
-          // Data
-            /** The logger of the logging event. It is set by 
-             * the LoggingEvent constructor. */
             log4cplus::tstring loggerName;
-
-            /** LogLevel of logging event. */
             LogLevel ll;
-
-            /** The nested diagnostic context (NDC) of logging event. */
             mutable log4cplus::tstring ndc;
-
-            /** The name of thread in which this logging event was generated. */
             mutable log4cplus::tstring thread;
-
-            /** The number of milliseconds elapsed from 1/1/1970 until logging event
-             *  was created. */
             log4cplus::helpers::Time timestamp;
-
-            /** The is the file where this log statement was written */
             log4cplus::tstring file;
-
-            /** The is the line where this log statement was written */
             int line;
-
             /** Indicates whether or not the Threadname has been retrieved. */
             mutable bool threadCached;
-
             /** Indicates whether or not the NDC has been retrieved. */
             mutable bool ndcCached;
         };
