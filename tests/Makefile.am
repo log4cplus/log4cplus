@@ -2,6 +2,7 @@
 
 SINGLE_THREADED_TESTS = appender_test \
           fileappender_test \
+          filter_test \
           hierarchy_test \
           loglog_test \
           ndc_test \
