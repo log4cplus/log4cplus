@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/04/19 23:04:30  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.5  2003/04/19 21:35:14  tcsmith
 // Replaced use of back_insert_iterator with string_append_iterator.
 //
@@ -79,11 +82,11 @@ namespace {
      *
      * @param val The string on which variable substitution is performed.
      */
-     log4cplus::tstring substEnvironVars(const log4cplus::tstring& val) {
-     log4cplus::tstring sbuf;
+    log4cplus::tstring substEnvironVars(const log4cplus::tstring& val) {
+       log4cplus::tstring sbuf;
 
-        int i = 0;
-        int j, k;
+       tstring::size_type i = 0;
+       tstring::size_type j, k;
 
         while(true) {
             j=val.find(DELIM_START, i);
@@ -99,9 +102,9 @@ namespace {
                 sbuf += val.substr(i, j - i);
                 k = val.find(DELIM_STOP, j);
                 if(k == log4cplus::tstring::npos) {
-                    getLogLog().error(   LOG4CPLUS_TEXT('"') + val
-                                      +  LOG4CPLUS_TEXT("\" has no closing brace. ") \
-                                         LOG4CPLUS_TEXT("Opening brace at position TODO."));
+                    getLogLog().error(  LOG4CPLUS_TEXT('"') + val
+                                      + LOG4CPLUS_TEXT("\" has no closing brace. ") 
+                                      + LOG4CPLUS_TEXT("Opening brace at position TODO."));
                     return val;
                 }
                 else {
@@ -237,7 +240,7 @@ log4cplus::PropertyConfigurator::configureLogger(log4cplus::Logger logger,
     }
 
     // Set the Appenders
-    for(int j=1; j<tokens.size(); ++j) {
+    for(vector<tstring>::size_type j=1; j<tokens.size(); ++j) {
         AppenderMap::iterator appenderIt = appenders.find(tokens[j]);
         if(appenderIt == appenders.end()) {
         getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()- Invalid appender: ")
