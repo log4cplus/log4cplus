@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/05/01 19:43:33  tcsmith
+// Fixed: "warning: comparison between signed and unsigned".
+//
 // Revision 1.6  2003/04/19 23:04:30  tcsmith
 // Fixed UNICODE support.
 //
@@ -37,6 +40,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/factory.h>
+#include <log4cplus/spi/loggerimpl.h>
 
 #include <algorithm>
 
