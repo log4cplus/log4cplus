@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/04/19 22:56:24  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.1  2003/04/18 22:25:30  tcsmith
 // Initial version.
 //
@@ -40,7 +43,7 @@ RootLogger::RootLogger(Hierarchy& h, LogLevel ll)
 //////////////////////////////////////////////////////////////////////////////
 
 LogLevel 
-RootLogger::getChainedLogLevel()
+RootLogger::getChainedLogLevel() const
 {
     return ll;
 }
