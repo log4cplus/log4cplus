@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/04/19 21:35:31  tcsmith
+// Added WIN32 check.
+//
 // Revision 1.1  2003/04/19 07:25:34  tcsmith
 // Initial version.
 //
@@ -94,9 +97,8 @@ log4cplus::SysLogAppender::getSysLogLevel(const LogLevel& ll) const
     else if(ll == FATAL_LOG_LEVEL) {
         return LOG_CRIT;
     }
-    else if(ll > FATAL_LOG_LEVEL) {
-        return LOG_ALERT;
-    }
+
+    return LOG_ALERT;  // ll > FATAL_LOG_LEVEL
 }
 
 
