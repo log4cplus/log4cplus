@@ -49,7 +49,8 @@ namespace log4cplus {
         DWORD WINAPI threadStartFunc(LPVOID arg);
 #endif
 
-        LOG4CPLUS_EXPORT void sleep(unsigned long secs, unsigned long nanosecs);
+        LOG4CPLUS_EXPORT void sleep(unsigned long secs, 
+                                    unsigned long nanosecs = 0);
         LOG4CPLUS_EXPORT void yield();
 
         /**
