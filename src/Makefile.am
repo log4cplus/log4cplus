@@ -37,8 +37,8 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
 			 socketappender.cxx \
 			 socketbuffer.cxx \
 			 stringhelper.cxx \
-			 strftime.cxx \
-			 syslogappender.cxx
+			 syslogappender.cxx \
+			 timehelper.cxx
 
 if MULTI_THREADED
 LIB_SRC = $(SINGLE_THREADED_SRC) threads.cxx
