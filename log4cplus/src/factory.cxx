@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  2003/05/28 17:39:12  tcsmith
+// Added Filter factories.
+//
 // Revision 1.9  2003/05/04 07:08:23  tcsmith
 // Replaced the static initialization class with the initializeFactoryRegistry()
 // method.
@@ -89,6 +92,19 @@ namespace log4cplus {
 
         tstring getTypeName() { 
             return LOG4CPLUS_TEXT("log4cplus::RollingFileAppender"); 
+        }
+    };
+
+
+    class DailyRollingFileAppenderFactory : public AppenderFactory {
+    public:
+        SharedAppenderPtr createObject(const Properties& props)
+        {
+            return SharedAppenderPtr(new log4cplus::DailyRollingFileAppender(props));
+        }
+
+        tstring getTypeName() { 
+            return LOG4CPLUS_TEXT("log4cplus::DailyRollingFileAppender"); 
         }
     };
 
@@ -237,6 +253,7 @@ namespace log4cplus {
         reg.put(auto_ptr<AppenderFactory>(new ConsoleAppenderFactory()));
         reg.put(auto_ptr<AppenderFactory>(new FileAppenderFactory()));
         reg.put(auto_ptr<AppenderFactory>(new RollingFileAppenderFactory()));
+        reg.put(auto_ptr<AppenderFactory>(new DailyRollingFileAppenderFactory()));
         reg.put(auto_ptr<AppenderFactory>(new SocketAppenderFactory()));
 #if defined(WIN32)
         reg.put(auto_ptr<AppenderFactory>(new NTEventLogAppenderFactory()));
