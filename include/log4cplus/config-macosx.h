@@ -22,10 +22,5 @@
 #define HAVE_GETTIMEOFDAY 1
 #define socklen_t int
 
-// Metrowerks MacOS X compilers don't have nanosleep() by default, use single for now
-#ifdef __MWERKS__
-#define LOG4CPLUS_SINGLE_THREADED 1
-#endif
-
 #endif // MACOSX
 #endif // LOG4CPLUS_CONFIG_MACOSX_HEADER_
