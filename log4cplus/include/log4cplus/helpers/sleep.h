@@ -23,6 +23,7 @@ namespace log4cplus {
     namespace helpers {
         LOG4CPLUS_EXPORT void sleep(unsigned long secs, 
                                     unsigned long nanosecs = 0);
+        LOG4CPLUS_EXPORT void sleepmillis(unsigned long millis);
     } // end namespace helpers
 } // end namespace log4cplus
 

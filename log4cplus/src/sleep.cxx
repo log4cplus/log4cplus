@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/06/04 18:56:41  tcsmith
+// Modified to use the new timehelper.h header.
+//
 // Revision 1.2  2003/05/22 23:57:41  tcsmith
 // Corrected the file header information.
 //
@@ -44,7 +47,7 @@ log4cplus::helpers::sleep(unsigned long secs, unsigned long nanosecs)
     DWORD no_of_max_sleeps = secs / MAX_SLEEP_SECONDS;
             
     for(DWORD i = 0; i < no_of_max_sleeps; i++) {
-        Sleep(MAX_SLEEP_SECONDS * 1000);
+        Sleep(MAX_SLEEP_SECONDS * SEC_TO_MILLIS);
     }
                
     Sleep((secs % MAX_SLEEP_SECONDS) * SEC_TO_MILLIS + nano_millis);
@@ -64,4 +67,12 @@ log4cplus::helpers::sleep(unsigned long secs, unsigned long nanosecs)
 #endif
 }
 
+
+void
+log4cplus::helpers::sleepmillis(unsigned long millis)
+{
+    unsigned long secs = millis / SEC_TO_MILLIS;
+    unsigned long nanosecs = (millis % SEC_TO_MILLIS) * MILLIS_TO_NANOS;
+    sleep(secs, nanosecs);
+}
 
