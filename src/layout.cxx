@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/04/03 00:58:59  tcsmith
+// Standardized the formatting.
+//
 
 #include <log4cplus/layout.h>
 #include <log4cplus/spi/loggingevent.h>
@@ -27,13 +30,13 @@ using namespace log4cplus::spi;
 // public methods
 ///////////////////////////////////////////////////////////////////////////////
 
-std::string 
-log4cplus::getFormattedTime(time_t time, const std::string& fmt)
+log4cplus::tstring
+log4cplus::getFormattedTime(time_t time, const log4cplus::tstring& fmt)
 {
     char buffer[BUFFER_SIZE];
     int len = strftime(buffer, BUFFER_SIZE, fmt.c_str(), gmtime(&time));
     buffer[len] = '\0';
-    return buffer;
+    return LOG4CPLUS_C_STR_TO_TSTRING(buffer);
 }
 
 
@@ -43,10 +46,13 @@ log4cplus::getFormattedTime(time_t time, const std::string& fmt)
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-SimpleLayout::formatAndAppend(std::ostream& output, 
+SimpleLayout::formatAndAppend(log4cplus::tostream& output, 
                               const log4cplus::spi::InternalLoggingEvent& event)
 {
-    output << llmCache.toString(event.ll) << " - " << event.message << std::endl;
+    output << llmCache.toString(event.ll) 
+	   << LOG4CPLUS_TEXT(" - ")
+	   << event.message 
+	   << std::endl;
 }
 
 
@@ -56,14 +62,14 @@ SimpleLayout::formatAndAppend(std::ostream& output,
 ///////////////////////////////////////////////////////////////////////////////
 
 TTCCLayout::TTCCLayout()
-: dateFormat("%m-%d-%y %H:%M:%S")
+: dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S") )
 {
 }
 
 
 TTCCLayout::TTCCLayout(log4cplus::helpers::Properties properties)
 : Layout(properties),
-  dateFormat("%m-%d-%y %H:%M:%S")
+  dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S") )
 {
 }
 
@@ -79,14 +85,19 @@ TTCCLayout::~TTCCLayout()
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-TTCCLayout::formatAndAppend(std::ostream& output, 
+TTCCLayout::formatAndAppend(log4cplus::tostream& output, 
                             const log4cplus::spi::InternalLoggingEvent& event)
 {
-    output << getFormattedTime(event.timestamp, dateFormat) << " ["
-           << event.thread << "] "
-           << llmCache.toString(event.ll) << " "
-           << event.loggerName << " <"
-           << event.ndc << "> - "
+    output << getFormattedTime(event.timestamp, dateFormat) 
+	   << LOG4CPLUS_TEXT(" [")
+           << event.thread 
+	   << LOG4CPLUS_TEXT("] ")
+           << llmCache.toString(event.ll) 
+	   << LOG4CPLUS_TEXT(" ")
+           << event.loggerName 
+	   << LOG4CPLUS_TEXT(" <")
+           << event.ndc 
+	   << LOG4CPLUS_TEXT("> - ")
            << event.message
            << std::endl;
 }

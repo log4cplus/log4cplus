@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/04/03 01:44:01  tcsmith
+// Renamed from categoryimpl.cxx
+//
 
 #include <log4cplus/spi/loggerimpl.h>
 #include <log4cplus/appender.h>
@@ -20,7 +23,6 @@
 #include <log4cplus/spi/rootlogger.h>
 #include <cassert>
 #include <stdexcept>
-#include <string>
 
 using namespace log4cplus;
 using namespace log4cplus::helpers;
@@ -31,7 +33,7 @@ using namespace log4cplus::spi;
 //////////////////////////////////////////////////////////////////////////////
 // Logger Constructors and Destructor
 //////////////////////////////////////////////////////////////////////////////
-LoggerImpl::LoggerImpl(const std::string& name, Hierarchy& h)
+LoggerImpl::LoggerImpl(const log4cplus::tstring& name, Hierarchy& h)
   : name(name),
     ll(NOT_SET_LOG_LEVEL),
     parent(NULL),
@@ -43,7 +45,7 @@ LoggerImpl::LoggerImpl(const std::string& name, Hierarchy& h)
 
 LoggerImpl::~LoggerImpl() 
 { 
-    getLogLog().debug("Destroying Logger: " + name);
+    getLogLog().debug(LOG4CPLUS_TEXT("Destroying Logger: ") + name);
 }
 
 
@@ -64,9 +66,10 @@ LoggerImpl::callAppenders(const InternalLoggingEvent& event)
 
     // No appenders in hierarchy, warn user only once.
     if(!hierarchy.emittedNoAppenderWarning && writes == 0) {
-        getLogLog().error("No appenders could be found for logger (" + 
-                          getName() + ").");
-        getLogLog().error("Please initialize the log4cplus system properly.");
+        getLogLog().error(  LOG4CPLUS_TEXT("No appenders could be found for logger (") 
+			  + getName() 
+			  + LOG4CPLUS_TEXT(")."));
+        getLogLog().error(LOG4CPLUS_TEXT("Please initialize the log4cplus system properly."));
         hierarchy.emittedNoAppenderWarning = true;
     }
 }
@@ -95,7 +98,7 @@ LoggerImpl::isEnabledFor(LogLevel ll) const
 
 void 
 LoggerImpl::log(LogLevel ll, 
-                const std::string& message,
+                const log4cplus::tstring& message,
                 const char* file, 
                 int line)
 {
@@ -111,7 +114,8 @@ LoggerImpl::getChainedLogLevel() const
 {
     for(const LoggerImpl *c=this; c != NULL; c=c->parent.get()) {
         if(c == NULL) {
-            getLogLog().error("LoggerImpl::getChainedLogLevel()- Internal error: NullPointer");
+            getLogLog().error(LOG4CPLUS_TEXT("LoggerImpl::getChainedLogLevel()- " \
+				             "Internal error: NullPointer"));
             helpers::throwNullPointerException(__FILE__, __LINE__);
         }
         if(c->ll != NOT_SET_LOG_LEVEL) {
@@ -119,8 +123,9 @@ LoggerImpl::getChainedLogLevel() const
         }
     }
 
-    getLogLog().error("LoggerImpl::getChainedLogLevel()- No valid LogLevel found");
-    throw std::runtime_error("No valid LogLevel found");
+    getLogLog().error(LOG4CPLUS_TEXT("LoggerImpl::getChainedLogLevel()- No valid " \
+			             "LogLevel found"));
+    throw std::runtime_error(LOG4CPLUS_TEXT("No valid LogLevel found"));
 }
 
 
@@ -147,7 +152,7 @@ LoggerImpl::setAdditivity(bool additive)
 
 void 
 LoggerImpl::forcedLog(LogLevel ll,
-                      const std::string& message,
+                      const log4cplus::tstring& message,
                       const char* file, 
                       int line)
 {

@@ -11,7 +11,11 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/04/03 01:20:23  tcsmith
+// Standardized the formatting.
+//
 
+#include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/pointer.h>
 #include <cassert>
@@ -27,17 +31,14 @@ using namespace log4cplus::helpers;
 void
 log4cplus::helpers::throwNullPointerException(const char* file, int line)
 {
-    char *buffer = new char[200];
-    if(file) {
-        sprintf(buffer, "NullPointer: file=%s line=%u", file, line);
-    }
-    else {
-        sprintf(buffer, "NullPointer: file=UNKNOWN line=%u", line);
-    }
+    tostringstream buf;
+    buf << LOG4CPLUS_TEXT("NullPointer: file=")
+        << file
+        << LOG4CPLUS_TEXT(" line=")
+        << line
+        << std::endl;
 
-    std::string s(buffer);
-    delete [] buffer;
-    throw NullPointerException(s);
+    throw NullPointerException(buf.str());
 }
 
 
@@ -50,7 +51,8 @@ SharedObject::~SharedObject()
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         if(!destroyed) {
-            getLogLog().error("SharedObject::~SharedObject()- This object MUST be destroyed");
+            getLogLog().error(LOG4CPLUS_TEXT("SharedObject::~SharedObject()- This object " \
+                                             "MUST be destroyed"));
             assert(destroyed);
         }
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
@@ -72,7 +74,8 @@ SharedObject::addReference()
     }
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         if(destroyed) {
-            getLogLog().error("SharedObject::addReference()- This object is already destroyed");
+            getLogLog().error(LOG4CPLUS_TEXT("SharedObject::addReference()- This object " \
+                                             "is already destroyed"));
             assert(!destroyed);
         }
         ++count;
@@ -84,12 +87,14 @@ void
 SharedObject::removeReference()
 {
     if(destroyed) {
-        getLogLog().error("SharedObject::removeReference()- This object is already destroyed");
+        getLogLog().error(LOG4CPLUS_TEXT("SharedObject::removedReference()- This object " \
+                                         "is already destroyed"));
         assert(!destroyed);
     }
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         if(destroyed) {
-            getLogLog().error("SharedObject::removeReference()- This object is already destroyed");
+            getLogLog().error(LOG4CPLUS_TEXT("SharedObject::removeReference()- This object " \
+                                             "is already destroyed"));
             assert(!destroyed);
         }
         if(--count == 0) destroyed = true;
