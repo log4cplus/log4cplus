@@ -129,6 +129,51 @@ Package=<4>
 
 ###############################################################################
 
+Project: "performance_test"=.\tests\performance_test.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "configandwatch_test"=.\tests\configandwatch_test.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "customloglevel_test"=.\tests\customloglevel_test.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name log4cplus_dll
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "ostream_test"=.\tests\ostream_test.dsp - Package Owner=<4>
 
 Package=<5>
