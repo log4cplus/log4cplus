@@ -17,6 +17,7 @@
 #define LOG4CPLUS_CONFIG_WIN32_HEADER_
 #ifdef WIN32
 
+#define HAVE_SSTREAM 1
 #ifdef LOG4CPLUS_BUILD_DLL
 #  define LOG4CPLUS_EXPORT __declspec(dllexport)
 #else
