@@ -78,8 +78,8 @@ namespace log4cplus {
                 return LOG4CPLUS_TEXT("0");
             }
             
-            char buffer[20];
-            char ret[20];
+            char buffer[21];
+            char ret[21];
             unsigned int bufferPos = 0;
             unsigned int retPos = 0;
 
