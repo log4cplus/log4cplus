@@ -30,45 +30,43 @@ namespace log4cplus {
          * Returns <code>s</code> in upper case.
          */
         template <class _StringType>
-	_StringType toupper(const _StringType& s)
-	{
+        _StringType toupper(const _StringType& s)
+        {
             _StringType ret;
             transform(s.begin(), s.end(),
-                      back_insert_iterator<_StringType>(ret),
-                      std::toupper);
-
-	    return ret;
-	}
+                      std::back_insert_iterator<_StringType>(ret),
+                      ::toupper);
+            return ret;
+        }
 
 
         /**
          * Returns <code>s</code> in lower case.
          */
         template <class _StringType>
-	_StringType tolower(const _StringType& s)
-	{
+        _StringType tolower(const _StringType& s)
+        {
             _StringType ret;
             transform(s.begin(), s.end(),
-                      back_insert_iterator<_StringType>(ret),
-                      std::tolower);
+                      std::back_insert_iterator<_StringType>(ret),
+                      ::tolower);
+            return ret;
+        }
 
-	    return ret;
-	}
 
-
-	/**
-	 * Tokenize <code>s</code> using <code>c</code> as the delimiter and
-	 * put the resulting tokens in <code>_result</code>.  If 
-	 * <code>collapseTokens</code> is false, multiple adjacent delimiters
-	 * will result in zero length tokens.
-	 * <p>
-	 * <b>Example:</b>
-	 * <pre>
-	 *   string s = // Set string with '.' as delimiters
-	 *   list<std::string> tokens;
-	 *   tokenize(s, '.', back_insert_iterator<list<string> >(tokens));
-	 * </pre>
-	 */
+        /**
+         * Tokenize <code>s</code> using <code>c</code> as the delimiter and
+         * put the resulting tokens in <code>_result</code>.  If 
+         * <code>collapseTokens</code> is false, multiple adjacent delimiters
+         * will result in zero length tokens.
+         * <p>
+         * <b>Example:</b>
+         * <pre>
+         *   string s = // Set string with '.' as delimiters
+         *   list<std::string> tokens;
+         *   tokenize(s, '.', back_insert_iterator<list<string> >(tokens));
+         * </pre>
+         */
         template <class _StringType, class _OutputIter>
         void tokenize(const _StringType& s, typename _StringType::value_type c, 
                       _OutputIter _result, bool collapseTokens = true) 
