@@ -11,6 +11,11 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.20  2003/08/28 05:09:38  tcsmith
+// The DailyRollingFileAppender now performs a "rollover" on close().  If the "rollover
+// file" exists, then it will be renamed according to the pattern that is used by the
+// RollingFileAppender class.
+//
 // Revision 1.19  2003/08/05 06:24:12  tcsmith
 // Now initialize the "immediateFlush" field in all ctors.
 //
@@ -80,7 +85,7 @@ using namespace log4cplus::helpers;
 
 namespace {
     
-    void rolloverFiles(const std::string& filename, unsigned int maxBackupIndex)
+    void rolloverFiles(const log4cplus::tstring& filename, unsigned int maxBackupIndex)
     {
         SharedObjectPtr<LogLog> loglog = LogLog::getLogLog();
 
