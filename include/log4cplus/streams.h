@@ -40,6 +40,9 @@
         static tostream &tcout = std::wcout;
         static tostream &tcerr = std::wcerr;
     }
+
+LOG4CPLUS_EXPORT log4cplus::tostream& operator <<(log4cplus::tostream&, const char* psz );
+
 #else
     namespace log4cplus {
         typedef std::ostream tostream;
