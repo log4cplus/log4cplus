@@ -111,8 +111,8 @@ namespace log4cplus {
     protected:
         virtual void append(const spi::InternalLoggingEvent& event);
         void rollover();
-        log4cplus::helpers::Time calculateNextRolloverTime(const log4cplus::helpers::Time& t);
-        log4cplus::tstring getFilename(const log4cplus::helpers::Time& t);
+        log4cplus::helpers::Time calculateNextRolloverTime(const log4cplus::helpers::Time& t) const;
+        log4cplus::tstring getFilename(const log4cplus::helpers::Time& t) const;
 
       // Data
         DailyRollingFileSchedule schedule;
