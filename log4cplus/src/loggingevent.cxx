@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/06/27 15:44:34  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/spi/loggingevent.h>
 
@@ -19,18 +22,34 @@ using namespace log4cplus;
 using namespace log4cplus::spi;
 
 
-///////////////////////////////////////////////////////////////////////////////
-// InternalLoggingEvent implementation
-///////////////////////////////////////////////////////////////////////////////
+#define LOG4CPLUS_DEFAULT_TYPE 1
 
-const int InternalLoggingEvent::DEFAULT_TYPE = 1;
 
+///////////////////////////////////////////////////////////////////////////////
+// InternalLoggingEvent dtor
+///////////////////////////////////////////////////////////////////////////////
 
 InternalLoggingEvent::~InternalLoggingEvent()
 {
 }
 
 
+
+///////////////////////////////////////////////////////////////////////////////
+// InternalLoggingEvent static methods
+///////////////////////////////////////////////////////////////////////////////
+
+unsigned int
+InternalLoggingEvent::getDefaultType()
+{
+    return LOG4CPLUS_DEFAULT_TYPE;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// InternalLoggingEvent implementation
+///////////////////////////////////////////////////////////////////////////////
 
 const log4cplus::tstring& 
 InternalLoggingEvent::getMessage() const
@@ -39,10 +58,18 @@ InternalLoggingEvent::getMessage() const
 }
 
 
-int
+unsigned int
 InternalLoggingEvent::getType() const
 {
-    return DEFAULT_TYPE;
+    return LOG4CPLUS_DEFAULT_TYPE;
+}
+
+
+
+std::auto_ptr<InternalLoggingEvent>
+InternalLoggingEvent::clone() const
+{
+    return std::auto_ptr<InternalLoggingEvent>(new InternalLoggingEvent(*this));
 }
 
 
