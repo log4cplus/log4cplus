@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/04/18 21:00:40  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.4  2003/04/03 00:37:26  tcsmith
 // Standardized the formatting.
 //
@@ -19,6 +22,7 @@
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/loggingevent.h>
 
 using namespace std;
@@ -29,7 +33,8 @@ using namespace log4cplus::helpers;
 // log4cplus::ConsoleAppender ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::ConsoleAppender::ConsoleAppender()
+log4cplus::ConsoleAppender::ConsoleAppender(bool logToStdErr)
+: logToStdErr(logToStdErr)
 {
 }
 
@@ -38,6 +43,10 @@ log4cplus::ConsoleAppender::ConsoleAppender()
 log4cplus::ConsoleAppender::ConsoleAppender(log4cplus::helpers::Properties properties)
  : Appender(properties)
 {
+    tstring val = tolower(properties.getProperty(LOG4CPLUS_TEXT("logToStdErr")));
+    if(val == LOG4CPLUS_TEXT("true")) {
+        logToStdErr = true;
+    }
 }
 
 
@@ -73,7 +82,7 @@ void
 log4cplus::ConsoleAppender::append(const spi::InternalLoggingEvent& event)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( getLogLog().mutex )
-        layout->formatAndAppend(tcout, event);
+        layout->formatAndAppend((logToStdErr ? tcerr : tcout), event);
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
 }
 
