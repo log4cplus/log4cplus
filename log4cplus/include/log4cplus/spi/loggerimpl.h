@@ -181,9 +181,9 @@ namespace log4cplus {
             Hierarchy& hierarchy;
 
           // Friends
-            friend class Logger;
-            friend class DefaultLoggerFactory;
-            friend class Hierarchy;
+            friend class log4cplus::Logger;
+            friend class log4cplus::DefaultLoggerFactory;
+            friend class log4cplus::Hierarchy;
         };
 
     } // end namespace spi
