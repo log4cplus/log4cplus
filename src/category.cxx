@@ -168,13 +168,6 @@ Category::validate(const char *file, int line) const
 }
 
 
-void 
-Category::assertion(bool assertionVal, const std::string& msg)
-{
-    validate(__FILE__, __LINE__);
-    value->assertion(assertionVal, msg);
-}
-
 
 void 
 Category::callAppenders(const spi::InternalLoggingEvent& event)
@@ -193,34 +186,10 @@ Category::closeNestedAppenders()
 
 
 bool 
-Category::isEnabledFor(const Priority& priority)
+Category::isEnabledFor(const Priority& priority) const
 {
     validate(__FILE__, __LINE__);
     return value->isEnabledFor(priority);
-}
-
-
-bool 
-Category::isDebugEnabled()
-{
-    validate(__FILE__, __LINE__);
-    return value->isDebugEnabled();
-}
-
-
-bool 
-Category::isInfoEnabled()
-{
-    validate(__FILE__, __LINE__);
-    return value->isInfoEnabled();
-}
-
-
-bool 
-Category::isWarnEnabled()
-{
-    validate(__FILE__, __LINE__);
-    return value->isWarnEnabled();
 }
 
 
@@ -230,46 +199,6 @@ Category::log(const Priority& priority, const std::string& message,
 {
     validate(__FILE__, __LINE__);
     value->log(priority, message, file, line);
-}
-
-
-void 
-Category::fatal(const std::string& message, const char* file, int line)
-{
-    validate(__FILE__, __LINE__);
-    value->fatal(message, file, line);
-}
-
-
-void 
-Category::error(const std::string& message, const char* file, int line)
-{
-    validate(__FILE__, __LINE__);
-    value->error(message, file, line);
-}
-
-
-void 
-Category::warn(const std::string& message, const char* file, int line)
-{
-    validate(__FILE__, __LINE__);
-    value->warn(message, file, line);
-}
-
-
-void 
-Category::info(const std::string& message, const char* file, int line)
-{
-    validate(__FILE__, __LINE__);
-    value->info(message, file, line);
-}
-
-
-void 
-Category::debug(const std::string& message, const char* file, int line)
-{
-    validate(__FILE__, __LINE__);
-    value->debug(message, file, line);
 }
 
 
