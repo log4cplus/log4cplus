@@ -182,7 +182,7 @@ namespace log4cplus {
     /** @var This is a pointer to an Appender. */
     typedef helpers::SharedObjectPtr<Appender> SharedAppenderPtr;
 
-}; // end namespace log4cplus
+} // end namespace log4cplus
 
 #endif // _LOG4CPLUS_APPENDER_HEADER_
 

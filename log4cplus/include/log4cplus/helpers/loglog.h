@@ -102,8 +102,8 @@ namespace log4cplus {
             friend LOG4CPLUS_EXPORT LogLog& getLogLog();
         };
 
-    }; // end namespace helpers
-}; // end namespace log4cplus
+    } // end namespace helpers
+} // end namespace log4cplus
 
 
 #endif // _LOG4CPLUS_HELPERS_LOGLOG

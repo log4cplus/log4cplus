@@ -279,7 +279,7 @@ namespace log4cplus {
     };
 
 
-}; // end namespace log4cplus
+} // end namespace log4cplus
 
 #endif // _LOG4CPLUS_HIERARCHY_HEADER_
 

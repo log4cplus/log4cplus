@@ -56,7 +56,7 @@ namespace log4cplus {
         SID* pCurrentUserSID;
     };
 
-}; // end namespace log4cplus
+} // end namespace log4cplus
 
 #endif // WIN32
 #endif //_LOG4CPLUS_NT_EVENT_LOG_APPENDER_HEADER_

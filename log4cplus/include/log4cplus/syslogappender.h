@@ -46,7 +46,7 @@ namespace log4cplus {
         tstring ident;
     };
 
-}; // end namespace log4cplus
+} // end namespace log4cplus
 
 #endif // defined(HAVE_SYSLOG_H)
 
