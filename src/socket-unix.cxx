@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  2003/09/10 07:03:19  tcsmith
+// Added support for NetBSD.
+//
 // Revision 1.7  2003/09/05 08:10:10  tcsmith
 // No longer uses MSG_NOSIGNAL when it is not defined.
 //
@@ -155,9 +158,23 @@ log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
 
 
 size_t
-log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
+log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buf)
 {
-    return ::read(sock, buffer.getBuffer(), buffer.getMaxSize());
+    size_t res = 0;
+    size_t read = 0;
+
+    do {
+        size_t bytesToRead = buf.getMaxSize() - read;
+        while(   (res = ::read(sock, buf.getBuffer()+read, bytesToRead)) < 0 
+              && (errno == EINTR));
+
+	if(res <= 0) {
+            return res;
+        }
+        read += res;
+    } while(read < buf.getMaxSize());
+    
+    return read;
 }
 
 
