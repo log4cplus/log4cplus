@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/10/22 06:00:35  tcsmith
+// Fixed the read() method so that it always fills the buffer.
+//
 // Revision 1.8  2003/09/10 07:03:19  tcsmith
 // Added support for NetBSD.
 //
@@ -41,7 +44,15 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
 
-#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__)
+#if defined(__hpux__)
+# ifndef _XOPEN_SOURCE_EXTENDED
+# define _XOPEN_SOURCE_EXTENDED
+# endif
+# include <arpa/inet.h>
+#endif
+ 
+
+#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__hpux__)
 #include <netinet/in.h>
 #endif
 
@@ -158,22 +169,19 @@ log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
 
 
 size_t
-log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buf)
+log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
-    size_t res = 0;
-    size_t read = 0;
-
-    do {
-        size_t bytesToRead = buf.getMaxSize() - read;
-        while(   (res = ::read(sock, buf.getBuffer()+read, bytesToRead)) < 0 
-              && (errno == EINTR));
-
-	if(res <= 0) {
+    size_t res, read = 0;
+ 
+    do
+    { 
+        res = ::read(sock, buffer.getBuffer() + read, buffer.getMaxSize() - read);
+        if( res <= 0 ) {
             return res;
         }
         read += res;
-    } while(read < buf.getMaxSize());
-    
+    } while( read < buffer.getMaxSize() );
+ 
     return read;
 }
 
