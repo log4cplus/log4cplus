@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/04/19 23:04:31  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.4  2003/04/18 21:37:35  tcsmith
 // Converted from std::string to log4cplus::tstring.
 //
@@ -159,7 +162,7 @@ Hierarchy::getInstance(const log4cplus::tstring& name, spi::LoggerFactory& facto
             ProvisionNodeMap::iterator it2 = provisionNodes.find(name);
             if(it2 != provisionNodes.end()) {
                 updateChildren(it2->second, cat);
-                bool deleted = provisionNodes.erase(name);
+                bool deleted = (provisionNodes.erase(name) > 0);
                 if(!deleted) {
                     getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstance()- Delete failed"));
                     throw std::runtime_error("Hierarchy::getInstance()- Delete failed");

@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/04/19 23:04:32  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.6  2003/04/18 21:52:35  tcsmith
 // Converted from using std::ifstream to using log4cplus::tifstream.
 //
@@ -144,7 +147,7 @@ log4cplus::helpers::Properties::setProperty(const log4cplus::tstring& key,
 bool
 log4cplus::helpers::Properties::removeProperty(const log4cplus::tstring& key)
 {
-    return data.erase(key);
+    return (data.erase(key) > 0);
 }
 
 
