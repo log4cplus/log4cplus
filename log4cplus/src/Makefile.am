@@ -23,6 +23,7 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                          layout.cxx \
                          logger.cxx \
                          loggerimpl.cxx \
+                         loggingevent.cxx \
                          loglevel.cxx \
                          loglog.cxx \
                          ndc.cxx \
