@@ -18,11 +18,11 @@
 
 #include <log4cplus/config.h>
 #include <log4cplus/logger.h>
+#include <log4cplus/tstring.h>
 #include <log4cplus/helpers/appenderattachableimpl.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/spi/loggerfactory.h>
 #include <memory>
-#include <string>
 #include <vector>
 
 
@@ -76,7 +76,7 @@ namespace log4cplus {
             /**
              * This generic form is intended to be used by wrappers. 
              */
-            virtual void log(LogLevel ll, const std::string& message,
+            virtual void log(LogLevel ll, const log4cplus::tstring& message,
                              const char* file=NULL, int line=-1);
 
             /**
@@ -110,7 +110,7 @@ namespace log4cplus {
             /**
              * Return the logger name.  
              */
-            std::string getName() const { return name; }
+	    log4cplus::tstring getName() const { return name; }
 
             /**
              * Get the additivity flag for this Logger instance.
@@ -135,7 +135,7 @@ namespace log4cplus {
              *
              * @param name The name of the logger.  
              */
-            LoggerImpl(const std::string& name, Hierarchy& h);
+            LoggerImpl(const log4cplus::tstring& name, Hierarchy& h);
 
 
           // Methods
@@ -144,14 +144,14 @@ namespace log4cplus {
              * without further checks.  
              */
             virtual void forcedLog(LogLevel ll,
-                                   const std::string& message,
+                                   const log4cplus::tstring& message,
                                    const char* file=NULL, 
                                    int line=-1);
 
 
           // Data
             /** The name of this logger */
-            std::string name;
+	    log4cplus::tstring name;
 
             /**
              * The assigned LogLevel of this logger.

@@ -19,7 +19,7 @@
 #include <log4cplus/config.h>
 #include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
-#include <string>
+#include <log4cplus/tstring.h>
 #include <time.h>
 
 namespace log4cplus {
@@ -44,9 +44,9 @@ namespace log4cplus {
               * @param ll       The LogLevel of this event.
               * @param message  The message of this event.
               */
-             InternalLoggingEvent(const std::string& logger,
+             InternalLoggingEvent(const log4cplus::tstring& logger,
                                   LogLevel ll,
-                                  const std::string& message,
+                                  const log4cplus::tstring& message,
                                   const char* file,
                                   int line)
               : loggerName(logger),
@@ -65,16 +65,16 @@ namespace log4cplus {
           // Data
             /** The logger of the logging event. It is set by 
              * the LoggingEvent constructor. */
-            const std::string loggerName;
+            const log4cplus::tstring loggerName;
 
             /** LogLevel of logging event. */
             const LogLevel ll;
 
             /** The nested diagnostic context (NDC) of logging event. */
-            const std::string ndc;
+            const log4cplus::tstring ndc;
 
             /** The application supplied message of logging event. */
-            const std::string message;
+            const log4cplus::tstring message;
 
             /** The name of thread in which this logging event was generated. */
             const LOG4CPLUS_THREAD_KEY_TYPE thread;

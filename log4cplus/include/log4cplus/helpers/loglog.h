@@ -17,8 +17,8 @@
 #define _LOG4CPLUS_HELPERS_LOGLOG
 
 #include <log4cplus/config.h>
+#include <log4cplus/tstring.h>
 #include <log4cplus/helpers/threads.h>
-#include <string>
 
 
 namespace log4cplus {
@@ -64,21 +64,21 @@ namespace log4cplus {
              * This method is used to output log4cplus internal debug
              * statements. Output goes to <code>std::cout</code>.
              */
-            void debug(const std::string& msg);
+            void debug(const log4cplus::tstring& msg);
 
             /**
              * This method is used to output log4cplus internal error
              * statements. There is no way to disable error statements.
              * Output goes to <code>std::cerr</code>.
              */
-            void error(const std::string& msg);
+            void error(const log4cplus::tstring& msg);
 
             /**
              * This method is used to output log4cplus internal warning
              * statements. There is no way to disable warning statements.
              * Output goes to <code>std::cerr</code>.
              */
-            void warn(const std::string& msg);
+            void warn(const log4cplus::tstring& msg);
 
           // Dtor
             ~LogLog();
@@ -90,9 +90,9 @@ namespace log4cplus {
           // Data
             bool debugEnabled;
             bool quietMode;
-            const std::string PREFIX;
-            const std::string WARN_PREFIX;
-            const std::string ERR_PREFIX;
+            const log4cplus::tstring PREFIX;
+            const log4cplus::tstring WARN_PREFIX;
+            const log4cplus::tstring ERR_PREFIX;
 
           // Ctors
             LogLog();

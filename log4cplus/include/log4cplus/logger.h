@@ -18,12 +18,13 @@
 
 #include <log4cplus/config.h>
 #include <log4cplus/loglevel.h>
+#include <log4cplus/tstring.h>
+#include <log4cplus/streams.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/spi/appenderattachable.h>
 #include <log4cplus/spi/loggerfactory.h>
+
 #include <memory>
-#include <string>
-#include <sstream>
 #include <vector>
 
 namespace log4cplus {
@@ -59,7 +60,7 @@ namespace log4cplus {
          *                
          * @param name The name of the logger to search for.
          */
-        static bool exists(const std::string& name);
+        static bool exists(const log4cplus::tstring& name);
 
         /*
          * Returns all the currently defined loggers in the default
@@ -86,10 +87,10 @@ namespace log4cplus {
          * <p>
          * @param name The name of the logger to retrieve.  
          */
-        static Logger getInstance(const std::string& name);
+        static Logger getInstance(const log4cplus::tstring& name);
 
         /**
-         * Like {@link #getInstance(std::string)} except that the type of logger
+         * Like {@link #getInstance(log4cplus::tstring)} except that the type of logger
          * instantiated depends on the type returned by the {@link
          * spi::LoggerFactory#makeNewLoggerInstance} method of the
          * <code>factory</code> parameter.
@@ -100,7 +101,7 @@ namespace log4cplus {
          * @param factory A {@link spi::LoggerFactory} implementation that will
          * actually create a new Instance.
          */
-        static Logger getInstance(const std::string& name, spi::LoggerFactory& factory);
+        static Logger getInstance(const log4cplus::tstring& name, spi::LoggerFactory& factory);
 
         /**
          * Return the root of the default logger hierrachy.
@@ -133,14 +134,14 @@ namespace log4cplus {
       // Non-Static Methods
         /**
          * If <code>assertion</code> parameter is <code>false</code>, then
-         * logs <code>msg</code> as an {@link #error(const std::string&) error} 
+         * logs <code>msg</code> as an {@link #error(const log4cplus::tstring&) error} 
          * statement.
          *
          * @param assertion 
          * @param msg The message to print if <code>assertion</code> is
          * false.
          */
-        void assertion(bool assertionVal, const std::string& msg) {
+        void assertion(bool assertionVal, const log4cplus::tstring& msg) {
             if(!assertionVal) {
                 log(FATAL_LOG_LEVEL, msg);
             }
@@ -163,14 +164,14 @@ namespace log4cplus {
         /**
          * This generic form is intended to be used by wrappers. 
          */
-        void log(LogLevel ll, const std::string& message,
+        void log(LogLevel ll, const log4cplus::tstring& message,
                  const char* file=NULL, int line=-1);
 
         /**
          * This method creates a new logging event and logs the event
          * without further checks.  
          */
-        void forcedLog(LogLevel ll, const std::string& message,
+        void forcedLog(LogLevel ll, const log4cplus::tstring& message,
                        const char* file=NULL, int line=-1);
 
 
@@ -207,7 +208,7 @@ namespace log4cplus {
         /**
          * Return the logger name.  
          */
-        std::string getName() const;
+	log4cplus::tstring getName() const;
 
         /**
          * Get the additivity flag for this Logger instance.  
@@ -225,13 +226,13 @@ namespace log4cplus {
 
         virtual SharedAppenderPtrList getAllAppenders();
 
-        virtual SharedAppenderPtr getAppender(const std::string& name);
+        virtual SharedAppenderPtr getAppender(const log4cplus::tstring& name);
 
         virtual void removeAllAppenders();
 
         virtual void removeAppender(SharedAppenderPtr appender);
 
-        virtual void removeAppender(const std::string& name);
+        virtual void removeAppender(const log4cplus::tstring& name);
 
       // Copy Ctor
         Logger(const Logger& rhs);
@@ -297,7 +298,7 @@ namespace log4cplus {
      */
     class DefaultLoggerFactory : public spi::LoggerFactory {
     public:
-        Logger makeNewLoggerInstance(const std::string& name, Hierarchy& h);
+        Logger makeNewLoggerInstance(const log4cplus::tstring& name, Hierarchy& h);
     };
 
 
@@ -314,20 +315,20 @@ namespace log4cplus {
      */
     class TraceLogger {
     public:
-        TraceLogger(Logger& logger, const std::string& msg) 
+        TraceLogger(Logger& logger, const log4cplus::tstring& msg) 
           : logger(logger), msg(msg) 
         { if(logger.isEnabledFor(TRACE_LOG_LEVEL))
-              logger.forcedLog(TRACE_LOG_LEVEL, "ENTER: " + msg); 
+              logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg); 
         }
 
         ~TraceLogger()
         { if(logger.isEnabledFor(TRACE_LOG_LEVEL))
-              logger.forcedLog(TRACE_LOG_LEVEL, "EXIT:  " + msg); 
+              logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("EXIT:  ") + msg); 
         }
 
     private:
         Logger& logger;
-        std::string msg;
+	log4cplus::tstring msg;
     };
 
 }; // end namespace log4cplus
@@ -344,7 +345,7 @@ namespace log4cplus {
  */
 #define LOG4CPLUS_DEBUG(logger, logEvent) \
     if(logger.isEnabledFor(log4cplus::DEBUG_LOG_LEVEL)) { \
-        std::ostringstream _log4cplus_buf; \
+        log4cplus::tostringstream _log4cplus_buf; \
         _log4cplus_buf << logEvent; \
         logger.forcedLog(log4cplus::DEBUG_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
@@ -353,7 +354,7 @@ namespace log4cplus {
 
 #define LOG4CPLUS_INFO(logger, logEvent) \
     if(logger.isEnabledFor(log4cplus::INFO_LOG_LEVEL)) { \
-        std::ostringstream _log4cplus_buf; \
+        log4cplus::tostringstream _log4cplus_buf; \
         _log4cplus_buf << logEvent; \
         logger.forcedLog(log4cplus::INFO_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
@@ -362,7 +363,7 @@ namespace log4cplus {
 
 #define LOG4CPLUS_WARN(logger, logEvent) \
     if(logger.isEnabledFor(log4cplus::WARN_LOG_LEVEL)) { \
-        std::ostringstream _log4cplus_buf; \
+        log4cplus::tostringstream _log4cplus_buf; \
         _log4cplus_buf << logEvent; \
         logger.forcedLog(log4cplus::WARN_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
@@ -371,7 +372,7 @@ namespace log4cplus {
 
 #define LOG4CPLUS_ERROR(logger, logEvent) \
     if(logger.isEnabledFor(log4cplus::ERROR_LOG_LEVEL)) { \
-        std::ostringstream _log4cplus_buf; \
+        log4cplus::tostringstream _log4cplus_buf; \
         _log4cplus_buf << logEvent; \
         logger.forcedLog(log4cplus::ERROR_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
@@ -380,7 +381,7 @@ namespace log4cplus {
 
 #define LOG4CPLUS_FATAL(logger, logEvent) \
     if(logger.isEnabledFor(log4cplus::FATAL_LOG_LEVEL)) { \
-        std::ostringstream _log4cplus_buf; \
+        log4cplus::tostringstream _log4cplus_buf; \
         _log4cplus_buf << logEvent; \
         logger.forcedLog(log4cplus::FATAL_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }

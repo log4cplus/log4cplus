@@ -16,11 +16,9 @@
 #ifndef _LOG4CPLUS_SPI_ROOT_LOGGER_HEADER_
 #define _LOG4CPLUS_SPI_ROOT_LOGGER_HEADER_
 
-#include "log4cplus/config.h"
-#include "log4cplus/helpers/loglog.h"
-#include "log4cplus/spi/loggerimpl.h"
-
-using namespace log4cplus::helpers;
+#include <log4cplus/config.h>
+#include <log4cplus/helpers/loglog.h>
+#include <log4cplus/spi/loggerimpl.h>
 
 namespace log4cplus {
     namespace spi {
@@ -36,33 +34,25 @@ namespace log4cplus {
          */
         class RootLogger : public LoggerImpl {
         public:
-        // Ctors
+          // Ctors
             /**
              * The root logger names itself as "root". However, the root
              * logger cannot be retrieved by name.  
              */
-            RootLogger(Hierarchy& h, LogLevel ll)
-               : LoggerImpl(std::string("root"), h) { setLogLevel(ll); }
+            RootLogger(Hierarchy& h, LogLevel ll);
 
-        // Methods
+          // Methods
             /**
              * Return the assigned LogLevel value without walking the logger
              * hierarchy.
              */
-            LogLevel getChainedLogLevel() { return ll; }
+            LogLevel getChainedLogLevel();
 
             /**
              * Setting a NOT_SET_LOG_LEVEL value to the LogLevel of the root logger 
              * may have catastrophic results. We prevent this here.
              */
-            void setLogLevel(LogLevel ll) {
-                if(ll == NOT_SET_LOG_LEVEL) {
-                    getLogLog().error("You have tried to set NOT_SET_LOG_LEVEL to root.");
-                }
-                else {
-                    LoggerImpl::setLogLevel(ll); 
-                }
-            }
+            void setLogLevel(LogLevel ll);
 
         };
 

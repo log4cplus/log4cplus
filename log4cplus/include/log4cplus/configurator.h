@@ -49,7 +49,7 @@ namespace log4cplus {
     class PropertyConfigurator {
     public:
         // ctor and dtor
-        PropertyConfigurator(const std::string& propertyFile);
+        PropertyConfigurator(const log4cplus::tstring& propertyFile);
         virtual ~PropertyConfigurator();
 
         /**
@@ -203,15 +203,15 @@ namespace log4cplus {
         // Methods
 	void replaceEnvironVariables();
         void configureLoggers();
-        void configureLogger(log4cplus::Logger logger, const std::string& config);
+        void configureLogger(log4cplus::Logger logger, const log4cplus::tstring& config);
         void configureAppenders();
         void configureAdditivity();
 
         // Types
-        typedef std::map<std::string, log4cplus::SharedAppenderPtr> AppenderMap;
+        typedef std::map<log4cplus::tstring, log4cplus::SharedAppenderPtr> AppenderMap;
 
         // Data
-        std::string propertyFilename;
+	log4cplus::tstring propertyFilename;
         log4cplus::helpers::Properties properties; 
         AppenderMap appenders;
     };

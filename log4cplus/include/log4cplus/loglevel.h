@@ -17,8 +17,9 @@
 #define LOG4CPLUS_LOGLEVEL_HEADER_
 
 #include <log4cplus/config.h>
-#include <iostream>
-#include <string>
+#include <log4cplus/streams.h>
+#include <log4cplus/tstring.h>
+
 #include <vector>
 
 namespace log4cplus {
@@ -34,20 +35,20 @@ namespace log4cplus {
     const LogLevel NOT_SET_LOG_LEVEL = -1;
 
 
-    typedef const std::string& (*LogLevelToStringMethod)(LogLevel);
-    typedef LogLevel (*StringToLogLevelMethod)(const std::string&);
+    typedef const log4cplus::tstring& (*LogLevelToStringMethod)(LogLevel);
+    typedef LogLevel (*StringToLogLevelMethod)(const log4cplus::tstring&);
     typedef int (*LogLevelToSysLogMethod)(LogLevel);
 
-    const std::string& defaultLogLevelToStringMethod(LogLevel);
-    LogLevel defaultStringToLogLevelMethod(const std::string&);
+    const log4cplus::tstring& defaultLogLevelToStringMethod(LogLevel);
+    LogLevel defaultStringToLogLevelMethod(const log4cplus::tstring&);
     int defaultLogLevelToSysLogMethod(LogLevel);
 
     class LogLevelManager {
     public:
         LogLevelManager();
 
-        const std::string& toString(LogLevel ll) const { return toStringMethod(ll); }
-        LogLevel fromString(const std::string& s) const { return fromStringMethod(s); }
+        const log4cplus::tstring& toString(LogLevel ll) const { return toStringMethod(ll); }
+        LogLevel fromString(const log4cplus::tstring& s) const { return fromStringMethod(s); }
         int toSysLog(LogLevel ll) const { return toSysLogMethod(ll); }
 
         LogLevelToStringMethod setToStringMapper(LogLevelToStringMethod newToString) {

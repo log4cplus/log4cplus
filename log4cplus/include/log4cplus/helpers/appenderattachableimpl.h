@@ -18,11 +18,12 @@
 
 #include <log4cplus/config.h>
 #include <log4cplus/layout.h>
+#include <log4cplus/tstring.h>
 #include <log4cplus/helpers/threads.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/spi/appenderattachable.h>
+
 #include <memory>
-#include <string>
 #include <vector>
 
 
@@ -67,7 +68,7 @@ namespace log4cplus {
              * <p>Return the appender with that name if in the list. Return null
              * otherwise.  
              */
-            virtual SharedAppenderPtr getAppender(const std::string& name);
+            virtual SharedAppenderPtr getAppender(const log4cplus::tstring& name);
 
             /**
              * Remove all previously added appenders.
@@ -83,7 +84,7 @@ namespace log4cplus {
              * Remove the appender with the name passed as parameter from the
              * list of appenders.  
              */
-            virtual void removeAppender(const std::string& name);
+            virtual void removeAppender(const log4cplus::tstring& name);
 
             /**
              * Call the <code>doAppend</code> method on all attached appenders.  
