@@ -159,6 +159,10 @@ namespace log4cplus {
       // Data
         void* toStringMethods;
         void* fromStringMethods;
+
+      // Disable Copy
+        LogLevelManager(const LogLevelManager&);
+	LogLevelManager& operator=(const LogLevelManager&);
     };
 
     /**
