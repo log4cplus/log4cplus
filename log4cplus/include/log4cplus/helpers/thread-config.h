@@ -26,6 +26,8 @@
 #   define LOG4CPLUS_MUTEX_UNLOCK( mutex ) pthread_mutex_unlock(mutex)
 #   define LOG4CPLUS_MUTEX_FREE(mutex) ::log4cplus::thread::deleteMutex(mutex)
 #   define LOG4CPLUS_THREAD_KEY_TYPE pthread_t
+#   define LOG4CPLUS_GET_CURRENT_THREAD_NAME ::log4cplus::thread::getCurrentThreadName()
+
 #   define LOG4CPLUS_GET_CURRENT_THREAD pthread_self()
 #   define LOG4CPLUS_THREAD_LOCAL_TYPE pthread_key_t*
 #   define LOG4CPLUS_THREAD_LOCAL_INIT ::log4cplus::thread::createPthreadKey()
@@ -50,6 +52,7 @@ namespace log4cplus {
 #   define LOG4CPLUS_MUTEX_FREE(mutex) ::log4cplus::thread::deleteMutex(mutex)
 #   define LOG4CPLUS_THREAD_KEY_TYPE  DWORD
 #   define LOG4CPLUS_GET_CURRENT_THREAD  GetCurrentThreadId()
+#   define LOG4CPLUS_GET_CURRENT_THREAD_NAME ::log4cplus::thread::getCurrentThreadName()
 #   define LOG4CPLUS_THREAD_LOCAL_TYPE DWORD
 #   define LOG4CPLUS_THREAD_LOCAL_INIT TlsAlloc()
 #   define LOG4CPLUS_GET_THREAD_LOCAL_VALUE( key ) TlsGetValue(key)
@@ -72,6 +75,7 @@ namespace log4cplus {
 #   define LOG4CPLUS_MUTEX_FREE(mutex)
 #   define LOG4CPLUS_THREAD_KEY_TYPE int
 #   define LOG4CPLUS_GET_CURRENT_THREAD (int)1
+#   define LOG4CPLUS_GET_CURRENT_THREAD_NAME "single"
 #   define LOG4CPLUS_THREAD_LOCAL_TYPE void*
 #   define LOG4CPLUS_THREAD_LOCAL_INIT NULL
 #   define LOG4CPLUS_GET_THREAD_LOCAL_VALUE( key ) key
