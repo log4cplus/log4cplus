@@ -85,7 +85,7 @@ namespace log4cplus {
      * This method type defined the signature of methods that convert strings
      * into LogLevels. 
      * <p>
-     * <b>Note:</b> Must return <code>NOT_SET_LOG_LEVE</code> for unrecognized values.
+     * <b>Note:</b> Must return <code>NOT_SET_LOG_LEVEL</code> for unrecognized values.
      */
     typedef LogLevel (*StringToLogLevelMethod)(const log4cplus::tstring&);
 
