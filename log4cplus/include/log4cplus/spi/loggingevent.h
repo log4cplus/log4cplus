@@ -61,6 +61,26 @@ namespace log4cplus {
              {
              }
 
+             InternalLoggingEvent(const log4cplus::tstring& logger,
+                                  LogLevel ll,
+                                  const log4cplus::tstring& ndc,
+                                  const log4cplus::tstring& message,
+                                  LOG4CPLUS_THREAD_KEY_TYPE thread,
+                                  time_t time,
+                                  const char* file,
+                                  int line)
+              : loggerName(logger),
+                ll(ll),
+                ndc(ndc),
+                message(message),
+                thread(thread),
+                timestamp(time),
+                clock_ticks(0),
+                file(file),
+                line(line)
+             {
+             }
+
 
           // Data
             /** The logger of the logging event. It is set by 
