@@ -36,6 +36,7 @@ namespace log4cplus {
     }
     class Appender;
     class Hierarchy;
+    class HierarchyLocker;
     class DefaultLoggerFactory;
 
 
@@ -282,9 +283,10 @@ namespace log4cplus {
         void validate(const char *file, int line) const;
 
       // Friends
-        friend class spi::LoggerImpl;
-        friend class Hierarchy;
-        friend class DefaultLoggerFactory;
+        friend class log4cplus::spi::LoggerImpl;
+        friend class log4cplus::Hierarchy;
+        friend class log4cplus::HierarchyLocker;
+        friend class log4cplus::DefaultLoggerFactory;
     };
 
 
@@ -355,8 +357,13 @@ namespace log4cplus {
         _log4cplus_buf << logEvent; \
         logger.forcedLog(log4cplus::DEBUG_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
+#define LOG4CPLUS_DEBUG_STR(logger, logEvent) \
+    if(logger.isEnabledFor(log4cplus::DEBUG_LOG_LEVEL)) { \
+        logger.forcedLog(log4cplus::DEBUG_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
+    }
 #else
 #define LOG4CPLUS_DEBUG(logger, logEvent) 
+#define LOG4CPLUS_DEBUG_STR(logger, logEvent)
 #endif
 
 /**
@@ -371,8 +378,13 @@ namespace log4cplus {
         _log4cplus_buf << logEvent; \
         logger.forcedLog(log4cplus::INFO_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
+#define LOG4CPLUS_INFO_STR(logger, logEvent) \
+    if(logger.isEnabledFor(log4cplus::INFO_LOG_LEVEL)) { \
+        logger.forcedLog(log4cplus::INFO_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
+    }
 #else
 #define LOG4CPLUS_INFO(logger, logEvent)
+#define LOG4CPLUS_INFO_STR(logger, logEvent)
 #endif
 
 /**
@@ -387,8 +399,13 @@ namespace log4cplus {
         _log4cplus_buf << logEvent; \
         logger.forcedLog(log4cplus::WARN_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
+#define LOG4CPLUS_WARN_STR(logger, logEvent) \
+    if(logger.isEnabledFor(log4cplus::WARN_LOG_LEVEL)) { \
+        logger.forcedLog(log4cplus::WARN_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
+    }
 #else
 #define LOG4CPLUS_WARN(logger, logEvent)
+#define LOG4CPLUS_WARN_STR(logger, logEvent)
 #endif
 
 /**
@@ -396,24 +413,42 @@ namespace log4cplus {
  * ERROR_LOG_LEVEL message to <code>logger</code>.  
  * <code>logEvent</code> will be streamed into an <code>ostream</code>.
  */
+#if !defined(LOG4CPLUS_DISABLE_ERROR)
 #define LOG4CPLUS_ERROR(logger, logEvent) \
     if(logger.isEnabledFor(log4cplus::ERROR_LOG_LEVEL)) { \
         log4cplus::tostringstream _log4cplus_buf; \
         _log4cplus_buf << logEvent; \
         logger.forcedLog(log4cplus::ERROR_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
+#define LOG4CPLUS_ERROR_STR(logger, logEvent) \
+    if(logger.isEnabledFor(log4cplus::ERROR_LOG_LEVEL)) { \
+        logger.forcedLog(log4cplus::ERROR_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
+    }
+#else
+#define LOG4CPLUS_ERROR(logger, logEvent)
+#define LOG4CPLUS_ERROR_STR(logger, logEvent)
+#endif
 
 /**
  * @def LOG4CPLUS_FATAL(logger, logEvent)  This macro is used to log a
  * FATAL_LOG_LEVEL message to <code>logger</code>.  
  * <code>logEvent</code> will be streamed into an <code>ostream</code>.
  */
+#if !defined(LOG4CPLUS_DISABLE_FATAL)
 #define LOG4CPLUS_FATAL(logger, logEvent) \
     if(logger.isEnabledFor(log4cplus::FATAL_LOG_LEVEL)) { \
         log4cplus::tostringstream _log4cplus_buf; \
         _log4cplus_buf << logEvent; \
         logger.forcedLog(log4cplus::FATAL_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
     }
+#define LOG4CPLUS_FATAL_STR(logger, logEvent) \
+    if(logger.isEnabledFor(log4cplus::FATAL_LOG_LEVEL)) { \
+        logger.forcedLog(log4cplus::FATAL_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
+    }
+#else
+#define LOG4CPLUS_FATAL(logger, logEvent)
+#define LOG4CPLUS_FATAL_STR(logger, logEvent) 
+#endif
 
 #endif // _LOG4CPLUS_LOGGERHEADER_
 
