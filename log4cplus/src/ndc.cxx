@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/04/03 01:06:41  tcsmith
+// Standardized the formatting.
+//
 
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
@@ -53,15 +56,16 @@ log4cplus::getNDC()
 // log4cplus::DiagnosticContext ctors
 ///////////////////////////////////////////////////////////////////////////////
 
-DiagnosticContext::DiagnosticContext(const std::string& message, DiagnosticContext* parent)
+DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message, DiagnosticContext* parent)
  : message(message),
-   fullMessage( (parent == NULL) ? message : parent->fullMessage + " " + message )
+   fullMessage( (parent == NULL) ? message : 
+                                   parent->fullMessage + LOG4CPLUS_TEXT(" ") + message )
 
 {
 }
 
 
-DiagnosticContext::DiagnosticContext(const std::string& message)
+DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message)
  : message(message),
    fullMessage(message)
 {
@@ -101,10 +105,11 @@ NDC::clear()
         }
     }
     catch(std::exception& e) {
-        getLogLog().error("NDC::clear()- exception occured: " + std::string(e.what()));
+        getLogLog().error(  LOG4CPLUS_TEXT("NDC::clear()- exception occured: ") 
+                          + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
     catch(...) {
-        getLogLog().error("NDC::clear()- exception occured");
+        getLogLog().error(LOG4CPLUS_TEXT("NDC::clear()- exception occured"));
     }
 }
 
@@ -119,10 +124,11 @@ NDC::cloneStack()
         }
     }
     catch(std::exception& e) {
-        getLogLog().error("NDC::cloneStack()- exception occured: " + std::string(e.what()));
+        getLogLog().error(  LOG4CPLUS_TEXT("NDC::cloneStack()- exception occured: ") 
+                          + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
     catch(...) {
-        getLogLog().error("NDC::cloneStack()- exception occured");
+        getLogLog().error(LOG4CPLUS_TEXT("NDC::cloneStack()- exception occured"));
     }
 
     return DiagnosticContextStack();
@@ -142,15 +148,16 @@ NDC::inherit(const DiagnosticContextStack& stack)
         LOG4CPLUS_SET_THREAD_LOCAL_VALUE( threadLocal, ptr );
     }
     catch(std::exception& e) {
-        getLogLog().error("NDC::inherit()- exception occured: " + std::string(e.what()));
+        getLogLog().error(  LOG4CPLUS_TEXT("NDC::inherit()- exception occured: ") 
+                          + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
     catch(...) {
-        getLogLog().error("NDC::inherit()- exception occured");
+        getLogLog().error(LOG4CPLUS_TEXT("NDC::inherit()- exception occured"));
     }
 }
 
 
-std::string 
+log4cplus::tstring 
 NDC::get()
 {
     try {
@@ -160,10 +167,11 @@ NDC::get()
         }
     }
     catch(std::exception& e) {
-        getLogLog().error("NDC::get()- exception occured: " + std::string(e.what()));
+        getLogLog().error(  LOG4CPLUS_TEXT("NDC::get()- exception occured: ") 
+                          + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
     catch(...) {
-        getLogLog().error("NDC::get()- exception occured");
+        getLogLog().error(LOG4CPLUS_TEXT("NDC::get()- exception occured"));
     }
 
     return "";
@@ -180,17 +188,18 @@ NDC::getDepth()
         }
     }
     catch(std::exception& e) {
-        getLogLog().error("NDC::getDepth()- exception occured: " + std::string(e.what()));
+        getLogLog().error(  LOG4CPLUS_TEXT("NDC::getDepth()- exception occured: ") 
+                          + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
     catch(...) {
-        getLogLog().error("NDC::getDepth()- exception occured");
+        getLogLog().error(LOG4CPLUS_TEXT("NDC::getDepth()- exception occured"));
     }
 
     return 0;
 }
 
 
-std::string 
+log4cplus::tstring 
 NDC::pop()
 {
     try {
@@ -200,7 +209,7 @@ NDC::pop()
             ptr->pop();
             if(ptr->empty()) {
                 // If the NDC stack is empty we will delete it so that we can avoid
-                // most memory if Threads don't call remove when exiting
+                // most memory leaks if Threads don't call remove when exiting
                 delete ptr;
                 LOG4CPLUS_SET_THREAD_LOCAL_VALUE( threadLocal, NULL );
             }
@@ -208,17 +217,18 @@ NDC::pop()
         }
     }
     catch(std::exception& e) {
-        getLogLog().error("NDC::pop()- exception occured: " + std::string(e.what()));
+        getLogLog().error(  LOG4CPLUS_TEXT("NDC::pop()- exception occured: ") 
+                          + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
     catch(...) {
-        getLogLog().error("NDC::pop()- exception occured");
+        getLogLog().error(LOG4CPLUS_TEXT("NDC::pop()- exception occured"));
     }
 
     return "";
 }
 
 
-std::string 
+log4cplus::tstring 
 NDC::peek()
 {
     try {
@@ -228,10 +238,11 @@ NDC::peek()
         }
     }
     catch(std::exception& e) {
-        getLogLog().error("NDC::peek()- exception occured: " + std::string(e.what()));
+        getLogLog().error(  LOG4CPLUS_TEXT("NDC::peek()- exception occured: ") 
+                          + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
     catch(...) {
-        getLogLog().error("NDC::peek()- exception occured");
+        getLogLog().error(LOG4CPLUS_TEXT("NDC::peek()- exception occured"));
     }
 
     return "";
@@ -239,7 +250,7 @@ NDC::peek()
 
 
 void 
-NDC::push(const std::string& message)
+NDC::push(const log4cplus::tstring& message)
 {
     try {
         DiagnosticContextStack* ptr = getPtr();
@@ -257,10 +268,11 @@ NDC::push(const std::string& message)
         }
     }
     catch(std::exception& e) {
-        getLogLog().error("NDC::push()- exception occured: " + std::string(e.what()));
+        getLogLog().error(  LOG4CPLUS_TEXT("NDC::push()- exception occured: ") 
+                          + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
     catch(...) {
-        getLogLog().error("NDC::push()- exception occured");
+        getLogLog().error(LOG4CPLUS_TEXT("NDC::push()- exception occured"));
     }
 }
 
@@ -276,10 +288,11 @@ NDC::remove()
         LOG4CPLUS_SET_THREAD_LOCAL_VALUE( threadLocal, NULL );
     }
     catch(std::exception& e) {
-        getLogLog().error("NDC::remove()- exception occured: " + std::string(e.what()));
+        getLogLog().error(  LOG4CPLUS_TEXT("NDC::remove()- exception occured: ") 
+                          + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
     catch(...) {
-        getLogLog().error("NDC::remove()- exception occured");
+        getLogLog().error(LOG4CPLUS_TEXT("NDC::remove()- exception occured"));
     }
 }
 
@@ -296,10 +309,11 @@ NDC::setMaxDepth(unsigned int maxDepth)
         }
     }
     catch(std::exception& e) {
-        getLogLog().error("NDC::setMaxDepth()- exception occured: " + std::string(e.what()));
+        getLogLog().error(  LOG4CPLUS_TEXT("NDC::setMaxDepth()- exception occured: ") 
+                          + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
     catch(...) {
-        getLogLog().error("NDC::setMaxDepth()- exception occured");
+        getLogLog().error(LOG4CPLUS_TEXT("NDC::setMaxDepth()- exception occured"));
     }
 }
 
