@@ -24,6 +24,10 @@
 #  include <sstream>
 #elif defined(HAVE_STRSTREAM)
 #  include <strstream>
+#  define LOG4CPLUS_OSTRSTREAM_NAMESPACE std
+#elif defined(HAVE_STRSTREAM_H)
+#  include <strstream.h>
+#  define LOG4CPLUS_OSTRSTREAM_NAMESPACE
 #else
 #  error "There doesn't appear to be any s*stream headers!!"
 #endif
@@ -45,10 +49,10 @@
 #ifdef HAVE_SSTREAM
         typedef std::ostringstream tostringstream;
 #else
-        class tostringstream : public std::ostrstream {
+        class tostringstream : public LOG4CPLUS_OSTRSTREAM_NAMESPACE::ostrstream {
         public:
             tstring str() { 
-                char *ptr = std::ostrstream::str(); 
+                char *ptr = LOG4CPLUS_OSTRSTREAM_NAMESPACE::ostrstream::str(); 
                 if(ptr) {
                     return tstring(ptr, pcount());
                 }
