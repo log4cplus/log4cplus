@@ -42,7 +42,7 @@
  */
 #if !defined(LOG4CPLUS_DISABLE_TRACE)
 #define LOG4CPLUS_TRACE_METHOD(logger, logEvent) \
-    log4cplus::TraceLogger _log4cplus_trace_logger(logger, logEvent, __FILE__, __LINE__);
+    log4cplus::TraceLogger _log4cplus_trace_logger(logger, logEvent, __FILE__, __LINE__)
 #define LOG4CPLUS_TRACE(logger, logEvent) \
     do { \
         if(logger.isEnabledFor(log4cplus::TRACE_LOG_LEVEL)) { \
@@ -50,17 +50,17 @@
             _log4cplus_buf << logEvent; \
             logger.forcedLog(log4cplus::TRACE_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
         } \
-    } while(0);
+    } while(0)
 #define LOG4CPLUS_TRACE_STR(logger, logEvent) \
     do { \
         if(logger.isEnabledFor(log4cplus::TRACE_LOG_LEVEL)) { \
             logger.forcedLog(log4cplus::TRACE_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
         } \
-    } while(0);
+    } while(0)
 #else
-#define LOG4CPLUS_TRACE_METHOD(logger, logEvent)
-#define LOG4CPLUS_TRACE(logger, logEvent)
-#define LOG4CPLUS_TRACE_STR(logger, logEvent)
+#define LOG4CPLUS_TRACE_METHOD(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_TRACE(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_TRACE_STR(logger, logEvent) do{ } while(0)
 #endif
 
 /**
@@ -76,7 +76,7 @@
             _log4cplus_buf << logEvent; \
             logger.forcedLog(log4cplus::DEBUG_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
         } \
-    } while(0);
+    } while(0)
 #define LOG4CPLUS_DEBUG_STR(logger, logEvent) \
     do { \
         if(logger.isEnabledFor(log4cplus::DEBUG_LOG_LEVEL)) { \
@@ -84,8 +84,8 @@
         } \
     } while(0);
 #else
-#define LOG4CPLUS_DEBUG(logger, logEvent) 
-#define LOG4CPLUS_DEBUG_STR(logger, logEvent)
+#define LOG4CPLUS_DEBUG(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_DEBUG_STR(logger, logEvent) do{ } while(0)
 #endif
 
 /**
@@ -101,16 +101,16 @@
             _log4cplus_buf << logEvent; \
             logger.forcedLog(log4cplus::INFO_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
         } \
-    } while(0);
+    } while(0)
 #define LOG4CPLUS_INFO_STR(logger, logEvent) \
     do { \
         if(logger.isEnabledFor(log4cplus::INFO_LOG_LEVEL)) { \
             logger.forcedLog(log4cplus::INFO_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
         } \
-    } while(0);
+    } while(0)
 #else
-#define LOG4CPLUS_INFO(logger, logEvent)
-#define LOG4CPLUS_INFO_STR(logger, logEvent)
+#define LOG4CPLUS_INFO(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_INFO_STR(logger, logEvent) do{ } while(0)
 #endif
 
 /**
@@ -134,8 +134,8 @@
         } \
     } while(0);
 #else
-#define LOG4CPLUS_WARN(logger, logEvent)
-#define LOG4CPLUS_WARN_STR(logger, logEvent)
+#define LOG4CPLUS_WARN(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_WARN_STR(logger, logEvent) do{ } while(0)
 #endif
 
 /**
@@ -159,8 +159,8 @@
         } \
     } while(0);
 #else
-#define LOG4CPLUS_ERROR(logger, logEvent)
-#define LOG4CPLUS_ERROR_STR(logger, logEvent)
+#define LOG4CPLUS_ERROR(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_ERROR_STR(logger, logEvent) do{ } while(0)
 #endif
 
 /**
@@ -176,16 +176,16 @@
             _log4cplus_buf << logEvent; \
             logger.forcedLog(log4cplus::FATAL_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
         } \
-    } while(0);
+    } while(0)
 #define LOG4CPLUS_FATAL_STR(logger, logEvent) \
     do { \
         if(logger.isEnabledFor(log4cplus::FATAL_LOG_LEVEL)) { \
             logger.forcedLog(log4cplus::FATAL_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
         } \
-    } while(0);
+    } while(0)
 #else
-#define LOG4CPLUS_FATAL(logger, logEvent)
-#define LOG4CPLUS_FATAL_STR(logger, logEvent) 
+#define LOG4CPLUS_FATAL(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_FATAL_STR(logger, logEvent) do{ } while(0)
 #endif
 
 #endif /* _LOG4CPLUS_LOGGING_MACROS_HEADER_ */
