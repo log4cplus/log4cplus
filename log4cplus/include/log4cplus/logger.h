@@ -19,6 +19,7 @@
 
 #include <log4cplus/config.h>
 #include <log4cplus/loglevel.h>
+#include <log4cplus/loggingmacros.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/pointer.h>
@@ -331,124 +332,6 @@ namespace log4cplus {
 
 } // end namespace log4cplus
 
-
-/**
- * @def LOG4CPLUS_TRACE(logger, logEvent)  This macro creates a TraceLogger 
- * to log a TRACE_LOG_LEVEL message to <code>logger</code> upon entry and
- * exiting of a method.  
- * <code>logEvent</code> will be streamed into an <code>ostream</code>.
- */
-#if !defined(LOG4CPLUS_DISABLE_DEBUG) && !defined(NDEBUG)
-#define LOG4CPLUS_TRACE(logger, logEvent) \
-    log4cplus::TraceLogger _log4cplus_trace_logger(logger, logEvent);
-#else
-#define LOG4CPLUS_TRACE(logger, logEvent)
-#endif
-
-/**
- * @def LOG4CPLUS_DEBUG(logger, logEvent)  This macro is used to log a
- * DEBUG_LOG_LEVEL message to <code>logger</code>.  
- * <code>logEvent</code> will be streamed into an <code>ostream</code>.
- */
-#if !defined(LOG4CPLUS_DISABLE_DEBUG)
-#define LOG4CPLUS_DEBUG(logger, logEvent) \
-    if(logger.isEnabledFor(log4cplus::DEBUG_LOG_LEVEL)) { \
-        log4cplus::tostringstream _log4cplus_buf; \
-        _log4cplus_buf << logEvent; \
-        logger.forcedLog(log4cplus::DEBUG_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
-    }
-#define LOG4CPLUS_DEBUG_STR(logger, logEvent) \
-    if(logger.isEnabledFor(log4cplus::DEBUG_LOG_LEVEL)) { \
-        logger.forcedLog(log4cplus::DEBUG_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
-    }
-#else
-#define LOG4CPLUS_DEBUG(logger, logEvent) 
-#define LOG4CPLUS_DEBUG_STR(logger, logEvent)
-#endif
-
-/**
- * @def LOG4CPLUS_INFO(logger, logEvent)  This macro is used to log a
- * INFO_LOG_LEVEL message to <code>logger</code>.  
- * <code>logEvent</code> will be streamed into an <code>ostream</code>.
- */
-#if !defined(LOG4CPLUS_DISABLE_INFO)
-#define LOG4CPLUS_INFO(logger, logEvent) \
-    if(logger.isEnabledFor(log4cplus::INFO_LOG_LEVEL)) { \
-        log4cplus::tostringstream _log4cplus_buf; \
-        _log4cplus_buf << logEvent; \
-        logger.forcedLog(log4cplus::INFO_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
-    }
-#define LOG4CPLUS_INFO_STR(logger, logEvent) \
-    if(logger.isEnabledFor(log4cplus::INFO_LOG_LEVEL)) { \
-        logger.forcedLog(log4cplus::INFO_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
-    }
-#else
-#define LOG4CPLUS_INFO(logger, logEvent)
-#define LOG4CPLUS_INFO_STR(logger, logEvent)
-#endif
-
-/**
- * @def LOG4CPLUS_WARN(logger, logEvent)  This macro is used to log a
- * WARN_LOG_LEVEL message to <code>logger</code>.  
- * <code>logEvent</code> will be streamed into an <code>ostream</code>.
- */
-#if !defined(LOG4CPLUS_DISABLE_WARN)
-#define LOG4CPLUS_WARN(logger, logEvent) \
-    if(logger.isEnabledFor(log4cplus::WARN_LOG_LEVEL)) { \
-        log4cplus::tostringstream _log4cplus_buf; \
-        _log4cplus_buf << logEvent; \
-        logger.forcedLog(log4cplus::WARN_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
-    }
-#define LOG4CPLUS_WARN_STR(logger, logEvent) \
-    if(logger.isEnabledFor(log4cplus::WARN_LOG_LEVEL)) { \
-        logger.forcedLog(log4cplus::WARN_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
-    }
-#else
-#define LOG4CPLUS_WARN(logger, logEvent)
-#define LOG4CPLUS_WARN_STR(logger, logEvent)
-#endif
-
-/**
- * @def LOG4CPLUS_ERROR(logger, logEvent)  This macro is used to log a
- * ERROR_LOG_LEVEL message to <code>logger</code>.  
- * <code>logEvent</code> will be streamed into an <code>ostream</code>.
- */
-#if !defined(LOG4CPLUS_DISABLE_ERROR)
-#define LOG4CPLUS_ERROR(logger, logEvent) \
-    if(logger.isEnabledFor(log4cplus::ERROR_LOG_LEVEL)) { \
-        log4cplus::tostringstream _log4cplus_buf; \
-        _log4cplus_buf << logEvent; \
-        logger.forcedLog(log4cplus::ERROR_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
-    }
-#define LOG4CPLUS_ERROR_STR(logger, logEvent) \
-    if(logger.isEnabledFor(log4cplus::ERROR_LOG_LEVEL)) { \
-        logger.forcedLog(log4cplus::ERROR_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
-    }
-#else
-#define LOG4CPLUS_ERROR(logger, logEvent)
-#define LOG4CPLUS_ERROR_STR(logger, logEvent)
-#endif
-
-/**
- * @def LOG4CPLUS_FATAL(logger, logEvent)  This macro is used to log a
- * FATAL_LOG_LEVEL message to <code>logger</code>.  
- * <code>logEvent</code> will be streamed into an <code>ostream</code>.
- */
-#if !defined(LOG4CPLUS_DISABLE_FATAL)
-#define LOG4CPLUS_FATAL(logger, logEvent) \
-    if(logger.isEnabledFor(log4cplus::FATAL_LOG_LEVEL)) { \
-        log4cplus::tostringstream _log4cplus_buf; \
-        _log4cplus_buf << logEvent; \
-        logger.forcedLog(log4cplus::FATAL_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
-    }
-#define LOG4CPLUS_FATAL_STR(logger, logEvent) \
-    if(logger.isEnabledFor(log4cplus::FATAL_LOG_LEVEL)) { \
-        logger.forcedLog(log4cplus::FATAL_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
-    }
-#else
-#define LOG4CPLUS_FATAL(logger, logEvent)
-#define LOG4CPLUS_FATAL_STR(logger, logEvent) 
-#endif
 
 #endif // _LOG4CPLUS_LOGGERHEADER_
 
