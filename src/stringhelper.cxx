@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/05/04 07:10:48  tcsmith
+// Corrected the tostring() and towstring() methods.
+//
 // Revision 1.6  2003/05/01 19:21:16  tcsmith
 // Corrected the tostring() and towstring() methods.
 //
@@ -84,7 +87,7 @@ log4cplus::helpers::towstring(const std::string& src)
 
 
 log4cplus::tstring
-log4cplus::helpers::toupper(const log4cplus::tstring& s)
+log4cplus::helpers::toUpper(const log4cplus::tstring& s)
 {
     tstring ret;
     std::transform(s.begin(), s.end(),
@@ -100,7 +103,7 @@ log4cplus::helpers::toupper(const log4cplus::tstring& s)
 
 
 log4cplus::tstring
-log4cplus::helpers::tolower(const log4cplus::tstring& s)
+log4cplus::helpers::toLower(const log4cplus::tstring& s)
 {
     tstring ret;
     std::transform(s.begin(), s.end(),
