@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.12  2003/06/23 20:15:00  tcsmith
+// Added NullAppenderFactory.
+//
 // Revision 1.11  2003/06/12 23:12:35  tcsmith
 // Added DailyRollingFileAppenderFactory implementation.
 //
@@ -209,7 +212,7 @@ namespace log4cplus {
 
     class DenyAllFilterFactory : public FilterFactory {
     public:
-        FilterPtr createObject(const Properties& props)
+        FilterPtr createObject(const Properties&)
         {
             return FilterPtr(new log4cplus::spi::DenyAllFilter());
         }

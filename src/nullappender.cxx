@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/06/23 21:02:53  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/nullappender.h>
 
@@ -61,7 +64,7 @@ log4cplus::NullAppender::close()
 // This method does not need to be locked since it is called by
 // doAppend() which performs the locking
 void
-log4cplus::NullAppender::append(const spi::InternalLoggingEvent& event)
+log4cplus::NullAppender::append(const spi::InternalLoggingEvent&)
 {
 }
 
