@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.14  2003/08/08 05:34:04  tcsmith
+// Changed the #if checks to look for _WIN32 and not WIN32.
+//
 // Revision 1.13  2003/07/30 05:51:22  tcsmith
 // Modified to remove "unused parameter" warning.
 //
@@ -274,28 +277,43 @@ namespace log4cplus {
 namespace log4cplus {
     void initializeFactoryRegistry() {
         AppenderFactoryRegistry& reg = getAppenderFactoryRegistry();
-        reg.put(auto_ptr<AppenderFactory>(new ConsoleAppenderFactory()));
-        reg.put(auto_ptr<AppenderFactory>(new NullAppenderFactory()));
-        reg.put(auto_ptr<AppenderFactory>(new FileAppenderFactory()));
-        reg.put(auto_ptr<AppenderFactory>(new RollingFileAppenderFactory()));
-        reg.put(auto_ptr<AppenderFactory>(new DailyRollingFileAppenderFactory()));
-        reg.put(auto_ptr<AppenderFactory>(new SocketAppenderFactory()));
+        auto_ptr<AppenderFactory> ptr1(new ConsoleAppenderFactory());
+        reg.put(ptr1);
+        auto_ptr<AppenderFactory> ptr2(new NullAppenderFactory());
+        reg.put(ptr2);
+        auto_ptr<AppenderFactory> ptr3(new FileAppenderFactory());
+        reg.put(ptr3);
+        auto_ptr<AppenderFactory> ptr4(new RollingFileAppenderFactory());
+        reg.put(ptr4);
+        auto_ptr<AppenderFactory> ptr5(new DailyRollingFileAppenderFactory());
+        reg.put(ptr5);
+        auto_ptr<AppenderFactory> ptr6(new SocketAppenderFactory());
+        reg.put(ptr6);
 #if defined(_WIN32)
-        reg.put(auto_ptr<AppenderFactory>(new NTEventLogAppenderFactory()));
+        auto_ptr<AppenderFactory> ptr7(new NTEventLogAppenderFactory());
+        reg.put(ptr7);
 #elif defined(HAVE_SYSLOG_H)
-        reg.put(auto_ptr<AppenderFactory>(new SysLogAppenderFactory()));
+        auto_ptr<AppenderFactory> ptr8(new SysLogAppenderFactory());
+        reg.put(ptr8);
 #endif
 
         LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
-        reg2.put(auto_ptr<LayoutFactory>(new SimpleLayoutFactory()));
-        reg2.put(auto_ptr<LayoutFactory>(new TTCCLayoutFactory()));
-        reg2.put(auto_ptr<LayoutFactory>(new PatternLayoutFactory()));
+        auto_ptr<LayoutFactory> ptr21(new SimpleLayoutFactory());
+        reg2.put(ptr21);
+        auto_ptr<LayoutFactory> ptr22(new TTCCLayoutFactory());
+        reg2.put(ptr22);
+        auto_ptr<LayoutFactory> ptr23(new PatternLayoutFactory());
+        reg2.put(ptr23);
 
         FilterFactoryRegistry& reg3 = getFilterFactoryRegistry();
-        reg3.put(auto_ptr<FilterFactory>(new DenyAllFilterFactory()));
-        reg3.put(auto_ptr<FilterFactory>(new LogLevelMatchFilterFactory()));
-        reg3.put(auto_ptr<FilterFactory>(new LogLevelRangeFilterFactory()));
-        reg3.put(auto_ptr<FilterFactory>(new StringMatchFilterFactory()));
+        auto_ptr<FilterFactory> ptr31(new DenyAllFilterFactory());
+        reg3.put(ptr31);
+        auto_ptr<FilterFactory> ptr32(new LogLevelMatchFilterFactory());
+        reg3.put(ptr32);
+        auto_ptr<FilterFactory> ptr33(new LogLevelRangeFilterFactory());
+        reg3.put(ptr33);
+        auto_ptr<FilterFactory> ptr34(new StringMatchFilterFactory());
+        reg3.put(ptr34);
     }
 }
 
