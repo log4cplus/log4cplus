@@ -1,10 +1,18 @@
-Version 0.9.7 (???)
-  - Added the "operator!=" to log4cplus::helpers::SharedObjectPtr.
-  - Renamed the tolower and toupper methods to avoid a name collision with a
-    macro with the DEC CXX compiler.
+Version 0.9.7 (June 23 2003)
+  - Added the log4cplus::DailyRollingFileAppender class.
+  - Added the log4cplus::helper::Time class.  Now log with millisecond 
+    granularity. (microsecond granularity if the gettimeofday() function is
+    available.)
+  - Fixed Bug #757989 - "TraceLogger should not hold a Logger reference"
+  - Changed log4cplus::spi::InternalLoggingEvent from a POD to a class and
+    introduced several performance ehancements to that class. 
   - Added TYPE_SOCKLEN_T to configure.in (checking for whether <sys/socket.h> 
     defines `socklen_t').
-  - 
+  - Added the "operator!=" to log4cplus::helpers::SharedObjectPtr.
+  - Made changes to make the DEC CXX 6.1 compiler happy.
+  - Renamed the tolower and toupper methods to avoid a name collision with a
+    macro with the DEC CXX compiler.
+  - Removed "-lstdc++" from the list of libraries in all Makefiles.
 
 
 Version 0.9.6 (June 10 2003)
@@ -18,6 +26,7 @@ Version 0.9.6 (June 10 2003)
   - Fixed Bug #749040 - "Use of gmtime and localtime not thread-safe"
   - Fixed Bug #750232 - "Copying of Hierarchy should not be allowed"
   - Added an MSVC++ project to build log4cplus as a static library.
+
 
 Version 0.9.5 (May 19 2003)
   - Removed the LOG4CPLUS_*_STR logging macros.
