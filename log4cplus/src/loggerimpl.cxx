@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/04/18 21:26:16  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.1  2003/04/03 01:44:01  tcsmith
 // Renamed from categoryimpl.cxx
 //
@@ -114,8 +117,7 @@ LoggerImpl::getChainedLogLevel() const
 {
     for(const LoggerImpl *c=this; c != NULL; c=c->parent.get()) {
         if(c == NULL) {
-            getLogLog().error(LOG4CPLUS_TEXT("LoggerImpl::getChainedLogLevel()- " \
-				             "Internal error: NullPointer"));
+            getLogLog().error(LOG4CPLUS_TEXT("LoggerImpl::getChainedLogLevel()- Internal error: NullPointer"));
             helpers::throwNullPointerException(__FILE__, __LINE__);
         }
         if(c->ll != NOT_SET_LOG_LEVEL) {
@@ -123,9 +125,8 @@ LoggerImpl::getChainedLogLevel() const
         }
     }
 
-    getLogLog().error(LOG4CPLUS_TEXT("LoggerImpl::getChainedLogLevel()- No valid " \
-			             "LogLevel found"));
-    throw std::runtime_error(LOG4CPLUS_TEXT("No valid LogLevel found"));
+    getLogLog().error( LOG4CPLUS_TEXT("LoggerImpl::getChainedLogLevel()- No valid LogLevel found") );
+    throw std::runtime_error("No valid LogLevel found");
 }
 
 
