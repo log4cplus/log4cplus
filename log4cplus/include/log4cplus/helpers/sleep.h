@@ -1,6 +1,6 @@
 // Module:  Log4CPLUS
-// File:    threads.h
-// Created: 6/2001
+// File:    sleep.h
+// Created: 5/2003
 // Author:  Tad E. Smith
 //
 //
