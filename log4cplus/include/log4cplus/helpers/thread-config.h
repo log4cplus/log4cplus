@@ -40,7 +40,7 @@ namespace log4cplus {
     }
 }
 
-#elif LOG4CPLUS_USE_WIN32_THREADS
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
 #   include <windows.h>
 #   define LOG4CPLUS_MUTEX_PTR_DECLARE CRITICAL_SECTION*
 #   define LOG4CPLUS_MUTEX_CREATE ::log4cplus::thread::createNewMutex()
@@ -58,12 +58,12 @@ namespace log4cplus {
 #   define LOG4CPLUS_THREAD_LOCAL_CLEANUP( key ) TlsFree(key)
 namespace log4cplus {
     namespace thread {
-        LOG4CPLUS_MUTEX_PTR_DECLARE createNewMutex();
-        void deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE);
+        LOG4CPLUS_EXPORT LOG4CPLUS_MUTEX_PTR_DECLARE createNewMutex();
+        LOG4CPLUS_EXPORT void deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE);
     }
 }
 
-#elif LOG4CPLUS_SINGLE_THREADED
+#elif defined(LOG4CPLUS_SINGLE_THREADED)
 #   define LOG4CPLUS_MUTEX_PTR_DECLARE int*
 #   define LOG4CPLUS_MUTEX_CREATE NULL
 #   define LOG4CPLUS_MUTEX_ASSIGN( mutex_a, mutex_b) mutex_a = mutex_b;

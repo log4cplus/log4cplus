@@ -32,7 +32,7 @@ namespace log4cplus {
          *
          * <p>This class is of concern to those wishing to extend log4cplus. 
          */
-        struct InternalLoggingEvent {
+        struct LOG4CPLUS_EXPORT InternalLoggingEvent {
           // Ctors
              /**
               * Instantiate a LoggingEvent from the supplied parameters.

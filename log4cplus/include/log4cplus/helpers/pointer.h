@@ -30,7 +30,7 @@
 namespace log4cplus {
     namespace helpers {
 
-        class NullPointerException : public std::runtime_error {
+        class LOG4CPLUS_EXPORT NullPointerException : public std::runtime_error {
         public:
             NullPointerException(const std::string& what_arg) : std::runtime_error(what_arg) {}
         };
@@ -38,7 +38,7 @@ namespace log4cplus {
         void throwNullPointerException(const char* file, int line);
 
         template<class T>
-        class safe_auto_ptr {
+        class LOG4CPLUS_EXPORT safe_auto_ptr {
         public:
           // Ctors
             explicit safe_auto_ptr(T* val = 0) : value(val){}
@@ -76,7 +76,7 @@ namespace log4cplus {
         /******************************************************************************
          *                       Class SharedObject (from pp. 204-205)                *
          ******************************************************************************/
-        class SharedObject {
+        class LOG4CPLUS_EXPORT SharedObject {
         public:
             void addReference();
             void removeReference();
@@ -107,7 +107,7 @@ namespace log4cplus {
          *           Template Class SharedObjectPtr (from pp. 203, 206)               *
          ******************************************************************************/
         template<class T>
-        class SharedObjectPtr {
+        class LOG4CPLUS_EXPORT SharedObjectPtr {
         public:
           // Ctor
             SharedObjectPtr(T* realPtr = 0) : pointee(realPtr) { init(); };

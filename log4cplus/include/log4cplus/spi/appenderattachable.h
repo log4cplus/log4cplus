@@ -17,13 +17,13 @@
 #define _LOG4CPLUS_SPI_APPENDER_ATTACHABLE_HEADER_
 
 #include <log4cplus/config.h>
+#include <log4cplus/appender.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/pointer.h>
 #include <vector>
 
 namespace log4cplus {
     // Forward Declarations
-    class Appender;
     typedef helpers::SharedObjectPtr<Appender> SharedAppenderPtr;
     typedef std::vector<log4cplus::SharedAppenderPtr> SharedAppenderPtrList;
 
@@ -32,7 +32,7 @@ namespace log4cplus {
         /**
          * This Interface is for attaching Appenders to objects.
          */
-        class AppenderAttachable {
+        class LOG4CPLUS_EXPORT AppenderAttachable {
         public:
           // Methods
             /**

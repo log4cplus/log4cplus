@@ -28,7 +28,7 @@ namespace log4cplus {
         /**
          * This is used to lock a mutex.  The dtor unlocks the mutes.
          */
-        class Guard {
+        class LOG4CPLUS_EXPORT Guard {
         public:
             /** "locks" <code>mutex</code>. */
             Guard(LOG4CPLUS_MUTEX_PTR_DECLARE mutex) {
@@ -49,8 +49,8 @@ namespace log4cplus {
         DWORD WINAPI threadStartFunc(LPVOID arg);
 #endif
 
-        void sleep(unsigned long secs, unsigned long nanosecs);
-        void yield();
+        LOG4CPLUS_EXPORT void sleep(unsigned long secs, unsigned long nanosecs);
+        LOG4CPLUS_EXPORT void yield();
 
         /**
          * There are many cross-platform C++ Threading libraries.  The goal of
@@ -58,7 +58,7 @@ namespace log4cplus {
          * libraries.  The goal of this class is to provide a simple Threading
          * class with basic functionality.
          */
-        class AbstractThread : public log4cplus::helpers::SharedObject {
+        class LOG4CPLUS_EXPORT AbstractThread : public log4cplus::helpers::SharedObject {
         public:
             AbstractThread();
             bool isRunning() { return running; }
