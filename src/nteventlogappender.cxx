@@ -1,5 +1,5 @@
 // Module:  LOG4CPLUS
-// File:    configurator.cxx
+// File:    nteventlogappender.cxx
 // Created: 4/2003
 // Author:  Michael CATANZARITI
 //
@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/08/08 06:02:53  tcsmith
+// Added #pragma statement.
+//
 // Revision 1.6  2003/06/23 20:56:43  tcsmith
 // Modified to support the changes in the spi::InternalLoggingEvent class.
 //
