@@ -36,7 +36,7 @@ main()
 #endif
 
     cout << "Entering main()..." << endl;
-    getLogLog().setInternalDebugging(true);
+    LogLog::getLogLog()->setInternalDebugging(true);
     Logger root = Logger::getRoot();
     try {
         PropertyConfigurator::doConfigure("log4cplus.properties");

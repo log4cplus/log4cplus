@@ -28,7 +28,7 @@ printAppenderList(SharedAppenderPtrList list)
 int
 main()
 {
-    log4cplus::helpers::getLogLog().setInternalDebugging(true);
+    LogLog::getLogLog()->setInternalDebugging(true);
     {
         AppenderAttachableImpl aai;
         try {

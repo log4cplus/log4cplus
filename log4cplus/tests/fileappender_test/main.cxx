@@ -14,7 +14,7 @@ using namespace log4cplus;
 int
 main()
 {
-    helpers::getLogLog().setInternalDebugging(true);
+    helpers::LogLog::getLogLog()->setInternalDebugging(true);
     SharedAppenderPtr append_1(new RollingFileAppender("Test.log", 5*1024, 5));
     append_1->setName("First");
     append_1->setLayout( std::auto_ptr<Layout>(new TTCCLayout()) );
