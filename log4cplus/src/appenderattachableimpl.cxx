@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/04/18 21:00:35  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.3  2003/04/03 00:27:41  tcsmith
 // Standardized the formatting.
 //
@@ -98,8 +101,9 @@ AppenderAttachableImpl::getAppender(const log4cplus::tstring& name)
 void 
 AppenderAttachableImpl::removeAllAppenders()
 {
-    log4cplus::thread::Guard guard(mutex);
-    appenderList.erase(appenderList.begin(), appenderList.end());
+    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
+        appenderList.erase(appenderList.begin(), appenderList.end());
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
 }
 
 
