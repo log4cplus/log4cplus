@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.15  2003/08/09 06:58:21  tcsmith
+// Fixed the getCurrentThreadName() method for MacOS X.
+//
 // Revision 1.14  2003/08/04 01:10:12  tcsmith
 // Modified the getCurrentThreadName() method to use convertIntegerToString().
 //
@@ -120,8 +123,11 @@ log4cplus::thread::yield()
 log4cplus::tstring 
 log4cplus::thread::getCurrentThreadName()
 {
-#if (defined(__APPLE__) || (defined(__MWERKS__) && defined(__MACOS__)))
-    return convertIntegerToString(long(LOG4CPLUS_GET_CURRENT_THREAD));
+#if defined(__DECCXX) || defined(__APPLE__) || ((defined(__MWERKS__) && defined(__MACOS__)))
+    log4cplus::tostringstream tmp;
+    tmp << LOG4CPLUS_GET_CURRENT_THREAD;
+
+    return tmp.str();
 #else
     return convertIntegerToString(LOG4CPLUS_GET_CURRENT_THREAD);
 #endif
