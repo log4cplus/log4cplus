@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/06/11 22:58:38  tcsmith
+// Updated to support the changes in the InternalLoggingEvent class.
+//
 // Revision 1.6  2003/06/06 17:04:31  tcsmith
 // Changed the ctor to take a 'const' Properties object.
 //
@@ -155,12 +158,10 @@ log4cplus::helpers::convertToBuffer(const log4cplus::spi::InternalLoggingEvent& 
     buffer.appendInt(event.ll);
     buffer.appendString(event.ndc);
     buffer.appendString(event.message);
-    buffer.appendInt(event.thread);
+    buffer.appendString(event.thread);
     buffer.appendInt( static_cast<unsigned int>(event.timestamp.sec()) );
     buffer.appendInt( static_cast<unsigned int>(event.timestamp.usec()) );
-    buffer.appendString( (  event.file == 0 
-                          ? tstring() 
-                          : LOG4CPLUS_C_STR_TO_TSTRING(event.file)) );
+    buffer.appendString(event.file);
     buffer.appendInt(event.line);
 
     return buffer;
@@ -190,7 +191,7 @@ log4cplus::helpers::readFromBuffer(SocketBuffer& buffer)
         }
     }
     tstring message = buffer.readString(sizeOfChar);
-    LOG4CPLUS_THREAD_KEY_TYPE thread = buffer.readInt();
+    tstring thread = buffer.readString(sizeOfChar);
     long sec = buffer.readInt();
     long usec = buffer.readInt();
     tstring file = buffer.readString(sizeOfChar);
@@ -202,7 +203,7 @@ log4cplus::helpers::readFromBuffer(SocketBuffer& buffer)
                                                 message,
                                                 thread,
                                                 Time(sec, usec),
-                                                0,  // TODO --> How do I deal with this?
+                                                file,
                                                 line);
 }
 

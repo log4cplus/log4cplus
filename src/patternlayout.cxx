@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.11  2003/06/11 22:55:41  tcsmith
+// Updated to support the changes in the InternalLoggingEvent class.
+//
 // Revision 1.10  2003/06/09 18:13:17  tcsmith
 // Changed the ctor to take a 'const' Properties object.
 //
@@ -312,16 +315,8 @@ log4cplus::pattern::BasicPatternConverter::convert
     case NDC_CONVERTER:      return event.ndc;
     case MESSAGE_CONVERTER:  return event.message;
     case NEWLINE_CONVERTER:  return LOG4CPLUS_TEXT("\n");
-    case FILE_CONVERTER:     return (  event.file
-                                     ? LOG4CPLUS_C_STR_TO_TSTRING(event.file) 
-                                     : log4cplus::tstring());
-
-    case THREAD_CONVERTER:        
-        {
-            log4cplus::tostringstream buf;
-            buf << event.thread;
-            return buf.str();
-        }
+    case FILE_CONVERTER:     return event.file;
+    case THREAD_CONVERTER:   return event.thread; 
 
     case LINE_CONVERTER:
         {
@@ -337,10 +332,10 @@ log4cplus::pattern::BasicPatternConverter::convert
 
     case FULL_LOCATION_CONVERTER:
         {
-            if(event.file != 0) {
+            if(event.file.length() > 0) {
                 log4cplus::tostringstream buf;
-                buf << LOG4CPLUS_C_STR_TO_TSTRING(event.file)
-                    << LOG4CPLUS_TEXT(':') 
+                buf << event.file
+                    << LOG4CPLUS_TEXT(":") 
                     << event.line;
                 return buf.str();
             }
