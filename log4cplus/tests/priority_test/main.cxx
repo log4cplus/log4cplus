@@ -1,7 +1,7 @@
 
-#include "log4cplus/category.h"
+#include "log4cplus/logger.h"
 #include "log4cplus/consoleappender.h"
-#include "log4cplus/priority.h"
+#include "log4cplus/loglevel.h"
 #include <iomanip>
 #include <iostream>
 
@@ -20,34 +20,36 @@ main()
     {
     SharedAppenderPtr append_1(new ConsoleAppender());
     append_1->setName("First");
-    cout << "Getting root category...DONE" << endl;
-    Category::getRoot().addAppender(append_1);
+//    append_1->setLayout( std::auto_ptr<Layout>(new TTCCLayout()) );
+    cout << "Getting root logger...DONE" << endl;
+    Logger::getRoot().addAppender(append_1);
 
-    Category root = Category::getRoot();
-    Category test = Category::getInstance("test");
-    Category subTest = Category::getInstance("test.subtest");
+    Logger root = Logger::getRoot();
+    Logger test = Logger::getInstance("test");
+    Logger subTest = Logger::getInstance("test.subtest");
+    LogLevelManager& llm = getLogLevelManager();
 
-    LOG4CPLUS_FATAL(root, "root: " << root.getChainedPriority())
-    LOG4CPLUS_FATAL(root, "test: " << test.getChainedPriority())
-    LOG4CPLUS_FATAL(root, "test.subtest: " << subTest.getChainedPriority())
+    LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()))
+    LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()))
+    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()))
 
     LOG4CPLUS_FATAL(root, "\nSetting test.subtest to WARN")
-    subTest.setPriority(Priority::WARN_PRI);
-    LOG4CPLUS_FATAL(root, "root: " << root.getChainedPriority())
-    LOG4CPLUS_FATAL(root, "test: " << test.getChainedPriority())
-    LOG4CPLUS_FATAL(root, "test.subtest: " << subTest.getChainedPriority())
+    subTest.setLogLevel(WARN_LOG_LEVEL);
+    LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()))
+    LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()))
+    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()))
 
     LOG4CPLUS_FATAL(root, "\nSetting test to ERROR")
-    test.setPriority(Priority::ERROR_PRI);
-    LOG4CPLUS_FATAL(root, "root: " << root.getChainedPriority())
-    LOG4CPLUS_FATAL(root, "test: " << test.getChainedPriority())
-    LOG4CPLUS_FATAL(root, "test.subtest: " << subTest.getChainedPriority())
+    test.setLogLevel(ERROR_LOG_LEVEL);
+    LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()))
+    LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()))
+    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()))
 
-    LOG4CPLUS_FATAL(root, "\nSetting test.subtest to NULL")
-    subTest.setPriority(0);
-    LOG4CPLUS_FATAL(root, "root: " << root.getChainedPriority())
-    LOG4CPLUS_FATAL(root, "test: " << test.getChainedPriority())
-    LOG4CPLUS_FATAL(root, "test.subtest: " << subTest.getChainedPriority() << '\n')
+    LOG4CPLUS_FATAL(root, "\nSetting test.subtest to NOT_SET_LOG_LEVEL")
+    subTest.setLogLevel(NOT_SET_LOG_LEVEL);
+    LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()))
+    LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()))
+    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()) << '\n')
 
     writeLogMessage();
     cout << "Returned from writeLogMessage()..." << endl;

@@ -1,6 +1,7 @@
 
-#include <log4cplus/category.h>
+#include <log4cplus/logger.h>
 #include <log4cplus/consoleappender.h>
+#include <log4cplus/layout.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
@@ -21,22 +22,22 @@ using namespace log4cplus::thread;
 
 class SlowObject {
 public:
-    SlowObject() : mutex( LOG4CPLUS_MUTEX_CREATE ), cat(Category::getInstance("SlowObject")) {}
+    SlowObject() : mutex( LOG4CPLUS_MUTEX_CREATE ), logger(Logger::getInstance("SlowObject")) {}
 
     void doSomething() {
-        cat.debug("Entering doSomething()...");
+	LOG4CPLUS_DEBUG_STR(logger, "Entering doSomething()...")
         LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-            cat.info("Actually doing something...");
+	    LOG4CPLUS_INFO_STR(logger, "Actually doing something...")
             sleep(0, 75 * MILLIS_TO_NANOS);
-            cat.info("Actually doing something...DONE");
+	    LOG4CPLUS_INFO_STR(logger, "Actually doing something...DONE")
         LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
         yield();
-        cat.debug("Exiting doSomething()...");
+	LOG4CPLUS_DEBUG_STR(logger, "Exiting doSomething()...")
     }
 
 private:
     LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
-    Category cat;
+    Logger logger;
 };
 SlowObject *global;
 
@@ -44,12 +45,12 @@ SlowObject *global;
 class TestThread : public AbstractThread {
 public:
     TestThread(std::string n) 
-     : name(n), cat(Category::getInstance("test.TestThread")) {}
+     : name(n), logger(Logger::getInstance("test.TestThread")) {}
 
     virtual void run();
 
 private:
-   Category cat;
+   Logger logger;
    std::string name;
 };
 
@@ -62,18 +63,14 @@ main()
 
     try {
         log4cplus::helpers::getLogLog().setInternalDebugging(true);
-        Category cat = Category::getInstance("main");
-        Category::getRoot().setPriority(Priority::INFO_PRI);
-        const Priority *p = cat.getPriority();
-        if(p == NULL) {
-            cout << "main Priority: is NOT set." << endl;
-        }
-        else {
-            cout << "main Priority: " << *p << endl;
-        }
+        Logger logger = Logger::getInstance("main");
+        Logger::getRoot().setLogLevel(INFO_LOG_LEVEL);
+        LogLevel ll = logger.getLogLevel();
+        cout << "main Priority: " << getLogLevelManager().toString(ll) << endl;
 
         helpers::SharedObjectPtr<Appender> append_1(new ConsoleAppender());
-        Category::getRoot().addAppender(append_1);
+	append_1->setLayout( std::auto_ptr<Layout>(new log4cplus::TTCCLayout()) );
+        Logger::getRoot().addAppender(append_1);
         append_1->setName("cout");
 
         log4cplus::helpers::SharedObjectPtr<TestThread> threads[NUM_THREADS];
@@ -87,20 +84,20 @@ main()
         for(i=0; i<NUM_THREADS; ++i) {
             threads[i]->start();
         }
-        cat.debug("All Threads started...");
+	LOG4CPLUS_DEBUG_STR(logger, "All Threads started...")
 
         for(i=0; i<NUM_THREADS; ++i) {
             while(threads[i]->isRunning()) {
                 sleep(0, 200 * MILLIS_TO_NANOS);
             }
         }
-        cat.debug("Exiting main()...");
+        LOG4CPLUS_DEBUG_STR(logger, "Exiting main()...")
     }
     catch(std::exception &e) {
-        Category::getRoot().fatal("main()- Exception occured: " + std::string(e.what()));
+	LOG4CPLUS_FATAL(Logger::getRoot(), "main()- Exception occured: " << e.what())
     }
     catch(...) {
-        Category::getRoot().fatal("main()- Exception occured");
+	LOG4CPLUS_FATAL_STR(Logger::getRoot(), "main()- Exception occured")
     }
 
     return 0;
@@ -111,25 +108,25 @@ void
 TestThread::run()
 {
     try {
-        cat.warn(name + " TestThread.run()- Starting...");
+        LOG4CPLUS_WARN_STR(logger, name + " TestThread.run()- Starting...")
         NDC& ndc = getNDC();
         NDCContextCreator _first_ndc(name);
-        cat.debug("Entering Run()...");
+	LOG4CPLUS_DEBUG_STR(logger, "Entering Run()...")
         for(int i=0; i<NUM_LOOPS; ++i) {
             NDCContextCreator _ndc("loop");
             global->doSomething();
-            cat.info("Exiting loop...");
+	    LOG4CPLUS_INFO_STR(logger, "Exiting loop...")
         }
-        cat.debug("Exiting Run()...");
+	LOG4CPLUS_DEBUG_STR(logger, "Exiting run()...")
 
         ndc.remove();
     }
     catch(exception& e) {
-        cat.fatal(std::string("TestThread.run()- Exception occurred: ") + e.what());
+	LOG4CPLUS_FATAL(logger, "TestThread.run()- Exception occurred: " << e.what())
     }
     catch(...) {
-        cat.fatal("TestThread.run()- Exception occurred!!");
+	LOG4CPLUS_FATAL_STR(logger, "TestThread.run()- Exception occurred!!")
     }
-    cat.warn(name + " TestThread.run()- Finished");
+    LOG4CPLUS_WARN(logger, name << " TestThread.run()- Finished")
 } // end "run"
 

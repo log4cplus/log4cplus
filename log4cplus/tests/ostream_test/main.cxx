@@ -1,7 +1,7 @@
 
-#include "log4cplus/category.h"
+#include "log4cplus/logger.h"
 #include "log4cplus/consoleappender.h"
-#include "log4cplus/priority.h"
+#include "log4cplus/loglevel.h"
 #include <iomanip>
 
 using namespace std;
@@ -12,17 +12,17 @@ main()
 {
     SharedAppenderPtr append_1(new ConsoleAppender());
     append_1->setName("First");
-    Category::getRoot().addAppender(append_1);
+    Logger::getRoot().addAppender(append_1);
 
-    Category root = Category::getRoot();
-    Category test = Category::getInstance("test");
+    Logger root = Logger::getRoot();
+    Logger test = Logger::getInstance("test");
 
     LOG4CPLUS_DEBUG(root,    "This is"
                           << " a reall"
                           << "y long message." << endl
                           << "Just testing it out" << endl
                           << "What do you think?")
-    test.setPriority(0);
+    test.setLogLevel(NOT_SET_LOG_LEVEL);
     LOG4CPLUS_DEBUG(test, "This is a bool: " << true)
     LOG4CPLUS_INFO(test, "This is a char: " << 'x')
     LOG4CPLUS_INFO(test, "This is a short: " << (short)-100)
