@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  2003/06/04 18:56:41  tcsmith
+// Modified to use the new timehelper.h header.
+//
 // Revision 1.9  2003/05/22 21:17:32  tcsmith
 // Moved the sleep() method into sleep.cxx
 //
@@ -27,12 +30,12 @@
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
+#include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
 #include <log4cplus/helpers/timehelper.h>
 
 #include <exception>
-#include <sstream>
 #include <stdexcept>
 #include <errno.h>
 
@@ -40,6 +43,8 @@
 #    include <sched.h>
 #endif
 
+using namespace std;
+using namespace log4cplus;
 using namespace log4cplus::helpers;
 
 
@@ -53,8 +58,7 @@ log4cplus::thread::createNewMutex()
 #ifdef LOG4CPLUS_USE_PTHREADS
     pthread_mutex_t* m = new pthread_mutex_t();
     pthread_mutex_init(m, NULL);
-#endif
-#ifdef LOG4CPLUS_USE_WIN32_THREADS
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     CRITICAL_SECTION* m = new CRITICAL_SECTION();
     InitializeCriticalSection(m);
 #endif
@@ -67,8 +71,7 @@ log4cplus::thread::deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE m)
 {
 #ifdef LOG4CPLUS_USE_PTHREADS
     pthread_mutex_destroy(m);
-#endif
-#ifdef LOG4CPLUS_USE_WIN32_THREADS
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     DeleteCriticalSection(m);
 #endif
     delete m;
@@ -93,21 +96,29 @@ log4cplus::thread::yield()
 {
 #ifdef LOG4CPLUS_USE_PTHREADS
     sched_yield();
-#endif
-#ifdef LOG4CPLUS_USE_WIN32_THREADS
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     Sleep(0);
 #endif
 }
 
 
+log4cplus::tstring 
+log4cplus::thread::getCurrentThreadName()
+{
+    log4cplus::tostringstream tmp;
+    tmp << LOG4CPLUS_GET_CURRENT_THREAD;
+
+    return tmp.str();
+}
+
+
 
 #ifdef LOG4CPLUS_USE_PTHREADS
-void* 
-log4cplus::thread::threadStartFunc(void* arg)
-#endif
-#ifdef LOG4CPLUS_USE_WIN32_THREADS
-DWORD WINAPI
-log4cplus::thread::threadStartFunc(LPVOID arg)
+    void* 
+    log4cplus::thread::threadStartFunc(void* arg)
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
+    DWORD WINAPI
+    log4cplus::thread::threadStartFunc(LPVOID arg)
 #endif
 {
     if(arg == NULL) {
@@ -128,8 +139,7 @@ log4cplus::thread::threadStartFunc(LPVOID arg)
 #ifdef LOG4CPLUS_USE_PTHREADS
     pthread_exit(NULL);
     return NULL;
-#endif
-#ifdef LOG4CPLUS_USE_WIN32_THREADS
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     return NULL;
 #endif
 }
@@ -165,8 +175,7 @@ log4cplus::thread::AbstractThread::start()
     if( pthread_create(&threadId, NULL, threadStartFunc, this) ) {
         throw std::runtime_error("Thread creation was not successful");
     }
-#endif
-#ifdef LOG4CPLUS_USE_WIN32_THREADS
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     HANDLE h = CreateThread(NULL, 0, threadStartFunc, (LPVOID)this, 0, &threadId);
     CloseHandle(h);
 #endif
