@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.12  2003/06/29 16:48:25  tcsmith
+// Modified to support that move of the getLogLog() method into the LogLog
+// class.
+//
 // Revision 1.11  2003/06/13 15:25:07  tcsmith
 // Added the getCurrentThreadName() function.
 //
@@ -33,16 +37,17 @@
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
-#include <log4cplus/streams.h>
-#include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
+#include <log4cplus/streams.h>
+#include <log4cplus/ndc.h>
+#include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/timehelper.h>
 
 #include <exception>
 #include <stdexcept>
 #include <errno.h>
 
-#ifdef LOG4CPLUS_USE_PTHREADS
+#if defined(LOG4CPLUS_USE_PTHREADS)
 #    include <sched.h>
 #endif
 
@@ -58,7 +63,7 @@ using namespace log4cplus::helpers;
 LOG4CPLUS_MUTEX_PTR_DECLARE 
 log4cplus::thread::createNewMutex()
 {
-#ifdef LOG4CPLUS_USE_PTHREADS
+#if defined(LOG4CPLUS_USE_PTHREADS)
     pthread_mutex_t* m = new pthread_mutex_t();
     pthread_mutex_init(m, NULL);
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
@@ -72,7 +77,7 @@ log4cplus::thread::createNewMutex()
 void 
 log4cplus::thread::deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE m)
 {
-#ifdef LOG4CPLUS_USE_PTHREADS
+#if defined(LOG4CPLUS_USE_PTHREADS)
     pthread_mutex_destroy(m);
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     DeleteCriticalSection(m);
@@ -82,7 +87,7 @@ log4cplus::thread::deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE m)
 
 
 
-#ifdef LOG4CPLUS_USE_PTHREADS
+#if defined(LOG4CPLUS_USE_PTHREADS)
 pthread_key_t*
 log4cplus::thread::createPthreadKey()
 {
@@ -97,7 +102,7 @@ log4cplus::thread::createPthreadKey()
 void
 log4cplus::thread::yield()
 {
-#ifdef LOG4CPLUS_USE_PTHREADS
+#if defined(LOG4CPLUS_USE_PTHREADS)
     sched_yield();
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     Sleep(0);
@@ -116,7 +121,7 @@ log4cplus::thread::getCurrentThreadName()
 
 
 
-#ifdef LOG4CPLUS_USE_PTHREADS
+#if defined(LOG4CPLUS_USE_PTHREADS)
     void* 
     log4cplus::thread::threadStartFunc(void* arg)
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
@@ -124,28 +129,32 @@ log4cplus::thread::getCurrentThreadName()
     log4cplus::thread::threadStartFunc(LPVOID arg)
 #endif
 {
+    SharedObjectPtr<LogLog> loglog = LogLog::getLogLog();
     if(arg == NULL) {
-        SharedObjectPtr<LogLog> loglog = LogLog::getLogLog();
         loglog->error(LOG4CPLUS_TEXT("log4cplus::thread::threadStartFunc()- arg is NULL"));
     }
     else {
-        AbstractThread* thread = static_cast<AbstractThread*>(arg);
+        AbstractThread* ptr = static_cast<AbstractThread*>(arg);
+        log4cplus::helpers::SharedObjectPtr<AbstractThread> thread(ptr);
         try {
-            log4cplus::helpers::SharedObjectPtr<AbstractThread> ptr(thread);
             thread->run();
         }
+        catch(std::exception& e) {
+            tstring err = LOG4CPLUS_TEXT("log4cplus::thread::threadStartFunc()- run() terminated with an exception: ");
+            err += LOG4CPLUS_C_STR_TO_TSTRING(e.what());
+            loglog->warn(err);
+        }
         catch(...) {
-            // TODO --> Log
+            loglog->warn(LOG4CPLUS_TEXT("log4cplus::thread::threadStartFunc()- run() terminated with an exception."));
         }
         thread->running = false;
+        getNDC().remove();
     }
 
-#ifdef LOG4CPLUS_USE_PTHREADS
+#if defined(LOG4CPLUS_USE_PTHREADS)
     pthread_exit(NULL);
-    return NULL;
-#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    return NULL;
 #endif
+    return NULL;
 }
 
 
@@ -175,9 +184,9 @@ void
 log4cplus::thread::AbstractThread::start()
 {
     running = true;
-#ifdef LOG4CPLUS_USE_PTHREADS
+#if defined(LOG4CPLUS_USE_PTHREADS)
     if( pthread_create(&threadId, NULL, threadStartFunc, this) ) {
-        throw std::runtime_error("Thread creation was not successful");
+        throw std::runtime_error(LOG4CPLUS_TEXT("Thread creation was not successful"));
     }
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     HANDLE h = CreateThread(NULL, 0, threadStartFunc, (LPVOID)this, 0, &threadId);
