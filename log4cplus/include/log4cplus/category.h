@@ -141,7 +141,11 @@ namespace log4cplus {
          * @param msg The message to print if <code>assertion</code> is
          * false.
          */
-        void assertion(bool assert, const std::string& msg);
+        void assertion(bool assertionVal, const std::string& msg) {
+            if(!assertionVal) {
+                error(msg);
+            }
+        }
 
         /**
          * Call the appenders in the hierrachy starting at
@@ -170,7 +174,10 @@ namespace log4cplus {
          *                      
          * @return boolean True if this category is enabled for <code>priority</code>.
          */
-        bool isEnabledFor(const Priority& priority);
+        bool isEnabledFor(const Priority& priority) const ;
+        bool isEnabledFor(int priority) const { 
+            return isEnabledFor( Priority(static_cast<Priority::PriorityLevel>(priority)) ); 
+        }
 
         /**
          *  Check whether this category is enabled for the {@link Priority#DEBUG_PRI}
@@ -206,7 +213,9 @@ namespace log4cplus {
          *  @return boolean - <code>true</code> if this category is debug
          *  enabled, <code>false</code> otherwise.
          */
-        bool isDebugEnabled();
+        bool isDebugEnabled() {
+            return isEnabledFor(Priority::DEBUG_PRI);
+        }
 
         /**
          * Check whether this category is enabled for the info priority.
@@ -215,7 +224,9 @@ namespace log4cplus {
          * @return boolean - <code>true</code> if this category is enabled
          * for priority info, <code>false</code> otherwise.
          */
-        bool isInfoEnabled();
+        bool isInfoEnabled() {
+            return isEnabledFor(Priority::INFO_PRI);
+        }
 
         /**
          * Check whether this category is enabled for the warn priority.
@@ -224,7 +235,9 @@ namespace log4cplus {
          * @return boolean - <code>true</code> if this category is enabled
          * for priority info, <code>false</code> otherwise.
          */
-        bool isWarnEnabled();
+        bool isWarnEnabled() {
+            return isEnabledFor(Priority::WARN_PRI);
+        }
 
         /**
          * This generic form is intended to be used by wrappers. 
@@ -247,7 +260,9 @@ namespace log4cplus {
          *
          * @param message the message object to log. 
          */
-        void fatal(const std::string& message, const char* file=NULL, int line=-1);
+        void fatal(const std::string& message, const char* file=NULL, int line=-1) {
+            log( Priority(Priority::FATAL_PRI), message, file, line );
+        }
 
         /** 
          * Log a message with the {@link Priority#ERROR_PRI ERROR_PRI} priority.
@@ -261,7 +276,9 @@ namespace log4cplus {
          *
          * @param message the message object to log. 
          */
-        void error(const std::string& message, const char* file=NULL, int line=-1);
+        void error(const std::string& message, const char* file=NULL, int line=-1) {
+            log( Priority(Priority::ERROR_PRI), message, file, line );
+        }
 
         /** 
          * Log a message with the {@link Priority#WARN_PRI WARN_PRI} priority.
@@ -275,7 +292,9 @@ namespace log4cplus {
          * 
          * @param message the message object to log. 
          */
-        void warn(const std::string& message, const char* file=NULL, int line=-1);
+        void warn(const std::string& message, const char* file=NULL, int line=-1) {
+            log( Priority(Priority::WARN_PRI), message, file, line );
+        }
 
         /** 
          * Log a message with the {@link Priority#INFO_PRI INFO_PRI} priority.
@@ -289,7 +308,9 @@ namespace log4cplus {
          *
          * @param message the message object to log. 
          */
-        void info(const std::string& message, const char* file=NULL, int line=-1);
+        void info(const std::string& message, const char* file=NULL, int line=-1) {
+            log( Priority(Priority::INFO_PRI), message, file, line );
+        }
 
         /** 
          * Log a message with the {@link Priority#DEBUG_PRI DEBUG_PRI} priority.
@@ -303,7 +324,9 @@ namespace log4cplus {
          *
          * @param message the message object to log. 
          */
-        void debug(const std::string& message, const char* file=NULL, int line=-1);
+        void debug(const std::string& message, const char* file=NULL, int line=-1) {
+            log( Priority(Priority::DEBUG_PRI), message, file, line );
+        }
 
         /**
          * Starting from this category, search the category hierarchy for a
