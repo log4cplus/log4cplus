@@ -237,6 +237,11 @@ namespace log4cplus {
         log4cplus::tstring propertyFilename;
         log4cplus::helpers::Properties properties; 
         AppenderMap appenders;
+        
+    private:
+      // Disable copy
+        PropertyConfigurator(const PropertyConfigurator&);
+        PropertyConfigurator& operator=(PropertyConfigurator&);
     };
 
 
@@ -261,6 +266,11 @@ namespace log4cplus {
          * </code>
          */
         static void doConfigure(Hierarchy& h = Logger::getDefaultHierarchy());
+        
+    private:
+      // Disable copy
+        BasicConfigurator(const BasicConfigurator&);
+        BasicConfigurator& operator=(BasicConfigurator&);
     };
    
 
