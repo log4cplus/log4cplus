@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.11  2003/06/09 18:13:16  tcsmith
+// Changed the ctor to take a 'const' Properties object.
+//
 // Revision 1.10  2003/06/04 19:38:35  tcsmith
 // Added a use_gmtime flag to TTCCLayout to specifiy whether dates should be
 // logged using gmtime or localtime function calls.
@@ -41,38 +44,6 @@
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
-
-#define BUFFER_SIZE 40
-
-
-///////////////////////////////////////////////////////////////////////////////
-// public methods
-///////////////////////////////////////////////////////////////////////////////
-
-log4cplus::tstring
-log4cplus::getFormattedTime(time_t time, const log4cplus::tstring& fmt,
-                            bool use_gmtime)
-{
-    tchar buffer[BUFFER_SIZE];
-    struct tm tmp;
-    struct tm* tPtr = 0;
-   
-    if(use_gmtime) {
-        tPtr = log4cplus::helpers::gmtime(&time, &tmp);
-    }
-    else {
-        tPtr = log4cplus::helpers::localtime(&time, &tmp);
-    }
-
-    size_t len = log4cplus::helpers::strftime(buffer, 
-                                              BUFFER_SIZE, 
-                                              fmt.c_str(), 
-                                              tPtr);
-
-    buffer[len] = '\0';
-    return tstring(buffer);
-}
-
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -130,7 +101,7 @@ void
 TTCCLayout::formatAndAppend(log4cplus::tostream& output, 
                             const log4cplus::spi::InternalLoggingEvent& event)
 {
-    output << getFormattedTime(event.timestamp, dateFormat, use_gmtime) 
+    output << event.timestamp.getFormattedTime(dateFormat, use_gmtime) 
            << LOG4CPLUS_TEXT(" [")
            << event.thread 
            << LOG4CPLUS_TEXT("] ")
