@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.11  2003/06/04 00:19:15  tcsmith
+// Modified the Appender(Properties) ctor to build the filtering chain
+// specified in the properties file.
+//
 // Revision 1.10  2003/06/03 20:20:51  tcsmith
 // Changed the logging in the destructorImpl() method.
 //
@@ -100,7 +104,7 @@ Appender::Appender()
 
 
 
-Appender::Appender(log4cplus::helpers::Properties properties)
+Appender::Appender(const log4cplus::helpers::Properties properties)
  : layout(new SimpleLayout()),
    name( LOG4CPLUS_TEXT("") ),
    threshold(NOT_SET_LOG_LEVEL),

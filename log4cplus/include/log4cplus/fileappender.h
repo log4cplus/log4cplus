@@ -32,7 +32,7 @@ namespace log4cplus {
       // Ctors
         FileAppender(const log4cplus::tstring& filename, 
                      std::ios::openmode mode = std::ios::trunc);
-        FileAppender(log4cplus::helpers::Properties properties,
+        FileAppender(const log4cplus::helpers::Properties properties,
                      std::ios::openmode mode = std::ios::trunc);
 
       // Dtor
@@ -65,7 +65,7 @@ namespace log4cplus {
         RollingFileAppender(const log4cplus::tstring& filename,
                             long maxFileSize = 10*1024*1024, // 10 MB
                             int maxBackupIndex = 1);
-        RollingFileAppender(log4cplus::helpers::Properties properties);
+        RollingFileAppender(const log4cplus::helpers::Properties properties);
 
       // Dtor
         virtual ~RollingFileAppender();
