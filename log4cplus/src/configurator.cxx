@@ -10,6 +10,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/05/04 01:07:42  tcsmith
+// Modified PropertyConfigurator so that it can be used to configure a
+// Hierarchy other than the default one.
+//
 // Revision 1.8  2003/05/02 16:36:49  tcsmith
 // Added "#include <log4cplus/spi/loggerimpl.h>" for VC++ .NET
 //
@@ -149,6 +153,19 @@ log4cplus::PropertyConfigurator::PropertyConfigurator(const log4cplus::tstring& 
 
 log4cplus::PropertyConfigurator::~PropertyConfigurator()
 {
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+// log4cplus::PropertyConfigurator static methods
+//////////////////////////////////////////////////////////////////////////////
+
+void
+log4cplus::PropertyConfigurator::doConfigure(const log4cplus::tstring& file)
+{
+    PropertyConfigurator tmp(file);
+    tmp.configure();
 }
 
 
@@ -354,6 +371,18 @@ log4cplus::BasicConfigurator::BasicConfigurator()
 
 log4cplus::BasicConfigurator::~BasicConfigurator()
 {
+}
+
+
+//////////////////////////////////////////////////////////////////////////////
+// log4cplus::BasicConfigurator static methods
+//////////////////////////////////////////////////////////////////////////////
+
+void
+log4cplus::BasicConfigurator::doConfigure()
+{
+    BasicConfigurator tmp;
+    tmp.configure();
 }
 
 

@@ -54,6 +54,17 @@ namespace log4cplus {
         virtual ~PropertyConfigurator();
 
         /**
+         * This method eliminates the need to create a temporary
+         * <code>PropertyConfigurator</code> to configure log4cplus.
+         * It is equivalent to the following:<br>
+         * <code>
+         * PropertyConfigurator config("filename");
+         * config.configure();
+         * </code>
+         */
+        static void doConfigure(const log4cplus::tstring& configFilename);
+
+        /**
          * Read configuration from a file. <b>The existing configuration is
          * not cleared nor reset.</b> If you require a different behavior,
          * then call {@link BasicConfigurator#resetConfiguration
@@ -228,6 +239,17 @@ namespace log4cplus {
       // ctor and dtor
         BasicConfigurator();
         virtual ~BasicConfigurator();
+
+        /**
+         * This method eliminates the need to create a temporary
+         * <code>BasicConfigurator</code> object to configure log4cplus.
+         * It is equivalent to the following:<br>
+         * <code>
+         * BasicConfigurator config();
+         * config.configure();
+         * </code>
+         */
+        static void doConfigure();
     };
    
 
