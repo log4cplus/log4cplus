@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2003/04/03 01:02:02  tcsmith
+// Standardized the formatting.
+//
 
 #include <log4cplus/helpers/loglog.h>
 #include <iostream>
@@ -39,12 +42,8 @@ namespace {
 LogLog&
 log4cplus::helpers::getLogLog()
 {
-    static LogLog *instance = NULL;
-
-    if(instance == NULL) {
-        instance = new LogLog();
-    }
-    return *instance;
+    static LogLog singleton;
+    return singleton;
 }
 
 
