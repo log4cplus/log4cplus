@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/04/19 23:04:31  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.1  2003/04/19 21:31:07  tcsmith
 // Initial version.
 //
@@ -115,7 +118,7 @@ namespace {
                       0, 
                       REG_SZ, 
                       (LPBYTE)value.c_str(), 
-                      value.length() * sizeof(tchar));
+                      static_cast<DWORD>(value.length() * sizeof(tchar)));
     }
 
 
