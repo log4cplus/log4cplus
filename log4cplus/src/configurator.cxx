@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.11  2003/06/03 20:25:57  tcsmith
+// Modified configure() so that it calls initializeLog4cplus().
+//
 // Revision 1.10  2003/05/19 14:36:31  tcsmith
 // Added doConfigure() static methods.
 //
@@ -349,7 +352,7 @@ log4cplus::PropertyConfigurator::configureAdditivity(Hierarchy& h)
     {
         Logger logger = h.getInstance(*it);
         tstring actualValue = additivityProperties.getProperty(*it);
-        tstring value = tolower(actualValue);
+        tstring value = toLower(actualValue);
 
         if(value == LOG4CPLUS_TEXT("true")) {
             logger.setAdditivity(true);

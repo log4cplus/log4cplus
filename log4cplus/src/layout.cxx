@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.13  2003/06/12 23:11:54  tcsmith
+// Changed the default TTCCLayout date pattern to include milliseconds.
+//
 // Revision 1.12  2003/06/11 22:48:33  tcsmith
 // Modified to use the new log4cplus::helpers::Time type.
 //
@@ -86,7 +89,7 @@ TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
     }
 
     tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("Use_gmtime") );
-    use_gmtime = (tolower(tmp) == LOG4CPLUS_TEXT("true"));
+    use_gmtime = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
 }
 
 

@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.8  2003/06/06 17:04:31  tcsmith
+// Changed the ctor to take a 'const' Properties object.
+//
 // Revision 1.7  2003/06/03 20:19:42  tcsmith
 // Modified the close() method to set "closed = true;".
 //
@@ -49,7 +52,7 @@ log4cplus::ConsoleAppender::ConsoleAppender(bool logToStdErr)
 log4cplus::ConsoleAppender::ConsoleAppender(const log4cplus::helpers::Properties properties)
  : Appender(properties)
 {
-    tstring val = tolower(properties.getProperty(LOG4CPLUS_TEXT("logToStdErr")));
+    tstring val = toLower(properties.getProperty(LOG4CPLUS_TEXT("logToStdErr")));
     if(val == LOG4CPLUS_TEXT("true")) {
         logToStdErr = true;
     }
