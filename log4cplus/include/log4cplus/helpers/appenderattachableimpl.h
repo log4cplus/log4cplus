@@ -28,12 +28,6 @@
 
 
 namespace log4cplus {
-
-    // Forward declarations
-    namespace spi {
-        struct InternalLoggingEvent;
-    }
-
     namespace helpers {
  
         /**
