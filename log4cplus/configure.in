@@ -28,7 +28,7 @@ AC_PROG_RANLIB
 
 dnl Checks for header files.
 AC_STDC_HEADERS
-AC_HAVE_HEADERS(strstream.h strstream sstream)
+AC_HAVE_HEADERS(strstream.h strstream sstream syslog.h)
 
 dnl Checks for library functions.
 AC_FUNC_ALLOCA
