@@ -102,7 +102,7 @@ namespace log4cplus {
              * milliseconds.
              */
             log4cplus::tstring getFormattedTime(const log4cplus::tstring& fmt,
-                                                bool use_gmtime = true) const;
+                                                bool use_gmtime = false) const;
 
           // Operators
             Time& operator+=(const Time& rhs);
