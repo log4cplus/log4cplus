@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/08/04 01:08:49  tcsmith
+// Made changes to support the HierarchyLocker class.
+//
 // Revision 1.8  2003/06/03 20:28:13  tcsmith
 // Made changes to support converting root from a pointer to a "concreate"
 // object.
@@ -214,9 +217,9 @@ Hierarchy::resetConfiguration()
 
     shutdown();
 
-    LoggerList cats = getCurrentLoggers();
-    LoggerList::iterator it = cats.begin();
-    while(it != cats.end()) {
+    LoggerList loggers = getCurrentLoggers();
+    LoggerList::iterator it = loggers.begin();
+    while(it != loggers.end()) {
         (*it).setLogLevel(NOT_SET_LOG_LEVEL);
         (*it).setAdditivity(true);
         ++it;
@@ -235,7 +238,7 @@ Hierarchy::setLoggerFactory(std::auto_ptr<spi::LoggerFactory> factory)
 void 
 Hierarchy::shutdown()
 {
-    LoggerList cats = getCurrentLoggers();
+    LoggerList loggers = getCurrentLoggers();
 
     // begin by closing nested appenders
     // then, remove all appenders
@@ -243,8 +246,8 @@ Hierarchy::shutdown()
     root.removeAllAppenders();
 
     // repeat
-    LoggerList::iterator it = cats.begin();
-    while(it != cats.end()) {
+    LoggerList::iterator it = loggers.begin();
+    while(it != loggers.end()) {
         (*it).closeNestedAppenders();
         (*it).removeAllAppenders();
         ++it;
@@ -265,26 +268,32 @@ Hierarchy::getInstanceImpl(const log4cplus::tstring& name, spi::LoggerFactory& f
          return (*it).second;
      }
      else {
+         // NOTE: The following "deep copy" of 'name' is intentional.  MSVC has
+         //       a reference counted string and there was a report of the
+         //       underlying char[] being deleted before the string during 
+         //       program termination.
+         log4cplus::tstring newname(name.c_str());
+         
          // Need to create a new logger
-         Logger cat = factory.makeNewLoggerInstance(name, *this);
-         bool inserted = loggerPtrs.insert(std::make_pair(name, cat)).second;
+         Logger logger = factory.makeNewLoggerInstance(newname, *this);
+         bool inserted = loggerPtrs.insert(std::make_pair(newname, logger)).second;
          if(!inserted) {
              getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstanceImpl()- Insert failed"));
              throw std::runtime_error("Hierarchy::getInstanceImpl()- Insert failed");
          }
          
-         ProvisionNodeMap::iterator it2 = provisionNodes.find(name);
+         ProvisionNodeMap::iterator it2 = provisionNodes.find(newname);
          if(it2 != provisionNodes.end()) {
-             updateChildren(it2->second, cat);
-             bool deleted = (provisionNodes.erase(name) > 0);
+             updateChildren(it2->second, logger);
+             bool deleted = (provisionNodes.erase(newname) > 0);
              if(!deleted) {
                  getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstanceImpl()- Delete failed"));
                  throw std::runtime_error("Hierarchy::getInstanceImpl()- Delete failed");
              }
          }
-         updateParents(cat);
+         updateParents(logger);
          
-         return cat;
+         return logger;
      }
 }
 
@@ -302,9 +311,9 @@ Hierarchy::initializeLoggerList(LoggerList& list) const
 
 
 void 
-Hierarchy::updateParents(Logger cat)
+Hierarchy::updateParents(Logger logger)
 {
-    log4cplus::tstring name = cat.getName();
+    log4cplus::tstring name = logger.getName();
     size_t length = name.length();
     bool parentFound = false;
 
@@ -318,17 +327,17 @@ Hierarchy::updateParents(Logger cat)
         LoggerMap::iterator it = loggerPtrs.find(substr);
         if(it != loggerPtrs.end()) {
             parentFound = true;
-            cat.value->parent = it->second.value;
+            logger.value->parent = it->second.value;
             break;  // no need to update the ancestors of the closest ancestor
         }
         else {
             ProvisionNodeMap::iterator it2 = provisionNodes.find(substr);
             if(it2 != provisionNodes.end()) {
-                it2->second.push_back(cat);
+                it2->second.push_back(logger);
             }
             else {
                 ProvisionNode node;
-                node.push_back(cat);
+                node.push_back(logger);
                 std::pair<ProvisionNodeMap::iterator, bool> tmp = 
                     provisionNodes.insert(std::make_pair(substr, node));
                 //bool inserted = provisionNodes.insert(std::make_pair(substr, node)).second;
@@ -341,22 +350,22 @@ Hierarchy::updateParents(Logger cat)
     } // end for loop
 
     if(!parentFound) {
-        cat.value->parent = root.value;
+        logger.value->parent = root.value;
     }
 }
 
 
 void 
-Hierarchy::updateChildren(ProvisionNode& pn, Logger cat)
+Hierarchy::updateChildren(ProvisionNode& pn, Logger logger)
 {
 
     for(ProvisionNode::iterator it=pn.begin(); it!=pn.end(); ++it) {
         Logger& c = *it;
         // Unless this child already points to a correct (lower) parent,
-        // make cat.parent point to c.parent and c.parent to cat.
-        if( !startsWith(c.value->parent->getName(), cat.getName()) ) {
-            cat.value->parent = c.value->parent;
-            c.value->parent = cat.value;
+        // make logger.parent point to c.parent and c.parent to logger.
+        if( !startsWith(c.value->parent->getName(), logger.getName()) ) {
+            logger.value->parent = c.value->parent;
+            c.value->parent = logger.value;
         }
     }
 }
