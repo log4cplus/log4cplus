@@ -1,0 +1,106 @@
+
+#include <log4cplus/logger.h>
+#include <log4cplus/configurator.h>
+#include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/stringhelper.h>
+
+using namespace std;
+using namespace log4cplus;
+using namespace log4cplus::helpers;
+
+log4cplus::tostream& operator <<(log4cplus::tostream& s, const Time& t)
+{
+    return s << t.sec() << "sec " << t.usec() << "usec";
+}
+
+#define LOOP_COUNT 10000
+
+int
+main()
+{
+    cout << "Entering main()..." << endl;
+    Logger root = Logger::getRoot();
+    try {
+        PropertyConfigurator::doConfigure("log4cplus.properties");
+        Logger logger = Logger::getInstance("testlogger");
+
+        LOG4CPLUS_WARN(root, "Starting test loop....")
+        Time start = Time::gettimeofday();
+        std::string msg("This is a WARNING...");
+        for(int i=0; i<LOOP_COUNT; ++i) {
+//            LOG4CPLUS_WARN(logger, "This is a WARNING...")
+            if(logger.isEnabledFor(log4cplus::WARN_LOG_LEVEL)) {
+                logger.forcedLog(log4cplus::WARN_LOG_LEVEL, 
+                                 msg, __FILE__, __LINE__);
+            }
+        }
+        Time end = Time::gettimeofday();
+        Time diff = end - start;
+        LOG4CPLUS_WARN(root, "Logging " << LOOP_COUNT << " took: " << diff << endl)
+        LOG4CPLUS_WARN(root, "Logging average: " << (diff/LOOP_COUNT) << endl)
+
+        start = Time::gettimeofday();
+        for(int i=0; i<LOOP_COUNT; ++i) {
+            std::stringstream buffer;
+	    buffer /*<< "test"*/ << 123122;
+	    tstring tmp = buffer.str();
+        }
+        end = Time::gettimeofday();
+        diff = end - start;
+        LOG4CPLUS_WARN(root, "tostringstream average: " << (diff/LOOP_COUNT) << endl)
+
+        start = Time::gettimeofday();
+        for(int i=0; i<LOOP_COUNT; ++i) {
+	    log4cplus::spi::InternalLoggingEvent e(logger.getName(), log4cplus::WARN_LOG_LEVEL,
+			                         msg, 0, 0);
+        }
+        end = Time::gettimeofday();
+        diff = end - start;
+
+        LOG4CPLUS_WARN(root, "Creating log " << LOOP_COUNT << " objects took: " << diff)
+        LOG4CPLUS_WARN(root, "Creating log object average: " << (diff/LOOP_COUNT) << endl)
+
+        start = Time::gettimeofday();
+        for(int i=0; i<LOOP_COUNT; ++i) {
+	    log4cplus::spi::InternalLoggingEvent e(logger.getName(), log4cplus::WARN_LOG_LEVEL,
+			                           msg, 0, 0);
+	    e.getNDC();
+	    e.getThread();
+        }
+        end = Time::gettimeofday();
+        diff = end - start;
+        LOG4CPLUS_WARN(root, "Creating FULL log " << LOOP_COUNT << " objects took: " << diff)
+        LOG4CPLUS_WARN(root, "Creating FULL log object average: " << (diff/LOOP_COUNT) << endl)
+        
+        start = Time::gettimeofday();
+        for(int i=0; i<LOOP_COUNT; ++i) {
+            log4cplus::spi::InternalLoggingEvent e(logger.getName(), log4cplus::WARN_LOG_LEVEL,
+			                           msg, 0, 0);
+	    e.getNDC();
+        }
+        end = Time::gettimeofday();
+        diff = end - start;
+        LOG4CPLUS_WARN(root, "getNDC() " << LOOP_COUNT << " calls took: " << diff)
+        LOG4CPLUS_WARN(root, "getNDC() average: " << (diff/LOOP_COUNT) << endl)
+        
+        start = Time::gettimeofday();
+        for(int i=0; i<LOOP_COUNT; ++i) {
+            log4cplus::spi::InternalLoggingEvent e(logger.getName(), log4cplus::WARN_LOG_LEVEL,
+			                           msg, 0, 0);
+	    e.getThread();
+        }
+        end = Time::gettimeofday();
+        diff = end - start;
+        LOG4CPLUS_WARN(root, "getThread() " << LOOP_COUNT << " calls took: " << diff)
+        LOG4CPLUS_WARN(root, "getThread() average: " << (diff/LOOP_COUNT) << endl)
+    }
+    catch(...) {
+        cout << "Exception..." << endl;
+        LOG4CPLUS_FATAL(root, "Exception occured...")
+    }
+
+    cout << "Exiting main()..." << endl;
+    return 0;
+}
+
+
