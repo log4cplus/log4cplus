@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  2003/05/19 15:58:26  tcsmith
+// Added a check in the ctor for a valid filename.  If if is not valid, do
+// not attempt to open that file.
+//
 // Revision 1.9  2003/05/01 19:54:30  tcsmith
 // Fixed: "warning: comparison between signed and unsigned".
 //
@@ -40,6 +44,8 @@ using namespace std;
 using namespace log4cplus;
 
 #define BUFFER_SIZE 2048
+
+const tchar helpers::Properties::PROPERTIES_COMMENT_CHAR = LOG4CPLUS_TEXT('#');
 
 
 
@@ -86,10 +92,13 @@ log4cplus::helpers::Properties::init(log4cplus::tistream& input)
     tchar buffer[BUFFER_SIZE];
     while(!input.eof()) {
         input.getline(buffer, BUFFER_SIZE);
-        tstring tmp(buffer);
-        tstring::size_type idx = tmp.find('=');
-        if(idx != tstring::npos) {
-            setProperty(tmp.substr(0, idx), tmp.substr(idx + 1));
+        if(buffer[0] != PROPERTIES_COMMENT_CHAR)
+        {
+            tstring tmp(buffer);
+            tstring::size_type idx = tmp.find('=');
+            if(idx != tstring::npos) {
+                setProperty(tmp.substr(0, idx), tmp.substr(idx + 1));
+            }
         }
     }
 }
