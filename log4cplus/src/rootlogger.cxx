@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/04/18 22:25:30  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/spi/rootlogger.h>
 
@@ -47,7 +50,7 @@ void
 RootLogger::setLogLevel(LogLevel ll)
 {
     if(ll == NOT_SET_LOG_LEVEL) {
-        getLogLog().error("You have tried to set NOT_SET_LOG_LEVEL to root.");
+        getLogLog().error(LOG4CPLUS_TEXT("You have tried to set NOT_SET_LOG_LEVEL to root."));
     }
     else {
         LoggerImpl::setLogLevel(ll);
