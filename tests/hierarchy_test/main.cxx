@@ -13,57 +13,52 @@ main()
 {
     {
 
-    cout << "Priorities:" << endl;
-    PriorityList list = Priority::getAllPossiblePriorities();
-    for(PriorityList::iterator it=list.begin(); it!=list.end(); ++it) {
-        cout << "   " << it->toString() << endl;
-    }
-    Category cat = Category::getInstance("test");
-    cout << "Category name: " << cat.getName()
-         << " Parent = " << cat.getParent().getName() << endl;
+    Logger logger = Logger::getInstance("test");
+    cout << "Logger name: " << logger.getName()
+         << " Parent = " << logger.getParent().getName() << endl;
 
-    cat = Category::getInstance("test2");
-    cout << "Category name: " << cat.getName()
-         << " Parent = " << cat.getParent().getName() << endl;
+    logger = Logger::getInstance("test2");
+    cout << "Logger name: " << logger.getName()
+         << " Parent = " << logger.getParent().getName() << endl;
 
-    cat = Category::getInstance("test.subtest.a.b.c");
-    cout << "Category name: " << cat.getName()
-         << " Parent = " << cat.getParent().getName() << endl;
+    logger = Logger::getInstance("test.subtest.a.b.c");
+    cout << "Logger name: " << logger.getName()
+         << " Parent = " << logger.getParent().getName() << endl;
 
-    cat = Category::getInstance("test.subtest.a");
-    cout << "Category name: " << cat.getName()
-         << " Parent = " << cat.getParent().getName() << endl;
+    logger = Logger::getInstance("test.subtest.a");
+    cout << "Logger name: " << logger.getName()
+         << " Parent = " << logger.getParent().getName() << endl;
 
-    cat = Category::getInstance("test.subtest");
-    cout << "Category name: " << cat.getName()
-         << " Parent = " << cat.getParent().getName() << endl;
+    logger = Logger::getInstance("test.subtest");
+    cout << "Logger name: " << logger.getName()
+         << " Parent = " << logger.getParent().getName() << endl;
 
-    cat = Category::getInstance("test.subtest.a");
-    cout << "Category name: " << cat.getName()
-         << " Parent = " << cat.getParent().getName() << endl;
+    logger = Logger::getInstance("test.subtest.a");
+    cout << "Logger name: " << logger.getName()
+         << " Parent = " << logger.getParent().getName() << endl;
 
-    cat = Category::getInstance("test.subtest.a.b.c");
-    cout << "Category name: " << cat.getName()
-         << " Parent = " << cat.getParent().getName() << endl;
+    logger = Logger::getInstance("test.subtest.a.b.c");
+    cout << "Logger name: " << logger.getName()
+         << " Parent = " << logger.getParent().getName() << endl;
 
-    cat = Category::getInstance("test.subtest.a.b.c.d");
-    cout << "Category name: " << cat.getName()
-         << " Parent = " << cat.getParent().getName() << endl;
+    logger = Logger::getInstance("test.subtest.a.b.c.d");
+    cout << "Logger name: " << logger.getName()
+         << " Parent = " << logger.getParent().getName() << endl;
 
-    cat = Category::getInstance("test.subtest.a.b.c");
-    cout << "Category name: " << cat.getName()
-         << " Parent = " << cat.getParent().getName() << endl;
+    logger = Logger::getInstance("test.subtest.a.b.c");
+    cout << "Logger name: " << logger.getName()
+         << " Parent = " << logger.getParent().getName() << endl;
 
-    cat = Category::getInstance("test.subtest.a");
-    cout << "Category name: " << cat.getName()
-         << " Parent = " << cat.getParent().getName() << endl;
+    logger = Logger::getInstance("test.subtest.a");
+    cout << "Logger name: " << logger.getName()
+         << " Parent = " << logger.getParent().getName() << endl;
 
-    cat = Category::getInstance("test.subtest");
-    cout << "Category name: " << cat.getName()
-         << " Parent = " << cat.getParent().getName() << endl;
+    logger = Logger::getInstance("test.subtest");
+    cout << "Logger name: " << logger.getName()
+         << " Parent = " << logger.getParent().getName() << endl;
 
 
-    Category::shutdown();
+    Logger::shutdown();
     }
     cout << "Exiting main()..." << endl;
     return 0;

@@ -1,5 +1,5 @@
 
-#include <log4cplus/category.h>
+#include <log4cplus/logger.h>
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
@@ -18,32 +18,33 @@ main()
     try {
         SharedObjectPtr<Appender> append_1(new ConsoleAppender());
         append_1->setName("First");
-        Category::getRoot().addAppender(append_1);
+	append_1->setLayout( std::auto_ptr<Layout>(new log4cplus::TTCCLayout()) );
+        Logger::getRoot().addAppender(append_1);
 
-        Category cat = Category::getInstance("test");
-        cout << "Category: " << cat.getName() << endl;
+        Logger logger = Logger::getInstance("test");
+        cout << "Logger: " << logger.getName() << endl;
         getNDC().push("tsmith");
-        LOG4CPLUS_DEBUG(cat, "This is a short test...")
+        LOG4CPLUS_DEBUG(logger, "This is a short test...")
 
         getNDC().push("password");
-        LOG4CPLUS_DEBUG(cat, "This should have my password now");
+        LOG4CPLUS_DEBUG(logger, "This should have my password now");
 
         getNDC().pop();
-        LOG4CPLUS_DEBUG(cat, "This should NOT have my password now");
+        LOG4CPLUS_DEBUG(logger, "This should NOT have my password now");
 
         getNDC().pop();
         cout << "Just returned from pop..." << endl;
-        LOG4CPLUS_DEBUG(cat, "There should be no NDC...");
+        LOG4CPLUS_DEBUG(logger, "There should be no NDC...");
 
         getNDC().push("tsmith");
         getNDC().push("password");
-        LOG4CPLUS_DEBUG(cat, "This should have my password now");
+        LOG4CPLUS_DEBUG(logger, "This should have my password now");
         getNDC().remove();
-        LOG4CPLUS_DEBUG(cat, "There should be no NDC...");
+        LOG4CPLUS_DEBUG(logger, "There should be no NDC...");
     }
     catch(...) {
         cout << "Exception..." << endl;
-        Category::getRoot().fatal("Exception occured...");
+        Logger::getRoot().log(FATAL_LOG_LEVEL, "Exception occured...");
     }
 
     cout << "Exiting main()..." << endl;

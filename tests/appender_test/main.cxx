@@ -3,7 +3,7 @@
 #include <exception>
 #include <iostream>
 #include <string>
-#include "log4cplus/category.h"
+#include "log4cplus/logger.h"
 #include "log4cplus/consoleappender.h"
 #include "log4cplus/helpers/appenderattachableimpl.h"
 #include "log4cplus/helpers/loglog.h"
@@ -38,8 +38,8 @@ main()
             SharedObjectPtr<Appender> append_2(new ConsoleAppender());
             append_2->setName("Second");
 
-            InternalLoggingEvent event(Category::getInstance("test").getName(),
-                                       Priority(Priority::DEBUG_PRI),
+            InternalLoggingEvent event(Logger::getInstance("test").getName(),
+                                       DEBUG_LOG_LEVEL,
                                        "This is a test...", NULL, 0);
 
             aai.addAppender(append_1);
