@@ -128,15 +128,15 @@ namespace log4cplus {
          */
         virtual Layout* getLayout();
 
-	/**
-	 * Set the filter chain on this Appender.
-	 */
-	void setFilter(log4cplus::spi::FilterPtr f) { filter = f; }
+        /**
+         * Set the filter chain on this Appender.
+         */
+        void setFilter(log4cplus::spi::FilterPtr f) { filter = f; }
 
-	/**
-	 * Get the filter chain on this Appender.
-	 */
-	log4cplus::spi::FilterPtr getFilter() const { return filter; }
+        /**
+         * Get the filter chain on this Appender.
+         */
+        log4cplus::spi::FilterPtr getFilter() const { return filter; }
 
         /**
          * Returns this appenders threshold LogLevel. See the {@link
