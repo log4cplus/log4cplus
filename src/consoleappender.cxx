@@ -11,12 +11,15 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/04/03 00:37:26  tcsmith
+// Standardized the formatting.
+//
 
 #include <log4cplus/layout.h>
 #include <log4cplus/consoleappender.h>
+#include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
-#include <iostream>
 
 using namespace std;
 using namespace log4cplus::helpers;
@@ -53,7 +56,7 @@ log4cplus::ConsoleAppender::~ConsoleAppender()
 void 
 log4cplus::ConsoleAppender::close()
 {
-    getLogLog().debug("Entering ConsoleAppender::close()..");
+    getLogLog().debug(LOG4CPLUS_TEXT("Entering ConsoleAppender::close().."));
 }
 
 
@@ -65,12 +68,12 @@ log4cplus::ConsoleAppender::close()
 // Normally, append() methods do not need to be locked since they are
 // called by doAppend() which performs the locking.  However, this locks
 // on the LogLog instance, so we don't have multiple threads writing to
-// cout and cerr
+// tcout and tcerr
 void
 log4cplus::ConsoleAppender::append(const spi::InternalLoggingEvent& event)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( getLogLog().mutex )
-        layout->formatAndAppend(cout, event);
+        layout->formatAndAppend(tcout, event);
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
 }
 

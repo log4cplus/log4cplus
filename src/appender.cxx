@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/04/07 16:35:21  tcsmith
+// Fixed gcc 3.2 compilation error.
+//
 // Revision 1.5  2003/04/03 01:37:16  tcsmith
 // Removed tabs from this file.
 //
@@ -22,6 +25,7 @@
 #include <log4cplus/layout.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/pointer.h>
+#include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggingevent.h>
 
@@ -45,7 +49,7 @@ ErrorHandler::~ErrorHandler()
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-OnlyOnceErrorHandler::error(const std::string& err) 
+OnlyOnceErrorHandler::error(const log4cplus::tstring& err) 
 {
     if(firstTime) {
         getLogLog().error(err);
@@ -61,7 +65,7 @@ OnlyOnceErrorHandler::error(const std::string& err)
 
 Appender::Appender()
  : layout(new SimpleLayout()),
-   name(""),
+   name( LOG4CPLUS_TEXT("") ),
    threshold(NOT_SET_LOG_LEVEL),
    errorHandler(new OnlyOnceErrorHandler()),
    closed(false)
@@ -72,31 +76,36 @@ Appender::Appender()
 
 Appender::Appender(log4cplus::helpers::Properties properties)
  : layout(new SimpleLayout()),
-   name(""),
+   name( LOG4CPLUS_TEXT("") ),
    threshold(NOT_SET_LOG_LEVEL),
    errorHandler(new OnlyOnceErrorHandler()),
    closed(false)
 {
-    if(properties.exists("layout")) {
-        std::string factoryName = properties.getProperty("layout");
+    if(properties.exists( LOG4CPLUS_TEXT("layout") )) {
+       log4cplus::tstring factoryName = properties.getProperty( LOG4CPLUS_TEXT("layout") );
         LayoutFactory* factory = getLayoutFactoryRegistry().get(factoryName);
         if(factory == 0) {
-            getLogLog().error("Cannot find LayoutFactory: \"" + factoryName + "\"");
+            getLogLog().error(  LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"") 
+                              + factoryName
+                              + LOG4CPLUS_TEXT("\"") );
             return;
         }
 
-        Properties layoutProperties = properties.getPropertySubset("layout.");
+        Properties layoutProperties = 
+                properties.getPropertySubset( LOG4CPLUS_TEXT("layout.") );
         try {
             std::auto_ptr<Layout> newLayout = factory->createObject(layoutProperties);
             if(newLayout.get() == 0) {
-                getLogLog().error("Failed to create appender: " + factoryName);
+                getLogLog().error(  LOG4CPLUS_TEXT("Failed to create appender: ")
+                                  + factoryName);
             }
             else {
                 layout = newLayout;
             }
         }
         catch(std::exception& e) {
-            getLogLog().error("Error while creating Layout: " + std::string(e.what()));
+            getLogLog().error(  LOG4CPLUS_TEXT("Error while creating Layout: ")
+                              + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
             return;
         }
 
@@ -117,7 +126,9 @@ Appender::destructorImpl()
         return;
     }
 
-    getLogLog().debug("Destroying appender named ["+name+"].");
+    getLogLog().debug(  LOG4CPLUS_TEXT("Destroying appender named [")
+                      + name
+                      + LOG4CPLUS_TEXT("]."));
     close();
     closed = true;
 }
@@ -129,7 +140,9 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         if(closed) {
-            getLogLog().error("Attempted to append to closed appender named ["+name+"].");
+            getLogLog().error(  LOG4CPLUS_TEXT("Attempted to append to closed appender named [")
+                              + name
+                              + LOG4CPLUS_TEXT("]."));
             return;
         }
 
@@ -143,7 +156,7 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
 
 
 
-std::string 
+log4cplus::tstring 
 Appender::getName()
 {
     return name;
@@ -152,7 +165,7 @@ Appender::getName()
 
 
 void 
-Appender::setName(const std::string& name)
+Appender::setName(const log4cplus::tstring& name)
 {
     this->name = name;
 }
@@ -172,7 +185,7 @@ Appender::setErrorHandler(std::auto_ptr<ErrorHandler> eh)
     if(eh.get() == NULL) {
         // We do not throw exception here since the cause is probably a
         // bad config file.
-        getLogLog().warn("You have tried to set a null error-handler.");
+        getLogLog().warn(LOG4CPLUS_TEXT("You have tried to set a null error-handler."));
         return;
     }
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )

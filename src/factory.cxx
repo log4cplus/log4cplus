@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/04/12 13:51:08  tcsmith
+// No longer dynamically allocate the object in the "singleton" method.
+//
 // Revision 1.4  2003/04/03 00:41:11  tcsmith
 // Standardized the formatting.
 //
@@ -39,7 +42,9 @@ namespace log4cplus {
             return SharedAppenderPtr(new log4cplus::ConsoleAppender(props));
         }
 
-        string getTypeName() { return "log4cplus::ConsoleAppender"; }
+        tstring getTypeName() { 
+	    return LOG4CPLUS_TEXT("log4cplus::ConsoleAppender"); 
+	}
     };
 
 
@@ -50,7 +55,9 @@ namespace log4cplus {
             return SharedAppenderPtr(new log4cplus::FileAppender(props));
         }
 
-        string getTypeName() { return "log4cplus::FileAppender"; }
+        tstring getTypeName() { 
+	    return LOG4CPLUS_TEXT("log4cplus::FileAppender"); 
+	}
     };
 
 
@@ -61,7 +68,9 @@ namespace log4cplus {
             return SharedAppenderPtr(new log4cplus::RollingFileAppender(props));
         }
 
-        string getTypeName() { return "log4cplus::RollingFileAppender"; }
+        tstring getTypeName() { 
+	    return LOG4CPLUS_TEXT("log4cplus::RollingFileAppender"); 
+	}
     };
 
 
@@ -71,7 +80,9 @@ namespace log4cplus {
             return std::auto_ptr<Layout>(new log4cplus::SimpleLayout(props));
         }
 
-        string getTypeName() { return "log4cplus::SimpleLayout"; }
+        tstring getTypeName() { 
+	    return LOG4CPLUS_TEXT("log4cplus::SimpleLayout"); 
+	}
     };
 
 
@@ -81,7 +92,9 @@ namespace log4cplus {
             return std::auto_ptr<Layout>(new log4cplus::TTCCLayout(props));
         }
 
-        string getTypeName() { return "log4cplus::TTCCLayout"; }
+        tstring getTypeName() { 
+	    return LOG4CPLUS_TEXT("log4cplus::TTCCLayout"); 
+	}
     };
 
 
@@ -91,7 +104,9 @@ namespace log4cplus {
             return std::auto_ptr<Layout>(new log4cplus::PatternLayout(props));
         }
 
-        string getTypeName() { return "log4cplus::PatternLayout"; }
+        tstring getTypeName() { 
+	    return LOG4CPLUS_TEXT("log4cplus::PatternLayout"); 
+	}
     };
 }
 
@@ -107,24 +122,17 @@ namespace {
     public:
         _static_FactoryRegistry_initializer() { 
             AppenderFactoryRegistry& reg = getAppenderFactoryRegistry();
-            reg.put("log4cplus::ConsoleAppender", 
-                    auto_ptr<AppenderFactory>(new ConsoleAppenderFactory()));
-            reg.put("log4cplus::FileAppender", 
-                    auto_ptr<AppenderFactory>(new FileAppenderFactory()));
-            reg.put("log4cplus::RollingFileAppender", 
-                    auto_ptr<AppenderFactory>(new RollingFileAppenderFactory()));
+            reg.put(auto_ptr<AppenderFactory>(new ConsoleAppenderFactory()));
+            reg.put(auto_ptr<AppenderFactory>(new FileAppenderFactory()));
+            reg.put(auto_ptr<AppenderFactory>(new RollingFileAppenderFactory()));
 
             LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
-            reg2.put("log4cplus::SimpleLayout", 
-                     auto_ptr<LayoutFactory>(new SimpleLayoutFactory()));
-            reg2.put("log4cplus::TTCCLayout", 
-                     auto_ptr<LayoutFactory>(new TTCCLayoutFactory()));
-            reg2.put("log4cplus::PatternLayout", 
-                     auto_ptr<LayoutFactory>(new PatternLayoutFactory()));
+            reg2.put(auto_ptr<LayoutFactory>(new SimpleLayoutFactory()));
+            reg2.put(auto_ptr<LayoutFactory>(new TTCCLayoutFactory()));
+            reg2.put(auto_ptr<LayoutFactory>(new PatternLayoutFactory()));
         }
     } initializer;
 }
-
 
 
 ///////////////////////////////////////////////////////////////////////////////
