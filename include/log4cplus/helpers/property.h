@@ -78,6 +78,13 @@ namespace log4cplus {
             void setProperty(const std::string& key, const std::string& value);
 
 
+            /**
+             * Returns a subset of the "properties" whose keys start with
+             * "prefix".  The returned "properties" have "prefix" trimmed from
+             * their keys.
+             */
+            Properties getPropertySubset(const std::string& prefix) const;
+
         protected:
           // Types
             typedef std::map<std::string, std::string> StringMap;
