@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.1  2003/04/18 22:25:30  tcsmith
+// Initial version.
+//
 
 #include <log4cplus/helpers/stringhelper.h>
 
@@ -33,11 +36,11 @@ log4cplus::helpers::toupper(const log4cplus::tstring& s)
 {
     tstring ret;
     std::transform(s.begin(), s.end(),
-	           std::back_insert_iterator<tstring>(ret),
+                   string_append_iterator<tstring>(ret),
 #ifdef UNICODE
-	           ::towupper);
+                   ::towupper);
 #else
-	           ::toupper);
+                   ::toupper);
 #endif
 
     return ret;
@@ -49,11 +52,11 @@ log4cplus::helpers::tolower(const log4cplus::tstring& s)
 {
     tstring ret;
     std::transform(s.begin(), s.end(),
-	           std::back_insert_iterator<tstring>(ret),
+                   string_append_iterator<tstring>(ret),
 #ifdef UNICODE
-	           ::towlower);
+                   ::towlower);
 #else
-	           ::tolower);
+                   ::tolower);
 #endif
 
     return ret;

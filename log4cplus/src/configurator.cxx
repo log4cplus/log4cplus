@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.4  2003/04/18 21:00:38  tcsmith
+// Converted from std::string to log4cplus::tstring.
+//
 // Revision 1.3  2003/04/05 20:14:38  tcsmith
 // Added replaceEnvironVariables() implementation.
 //
@@ -207,7 +210,7 @@ log4cplus::PropertyConfigurator::configureLogger(log4cplus::Logger logger,
     // Remove all spaces from config
     tstring configString;
     remove_copy_if(config.begin(), config.end(),
-                   back_insert_iterator<tstring>(configString),
+                   string_append_iterator<tstring>(configString),
                    bind1st(equal_to<tchar>(), ' '));
 
     // "Tokenize" configString
