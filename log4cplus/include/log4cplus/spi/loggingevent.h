@@ -20,7 +20,7 @@
 #include <log4cplus/loglevel.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/tstring.h>
-#include <time.h>
+#include <log4cplus/helpers/timehelper.h>
 
 namespace log4cplus {
     namespace spi {
@@ -110,7 +110,7 @@ namespace log4cplus {
             const char* file;
 
             /** The is the line where this log statement was written */
-            int line;
+            const int line;
         };
 
     } // end namespace spi
