@@ -1,5 +1,5 @@
 // Module:  Log4CPLUS
-// File:    ostream.h
+// File:    streams.h
 // Created: 4/2003
 // Author:  Tad E. Smith
 //
@@ -13,8 +13,8 @@
 
 /** @file */
 
-#ifndef LOG4CPLUS_IOSTREAM_HEADER_
-#define LOG4CPLUS_IOSTREAM_HEADER_
+#ifndef LOG4CPLUS_STREAMS_HEADER_
+#define LOG4CPLUS_STREAMS_HEADER_
 
 #include <log4cplus/config.h>
 
@@ -24,6 +24,7 @@
 #ifdef UNICODE
     namespace log4cplus {
         typedef std::wostream tostream;
+        typedef std::wistream tistream;
         typedef std::wostringstream tostringstream;
         static tostream &tcout = std::wcout;
         static tostream &tcerr = std::wcerr;
@@ -31,11 +32,12 @@
 #else
     namespace log4cplus {
         typedef std::ostream tostream;
+        typedef std::istream tistream;
         typedef std::ostringstream tostringstream;
         static tostream &tcout = std::cout;
         static tostream &tcerr = std::cerr;
     }
 #endif // UNICODE
 
-#endif // LOG4CPLUS_IOSTREAM_HEADER_
+#endif // LOG4CPLUS_STREAMS_HEADER_
 
