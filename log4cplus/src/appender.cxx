@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/04/03 01:37:16  tcsmith
+// Removed tabs from this file.
+//
 // Revision 1.4  2003/04/03 00:35:22  tcsmith
 // Standardized the formatting.
 //
@@ -75,7 +78,7 @@ Appender::Appender(log4cplus::helpers::Properties properties)
    closed(false)
 {
     if(properties.exists("layout")) {
-        string factoryName = properties.getProperty("layout");
+        std::string factoryName = properties.getProperty("layout");
         LayoutFactory* factory = getLayoutFactoryRegistry().get(factoryName);
         if(factory == 0) {
             getLogLog().error("Cannot find LayoutFactory: \"" + factoryName + "\"");
@@ -93,7 +96,7 @@ Appender::Appender(log4cplus::helpers::Properties properties)
             }
         }
         catch(std::exception& e) {
-            getLogLog().error("Error while creating Layout: " + string(e.what()));
+            getLogLog().error("Error while creating Layout: " + std::string(e.what()));
             return;
         }
 
