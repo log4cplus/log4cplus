@@ -478,7 +478,7 @@ namespace log4cplus {
     if(cat.isWarnEnabled()) { \
         std::ostringstream _log4cplus_buf; \
         _log4cplus_buf << log; \
-        cat.info(_log4cplus_buf.str(), __FILE__, __LINE__); \
+        cat.warn(_log4cplus_buf.str(), __FILE__, __LINE__); \
     }
 
 #define LOG4CPLUS_ERROR(cat, log) \
