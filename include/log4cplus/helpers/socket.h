@@ -19,7 +19,9 @@
 #include <log4cplus/config.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/socketbuffer.h>
-
+#if defined(_WIN32)
+#include <winsock.h>
+#endif
 
 namespace log4cplus {
     namespace helpers {
