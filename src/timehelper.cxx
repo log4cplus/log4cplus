@@ -11,14 +11,21 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.2  2003/04/19 23:51:17  tcsmith
+// Now call the strftime() function in the global namespace.
+//
 // Revision 1.1  2003/04/19 22:55:27  tcsmith
 // Initial version.
 //
 
-#include <log4cplus/helpers/strftime.h>
+#include <log4cplus/helpers/timehelper.h>
 
-#ifdef TM_IN_SYS_TIME
-#include <sys/time.h>
+#if defined(HAVE_GMTIME_R) && !defined(LOG4CPLUS_SINGLE_THREADED)
+#define LOG4CPLUS_NEED_GMTIME_R
+#endif
+
+#if defined(HAVE_LOCALTIME_R) && !defined(LOG4CPLUS_SINGLE_THREADED)
+#define LOG4CPLUS_NEED_LOCALTIME_R
 #endif
 
 
@@ -40,5 +47,32 @@ log4cplus::helpers::strftime(tchar* s, size_t max,
     return ::strftime(s, max, format, tm);
 #endif
 }
+
+
+
+struct tm*
+log4cplus::helpers::gmtime(const time_t *clock, struct tm *res)
+{
+#ifdef LOG4CPLUS_NEED_GMTIME_R
+    return ::gmtime_r(clock, res);
+#else
+    res = res;  // remove compiler warning
+    return ::gmtime(clock);
+#endif
+}
+
+
+
+struct tm*
+log4cplus::helpers::localtime(const time_t *clock, struct tm *res)
+{
+#ifdef LOG4CPLUS_NEED_LOCALTIME_R
+    return ::localtime_r(clock, res);
+#else
+    res = res;  // remove compiler warning
+    return ::localtime(clock);
+#endif
+}
+
 
 
