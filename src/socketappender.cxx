@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/06/06 17:04:31  tcsmith
+// Changed the ctor to take a 'const' Properties object.
+//
 // Revision 1.5  2003/06/03 20:22:00  tcsmith
 // Modified the close() method to set "closed = true;".
 //
@@ -37,7 +40,7 @@ using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 
-#define LOG4CPLUS_MESSAGE_VERSION 1
+#define LOG4CPLUS_MESSAGE_VERSION 2
 
 
 
@@ -153,7 +156,8 @@ log4cplus::helpers::convertToBuffer(const log4cplus::spi::InternalLoggingEvent& 
     buffer.appendString(event.ndc);
     buffer.appendString(event.message);
     buffer.appendInt(event.thread);
-    buffer.appendInt(event.timestamp);
+    buffer.appendInt( static_cast<unsigned int>(event.timestamp.sec()) );
+    buffer.appendInt( static_cast<unsigned int>(event.timestamp.usec()) );
     buffer.appendString( (  event.file == 0 
                           ? tstring() 
                           : LOG4CPLUS_C_STR_TO_TSTRING(event.file)) );
@@ -187,7 +191,8 @@ log4cplus::helpers::readFromBuffer(SocketBuffer& buffer)
     }
     tstring message = buffer.readString(sizeOfChar);
     LOG4CPLUS_THREAD_KEY_TYPE thread = buffer.readInt();
-    time_t timestamp = buffer.readInt();
+    long sec = buffer.readInt();
+    long usec = buffer.readInt();
     tstring file = buffer.readString(sizeOfChar);
     int line = buffer.readInt();
 
@@ -196,7 +201,7 @@ log4cplus::helpers::readFromBuffer(SocketBuffer& buffer)
                                                 ndc,
                                                 message,
                                                 thread,
-                                                timestamp,
+                                                Time(sec, usec),
                                                 0,  // TODO --> How do I deal with this?
                                                 line);
 }

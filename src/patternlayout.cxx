@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  2003/06/09 18:13:17  tcsmith
+// Changed the ctor to take a 'const' Properties object.
+//
 // Revision 1.9  2003/06/04 18:59:00  tcsmith
 // Modified to use the "time" function defined in the timehelper.h header.
 //
@@ -50,8 +53,6 @@ using namespace log4cplus::spi;
 
 
 #define ESCAPE_CHAR LOG4CPLUS_TEXT('%')
-#define MILLIS_PER_SEC 1000
-#define BUFFER_SIZE 30
 
 
 namespace log4cplus {
@@ -119,8 +120,7 @@ namespace log4cplus {
          */
         class BasicPatternConverter : public PatternConverter {
         public:
-            enum Type { RELATIVE_TIME_CONVERTER,
-                        THREAD_CONVERTER,
+            enum Type { THREAD_CONVERTER,
                         LOGLEVEL_CONVERTER,
                         NDC_CONVERTER,
                         MESSAGE_CONVERTER,
@@ -133,7 +133,6 @@ namespace log4cplus {
 
         private:
             LogLevelManager& llmCache;
-            const long CLOCKS_PER_MILLIS;
             Type type;
         };
 
@@ -298,15 +297,8 @@ log4cplus::pattern::BasicPatternConverter::BasicPatternConverter
                                         (const FormattingInfo& info, Type type)
 : PatternConverter(info),
   llmCache(getLogLevelManager()),
-  CLOCKS_PER_MILLIS(CLOCKS_PER_SEC / MILLIS_PER_SEC),
   type(type)
 {
-    if(   type == RELATIVE_TIME_CONVERTER
-       && CLOCKS_PER_SEC < MILLIS_PER_SEC) 
-    {
-        getLogLog().error
-                 (LOG4CPLUS_TEXT("RELATIVE_TIME will not display correctly on this platform"));
-    }
 }
 
 
@@ -323,13 +315,6 @@ log4cplus::pattern::BasicPatternConverter::convert
     case FILE_CONVERTER:     return (  event.file
                                      ? LOG4CPLUS_C_STR_TO_TSTRING(event.file) 
                                      : log4cplus::tstring());
-
-    case RELATIVE_TIME_CONVERTER:
-        {
-            log4cplus::tostringstream buf;
-            buf << (event.clock_ticks / CLOCKS_PER_MILLIS);
-            return buf.str();
-        }
 
     case THREAD_CONVERTER:        
         {
@@ -431,25 +416,7 @@ log4cplus::tstring
 log4cplus::pattern::DatePatternConverter::convert
                                             (const InternalLoggingEvent& event)
 {
-    tchar buffer[BUFFER_SIZE];
-    struct tm tmpTime;
-    struct tm* time;
-
-    if(use_gmtime) {
-        time = log4cplus::helpers::gmtime(&event.timestamp, &tmpTime);
-    }
-    else {
-        time = log4cplus::helpers::localtime(&event.timestamp, &tmpTime);
-    }
-
-    size_t result = log4cplus::helpers::strftime(buffer, BUFFER_SIZE, 
-                                                 format.c_str(), time);
-    if(result > 0) {
-        return log4cplus::tstring(buffer, result);
-    }
-    else {
-        return LOG4CPLUS_TEXT("INVALID DATE PATTERN");
-    }
+    return event.timestamp.getFormattedTime(format, use_gmtime);
 }
 
 
@@ -691,14 +658,6 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
                           (formattingInfo, 
                            BasicPatternConverter::LOGLEVEL_CONVERTER);
             //getLogLog().debug("LOGLEVEL converter.");
-            //formattingInfo.dump();
-            break;
-
-        case LOG4CPLUS_TEXT('r'):
-            pc = new BasicPatternConverter
-                          (formattingInfo, 
-                           BasicPatternConverter::RELATIVE_TIME_CONVERTER);
-            //getLogLog().debug("RELATIVE time converter.");
             //formattingInfo.dump();
             break;
 
