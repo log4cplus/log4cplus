@@ -8,9 +8,9 @@ SINGLE_THREADED_TESTS = appender_test \
           ndc_test \
           ostream_test \
 	  patternlayout_test \
+	  performance_test \
           priority_test \
 	  propertyconfig_test \
-	  shutdown_test \
 	  socket_test
 
 if MULTI_THREADED
