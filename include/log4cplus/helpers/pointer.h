@@ -93,14 +93,14 @@ namespace log4cplus {
           // Ctor
             SharedObject() 
              : access_mutex(LOG4CPLUS_MUTEX_CREATE), count(0), destroyed(false) {}
-            SharedObject(const SharedObject& rhs) 
+            SharedObject(const SharedObject&) 
              : access_mutex(LOG4CPLUS_MUTEX_CREATE), count(0), destroyed(false) {}
 
           // Dtor
             virtual ~SharedObject();
 
           // Operators
-            SharedObject& operator=(const SharedObject& rhs) { return *this; }
+            SharedObject& operator=(const SharedObject&) { return *this; }
 
         public:
             LOG4CPLUS_MUTEX_PTR_DECLARE access_mutex;
