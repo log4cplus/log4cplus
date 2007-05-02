@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.17  2004/02/14 20:13:05  tcsmith
+// Added support for Win32DebugAppender.
+//
 // Revision 1.16  2003/09/28 04:02:14  tcsmith
 // Made some fixes for the VisualAge 5 compiler on AIX.
 //
@@ -62,12 +65,14 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
 
+#if defined (_WIN32)
+#include <log4cplus/Win32DebugAppender.h>
+#endif
 
 using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // LOCAL file class definitions
