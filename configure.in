@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(src/logger.cxx)
+AC_INIT
+AC_CONFIG_SRCDIR([src/logger.cxx])
 AM_INIT_AUTOMAKE(log4cplus, 1.0)
-AM_CONFIG_HEADER(include/log4cplus/config.h)
 
 #
 # +1 : ? : +1  == new interface that does not break old one
@@ -16,12 +16,12 @@ AC_SUBST(LT_VERSION)
 AC_PROG_LIBTOOL
 
 dnl Checks for programs.
-AC_ISC_POSIX
+AC_SEARCH_LIBS([strerror],[cposix])
 
 dnl first check for c/c++ compilers
 AC_PROG_CXX
 AC_PROG_CXXCPP
-AC_LANG_CPLUSPLUS
+AC_LANG([C++])
 
 dnl Checks for libraries.
 AC_PROG_RANLIB 
@@ -32,37 +32,26 @@ AC_CHECK_FUNC(gethostent, , AC_CHECK_LIB(nsl, gethostent))
 AC_CHECK_FUNC(setsockopt, , AC_CHECK_LIB(socket, setsockopt))
 
 dnl Checks for header files.
-AC_STDC_HEADERS
-AC_HAVE_HEADERS(strstream.h strstream sstream syslog.h)
+AC_HEADER_STDC
+AC_CHECK_HEADERS([strstream.h strstream sstream syslog.h netinet/in.h])
 
 dnl Checks for library functions.
 AC_FUNC_ALLOCA
 AC_FUNC_STRFTIME
 AC_STRUCT_TM
-AC_CHECK_FUNCS(gmtime_r)
-AC_CHECK_FUNCS(localtime_r)
-AC_CHECK_FUNCS(gettimeofday)
-AC_CHECK_FUNCS(ftime)
-AC_CHECK_FUNCS(stat)
-AC_CHECK_FUNCS(lstat)
+AC_CHECK_FUNCS([gmtime_r])
+AC_CHECK_FUNCS([localtime_r])
+AC_CHECK_FUNCS([gettimeofday])
+AC_CHECK_FUNCS([ftime])
+AC_CHECK_FUNCS([stat])
+AC_CHECK_FUNCS([lstat])
+AC_CHECK_FUNCS([htons])
+AC_CHECK_FUNCS([ntohs])
+AC_CHECK_FUNCS([htonl])
+AC_CHECK_FUNCS([ntohl])
 
 dnl Check for the existance of type socklen_t.
-AC_DEFUN([TYPE_SOCKLEN_T],
-[AC_CACHE_CHECK([for socklen_t], ac_cv_type_socklen_t,
-[
-  AC_TRY_COMPILE(
-  [#include <sys/types.h>
-   #include <sys/socket.h>],
-  [socklen_t len = 42; return 0;],
-   ac_cv_type_socklen_t=yes,
-   ac_cv_type_socklen_t=no)
-])
-  if test $ac_cv_type_socklen_t != yes; then
-    AC_DEFINE(socklen_t, int)
-  fi
-])
 TYPE_SOCKLEN_T
-		
 
 dnl Check for single-threaded compilation
 AC_ARG_ENABLE(threads,
@@ -91,7 +80,11 @@ else
 fi
 AM_CONDITIONAL(MULTI_THREADED, test x$multi_threaded = xtrue)
 
-AC_OUTPUT([Makefile 
+AH_BOTTOM([#include <log4cplus/helpers/thread-config.h>])
+AH_BOTTOM([#include <log4cplus/helpers/os-config.h>])
+
+AC_CONFIG_HEADERS([include/log4cplus/config.h])
+AC_CONFIG_FILES([Makefile 
            src/Makefile 
            tests/Makefile 
            tests/appender_test/Makefile 
@@ -109,4 +102,4 @@ AC_OUTPUT([Makefile
 	   tests/propertyconfig_test/Makefile
 	   tests/socket_test/Makefile
            tests/thread_test/Makefile ])
-
+AC_OUTPUT
