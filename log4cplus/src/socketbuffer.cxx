@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5.2.2  2008/08/28 21:04:20  wilx
+// Apply fix for Cygwin compliation failure.  The fix was obtained from
+// <http://sourceforge.net/tracker/index.php?func=detail&aid=1178841&group_id=40830&atid=429076>.
+//
 // Revision 1.5.2.1  2004/02/15 05:19:46  tcsmith
 // Now correctly do an "array delete" in the destructor.
 //
@@ -39,7 +43,7 @@
 #include <winsock.h>
 #endif
 
-#if defined (__CYGWIN__)
+#if defined (__CYGWIN__) || defined (HAVE_NETINET_IN_H)
 #include <netinet/in.h>
 #endif
 

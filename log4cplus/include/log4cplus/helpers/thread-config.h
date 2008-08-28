@@ -16,6 +16,8 @@
 #ifndef LOG4CPLUS_HELPERS_THREAD_CONFIG_HEADER_
 #define LOG4CPLUS_HELPERS_THREAD_CONFIG_HEADER_
 
+#include <log4cplus/config.h>
+
 
 #ifdef LOG4CPLUS_USE_PTHREADS
 #   include <pthread.h>

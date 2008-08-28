@@ -1,4 +1,4 @@
-
+AM_CPPFLAGS = -Wall -Wextra -pedantic -I$(top_srcdir)/include -I$(top_builddir)/include
 
 SINGLE_THREADED_TESTS = appender_test \
           customloglevel_test \

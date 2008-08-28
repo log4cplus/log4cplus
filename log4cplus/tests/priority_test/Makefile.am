@@ -1,8 +1,6 @@
-
+AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include
 
 noinst_PROGRAMS = priority_test
-
-INCLUDES = -I$(top_srcdir)/include
 
 priority_test_SOURCES = main.cxx func.cxx
 

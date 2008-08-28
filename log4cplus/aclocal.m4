@@ -733,9 +733,6 @@ symcode='[[BCDEGRST]]'
 # Regexp to match symbols that can be accessed directly from C.
 sympat='\([[_A-Za-z]][[_A-Za-z0-9]]*\)'
 
-# Transform the above into a raw symbol and a C symbol.
-symxfrm='\1 \2\3 \3'
-
 # Transform an extracted symbol line into a proper C declaration
 lt_cv_global_symbol_to_cdecl="sed -n -e 's/^. .* \(.*\)$/extern char \1;/p'"
 
@@ -871,7 +868,7 @@ EOF
     echo "$progname: failed program was:" >&AC_FD_CC
     cat conftest.$ac_ext >&5
   fi
-  rm -f conftest* conftst*
+  rm -rf conftest* conftst*
 
   # Do not use the global_symbol_pipe unless it works.
   if test "$pipe_works" = yes; then
@@ -1409,6 +1406,10 @@ AC_CACHE_VAL(lt_cv_prog_cc_pic,
       # This hack is so that the source file can tell whether it is being
       # built for inclusion in a dll (and should export symbols for example).
       lt_cv_prog_cc_pic='-DDLL_EXPORT'
+      ;;
+    interix[[3-9]]*)
+      # Interix 3.x gcc -fpic/-fPIC options generate broken code.
+      # Instead, we relocate shared libraries at runtime.
       ;;
     sysv4*MP*)
       if test -d /usr/nec; then
