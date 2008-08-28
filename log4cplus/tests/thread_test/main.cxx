@@ -60,6 +60,9 @@ private:
 };
 
 
+template class __declspec (dllexport) log4cplus::helpers::SharedObjectPtr<TestThread>;
+
+
 int
 main() 
 {
