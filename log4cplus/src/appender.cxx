@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.15  2003/09/28 04:02:59  tcsmith
+// Made some fixes for the VisualAge 5 compiler on AIX.
+//
 // Revision 1.14  2003/07/30 03:19:29  tcsmith
 // Added support for the "Threshold" property.
 //
@@ -57,6 +60,9 @@
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
+
+
+template class log4cplus::helpers::SharedObjectPtr<Appender>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
