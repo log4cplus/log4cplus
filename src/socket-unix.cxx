@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  2003/12/07 06:27:02  tcsmith
+// 1)  Fixed Bug #831311 - "loggingserver.cxx clientsock.read()
+// 2)  Fixed Bug #851074 - "build problem HPUX 11, gcc 3.3"
+//
 // Revision 1.9  2003/10/22 06:00:35  tcsmith
 // Fixed the read() method so that it always fills the buffer.
 //
@@ -52,7 +56,7 @@
 #endif
  
 
-#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__hpux__)
+#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__hpux__) || defined (__CYGWIN__)
 #include <netinet/in.h>
 #endif
 

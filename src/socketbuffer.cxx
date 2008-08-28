@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5.2.1  2004/02/15 05:19:46  tcsmith
+// Now correctly do an "array delete" in the destructor.
+//
 // Revision 1.5  2003/11/21 21:23:29  tcsmith
 // Fixed memory alignment errors on Solaris.
 //
@@ -34,6 +37,10 @@
 #  include <netdb.h>
 #else
 #include <winsock.h>
+#endif
+
+#if defined (__CYGWIN__)
+#include <netinet/in.h>
 #endif
 
 using namespace log4cplus;
