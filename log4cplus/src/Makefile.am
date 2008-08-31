@@ -7,7 +7,7 @@ endif
 
 lib_LTLIBRARIES = liblog4cplus.la
 
-AM_CPPFLAGS = -Wall -Wextra -pedantic -I$(top_srcdir)/include -I$(top_builddir)/include
+AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include
 
 nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/config.h \
@@ -90,5 +90,5 @@ endif
 liblog4cplus_la_SOURCES = $(LIB_SRC)
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -no-undefined -version-info 1:0:0 -release 1.0
+liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release 1.0
 

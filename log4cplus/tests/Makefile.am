@@ -1,4 +1,4 @@
-AM_CPPFLAGS = -Wall -Wextra -pedantic -I$(top_srcdir)/include -I$(top_builddir)/include
+AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include
 
 SINGLE_THREADED_TESTS = appender_test \
           customloglevel_test \
@@ -19,4 +19,3 @@ SUBDIRS = $(SINGLE_THREADED_TESTS) thread_test configandwatch_test
 else
 SUBDIRS = $(SINGLE_THREADED_TESTS)
 endif
-
