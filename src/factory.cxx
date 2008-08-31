@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.16  2003/09/28 04:02:14  tcsmith
+// Made some fixes for the VisualAge 5 compiler on AIX.
+//
 // Revision 1.15  2003/08/27 14:55:16  tcsmith
 // Modified initializeFactoryRegistry() to fix for the AIX compiler.
 //
@@ -71,6 +74,31 @@ using namespace log4cplus::spi;
 ///////////////////////////////////////////////////////////////////////////////
 
 namespace log4cplus {
+    BaseFactory::~BaseFactory()
+    { }
+
+
+    AppenderFactory::AppenderFactory()
+    { }
+
+    AppenderFactory::~AppenderFactory()
+    { }
+
+
+    LayoutFactory::LayoutFactory()
+    { }
+
+    LayoutFactory::~LayoutFactory()
+    { }
+
+    
+    FilterFactory::FilterFactory()
+    { }
+
+    FilterFactory::~FilterFactory()
+    { }
+
+
     class ConsoleAppenderFactory : public AppenderFactory {
     public:
         SharedAppenderPtr createObject(const Properties& props)

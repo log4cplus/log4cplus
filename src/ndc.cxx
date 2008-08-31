@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/09/10 06:48:29  tcsmith
+// The ctor once again initialized fullMessage in an initialization list.
+//
 // Revision 1.8  2003/08/08 05:56:23  tcsmith
 // Added a fix for the Borland compiler.
 //
@@ -322,3 +325,24 @@ NDC::setMaxDepth(size_t maxDepth)
 }
 
 
+DiagnosticContextStack* NDC::getPtr()
+{ 
+    return static_cast<DiagnosticContextStack*>
+        (LOG4CPLUS_GET_THREAD_LOCAL_VALUE( threadLocal )); 
+}
+
+
+//
+//
+//
+
+NDCContextCreator::NDCContextCreator(const log4cplus::tstring& msg) 
+{ 
+    getNDC().push(msg); 
+}
+
+
+NDCContextCreator::~NDCContextCreator() 
+{ 
+    getNDC().pop(); 
+}
