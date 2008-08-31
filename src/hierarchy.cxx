@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10.2.1  2008/08/31 11:26:55  wilx
+// Mark anonymous namespace symbols static so that they do not get
+// exported with ugly names in DLL.
+//
 // Revision 1.10  2003/08/08 07:10:58  tcsmith
 // Modified getInstanceImpl() to "deep copy" Logger names.
 //
@@ -272,24 +276,18 @@ Hierarchy::getInstanceImpl(const log4cplus::tstring& name, spi::LoggerFactory& f
          return (*it).second;
      }
      else {
-         // NOTE: The following "deep copy" of 'name' is intentional.  MSVC has
-         //       a reference counted string and there was a report of the
-         //       underlying char[] being deleted before the string during 
-         //       program termination.
-         log4cplus::tstring newname(name.c_str());
-         
          // Need to create a new logger
-         Logger logger = factory.makeNewLoggerInstance(newname, *this);
-         bool inserted = loggerPtrs.insert(std::make_pair(newname, logger)).second;
+         Logger logger = factory.makeNewLoggerInstance(name, *this);
+         bool inserted = loggerPtrs.insert(std::make_pair(name, logger)).second;
          if(!inserted) {
              getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstanceImpl()- Insert failed"));
              throw std::runtime_error("Hierarchy::getInstanceImpl()- Insert failed");
          }
          
-         ProvisionNodeMap::iterator it2 = provisionNodes.find(newname);
+         ProvisionNodeMap::iterator it2 = provisionNodes.find(name);
          if(it2 != provisionNodes.end()) {
              updateChildren(it2->second, logger);
-             bool deleted = (provisionNodes.erase(newname) > 0);
+             bool deleted = (provisionNodes.erase(name) > 0);
              if(!deleted) {
                  getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstanceImpl()- Delete failed"));
                  throw std::runtime_error("Hierarchy::getInstanceImpl()- Delete failed");
