@@ -23,6 +23,10 @@ AC_PROG_CXX
 AC_PROG_CXXCPP
 AC_LANG([C++])
 AX_CXXFLAGS_WARN_ALL
+AC_CXX_COMPILER_VENDOR([ac_cxx_compiler_vendor])
+AS_CASE([$ac_cxx_compiler_vendor], [gnu], 
+  [AX_CXXFLAGS_GCC_OPTION([-Wextra])
+  AX_CXXFLAGS_GCC_OPTION([-O2])])
 
 dnl Checks for libraries.
 AC_PROG_RANLIB
@@ -83,12 +87,15 @@ AC_ARG_ENABLE([threads],
  esac],[multi_threaded=true])
 
 if test x$multi_threaded = xtrue ; then
+    CPPFLAGS="$CPPFLAGS -D_REENTRANT"
+    ACX_PTHREAD([], 
+      [AC_MSG_ERROR([Requested threads support but no therads were found.])])
     echo "****************************************"
     echo "Creating a multi-threaded library"
     echo "****************************************"
-    CPPFLAGS="$CPPFLAGS -D_REENTRANT"
-    AC_CHECK_LIB(pthread, pthread_create)
-    AC_CHECK_LIB(pthreads, pthread_create)
+    CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
+    CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
+    LIBS="$PTHREAD_LIBS $LIBS"
     AC_CHECK_LIB(rt, nanosleep)
 else
     echo "****************************************"
