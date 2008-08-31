@@ -21119,6 +21119,96 @@ case ".$ac_cv_cxxflags_gcc_option__Wextra" in
  ;;
 esac
 
+  { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -pedantic" >&5
+$as_echo_n "checking CXXFLAGS for gcc -pedantic... " >&6; }
+if test "${ac_cv_cxxflags_gcc_option__pedantic+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_cv_cxxflags_gcc_option__pedantic="no, unknown"
+
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ ac_save_CXXFLAGS="$CXXFLAGS"
+for ac_arg in "-pedantic -Werror % -pedantic"     "-pedantic % -pedantic %% no, obsolete"     #
+do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+   cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+return 0;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_cxxflags_gcc_option__pedantic=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+done
+ CXXFLAGS="$ac_save_CXXFLAGS"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__pedantic" >&5
+$as_echo "$ac_cv_cxxflags_gcc_option__pedantic" >&6; }
+case ".$ac_cv_cxxflags_gcc_option__pedantic" in
+     .ok|.ok,*)  ;;
+   .|.no|.no,*)  ;;
+   *)
+   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__pedantic " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__pedantic") >&5
+  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__pedantic) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__pedantic\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__pedantic") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__pedantic"
+   fi
+ ;;
+esac
+
   { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -O2" >&5
 $as_echo_n "checking CXXFLAGS for gcc -O2... " >&6; }
 if test "${ac_cv_cxxflags_gcc_option__O2+set}" = set; then
