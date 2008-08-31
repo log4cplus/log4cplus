@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10.2.1  2008/08/28 21:04:20  wilx
+// Apply fix for Cygwin compliation failure.  The fix was obtained from
+// <http://sourceforge.net/tracker/index.php?func=detail&aid=1178841&group_id=40830&atid=429076>.
+//
 // Revision 1.10  2003/12/07 06:27:02  tcsmith
 // 1)  Fixed Bug #831311 - "loggingserver.cxx clientsock.read()
 // 2)  Fixed Bug #851074 - "build problem HPUX 11, gcc 3.3"
@@ -44,6 +48,7 @@
 // Initial version.
 //
 
+#include <cstring>
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>

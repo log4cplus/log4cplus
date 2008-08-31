@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  2003/06/29 16:48:25  tcsmith
+// Modified to support that move of the getLogLog() method into the LogLog
+// class.
+//
 // Revision 1.9  2003/06/23 20:56:43  tcsmith
 // Modified to support the changes in the spi::InternalLoggingEvent class.
 //
@@ -40,6 +44,7 @@
 // Initial version.
 //
 
+#include <cstdlib>
 #include <log4cplus/socketappender.h>
 #include <log4cplus/layout.h>
 #include <log4cplus/helpers/loglog.h>

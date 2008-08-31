@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.13  2004/02/10 07:36:37  tcsmith
+// Fixed UNICODE support.
+//
 // Revision 1.12  2003/10/22 05:46:38  tcsmith
 // Now strip trailing \r.  (A property file can be created on Windows and used
 // on *nix.)
@@ -44,6 +47,7 @@
 // Standardized the formatting.
 //
 
+#include <cstring>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/fstreams.h>
 
