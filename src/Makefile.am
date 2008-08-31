@@ -90,5 +90,5 @@ endif
 liblog4cplus_la_SOURCES = $(LIB_SRC)
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -no-undefined -version-info 1:0:3
+liblog4cplus_la_LDFLAGS = -no-undefined -version-info 1:0:0 -release 1.0
 
