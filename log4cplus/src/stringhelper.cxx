@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.11  2003/08/29 05:12:44  tcsmith
+// Added a cast to the tostring() method to avoid a warning message.
+//
 // Revision 1.10  2003/07/30 06:03:00  tcsmith
 // Made changes to support Mac OS X builds.
 //
@@ -90,7 +93,8 @@ log4cplus::helpers::towstring(const std::string& src)
     std::wstring ret;
     ret.resize(src.size());
     for (unsigned int i=0; i<src.size(); i++) {
-        ret[i] = static_cast<tchar>(src[i]);
+      ret[i] = static_cast<tchar>
+        (static_cast<unsigned char> (src[i]));
     }
 
     return ret;
