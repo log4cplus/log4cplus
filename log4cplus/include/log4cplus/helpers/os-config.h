@@ -1,7 +1,7 @@
 #ifndef LOG4CPLUS_INCLUDE_LOG4CPLUS_OS_CONFIG_H
 #define LOG4CPLUS_INCLUDE_LOG4CPLUS_OS_CONFIG_H
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 
 
 #ifdef _WIN32

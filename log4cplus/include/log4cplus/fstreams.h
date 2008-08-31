@@ -16,7 +16,7 @@
 #ifndef LOG4CPLUS_FSTREAMS_HEADER_
 #define LOG4CPLUS_FSTREAMS_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 
 #include <fstream>
 

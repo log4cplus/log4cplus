@@ -29,29 +29,53 @@ AS_CASE([$ac_cxx_compiler_vendor], [gnu],
   AX_CXXFLAGS_GCC_OPTION([-O2])])
 
 dnl Checks for libraries.
+
 AC_PROG_RANLIB
 AC_CHECK_LIB([rt], [nanosleep])
-AC_CHECK_FUNC([gethostent], [], AC_CHECK_LIB([nsl], [gethostent]))
-AC_CHECK_FUNC([setsockopt], [], AC_CHECK_LIB([socket], [setsockopt]))
+AC_CHECK_FUNC([gethostent], [], [AC_CHECK_LIB([nsl], [gethostent])])
+AC_CHECK_FUNC([setsockopt], [], [AC_CHECK_LIB([socket], [setsockopt])])
 
 dnl Checks for header files.
+
 AC_HEADER_STDC
-AC_CHECK_HEADERS([strstream.h strstream sstream syslog.h netinet/in.h])
+
+AH_TEMPLATE([LOG4CPLUS_HAVE_SYSLOG_H])
+AC_CHECK_HEADER([syslog.h], [AC_DEFINE([LOG4CPLUS_HAVE_SYSLOG_H])])
+
+AH_TEMPLATE([LOG4CPLUS_HAVE_NETINET_IN_H])
+AC_CHECK_HEADER([netinet/in.h], [AC_DEFINE([LOG4CPLUS_HAVE_NETINET_IN_H])])
 
 dnl Checks for library functions.
-AC_FUNC_ALLOCA
-AC_FUNC_STRFTIME
-AC_STRUCT_TM
-AC_CHECK_FUNCS([gmtime_r])
-AC_CHECK_FUNCS([localtime_r])
-AC_CHECK_FUNCS([gettimeofday])
-AC_CHECK_FUNCS([ftime])
-AC_CHECK_FUNCS([stat])
-AC_CHECK_FUNCS([lstat])
-AC_CHECK_FUNCS([htons])
-AC_CHECK_FUNCS([ntohs])
-AC_CHECK_FUNCS([htonl])
-AC_CHECK_FUNCS([ntohl])
+
+AH_TEMPLATE([LOG4CPLUS_HAVE_GMTIME_R])
+AC_CHECK_FUNCS([gmtime_r], [AC_DEFINE([LOG4CPLUS_HAVE_GMTIME_R])])
+
+AH_TEMPLATE([LOG4CPLUS_HAVE_LOCALTIME_R])
+AC_CHECK_FUNCS([localtime_r], [AC_DEFINE([LOG4CPLUS_HAVE_LOCALTIME_R])])
+
+AH_TEMPLATE([LOG4CPLUS_HAVE_GETTIMEOFDAY])
+AC_CHECK_FUNCS([gettimeofday], [AC_DEFINE([LOG4CPLUS_HAVE_GETTIMEOFDAY])])
+
+AH_TEMPLATE([LOG4CPLUS_HAVE_FTIME])
+AC_CHECK_FUNCS([ftime], [AC_DEFINE([LOG4CPLUS_HAVE_FTIME])])
+
+AH_TEMPLATE([LOG4CPLUS_HAVE_STAT])
+AC_CHECK_FUNCS([stat], [AC_DEFINE([LOG4CPLUS_HAVE_STAT])])
+
+AH_TEMPLATE([LOG4CPLUS_HAVE_LSTAT])
+AC_CHECK_FUNCS([lstat], [AC_DEFINE([LOG4CPLUS_HAVE_LSTAT])])
+
+AH_TEMPLATE([LOG4CPLUS_HAVE_HTONS])
+AC_CHECK_FUNCS([htons], [AC_DEFINE([LOG4CPLUS_HAVE_HTONS])])
+
+AH_TEMPLATE([LOG4CPLUS_HAVE_NTOHS])
+AC_CHECK_FUNCS([ntohs], [AC_DEFINE([LOG4CPLUS_HAVE_NTOHS])])
+
+AH_TEMPLATE([LOG4CPLUS_HAVE_HTONL])
+AC_CHECK_FUNCS([htonl], [AC_DEFINE([LOG4CPLUS_HAVE_HTONL])])
+
+AH_TEMPLATE([LOG4CPLUS_HAVE_NTOHL])
+AC_CHECK_FUNCS([ntohl], [AC_DEFINE([LOG4CPLUS_HAVE_NTOHL])])
 
 dnl Check for the existance of type socklen_t.
 TYPE_SOCKLEN_T
@@ -75,6 +99,8 @@ AS_IF([test "x$with_working_locale" = "xyes"],
 
 
 dnl Check for single-threaded compilation
+
+AH_TEMPLATE([LOG4CPLUS_USE_PTHREADS])
 AC_ARG_ENABLE([threads],
   [AS_HELP_STRING([--enable-threads=yes/no],
     [Use this option to create a singled-threaded version of this library])],
@@ -86,7 +112,7 @@ AC_ARG_ENABLE([threads],
 
 if test x$multi_threaded = xtrue ; then
     CPPFLAGS="$CPPFLAGS -D_REENTRANT"
-    ACX_PTHREAD([], 
+    ACX_PTHREAD([],
       [AC_MSG_ERROR([Requested threads support but no therads were found.])])
     echo "****************************************"
     echo "Creating a multi-threaded library"
@@ -94,20 +120,24 @@ if test x$multi_threaded = xtrue ; then
     CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
     CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
     LIBS="$PTHREAD_LIBS $LIBS"
-    AC_CHECK_LIB(rt, nanosleep)
+    AC_CHECK_LIB([rt], [nanosleep])
 else
     echo "****************************************"
     echo "Creating a single-threaded library"
     echo "****************************************"
-    AC_DEFINE(LOG4CPLUS_SINGLE_THREADED, 1,
+    AC_DEFINE([LOG4CPLUS_SINGLE_THREADED], [1],
               [Define if this is a single-threaded library.])
 fi
-AM_CONDITIONAL(MULTI_THREADED, test x$multi_threaded = xtrue)
+AM_CONDITIONAL([MULTI_THREADED], [test x$multi_threaded = xtrue])
 
+AH_TOP([#ifndef LOG4CPLUS_CONFIG_H])
+AH_TOP([#define LOG4CPLUS_CONFIG_H])
 AH_BOTTOM([#include <log4cplus/helpers/thread-config.h>])
 AH_BOTTOM([#include <log4cplus/helpers/os-config.h>])
+AH_BOTTOM([#endif // LOG4CPLUS_CONFIG_H])
 
 AC_CONFIG_HEADERS([include/log4cplus/config.h])
+AC_CONFIG_HEADERS([include/log4cplus/config.hxx])
 AC_CONFIG_FILES([Makefile
            src/Makefile
            tests/Makefile

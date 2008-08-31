@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/08/08 05:32:22  tcsmith
+// Changed the #if checks to look for _WIN32 and not WIN32.
+//
 // Revision 1.6  2003/06/23 20:56:43  tcsmith
 // Modified to support the changes in the spi::InternalLoggingEvent class.
 //
@@ -31,7 +34,7 @@
 //
 
 #include <log4cplus/syslogappender.h>
-#if defined(HAVE_SYSLOG_H) && !defined(_WIN32)
+#if defined(LOG4CPLUS_HAVE_SYSLOG_H) && !defined(_WIN32)
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
@@ -129,5 +132,5 @@ log4cplus::SysLogAppender::append(const spi::InternalLoggingEvent& event)
     }
 }
 
-#endif // defined(HAVE_SYSLOG_H)
+#endif // defined(LOG4CPLUS_HAVE_SYSLOG_H)
 

@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_HIERARCHY_HEADER_
 #define _LOG4CPLUS_HIERARCHY_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/logger.h>
 #include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/pointer.h>

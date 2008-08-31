@@ -19,10 +19,7 @@
 #ifdef _WIN32
 
 /* Define if you have the ftime function.  */
-#define HAVE_FTIME 1
-
-/* Define if you have the <sstream> header file.  */
-#define HAVE_SSTREAM 1
+#define LOG4CPLUS_HAVE_FTIME 1
 
 #ifdef LOG4CPLUS_STATIC
 #  define LOG4CPLUS_EXPORT

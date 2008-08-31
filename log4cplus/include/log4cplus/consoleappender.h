@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_CONSOLE_APPENDER_HEADER_
 #define _LOG4CPLUS_CONSOLE_APPENDER_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/appender.h>
 
 namespace log4cplus {

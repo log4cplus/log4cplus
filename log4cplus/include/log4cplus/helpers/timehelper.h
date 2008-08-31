@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_HELPERS_TIME_HELPER_HEADER_
 #define _LOG4CPLUS_HELPERS_TIME_HELPER_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 
 #ifdef TM_IN_SYS_TIME

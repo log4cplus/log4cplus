@@ -10,7 +10,7 @@ lib_LTLIBRARIES = liblog4cplus.la
 AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include
 
 nobase_include_HEADERS = ../include/log4cplus/appender.h \
-			 ../include/log4cplus/config.h \
+			 ../include/log4cplus/config.hxx \
 			 ../include/log4cplus/configurator.h \
 			 ../include/log4cplus/consoleappender.h \
 			 ../include/log4cplus/fileappender.h \

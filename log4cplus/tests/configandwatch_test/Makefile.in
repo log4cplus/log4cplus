@@ -46,7 +46,8 @@ am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h
+CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h \
+	$(top_builddir)/include/log4cplus/config.hxx
 CONFIG_CLEAN_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 am_configandwatch_test_OBJECTS = main.$(OBJEXT)
@@ -71,7 +72,6 @@ ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
-ALLOCA = @ALLOCA@
 AMTAR = @AMTAR@
 AR = @AR@
 AUTOCONF = @AUTOCONF@

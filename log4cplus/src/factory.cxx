@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.16.2.1  2008/08/31 11:25:15  wilx
+// Move ctors/dtors and other functions' definitions from headers into
+// .cxx files.
+//
 // Revision 1.16  2003/09/28 04:02:14  tcsmith
 // Made some fixes for the VisualAge 5 compiler on AIX.
 //
@@ -193,7 +197,7 @@ namespace log4cplus {
         }
     };
 
-#elif defined(HAVE_SYSLOG_H)
+#elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
     class SysLogAppenderFactory : public AppenderFactory {
     public:
         SharedAppenderPtr createObject(const Properties& props)
@@ -326,7 +330,7 @@ namespace log4cplus {
 #if defined(_WIN32)
         auto_ptr<AppenderFactory> ptr7(new NTEventLogAppenderFactory());
         reg.put(ptr7);
-#elif defined(HAVE_SYSLOG_H)
+#elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
         auto_ptr<AppenderFactory> ptr8(new SysLogAppenderFactory());
         reg.put(ptr8);
 #endif

@@ -44,7 +44,8 @@ am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h
+CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h \
+	$(top_builddir)/include/log4cplus/config.hxx
 CONFIG_CLEAN_FILES =
 SOURCES =
 DIST_SOURCES =
@@ -66,7 +67,6 @@ DIST_SUBDIRS = appender_test customloglevel_test fileappender_test \
 	configandwatch_test
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
-ALLOCA = @ALLOCA@
 AMTAR = @AMTAR@
 AR = @AR@
 AUTOCONF = @AUTOCONF@

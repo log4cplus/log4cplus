@@ -18,8 +18,7 @@
 
 #if (defined(__APPLE__) || (defined(__MWERKS__) && defined(__MACOS__)))
 
-#define HAVE_SSTREAM 1
-#define HAVE_GETTIMEOFDAY 1
+#define LOG4CPLUS_HAVE_GETTIMEOFDAY 1
 #define socklen_t int
 
 #endif // MACOSX

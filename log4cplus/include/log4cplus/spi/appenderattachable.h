@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_SPI_APPENDER_ATTACHABLE_HEADER_
 #define _LOG4CPLUS_SPI_APPENDER_ATTACHABLE_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/appender.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/pointer.h>
