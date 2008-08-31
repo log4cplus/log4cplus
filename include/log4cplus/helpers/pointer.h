@@ -21,7 +21,7 @@
 #ifndef _LOG4CPLUS_HELPERS_POINTERS_HEADER_
 #define _LOG4CPLUS_HELPERS_POINTERS_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <memory>
 #include <stdexcept>
 #include <string>

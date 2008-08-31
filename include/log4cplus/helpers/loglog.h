@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_HELPERS_LOGLOG
 #define _LOG4CPLUS_HELPERS_LOGLOG
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/threads.h>

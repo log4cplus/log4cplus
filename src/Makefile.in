@@ -49,7 +49,8 @@ am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h
+CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h \
+	$(top_builddir)/include/log4cplus/config.hxx
 CONFIG_CLEAN_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -113,7 +114,6 @@ ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
-ALLOCA = @ALLOCA@
 AMTAR = @AMTAR@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
@@ -232,7 +232,7 @@ top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = liblog4cplus.la
 AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include
 nobase_include_HEADERS = ../include/log4cplus/appender.h \
-			 ../include/log4cplus/config.h \
+			 ../include/log4cplus/config.hxx \
 			 ../include/log4cplus/configurator.h \
 			 ../include/log4cplus/consoleappender.h \
 			 ../include/log4cplus/fileappender.h \

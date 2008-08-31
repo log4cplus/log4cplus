@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_SPI_LOGGER_FACTORY_HEADER
 #define _LOG4CPLUS_SPI_LOGGER_FACTORY_HEADER
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/pointer.h>
 

@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2004/01/29 07:27:54  tcsmith
+// Fixed Bug #805203 - The getFormattedTime() method now pads the time string with
+// leading zeros where needed.
+//
 // Revision 1.6  2003/08/05 09:20:08  tcsmith
 // Modified the getFormattedTime() method to increase performance.
 //
@@ -43,19 +47,19 @@
 
 #include <iomanip>
 
-#if defined(HAVE_FTIME)
+#if defined(LOG4CPLUS_HAVE_FTIME)
 #include <sys/timeb.h>
 #endif
 
-#if defined(HAVE_GETTIMEOFDAY)
+#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
 #include <sys/time.h>
 #endif
 
-#if defined(HAVE_GMTIME_R) && !defined(LOG4CPLUS_SINGLE_THREADED)
+#if defined(LOG4CPLUS_HAVE_GMTIME_R) && !defined(LOG4CPLUS_SINGLE_THREADED)
 #define LOG4CPLUS_NEED_GMTIME_R
 #endif
 
-#if defined(HAVE_LOCALTIME_R) && !defined(LOG4CPLUS_SINGLE_THREADED)
+#if defined(LOG4CPLUS_HAVE_LOCALTIME_R) && !defined(LOG4CPLUS_SINGLE_THREADED)
 #define LOG4CPLUS_NEED_LOCALTIME_R
 #endif
 
@@ -103,12 +107,12 @@ Time::Time(time_t time)
 Time
 Time::gettimeofday()
 {
-#if defined(HAVE_GETTIMEOFDAY)
+#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
     timeval tp;
     ::gettimeofday(&tp, 0);
 
     return Time(tp.tv_sec, tp.tv_usec);
-#elif defined(HAVE_FTIME)
+#elif defined(LOG4CPLUS_HAVE_FTIME)
     struct timeb tp;
     ::ftime(&tp);
 
@@ -219,7 +223,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt, bool use_gmtime) const
             case 2: tmp += LOG4CPLUS_TEXT("0"); break;
         }
         tmp += seconds;
-#if defined(HAVE_GETTIMEOFDAY)
+#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
         tstring usecs( convertIntegerToString((tv_usec % 1000)) );
         switch(usecs.length()) {
             case 1: tmp += LOG4CPLUS_TEXT(".00"); break;

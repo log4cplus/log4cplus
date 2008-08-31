@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5.2.1  2008/08/31 11:28:28  wilx
+// Fix compilation with GCC 4.3.
+//
 // Revision 1.5  2003/07/04 01:44:22  tcsmith
 // Fixed a compilation error on MSVC++ 7.
 //
@@ -29,7 +32,7 @@
 
 #include <cstdlib>
 #include <iostream>
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/configurator.h>
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/socketappender.h>

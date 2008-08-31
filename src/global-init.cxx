@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6.2.1  2008/08/31 11:26:55  wilx
+// Mark anonymous namespace symbols static so that they do not get
+// exported with ugly names in DLL.
+//
 // Revision 1.6  2003/08/22 06:54:18  tcsmith
 // Now set the initialized flag in the initializeLog4cplus() method.
 //
@@ -32,7 +36,7 @@
 // Initial version.
 //
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>

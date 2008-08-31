@@ -17,7 +17,7 @@
 #ifndef LOG4CPLUS_SPI_FILTER_HEADER_
 #define LOG4CPLUS_SPI_FILTER_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/spi/loggingevent.h>

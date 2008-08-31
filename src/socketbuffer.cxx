@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5.2.4  2008/08/31 11:28:28  wilx
+// Fix compilation with GCC 4.3.
+//
 // Revision 1.5.2.3  2008/08/28 21:46:50  wilx
 // Tweak so that it builds in separate objdir. Update to Automake 1.10
 // and Autoconf 2.62 in the process.
@@ -48,7 +51,7 @@
 #include <winsock.h>
 #endif
 
-#if defined (__CYGWIN__) || defined (HAVE_NETINET_IN_H)
+#if defined (__CYGWIN__) || defined (LOG4CPLUS_HAVE_NETINET_IN_H)
 #include <netinet/in.h>
 #endif
 

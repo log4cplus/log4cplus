@@ -16,7 +16,7 @@
 #ifndef LOG4CPLUS_HELPERS_PROPERTY_HEADER_
 #define LOG4CPLUS_HELPERS_PROPERTY_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/streams.h>
 #include <log4cplus/tstring.h>
 #include <map>

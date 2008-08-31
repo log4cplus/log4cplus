@@ -18,7 +18,7 @@
 #ifndef _LO4CPLUS_NDC_HEADER_
 #define _LO4CPLUS_NDC_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/threads.h>

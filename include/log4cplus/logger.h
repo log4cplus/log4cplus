@@ -17,7 +17,7 @@
 #ifndef _LOG4CPLUS_LOGGERHEADER_
 #define _LOG4CPLUS_LOGGERHEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/loglevel.h>
 #include <log4cplus/loggingmacros.h>
 #include <log4cplus/tstring.h>

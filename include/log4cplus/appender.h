@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_APPENDER_HEADER_
 #define _LOG4CPLUS_APPENDER_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/layout.h>
 #include <log4cplus/loglevel.h>
 #include <log4cplus/tstring.h>

@@ -34,7 +34,8 @@ host_triplet = @host@
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(top_srcdir)/configure \
-	$(top_srcdir)/include/log4cplus/config.h.in AUTHORS COPYING \
+	$(top_srcdir)/include/log4cplus/config.h.in \
+	$(top_srcdir)/include/log4cplus/config.hxx.in AUTHORS COPYING \
 	ChangeLog INSTALL NEWS config.guess config.sub depcomp \
 	install-sh ltmain.sh missing mkinstalldirs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -50,7 +51,8 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h
+CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h \
+	$(top_builddir)/include/log4cplus/config.hxx
 CONFIG_CLEAN_FILES =
 SOURCES =
 DIST_SOURCES =
@@ -78,7 +80,6 @@ GZIP_ENV = --best
 distuninstallcheck_listfiles = find . -type f -print
 distcleancheck_listfiles = find . -type f -print
 ACLOCAL = @ACLOCAL@
-ALLOCA = @ALLOCA@
 AMTAR = @AMTAR@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
@@ -245,8 +246,18 @@ $(top_srcdir)/include/log4cplus/config.h.in:  $(am__configure_deps)
 	rm -f include/log4cplus/stamp-h1
 	touch $@
 
+include/log4cplus/config.hxx: include/log4cplus/stamp-h2
+	@if test ! -f $@; then \
+	  rm -f include/log4cplus/stamp-h2; \
+	  $(MAKE) $(AM_MAKEFLAGS) include/log4cplus/stamp-h2; \
+	else :; fi
+
+include/log4cplus/stamp-h2: $(top_srcdir)/include/log4cplus/config.hxx.in $(top_builddir)/config.status
+	@rm -f include/log4cplus/stamp-h2
+	cd $(top_builddir) && $(SHELL) ./config.status include/log4cplus/config.hxx
+
 distclean-hdr:
-	-rm -f include/log4cplus/config.h include/log4cplus/stamp-h1
+	-rm -f include/log4cplus/config.h include/log4cplus/stamp-h1 include/log4cplus/config.hxx include/log4cplus/stamp-h2
 
 mostlyclean-libtool:
 	-rm -f *.lo

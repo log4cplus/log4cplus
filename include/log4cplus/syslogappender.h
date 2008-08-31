@@ -16,9 +16,9 @@
 #ifndef _LOG4CPLUS_SYSLOG_APPENDER_HEADER_
 #define _LOG4CPLUS_SYSLOG_APPENDER_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 
-#if defined(HAVE_SYSLOG_H) && !defined(_WIN32)
+#if defined(LOG4CPLUS_HAVE_SYSLOG_H) && !defined(_WIN32)
 #include <log4cplus/appender.h>
 
 namespace log4cplus {
