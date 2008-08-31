@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.6  2003/08/22 06:54:18  tcsmith
+// Now set the initialized flag in the initializeLog4cplus() method.
+//
 // Revision 1.5  2003/08/08 05:36:51  tcsmith
 // Changed the #if checks to look for _WIN32 and not WIN32.
 //
@@ -63,7 +66,7 @@ namespace {
         _static_log4cplus_initializer() {
             log4cplus::initializeLog4cplus();
         }
-    } initializer;
+    } static initializer;
 }
 
 

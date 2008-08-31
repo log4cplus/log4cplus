@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.9  2003/09/28 04:29:58  tcsmith
+// Added OFF and ALL LogLevels.
+//
 // Revision 1.8  2003/07/30 05:03:25  tcsmith
 // Changed LogLevelManager so that the "toString" and "fromString" methods are
 // list based.
@@ -86,7 +89,7 @@ namespace {
     };
     
     
-    
+    static
     log4cplus::tstring
     defaultLogLevelToStringMethod(LogLevel ll) {
         switch(ll) {
@@ -105,6 +108,7 @@ namespace {
     }
     
     
+    static
     LogLevel
     defaultStringToLogLevelMethod(const log4cplus::tstring& arg) {
         log4cplus::tstring s = log4cplus::helpers::toUpper(arg);

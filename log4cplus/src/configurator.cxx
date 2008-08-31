@@ -10,6 +10,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.20  2004/01/29 02:49:29  tcsmith
+// Fixed Bug #875724 - "ConfigureAndWatchThread and mounted file systems"
+//
 // Revision 1.19  2003/12/07 06:48:57  tcsmith
 // Fixed bug #827804 - "UMR in ConfigurationWatchdogThread".
 //
@@ -141,6 +144,7 @@ namespace {
      *
      * @param val The string on which variable substitution is performed.
      */
+    static
     log4cplus::tstring substEnvironVars(const log4cplus::tstring& val,
                                         log4cplus::helpers::LogLog& loglog) 
     {

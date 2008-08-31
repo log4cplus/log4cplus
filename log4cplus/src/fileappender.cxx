@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.23  2004/01/29 03:08:18  tcsmith
+// Fixed Bug #842280 - "'Append' mode when using FileAppended from cfg file."
+//
 // Revision 1.22  2003/09/10 06:42:17  tcsmith
 // Modified calculateNextRolloverTime() to remove the unnecessary break statements
 // in the switch statement.
@@ -91,7 +94,8 @@ using namespace log4cplus::helpers;
 ///////////////////////////////////////////////////////////////////////////////
 
 namespace {
-    
+
+    static
     void rolloverFiles(const log4cplus::tstring& filename, unsigned int maxBackupIndex)
     {
         SharedObjectPtr<LogLog> loglog = LogLog::getLogLog();
