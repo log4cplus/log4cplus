@@ -37,7 +37,7 @@ namespace log4cplus {
          */
         class LOG4CPLUS_EXPORT BaseFactory {
         public:
-            virtual ~BaseFactory() {}
+            virtual ~BaseFactory() = 0;
 
             virtual log4cplus::tstring getTypeName() = 0;
         };
@@ -49,8 +49,8 @@ namespace log4cplus {
          */
         class LOG4CPLUS_EXPORT AppenderFactory : public BaseFactory {
         public:
-            AppenderFactory(){}
-            virtual ~AppenderFactory(){}
+            AppenderFactory();
+            virtual ~AppenderFactory() = 0;
 
             /**
              * Create an "Appender" object.
@@ -71,8 +71,8 @@ namespace log4cplus {
          */
         class LOG4CPLUS_EXPORT LayoutFactory : public BaseFactory {
         public:
-            LayoutFactory(){}
-            virtual ~LayoutFactory(){}
+            LayoutFactory();
+            virtual ~LayoutFactory() = 0;
 
             /**
              * Create a "Layout" object.
@@ -93,8 +93,8 @@ namespace log4cplus {
          */
         class LOG4CPLUS_EXPORT FilterFactory : public BaseFactory {
         public:
-            FilterFactory(){}
-            virtual ~FilterFactory(){}
+            FilterFactory();
+            virtual ~FilterFactory() = 0;
 
             /**
              * Create a "Filter" object.

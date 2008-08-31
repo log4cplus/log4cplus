@@ -243,9 +243,7 @@ namespace log4cplus {
 
     private:
       // Methods
-        DiagnosticContextStack* getPtr()
-            { return static_cast<DiagnosticContextStack*>
-                          (LOG4CPLUS_GET_THREAD_LOCAL_VALUE( threadLocal )); }
+        DiagnosticContextStack* getPtr();
 
       // Data
         LOG4CPLUS_THREAD_LOCAL_TYPE threadLocal;
@@ -282,10 +280,10 @@ namespace log4cplus {
     class LOG4CPLUS_EXPORT NDCContextCreator {
     public:
         /** Pushes <code>msg</code> onto the NDC stack. */
-        NDCContextCreator(const log4cplus::tstring& msg) { getNDC().push(msg); }
+        NDCContextCreator(const log4cplus::tstring& msg);
 
         /** Pops the NDC stack. */
-        ~NDCContextCreator() { getNDC().pop(); }
+        ~NDCContextCreator();
     };
 
 } // end namespace log4cplus

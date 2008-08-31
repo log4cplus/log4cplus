@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.15.2.1  2008/08/28 20:48:20  wilx
+// Add SharedObjectPtr<Appender> explicit instantiation to partially fix
+// thread_test link failure.
+//
 // Revision 1.15  2003/09/28 04:02:59  tcsmith
 // Made some fixes for the VisualAge 5 compiler on AIX.
 //
@@ -192,6 +196,10 @@ Appender::Appender(const log4cplus::helpers::Properties properties)
     }
     setFilter(filterChain);
 }
+
+
+Appender::~Appender()
+{ }
 
 
 

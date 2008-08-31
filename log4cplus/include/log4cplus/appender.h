@@ -70,7 +70,7 @@ namespace log4cplus {
         Appender(const log4cplus::helpers::Properties properties);
 
       // Dtor
-        virtual ~Appender(){};
+        virtual ~Appender();
 
         void destructorImpl();
 
