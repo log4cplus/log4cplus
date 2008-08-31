@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/06/13 20:57:24  tcsmith
+// No longer include the <assert.h> header.
+//
 // Revision 1.6  2003/06/13 17:49:29  tcsmith
 // Changed to use the old style C headers.
 //
@@ -126,10 +129,6 @@ LogLevel
 LoggerImpl::getChainedLogLevel() const
 {
     for(const LoggerImpl *c=this; c != NULL; c=c->parent.get()) {
-        if(c == NULL) {
-            getLogLog().error(LOG4CPLUS_TEXT("LoggerImpl::getChainedLogLevel()- Internal error: NullPointer"));
-            helpers::throwNullPointerException(__FILE__, __LINE__);
-        }
         if(c->ll != NOT_SET_LOG_LEVEL) {
             return c->ll;
         }
