@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT
+AC_INIT([log4cplus],[1.0.3])
 AC_CONFIG_SRCDIR([src/logger.cxx])
-AM_INIT_AUTOMAKE(log4cplus, 1.0)
+AM_INIT_AUTOMAKE([gnu -Wall])
 
 #
 # +1 : ? : +1  == new interface that does not break old one
@@ -10,7 +10,7 @@ AM_INIT_AUTOMAKE(log4cplus, 1.0)
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=2:0:0
+LT_VERSION=2:1:0
 AC_SUBST(LT_VERSION)
 
 AC_PROG_LIBTOOL
@@ -24,7 +24,7 @@ AC_PROG_CXXCPP
 AC_LANG([C++])
 
 dnl Checks for libraries.
-AC_PROG_RANLIB 
+AC_PROG_RANLIB
 AC_CHECK_LIB(rt, nanosleep)
 dnl AC_CHECK_LIB(socket, accept)
 dnl AC_CHECK_LIB(nsl, gethostent)
@@ -53,10 +53,28 @@ AC_CHECK_FUNCS([ntohl])
 dnl Check for the existance of type socklen_t.
 TYPE_SOCKLEN_T
 
+
+dnl Sane locale?
+
+AH_TEMPLATE([LOG4CPLUS_WORKING_LOCALE],
+  [Define for compilers/standard libraries that support more than
+   just the "C" locale.])
+
+AC_ARG_WITH([working-locale],
+  [AS_HELP_STRING([--with-working-locale],
+    [Use std::locale for char->wchar_t conversion.])],
+  [with_working_locale=yes],
+  [with_working_locale=no])
+
+AS_IF([test "x$with_working_locale" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_WORKING_LOCALE], [1])],
+  [])
+
+
 dnl Check for single-threaded compilation
-AC_ARG_ENABLE(threads,
- [ --enable-threads=[yes/no]  Use this option to create a singled-threaded \
-  version of this library],
+AC_ARG_ENABLE([threads],
+  [AS_HELP_STRING([--enable-threads=yes/no],
+    [Use this option to create a singled-threaded version of this library])],
 [case "${enableval}" in
   yes) multi_threaded=true ;;
   no)  multi_threaded=false ;;
@@ -84,21 +102,21 @@ AH_BOTTOM([#include <log4cplus/helpers/thread-config.h>])
 AH_BOTTOM([#include <log4cplus/helpers/os-config.h>])
 
 AC_CONFIG_HEADERS([include/log4cplus/config.h])
-AC_CONFIG_FILES([Makefile 
-           src/Makefile 
-           tests/Makefile 
-           tests/appender_test/Makefile 
-           tests/configandwatch_test/Makefile 
-           tests/customloglevel_test/Makefile 
-           tests/fileappender_test/Makefile 
-           tests/filter_test/Makefile 
-           tests/hierarchy_test/Makefile 
-           tests/loglog_test/Makefile 
-           tests/ndc_test/Makefile 
+AC_CONFIG_FILES([Makefile
+           src/Makefile
+           tests/Makefile
+           tests/appender_test/Makefile
+           tests/configandwatch_test/Makefile
+           tests/customloglevel_test/Makefile
+           tests/fileappender_test/Makefile
+           tests/filter_test/Makefile
+           tests/hierarchy_test/Makefile
+           tests/loglog_test/Makefile
+           tests/ndc_test/Makefile
            tests/ostream_test/Makefile
-           tests/patternlayout_test/Makefile 
-           tests/performance_test/Makefile 
-           tests/priority_test/Makefile 
+           tests/patternlayout_test/Makefile
+           tests/performance_test/Makefile
+           tests/priority_test/Makefile
 	   tests/propertyconfig_test/Makefile
 	   tests/socket_test/Makefile
            tests/thread_test/Makefile ])
