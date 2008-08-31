@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.7  2003/06/29 16:44:01  tcsmith
+// Now now longer used the LogLog class.
+//
 // Revision 1.6  2003/06/13 17:49:30  tcsmith
 // Changed to use the old style C headers.
 //
@@ -91,16 +94,13 @@ SharedObject::addReference()
 void
 SharedObject::removeReference()
 {
-    if(destroyed) {
-        assert(!destroyed);
-    }
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
-        if(destroyed) {
-            assert(!destroyed);
-        }
-        if(--count == 0) destroyed = true;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
-    if (destroyed) delete this;
+    bool destroy = false;
+    assert(!destroyed);
+    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex );
+    assert(!destroyed);
+    if(--count == 0)
+        destroy = destroyed = true;
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    if (destroy)
+        delete this;
 }
-
-
