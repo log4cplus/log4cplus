@@ -55,8 +55,8 @@ public:
     virtual void run();
 
 private:
-   Logger logger;
-   tstring name;
+    tstring name;
+    Logger logger;
 };
 
 

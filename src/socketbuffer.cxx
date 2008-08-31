@@ -11,6 +11,12 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5.2.5  2008/08/31 15:02:00  wilx
+// Stop using generated config.h. Create new header config.hxx. Add only
+// symbols that are really necessary and prefix them with LOG4CPLUS_ so
+// that they can be exported by public headers. Keep autoheader generated
+// config.h.in as template/repository of possible symbols.
+//
 // Revision 1.5.2.4  2008/08/31 11:28:28  wilx
 // Fix compilation with GCC 4.3.
 //
@@ -74,6 +80,7 @@ log4cplus::helpers::SocketBuffer::SocketBuffer(size_t maxsize)
 
 
 log4cplus::helpers::SocketBuffer::SocketBuffer(const SocketBuffer& rhs)
+    : log4cplus::helpers::LogLogUser ()
 {
     copy(rhs);
 }
