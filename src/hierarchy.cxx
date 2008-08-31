@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.10  2003/08/08 07:10:58  tcsmith
+// Modified getInstanceImpl() to "deep copy" Logger names.
+//
 // Revision 1.9  2003/08/04 01:08:49  tcsmith
 // Made changes to support the HierarchyLocker class.
 //
@@ -51,6 +54,7 @@ using namespace log4cplus::helpers;
 //////////////////////////////////////////////////////////////////////////////
 
 namespace {
+    static
     bool startsWith(log4cplus::tstring teststr, log4cplus::tstring substr) {
         bool val = false;
         if(teststr.length() > substr.length()) {

@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.15.2.2  2008/08/31 11:25:15  wilx
+// Move ctors/dtors and other functions' definitions from headers into
+// .cxx files.
+//
 // Revision 1.15.2.1  2008/08/28 20:48:20  wilx
 // Add SharedObjectPtr<Appender> explicit instantiation to partially fix
 // thread_test link failure.
@@ -74,6 +78,7 @@ template class log4cplus::helpers::SharedObjectPtr<Appender>;
 ///////////////////////////////////////////////////////////////////////////////
 
 namespace {
+    static
     log4cplus::tstring asString(int i) {
         log4cplus::tostringstream tmp;
         tmp << i;
