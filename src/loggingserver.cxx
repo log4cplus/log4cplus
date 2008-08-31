@@ -11,6 +11,9 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5  2003/07/04 01:44:22  tcsmith
+// Fixed a compilation error on MSVC++ 7.
+//
 // Revision 1.4  2003/06/23 20:56:43  tcsmith
 // Modified to support the changes in the spi::InternalLoggingEvent class.
 //
@@ -24,6 +27,8 @@
 // Initial version.
 //
 
+#include <cstdlib>
+#include <iostream>
 #include <log4cplus/config.h>
 #include <log4cplus/configurator.h>
 #include <log4cplus/consoleappender.h>
@@ -34,7 +39,6 @@
 #include <log4cplus/spi/loggerimpl.h>
 #include <log4cplus/spi/loggingevent.h>
 
-#include <iostream>
 
 using namespace std;
 using namespace log4cplus;

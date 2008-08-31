@@ -11,6 +11,10 @@
 // distribution in the LICENSE.APL file.
 //
 // $Log: not supported by cvs2svn $
+// Revision 1.5.2.3  2008/08/28 21:46:50  wilx
+// Tweak so that it builds in separate objdir. Update to Automake 1.10
+// and Autoconf 2.62 in the process.
+//
 // Revision 1.5.2.2  2008/08/28 21:04:20  wilx
 // Apply fix for Cygwin compliation failure.  The fix was obtained from
 // <http://sourceforge.net/tracker/index.php?func=detail&aid=1178841&group_id=40830&atid=429076>.
@@ -34,6 +38,7 @@
 // Initial version.
 //
 
+#include <cstring>
 #include <log4cplus/helpers/socketbuffer.h>
 #include <log4cplus/helpers/loglog.h>
 
