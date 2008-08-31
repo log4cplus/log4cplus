@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT([log4cplus],[1.0.3])
+AC_INIT([log4cplus], [1.0.3])
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AM_INIT_AUTOMAKE([gnu -Wall])
 
@@ -11,12 +11,12 @@ AM_INIT_AUTOMAKE([gnu -Wall])
 #                 better
 # CURRENT : REVISION : AGE
 LT_VERSION=2:1:0
-AC_SUBST(LT_VERSION)
+AC_SUBST([LT_VERSION])
 
 AC_PROG_LIBTOOL
 
 dnl Checks for programs.
-AC_SEARCH_LIBS([strerror],[cposix])
+AC_SEARCH_LIBS([strerror], [cposix])
 
 dnl first check for c/c++ compilers
 AC_PROG_CXX
@@ -30,11 +30,9 @@ AS_CASE([$ac_cxx_compiler_vendor], [gnu],
 
 dnl Checks for libraries.
 AC_PROG_RANLIB
-AC_CHECK_LIB(rt, nanosleep)
-dnl AC_CHECK_LIB(socket, accept)
-dnl AC_CHECK_LIB(nsl, gethostent)
-AC_CHECK_FUNC(gethostent, , AC_CHECK_LIB(nsl, gethostent))
-AC_CHECK_FUNC(setsockopt, , AC_CHECK_LIB(socket, setsockopt))
+AC_CHECK_LIB([rt], [nanosleep])
+AC_CHECK_FUNC([gethostent], [], AC_CHECK_LIB([nsl], [gethostent]))
+AC_CHECK_FUNC([setsockopt], [], AC_CHECK_LIB([socket], [setsockopt]))
 
 dnl Checks for header files.
 AC_HEADER_STDC
