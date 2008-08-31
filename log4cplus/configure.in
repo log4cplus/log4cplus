@@ -26,6 +26,7 @@ AX_CXXFLAGS_WARN_ALL
 AC_CXX_COMPILER_VENDOR([ac_cxx_compiler_vendor])
 AS_CASE([$ac_cxx_compiler_vendor], [gnu], 
   [AX_CXXFLAGS_GCC_OPTION([-Wextra])
+  AX_CXXFLAGS_GCC_OPTION([-pedantic])
   AX_CXXFLAGS_GCC_OPTION([-O2])])
 
 dnl Checks for libraries.
