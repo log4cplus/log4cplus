@@ -22,6 +22,7 @@ dnl first check for c/c++ compilers
 AC_PROG_CXX
 AC_PROG_CXXCPP
 AC_LANG([C++])
+AX_CXXFLAGS_WARN_ALL
 
 dnl Checks for libraries.
 AC_PROG_RANLIB
@@ -119,5 +120,5 @@ AC_CONFIG_FILES([Makefile
            tests/priority_test/Makefile
 	   tests/propertyconfig_test/Makefile
 	   tests/socket_test/Makefile
-           tests/thread_test/Makefile ])
+           tests/thread_test/Makefile])
 AC_OUTPUT
