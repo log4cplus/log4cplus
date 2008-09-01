@@ -29,11 +29,11 @@ public:
     { logger.setLogLevel(TRACE_LOG_LEVEL); }
 
     void doSomething() {
-        LOG4CPLUS_TRACE_METHOD(logger, "SlowObject::doSomething()")
+        LOG4CPLUS_TRACE_METHOD(logger, "SlowObject::doSomething()");
         LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-            LOG4CPLUS_INFO(logger, "Actually doing something...")
+            LOG4CPLUS_INFO(logger, "Actually doing something...");
             sleep(0, 75 * MILLIS_TO_NANOS);
-            LOG4CPLUS_INFO(logger, "Actually doing something...DONE")
+            LOG4CPLUS_INFO(logger, "Actually doing something...DONE");
         LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
         thread::yield();
     }
@@ -96,20 +96,20 @@ main()
         for(i=0; i<NUM_THREADS; ++i) {
             threads[i]->start();
         }
-        LOG4CPLUS_DEBUG(logger, "All Threads started...")
+        LOG4CPLUS_DEBUG(logger, "All Threads started...");
 
         for(i=0; i<NUM_THREADS; ++i) {
             while(threads[i]->isRunning()) {
                 sleep(0, 200 * MILLIS_TO_NANOS);
             }
         }
-        LOG4CPLUS_INFO(logger, "Exiting main()...")
+        LOG4CPLUS_INFO(logger, "Exiting main()...");
     }
     catch(std::exception &e) {
-        LOG4CPLUS_FATAL(Logger::getRoot(), "main()- Exception occured: " << e.what())
+        LOG4CPLUS_FATAL(Logger::getRoot(), "main()- Exception occured: " << e.what());
     }
     catch(...) {
-        LOG4CPLUS_FATAL(Logger::getRoot(), "main()- Exception occured")
+        LOG4CPLUS_FATAL(Logger::getRoot(), "main()- Exception occured");
     }
 
     log4cplus::Logger::shutdown();
@@ -121,24 +121,24 @@ void
 TestThread::run()
 {
     try {
-        LOG4CPLUS_WARN(logger, name + " TestThread.run()- Starting...")
+        LOG4CPLUS_WARN(logger, name + " TestThread.run()- Starting...");
         NDC& ndc = getNDC();
         NDCContextCreator _first_ndc(name);
-        LOG4CPLUS_DEBUG(logger, "Entering Run()...")
+        LOG4CPLUS_DEBUG(logger, "Entering Run()...");
         for(int i=0; i<NUM_LOOPS; ++i) {
             NDCContextCreator _ndc("loop");
             global->doSomething();
         }
-        LOG4CPLUS_DEBUG(logger, "Exiting run()...")
+        LOG4CPLUS_DEBUG(logger, "Exiting run()...");
 
         ndc.remove();
     }
     catch(exception& e) {
-        LOG4CPLUS_FATAL(logger, "TestThread.run()- Exception occurred: " << e.what())
+        LOG4CPLUS_FATAL(logger, "TestThread.run()- Exception occurred: " << e.what());
     }
     catch(...) {
-        LOG4CPLUS_FATAL(logger, "TestThread.run()- Exception occurred!!")
+        LOG4CPLUS_FATAL(logger, "TestThread.run()- Exception occurred!!");
     }
-    LOG4CPLUS_WARN(logger, name << " TestThread.run()- Finished")
+    LOG4CPLUS_WARN(logger, name << " TestThread.run()- Finished");
 } // end "run"
 

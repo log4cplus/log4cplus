@@ -20,16 +20,16 @@ main()
         PropertyConfigurator::doConfigure("log4cplus.properties");
         Logger fileCat = Logger::getInstance("filelogger");
 
-	LOG4CPLUS_WARN(root, "Testing....")
+	LOG4CPLUS_WARN(root, "Testing....");
 
-	LOG4CPLUS_WARN(root, "Writing messages to log....")
+	LOG4CPLUS_WARN(root, "Writing messages to log....");
         for(int i=0; i<10000; ++i) {
-            LOG4CPLUS_WARN(fileCat, "This is a WARNING..." << i)
+            LOG4CPLUS_WARN(fileCat, "This is a WARNING..." << i);
         }
     }
     catch(...) {
         cout << "Exception..." << endl;
-	LOG4CPLUS_FATAL(root, "Exception occured...")
+	LOG4CPLUS_FATAL(root, "Exception occured...");
     }
 
     cout << "Exiting main()..." << endl;
