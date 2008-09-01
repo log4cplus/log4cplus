@@ -10,10 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.1  2003/06/29 16:49:34  tcsmith
-// Initial version.
-//
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/logloguser.h>

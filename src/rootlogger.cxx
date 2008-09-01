@@ -10,13 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.2  2003/04/19 22:56:24  tcsmith
-// Fixed UNICODE support.
-//
-// Revision 1.1  2003/04/18 22:25:30  tcsmith
-// Initial version.
-//
 
 #include <log4cplus/spi/rootlogger.h>
 

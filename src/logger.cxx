@@ -10,16 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.3  2003/04/19 23:04:31  tcsmith
-// Fixed UNICODE support.
-//
-// Revision 1.2  2003/04/18 21:21:53  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.1  2003/04/03 01:40:46  tcsmith
-// Renamed from category.cxx
-//
 
 #include <log4cplus/logger.h>
 #include <log4cplus/appender.h>

@@ -10,22 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.7  2003/06/29 16:44:01  tcsmith
-// Now now longer used the LogLog class.
-//
-// Revision 1.6  2003/06/13 17:49:30  tcsmith
-// Changed to use the old style C headers.
-//
-// Revision 1.5  2003/04/19 23:04:32  tcsmith
-// Fixed UNICODE support.
-//
-// Revision 1.4  2003/04/18 21:13:25  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.3  2003/04/03 01:20:23  tcsmith
-// Standardized the formatting.
-//
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/pointer.h>

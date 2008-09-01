@@ -10,43 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.10.2.1  2008/08/28 21:04:20  wilx
-// Apply fix for Cygwin compliation failure.  The fix was obtained from
-// <http://sourceforge.net/tracker/index.php?func=detail&aid=1178841&group_id=40830&atid=429076>.
-//
-// Revision 1.10  2003/12/07 06:27:02  tcsmith
-// 1)  Fixed Bug #831311 - "loggingserver.cxx clientsock.read()
-// 2)  Fixed Bug #851074 - "build problem HPUX 11, gcc 3.3"
-//
-// Revision 1.9  2003/10/22 06:00:35  tcsmith
-// Fixed the read() method so that it always fills the buffer.
-//
-// Revision 1.8  2003/09/10 07:03:19  tcsmith
-// Added support for NetBSD.
-//
-// Revision 1.7  2003/09/05 08:10:10  tcsmith
-// No longer uses MSG_NOSIGNAL when it is not defined.
-//
-// Revision 1.6  2003/08/27 14:58:03  tcsmith
-// Made some minor changes to make the socket code more robust.
-//
-// Revision 1.5  2003/08/05 06:21:51  tcsmith
-// Fixed FreeBSD compilation problem.
-//
-// Revision 1.4  2003/07/30 06:03:30  tcsmith
-// Made changes to support Mac OS X builds.
-//
-// Revision 1.3  2003/07/19 15:30:22  tcsmith
-// Changed the "errno.h" include statement for Solaris.
-//
-// Revision 1.2  2003/05/21 22:16:00  tcsmith
-// Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
-// of data".
-//
-// Revision 1.1  2003/05/04 07:25:16  tcsmith
-// Initial version.
-//
 
 #include <cstring>
 #include <log4cplus/helpers/socket.h>

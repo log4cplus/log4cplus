@@ -10,29 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.9  2003/09/10 06:48:29  tcsmith
-// The ctor once again initialized fullMessage in an initialization list.
-//
-// Revision 1.8  2003/08/08 05:56:23  tcsmith
-// Added a fix for the Borland compiler.
-//
-// Revision 1.7  2003/05/21 22:14:46  tcsmith
-// Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
-// of data".
-//
-// Revision 1.6  2003/05/04 01:37:22  tcsmith
-// Removed the static initializer class.
-//
-// Revision 1.5  2003/04/19 23:04:31  tcsmith
-// Fixed UNICODE support.
-//
-// Revision 1.4  2003/04/18 22:08:19  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.3  2003/04/03 01:06:41  tcsmith
-// Standardized the formatting.
-//
 
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>

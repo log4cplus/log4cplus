@@ -10,13 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.2  2003/06/29 02:04:23  tcsmith
-// Added the clone() method.
-//
-// Revision 1.1  2003/06/27 15:44:34  tcsmith
-// Initial version.
-//
 
 #include <log4cplus/spi/loggingevent.h>
 

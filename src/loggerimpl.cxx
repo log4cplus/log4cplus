@@ -10,28 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.7  2003/06/13 20:57:24  tcsmith
-// No longer include the <assert.h> header.
-//
-// Revision 1.6  2003/06/13 17:49:29  tcsmith
-// Changed to use the old style C headers.
-//
-// Revision 1.5  2003/05/26 19:19:56  tcsmith
-// Fixed Bug #741515 - "LogLog is causing a core on HP".
-//
-// Revision 1.4  2003/04/19 23:16:37  tcsmith
-// Removed TABs from the file.
-//
-// Revision 1.3  2003/04/19 23:15:47  tcsmith
-// Fixed UNICODE support.
-//
-// Revision 1.2  2003/04/18 21:26:16  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.1  2003/04/03 01:44:01  tcsmith
-// Renamed from categoryimpl.cxx
-//
 
 #include <log4cplus/spi/loggerimpl.h>
 #include <log4cplus/appender.h>

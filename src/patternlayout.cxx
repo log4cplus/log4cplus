@@ -10,56 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.17  2003/08/05 15:56:24  tcsmith
-// Fixed a UNICODE compilation error.
-//
-// Revision 1.16  2003/08/04 01:42:51  tcsmith
-// 1)  Deprecated the "Pattern" property in favor of the "ConverstionPattern" property.
-// 1)  Fixed several compilation warnings.
-//
-// Revision 1.15  2003/07/19 15:35:12  tcsmith
-// Fixed the FULL_LOCATION_CONVERTER output.
-//
-// Revision 1.14  2003/06/29 16:48:24  tcsmith
-// Modified to support that move of the getLogLog() method into the LogLog
-// class.
-//
-// Revision 1.13  2003/06/23 20:56:43  tcsmith
-// Modified to support the changes in the spi::InternalLoggingEvent class.
-//
-// Revision 1.12  2003/06/13 15:27:48  tcsmith
-// Modified to support changes to the InternalLoggingEvent.
-//
-// Revision 1.11  2003/06/11 22:55:41  tcsmith
-// Updated to support the changes in the InternalLoggingEvent class.
-//
-// Revision 1.10  2003/06/09 18:13:17  tcsmith
-// Changed the ctor to take a 'const' Properties object.
-//
-// Revision 1.9  2003/06/04 18:59:00  tcsmith
-// Modified to use the "time" function defined in the timehelper.h header.
-//
-// Revision 1.8  2003/05/21 22:14:46  tcsmith
-// Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
-// of data".
-//
-// Revision 1.7  2003/05/01 19:49:32  tcsmith
-// Fixed: "warning: comparison between signed and unsigned".
-//
-// Revision 1.6  2003/04/19 23:32:52  tcsmith
-// Fixed UNICODE support.
-//
-// Revision 1.5  2003/04/19 23:04:31  tcsmith
-// Fixed UNICODE support.
-//
-// Revision 1.4  2003/04/18 22:24:11  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.3  2003/04/03 01:17:30  tcsmith
-// Changed to support the rename of Category to Logger and Priority to
-// LogLevel.
-//
 
 #include <log4cplus/layout.h>
 #include <log4cplus/helpers/loglog.h>

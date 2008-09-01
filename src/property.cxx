@@ -10,42 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.13  2004/02/10 07:36:37  tcsmith
-// Fixed UNICODE support.
-//
-// Revision 1.12  2003/10/22 05:46:38  tcsmith
-// Now strip trailing \r.  (A property file can be created on Windows and used
-// on *nix.)
-//
-// Revision 1.11  2003/06/09 23:06:54  tcsmith
-// Added support for "comment" lines in the property file.
-//
-// Revision 1.10  2003/05/19 15:58:26  tcsmith
-// Added a check in the ctor for a valid filename.  If if is not valid, do
-// not attempt to open that file.
-//
-// Revision 1.9  2003/05/01 19:54:30  tcsmith
-// Fixed: "warning: comparison between signed and unsigned".
-//
-// Revision 1.8  2003/05/01 19:35:25  tcsmith
-// Fixed VC++ compiler "performance warning".
-//
-// Revision 1.7  2003/04/19 23:04:32  tcsmith
-// Fixed UNICODE support.
-//
-// Revision 1.6  2003/04/18 21:52:35  tcsmith
-// Converted from using std::ifstream to using log4cplus::tifstream.
-//
-// Revision 1.5  2003/04/18 21:32:22  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.4  2003/04/05 20:09:17  tcsmith
-// Added the removeProperty() method.
-//
-// Revision 1.3  2003/04/03 01:23:34  tcsmith
-// Standardized the formatting.
-//
 
 #include <cstring>
 #include <log4cplus/helpers/property.h>

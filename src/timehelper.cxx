@@ -10,36 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.7  2004/01/29 07:27:54  tcsmith
-// Fixed Bug #805203 - The getFormattedTime() method now pads the time string with
-// leading zeros where needed.
-//
-// Revision 1.6  2003/08/05 09:20:08  tcsmith
-// Modified the getFormattedTime() method to increase performance.
-//
-// Revision 1.5  2003/06/29 16:36:10  tcsmith
-// Removed the setTime(long) method.
-//
-// Revision 1.4  2003/06/27 15:45:51  tcsmith
-// Removed getMillis() method.
-//
-// Revision 1.3  2003/06/23 20:54:33  tcsmith
-// Added mutliplication and division operator implementations for the Time
-// class.
-//
-// Revision 1.2  2003/06/12 23:10:54  tcsmith
-// Added the Time class implementation.
-//
-// Revision 1.1  2003/06/04 18:54:31  tcsmith
-// Renamed strftime.cxx to timehelper.cxx
-//
-// Revision 1.2  2003/04/19 23:51:17  tcsmith
-// Now call the strftime() function in the global namespace.
-//
-// Revision 1.1  2003/04/19 22:55:27  tcsmith
-// Initial version.
-//
 
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/streams.h>

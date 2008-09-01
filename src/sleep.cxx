@@ -10,16 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.4  2003/07/19 15:51:34  tcsmith
-// Added sleepmillis() method.
-//
-// Revision 1.3  2003/06/04 18:56:41  tcsmith
-// Modified to use the new timehelper.h header.
-//
-// Revision 1.2  2003/05/22 23:57:41  tcsmith
-// Corrected the file header information.
-//
 
 #include <log4cplus/helpers/sleep.h>
 #include <log4cplus/helpers/timehelper.h>
