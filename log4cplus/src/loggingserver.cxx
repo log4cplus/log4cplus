@@ -10,25 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.5.2.1  2008/08/31 11:28:28  wilx
-// Fix compilation with GCC 4.3.
-//
-// Revision 1.5  2003/07/04 01:44:22  tcsmith
-// Fixed a compilation error on MSVC++ 7.
-//
-// Revision 1.4  2003/06/23 20:56:43  tcsmith
-// Modified to support the changes in the spi::InternalLoggingEvent class.
-//
-// Revision 1.3  2003/05/04 08:43:11  tcsmith
-// Now takes a port and a config file name as parameters on startup.
-//
-// Revision 1.2  2003/05/04 07:39:48  tcsmith
-// Removed a debug message.
-//
-// Revision 1.1  2003/05/04 07:25:16  tcsmith
-// Initial version.
-//
 
 #include <cstdlib>
 #include <iostream>

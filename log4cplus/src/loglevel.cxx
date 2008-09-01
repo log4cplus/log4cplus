@@ -10,37 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.9  2003/09/28 04:29:58  tcsmith
-// Added OFF and ALL LogLevels.
-//
-// Revision 1.8  2003/07/30 05:03:25  tcsmith
-// Changed LogLevelManager so that the "toString" and "fromString" methods are
-// list based.
-//
-// Revision 1.7  2003/06/12 23:51:45  tcsmith
-// Modified to support the rename of the toupper and tolower methods.
-//
-// Revision 1.6  2003/05/02 22:43:04  tcsmith
-// Moved the LogLevel string defintions out of the defaultLogLevelToStringMethod()
-// method.
-//
-// Revision 1.5  2003/04/19 23:04:31  tcsmith
-// Fixed UNICODE support.
-//
-// Revision 1.4  2003/04/19 07:22:18  tcsmith
-// Removed all LogLevelToSysLogMethod methods.
-//
-// Revision 1.3  2003/04/18 21:07:05  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.2  2003/04/03 02:03:09  tcsmith
-// Changed defaultLogLevelToSysLogMethod() so that it returns -1 for unknow
-// LogLevels.
-//
-// Revision 1.1  2003/04/03 01:42:19  tcsmith
-// Renamed from priority.cxx
-//
 
 #include <log4cplus/loglevel.h>
 #include <log4cplus/helpers/loglog.h>

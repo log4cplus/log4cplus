@@ -10,20 +10,7 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.6  2003/06/03 20:23:05  tcsmith
-// Added a check for a NULL Appender in removeAppender().
-//
-// Revision 1.5  2003/05/14 23:06:40  tcsmith
-// Corrected removeAllAppenders() to used the synchronization macros instead
-// of a creating a Guard on the mutex.
-//
-// Revision 1.4  2003/04/18 21:00:35  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.3  2003/04/03 00:27:41  tcsmith
-// Standardized the formatting.
-//
+
 
 #include <log4cplus/appender.h>
 #include <log4cplus/helpers/appenderattachableimpl.h>

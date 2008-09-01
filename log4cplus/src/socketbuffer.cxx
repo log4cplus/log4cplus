@@ -10,42 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.5.2.5  2008/08/31 15:02:00  wilx
-// Stop using generated config.h. Create new header config.hxx. Add only
-// symbols that are really necessary and prefix them with LOG4CPLUS_ so
-// that they can be exported by public headers. Keep autoheader generated
-// config.h.in as template/repository of possible symbols.
-//
-// Revision 1.5.2.4  2008/08/31 11:28:28  wilx
-// Fix compilation with GCC 4.3.
-//
-// Revision 1.5.2.3  2008/08/28 21:46:50  wilx
-// Tweak so that it builds in separate objdir. Update to Automake 1.10
-// and Autoconf 2.62 in the process.
-//
-// Revision 1.5.2.2  2008/08/28 21:04:20  wilx
-// Apply fix for Cygwin compliation failure.  The fix was obtained from
-// <http://sourceforge.net/tracker/index.php?func=detail&aid=1178841&group_id=40830&atid=429076>.
-//
-// Revision 1.5.2.1  2004/02/15 05:19:46  tcsmith
-// Now correctly do an "array delete" in the destructor.
-//
-// Revision 1.5  2003/11/21 21:23:29  tcsmith
-// Fixed memory alignment errors on Solaris.
-//
-// Revision 1.4  2003/09/28 04:26:02  tcsmith
-// Added include for <winsock.h> on WIN32.
-//
-// Revision 1.3  2003/08/08 05:36:51  tcsmith
-// Changed the #if checks to look for _WIN32 and not WIN32.
-//
-// Revision 1.2  2003/05/21 22:11:00  tcsmith
-// Added appendSize_t() method.
-//
-// Revision 1.1  2003/05/04 07:25:16  tcsmith
-// Initial version.
-//
 
 #include <cstring>
 #include <log4cplus/helpers/socketbuffer.h>

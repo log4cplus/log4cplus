@@ -10,38 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.10.2.1  2008/08/31 11:26:55  wilx
-// Mark anonymous namespace symbols static so that they do not get
-// exported with ugly names in DLL.
-//
-// Revision 1.10  2003/08/08 07:10:58  tcsmith
-// Modified getInstanceImpl() to "deep copy" Logger names.
-//
-// Revision 1.9  2003/08/04 01:08:49  tcsmith
-// Made changes to support the HierarchyLocker class.
-//
-// Revision 1.8  2003/06/03 20:28:13  tcsmith
-// Made changes to support converting root from a pointer to a "concreate"
-// object.
-//
-// Revision 1.7  2003/05/21 22:13:49  tcsmith
-// Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
-// of data".
-//
-// Revision 1.6  2003/05/01 19:37:36  tcsmith
-// Fixed VC++ compiler "performance warning".
-//
-// Revision 1.5  2003/04/19 23:04:31  tcsmith
-// Fixed UNICODE support.
-//
-// Revision 1.4  2003/04/18 21:37:35  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.3  2003/04/03 01:32:46  tcsmith
-// Changed to support the rename of Category to Logger and Priority to
-// LogLevel.
-//
 
 #include <log4cplus/hierarchy.h>
 #include <log4cplus/helpers/loglog.h>

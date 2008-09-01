@@ -10,16 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.3  2003/08/08 05:36:51  tcsmith
-// Changed the #if checks to look for _WIN32 and not WIN32.
-//
-// Revision 1.2  2003/07/19 15:23:18  tcsmith
-// Added dtors to Socket and ServerSocket.
-//
-// Revision 1.1  2003/05/04 07:25:16  tcsmith
-// Initial version.
-//
 
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>

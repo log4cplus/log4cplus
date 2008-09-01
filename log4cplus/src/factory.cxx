@@ -10,51 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.16.2.1  2008/08/31 11:25:15  wilx
-// Move ctors/dtors and other functions' definitions from headers into
-// .cxx files.
-//
-// Revision 1.16  2003/09/28 04:02:14  tcsmith
-// Made some fixes for the VisualAge 5 compiler on AIX.
-//
-// Revision 1.15  2003/08/27 14:55:16  tcsmith
-// Modified initializeFactoryRegistry() to fix for the AIX compiler.
-//
-// Revision 1.14  2003/08/08 05:34:04  tcsmith
-// Changed the #if checks to look for _WIN32 and not WIN32.
-//
-// Revision 1.13  2003/07/30 05:51:22  tcsmith
-// Modified to remove "unused parameter" warning.
-//
-// Revision 1.12  2003/06/23 20:15:00  tcsmith
-// Added NullAppenderFactory.
-//
-// Revision 1.11  2003/06/12 23:12:35  tcsmith
-// Added DailyRollingFileAppenderFactory implementation.
-//
-// Revision 1.10  2003/05/28 17:39:12  tcsmith
-// Added Filter factories.
-//
-// Revision 1.9  2003/05/04 07:08:23  tcsmith
-// Replaced the static initialization class with the initializeFactoryRegistry()
-// method.
-//
-// Revision 1.8  2003/04/19 20:59:01  tcsmith
-// Added NTEventLogAppender support.
-//
-// Revision 1.7  2003/04/19 07:23:06  tcsmith
-// Added SysLogAppenderFactory.
-//
-// Revision 1.6  2003/04/18 21:00:41  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.5  2003/04/12 13:51:08  tcsmith
-// No longer dynamically allocate the object in the "singleton" method.
-//
-// Revision 1.4  2003/04/03 00:41:11  tcsmith
-// Standardized the formatting.
-//
 
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/consoleappender.h>
