@@ -41,12 +41,12 @@ main()
     try {
         PropertyConfigurator::doConfigure("log4cplus.properties");
 
-        LOG4CPLUS_WARN(root, "Testing....")
+        LOG4CPLUS_WARN(root, "Testing....");
         printDebug();
     }
     catch(...) {
         cout << "Exception..." << endl;
-        LOG4CPLUS_FATAL(root, "Exception occured...")
+        LOG4CPLUS_FATAL(root, "Exception occured...");
     }
 
     cout << "Exiting main()..." << endl;

@@ -10,7 +10,7 @@ writeLogMessage() {
     {
     Logger subTest = Logger::getInstance("test.subtest");
     subTest.log(FATAL_LOG_LEVEL, "Entering writeLogMessage()...");
-    LOG4CPLUS_FATAL(subTest, "writeLogMessage()- This is a message from a different file")
+    LOG4CPLUS_FATAL(subTest, "writeLogMessage()- This is a message from a different file");
     subTest.log(FATAL_LOG_LEVEL, "Exiting writeLogMessage()...");
     }
     LogLog::getLogLog()->warn("REALLY exiting writeLogMessage()...");

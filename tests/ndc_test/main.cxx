@@ -24,7 +24,7 @@ main()
         Logger logger = Logger::getInstance("test");
         cout << "Logger: " << logger.getName() << endl;
         getNDC().push("tsmith");
-        LOG4CPLUS_DEBUG(logger, "This is a short test...")
+        LOG4CPLUS_DEBUG(logger, "This is a short test...");
 
         getNDC().push("password");
         LOG4CPLUS_DEBUG(logger, "This should have my password now");
