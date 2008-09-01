@@ -35,7 +35,7 @@ public:
             sleep(0, 75 * MILLIS_TO_NANOS);
             LOG4CPLUS_INFO(logger, "Actually doing something...DONE")
         LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
-        yield();
+        thread::yield();
     }
 
 private:
