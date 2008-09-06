@@ -58,7 +58,7 @@ AppenderAttachableImpl::addAppender(SharedAppenderPtr newAppender)
         if(it == appenderList.end()) {
             appenderList.push_back(newAppender);
         }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -68,7 +68,7 @@ AppenderAttachableImpl::getAllAppenders()
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( appender_list_mutex )
         return appenderList;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -87,7 +87,7 @@ AppenderAttachableImpl::getAppender(const log4cplus::tstring& name)
         }
 
         return SharedAppenderPtr(NULL);
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -97,7 +97,7 @@ AppenderAttachableImpl::removeAllAppenders()
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( appender_list_mutex )
         appenderList.erase(appenderList.begin(), appenderList.end());
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -116,7 +116,7 @@ AppenderAttachableImpl::removeAppender(SharedAppenderPtr appender)
         if(it != appenderList.end()) {
             appenderList.erase(it);
         }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -142,7 +142,7 @@ AppenderAttachableImpl::appendLoopOnAppenders(const spi::InternalLoggingEvent& e
             ++count;
             (*it)->doAppend(event);
         }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 
     return count;
 }

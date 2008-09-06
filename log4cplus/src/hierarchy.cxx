@@ -82,7 +82,7 @@ Hierarchy::clear()
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
         provisionNodes.erase(provisionNodes.begin(), provisionNodes.end());
         loggerPtrs.erase(loggerPtrs.begin(), loggerPtrs.end());
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -92,7 +92,7 @@ Hierarchy::exists(const log4cplus::tstring& name)
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
         LoggerMap::iterator it = loggerPtrs.find(name);
         return it != loggerPtrs.end();
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -154,7 +154,7 @@ Hierarchy::getInstance(const log4cplus::tstring& name, spi::LoggerFactory& facto
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
         return getInstanceImpl(name, factory);
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -165,7 +165,7 @@ Hierarchy::getCurrentLoggers()
     
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
         initializeLoggerList(ret);
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 
     return ret;
 }

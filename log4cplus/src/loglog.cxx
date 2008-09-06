@@ -80,7 +80,7 @@ LogLog::debug(const log4cplus::tstring& msg)
         if(debugEnabled && !quietMode) {
              tcout << PREFIX << msg << endl;
         }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -91,7 +91,7 @@ LogLog::warn(const log4cplus::tstring& msg)
         if(quietMode) return;
 
         tcerr << WARN_PREFIX << msg << endl;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -102,7 +102,7 @@ LogLog::error(const log4cplus::tstring& msg)
         if(quietMode) return;
 
         tcerr << ERR_PREFIX << msg << endl;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 

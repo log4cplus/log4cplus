@@ -153,8 +153,4 @@
 /* Define to int if undefined. */
 #undef socklen_t
 
-#include <log4cplus/helpers/thread-config.h>
-
-#include <log4cplus/helpers/os-config.h>
-
 #endif // LOG4CPLUS_CONFIG_H

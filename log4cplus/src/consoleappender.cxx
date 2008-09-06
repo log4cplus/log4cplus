@@ -88,7 +88,7 @@ log4cplus::ConsoleAppender::append(const spi::InternalLoggingEvent& event)
         if(immediateFlush) {
             output.flush();
         }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 

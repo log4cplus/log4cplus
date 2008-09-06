@@ -34,7 +34,7 @@ public:
             LOG4CPLUS_INFO(logger, "Actually doing something...");
             sleep(0, 75 * MILLIS_TO_NANOS);
             LOG4CPLUS_INFO(logger, "Actually doing something...DONE");
-        LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+        LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
         thread::yield();
     }
 

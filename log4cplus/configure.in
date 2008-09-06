@@ -134,12 +134,10 @@ AM_CONDITIONAL([MULTI_THREADED], [test x$multi_threaded = xtrue])
 
 AH_TOP([#ifndef LOG4CPLUS_CONFIG_H])
 AH_TOP([#define LOG4CPLUS_CONFIG_H])
-AH_BOTTOM([#include <log4cplus/helpers/thread-config.h>])
-AH_BOTTOM([#include <log4cplus/helpers/os-config.h>])
 AH_BOTTOM([#endif // LOG4CPLUS_CONFIG_H])
 
 AC_CONFIG_HEADERS([include/log4cplus/config.h])
-AC_CONFIG_HEADERS([include/log4cplus/config.hxx])
+AC_CONFIG_HEADERS([include/log4cplus/config/defines.hxx])
 AC_CONFIG_FILES([Makefile
            src/Makefile
            tests/Makefile

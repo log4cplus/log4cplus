@@ -43,7 +43,7 @@ log4cplus::spi::ObjectRegistryBase::exists(const log4cplus::tstring& name) const
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
         return data.find(name) != data.end();
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -57,7 +57,7 @@ log4cplus::spi::ObjectRegistryBase::getAllNames() const
         }
 
         return tmp;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -80,7 +80,7 @@ log4cplus::spi::ObjectRegistryBase::putVal(const log4cplus::tstring& name, void*
             deleteObject( value.second );
             return false;
         }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -95,7 +95,7 @@ log4cplus::spi::ObjectRegistryBase::getVal(const log4cplus::tstring& name) const
         else {
             return 0;
         }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -108,7 +108,5 @@ log4cplus::spi::ObjectRegistryBase::clear()
     for(ObjectMap::iterator it=data.begin(); it!=data.end(); ++it) {
         deleteObject( (*it).second );
     }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
-
-

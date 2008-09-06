@@ -1,5 +1,5 @@
-#ifndef LOG4CPLUS_CONFIG_HXX
-#define LOG4CPLUS_CONFIG_HXX
+#ifndef LOG4CPLUS_CONFIG_DEFINES_HXX
+#define LOG4CPLUS_CONFIG_DEFINES_HXX
 
 /* */
 #undef LOG4CPLUS_HAVE_SYSLOG_H
@@ -50,7 +50,4 @@
 /* Define to int if undefined. */
 #undef socklen_t
 
-#include <log4cplus/helpers/os-config.h>
-#include <log4cplus/helpers/thread-config.h>
-
-#endif // LOG4CPLUS_CONFIG_HXX
+#endif // LOG4CPLUS_CONFIG_DEFINES_HXX
