@@ -16,8 +16,6 @@
 #ifndef LOG4CPLUS_HELPERS_THREAD_CONFIG_HEADER_
 #define LOG4CPLUS_HELPERS_THREAD_CONFIG_HEADER_
 
-#include <log4cplus/config.hxx>
-
 
 #ifdef LOG4CPLUS_USE_PTHREADS
 #   include <pthread.h>
@@ -101,12 +99,12 @@ namespace log4cplus {
  */
 #ifndef LOG4CPLUS_SINGLE_THREADED
 #  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex ) \
-             {::log4cplus::thread::Guard _sync_guard_object(mutex);
+             do { ::log4cplus::thread::Guard _sync_guard_object(mutex);
 #else
-#  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex ) {
+#  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex ) do {
 #endif
 
-#define LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX }
+#define LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX } while (0)
 
 
 #endif // LOG4CPLUS_HELPERS_THREAD_CONFIG_HEADER_

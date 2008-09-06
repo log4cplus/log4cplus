@@ -45,7 +45,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h \
-	$(top_builddir)/include/log4cplus/config.hxx
+	$(top_builddir)/include/log4cplus/config/defines.hxx
 CONFIG_CLEAN_FILES =
 SOURCES =
 DIST_SOURCES =

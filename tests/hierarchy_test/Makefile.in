@@ -47,13 +47,13 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h \
-	$(top_builddir)/include/log4cplus/config.hxx
+	$(top_builddir)/include/log4cplus/config/defines.hxx
 CONFIG_CLEAN_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 am_hierarchy_test_OBJECTS = main.$(OBJEXT)
 hierarchy_test_OBJECTS = $(am_hierarchy_test_OBJECTS)
 hierarchy_test_DEPENDENCIES = $(top_builddir)/src/liblog4cplus.la
-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/include/log4cplus
+DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/include/log4cplus -I$(top_builddir)/include/log4cplus/config
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \

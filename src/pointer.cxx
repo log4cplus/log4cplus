@@ -50,7 +50,7 @@ SharedObject::~SharedObject()
         if(!destroyed) {
             assert(destroyed);
         }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
     LOG4CPLUS_MUTEX_FREE( access_mutex );
 }
 
@@ -71,7 +71,7 @@ SharedObject::addReference()
             assert(!destroyed);
         }
         ++count;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 

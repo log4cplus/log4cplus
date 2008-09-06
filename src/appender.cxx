@@ -205,7 +205,7 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
         }
 
         append(event);
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -244,7 +244,7 @@ Appender::setErrorHandler(std::auto_ptr<ErrorHandler> eh)
     }
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         this->errorHandler = eh;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -254,7 +254,7 @@ Appender::setLayout(std::auto_ptr<Layout> lo)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         this->layout = lo;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
