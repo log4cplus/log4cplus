@@ -42,7 +42,7 @@ namespace {
 
         // Delete the oldest file
         log4cplus::tostringstream buffer;
-        buffer << filename << LOG4CPLUS_TEXT('.') << maxBackupIndex;
+        buffer << filename << LOG4CPLUS_TEXT(".") << maxBackupIndex;
         remove(LOG4CPLUS_TSTRING_TO_STRING(buffer.str()).c_str());
 
         // Map {(maxBackupIndex - 1), ..., 2, 1} to {maxBackupIndex, ..., 3, 2}
@@ -50,8 +50,8 @@ namespace {
             log4cplus::tostringstream source;
             log4cplus::tostringstream target;
 
-            source << filename << LOG4CPLUS_TEXT('.') << i;
-            target << filename << LOG4CPLUS_TEXT('.') << (i+1);
+            source << filename << LOG4CPLUS_TEXT(".") << i;
+            target << filename << LOG4CPLUS_TEXT(".") << (i+1);
             if(rename(LOG4CPLUS_TSTRING_TO_STRING(source.str()).c_str(), 
                       LOG4CPLUS_TSTRING_TO_STRING(target.str()).c_str()) == 0) 
             {
@@ -466,7 +466,7 @@ DailyRollingFileAppender::rollover()
     // don't overwrite any of those previous files.
     rolloverFiles(scheduledFilename, maxBackupIndex);
     log4cplus::tostringstream backupTarget;
-    backupTarget << scheduledFilename << LOG4CPLUS_TEXT('.') << 1;
+    backupTarget << scheduledFilename << LOG4CPLUS_TEXT(".") << 1;
     if( rename(LOG4CPLUS_TSTRING_TO_STRING(scheduledFilename).c_str(), 
                LOG4CPLUS_TSTRING_TO_STRING(backupTarget.str()).c_str()) == 0 )
     {
