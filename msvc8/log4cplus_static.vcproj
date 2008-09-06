@@ -90,9 +90,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release_Unicode|Win32"
-			OutputDirectory=".\Release/Static"
-			IntermediateDirectory=".\Release/Static"
+			Name="Debug_Unicode|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -116,26 +116,27 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="1"
+				Optimization="0"
 				AdditionalIncludeDirectories="..\include"
-				PreprocessorDefinitions="NDEBUG;UNICODE;_UNICODE;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
-				StringPooling="true"
-				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\Release/Static/log4cplus_static.pch"
-				AssemblerListingLocation=".\Release/Static/"
-				ObjectFile=".\Release/Static/"
-				ProgramDataBaseFileName=".\Release/Static/"
+				PreprocessorDefinitions="_DEBUG;_USRDLL;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="1"
+				PrecompiledHeaderFile=".\$(ConfigurationName)/Static/log4cplus_static.pch"
+				AssemblerListingLocation=".\$(ConfigurationName)/Static/"
+				ObjectFile=".\$(ConfigurationName)/Static/"
+				ProgramDataBaseFileName=".\$(ConfigurationName)/Static/"
+				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="4"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
+				PreprocessorDefinitions="_DEBUG"
 				Culture="1033"
 			/>
 			<Tool
@@ -143,7 +144,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="Release/Static\log4cplusSU.lib"
+				OutputFile="$(ConfigurationName)\Static\log4cplusSD.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -155,7 +156,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Release/Static/log4cplus_static.bsc"
+				OutputFile=".\$(ConfigurationName)/Static/log4cplus_static.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -192,7 +193,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				InlineFunctionExpansion="1"
+				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories="..\include"
 				PreprocessorDefinitions="NDEBUG;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
 				StringPooling="true"
@@ -240,9 +241,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug_Unicode|Win32"
-			OutputDirectory=".\Debug/Static"
-			IntermediateDirectory=".\Debug/Static"
+			Name="Release_Unicode|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -266,27 +267,26 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
+				Optimization="2"
+				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories="..\include"
-				PreprocessorDefinitions="_DEBUG;_USRDLL;UNICODE;_UNICODE;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				PrecompiledHeaderFile=".\Debug/Static/log4cplus_static.pch"
-				AssemblerListingLocation=".\Debug/Static/"
-				ObjectFile=".\Debug/Static/"
-				ProgramDataBaseFileName=".\Debug/Static/"
-				BrowseInformation="1"
+				PreprocessorDefinitions="NDEBUG;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
+				StringPooling="true"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="true"
+				PrecompiledHeaderFile=".\$(ConfigurationName)/Static/log4cplus_static.pch"
+				AssemblerListingLocation=".\$(ConfigurationName)/Static/"
+				ObjectFile=".\$(ConfigurationName)/Static/"
+				ProgramDataBaseFileName=".\$(ConfigurationName)/Static/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
+				PreprocessorDefinitions="NDEBUG"
 				Culture="1033"
 			/>
 			<Tool
@@ -294,7 +294,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="Debug\Static\log4cplusSDU.lib"
+				OutputFile="$(ConfigurationName)/Static\log4cplusS.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -306,7 +306,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Debug/Static/log4cplus_static.bsc"
+				OutputFile=".\$(ConfigurationName)/Static/log4cplus_static.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -336,7 +336,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -354,7 +354,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -376,7 +376,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -394,7 +394,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -416,7 +416,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -434,7 +434,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -456,7 +456,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -474,7 +474,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -496,7 +496,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -514,7 +514,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -536,7 +536,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -554,7 +554,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -576,7 +576,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -594,7 +594,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -616,7 +616,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -634,7 +634,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -656,7 +656,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -674,7 +674,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -696,7 +696,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -714,7 +714,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -736,7 +736,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -754,7 +754,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -776,7 +776,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -794,7 +794,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -816,7 +816,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -834,7 +834,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -856,7 +856,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -874,7 +874,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -896,7 +896,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -914,7 +914,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -936,7 +936,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -954,7 +954,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -976,7 +976,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -994,7 +994,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1016,7 +1016,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1034,7 +1034,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1056,7 +1056,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1074,7 +1074,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1096,7 +1096,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1114,7 +1114,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1136,7 +1136,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1154,7 +1154,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1176,7 +1176,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1194,7 +1194,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1216,7 +1216,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1234,7 +1234,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1256,7 +1256,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1274,7 +1274,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1296,7 +1296,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1314,7 +1314,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1336,7 +1336,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1354,7 +1354,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1376,7 +1376,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1394,7 +1394,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1416,7 +1416,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1434,7 +1434,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1456,7 +1456,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1474,7 +1474,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1496,7 +1496,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1514,7 +1514,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1536,7 +1536,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1554,7 +1554,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1576,7 +1576,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1594,7 +1594,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1616,7 +1616,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1634,7 +1634,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1656,7 +1656,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release_Unicode|Win32"
+					Name="Debug_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1674,7 +1674,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug_Unicode|Win32"
+					Name="Release_Unicode|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1701,15 +1701,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\log4cplus\config-macosx.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\config-win32.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\config.h"
+				RelativePath="..\include\log4cplus\config.hxx"
 				>
 			</File>
 			<File
@@ -1846,6 +1838,10 @@
 			</File>
 			<File
 				RelativePath="..\include\log4cplus\tstring.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\config\win32.h"
 				>
 			</File>
 		</Filter>
