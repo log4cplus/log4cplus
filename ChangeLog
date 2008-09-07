@@ -1,3 +1,33 @@
+Version 1.0.3-RC1
+  - IMPORTANT: VC6 users, VC6 is unsupported. Its standard C++ library
+    is too broken. The work around for VC6's std::string has been
+    removed from log4cplus code; it actually does not fix the problem,
+    it only makes it a little bit less likely to manifest. VC6 project
+    files are still distributed with the source but they are broken as
+    we have no means to update them. We strongly suggest that you
+    either move away from VC6 to some more modern and standard
+    conforming compiler (like VC8) or that you use the STLport
+    standard C++ library implementation instead of VC6's own.
+
+  - Fixed various compilation issues with MSVC8.
+  - Added MSVC8 project files.
+  - Fixed compilation with GCC 4.3.
+  - Fixed autoconf/automake build machinery so that it is possible to
+    build log4cplus in separate directory.
+  - Updated used autoconf and automake to version 2.62 and 1.10
+    respectively.
+  - Enabled DLL building on Cygwin.
+  - Fixed Bug #894623, #1178841 - Various compilation issues on
+    Cygwin.
+  - Fixed Bug #2017876 - Destruction synchronization issue.
+  - Fixed Bug #1831238 - Unintentional sign extension in char ->
+    wchar_t conversion.
+  - Fixed Bug #1548998 - config.h is exporting symbols that conflict
+    with other applications/libraries.
+  - Fixed Bug #898646 - Ambiguity between ::yield() and
+    thread::yeild() on Solaris.
+  - Fixed Bug #954455 - LOG4CPLUS_ macros semicolon problem.
+
 Version 1.0.2 (February 10, 2004)
   - Added "ImmediateFlush" configuration option to log4cplus::ConsoleAppender.
   - Added do while loops around the logging statements in the macros.
