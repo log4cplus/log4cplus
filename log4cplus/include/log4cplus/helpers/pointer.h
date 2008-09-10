@@ -45,41 +45,6 @@ namespace log4cplus {
 
         void throwNullPointerException(const char* file, int line);
 
-        template<class T>
-        class LOG4CPLUS_EXPORT safe_auto_ptr {
-        public:
-          // Ctors
-            explicit safe_auto_ptr(T* val = 0) : value(val){}
-            safe_auto_ptr(const safe_auto_ptr& rhs) 
-             : value(const_cast<safe_auto_ptr&>(rhs).value){}
-
-            // Note: No Dtor needed since value is an auto_ptr
-
-          // operators
-            safe_auto_ptr& operator=(safe_auto_ptr& rhs) {value = rhs.value; return *this;}
-            T& operator*() const { validate(); return *value; }
-            T* operator->() const { validate(); return value.operator->(); }
-
-          // methods
-            T* get() const { return value.get(); }
-            T* release() { return value.release(); }
-            void reset(T* val = 0) { value.reset(val); }
-            void validate(const char* file, int line) const { 
-                if(value.get() == 0) {
-                    throwNullPointerException(file, line);
-                }
-            }
-
-        private:
-            void validate() const { 
-                if(value.get() == 0) {
-                    throw NullPointerException("safe_auto_ptr::validate()- NullPointer");
-                }
-            }
-            std::auto_ptr<T> value;
-        };
-
-
 
         /******************************************************************************
          *                       Class SharedObject (from pp. 204-205)                *
@@ -171,7 +136,6 @@ namespace log4cplus {
     } // end namespace helpers
 } // end namespace log4cplus
 
-using log4cplus::helpers::safe_auto_ptr;
 
 #endif // _LOG4CPLUS_HELPERS_POINTERS_HEADER_
 
