@@ -76,6 +76,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Defined for --enable-debugging builds. */
+#undef LOG4CPLUS_DEBUGGING
+
 /* */
 #undef LOG4CPLUS_HAVE_FTIME
 
@@ -121,6 +124,9 @@
 /* Define for compilers/standard libraries that support more than just the "C"
    locale. */
 #undef LOG4CPLUS_WORKING_LOCALE
+
+/* Define to 1 if assertions should be disabled. */
+#undef NDEBUG
 
 /* Name of package */
 #undef PACKAGE

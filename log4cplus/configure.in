@@ -13,6 +13,39 @@ AM_INIT_AUTOMAKE([gnu -Wall])
 LT_VERSION=2:1:0
 AC_SUBST([LT_VERSION])
 
+dnl Sane locale?
+
+AH_TEMPLATE([LOG4CPLUS_WORKING_LOCALE],
+  [Define for compilers/standard libraries that support more than
+   just the "C" locale.])
+
+AC_ARG_WITH([working-locale],
+  [AS_HELP_STRING([--with-working-locale],
+    [Use std::locale for char->wchar_t conversion.])],
+  [with_working_locale=yes],
+  [with_working_locale=no])
+
+AS_IF([test "x$with_working_locale" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_WORKING_LOCALE], [1])],
+  [])
+
+dnl Debugging or release build?
+
+AC_ARG_ENABLE([debugging],
+  [AS_HELP_STRING([--enable-debugging],
+    [Turns off optimization and adds switches that generate debugging
+    information.])],
+  [enable_debugging=yes],
+  [enable_debugging=no])
+
+AH_TEMPLATE([LOG4CPLUS_DEBUGGING],
+  [Defined for --enable-debugging builds.])
+
+AS_IF([test "x$enable_debugging" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_DEBUGGING])],
+  [])
+
+
 AC_PROG_LIBTOOL
 
 dnl Checks for programs.
@@ -24,11 +57,14 @@ AC_PROG_CXXCPP
 AC_LANG([C++])
 AX_CXXFLAGS_WARN_ALL
 AC_CXX_COMPILER_VENDOR([ac_cxx_compiler_vendor])
-AS_CASE([$ac_cxx_compiler_vendor], [gnu], 
+AS_CASE([$ac_cxx_compiler_vendor], [gnu],
   [AX_CXXFLAGS_GCC_OPTION([-Wextra])
   AX_CXXFLAGS_GCC_OPTION([-ansi])
   AX_CXXFLAGS_GCC_OPTION([-pedantic])
-  AX_CXXFLAGS_GCC_OPTION([-O2])])
+  AS_IF([test "x$enable_debugging" = "xyes"],
+    [AX_CXXFLAGS_GCC_OPTION([-g3])
+     AX_CXXFLAGS_GCC_OPTION([-O0])],
+    [AX_CXXFLAGS_GCC_OPTION([-O2])])])
 
 dnl Checks for libraries.
 
@@ -40,6 +76,7 @@ AC_CHECK_FUNC([setsockopt], [], [AC_CHECK_LIB([socket], [setsockopt])])
 dnl Checks for header files.
 
 AC_HEADER_STDC
+AC_HEADER_ASSERT
 
 AH_TEMPLATE([LOG4CPLUS_HAVE_SYSLOG_H])
 AC_CHECK_HEADER([syslog.h], [AC_DEFINE([LOG4CPLUS_HAVE_SYSLOG_H])])
@@ -81,23 +118,6 @@ AC_CHECK_FUNCS([ntohl], [AC_DEFINE([LOG4CPLUS_HAVE_NTOHL])])
 
 dnl Check for the existance of type socklen_t.
 TYPE_SOCKLEN_T
-
-
-dnl Sane locale?
-
-AH_TEMPLATE([LOG4CPLUS_WORKING_LOCALE],
-  [Define for compilers/standard libraries that support more than
-   just the "C" locale.])
-
-AC_ARG_WITH([working-locale],
-  [AS_HELP_STRING([--with-working-locale],
-    [Use std::locale for char->wchar_t conversion.])],
-  [with_working_locale=yes],
-  [with_working_locale=no])
-
-AS_IF([test "x$with_working_locale" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_WORKING_LOCALE], [1])],
-  [])
 
 
 dnl Check for single-threaded compilation

@@ -50,4 +50,8 @@
 /* Define to int if undefined. */
 #undef socklen_t
 
+/* Defined for --enable-debugging builds. */
+#undef LOG4CPLUS_DEBUGGING
+
+
 #endif // LOG4CPLUS_CONFIG_DEFINES_HXX
