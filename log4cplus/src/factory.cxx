@@ -33,6 +33,9 @@ using namespace log4cplus::spi;
 ///////////////////////////////////////////////////////////////////////////////
 
 namespace log4cplus {
+    
+namespace spi {
+
     BaseFactory::~BaseFactory()
     { }
 
@@ -57,6 +60,7 @@ namespace log4cplus {
     FilterFactory::~FilterFactory()
     { }
 
+} // namespace spi
 
     class ConsoleAppenderFactory : public AppenderFactory {
     public:
