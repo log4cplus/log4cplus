@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT([log4cplus], [1.0.3])
 AC_CONFIG_SRCDIR([src/logger.cxx])
-AM_INIT_AUTOMAKE([gnu -Wall])
+AM_INIT_AUTOMAKE([1.10 no-define nostdinc gnu -Wall])
 
 #
 # +1 : ? : +1  == new interface that does not break old one

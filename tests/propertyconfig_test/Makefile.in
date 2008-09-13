@@ -54,7 +54,7 @@ am_propertyconfig_test_OBJECTS = main.$(OBJEXT)
 propertyconfig_test_OBJECTS = $(am_propertyconfig_test_OBJECTS)
 propertyconfig_test_DEPENDENCIES =  \
 	$(top_builddir)/src/liblog4cplus.la
-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/include/log4cplus -I$(top_builddir)/include/log4cplus/config
+DEFAULT_INCLUDES = 
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
