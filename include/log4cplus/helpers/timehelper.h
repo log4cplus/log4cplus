@@ -114,6 +114,9 @@ namespace log4cplus {
 	    bool operator!=(const Time& rhs) { return !(*this == rhs); }
 
         private:
+            void build_q_value (log4cplus::tstring & q_str) const;
+            void build_uc_q_value (log4cplus::tstring & uc_q_str) const;
+
           // Data
             long  tv_sec;   /* seconds */
             long  tv_usec;  /* microseconds */

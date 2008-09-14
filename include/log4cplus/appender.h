@@ -60,8 +60,9 @@ namespace log4cplus {
      * Extend this class for implementing your own strategies for printing log
      * statements.
      */
-    class LOG4CPLUS_EXPORT Appender : public log4cplus::helpers::SharedObject,
-                                      protected log4cplus::helpers::LogLogUser
+    class LOG4CPLUS_EXPORT Appender
+        : public virtual log4cplus::helpers::SharedObject
+        , protected log4cplus::helpers::LogLogUser
 
     {
     public:

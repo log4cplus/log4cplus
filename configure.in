@@ -45,16 +45,16 @@ AS_IF([test "x$enable_debugging" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_DEBUGGING])],
   [])
 
+dnl first check for c/c++ compilers
+AC_PROG_CXX
+AC_PROG_CXXCPP
+AC_LANG([C++])
 
 AC_PROG_LIBTOOL
 
 dnl Checks for programs.
 AC_SEARCH_LIBS([strerror], [cposix])
 
-dnl first check for c/c++ compilers
-AC_PROG_CXX
-AC_PROG_CXXCPP
-AC_LANG([C++])
 AX_CXXFLAGS_WARN_ALL
 AC_CXX_COMPILER_VENDOR([ac_cxx_compiler_vendor])
 AS_CASE([$ac_cxx_compiler_vendor], [gnu],
@@ -175,5 +175,6 @@ AC_CONFIG_FILES([Makefile
            tests/priority_test/Makefile
 	   tests/propertyconfig_test/Makefile
 	   tests/socket_test/Makefile
-           tests/thread_test/Makefile])
+           tests/thread_test/Makefile
+           tests/timeformat_test/Makefile])
 AC_OUTPUT
