@@ -32,15 +32,19 @@ namespace log4cplus {
 
 #if (_MSC_VER >= 1300)
         // Added to remove the following warning from MSVC++ 7:
-        // warning C4275: non dll-interface class 'std::runtime_error' used as 
-        //                base for dll-interface class 
+        // warning C4275: non dll-interface class 'std::runtime_error' used as
+        //                base for dll-interface class
         //                'log4cplus::helpers::NullPointerException'
         class LOG4CPLUS_EXPORT std::runtime_error;
 #endif
 
-        class LOG4CPLUS_EXPORT NullPointerException : public std::runtime_error {
+        class LOG4CPLUS_EXPORT NullPointerException
+            : public std::runtime_error
+        {
         public:
-            NullPointerException(const std::string& what_arg) : std::runtime_error(what_arg) {}
+            NullPointerException(const std::string& what_arg)
+                : std::runtime_error(what_arg)
+            { }
         };
 
         void throwNullPointerException(const char* file, int line);
@@ -50,16 +54,17 @@ namespace log4cplus {
          *                       Class SharedObject (from pp. 204-205)                *
          ******************************************************************************/
 
-        class LOG4CPLUS_EXPORT SharedObject {
+        class LOG4CPLUS_EXPORT SharedObject
+        {
         public:
             void addReference();
             void removeReference();
 
         protected:
           // Ctor
-            SharedObject() 
+            SharedObject()
              : access_mutex(LOG4CPLUS_MUTEX_CREATE), count(0), destroyed(false) {}
-            SharedObject(const SharedObject&) 
+            SharedObject(const SharedObject&)
              : access_mutex(LOG4CPLUS_MUTEX_CREATE), count(0), destroyed(false) {}
 
           // Dtor
@@ -81,32 +86,44 @@ namespace log4cplus {
          *           Template Class SharedObjectPtr (from pp. 203, 206)               *
          ******************************************************************************/
         template<class T>
-        class LOG4CPLUS_EXPORT SharedObjectPtr {
+        class LOG4CPLUS_EXPORT SharedObjectPtr
+        {
         public:
-          // Ctor
-            SharedObjectPtr(T* realPtr = 0) : pointee(realPtr) { init(); };
-            SharedObjectPtr(const SharedObjectPtr& rhs) : pointee(rhs.pointee) { init(); };
+            // Ctor
+            SharedObjectPtr(T* realPtr = 0)
+                : pointee(realPtr)
+            {
+                init();
+            }
 
-          // Dtor
-            ~SharedObjectPtr() {if (pointee != 0) ((SharedObject *)pointee)->removeReference(); }
+            SharedObjectPtr(const SharedObjectPtr& rhs)
+                : pointee(rhs.pointee)
+            {
+                init();
+            }
 
-          // Operators
+            // Dtor
+            ~SharedObjectPtr()
+            {
+                if (pointee)
+                    static_cast<SharedObject *>(pointee)->removeReference();
+            }
+
+            // Operators
             bool operator==(const SharedObjectPtr& rhs) const { return (pointee == rhs.pointee); }
             bool operator!=(const SharedObjectPtr& rhs) const { return (pointee != rhs.pointee); }
             bool operator==(const T* rhs) const { return (pointee == rhs); }
             bool operator!=(const T* rhs) const { return (pointee != rhs); }
             T* operator->() const {validate(); return pointee; }
             T& operator*() const {validate(); return *pointee; }
-            SharedObjectPtr& operator=(const SharedObjectPtr& rhs) {
-                if (pointee != rhs.pointee) {
-                    T* oldPointee = pointee;
-                    pointee = rhs.pointee;
-                    init();
-                    if(oldPointee != 0) oldPointee->removeReference();
-                }
-                return *this;
+
+            SharedObjectPtr& operator=(const SharedObjectPtr& rhs)
+            {
+                return this->operator = (rhs.pointee);
             }
-            SharedObjectPtr& operator=(T* rhs) {
+
+            SharedObjectPtr& operator=(T* rhs)
+            {
                 if (pointee != rhs) {
                     T* oldPointee = pointee;
                     pointee = rhs;
@@ -123,7 +140,7 @@ namespace log4cplus {
           // Methods
             void init() {
                 if(pointee == 0) return;
-                ((SharedObject*)pointee)->addReference();
+                static_cast<SharedObject *>(pointee)->addReference();
             }
             void validate() const {
                 if(pointee == 0) throw std::runtime_error("NullPointer");
@@ -138,4 +155,3 @@ namespace log4cplus {
 
 
 #endif // _LOG4CPLUS_HELPERS_POINTERS_HEADER_
-

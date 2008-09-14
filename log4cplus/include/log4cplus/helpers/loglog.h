@@ -38,7 +38,9 @@ namespace log4cplus {
          * <code>cerr</code>. All internal messages are prepended with
          * the string "log4clus: ".
          */
-        class LOG4CPLUS_EXPORT LogLog : public log4cplus::helpers::SharedObject {
+        class LOG4CPLUS_EXPORT LogLog
+            : public virtual log4cplus::helpers::SharedObject 
+        {
         public:
           // Static methods
             /**

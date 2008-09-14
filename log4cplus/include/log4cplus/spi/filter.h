@@ -81,7 +81,9 @@ namespace log4cplus {
          * <p>The philosophy of log4cplus filters is largely inspired from the
          * Linux ipchains. 
          */
-        class LOG4CPLUS_EXPORT Filter : public log4cplus::helpers::SharedObject {
+        class LOG4CPLUS_EXPORT Filter 
+            : public virtual log4cplus::helpers::SharedObject 
+        {
         public:
           // ctor and dtor
             Filter();

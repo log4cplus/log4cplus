@@ -37,8 +37,9 @@ namespace log4cplus {
          * <p>See the <a href="../../../../manual.html">user manual</a> for an
          * introduction on this class. 
          */
-        class LOG4CPLUS_EXPORT LoggerImpl : public log4cplus::helpers::SharedObject,
-                                            public log4cplus::helpers::AppenderAttachableImpl
+        class LOG4CPLUS_EXPORT LoggerImpl
+            : public virtual log4cplus::helpers::SharedObject,
+              public log4cplus::helpers::AppenderAttachableImpl
         {
         public:
           // Methods

@@ -64,7 +64,9 @@ namespace log4cplus {
          * libraries.  The goal of this class is to provide a simple Threading
          * class with basic functionality.
          */
-        class LOG4CPLUS_EXPORT AbstractThread : public log4cplus::helpers::SharedObject {
+        class LOG4CPLUS_EXPORT AbstractThread
+            : public virtual log4cplus::helpers::SharedObject
+        {
         public:
             AbstractThread();
             bool isRunning() { return running; }

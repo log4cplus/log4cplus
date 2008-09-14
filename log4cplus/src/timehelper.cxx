@@ -15,7 +15,9 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/stringhelper.h>
 
+#include <vector>
 #include <iomanip>
+#include <cassert>
 
 #if defined(LOG4CPLUS_HAVE_FTIME)
 #include <sys/timeb.h>
@@ -147,64 +149,161 @@ Time::localtime(struct tm* t) const
 #endif
 }
 
+namespace 
+{
+
+static tchar const * const padding_zeros[4] =
+{
+    LOG4CPLUS_TEXT("000"),
+    LOG4CPLUS_TEXT("00"),
+    LOG4CPLUS_TEXT("0"),
+    LOG4CPLUS_TEXT("")
+};
+
+static tchar const * const uc_q_padding_zeros[4] =
+{
+    LOG4CPLUS_TEXT(".000"),
+    LOG4CPLUS_TEXT(".00"),
+    LOG4CPLUS_TEXT(".0"),
+    LOG4CPLUS_TEXT(".")
+};
+
+}
+
+
+void
+Time::build_q_value (log4cplus::tstring & q_str) const
+{
+    q_str = convertIntegerToString(tv_usec / 1000);
+    size_t const len = q_str.length();
+    if (len <= 2)
+        q_str.insert (0, padding_zeros[q_str.length()]);
+}
+
+
+void 
+Time::build_uc_q_value (log4cplus::tstring & uc_q_str) const
+{
+    build_q_value (uc_q_str);
+
+#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
+    log4cplus::tstring usecs (convertIntegerToString(tv_usec % 1000));
+    size_t usecs_len = usecs.length();
+    usecs.insert (0, usecs_len <= 3 
+        ? uc_q_padding_zeros[usecs_len] : LOG4CPLUS_TEXT ("."));
+    uc_q_str.append (usecs);
+#else
+    uc_q_str.append (uc_q_padding_zeros[0]);
+#endif
+
+}
 
 
 log4cplus::tstring
-Time::getFormattedTime(const log4cplus::tstring& fmt, bool use_gmtime) const
+Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) const
 {
-    tchar buffer[BUFFER_SIZE];
+    if (fmt_orig.empty () || fmt_orig[0] == 0)
+        return log4cplus::tstring ();
+
     struct tm time;
-
-    if(use_gmtime) {
+    
+    if(use_gmtime)
         gmtime(&time);
-    }
-    else {
+    else 
         localtime(&time);
+    
+    enum State
+    {
+        TEXT,
+        PERCENT_SIGN
+    };
+    
+    log4cplus::tstring fmt (fmt_orig);
+    log4cplus::tstring ret;
+    ret.reserve (static_cast<size_t>(fmt.size () * 1.35));
+    State state = TEXT;
+    
+    log4cplus::tstring q_str;
+    bool q_str_valid = false;
+
+    log4cplus::tstring uc_q_str;
+    bool uc_q_str_valid = false;
+
+    // Walk the format string and process all occurences of %q and %Q.
+    
+    for (log4cplus::tstring::const_iterator fmt_it = fmt.begin ();
+         fmt_it != fmt.end (); ++fmt_it)
+    {
+        switch (state)
+        {
+        case TEXT:
+        {
+            if (*fmt_it == LOG4CPLUS_TEXT ('%'))
+                state = PERCENT_SIGN;
+            else
+                ret.push_back (*fmt_it);
+        }
+        break;
+            
+        case PERCENT_SIGN:
+        {
+            switch (*fmt_it)
+            {
+            case LOG4CPLUS_TEXT ('q'):
+            {
+                if (! q_str_valid)
+                {
+                    build_q_value (q_str);
+                    q_str_valid = true;
+                }
+                ret.append (q_str);
+                state = TEXT;
+            }
+            break;
+            
+            case LOG4CPLUS_TEXT ('Q'):
+            {
+                if (! uc_q_str_valid)
+                {
+                    build_uc_q_value (uc_q_str);
+                    uc_q_str_valid = true;
+                }
+                ret.append (uc_q_str);
+                state = TEXT;
+            }
+            break;
+
+            default:
+            {
+                ret.push_back (LOG4CPLUS_TEXT ('%'));
+                ret.push_back (*fmt_it);
+                state = TEXT;
+            }
+            }
+        }
+        break;
+        }
     }
 
+    // Finally call strftime/wcsftime to format the rest of the string.
+
+    ret.swap (fmt);
+    size_t buffer_size = fmt.size () + 1;
+    std::vector<tchar> buffer;
+    size_t len;
+    do
+    {
+        buffer.resize (buffer_size);
 #ifdef UNICODE
-    size_t len = ::wcsftime(buffer, BUFFER_SIZE, fmt.c_str(), &time);
+        len = ::wcsftime(&buffer[0], buffer_size, fmt.c_str(), &time);
 #else
-    size_t len = ::strftime(buffer, BUFFER_SIZE, fmt.c_str(), &time);
+        len = ::strftime(&buffer[0], buffer_size, fmt.c_str(), &time);
 #endif
-
-    buffer[len] = '\0';
-    tstring ret(buffer);
-
-    size_t pos = ret.find( LOG4CPLUS_TEXT("%q") );
-    if(pos != tstring::npos) {
-        tstring tmp(ret.substr(0, pos));
-        tstring seconds( convertIntegerToString((tv_usec / 1000)) );
-        switch(seconds.length()) {
-            case 1: tmp += LOG4CPLUS_TEXT("00"); break;
-            case 2: tmp += LOG4CPLUS_TEXT("0"); break;
-        }
-        tmp += seconds;
-        tmp += ret.substr(pos + 2);
-        ret = tmp;
-    }
-
-    pos = ret.find( LOG4CPLUS_TEXT("%Q") );
-    if(pos != tstring::npos) {
-        tstring tmp(ret.substr(0, pos));
-        tstring seconds( convertIntegerToString((tv_usec / 1000)) );
-        switch(seconds.length()) {
-            case 1: tmp += LOG4CPLUS_TEXT("00"); break;
-            case 2: tmp += LOG4CPLUS_TEXT("0"); break;
-        }
-        tmp += seconds;
-#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
-        tstring usecs( convertIntegerToString((tv_usec % 1000)) );
-        switch(usecs.length()) {
-            case 1: tmp += LOG4CPLUS_TEXT(".00"); break;
-            case 2: tmp += LOG4CPLUS_TEXT(".0"); break;
-            case 3: tmp += LOG4CPLUS_TEXT("."); break;
-        }
-        tmp += usecs;
-#endif
-        tmp += ret.substr(pos + 2);
-        ret = tmp;
-    }
+        if (len == 0)
+            buffer_size *= 2;
+    } 
+    while (len == 0);
+    ret.assign (buffer.begin (), buffer.begin () + (buffer_size - 1));
 
     return ret;
 }
