@@ -18,14 +18,14 @@ main()
     cout << "Entering main()..." << endl;
     {
     SharedAppenderPtr append_1(new ConsoleAppender());
-    append_1->setName("First");
+    append_1->setName(LOG4CPLUS_TEXT("First"));
 //    append_1->setLayout( std::auto_ptr<Layout>(new TTCCLayout()) );
     cout << "Getting root logger...DONE" << endl;
     Logger::getRoot().addAppender(append_1);
 
     Logger root = Logger::getRoot();
-    Logger test = Logger::getInstance("test");
-    Logger subTest = Logger::getInstance("test.subtest");
+    Logger test = Logger::getInstance(LOG4CPLUS_TEXT("test"));
+    Logger subTest = Logger::getInstance(LOG4CPLUS_TEXT("test.subtest"));
     LogLevelManager& llm = getLogLevelManager();
 
     LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()));

@@ -167,7 +167,7 @@ log4cplus::thread::AbstractThread::start()
     running = true;
 #if defined(LOG4CPLUS_USE_PTHREADS)
     if( pthread_create(&threadId, NULL, threadStartFunc, this) ) {
-        throw std::runtime_error(LOG4CPLUS_TEXT("Thread creation was not successful"));
+        throw std::runtime_error("Thread creation was not successful");
     }
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     HANDLE h = CreateThread(NULL, 0, threadStartFunc, (LPVOID)this, 0, &threadId);

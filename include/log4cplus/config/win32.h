@@ -40,6 +40,11 @@
 #  pragma warning( disable : 4786 )
   // Warning about: <type1> needs to have dll-interface to be used by clients of class <type2>
 #  pragma warning( disable : 4251 )
+
+#  if _MSC_VER >= 1400
+#    define LOG4CPLUS_WORKING_LOCALE
+#  endif
+
 #endif
 
 

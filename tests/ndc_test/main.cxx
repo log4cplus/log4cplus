@@ -17,34 +17,34 @@ main()
     LogLog::getLogLog()->setInternalDebugging(true);
     try {
         SharedObjectPtr<Appender> append_1(new ConsoleAppender());
-        append_1->setName("First");
+        append_1->setName(LOG4CPLUS_TEXT("First"));
 	append_1->setLayout( std::auto_ptr<Layout>(new log4cplus::TTCCLayout()) );
         Logger::getRoot().addAppender(append_1);
 
-        Logger logger = Logger::getInstance("test");
-        cout << "Logger: " << logger.getName() << endl;
-        getNDC().push("tsmith");
-        LOG4CPLUS_DEBUG(logger, "This is a short test...");
+        Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("test"));
+        log4cplus::tcout << "Logger: " << logger.getName() << endl;
+        getNDC().push(LOG4CPLUS_TEXT("tsmith"));
+        LOG4CPLUS_DEBUG(logger, LOG4CPLUS_TEXT("This is a short test..."));
 
-        getNDC().push("password");
-        LOG4CPLUS_DEBUG(logger, "This should have my password now");
+        getNDC().push(LOG4CPLUS_TEXT("password"));
+        LOG4CPLUS_DEBUG(logger, LOG4CPLUS_TEXT("This should have my password now"));
 
         getNDC().pop();
-        LOG4CPLUS_DEBUG(logger, "This should NOT have my password now");
+        LOG4CPLUS_DEBUG(logger, LOG4CPLUS_TEXT("This should NOT have my password now"));
 
         getNDC().pop();
         cout << "Just returned from pop..." << endl;
-        LOG4CPLUS_DEBUG(logger, "There should be no NDC...");
+        LOG4CPLUS_DEBUG(logger, LOG4CPLUS_TEXT("There should be no NDC..."));
 
-        getNDC().push("tsmith");
-        getNDC().push("password");
-        LOG4CPLUS_DEBUG(logger, "This should have my password now");
+        getNDC().push(LOG4CPLUS_TEXT("tsmith"));
+        getNDC().push(LOG4CPLUS_TEXT("password"));
+        LOG4CPLUS_DEBUG(logger, LOG4CPLUS_TEXT("This should have my password now"));
         getNDC().remove();
-        LOG4CPLUS_DEBUG(logger, "There should be no NDC...");
+        LOG4CPLUS_DEBUG(logger, LOG4CPLUS_TEXT("There should be no NDC..."));
     }
     catch(...) {
         cout << "Exception..." << endl;
-        Logger::getRoot().log(FATAL_LOG_LEVEL, "Exception occured...");
+        Logger::getRoot().log(FATAL_LOG_LEVEL, LOG4CPLUS_TEXT("Exception occured..."));
     }
 
     cout << "Exiting main()..." << endl;

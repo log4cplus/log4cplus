@@ -11,11 +11,11 @@ int
 main()
 {
     SharedAppenderPtr append_1(new ConsoleAppender());
-    append_1->setName("First");
+    append_1->setName(LOG4CPLUS_TEXT("First"));
     Logger::getRoot().addAppender(append_1);
 
     Logger root = Logger::getRoot();
-    Logger test = Logger::getInstance("test");
+    Logger test = Logger::getInstance(LOG4CPLUS_TEXT("test"));
 
     LOG4CPLUS_DEBUG(root,
                     "This is"
