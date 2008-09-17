@@ -1,8 +1,13 @@
 #include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/streams.h>
 #include <iostream>
 
 using namespace log4cplus;
 using namespace log4cplus::helpers;
+
+
+log4cplus::tchar const fmtstr[] =
+    LOG4CPLUS_TEXT("%s, %Q%%q%q %%Q %%q=%%%q%%;%%q, %%Q=%Q");
 
 
 int
@@ -12,37 +17,36 @@ main()
     try
     {
         Time time (0, 1234567);
-        tstring str (
-            time.getFormattedTime ("%s, %Q%%q%q %%Q %%q=%%%q%%;%%q, %%Q=%Q"));
-        std::cout << str << std::endl;
+        tstring str (time.getFormattedTime (fmtstr));
+        log4cplus::tcout << str << std::endl;
 
         time = Time (0, 7);
-        str = time.getFormattedTime ("%s, %Q%%q%q %%Q %%q=%%%q%%;%%q, %%Q=%Q");
-        std::cout << str << std::endl;
+        str = time.getFormattedTime (fmtstr);
+        log4cplus::tcout << str << std::endl;
 
         time = Time (0, 17);
-        str = time.getFormattedTime ("%s, %Q%%q%q %%Q %%q=%%%q%%;%%q, %%Q=%Q");
-        std::cout << str << std::endl;
+        str = time.getFormattedTime (fmtstr);
+        log4cplus::tcout << str << std::endl;
 
         time = Time (0, 123);
-        str = time.getFormattedTime ("%s, %Q%%q%q %%Q %%q=%%%q%%;%%q, %%Q=%Q");
-        std::cout << str << std::endl;
+        str = time.getFormattedTime (fmtstr);
+        log4cplus::tcout << str << std::endl;
 
         time = Time (0, 1234);
-        str = time.getFormattedTime ("%s, %Q%%q%q %%Q %%q=%%%q%%;%%q, %%Q=%Q");
-        std::cout << str << std::endl;
+        str = time.getFormattedTime (fmtstr);
+        log4cplus::tcout << str << std::endl;
 
         time = Time (0, 12345);
-        str = time.getFormattedTime ("%s, %Q%%q%q %%Q %%q=%%%q%%;%%q, %%Q=%Q");
-        std::cout << str << std::endl;
+        str = time.getFormattedTime (fmtstr);
+        log4cplus::tcout << str << std::endl;
 
         time = Time (0, 123456);
-        str = time.getFormattedTime ("%s, %Q%%q%q %%Q %%q=%%%q%%;%%q, %%Q=%Q");
-        std::cout << str << std::endl;
+        str = time.getFormattedTime (fmtstr);
+        log4cplus::tcout << str << std::endl;
 
         time = Time (0, 0);
-        str = time.getFormattedTime ("%s, %Q%%q%q %%Q %%q=%%%q%%;%%q, %%Q=%Q");
-        std::cout << str << std::endl;
+        str = time.getFormattedTime (fmtstr);
+        log4cplus::tcout << str << std::endl;
     }
     catch(...)
     {

@@ -1,7 +1,7 @@
 
 #include "customloglevel.h"
 
-#define _CRITICAL_STRING "CRITICAL"
+#define _CRITICAL_STRING LOG4CPLUS_TEXT("CRITICAL")
 
 
 

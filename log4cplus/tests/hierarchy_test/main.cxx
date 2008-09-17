@@ -13,54 +13,53 @@ main()
 {
     {
 
-    Logger logger = Logger::getInstance("test");
-    cout << "Logger name: " << logger.getName()
-         << " Parent = " << logger.getParent().getName() << endl;
-
-    logger = Logger::getInstance("test2");
-    cout << "Logger name: " << logger.getName()
-         << " Parent = " << logger.getParent().getName() << endl;
-
-    logger = Logger::getInstance("test.subtest.a.b.c");
-    cout << "Logger name: " << logger.getName()
-         << " Parent = " << logger.getParent().getName() << endl;
-
-    logger = Logger::getInstance("test.subtest.a");
-    cout << "Logger name: " << logger.getName()
-         << " Parent = " << logger.getParent().getName() << endl;
-
-    logger = Logger::getInstance("test.subtest");
-    cout << "Logger name: " << logger.getName()
-         << " Parent = " << logger.getParent().getName() << endl;
-
-    logger = Logger::getInstance("test.subtest.a");
-    cout << "Logger name: " << logger.getName()
-         << " Parent = " << logger.getParent().getName() << endl;
-
-    logger = Logger::getInstance("test.subtest.a.b.c");
-    cout << "Logger name: " << logger.getName()
-         << " Parent = " << logger.getParent().getName() << endl;
-
-    logger = Logger::getInstance("test.subtest.a.b.c.d");
-    cout << "Logger name: " << logger.getName()
-         << " Parent = " << logger.getParent().getName() << endl;
-
-    logger = Logger::getInstance("test.subtest.a.b.c");
-    cout << "Logger name: " << logger.getName()
-         << " Parent = " << logger.getParent().getName() << endl;
-
-    logger = Logger::getInstance("test.subtest.a");
-    cout << "Logger name: " << logger.getName()
-         << " Parent = " << logger.getParent().getName() << endl;
-
-    logger = Logger::getInstance("test.subtest");
-    cout << "Logger name: " << logger.getName()
-         << " Parent = " << logger.getParent().getName() << endl;
-
-
-    Logger::shutdown();
+        Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("test"));
+        log4cplus::tcout << "Logger name: " << logger.getName()
+             << " Parent = " << logger.getParent().getName() << endl;
+        
+        logger = Logger::getInstance(LOG4CPLUS_TEXT("test2"));
+        log4cplus::tcout << "Logger name: " << logger.getName()
+             << " Parent = " << logger.getParent().getName() << endl;
+        
+        logger = Logger::getInstance(LOG4CPLUS_TEXT("test.subtest.a.b.c"));
+        log4cplus::tcout << "Logger name: " << logger.getName()
+             << " Parent = " << logger.getParent().getName() << endl;
+        
+        logger = Logger::getInstance(LOG4CPLUS_TEXT("test.subtest.a"));
+        log4cplus::tcout << "Logger name: " << logger.getName()
+             << " Parent = " << logger.getParent().getName() << endl;
+        
+        logger = Logger::getInstance(LOG4CPLUS_TEXT("test.subtest"));
+        log4cplus::tcout << "Logger name: " << logger.getName()
+             << " Parent = " << logger.getParent().getName() << endl;
+        
+        logger = Logger::getInstance(LOG4CPLUS_TEXT("test.subtest.a"));
+        log4cplus::tcout << "Logger name: " << logger.getName()
+             << " Parent = " << logger.getParent().getName() << endl;
+        
+        logger = Logger::getInstance(LOG4CPLUS_TEXT("test.subtest.a.b.c"));
+        log4cplus::tcout << "Logger name: " << logger.getName()
+             << " Parent = " << logger.getParent().getName() << endl;
+        
+        logger = Logger::getInstance(LOG4CPLUS_TEXT("test.subtest.a.b.c.d"));
+        log4cplus::tcout << "Logger name: " << logger.getName()
+             << " Parent = " << logger.getParent().getName() << endl;
+        
+        logger = Logger::getInstance(LOG4CPLUS_TEXT("test.subtest.a.b.c"));
+        log4cplus::tcout << "Logger name: " << logger.getName()
+             << " Parent = " << logger.getParent().getName() << endl;
+        
+        logger = Logger::getInstance(LOG4CPLUS_TEXT("test.subtest.a"));
+        log4cplus::tcout << "Logger name: " << logger.getName()
+             << " Parent = " << logger.getParent().getName() << endl;
+        
+        logger = Logger::getInstance(LOG4CPLUS_TEXT("test.subtest"));
+        log4cplus::tcout << "Logger name: " << logger.getName()
+             << " Parent = " << logger.getParent().getName() << endl;
+        
+        Logger::shutdown();
     }
-    cout << "Exiting main()..." << endl;
+    log4cplus::tcout << "Exiting main()..." << endl;
     return 0;
 }
 

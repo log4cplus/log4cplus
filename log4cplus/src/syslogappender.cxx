@@ -28,10 +28,10 @@ using namespace log4cplus::helpers;
 // log4cplus::SysLogAppender ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-log4cplus::SysLogAppender::SysLogAppender(const tstring& ident)
-: ident(ident)
+log4cplus::SysLogAppender::SysLogAppender(const tstring& id)
+: ident(id)
 {
-    ::openlog(ident.c_str(), 0, 0);
+    ::openlog(LOG4CPLUS_TSTRING_TO_STRING (ident).c_str(), 0, 0);
 }
 
 
@@ -39,7 +39,7 @@ log4cplus::SysLogAppender::SysLogAppender(const Properties properties)
 : Appender(properties)
 {
     ident = properties.getProperty( LOG4CPLUS_TEXT("ident") );
-    ::openlog(ident.c_str(), 0, 0);
+    ::openlog(LOG4CPLUS_TSTRING_TO_STRING (ident).c_str(), 0, 0);
 }
 
 
@@ -57,7 +57,7 @@ log4cplus::SysLogAppender::~SysLogAppender()
 void 
 log4cplus::SysLogAppender::close()
 {
-    getLogLog().debug("Entering SysLogAppender::close()...");
+    getLogLog().debug(LOG4CPLUS_TEXT("Entering SysLogAppender::close()..."));
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         ::closelog();
         closed = true;
@@ -105,7 +105,7 @@ log4cplus::SysLogAppender::append(const spi::InternalLoggingEvent& event)
     if(level != -1) {
         log4cplus::tostringstream buf;
         layout->formatAndAppend(buf, event);
-        ::syslog(level, buf.str().c_str());
+        ::syslog(level, LOG4CPLUS_TSTRING_TO_STRING(buf.str()).c_str());
     }
 }
 
