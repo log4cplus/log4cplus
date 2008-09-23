@@ -16,14 +16,14 @@
 
 #include <iterator>
 #include <algorithm>
+#include <cstring>
+#include <cwchar>
+#include <cwctype>
+#include <cctype>
 
 #ifdef UNICODE
 #  include <cassert>
 #  include <vector>
-#  include <cwctype>
-#  include <cstring>
-#else
-#  include <ctype.h>
 #endif
 
 using namespace log4cplus;
@@ -57,18 +57,18 @@ clear_mbstate (mbstate_t & mbs)
 }
 
 
-std::wstring
-log4cplus::helpers::towstring(const std::string& src, std::locale const & loc)
+static
+void
+towstring_internal (std::wstring & outstr, const char * src, size_t size,
+    std::locale const & loc)
 {
-    std::wstring outstr;
-
     typedef std::codecvt<wchar_t, char, mbstate_t> CodeCvt;
     const CodeCvt & cdcvt = std::use_facet<CodeCvt>(loc);
     mbstate_t state;
     clear_mbstate (state);
 
-    char const * const from_first = src.c_str ();
-    size_t const from_size = src.size ();
+    char const * const from_first = src;
+    size_t const from_size = size;
     char const * const from_last = from_first + from_size;
     char const * from_next = from_first;
 
@@ -112,22 +112,39 @@ log4cplus::helpers::towstring(const std::string& src, std::locale const & loc)
     converted = to_next - to_first;
 
     outstr.assign (dest.begin (), dest.begin () + converted);
-    return outstr;
 }
 
 
-std::string
-log4cplus::helpers::tostring(const std::wstring& src, std::locale const & loc)
+std::wstring 
+log4cplus::helpers::towstring(const std::string& src, std::locale const & loc)
 {
-    std::string outstr;
+    std::wstring ret;
+    towstring_internal (ret, src.c_str (), src.size (), loc);
+    return ret;
+}
 
+
+std::wstring 
+log4cplus::helpers::towstring(char const * src, std::locale const & loc)
+{
+    std::wstring ret;
+    towstring_internal (ret, src, std::strlen (src), loc);
+    return ret;
+}
+
+
+static
+void
+tostring_internal (std::string & outstr, const wchar_t * src, size_t size,
+    std::locale const & loc)
+{
     typedef std::codecvt<wchar_t, char, mbstate_t> CodeCvt;
     const CodeCvt & cdcvt = std::use_facet<CodeCvt>(loc);
     mbstate_t state;
     clear_mbstate (state);
 
-    wchar_t const * const from_first = src.c_str ();
-    size_t const from_size = src.size ();
+    wchar_t const * const from_first = src;
+    size_t const from_size = size;
     wchar_t const * const from_last = from_first + from_size;
     wchar_t const * from_next = from_first;
 
@@ -171,21 +188,73 @@ log4cplus::helpers::tostring(const std::wstring& src, std::locale const & loc)
     converted = to_next - to_first;
 
     outstr.assign (dest.begin (), dest.begin () + converted);
-    return outstr;
 }
 
+
+std::string 
+log4cplus::helpers::tostring(const std::wstring& src, std::locale const & loc)
+{
+    std::string ret;
+    tostring_internal (ret, src.c_str (), src.size (), loc);
+    return ret;
+}
+
+
+std::string 
+log4cplus::helpers::tostring(wchar_t const * src, std::locale const & loc)
+{
+    std::string ret;
+    tostring_internal (ret, src, std::wcslen (src), loc);
+    return ret;
+}
+
+
 #else // LOG4CPLUS_WORKING_LOCALE
+
+
+static
+void
+tostring_internal (std::string & ret, wchar_t const * src, size_t size)
+{
+    ret.resize(size);
+    for (size_t i = 0; i < size; ++i)
+    {
+        ret[i] = static_cast<unsigned> (static_cast<int> (src[i])) < 256
+            ? static_cast<char>(src[i]) : ' ';
+    }
+
+    return ret;
+}
+
 
 std::string 
 log4cplus::helpers::tostring(const std::wstring& src)
 {
     std::string ret;
-    ret.resize(src.size());
-    for (unsigned int i=0; i<src.size(); i++) {
-        ret[i] = (src[i] < 256 ? static_cast<char>(src[i]) : ' ');
-    }
-
+    tostring_internal (ret, src.c_str (), src.size ());
     return ret;
+}
+
+
+std::string 
+log4cplus::helpers::tostring(wchar_t const * src)
+{
+    std::string ret;
+    tostring_internal (ret, src, std::wcslen (src));
+    return ret;
+}
+
+
+static
+void
+towstring_internal (std::wstring & ret, char const * src, size_t size)
+{
+    ret.resize(size);
+    for (size_t i = 0; i < size; ++i)
+    {
+        ret[i] = static_cast<wchar_t>
+            (static_cast<unsigned char> (src[i]));
+    }
 }
 
 
@@ -193,12 +262,16 @@ std::wstring
 log4cplus::helpers::towstring(const std::string& src)
 {
     std::wstring ret;
-    ret.resize(src.size());
-    for (unsigned int i=0; i<src.size(); i++) {
-      ret[i] = static_cast<tchar>
-        (static_cast<unsigned char> (src[i]));
-    }
+    towstring_internal (ret, src.c_str (), src.size ());
+    return ret;
+}
 
+
+std::wstring 
+log4cplus::helpers::towstring(char const * src)
+{
+    std::wstring ret;
+    towstring_internal (ret, src, std::strlen (src));
     return ret;
 }
 
@@ -245,5 +318,3 @@ log4cplus::helpers::toLower(const log4cplus::tstring& s)
 
     return ret;
 }
-
-
