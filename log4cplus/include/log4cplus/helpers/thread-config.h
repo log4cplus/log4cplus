@@ -36,9 +36,9 @@
 #   define LOG4CPLUS_THREAD_LOCAL_CLEANUP( key ) pthread_key_delete(*key)
 namespace log4cplus {
     namespace thread {
-        LOG4CPLUS_MUTEX_PTR_DECLARE createNewMutex();
-        void deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE);
-        LOG4CPLUS_THREAD_LOCAL_TYPE createPthreadKey();
+        LOG4CPLUS_EXPORT LOG4CPLUS_MUTEX_PTR_DECLARE createNewMutex();
+        LOG4CPLUS_EXPORT void deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE);
+        LOG4CPLUS_EXPORT LOG4CPLUS_THREAD_LOCAL_TYPE createPthreadKey();
     }
 }
 

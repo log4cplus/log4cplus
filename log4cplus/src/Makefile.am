@@ -7,7 +7,7 @@ endif
 
 lib_LTLIBRARIES = liblog4cplus.la
 
-AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include
+AM_CPPFLAGS = -DINSIDE_LOG4CPLUS -I$(top_srcdir)/include -I$(top_builddir)/include
 
 nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/config.hxx \

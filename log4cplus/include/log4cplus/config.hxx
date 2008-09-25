@@ -14,7 +14,11 @@
 #  if !defined(LOG4CPLUS_SINGLE_THREADED)
 #    define LOG4CPLUS_USE_PTHREADS
 #  endif
-#  define LOG4CPLUS_EXPORT
+#  if defined (INSIDE_LOG4CPLUS)
+#    define LOG4CPLUS_EXPORT LOG4CPLUS_DECLSPEC_EXPORT
+#  else
+#    define LOG4CPLUS_EXPORT LOG4CPLUS_DECLSPEC_IMPORT
+#  endif // defined (INSIDE_LOG4CPLUS)
 #endif // !_WIN32
 
 #include <log4cplus/helpers/thread-config.h>
