@@ -21195,11 +21195,11 @@ $as_echo "$ac_cv_declspec" >&6; }
 
 if test "x$ac_cv_declspec" = "xyes"; then
   cat >>confdefs.h <<\_ACEOF
-#define LOG4CPLUS_DECLSPEC_IMPORT __declspec(import)
+#define LOG4CPLUS_DECLSPEC_IMPORT __declspec(dllimport)
 _ACEOF
 
    cat >>confdefs.h <<\_ACEOF
-#define LOG4CPLUS_DECLSPEC_EXPORT __declspec(export)
+#define LOG4CPLUS_DECLSPEC_EXPORT __declspec(dllexport)
 _ACEOF
 
 else
