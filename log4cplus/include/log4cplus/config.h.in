@@ -79,12 +79,11 @@
 /* Defined for --enable-debugging builds. */
 #undef LOG4CPLUS_DEBUGGING
 
-/* Defined if the compiler understands __declspec(import) or
-   __attribute__((import)) construct. */
+/* Defined if the compiler understands __declspec(dllimport) or
+   __attribute__((visibility("default"))) construct. */
 #undef LOG4CPLUS_DECLSPEC_EXPORT
 
-/* Defined if the compiler understands __declspec(export) or
-   __attribute__((export)) construct. */
+/* Defined if the compiler understands __declspec(dllexport) or construct. */
 #undef LOG4CPLUS_DECLSPEC_IMPORT
 
 /* */

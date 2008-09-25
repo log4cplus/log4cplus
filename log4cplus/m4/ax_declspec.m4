@@ -3,11 +3,11 @@ dnl Check for the __declspec(dllexport) construct support.
 AC_DEFUN([AX_DECLSPEC],
 [
 AH_TEMPLATE($1_IMPORT,
-  [Defined if the compiler understands __declspec(export)
-   or __attribute__((export)) construct.])
+  [Defined if the compiler understands __declspec(dllexport)
+   or construct.])
 AH_TEMPLATE($1_EXPORT, 
-  [Defined if the compiler understands __declspec(import)
-   or __attribute__((import)) construct.])
+  [Defined if the compiler understands __declspec(dllimport)
+   or __attribute__((visibility("default"))) construct.])
 
 AC_CACHE_CHECK([for __declspec(dllexport)], [ac_cv_declspec],
 [
@@ -24,8 +24,8 @@ AC_CACHE_CHECK([for __declspec(dllexport)], [ac_cv_declspec],
 ])
   
 AS_IF([test "x$ac_cv_declspec" = "xyes"],
-  [AC_DEFINE($1_IMPORT, [__declspec(import)])
-   AC_DEFINE($1_EXPORT, [__declspec(export)])],
+  [AC_DEFINE($1_IMPORT, [__declspec(dllimport)])
+   AC_DEFINE($1_EXPORT, [__declspec(dllexport)])],
 
 [
 AC_CACHE_CHECK([for __attribute__((visibility("default")))], [ac_cv__attribute__visibility],
