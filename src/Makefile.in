@@ -45,7 +45,8 @@ am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/m4/type_socklen_t.m4 \
 	$(top_srcdir)/m4/ac_cxx_compiler_vendor.m4 \
 	$(top_srcdir)/m4/ax_cflags_gcc_option.m4 \
-	$(top_srcdir)/m4/acx_pthread.m4 $(top_srcdir)/configure.in
+	$(top_srcdir)/m4/acx_pthread.m4 \
+	$(top_srcdir)/m4/ax_declspec.m4 $(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -230,7 +231,7 @@ top_srcdir = @top_srcdir@
 @MULTI_THREADED_TRUE@loggingserver_SOURCES = loggingserver.cxx
 @MULTI_THREADED_TRUE@loggingserver_LDADD = $(top_builddir)/src/liblog4cplus.la 
 lib_LTLIBRARIES = liblog4cplus.la
-AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include
+AM_CPPFLAGS = -DINSIDE_LOG4CPLUS -I$(top_srcdir)/include -I$(top_builddir)/include
 nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/config.hxx \
 			 ../include/log4cplus/config/defines.hxx \

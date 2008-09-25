@@ -21131,6 +21131,354 @@ esac
 
 
 
+
+
+
+
+
+{ $as_echo "$as_me:$LINENO: checking for __declspec(dllexport)" >&5
+$as_echo_n "checking for __declspec(dllexport)... " >&6; }
+if test "${ac_cv_declspec+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+__declspec(dllexport) int x = 0;
+        __declspec(dllexport) int foo ();
+        int foo () { return 0; }
+        __declspec(dllexport) int bar () { return x; }
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_declspec=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_cv_declspec=no
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_declspec" >&5
+$as_echo "$ac_cv_declspec" >&6; }
+
+if test "x$ac_cv_declspec" = "xyes"; then
+  cat >>confdefs.h <<\_ACEOF
+#define LOG4CPLUS_DECLSPEC_IMPORT __declspec(import)
+_ACEOF
+
+   cat >>confdefs.h <<\_ACEOF
+#define LOG4CPLUS_DECLSPEC_EXPORT __declspec(export)
+_ACEOF
+
+else
+
+{ $as_echo "$as_me:$LINENO: checking for __attribute__((visibility(\"default\")))" >&5
+$as_echo_n "checking for __attribute__((visibility(\"default\")))... " >&6; }
+if test "${ac_cv__attribute__visibility+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+        __attribute__((visibility("default"))) int x = 0;
+        __attribute__((visibility("default"))) int foo ();
+        int foo () { return 0; }
+        __attribute__((visibility("default"))) int bar () { return x; }
+        __attribute__((visibility("hidden"))) int baz () { return 1; }
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv__attribute__visibility=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_cv__attribute__visibility=no
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv__attribute__visibility" >&5
+$as_echo "$ac_cv__attribute__visibility" >&6; }
+
+if test "x$ac_cv__attribute__visibility" = "xyes"; then
+  cat >>confdefs.h <<\_ACEOF
+#define LOG4CPLUS_DECLSPEC_IMPORT /**/
+_ACEOF
+
+   cat >>confdefs.h <<\_ACEOF
+#define LOG4CPLUS_DECLSPEC_EXPORT __attribute__ ((visibility("default")))
+_ACEOF
+
+fi
+
+
+fi
+
+
+if test "x$ac_cv__attribute__visibility" = "xno" && test "x$ac_cv_declspec" == "xno"; then
+  cat >>confdefs.h <<\_ACEOF
+#define LOG4CPLUS_DECLSPEC_IMPORT /**/
+_ACEOF
+
+   cat >>confdefs.h <<\_ACEOF
+#define LOG4CPLUS_DECLSPEC_EXPORT /**/
+_ACEOF
+
+fi
+
+
+
+if test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"; then
+  case $ac_cxx_compiler_vendor in
+  gnu) { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -fvisibility=hidden" >&5
+$as_echo_n "checking CXXFLAGS for gcc -fvisibility=hidden... " >&6; }
+if test "${ac_cv_cxxflags_gcc_option__fvisibility_hidden+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_cv_cxxflags_gcc_option__fvisibility_hidden="no, unknown"
+
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ ac_save_CXXFLAGS="$CXXFLAGS"
+for ac_arg in "-pedantic -Werror % -fvisibility=hidden"     "-pedantic % -fvisibility=hidden %% no, obsolete"     #
+do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+   cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+return 0;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_cxxflags_gcc_option__fvisibility_hidden=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+done
+ CXXFLAGS="$ac_save_CXXFLAGS"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__fvisibility_hidden" >&5
+$as_echo "$ac_cv_cxxflags_gcc_option__fvisibility_hidden" >&6; }
+case ".$ac_cv_cxxflags_gcc_option__fvisibility_hidden" in
+     .ok|.ok,*)  ;;
+   .|.no|.no,*)  ;;
+   *)
+   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__fvisibility_hidden " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__fvisibility_hidden") >&5
+  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__fvisibility_hidden) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__fvisibility_hidden\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__fvisibility_hidden") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__fvisibility_hidden"
+   fi
+ ;;
+esac
+
+     { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -fkeep-inline-functions" >&5
+$as_echo_n "checking CXXFLAGS for gcc -fkeep-inline-functions... " >&6; }
+if test "${ac_cv_cxxflags_gcc_option__fkeep_inline_functions+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_cv_cxxflags_gcc_option__fkeep_inline_functions="no, unknown"
+
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ ac_save_CXXFLAGS="$CXXFLAGS"
+for ac_arg in "-pedantic -Werror % -fkeep-inline-functions"     "-pedantic % -fkeep-inline-functions %% no, obsolete"     #
+do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+   cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+return 0;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_cxxflags_gcc_option__fkeep_inline_functions=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+done
+ CXXFLAGS="$ac_save_CXXFLAGS"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__fkeep_inline_functions" >&5
+$as_echo "$ac_cv_cxxflags_gcc_option__fkeep_inline_functions" >&6; }
+case ".$ac_cv_cxxflags_gcc_option__fkeep_inline_functions" in
+     .ok|.ok,*)  ;;
+   .|.no|.no,*)  ;;
+   *)
+   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__fkeep_inline_functions " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__fkeep_inline_functions") >&5
+  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__fkeep_inline_functions) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__fkeep_inline_functions\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__fkeep_inline_functions") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__fkeep_inline_functions"
+   fi
+ ;;
+esac
+ ;;
+esac
+
+fi
+
+
+
 if test -n "$ac_tool_prefix"; then
   # Extract the first word of "${ac_tool_prefix}ranlib", so it can be a program name with args.
 set dummy ${ac_tool_prefix}ranlib; ac_word=$2

@@ -57,7 +57,8 @@ AC_SEARCH_LIBS([strerror], [cposix])
 
 AX_CXXFLAGS_WARN_ALL
 AC_CXX_COMPILER_VENDOR([ac_cxx_compiler_vendor])
-AS_CASE([$ac_cxx_compiler_vendor], [gnu],
+AS_CASE([$ac_cxx_compiler_vendor],
+  [gnu],
   [AX_CXXFLAGS_GCC_OPTION([-Wextra])
   AX_CXXFLAGS_GCC_OPTION([-ansi])
   AX_CXXFLAGS_GCC_OPTION([-pedantic])
@@ -65,6 +66,13 @@ AS_CASE([$ac_cxx_compiler_vendor], [gnu],
     [AX_CXXFLAGS_GCC_OPTION([-g3])
      AX_CXXFLAGS_GCC_OPTION([-O0])],
     [AX_CXXFLAGS_GCC_OPTION([-O2])])])
+
+AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
+AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"],
+  [AS_CASE([$ac_cxx_compiler_vendor],
+    [gnu],
+    [AX_CXXFLAGS_GCC_OPTION([-fvisibility=hidden])
+     AX_CXXFLAGS_GCC_OPTION([-fkeep-inline-functions])])])
 
 dnl Checks for libraries.
 

@@ -79,6 +79,14 @@
 /* Defined for --enable-debugging builds. */
 #undef LOG4CPLUS_DEBUGGING
 
+/* Defined if the compiler understands __declspec(import) or
+   __attribute__((import)) construct. */
+#undef LOG4CPLUS_DECLSPEC_EXPORT
+
+/* Defined if the compiler understands __declspec(export) or
+   __attribute__((export)) construct. */
+#undef LOG4CPLUS_DECLSPEC_IMPORT
+
 /* */
 #undef LOG4CPLUS_HAVE_FTIME
 
