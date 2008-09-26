@@ -40,7 +40,7 @@ namespace log4cplus {
     /**
      * Return a reference to the singleton object.
      */
-    LOG4CPLUS_EXPORT NDC& getNDC();
+    NDC& getNDC();
 
     /**
      * The NDC class implements <i>nested diagnostic contexts</i> as
@@ -254,9 +254,14 @@ namespace log4cplus {
         NDC& operator=(const NDC&);
 
       // Friends
-        friend LOG4CPLUS_EXPORT NDC& getNDC();
+        friend NDC& getNDC();
     };
 
+
+    // This second declaration with LOG4CPLUS_EXPORT is a workaround
+    // for GCC warning: 'int foo()' redeclared without dllimport
+    // attribute: previous dllimport ignored
+    LOG4CPLUS_EXPORT NDC& getNDC();
 
 
     /**
