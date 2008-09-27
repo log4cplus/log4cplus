@@ -67,7 +67,7 @@ towstring_internal (std::wstring & outstr, const char * src, size_t size,
     mbstate_t state;
     clear_mbstate (state);
 
-    char const * const from_first = src;
+    char const * from_first = src;
     size_t const from_size = size;
     char const * const from_last = from_first + from_size;
     char const * from_next = from_first;
@@ -103,13 +103,20 @@ towstring_internal (std::wstring & outstr, const char * src, size_t size,
         }
         else if (result == CodeCvt::ok && from_next == from_last)
             break;
-        else
+        else if (result == CodeCvt::error
+            && to_next != to_last && from_next != from_last)
         {
-            assert (0);
-            break;
+            clear_mbstate (state);
+            ++from_next;
+            from_first = from_next;
+            *to_next = L'?';
+            ++to_next;
+            to_first = to_next;
         }
+        else
+            break;
     }
-    converted = to_next - to_first;
+    converted = to_next - &dest[0];
 
     outstr.assign (dest.begin (), dest.begin () + converted);
 }
@@ -143,7 +150,7 @@ tostring_internal (std::string & outstr, const wchar_t * src, size_t size,
     mbstate_t state;
     clear_mbstate (state);
 
-    wchar_t const * const from_first = src;
+    wchar_t const * from_first = src;
     size_t const from_size = size;
     wchar_t const * const from_last = from_first + from_size;
     wchar_t const * from_next = from_first;
@@ -157,15 +164,15 @@ tostring_internal (std::string & outstr, const wchar_t * src, size_t size,
 
     CodeCvt::result result;
     size_t converted = 0;
-    while (true)
+    while (from_next != from_last)
     {
         result = cdcvt.out (
             state, from_first, from_last,
             from_next, to_first, to_last,
             to_next);
         // XXX: Even if only half of the input has been converted the
-        // in() method returns CodeCvt::ok. I think it should return
-        // CodeCvt::partial.
+        // in() method returns CodeCvt::ok with VC8. I think it should
+        // return CodeCvt::partial.
         if ((result == CodeCvt::partial || result == CodeCvt::ok)
             && from_next != from_last)
         {
@@ -175,17 +182,23 @@ tostring_internal (std::string & outstr, const wchar_t * src, size_t size,
             to_first = &dest.front ();
             to_last = to_first + to_size;
             to_next = to_first + converted;
-            continue;
         }
         else if (result == CodeCvt::ok && from_next == from_last)
             break;
-        else
+        else if (result == CodeCvt::error
+            && to_next != to_last && from_next != from_last)
         {
-            assert (0);
-            break;
+            clear_mbstate (state);
+            ++from_next;
+            from_first = from_next;
+            *to_next = '?';
+            ++to_next;
+            to_first = to_next;
         }
+        else
+            break;
     }
-    converted = to_next - to_first;
+    converted = to_next - &dest[0];
 
     outstr.assign (dest.begin (), dest.begin () + converted);
 }
