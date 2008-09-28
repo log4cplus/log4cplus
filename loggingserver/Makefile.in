@@ -14,7 +14,6 @@
 
 @SET_MAKE@
 
-
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
@@ -33,9 +32,9 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-subdir = src
-DIST_COMMON = $(nobase_include_HEADERS) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in
+@MULTI_THREADED_TRUE@noinst_PROGRAMS = loggingserver$(EXEEXT)
+subdir = loggingserver
+DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/m4/_ac_c_ifdef.m4 \
@@ -51,40 +50,13 @@ mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h \
 	$(top_builddir)/include/log4cplus/config/defines.hxx
 CONFIG_CLEAN_FILES =
-am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
-am__vpath_adj = case $$p in \
-    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
-    *) f=$$p;; \
-  esac;
-am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
-libLTLIBRARIES_INSTALL = $(INSTALL)
-LTLIBRARIES = $(lib_LTLIBRARIES)
-liblog4cplus_la_LIBADD =
-am__liblog4cplus_la_SOURCES_DIST = appenderattachableimpl.cxx \
-	appender.cxx configurator.cxx consoleappender.cxx factory.cxx \
-	fileappender.cxx filter.cxx global-init.cxx hierarchy.cxx \
-	hierarchylocker.cxx layout.cxx logger.cxx loggerimpl.cxx \
-	loggingevent.cxx loglevel.cxx loglog.cxx logloguser.cxx \
-	ndc.cxx nullappender.cxx objectregistry.cxx patternlayout.cxx \
-	pointer.cxx property.cxx rootlogger.cxx sleep.cxx socket.cxx \
-	socket-unix.cxx socketappender.cxx socketbuffer.cxx \
-	stringhelper.cxx syslogappender.cxx timehelper.cxx threads.cxx
-am__objects_1 = appenderattachableimpl.lo appender.lo configurator.lo \
-	consoleappender.lo factory.lo fileappender.lo filter.lo \
-	global-init.lo hierarchy.lo hierarchylocker.lo layout.lo \
-	logger.lo loggerimpl.lo loggingevent.lo loglevel.lo loglog.lo \
-	logloguser.lo ndc.lo nullappender.lo objectregistry.lo \
-	patternlayout.lo pointer.lo property.lo rootlogger.lo sleep.lo \
-	socket.lo socket-unix.lo socketappender.lo socketbuffer.lo \
-	stringhelper.lo syslogappender.lo timehelper.lo
-@MULTI_THREADED_FALSE@am__objects_2 = $(am__objects_1)
-@MULTI_THREADED_TRUE@am__objects_2 = $(am__objects_1) threads.lo
-am_liblog4cplus_la_OBJECTS = $(am__objects_2)
-liblog4cplus_la_OBJECTS = $(am_liblog4cplus_la_OBJECTS)
-liblog4cplus_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
-	$(CXXFLAGS) $(liblog4cplus_la_LDFLAGS) $(LDFLAGS) -o $@
+PROGRAMS = $(noinst_PROGRAMS)
+am__loggingserver_SOURCES_DIST = loggingserver.cxx
+@MULTI_THREADED_TRUE@am_loggingserver_OBJECTS =  \
+@MULTI_THREADED_TRUE@	loggingserver.$(OBJEXT)
+loggingserver_OBJECTS = $(am_loggingserver_OBJECTS)
+@MULTI_THREADED_TRUE@loggingserver_DEPENDENCIES =  \
+@MULTI_THREADED_TRUE@	$(top_builddir)/src/liblog4cplus.la
 DEFAULT_INCLUDES = 
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -97,10 +69,8 @@ CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(liblog4cplus_la_SOURCES)
-DIST_SOURCES = $(am__liblog4cplus_la_SOURCES_DIST)
-nobase_includeHEADERS_INSTALL = $(install_sh_DATA)
-HEADERS = $(nobase_include_HEADERS)
+SOURCES = $(loggingserver_SOURCES)
+DIST_SOURCES = $(am__loggingserver_SOURCES_DIST)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -218,89 +188,9 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-lib_LTLIBRARIES = liblog4cplus.la
-AM_CPPFLAGS = -DINSIDE_LOG4CPLUS -I$(top_srcdir)/include -I$(top_builddir)/include
-nobase_include_HEADERS = ../include/log4cplus/appender.h \
-			 ../include/log4cplus/config.hxx \
-			 ../include/log4cplus/config/defines.hxx \
-			 ../include/log4cplus/config/win32.h \
-			 ../include/log4cplus/config/macosx.h \
-			 ../include/log4cplus/configurator.h \
-			 ../include/log4cplus/consoleappender.h \
-			 ../include/log4cplus/fileappender.h \
-			 ../include/log4cplus/fstreams.h \
-			 ../include/log4cplus/hierarchy.h \
-			 ../include/log4cplus/hierarchylocker.h \
-			 ../include/log4cplus/layout.h \
-			 ../include/log4cplus/logger.h \
-			 ../include/log4cplus/loggingmacros.h \
-			 ../include/log4cplus/loglevel.h \
-			 ../include/log4cplus/ndc.h \
-			 ../include/log4cplus/nullappender.h \
-			 ../include/log4cplus/socketappender.h \
-			 ../include/log4cplus/streams.h \
-			 ../include/log4cplus/syslogappender.h \
-			 ../include/log4cplus/tstring.h \
-			 ../include/log4cplus/helpers/appenderattachableimpl.h \
-			 ../include/log4cplus/helpers/loglog.h \
-			 ../include/log4cplus/helpers/logloguser.h \
-			 ../include/log4cplus/helpers/pointer.h \
-			 ../include/log4cplus/helpers/property.h \
-			 ../include/log4cplus/helpers/sleep.h \
-			 ../include/log4cplus/helpers/socketbuffer.h \
-			 ../include/log4cplus/helpers/socket.h \
-			 ../include/log4cplus/helpers/stringhelper.h \
-			 ../include/log4cplus/helpers/thread-config.h \
-			 ../include/log4cplus/helpers/threads.h \
-			 ../include/log4cplus/helpers/timehelper.h \
-			 ../include/log4cplus/spi/appenderattachable.h \
-			 ../include/log4cplus/spi/factory.h \
-			 ../include/log4cplus/spi/filter.h \
-			 ../include/log4cplus/spi/loggerfactory.h \
-			 ../include/log4cplus/spi/loggerimpl.h \
-			 ../include/log4cplus/spi/loggingevent.h \
-			 ../include/log4cplus/spi/objectregistry.h \
-			 ../include/log4cplus/spi/rootlogger.h
-
-SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
-                         appender.cxx \
-                         configurator.cxx \
-                         consoleappender.cxx \
-			 factory.cxx \
-                         fileappender.cxx \
-                         filter.cxx \
-			 global-init.cxx \
-                         hierarchy.cxx \
-                         hierarchylocker.cxx \
-                         layout.cxx \
-                         logger.cxx \
-                         loggerimpl.cxx \
-                         loggingevent.cxx \
-                         loglevel.cxx \
-                         loglog.cxx \
-                         logloguser.cxx \
-                         ndc.cxx \
-                         nullappender.cxx \
-			 objectregistry.cxx \
-                         patternlayout.cxx \
-                         pointer.cxx \
-			 property.cxx \
-			 rootlogger.cxx \
-			 sleep.cxx \
-			 socket.cxx \
-			 socket-unix.cxx \
-			 socketappender.cxx \
-			 socketbuffer.cxx \
-			 stringhelper.cxx \
-			 syslogappender.cxx \
-			 timehelper.cxx
-
-@MULTI_THREADED_FALSE@LIB_SRC = $(SINGLE_THREADED_SRC)
-@MULTI_THREADED_TRUE@LIB_SRC = $(SINGLE_THREADED_SRC) threads.cxx
-liblog4cplus_la_SOURCES = $(LIB_SRC)
-
-#liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release 1.0
+AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include
+@MULTI_THREADED_TRUE@loggingserver_SOURCES = loggingserver.cxx
+@MULTI_THREADED_TRUE@loggingserver_LDADD = $(top_builddir)/src/liblog4cplus.la 
 all: all-am
 
 .SUFFIXES:
@@ -314,9 +204,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu  src/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu  loggingserver/Makefile'; \
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/Makefile
+	  $(AUTOMAKE) --gnu  loggingserver/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -334,35 +224,16 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-install-libLTLIBRARIES: $(lib_LTLIBRARIES)
-	@$(NORMAL_INSTALL)
-	test -z "$(libdir)" || $(MKDIR_P) "$(DESTDIR)$(libdir)"
-	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
-	  if test -f $$p; then \
-	    f=$(am__strip_dir) \
-	    echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(libLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) '$$p' '$(DESTDIR)$(libdir)/$$f'"; \
-	    $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(libLTLIBRARIES_INSTALL) $(INSTALL_STRIP_FLAG) "$$p" "$(DESTDIR)$(libdir)/$$f"; \
-	  else :; fi; \
-	done
 
-uninstall-libLTLIBRARIES:
-	@$(NORMAL_UNINSTALL)
-	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
-	  p=$(am__strip_dir) \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(libdir)/$$p'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(libdir)/$$p"; \
+clean-noinstPROGRAMS:
+	@list='$(noinst_PROGRAMS)'; for p in $$list; do \
+	  f=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+	  echo " rm -f $$p $$f"; \
+	  rm -f $$p $$f ; \
 	done
-
-clean-libLTLIBRARIES:
-	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
-	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
-	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
-	  test "$$dir" != "$$p" || dir=.; \
-	  echo "rm -f \"$${dir}/so_locations\""; \
-	  rm -f "$${dir}/so_locations"; \
-	done
-liblog4cplus.la: $(liblog4cplus_la_OBJECTS) $(liblog4cplus_la_DEPENDENCIES) 
-	$(liblog4cplus_la_LINK) -rpath $(libdir) $(liblog4cplus_la_OBJECTS) $(liblog4cplus_la_LIBADD) $(LIBS)
+loggingserver$(EXEEXT): $(loggingserver_OBJECTS) $(loggingserver_DEPENDENCIES) 
+	@rm -f loggingserver$(EXEEXT)
+	$(CXXLINK) $(loggingserver_OBJECTS) $(loggingserver_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -370,39 +241,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/appender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/appenderattachableimpl.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/configurator.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/consoleappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/factory.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filter.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/global-init.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hierarchy.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hierarchylocker.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/layout.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logger.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loggerimpl.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loggingevent.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loglevel.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loglog.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logloguser.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ndc.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nullappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/objectregistry.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/patternlayout.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pointer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/property.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rootlogger.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sleep.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket-unix.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socketappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socketbuffer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stringhelper.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/syslogappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/threads.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timehelper.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loggingserver.Po@am__quote@
 
 .cxx.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -430,25 +269,6 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-nobase_includeHEADERS: $(nobase_include_HEADERS)
-	@$(NORMAL_INSTALL)
-	test -z "$(includedir)" || $(MKDIR_P) "$(DESTDIR)$(includedir)"
-	@$(am__vpath_adj_setup) \
-	list='$(nobase_include_HEADERS)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  $(am__vpath_adj) \
-	  echo " $(nobase_includeHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(includedir)/$$f'"; \
-	  $(nobase_includeHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(includedir)/$$f"; \
-	done
-
-uninstall-nobase_includeHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@$(am__vpath_adj_setup) \
-	list='$(nobase_include_HEADERS)'; for p in $$list; do \
-	  $(am__vpath_adj) \
-	  echo " rm -f '$(DESTDIR)$(includedir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(includedir)/$$f"; \
-	done
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -525,11 +345,8 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+all-am: Makefile $(PROGRAMS)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"; do \
-	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
-	done
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -556,7 +373,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
+clean-am: clean-generic clean-libtool clean-noinstPROGRAMS \
 	mostlyclean-am
 
 distclean: distclean-am
@@ -575,11 +392,11 @@ info: info-am
 
 info-am:
 
-install-data-am: install-nobase_includeHEADERS
+install-data-am:
 
 install-dvi: install-dvi-am
 
-install-exec-am: install-libLTLIBRARIES
+install-exec-am:
 
 install-html: install-html-am
 
@@ -611,25 +428,22 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES uninstall-nobase_includeHEADERS
+uninstall-am:
 
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
-	clean-libLTLIBRARIES clean-libtool ctags distclean \
+	clean-libtool clean-noinstPROGRAMS ctags distclean \
 	distclean-compile distclean-generic distclean-libtool \
 	distclean-tags distdir dvi dvi-am html html-am info info-am \
 	install install-am install-data install-data-am install-dvi \
 	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am \
-	install-libLTLIBRARIES install-man \
-	install-nobase_includeHEADERS install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-libLTLIBRARIES \
-	uninstall-nobase_includeHEADERS
+	install-html-am install-info install-info-am install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags uninstall uninstall-am
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

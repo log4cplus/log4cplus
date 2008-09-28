@@ -1,2 +1,2 @@
 EXTRA_DIST = ChangeLog.O
-SUBDIRS = src tests
+SUBDIRS = src loggingserver tests
