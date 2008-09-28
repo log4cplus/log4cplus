@@ -168,6 +168,7 @@ AC_CONFIG_HEADERS([include/log4cplus/config.h])
 AC_CONFIG_HEADERS([include/log4cplus/config/defines.hxx])
 AC_CONFIG_FILES([Makefile
            src/Makefile
+           loggingserver/Makefile
            tests/Makefile
            tests/appender_test/Makefile
            tests/configandwatch_test/Makefile
