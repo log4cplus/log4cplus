@@ -152,20 +152,20 @@ Time::localtime(struct tm* t) const
 namespace 
 {
 
-static tchar const * const padding_zeros[4] =
+static log4cplus::tstring const padding_zeros[4] =
 {
-    LOG4CPLUS_TEXT("000"),
-    LOG4CPLUS_TEXT("00"),
-    LOG4CPLUS_TEXT("0"),
-    LOG4CPLUS_TEXT("")
+    log4cplus::tstring (LOG4CPLUS_TEXT("000")),
+    log4cplus::tstring (LOG4CPLUS_TEXT("00")),
+    log4cplus::tstring (LOG4CPLUS_TEXT("0")),
+    log4cplus::tstring (LOG4CPLUS_TEXT(""))
 };
 
-static tchar const * const uc_q_padding_zeros[4] =
+static log4cplus::tstring const uc_q_padding_zeros[4] =
 {
-    LOG4CPLUS_TEXT(".000"),
-    LOG4CPLUS_TEXT(".00"),
-    LOG4CPLUS_TEXT(".0"),
-    LOG4CPLUS_TEXT(".")
+    log4cplus::tstring (LOG4CPLUS_TEXT(".000")),
+    log4cplus::tstring (LOG4CPLUS_TEXT(".00")),
+    log4cplus::tstring (LOG4CPLUS_TEXT(".0")),
+    log4cplus::tstring (LOG4CPLUS_TEXT("."))
 };
 
 }
@@ -190,7 +190,7 @@ Time::build_uc_q_value (log4cplus::tstring & uc_q_str) const
     log4cplus::tstring usecs (convertIntegerToString(tv_usec % 1000));
     size_t usecs_len = usecs.length();
     usecs.insert (0, usecs_len <= 3 
-        ? uc_q_padding_zeros[usecs_len] : LOG4CPLUS_TEXT ("."));
+                  ? uc_q_padding_zeros[usecs_len] : uc_q_padding_zeros[3]);
     uc_q_str.append (usecs);
 #else
     uc_q_str.append (uc_q_padding_zeros[0]);
