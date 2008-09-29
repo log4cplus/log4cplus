@@ -1,3 +1,17 @@
+Version 1.0.3-RC2
+	
+  - Fix Bug #2106949 - Compilation problem with Borland's compiler.
+  - Fix Bug #1717320, #1040902, #1040676 - strftime() complains about
+    our custom %q and %Q format specifiers with "Invalid format
+    directive".
+  - Removed safe_auto_ptr.
+  - Added --enable-debugging switch to configure script. It disables
+    optimization and turns on debugging info generation.
+  - Use locale and its codecvt facet in towstring()/tostring()
+    implementations when --with-working-locale is defined.
+  - Added support for GCC's -fvisibility=hidden flag where available
+    together with __attribute__ ((visibility("default"))).
+
 Version 1.0.3-RC1
   - IMPORTANT: VC6 users, VC6 is unsupported. Its standard C++ library
     is too broken. The work around for VC6's std::string has been
