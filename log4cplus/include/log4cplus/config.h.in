@@ -132,9 +132,6 @@
    locale. */
 #undef LOG4CPLUS_WORKING_LOCALE
 
-/* Define to 1 if assertions should be disabled. */
-#undef NDEBUG
-
 /* Define to the address where bug reports for this package should be sent. */
 #undef PACKAGE_BUGREPORT
 

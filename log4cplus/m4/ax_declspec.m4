@@ -33,11 +33,16 @@ AC_CACHE_CHECK([for __attribute__((visibility("default")))], [ac_cv__attribute__
   AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM(
       [[
+#if defined (__GNUC__) && (__GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ <= 1))
+#  error Please fail.
+And extra please fail.
+#else
         __attribute__((visibility("default"))) int x = 0;
         __attribute__((visibility("default"))) int foo ();
         int foo () { return 0; }
         __attribute__((visibility("default"))) int bar () { return x; }
         __attribute__((visibility("hidden"))) int baz () { return 1; }
+#endif
       ]],
       [[]])],
     [ac_cv__attribute__visibility=yes],
