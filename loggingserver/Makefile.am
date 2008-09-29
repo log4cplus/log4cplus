@@ -1,4 +1,5 @@
-AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include
+AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include \
+	@LOG4CPLUS_NDEBUG@
 
 if MULTI_THREADED
 noinst_PROGRAMS = loggingserver

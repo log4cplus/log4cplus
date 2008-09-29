@@ -113,6 +113,7 @@ LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
+LOG4CPLUS_NDEBUG = @LOG4CPLUS_NDEBUG@
 LTLIBOBJS = @LTLIBOBJS@
 LT_VERSION = @LT_VERSION@
 MAKEINFO = @MAKEINFO@
@@ -188,7 +189,9 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include
+AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include \
+	@LOG4CPLUS_NDEBUG@
+
 @MULTI_THREADED_TRUE@loggingserver_SOURCES = loggingserver.cxx
 @MULTI_THREADED_TRUE@loggingserver_LDADD = $(top_builddir)/src/liblog4cplus.la 
 all: all-am
