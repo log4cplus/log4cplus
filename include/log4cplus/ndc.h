@@ -40,7 +40,7 @@ namespace log4cplus {
     /**
      * Return a reference to the singleton object.
      */
-    NDC& getNDC();
+    LOG4CPLUS_EXPORT NDC& getNDC();
 
     /**
      * The NDC class implements <i>nested diagnostic contexts</i> as

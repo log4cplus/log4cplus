@@ -25,16 +25,14 @@
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/spi/appenderattachable.h>
 #include <log4cplus/spi/loggerfactory.h>
+#include <log4cplus/spi/loggerimpl.h>
 
 #include <memory>
 #include <vector>
 
 namespace log4cplus {
     // Forward declarations
-    namespace spi {
-        class LoggerImpl;
-        typedef helpers::SharedObjectPtr<LoggerImpl> SharedLoggerImplPtr;
-    }
+
     class Appender;
     class Hierarchy;
     class HierarchyLocker;

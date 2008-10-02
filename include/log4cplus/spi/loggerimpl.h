@@ -17,7 +17,6 @@
 #define _LOG4CPLUS_SPI_LOGGER_HEADER_
 
 #include <log4cplus/config.hxx>
-#include <log4cplus/logger.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/appenderattachableimpl.h>
 #include <log4cplus/helpers/pointer.h>
@@ -27,6 +26,8 @@
 
 
 namespace log4cplus {
+    class LOG4CPLUS_EXPORT DefaultLoggerFactory;
+
     namespace spi {
 
         /**
@@ -42,6 +43,8 @@ namespace log4cplus {
               public log4cplus::helpers::AppenderAttachableImpl
         {
         public:
+            typedef helpers::SharedObjectPtr<LoggerImpl> SharedLoggerImplPtr;
+
           // Methods
 
             /**
@@ -187,6 +190,8 @@ namespace log4cplus {
             friend class log4cplus::DefaultLoggerFactory;
             friend class log4cplus::Hierarchy;
         };
+
+        typedef LoggerImpl::SharedLoggerImplPtr SharedLoggerImplPtr;
 
     } // end namespace spi
 } // end namespace log4cplus
