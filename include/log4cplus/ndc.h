@@ -37,10 +37,10 @@ namespace log4cplus {
     struct DiagnosticContext;
     typedef std::stack<DiagnosticContext> DiagnosticContextStack;
 
-    /**
-     * Return a reference to the singleton object.
-     */
+#if defined (_MSC_VER)
     LOG4CPLUS_EXPORT NDC& getNDC();
+#endif
+
 
     /**
      * The NDC class implements <i>nested diagnostic contexts</i> as
@@ -258,9 +258,9 @@ namespace log4cplus {
     };
 
 
-    // This second declaration with LOG4CPLUS_EXPORT is a workaround
-    // for GCC warning: 'int foo()' redeclared without dllimport
-    // attribute: previous dllimport ignored
+    /**
+     * Return a reference to the singleton object.
+     */
     LOG4CPLUS_EXPORT NDC& getNDC();
 
 

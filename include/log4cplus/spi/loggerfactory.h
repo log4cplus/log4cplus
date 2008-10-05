@@ -38,7 +38,7 @@ namespace log4cplus {
              */
             virtual Logger makeNewLoggerInstance(const log4cplus::tstring& name,
                                                  Hierarchy& h) = 0; 
-            virtual ~LoggerFactory(){}
+            virtual ~LoggerFactory() = 0;
         };
 
     } // end namespace spi

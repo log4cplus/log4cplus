@@ -26,7 +26,7 @@
 
 
 namespace log4cplus {
-    class LOG4CPLUS_EXPORT DefaultLoggerFactory;
+    class DefaultLoggerFactory;
 
     namespace spi {
 
