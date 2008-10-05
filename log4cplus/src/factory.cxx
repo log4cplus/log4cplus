@@ -12,6 +12,7 @@
 //
 
 #include <log4cplus/spi/factory.h>
+#include <log4cplus/spi/loggerfactory.h>
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/fileappender.h>
 #include <log4cplus/nteventlogappender.h>
@@ -59,6 +60,11 @@ namespace spi {
 
     FilterFactory::~FilterFactory()
     { }
+
+
+    LoggerFactory::~LoggerFactory()
+    { }
+
 
 } // namespace spi
 

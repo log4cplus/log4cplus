@@ -105,7 +105,8 @@ Logger::Logger(spi::LoggerImpl *ptr)
 
 
 Logger::Logger(const Logger& rhs)
- : value(rhs.value)
+  : spi::AppenderAttachable (rhs)
+  , value(rhs.value)
 {
     init();
 }

@@ -19,8 +19,24 @@
 
 #include <algorithm>
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
+
+namespace log4cplus
+{
+
+
+namespace spi
+{
+
+
+AppenderAttachable::~AppenderAttachable()
+{ }
+
+
+} // namespace spi
+
+
+namespace helpers
+{
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -148,3 +164,7 @@ AppenderAttachableImpl::appendLoopOnAppenders(const spi::InternalLoggingEvent& e
 }
 
 
+} // namespace helpers
+
+
+} // namespace log4cplus

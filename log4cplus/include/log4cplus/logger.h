@@ -52,7 +52,9 @@ namespace log4cplus {
      * See the <a href="../../../../manual.html">user manual</a> for an
      * introduction on this class.
      */
-    class LOG4CPLUS_EXPORT Logger : public log4cplus::spi::AppenderAttachable {
+    class LOG4CPLUS_EXPORT Logger
+        : public log4cplus::spi::AppenderAttachable
+    {
     public:
       // Static Methods
         /**
@@ -68,8 +70,8 @@ namespace log4cplus {
          * hierarchy.
          * <p>
          * The root logger is <em>not</em> included in the returned
-         * list.     
-         */
+         * list.      
+        */
         static LoggerList getCurrentLoggers();
      
         /**
@@ -310,7 +312,8 @@ namespace log4cplus {
      * <p>
      * @see LOG4CPLUS_TRACE
      */
-    class LOG4CPLUS_EXPORT TraceLogger {
+    class TraceLogger
+    {
     public:
         TraceLogger(const Logger& l, const log4cplus::tstring& _msg,
                     const char* _file=NULL, int _line=-1) 
