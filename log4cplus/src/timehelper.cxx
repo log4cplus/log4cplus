@@ -303,7 +303,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
             buffer_size *= 2;
     } 
     while (len == 0);
-    ret.assign (buffer.begin (), buffer.begin () + (buffer_size - 1));
+    ret.assign (buffer.begin (), buffer.begin () + len);
 
     return ret;
 }
