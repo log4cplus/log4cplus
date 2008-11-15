@@ -18,7 +18,6 @@
 using namespace std;
 using namespace log4cplus;
 
-#define BUFFER_SIZE 2048
 
 const tchar helpers::Properties::PROPERTIES_COMMENT_CHAR = LOG4CPLUS_TEXT('#');
 
@@ -43,15 +42,10 @@ log4cplus::helpers::Properties::Properties(log4cplus::tistream& input)
 
 log4cplus::helpers::Properties::Properties(const log4cplus::tstring& inputFile)
 {
-    if(inputFile.length() == 0) {
+    if (inputFile.length() == 0)
         return;
-    }
 
-    tifstream file;
-    file.open(LOG4CPLUS_TSTRING_TO_STRING(inputFile).c_str());
-    if(!file) {
-        return;
-    }
+    tifstream file (LOG4CPLUS_TSTRING_TO_STRING(inputFile).c_str());
     init(file);
 }
 
@@ -60,34 +54,24 @@ log4cplus::helpers::Properties::Properties(const log4cplus::tstring& inputFile)
 void 
 log4cplus::helpers::Properties::init(log4cplus::tistream& input) 
 {
-    if(input.fail()) {
+    if (! input)
         return;
-    }
 
-    tchar buffer[BUFFER_SIZE];
-    while(!input.eof()) {
-        input.getline(buffer, BUFFER_SIZE);
-        if(buffer[0] != PROPERTIES_COMMENT_CHAR)
-        {
-            // Check if we have a trailing \r because we are 
-            // reading a properties file produced on Windows.
-            size_t buffLen = 
-#ifdef UNICODE
-				wcslen(buffer);
-#else
-				strlen(buffer);
-#endif
-            if((buffLen > 0) && buffer[buffLen-1] == '\r') {
-                // Remove trailing 'Windows' \r
-                buffer[buffLen-1] = '\0';
-            }
-
-            tstring tmp(buffer);
-            tstring::size_type idx = tmp.find('=');
-            if(idx != tstring::npos) {
-                setProperty(tmp.substr(0, idx), tmp.substr(idx + 1));
-            }
-        }
+    tstring buffer;
+    while (std::getline (input, buffer))
+    {
+        if (buffer[0] == PROPERTIES_COMMENT_CHAR)
+            continue;
+        
+        // Check if we have a trailing \r because we are 
+        // reading a properties file produced on Windows.
+        tstring::size_type const buffLen = buffer.size ();
+        if (buffLen > 0 && buffer[buffLen-1] == LOG4CPLUS_TEXT('\r'))
+            // Remove trailing 'Windows' \r.
+            buffer.resize (buffLen - 1);
+        tstring::size_type const idx = buffer.find('=');
+        if (idx != tstring::npos)
+            setProperty(buffer.substr(0, idx), buffer.substr(idx + 1));
     }
 }
 
@@ -106,13 +90,11 @@ log4cplus::helpers::Properties::~Properties()
 tstring
 log4cplus::helpers::Properties::getProperty(const tstring& key) const 
 {
-    StringMap::const_iterator it = data.find(key);
-    if(it == data.end()) {
+    StringMap::const_iterator it (data.find(key));
+    if (it == data.end())
         return LOG4CPLUS_TEXT("");
-    }
-    else {
+    else
         return it->second;
-    }
 }
 
 
@@ -121,12 +103,11 @@ tstring
 log4cplus::helpers::Properties::getProperty(const tstring& key,
                                             const tstring& defaultVal) const 
 {
-    if(exists(key)) {
-        return getProperty(key);
-    }
-    else {
+    StringMap::const_iterator it (data.find (key));
+    if (it == data.end ())
         return defaultVal;
-    }
+    else
+        return it->second;
 }
 
 
@@ -134,9 +115,8 @@ vector<tstring>
 log4cplus::helpers::Properties::propertyNames() const 
 {
     vector<tstring> tmp;
-    for(StringMap::const_iterator it=data.begin(); it!=data.end(); ++it) {
+    for (StringMap::const_iterator it=data.begin(); it!=data.end(); ++it)
         tmp.push_back(it->first);
-    }
 
     return tmp;
 }
@@ -164,14 +144,12 @@ log4cplus::helpers::Properties::getPropertySubset(const log4cplus::tstring& pref
     Properties ret;
 
     vector<tstring> keys = propertyNames();
-    for(vector<tstring>::iterator it=keys.begin(); it!=keys.end(); ++it) {
+    for (vector<tstring>::iterator it=keys.begin(); it!=keys.end(); ++it)
+    {
         tstring::size_type pos = (*it).find(prefix);
-        if(pos != tstring::npos) {
+        if (pos != tstring::npos)
             ret.setProperty( (*it).substr(prefix.size()), getProperty(*it) );
-        }
     }
 
     return ret;
 }
-
-
