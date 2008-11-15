@@ -79,7 +79,7 @@ namespace {
      * @param dest The result.
      */
     static
-    void
+    bool
     substEnvironVars (log4cplus::tstring & dest,
         const log4cplus::tstring& val, log4cplus::helpers::LogLog& loglog)
     {
@@ -93,10 +93,15 @@ namespace {
             if (j == log4cplus::tstring::npos)
             {
                 if (i == 0)
+                {
                     dest = val;
+                    return false;
+                }
                 else
+                {
                     dest.append (val, i, log4cplus::tstring::npos);
-                return;
+                    return true;
+                }
             }
             else
             {
@@ -110,7 +115,7 @@ namespace {
                            << "Opening brace at position " << j << ".";
                     loglog.error(buffer.str());
                     dest = val;
-                    return;
+                    return false;
                 }
                 else
                 {
@@ -207,7 +212,7 @@ log4cplus::PropertyConfigurator::configure()
     configureAdditivity();
 
     // Erase the appenders to that we are not artificially keeping the "alive".
-    appenders.erase(appenders.begin(), appenders.end());
+    appenders.clear ();
 }
 
 
@@ -231,21 +236,20 @@ log4cplus::PropertyConfigurator::replaceEnvironVariables()
 
     std::vector<log4cplus::tstring> keys = properties.propertyNames();
     std::vector<log4cplus::tstring>::iterator it = keys.begin();
-    for(; it!=keys.end(); ++it) {
-        log4cplus::tstring key = *it;
+    for(; it != keys.end(); ++it)
+    {
+        log4cplus::tstring const & key = *it;
         log4cplus::tstring val = properties.getProperty(key);
         log4cplus::tstring subKey;
-        substEnvironVars(subKey, key, getLogLog());
-        if(subKey != key) {
+        if (substEnvironVars(subKey, key, getLogLog()))
+        {
             properties.removeProperty(key);
             properties.setProperty(subKey, val);
         }
 
         log4cplus::tstring subVal;
-        substEnvironVars(subVal, val, getLogLog());
-        if(subVal != val) {
+        if (substEnvironVars(subVal, val, getLogLog()))
             properties.setProperty(subKey, subVal);
-        }
     }
 
 }
