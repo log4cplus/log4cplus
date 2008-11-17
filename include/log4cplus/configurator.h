@@ -45,7 +45,8 @@ namespace log4cplus {
      * searched in the environment properties.  The corresponding value replaces
      * the ${variableName} sequence.
      */
-    class LOG4CPLUS_EXPORT PropertyConfigurator : protected log4cplus::helpers::LogLogUser
+    class LOG4CPLUS_EXPORT PropertyConfigurator
+        : protected log4cplus::helpers::LogLogUser
     {
     public:
         // ctor and dtor
