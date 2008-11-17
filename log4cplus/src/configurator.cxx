@@ -22,8 +22,10 @@
 #include <sys/stat.h>
 #include <algorithm>
 
-using namespace std;
-using namespace log4cplus;
+using std::vector;
+using std::bind1st;
+using std::equal_to;
+using std::back_insert_iterator;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
 
@@ -32,22 +34,25 @@ using namespace log4cplus::spi;
 // Forward declarations
 //////////////////////////////////////////////////////////////////////////////
 
-namespace log4cplus {
-    void initializeLog4cplus();
-}
+namespace log4cplus
+{
 
+void initializeLog4cplus();
 
 
 //////////////////////////////////////////////////////////////////////////////
 // File LOCAL methods
 //////////////////////////////////////////////////////////////////////////////
 
-#define DELIM_START LOG4CPLUS_TEXT("${")
-#define DELIM_STOP LOG4CPLUS_TEXT("}")
-#define DELIM_START_LEN 2
-#define DELIM_STOP_LEN 1
 
-namespace {
+namespace
+{
+    static tchar const DELIM_START[] = LOG4CPLUS_TEXT("${");
+    static tchar const DELIM_STOP[] = LOG4CPLUS_TEXT("}");
+    static size_t const DELIM_START_LEN = 2;
+    static size_t const DELIM_STOP_LEN = 1;
+
+
     /**
      * Perform variable substitution in string <code>val</code> from
      * environment variables.
@@ -80,17 +85,17 @@ namespace {
      */
     static
     bool
-    substEnvironVars (log4cplus::tstring & dest,
-        const log4cplus::tstring& val, log4cplus::helpers::LogLog& loglog)
+    substEnvironVars (tstring & dest,
+        const tstring& val, helpers::LogLog& loglog)
     {
         tstring::size_type i = 0;
         tstring::size_type j, k;
-        log4cplus::tstring key;
+        tstring key;
 
         while (true)
         {
             j = val.find(DELIM_START, i);
-            if (j == log4cplus::tstring::npos)
+            if (j == tstring::npos)
             {
                 if (i == 0)
                 {
@@ -99,7 +104,7 @@ namespace {
                 }
                 else
                 {
-                    dest.append (val, i, log4cplus::tstring::npos);
+                    dest.append (val, i, tstring::npos);
                     return true;
                 }
             }
@@ -107,9 +112,9 @@ namespace {
             {
                 dest.append (val, i, j - i);
                 k = val.find(DELIM_STOP, j);
-                if (k == log4cplus::tstring::npos)
+                if (k == tstring::npos)
                 {
-                    log4cplus::tostringstream buffer;
+                    tostringstream buffer;
                     buffer << '"' << val
                            << "\" has no closing brace. "
                            << "Opening brace at position " << j << ".";
@@ -133,65 +138,64 @@ namespace {
 
     } // end substEnvironVars()
 
-}
+} // namespace
 
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::PropertyConfigurator ctor and dtor
+// PropertyConfigurator ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::PropertyConfigurator::PropertyConfigurator(const log4cplus::tstring& propertyFile,
-                                                      Hierarchy& h)
-: h(h),
-  propertyFilename(propertyFile),
-  properties(propertyFile)
+PropertyConfigurator::PropertyConfigurator(
+    const tstring& propertyFile, Hierarchy& h)
+    : h(h)
+    , propertyFilename(propertyFile)
+    , properties(propertyFile)
 {
     init();
 }
 
 
-log4cplus::PropertyConfigurator::PropertyConfigurator(const log4cplus::helpers::Properties& props,
-                                                      Hierarchy& h)
-: h(h),
-  propertyFilename( LOG4CPLUS_TEXT("UNAVAILABLE") ),
-  properties( props )
+PropertyConfigurator::PropertyConfigurator(
+    const helpers::Properties& props, Hierarchy& h)
+    : h(h)
+    , propertyFilename( LOG4CPLUS_TEXT("UNAVAILABLE") )
+    , properties( props )
 {
     init();
 }
 
 
-log4cplus::PropertyConfigurator::PropertyConfigurator(log4cplus::tistream& propertyStream,
-                                                      Hierarchy& h)
-: h(h),
-  propertyFilename( LOG4CPLUS_TEXT("UNAVAILABLE") ),
-  properties(propertyStream)
+PropertyConfigurator::PropertyConfigurator(tistream& propertyStream,
+    Hierarchy& h)
+    : h(h)
+    , propertyFilename( LOG4CPLUS_TEXT("UNAVAILABLE") )
+    , properties(propertyStream)
 {
     init();
 }
 
 
 void
-log4cplus::PropertyConfigurator::init()
+PropertyConfigurator::init()
 {
     replaceEnvironVariables();
     properties = properties.getPropertySubset( LOG4CPLUS_TEXT("log4cplus.") );
 }
 
 
-log4cplus::PropertyConfigurator::~PropertyConfigurator()
+PropertyConfigurator::~PropertyConfigurator()
 {
 }
 
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::PropertyConfigurator static methods
+// PropertyConfigurator static methods
 //////////////////////////////////////////////////////////////////////////////
 
 void
-log4cplus::PropertyConfigurator::doConfigure(const log4cplus::tstring& file,
-                                             Hierarchy& h)
+PropertyConfigurator::doConfigure(const tstring& file, Hierarchy& h)
 {
     PropertyConfigurator tmp(file, h);
     tmp.configure();
@@ -200,11 +204,11 @@ log4cplus::PropertyConfigurator::doConfigure(const log4cplus::tstring& file,
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::PropertyConfigurator public methods
+// PropertyConfigurator public methods
 //////////////////////////////////////////////////////////////////////////////
 
 void
-log4cplus::PropertyConfigurator::configure()
+PropertyConfigurator::configure()
 {
     initializeLog4cplus();
     configureAppenders();
@@ -218,11 +222,11 @@ log4cplus::PropertyConfigurator::configure()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::PropertyConfigurator protected methods
+// PropertyConfigurator protected methods
 //////////////////////////////////////////////////////////////////////////////
 
 void
-log4cplus::PropertyConfigurator::reconfigure()
+PropertyConfigurator::reconfigure()
 {
     properties = Properties(propertyFilename);
     init();
@@ -231,23 +235,24 @@ log4cplus::PropertyConfigurator::reconfigure()
 
 
 void
-log4cplus::PropertyConfigurator::replaceEnvironVariables()
+PropertyConfigurator::replaceEnvironVariables()
 {
 
-    std::vector<log4cplus::tstring> keys = properties.propertyNames();
-    std::vector<log4cplus::tstring>::iterator it = keys.begin();
+    std::vector<tstring> keys = properties.propertyNames();
+    std::vector<tstring>::const_iterator it = keys.begin();
+    tstring val, subKey, subVal;
     for(; it != keys.end(); ++it)
     {
-        log4cplus::tstring const & key = *it;
-        log4cplus::tstring val = properties.getProperty(key);
-        log4cplus::tstring subKey;
+        tstring const & key = *it;
+        val = properties.getProperty(key);
+        subKey.clear ();
         if (substEnvironVars(subKey, key, getLogLog()))
         {
             properties.removeProperty(key);
             properties.setProperty(subKey, val);
         }
 
-        log4cplus::tstring subVal;
+        subVal.clear ();
         if (substEnvironVars(subVal, val, getLogLog()))
             properties.setProperty(subKey, subVal);
     }
@@ -257,9 +262,10 @@ log4cplus::PropertyConfigurator::replaceEnvironVariables()
 
 
 void
-log4cplus::PropertyConfigurator::configureLoggers()
+PropertyConfigurator::configureLoggers()
 {
-    if(properties.exists( LOG4CPLUS_TEXT("rootLogger") )) {
+    if(properties.exists( LOG4CPLUS_TEXT("rootLogger") ))
+    {
         Logger root = h.getRoot();
         configureLogger(root,
                         properties.getProperty(LOG4CPLUS_TEXT("rootLogger")));
@@ -268,7 +274,8 @@ log4cplus::PropertyConfigurator::configureLoggers()
     Properties loggerProperties =
             properties.getPropertySubset(LOG4CPLUS_TEXT("logger."));
     vector<tstring> loggers = loggerProperties.propertyNames();
-    for(vector<tstring>::iterator it=loggers.begin(); it!=loggers.end(); ++it) {
+    for(vector<tstring>::iterator it=loggers.begin(); it!=loggers.end(); ++it)
+    {
         Logger log = getLogger(*it);
         configureLogger(log, loggerProperties.getProperty(*it));
     }
@@ -277,8 +284,7 @@ log4cplus::PropertyConfigurator::configureLoggers()
 
 
 void
-log4cplus::PropertyConfigurator::configureLogger(log4cplus::Logger logger,
-                                                 const log4cplus::tstring& config)
+PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
 {
     // Remove all spaces from config
     tstring configString;
@@ -292,71 +298,89 @@ log4cplus::PropertyConfigurator::configureLogger(log4cplus::Logger logger,
              back_insert_iterator<vector<tstring> >(tokens));
 
     if(tokens.size() == 0) {
-        getLogLog().error(  LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()- Invalid config string(Logger = ")
-                          + logger.getName()
-                          + LOG4CPLUS_TEXT("): \"")
-                          + config
-                          + LOG4CPLUS_TEXT("\""));
+        getLogLog().error(
+            LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()")
+            LOG4CPLUS_TEXT("- Invalid config string(Logger = ")
+            + logger.getName()
+            + LOG4CPLUS_TEXT("): \"")
+            + config
+            + LOG4CPLUS_TEXT("\""));
         return;
     }
 
     // Set the loglevel
     tstring loglevel = tokens[0];
-    if(loglevel != LOG4CPLUS_TEXT("INHERITED")) {
+    if (loglevel != LOG4CPLUS_TEXT("INHERITED"))
         logger.setLogLevel( getLogLevelManager().fromString(loglevel) );
-    }
 
     // Set the Appenders
-    for(vector<tstring>::size_type j=1; j<tokens.size(); ++j) {
+    for(vector<tstring>::size_type j=1; j<tokens.size(); ++j)
+    {
         AppenderMap::iterator appenderIt = appenders.find(tokens[j]);
-        if(appenderIt == appenders.end()) {
-            getLogLog().error(LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()- Invalid appender: ")
-                              + tokens[j]);
+        if (appenderIt == appenders.end())
+        {
+            getLogLog().error(
+                LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()")
+                LOG4CPLUS_TEXT("- Invalid appender: ")
+                + tokens[j]);
             continue;
         }
-        addAppender(logger, (*appenderIt).second);
+        addAppender(logger, appenderIt->second);
     }
 }
 
 
 
 void
-log4cplus::PropertyConfigurator::configureAppenders()
+PropertyConfigurator::configureAppenders()
 {
     Properties appenderProperties =
-         properties.getPropertySubset(LOG4CPLUS_TEXT("appender."));
+        properties.getPropertySubset(LOG4CPLUS_TEXT("appender."));
     vector<tstring> appendersProps = appenderProperties.propertyNames();
+    tstring factoryName;
     for(vector<tstring>::iterator it=appendersProps.begin();
-        it!=appendersProps.end();
-        ++it)
+        it != appendersProps.end(); ++it)
     {
-        if( (*it).find( LOG4CPLUS_TEXT('.') ) == tstring::npos ) {
-            tstring factoryName = appenderProperties.getProperty(*it);
-            AppenderFactory* factory = getAppenderFactoryRegistry().get(factoryName);
-            if(factory == 0) {
+        if( it->find( LOG4CPLUS_TEXT('.') ) == tstring::npos )
+        {
+            factoryName = appenderProperties.getProperty(*it);
+            AppenderFactory* factory 
+                = getAppenderFactoryRegistry().get(factoryName);
+            if (factory == 0)
+            {
                 tstring err =
-                    LOG4CPLUS_TEXT("PropertyConfigurator::configureAppenders()- Cannot find AppenderFactory: ");
+                    LOG4CPLUS_TEXT("PropertyConfigurator::configureAppenders()")
+                    LOG4CPLUS_TEXT("- Cannot find AppenderFactory: ");
                 getLogLog().error(err + factoryName);
                 continue;
             }
 
-            Properties properties =
-                    appenderProperties.getPropertySubset((*it) + LOG4CPLUS_TEXT("."));
-            try {
+            Properties properties
+                = appenderProperties.getPropertySubset((*it) 
+                    + LOG4CPLUS_TEXT("."));
+            try
+            {
                 SharedAppenderPtr appender = factory->createObject(properties);
-                if(appender.get() == 0) {
+                if (appender.get() == 0)
+                {
                     tstring err =
-                        LOG4CPLUS_TEXT("PropertyConfigurator::configureAppenders()- Failed to create appender: ");
+                        LOG4CPLUS_TEXT("PropertyConfigurator::")
+                        LOG4CPLUS_TEXT("configureAppenders()")
+                        LOG4CPLUS_TEXT("- Failed to create appender: ");
                     getLogLog().error(err + *it);
                 }
-                else {
+                else
+                {
                     appender->setName(*it);
                     appenders[*it] = appender;
                 }
             }
-            catch(std::exception& e) {
+            catch(std::exception& e)
+            {
                 tstring err =
-                    LOG4CPLUS_TEXT("PropertyConfigurator::configureAppenders()- Error while creating Appender: ");
+                    LOG4CPLUS_TEXT("PropertyConfigurator::")
+                    LOG4CPLUS_TEXT("configureAppenders()")
+                    LOG4CPLUS_TEXT("- Error while creating Appender: ");
                 getLogLog().error(err + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
             }
         }
@@ -365,46 +389,44 @@ log4cplus::PropertyConfigurator::configureAppenders()
 
 
 void
-log4cplus::PropertyConfigurator::configureAdditivity()
+PropertyConfigurator::configureAdditivity()
 {
     Properties additivityProperties =
-            properties.getPropertySubset(LOG4CPLUS_TEXT("additivity."));
+        properties.getPropertySubset(LOG4CPLUS_TEXT("additivity."));
     vector<tstring> additivitysProps = additivityProperties.propertyNames();
 
-    for(vector<tstring>::iterator it=additivitysProps.begin();
-        it!=additivitysProps.end();
-        ++it)
+    tstring actualValue;
+    tstring value;
+
+    for(vector<tstring>::const_iterator it = additivitysProps.begin();
+        it != additivitysProps.end(); ++it)
     {
         Logger logger = getLogger(*it);
-        tstring actualValue = additivityProperties.getProperty(*it);
-        tstring value = toLower(actualValue);
+        actualValue = additivityProperties.getProperty(*it);
+        value = toLower(actualValue);
 
-        if(value == LOG4CPLUS_TEXT("true")) {
+        if(value == LOG4CPLUS_TEXT("true"))
             logger.setAdditivity(true);
-        }
-        else if(value == LOG4CPLUS_TEXT("false")) {
+        else if(value == LOG4CPLUS_TEXT("false"))
             logger.setAdditivity(false);
-        }
-        else {
+        else
             getLogLog().warn(  LOG4CPLUS_TEXT("Invalid Additivity value: \"")
                              + actualValue
                              + LOG4CPLUS_TEXT("\""));
-        }
     }
 }
 
 
 
 Logger
-log4cplus::PropertyConfigurator::getLogger(const log4cplus::tstring& name)
+PropertyConfigurator::getLogger(const tstring& name)
 {
     return h.getInstance(name);
 }
 
 
 void
-log4cplus::PropertyConfigurator::addAppender(Logger &logger,
-                                             log4cplus::SharedAppenderPtr& appender)
+PropertyConfigurator::addAppender(Logger &logger, SharedAppenderPtr& appender)
 {
     logger.addAppender(appender);
 }
@@ -412,32 +434,32 @@ log4cplus::PropertyConfigurator::addAppender(Logger &logger,
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::BasicConfigurator ctor and dtor
+// BasicConfigurator ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::BasicConfigurator::BasicConfigurator(Hierarchy& h)
-: log4cplus::PropertyConfigurator( LOG4CPLUS_TEXT(""), h )
+BasicConfigurator::BasicConfigurator(Hierarchy& h)
+    : PropertyConfigurator( LOG4CPLUS_TEXT(""), h )
 {
     properties.setProperty(LOG4CPLUS_TEXT("rootLogger"),
                            LOG4CPLUS_TEXT("DEBUG, STDOUT"));
     properties.setProperty(LOG4CPLUS_TEXT("appender.STDOUT"),
-                           LOG4CPLUS_TEXT("log4cplus::ConsoleAppender"));
+                           LOG4CPLUS_TEXT("ConsoleAppender"));
 }
 
 
 
 
-log4cplus::BasicConfigurator::~BasicConfigurator()
+BasicConfigurator::~BasicConfigurator()
 {
 }
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::BasicConfigurator static methods
+// BasicConfigurator static methods
 //////////////////////////////////////////////////////////////////////////////
 
 void
-log4cplus::BasicConfigurator::doConfigure(Hierarchy& h)
+BasicConfigurator::doConfigure(Hierarchy& h)
 {
     BasicConfigurator tmp(h);
     tmp.configure();
@@ -447,53 +469,51 @@ log4cplus::BasicConfigurator::doConfigure(Hierarchy& h)
 #if !defined(LOG4CPLUS_SINGLE_THREADED)
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::ConfigurationWatchDogThread implementation
+// ConfigurationWatchDogThread implementation
 //////////////////////////////////////////////////////////////////////////////
 
-namespace log4cplus {
-    class ConfigurationWatchDogThread : public thread::AbstractThread,
-                                        public PropertyConfigurator
-    {
-    public:
-        ConfigurationWatchDogThread(const tstring& file, unsigned int millis)
+class ConfigurationWatchDogThread 
+    : public thread::AbstractThread,
+      public PropertyConfigurator
+{
+public:
+    ConfigurationWatchDogThread(const tstring& file, unsigned int millis)
         : PropertyConfigurator(file),
           waitSecs(millis/1000),
           shouldTerminate(false),
           lastModTime(Time::gettimeofday()),
           lock(NULL)
-        {
-            updateLastModTime();
-            if(waitSecs <= 0) {
-                waitSecs = 1;
-            }
-        }
-
-        void terminate() { shouldTerminate = true; }
-
-    protected:
-        virtual void run();
-        virtual Logger getLogger(const log4cplus::tstring& name);
-        virtual void addAppender(Logger &logger, log4cplus::SharedAppenderPtr& appender);
-
-        bool checkForFileModification();
-        void updateLastModTime();
-        virtual ~ConfigurationWatchDogThread(){}
-
-    private:
-        unsigned int waitSecs;
-        bool shouldTerminate;
-        Time lastModTime;
-        HierarchyLocker* lock;
-    };
-}
-
+    {
+        updateLastModTime();
+        if(waitSecs <= 0)
+            waitSecs = 1;
+    }
+    
+    void terminate() { shouldTerminate = true; }
+    
+protected:
+    virtual void run();
+    virtual Logger getLogger(const tstring& name);
+    virtual void addAppender(Logger &logger, SharedAppenderPtr& appender);
+    
+    bool checkForFileModification();
+    void updateLastModTime();
+    virtual ~ConfigurationWatchDogThread(){}
+    
+private:
+    unsigned int waitSecs;
+    bool shouldTerminate;
+    Time lastModTime;
+    HierarchyLocker* lock;
+};
 
 
 void
 ConfigurationWatchDogThread::run()
 {
-    while(!shouldTerminate) {
-        log4cplus::helpers::sleep(waitSecs);
+    while(!shouldTerminate)
+    {
+        helpers::sleep(waitSecs);
         bool modified = checkForFileModification();
         if(modified) {
             // Lock the Hierarchy
@@ -514,27 +534,23 @@ ConfigurationWatchDogThread::run()
 
 
 Logger
-ConfigurationWatchDogThread::getLogger(const log4cplus::tstring& name)
+ConfigurationWatchDogThread::getLogger(const tstring& name)
 {
-    if(lock) {
+    if(lock)
         return lock->getInstance(name);
-    }
-    else {
+    else
         return PropertyConfigurator::getLogger(name);
-    }
 }
 
 
 void
 ConfigurationWatchDogThread::addAppender(Logger& logger,
-                                         log4cplus::SharedAppenderPtr& appender)
+                                         SharedAppenderPtr& appender)
 {
-    if(lock) {
+    if(lock)
         lock->addAppender(logger, appender);
-    }
-    else {
+    else
         PropertyConfigurator::addAppender(logger, appender);
-    }
 }
 
 
@@ -542,15 +558,17 @@ bool
 ConfigurationWatchDogThread::checkForFileModification()
 {
     struct stat fileStatus;
-    if(::stat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(), &fileStatus) == -1) {
+    if(::stat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
+            &fileStatus) == -1)
         return false;  // stat() returned error, so the file must not exist
-    }
     Time modTime(fileStatus.st_mtime);
     bool modified = (modTime > lastModTime);
 
 #if defined(HAVE_LSTAT)
-    if(!modified && S_ISLNK(fileStatus.st_mode)) {
-        ::lstat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(), &fileStatus);
+    if(!modified && S_ISLNK(fileStatus.st_mode))
+    {
+        ::lstat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
+            &fileStatus);
         Time linkModTime(fileStatus.st_mtime);
         modified = (linkModTime > lastModTime);
     }
@@ -565,21 +583,21 @@ void
 ConfigurationWatchDogThread::updateLastModTime()
 {
     struct stat fileStatus;
-    if(::stat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(), &fileStatus) == -1) {
+    if(::stat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
+            &fileStatus) == -1)
         return;  // stat() returned error, so the file must not exist
-    }
     lastModTime = Time(fileStatus.st_mtime);
 }
 
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::PropertyConfiguratorWatchDog ctor and dtor
+// PropertyConfiguratorWatchDog ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
 ConfigureAndWatchThread::ConfigureAndWatchThread(const tstring& file,
-                                                 unsigned int millis)
-: watchDogThread(0)
+    unsigned int millis)
+    : watchDogThread(0)
 {
     watchDogThread = new ConfigurationWatchDogThread(file, millis);
     watchDogThread->configure();
@@ -589,9 +607,12 @@ ConfigureAndWatchThread::ConfigureAndWatchThread(const tstring& file,
 
 ConfigureAndWatchThread::~ConfigureAndWatchThread()
 {
-    if(watchDogThread.get() != 0) {
+    if(watchDogThread.get() != 0)
         watchDogThread->terminate();
-    }
 }
+
+
+} // namespace log4cplus
+
 
 #endif
