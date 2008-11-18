@@ -85,55 +85,75 @@ namespace
      */
     static
     bool
-    substEnvironVars (tstring & dest,
-        const tstring& val, helpers::LogLog& loglog)
+    substVars (tstring & dest, const tstring & val, Properties const & props,
+        helpers::LogLog& loglog, unsigned flags)
     {
         tstring::size_type i = 0;
-        tstring::size_type j, k;
+        tstring::size_type var_start, var_end;
+        tstring pattern (val);
         tstring key;
+        tstring replacement;
+        bool changed = false;
+        bool const empty_vars
+            = !! (flags & PropertyConfigurator::fAllowEmptyVars);
+        bool const shadow_env
+            = !! (flags & PropertyConfigurator::fShadowEnvironment);
+        bool const rec_exp
+            = !! (flags & PropertyConfigurator::fRecursiveExpansion);
 
         while (true)
         {
-            j = val.find(DELIM_START, i);
-            if (j == tstring::npos)
+            // Find opening paren of variable substitution.
+            var_start = pattern.find(DELIM_START, i);
+            if (var_start == tstring::npos)
             {
-                if (i == 0)
-                {
-                    dest = val;
-                    return false;
-                }
+                dest = pattern;
+                return changed;
+            }
+
+            // Find closing paren of variable substitution.
+            var_end = pattern.find(DELIM_STOP, var_start);
+            if (var_end == tstring::npos)
+            {
+                tostringstream buffer;
+                buffer << '"' << pattern
+                       << "\" has no closing brace. "
+                       << "Opening brace at position " << var_start << ".";
+                loglog.error(buffer.str());
+                dest = val;
+                return false;
+            }
+            
+            key.assign (pattern, var_start + DELIM_START_LEN,
+                var_end - (var_start + DELIM_START_LEN));
+            replacement.clear ();
+            if (shadow_env)
+                replacement = props.getProperty (key);
+            if (! shadow_env || ! empty_vars && replacement.empty ())
+            {
+                char const * env_var
+                    = getenv(LOG4CPLUS_TSTRING_TO_STRING(key).c_str());
+                if (env_var)
+                    replacement = LOG4CPLUS_STRING_TO_TSTRING (env_var);
+            }
+            
+            if (empty_vars || ! replacement.empty ())
+            {
+                // Substitute the variable with its value in place.
+                pattern.replace (var_start, var_end + DELIM_STOP_LEN,
+                    replacement);
+                changed = true;
+                if (rec_exp)
+                    // Retry expansion on the same spot.
+                    continue;
                 else
-                {
-                    dest.append (val, i, tstring::npos);
-                    return true;
-                }
+                    // Move beyond the just substitued part.
+                    i = var_start + replacement.size ();
             }
             else
-            {
-                dest.append (val, i, j - i);
-                k = val.find(DELIM_STOP, j);
-                if (k == tstring::npos)
-                {
-                    tostringstream buffer;
-                    buffer << '"' << val
-                           << "\" has no closing brace. "
-                           << "Opening brace at position " << j << ".";
-                    loglog.error(buffer.str());
-                    dest = val;
-                    return false;
-                }
-                else
-                {
-                    j += DELIM_START_LEN;
-                    key.assign (val, j, k - j);
-                    char const * replacement =
-                        getenv(LOG4CPLUS_TSTRING_TO_STRING(key).c_str());
-
-                    if (replacement)
-                        dest += LOG4CPLUS_STRING_TO_TSTRING(replacement);
-                    i = k + DELIM_STOP_LEN;
-                }
-            }
+                // Nothing has been subtituted, just move beyond the
+                // unexpanded variable.
+                i = var_end + DELIM_STOP_LEN;
         } // end while loop
 
     } // end substEnvironVars()
@@ -146,31 +166,34 @@ namespace
 // PropertyConfigurator ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-PropertyConfigurator::PropertyConfigurator(
-    const tstring& propertyFile, Hierarchy& h)
+PropertyConfigurator::PropertyConfigurator(const tstring& propertyFile,
+    Hierarchy& h, unsigned flags)
     : h(h)
     , propertyFilename(propertyFile)
     , properties(propertyFile)
+    , flags (flags)
 {
     init();
 }
 
 
-PropertyConfigurator::PropertyConfigurator(
-    const helpers::Properties& props, Hierarchy& h)
+PropertyConfigurator::PropertyConfigurator(const helpers::Properties& props,
+    Hierarchy& h, unsigned flags)
     : h(h)
     , propertyFilename( LOG4CPLUS_TEXT("UNAVAILABLE") )
     , properties( props )
+    , flags (flags)
 {
     init();
 }
 
 
 PropertyConfigurator::PropertyConfigurator(tistream& propertyStream,
-    Hierarchy& h)
+    Hierarchy& h, unsigned flags)
     : h(h)
     , propertyFilename( LOG4CPLUS_TEXT("UNAVAILABLE") )
     , properties(propertyStream)
+    , flags (flags)
 {
     init();
 }
@@ -195,9 +218,10 @@ PropertyConfigurator::~PropertyConfigurator()
 //////////////////////////////////////////////////////////////////////////////
 
 void
-PropertyConfigurator::doConfigure(const tstring& file, Hierarchy& h)
+PropertyConfigurator::doConfigure(const tstring& file, Hierarchy& h,
+    unsigned flags)
 {
-    PropertyConfigurator tmp(file, h);
+    PropertyConfigurator tmp(file, h, flags);
     tmp.configure();
 }
 
@@ -237,26 +261,34 @@ PropertyConfigurator::reconfigure()
 void
 PropertyConfigurator::replaceEnvironVariables()
 {
-
     std::vector<tstring> keys = properties.propertyNames();
     std::vector<tstring>::const_iterator it = keys.begin();
     tstring val, subKey, subVal;
-    for(; it != keys.end(); ++it)
+    bool changed;
+    do 
     {
-        tstring const & key = *it;
-        val = properties.getProperty(key);
-        subKey.clear ();
-        if (substEnvironVars(subKey, key, getLogLog()))
+        changed = false;
+        for(; it != keys.end(); ++it)
         {
-            properties.removeProperty(key);
-            properties.setProperty(subKey, val);
+            tstring const & key = *it;
+            val = properties.getProperty(key);
+            subKey.clear ();
+            if (substVars(subKey, key, properties, getLogLog(), flags))
+            {
+                properties.removeProperty(key);
+                properties.setProperty(subKey, val);
+                changed = true;
+            }
+            
+            subVal.clear ();
+            if (substVars(subVal, val, properties, getLogLog(), flags))
+            {
+                properties.setProperty(subKey, subVal);
+                changed = true;
+            }
         }
-
-        subVal.clear ();
-        if (substEnvironVars(subVal, val, getLogLog()))
-            properties.setProperty(subKey, subVal);
     }
-
+    while (changed);
 }
 
 
