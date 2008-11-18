@@ -10,7 +10,7 @@ AM_INIT_AUTOMAKE([1.10 no-define nostdinc gnu -Wall])
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=2:1:0
+LT_VERSION=3:0:0
 AC_SUBST([LT_VERSION])
 
 dnl Sane locale?
