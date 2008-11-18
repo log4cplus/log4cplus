@@ -27,7 +27,8 @@
 #include <map>
 
 
-namespace log4cplus {
+namespace log4cplus
+{
 
     /**
      * Provides configuration from an external file.  See configure() for
@@ -49,13 +50,20 @@ namespace log4cplus {
         : protected log4cplus::helpers::LogLogUser
     {
     public:
+        enum PCFlags
+        {
+            fRecursiveExpansion = 0x0001,
+            fShadowEnvironment  = 0x0002,
+            fAllowEmptyVars     = 0x0004
+        };
+        
         // ctor and dtor
         PropertyConfigurator(const log4cplus::tstring& propertyFile,
-                             Hierarchy& h = Logger::getDefaultHierarchy());
+            Hierarchy& h = Logger::getDefaultHierarchy(), unsigned flags = 0);
         PropertyConfigurator(const log4cplus::helpers::Properties& props,
-                             Hierarchy& h = Logger::getDefaultHierarchy());
+            Hierarchy& h = Logger::getDefaultHierarchy(), unsigned flags = 0);
         PropertyConfigurator(log4cplus::tistream& propertyStream,
-                             Hierarchy& h = Logger::getDefaultHierarchy());
+            Hierarchy& h = Logger::getDefaultHierarchy(), unsigned flags = 0);
         virtual ~PropertyConfigurator();
 
         /**
@@ -68,7 +76,7 @@ namespace log4cplus {
          * </code>
          */
         static void doConfigure(const log4cplus::tstring& configFilename,
-                                Hierarchy& h = Logger::getDefaultHierarchy());
+            Hierarchy& h = Logger::getDefaultHierarchy(), unsigned flags = 0);
 
         /**
          * Read configuration from a file. <b>The existing configuration is
@@ -238,6 +246,7 @@ namespace log4cplus {
         log4cplus::tstring propertyFilename;
         log4cplus::helpers::Properties properties; 
         AppenderMap appenders;
+        unsigned flags;
         
     private:
       // Disable copy
