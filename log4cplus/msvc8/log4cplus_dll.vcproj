@@ -138,7 +138,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\$(OutDir)/log4cplus_dll.tlb"
+				TypeLibraryName=".\$(OutDir)/log4cplusD_dll.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -171,12 +171,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile="$(OutDir)/log4cplusd.dll"
+				OutputFile="$(OutDir)/log4cplusD.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\$(OutDir)/log4cplusd.pdb"
-				ImportLibrary=".\$(OutDir)/log4cplusd.lib"
+				ProgramDatabaseFile=".\$(OutDir)/log4cplusD.pdb"
+				ImportLibrary=".\$(OutDir)/log4cplusD.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -234,7 +234,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\$(OutDir)/log4cplus_dll.tlb"
+				TypeLibraryName=".\$(OutDir)/log4cplusUD_dll.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -267,12 +267,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile="$(OutDir)/log4cplusd.dll"
+				OutputFile="$(OutDir)/log4cplusUD.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\$(OutDir)/log4cplusd.pdb"
-				ImportLibrary=".\$(OutDir)/log4cplusd.lib"
+				ProgramDatabaseFile=".\$(OutDir)/log4cplusUD.pdb"
+				ImportLibrary=".\$(OutDir)/log4cplusUD.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -331,7 +331,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\$(OutDir)/log4cplus_dll.tlb"
+				TypeLibraryName=".\$(OutDir)/log4cplusU_dll.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -364,12 +364,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile="$(OutDir)/log4cplus.dll"
+				OutputFile="$(OutDir)/log4cplusU.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\$(OutDir)/log4cplus.pdb"
-				ImportLibrary=".\$(OutDir)/log4cplus.lib"
+				ProgramDatabaseFile=".\$(OutDir)/log4cplusU.pdb"
+				ImportLibrary=".\$(OutDir)/log4cplusU.lib"
 				TargetMachine="1"
 			/>
 			<Tool
