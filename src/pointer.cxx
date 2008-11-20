@@ -61,7 +61,7 @@ SharedObject::~SharedObject()
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-SharedObject::addReference()
+SharedObject::addReference() const
 {
     if(destroyed) {
         assert(!destroyed);
@@ -76,7 +76,7 @@ SharedObject::addReference()
 
 
 void
-SharedObject::removeReference()
+SharedObject::removeReference() const
 {
     bool destroy = false;
     assert(!destroyed);

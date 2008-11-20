@@ -57,8 +57,8 @@ namespace log4cplus {
         class LOG4CPLUS_EXPORT SharedObject
         {
         public:
-            void addReference();
-            void removeReference();
+            void addReference() const;
+            void removeReference() const;
 
         protected:
           // Ctor
@@ -77,8 +77,8 @@ namespace log4cplus {
             LOG4CPLUS_MUTEX_PTR_DECLARE access_mutex;
 
         private:
-            int count;
-            bool destroyed;
+            mutable int count;
+            mutable bool destroyed;
         };
 
 
@@ -128,7 +128,8 @@ namespace log4cplus {
                     T* oldPointee = pointee;
                     pointee = rhs;
                     init();
-                    if(oldPointee != 0) oldPointee->removeReference();
+                    if(oldPointee != 0)
+                        static_cast<SharedObject *>(oldPointee)->removeReference();
                 }
                 return *this;
             }
