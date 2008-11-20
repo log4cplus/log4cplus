@@ -144,7 +144,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\log4cplusSD.lib"
+				OutputFile="$(OutDir)\log4cplusUSD.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -294,7 +294,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\log4cplusS.lib"
+				OutputFile="$(OutDir)\log4cplusUS.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
