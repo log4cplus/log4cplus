@@ -15,8 +15,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\Debug/Static"
-			IntermediateDirectory=".\Debug/Static"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -46,10 +46,10 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
-				PrecompiledHeaderFile=".\Debug/Static/log4cplus_static.pch"
-				AssemblerListingLocation=".\Debug/Static/"
-				ObjectFile=".\Debug/Static/"
-				ProgramDataBaseFileName=".\Debug/Static/"
+				PrecompiledHeaderFile=".\$(IntDir)/log4cplus_static.pch"
+				AssemblerListingLocation=".\$(IntDir)/"
+				ObjectFile=".\$(IntDir)/"
+				ProgramDataBaseFileName=".\$(OutDir)/"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -68,7 +68,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="Debug\Static\log4cplusSD.lib"
+				OutputFile="$(OutDir)\log4cplusSD.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -80,7 +80,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Debug/Static/log4cplus_static.bsc"
+				OutputFile=".\$(IntDir)/log4cplus_static.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -91,8 +91,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug_Unicode|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory="$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -122,10 +122,10 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
-				PrecompiledHeaderFile=".\$(ConfigurationName)/Static/log4cplus_static.pch"
-				AssemblerListingLocation=".\$(ConfigurationName)/Static/"
-				ObjectFile=".\$(ConfigurationName)/Static/"
-				ProgramDataBaseFileName=".\$(ConfigurationName)/Static/"
+				PrecompiledHeaderFile=".\$(IntDir)/log4cplus_static.pch"
+				AssemblerListingLocation=".\$(IntDir)/"
+				ObjectFile=".\$(IntDir)/"
+				ProgramDataBaseFileName=".\$(OutDir)/"
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -144,7 +144,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(ConfigurationName)\Static\log4cplusSD.lib"
+				OutputFile="$(OutDir)\log4cplusSD.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -156,7 +156,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(ConfigurationName)/Static/log4cplus_static.bsc"
+				OutputFile=".\$(IntDir)/log4cplus_static.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -167,8 +167,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release/Static"
-			IntermediateDirectory=".\Release/Static"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -199,10 +199,10 @@
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\Release/Static/log4cplus_static.pch"
-				AssemblerListingLocation=".\Release/Static/"
-				ObjectFile=".\Release/Static/"
-				ProgramDataBaseFileName=".\Release/Static/"
+				PrecompiledHeaderFile=".\$(IntDir)/log4cplus_static.pch"
+				AssemblerListingLocation=".\$(IntDir)/"
+				ObjectFile=".\$(IntDir)/"
+				ProgramDataBaseFileName=".\$(OutDir)/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -219,7 +219,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="Release/Static\log4cplusS.lib"
+				OutputFile="$(OutDir)\log4cplusS.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -231,7 +231,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Release/Static/log4cplus_static.bsc"
+				OutputFile=".\$(IntDir)/log4cplus_static.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -242,8 +242,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release_Unicode|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory="$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -274,10 +274,10 @@
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\$(ConfigurationName)/Static/log4cplus_static.pch"
-				AssemblerListingLocation=".\$(ConfigurationName)/Static/"
-				ObjectFile=".\$(ConfigurationName)/Static/"
-				ProgramDataBaseFileName=".\$(ConfigurationName)/Static/"
+				PrecompiledHeaderFile=".\$(IntDir)/log4cplus_static.pch"
+				AssemblerListingLocation=".\$(IntDir)/"
+				ObjectFile=".\$(IntDir)/"
+				ProgramDataBaseFileName=".\$(OutDir)/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -294,7 +294,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(ConfigurationName)/Static\log4cplusS.lib"
+				OutputFile="$(OutDir)\log4cplusS.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -306,7 +306,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(ConfigurationName)/Static/log4cplus_static.bsc"
+				OutputFile=".\$(IntDir)/log4cplus_static.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
