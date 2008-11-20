@@ -16,8 +16,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
-			IntermediateDirectory=".\Release"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -43,7 +43,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release/log4cplus_dll.tlb"
+				TypeLibraryName=".\$(OutDir)/log4cplus_dll.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -55,10 +55,10 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\Release/log4cplus_dll.pch"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
+				PrecompiledHeaderFile=".\$(IntDir)/log4cplus_dll.pch"
+				AssemblerListingLocation=".\$(IntDir)/"
+				ObjectFile=".\$(IntDir)/"
+				ProgramDataBaseFileName=".\$(OutDir)/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -76,11 +76,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile="Release/log4cplus.dll"
+				OutputFile="$(OutDir)/log4cplus.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				ProgramDatabaseFile=".\Release/log4cplus.pdb"
-				ImportLibrary=".\Release/log4cplus.lib"
+				ProgramDatabaseFile=".\$(OutDir)/log4cplus.pdb"
+				ImportLibrary=".\$(OutDir)/log4cplus.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -95,7 +95,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Release/log4cplus_dll.bsc"
+				OutputFile=".\$(IntDir)/log4cplus_dll.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -112,8 +112,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\Debug"
-			IntermediateDirectory=".\Debug"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -138,7 +138,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug/log4cplus_dll.tlb"
+				TypeLibraryName=".\$(OutDir)/log4cplus_dll.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -149,10 +149,10 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\Debug/log4cplus_dll.pch"
-				AssemblerListingLocation=".\Debug/"
-				ObjectFile=".\Debug/"
-				ProgramDataBaseFileName=".\Debug/"
+				PrecompiledHeaderFile=".\$(IntDir)/log4cplus_dll.pch"
+				AssemblerListingLocation=".\$(IntDir)/"
+				ObjectFile=".\$(IntDir)/"
+				ProgramDataBaseFileName=".\$(OutDir)/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -171,12 +171,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile="Debug/log4cplusd.dll"
+				OutputFile="$(OutDir)/log4cplusd.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Debug/log4cplusd.pdb"
-				ImportLibrary=".\Debug/log4cplusd.lib"
+				ProgramDatabaseFile=".\$(OutDir)/log4cplusd.pdb"
+				ImportLibrary=".\$(OutDir)/log4cplusd.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -208,8 +208,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug_Unicode|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory="$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -234,7 +234,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug/log4cplus_dll.tlb"
+				TypeLibraryName=".\$(OutDir)/log4cplus_dll.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -245,10 +245,10 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\$(ConfigurationName)/log4cplus_dll.pch"
-				AssemblerListingLocation=".\$(ConfigurationName)/"
-				ObjectFile=".\$(ConfigurationName)/"
-				ProgramDataBaseFileName=".\$(ConfigurationName)/"
+				PrecompiledHeaderFile=".\$(IntDir)/log4cplus_dll.pch"
+				AssemblerListingLocation=".\$(IntDir)/"
+				ObjectFile=".\$(IntDir)/"
+				ProgramDataBaseFileName=".\$(OutDir)/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -267,12 +267,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile="$(ConfigurationName)/log4cplusd.dll"
+				OutputFile="$(OutDir)/log4cplusd.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\$(ConfigurationName)/log4cplusd.pdb"
-				ImportLibrary=".\$(ConfigurationName)/log4cplusd.lib"
+				ProgramDatabaseFile=".\$(OutDir)/log4cplusd.pdb"
+				ImportLibrary=".\$(OutDir)/log4cplusd.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -287,7 +287,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(ConfigurationName)/log4cplus_dll.bsc"
+				OutputFile=".\$(IntDir)/log4cplus_dll.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -304,8 +304,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release_Unicode|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory="$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -331,7 +331,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release/log4cplus_dll.tlb"
+				TypeLibraryName=".\$(OutDir)/log4cplus_dll.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -343,10 +343,10 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\$(ConfigurationName)/log4cplus_dll.pch"
-				AssemblerListingLocation=".\$(ConfigurationName)/"
-				ObjectFile=".\$(ConfigurationName)/"
-				ProgramDataBaseFileName=".\$(ConfigurationName)/"
+				PrecompiledHeaderFile=".\$(IntDir)/log4cplus_dll.pch"
+				AssemblerListingLocation=".\$(IntDir)/"
+				ObjectFile=".\$(IntDir)/"
+				ProgramDataBaseFileName=".\$(IntDir)/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -364,11 +364,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile="$(ConfigurationName)/log4cplus.dll"
+				OutputFile="$(OutDir)/log4cplus.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				ProgramDatabaseFile=".\$(ConfigurationName)/log4cplus.pdb"
-				ImportLibrary=".\$(ConfigurationName)/log4cplus.lib"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\$(OutDir)/log4cplus.pdb"
+				ImportLibrary=".\$(OutDir)/log4cplus.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -383,7 +384,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(ConfigurationName)/log4cplus_dll.bsc"
+				OutputFile=".\$(IntDir)/log4cplus_dll.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
