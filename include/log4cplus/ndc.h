@@ -254,7 +254,11 @@ namespace log4cplus {
         NDC& operator=(const NDC&);
 
       // Friends
+#if defined (_MSC_VER)
+        friend LOG4CPLUS_EXPORT NDC& getNDC();
+#else
         friend NDC& getNDC();
+#endif
     };
 
 
