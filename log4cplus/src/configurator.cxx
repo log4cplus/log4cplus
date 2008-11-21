@@ -156,7 +156,7 @@ namespace
                 i = var_end + DELIM_STOP_LEN;
         } // end while loop
 
-    } // end substEnvironVars()
+    } // end substVars()
 
 } // namespace
 
