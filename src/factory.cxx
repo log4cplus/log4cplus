@@ -68,6 +68,9 @@ namespace spi {
 
 } // namespace spi
 
+
+namespace {
+
     class ConsoleAppenderFactory : public AppenderFactory {
     public:
         SharedAppenderPtr createObject(const Properties& props)
@@ -269,7 +272,10 @@ namespace spi {
             return LOG4CPLUS_TEXT("log4cplus::spi::StringMatchFilter"); 
         }
     };
-}
+
+} // namespace
+
+} // namespace log4cplus
 
 
 
@@ -278,7 +284,8 @@ namespace spi {
 ///////////////////////////////////////////////////////////////////////////////
 
 namespace log4cplus {
-    void initializeFactoryRegistry() {
+    void initializeFactoryRegistry()
+    {
         AppenderFactoryRegistry& reg = getAppenderFactoryRegistry();
         auto_ptr<AppenderFactory> ptr1(new ConsoleAppenderFactory());
         reg.put(ptr1);
