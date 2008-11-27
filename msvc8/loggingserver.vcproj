@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="loggingserver"
 	ProjectGUID="{B8E88AF6-0427-4839-88AC-0C6E12615B10}"
+	RootNamespace="loggingserver"
 	>
 	<Platforms>
 		<Platform
@@ -15,8 +16,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\loggingserver_Release"
-			IntermediateDirectory=".\loggingserver_Release"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -37,7 +38,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\loggingserver_Release/loggingserver.tlb"
+				TypeLibraryName=".\$(OutDir)\loggingserver.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -49,10 +50,10 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\loggingserver_Release/loggingserver.pch"
-				AssemblerListingLocation=".\loggingserver_Release/"
-				ObjectFile=".\loggingserver_Release/"
-				ProgramDataBaseFileName=".\loggingserver_Release/"
+				PrecompiledHeaderFile=".\$(IntDir)\loggingserver.pch"
+				AssemblerListingLocation=".\$(IntDir)/"
+				ObjectFile=".\$(IntDir)/"
+				ProgramDataBaseFileName=".\$(OutDir)/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -70,11 +71,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib log4cplus.lib"
-				OutputFile=".\loggingserver_Release/loggingserver.exe"
+				OutputFile=".\$(OutDir)/loggingserver.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="Release"
-				ProgramDatabaseFile=".\loggingserver_Release/loggingserver.pdb"
+				AdditionalLibraryDirectories="log4cplus_dll.$(ConfigurationName)"
+				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -90,7 +91,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\loggingserver_Release/loggingserver.bsc"
+				OutputFile=".\$(IntDir)/loggingserver.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -107,8 +108,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\loggingserver_Debug"
-			IntermediateDirectory=".\loggingserver_Debug"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -129,7 +130,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\loggingserver_Debug/loggingserver.tlb"
+				TypeLibraryName=".\$(OutDir)/loggingserver.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -140,10 +141,10 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\loggingserver_Debug/loggingserver.pch"
-				AssemblerListingLocation=".\loggingserver_Debug/"
-				ObjectFile=".\loggingserver_Debug/"
-				ProgramDataBaseFileName=".\loggingserver_Debug/"
+				PrecompiledHeaderFile=".\$(IntDir)/loggingserver.pch"
+				AssemblerListingLocation=".\$(IntDir)/"
+				ObjectFile=".\$(IntDir)/"
+				ProgramDataBaseFileName=".\$(OutDir)/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -161,13 +162,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib log4cplusd.lib"
-				OutputFile=".\loggingserver_Debug/loggingserver.exe"
+				AdditionalDependencies="odbc32.lib odbccp32.lib log4cplusD.lib"
+				OutputFile=".\$(OutDir)/loggingserver.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="Debug"
+				AdditionalLibraryDirectories="log4cplus_dll.$(ConfigurationName)"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\loggingserver_Debug/loggingserver.pdb"
+				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -183,7 +184,193 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\loggingserver_Debug/loggingserver.bsc"
+				OutputFile=".\$(IntDir)/loggingserver.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release_Unicode|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TypeLibraryName=".\$(OutDir)\loggingserver.tlb"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\include"
+				PreprocessorDefinitions="NDEBUG;WIN32;_CONSOLE"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				PrecompiledHeaderFile=".\$(IntDir)\loggingserver.pch"
+				AssemblerListingLocation=".\$(IntDir)/"
+				ObjectFile=".\$(IntDir)/"
+				ProgramDataBaseFileName=".\$(OutDir)/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="odbc32.lib odbccp32.lib log4cplusU.lib"
+				OutputFile=".\$(OutDir)/loggingserver.exe"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="log4cplus_dll.$(ConfigurationName)"
+				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
+				SubSystem="1"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\$(IntDir)/loggingserver.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug_Unicode|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TypeLibraryName=".\$(OutDir)/loggingserver.tlb"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\include"
+				PreprocessorDefinitions="_DEBUG;WIN32;_CONSOLE"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				PrecompiledHeaderFile=".\$(IntDir)/loggingserver.pch"
+				AssemblerListingLocation=".\$(IntDir)/"
+				ObjectFile=".\$(IntDir)/"
+				ProgramDataBaseFileName=".\$(OutDir)/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="4"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="odbc32.lib odbccp32.lib log4cplusUD.lib"
+				OutputFile=".\$(OutDir)/loggingserver.exe"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories="log4cplus_dll.$(ConfigurationName)"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
+				SubSystem="1"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\$(IntDir)/loggingserver.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -207,26 +394,8 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\src\loggingserver.cxx"
+				RelativePath="..\loggingserver\loggingserver.cxx"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
