@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="configandwatch_test"
 	ProjectGUID="{0A878274-362D-4184-B5C6-A1C80D22A170}"
 	>
@@ -73,7 +73,7 @@
 				OutputFile=".\configandwatch_test_Release/configandwatch_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Release"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Release"
 				ProgramDatabaseFile=".\configandwatch_test_Release/configandwatch_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
@@ -165,7 +165,7 @@
 				OutputFile=".\configandwatch_test_Debug/configandwatch_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Debug"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Debug"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\configandwatch_test_Debug/configandwatch_test.pdb"
 				SubSystem="1"

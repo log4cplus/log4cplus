@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="performance_test"
 	ProjectGUID="{94EF9EE0-6E68-4F5F-9174-D09896518894}"
 	>
@@ -73,7 +73,7 @@
 				OutputFile=".\performance_test_Debug/performance_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Debug"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Debug"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\performance_test_Debug/performance_test.pdb"
 				SubSystem="1"
@@ -166,7 +166,7 @@
 				OutputFile=".\performance_test_Release/performance_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Release"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Release"
 				ProgramDatabaseFile=".\performance_test_Release/performance_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"

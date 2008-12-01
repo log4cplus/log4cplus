@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="appender_test"
 	ProjectGUID="{63AF3784-3FFB-46AC-B341-76B55AEE3148}"
 	>
@@ -73,7 +73,7 @@
 				OutputFile=".\appender_test_Release/appender_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Release"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Release"
 				ProgramDatabaseFile=".\appender_test_Release/appender_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
@@ -165,7 +165,7 @@
 				OutputFile=".\appender_test_Debug/appender_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Debug"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Debug"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\appender_test_Debug/appender_test.pdb"
 				SubSystem="1"

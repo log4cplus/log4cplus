@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="filter_test"
 	ProjectGUID="{66FE475D-D26C-4457-8B1C-B057D770C716}"
 	>
@@ -73,7 +73,7 @@
 				OutputFile=".\filter_test_Debug/filter_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Debug"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Debug"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\filter_test_Debug/filter_test.pdb"
 				SubSystem="1"
@@ -166,7 +166,7 @@
 				OutputFile=".\filter_test_Release/filter_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Release"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Release"
 				ProgramDatabaseFile=".\filter_test_Release/filter_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"

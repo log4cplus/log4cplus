@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="customloglevel_test"
 	ProjectGUID="{040B829F-8ED6-4D35-9043-0DF31597F7FB}"
 	>
@@ -73,7 +73,7 @@
 				OutputFile=".\customloglevel_test_Release/customloglevel_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Release"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Release"
 				ProgramDatabaseFile=".\customloglevel_test_Release/customloglevel_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
@@ -165,7 +165,7 @@
 				OutputFile=".\customloglevel_test_Debug/customloglevel_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Debug"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Debug"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\customloglevel_test_Debug/customloglevel_test.pdb"
 				SubSystem="1"
