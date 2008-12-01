@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="socket_test"
 	ProjectGUID="{D405C4A0-D62F-4EE7-96D2-76AD808C7319}"
 	>
@@ -73,7 +73,7 @@
 				OutputFile=".\socket_test_Release/socket_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Release"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Release"
 				ProgramDatabaseFile=".\socket_test_Release/socket_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
@@ -165,7 +165,7 @@
 				OutputFile=".\socket_test_Debug/socket_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Debug"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Debug"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\socket_test_Debug/socket_test.pdb"
 				SubSystem="1"

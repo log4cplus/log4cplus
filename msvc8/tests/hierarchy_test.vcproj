@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="hierarchy_test"
 	ProjectGUID="{07817E6D-9FAB-4261-9D62-C5AD13810258}"
 	>
@@ -73,7 +73,7 @@
 				OutputFile=".\hierarchy_test_Debug/hierarchy_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Debug"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Debug"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\hierarchy_test_Debug/hierarchy_test.pdb"
 				SubSystem="1"
@@ -166,7 +166,7 @@
 				OutputFile=".\hierarchy_test_Release/hierarchy_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Release"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Release"
 				ProgramDatabaseFile=".\hierarchy_test_Release/hierarchy_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="ndc_test"
 	ProjectGUID="{FBCE50FB-C87B-4A28-9551-7D1BFDAA65EC}"
 	>
@@ -73,7 +73,7 @@
 				OutputFile=".\ndc_test_Debug/ndc_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Debug"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Debug"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\ndc_test_Debug/ndc_test.pdb"
 				SubSystem="1"
@@ -166,7 +166,7 @@
 				OutputFile=".\ndc_test_Release/ndc_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\Release"
+				AdditionalLibraryDirectories="..\log4cplus_dll.Release"
 				ProgramDatabaseFile=".\ndc_test_Release/ndc_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
