@@ -36,10 +36,10 @@
 
 #define LOG4CPLUS_MACRO_BODY(logger, logEvent, logLevel)                \
     do {                                                                \
-        if(logger.isEnabledFor(log4cplus::##logLevel##_LOG_LEVEL)) {    \
+        if(logger.isEnabledFor(log4cplus::logLevel##_LOG_LEVEL)) {      \
             log4cplus::tostringstream _log4cplus_buf;                   \
             _log4cplus_buf << logEvent;                                 \
-            logger.forcedLog(log4cplus::##logLevel##_LOG_LEVEL,         \
+            logger.forcedLog(log4cplus::logLevel##_LOG_LEVEL,           \
                 _log4cplus_buf.str(), __FILE__, __LINE__);              \
         }                                                               \
     } while (0)
@@ -47,8 +47,8 @@
 
 #define LOG4CPLUS_MACRO_STR_BODY(logger, logEvent, logLevel)            \
     do {                                                                \
-        if(logger.isEnabledFor(log4cplus::##logLevel##_LOG_LEVEL)) {    \
-            logger.forcedLog(log4cplus::##logLevel##_LOG_LEVEL,         \
+        if(logger.isEnabledFor(log4cplus::logLevel##_LOG_LEVEL)) {      \
+            logger.forcedLog(log4cplus::logLevel##_LOG_LEVEL,           \
                 logEvent, __FILE__, __LINE__);                          \
         }                                                               \
     } while(0)
