@@ -644,7 +644,7 @@ ConfigureAndWatchThread::~ConfigureAndWatchThread()
 }
 
 
-} // namespace log4cplus
-
-
 #endif
+
+
+} // namespace log4cplus
