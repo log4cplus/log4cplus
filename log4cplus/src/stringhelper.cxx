@@ -13,6 +13,7 @@
 
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/streams.h>
+#include <log4cplus/loggingmacros.h>
 
 #include <iterator>
 #include <algorithm>
@@ -28,6 +29,28 @@
 
 using namespace log4cplus;
 
+#if defined (LOG4CPLUS_SINGLE_THREADED)
+
+namespace log4cplus
+{
+
+tostringstream _macros_oss;
+tostringstream const _macros_oss_defaults;
+tstring const _empty_str;
+
+void _clear_tostringstream (tostringstream & os)
+{
+    os.clear ();
+    os.setf (_macros_oss_defaults.flags ());
+    os.fill (_macros_oss_defaults.fill ());
+    os.precision (_macros_oss_defaults.precision ());
+    os.width (_macros_oss_defaults.width ());
+    os.str (_empty_str);
+}
+
+} // namespace log4cplus
+
+#endif
 
 
 //////////////////////////////////////////////////////////////////////////////
