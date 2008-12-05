@@ -17,6 +17,7 @@
 #define LOG4CPLUS_CONFIG_WIN32_HEADER_
 
 #ifdef _WIN32
+#include <windows.h>
 
 /* Define if you have the ftime function.  */
 #define LOG4CPLUS_HAVE_FTIME 1
