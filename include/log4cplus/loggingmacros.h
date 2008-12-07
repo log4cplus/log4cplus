@@ -44,8 +44,6 @@ namespace log4cplus
 {
 
 extern LOG4CPLUS_EXPORT tostringstream _macros_oss;
-extern LOG4CPLUS_EXPORT tostringstream const _macros_oss_defaults;
-extern LOG4CPLUS_EXPORT tstring const _empty_str;
 
 LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
 

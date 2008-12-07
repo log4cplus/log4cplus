@@ -35,17 +35,28 @@ namespace log4cplus
 {
 
 tostringstream _macros_oss;
-tostringstream const _macros_oss_defaults;
-tstring const _empty_str;
+
+namespace
+{
+
+static tostringstream const _macros_oss_defaults;
+static tstring const _empty_str;
+
+} // namespace
 
 void _clear_tostringstream (tostringstream & os)
 {
     os.clear ();
+    os.str (_empty_str);
     os.setf (_macros_oss_defaults.flags ());
     os.fill (_macros_oss_defaults.fill ());
     os.precision (_macros_oss_defaults.precision ());
     os.width (_macros_oss_defaults.width ());
-    os.str (_empty_str);
+#if defined (LOG4CPLUS_WORKING_LOCALE)
+    std::locale glocale = std::locale ();
+    if (os.getloc () != glocale)
+        os.imbue (glocale);
+#endif // defined (LOG4CPLUS_WORKING_LOCALE)
 }
 
 } // namespace log4cplus
