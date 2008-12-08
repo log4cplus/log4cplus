@@ -36,14 +36,9 @@
 #endif
 
 
-#define BUFFER_SIZE 40
-#define ONE_SEC_IN_USEC 1000000
+namespace log4cplus { namespace helpers {
 
-
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-
+const int ONE_SEC_IN_USEC = 1000000;
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -57,15 +52,12 @@ Time::Time()
 }
 
 
-
-
-Time::Time(long tv_sec, long tv_usec)
+Time::Time(time_t tv_sec, long tv_usec)
 : tv_sec(tv_sec),
   tv_usec(tv_usec)
 {
+    assert (tv_usec < ONE_SEC_IN_USEC);
 }
-
-
 
 
 Time::Time(time_t time)
@@ -73,7 +65,6 @@ Time::Time(time_t time)
   tv_usec(0)
 {
 }
-
 
 
 Time
@@ -96,13 +87,11 @@ Time::gettimeofday()
 }
 
 
-
-
 //////////////////////////////////////////////////////////////////////////////
 // Time methods
 //////////////////////////////////////////////////////////////////////////////
 
-int
+time_t
 Time::setTime(struct tm* t)
 {
     time_t time = ::mktime(t);
@@ -114,13 +103,11 @@ Time::setTime(struct tm* t)
 }
 
 
-
 time_t
 Time::getTime() const
 {
     return tv_sec;
 }
-
 
 
 void
@@ -136,7 +123,6 @@ Time::gmtime(struct tm* t) const
 }
 
 
-
 void
 Time::localtime(struct tm* t) const
 {
@@ -148,6 +134,7 @@ Time::localtime(struct tm* t) const
     *t = *tmp;
 #endif
 }
+
 
 namespace 
 {
@@ -309,7 +296,6 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
 }
 
 
-
 Time&
 Time::operator+=(const Time& rhs)
 {
@@ -323,7 +309,6 @@ Time::operator+=(const Time& rhs)
 
     return *this;
 }
-
 
 
 Time&
@@ -341,19 +326,17 @@ Time::operator-=(const Time& rhs)
 }
 
 
-
 Time&
 Time::operator/=(long rhs)
 {
-    long rem_secs = tv_sec % rhs;
+    long rem_secs = static_cast<long>(tv_sec % rhs);
     tv_sec /= rhs;
     
     tv_usec /= rhs;
-    tv_usec += ((rem_secs * ONE_SEC_IN_USEC) / rhs);
+    tv_usec += static_cast<long>((rem_secs * ONE_SEC_IN_USEC) / rhs);
 
     return *this;
 }
-
 
 
 Time&
@@ -370,9 +353,6 @@ Time::operator*=(long rhs)
 }
 
 
-
-
-
 //////////////////////////////////////////////////////////////////////////////
 // Time globals
 //////////////////////////////////////////////////////////////////////////////
@@ -385,13 +365,11 @@ operator+(const Time& lhs, const Time& rhs)
 }
 
 
-
 const Time
 operator-(const Time& lhs, const Time& rhs)
 {
     return Time(lhs) -= rhs;
 }
-
 
 
 const Time
@@ -401,13 +379,11 @@ operator/(const Time& lhs, long rhs)
 }
 
 
-
 const Time
 operator*(const Time& lhs, long rhs)
 {
     return Time(lhs) *= rhs;
 }
-
 
 
 bool
@@ -419,13 +395,11 @@ operator<(const Time& lhs, const Time& rhs)
 }
 
 
-
 bool
 operator<=(const Time& lhs, const Time& rhs)
 {
     return ((lhs < rhs) || (lhs == rhs));
 }
-
 
 
 bool
@@ -437,13 +411,11 @@ operator>(const Time& lhs, const Time& rhs)
 }
 
 
-
 bool
 operator>=(const Time& lhs, const Time& rhs)
 {
     return ((lhs > rhs) || (lhs == rhs));
 }
-
 
 
 bool
@@ -454,7 +426,6 @@ operator==(const Time& lhs, const Time& rhs)
 }
 
 
-
 bool
 operator!=(const Time& lhs, const Time& rhs)
 {
@@ -462,3 +433,4 @@ operator!=(const Time& lhs, const Time& rhs)
 }
 
 
+} } // namespace log4cplus { namespace helpers {
