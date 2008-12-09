@@ -184,7 +184,10 @@ NTEventLogAppender::init()
 
     addRegistryInfo();
 
-    hEventLog = ::RegisterEventSource(server.c_str(), source.c_str());
+    hEventLog = ::RegisterEventSource(server.empty () ? 0 : server.c_str(),
+        source.c_str());
+    if (! hEventLog || hEventLog == HANDLE(ERROR_INVALID_HANDLE))
+        getLogLog().warn (LOG4CPLUS_TEXT("Event source registration failed."));
 }
 
 
