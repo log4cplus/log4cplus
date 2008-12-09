@@ -1644,6 +1644,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\src\win32debugappender.cxx"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -1803,6 +1807,10 @@
 			</File>
 			<File
 				RelativePath="..\include\log4cplus\config\win32.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\win32debugappender.h"
 				>
 			</File>
 		</Filter>
