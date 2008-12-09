@@ -92,26 +92,17 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
  * <code>logEvent</code> will be streamed into an <code>ostream</code>.
  */
 #if !defined(LOG4CPLUS_DISABLE_TRACE)
-#define LOG4CPLUS_TRACE_METHOD(logger, logEvent) \
-    log4cplus::TraceLogger _log4cplus_trace_logger(logger, logEvent, __FILE__, __LINE__)
-#define LOG4CPLUS_TRACE(logger, logEvent) \
-    do { \
-        if(logger.isEnabledFor(log4cplus::TRACE_LOG_LEVEL)) { \
-            log4cplus::tostringstream _log4cplus_buf; \
-            _log4cplus_buf << logEvent; \
-            logger.forcedLog(log4cplus::TRACE_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
-        } \
-    } while(0)
-#define LOG4CPLUS_TRACE_STR(logger, logEvent) \
-    do { \
-        if(logger.isEnabledFor(log4cplus::TRACE_LOG_LEVEL)) { \
-            logger.forcedLog(log4cplus::TRACE_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
-        } \
-    } while(0)
+#define LOG4CPLUS_TRACE_METHOD(logger, logEvent)                        \
+    log4cplus::TraceLogger _log4cplus_trace_logger(logger, logEvent,    \
+                                                   __FILE__, __LINE__);
+#define LOG4CPLUS_TRACE(logger, logEvent)                               \
+    LOG4CPLUS_MACRO_BODY (logger, logEvent, TRACE)
+#define LOG4CPLUS_TRACE_STR(logger, logEvent)                           \
+    LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, TRACE)
 #else
-#define LOG4CPLUS_TRACE_METHOD(logger, logEvent) do{ } while(0)
-#define LOG4CPLUS_TRACE(logger, logEvent) do{ } while(0)
-#define LOG4CPLUS_TRACE_STR(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_TRACE_METHOD(logger, logEvent)
+#define LOG4CPLUS_TRACE(logger, logEvent)
+#define LOG4CPLUS_TRACE_STR(logger, logEvent)
 #endif
 
 /**
@@ -120,23 +111,13 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
  * <code>logEvent</code> will be streamed into an <code>ostream</code>.
  */
 #if !defined(LOG4CPLUS_DISABLE_DEBUG)
-#define LOG4CPLUS_DEBUG(logger, logEvent) \
-    do { \
-        if(logger.isEnabledFor(log4cplus::DEBUG_LOG_LEVEL)) { \
-            log4cplus::tostringstream _log4cplus_buf; \
-            _log4cplus_buf << logEvent; \
-            logger.forcedLog(log4cplus::DEBUG_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
-        } \
-    } while(0)
-#define LOG4CPLUS_DEBUG_STR(logger, logEvent) \
-    do { \
-        if(logger.isEnabledFor(log4cplus::DEBUG_LOG_LEVEL)) { \
-            logger.forcedLog(log4cplus::DEBUG_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
-        } \
-    } while(0);
+#define LOG4CPLUS_DEBUG(logger, logEvent)                               \
+    LOG4CPLUS_MACRO_BODY (logger, logEvent, DEBUG)
+#define LOG4CPLUS_DEBUG_STR(logger, logEvent)                           \
+    LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, DEBUG)
 #else
-#define LOG4CPLUS_DEBUG(logger, logEvent) do{ } while(0)
-#define LOG4CPLUS_DEBUG_STR(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_DEBUG(logger, logEvent) 
+#define LOG4CPLUS_DEBUG_STR(logger, logEvent)
 #endif
 
 /**
@@ -145,23 +126,13 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
  * <code>logEvent</code> will be streamed into an <code>ostream</code>.
  */
 #if !defined(LOG4CPLUS_DISABLE_INFO)
-#define LOG4CPLUS_INFO(logger, logEvent) \
-    do { \
-        if(logger.isEnabledFor(log4cplus::INFO_LOG_LEVEL)) { \
-            log4cplus::tostringstream _log4cplus_buf; \
-            _log4cplus_buf << logEvent; \
-            logger.forcedLog(log4cplus::INFO_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
-        } \
-    } while(0)
-#define LOG4CPLUS_INFO_STR(logger, logEvent) \
-    do { \
-        if(logger.isEnabledFor(log4cplus::INFO_LOG_LEVEL)) { \
-            logger.forcedLog(log4cplus::INFO_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
-        } \
-    } while(0)
+#define LOG4CPLUS_INFO(logger, logEvent)                                \
+    LOG4CPLUS_MACRO_BODY (logger, logEvent, INFO)
+#define LOG4CPLUS_INFO_STR(logger, logEvent)                            \
+    LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, INFO)
 #else
-#define LOG4CPLUS_INFO(logger, logEvent) do{ } while(0)
-#define LOG4CPLUS_INFO_STR(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_INFO(logger, logEvent)
+#define LOG4CPLUS_INFO_STR(logger, logEvent)
 #endif
 
 /**
@@ -175,8 +146,8 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
 #define LOG4CPLUS_WARN_STR(logger, logEvent)                            \
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, WARN)
 #else
-#define LOG4CPLUS_WARN(logger, logEvent) do{ } while(0)
-#define LOG4CPLUS_WARN_STR(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_WARN(logger, logEvent)
+#define LOG4CPLUS_WARN_STR(logger, logEvent)
 #endif
 
 /**
@@ -190,8 +161,8 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
 #define LOG4CPLUS_ERROR_STR(logger, logEvent)                           \
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, ERROR)
 #else
-#define LOG4CPLUS_ERROR(logger, logEvent) do{ } while(0)
-#define LOG4CPLUS_ERROR_STR(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_ERROR(logger, logEvent)
+#define LOG4CPLUS_ERROR_STR(logger, logEvent)
 #endif
 
 /**
@@ -200,23 +171,13 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
  * <code>logEvent</code> will be streamed into an <code>ostream</code>.
  */
 #if !defined(LOG4CPLUS_DISABLE_FATAL)
-#define LOG4CPLUS_FATAL(logger, logEvent) \
-    do { \
-        if(logger.isEnabledFor(log4cplus::FATAL_LOG_LEVEL)) { \
-            log4cplus::tostringstream _log4cplus_buf; \
-            _log4cplus_buf << logEvent; \
-            logger.forcedLog(log4cplus::FATAL_LOG_LEVEL, _log4cplus_buf.str(), __FILE__, __LINE__); \
-        } \
-    } while(0)
-#define LOG4CPLUS_FATAL_STR(logger, logEvent) \
-    do { \
-        if(logger.isEnabledFor(log4cplus::FATAL_LOG_LEVEL)) { \
-            logger.forcedLog(log4cplus::FATAL_LOG_LEVEL, logEvent, __FILE__, __LINE__); \
-        } \
-    } while(0)
+#define LOG4CPLUS_FATAL(logger, logEvent)                               \
+    LOG4CPLUS_MACRO_BODY (logger, logEvent, FATAL)
+#define LOG4CPLUS_FATAL_STR(logger, logEvent)                           \
+    LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, FATAL)
 #else
-#define LOG4CPLUS_FATAL(logger, logEvent) do{ } while(0)
-#define LOG4CPLUS_FATAL_STR(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_FATAL(logger, logEvent)
+#define LOG4CPLUS_FATAL_STR(logger, logEvent) 
 #endif
 
 #endif /* _LOG4CPLUS_LOGGING_MACROS_HEADER_ */

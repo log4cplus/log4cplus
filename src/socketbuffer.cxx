@@ -10,25 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.6  2004/02/14 16:58:14  tcsmith
-// Added support for CYGWIN.
-//
-// Revision 1.5  2003/11/21 21:23:29  tcsmith
-// Fixed memory alignment errors on Solaris.
-//
-// Revision 1.4  2003/09/28 04:26:02  tcsmith
-// Added include for <winsock.h> on WIN32.
-//
-// Revision 1.3  2003/08/08 05:36:51  tcsmith
-// Changed the #if checks to look for _WIN32 and not WIN32.
-//
-// Revision 1.2  2003/05/21 22:11:00  tcsmith
-// Added appendSize_t() method.
-//
-// Revision 1.1  2003/05/04 07:25:16  tcsmith
-// Initial version.
-//
 
 #include <cstring>
 #include <log4cplus/helpers/socketbuffer.h>
@@ -40,8 +21,8 @@
 #include <winsock.h>
 #endif
 
-#if defined(__CYGWIN__)
-#include <cygwin/in.h>
+#if defined (__CYGWIN__) || defined (LOG4CPLUS_HAVE_NETINET_IN_H)
+#include <netinet/in.h>
 #endif
 
 using namespace log4cplus;
