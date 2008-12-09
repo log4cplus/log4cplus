@@ -18,7 +18,11 @@ main()
     SharedAppenderPtr append_1(
         new RollingFileAppender(LOG4CPLUS_TEXT("Test.log"), 5*1024, 5));
     append_1->setName(LOG4CPLUS_TEXT("First"));
-    append_1->setLayout( std::auto_ptr<Layout>(new TTCCLayout()) );
+    std::string pattern = "%d{%m/%d/%y %H:%M:%S,%q} [%t] %-5p %c{2} %%%x%% - %m [%l]%n";
+//  std::string pattern = "%d{%c} [%t] %-5p [%.15c{3}] %%%x%% - %m [%l]%n";
+    std::auto_ptr<Layout> layout( new PatternLayout(pattern) );
+//    std::auto_ptr<Layout> layout( new TTCCLayout() );
+    append_1->setLayout(layout);
     Logger::getRoot().addAppender(append_1);
 
     Logger root = Logger::getRoot();
@@ -26,7 +30,7 @@ main()
     Logger subTest = Logger::getInstance(LOG4CPLUS_TEXT("test.subtest"));
 
     for(int i=0; i<LOOP_COUNT; ++i) {
-        NDCContextCreator _context(LOG4CPLUS_TEXT("loop"));
+        NDCContextCreator _context("loop");
         LOG4CPLUS_DEBUG(subTest, "Entering loop #" << i);
     }
 

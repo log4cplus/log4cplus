@@ -29,13 +29,13 @@ public:
     { logger.setLogLevel(TRACE_LOG_LEVEL); }
 
     void doSomething() {
-        LOG4CPLUS_TRACE_METHOD(logger, LOG4CPLUS_TEXT("SlowObject::doSomething()"));
+        LOG4CPLUS_TRACE_METHOD(logger, "SlowObject::doSomething()");
         LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-            LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("Actually doing something..."));
+            LOG4CPLUS_INFO(logger, "Actually doing something...");
             sleep(0, 75 * MILLIS_TO_NANOS);
-            LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("Actually doing something...DONE"));
-        LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
-        thread::yield();
+            LOG4CPLUS_INFO(logger, "Actually doing something...DONE");
+        LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+        yield();
     }
 
 private:
@@ -79,7 +79,11 @@ main()
         tcout << "main Priority: " << getLogLevelManager().toString(ll) << endl;
 
         helpers::SharedObjectPtr<Appender> append_1(new ConsoleAppender());
-        append_1->setLayout( std::auto_ptr<Layout>(new log4cplus::TTCCLayout()) );
+        std::string pattern = "%-5p [%F (%L)] - %m%n";
+        std::auto_ptr<Layout> layout( new PatternLayout(pattern) );
+//        std::auto_ptr<Layout> layout( new TTCCLayout() );
+//        append_1->setLayout( std::auto_ptr<Layout>(new log4cplus::TTCCLayout()) );
+        append_1->setLayout(layout );
         Logger::getRoot().addAppender(append_1);
         append_1->setName(LOG4CPLUS_TEXT("cout"));
 
@@ -121,7 +125,7 @@ void
 TestThread::run()
 {
     try {
-        LOG4CPLUS_WARN(logger, name + LOG4CPLUS_TEXT(" TestThread.run()- Starting..."));
+        LOG4CPLUS_WARN(logger, name + " TestThread.run()- Starting...");
         NDC& ndc = getNDC();
         NDCContextCreator _first_ndc(name);
         LOG4CPLUS_DEBUG(logger, "Entering Run()...");

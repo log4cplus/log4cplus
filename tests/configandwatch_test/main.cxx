@@ -37,7 +37,7 @@ main()
         ConfigureAndWatchThread configureThread(
             LOG4CPLUS_TEXT("log4cplus.properties"), 5 * 1000);
 
-        LOG4CPLUS_WARN(root, "Testing....");
+	    LOG4CPLUS_WARN(root, "Testing....");
 
         for(int i=0; i<100; ++i) {
             printMsgs(log_1);
