@@ -121,6 +121,8 @@ namespace log4cplus {
         template<class T>
         class LOG4CPLUS_EXPORT FactoryRegistry : ObjectRegistryBase {
         public:
+            typedef T product_type;
+
             virtual ~FactoryRegistry() {
                 clear();
             }
