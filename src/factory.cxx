@@ -27,7 +27,6 @@
 #endif
 
 
-using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
@@ -303,7 +302,7 @@ template <typename Fac, typename Reg>
 static void
 reg_factory (Reg & reg)
 {
-    reg.put (std::auto_ptr<Fac> (new Fac));
+    reg.put (std::auto_ptr<typename Reg::product_type> (new Fac));
 }
 
 } // namespace
