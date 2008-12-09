@@ -22,6 +22,10 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
 
+#if defined (_WIN32)
+#include <log4cplus/Win32DebugAppender.h>
+#endif
+
 
 using namespace std;
 using namespace log4cplus;
@@ -165,6 +169,18 @@ namespace {
         }
     };
 
+    class Win32DebugAppenderFactory : public AppenderFactory {
+    public:
+        SharedAppenderPtr createObject(const Properties& props)
+        {
+            return SharedAppenderPtr(new log4cplus::Win32DebugAppender(props));
+        }
+
+        tstring getTypeName() { 
+            return LOG4CPLUS_TEXT("log4cplus::Win32DebugAppender"); 
+        }
+    };
+
 #elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
     class SysLogAppenderFactory : public AppenderFactory {
     public:
@@ -275,57 +291,52 @@ namespace {
 
 } // namespace
 
-} // namespace log4cplus
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // LOCAL file methods 
-///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////// 
 
-namespace log4cplus {
-    void initializeFactoryRegistry()
-    {
-        AppenderFactoryRegistry& reg = getAppenderFactoryRegistry();
-        auto_ptr<AppenderFactory> ptr1(new ConsoleAppenderFactory());
-        reg.put(ptr1);
-        auto_ptr<AppenderFactory> ptr2(new NullAppenderFactory());
-        reg.put(ptr2);
-        auto_ptr<AppenderFactory> ptr3(new FileAppenderFactory());
-        reg.put(ptr3);
-        auto_ptr<AppenderFactory> ptr4(new RollingFileAppenderFactory());
-        reg.put(ptr4);
-        auto_ptr<AppenderFactory> ptr5(new DailyRollingFileAppenderFactory());
-        reg.put(ptr5);
-        auto_ptr<AppenderFactory> ptr6(new SocketAppenderFactory());
-        reg.put(ptr6);
+namespace
+{
+
+template <typename Fac, typename Reg>
+static void
+reg_factory (Reg & reg)
+{
+    reg.put (std::auto_ptr<Fac> (new Fac));
+}
+
+} // namespace
+
+
+void initializeFactoryRegistry()
+{
+    AppenderFactoryRegistry& reg = getAppenderFactoryRegistry();
+    reg_factory<ConsoleAppenderFactory> (reg);
+    reg_factory<NullAppenderFactory> (reg);
+    reg_factory<FileAppenderFactory> (reg);
+    reg_factory<RollingFileAppenderFactory> (reg);
+    reg_factory<DailyRollingFileAppenderFactory> (reg);
+    reg_factory<SocketAppenderFactory> (reg);
 #if defined(_WIN32)
-        auto_ptr<AppenderFactory> ptr7(new NTEventLogAppenderFactory());
-        reg.put(ptr7);
+    reg_factory<NTEventLogAppenderFactory> (reg);
+    reg_factory<Win32DebugAppenderFactory> (reg);
 #elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
-        auto_ptr<AppenderFactory> ptr8(new SysLogAppenderFactory());
-        reg.put(ptr8);
+    reg_factory<SysLogAppenderFactory> (reg);
 #endif
 
-        LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
-        auto_ptr<LayoutFactory> ptr21(new SimpleLayoutFactory());
-        reg2.put(ptr21);
-        auto_ptr<LayoutFactory> ptr22(new TTCCLayoutFactory());
-        reg2.put(ptr22);
-        auto_ptr<LayoutFactory> ptr23(new PatternLayoutFactory());
-        reg2.put(ptr23);
+    LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
+    reg_factory<SimpleLayoutFactory> (reg2);
+    reg_factory<TTCCLayoutFactory> (reg2);
+    reg_factory<PatternLayoutFactory> (reg2);
 
-        FilterFactoryRegistry& reg3 = getFilterFactoryRegistry();
-        auto_ptr<FilterFactory> ptr31(new DenyAllFilterFactory());
-        reg3.put(ptr31);
-        auto_ptr<FilterFactory> ptr32(new LogLevelMatchFilterFactory());
-        reg3.put(ptr32);
-        auto_ptr<FilterFactory> ptr33(new LogLevelRangeFilterFactory());
-        reg3.put(ptr33);
-        auto_ptr<FilterFactory> ptr34(new StringMatchFilterFactory());
-        reg3.put(ptr34);
-    }
+    FilterFactoryRegistry& reg3 = getFilterFactoryRegistry();
+    reg_factory<DenyAllFilterFactory> (reg3);
+    reg_factory<LogLevelMatchFilterFactory> (reg3);
+    reg_factory<LogLevelRangeFilterFactory> (reg3);
+    reg_factory<StringMatchFilterFactory> (reg3);
 }
+
 
 
 
@@ -333,30 +344,35 @@ namespace log4cplus {
 // public methods
 ///////////////////////////////////////////////////////////////////////////////
 
+namespace spi
+{
+
+
 AppenderFactoryRegistry&
-log4cplus::spi::getAppenderFactoryRegistry()
+getAppenderFactoryRegistry()
 {
     static AppenderFactoryRegistry singleton;
     return singleton;
 }
 
 
-
 LayoutFactoryRegistry&
-log4cplus::spi::getLayoutFactoryRegistry()
+getLayoutFactoryRegistry()
 {
     static LayoutFactoryRegistry singleton;
     return singleton;
 }
 
 
-
 FilterFactoryRegistry&
-log4cplus::spi::getFilterFactoryRegistry()
+getFilterFactoryRegistry()
 {
     static FilterFactoryRegistry singleton;
     return singleton;
 }
 
 
+} // namespace spi
 
+
+} // namespace log4cplus
