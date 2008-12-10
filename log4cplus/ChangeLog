@@ -1,3 +1,26 @@
+Version 1.0.3-RC4
+
+  - IMPORTANT: log4cplus shared library version has been bumped to
+    3. The interfaces have slightly changed and 1.0.3 is not binary
+    compatible with 1.0.2.
+  - Fix more MSVC compilation problems.
+  - Changed log4cplus_static.vcproj to link with DLL C/C++ run time
+    (MSVCR80.dll and MSVCP80.dll).
+  - Implemented environment variables shadowing by properties and
+    recursive properties expansion.
+  - Reworked output directories layout of MSVC8 project. Now it
+    produces directories of the form
+    "log4cplus_{static,dll}.{Release,Debug}{_Unicode,}" and
+    "loggingserver.{Release,Debug}{_Unicode,}". The tests directory
+    projects still only compile using non-Unicode release and debug
+    version of the library.
+  - For single-threaded builds, re-use single tostringstream instead
+    of using a new one for each LOG4CPLUS_DEBUG() etc. macros.
+  - Merge Win32DebugAppender from trunk. (Patches #834925 and #858128)
+  - Make configuration of local server for NTEventLogAppender easier
+    by allowing empty server parameter string. (Feature Request
+    #875935)
+	
 Version 1.0.3-RC3
 
   - Fix Bug #2268760 - Trailing garbage in strings produced by 
