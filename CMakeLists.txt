@@ -49,7 +49,6 @@ set(log4cplus_headers
   include/log4cplus/spi/loggingevent.h
   include/log4cplus/spi/objectregistry.h
   include/log4cplus/spi/rootlogger.h
-  include/log4cplus/stamp-h1
   include/log4cplus/streams.h
   include/log4cplus/syslogappender.h
   include/log4cplus/tstring.h
