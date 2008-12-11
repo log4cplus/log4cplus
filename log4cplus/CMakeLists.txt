@@ -114,9 +114,9 @@ endif ()
 
 include_directories ("include")
 add_definitions (-DINSIDE_LOG4CPLUS)
-set (log4cplus_all_sources ${log4cplus_sources} ${log4cplus_headers}
+set (log4cplus_all_sources ${log4cplus_sources} ${log4cplus_headers})
 
-#add_library (log4cplus STATIC ${log4cplus_all_sources}) 
+#add_library (log4cplus STATIC ${log4cplus_all_sources})
 add_library (log4cplus SHARED ${log4cplus_all_sources})
 
 target_link_libraries (log4cplus ${CMAKE_THREAD_LIBS_INIT})
