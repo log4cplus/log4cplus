@@ -1,4 +1,4 @@
-project (log4cplus)
+project (log4cplus CXX)
 cmake_minimum_required (VERSION 2.6)
 set (CMAKE_VERBOSE_MAKEFILE on)
 
@@ -6,6 +6,7 @@ set (log4cplus_version_major 1)
 set (log4cplus_version_minor 0)
 set (log4cplus_version_patch 3)
 set (log4cplus_soversion 3)
+set (log4cplus_postfix "")
 
 find_package (Threads)
 message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
@@ -93,6 +94,9 @@ message (STATUS "Sources: ${log4cplus_sources}")
 
 #message (STATUS "Type: ${UNIX}|${CYGWIN}|${WIN32}")
 
+# Uncomment the following line to get locale aware string conversions.
+#add_definitions (-DLOG4CPLUS_WORKING_LOCALE)
+
 if (${UNIX} OR ${CYGWIN})
   set (log4cplus_sources ${log4cplus_sources}
     src/socket-unix.cxx)
@@ -103,22 +107,33 @@ elseif (WIN32)
     src/socket-win32.cxx
     src/win32debugappender.cxx
     src/nteventlogappender.cxx)
+
+  # Comment out the following lines if you want non-Unicode version.
+  add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
+  set (log4cplus_postfix "${log4cplus_postfix}U")
   
   #add_definitions (-DLOG4CPLUS_STATIC)
-  add_definitions (-DLOG4CPLUS_BUILD_DLL)
- 
-  # Comment out the following line if you want non-Unicode version.
-  add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
+  #set (log4cplus_postfix "${log4cplus_postfix}S")
 endif ()
 
 include_directories ("include")
-add_definitions (-DINSIDE_LOG4CPLUS)
 set (log4cplus_all_sources ${log4cplus_sources} ${log4cplus_headers})
 
 #add_library (log4cplus STATIC ${log4cplus_all_sources})
 add_library (log4cplus SHARED ${log4cplus_all_sources})
-
 target_link_libraries (log4cplus ${CMAKE_THREAD_LIBS_INIT})
+
 set_target_properties (log4cplus PROPERTIES
   VERSION "${log4cplus_version_major}.${log4cplus_version_minor}"
-  SOVERSION "${log4cplus_soversion}")
+  SOVERSION "${log4cplus_soversion}"
+  COMPILE_FLAGS "-DINSIDE_LOG4CPLUS")
+if (WIN32)
+  set_target_properties (log4cplus PROPERTIES
+    DEBUG_POSTFIX "${log4cplus_postfix}D"
+    RELEASE_POSTFIX "${log4cplus_postfix}"
+    MINSIZEREL "${log4cplus_postfix}"
+    RELWITHDEBINFO_POSTFIX "${log4cplus_postfix}")
+endif ()
+
+add_executable (loggingserver loggingserver/loggingserver.cxx)
+target_link_libraries (loggingserver log4cplus)

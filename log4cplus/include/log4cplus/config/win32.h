@@ -25,7 +25,7 @@
 #ifdef LOG4CPLUS_STATIC
 #  define LOG4CPLUS_EXPORT
 #else
-#  ifdef LOG4CPLUS_BUILD_DLL
+#  if defined (LOG4CPLUS_BUILD_DLL) || defined (log4cplus_EXPORTS)
 #    define LOG4CPLUS_EXPORT __declspec(dllexport)
 #  else
 #    define LOG4CPLUS_EXPORT __declspec(dllimport)
