@@ -18,38 +18,30 @@
 
 
 // Forward Declarations
-namespace log4cplus {
-    void initializeFactoryRegistry();
-}
+namespace log4cplus
+{
 
 
-namespace log4cplus {
-    void initializeLog4cplus() {
-        static bool initialized = false;
-        if(!initialized) {
-            log4cplus::helpers::LogLog::getLogLog();
-            getNDC();
-            Logger::getRoot();
-            initializeFactoryRegistry();
-            initialized = true;
-        }
+void initializeFactoryRegistry();
+
+
+void initializeLog4cplus()
+{
+    static bool initialized = false;
+    if(!initialized) {
+        log4cplus::helpers::LogLog::getLogLog();
+        getNDC();
+        Logger::getRoot();
+        initializeFactoryRegistry();
+        initialized = true;
     }
 }
 
 
-#if !defined(_WIN32) || !defined(LOG4CPLUS_BUILD_DLL)
-namespace {
-
-    class _static_log4cplus_initializer {
-    public:
-        _static_log4cplus_initializer() {
-            log4cplus::initializeLog4cplus();
-        }
-    } static initializer;
-}
+} // namespace log4cplus
 
 
-#else /* Built as part of a WIN32 DLL */ 
+#if defined (_WIN32) && (defined (LOG4CPLUS_BUILD_DLL) || defined (log4cplus_EXPORTS))
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,  // handle to DLL module
                     DWORD fdwReason,     // reason for calling function
@@ -78,6 +70,16 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,  // handle to DLL module
     return TRUE;  // Successful DLL_PROCESS_ATTACH.
 }
  
+#else
+
+namespace {
+
+    class _static_log4cplus_initializer {
+    public:
+        _static_log4cplus_initializer() {
+            log4cplus::initializeLog4cplus();
+        }
+    } static initializer;
+}
+
 #endif
-
-
