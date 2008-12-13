@@ -92,9 +92,6 @@ namespace log4cplus {
           // Data
             bool debugEnabled;
             bool quietMode;
-            const log4cplus::tstring PREFIX;
-            const log4cplus::tstring WARN_PREFIX;
-            const log4cplus::tstring ERR_PREFIX;
 
           // Ctors
             LogLog();
