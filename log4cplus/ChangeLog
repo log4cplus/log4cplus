@@ -1,3 +1,10 @@
+Version 1.0.3-RC5
+
+  - Add CMakeLists.txt to facilitate compilation of log4cplus on
+    Windows with different compilers than just the MSVC8.
+  - Fix compilation of Unicode enabled build without working locale.
+    (Patch #2429185)
+
 Version 1.0.3-RC4
 
   - IMPORTANT: log4cplus shared library version has been bumped to
