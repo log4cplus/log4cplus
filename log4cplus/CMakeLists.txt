@@ -1,4 +1,4 @@
-project (log4cplus CXX)
+project (log4cplus CXX C)
 cmake_minimum_required (VERSION 2.6)
 set (CMAKE_VERBOSE_MAKEFILE on)
 
