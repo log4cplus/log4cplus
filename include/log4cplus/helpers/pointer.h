@@ -63,9 +63,14 @@ namespace log4cplus {
         protected:
           // Ctor
             SharedObject()
-             : access_mutex(LOG4CPLUS_MUTEX_CREATE), count(0), destroyed(false) {}
+                : access_mutex(LOG4CPLUS_MUTEX_CREATE)
+                , count(0)
+            { }
+
             SharedObject(const SharedObject&)
-             : access_mutex(LOG4CPLUS_MUTEX_CREATE), count(0), destroyed(false) {}
+                : access_mutex(LOG4CPLUS_MUTEX_CREATE)
+                , count(0)
+            { }
 
           // Dtor
             virtual ~SharedObject();
@@ -78,7 +83,6 @@ namespace log4cplus {
 
         private:
             mutable int count;
-            mutable bool destroyed;
         };
 
 
