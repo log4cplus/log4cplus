@@ -65,7 +65,7 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
 
 #define LOG4CPLUS_MACRO_BODY(logger, logEvent, logLevel)                \
     do {                                                                \
-        if(logger.isEnabledFor(log4cplus::logLevel##_LOG_LEVEL)) {    \
+        if(logger.isEnabledFor(log4cplus::logLevel##_LOG_LEVEL)) {      \
             log4cplus::tostringstream _log4cplus_buf;                   \
             _log4cplus_buf << logEvent;                                 \
             logger.forcedLog(log4cplus::logLevel##_LOG_LEVEL,           \
