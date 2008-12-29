@@ -25,6 +25,8 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <algorithm>
+#include <cassert>
 
 
 namespace log4cplus {
@@ -97,13 +99,13 @@ namespace log4cplus {
             SharedObjectPtr(T* realPtr = 0)
                 : pointee(realPtr)
             {
-                init();
+                addref ();
             }
 
             SharedObjectPtr(const SharedObjectPtr& rhs)
                 : pointee(rhs.pointee)
             {
-                init();
+                addref ();
             }
 
             // Dtor
@@ -128,27 +130,31 @@ namespace log4cplus {
 
             SharedObjectPtr& operator=(T* rhs)
             {
-                if (pointee != rhs) {
-                    T* oldPointee = pointee;
-                    pointee = rhs;
-                    init();
-                    if(oldPointee != 0)
-                        static_cast<SharedObject *>(oldPointee)->removeReference();
-                }
+                SharedObjectPtr (rhs).swap (*this);
                 return *this;
             }
 
           // Methods
             T* get() const { return pointee; }
 
+            void swap (SharedObjectPtr & other) throw ()
+            {
+                std::swap (pointee, other.pointee);
+            }
+
         private:
           // Methods
-            void init() {
-                if(pointee == 0) return;
-                static_cast<SharedObject *>(pointee)->addReference();
+            void addref()
+            {
+                if (pointee)
+                    static_cast<SharedObject *>(pointee)->addReference();
             }
-            void validate() const {
-                if(pointee == 0) throw std::runtime_error("NullPointer");
+
+            void validate() const
+            {
+                assert (pointee);
+                if (! pointee)
+                    throw std::runtime_error("NullPointer");
             }
 
           // Data
