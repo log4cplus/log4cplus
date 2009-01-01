@@ -17,6 +17,8 @@
 #define LOG4CPLUS_CONFIG_WIN32_HEADER_
 
 #ifdef _WIN32
+#undef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 /* Define if you have the ftime function.  */
