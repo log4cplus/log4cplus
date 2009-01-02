@@ -239,7 +239,7 @@ PropertyConfigurator::configure()
     configureLoggers();
     configureAdditivity();
 
-    // Erase the appenders to that we are not artificially keeping the "alive".
+    // Erase the appenders so that we are not artificially keeping them "alive".
     appenders.clear ();
 }
 
@@ -303,8 +303,8 @@ PropertyConfigurator::configureLoggers()
                         properties.getProperty(LOG4CPLUS_TEXT("rootLogger")));
     }
 
-    Properties loggerProperties =
-            properties.getPropertySubset(LOG4CPLUS_TEXT("logger."));
+    Properties loggerProperties
+        = properties.getPropertySubset(LOG4CPLUS_TEXT("logger."));
     vector<tstring> loggers = loggerProperties.propertyNames();
     for(vector<tstring>::iterator it=loggers.begin(); it!=loggers.end(); ++it)
     {
@@ -344,6 +344,9 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
     tstring loglevel = tokens[0];
     if (loglevel != LOG4CPLUS_TEXT("INHERITED"))
         logger.setLogLevel( getLogLevelManager().fromString(loglevel) );
+
+    // Remove all existing appenders first so that we do not duplicate output.
+    logger.removeAllAppenders ();
 
     // Set the Appenders
     for(vector<tstring>::size_type j=1; j<tokens.size(); ++j)
