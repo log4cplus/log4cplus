@@ -34,6 +34,7 @@ set(log4cplus_headers
   include/log4cplus/helpers/timehelper.h
   include/log4cplus/hierarchy.h
   include/log4cplus/hierarchylocker.h
+  include/log4cplus/internal/internal.h
   include/log4cplus/layout.h
   include/log4cplus/logger.h
   include/log4cplus/loggingmacros.h

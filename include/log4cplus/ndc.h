@@ -131,7 +131,7 @@ namespace log4cplus {
          *                                        
          * @return Stack A clone of the current thread's  diagnostic context.
          */
-        DiagnosticContextStack cloneStack();
+        DiagnosticContextStack cloneStack() const;
 
         /**
          * Inherit the diagnostic context of another thread.
@@ -152,14 +152,14 @@ namespace log4cplus {
         /**
          * Used when printing the diagnostic context.
          */
-        log4cplus::tstring get();
+        log4cplus::tstring const & get() const;
 
         /**
          * Get the current nesting depth of this diagnostic context.
          *
          * @see #setMaxDepth
          */
-        size_t getDepth();
+        size_t getDepth() const;
 
         /**
          * Clients should call this method before leaving a diagnostic
@@ -183,7 +183,7 @@ namespace log4cplus {
          *                          
          * @return String The innermost diagnostic context.
          */
-        log4cplus::tstring peek();
+        log4cplus::tstring const & peek() const;
 
         /**
          * Push new diagnostic context information for the current thread.
@@ -243,7 +243,7 @@ namespace log4cplus {
 
     private:
       // Methods
-        DiagnosticContextStack* getPtr();
+        DiagnosticContextStack* getPtr() const;
 
       // Data
         LOG4CPLUS_THREAD_LOCAL_TYPE threadLocal;

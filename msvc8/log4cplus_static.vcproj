@@ -1702,6 +1702,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\internal\internal.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\log4cplus\layout.h"
 				>
 			</File>

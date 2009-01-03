@@ -14,6 +14,7 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/loggingmacros.h>
+#include <log4cplus/internal/internal.h>
 
 #include <iterator>
 #include <algorithm>
@@ -29,10 +30,18 @@
 
 using namespace log4cplus;
 
-#if defined (LOG4CPLUS_SINGLE_THREADED)
-
 namespace log4cplus
 {
+
+namespace internal
+{
+
+log4cplus::tstring const empty_str;
+
+} // namespace internal
+
+
+#if defined (LOG4CPLUS_SINGLE_THREADED)
 
 tostringstream _macros_oss;
 
@@ -59,9 +68,9 @@ void _clear_tostringstream (tostringstream & os)
 #endif // defined (LOG4CPLUS_WORKING_LOCALE)
 }
 
-} // namespace log4cplus
-
 #endif
+
+} // namespace log4cplus
 
 
 //////////////////////////////////////////////////////////////////////////////

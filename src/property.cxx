@@ -12,8 +12,9 @@
 //
 
 #include <cstring>
-#include <log4cplus/helpers/property.h>
 #include <log4cplus/fstreams.h>
+#include <log4cplus/helpers/property.h>
+#include <log4cplus/internal/internal.h>
 
 
 namespace log4cplus { namespace helpers {
@@ -87,12 +88,12 @@ Properties::~Properties()
 // Properties public methods
 ///////////////////////////////////////////////////////////////////////////////
 
-tstring
+tstring const &
 Properties::getProperty(const tstring& key) const 
 {
     StringMap::const_iterator it (data.find(key));
     if (it == data.end())
-        return LOG4CPLUS_TEXT("");
+        return log4cplus::internal::empty_str;
     else
         return it->second;
 }
