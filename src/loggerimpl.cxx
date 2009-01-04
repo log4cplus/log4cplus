@@ -146,6 +146,3 @@ LoggerImpl::forcedLog(LogLevel ll,
 {
     callAppenders(spi::InternalLoggingEvent(this->getName(), ll, message, file, line));
 }
-
-
-
