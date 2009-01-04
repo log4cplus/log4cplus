@@ -74,219 +74,78 @@ namespace spi {
 
 namespace {
 
-    class ConsoleAppenderFactory : public AppenderFactory {
-    public:
-        SharedAppenderPtr createObject(const Properties& props)
-        {
-            return SharedAppenderPtr(new log4cplus::ConsoleAppender(props));
-        }
+#define APPENDER_FACTORY_DEF(factoryname, appendername)                     \
+    class factoryname : public AppenderFactory {                            \
+        SharedAppenderPtr createObject(const Properties& props)             \
+        {                                                                   \
+            return SharedAppenderPtr(new log4cplus::appendername(props));   \
+        }                                                                   \
+        tstring const & getTypeName() const {                               \
+            static tstring const factory_name("log4cplus::" #appendername); \
+            return factory_name;                                            \
+        }                                                                   \
+    }
+    
 
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::ConsoleAppender"); 
-        }
-    };
-
-
-
-    class NullAppenderFactory : public AppenderFactory {
-    public:
-        SharedAppenderPtr createObject(const Properties& props)
-        {
-            return SharedAppenderPtr(new log4cplus::NullAppender(props));
-        }
-
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::NullAppender"); 
-        }
-    };
-
-
-
-    class FileAppenderFactory : public AppenderFactory {
-    public:
-        SharedAppenderPtr createObject(const Properties& props)
-        {
-            return SharedAppenderPtr(new log4cplus::FileAppender(props));
-        }
-
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::FileAppender"); 
-        }
-    };
-
-
-
-    class RollingFileAppenderFactory : public AppenderFactory {
-    public:
-        SharedAppenderPtr createObject(const Properties& props)
-        {
-            return SharedAppenderPtr(new log4cplus::RollingFileAppender(props));
-        }
-
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::RollingFileAppender"); 
-        }
-    };
-
-
-    class DailyRollingFileAppenderFactory : public AppenderFactory {
-    public:
-        SharedAppenderPtr createObject(const Properties& props)
-        {
-            return SharedAppenderPtr(new log4cplus::DailyRollingFileAppender(props));
-        }
-
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::DailyRollingFileAppender"); 
-        }
-    };
-
-
-    class SocketAppenderFactory : public AppenderFactory {
-    public:
-        SharedAppenderPtr createObject(const Properties& props)
-        {
-            return SharedAppenderPtr(new log4cplus::SocketAppender(props));
-        }
-
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::SocketAppender"); 
-        }
-    };
-
-
+    APPENDER_FACTORY_DEF (ConsoleAppenderFactory, ConsoleAppender);
+    APPENDER_FACTORY_DEF (NullAppenderFactory, NullAppender);
+    APPENDER_FACTORY_DEF (FileAppenderFactory, FileAppender);
+    APPENDER_FACTORY_DEF (RollingFileAppenderFactory, RollingFileAppender);
+    APPENDER_FACTORY_DEF (DailyRollingFileAppenderFactory, DailyRollingFileAppender);
+    APPENDER_FACTORY_DEF (SocketAppenderFactory, SocketAppender);
 #if defined(_WIN32)
-    class NTEventLogAppenderFactory : public AppenderFactory {
-    public:
-        SharedAppenderPtr createObject(const Properties& props)
-        {
-            return SharedAppenderPtr(new log4cplus::NTEventLogAppender(props));
-        }
-
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::NTEventLogAppender"); 
-        }
-    };
-
-    class Win32DebugAppenderFactory : public AppenderFactory {
-    public:
-        SharedAppenderPtr createObject(const Properties& props)
-        {
-            return SharedAppenderPtr(new log4cplus::Win32DebugAppender(props));
-        }
-
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::Win32DebugAppender"); 
-        }
-    };
-
+    APPENDER_FACTORY_DEF (NTEventLogAppenderFactory, NTEventLogAppender);
+    APPENDER_FACTORY_DEF (Win32DebugAppenderFactory, Win32DebugAppender);
 #elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
-    class SysLogAppenderFactory : public AppenderFactory {
-    public:
-        SharedAppenderPtr createObject(const Properties& props)
-        {
-            return SharedAppenderPtr(new log4cplus::SysLogAppender(props));
-        }
-
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::SysLogAppender"); 
-        }
-    };
+    APPENDER_FACTORY_DEF (SysLogAppenderFactory, SysLogAppender);
 #endif
 
-    class SimpleLayoutFactory : public LayoutFactory {
-    public:
-        std::auto_ptr<Layout> createObject(const Properties& props)
-        {
-             std::auto_ptr<Layout> tmp(new log4cplus::SimpleLayout(props));
-             return tmp;
-        }
-
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::SimpleLayout"); 
-        }
-    };
+#undef APPENDER_FACTORY_DEF
 
 
-    class TTCCLayoutFactory : public LayoutFactory {
-    public:
-        std::auto_ptr<Layout> createObject(const Properties& props)
-        {
-            std::auto_ptr<Layout> tmp(new log4cplus::TTCCLayout(props));
-            return tmp;
-        }
+#define LAYOUT_FACTORY_DEF(factoryname, layoutname)                         \
+    class factoryname : public LayoutFactory {                              \
+        std::auto_ptr<Layout> createObject(const Properties& props) {       \
+             std::auto_ptr<Layout> tmp(new log4cplus::layoutname(props));   \
+             return tmp;                                                    \
+        }                                                                   \
+        tstring const & getTypeName() const {                               \
+            static tstring const factory_name("log4cplus::" #layoutname);   \
+            return factory_name;                                            \
+        }                                                                   \
+        static tstring const factory_name;                                  \
+    }
+    
 
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::TTCCLayout"); 
-        }
-    };
+    LAYOUT_FACTORY_DEF (SimpleLayoutFactory, SimpleLayout);
+    LAYOUT_FACTORY_DEF (TTCCLayoutFactory, TTCCLayout);
+    LAYOUT_FACTORY_DEF (PatternLayoutFactory, PatternLayout);
 
-
-    class PatternLayoutFactory : public LayoutFactory {
-    public:
-        std::auto_ptr<Layout> createObject(const Properties& props)
-        {
-            std::auto_ptr<Layout> tmp(new log4cplus::PatternLayout(props));
-            return tmp;
-        }
-
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::PatternLayout"); 
-        }
-    };
+#undef LAYOUT_FACTORY_DEF
 
 
+#define LOG4CPLUS_STRINGIFY2(arg) #arg
+#define LOG4CPLUS_STRINGIFY(arg) LOG4CPLUS_STRINGIFY2(arg)
 
-    class DenyAllFilterFactory : public FilterFactory {
-    public:
-        FilterPtr createObject(const Properties&)
-        {
-            return FilterPtr(new log4cplus::spi::DenyAllFilter());
-        }
+#define FILTER_FACTORY_DEF(factoryname, filtername)                         \
+    class factoryname : public FilterFactory {                              \
+        FilterPtr createObject(const Properties&) {                         \
+            return FilterPtr(new log4cplus::spi::filtername);               \
+        }                                                                   \
+        tstring const & getTypeName() const {                               \
+            static tstring const factory_name("log4cplus::spi::" #filtername); \
+            return factory_name;                                            \
+        }                                                                   \
+    }
+    
 
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::spi::DenyAllFilter"); 
-        }
-    };
+    FILTER_FACTORY_DEF (DenyAllFilterFactory, DenyAllFilter);
+    FILTER_FACTORY_DEF (LogLevelMatchFilterFactory, LogLevelMatchFilter);
+    FILTER_FACTORY_DEF (LogLevelRangeFilterFactory, LogLevelRangeFilter);
+    FILTER_FACTORY_DEF (StringMatchFilterFactory, StringMatchFilter);
 
+#undef FILTER_FACTORY_DEF
 
-    class LogLevelMatchFilterFactory : public FilterFactory {
-    public:
-        FilterPtr createObject(const Properties& props)
-        {
-            return FilterPtr(new log4cplus::spi::LogLevelMatchFilter(props));
-        }
-
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::spi::LogLevelMatchFilter"); 
-        }
-    };
-
-
-    class LogLevelRangeFilterFactory : public FilterFactory {
-    public:
-        FilterPtr createObject(const Properties& props)
-        {
-            return FilterPtr(new log4cplus::spi::LogLevelRangeFilter(props));
-        }
-
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::spi::LogLevelRangeFilter"); 
-        }
-    };
-
-
-    class StringMatchFilterFactory : public FilterFactory {
-    public:
-        FilterPtr createObject(const Properties& props)
-        {
-            return FilterPtr(new log4cplus::spi::StringMatchFilter(props));
-        }
-
-        tstring getTypeName() { 
-            return LOG4CPLUS_TEXT("log4cplus::spi::StringMatchFilter"); 
-        }
-    };
 
 } // namespace
 

@@ -283,8 +283,8 @@ Hierarchy::initializeLoggerList(LoggerList& list) const
 void 
 Hierarchy::updateParents(Logger logger)
 {
-    log4cplus::tstring name = logger.getName();
-    size_t length = name.length();
+    log4cplus::tstring const & name = logger.getName();
+    size_t const length = name.length();
     bool parentFound = false;
 
     // if name = "w.x.y.z", loop thourgh "w.x.y", "w.x" and "w", but not "w.x.y.z"

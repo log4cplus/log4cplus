@@ -144,7 +144,8 @@ namespace log4cplus {
          * @param msg The message to print if <code>assertion</code> is
          * false.
          */
-        void assertion(bool assertionVal, const log4cplus::tstring& msg) {
+        void assertion(bool assertionVal, const log4cplus::tstring& msg)
+        {
             if(!assertionVal) {
                 log(FATAL_LOG_LEVEL, msg);
             }
@@ -154,7 +155,10 @@ namespace log4cplus {
          * Close all attached appenders implementing the AppenderAttachable
          * interface.  
          */
-        void closeNestedAppenders();
+        void closeNestedAppenders()
+        {
+            value->closeNestedAppenders();
+        }
 
         /**
          * Check whether this logger is enabled for a given {@link
@@ -162,20 +166,29 @@ namespace log4cplus {
          *
          * @return boolean True if this logger is enabled for <code>ll</code>.
          */
-        bool isEnabledFor(LogLevel ll) const;
+        bool isEnabledFor(LogLevel ll) const
+        {
+            return value->isEnabledFor(ll);
+        }
 
         /**
          * This generic form is intended to be used by wrappers. 
          */
         void log(LogLevel ll, const log4cplus::tstring& message,
-                 const char* file=NULL, int line=-1);
+                 const char* file=NULL, int line=-1)
+        {
+            value->log(ll, message, file, line);
+        }
 
         /**
          * This method creates a new logging event and logs the event
          * without further checks.  
          */
         void forcedLog(LogLevel ll, const log4cplus::tstring& message,
-                       const char* file=NULL, int line=-1);
+                       const char* file=NULL, int line=-1)
+        {
+            value->forcedLog(ll, message, file, line);
+        }
 
         /**
          * Call the appenders in the hierrachy starting at
@@ -188,7 +201,10 @@ namespace log4cplus {
          *
          * @param spi::InternalLoggingEvent the event to log.
          */
-        void callAppenders(const spi::InternalLoggingEvent& event);
+        void callAppenders(const spi::InternalLoggingEvent& event)
+        {
+            value->callAppenders(event);
+        }
 
         /**
          * Starting from this logger, search the logger hierarchy for a
@@ -198,40 +214,64 @@ namespace log4cplus {
          * The Logger class is designed so that this method executes as
          * quickly as possible.
          */
-        LogLevel getChainedLogLevel() const;
+        LogLevel getChainedLogLevel() const
+        {
+            return value->getChainedLogLevel();
+        }
 
         /**
          * Returns the assigned {@link LogLevel}, if any, for this Logger.  
          *           
          * @return LogLevel - the assigned LogLevel, can be <code>NOT_SET_LOG_LEVEL</code>.
          */
-        LogLevel getLogLevel() const;
+        LogLevel getLogLevel() const
+        {
+            return value->getLogLevel();
+        }
 
         /**
          * Set the LogLevel of this Logger.
          */
-        void setLogLevel(LogLevel);
+        void setLogLevel(LogLevel ll)
+        {
+            value->setLogLevel(ll);
+        }
+
 
         /**
          * Return the the {@link Hierarchy} where this <code>Logger</code> instance is
          * attached.
          */
-        Hierarchy& getHierarchy() const;
+        Hierarchy& getHierarchy() const
+        { 
+            return value->getHierarchy();
+        }
+
 
         /**
          * Return the logger name.  
          */
-        log4cplus::tstring getName() const;
+        log4cplus::tstring const & getName() const
+        {
+            return value->getName();
+        }
+
 
         /**
          * Get the additivity flag for this Logger instance.  
          */
-        bool getAdditivity() const;
+        bool getAdditivity() const
+        {
+            return value->getAdditivity();
+        }
 
         /**
          * Set the additivity flag for this Logger instance.
          */
-        void setAdditivity(bool additive);
+        void setAdditivity(bool additive)
+        { 
+            value->setAdditivity(additive);
+        }
 
 
       // AppenderAttachable Methods
@@ -258,12 +298,12 @@ namespace log4cplus {
          * Used to retrieve the parent of this Logger in the
          * Logger tree.
          */
-        Logger getParent();
+        Logger getParent() const;
 
     protected:
       // Data
         /** This is a pointer to the implementation class. */
-        spi::LoggerImpl *value;
+        spi::SharedLoggerImplPtr value;
 
     private:
       // Ctors
@@ -278,10 +318,6 @@ namespace log4cplus {
          */
         Logger(spi::LoggerImpl *ptr);
         Logger(const spi::SharedLoggerImplPtr& val);
-
-      // Methods
-        void init();
-        void validate(const char *file, int line) const;
 
       // Friends
         friend class log4cplus::spi::LoggerImpl;

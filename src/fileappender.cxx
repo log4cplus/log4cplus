@@ -86,17 +86,17 @@ log4cplus::FileAppender::FileAppender(const Properties& properties,
   immediateFlush(true)
 {
     bool append = (mode == ios::app);
-    tstring filename = properties.getProperty( LOG4CPLUS_TEXT("File") );
+    tstring const & filename = properties.getProperty( LOG4CPLUS_TEXT("File") );
     if(filename.length() == 0) {
         getErrorHandler()->error( LOG4CPLUS_TEXT("Invalid filename") );
         return;
     }
     if(properties.exists( LOG4CPLUS_TEXT("ImmediateFlush") )) {
-        tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("ImmediateFlush") );
+        tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("ImmediateFlush") );
         immediateFlush = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
     }
     if(properties.exists( LOG4CPLUS_TEXT("Append") )) {
-        tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("Append") );
+        tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("Append") );
         append = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
     }
 
@@ -201,7 +201,7 @@ log4cplus::RollingFileAppender::RollingFileAppender(const Properties& properties
     }
 
     if(properties.exists( LOG4CPLUS_TEXT("MaxBackupIndex") )) {
-        tstring tmp = properties.getProperty(LOG4CPLUS_TEXT("MaxBackupIndex"));
+        tstring const & tmp = properties.getProperty(LOG4CPLUS_TEXT("MaxBackupIndex"));
         maxBackupIndex = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
     }
 
@@ -213,8 +213,8 @@ log4cplus::RollingFileAppender::RollingFileAppender(const Properties& properties
 void
 log4cplus::RollingFileAppender::init(long maxFileSize, int maxBackupIndex)
 {
-    this->maxFileSize = max(maxFileSize, MINIMUM_ROLLING_LOG_SIZE);
-    this->maxBackupIndex = max(maxBackupIndex, 1);
+    this->maxFileSize = (max)(maxFileSize, MINIMUM_ROLLING_LOG_SIZE);
+    this->maxBackupIndex = (max)(maxBackupIndex, 1);
 }
 
 
@@ -343,7 +343,7 @@ DailyRollingFileAppender::DailyRollingFileAppender(const Properties& properties)
     }
     
     if(properties.exists( LOG4CPLUS_TEXT("MaxBackupIndex") )) {
-        tstring tmp = properties.getProperty(LOG4CPLUS_TEXT("MaxBackupIndex"));
+        tstring const & tmp = properties.getProperty(LOG4CPLUS_TEXT("MaxBackupIndex"));
         maxBackupIndex = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
     }
 

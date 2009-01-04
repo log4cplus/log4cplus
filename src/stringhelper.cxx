@@ -49,14 +49,13 @@ namespace
 {
 
 static tostringstream const _macros_oss_defaults;
-static tstring const _empty_str;
 
 } // namespace
 
 void _clear_tostringstream (tostringstream & os)
 {
     os.clear ();
-    os.str (_empty_str);
+    os.str (internal::empty_str);
     os.setf (_macros_oss_defaults.flags ());
     os.fill (_macros_oss_defaults.fill ());
     os.precision (_macros_oss_defaults.precision ());

@@ -46,7 +46,7 @@ log4cplus::SocketAppender::SocketAppender(const Properties properties)
 {
     host = properties.getProperty( LOG4CPLUS_TEXT("host") );
     if(properties.exists( LOG4CPLUS_TEXT("port") )) {
-        tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("port") );
+        tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("port") );
         port = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
     }
     serverName = properties.getProperty( LOG4CPLUS_TEXT("ServerName") );

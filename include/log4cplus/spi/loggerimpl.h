@@ -111,7 +111,7 @@ namespace log4cplus {
             /**
              * Return the logger name.  
              */
-            log4cplus::tstring getName() const { return name; }
+            log4cplus::tstring const & getName() const { return name; }
 
             /**
              * Get the additivity flag for this Logger instance.
@@ -162,7 +162,7 @@ namespace log4cplus {
             /**
              * The parent of this logger. All loggers have at least one
              * ancestor which is the root logger. 
-             */ 
+             */
             SharedLoggerImplPtr parent;
 
             /** 
