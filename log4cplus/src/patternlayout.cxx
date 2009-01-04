@@ -405,7 +405,7 @@ log4cplus::tstring
 log4cplus::pattern::PatternParser::extractOption() 
 {
     if (   (pos < pattern.length()) 
-        && (pattern.at(pos) == LOG4CPLUS_TEXT('{'))) 
+        && (pattern[pos] == LOG4CPLUS_TEXT('{'))) 
     {
         tstring::size_type end = pattern.find_first_of(LOG4CPLUS_TEXT('}'), pos);
         if (end > pos) {
@@ -438,7 +438,7 @@ log4cplus::pattern::PatternParser::parse()
     tchar c;
     pos = 0;
     while(pos < pattern.length()) {
-        c = pattern.at(pos++);
+        c = pattern[pos++];
         switch (state) {
         case LITERAL_STATE :
             // In literal state, the last char is always a literal.
@@ -448,7 +448,7 @@ log4cplus::pattern::PatternParser::parse()
             }
             if(c == ESCAPE_CHAR) {
                 // peek at the next char. 
-                switch (pattern.at(pos)) {
+                switch (pattern[pos]) {
                 case ESCAPE_CHAR:
                     currentLiteral += c;
                     pos++; // move pointer
