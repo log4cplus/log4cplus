@@ -13,7 +13,7 @@ log4cplus::tostream& operator <<(log4cplus::tostream& s, const Time& t)
     return s << t.sec() << "sec " << t.usec() << "usec";
 }
 
-#define LOOP_COUNT 10000
+#define LOOP_COUNT 100000
 
 int
 main()
