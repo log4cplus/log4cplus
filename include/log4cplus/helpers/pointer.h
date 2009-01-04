@@ -120,8 +120,8 @@ namespace log4cplus {
             bool operator!=(const SharedObjectPtr& rhs) const { return (pointee != rhs.pointee); }
             bool operator==(const T* rhs) const { return (pointee == rhs); }
             bool operator!=(const T* rhs) const { return (pointee != rhs); }
-            T* operator->() const {validate(); return pointee; }
-            T& operator*() const {validate(); return *pointee; }
+            T* operator->() const {assert (pointee); return pointee; }
+            T& operator*() const {assert (pointee); return *pointee; }
 
             SharedObjectPtr& operator=(const SharedObjectPtr& rhs)
             {
@@ -142,19 +142,18 @@ namespace log4cplus {
                 std::swap (pointee, other.pointee);
             }
 
+            typedef T * (SharedObjectPtr:: * unspec_bool_type) () const;
+            operator unspec_bool_type () const
+            {
+                return pointee ? &SharedObjectPtr::get : 0;
+            }
+
         private:
           // Methods
             void addref()
             {
                 if (pointee)
                     static_cast<SharedObject *>(pointee)->addReference();
-            }
-
-            void validate() const
-            {
-                assert (pointee);
-                if (! pointee)
-                    throw std::runtime_error("NullPointer");
             }
 
           // Data
