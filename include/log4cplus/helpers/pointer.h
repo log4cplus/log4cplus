@@ -49,8 +49,6 @@ namespace log4cplus {
             { }
         };
 
-        void throwNullPointerException(const char* file, int line);
-
 
         /******************************************************************************
          *                       Class SharedObject (from pp. 204-205)                *
