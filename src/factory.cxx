@@ -81,7 +81,9 @@ namespace {
             return SharedAppenderPtr(new log4cplus::appendername(props));   \
         }                                                                   \
         tstring const & getTypeName() const {                               \
-            static tstring const factory_name("log4cplus::" #appendername); \
+            static tstring const factory_name(                              \
+                LOG4CPLUS_TEXT("log4cplus::")                               \
+                LOG4CPLUS_TEXT(#appendername));                             \
             return factory_name;                                            \
         }                                                                   \
     }
@@ -110,7 +112,9 @@ namespace {
              return tmp;                                                    \
         }                                                                   \
         tstring const & getTypeName() const {                               \
-            static tstring const factory_name("log4cplus::" #layoutname);   \
+            static tstring const factory_name(                              \
+                LOG4CPLUS_TEXT("log4cplus::")                               \
+                LOG4CPLUS_TEXT(#layoutname));                               \
             return factory_name;                                            \
         }                                                                   \
         static tstring const factory_name;                                  \
@@ -133,7 +137,9 @@ namespace {
             return FilterPtr(new log4cplus::spi::filtername);               \
         }                                                                   \
         tstring const & getTypeName() const {                               \
-            static tstring const factory_name("log4cplus::spi::" #filtername); \
+            static tstring const factory_name(                              \
+                LOG4CPLUS_TEXT("log4cplus::spi::")                          \
+                LOG4CPLUS_TEXT(#filtername));                               \
             return factory_name;                                            \
         }                                                                   \
     }
