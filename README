@@ -21,12 +21,21 @@ This library has now reached "Production" status.
 
 Tested on the following platforms
 =================================
-Linux          gcc 3.2.2
-Windows 2000   MS Visual C++ 6.0
+Linux/AMD64     GCC 4.1.2
+FreeBSD/i386    GCC 3.4.6 and 4.3.3
+Windows XP      MS Visual C++ 8.0
+
+
+Notes
+=====
+Some version of GCC (3.4.x and probably some of 4.x series too) on Windows
+(both Mingw and Cygwin) produces lots of warnings of the form "warning: inline
+function 'void foo()' is declared as dllimport: attribute ignored." This can
+be worked around by adding -Wno-attributes option to GCC command.
+Unfortunatelly, not all affected version of GCC have this option.
 
 
 License
 =======
 This library is licensed under the Apache Public License.  Please read the
 included license.apl for details.
-
