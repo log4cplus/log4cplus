@@ -235,6 +235,7 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/fstreams.h \
 			 ../include/log4cplus/hierarchy.h \
 			 ../include/log4cplus/hierarchylocker.h \
+			 ../include/log4cplus/internal/internal.h \
 			 ../include/log4cplus/layout.h \
 			 ../include/log4cplus/logger.h \
 			 ../include/log4cplus/loggingmacros.h \
@@ -244,6 +245,7 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/socketappender.h \
 			 ../include/log4cplus/streams.h \
 			 ../include/log4cplus/syslogappender.h \
+			 ../include/log4cplus/tracelogger.h \
 			 ../include/log4cplus/tstring.h \
 			 ../include/log4cplus/helpers/appenderattachableimpl.h \
 			 ../include/log4cplus/helpers/loglog.h \
