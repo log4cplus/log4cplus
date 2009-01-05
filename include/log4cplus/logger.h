@@ -19,7 +19,6 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/loglevel.h>
-#include <log4cplus/loggingmacros.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/pointer.h>
@@ -144,7 +143,7 @@ namespace log4cplus {
          * @param msg The message to print if <code>assertion</code> is
          * false.
          */
-        void assertion(bool assertionVal, const log4cplus::tstring& msg)
+        void assertion(bool assertionVal, const log4cplus::tstring& msg) const
         {
             if(!assertionVal) {
                 log(FATAL_LOG_LEVEL, msg);
@@ -155,7 +154,7 @@ namespace log4cplus {
          * Close all attached appenders implementing the AppenderAttachable
          * interface.  
          */
-        void closeNestedAppenders()
+        void closeNestedAppenders() const
         {
             value->closeNestedAppenders();
         }
@@ -175,7 +174,7 @@ namespace log4cplus {
          * This generic form is intended to be used by wrappers. 
          */
         void log(LogLevel ll, const log4cplus::tstring& message,
-                 const char* file=NULL, int line=-1)
+                 const char* file=NULL, int line=-1) const
         {
             value->log(ll, message, file, line);
         }
@@ -185,7 +184,7 @@ namespace log4cplus {
          * without further checks.  
          */
         void forcedLog(LogLevel ll, const log4cplus::tstring& message,
-                       const char* file=NULL, int line=-1)
+                       const char* file=NULL, int line=-1) const
         {
             value->forcedLog(ll, message, file, line);
         }
@@ -201,7 +200,7 @@ namespace log4cplus {
          *
          * @param spi::InternalLoggingEvent the event to log.
          */
-        void callAppenders(const spi::InternalLoggingEvent& event)
+        void callAppenders(const spi::InternalLoggingEvent& event) const
         {
             value->callAppenders(event);
         }
@@ -336,39 +335,6 @@ namespace log4cplus {
         Logger makeNewLoggerInstance(const log4cplus::tstring& name, Hierarchy& h);
     };
 
-
-
-    /**
-     * This class is used to produce "Trace" logging.  When an instance of
-     * this class is created, it will log a <code>"ENTER: " + msg</code>
-     * log message if TRACE_LOG_LEVEL is enabled for <code>logger</code>.
-     * When an instance of this class is destroyed, it will log a
-     * <code>"ENTER: " + msg</code> log message if TRACE_LOG_LEVEL is enabled
-     * for <code>logger</code>.
-     * <p>
-     * @see LOG4CPLUS_TRACE
-     */
-    class TraceLogger
-    {
-    public:
-        TraceLogger(const Logger& l, const log4cplus::tstring& _msg,
-                    const char* _file=NULL, int _line=-1) 
-          : logger(l), msg(_msg), file(_file), line(_line)
-        { if(logger.isEnabledFor(TRACE_LOG_LEVEL))
-              logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg, file, line); 
-        }
-
-        ~TraceLogger()
-        { if(logger.isEnabledFor(TRACE_LOG_LEVEL))
-              logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("EXIT:  ") + msg, file, line); 
-        }
-
-    private:
-        Logger logger;
-        log4cplus::tstring msg;
-        const char* file;
-        int line;
-    };
 
 } // end namespace log4cplus
 

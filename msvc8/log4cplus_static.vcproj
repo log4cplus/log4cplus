@@ -1806,6 +1806,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\tracelogger.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\log4cplus\tstring.h"
 				>
 			</File>
