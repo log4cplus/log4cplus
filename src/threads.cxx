@@ -42,7 +42,11 @@ log4cplus::thread::createNewMutex()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
     pthread_mutex_t* m = new pthread_mutex_t();
-    pthread_mutex_init(m, NULL);
+    pthread_mutexattr_t mattr;
+    pthread_mutexattr_init(&mattr);
+    pthread_mutexattr_settype(&mattr, PTHREAD_MUTEX_RECURSIVE);
+    pthread_mutex_init(m, &mattr);
+    pthread_mutexattr_destroy(&mattr);
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     CRITICAL_SECTION* m = new CRITICAL_SECTION();
     InitializeCriticalSection(m);
