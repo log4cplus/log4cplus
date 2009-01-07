@@ -78,7 +78,7 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
         if (l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {         \
             _clear_tostringstream (_macros_oss);                        \
             _macros_oss << logEvent;                                    \
-           l.forcedLog (                                                \
+            l.forcedLog (                                               \
                 log4cplus::logLevel##_LOG_LEVEL,                        \
                 _macros_oss.str(), __FILE__, __LINE__);                 \
         }                                                               \
