@@ -49,6 +49,7 @@ namespace log4cplus {
         };
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
+        LOG4CPLUS_EXPORT void blockAllSignals();
 #ifdef LOG4CPLUS_USE_PTHREADS
         void* threadStartFunc(void*);
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)

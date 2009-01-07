@@ -26,6 +26,7 @@
 
 #if defined(LOG4CPLUS_USE_PTHREADS)
 #    include <sched.h>
+#    include <signal.h>
 #endif
 
 using namespace std;
@@ -42,11 +43,7 @@ log4cplus::thread::createNewMutex()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
     pthread_mutex_t* m = new pthread_mutex_t();
-    pthread_mutexattr_t mattr;
-    pthread_mutexattr_init(&mattr);
-    pthread_mutexattr_settype(&mattr, PTHREAD_MUTEX_RECURSIVE);
-    pthread_mutex_init(m, &mattr);
-    pthread_mutexattr_destroy(&mattr);
+    pthread_mutex_init(m, NULL);
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     CRITICAL_SECTION* m = new CRITICAL_SECTION();
     InitializeCriticalSection(m);
@@ -78,6 +75,19 @@ log4cplus::thread::createPthreadKey()
 }
 #endif
 
+
+#ifndef LOG4CPLUS_SINGLE_THREADED
+void
+log4cplus::thread::blockAllSignals()
+{
+#if defined (LOG4CPLUS_USE_PTHREADS)
+    // Block all signals.
+    sigset_t signal_set;
+    sigfillset (&signal_set);
+    pthread_sigmask (SIG_BLOCK, &signal_set, 0);
+#endif    
+}
+#endif // LOG4CPLUS_SINGLE_THREADED
 
 
 void
@@ -114,6 +124,7 @@ log4cplus::thread::getCurrentThreadName()
     log4cplus::thread::threadStartFunc(LPVOID arg)
 #endif
 {
+    blockAllSignals ();
     SharedObjectPtr<LogLog> loglog = LogLog::getLogLog();
     if(arg == NULL) {
         loglog->error(LOG4CPLUS_TEXT("log4cplus::thread::threadStartFunc()- arg is NULL"));
