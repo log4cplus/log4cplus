@@ -32,7 +32,7 @@
 namespace log4cplus {
     namespace helpers {
 
-#if (_MSC_VER >= 1300)
+#if defined (_MSC_VER) && _MSC_VER >= 1300
         // Added to remove the following warning from MSVC++ 7:
         // warning C4275: non dll-interface class 'std::runtime_error' used as
         //                base for dll-interface class
@@ -94,6 +94,7 @@ namespace log4cplus {
         {
         public:
             // Ctor
+            explicit
             SharedObjectPtr(T* realPtr = 0)
                 : pointee(realPtr)
             {

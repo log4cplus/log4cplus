@@ -93,9 +93,10 @@ namespace log4cplus {
             bool debugEnabled;
             bool quietMode;
 
-          // Ctors
+
             LogLog();
             LogLog(const LogLog&);
+            LogLog & operator = (LogLog const &);
         };
 
     } // end namespace helpers

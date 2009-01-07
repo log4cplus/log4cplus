@@ -105,7 +105,7 @@ log4cplus::helpers::SocketBuffer::readByte()
         return 0;
     }
 
-    unsigned char ret = *((unsigned char*)&buffer[pos]);
+    unsigned char ret = static_cast<unsigned char>(buffer[pos]);
     pos += sizeof(unsigned char);
 
     return ret;
@@ -225,7 +225,7 @@ log4cplus::helpers::SocketBuffer::appendByte(unsigned char val)
         return;
     }
 
-    *((unsigned char*)&buffer[pos]) = val;
+    buffer[pos] = static_cast<char>(val);
     pos += sizeof(unsigned char);
     size = pos;
 }
@@ -240,7 +240,7 @@ log4cplus::helpers::SocketBuffer::appendShort(unsigned short val)
         return;
     }
 
-    *((unsigned short*)&buffer[pos]) = htons(val);
+    *reinterpret_cast<unsigned short*>(&buffer[pos]) = htons(val);
     pos += sizeof(unsigned short);
     size = pos;
 }

@@ -21,7 +21,7 @@
 #define LOG4CPLUS_INTERNAL_INTERNAL_HEADER_
 
 #if ! defined (INSIDE_LOG4CPLUS)
-#  error This header must not be be used outside log4cplus' implementation files.
+#  error "This header must not be be used outside log4cplus' implementation files."
 #endif
 
 #include <log4cplus/tstring.h>

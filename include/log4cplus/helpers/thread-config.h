@@ -21,9 +21,9 @@
 #   include <pthread.h>
 #   define LOG4CPLUS_MUTEX_PTR_DECLARE pthread_mutex_t*
 #   define LOG4CPLUS_MUTEX_CREATE ::log4cplus::thread::createNewMutex()
-#   define LOG4CPLUS_MUTEX_ASSIGN( mutex_a, mutex_b) mutex_a = mutex_b
-#   define LOG4CPLUS_MUTEX_LOCK( mutex ) pthread_mutex_lock(mutex)
-#   define LOG4CPLUS_MUTEX_UNLOCK( mutex ) pthread_mutex_unlock(mutex)
+#   define LOG4CPLUS_MUTEX_ASSIGN(mutex_a, mutex_b) mutex_a = mutex_b
+#   define LOG4CPLUS_MUTEX_LOCK(mutex) pthread_mutex_lock(mutex)
+#   define LOG4CPLUS_MUTEX_UNLOCK(mutex) pthread_mutex_unlock(mutex)
 #   define LOG4CPLUS_MUTEX_FREE(mutex) ::log4cplus::thread::deleteMutex(mutex)
 #   define LOG4CPLUS_THREAD_KEY_TYPE pthread_t
 #   define LOG4CPLUS_GET_CURRENT_THREAD_NAME ::log4cplus::thread::getCurrentThreadName()
@@ -31,9 +31,9 @@
 #   define LOG4CPLUS_GET_CURRENT_THREAD pthread_self()
 #   define LOG4CPLUS_THREAD_LOCAL_TYPE pthread_key_t*
 #   define LOG4CPLUS_THREAD_LOCAL_INIT ::log4cplus::thread::createPthreadKey()
-#   define LOG4CPLUS_GET_THREAD_LOCAL_VALUE( key ) pthread_getspecific(*key)
-#   define LOG4CPLUS_SET_THREAD_LOCAL_VALUE( key, value ) pthread_setspecific(*key, value)
-#   define LOG4CPLUS_THREAD_LOCAL_CLEANUP( key ) pthread_key_delete(*key)
+#   define LOG4CPLUS_GET_THREAD_LOCAL_VALUE(key) pthread_getspecific(*(key))
+#   define LOG4CPLUS_SET_THREAD_LOCAL_VALUE(key, value) pthread_setspecific(*(key), value)
+#   define LOG4CPLUS_THREAD_LOCAL_CLEANUP(key) pthread_key_delete(*(key))
 namespace log4cplus {
     namespace thread {
         LOG4CPLUS_EXPORT LOG4CPLUS_MUTEX_PTR_DECLARE createNewMutex();
@@ -46,19 +46,19 @@ namespace log4cplus {
 #   include <windows.h>
 #   define LOG4CPLUS_MUTEX_PTR_DECLARE CRITICAL_SECTION*
 #   define LOG4CPLUS_MUTEX_CREATE ::log4cplus::thread::createNewMutex()
-#   define LOG4CPLUS_MUTEX_ASSIGN( mutex_a, mutex_b) mutex_a = mutex_b
-#   define LOG4CPLUS_MUTEX_LOCK( mutex )  EnterCriticalSection(mutex)
-#   define LOG4CPLUS_MUTEX_UNLOCK( mutex )  LeaveCriticalSection(mutex)
+#   define LOG4CPLUS_MUTEX_ASSIGN(mutex_a, mutex_b) mutex_a = mutex_b
+#   define LOG4CPLUS_MUTEX_LOCK(mutex)  EnterCriticalSection(mutex)
+#   define LOG4CPLUS_MUTEX_UNLOCK(mutex)  LeaveCriticalSection(mutex)
 #   define LOG4CPLUS_MUTEX_FREE(mutex) ::log4cplus::thread::deleteMutex(mutex)
 #   define LOG4CPLUS_THREAD_KEY_TYPE  DWORD
 #   define LOG4CPLUS_GET_CURRENT_THREAD  GetCurrentThreadId()
 #   define LOG4CPLUS_GET_CURRENT_THREAD_NAME ::log4cplus::thread::getCurrentThreadName()
 #   define LOG4CPLUS_THREAD_LOCAL_TYPE DWORD
 #   define LOG4CPLUS_THREAD_LOCAL_INIT TlsAlloc()
-#   define LOG4CPLUS_GET_THREAD_LOCAL_VALUE( key ) TlsGetValue(key)
-#   define LOG4CPLUS_SET_THREAD_LOCAL_VALUE( key, value ) \
-       TlsSetValue(key, static_cast<LPVOID>(value))
-#   define LOG4CPLUS_THREAD_LOCAL_CLEANUP( key ) TlsFree(key)
+#   define LOG4CPLUS_GET_THREAD_LOCAL_VALUE(key) TlsGetValue(key)
+#   define LOG4CPLUS_SET_THREAD_LOCAL_VALUE(key, value) \
+    TlsSetValue(key, static_cast<LPVOID>(value))
+#   define LOG4CPLUS_THREAD_LOCAL_CLEANUP(key) TlsFree(key)
 namespace log4cplus {
     namespace thread {
         LOG4CPLUS_EXPORT LOG4CPLUS_MUTEX_PTR_DECLARE createNewMutex();
@@ -69,18 +69,18 @@ namespace log4cplus {
 #elif defined(LOG4CPLUS_SINGLE_THREADED)
 #   define LOG4CPLUS_MUTEX_PTR_DECLARE int*
 #   define LOG4CPLUS_MUTEX_CREATE NULL
-#   define LOG4CPLUS_MUTEX_ASSIGN( mutex_a, mutex_b) mutex_a = mutex_b;
-#   define LOG4CPLUS_MUTEX_LOCK( mutex )
-#   define LOG4CPLUS_MUTEX_UNLOCK( mutex )
+#   define LOG4CPLUS_MUTEX_ASSIGN(mutex_a, mutex_b) mutex_a = mutex_b;
+#   define LOG4CPLUS_MUTEX_LOCK(mutex)
+#   define LOG4CPLUS_MUTEX_UNLOCK(mutex)
 #   define LOG4CPLUS_MUTEX_FREE(mutex)
 #   define LOG4CPLUS_THREAD_KEY_TYPE int
-#   define LOG4CPLUS_GET_CURRENT_THREAD (int)1
+#   define LOG4CPLUS_GET_CURRENT_THREAD 1
 #   define LOG4CPLUS_GET_CURRENT_THREAD_NAME "single"
 #   define LOG4CPLUS_THREAD_LOCAL_TYPE void*
 #   define LOG4CPLUS_THREAD_LOCAL_INIT NULL
-#   define LOG4CPLUS_GET_THREAD_LOCAL_VALUE( key ) key
-#   define LOG4CPLUS_SET_THREAD_LOCAL_VALUE( key, value ) key = value;
-#   define LOG4CPLUS_THREAD_LOCAL_CLEANUP( key ) key = NULL
+#   define LOG4CPLUS_GET_THREAD_LOCAL_VALUE(key) (key)
+#   define LOG4CPLUS_SET_THREAD_LOCAL_VALUE(key, value) (key) = (value);
+#   define LOG4CPLUS_THREAD_LOCAL_CLEANUP(key) (key) = NULL
 
 #else
 #   error "You Must define a Threading model"
@@ -98,10 +98,10 @@ namespace log4cplus {
  * @see BEGIN_SYNCHRONIZE_ON_MUTEX
  */
 #ifndef LOG4CPLUS_SINGLE_THREADED
-#  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex ) \
+#  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX(mutex) \
              do { ::log4cplus::thread::Guard _sync_guard_object(mutex);
 #else
-#  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex ) do {
+#  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX(mutex) do {
 #endif
 
 #define LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX } while (0)
