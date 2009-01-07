@@ -35,8 +35,8 @@ namespace log4cplus {
          * This Interface is for attaching Appenders to objects.
          */
         class LOG4CPLUS_EXPORT AppenderAttachableImpl 
-                                   : public log4cplus::spi::AppenderAttachable,
-                                     protected log4cplus::helpers::LogLogUser
+            : public log4cplus::spi::AppenderAttachable
+            , protected log4cplus::helpers::LogLogUser
         {
         public:
           // Data
@@ -96,6 +96,10 @@ namespace log4cplus {
           // Data
             /** Array of appenders. */
             ListType appenderList;
+
+        private:
+            AppenderAttachableImpl(AppenderAttachableImpl const &);
+            AppenderAttachableImpl & operator = (AppenderAttachableImpl const &);
         };  // end class AppenderAttachableImpl
 
     } // end namespace helpers

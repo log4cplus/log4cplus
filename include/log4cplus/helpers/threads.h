@@ -29,16 +29,21 @@ namespace log4cplus {
         /**
          * This is used to lock a mutex.  The dtor unlocks the mutex.
          */
-        class LOG4CPLUS_EXPORT Guard {
+        class Guard
+        {
         public:
             /** "locks" <code>mutex</code>. */
-            Guard(LOG4CPLUS_MUTEX_PTR_DECLARE mutex) {
-                LOG4CPLUS_MUTEX_ASSIGN( _mutex, mutex );
+            Guard(LOG4CPLUS_MUTEX_PTR_DECLARE mutex)
+                : _mutex (mutex)
+            {
                 LOG4CPLUS_MUTEX_LOCK( _mutex );
             }
 
             /** "unlocks" <code>mutex</code>. */
-            ~Guard() { LOG4CPLUS_MUTEX_UNLOCK( _mutex ); }
+            ~Guard()
+            {
+                LOG4CPLUS_MUTEX_UNLOCK( _mutex );
+            }
 
         private:
             LOG4CPLUS_MUTEX_PTR_DECLARE _mutex;

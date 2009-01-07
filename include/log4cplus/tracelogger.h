@@ -50,6 +50,9 @@ public:
     }
 
 private:
+    TraceLogger (TraceLogger const &);
+    TraceLogger & operator = (TraceLogger const &);
+
     Logger logger;
     log4cplus::tstring msg;
     const char* file;
