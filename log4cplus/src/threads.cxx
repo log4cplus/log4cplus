@@ -25,8 +25,10 @@
 #include <errno.h>
 
 #if defined(LOG4CPLUS_USE_PTHREADS)
-#    include <sched.h>
-#    include <signal.h>
+#  include <sched.h>
+#  include <signal.h>
+#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
+#  include <process.h> 
 #endif
 
 using namespace std;
@@ -120,8 +122,8 @@ log4cplus::thread::getCurrentThreadName()
     void* 
     log4cplus::thread::threadStartFunc(void* arg)
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    DWORD WINAPI
-    log4cplus::thread::threadStartFunc(LPVOID arg)
+    unsigned WINAPI
+    log4cplus::thread::threadStartFunc(void * arg)
 #endif
 {
     blockAllSignals ();
@@ -147,10 +149,7 @@ log4cplus::thread::getCurrentThreadName()
         getNDC().remove();
     }
 
-#if defined(LOG4CPLUS_USE_PTHREADS)
-    pthread_exit(NULL);
-#endif
-    return NULL;
+    return 0;
 }
 
 
@@ -181,11 +180,13 @@ log4cplus::thread::AbstractThread::start()
 {
     running = true;
 #if defined(LOG4CPLUS_USE_PTHREADS)
-    if( pthread_create(&threadId, NULL, threadStartFunc, this) ) {
+    if( pthread_create(&threadId, NULL, threadStartFunc, this) )
         throw std::runtime_error("Thread creation was not successful");
-    }
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    HANDLE h = CreateThread(NULL, 0, threadStartFunc, (LPVOID)this, 0, &threadId);
+    HANDLE h = reinterpret_cast<HANDLE>(
+        _beginthreadex (0, 0, threadStartFunc, this, 0, 0));
+    if (! h)
+        throw std::runtime_error("Thread creation was not successful");
     CloseHandle(h);
 #endif
 }
