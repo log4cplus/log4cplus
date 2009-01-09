@@ -58,7 +58,7 @@ namespace log4cplus {
 #ifdef LOG4CPLUS_USE_PTHREADS
         void* threadStartFunc(void*);
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-        DWORD WINAPI threadStartFunc(LPVOID arg);
+        unsigned WINAPI threadStartFunc(void *);
 #endif
 
         LOG4CPLUS_EXPORT void yield();
@@ -75,8 +75,8 @@ namespace log4cplus {
         {
         public:
             AbstractThread();
-            bool isRunning() { return running; }
-            LOG4CPLUS_THREAD_KEY_TYPE getThreadId() { return threadId; }
+            bool isRunning() const { return running; }
+            LOG4CPLUS_THREAD_KEY_TYPE getThreadId() const { return threadId; }
             virtual void start();
 
         protected:
@@ -96,7 +96,7 @@ namespace log4cplus {
 #ifdef LOG4CPLUS_USE_PTHREADS
         friend void* threadStartFunc(void*);
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-        friend DWORD WINAPI threadStartFunc(LPVOID arg);
+        friend unsigned WINAPI threadStartFunc(void *);
 #endif
 
         };
