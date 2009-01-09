@@ -1,6 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT([log4cplus], [1.0.3])
 AC_CONFIG_SRCDIR([src/logger.cxx])
+AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.10 no-define nostdinc gnu -Wall])
 
 #
@@ -79,7 +80,6 @@ AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility"
 
 dnl Checks for libraries.
 
-AC_PROG_RANLIB
 AC_CHECK_LIB([rt], [nanosleep])
 AC_CHECK_FUNC([gethostent], [], [AC_CHECK_LIB([nsl], [gethostent])])
 AC_CHECK_FUNC([setsockopt], [], [AC_CHECK_LIB([socket], [setsockopt])])
