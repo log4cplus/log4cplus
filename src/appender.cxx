@@ -28,21 +28,6 @@ template class log4cplus::helpers::SharedObjectPtr<Appender>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// file LOCAL methods
-///////////////////////////////////////////////////////////////////////////////
-
-namespace {
-    static
-    log4cplus::tstring asString(int i) {
-        log4cplus::tostringstream tmp;
-        tmp << i;
-        return tmp.str();
-    }
-}
-
-
-
-///////////////////////////////////////////////////////////////////////////////
 // log4cplus::ErrorHandler dtor
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -82,15 +67,17 @@ Appender::Appender()
 
 
 
-Appender::Appender(const log4cplus::helpers::Properties properties)
- : layout(new SimpleLayout()),
-   name( LOG4CPLUS_TEXT("") ),
-   threshold(NOT_SET_LOG_LEVEL),
-   errorHandler(new OnlyOnceErrorHandler()),
-   closed(false)
+Appender::Appender(const log4cplus::helpers::Properties & properties)
+    : layout(new SimpleLayout())
+    , name()
+    , threshold(NOT_SET_LOG_LEVEL)
+    , errorHandler(new OnlyOnceErrorHandler())
+    , closed(false)
 {
-    if(properties.exists( LOG4CPLUS_TEXT("layout") )) {
-       log4cplus::tstring factoryName = properties.getProperty( LOG4CPLUS_TEXT("layout") );
+    if(properties.exists( LOG4CPLUS_TEXT("layout") ))
+    {
+        log4cplus::tstring const & factoryName
+            = properties.getProperty( LOG4CPLUS_TEXT("layout") );
         LayoutFactory* factory = getLayoutFactoryRegistry().get(factoryName);
         if(factory == 0) {
             getLogLog().error(  LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"")
@@ -130,9 +117,11 @@ Appender::Appender(const log4cplus::helpers::Properties properties)
     Properties filterProps = properties.getPropertySubset( LOG4CPLUS_TEXT("filters.") );
     int filterCount = 0;
     FilterPtr filterChain;
-    while( filterProps.exists(asString(++filterCount)) ) {
-        tstring filterName = asString(filterCount);
-        tstring factoryName = filterProps.getProperty(filterName);
+    tstring filterName;
+    while (filterProps.exists(
+        filterName = convertIntegerToString (++filterCount)))
+    {
+        tstring const & factoryName = filterProps.getProperty(filterName);
         FilterFactory* factory = getFilterFactoryRegistry().get(factoryName);
 
         if(factory == 0) {

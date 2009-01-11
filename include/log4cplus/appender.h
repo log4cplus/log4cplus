@@ -68,7 +68,7 @@ namespace log4cplus {
     public:
       // Ctor
         Appender();
-        Appender(const log4cplus::helpers::Properties properties);
+        Appender(const log4cplus::helpers::Properties & properties);
 
       // Dtor
         virtual ~Appender();
