@@ -125,7 +125,7 @@ namespace log4cplus {
                 *it = LOG4CPLUS_TEXT('-');
             }
 
-            return tstring (it, buf_end);
+            return tstring (static_cast<char const *>(it), buf_end);
         }
 
 
