@@ -28,13 +28,16 @@ void initializeFactoryRegistry();
 void initializeLog4cplus()
 {
     static bool initialized = false;
-    if(!initialized) {
-        log4cplus::helpers::LogLog::getLogLog();
-        getNDC();
-        Logger::getRoot();
-        initializeFactoryRegistry();
-        initialized = true;
-    }
+    if (initialized)
+        return;
+
+    helpers::LogLog::getLogLog();
+    getLogLevelManager ();
+    getNDC();
+    Logger::getRoot();
+    initializeFactoryRegistry();
+
+    initialized = true;
 }
 
 
