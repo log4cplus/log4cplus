@@ -326,10 +326,11 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
 
     // "Tokenize" configString
     vector<tstring> tokens;
-    tokenize(configString, ',',
+    tokenize(configString, LOG4CPLUS_TEXT(','),
              back_insert_iterator<vector<tstring> >(tokens));
 
-    if(tokens.size() == 0) {
+    if (tokens.empty ())
+    {
         getLogLog().error(
             LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()")
             LOG4CPLUS_TEXT("- Invalid config string(Logger = ")
@@ -341,7 +342,7 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
     }
 
     // Set the loglevel
-    tstring loglevel = tokens[0];
+    tstring const & loglevel = tokens[0];
     if (loglevel != LOG4CPLUS_TEXT("INHERITED"))
         logger.setLogLevel( getLogLevelManager().fromString(loglevel) );
 
