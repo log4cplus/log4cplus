@@ -15,6 +15,7 @@
 #include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/internal/internal.h>
 
 
 // Forward Declarations
@@ -22,7 +23,42 @@ namespace log4cplus
 {
 
 
+namespace internal
+{
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+#  if defined (LOG4CPLUS_THREAD_LOCAL_VAR)
+
+LOG4CPLUS_THREAD_LOCAL_VAR per_thread_data * ptd;
+
+#  else
+
+LOG4CPLUS_THREAD_LOCAL_TYPE tls_storage_key;
+
+#  endif
+#endif
+
+} // namespace internal
+
+
 void initializeFactoryRegistry();
+
+
+namespace
+{
+
+
+//! Thread local storage clean up function for POSIX threads.
+static 
+void 
+ptd_cleanup_func (void * arg)
+{
+    assert (arg == internal::get_ptd ());
+    threadCleanup ();
+}
+
+
+} // namespace
 
 
 void initializeLog4cplus()
@@ -30,6 +66,14 @@ void initializeLog4cplus()
     static bool initialized = false;
     if (initialized)
         return;
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+#  if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
+
+    internal::tls_storage_key = LOG4CPLUS_THREAD_LOCAL_INIT (ptd_cleanup_func);
+
+#  endif
+#endif
 
     helpers::LogLog::getLogLog();
     getLogLevelManager ();
@@ -50,24 +94,56 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,  // handle to DLL module
                     DWORD fdwReason,     // reason for calling function
                     LPVOID lpReserved )  // reserved
 {
+    using namespace log4cplus;
+
     // Perform actions based on the reason for calling.
     switch( fdwReason ) 
     { 
-        case DLL_PROCESS_ATTACH:
-            log4cplus::initializeLog4cplus();
-            break;
+    case DLL_PROCESS_ATTACH:
+    {
+        log4cplus::initializeLog4cplus();
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+        // Do thread-specific initialization for the main thread.
+        assert (! internal::get_ptd ());
+        internal::per_thread_data * ptd = new internal::per_thread_data;
+        internal::set_ptd (ptd);
+#endif
+        break;
+    }
 
-        case DLL_THREAD_ATTACH:
-         // Do thread-specific initialization.
-            break;
+    case DLL_THREAD_ATTACH:
+    {
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+        assert (! internal::get_ptd ());
+        // Do thread-specific initialization.
+        internal::per_thread_data * ptd = new internal::per_thread_data;
+        internal::set_ptd (ptd);
+#endif
+        break;
+    }
 
-        case DLL_THREAD_DETACH:
-         // Do thread-specific cleanup.
-            break;
+    case DLL_THREAD_DETACH:
+    {
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+        // Do thread-specific cleanup.
+        threadCleanup ();
+#endif
+        break;
+    }
 
-        case DLL_PROCESS_DETACH:
-         // Perform any necessary cleanup.
-            break;
+    case DLL_PROCESS_DETACH:
+    {
+        // Perform any necessary cleanup.
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+        // Do thread-specific cleanup.
+        threadCleanup ();
+#  if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
+        LOG4CPLUS_THREAD_LOCAL_CLEANUP (internal::tls_storage_key);
+#  endif
+#endif
+        break;
+    }
+
     }
 
     return TRUE;  // Successful DLL_PROCESS_ATTACH.
@@ -77,12 +153,39 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,  // handle to DLL module
 
 namespace {
 
-    class _static_log4cplus_initializer {
-    public:
-        _static_log4cplus_initializer() {
+    struct _static_log4cplus_initializer
+    {
+        _static_log4cplus_initializer ()
+        {
             log4cplus::initializeLog4cplus();
+        }
+
+        ~_static_log4cplus_initializer ()
+        {
+            // Last thread cleanup.
+            log4cplus::threadCleanup ();
         }
     } static initializer;
 }
 
+
 #endif
+
+
+namespace log4cplus
+{
+
+
+void
+threadCleanup ()
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    // Do thread-specific cleanup.
+    internal::per_thread_data * ptd = internal::get_ptd ();
+    delete ptd;
+    internal::set_ptd (0);
+#endif
+}
+
+
+} // namespace log4cplus

@@ -43,23 +43,34 @@ log4cplus::tstring const empty_str;
 
 #if defined (LOG4CPLUS_SINGLE_THREADED)
 
-tostringstream _macros_oss;
-
-namespace
+namespace detail
 {
 
-static tostringstream const _macros_oss_defaults;
+LOG4CPLUS_EXPORT tostringstream macros_oss;
 
-} // namespace
+} // namespace detail
 
-void _clear_tostringstream (tostringstream & os)
+#endif
+
+
+namespace detail
+{
+
+
+//! Helper stream to get the defaults from.
+static tostringstream const macros_oss_defaults;
+
+
+//! Clears string stream using defaults taken from macros_oss_defaults.
+void
+clear_tostringstream (tostringstream & os)
 {
     os.clear ();
     os.str (internal::empty_str);
-    os.setf (_macros_oss_defaults.flags ());
-    os.fill (_macros_oss_defaults.fill ());
-    os.precision (_macros_oss_defaults.precision ());
-    os.width (_macros_oss_defaults.width ());
+    os.setf (macros_oss_defaults.flags ());
+    os.fill (macros_oss_defaults.fill ());
+    os.precision (macros_oss_defaults.precision ());
+    os.width (macros_oss_defaults.width ());
 #if defined (LOG4CPLUS_WORKING_LOCALE)
     std::locale glocale = std::locale ();
     if (os.getloc () != glocale)
@@ -67,7 +78,15 @@ void _clear_tostringstream (tostringstream & os)
 #endif // defined (LOG4CPLUS_WORKING_LOCALE)
 }
 
-#endif
+
+tostringstream &
+get_macros_oss ()
+{
+    return internal::get_ptd ()->macros_oss;
+}
+
+
+} // namespace detail
 
 } // namespace log4cplus
 

@@ -61,15 +61,11 @@ DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message)
 ///////////////////////////////////////////////////////////////////////////////
 
 NDC::NDC() 
- : threadLocal(LOG4CPLUS_THREAD_LOCAL_INIT)
-{
-}
+{ }
 
 
 NDC::~NDC() 
-{
-    LOG4CPLUS_THREAD_LOCAL_CLEANUP( threadLocal );
-}
+{ }
 
 
 
@@ -82,8 +78,7 @@ NDC::clear()
 {
     try {
         DiagnosticContextStack* ptr = getPtr();
-        delete ptr;
-        LOG4CPLUS_SET_THREAD_LOCAL_VALUE( threadLocal, NULL );
+        DiagnosticContextStack ().swap (*ptr);
     }
     catch(std::exception& e) {
         getLogLog().error(  LOG4CPLUS_TEXT("NDC::clear()- exception occured: ") 
@@ -100,9 +95,7 @@ NDC::cloneStack() const
 {
     try {
         DiagnosticContextStack* ptr = getPtr();
-        if(ptr != NULL) {
-            return DiagnosticContextStack(*ptr);
-        }
+        return DiagnosticContextStack(*ptr);
     }
     catch(std::exception& e) {
         getLogLog().error(  LOG4CPLUS_TEXT("NDC::cloneStack()- exception occured: ") 
@@ -121,10 +114,7 @@ NDC::inherit(const DiagnosticContextStack& stack)
 {
     try {
         DiagnosticContextStack* ptr = getPtr();
-        delete ptr;
-
-        ptr = new DiagnosticContextStack(stack);
-        LOG4CPLUS_SET_THREAD_LOCAL_VALUE( threadLocal, ptr );
+        DiagnosticContextStack (stack).swap (*ptr);
     }
     catch(std::exception& e) {
         getLogLog().error(  LOG4CPLUS_TEXT("NDC::inherit()- exception occured: ") 
@@ -141,9 +131,8 @@ NDC::get() const
 {
     try {
         DiagnosticContextStack* ptr = getPtr();
-        if(ptr != NULL && !ptr->empty()) {
-            return ptr->top().fullMessage;
-        }
+        if(!ptr->empty())
+            return ptr->back().fullMessage;
     }
     catch(std::exception& e) {
         getLogLog().error(  LOG4CPLUS_TEXT("NDC::get()- exception occured: ") 
@@ -162,9 +151,7 @@ NDC::getDepth() const
 {
     try {
         DiagnosticContextStack* ptr = getPtr();
-        if(ptr != NULL) {
-            return ptr->size();
-        }
+        return ptr->size();
     }
     catch(std::exception& e) {
         getLogLog().error(  LOG4CPLUS_TEXT("NDC::getDepth()- exception occured: ") 
@@ -183,15 +170,10 @@ NDC::pop()
 {
     try {
         DiagnosticContextStack* ptr = getPtr();
-        if(ptr != NULL && !ptr->empty()) {
-            DiagnosticContext dc = ptr->top();
-            ptr->pop();
-            if(ptr->empty()) {
-                // If the NDC stack is empty we will delete it so that we can avoid
-                // most memory leaks if Threads don't call remove when exiting
-                delete ptr;
-                LOG4CPLUS_SET_THREAD_LOCAL_VALUE( threadLocal, NULL );
-            }
+        if(!ptr->empty())
+        {
+            DiagnosticContext dc = ptr->back();
+            ptr->pop_back();
             return dc.message;
         }
     }
@@ -212,9 +194,8 @@ NDC::peek() const
 {
     try {
         DiagnosticContextStack* ptr = getPtr();
-        if(ptr != NULL && !ptr->empty()) {
-            return ptr->top().message;
-        }
+        if(!ptr->empty())
+            return ptr->back().message;
     }
     catch(std::exception& e) {
         getLogLog().error(  LOG4CPLUS_TEXT("NDC::peek()- exception occured: ") 
@@ -233,17 +214,11 @@ NDC::push(const log4cplus::tstring& message)
 {
     try {
         DiagnosticContextStack* ptr = getPtr();
-        if(ptr == NULL) {
-            ptr = new DiagnosticContextStack();
-            LOG4CPLUS_SET_THREAD_LOCAL_VALUE( threadLocal, ptr );
-        }
-
-        if(ptr->empty()) {
-            ptr->push( DiagnosticContext(message, NULL) );
-        }
+        if(ptr->empty())
+            ptr->push_back( DiagnosticContext(message, NULL) );
         else {
-            DiagnosticContext dc = ptr->top();
-            ptr->push( DiagnosticContext(message, &dc) );
+            DiagnosticContext dc = ptr->back();
+            ptr->push_back( DiagnosticContext(message, &dc) );
         }
     }
     catch(std::exception& e) {
@@ -261,8 +236,7 @@ NDC::remove()
 {
     try {
         DiagnosticContextStack* ptr = getPtr();
-        delete ptr;
-        LOG4CPLUS_SET_THREAD_LOCAL_VALUE( threadLocal, NULL );
+        DiagnosticContextStack ().swap (*ptr);
     }
     catch(std::exception& e) {
         getLogLog().error(  LOG4CPLUS_TEXT("NDC::remove()- exception occured: ") 
@@ -279,11 +253,8 @@ NDC::setMaxDepth(size_t maxDepth)
 {
     try {
         DiagnosticContextStack* ptr = getPtr();
-        if(ptr != NULL) {
-            while(maxDepth < ptr->size()) {
-                ptr->pop();
-            }
-        }
+        while(maxDepth < ptr->size())
+            ptr->pop_back();
     }
     catch(std::exception& e) {
         getLogLog().error(  LOG4CPLUS_TEXT("NDC::setMaxDepth()- exception occured: ") 
@@ -296,9 +267,9 @@ NDC::setMaxDepth(size_t maxDepth)
 
 
 DiagnosticContextStack* NDC::getPtr() const
-{ 
-    return static_cast<DiagnosticContextStack*>
-        (LOG4CPLUS_GET_THREAD_LOCAL_VALUE( threadLocal )); 
+{
+    internal::per_thread_data * ptd = internal::get_ptd ();
+    return &ptd->ndc_dcs;
 }
 
 

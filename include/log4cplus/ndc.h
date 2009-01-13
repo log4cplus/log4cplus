@@ -24,7 +24,7 @@
 #include <log4cplus/helpers/threads.h>
 
 #include <map>
-#include <stack>
+#include <deque>
 
 #if (defined(__MWERKS__) && defined(__MACOS__))
 using std::size_t;
@@ -35,7 +35,7 @@ namespace log4cplus {
     // Forward declarations
     class NDC;
     struct DiagnosticContext;
-    typedef std::stack<DiagnosticContext> DiagnosticContextStack;
+    typedef std::deque<DiagnosticContext> DiagnosticContextStack;
 
 #if defined (_MSC_VER)
     LOG4CPLUS_EXPORT NDC& getNDC();
@@ -244,9 +244,6 @@ namespace log4cplus {
     private:
       // Methods
         DiagnosticContextStack* getPtr() const;
-
-      // Data
-        LOG4CPLUS_THREAD_LOCAL_TYPE threadLocal;
 
       // Disallow construction (and copying) except by getNDC()
         NDC();

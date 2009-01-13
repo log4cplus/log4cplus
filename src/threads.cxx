@@ -69,10 +69,10 @@ log4cplus::thread::deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE m)
 
 #if defined(LOG4CPLUS_USE_PTHREADS)
 pthread_key_t*
-log4cplus::thread::createPthreadKey()
+log4cplus::thread::createPthreadKey(void (*cleanupfunc)(void *))
 {
     pthread_key_t* key = new pthread_key_t();
-    pthread_key_create(key, NULL);
+    pthread_key_create(key, cleanupfunc);
     return key;
 }
 #endif
@@ -147,6 +147,7 @@ log4cplus::thread::getCurrentThreadName()
         }
         thread->running = false;
         getNDC().remove();
+        threadCleanup ();
     }
 
     return 0;

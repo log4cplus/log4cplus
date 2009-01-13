@@ -30,7 +30,7 @@
 
 #   define LOG4CPLUS_GET_CURRENT_THREAD pthread_self()
 #   define LOG4CPLUS_THREAD_LOCAL_TYPE pthread_key_t*
-#   define LOG4CPLUS_THREAD_LOCAL_INIT ::log4cplus::thread::createPthreadKey()
+#   define LOG4CPLUS_THREAD_LOCAL_INIT(cleanup) ::log4cplus::thread::createPthreadKey(cleanup)
 #   define LOG4CPLUS_GET_THREAD_LOCAL_VALUE(key) pthread_getspecific(*(key))
 #   define LOG4CPLUS_SET_THREAD_LOCAL_VALUE(key, value) pthread_setspecific(*(key), value)
 #   define LOG4CPLUS_THREAD_LOCAL_CLEANUP(key) pthread_key_delete(*(key))
@@ -38,7 +38,7 @@ namespace log4cplus {
     namespace thread {
         LOG4CPLUS_EXPORT LOG4CPLUS_MUTEX_PTR_DECLARE createNewMutex();
         LOG4CPLUS_EXPORT void deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE);
-        LOG4CPLUS_EXPORT LOG4CPLUS_THREAD_LOCAL_TYPE createPthreadKey();
+        LOG4CPLUS_EXPORT LOG4CPLUS_THREAD_LOCAL_TYPE createPthreadKey(void (*) (void *));
     }
 }
 
@@ -54,11 +54,14 @@ namespace log4cplus {
 #   define LOG4CPLUS_GET_CURRENT_THREAD  GetCurrentThreadId()
 #   define LOG4CPLUS_GET_CURRENT_THREAD_NAME ::log4cplus::thread::getCurrentThreadName()
 #   define LOG4CPLUS_THREAD_LOCAL_TYPE DWORD
-#   define LOG4CPLUS_THREAD_LOCAL_INIT TlsAlloc()
+#   define LOG4CPLUS_THREAD_LOCAL_INIT(cleanup) TlsAlloc()
 #   define LOG4CPLUS_GET_THREAD_LOCAL_VALUE(key) TlsGetValue(key)
 #   define LOG4CPLUS_SET_THREAD_LOCAL_VALUE(key, value) \
     TlsSetValue(key, static_cast<LPVOID>(value))
 #   define LOG4CPLUS_THREAD_LOCAL_CLEANUP(key) TlsFree(key)
+#   if defined (_MSC_VER)
+#     define LOG4CPLUS_THREAD_LOCAL_VAR __declspec(thread)
+#   endif
 namespace log4cplus {
     namespace thread {
         LOG4CPLUS_EXPORT LOG4CPLUS_MUTEX_PTR_DECLARE createNewMutex();
@@ -77,7 +80,7 @@ namespace log4cplus {
 #   define LOG4CPLUS_GET_CURRENT_THREAD 1
 #   define LOG4CPLUS_GET_CURRENT_THREAD_NAME "single"
 #   define LOG4CPLUS_THREAD_LOCAL_TYPE void*
-#   define LOG4CPLUS_THREAD_LOCAL_INIT NULL
+#   define LOG4CPLUS_THREAD_LOCAL_INIT(cleanup) NULL
 #   define LOG4CPLUS_GET_THREAD_LOCAL_VALUE(key) (key)
 #   define LOG4CPLUS_SET_THREAD_LOCAL_VALUE(key, value) (key) = (value);
 #   define LOG4CPLUS_THREAD_LOCAL_CLEANUP(key) (key) = NULL
