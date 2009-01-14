@@ -12,10 +12,16 @@ AC_CACHE_CHECK([for __declspec(thread)], [ac_cv_declspec_thread],
 [
   AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM(
-      [[extern __declspec(thread) int x;
+      [[
+#if defined (__GNUC__) && (__GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ <= 1))
+#  error Please fail.
+And extra please fail.
+#else
+        extern __declspec(thread) int x;
         __declspec(thread) int * ptr = 0;
         int foo () { ptr = &x; }
         __declspec(thread) int x = 1;
+#endif
       ]], 
       [[]])],
     [ac_cv_declspec_thread=yes],
