@@ -89,7 +89,7 @@ inline
 void
 set_ptd (per_thread_data * p)
 {
-    LOG4CPLUS_SET_THREAD_LOCAL_VALUE (internal::tls_storage_key, p);
+    LOG4CPLUS_SET_THREAD_LOCAL_VALUE (tls_storage_key, p);
 }
 
 
@@ -98,7 +98,7 @@ per_thread_data *
 get_ptd ()
 {
     per_thread_data * ptd
-        = reinterpret_cast<:per_thread_data *>(
+        = reinterpret_cast<per_thread_data *>(
             LOG4CPLUS_GET_THREAD_LOCAL_VALUE (tls_storage_key));
 
     if (! ptd)
