@@ -268,8 +268,13 @@ NDC::setMaxDepth(size_t maxDepth)
 
 DiagnosticContextStack* NDC::getPtr() const
 {
+#if defined (LOG4CPLUS_SINGLE_THREADED)
+    static DiagnosticContextStack ndc_dcs;
+    return &ndc_dcs;
+#else
     internal::per_thread_data * ptd = internal::get_ptd ();
     return &ptd->ndc_dcs;
+#endif
 }
 
 

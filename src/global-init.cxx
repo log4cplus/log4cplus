@@ -54,6 +54,7 @@ void
 ptd_cleanup_func (void * arg)
 {
     assert (arg == internal::get_ptd ());
+    (void)arg;
     threadCleanup ();
 }
 

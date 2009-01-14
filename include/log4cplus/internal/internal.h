@@ -79,6 +79,14 @@ extern LOG4CPLUS_THREAD_LOCAL_TYPE tls_storage_key;
 
 
 inline
+void
+set_ptd (per_thread_data * p)
+{
+    LOG4CPLUS_SET_THREAD_LOCAL_VALUE (internal::tls_storage_key, p);
+}
+
+
+inline
 internal::per_thread_data *
 get_ptd ()
 {
@@ -95,13 +103,6 @@ get_ptd ()
     return ptd;
 }
 
-
-inline
-void
-set_ptd (per_thread_data * p)
-{
-    LOG4CPLUS_SET_THREAD_LOCAL_VALUE (internal::tls_storage_key, p);
-}
 
 #endif
 

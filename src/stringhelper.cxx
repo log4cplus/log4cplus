@@ -50,6 +50,14 @@ LOG4CPLUS_EXPORT tostringstream macros_oss;
 
 } // namespace detail
 
+#else
+
+tostringstream &
+get_macros_oss ()
+{
+    return internal::get_ptd ()->macros_oss;
+}
+
 #endif
 
 
@@ -76,13 +84,6 @@ clear_tostringstream (tostringstream & os)
     if (os.getloc () != glocale)
         os.imbue (glocale);
 #endif // defined (LOG4CPLUS_WORKING_LOCALE)
-}
-
-
-tostringstream &
-get_macros_oss ()
-{
-    return internal::get_ptd ()->macros_oss;
 }
 
 
