@@ -38,6 +38,11 @@ public:
         thread::yield();
     }
 
+    ~SlowObject ()
+    {
+        LOG4CPLUS_MUTEX_FREE (mutex);
+    }
+
 private:
     LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
     Logger logger;
