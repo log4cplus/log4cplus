@@ -73,6 +73,10 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
+/* Defined if the compiler understands __thread or __declspec(thread)
+   construct. */
+#undef HAVE_TLS_SUPPORT
+
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
@@ -122,8 +126,14 @@
 /* */
 #undef LOG4CPLUS_HAVE_SYSLOG_H
 
+/* */
+#undef LOG4CPLUS_HAVE_TLS_SUPPORT
+
 /* Define if this is a single-threaded library. */
 #undef LOG4CPLUS_SINGLE_THREADED
+
+/* */
+#undef LOG4CPLUS_THREAD_LOCAL_VAR
 
 /* */
 #undef LOG4CPLUS_USE_PTHREADS
@@ -153,6 +163,9 @@
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
+
+/* Defined to the actual TLS support construct. */
+#undef TLS_SUPPORT_CONSTRUCT
 
 /* Define to int if undefined. */
 #undef socklen_t

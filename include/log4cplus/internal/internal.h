@@ -51,17 +51,16 @@ struct per_thread_data
 };
 
 
+// TLS key whose value is pointer struct per_thread_data.
+extern LOG4CPLUS_THREAD_LOCAL_TYPE tls_storage_key;
+
+
+per_thread_data * alloc_ptd ();
+
+
 #if defined (LOG4CPLUS_THREAD_LOCAL_VAR)
 
 extern LOG4CPLUS_THREAD_LOCAL_VAR per_thread_data * ptd;
-
-
-inline
-internal::per_thread_data *
-get_ptd ()
-{
-    return ptd;
-}
 
 
 inline
@@ -72,10 +71,18 @@ set_ptd (per_thread_data * p)
 }
 
 
-#else
+inline
+per_thread_data *
+get_ptd ()
+{
+    if (! ptd)
+        return alloc_ptd ();
 
-// TLS key whose value is pointer struct per_thread_data.
-extern LOG4CPLUS_THREAD_LOCAL_TYPE tls_storage_key;
+    return ptd;
+}
+
+
+#else // defined (LOG4CPLUS_THREAD_LOCAL_VAR)
 
 
 inline
@@ -87,26 +94,23 @@ set_ptd (per_thread_data * p)
 
 
 inline
-internal::per_thread_data *
+per_thread_data *
 get_ptd ()
 {
-    internal::per_thread_data * ptd
-        = reinterpret_cast<internal::per_thread_data *>(
-            LOG4CPLUS_GET_THREAD_LOCAL_VALUE (internal::tls_storage_key));
+    per_thread_data * ptd
+        = reinterpret_cast<:per_thread_data *>(
+            LOG4CPLUS_GET_THREAD_LOCAL_VALUE (tls_storage_key));
 
     if (! ptd)
-    {
-        ptd = new internal::per_thread_data;
-        set_ptd (ptd);
-    }
+        return alloc_ptd ();
 
     return ptd;
 }
 
 
-#endif
+#endif // defined (LOG4CPLUS_THREAD_LOCAL_VAR)
 
-#endif
+#endif // ! defined (LOG4CPLUS_SINGLE_THREADED)
 
 
 } } // namespace log4cplus { namespace internal {

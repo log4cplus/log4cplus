@@ -26,14 +26,38 @@ namespace log4cplus
 namespace internal
 {
 
+LOG4CPLUS_THREAD_LOCAL_TYPE tls_storage_key;
+
+
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
 #  if defined (LOG4CPLUS_THREAD_LOCAL_VAR)
 
-LOG4CPLUS_THREAD_LOCAL_VAR per_thread_data * ptd;
+LOG4CPLUS_THREAD_LOCAL_VAR per_thread_data * ptd = 0;
+
+per_thread_data *
+alloc_ptd ()
+{
+    per_thread_data * tmp = new per_thread_data;
+    set_ptd (tmp);
+    // This is a special hack. We set the keys' value to non-NULL to
+    // get the ptd_cleanup_func to execute when this thread ends. The
+    // cast is safe; the associated value will never be used if read
+    // again using the key.
+    LOG4CPLUS_SET_THREAD_LOCAL_VALUE (tls_storage_key,
+        reinterpret_cast<void *>(1));
+
+    return tmp;
+}
 
 #  else
 
-LOG4CPLUS_THREAD_LOCAL_TYPE tls_storage_key;
+per_thread_data *
+alloc_ptd ()
+{
+    per_thread_data * tmp = new per_thread_data;
+    set_ptd (tmp);
+    return tmp;
+}
 
 #  endif
 #endif
@@ -44,22 +68,29 @@ LOG4CPLUS_THREAD_LOCAL_TYPE tls_storage_key;
 void initializeFactoryRegistry();
 
 
-namespace
-{
-
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
 
 //! Thread local storage clean up function for POSIX threads.
 static 
 void 
 ptd_cleanup_func (void * arg)
 {
-    assert (arg == internal::get_ptd ());
+    // Either it is a dummy value or it should be the per thread data
+    // pointer we get from internal::get_ptd().
+    assert (arg == reinterpret_cast<void *>(1)
+        || arg == internal::get_ptd ());
     (void)arg;
+
     threadCleanup ();
+
+    // Setting the value through the key here is necessary in case we
+    // are using TLS using __thread or __declspec(thread) or similar
+    // constructs. Otherwise POSIX calls this cleanup routine more
+    // than once if the value stays non-NULL after it returns.
+    LOG4CPLUS_SET_THREAD_LOCAL_VALUE (internal::tls_storage_key, 0);
 }
 
-
-} // namespace
+#endif
 
 
 void initializeLog4cplus()
@@ -69,11 +100,9 @@ void initializeLog4cplus()
         return;
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-#  if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
 
     internal::tls_storage_key = LOG4CPLUS_THREAD_LOCAL_INIT (ptd_cleanup_func);
 
-#  endif
 #endif
 
     helpers::LogLog::getLogLog();

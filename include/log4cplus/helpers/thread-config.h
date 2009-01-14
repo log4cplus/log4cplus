@@ -27,7 +27,6 @@
 #   define LOG4CPLUS_MUTEX_FREE(mutex) ::log4cplus::thread::deleteMutex(mutex)
 #   define LOG4CPLUS_THREAD_KEY_TYPE pthread_t
 #   define LOG4CPLUS_GET_CURRENT_THREAD_NAME ::log4cplus::thread::getCurrentThreadName()
-
 #   define LOG4CPLUS_GET_CURRENT_THREAD pthread_self()
 #   define LOG4CPLUS_THREAD_LOCAL_TYPE pthread_key_t*
 #   define LOG4CPLUS_THREAD_LOCAL_INIT(cleanup) ::log4cplus::thread::createPthreadKey(cleanup)
@@ -60,6 +59,9 @@ namespace log4cplus {
     TlsSetValue(key, static_cast<LPVOID>(value))
 #   define LOG4CPLUS_THREAD_LOCAL_CLEANUP(key) TlsFree(key)
 #   if defined (_MSC_VER)
+#     undef LOG4CPLUS_HAVE_TLS_SUPPORT
+#     define LOG4CPLUS_HAVE_TLS_SUPPORT 1
+#     undef LOG4CPLUS_THREAD_LOCAL_VAR
 #     define LOG4CPLUS_THREAD_LOCAL_VAR __declspec(thread)
 #   endif
 namespace log4cplus {
@@ -84,6 +86,8 @@ namespace log4cplus {
 #   define LOG4CPLUS_GET_THREAD_LOCAL_VALUE(key) (key)
 #   define LOG4CPLUS_SET_THREAD_LOCAL_VALUE(key, value) (key) = (value);
 #   define LOG4CPLUS_THREAD_LOCAL_CLEANUP(key) (key) = NULL
+#   undef LOG4CPLUS_HAVE_TLS_SUPPORT
+#   undef LOG4CPLUS_THREAD_LOCAL_VAR
 
 #else
 #   error "You Must define a Threading model"
