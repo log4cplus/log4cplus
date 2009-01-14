@@ -41,14 +41,13 @@ log4cplus::tstring const empty_str;
 } // namespace internal
 
 
-#if defined (LOG4CPLUS_SINGLE_THREADED)
-
 namespace detail
 {
 
-LOG4CPLUS_EXPORT tostringstream macros_oss;
 
-} // namespace detail
+#if defined (LOG4CPLUS_SINGLE_THREADED)
+
+LOG4CPLUS_EXPORT tostringstream macros_oss;
 
 #else
 
@@ -59,10 +58,6 @@ get_macros_oss ()
 }
 
 #endif
-
-
-namespace detail
-{
 
 
 //! Helper stream to get the defaults from.
