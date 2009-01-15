@@ -14,6 +14,7 @@
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/internal/internal.h>
 
 #include <vector>
 #include <iomanip>
@@ -205,21 +206,17 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
         PERCENT_SIGN
     };
     
-    log4cplus::tstring fmt (fmt_orig);
-    log4cplus::tstring ret;
-    ret.reserve (static_cast<size_t>(fmt.size () * 1.35));
-    State state = TEXT;
-    
-    log4cplus::tstring q_str;
-    bool q_str_valid = false;
+    internal::gft_scratch_pad & gft_sp = internal::get_gft_scratch_pad ();
+    gft_sp.reset ();
 
-    log4cplus::tstring uc_q_str;
-    bool uc_q_str_valid = false;
+    gft_sp.fmt.assign (fmt_orig);
+    gft_sp.ret.reserve (static_cast<size_t>(gft_sp.fmt.size () * 1.35));
+    State state = TEXT;
 
     // Walk the format string and process all occurences of %q and %Q.
     
-    for (log4cplus::tstring::const_iterator fmt_it = fmt.begin ();
-         fmt_it != fmt.end (); ++fmt_it)
+    for (log4cplus::tstring::const_iterator fmt_it = gft_sp.fmt.begin ();
+         fmt_it != gft_sp.fmt.end (); ++fmt_it)
     {
         switch (state)
         {
@@ -228,7 +225,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
             if (*fmt_it == LOG4CPLUS_TEXT ('%'))
                 state = PERCENT_SIGN;
             else
-                ret.push_back (*fmt_it);
+                gft_sp.ret.push_back (*fmt_it);
         }
         break;
             
@@ -238,32 +235,32 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
             {
             case LOG4CPLUS_TEXT ('q'):
             {
-                if (! q_str_valid)
+                if (! gft_sp.q_str_valid)
                 {
-                    build_q_value (q_str);
-                    q_str_valid = true;
+                    build_q_value (gft_sp.q_str);
+                    gft_sp.q_str_valid = true;
                 }
-                ret.append (q_str);
+                gft_sp.ret.append (gft_sp.q_str);
                 state = TEXT;
             }
             break;
             
             case LOG4CPLUS_TEXT ('Q'):
             {
-                if (! uc_q_str_valid)
+                if (! gft_sp.uc_q_str_valid)
                 {
-                    build_uc_q_value (uc_q_str);
-                    uc_q_str_valid = true;
+                    build_uc_q_value (gft_sp.uc_q_str);
+                    gft_sp.uc_q_str_valid = true;
                 }
-                ret.append (uc_q_str);
+                gft_sp.ret.append (gft_sp.uc_q_str);
                 state = TEXT;
             }
             break;
 
             default:
             {
-                ret.push_back (LOG4CPLUS_TEXT ('%'));
-                ret.push_back (*fmt_it);
+                gft_sp.ret.push_back (LOG4CPLUS_TEXT ('%'));
+                gft_sp.ret.push_back (*fmt_it);
                 state = TEXT;
             }
             }
@@ -274,25 +271,25 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
 
     // Finally call strftime/wcsftime to format the rest of the string.
 
-    ret.swap (fmt);
-    size_t buffer_size = fmt.size () + 1;
-    std::vector<tchar> buffer;
+    gft_sp.ret.swap (gft_sp.fmt);
+    size_t buffer_size = gft_sp.fmt.size () + 1;
     size_t len;
     do
     {
-        buffer.resize (buffer_size);
+        gft_sp.buffer.resize (buffer_size);
 #ifdef UNICODE
-        len = ::wcsftime(&buffer[0], buffer_size, fmt.c_str(), &time);
+        len = ::wcsftime(&gft_sp.buffer[0], buffer_size, gft_sp.fmt.c_str(),
+            &time);
 #else
-        len = ::strftime(&buffer[0], buffer_size, fmt.c_str(), &time);
+        len = ::strftime(&gft_sp.buffer[0], buffer_size, gft_sp.fmt.c_str(),
+            &time);
 #endif
         if (len == 0)
             buffer_size *= 2;
     } 
     while (len == 0);
-    ret.assign (buffer.begin (), buffer.begin () + len);
 
-    return ret;
+    return tstring (gft_sp.buffer.begin (), gft_sp.buffer.begin () + len);
 }
 
 

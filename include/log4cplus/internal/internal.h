@@ -24,13 +24,17 @@
 #  error "This header must not be be used outside log4cplus' implementation files."
 #endif
 
+#include <memory>
+#include <vector>
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/ndc.h>
 
 
-namespace log4cplus { namespace internal {
+namespace log4cplus {
+
+namespace internal {
 
 
 //! Canonical empty string. It is used when the need to return empty string
@@ -38,7 +42,30 @@ namespace log4cplus { namespace internal {
 extern log4cplus::tstring const empty_str;
 
 
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+struct gft_scratch_pad
+{
+    gft_scratch_pad ()
+        : uc_q_str_valid (false)
+        , q_str_valid (false)
+    { }
+    
+    void
+    reset ()
+    {
+        uc_q_str_valid = false;
+        q_str_valid = false;
+        ret.clear ();
+    }
+    
+    log4cplus::tstring q_str;
+    log4cplus::tstring uc_q_str;
+    log4cplus::tstring ret;
+    log4cplus::tstring fmt;
+    std::vector<tchar> buffer;
+    bool uc_q_str_valid;
+    bool q_str_valid;    
+};
+
 
 //! Per thread data.
 struct per_thread_data
@@ -47,15 +74,21 @@ struct per_thread_data
     { }
 
     tostringstream macros_oss;
+    tostringstream appender_oss;
     DiagnosticContextStack ndc_dcs;
+    log4cplus::tstring thread_name;
+    gft_scratch_pad gft_sp;
 };
+
+
+per_thread_data * alloc_ptd ();
+
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
 
 
 // TLS key whose value is pointer struct per_thread_data.
 extern LOG4CPLUS_THREAD_LOCAL_TYPE tls_storage_key;
-
-
-per_thread_data * alloc_ptd ();
 
 
 #if defined (LOG4CPLUS_THREAD_LOCAL_VAR)
@@ -110,9 +143,70 @@ get_ptd ()
 
 #endif // defined (LOG4CPLUS_THREAD_LOCAL_VAR)
 
+#else
+
+
+std::auto_ptr<per_thread_data> ptd;
+
+
+inline
+void
+set_ptd (per_thread_data * p)
+{
+    ptd.reset (p);
+}
+
+
+inline
+per_thread_data *
+get_ptd ()
+{
+    if (! ptd.get ())
+        return alloc_ptd ();
+
+    return ptd.get ();
+}
+
+
 #endif // ! defined (LOG4CPLUS_SINGLE_THREADED)
 
 
-} } // namespace log4cplus { namespace internal {
+inline
+tostringstream &
+get_appender_oss ()
+{
+    return get_ptd ()->appender_oss;
+}
+
+
+inline
+tstring &
+get_thread_name_str ()
+{
+    return get_ptd ()->thread_name;
+}
+
+
+inline
+gft_scratch_pad &
+get_gft_scratch_pad ()
+{
+    return get_ptd ()->gft_sp;
+}
+
+
+} // namespace internal {
+
+
+namespace detail
+{
+
+LOG4CPLUS_EXPORT void clear_tostringstream (tostringstream &);
+
+} // namespace detail
+
+
+} // namespace log4cplus { 
+
 
 #endif // LOG4CPLUS_INTERNAL_INTERNAL_HEADER_

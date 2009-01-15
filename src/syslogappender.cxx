@@ -16,6 +16,7 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/internal/internal.h>
 
 #include <syslog.h>
 
@@ -102,8 +103,10 @@ void
 log4cplus::SysLogAppender::append(const spi::InternalLoggingEvent& event)
 {
     int level = getSysLogLevel(event.getLogLevel());
-    if(level != -1) {
-        log4cplus::tostringstream buf;
+    if(level != -1)
+    {
+        tostringstream & buf = internal::get_appender_oss ();
+        detail::clear_tostringstream (buf);
         layout->formatAndAppend(buf, event);
         ::syslog(level, LOG4CPLUS_TSTRING_TO_STRING(buf.str()).c_str());
     }

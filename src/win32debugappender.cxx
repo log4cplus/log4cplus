@@ -12,6 +12,7 @@
 //
 
 #include <log4cplus/win32debugappender.h>
+#include <log4cplus/internal/internal.h>
 
 #pragma comment(lib, "kernel32.lib")
 
@@ -66,7 +67,8 @@ log4cplus::Win32DebugAppender::close()
 void
 log4cplus::Win32DebugAppender::append(const spi::InternalLoggingEvent& event)
 {
-    tostringstream buf;
+    tostringstream & buf = internal::get_appender_oss ();
+    detail::clean_tostringstream (buf);
     layout->formatAndAppend(buf, event);
     tstring sz = buf.str();
     const tchar * s = sz.c_str();

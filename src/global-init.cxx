@@ -49,7 +49,9 @@ alloc_ptd ()
     return tmp;
 }
 
-#  else
+#  endif
+
+#else
 
 per_thread_data *
 alloc_ptd ()
@@ -59,7 +61,6 @@ alloc_ptd ()
     return tmp;
 }
 
-#  endif
 #endif
 
 } // namespace internal
@@ -134,7 +135,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,  // handle to DLL module
         log4cplus::initializeLog4cplus();
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
         // Do thread-specific initialization for the main thread.
-        assert (! internal::get_ptd ());
         internal::per_thread_data * ptd = new internal::per_thread_data;
         internal::set_ptd (ptd);
 #endif
@@ -144,7 +144,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,  // handle to DLL module
     case DLL_THREAD_ATTACH:
     {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-        assert (! internal::get_ptd ());
         // Do thread-specific initialization.
         internal::per_thread_data * ptd = new internal::per_thread_data;
         internal::set_ptd (ptd);

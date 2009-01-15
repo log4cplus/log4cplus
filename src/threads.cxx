@@ -13,16 +13,11 @@
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
-#include <log4cplus/helpers/threads.h>
-#include <log4cplus/streams.h>
-#include <log4cplus/ndc.h>
-#include <log4cplus/helpers/loglog.h>
-#include <log4cplus/helpers/stringhelper.h>
-#include <log4cplus/helpers/timehelper.h>
-
 #include <exception>
 #include <stdexcept>
 #include <errno.h>
+
+#include <log4cplus/config.hxx>
 
 #if defined(LOG4CPLUS_USE_PTHREADS)
 #  include <sched.h>
@@ -30,6 +25,15 @@
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS)
 #  include <process.h> 
 #endif
+
+#include <log4cplus/helpers/threads.h>
+#include <log4cplus/streams.h>
+#include <log4cplus/ndc.h>
+#include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/internal/internal.h>
+
 
 using namespace std;
 using namespace log4cplus;
@@ -107,10 +111,15 @@ log4cplus::tstring
 log4cplus::thread::getCurrentThreadName()
 {
 #if 1
-    log4cplus::tostringstream tmp;
-    tmp << LOG4CPLUS_GET_CURRENT_THREAD;
+    log4cplus::tstring & name = log4cplus::internal::get_thread_name_str ();
+    if (name.empty ())
+    {
+        log4cplus::tostringstream tmp;
+        tmp << LOG4CPLUS_GET_CURRENT_THREAD;
+        name = tmp.str ();
+    }
 
-    return tmp.str();
+    return name;
 #else
     return convertIntegerToString(LOG4CPLUS_GET_CURRENT_THREAD);
 #endif
@@ -147,8 +156,9 @@ log4cplus::thread::getCurrentThreadName()
         }
         thread->running = false;
         getNDC().remove();
-        threadCleanup ();
     }
+
+    threadCleanup ();
 
     return 0;
 }
