@@ -22,8 +22,61 @@ using namespace log4cplus::spi;
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// InternalLoggingEvent dtor
+// InternalLoggingEvent ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
+
+InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
+    LogLevel ll, const log4cplus::tstring& message, const char* filename,
+    int line)
+    : message(message)
+    , loggerName(logger)
+    , ll(ll)
+    , ndc()
+    , thread()
+    , timestamp(log4cplus::helpers::Time::gettimeofday())
+    , file(filename
+        ? LOG4CPLUS_C_STR_TO_TSTRING(filename) 
+        : log4cplus::tstring())
+    , line(line)
+    , threadCached(false)
+    , ndcCached(false)
+{
+}
+
+
+InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
+    LogLevel ll, const log4cplus::tstring& ndc,
+    const log4cplus::tstring& message, const log4cplus::tstring& thread,
+    log4cplus::helpers::Time time, const log4cplus::tstring& file, int line)
+    : message(message)
+    , loggerName(logger)
+    , ll(ll)
+    , ndc(ndc)
+    , thread(thread)
+    , timestamp(time)
+    , file(file)
+    , line(line)
+    , threadCached(true)
+    , ndcCached(true)
+{
+}
+
+
+InternalLoggingEvent::InternalLoggingEvent(
+    const log4cplus::spi::InternalLoggingEvent& rhs)
+    : message(rhs.getMessage())
+    , loggerName(rhs.getLoggerName())
+    , ll(rhs.getLogLevel())
+    , ndc(rhs.getNDC())
+    , thread(rhs.getThread())
+    , timestamp(rhs.getTimestamp())
+    , file(rhs.getFile())
+    , line(rhs.getLine())
+    , threadCached(true)
+    , ndcCached(true)
+{
+}
+
 
 InternalLoggingEvent::~InternalLoggingEvent()
 {
