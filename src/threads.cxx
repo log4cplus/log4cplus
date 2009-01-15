@@ -107,10 +107,9 @@ log4cplus::thread::yield()
 }
 
 
-log4cplus::tstring 
+log4cplus::tstring const &
 log4cplus::thread::getCurrentThreadName()
 {
-#if 1
     log4cplus::tstring & name = log4cplus::internal::get_thread_name_str ();
     if (name.empty ())
     {
@@ -120,9 +119,6 @@ log4cplus::thread::getCurrentThreadName()
     }
 
     return name;
-#else
-    return convertIntegerToString(LOG4CPLUS_GET_CURRENT_THREAD);
-#endif
 }
 
 

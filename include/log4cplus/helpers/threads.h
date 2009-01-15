@@ -62,7 +62,7 @@ namespace log4cplus {
 #endif
 
         LOG4CPLUS_EXPORT void yield();
-        LOG4CPLUS_EXPORT log4cplus::tstring getCurrentThreadName();
+        LOG4CPLUS_EXPORT log4cplus::tstring const & getCurrentThreadName();
 
         /**
          * There are many cross-platform C++ Threading libraries.  The goal of
