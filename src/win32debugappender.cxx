@@ -68,7 +68,7 @@ void
 log4cplus::Win32DebugAppender::append(const spi::InternalLoggingEvent& event)
 {
     tostringstream & buf = internal::get_appender_oss ();
-    detail::clean_tostringstream (buf);
+    detail::clear_tostringstream (buf);
     layout->formatAndAppend(buf, event);
     tstring sz = buf.str();
     const tchar * s = sz.c_str();
