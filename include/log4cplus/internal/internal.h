@@ -68,6 +68,13 @@ struct gft_scratch_pad
 };
 
 
+struct appender_sratch_pad
+{
+    tostringstream oss;
+    tstring str;
+};
+
+
 //! Per thread data.
 struct per_thread_data
 {
@@ -75,10 +82,10 @@ struct per_thread_data
     { }
 
     tostringstream macros_oss;
-    tostringstream appender_oss;
     DiagnosticContextStack ndc_dcs;
     log4cplus::tstring thread_name;
     gft_scratch_pad gft_sp;
+    appender_sratch_pad appender_sp;
 };
 
 
@@ -173,14 +180,6 @@ get_ptd ()
 
 
 inline
-tostringstream &
-get_appender_oss ()
-{
-    return get_ptd ()->appender_oss;
-}
-
-
-inline
 tstring &
 get_thread_name_str ()
 {
@@ -193,6 +192,14 @@ gft_scratch_pad &
 get_gft_scratch_pad ()
 {
     return get_ptd ()->gft_sp;
+}
+
+
+inline
+appender_sratch_pad &
+get_appender_sp ()
+{
+    return get_ptd ()->appender_sp;
 }
 
 

@@ -67,10 +67,10 @@ log4cplus::Win32DebugAppender::close()
 void
 log4cplus::Win32DebugAppender::append(const spi::InternalLoggingEvent& event)
 {
-    tostringstream & buf = internal::get_appender_oss ();
-    detail::clear_tostringstream (buf);
-    layout->formatAndAppend(buf, event);
-    tstring sz = buf.str();
-    const tchar * s = sz.c_str();
+    internal::appender_sratch_pad & appender_sp = internal::get_appender_sp ();
+    detail::clear_tostringstream (appender_sp.oss);
+    layout->formatAndAppend(appender_sp.oss, event);
+    appender_sp.str = appender_sp.oss.str();
+    const tchar * s = appender_sp.str.c_str();
     ::OutputDebugString(s);
 }

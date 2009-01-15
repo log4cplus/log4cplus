@@ -15,6 +15,7 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/internal/internal.h>
 
 #pragma comment(lib, "advapi32.lib")
 
@@ -232,10 +233,11 @@ NTEventLogAppender::append(const InternalLoggingEvent& event)
         return;
     }
 
-    tostringstream buf;
-    layout->formatAndAppend(buf, event);
-    tstring sz = buf.str();
-    const tchar * s = sz.c_str();
+    internal::appender_sratch_pad & appender_sp = internal::get_appender_sp ();
+    detail::clear_tostringstream (appender_sp.oss);
+    layout->formatAndAppend(appender_sp.oss, event);
+    appender_sp.str = appender_sp.oss.str();
+    const tchar * s = appender_sp.str.c_str();
 
     BOOL bSuccess = ::ReportEvent(hEventLog,
                                   getEventType(event),
@@ -336,6 +338,3 @@ NTEventLogAppender::addRegistryInfo()
     RegCloseKey(hkey);
     return;
 }
-
-
-

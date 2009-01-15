@@ -105,10 +105,13 @@ log4cplus::SysLogAppender::append(const spi::InternalLoggingEvent& event)
     int level = getSysLogLevel(event.getLogLevel());
     if(level != -1)
     {
-        tostringstream & buf = internal::get_appender_oss ();
-        detail::clear_tostringstream (buf);
-        layout->formatAndAppend(buf, event);
-        ::syslog(level, LOG4CPLUS_TSTRING_TO_STRING(buf.str()).c_str());
+        internal::appender_sratch_pad & appender_sp
+            = internal::get_appender_sp ();
+        detail::clear_tostringstream (appender_sp.oss);
+        layout->formatAndAppend(appender_sp.oss, event);
+        appender_sp.str = appender_sp.oss.str ();
+        ::syslog(level,
+            LOG4CPLUS_TSTRING_TO_STRING(appender_sp.str).c_str());
     }
 }
 
