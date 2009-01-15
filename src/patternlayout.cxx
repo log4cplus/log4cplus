@@ -285,7 +285,8 @@ log4cplus::tstring
 log4cplus::pattern::BasicPatternConverter::convert
                                             (const InternalLoggingEvent& event)
 {
-    switch(type) {
+    switch(type)
+    {
     case LOGLEVEL_CONVERTER: return llmCache.toString(event.getLogLevel());
     case NDC_CONVERTER:      return event.getNDC();
     case MESSAGE_CONVERTER:  return event.getMessage();
@@ -305,14 +306,15 @@ log4cplus::pattern::BasicPatternConverter::convert
 
     case FULL_LOCATION_CONVERTER:
         {
-            if(event.getFile().length() > 0) {
-                return   event.getFile() 
+            log4cplus::tstring const & file = event.getFile();
+            if (! file.empty ())
+            {
+                return file 
                        + LOG4CPLUS_TEXT(":") 
                        + convertIntegerToString(event.getLine());
             }
-            else {
+            else
                 return LOG4CPLUS_TEXT(":");
-            }
         }
     }
 
