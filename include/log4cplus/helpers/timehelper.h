@@ -112,9 +112,6 @@ public:
     Time& operator*=(long rhs);
 
 private:
-    void build_q_value (log4cplus::tstring & q_str) const;
-    void build_uc_q_value (log4cplus::tstring & uc_q_str) const;
-
   // Data
     time_t tv_sec;  /* seconds */
     long tv_usec;  /* microseconds */

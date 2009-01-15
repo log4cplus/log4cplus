@@ -140,6 +140,7 @@ Time::localtime(struct tm* t) const
 namespace 
 {
 
+
 static log4cplus::tstring const padding_zeros[4] =
 {
     log4cplus::tstring (LOG4CPLUS_TEXT("000")),
@@ -147,6 +148,7 @@ static log4cplus::tstring const padding_zeros[4] =
     log4cplus::tstring (LOG4CPLUS_TEXT("0")),
     log4cplus::tstring (LOG4CPLUS_TEXT(""))
 };
+
 
 static log4cplus::tstring const uc_q_padding_zeros[4] =
 {
@@ -156,11 +158,10 @@ static log4cplus::tstring const uc_q_padding_zeros[4] =
     log4cplus::tstring (LOG4CPLUS_TEXT("."))
 };
 
-}
 
-
+static
 void
-Time::build_q_value (log4cplus::tstring & q_str) const
+build_q_value (log4cplus::tstring & q_str, long tv_usec)
 {
     q_str = convertIntegerToString(tv_usec / 1000);
     size_t const len = q_str.length();
@@ -169,22 +170,26 @@ Time::build_q_value (log4cplus::tstring & q_str) const
 }
 
 
+static
 void 
-Time::build_uc_q_value (log4cplus::tstring & uc_q_str) const
+build_uc_q_value (log4cplus::tstring & uc_q_str, long tv_usec,
+    log4cplus::tstring & tmp)
 {
-    build_q_value (uc_q_str);
+    build_q_value (uc_q_str, tv_usec);
 
 #if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
-    log4cplus::tstring usecs (convertIntegerToString(tv_usec % 1000));
-    size_t usecs_len = usecs.length();
-    usecs.insert (0, usecs_len <= 3 
-                  ? uc_q_padding_zeros[usecs_len] : uc_q_padding_zeros[3]);
-    uc_q_str.append (usecs);
+    tmp = convertIntegerToString(tv_usec % 1000);
+    size_t const usecs_len = tmp.length();
+    tmp.insert (0, usecs_len <= 3
+        ? uc_q_padding_zeros[usecs_len] : uc_q_padding_zeros[3]);
+    uc_q_str.append (tmp);
 #else
     uc_q_str.append (uc_q_padding_zeros[0]);
 #endif
-
 }
+
+
+} // namespace
 
 
 log4cplus::tstring
@@ -237,7 +242,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
             {
                 if (! gft_sp.q_str_valid)
                 {
-                    build_q_value (gft_sp.q_str);
+                    build_q_value (gft_sp.q_str, tv_usec);
                     gft_sp.q_str_valid = true;
                 }
                 gft_sp.ret.append (gft_sp.q_str);
@@ -249,7 +254,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
             {
                 if (! gft_sp.uc_q_str_valid)
                 {
-                    build_uc_q_value (gft_sp.uc_q_str);
+                    build_uc_q_value (gft_sp.uc_q_str, tv_usec, gft_sp.tmp);
                     gft_sp.uc_q_str_valid = true;
                 }
                 gft_sp.ret.append (gft_sp.uc_q_str);

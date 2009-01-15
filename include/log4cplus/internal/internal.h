@@ -61,6 +61,7 @@ struct gft_scratch_pad
     log4cplus::tstring uc_q_str;
     log4cplus::tstring ret;
     log4cplus::tstring fmt;
+    log4cplus::tstring tmp;
     std::vector<tchar> buffer;
     bool uc_q_str_valid;
     bool q_str_valid;    
