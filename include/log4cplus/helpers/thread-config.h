@@ -80,7 +80,8 @@ namespace log4cplus {
 #   define LOG4CPLUS_MUTEX_FREE(mutex)
 #   define LOG4CPLUS_THREAD_KEY_TYPE int
 #   define LOG4CPLUS_GET_CURRENT_THREAD 1
-#   define LOG4CPLUS_GET_CURRENT_THREAD_NAME "single"
+#   define LOG4CPLUS_GET_CURRENT_THREAD_NAME \
+    LOG4CPLUS_C_STR_TO_TSTRING("single")
 #   define LOG4CPLUS_THREAD_LOCAL_TYPE void*
 #   define LOG4CPLUS_THREAD_LOCAL_INIT(cleanup) NULL
 #   define LOG4CPLUS_GET_THREAD_LOCAL_VALUE(key) (key)
