@@ -30,9 +30,11 @@ LOG4CPLUS_THREAD_LOCAL_TYPE tls_storage_key;
 
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-#  if defined (LOG4CPLUS_THREAD_LOCAL_VAR)
+
+# if defined (LOG4CPLUS_THREAD_LOCAL_VAR)
 
 LOG4CPLUS_THREAD_LOCAL_VAR per_thread_data * ptd = 0;
+
 
 per_thread_data *
 alloc_ptd ()
@@ -49,9 +51,23 @@ alloc_ptd ()
     return tmp;
 }
 
+#  else
+
+
+per_thread_data *
+alloc_ptd ()
+{
+    per_thread_data * tmp = new per_thread_data;
+    set_ptd (tmp);
+    return tmp;
+}
+
 #  endif
 
 #else
+
+std::auto_ptr<per_thread_data> ptd;
+
 
 per_thread_data *
 alloc_ptd ()

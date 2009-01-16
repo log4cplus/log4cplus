@@ -154,7 +154,7 @@ get_ptd ()
 #else
 
 
-std::auto_ptr<per_thread_data> ptd;
+extern std::auto_ptr<per_thread_data> ptd;
 
 
 inline
