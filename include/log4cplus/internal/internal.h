@@ -86,6 +86,7 @@ struct per_thread_data
     log4cplus::tstring thread_name;
     gft_scratch_pad gft_sp;
     appender_sratch_pad appender_sp;
+    log4cplus::tstring faa_str;
 };
 
 
