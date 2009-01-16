@@ -322,7 +322,7 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
     tstring configString;
     remove_copy_if(config.begin(), config.end(),
                    string_append_iterator<tstring>(configString),
-                   bind1st(equal_to<tchar>(), ' '));
+                   bind1st(equal_to<tchar>(), LOG4CPLUS_TEXT(' ')));
 
     // "Tokenize" configString
     vector<tstring> tokens;
@@ -479,7 +479,7 @@ BasicConfigurator::BasicConfigurator(Hierarchy& h)
     properties.setProperty(LOG4CPLUS_TEXT("rootLogger"),
                            LOG4CPLUS_TEXT("DEBUG, STDOUT"));
     properties.setProperty(LOG4CPLUS_TEXT("appender.STDOUT"),
-                           LOG4CPLUS_TEXT("ConsoleAppender"));
+                           LOG4CPLUS_TEXT("log4cplus::ConsoleAppender"));
 }
 
 
