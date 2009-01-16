@@ -136,14 +136,11 @@ namespace log4cplus {
          */
         template <class Container>
         class string_append_iterator
+            : public std::iterator<std::output_iterator_tag, void, void, void,
+                void>
         {
         public:
-            typedef std::input_iterator_tag iterator_category;
-            typedef Container           container_type;
-            typedef void                value_type;
-            typedef void                difference_type;
-            typedef void                pointer;
-            typedef void                reference;
+            typedef Container container_type;
 
             explicit string_append_iterator(container_type & c)
                 : container(&c)
@@ -156,16 +153,31 @@ namespace log4cplus {
                 return *this;
             }
 
-            string_append_iterator<container_type>& operator*() { return *this; }
-            string_append_iterator<container_type>& operator++() { return *this; }
-            string_append_iterator<container_type> operator++(int) { return *this; }
+            string_append_iterator<container_type> &
+            operator * ()
+            {
+                return *this;
+            }
+            
+            string_append_iterator<container_type> &
+            operator ++ ()
+            {
+                return *this;
+            }
+
+            string_append_iterator<container_type>
+            operator ++ (int)
+            {
+                return *this;
+            }
 
         protected:
             container_type * container;
         };
 
-    } 
-}
+    } // namespace helpers
+
+} // namespace log4cplus
 
 #endif // LOG4CPLUS_HELPERS_STRINGHELPER_HEADER_
 
