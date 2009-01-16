@@ -21,6 +21,7 @@
 
 #include <algorithm>
 #include <limits>
+#include <iterator>
 
 
 namespace log4cplus {
@@ -134,31 +135,50 @@ namespace log4cplus {
          * for compilers that don't have a std::basic_string class that
          * has the <code>push_back</code> method.
          */
-        template <class _Container>
-        class string_append_iterator {
-        protected:
-            _Container* container;
+        template <class Container>
+        class string_append_iterator
+            : public std::iterator<std::output_iterator_tag, void, void, void,
+                void>
+        {
         public:
-            typedef std::input_iterator_tag iterator_category;
-            typedef _Container          container_type;
-            typedef void                value_type;
-            typedef void                difference_type;
-            typedef void                pointer;
-            typedef void                reference;
+            typedef Container container_type;
 
-            explicit string_append_iterator(_Container& __x) : container(&__x) {}
-            string_append_iterator<_Container>&
-            operator=(const typename _Container::value_type& _value) {
-                *container += _value;
+            explicit string_append_iterator(container_type & c)
+                : container(&c)
+            { }
+
+            string_append_iterator<container_type> &
+            operator = (const typename container_type::value_type& value)
+            {
+                *container += value;
                 return *this;
             }
-            string_append_iterator<_Container>& operator*() { return *this; }
-            string_append_iterator<_Container>& operator++() { return *this; }
-            string_append_iterator<_Container>& operator++(int) { return *this; }
+
+            string_append_iterator<container_type> &
+            operator * ()
+            {
+                return *this;
+            }
+            
+            string_append_iterator<container_type> &
+            operator ++ ()
+            {
+                return *this;
+            }
+
+            string_append_iterator<container_type>
+            operator ++ (int)
+            {
+                return *this;
+            }
+
+        protected:
+            container_type * container;
         };
 
-    } 
-}
+    } // namespace helpers
+
+} //namespace log4cplus
+
 
 #endif // LOG4CPLUS_HELPERS_STRINGHELPER_HEADER_
-
