@@ -162,7 +162,7 @@ namespace log4cplus {
 
       // Disable Copy
         LogLevelManager(const LogLevelManager&);
-	LogLevelManager& operator=(const LogLevelManager&);
+        LogLevelManager& operator=(const LogLevelManager&);
     };
 
     /**

@@ -11,7 +11,7 @@ set (log4cplus_postfix "")
 find_package (Threads)
 message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
 
-set(log4cplus_headers
+set (log4cplus_headers
   include/log4cplus/appender.h
   include/log4cplus/config/macosx.h
   include/log4cplus/config/win32.h
