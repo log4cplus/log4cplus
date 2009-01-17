@@ -1,3 +1,16 @@
+Version 1.0.3-RC6
+
+  - Fix Bug #852513 - Reconfiguring a logger does not remove old
+    appenders.
+  - Changed log4cplus thread helpers to block all signals on POSIX
+    platforms to enable their handling in a dedicated thread. (See
+    README, chapter Notes for explanation.)
+  - Changed thread creation from using CreateThread() to using
+    _beginthreadex() to avoid leaking C and C++ runtime memory.
+  - Fixed convertIntegerToString() to for negative numbers.
+  - Fixed wrong name used in BasicConfigurator for the
+    ConsoleAppender.
+
 Version 1.0.3-RC5
 
   - Add CMakeLists.txt to facilitate compilation of log4cplus on
@@ -10,6 +23,7 @@ Version 1.0.3-RC4
   - IMPORTANT: log4cplus shared library version has been bumped to
     3. The interfaces have slightly changed and 1.0.3 is not binary
     compatible with 1.0.2.
+
   - Fix more MSVC compilation problems.
   - Changed log4cplus_static.vcproj to link with DLL C/C++ run time
     (MSVCR80.dll and MSVCP80.dll).
