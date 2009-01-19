@@ -54,6 +54,8 @@ namespace log4cplus {
                 log4cplus::helpers::Time time, const log4cplus::tstring& file,
                 int line);
 
+            InternalLoggingEvent ();
+
             InternalLoggingEvent(
                 const log4cplus::spi::InternalLoggingEvent& rhs);
 
@@ -129,6 +131,8 @@ namespace log4cplus {
 
             /** The is the line where this log statement was written */
             int getLine() const { return line; }
+
+            void swap (InternalLoggingEvent &);
  
           // public operators
             log4cplus::spi::InternalLoggingEvent&

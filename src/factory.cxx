@@ -22,6 +22,10 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
 
+#ifndef LOG4CPLUS_SINGLE_THREADED
+#include <log4cplus/asyncappender.h>
+#endif
+
 #if defined (_WIN32)
 #include <log4cplus/Win32DebugAppender.h>
 #endif
@@ -95,6 +99,9 @@ namespace {
     APPENDER_FACTORY_DEF (RollingFileAppenderFactory, RollingFileAppender);
     APPENDER_FACTORY_DEF (DailyRollingFileAppenderFactory, DailyRollingFileAppender);
     APPENDER_FACTORY_DEF (SocketAppenderFactory, SocketAppender);
+#ifndef LOG4CPLUS_SINGLE_THREADED
+    APPENDER_FACTORY_DEF (AsyncAppenderFactory, AsyncAppender);
+#endif
 #if defined(_WIN32)
     APPENDER_FACTORY_DEF (NTEventLogAppenderFactory, NTEventLogAppender);
     APPENDER_FACTORY_DEF (Win32DebugAppenderFactory, Win32DebugAppender);

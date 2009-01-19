@@ -12,13 +12,13 @@
 //
 
 #include <log4cplus/spi/loggingevent.h>
+#include <algorithm>
 
 
-using namespace log4cplus;
-using namespace log4cplus::spi;
+namespace log4cplus {  namespace spi {
 
 
-#define LOG4CPLUS_DEFAULT_TYPE 1
+static const int LOG4CPLUS_DEFAULT_TYPE = 1;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -60,6 +60,13 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , ndcCached(true)
 {
 }
+
+
+InternalLoggingEvent::InternalLoggingEvent ()
+    : ll (NOT_SET_LOG_LEVEL)
+    , threadCached(false)
+    , ndcCached(false)
+{ }
 
 
 InternalLoggingEvent::InternalLoggingEvent(
@@ -144,3 +151,24 @@ InternalLoggingEvent::operator=(const log4cplus::spi::InternalLoggingEvent& rhs)
 }
 
 
+void
+InternalLoggingEvent::swap (InternalLoggingEvent & other)
+{
+    using std::swap;
+
+    swap (message, other.message);
+    swap (loggerName, other.loggerName);
+    swap (ll, other.ll);
+    swap (ndc, other.ndc);
+    swap (thread, other.thread);
+    swap (timestamp, other.timestamp);
+    swap (file, other.file);
+    swap (line, other.line);
+    swap (threadCached, other.threadCached);
+    assert (threadCached);
+    swap (ndcCached, other.ndcCached);
+    assert (ndcCached);
+}
+
+
+} } // namespace log4cplus {  namespace spi {

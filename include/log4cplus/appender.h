@@ -89,7 +89,7 @@ namespace log4cplus {
          * delegating actual logging to the subclasses specific {@link
          * AppenderSkeleton#append} method.
          */
-        void doAppend(const log4cplus::spi::InternalLoggingEvent& event);
+        virtual void doAppend(const log4cplus::spi::InternalLoggingEvent& event);
 
         /**
          * Get the name of this appender. The name uniquely identifies the

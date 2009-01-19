@@ -11,8 +11,9 @@ set (log4cplus_postfix "")
 find_package (Threads)
 message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
 
-set(log4cplus_headers
+set (log4cplus_headers
   include/log4cplus/appender.h
+  include/log4cplus/asyncappender.h
   include/log4cplus/config/macosx.h
   include/log4cplus/config/win32.h
   include/log4cplus/config.hxx
@@ -23,6 +24,7 @@ set(log4cplus_headers
   include/log4cplus/helpers/appenderattachableimpl.h
   include/log4cplus/helpers/loglog.h
   include/log4cplus/helpers/logloguser.h
+  include/log4cplus/helpers/queue.h
   include/log4cplus/helpers/pointer.h
   include/log4cplus/helpers/property.h
   include/log4cplus/helpers/sleep.h
@@ -62,6 +64,7 @@ message (STATUS "Headers: ${log4cplus_headers}")
 set (log4cplus_sources
   src/appender.cxx
   src/appenderattachableimpl.cxx
+  src/asyncappender.cxx
   src/configurator.cxx
   src/consoleappender.cxx
   src/factory.cxx
@@ -80,6 +83,7 @@ set (log4cplus_sources
   src/ndc.cxx
   src/nullappender.cxx
   src/objectregistry.cxx
+  src/queue.cxx
   src/patternlayout.cxx
   src/pointer.cxx
   src/property.cxx

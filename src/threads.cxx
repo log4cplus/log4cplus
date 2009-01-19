@@ -35,9 +35,7 @@
 #include <log4cplus/internal/internal.h>
 
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
+namespace log4cplus { namespace thread {
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -45,26 +43,26 @@ using namespace log4cplus::helpers;
 ///////////////////////////////////////////////////////////////////////////////
 
 LOG4CPLUS_MUTEX_PTR_DECLARE 
-log4cplus::thread::createNewMutex()
+createNewMutex()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
-    pthread_mutex_t* m = new pthread_mutex_t();
-    pthread_mutex_init(m, NULL);
+    ::pthread_mutex_t* m = new ::pthread_mutex_t;
+    ::pthread_mutex_init(m, NULL);
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    CRITICAL_SECTION* m = new CRITICAL_SECTION();
-    InitializeCriticalSection(m);
+    ::CRITICAL_SECTION* m = new ::CRITICAL_SECTION;
+    ::InitializeCriticalSection(m);
 #endif
     return m;
 }
 
 
 void 
-log4cplus::thread::deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE m)
+deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE m)
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
-    pthread_mutex_destroy(m);
+    ::pthread_mutex_destroy(m);
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    DeleteCriticalSection(m);
+    ::DeleteCriticalSection(m);
 #endif
     delete m;
 }
@@ -73,10 +71,10 @@ log4cplus::thread::deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE m)
 
 #if defined(LOG4CPLUS_USE_PTHREADS)
 pthread_key_t*
-log4cplus::thread::createPthreadKey(void (*cleanupfunc)(void *))
+createPthreadKey(void (*cleanupfunc)(void *))
 {
-    pthread_key_t* key = new pthread_key_t();
-    pthread_key_create(key, cleanupfunc);
+    ::pthread_key_t* key = new ::pthread_key_t;
+    ::pthread_key_create(key, cleanupfunc);
     return key;
 }
 #endif
@@ -84,20 +82,20 @@ log4cplus::thread::createPthreadKey(void (*cleanupfunc)(void *))
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
 void
-log4cplus::thread::blockAllSignals()
+blockAllSignals()
 {
 #if defined (LOG4CPLUS_USE_PTHREADS)
     // Block all signals.
-    sigset_t signal_set;
-    sigfillset (&signal_set);
-    pthread_sigmask (SIG_BLOCK, &signal_set, 0);
+    ::sigset_t signal_set;
+    ::sigfillset (&signal_set);
+    ::pthread_sigmask (SIG_BLOCK, &signal_set, 0);
 #endif    
 }
 #endif // LOG4CPLUS_SINGLE_THREADED
 
 
 void
-log4cplus::thread::yield()
+yield()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
     ::sched_yield();
@@ -108,7 +106,7 @@ log4cplus::thread::yield()
 
 
 log4cplus::tstring const &
-log4cplus::thread::getCurrentThreadName()
+getCurrentThreadName()
 {
     log4cplus::tstring & name = log4cplus::internal::get_thread_name_str ();
     if (name.empty ())
@@ -125,30 +123,34 @@ log4cplus::thread::getCurrentThreadName()
 
 #if defined(LOG4CPLUS_USE_PTHREADS)
     void* 
-    log4cplus::thread::threadStartFunc(void* arg)
+    threadStartFunc(void* arg)
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     unsigned WINAPI
-    log4cplus::thread::threadStartFunc(void * arg)
+    threadStartFunc(void * arg)
 #endif
 {
     blockAllSignals ();
-    SharedObjectPtr<LogLog> loglog = LogLog::getLogLog();
-    if(arg == NULL) {
-        loglog->error(LOG4CPLUS_TEXT("log4cplus::thread::threadStartFunc()- arg is NULL"));
-    }
-    else {
-        AbstractThread* ptr = static_cast<AbstractThread*>(arg);
-        log4cplus::helpers::SharedObjectPtr<AbstractThread> thread(ptr);
-        try {
+    helpers::SharedObjectPtr<helpers::LogLog> loglog
+        = helpers::LogLog::getLogLog();
+    if (! arg)
+        loglog->error(LOG4CPLUS_TEXT("threadStartFunc()- arg is NULL"));
+    else
+    {
+        AbstractThread * ptr = static_cast<AbstractThread*>(arg);
+        AbstractThreadPtr thread(ptr);
+        try
+        {
             thread->run();
         }
-        catch(std::exception& e) {
-            tstring err = LOG4CPLUS_TEXT("log4cplus::thread::threadStartFunc()- run() terminated with an exception: ");
+        catch(std::exception& e)
+        {
+            tstring err = LOG4CPLUS_TEXT("threadStartFunc()- run() terminated with an exception: ");
             err += LOG4CPLUS_C_STR_TO_TSTRING(e.what());
             loglog->warn(err);
         }
-        catch(...) {
-            loglog->warn(LOG4CPLUS_TEXT("log4cplus::thread::threadStartFunc()- run() terminated with an exception."));
+        catch(...)
+        {
+            loglog->warn(LOG4CPLUS_TEXT("threadStartFunc()- run() terminated with an exception."));
         }
         thread->running = false;
         getNDC().remove();
@@ -162,41 +164,43 @@ log4cplus::thread::getCurrentThreadName()
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::thread::AbstractThread ctor and dtor
+// AbstractThread ctor and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-log4cplus::thread::AbstractThread::AbstractThread()
+AbstractThread::AbstractThread()
 : running(false)
 {
 }
 
 
 
-log4cplus::thread::AbstractThread::~AbstractThread()
+AbstractThread::~AbstractThread()
 {
 }
 
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::thread::AbstractThread public methods
+// AbstractThread public methods
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-log4cplus::thread::AbstractThread::start()
+AbstractThread::start()
 {
     running = true;
 #if defined(LOG4CPLUS_USE_PTHREADS)
-    if( pthread_create(&threadId, NULL, threadStartFunc, this) )
+    if (::pthread_create(&threadId, NULL, threadStartFunc, this) )
         throw std::runtime_error("Thread creation was not successful");
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     HANDLE h = reinterpret_cast<HANDLE>(
-        _beginthreadex (0, 0, threadStartFunc, this, 0, 0));
+        ::_beginthreadex (0, 0, threadStartFunc, this, 0, 0));
     if (! h)
         throw std::runtime_error("Thread creation was not successful");
-    CloseHandle(h);
+    ::CloseHandle(h);
 #endif
 }
 
-#endif // LOG4CPLUS_SINGLE_THREADED
 
+} } // namespace log4cplus { namespace thread {
+
+#endif // LOG4CPLUS_SINGLE_THREADED

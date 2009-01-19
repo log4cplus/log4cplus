@@ -489,6 +489,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\asyncappender.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\src\configurator.cxx"
 				>
 				<FileConfiguration
@@ -1369,6 +1373,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\queue.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\src\rootlogger.cxx"
 				>
 				<FileConfiguration
@@ -1750,6 +1758,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\asyncappender.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\log4cplus\config.hxx"
 				>
 			</File>
@@ -1847,6 +1859,10 @@
 			</File>
 			<File
 				RelativePath="..\include\log4cplus\helpers\property.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\queue.h"
 				>
 			</File>
 			<File
