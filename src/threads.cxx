@@ -34,6 +34,8 @@
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/internal/internal.h>
 
+#include <log4cplus/helpers/syncprims.h>
+
 
 namespace log4cplus { namespace thread {
 

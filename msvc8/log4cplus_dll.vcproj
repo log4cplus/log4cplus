@@ -1894,6 +1894,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\helpers\syncprims-pthreads.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\syncprims-win32.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\syncprims.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\log4cplus\helpers\thread-config.h"
 				>
 			</File>

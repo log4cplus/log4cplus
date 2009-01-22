@@ -4,6 +4,7 @@
 #include <log4cplus/helpers/threads.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/helpers/logloguser.h>
+#include <log4cplus/helpers/syncprims.h>
 
 
 namespace log4cplus { namespace thread {
@@ -38,24 +39,11 @@ public:
 
 protected:
     std::deque<spi::InternalLoggingEvent> queue;
+    Mutex mutex;
+    ManualResetEvent ev_consumer;
+    Semaphore sem;
     size_t max_len;
-
-    LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
-
     unsigned flags;
-
-#if defined (LOG4CPLUS_USE_PTHREADS)
-    pthread_cond_t cv_consumer;
-    pthread_cond_t cv_producers;
-    // POSIX sem_t
-
-#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
-    HANDLE ev_consumer;
-    HANDLE sem;
-
-#else
-#  error "This file assumes real threading support."
-#endif
 
 private:
     Queue (Queue const &);

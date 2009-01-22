@@ -5,6 +5,7 @@ AM_CPPFLAGS = -DINSIDE_LOG4CPLUS \
 	@LOG4CPLUS_NDEBUG@
 
 nobase_include_HEADERS = ../include/log4cplus/appender.h \
+			 ../include/log4cplus/asyncappender.h \
 			 ../include/log4cplus/config.hxx \
 			 ../include/log4cplus/config/defines.hxx \
 			 ../include/log4cplus/config/win32.h \
@@ -32,10 +33,13 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/helpers/logloguser.h \
 			 ../include/log4cplus/helpers/pointer.h \
 			 ../include/log4cplus/helpers/property.h \
+			 ../include/log4cplus/helpers/queue.h \
 			 ../include/log4cplus/helpers/sleep.h \
 			 ../include/log4cplus/helpers/socketbuffer.h \
 			 ../include/log4cplus/helpers/socket.h \
 			 ../include/log4cplus/helpers/stringhelper.h \
+			 ../include/log4cplus/helpers/syncprims.h \
+			 ../include/log4cplus/helpers/syncprims-pthreads.h \
 			 ../include/log4cplus/helpers/thread-config.h \
 			 ../include/log4cplus/helpers/threads.h \
 			 ../include/log4cplus/helpers/timehelper.h \
@@ -82,7 +86,7 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
 			 timehelper.cxx
 
 if MULTI_THREADED
-LIB_SRC = $(SINGLE_THREADED_SRC) threads.cxx
+LIB_SRC = $(SINGLE_THREADED_SRC) threads.cxx asyncappender.cxx queue.cxx
 else
 LIB_SRC = $(SINGLE_THREADED_SRC)
 endif

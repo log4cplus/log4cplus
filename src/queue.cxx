@@ -6,92 +6,53 @@ namespace log4cplus { namespace thread {
 
 
 Queue::Queue (unsigned len)
-    : max_len (len)
-    , mutex (LOG4CPLUS_MUTEX_CREATE)
+    : ev_consumer (false)
+    , sem (len, len) 
+    , max_len (len)
     , flags (DRAIN)
-{
-#if defined (LOG4CPLUS_USE_PTHREADS)
-    pthread_cond_init (&cv_consumer, 0);
-    pthread_cond_init (&cv_producers, 0);
-    pthread_mutex_init (&mtx, 0);
-
-#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
-    ev_consumer = CreateEvent (0, true, true, 0);
-    sem = CreateSemaphore (0, max_len, max_len, 0);
-
-#else
-#  error "This file assumes real threading support."
-#endif
-}
+{ }
 
 
 Queue::~Queue ()
-{
-    LOG4CPLUS_MUTEX_FREE (mutex);
-#if defined (LOG4CPLUS_USE_PTHREADS)
-#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
-    CloseHandle (ev_consumer);
-    CloseHandle (sem);
-#endif
-}
+{ }
 
 
 unsigned
 Queue::put_event (spi::InternalLoggingEvent const & ev)
 {
-    unsigned ret_flags = 0;
-
-    ev.getThread ();
-    ev.getNDC ();
-
-#if defined (LOG4CPLUS_USE_PTHREADS)
-    // TODO
-
-#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
-    DWORD ret = WaitForSingleObject (sem, INFINITE);
-    if (ret != WAIT_OBJECT_0)
+    unsigned ret_flags = ERROR_BIT | ERROR_AFTER;
+    try
     {
-        getLogLog ().error (
-            LOG4CPLUS_TEXT ("Queue::put_event: Error waiting on semaphore."));
-        ret_flags |= ERROR_BIT;
+        ev.getThread ();
+        ev.getNDC ();
+        
+        SemaphoreGuard semguard (sem);
+        MutexGuard mguard (mutex);
+
+        ret_flags |= flags;
+        
+        if (flags & EXIT)
+        {
+            ret_flags &= ~(ERROR_BIT | ERROR_AFTER);
+            return ret_flags;
+        }
+        else
+        {
+            queue.push_front (ev);
+            semguard.detach ();
+            flags |= QUEUE;
+            ret_flags |= flags;
+            ev_consumer.signal ();
+        }
+    }
+    catch (std::runtime_error const & e)
+    {
+        (void)e;
         return ret_flags;
     }
 
-    LOG4CPLUS_MUTEX_LOCK (mutex);
-
-    if (flags & EXIT)
-    {
-        ret = ReleaseSemaphore (sem, 1, 0);
-        if (! ret)
-        {
-            getLogLog ().error (
-                LOG4CPLUS_TEXT ("Queue::put_event:")
-                LOG4CPLUS_TEXT (" Error releasing semaphore."));
-            ret_flags = ERROR_BIT | flags;
-            goto leave_cs;
-        }
-    }
-    else
-    {
-        queue.push_front (ev);
-        flags |= QUEUE;
-        ret = SetEvent (ev_consumer);
-        if (! ret)
-        {
-            getLogLog ().error (
-                LOG4CPLUS_TEXT ("Queue::put_event:")
-                LOG4CPLUS_TEXT (" Error signaling queue thread."));
-            ret_flags = ERROR_AFTER | flags;
-            goto leave_cs;
-        }
-    }
-
-    ret_flags = flags;
-leave_cs:
-    LOG4CPLUS_MUTEX_UNLOCK (mutex);
+    ret_flags &= ~(ERROR_BIT | ERROR_AFTER);
     return ret_flags;
-
-#endif
 }
 
 
@@ -100,34 +61,31 @@ Queue::signal_exit (bool drain)
 {
     unsigned ret_flags = 0;
 
-#if defined (LOG4CPLUS_USE_PTHREADS)
-    // TODO
-
-#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
-    LOG4CPLUS_MUTEX_LOCK (mutex);
-
-    if (! (flags & EXIT))
+    try
     {
-        if (drain)
-            flags |= DRAIN;
-        else
-            flags &= ~DRAIN;
-        flags |= EXIT;
-        DWORD ret = SetEvent (ev_consumer);
-        if (! ret)
+        MutexGuard mguard (mutex);
+
+        ret_flags |= flags;
+
+        if (! (flags & EXIT))
         {
-            getLogLog ().error (
-                LOG4CPLUS_TEXT ("Queue::signal_exit:")
-                LOG4CPLUS_TEXT (" Error signaling queue thread."));
-            ret_flags |= ERROR_BIT;
+            if (drain)
+                flags |= DRAIN;
+            else
+                flags &= ~DRAIN;
+            flags |= EXIT;
+            ret_flags = flags;
+            ev_consumer.signal ();
         }
     }
+    catch (std::runtime_error const & e)
+    {
+        (void)e;
+        ret_flags |= ERROR_BIT;
+        return ret_flags;
+    }
 
-    ret_flags |= flags;
-    LOG4CPLUS_MUTEX_UNLOCK (mutex);
     return ret_flags;
-
-#endif
 }
 
 
@@ -136,95 +94,54 @@ Queue::get_event (spi::InternalLoggingEvent & ev)
 {
     unsigned ret_flags = 0;
 
-#if defined (LOG4CPLUS_USE_PTHREADS)
-    // TODO
-#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
-    DWORD ret;
-
-    while (true)
+    try
     {
-        LOG4CPLUS_MUTEX_LOCK (mutex);
-
-        if (((QUEUE & flags) && ! (EXIT & flags))
-            || ((EXIT | DRAIN | QUEUE) & flags) == (EXIT | DRAIN | QUEUE))
+        while (true)
         {
-            ev.swap (queue.back ());
-            queue.pop_back ();
-            if (queue.empty ())
+            MutexGuard mguard (mutex);
+
+            ret_flags = flags;
+
+            if (((QUEUE & flags) && ! (EXIT & flags))
+                || ((EXIT | DRAIN | QUEUE) & flags) == (EXIT | DRAIN | QUEUE))
+            {
+                assert (! queue.empty ());
+                ev.swap (queue.back ());
+                queue.pop_back ();
+                if (queue.empty ())
+                    flags &= ~QUEUE;
+                sem.unlock ();
+                ret_flags = flags | EVENT;
+                break;
+            }
+            else if (((EXIT | QUEUE) & flags) == (EXIT | QUEUE))
+            {
+                assert (! queue.empty ());
+                queue.clear ();
                 flags &= ~QUEUE;
-
-            ret = ReleaseSemaphore (sem, 1, 0);
-            if (! ret)
-            {
-                getLogLog ().error (
-                    LOG4CPLUS_TEXT ("Queue::get_event:")
-                    LOG4CPLUS_TEXT (" Error releasing semaphore."));
-                ret_flags |= ERROR_AFTER;
+                ev_consumer.reset ();
+                sem.unlock ();
+                ret_flags = flags;
+                break;
             }
-
-            ret_flags |= EVENT;
-            goto leave_cs_and_return_flags;
-        }
-        else if (((EXIT | QUEUE) & flags) == (EXIT | QUEUE))
-        {
-            size_t const count = queue.size ();
-            assert (count != 0);
-            queue.clear ();
-            flags &= ~QUEUE;
-
-            ret = ResetEvent (ev_consumer);
-            if (! ret)
+            else if (EXIT & flags)
+                break;
+            else
             {
-                getLogLog ().error (
-                    LOG4CPLUS_TEXT ("Queue::get_event:")
-                    LOG4CPLUS_TEXT (" Error signaling queue thread."));
-                ret_flags |= ERROR_AFTER;
-            }
-
-            ret = ReleaseSemaphore (sem, static_cast<DWORD>(count), 0);
-            if (! ret)
-            {
-                getLogLog ().error (
-                    LOG4CPLUS_TEXT ("Queue::get_event:")
-                    LOG4CPLUS_TEXT (" Error releasing semaphore."));
-                ret_flags |= ERROR_AFTER;
-            }
-
-            goto leave_cs_and_return_flags;
-        }
-        else if (EXIT & flags)
-            goto leave_cs_and_return_flags;
-        else
-        {
-            ret = ResetEvent (ev_consumer);
-            if (! ret)
-            {
-                getLogLog ().error (
-                    LOG4CPLUS_TEXT ("Queue::get_event:")
-                    LOG4CPLUS_TEXT (" Error signaling queue thread."));
-                ret_flags |= ERROR_BIT;
-                goto leave_cs_and_return_flags;
-            }
-
-            LOG4CPLUS_MUTEX_UNLOCK (mutex);
-            ret = WaitForSingleObject (ev_consumer, INFINITE);
-            if (ret != WAIT_OBJECT_0)
-            {
-                getLogLog ().error (
-                    LOG4CPLUS_TEXT ("Queue::get_event:")
-                    LOG4CPLUS_TEXT ("Error waiting on semaphore."));
-                ret_flags |= ERROR_BIT;
-                return ret_flags;
+                ev_consumer.reset ();
+                mguard.unlock ();
+                mguard.detach ();
+                ev_consumer.wait ();
             }
         }
     }
+    catch (std::runtime_error const & e)
+    {
+        (void)e;
+        ret_flags |= ERROR_BIT;
+    }
 
-leave_cs_and_return_flags:
-    ret_flags |= flags;
-    LOG4CPLUS_MUTEX_UNLOCK (mutex);
     return ret_flags;
-
-#endif
 }
 
 
