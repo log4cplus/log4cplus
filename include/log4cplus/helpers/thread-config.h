@@ -25,6 +25,7 @@
 #   define LOG4CPLUS_MUTEX_LOCK(mutex) pthread_mutex_lock(mutex)
 #   define LOG4CPLUS_MUTEX_UNLOCK(mutex) pthread_mutex_unlock(mutex)
 #   define LOG4CPLUS_MUTEX_FREE(mutex) ::log4cplus::thread::deleteMutex(mutex)
+#   define LOG4CPLUS_THREAD_HANDLE_TYPE  pthread_t
 #   define LOG4CPLUS_THREAD_KEY_TYPE pthread_t
 #   define LOG4CPLUS_GET_CURRENT_THREAD_NAME \
     ::log4cplus::thread::getCurrentThreadName()
@@ -55,6 +56,7 @@ namespace log4cplus {
 #   define LOG4CPLUS_MUTEX_UNLOCK(mutex)  LeaveCriticalSection(mutex)
 #   define LOG4CPLUS_MUTEX_FREE(mutex) ::log4cplus::thread::deleteMutex(mutex)
 
+#   define LOG4CPLUS_THREAD_HANDLE_TYPE  HANDLE
 #   define LOG4CPLUS_THREAD_KEY_TYPE  DWORD
 #   define LOG4CPLUS_GET_CURRENT_THREAD  GetCurrentThreadId()
 #   define LOG4CPLUS_GET_CURRENT_THREAD_NAME \
@@ -67,8 +69,12 @@ namespace log4cplus {
 #   define LOG4CPLUS_THREAD_LOCAL_CLEANUP(key) TlsFree(key)
 #   if defined (_MSC_VER)
 #     undef LOG4CPLUS_HAVE_TLS_SUPPORT
-#     define LOG4CPLUS_HAVE_TLS_SUPPORT 1
 #     undef LOG4CPLUS_THREAD_LOCAL_VAR
+// Comment out the following two lines if you do intend to use log4cplus.dll
+// for loading using LoadLibrary(). The __declspec(thread) functionality is not
+// compatible with such DLL use. For more information why is this necessary see
+// <http://msdn.microsoft.com/en-us/library/2s9wt68x(vs.80).aspx>.
+#     define LOG4CPLUS_HAVE_TLS_SUPPORT 1
 #     define LOG4CPLUS_THREAD_LOCAL_VAR __declspec(thread)
 #   endif
 
@@ -86,6 +92,7 @@ LOG4CPLUS_EXPORT void deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE);
 #   define LOG4CPLUS_MUTEX_LOCK(mutex)
 #   define LOG4CPLUS_MUTEX_UNLOCK(mutex)
 #   define LOG4CPLUS_MUTEX_FREE(mutex)
+#   define LOG4CPLUS_THREAD_HANDLE_TYPE  void *
 #   define LOG4CPLUS_THREAD_KEY_TYPE int
 #   define LOG4CPLUS_GET_CURRENT_THREAD 1
 #   define LOG4CPLUS_GET_CURRENT_THREAD_NAME \

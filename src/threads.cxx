@@ -156,6 +156,9 @@ getCurrentThreadName()
         }
         thread->running = false;
         getNDC().remove();
+#if defined(LOG4CPLUS_USE_WIN32_THREADS)
+        ::CloseHandle (thread->handle);
+#endif
     }
 
     threadCleanup ();
@@ -191,14 +194,42 @@ AbstractThread::start()
 {
     running = true;
 #if defined(LOG4CPLUS_USE_PTHREADS)
-    if (::pthread_create(&threadId, NULL, threadStartFunc, this) )
+    if (::pthread_create(&handle, NULL, threadStartFunc, this) )
         throw std::runtime_error("Thread creation was not successful");
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    HANDLE h = reinterpret_cast<HANDLE>(
+    handle = reinterpret_cast<HANDLE>(
         ::_beginthreadex (0, 0, threadStartFunc, this, 0, 0));
-    if (! h)
+    if (! handle)
         throw std::runtime_error("Thread creation was not successful");
-    ::CloseHandle(h);
+#endif
+}
+
+
+LOG4CPLUS_THREAD_KEY_TYPE
+AbstractThread::getThreadId () const
+{
+#if defined(LOG4CPLUS_USE_PTHREADS)
+    return handle;
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
+    return ::GetCurrentThreadId ();
+#endif
+}
+
+
+LOG4CPLUS_THREAD_HANDLE_TYPE
+AbstractThread::getThreadHandle () const
+{
+    return handle;
+}
+
+
+void
+AbstractThread::join () const
+{
+#if defined(LOG4CPLUS_USE_PTHREADS)
+    ::pthread_join (handle, 0);
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
+    ::WaitForSingleObject (handle, INFINITE);
 #endif
 }
 

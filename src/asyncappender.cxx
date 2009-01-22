@@ -128,8 +128,9 @@ AsyncAppender::close ()
 {
     unsigned ret = queue->signal_exit ();
     if (ret & (thread::Queue::ERROR_BIT | thread::Queue::ERROR_AFTER))
-    getErrorHandler ()->error (
-        LOG4CPLUS_TEXT ("Error in AsyncAppender::close"));
+        getErrorHandler ()->error (
+            LOG4CPLUS_TEXT ("Error in AsyncAppender::close"));
+    queue_thread->join ();
 }
 
 

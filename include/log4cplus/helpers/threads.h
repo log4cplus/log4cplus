@@ -79,8 +79,10 @@ class LOG4CPLUS_EXPORT AbstractThread
 public:
     AbstractThread();
     bool isRunning() const { return running; }
-    LOG4CPLUS_THREAD_KEY_TYPE getThreadId() const { return threadId; }
+    LOG4CPLUS_THREAD_KEY_TYPE getThreadId() const;
+    LOG4CPLUS_THREAD_HANDLE_TYPE getThreadHandle () const;
     virtual void start();
+    void join () const;
 
 protected:
     // Force objects to be constructed on the heap
@@ -89,19 +91,21 @@ protected:
 
 private:
     bool running;
-    LOG4CPLUS_THREAD_KEY_TYPE threadId;
 
-    // Disallow copying of instances of this class
-    AbstractThread(const AbstractThread&);
-    AbstractThread& operator=(const AbstractThread&);
-
-// Friends
+    // Friends.
 #  ifdef LOG4CPLUS_USE_PTHREADS
-friend void* threadStartFunc(void*);
+    friend void* threadStartFunc(void*);
+    pthread_t handle;
+
 #  elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-friend unsigned WINAPI threadStartFunc(void *);
+    HANDLE handle;
+    friend unsigned WINAPI threadStartFunc(void *);
+
 #  endif
 
+    // Disallow copying of instances of this class.
+    AbstractThread(const AbstractThread&);
+    AbstractThread& operator=(const AbstractThread&);
 };
 
 typedef helpers::SharedObjectPtr<AbstractThread> AbstractThreadPtr;

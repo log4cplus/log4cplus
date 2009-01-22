@@ -55,7 +55,7 @@ Semaphore::Semaphore (unsigned max, unsigned initial)
 
 inline
 void
-Semaphore::post () const
+Semaphore::unlock () const
 {
     DWORD ret = ReleaseSemaphore (sem, 1, 0);
     if (! ret)
@@ -65,7 +65,7 @@ Semaphore::post () const
 
 inline
 void
-Semaphore::wait () const
+Semaphore::lock () const
 {
     DWORD ret = WaitForSingleObject (sem, INFINITE);
     if (ret != WAIT_OBJECT_0)
