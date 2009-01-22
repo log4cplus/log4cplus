@@ -195,6 +195,9 @@ void initializeFactoryRegistry()
 #elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
     reg_factory<SysLogAppenderFactory> (reg);
 #endif
+#ifndef LOG4CPLUS_SINGLE_THREADED
+    reg_factory<AsyncAppenderFactory> (reg);
+#endif
 
     LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
     reg_factory<SimpleLayoutFactory> (reg2);

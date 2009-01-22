@@ -69,7 +69,7 @@ AsyncAppender::AsyncAppender (SharedAppenderPtr const & app,
 AsyncAppender::AsyncAppender (helpers::Properties const & props)
 {
     tstring const & appender_name (
-        props.getProperty (LOG4CPLUS_TEXT ("appender")));
+        props.getProperty (LOG4CPLUS_TEXT ("Appender")));
     if (appender_name.empty ())
     {
         getErrorHandler ()->error (
@@ -89,7 +89,7 @@ AsyncAppender::AsyncAppender (helpers::Properties const & props)
     }
 
     helpers::Properties appender_props = props.getPropertySubset (
-        LOG4CPLUS_TEXT ("appender."));
+        LOG4CPLUS_TEXT ("Appender."));
     appender = factory->createObject (appender_props);
 
     tstring str (props.getProperty (LOG4CPLUS_TEXT ("QueueLimit"),
