@@ -1,5 +1,6 @@
 
 #include <log4cplus/logger.h>
+#include <log4cplus/loggingmacros.h>
 #include <log4cplus/configurator.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
@@ -97,6 +98,8 @@ main()
     }
 
     cout << "Exiting main()..." << endl;
+
+    log4cplus::Logger::shutdown();
     return 0;
 }
 
