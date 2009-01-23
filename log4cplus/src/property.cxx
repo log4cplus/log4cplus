@@ -139,16 +139,18 @@ log4cplus::helpers::Properties::removeProperty(const log4cplus::tstring& key)
 
 
 log4cplus::helpers::Properties 
-log4cplus::helpers::Properties::getPropertySubset(const log4cplus::tstring& prefix) const
+log4cplus::helpers::Properties::getPropertySubset(
+    const log4cplus::tstring& prefix) const
 {
     Properties ret;
-
-    vector<tstring> keys = propertyNames();
-    for (vector<tstring>::iterator it=keys.begin(); it!=keys.end(); ++it)
+    std::vector<tstring> const keys = propertyNames();
+    size_t const prefix_len = prefix.size ();
+    for (std::vector<tstring>::const_iterator it = keys.begin();
+        it != keys.end(); ++it)
     {
-        tstring::size_type pos = (*it).find(prefix);
-        if (pos != tstring::npos)
-            ret.setProperty( (*it).substr(prefix.size()), getProperty(*it) );
+        int result = it->compare (0, prefix_len, prefix);
+        if (result == 0)
+            ret.setProperty (it->substr (prefix_len), getProperty(*it));
     }
 
     return ret;
