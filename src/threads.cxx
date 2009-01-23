@@ -198,7 +198,7 @@ AbstractThread::start()
         throw std::runtime_error("Thread creation was not successful");
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     handle = reinterpret_cast<HANDLE>(
-        ::_beginthreadex (0, 0, threadStartFunc, this, 0, 0));
+        ::_beginthreadex (0, 0, threadStartFunc, this, 0, &thread_id));
     if (! handle)
         throw std::runtime_error("Thread creation was not successful");
 #endif
@@ -211,7 +211,7 @@ AbstractThread::getThreadId () const
 #if defined(LOG4CPLUS_USE_PTHREADS)
     return handle;
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    return ::GetCurrentThreadId ();
+    return thread_id;
 #endif
 }
 

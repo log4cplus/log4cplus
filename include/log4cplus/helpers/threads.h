@@ -99,6 +99,7 @@ private:
 
 #  elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     HANDLE handle;
+    unsigned thread_id;
     friend unsigned WINAPI threadStartFunc(void *);
 
 #  endif
