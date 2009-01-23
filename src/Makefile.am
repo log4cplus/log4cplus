@@ -85,8 +85,12 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
 			 syslogappender.cxx \
 			 timehelper.cxx
 
-if MULTI_THREADED
-LIB_SRC = $(SINGLE_THREADED_SRC) threads.cxx asyncappender.cxx queue.cxx
+if MULTI_THREADED	
+LIB_SRC = $(SINGLE_THREADED_SRC) \
+	threads.cxx \
+	asyncappender.cxx \
+	queue.cxx \
+	syncprims.cxx
 else
 LIB_SRC = $(SINGLE_THREADED_SRC)
 endif

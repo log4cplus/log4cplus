@@ -6,6 +6,9 @@
 namespace log4cplus { namespace thread {
 
 
+#define LOG4CPLUS_THROW_RTE(msg) \
+    detail::syncprims_throw_exception (msg, __FILE__, __LINE__);
+
 //
 //
 //
@@ -49,8 +52,19 @@ Semaphore::Semaphore (unsigned max, unsigned initial)
 {
     sem = CreateSemaphore (0, initial, max, 0);
     if (! sem)
-        throw std::runtime_error ("log4cplus: " __FUNCTION__);
+        LOG4CPLUS_THROW_RTE ("Semaphore::Semaphore");
 }
+
+
+inline
+Semaphore::~Semaphore ()
+try
+{
+    if (! CloseHandle (sem))
+        LOG4CPLUS_THROW_RTE ("Semaphore::~Semaphore");
+}
+catch (...)
+{ }
 
 
 inline
@@ -59,7 +73,7 @@ Semaphore::unlock () const
 {
     DWORD ret = ReleaseSemaphore (sem, 1, 0);
     if (! ret)
-        throw std::runtime_error ("log4cplus: " __FUNCTION__);
+         LOG4CPLUS_THROW_RTE ("Semaphore::unlock");
 }
 
 
@@ -69,7 +83,7 @@ Semaphore::lock () const
 {
     DWORD ret = WaitForSingleObject (sem, INFINITE);
     if (ret != WAIT_OBJECT_0)
-        throw std::runtime_error ("log4cplus: " __FUNCTION__);
+        LOG4CPLUS_THROW_RTE ("Semaphore::lock");
 }
 
 
@@ -82,8 +96,19 @@ ManualResetEvent::ManualResetEvent (bool sig)
 {
     ev = CreateEvent (0, true, sig, 0);
     if (! ev)
-        throw std::runtime_error ("log4cplus: " __FUNCTION__);
+        LOG4CPLUS_THROW_RTE ("ManualResetEvent::ManualResetEvent");
 }
+
+
+inline
+ManualResetEvent::~ManualResetEvent ()
+try
+{
+    if (! CloseHandle (ev))
+        LOG4CPLUS_THROW_RTE ("ManualResetEvent::~ManualResetEvent");
+}
+catch (...)
+{ }
 
 
 inline
@@ -91,7 +116,7 @@ void
 ManualResetEvent::signal () const
 {
     if (! SetEvent (ev))
-        throw std::runtime_error ("log4cplus: " __FUNCTION__);
+        LOG4CPLUS_THROW_RTE ("ManualResetEVent::signal");
 }
 
 
@@ -101,7 +126,7 @@ ManualResetEvent::wait () const
 {
     DWORD ret = WaitForSingleObject (ev, INFINITE);
     if (ret != WAIT_OBJECT_0)
-        throw std::runtime_error ("log4cplus: " __FUNCTION__);
+        LOG4CPLUS_THROW_RTE ("ManualResetEvent::wait");
 }
 
 
@@ -110,8 +135,11 @@ void
 ManualResetEvent::reset () const
 {
     if (! ResetEvent (ev))
-        throw std::runtime_error ("log4cplus: " __FUNCTION__);
+        LOG4CPLUS_THROW_RTE ("ManualResetEvent::reset");
 }
+
+
+#undef LOG4CPLUS_THROW_RTE
 
 
 } } // namespace log4cplus { namespace thread {

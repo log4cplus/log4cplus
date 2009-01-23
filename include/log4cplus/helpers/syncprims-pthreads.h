@@ -6,10 +6,8 @@
 namespace log4cplus { namespace thread {
 
 
-
-
-#define LOG4CPLUS_THROW_RTE(x) \
-    throw std::runtime_error (x)
+#define LOG4CPLUS_THROW_RTE(msg) \
+    detail::syncprims_throw_exception (msg, __FILE__, __LINE__);
 
 //
 //
@@ -67,6 +65,18 @@ Semaphore::Semaphore (unsigned max, unsigned initial)
 
 
 inline
+Semaphore::~Semaphore ()
+try
+{
+    int ret = sem_destroy (&sem);
+    if (ret != 0)
+        LOG4CPLUS_THROW_RTE ("Semaphore::~Semaphore");
+}
+catch (...)
+{ }
+
+
+inline
 void
 Semaphore::unlock () const
 {
@@ -92,35 +102,39 @@ Semaphore::lock () const
 
 inline
 ManualResetEvent::ManualResetEvent (bool sig)
-    : signaled (sig)
+    : sigcount (0)
+    , signaled (sig)
 {
-    int ret = pthread_mutex_init (&mtx, 0);
-    if (ret != 0)
-        LOG4CPLUS_THROW_RTE ("ManualResetEvent::ManualResetEvent");
-    ret = pthread_cond_init (&cv, 0);
+    int ret = pthread_cond_init (&cv, 0);
     if (ret != 0)
         LOG4CPLUS_THROW_RTE ("ManualResetEvent::ManualResetEvent");
 }
 
 
 inline
+ManualResetEvent::~ManualResetEvent ()
+try
+{
+    int ret = pthread_cond_destroy (&cv);
+    if (ret != 0)
+        LOG4CPLUS_THROW_RTE ("ManualResetEvent::~ManualResetEvent");
+}
+catch (...)
+{ }
+
+
+inline
 void
 ManualResetEvent::signal () const
 {
-    int ret = pthread_mutex_lock (&mtx);
-    if (ret != 0)
-        LOG4CPLUS_THROW_RTE ("ManualResetEVent::signal");
-    
+    MutexGuard mguard (mtx);
+
     signaled = true;
     sigcount += 1;
+    int ret = pthread_cond_broadcast (&cv);
+    if (ret != 0)
+        LOG4CPLUS_THROW_RTE ("ManualResetEVent::signal");
 
-    ret = pthread_cond_broadcast (&cv);
-    if (ret != 0)
-        LOG4CPLUS_THROW_RTE ("ManualResetEVent::signal");
-    
-    ret = pthread_mutex_unlock (&mtx);
-    if (ret != 0)
-        LOG4CPLUS_THROW_RTE ("ManualResetEVent::signal");
 }
 
 
@@ -128,31 +142,24 @@ inline
 void
 ManualResetEvent::wait () const
 {
-    int ret = pthread_mutex_lock (&mtx);
-    if (ret != 0)
-        LOG4CPLUS_THROW_RTE ("ManualResetEvent::wait");
+    MutexGuard mguard (mtx);
 
     if (! signaled)
     {
         unsigned prev_count = sigcount;
         do
         {
-            ret = pthread_cond_wait (&cv, &mtx);
+            int ret = pthread_cond_wait (&cv, &mtx.mtx);
             if (ret != 0)
             {
-                ret = pthread_mutex_unlock (&mtx);
-                if (ret != 0)
-                    LOG4CPLUS_THROW_RTE ("ManualResetEvent::wait");
+                mguard.unlock ();
+                mguard.detach ();
                 LOG4CPLUS_THROW_RTE ("ManualResetEvent::wait");
             }
             // TODO
         }
         while (prev_count == sigcount);
     }
-
-    ret = pthread_mutex_unlock (&mtx);
-    if (ret != 0)
-        LOG4CPLUS_THROW_RTE ("ManualResetEvent::wait");
 }
 
 
@@ -160,15 +167,9 @@ inline
 void
 ManualResetEvent::reset () const
 {
-    int ret = pthread_mutex_lock (&mtx);
-    if (ret != 0)
-        LOG4CPLUS_THROW_RTE ("ManualResetEvent::reset");
+    MutexGuard mguard (mtx);
 
     signaled = false;
-
-    ret = pthread_mutex_unlock (&mtx);
-    if (ret != 0)
-        LOG4CPLUS_THROW_RTE ("ManualResetEvent::reset");
 }
 
 

@@ -71,7 +71,7 @@ am__liblog4cplus_la_SOURCES_DIST = appenderattachableimpl.cxx \
 	pointer.cxx property.cxx rootlogger.cxx sleep.cxx socket.cxx \
 	socket-unix.cxx socketappender.cxx socketbuffer.cxx \
 	stringhelper.cxx syslogappender.cxx timehelper.cxx threads.cxx \
-	asyncappender.cxx queue.cxx
+	asyncappender.cxx queue.cxx syncprims.cxx
 am__objects_1 = appenderattachableimpl.lo appender.lo configurator.lo \
 	consoleappender.lo factory.lo fileappender.lo filter.lo \
 	global-init.lo hierarchy.lo hierarchylocker.lo layout.lo \
@@ -82,7 +82,7 @@ am__objects_1 = appenderattachableimpl.lo appender.lo configurator.lo \
 	stringhelper.lo syslogappender.lo timehelper.lo
 @MULTI_THREADED_FALSE@am__objects_2 = $(am__objects_1)
 @MULTI_THREADED_TRUE@am__objects_2 = $(am__objects_1) threads.lo \
-@MULTI_THREADED_TRUE@	asyncappender.lo queue.lo
+@MULTI_THREADED_TRUE@	asyncappender.lo queue.lo syncprims.lo
 am_liblog4cplus_la_OBJECTS = $(am__objects_2)
 liblog4cplus_la_OBJECTS = $(am_liblog4cplus_la_OBJECTS)
 liblog4cplus_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -309,7 +309,12 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
 			 timehelper.cxx
 
 @MULTI_THREADED_FALSE@LIB_SRC = $(SINGLE_THREADED_SRC)
-@MULTI_THREADED_TRUE@LIB_SRC = $(SINGLE_THREADED_SRC) threads.cxx asyncappender.cxx queue.cxx
+@MULTI_THREADED_TRUE@LIB_SRC = $(SINGLE_THREADED_SRC) \
+@MULTI_THREADED_TRUE@	threads.cxx \
+@MULTI_THREADED_TRUE@	asyncappender.cxx \
+@MULTI_THREADED_TRUE@	queue.cxx \
+@MULTI_THREADED_TRUE@	syncprims.cxx
+
 liblog4cplus_la_SOURCES = $(LIB_SRC)
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
@@ -415,6 +420,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socketappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socketbuffer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stringhelper.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/syncprims.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/syslogappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/threads.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timehelper.Plo@am__quote@

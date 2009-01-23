@@ -18,6 +18,15 @@
 namespace log4cplus { namespace thread {
 
 
+namespace detail
+{
+
+LOG4CPLUS_EXPORT void syncprims_throw_exception (char const * const msg,
+    char const * const file, int line);
+
+} // namespace detail
+
+
 template <typename SP>
 class SyncGuard
 {
@@ -38,6 +47,9 @@ private:
 };
 
 
+class ManualResetEvent;
+
+
 class Mutex
 {
 public:
@@ -50,6 +62,7 @@ public:
 private:
 #if defined (LOG4CPLUS_USE_PTHREADS)
     mutable pthread_mutex_t mtx;
+    friend class ManualResetEvent;
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS)
     mutable CRITICAL_SECTION cs;
 #endif
@@ -66,6 +79,7 @@ class Semaphore
 {
 public:
     Semaphore (unsigned max, unsigned initial);
+    ~Semaphore ();
 
     void lock () const;
     void unlock () const;
@@ -89,6 +103,7 @@ class ManualResetEvent
 {
 public:
     ManualResetEvent (bool = false);
+    ~ManualResetEvent ();
 
     void signal () const;
     void wait () const;
@@ -97,7 +112,7 @@ public:
 private:
 #if defined (LOG4CPLUS_USE_PTHREADS)
     mutable pthread_cond_t cv;
-    mutable pthread_mutex_t mtx;
+    mutable Mutex mtx;
     mutable volatile unsigned sigcount;
     mutable volatile bool signaled;
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS)
