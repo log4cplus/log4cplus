@@ -165,10 +165,10 @@ log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
 
 
 
-size_t
+long
 log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
-    size_t res, read = 0;
+    long res, read = 0;
  
     do
     { 
@@ -180,16 +180,15 @@ log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
             return res;
         }
         read += res;
-    } while( read < buffer.getMaxSize() );
+    } while( read < static_cast<long>(buffer.getMaxSize()) );
  
     return read;
 }
 
 
 
-size_t
+long
 log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
     return ::send(sock, buffer.getBuffer(), static_cast<int>(buffer.getSize()), 0);
 }
-

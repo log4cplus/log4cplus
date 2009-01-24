@@ -157,7 +157,7 @@ log4cplus::helpers::Socket::~Socket()
 bool
 log4cplus::helpers::Socket::read(SocketBuffer& buffer)
 {
-    int retval = log4cplus::helpers::read(sock, buffer);
+    long retval = log4cplus::helpers::read(sock, buffer);
     if(retval <= 0) {
         close();
     }
@@ -173,7 +173,7 @@ log4cplus::helpers::Socket::read(SocketBuffer& buffer)
 bool
 log4cplus::helpers::Socket::write(const SocketBuffer& buffer)
 {
-    int retval = log4cplus::helpers::write(sock, buffer);
+    long retval = log4cplus::helpers::write(sock, buffer);
     if(retval <= 0) {
         close();
     }
