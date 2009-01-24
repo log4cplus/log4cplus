@@ -102,8 +102,8 @@ ptd_cleanup_func (void * arg)
 
     // Setting the value through the key here is necessary in case we
     // are using TLS using __thread or __declspec(thread) or similar
-    // constructs. Otherwise POSIX calls this cleanup routine more
-    // than once if the value stays non-NULL after it returns.
+    // constructs with POSIX threads. Otherwise POSIX calls this cleanup
+    // routine more than once if the value stays non-NULL after it returns.
     LOG4CPLUS_SET_THREAD_LOCAL_VALUE (internal::tls_storage_key, 0);
 }
 
@@ -226,7 +226,7 @@ threadCleanup ()
 {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     // Do thread-specific cleanup.
-    internal::per_thread_data * ptd = internal::get_ptd ();
+    internal::per_thread_data * ptd = internal::get_ptd (false);
     delete ptd;
     internal::set_ptd (0);
 #endif

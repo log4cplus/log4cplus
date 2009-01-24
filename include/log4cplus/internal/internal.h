@@ -113,11 +113,19 @@ set_ptd (per_thread_data * p)
 }
 
 
+//! The default value of the \param alloc is false for Win32 DLL builds
+//! since pert thread data are already initialized by DllMain().
 inline
 per_thread_data *
-get_ptd ()
+get_ptd (bool alloc
+#if defined (_WIN32) && (defined (LOG4CPLUS_BUILD_DLL) || defined (log4cplus_EXPORTS))
+         = false
+#else
+         = true
+#endif
+         )
 {
-    if (! ptd)
+    if (! ptd && alloc)
         return alloc_ptd ();
 
     return ptd;
@@ -137,13 +145,13 @@ set_ptd (per_thread_data * p)
 
 inline
 per_thread_data *
-get_ptd ()
+get_ptd (bool alloc = true)
 {
     per_thread_data * ptd
         = reinterpret_cast<per_thread_data *>(
             LOG4CPLUS_GET_THREAD_LOCAL_VALUE (tls_storage_key));
 
-    if (! ptd)
+    if (! ptd && alloc)
         return alloc_ptd ();
 
     return ptd;
@@ -168,9 +176,9 @@ set_ptd (per_thread_data * p)
 
 inline
 per_thread_data *
-get_ptd ()
+get_ptd (bool alloc = true)
 {
-    if (! ptd.get ())
+    if (! ptd.get () && alloc)
         return alloc_ptd ();
 
     return ptd.get ();
