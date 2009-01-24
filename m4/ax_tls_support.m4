@@ -13,7 +13,7 @@ AC_CACHE_CHECK([for __declspec(thread)], [ac_cv_declspec_thread],
   AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM(
       [[
-#if defined (__GNUC__) && (__GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ <= 1))
+#if defined (__GNUC__)
 #  error Please fail.
 And extra please fail.
 #else
