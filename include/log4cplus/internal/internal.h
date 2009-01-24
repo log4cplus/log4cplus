@@ -44,10 +44,8 @@ extern log4cplus::tstring const empty_str;
 
 struct gft_scratch_pad
 {
-    gft_scratch_pad ()
-        : uc_q_str_valid (false)
-        , q_str_valid (false)
-    { }
+    gft_scratch_pad ();
+    ~gft_scratch_pad ();
     
     void
     reset ()
@@ -70,6 +68,9 @@ struct gft_scratch_pad
 
 struct appender_sratch_pad
 {
+    appender_sratch_pad ();
+    ~appender_sratch_pad ();
+
     tostringstream oss;
     tstring str;
 };
@@ -78,8 +79,8 @@ struct appender_sratch_pad
 //! Per thread data.
 struct per_thread_data
 {
-    per_thread_data ()
-    { }
+    per_thread_data ();
+    ~per_thread_data ();
 
     tostringstream macros_oss;
     DiagnosticContextStack ndc_dcs;

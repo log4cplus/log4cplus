@@ -26,6 +26,33 @@ namespace log4cplus
 namespace internal
 {
 
+
+gft_scratch_pad::gft_scratch_pad ()
+    : uc_q_str_valid (false)
+    , q_str_valid (false)
+{ }
+
+
+gft_scratch_pad::~gft_scratch_pad ()
+{ }
+
+
+appender_sratch_pad::appender_sratch_pad ()
+{ }
+
+
+appender_sratch_pad::~appender_sratch_pad ()
+{ }
+
+
+per_thread_data::per_thread_data ()
+{ }
+
+
+per_thread_data::~per_thread_data ()
+{ }
+
+
 LOG4CPLUS_THREAD_LOCAL_TYPE tls_storage_key;
 
 
