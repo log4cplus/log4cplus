@@ -90,11 +90,12 @@ LOG4CPLUS_EXPORT tostringstream & get_macros_oss ();
 
 #define LOG4CPLUS_MACRO_BODY(logger, logEvent, logLevel)                \
     do {                                                                \
-        Logger const & l = detail::macros_get_logger (logger);          \
+        Logger const & l                                                \
+            = log4cplus::detail::macros_get_logger (logger);            \
         if (l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {         \
             log4cplus::tostringstream & _log4cplus_buf                  \
-                = detail::get_macros_oss ();                            \
-            detail::clear_tostringstream (_log4cplus_buf);              \
+                = log4cplus::detail::get_macros_oss ();                 \
+            log4cplus::detail::clear_tostringstream (_log4cplus_buf);   \
             _log4cplus_buf << logEvent;                                 \
             l.forcedLog (                                               \
                 log4cplus::logLevel##_LOG_LEVEL,                        \
@@ -105,7 +106,8 @@ LOG4CPLUS_EXPORT tostringstream & get_macros_oss ();
 
 #define LOG4CPLUS_MACRO_STR_BODY(logger, logEvent, logLevel)            \
     do {                                                                \
-        Logger const & l = detail::macros_get_logger (logger);          \
+        Logger const & l                                                \
+            = log4cplus::detail::macros_get_logger (logger);            \
         if (l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {         \
             l.forcedLog (                                               \
                 log4cplus::logLevel##_LOG_LEVEL,                        \
