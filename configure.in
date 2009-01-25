@@ -77,7 +77,14 @@ dnl  AX_CXXFLAGS_GCC_OPTION([-Wconversion])
   AS_IF([test "x$enable_debugging" = "xyes"],
     [AX_CXXFLAGS_GCC_OPTION([-g3])
      AX_CXXFLAGS_GCC_OPTION([-O0])],
-    [AX_CXXFLAGS_GCC_OPTION([-O2])])])
+    [AX_CXXFLAGS_GCC_OPTION([-O2])])],
+
+dnl Default case.
+dnl Check for IBM's compiler's TLS option.
+  [AX_CXXFLAGS_GCC_OPTION([-qtls])
+dnl Check for Sun's compiler's TLS option.
+  AX_CXXFLAGS_GCC_OPTION([-xthreadvar])
+])
 
 AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
 AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"],
