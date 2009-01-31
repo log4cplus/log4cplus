@@ -1,3 +1,10 @@
+Version 1.0.3-RC7
+
+  - Fix Bug #894464. Really only consider prefixes when searching for
+    matching properties.
+  - Fix compilation for combination of non-threaded and UNICODE
+    settings.
+
 Version 1.0.3-RC6
 
   - Fix Bug #852513 - Reconfiguring a logger does not remove old
