@@ -22,6 +22,16 @@
 namespace log4cplus
 {
 
+#ifdef UNICODE
+LOG4CPLUS_EXPORT tostream & tcout = std::wcout;
+LOG4CPLUS_EXPORT tostream & tcerr = std::wcerr;
+
+#else
+LOG4CPLUS_EXPORT tostream & tcout = std::cout;
+LOG4CPLUS_EXPORT tostream & tcerr = std::cerr;
+
+#endif // UNICODE
+
 
 namespace internal
 {
