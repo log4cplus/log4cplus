@@ -36,7 +36,7 @@ namespace log4cplus {
          */
         class LOG4CPLUS_EXPORT AppenderAttachableImpl 
             : public log4cplus::spi::AppenderAttachable
-            , protected log4cplus::helpers::LogLogUser
+            , protected virtual log4cplus::helpers::LogLogUser
         {
         public:
           // Data

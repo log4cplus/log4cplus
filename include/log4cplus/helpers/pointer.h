@@ -93,7 +93,7 @@ namespace log4cplus {
             ~SharedObjectPtr()
             {
                 if (pointee)
-                    static_cast<SharedObject *>(pointee)->removeReference();
+                    pointee->removeReference();
             }
 
             // Operators
@@ -131,10 +131,10 @@ namespace log4cplus {
 
         private:
           // Methods
-            void addref()
+            void addref() const
             {
                 if (pointee)
-                    static_cast<SharedObject *>(pointee)->addReference();
+                    pointee->addReference();
             }
 
           // Data

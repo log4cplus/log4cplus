@@ -31,15 +31,27 @@ template class log4cplus::helpers::SharedObjectPtr<Appender>;
 // log4cplus::ErrorHandler dtor
 ///////////////////////////////////////////////////////////////////////////////
 
+ErrorHandler::ErrorHandler ()
+{ }
+
+
 ErrorHandler::~ErrorHandler()
-{
-}
+{ }
 
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::OnlyOnceErrorHandler public methods
+// log4cplus::OnlyOnceErrorHandler 
 ///////////////////////////////////////////////////////////////////////////////
+
+OnlyOnceErrorHandler::OnlyOnceErrorHandler()
+    : firstTime(true)
+{ }
+
+
+OnlyOnceErrorHandler::~OnlyOnceErrorHandler ()
+{ }
+
 
 void
 OnlyOnceErrorHandler::error(const log4cplus::tstring& err)
@@ -60,7 +72,7 @@ Appender::Appender()
  : layout(new SimpleLayout()),
    name( LOG4CPLUS_TEXT("") ),
    threshold(NOT_SET_LOG_LEVEL),
-   errorHandler(new OnlyOnceErrorHandler()),
+   errorHandler(new OnlyOnceErrorHandler),
    closed(false)
 {
 }
@@ -71,7 +83,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
     : layout(new SimpleLayout())
     , name()
     , threshold(NOT_SET_LOG_LEVEL)
-    , errorHandler(new OnlyOnceErrorHandler())
+    , errorHandler(new OnlyOnceErrorHandler)
     , closed(false)
 {
     if(properties.exists( LOG4CPLUS_TEXT("layout") ))

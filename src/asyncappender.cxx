@@ -15,19 +15,19 @@ class QueueThread
     : public thread::AbstractThread
 {
 public:
-    QueueThread (SharedAppenderPtr const &, thread::QueuePtr const &);
+    QueueThread (AsyncAppenderPtr const &, thread::QueuePtr const &);
 
     virtual void run();
 
 private:
-    SharedAppenderPtr appender;
+    AsyncAppenderPtr appenders;
     thread::QueuePtr queue;
 };
 
 
-QueueThread::QueueThread (SharedAppenderPtr const & app,
+QueueThread::QueueThread (AsyncAppenderPtr const & aai,
     thread::QueuePtr const & q)
-    : appender (app)
+    : appenders (aai)
     , queue (q)
 { }
 
@@ -42,7 +42,7 @@ QueueThread::run()
         unsigned flags = queue->get_event (ev);
 
         if (flags & thread::Queue::EVENT)
-            appender->doAppend (ev);
+            appenders->appendLoopOnAppenders (ev);
 
         if (((thread::Queue::EXIT | thread::Queue::DRAIN
                 | thread::Queue::EVENT) & flags)
@@ -60,8 +60,8 @@ QueueThread::run()
 
 AsyncAppender::AsyncAppender (SharedAppenderPtr const & app,
     unsigned queue_len)
-    : appender (app)
 {
+    addAppender (app);
     init_queue_thread (queue_len);
 }
 
@@ -85,12 +85,16 @@ AsyncAppender::AsyncAppender (helpers::Properties const & props)
         tstring const err (LOG4CPLUS_TEXT ("AsyncAppender::AsyncAppender()")
             LOG4CPLUS_TEXT (" - Cannot find AppenderFactory: "));
         getLogLog ().error (err + appender_name);
-        return;
+        // Add at least null appender so that we do not crash unexpectedly
+        // elsewhere.
+        // XXX: What about throwing an exception instead?
+        factory = appender_registry.get (
+            LOG4CPLUS_TEXT ("log4cplus::NullAppender"));
     }
 
     helpers::Properties appender_props = props.getPropertySubset (
         LOG4CPLUS_TEXT ("Appender."));
-    appender = factory->createObject (appender_props);
+    addAppender (factory->createObject (appender_props));
 
     tstring str (props.getProperty (LOG4CPLUS_TEXT ("QueueLimit"),
         LOG4CPLUS_TEXT ("100")));
@@ -110,7 +114,7 @@ void
 AsyncAppender::init_queue_thread (unsigned queue_len)
 {
     queue = new thread::Queue (queue_len);
-    queue_thread = new QueueThread (appender, queue);
+    queue_thread = new QueueThread (AsyncAppenderPtr (this), queue);
     queue_thread->start ();
     getLogLog ().debug (LOG4CPLUS_TEXT("Queue thread started."));
 }
@@ -137,10 +141,29 @@ AsyncAppender::close ()
 void
 AsyncAppender::append (spi::InternalLoggingEvent const & ev)
 {
-    unsigned ret = queue->put_event (ev);
-    if (ret & (thread::Queue::ERROR_BIT | thread::Queue::ERROR_AFTER))
-        getErrorHandler ()->error (
-            LOG4CPLUS_TEXT ("Error in AsyncAppender::append"));
+    if (queue_thread && queue_thread->isRunning ())
+    {
+        unsigned ret = queue->put_event (ev);
+        if (ret & (thread::Queue::ERROR_BIT | thread::Queue::ERROR_AFTER))
+        {
+            getErrorHandler ()->error (
+                LOG4CPLUS_TEXT ("Error in AsyncAppender::append,")
+                LOG4CPLUS_TEXT (" event queue has been lost."));
+            // Exit the queue consumer thread without drainging
+            // the events queue.
+            queue->signal_exit (false);
+            queue_thread->join ();
+            queue_thread = 0;
+            queue = 0;
+            appendLoopOnAppenders (ev);
+        }
+    }
+    else
+    {
+        // If the thread has died for any reason, fall back to synchronous
+        // operation.
+        appendLoopOnAppenders (ev);
+    }
 }
 
 

@@ -34,21 +34,23 @@ namespace log4cplus {
      * This class is used to "handle" errors encountered in an {@link
      * #Appender}.
      */
-    class LOG4CPLUS_EXPORT ErrorHandler {
+    class LOG4CPLUS_EXPORT ErrorHandler
+    {
     public:
-        virtual ~ErrorHandler();
+        ErrorHandler ();
+        virtual ~ErrorHandler() = 0;
         virtual void error(const log4cplus::tstring& err) = 0;
     };
 
 
-
-    class LOG4CPLUS_EXPORT OnlyOnceErrorHandler : public ErrorHandler,
-                                                  protected log4cplus::helpers::LogLogUser
+    class LOG4CPLUS_EXPORT OnlyOnceErrorHandler
+        : public ErrorHandler
+        , protected virtual log4cplus::helpers::LogLogUser
     {
     public:
       // Ctor
-        OnlyOnceErrorHandler() : firstTime(true){}
-
+        OnlyOnceErrorHandler();
+        virtual ~OnlyOnceErrorHandler ();
         virtual void error(const log4cplus::tstring& err);
 
     private:
@@ -62,7 +64,7 @@ namespace log4cplus {
      */
     class LOG4CPLUS_EXPORT Appender
         : public virtual log4cplus::helpers::SharedObject
-        , protected log4cplus::helpers::LogLogUser
+        , protected virtual log4cplus::helpers::LogLogUser
 
     {
     public:

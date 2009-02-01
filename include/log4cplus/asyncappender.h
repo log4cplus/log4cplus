@@ -21,6 +21,7 @@
 #include <log4cplus/appender.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/threads.h>
+#include <log4cplus/helpers/appenderattachableimpl.h>
 
 
 namespace log4cplus
@@ -29,6 +30,7 @@ namespace log4cplus
 
 class LOG4CPLUS_EXPORT AsyncAppender
     : public Appender
+    , public helpers::AppenderAttachableImpl
 {
 public:
     AsyncAppender (SharedAppenderPtr const & app, unsigned max_len);
@@ -43,8 +45,6 @@ protected:
 
     void init_queue_thread (unsigned);
 
-    SharedAppenderPtr appender;
-
     thread::AbstractThreadPtr queue_thread;
     thread::QueuePtr queue;
 
@@ -52,6 +52,9 @@ private:
     AsyncAppender (AsyncAppender const &);
     AsyncAppender & operator = (AsyncAppender const &);
 };
+
+
+typedef helpers::SharedObjectPtr<AsyncAppender> AsyncAppenderPtr;
 
 
 } // namespace log4cplus
