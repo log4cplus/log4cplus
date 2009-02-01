@@ -107,6 +107,25 @@ InternalLoggingEvent::getDefaultType()
 // InternalLoggingEvent implementation
 ///////////////////////////////////////////////////////////////////////////////
 
+void
+InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring & logger,
+    LogLevel loglevel, const log4cplus::tstring & msg, const char * filename,
+    int fline)
+{
+    loggerName = logger;
+    ll = loglevel;
+    message = msg;
+    timestamp = log4cplus::helpers::Time::gettimeofday();
+    if (filename)
+        file = LOG4CPLUS_C_STR_TO_TSTRING (filename);
+    else
+        file.clear ();
+    line = fline;
+    threadCached = false;
+    ndcCached = false;
+}
+
+
 const log4cplus::tstring& 
 InternalLoggingEvent::getMessage() const
 {

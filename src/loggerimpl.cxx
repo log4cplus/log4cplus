@@ -11,6 +11,7 @@
 // distribution in the LICENSE.APL file.
 //
 
+#include <log4cplus/internal/internal.h>
 #include <log4cplus/spi/loggerimpl.h>
 #include <log4cplus/appender.h>
 #include <log4cplus/hierarchy.h>
@@ -19,11 +20,8 @@
 #include <log4cplus/spi/rootlogger.h>
 #include <stdexcept>
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-using namespace log4cplus::spi;
 
-
+namespace log4cplus { namespace spi {
 
 //////////////////////////////////////////////////////////////////////////////
 // Logger Constructors and Destructor
@@ -144,5 +142,10 @@ LoggerImpl::forcedLog(LogLevel ll,
                       const char* file, 
                       int line)
 {
-    callAppenders(spi::InternalLoggingEvent(this->getName(), ll, message, file, line));
+    spi::InternalLoggingEvent & ev = internal::get_ptd ()->forced_log_ev;
+    ev.setLoggingEvent (this->getName(), ll, message, file, line);
+    callAppenders(ev);
 }
+
+
+} } // namespace log4cplus { namespace spi {

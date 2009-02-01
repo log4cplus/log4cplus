@@ -30,6 +30,7 @@
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/ndc.h>
+#include <log4cplus/spi/loggingevent.h>
 
 
 namespace log4cplus {
@@ -88,6 +89,7 @@ struct per_thread_data
     gft_scratch_pad gft_sp;
     appender_sratch_pad appender_sp;
     log4cplus::tstring faa_str;
+    spi::InternalLoggingEvent forced_log_ev;
 };
 
 

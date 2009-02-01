@@ -61,6 +61,11 @@ namespace log4cplus {
 
             virtual ~InternalLoggingEvent();
 
+            void
+            setLoggingEvent (const log4cplus::tstring & logger, LogLevel ll,
+                const log4cplus::tstring & message, const char * filename,
+                int line);
+
 
           // public virtual methods
             /** The application supplied message of logging event. */
