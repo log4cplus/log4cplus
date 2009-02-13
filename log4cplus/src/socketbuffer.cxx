@@ -12,6 +12,7 @@
 //
 
 #include <cstring>
+#include <limits>
 #include <log4cplus/helpers/socketbuffer.h>
 #include <log4cplus/helpers/loglog.h>
 
@@ -240,8 +241,9 @@ log4cplus::helpers::SocketBuffer::appendShort(unsigned short val)
         return;
     }
 
-    *((unsigned short*)&buffer[pos]) = htons(val);
-    pos += sizeof(unsigned short);
+    unsigned short s = htons(val);
+    memcpy(buffer + pos, &s, sizeof (s));
+    pos += sizeof(s);
     size = pos;
 }
 
@@ -257,7 +259,7 @@ log4cplus::helpers::SocketBuffer::appendInt(unsigned int val)
 
     int i = htonl(val);
     memcpy(buffer + pos, &i, sizeof (i));
-    pos += sizeof(unsigned int);
+    pos += sizeof(i);
     size = pos;
 }
 
@@ -266,14 +268,23 @@ log4cplus::helpers::SocketBuffer::appendInt(unsigned int val)
 void
 log4cplus::helpers::SocketBuffer::appendSize_t(size_t val)
 {
-    if((pos + sizeof(size_t)) > maxsize) {
-        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendInt(size_t)- Attempt to write beyond end of buffer"));
+    if ((pos + sizeof(unsigned)) > maxsize)
+    {
+        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendInt(size_t)- ")
+            LOG4CPLUS_TEXT("Attempt to write beyond end of buffer"));
+        return;
+    }
+    if (val > (std::numeric_limits<unsigned>::max) ())
+    {
+        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendInt(size_t)-")
+            LOG4CPLUS_TEXT(" Attempt to write value greater than")
+            LOG4CPLUS_TEXT(" std::numeric_limits<unsigned>::max"));
         return;
     }
 
-    size_t st = htonl(val);
+    unsigned st = htonl(static_cast<unsigned>(val));
     memcpy(buffer + pos, &st, sizeof(st));
-    pos += sizeof(size_t);
+    pos += sizeof(st);
     size = pos;
 }
 
@@ -289,7 +300,7 @@ log4cplus::helpers::SocketBuffer::appendString(const tstring& str)
         return;
     }
 
-    appendSize_t(strlen);
+    appendInt(strlen);
     memcpy(&buffer[pos], str.data(), strlen);
     pos += strlen;
     size = pos;
