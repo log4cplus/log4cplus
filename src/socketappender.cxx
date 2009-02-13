@@ -105,7 +105,7 @@ log4cplus::SocketAppender::append(const spi::InternalLoggingEvent& event)
     SocketBuffer buffer = convertToBuffer(event, serverName);
     SocketBuffer msgBuffer(LOG4CPLUS_MAX_MESSAGE_SIZE);
 
-    msgBuffer.appendSize_t(buffer.getSize());
+    msgBuffer.appendInt(buffer.getSize());
     msgBuffer.appendBuffer(buffer);
 
     socket.write(msgBuffer);

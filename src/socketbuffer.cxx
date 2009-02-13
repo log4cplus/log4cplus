@@ -26,15 +26,15 @@
 #include <netinet/in.h>
 #endif
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
+
+namespace log4cplus { namespace helpers {
 
 
 //////////////////////////////////////////////////////////////////////////////
 // SocketBuffer ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::helpers::SocketBuffer::SocketBuffer(size_t maxsize)
+SocketBuffer::SocketBuffer(size_t maxsize)
 : maxsize(maxsize),
   size(0),
   pos(0),
@@ -44,15 +44,15 @@ log4cplus::helpers::SocketBuffer::SocketBuffer(size_t maxsize)
 
 
 
-log4cplus::helpers::SocketBuffer::SocketBuffer(const SocketBuffer& rhs)
-    : log4cplus::helpers::LogLogUser ()
+SocketBuffer::SocketBuffer(const SocketBuffer& rhs)
+    : LogLogUser ()
 {
     copy(rhs);
 }
 
 
 
-log4cplus::helpers::SocketBuffer::~SocketBuffer()
+SocketBuffer::~SocketBuffer()
 {
     delete [] buffer;
 }
@@ -60,7 +60,7 @@ log4cplus::helpers::SocketBuffer::~SocketBuffer()
 
 
 SocketBuffer& 
-log4cplus::helpers::SocketBuffer::operator=(const SocketBuffer& rhs)
+SocketBuffer::operator=(const SocketBuffer& rhs)
 {
     if(&rhs != this) {
         delete buffer;
@@ -73,7 +73,7 @@ log4cplus::helpers::SocketBuffer::operator=(const SocketBuffer& rhs)
 
 
 void
-log4cplus::helpers::SocketBuffer::copy(const SocketBuffer& r)
+SocketBuffer::copy(const SocketBuffer& r)
 {
     SocketBuffer& rhs = const_cast<SocketBuffer&>(r);
     maxsize = rhs.maxsize;
@@ -95,7 +95,7 @@ log4cplus::helpers::SocketBuffer::copy(const SocketBuffer& r)
 //////////////////////////////////////////////////////////////////////////////
 
 unsigned char
-log4cplus::helpers::SocketBuffer::readByte()
+SocketBuffer::readByte()
 {
     if(pos >= maxsize) {
         getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::readByte()- end of buffer reached"));
@@ -115,7 +115,7 @@ log4cplus::helpers::SocketBuffer::readByte()
 
 
 unsigned short
-log4cplus::helpers::SocketBuffer::readShort()
+SocketBuffer::readShort()
 {
     if(pos >= maxsize) {
         getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::readShort()- end of buffer reached"));
@@ -137,7 +137,7 @@ log4cplus::helpers::SocketBuffer::readShort()
 
 
 unsigned int
-log4cplus::helpers::SocketBuffer::readInt()
+SocketBuffer::readInt()
 {
     if(pos >= maxsize) {
         getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::readInt()- end of buffer reached"));
@@ -158,7 +158,7 @@ log4cplus::helpers::SocketBuffer::readInt()
 
 
 tstring
-log4cplus::helpers::SocketBuffer::readString(unsigned char sizeOfChar)
+SocketBuffer::readString(unsigned char sizeOfChar)
 {
     size_t strlen = readInt();
     size_t bufferLen = strlen * sizeOfChar;
@@ -219,7 +219,7 @@ log4cplus::helpers::SocketBuffer::readString(unsigned char sizeOfChar)
 
 
 void
-log4cplus::helpers::SocketBuffer::appendByte(unsigned char val)
+SocketBuffer::appendByte(unsigned char val)
 {
     if((pos + sizeof(unsigned char)) > maxsize) {
         getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendByte()- Attempt to write beyond end of buffer"));
@@ -234,7 +234,7 @@ log4cplus::helpers::SocketBuffer::appendByte(unsigned char val)
 
 
 void
-log4cplus::helpers::SocketBuffer::appendShort(unsigned short val)
+SocketBuffer::appendShort(unsigned short val)
 {
     if((pos + sizeof(unsigned short)) > maxsize) {
         getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendShort()- Attempt to write beyond end of buffer"));
@@ -250,7 +250,7 @@ log4cplus::helpers::SocketBuffer::appendShort(unsigned short val)
 
 
 void
-log4cplus::helpers::SocketBuffer::appendInt(unsigned int val)
+SocketBuffer::appendInt(unsigned int val)
 {
     if((pos + sizeof(unsigned int)) > maxsize) {
         getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendInt()- Attempt to write beyond end of buffer"));
@@ -266,53 +266,24 @@ log4cplus::helpers::SocketBuffer::appendInt(unsigned int val)
 
 
 void
-log4cplus::helpers::SocketBuffer::appendSize_t(size_t val)
+SocketBuffer::appendString(const tstring& str)
 {
-    if ((pos + sizeof(unsigned)) > maxsize)
+    size_t const strlen = str.length();
+    static size_t const sizeOfChar = sizeof (tchar) == 1 ? 1 : 2;
+
+    if((pos + sizeof(unsigned int) + strlen * sizeOfChar) > maxsize)
     {
-        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendInt(size_t)- ")
-            LOG4CPLUS_TEXT("Attempt to write beyond end of buffer"));
-        return;
-    }
-    if (val > (std::numeric_limits<unsigned>::max) ())
-    {
-        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendInt(size_t)-")
-            LOG4CPLUS_TEXT(" Attempt to write value greater than")
-            LOG4CPLUS_TEXT(" std::numeric_limits<unsigned>::max"));
-        return;
-    }
-
-    unsigned st = htonl(static_cast<unsigned>(val));
-    memcpy(buffer + pos, &st, sizeof(st));
-    pos += sizeof(st);
-    size = pos;
-}
-
-
-void
-log4cplus::helpers::SocketBuffer::appendString(const tstring& str)
-{
-#ifndef UNICODE
-    size_t strlen = str.length();
-
-    if((pos + sizeof(unsigned int) + strlen) > maxsize) {
-        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendString()- Attempt to write beyond end of buffer"));
+        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendString()-")
+            LOG4CPLUS_TEXT(" Attempt to write beyond end of buffer"));
         return;
     }
 
     appendInt(strlen);
+#ifndef UNICODE
     memcpy(&buffer[pos], str.data(), strlen);
     pos += strlen;
     size = pos;
 #else
-    size_t strlen = str.length();
-
-    if((pos + sizeof(unsigned int) + (strlen * 2)) > maxsize) {
-        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendString()- Attempt to write beyond end of buffer"));
-        return;
-    }
-
-    appendInt(strlen);
     for(tstring::size_type i=0; i<str.length(); ++i) {
         appendShort(static_cast<unsigned short>(str[i]));
     }
@@ -322,7 +293,7 @@ log4cplus::helpers::SocketBuffer::appendString(const tstring& str)
 
 
 void
-log4cplus::helpers::SocketBuffer::appendBuffer(const SocketBuffer& buf)
+SocketBuffer::appendBuffer(const SocketBuffer& buf)
 {
     if((pos + buf.getSize()) > maxsize) {
         getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendBuffer()- Attempt to write beyond end of buffer"));
@@ -335,4 +306,4 @@ log4cplus::helpers::SocketBuffer::appendBuffer(const SocketBuffer& buf)
 }
 
 
-
+} } // namespace log4cplus { namespace helpers {

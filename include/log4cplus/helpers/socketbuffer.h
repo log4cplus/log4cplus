@@ -30,7 +30,7 @@ namespace log4cplus {
         class LOG4CPLUS_EXPORT SocketBuffer : protected log4cplus::helpers::LogLogUser
         {
         public:
-            SocketBuffer(size_t max);
+            explicit SocketBuffer(size_t max);
             SocketBuffer(const SocketBuffer& rhs);
             ~SocketBuffer();
 
@@ -50,7 +50,6 @@ namespace log4cplus {
             void appendByte(unsigned char val);
             void appendShort(unsigned short val);
             void appendInt(unsigned int val);
-            void appendSize_t(size_t val);
             void appendString(const tstring& str);
             void appendBuffer(const SocketBuffer& buffer);
 
