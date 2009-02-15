@@ -68,13 +68,12 @@ file_remove (tstring const & src)
 
 static
 void
-loglog_renaming_result (
-    helpers::SharedObjectPtr<helpers::LogLog> const & loglog,
-    tstring const & src, tstring const & target, int ret)
+loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
+    tstring const & target, int ret)
 {
     if (ret == 0)
     {
-        loglog->debug (
+        loglog.debug (
             LOG4CPLUS_TEXT("Renamed file ") 
             + src 
             + LOG4CPLUS_TEXT(" to ")
@@ -82,7 +81,7 @@ loglog_renaming_result (
     }
     else
     {
-        loglog->error (
+        loglog.error (
             LOG4CPLUS_TEXT("Failed to rename file from ") 
             + target 
             + LOG4CPLUS_TEXT(" to ")
@@ -93,13 +92,12 @@ loglog_renaming_result (
 
 static
 void
-loglog_opening_result (
-    helpers::SharedObjectPtr<helpers::LogLog> const & loglog,
+loglog_opening_result (helpers::LogLog & loglog,
     log4cplus::tostream const & os, tstring const & filename)
 {
     if (! os)
     {
-        loglog->error (
+        loglog.error (
             LOG4CPLUS_TEXT("Failed to open file ") 
             + filename);
     }
@@ -138,7 +136,7 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 #endif
 
         ret = file_rename (source, target);
-        loglog_renaming_result (loglog, source, target, ret);
+        loglog_renaming_result (*loglog, source, target, ret);
     }
 } // end rolloverFiles()
 
@@ -324,8 +322,7 @@ RollingFileAppender::append(const spi::InternalLoggingEvent& event)
 void 
 RollingFileAppender::rollover()
 {
-    helpers::SharedObjectPtr<helpers::LogLog> loglog
-        = helpers::LogLog::getLogLog();
+    helpers::LogLog & loglog = getLogLog();
 
     // Close the current file
     out.close();
@@ -348,7 +345,7 @@ RollingFileAppender::rollover()
         ret = file_remove (target);
 #endif
 
-        loglog->debug (
+        loglog.debug (
             LOG4CPLUS_TEXT("Renaming file ") 
             + filename 
             + LOG4CPLUS_TEXT(" to ")
@@ -358,7 +355,7 @@ RollingFileAppender::rollover()
     }
     else
     {
-        loglog->debug (filename + LOG4CPLUS_TEXT(" has no backups specified"));
+        loglog.debug (filename + LOG4CPLUS_TEXT(" has no backups specified"));
     }
 
     // Open it up again in truncation mode
@@ -536,8 +533,7 @@ DailyRollingFileAppender::rollover()
     backup_target_oss << scheduledFilename << LOG4CPLUS_TEXT(".") << 1;
     tstring backupTarget = backup_target_oss.str();
 
-    helpers::SharedObjectPtr<helpers::LogLog> loglog
-        = helpers::LogLog::getLogLog();
+    helpers::LogLog & loglog = getLogLog();
     int ret;
 
 #if defined (WIN32)
@@ -550,7 +546,7 @@ DailyRollingFileAppender::rollover()
     loglog_renaming_result (loglog, scheduledFilename, backupTarget, ret);
     
     // Rename filename to scheduledFilename
-    loglog->debug(
+    loglog.debug(
         LOG4CPLUS_TEXT("Renaming file ")
         + filename 
         + LOG4CPLUS_TEXT(" to ")
