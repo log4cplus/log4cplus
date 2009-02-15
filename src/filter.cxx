@@ -60,12 +60,10 @@ Filter::~Filter()
 void
 Filter::appendFilter(FilterPtr filter)
 {
-    if(next.get() == 0) {
+    if (! next)
         next = filter;
-    }
-    else {
+    else
         next->appendFilter(filter);
-    }
 }
 
 

@@ -136,23 +136,23 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
         tstring const & factoryName = filterProps.getProperty(filterName);
         FilterFactory* factory = getFilterFactoryRegistry().get(factoryName);
 
-        if(factory == 0) {
+        if(! factory)
+        {
             tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Cannot find FilterFactory: ");
             getLogLog().error(err + factoryName);
             continue;
         }
-        FilterPtr filter = factory->createObject
-                      (filterProps.getPropertySubset(filterName + LOG4CPLUS_TEXT(".")));
-        if(filter.get() == 0) {
+        FilterPtr filter = factory->createObject (
+            filterProps.getPropertySubset(filterName + LOG4CPLUS_TEXT(".")));
+        if (! filter)
+        {
             tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Failed to create filter: ");
             getLogLog().error(err + filterName);
         }
-        if(filterChain.get() == 0) {
+        if (! filterChain)
             filterChain = filter;
-        }
-        else {
+        else
             filterChain->appendFilter(filter);
-        }
     }
     setFilter(filterChain);
 }
@@ -237,7 +237,8 @@ Appender::getErrorHandler()
 void
 Appender::setErrorHandler(std::auto_ptr<ErrorHandler> eh)
 {
-    if(eh.get() == NULL) {
+    if (! eh.get())
+    {
         // We do not throw exception here since the cause is probably a
         // bad config file.
         getLogLog().warn(LOG4CPLUS_TEXT("You have tried to set a null error-handler."));

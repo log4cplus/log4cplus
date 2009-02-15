@@ -125,7 +125,7 @@ Logger::~Logger()
 Logger
 Logger::getParent() const 
 {
-    if(value->parent.get() != NULL)
+    if (value->parent)
         return Logger(value->parent);
     else
     {

@@ -394,7 +394,7 @@ PropertyConfigurator::configureAppenders()
             factoryName = appenderProperties.getProperty(*it);
             AppenderFactory* factory 
                 = getAppenderFactoryRegistry().get(factoryName);
-            if (factory == 0)
+            if (! factory)
             {
                 tstring err =
                     LOG4CPLUS_TEXT("PropertyConfigurator::configureAppenders()")
@@ -409,7 +409,7 @@ PropertyConfigurator::configureAppenders()
             try
             {
                 SharedAppenderPtr appender = factory->createObject(properties);
-                if (appender.get() == 0)
+                if (! appender)
                 {
                     tstring err =
                         LOG4CPLUS_TEXT("PropertyConfigurator::")
@@ -659,7 +659,7 @@ ConfigureAndWatchThread::ConfigureAndWatchThread(const tstring& file,
 
 ConfigureAndWatchThread::~ConfigureAndWatchThread()
 {
-    if(watchDogThread.get() != 0)
+    if (watchDogThread)
         watchDogThread->terminate();
 }
 
