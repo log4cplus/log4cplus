@@ -129,6 +129,11 @@ namespace log4cplus {
                 return pointee ? &SharedObjectPtr::get : 0;
             }
 
+            bool operator ! () const
+            {
+                return ! pointee;
+            }
+
         private:
           // Methods
             void addref() const
