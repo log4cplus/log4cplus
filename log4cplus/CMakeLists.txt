@@ -54,7 +54,6 @@ set (log4cplus_headers
   include/log4cplus/syslogappender.h
   include/log4cplus/tstring.h
   include/log4cplus/win32debugappender.h)
-message (STATUS "Headers: ${log4cplus_headers}")
 
 
 set (log4cplus_sources
@@ -90,14 +89,13 @@ set (log4cplus_sources
   src/syslogappender.cxx
   src/threads.cxx
   src/timehelper.cxx)
-message (STATUS "Sources: ${log4cplus_sources}")
 
 #message (STATUS "Type: ${UNIX}|${CYGWIN}|${WIN32}")
 
 # Uncomment the following line to get locale aware string conversions.
 #add_definitions (-DLOG4CPLUS_WORKING_LOCALE)
 
-if (${UNIX} OR ${CYGWIN})
+if ("${UNIX}" OR "${CYGWIN}")
   set (log4cplus_sources ${log4cplus_sources}
     src/socket-unix.cxx)
   set (log4cplus_headers ${log4cplus_headers}
@@ -115,6 +113,9 @@ elseif (WIN32)
   #add_definitions (-DLOG4CPLUS_STATIC)
   #set (log4cplus_postfix "${log4cplus_postfix}S")
 endif ()
+
+message (STATUS "Headers: ${log4cplus_headers}")
+message (STATUS "Sources: ${log4cplus_sources}")
 
 include_directories ("include")
 set (log4cplus_all_sources ${log4cplus_sources} ${log4cplus_headers})
@@ -135,5 +136,4 @@ if (WIN32)
     RELWITHDEBINFO_POSTFIX "${log4cplus_postfix}")
 endif ()
 
-add_executable (loggingserver loggingserver/loggingserver.cxx)
-target_link_libraries (loggingserver log4cplus)
+add_subdirectory (loggingserver)
