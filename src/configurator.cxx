@@ -53,6 +53,23 @@ namespace
     static size_t const DELIM_STOP_LEN = 1;
 
 
+    static
+    void
+    get_env_var (tstring & value, tstring const & name)
+    {
+#if defined (WIN32) && defined (UNICODE)
+        tchar const * val = _wgetenv (name.c_str ());
+        if (val)
+            value = val;
+#else
+        char const * val
+            = getenv (LOG4CPLUS_TSTRING_TO_STRING (name).c_str ());
+        if (val)
+            value = LOG4CPLUS_STRING_TO_TSTRING (val);
+#endif
+    }
+
+
     /**
      * Perform variable substitution in string <code>val</code> from
      * environment variables.
@@ -130,12 +147,7 @@ namespace
             if (shadow_env)
                 replacement = props.getProperty (key);
             if (! shadow_env || (! empty_vars && replacement.empty ()))
-            {
-                char const * env_var
-                    = getenv(LOG4CPLUS_TSTRING_TO_STRING(key).c_str());
-                if (env_var)
-                    replacement = LOG4CPLUS_STRING_TO_TSTRING (env_var);
-            }
+                get_env_var (replacement, key);
             
             if (empty_vars || ! replacement.empty ())
             {
@@ -147,7 +159,7 @@ namespace
                     // Retry expansion on the same spot.
                     continue;
                 else
-                    // Move beyond the just substitued part.
+                    // Move beyond the just substituted part.
                     i = var_start + replacement.size ();
             }
             else
