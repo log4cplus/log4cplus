@@ -4,7 +4,7 @@ Short Description
 
 log4cplus is a simple to use C++ logging API providing thread-safe,
 flexible, and arbitrarily granular control over log management and
-configuration. It is modeled after the Java log4j API.
+configuration.  It is modeled after the Java log4j API.
 
 
 Latest Project Information
@@ -12,8 +12,7 @@ Latest Project Information
 
 The latest up-to-date information for this project can be found at
 http://log4cplus.sourceforge.net.  Please submit bugs, patches,
-feature requests, etc. there.  You make also contact me directly:
-tcsmith@user.sourceforge.net.
+feature requests, etc. there.
 
 
 Current Status
@@ -36,22 +35,23 @@ Notes
 Some version of GCC (3.4.x and probably some of 4.x series too) on
 Windows (both Mingw and Cygwin) produces lots of warnings of the form
 "warning: inline function 'void foo()' is declared as dllimport:
-attribute ignored." This can be worked around by adding
+attribute ignored."  This can be worked around by adding
 -Wno-attributes option to GCC command.  Unfortunatelly, not all
 affected version of GCC have this option.
 
-Log4cplus is not safe to be used from async signals' handlers. This is
-a property of most threaded programmes in general. If you are going to
-use log4cplus in threaded application and if you want to use log4cplus
-from signal handlers then your only option is to block signals in all
-threads but one that will handle all signals. On POSIX platforms, this
-is possible using the sigwait() call. Log4cplus enables this approach
-by blocking all signals in any threads created through its threads
-helpers.
+Log4cplus is not safe to be used from async signals' handlers.  This
+is a property of most threaded programmes in general.  If you are
+going to use log4cplus in threaded application and if you want to use
+log4cplus from signal handlers then your only option is to block
+signals in all threads but one that will handle all signals.  On POSIX
+platforms, this is possible using the sigwait() call.  Log4cplus
+enables this approach by blocking all signals in any threads created
+through its threads helpers.
 
 
 License
 =======
 
-This library is licensed under the Apache Public License.  Please read
-the included license.apl for details.
+This library is licensed under the Apache Public License 1.1 and two
+clause BSD license.  Please read the included LICENSE file for
+details.
