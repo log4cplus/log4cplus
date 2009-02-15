@@ -32,10 +32,7 @@ namespace log4cplus {
         {
         public:
             explicit SocketBuffer(size_t max);
-            SocketBuffer(SocketBuffer& rhs);
             ~SocketBuffer();
-
-            SocketBuffer& operator= (SocketBuffer& rhs);
 
             char *getBuffer() const { return buffer; }
             size_t getMaxSize() const { return maxsize; }
@@ -55,14 +52,14 @@ namespace log4cplus {
             void appendBuffer(const SocketBuffer& buffer);
 
         private:
-          // Methods
-            void copy(SocketBuffer& rhs);
-
           // Data
             size_t maxsize;
             size_t size;
             size_t pos;
             char *buffer;
+
+            SocketBuffer(SocketBuffer const & rhs);
+            SocketBuffer& operator= (SocketBuffer const& rhs);
         };
 
     } // end namespace helpers

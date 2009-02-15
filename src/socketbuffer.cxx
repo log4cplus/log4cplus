@@ -43,50 +43,10 @@ SocketBuffer::SocketBuffer(size_t maxsize)
 }
 
 
-
-SocketBuffer::SocketBuffer(SocketBuffer& rhs)
-    : LogLogUser ()
-{
-    copy(rhs);
-}
-
-
-
 SocketBuffer::~SocketBuffer()
 {
     delete [] buffer;
 }
-
-
-
-SocketBuffer& 
-SocketBuffer::operator=(SocketBuffer& rhs)
-{
-    if(&rhs != this) {
-        delete buffer;
-        copy(rhs);
-    }
-
-    return *this;
-}
-
-
-
-void
-SocketBuffer::copy(SocketBuffer& rhs)
-{
-    maxsize = rhs.maxsize;
-    size = rhs.size;
-    pos = rhs.pos;
-    buffer = rhs.buffer;
-
-    rhs.maxsize = 0;
-    rhs.size = 0;
-    rhs.pos = 0;
-    rhs.buffer = 0;
-}
-
-
 
 
 //////////////////////////////////////////////////////////////////////////////
