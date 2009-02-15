@@ -27,14 +27,15 @@ namespace log4cplus {
         /**
          *
          */
-        class LOG4CPLUS_EXPORT SocketBuffer : protected log4cplus::helpers::LogLogUser
+        class LOG4CPLUS_EXPORT SocketBuffer
+            : protected log4cplus::helpers::LogLogUser
         {
         public:
             explicit SocketBuffer(size_t max);
-            SocketBuffer(const SocketBuffer& rhs);
+            SocketBuffer(SocketBuffer& rhs);
             ~SocketBuffer();
 
-            SocketBuffer& operator=(const SocketBuffer& rhs);
+            SocketBuffer& operator= (SocketBuffer& rhs);
 
             char *getBuffer() const { return buffer; }
             size_t getMaxSize() const { return maxsize; }
@@ -55,7 +56,7 @@ namespace log4cplus {
 
         private:
           // Methods
-            void copy(const SocketBuffer& rhs);
+            void copy(SocketBuffer& rhs);
 
           // Data
             size_t maxsize;

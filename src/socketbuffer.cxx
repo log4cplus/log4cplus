@@ -44,7 +44,7 @@ SocketBuffer::SocketBuffer(size_t maxsize)
 
 
 
-SocketBuffer::SocketBuffer(const SocketBuffer& rhs)
+SocketBuffer::SocketBuffer(SocketBuffer& rhs)
     : LogLogUser ()
 {
     copy(rhs);
@@ -60,7 +60,7 @@ SocketBuffer::~SocketBuffer()
 
 
 SocketBuffer& 
-SocketBuffer::operator=(const SocketBuffer& rhs)
+SocketBuffer::operator=(SocketBuffer& rhs)
 {
     if(&rhs != this) {
         delete buffer;
@@ -73,9 +73,8 @@ SocketBuffer::operator=(const SocketBuffer& rhs)
 
 
 void
-SocketBuffer::copy(const SocketBuffer& r)
+SocketBuffer::copy(SocketBuffer& rhs)
 {
-    SocketBuffer& rhs = const_cast<SocketBuffer&>(r);
     maxsize = rhs.maxsize;
     size = rhs.size;
     pos = rhs.pos;
