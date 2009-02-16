@@ -308,7 +308,7 @@ NDCContextCreator::NDCContextCreator(const log4cplus::tstring& msg)
 
 NDCContextCreator::~NDCContextCreator() 
 { 
-    getNDC().pop(); 
+    getNDC().pop_void(); 
 }
 
 
