@@ -17,9 +17,9 @@
 #include <log4cplus/internal/internal.h>
 #include <exception>
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
 
+namespace log4cplus
+{
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ using namespace log4cplus::helpers;
 ///////////////////////////////////////////////////////////////////////////////
 
 NDC& 
-log4cplus::getNDC()
+getNDC()
 {
     static NDC singleton;
     return singleton;
@@ -39,7 +39,8 @@ log4cplus::getNDC()
 // log4cplus::DiagnosticContext ctors
 ///////////////////////////////////////////////////////////////////////////////
 
-DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message, DiagnosticContext* parent)
+DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message,
+                                     DiagnosticContext const * parent)
  : message(message),
    fullMessage( (  (parent == NULL) 
                  ? message 
@@ -172,9 +173,10 @@ NDC::pop()
         DiagnosticContextStack* ptr = getPtr();
         if(!ptr->empty())
         {
-            DiagnosticContext dc = ptr->back();
+            tstring message;
+            message.swap (ptr->back ().message);
             ptr->pop_back();
-            return dc.message;
+            return message;
         }
     }
     catch(std::exception& e) {
@@ -217,7 +219,7 @@ NDC::push(const log4cplus::tstring& message)
         if(ptr->empty())
             ptr->push_back( DiagnosticContext(message, NULL) );
         else {
-            DiagnosticContext dc = ptr->back();
+            DiagnosticContext const & dc = ptr->back();
             ptr->push_back( DiagnosticContext(message, &dc) );
         }
     }
@@ -268,13 +270,8 @@ NDC::setMaxDepth(size_t maxDepth)
 
 DiagnosticContextStack* NDC::getPtr() const
 {
-#if defined (LOG4CPLUS_SINGLE_THREADED)
-    static DiagnosticContextStack ndc_dcs;
-    return &ndc_dcs;
-#else
     internal::per_thread_data * ptd = internal::get_ptd ();
     return &ptd->ndc_dcs;
-#endif
 }
 
 
@@ -292,3 +289,6 @@ NDCContextCreator::~NDCContextCreator()
 { 
     getNDC().pop(); 
 }
+
+
+} // namespace log4cplus
