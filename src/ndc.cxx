@@ -191,6 +191,27 @@ NDC::pop()
 }
 
 
+void
+NDC::pop_void ()
+{
+    try
+    {
+        DiagnosticContextStack* ptr = getPtr ();
+        if (! ptr->empty ())
+            ptr->pop_back ();
+    }
+    catch(std::exception& e)
+    {
+        getLogLog().error(  LOG4CPLUS_TEXT("NDC::pop()- exception occured: ") 
+                          + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
+    }
+    catch(...)
+    {
+        getLogLog().error(LOG4CPLUS_TEXT("NDC::pop()- exception occured"));
+    }
+}
+
+
 log4cplus::tstring const &
 NDC::peek() const
 {

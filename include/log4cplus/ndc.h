@@ -175,6 +175,11 @@ namespace log4cplus {
         log4cplus::tstring pop();
 
         /**
+         * Same as pop() but without the return value.
+         */
+        void pop_void ();
+
+        /**
          * Looks at the last diagnostic context at the top of this NDC
          * without removing it.
          *
