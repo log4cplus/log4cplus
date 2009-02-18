@@ -2,20 +2,16 @@ Version 1.0.3-RC8
 
   - Fixed SysLogAppender not being exported out of shared library
     because of missing LOG4CPLUS_EXPORT.
-
   - Fix bug #1168433. RollingFileAppender does a rename() to rename
-    logfile to logfile.1 etc. rename() on windows won't overwrite an
-    existing file so only the fir st rename works. On Windows, try to
-    remove existing file first before calling rename().
-
+    logfile to logfile.1 etc. rename() on Windows will not overwrite
+    an existing file so only the first rename works. On Windows
+    (only), try to remove existing file first before calling rename().
   - Fix bug #2573222. License issues. Most of log4cplus is covered by
     ASL 1.1. The bits that are not covered by ASL 1.1 are covered by
     two clause BSD licence. Texts of both licences are in LICENCE
     file.
-
   - Fix bug #2594345. Loggingserver and SocketAppender message format
     mismatch.
-
   - Fixed CMake builds.
 
 Version 1.0.3-RC7
