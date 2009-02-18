@@ -15,7 +15,7 @@ main(int argc, char **argv)
     log4cplus::helpers::sleep(1);
     tstring serverName = (argc > 1 ? LOG4CPLUS_C_STR_TO_TSTRING(argv[1]) : tstring());
 //    tstring host = LOG4CPLUS_TEXT("192.168.2.10");
-    tstring host = LOG4CPLUS_TEXT("192.168.2.169");
+    tstring host = LOG4CPLUS_TEXT("127.0.0.1");
     SharedAppenderPtr append_1(new SocketAppender(host, 9998, serverName));
     append_1->setName( LOG4CPLUS_TEXT("First") );
     Logger::getRoot().addAppender(append_1);
