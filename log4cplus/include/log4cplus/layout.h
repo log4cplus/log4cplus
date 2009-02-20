@@ -38,7 +38,7 @@ namespace log4cplus {
 
     /**
      * This class is used to layout strings sent to an {@link
-     * #Appender}.
+     * log4cplus::Appender}.
      */
     class LOG4CPLUS_EXPORT Layout : protected :: log4cplus::helpers::LogLogUser {
     public:
@@ -68,9 +68,7 @@ namespace log4cplus {
      *         DEBUG - Hello world
      * </pre>
      *
-     * <p>
-     *
-     * <p>{@link PatternLayout} offers a much more powerful alternative.
+     * {@link PatternLayout} offers a much more powerful alternative.
      */
     class LOG4CPLUS_EXPORT SimpleLayout : public Layout {
     public:
@@ -92,11 +90,11 @@ namespace log4cplus {
      * TTCC layout format consists of time, thread, Logger and nested
      * diagnostic context information, hence the name.
      * 
-     * <p>The time format depends on the <code>DateFormat</code> used.  Use the
+     * The time format depends on the <code>DateFormat</code> used.  Use the
      * <code>Use_gmtime</code> to specify whether messages should be logged using
      * <code>localtime</code> or <code>gmtime</code>.
      * 
-     * <p>Here is an example TTCCLayout output with the {@link RelativeTimeDateFormat}.
+     * Here is an example TTCCLayout output with the {@link RelativeTimeDateFormat}.
      * 
      * <pre>
      * 176 [main] INFO  org.apache.log4j.examples.Sort - Populating an array of 2 elements in reverse order.
@@ -112,17 +110,17 @@ namespace log4cplus {
      * 467 [main] INFO  org.apache.log4j.examples.Sort - Exiting main method.
      * </pre>
      * 
-     *  <p>The first field is the number of milliseconds elapsed since the
+     *  The first field is the number of milliseconds elapsed since the
      *  start of the program. The second field is the thread outputting the
      *  log statement. The third field is the LogLevel, the fourth field is
      *  the logger to which the statement belongs.
      * 
-     *  <p>The fifth field (just before the '-') is the nested diagnostic
+     *  The fifth field (just before the '-') is the nested diagnostic
      *  context.  Note the nested diagnostic context may be empty as in the
      *  first two statements. The text after the '-' is the message of the
      *  statement.
      * 
-     *  <p>PatternLayout offers a much more flexible alternative.
+     *  PatternLayout offers a much more flexible alternative.
      */
     class LOG4CPLUS_EXPORT TTCCLayout : public Layout {
     public:
@@ -150,26 +148,26 @@ namespace log4cplus {
     /**
      * A flexible layout configurable with pattern string.
      * 
-     * <p>The goal of this class is to format a InternalLoggingEvent and return 
+     * The goal of this class is to format a InternalLoggingEvent and return 
      * the results as a string. The results depend on the <em>conversion 
      * pattern</em>.
      * 
-     * <p>The conversion pattern is closely related to the conversion
+     * The conversion pattern is closely related to the conversion
      * pattern of the printf function in C. A conversion pattern is
      * composed of literal text and format control expressions called
      * <em>conversion specifiers</em>.
      *  
-     * <p><i>You are free to insert any literal text within the conversion
+     * <i>You are free to insert any literal text within the conversion
      * pattern.</i>
      * 
-     * <p>Each conversion specifier starts with a percent sign (%%) and is
+     * Each conversion specifier starts with a percent sign (%%) and is
      * followed by optional <em>format modifiers</em> and a <em>conversion
      * character</em>. The conversion character specifies the type of
      * data, e.g. Logger, LogLevel, date, thread name. The format
      * modifiers control such things as field width, padding, left and
      * right justification. The following is a simple example.
      * 
-     * <p>Let the conversion pattern be <b>"%-5p [%t]: %m%n"</b> and assume
+     * Let the conversion pattern be <b>"%-5p [%t]: %m%n"</b> and assume
      * that the log4cplus environment was set to use a PatternLayout. Then the
      * statements
      * <pre>
@@ -183,7 +181,7 @@ namespace log4cplus {
      * WARN  [main]: Message 2  
      * </pre>
      * 
-     * <p>Note that there is no explicit separator between text and
+     * Note that there is no explicit separator between text and
      * conversion specifiers. The pattern parser knows when it has reached
      * the end of a conversion specifier when it reads a conversion
      * character. In the example above the conversion specifier
@@ -192,7 +190,7 @@ namespace log4cplus {
      * 
      * The recognized conversion characters are
      * 
-     * <p>
+     * 
      * <table border="1" CELLPADDING="8">
      * <tr>
      * <td>Conversion Character</td>
@@ -207,11 +205,11 @@ namespace log4cplus {
      *   <em>precision specifier</em>, that is a decimal constant in
      *   brackets.
      * 
-     *   <p>If a precision specifier is given, then only the corresponding
+     *   If a precision specifier is given, then only the corresponding
      *   number of right most components of the logger name will be
      *   printed. By default the logger name is printed in full.
      * 
-     *   <p>For example, for the logger name "a.b.c" the pattern
+     *   For example, for the logger name "a.b.c" the pattern
      *   <b>%c{2}</b> will output "b.c".
      * 
      * </td>
@@ -222,13 +220,13 @@ namespace log4cplus {
      *
      *   <td>Used to output the date of the logging event in <b>localtime</b>. 
      *
-     *   <p>The date conversion specifier may be followed by a <em>date format
+     *   The date conversion specifier may be followed by a <em>date format
      *   specifier</em> enclosed between braces. For example, <b>%%d{%%H:%%M:%%s}</b>
      *   or <b>%%d{%%d&nbsp;%%b&nbsp;%%Y&nbsp;%%H:%%M:%%s}</b>.  If no date format 
      *   specifier is given then <b>%%d{%%d&nbsp;%%m&nbsp;%%Y&nbsp;%%H:%%M:%%s}</b>
      *   is assumed.
      *
-     *   <p>The Following format options are possible:
+     *   The Following format options are possible:
      *   <ul>
      *   <li>%%a -- Abbreviated weekday name</li>
      *   <li>%%A -- Full weekday name</li>
@@ -256,7 +254,7 @@ namespace log4cplus {
      *   <li>%% -- The percent sign</li>
      *   </ul>
      *
-     *   <p>Lookup the documentation for the <code>strftime()</code> function
+     *   Lookup the documentation for the <code>strftime()</code> function
      *   found in the <code>&lt;ctime&gt;</code> header for more information.
      * </td>
      * </tr>
@@ -266,7 +264,7 @@ namespace log4cplus {
      *
      *   <td>Used to output the date of the logging event in <b>Local</b> time. 
      *
-     *   <p>All of the above information applies.
+     *   All of the above information applies.
      * </td>
      * </tr>
      * 
@@ -276,7 +274,7 @@ namespace log4cplus {
      *   <td>Used to output the file name where the logging request was
      *   issued.
      * 
-     *   <p><b>NOTE</b> Unlike log4j, there is no performance penalty for
+     *   <b>NOTE</b> Unlike log4j, there is no performance penalty for
      *   calling this method.
      * 
      * </tr>
@@ -286,7 +284,7 @@ namespace log4cplus {
      * 
      *   <td>Equivalent to using "%F:%L"
      * 
-     *   <p><b>NOTE:</b> Unlike log4j, there is no performance penalty for
+     *   <b>NOTE:</b> Unlike log4j, there is no performance penalty for
      *   calling this method.
      * 
      * </td>
@@ -298,7 +296,7 @@ namespace log4cplus {
      *   <td>Used to output the line number from where the logging request
      *   was issued.
      * 
-     *   <p><b>NOTE:</b> Unlike log4j, there is no performance penalty for
+     *   <b>NOTE:</b> Unlike log4j, there is no performance penalty for
      *   calling this method.
      * 
      * </tr>
@@ -346,14 +344,14 @@ namespace log4cplus {
      *  
      * </table>
      * 
-     * <p>By default the relevant information is output as is. However,
+     * By default the relevant information is output as is. However,
      * with the aid of format modifiers it is possible to change the
      * minimum field width, the maximum field width and justification.
      * 
-     * <p>The optional format modifier is placed between the percent sign
+     * The optional format modifier is placed between the percent sign
      * and the conversion character.
      * 
-     * <p>The first optional format modifier is the <em>left justification
+     * The first optional format modifier is the <em>left justification
      * flag</em> which is just the minus (-) character. Then comes the
      * optional <em>minimum field width</em> modifier. This is a decimal
      * constant that represents the minimum number of characters to
@@ -365,7 +363,7 @@ namespace log4cplus {
      * minimum field width, the field is expanded to accommodate the
      * data. The value is never truncated.
      * 
-     * <p>This behavior can be changed using the <em>maximum field
+     * This behavior can be changed using the <em>maximum field
      * width</em> modifier which is designated by a period followed by a
      * decimal constant. If the data item is longer than the maximum
      * field, then the extra characters are removed from the
@@ -375,10 +373,10 @@ namespace log4cplus {
      * are dropped. This behavior deviates from the printf function in C
      * where truncation is done from the end.
      * 
-     * <p>Below are various format modifier examples for the logger
+     * Below are various format modifier examples for the logger
      * conversion specifier.
      * 
-     * <p>
+     * 
      * <TABLE BORDER=1 CELLPADDING=8>
      * <tr>
      * <td>Format modifier</td>
@@ -437,16 +435,16 @@ namespace log4cplus {
      * 
      * </table>
      * 
-     * <p>Below are some examples of conversion patterns.
+     * Below are some examples of conversion patterns.
      * 
      * <dl>
      * 
-     * <p><dt><b>"%r [%t] %-5p %c %x - %m%n"</b> 
-     * <p><dd>This is essentially the TTCC layout.
+     * <dt><b>"%r [%t] %-5p %c %x - %m%n"</b> 
+     * <dd>This is essentially the TTCC layout.
      * 
-     * <p><dt><b>"%-6r [%15.15t] %-5p %30.30c %x - %m%n"</b>
+     * <dt><b>"%-6r [%15.15t] %-5p %30.30c %x - %m%n"</b>
      * 
-     * <p><dd>Similar to the TTCC layout except that the relative time is
+     * <dd>Similar to the TTCC layout except that the relative time is
      * right padded if less than 6 digits, thread name is right padded if
      * less than 15 characters and truncated if longer and the logger
      * name is left padded if shorter than 30 characters and truncated if
@@ -454,7 +452,7 @@ namespace log4cplus {
      *  
      * </dl>
      * 
-     * <p>The above text is largely inspired from Peter A. Darnell and
+     * The above text is largely inspired from Peter A. Darnell and
      * Philip E. Margolis' highly recommended book "C -- a Software
      * Engineering Approach", ISBN 0-387-97389-3.
      */

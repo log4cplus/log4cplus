@@ -34,17 +34,17 @@ namespace log4cplus {
      * This class is specialized in retrieving loggers by name and
      * also maintaining the logger hierarchy.
      *
-     * <p><em>The casual user should not have to deal with this class
+     * <em>The casual user should not have to deal with this class
      * directly.</em>  However, if you are in an environment where
      * multiple applications run in the same process, then read on.
      *
-     * <p>The structure of the logger hierarchy is maintained by the
+     * The structure of the logger hierarchy is maintained by the
      * {@link #getInstance} method. The hierarchy is such that children
      * link to their parent but parents do not have any pointers to their
      * children. Moreover, loggers can be instantiated in any order, in
      * particular descendant before ancestor.
      *
-     * <p>In case a descendant is created before a particular ancestor,
+     * In case a descendant is created before a particular ancestor,
      * then it creates a provision node for the ancestor and adds itself
      * to the provision node. Other descendants of the same ancestor add
      * themselves to the previously created provision node.
@@ -59,8 +59,6 @@ namespace log4cplus {
       // Ctors
         /**
          * Create a new Logger hierarchy.
-         *
-         * @param root The root of the new hierarchy.
          */
         Hierarchy();
 
@@ -73,7 +71,7 @@ namespace log4cplus {
          * hashtable. Invoking this method will irrevocably mess up the
          * logger hierarchy.
          *                     
-         * <p>You should <em>really</em> know what you are doing before
+         * You should <em>really</em> know what you are doing before
          * invoking this method.
          */
         virtual void clear();
@@ -98,13 +96,13 @@ namespace log4cplus {
          * <em>all</em> loggers in this hierarchy. Logging requests of
          * higher LogLevel then <code>p</code> remain unaffected.
          *
-         * <p>Nevertheless, if the {@link
+         * Nevertheless, if the {@link
          * BasicConfigurator#DISABLE_OVERRIDE_KEY} system property is set to
          * "true" or any value other than "false", then logging requests are
          * evaluated as usual, i.e. according to the <a
          * href="../../../../manual.html#selectionRule">Basic Selection Rule</a>.
          *
-         * <p>The "disable" family of methods are there for speed. They
+         * The "disable" family of methods are there for speed. They
          * allow printing methods such as debug, info, etc. to return
          * immediately after an integer comparison without walking the
          * logger hierarchy. In most modern computers an integer
@@ -147,7 +145,7 @@ namespace log4cplus {
          * Return a new logger instance named as the first parameter using
          * the default factory. 
          *                
-         * <p>If a logger of that name already exists, then it will be
+         * If a logger of that name already exists, then it will be
          * returned.  Otherwise, a new logger will be instantiated and
          * then linked with its existing ancestors as well as children.
          *                                    
@@ -159,7 +157,7 @@ namespace log4cplus {
          * Return a new logger instance named as the first parameter using
          * <code>factory</code>.
          *                
-         * <p>If a logger of that name already exists, then it will be
+         * If a logger of that name already exists, then it will be
          * returned.  Otherwise, a new logger will be instantiated by the
          * <code>factory</code> parameter and linked with its existing
          * ancestors as well as children.
@@ -172,7 +170,7 @@ namespace log4cplus {
         /**
          * Returns all the currently defined loggers in this hierarchy.
          *
-         * <p>The root logger is <em>not</em> included in the returned list. 
+         * The root logger is <em>not</em> included in the returned list. 
          */
         virtual LoggerList getCurrentLoggers();
 
@@ -194,9 +192,9 @@ namespace log4cplus {
          * of the root logger to DEBUG_LOG_LEVEL.  Moreover, message disabling
          * is set its default "off" value.
          *
-         * <p>Existing loggers are not removed. They are just reset.
+         * Existing loggers are not removed. They are just reset.
          *
-         * <p>This method should be used sparingly and with care as it will
+         * This method should be used sparingly and with care as it will
          * block all logging until it is completed.</p>
          */
         virtual void resetConfiguration(); 
@@ -215,11 +213,11 @@ namespace log4cplus {
          * Shutting down a hierarchy will <em>safely</em> close and remove
          * all appenders in all loggers including the root logger.
          *                
-         * <p>Some appenders such as SocketAppender need to be closed before the
+         * Some appenders such as SocketAppender need to be closed before the
          * application exits. Otherwise, pending logging events might be
          * lost.
          *
-         * <p>The <code>shutdown</code> method is careful to close nested
+         * The <code>shutdown</code> method is careful to close nested
          * appenders before closing regular appenders. This is allows
          * configurations where a regular appender is attached to a logger
          * and again to a nested appender.
