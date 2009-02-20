@@ -88,15 +88,15 @@ namespace log4cplus {
 #endif
 
 /**
- * @def BEGIN_SYNCHRONIZE_ON_MUTEX(mutex)
+ * @def LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX(mutex)
  * Begin a block synchronized on a mutex.
  *
- * @see END_SYNCHRONIZE_ON_MUTEX
+ * @see LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
  *
- * @def END_SYNCHRONIZE_ON_MUTEX
+ * @def LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
  * End a block synchronized on a mutex.
  *
- * @see BEGIN_SYNCHRONIZE_ON_MUTEX
+ * @see LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX
  */
 #ifndef LOG4CPLUS_SINGLE_THREADED
 #  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex ) \

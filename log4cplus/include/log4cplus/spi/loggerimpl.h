@@ -135,6 +135,7 @@ namespace log4cplus {
              * create loggers directly.
              *
              * @param name The name of the logger.  
+             * @param h Hierarchy
              */
             LoggerImpl(const log4cplus::tstring& name, Hierarchy& h);
 

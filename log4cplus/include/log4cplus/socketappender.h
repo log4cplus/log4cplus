@@ -35,10 +35,11 @@ namespace log4cplus {
      * The SocketAppender has the following properties:
      *
      * <ul>
-     *   <li>Remote logging is non-intrusive as far as the log event is
-     *   concerned. In other words, the event will be logged with the same
-     *   time stamp, {@link org.apache.log4j.NDC}, location info as if it
-     *   were logged locally by the client.
+     *
+     *   <li>Remote logging is non-intrusive as far as the log event
+     *   is concerned. In other words, the event will be logged with
+     *   the same time stamp, NDC, location info as if it were logged
+     *   locally by the client.
      *
      *   <li>SocketAppenders do not use a layout.
      *

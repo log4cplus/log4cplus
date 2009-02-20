@@ -137,10 +137,9 @@ namespace log4cplus {
       // Non-Static Methods
         /**
          * If <code>assertionVal</code> parameter is <code>false</code>, then
-         * logs <code>msg</code> as an {@link #error(const log4cplus::tstring&) error} 
-         * statement.
+         * logs <code>msg</code> with FATAL_LOG_LEVEL log level.
          *
-         * @param assertionVal
+         * @param assertionVal Truth value of assertion condition.
          * @param msg The message to print if <code>assertion</code> is
          * false.
          */

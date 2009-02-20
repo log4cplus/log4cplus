@@ -81,7 +81,7 @@ namespace log4cplus
         /**
          * Read configuration from a file. <b>The existing configuration is
          * not cleared nor reset.</b> If you require a different behavior,
-         * then call {@link BasicConfigurator#resetConfiguration
+         * then call {@link Hierarchy::resetConfiguration
          * resetConfiguration} method before calling
          * <code>doConfigure</code>.
          *

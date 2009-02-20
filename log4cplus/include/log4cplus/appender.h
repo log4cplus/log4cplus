@@ -166,9 +166,9 @@ namespace log4cplus {
     protected:
       // Methods
         /**
-         * Subclasses of <code>AppenderSkeleton</code> should implement this
-         * method to perform actual logging. See also {@link #doAppend
-         * AppenderSkeleton.doAppend} method.
+         * Subclasses of <code>Appender</code> should implement this
+         * method to perform actual logging.
+         * @see doAppend method.
          */
         virtual void append(const log4cplus::spi::InternalLoggingEvent& event) = 0;
 
@@ -194,7 +194,7 @@ namespace log4cplus {
         bool closed;
     };
 
-    /** @var This is a pointer to an Appender. */
+    /** This is a pointer to an Appender. */
     typedef helpers::SharedObjectPtr<Appender> SharedAppenderPtr;
 
 } // end namespace log4cplus

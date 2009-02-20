@@ -94,7 +94,7 @@ namespace log4cplus {
      * <code>Use_gmtime</code> to specify whether messages should be logged using
      * <code>localtime</code> or <code>gmtime</code>.
      * 
-     * Here is an example TTCCLayout output with the {@link RelativeTimeDateFormat}.
+     * Here is an example TTCCLayout output:
      * 
      * <pre>
      * 176 [main] INFO  org.apache.log4j.examples.Sort - Populating an array of 2 elements in reverse order.
