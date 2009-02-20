@@ -115,7 +115,7 @@ namespace log4cplus {
          * <code>put()</code> method.  (The registry then owns the object.)  
          * These object can then be retrieved using the <code>get()</code> 
          * method.
-         * <p>
+         * 
          * <b>Note:</b>  This class is Thread-safe.
          */
         template<class T>

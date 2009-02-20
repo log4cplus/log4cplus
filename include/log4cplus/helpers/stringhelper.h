@@ -43,7 +43,7 @@ namespace log4cplus {
          * put the resulting tokens in <code>_result</code>.  If 
          * <code>collapseTokens</code> is false, multiple adjacent delimiters
          * will result in zero length tokens.
-         * <p>
+         * 
          * <b>Example:</b>
          * <pre>
          *   string s = // Set string with '.' as delimiters
@@ -98,7 +98,6 @@ namespace log4cplus {
             // That's why we handle the case of value == min() specially here.
             if (negative)
             {
-                // The modulo operator on 
                 if (value == (std::numeric_limits<intType>::min) ())
                 {
                     intType const r = value / 10;

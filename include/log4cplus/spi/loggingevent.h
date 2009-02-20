@@ -31,17 +31,20 @@ namespace log4cplus {
          * instance is created. This instance is passed around to the 
          * different log4cplus components.
          *
-         * <p>This class is of concern to those wishing to extend log4cplus. 
+         * This class is of concern to those wishing to extend log4cplus. 
          */
         class LOG4CPLUS_EXPORT InternalLoggingEvent {
         public:
           // Ctors
              /**
               * Instantiate a LoggingEvent from the supplied parameters.
-              * <p>
-              * @param logger The logger of this event.
+              * 
+              * @param logger   The logger of this event.
               * @param ll       The LogLevel of this event.
               * @param message  The message of this event.
+              * @param filename Name of file where this event has occurred, can be NULL.
+              * @param line     Line number in file specified by
+              *                 the <code>filename</code> parameter.
               */
             InternalLoggingEvent(const log4cplus::tstring& logger,
                 LogLevel ll,const log4cplus::tstring& message,

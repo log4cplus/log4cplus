@@ -63,7 +63,7 @@ namespace log4cplus {
             /**
              * Look for an attached appender named as <code>name</code>.
              *
-             * <p>Return the appender with that name if in the list. Return null
+             * Return the appender with that name if in the list. Return null
              * otherwise.  
              */
             virtual SharedAppenderPtr getAppender(const log4cplus::tstring& name);

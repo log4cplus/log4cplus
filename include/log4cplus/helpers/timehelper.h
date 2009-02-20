@@ -93,10 +93,10 @@ public:
      * Returns a string with a "formatted time" specified by
      * <code>fmt</code>.  It used the <code>strftime()</code>
      * function to do this.  
-     * <p>
+     * 
      * Look at your platform's <code>strftime()</code> documentation
      * for the formatting options available.
-     * <p>
+     * 
      * The following additional options are provided:<br>
      * <code>%q</code> - 3 character field that provides milliseconds
      * <code>%Q</code> - 7 character field that provides fractional 

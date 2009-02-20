@@ -27,7 +27,7 @@ namespace log4cplus {
          * RootLogger sits at the top of the logger hierachy. It is a
          * regular logger except that it provides several guarantees.
          *
-         * <p>First, it cannot be assigned a <code>NOT_SET_LOG_LEVEL</code>
+         * First, it cannot be assigned a <code>NOT_SET_LOG_LEVEL</code>
          * LogLevel. Second, since root logger cannot have a parent, the
          * getChainedLogLevel method always returns the value of the
          * ll field without walking the hierarchy.

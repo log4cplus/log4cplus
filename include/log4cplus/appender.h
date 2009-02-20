@@ -32,7 +32,7 @@ namespace log4cplus {
 
     /**
      * This class is used to "handle" errors encountered in an {@link
-     * #Appender}.
+     * log4cplus::Appender}.
      */
     class LOG4CPLUS_EXPORT ErrorHandler
     {
@@ -81,7 +81,7 @@ namespace log4cplus {
         /**
          * Release any resources allocated within the appender such as file
          * handles, network connections, etc.
-         * <p>
+         * 
          * It is a programming error to append to a closed appender.
          */
         virtual void close() = 0;
@@ -89,7 +89,7 @@ namespace log4cplus {
         /**
          * This method performs threshold checks and invokes filters before
          * delegating actual logging to the subclasses specific {@link
-         * AppenderSkeleton#append} method.
+         * #append} method.
          */
         virtual void doAppend(const log4cplus::spi::InternalLoggingEvent& event);
 
@@ -125,7 +125,7 @@ namespace log4cplus {
 
         /**
          * Returns the layout of this appender. The value may be NULL.
-         * <p>
+         * 
          * This class owns the returned pointer.
          */
         virtual Layout* getLayout();
@@ -149,7 +149,7 @@ namespace log4cplus {
         /**
          * Set the threshold LogLevel. All log events with lower LogLevel
          * than the threshold LogLevel are ignored by the appender.
-         * <p>
+         * 
          * In configuration files this option is specified by setting the
          * value of the <b>Threshold</b> option to a LogLevel
          * string, such as "DEBUG", "INFO" and so on.
@@ -168,9 +168,9 @@ namespace log4cplus {
     protected:
       // Methods
         /**
-         * Subclasses of <code>AppenderSkeleton</code> should implement this
-         * method to perform actual logging. See also {@link #doAppend
-         * AppenderSkeleton.doAppend} method.
+         * Subclasses of <code>Appender</code> should implement this
+         * method to perform actual logging.
+         * @see doAppend method.
          */
         virtual void append(const log4cplus::spi::InternalLoggingEvent& event) = 0;
 
@@ -196,7 +196,7 @@ namespace log4cplus {
         bool closed;
     };
 
-    /** @var This is a pointer to an Appender. */
+    /** This is a pointer to an Appender. */
     typedef helpers::SharedObjectPtr<Appender> SharedAppenderPtr;
 
 } // end namespace log4cplus
