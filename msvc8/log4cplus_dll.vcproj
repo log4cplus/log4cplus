@@ -1765,6 +1765,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\boost\deviceappender.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\src\fileappender.cxx"
 				>
 				<FileConfiguration

@@ -14,6 +14,7 @@ message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
 set (log4cplus_headers
   include/log4cplus/appender.h
   include/log4cplus/asyncappender.h
+  include/log4cplus/boost/deviceappender.hxx
   include/log4cplus/config/macosx.h
   include/log4cplus/config/win32.h
   include/log4cplus/config.hxx

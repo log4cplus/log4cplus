@@ -18,13 +18,17 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/internal/internal.h>
 
-using namespace log4cplus;
+
+namespace log4cplus
+{
+
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
 
 
-template class log4cplus::helpers::SharedObjectPtr<Appender>;
+template class helpers::SharedObjectPtr<Appender>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -176,9 +180,8 @@ Appender::destructorImpl()
 
     // An appender might be closed then destroyed. There is no
     // point in closing twice.
-    if(closed) {
+    if(closed)
         return;
-    }
 
     close();
     closed = true;
@@ -197,18 +200,26 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
             return;
         }
 
-        if(!isAsSevereAsThreshold(event.getLogLevel())) {
+        if (! isAsSevereAsThreshold(event.getLogLevel()))
             return;
-        }
 
-        if(checkFilter(filter.get(), event) == DENY) {
+        if (checkFilter(filter.get(), event) == DENY)
             return;
-        }
 
         append(event);
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
+
+tstring &
+Appender::formatEvent (const spi::InternalLoggingEvent& event) const
+{
+    internal::appender_sratch_pad & appender_sp = internal::get_appender_sp ();
+    detail::clear_tostringstream (appender_sp.oss);
+    layout->formatAndAppend(appender_sp.oss, event);
+    appender_sp.str = appender_sp.oss.str();
+    return appender_sp.str;
+}
 
 
 log4cplus::tstring
@@ -268,3 +279,4 @@ Appender::getLayout()
 }
 
 
+} // namespace log4cplus

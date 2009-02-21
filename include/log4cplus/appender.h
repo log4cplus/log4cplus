@@ -174,6 +174,8 @@ namespace log4cplus {
          */
         virtual void append(const log4cplus::spi::InternalLoggingEvent& event) = 0;
 
+        tstring & formatEvent (const log4cplus::spi::InternalLoggingEvent& event) const;
+
       // Data
         /** The layout variable does not need to be set if the appender
          *  implementation has its own layout. */
