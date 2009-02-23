@@ -101,7 +101,17 @@ set (log4cplus_sources
 #message (STATUS "Type: ${UNIX}|${CYGWIN}|${WIN32}")
 
 # Uncomment the following line to get locale aware string conversions.
+
 #add_definitions (-DLOG4CPLUS_WORKING_LOCALE)
+
+# Uncomment one of the following to enable TLS support in the
+# respective compilers.
+
+# IBM's compiler's TLS option.
+#add_definitions (-qtls)
+# Sun's compiler's TLS option.
+#add_definitions (-xthreadvar)
+
 
 if ("${UNIX}" OR "${CYGWIN}")
   set (log4cplus_sources ${log4cplus_sources}
@@ -118,6 +128,7 @@ elseif (WIN32)
     include/log4cplus/helpers/syncprims-win32.h)
 
   # Comment out the following lines if you want non-Unicode version.
+
   add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
   set (log4cplus_postfix "${log4cplus_postfix}U")
   
