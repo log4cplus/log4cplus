@@ -669,20 +669,20 @@ PatternLayout::PatternLayout(const log4cplus::tstring& pattern)
 }
 
 
-PatternLayout::PatternLayout(const log4cplus::helpers::Properties& properties)
+PatternLayout::PatternLayout(const log4cplus::helpers::Properties& _properties)
 {
-    bool hasPattern = properties.exists( LOG4CPLUS_TEXT("Pattern") );
-    bool hasConversionPattern = properties.exists( LOG4CPLUS_TEXT("ConversionPattern") );
+    bool hasPattern = _properties.exists( LOG4CPLUS_TEXT("Pattern") );
+    bool hasConversionPattern = _properties.exists( LOG4CPLUS_TEXT("ConversionPattern") );
     
     if(hasPattern) {
         getLogLog().warn( LOG4CPLUS_TEXT("PatternLayout- the \"Pattern\" property has been deprecated.  Use \"ConversionPattern\" instead."));
     }
     
     if(hasConversionPattern) {
-        init(properties.getProperty( LOG4CPLUS_TEXT("ConversionPattern") ));
+        init(_properties.getProperty( LOG4CPLUS_TEXT("ConversionPattern") ));
     }
     else if(hasPattern) {
-        init(properties.getProperty( LOG4CPLUS_TEXT("Pattern") ));
+        init(_properties.getProperty( LOG4CPLUS_TEXT("Pattern") ));
     }
     else {
         throw std::runtime_error("ConversionPattern not specified in properties");
