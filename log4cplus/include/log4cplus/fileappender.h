@@ -104,7 +104,7 @@ namespace log4cplus {
         int maxBackupIndex;
 
     private:
-		using FileAppender::init; // access-checking happens after name-lookup. Must declare it
+		using FileAppender::init;
         void init(long maxFileSize, int maxBackupIndex);
     };
 
@@ -146,7 +146,7 @@ namespace log4cplus {
         int maxBackupIndex;
 
     private:
-		using FileAppender::init; // access-checking happens after name-lookup. Must declare it
+		using FileAppender::init;
         void init(DailyRollingFileSchedule schedule);
     };
 
