@@ -1,4 +1,9 @@
 dnl Process this file with autoconf to produce a configure script.
+dnl This version of log4cplus requires the follwing autotools versions:
+dnl autoconf-2.62
+dnl automake-1.10.1
+dnl libtool-1.5.26
+
 AC_INIT([log4cplus], [1.0.3])
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
@@ -53,7 +58,7 @@ AC_PROG_CXX
 AC_PROG_CXXCPP
 AC_LANG([C++])
 
-LT_INIT
+AC_PROG_LIBTOOL
 
 dnl Checks for programs.
 AC_SEARCH_LIBS([strerror], [cposix])
@@ -61,27 +66,22 @@ AC_SEARCH_LIBS([strerror], [cposix])
 AC_CXX_COMPILER_VENDOR([ac_cxx_compiler_vendor])
 
 AS_CASE([$ac_cxx_compiler_vendor],
-    [gnu],
-    [AX_CXXFLAGS_WARN_ALL
-     AX_CXXFLAGS_GCC_OPTION([-Wextra])
-     AX_CXXFLAGS_GCC_OPTION([-ansi])
-     AS_IF([test "$enable_debugging" = yes],
-     [AX_CXXFLAGS_GCC_OPTION([-g3]) AX_CXXFLAGS_GCC_OPTION([-O0])],
-     [AX_CXXFLAGS_GCC_OPTION([-O2])])
-    ],
-    [sun],
-    [AX_CXXFLAGS_GCC_OPTION([+w])
-     AX_CXXFLAGS_GCC_OPTION([-xthreadvar])
-    ],
-    [AC_MSG_RESULT([---------------------------------------------])
-     AC_MSG_RESULT([--------- Default compiler version ----------])
-     AC_MSG_RESULT([---------------------------------------------])
-     dnl Default case.
-     AX_CXXFLAGS_WARN_ALL
-     dnl Check for IBM's compiler's TLS option.
-     AX_CXXFLAGS_GCC_OPTION([-qtls])
-     dnl Is Sun Studio compiler in use?
-    ])
+  [gnu],
+  [AX_CXXFLAGS_WARN_ALL
+   AX_CXXFLAGS_GCC_OPTION([-Wextra])
+   AX_CXXFLAGS_GCC_OPTION([-ansi])
+   AX_CXXFLAGS_GCC_OPTION([-pedantic])
+   AS_IF([test "$enable_debugging" = yes],
+   [AX_CXXFLAGS_GCC_OPTION([-g3])
+    AX_CXXFLAGS_GCC_OPTION([-O0])],
+   [AX_CXXFLAGS_GCC_OPTION([-O2])])
+  ],
+  [sun],
+  [AX_CXXFLAGS_GCC_OPTION([+w])],
+  [dnl Default case.
+   AX_CXXFLAGS_WARN_ALL
+   dnl Is Sun Studio compiler in use?
+  ])
 
 
 AX_DECLSPEC([LOG4CPLUS_DECLSPEC])

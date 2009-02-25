@@ -20285,97 +20285,6 @@ if test "$ac_res" != no; then
 fi
 
 
-{ $as_echo "$as_me:$LINENO: checking CXXFLAGS for maximum warnings" >&5
-$as_echo_n "checking CXXFLAGS for maximum warnings... " >&6; }
-if test "${ac_cv_cxxflags_warn_all+set}" = set; then
-  $as_echo_n "(cached) " >&6
-else
-  ac_cv_cxxflags_warn_all="no, unknown"
-
- ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
- ac_save_CXXFLAGS="$CXXFLAGS"
-for ac_arg in "-pedantic  % -Wall"          "-xstrconst % -v"             "-std1      % -verbose -w0 -warnprotos"    "-qlanglvl=ansi % -qsrcmsg -qinfo=all:noppt:noppc:noobs:nocnd"    "-ansi -ansiE % -fullwarn"    "+ESlit     % +w1"            "-Xc        % -pvctl,fullmsg"    "-h conform % -h msglevel 2"    #
-do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-int
-main ()
-{
-return 0;
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext
-if { (ac_try="$ac_compile"
-case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
-$as_echo "$ac_try_echo") >&5
-  (eval "$ac_compile") 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } && {
-	 test -z "$ac_cxx_werror_flag" ||
-	 test ! -s conftest.err
-       } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_warn_all=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
-else
-  $as_echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-
-fi
-
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-done
- CXXFLAGS="$ac_save_CXXFLAGS"
- ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
-
-fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_warn_all" >&5
-$as_echo "$ac_cv_cxxflags_warn_all" >&6; }
-case ".$ac_cv_cxxflags_warn_all" in
-     .ok|.ok,*)  ;;
-   .|.no|.no,*)
- ;;
-   *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_warn_all " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_warn_all") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_warn_all) 2>&5
-  ac_status=$?
-  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_warn_all\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all"
-   fi
- ;;
-esac
-
 
 
    { $as_echo "$as_me:$LINENO: checking the C++ compiler vendor" >&5
@@ -20484,6 +20393,37 @@ else
 sed 's/^/| /' conftest.$ac_ext >&5
 
 		    cat >conftest.$ac_ext <<_ACEOF
+#ifndef __SUNPRO_CC
+                      # error "Macro __SUNPRO_CC is undefined!"
+		      /* For some compilers (eg. SGI's CC), #error is not
+		         enough...  */
+		      please, do fail
+		      #endif
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_cxx_compiler_vendor=sun
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+		     cat >conftest.$ac_ext <<_ACEOF
 #ifndef __sgi
                       # error "Macro __sgi is undefined!"
 		      /* For some compilers (eg. SGI's CC), #error is not
@@ -20514,13 +20454,13 @@ else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-		      	      	      ac_ext=c
+		       	       	       ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
-	      cat >conftest.$ac_ext <<_ACEOF
+	       cat >conftest.$ac_ext <<_ACEOF
 #ifndef _MSC_VER
                       # error "Macro _MSC_VER is undefined!"
 		      /* For some compilers (eg. SGI's CC), #error is not
@@ -20555,12 +20495,15 @@ sed 's/^/| /' conftest.$ac_ext >&5
 fi
 
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-	      ac_ext=cpp
+	       ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 fi
 
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
@@ -20586,8 +20529,100 @@ $as_echo "$ac_cv_cxx_compiler_vendor" >&6; }
    ac_cxx_compiler_vendor="$ac_cv_cxx_compiler_vendor"
 
 
+
 case $ac_cxx_compiler_vendor in
-  gnu) { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -Wextra" >&5
+  gnu) { $as_echo "$as_me:$LINENO: checking CXXFLAGS for maximum warnings" >&5
+$as_echo_n "checking CXXFLAGS for maximum warnings... " >&6; }
+if test "${ac_cv_cxxflags_warn_all+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_cv_cxxflags_warn_all="no, unknown"
+
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ ac_save_CXXFLAGS="$CXXFLAGS"
+for ac_arg in "-pedantic  % -Wall"          "-xstrconst % -v"             "-std1      % -verbose -w0 -warnprotos"    "-qlanglvl=ansi % -qsrcmsg -qinfo=all:noppt:noppc:noobs:nocnd"    "-ansi -ansiE % -fullwarn"    "+ESlit     % +w1"            "-Xc        % -pvctl,fullmsg"    "-h conform % -h msglevel 2"    #
+do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+   cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+return 0;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_cxxflags_warn_all=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+done
+ CXXFLAGS="$ac_save_CXXFLAGS"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_warn_all" >&5
+$as_echo "$ac_cv_cxxflags_warn_all" >&6; }
+case ".$ac_cv_cxxflags_warn_all" in
+     .ok|.ok,*)  ;;
+   .|.no|.no,*)
+ ;;
+   *)
+   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_warn_all " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_warn_all") >&5
+  (: CXXFLAGS does contain $ac_cv_cxxflags_warn_all) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_warn_all\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all"
+   fi
+ ;;
+esac
+
+   { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -Wextra" >&5
 $as_echo_n "checking CXXFLAGS for gcc -Wextra... " >&6; }
 if test "${ac_cv_cxxflags_gcc_option__Wextra+set}" = set; then
   $as_echo_n "(cached) " >&6
@@ -20677,7 +20712,7 @@ case ".$ac_cv_cxxflags_gcc_option__Wextra" in
  ;;
 esac
 
-  { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -ansi" >&5
+   { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -ansi" >&5
 $as_echo_n "checking CXXFLAGS for gcc -ansi... " >&6; }
 if test "${ac_cv_cxxflags_gcc_option__ansi+set}" = set; then
   $as_echo_n "(cached) " >&6
@@ -20767,7 +20802,7 @@ case ".$ac_cv_cxxflags_gcc_option__ansi" in
  ;;
 esac
 
-  { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -pedantic" >&5
+   { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -pedantic" >&5
 $as_echo_n "checking CXXFLAGS for gcc -pedantic... " >&6; }
 if test "${ac_cv_cxxflags_gcc_option__pedantic+set}" = set; then
   $as_echo_n "(cached) " >&6
@@ -20857,7 +20892,7 @@ case ".$ac_cv_cxxflags_gcc_option__pedantic" in
  ;;
 esac
 
-  if test "x$enable_debugging" = "xyes"; then
+   if test "$enable_debugging" = yes; then
   { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -g3" >&5
 $as_echo_n "checking CXXFLAGS for gcc -g3... " >&6; }
 if test "${ac_cv_cxxflags_gcc_option__g3+set}" = set; then
@@ -20948,7 +20983,7 @@ case ".$ac_cv_cxxflags_gcc_option__g3" in
  ;;
 esac
 
-     { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -O0" >&5
+    { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -O0" >&5
 $as_echo_n "checking CXXFLAGS for gcc -O0... " >&6; }
 if test "${ac_cv_cxxflags_gcc_option__O0+set}" = set; then
   $as_echo_n "(cached) " >&6
@@ -21130,8 +21165,192 @@ case ".$ac_cv_cxxflags_gcc_option__O2" in
 esac
 
 fi
+
+   ;;
+  sun) { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc +w" >&5
+$as_echo_n "checking CXXFLAGS for gcc +w... " >&6; }
+if test "${ac_cv_cxxflags_gcc_option_pw+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_cv_cxxflags_gcc_option_pw="no, unknown"
+
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ ac_save_CXXFLAGS="$CXXFLAGS"
+for ac_arg in "-pedantic -Werror % +w"     "-pedantic % +w %% no, obsolete"     #
+do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+   cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+return 0;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_cxxflags_gcc_option_pw=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+done
+ CXXFLAGS="$ac_save_CXXFLAGS"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option_pw" >&5
+$as_echo "$ac_cv_cxxflags_gcc_option_pw" >&6; }
+case ".$ac_cv_cxxflags_gcc_option_pw" in
+     .ok|.ok,*)  ;;
+   .|.no|.no,*)  ;;
+   *)
+   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option_pw " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option_pw") >&5
+  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option_pw) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option_pw\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option_pw") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option_pw"
+   fi
  ;;
 esac
+ ;;
+  *)    { $as_echo "$as_me:$LINENO: checking CXXFLAGS for maximum warnings" >&5
+$as_echo_n "checking CXXFLAGS for maximum warnings... " >&6; }
+if test "${ac_cv_cxxflags_warn_all+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_cv_cxxflags_warn_all="no, unknown"
+
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ ac_save_CXXFLAGS="$CXXFLAGS"
+for ac_arg in "-pedantic  % -Wall"          "-xstrconst % -v"             "-std1      % -verbose -w0 -warnprotos"    "-qlanglvl=ansi % -qsrcmsg -qinfo=all:noppt:noppc:noobs:nocnd"    "-ansi -ansiE % -fullwarn"    "+ESlit     % +w1"            "-Xc        % -pvctl,fullmsg"    "-h conform % -h msglevel 2"    #
+do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+   cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+return 0;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_cxxflags_warn_all=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+done
+ CXXFLAGS="$ac_save_CXXFLAGS"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_warn_all" >&5
+$as_echo "$ac_cv_cxxflags_warn_all" >&6; }
+case ".$ac_cv_cxxflags_warn_all" in
+     .ok|.ok,*)  ;;
+   .|.no|.no,*)
+ ;;
+   *)
+   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_warn_all " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_warn_all") >&5
+  (: CXXFLAGS does contain $ac_cv_cxxflags_warn_all) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_warn_all\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all"
+   fi
+ ;;
+esac
+
+      ;;
+esac
+
 
 
 
