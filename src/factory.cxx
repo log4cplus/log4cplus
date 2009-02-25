@@ -124,7 +124,6 @@ namespace {
                 LOG4CPLUS_TEXT(#layoutname));                               \
             return factory_name;                                            \
         }                                                                   \
-        static tstring const factory_name;                                  \
     }
     
 

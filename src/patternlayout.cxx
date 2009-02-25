@@ -21,7 +21,6 @@
 #include <stdlib.h>
 #include <exception>
 
-using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
@@ -268,10 +267,8 @@ log4cplus::pattern::PatternConverter::formatAndAppend(
 // LiteralPatternConverter methods:
 ////////////////////////////////////////////////
 
-log4cplus::pattern::LiteralPatternConverter::LiteralPatternConverter(
-    const log4cplus::tstring& str)
-    : PatternConverter(FormattingInfo())
-    , str(str)
+log4cplus::pattern::LiteralPatternConverter::LiteralPatternConverter(const log4cplus::tstring& _str)
+    : PatternConverter(FormattingInfo()), str(_str)
 {
 }
 
@@ -281,11 +278,11 @@ log4cplus::pattern::LiteralPatternConverter::LiteralPatternConverter(
 // BasicPatternConverter methods:
 ////////////////////////////////////////////////
 
-log4cplus::pattern::BasicPatternConverter::BasicPatternConverter(
-    const FormattingInfo& info, Type type)
-    : PatternConverter(info)
-    , llmCache(getLogLevelManager())
-    , type(type)
+log4cplus::pattern::BasicPatternConverter::BasicPatternConverter(const FormattingInfo& info, 
+																 Type _type)
+    : PatternConverter(info),
+	  llmCache(getLogLevelManager()),
+	  type(_type)
 {
 }
 
@@ -293,7 +290,7 @@ log4cplus::pattern::BasicPatternConverter::BasicPatternConverter(
 
 void
 log4cplus::pattern::BasicPatternConverter::convert(log4cplus::tstring & result,
-    const InternalLoggingEvent& event)
+												   const InternalLoggingEvent& event)
 {
     switch(type)
     {
@@ -354,10 +351,10 @@ log4cplus::pattern::BasicPatternConverter::convert(log4cplus::tstring & result,
 // LoggerPatternConverter methods:
 ////////////////////////////////////////////////
 
-log4cplus::pattern::LoggerPatternConverter::LoggerPatternConverter(
-    const FormattingInfo& info, int precision)
-    : PatternConverter(info)
-    , precision(precision)
+log4cplus::pattern::LoggerPatternConverter::LoggerPatternConverter(const FormattingInfo& info,
+																   int _precision)
+    : PatternConverter(info), 
+    precision(_precision)
 {
 }
 
@@ -397,12 +394,12 @@ log4cplus::pattern::LoggerPatternConverter::convert(log4cplus::tstring & result,
 ////////////////////////////////////////////////
 
 
-log4cplus::pattern::DatePatternConverter::DatePatternConverter(
-    const FormattingInfo& info, const log4cplus::tstring& pattern,
-    bool use_gmtime)
-    : PatternConverter(info)
-    , use_gmtime(use_gmtime)
-    , format(pattern)
+log4cplus::pattern::DatePatternConverter::DatePatternConverter(const FormattingInfo& info, 
+															   const log4cplus::tstring& _pattern,
+															   bool _use_gmtime)
+    : PatternConverter(info),
+	  use_gmtime(_use_gmtime),
+	  format(_pattern)
 {
 }
 
@@ -422,10 +419,10 @@ log4cplus::pattern::DatePatternConverter::convert(log4cplus::tstring & result,
 // PatternParser methods:
 ////////////////////////////////////////////////
 
-log4cplus::pattern::PatternParser::PatternParser(const log4cplus::tstring& pattern) 
-    : pattern(pattern)
-    , state(LITERAL_STATE)
-    , pos(0)
+log4cplus::pattern::PatternParser::PatternParser(const log4cplus::tstring& _pattern) 
+    : pattern(_pattern),
+	  state(LITERAL_STATE),
+	  pos(0)
 {
 }
 
@@ -693,9 +690,9 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
 // PatternLayout methods:
 ////////////////////////////////////////////////
 
-PatternLayout::PatternLayout(const log4cplus::tstring& pattern)
+PatternLayout::PatternLayout(const log4cplus::tstring& _pattern)
 {
-    init(pattern);
+    init(_pattern);
 }
 
 
@@ -722,28 +719,27 @@ PatternLayout::PatternLayout(const log4cplus::helpers::Properties& properties)
 
 
 void
-PatternLayout::init(const log4cplus::tstring& pattern)
+PatternLayout::init(const log4cplus::tstring& _pattern)
 {
-    this->pattern = pattern;
-    this->parsedPattern = PatternParser(pattern).parse();
+    this->pattern = _pattern;
+    this->parsedPattern = PatternParser(_pattern).parse();
 
     // Let's validate that our parser didn't give us any NULLs.  If it did,
     // we will convert them to a valid PatternConverter that does nothing so
     // at least we don't core.
-    for(PatternConverterList::iterator it=parsedPattern.begin(); 
-        it!=parsedPattern.end(); 
-        ++it)
+    for(PatternConverterList::iterator it=parsedPattern.begin(); it!=parsedPattern.end(); ++it)
     {
-        if( (*it) == 0 ) {
+        if( (*it) == 0 ) 
+		{
             getLogLog().error(LOG4CPLUS_TEXT("Parsed Pattern created a NULL PatternConverter"));
             (*it) = new LiteralPatternConverter( LOG4CPLUS_TEXT("") );
         }
     }
-    if(parsedPattern.size() == 0) {
+    if(parsedPattern.size() == 0) 
+	{
         getLogLog().warn(LOG4CPLUS_TEXT("PatternLayout pattern is empty.  Using default..."));
-        parsedPattern.push_back
-           (new BasicPatternConverter(FormattingInfo(), 
-                                      BasicPatternConverter::MESSAGE_CONVERTER));
+        parsedPattern.push_back(new BasicPatternConverter(FormattingInfo(), 
+														  BasicPatternConverter::MESSAGE_CONVERTER));
     }
 }
 
@@ -751,9 +747,7 @@ PatternLayout::init(const log4cplus::tstring& pattern)
 
 PatternLayout::~PatternLayout()
 {
-    for(PatternConverterList::iterator it=parsedPattern.begin(); 
-        it!=parsedPattern.end(); 
-        ++it)
+    for(PatternConverterList::iterator it=parsedPattern.begin(); it!=parsedPattern.end(); ++it)
     {
         delete (*it);
     }

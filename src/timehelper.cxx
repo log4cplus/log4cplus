@@ -47,23 +47,21 @@ const int ONE_SEC_IN_USEC = 1000000;
 //////////////////////////////////////////////////////////////////////////////
 
 Time::Time()
-: tv_sec(0),
-  tv_usec(0)
+  : tv_sec(0), tv_usec(0)
 {
 }
 
 
-Time::Time(time_t tv_sec, long tv_usec)
-: tv_sec(tv_sec),
-  tv_usec(tv_usec)
+Time::Time(time_t _tv_sec, long _tv_usec)
+  : tv_sec(_tv_sec), tv_usec(_tv_usec)
 {
     assert (tv_usec < ONE_SEC_IN_USEC);
 }
 
 
-Time::Time(time_t time)
-: tv_sec(time),
-  tv_usec(0)
+Time::Time(time_t _time)
+  : tv_sec(_time),
+	tv_usec(0)
 {
 }
 

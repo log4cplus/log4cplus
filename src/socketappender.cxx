@@ -29,11 +29,12 @@ using namespace log4cplus::helpers;
 // log4cplus::SocketAppender ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::SocketAppender::SocketAppender(const log4cplus::tstring& host, int port,
-                                          const log4cplus::tstring& serverName)
-: host(host),
-  port(port),
-  serverName(serverName)
+log4cplus::SocketAppender::SocketAppender(const log4cplus::tstring& _host, 
+										  int _port,
+                                          const log4cplus::tstring& _serverName)
+  : host(_host),
+	port(_port),
+	serverName(_serverName)
 {
     openSocket();
 }
@@ -41,8 +42,8 @@ log4cplus::SocketAppender::SocketAppender(const log4cplus::tstring& host, int po
 
 
 log4cplus::SocketAppender::SocketAppender(const Properties properties)
- : Appender(properties),
-   port(9998)
+	: Appender(properties),
+	  port(9998)
 {
     host = properties.getProperty( LOG4CPLUS_TEXT("host") );
     if(properties.exists( LOG4CPLUS_TEXT("port") )) {

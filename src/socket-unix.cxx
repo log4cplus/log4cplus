@@ -92,7 +92,7 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
         return INVALID_SOCKET;
     }
 
-    memcpy(&server.sin_addr, hp->h_addr_list[0], hp->h_length);
+	std::memcpy(&server.sin_addr, hp->h_addr_list[0], hp->h_length);
     server.sin_port = htons(port);
     server.sin_family = AF_INET;
 

@@ -15,7 +15,6 @@
 #include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/loglog.h>
 
-using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 
@@ -61,7 +60,8 @@ LogLogUser::getLogLog() const
 LogLogUser&
 LogLogUser::operator=(const LogLogUser& rhs)
 {
-    if(this == &rhs) {
+    if(this == &rhs) 
+	{
         return *this;
     }
     

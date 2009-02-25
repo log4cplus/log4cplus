@@ -147,52 +147,59 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 // FileAppender ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-FileAppender::FileAppender(const tstring& filename, 
-    LOG4CPLUS_OPEN_MODE_TYPE mode, bool immediateFlush)
-    : immediateFlush(immediateFlush)
+FileAppender::FileAppender(const tstring& _filename, 
+						   LOG4CPLUS_OPEN_MODE_TYPE mode, 
+						   bool _immediateFlush)
+    : immediateFlush(_immediateFlush)
 {
-    init(filename, mode);
+    init(_filename, mode);
 }
 
 
 FileAppender::FileAppender(const Properties& properties, 
                            LOG4CPLUS_OPEN_MODE_TYPE mode)
-    : Appender(properties)
-    , immediateFlush(true)
+    : Appender(properties), immediateFlush(true)
 {
-    bool append = (mode == std::ios::app);
-    tstring const & filename = properties.getProperty( LOG4CPLUS_TEXT("File") );
-    if(filename.length() == 0) {
+    const tstring& filenameProperty = properties.getProperty( LOG4CPLUS_TEXT("File") );
+    if(filenameProperty.empty())
+	{
         getErrorHandler()->error( LOG4CPLUS_TEXT("Invalid filename") );
-        return;
     }
-    if(properties.exists( LOG4CPLUS_TEXT("ImmediateFlush") )) {
-        tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("ImmediateFlush") );
-        immediateFlush = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
-    }
-    if(properties.exists( LOG4CPLUS_TEXT("Append") )) {
-        tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("Append") );
-        append = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
-    }
-
-    init(filename, (append ? std::ios::app : std::ios::trunc));
+	else
+	{
+		bool mustAppend = (mode == std::ios::app);
+		if(properties.exists( LOG4CPLUS_TEXT("ImmediateFlush") )) {
+			tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("ImmediateFlush") );
+			immediateFlush = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
+		}
+		if(properties.exists( LOG4CPLUS_TEXT("Append") )) {
+			tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("Append") );
+			mustAppend = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
+		}
+		
+		init(filenameProperty, (mustAppend ? std::ios::app : std::ios::trunc));
+	}
 }
 
 
 
 void
-FileAppender::init(const tstring& filename, 
+FileAppender::init(const tstring& _filename, 
                    LOG4CPLUS_OPEN_MODE_TYPE mode)
 {
-    this->filename = filename;
-    out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), mode);
+    this->filename = _filename;
+    out.open(LOG4CPLUS_TSTRING_TO_STRING(_filename).c_str(), mode);
 
-    if(!out.good()) {
-        getErrorHandler()->error(  LOG4CPLUS_TEXT("Unable to open file: ") 
-                                 + filename);
-        return;
+    if(out.good()) 
+	{
+		getLogLog().debug(LOG4CPLUS_TEXT("Just opened file: ") + _filename);
+	}
+    else
+	{
+		getErrorHandler()->error(LOG4CPLUS_TEXT("Unable to open file: ") 
+								 + _filename);
     }
-    getLogLog().debug(LOG4CPLUS_TEXT("Just opened file: ") + filename);
+    
 }
 
 
@@ -213,7 +220,7 @@ FileAppender::close()
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         out.close();
-        closed = true;
+	closed = true;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
@@ -245,47 +252,48 @@ FileAppender::append(const spi::InternalLoggingEvent& event)
 // RollingFileAppender ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-RollingFileAppender::RollingFileAppender(const tstring& filename,
-    long maxFileSize, int maxBackupIndex, bool immediateFlush)
-    : FileAppender(filename, std::ios::app, immediateFlush)
+RollingFileAppender::RollingFileAppender(const tstring& _filename,
+										 long _maxFileSize, 
+										 int _maxBackupIndex, 
+										 bool _immediateFlush)
+    : FileAppender(_filename, std::ios::app, _immediateFlush)
 {
-    init(maxFileSize, maxBackupIndex);
+    init(_maxFileSize, _maxBackupIndex);
 }
 
 
 RollingFileAppender::RollingFileAppender(const Properties& properties)
     : FileAppender(properties, std::ios::app)
 {
-    long maxFileSize = 10*1024*1024;
-    int maxBackupIndex = 1;
+    long maxSize = 10*1024*1024;
     tstring tmp (
         helpers::toUpper (
             properties.getProperty (LOG4CPLUS_TEXT ("MaxFileSize"))));
     if (! tmp.empty ())
     {
-        maxFileSize = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
+        maxSize = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
         tstring::size_type const len = tmp.length();
         if (len > 2
             && tmp.compare (len - 2, 2, LOG4CPLUS_TEXT("MB")) == 0)
-            maxFileSize *= (1024 * 1024); // convert to megabytes
+            maxSize *= (1024 * 1024); // convert to megabytes
         else if (len > 2
             && tmp.compare (len - 2, 2, LOG4CPLUS_TEXT("KB")) == 0)
-            maxFileSize *= 1024; // convert to kilobytes
+            maxSize *= 1024; // convert to kilobytes
     }
 
     tmp = properties.getProperty (LOG4CPLUS_TEXT("MaxBackupIndex"));
-    if (! tmp.empty ())
-        maxBackupIndex = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
 
-    init(maxFileSize, maxBackupIndex);
+    const int maxIndex = (tmp.empty() ? 1 : atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str()));
+
+    init(maxSize, maxIndex);
 }
 
 
 void
-RollingFileAppender::init(long maxFileSize, int maxBackupIndex)
+RollingFileAppender::init(long _maxFileSize, int _maxBackupIndex)
 {
-    this->maxFileSize = (std::max)(maxFileSize, MINIMUM_ROLLING_LOG_SIZE);
-    this->maxBackupIndex = (std::max)(maxBackupIndex, 1);
+    this->maxFileSize = std::max(_maxFileSize, MINIMUM_ROLLING_LOG_SIZE);
+    this->maxBackupIndex = std::max(_maxBackupIndex, 1);
 }
 
 
@@ -371,13 +379,14 @@ RollingFileAppender::rollover()
 // DailyRollingFileAppender ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-DailyRollingFileAppender::DailyRollingFileAppender(
-    const tstring& filename, DailyRollingFileSchedule schedule,
-    bool immediateFlush, int maxBackupIndex)
-    : FileAppender(filename, std::ios::app, immediateFlush)
-    , maxBackupIndex(maxBackupIndex)
+DailyRollingFileAppender::DailyRollingFileAppender(const tstring& _filename, 
+												   DailyRollingFileSchedule _schedule,
+												   bool _immediateFlush, 
+												   int _maxBackupIndex)
+    : FileAppender(_filename, std::ios::app, _immediateFlush)
+    , maxBackupIndex(_maxBackupIndex)
 {
-    init(schedule);
+    init(_schedule);
 }
 
 
