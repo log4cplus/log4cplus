@@ -24,9 +24,10 @@ This library has now reached "Production" status.
 Tested on the following platforms
 =================================
 
-- Linux/amd64 with GCC 4.1.2
+- Linux/amd64 with GCC 4.1.2 and 4.3.2
 - FreeBSD/i386 and amd64 with GCC 3.4.6, 4.2.1 and 4.3.3
 - Windows XP with MS Visual C++ 8.0
+- Solaris 10 w/ Sun C++ 5.9 Patch 124863-01
 
 
 Notes
@@ -47,7 +48,6 @@ signals in all threads but one that will handle all signals.  On POSIX
 platforms, this is possible using the sigwait() call.  Log4cplus
 enables this approach by blocking all signals in any threads created
 through its threads helpers.
-
 
 License
 =======
