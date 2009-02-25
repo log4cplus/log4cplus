@@ -22,10 +22,6 @@
 #include <sys/stat.h>
 #include <algorithm>
 
-using std::vector;
-using std::bind1st;
-using std::equal_to;
-using std::back_insert_iterator;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
 
@@ -129,10 +125,10 @@ namespace
             replacement.clear ();
             if (shadow_env)
                 replacement = props.getProperty (key);
-            if (! shadow_env || ! empty_vars && replacement.empty ())
+            if ( (!shadow_env || !empty_vars) && replacement.empty ())
             {
-                char const * env_var
-                    = getenv(LOG4CPLUS_TSTRING_TO_STRING(key).c_str());
+                const char * env_var
+                    = std::getenv(LOG4CPLUS_TSTRING_TO_STRING(key).c_str());
                 if (env_var)
                     replacement = LOG4CPLUS_STRING_TO_TSTRING (env_var);
             }
@@ -305,8 +301,8 @@ PropertyConfigurator::configureLoggers()
 
     Properties loggerProperties
         = properties.getPropertySubset(LOG4CPLUS_TEXT("logger."));
-    vector<tstring> loggers = loggerProperties.propertyNames();
-    for(vector<tstring>::iterator it=loggers.begin(); it!=loggers.end(); ++it)
+    std::vector<tstring> loggers = loggerProperties.propertyNames();
+    for(std::vector<tstring>::iterator it=loggers.begin(); it!=loggers.end(); ++it)
     {
         Logger log = getLogger(*it);
         configureLogger(log, loggerProperties.getProperty(*it));
@@ -320,14 +316,14 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
 {
     // Remove all spaces from config
     tstring configString;
-    remove_copy_if(config.begin(), config.end(),
-                   string_append_iterator<tstring>(configString),
-                   bind1st(equal_to<tchar>(), LOG4CPLUS_TEXT(' ')));
+	std::remove_copy_if(config.begin(), config.end(),
+						string_append_iterator<tstring>(configString),
+						std::bind1st(std::equal_to<tchar>(), LOG4CPLUS_TEXT(' ')));
 
     // "Tokenize" configString
-    vector<tstring> tokens;
+    std::vector<tstring> tokens;
     tokenize(configString, ',',
-             back_insert_iterator<vector<tstring> >(tokens));
+             std::back_insert_iterator<std::vector<tstring> >(tokens));
 
     if(tokens.size() == 0) {
         getLogLog().error(
@@ -349,7 +345,7 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
     logger.removeAllAppenders ();
 
     // Set the Appenders
-    for(vector<tstring>::size_type j=1; j<tokens.size(); ++j)
+    for(std::vector<tstring>::size_type j=1; j<tokens.size(); ++j)
     {
         AppenderMap::iterator appenderIt = appenders.find(tokens[j]);
         if (appenderIt == appenders.end())
@@ -371,9 +367,9 @@ PropertyConfigurator::configureAppenders()
 {
     Properties appenderProperties =
         properties.getPropertySubset(LOG4CPLUS_TEXT("appender."));
-    vector<tstring> appendersProps = appenderProperties.propertyNames();
+    std::vector<tstring> appendersProps = appenderProperties.propertyNames();
     tstring factoryName;
-    for(vector<tstring>::iterator it=appendersProps.begin();
+    for(std::vector<tstring>::iterator it=appendersProps.begin();
         it != appendersProps.end(); ++it)
     {
         if( it->find( LOG4CPLUS_TEXT('.') ) == tstring::npos )
@@ -390,12 +386,11 @@ PropertyConfigurator::configureAppenders()
                 continue;
             }
 
-            Properties properties
-                = appenderProperties.getPropertySubset((*it) 
-                    + LOG4CPLUS_TEXT("."));
             try
             {
-                SharedAppenderPtr appender = factory->createObject(properties);
+            Properties tmpProperties = 
+                appenderProperties.getPropertySubset((*it) + LOG4CPLUS_TEXT("."));
+                SharedAppenderPtr appender = factory->createObject(tmpProperties);
                 if (appender.get() == 0)
                 {
                     tstring err =
@@ -428,12 +423,12 @@ PropertyConfigurator::configureAdditivity()
 {
     Properties additivityProperties =
         properties.getPropertySubset(LOG4CPLUS_TEXT("additivity."));
-    vector<tstring> additivitysProps = additivityProperties.propertyNames();
+    std::vector<tstring> additivitysProps = additivityProperties.propertyNames();
 
     tstring actualValue;
     tstring value;
 
-    for(vector<tstring>::const_iterator it = additivitysProps.begin();
+    for(std::vector<tstring>::const_iterator it = additivitysProps.begin();
         it != additivitysProps.end(); ++it)
     {
         Logger logger = getLogger(*it);
