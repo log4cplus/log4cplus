@@ -20,7 +20,6 @@
 #include <stdlib.h>
 #include <exception>
 
-using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
@@ -663,9 +662,9 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
 // PatternLayout methods:
 ////////////////////////////////////////////////
 
-PatternLayout::PatternLayout(const log4cplus::tstring& pattern)
+PatternLayout::PatternLayout(const log4cplus::tstring& _pattern)
 {
-    init(pattern);
+    init(_pattern);
 }
 
 
@@ -692,28 +691,27 @@ PatternLayout::PatternLayout(const log4cplus::helpers::Properties& _properties)
 
 
 void
-PatternLayout::init(const log4cplus::tstring& pattern)
+PatternLayout::init(const log4cplus::tstring& _pattern)
 {
-    this->pattern = pattern;
-    this->parsedPattern = PatternParser(pattern).parse();
+    this->pattern = _pattern;
+    this->parsedPattern = PatternParser(_pattern).parse();
 
     // Let's validate that our parser didn't give us any NULLs.  If it did,
     // we will convert them to a valid PatternConverter that does nothing so
     // at least we don't core.
-    for(PatternConverterList::iterator it=parsedPattern.begin(); 
-        it!=parsedPattern.end(); 
-        ++it)
+    for(PatternConverterList::iterator it=parsedPattern.begin();  it!=parsedPattern.end(); ++it)
     {
-        if( (*it) == 0 ) {
+        if( (*it) == 0 ) 
+		{
             getLogLog().error(LOG4CPLUS_TEXT("Parsed Pattern created a NULL PatternConverter"));
             (*it) = new LiteralPatternConverter( LOG4CPLUS_TEXT("") );
         }
     }
-    if(parsedPattern.size() == 0) {
+    if(parsedPattern.size() == 0) 
+	{
         getLogLog().warn(LOG4CPLUS_TEXT("PatternLayout pattern is empty.  Using default..."));
-        parsedPattern.push_back
-           (new BasicPatternConverter(FormattingInfo(), 
-                                      BasicPatternConverter::MESSAGE_CONVERTER));
+        parsedPattern.push_back(new BasicPatternConverter(FormattingInfo(), 
+														  BasicPatternConverter::MESSAGE_CONVERTER));
     }
 }
 
