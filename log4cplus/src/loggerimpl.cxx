@@ -106,14 +106,19 @@ LoggerImpl::log(LogLevel _ll,
 LogLevel 
 LoggerImpl::getChainedLogLevel() const
 {
-    for(const LoggerImpl *c=this; c != NULL; c=c->parent.get()) {
-        if(c->ll != NOT_SET_LOG_LEVEL) {
+    for(const LoggerImpl *c=this; c != NULL; c=c->parent.get()) 
+	{
+        if(c->ll != NOT_SET_LOG_LEVEL) 
+		{
             return c->ll;
         }
     }
 
-    getLogLog().error( LOG4CPLUS_TEXT("LoggerImpl::getChainedLogLevel()- No valid LogLevel found") );
+    getLogLog().error(LOG4CPLUS_TEXT("LoggerImpl::getChainedLogLevel()- No valid LogLevel found") );
     throw std::runtime_error("No valid LogLevel found");
+
+	// Will never return this. Avoids warnings in some compilers
+	return NOT_SET_LOG_LEVEL;
 }
 
 
