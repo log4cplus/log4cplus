@@ -19,8 +19,8 @@
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <algorithm>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cerrno>
 
 
 namespace log4cplus
@@ -45,48 +45,48 @@ int
 file_rename (tstring const & src, tstring const & target)
 {
 #if defined (UNICODE) && defined (WIN32)
-    return _wrename (src.c_str (), target.c_str ()) == 0 ? 0 : -1;
+	return _wrename (src.c_str (), target.c_str ());
 #else
-    return rename (LOG4CPLUS_TSTRING_TO_STRING (src).c_str (),
-        LOG4CPLUS_TSTRING_TO_STRING (target).c_str ()) == 0 ? 0 : -1;
+	return std::rename(LOG4CPLUS_TSTRING_TO_STRING (src).c_str(), 
+					   LOG4CPLUS_TSTRING_TO_STRING (target).c_str());
 #endif
 }
-
+	
 
 static
 int
 file_remove (tstring const & src)
 {
 #if defined (UNICODE) && defined (WIN32)
-    return _wremove (src.c_str ()) == 0 ? 0 : -1;
+    return _wremove(src.c_str ());
 #else
-    return remove (LOG4CPLUS_TSTRING_TO_STRING (src).c_str ()) == 0
-        ? 0 : -1;
+    return remove(LOG4CPLUS_TSTRING_TO_STRING (src).c_str ());
 #endif
 }
 
 
 static
 void
-loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
-    tstring const & target, int ret)
+loglog_renaming_result (helpers::LogLog & loglog, 
+						tstring const & src,
+						tstring const & target, 
+						int ret)
 {
-    if (ret == 0)
-    {
-        loglog.debug (
-            LOG4CPLUS_TEXT("Renamed file ") 
-            + src 
-            + LOG4CPLUS_TEXT(" to ")
-            + target);
-    }
-    else
-    {
-        loglog.error (
-            LOG4CPLUS_TEXT("Failed to rename file from ") 
-            + target 
-            + LOG4CPLUS_TEXT(" to ")
-            + target);
-    }
+	tostringstream buffer;
+	switch (ret) 
+	{
+	case 0: 
+		buffer << LOG4CPLUS_TEXT("Renamed file ") << src << LOG4CPLUS_TEXT(" to ") << target;
+		loglog->debug (buffer.str());
+		break;
+			case ENOENT: // 2 No such file or directory
+				break;
+	default:
+		buffer << LOG4CPLUS_TEXT("Failed to rename file from ") << src 
+			   << LOG4CPLUS_TEXT(" to ") << target
+			   << LOG4CPLUS_TEXT("[errno=") << ret <<  LOG4CPLUS_TEXT("]");
+		loglog->error (buffer.str());
+	}
 }
 
 
@@ -97,8 +97,7 @@ loglog_opening_result (helpers::LogLog & loglog,
 {
     if (! os)
     {
-        loglog.error (
-            LOG4CPLUS_TEXT("Failed to open file ") 
+        loglog.error (LOG4CPLUS_TEXT("Failed to open file ") 
             + filename);
     }
 }
@@ -117,17 +116,19 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
     tstring buffer_str = buffer.str ();
     int ret = file_remove (buffer.str ());
 
+	tostringstream source_oss;
+	tostringstream target_oss;
     // Map {(maxBackupIndex - 1), ..., 2, 1} to {maxBackupIndex, ..., 3, 2}
     for (int i = maxBackupIndex - 1; i >= 1; --i)
     {
-        tostringstream source_oss;
-        tostringstream target_oss;
+		source_oss.str("");
+		target_oss.str("");
 
         source_oss << filename << LOG4CPLUS_TEXT(".") << i;
         target_oss << filename << LOG4CPLUS_TEXT(".") << (i+1);
 
-        tstring source (source_oss.str ());
-        tstring target (target_oss.str ());
+		const tstring source = source_oss.str();
+		const tstring target = target_oss.str();
 
 #if defined (WIN32)
         // Try to remove the target first. It seems it is not
@@ -156,32 +157,31 @@ FileAppender::FileAppender(const tstring& _filename,
 }
 
 
-FileAppender::FileAppender(const Properties& properties, 
+FileAppender::FileAppender(const Properties& _properties, 
                            LOG4CPLUS_OPEN_MODE_TYPE mode)
-    : Appender(properties), immediateFlush(true)
+	: Appender(_properties), immediateFlush(true)
 {
-    const tstring& filenameProperty = properties.getProperty( LOG4CPLUS_TEXT("File") );
-    if(filenameProperty.empty())
+	const tstring& filenameProperty = _properties.getProperty( LOG4CPLUS_TEXT("File") );
+	if(filenameProperty.empty())
 	{
-        getErrorHandler()->error( LOG4CPLUS_TEXT("Invalid filename") );
-    }
+		getErrorHandler()->error( LOG4CPLUS_TEXT("Invalid filename") );
+	}
 	else
 	{
 		bool mustAppend = (mode == std::ios::app);
-		if(properties.exists( LOG4CPLUS_TEXT("ImmediateFlush") )) {
-			tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("ImmediateFlush") );
-			immediateFlush = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
+		if(_properties.exists( LOG4CPLUS_TEXT("ImmediateFlush") )) 
+		{
+			const tstring& tmp = helpers::toLower(_properties.getProperty(LOG4CPLUS_TEXT("ImmediateFlush")));
+			immediateFlush = (tmp == LOG4CPLUS_TEXT("true"));
 		}
-		if(properties.exists( LOG4CPLUS_TEXT("Append") )) {
-			tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("Append") );
-			mustAppend = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
+		if(_properties.exists( LOG4CPLUS_TEXT("Append") )) 
+		{
+			const tstring tmp = helpers::toLower(_properties.getProperty(LOG4CPLUS_TEXT("Append")));
+			mustAppend = (tmp == LOG4CPLUS_TEXT("true"));
 		}
-		
 		init(filenameProperty, (mustAppend ? std::ios::app : std::ios::trunc));
 	}
 }
-
-
 
 void
 FileAppender::init(const tstring& _filename, 
@@ -271,7 +271,7 @@ RollingFileAppender::RollingFileAppender(const Properties& properties)
             properties.getProperty (LOG4CPLUS_TEXT ("MaxFileSize"))));
     if (! tmp.empty ())
     {
-        maxSize = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
+        maxSize = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
         tstring::size_type const len = tmp.length();
         if (len > 2
             && tmp.compare (len - 2, 2, LOG4CPLUS_TEXT("MB")) == 0)
@@ -383,18 +383,17 @@ DailyRollingFileAppender::DailyRollingFileAppender(const tstring& _filename,
 												   DailyRollingFileSchedule _schedule,
 												   bool _immediateFlush, 
 												   int _maxBackupIndex)
-    : FileAppender(_filename, std::ios::app, _immediateFlush)
-    , maxBackupIndex(_maxBackupIndex)
+    : FileAppender(_filename, std::ios::app, _immediateFlush),
+    maxBackupIndex(_maxBackupIndex)
 {
     init(_schedule);
 }
 
 
 
-DailyRollingFileAppender::DailyRollingFileAppender(
-    const Properties& properties)
-    : FileAppender(properties, std::ios::app)
-    , maxBackupIndex(10)
+DailyRollingFileAppender::DailyRollingFileAppender(const Properties& properties)
+    : FileAppender(properties, std::ios::app),
+    maxBackupIndex(10)
 {
     DailyRollingFileSchedule theSchedule = DAILY;
     tstring scheduleStr (helpers::toUpper (
@@ -418,9 +417,8 @@ DailyRollingFileAppender::DailyRollingFileAppender(
         theSchedule = DAILY;
     }
     
-    tstring const tmp (properties.getProperty (
-        LOG4CPLUS_TEXT("MaxBackupIndex"), LOG4CPLUS_TEXT("10")));
-    maxBackupIndex = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
+    const tstring tmp = properties.getProperty(LOG4CPLUS_TEXT("MaxBackupIndex"), LOG4CPLUS_TEXT("10"));
+    maxBackupIndex = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
 
     init(theSchedule);
 }
