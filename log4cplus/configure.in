@@ -53,22 +53,36 @@ AC_PROG_CXX
 AC_PROG_CXXCPP
 AC_LANG([C++])
 
-AC_PROG_LIBTOOL
+LT_INIT
 
 dnl Checks for programs.
 AC_SEARCH_LIBS([strerror], [cposix])
 
-AX_CXXFLAGS_WARN_ALL
 AC_CXX_COMPILER_VENDOR([ac_cxx_compiler_vendor])
+
 AS_CASE([$ac_cxx_compiler_vendor],
-  [gnu],
-  [AX_CXXFLAGS_GCC_OPTION([-Wextra])
-  AX_CXXFLAGS_GCC_OPTION([-ansi])
-  AX_CXXFLAGS_GCC_OPTION([-pedantic])
-  AS_IF([test "x$enable_debugging" = "xyes"],
-    [AX_CXXFLAGS_GCC_OPTION([-g3])
-     AX_CXXFLAGS_GCC_OPTION([-O0])],
-    [AX_CXXFLAGS_GCC_OPTION([-O2])])])
+    [gnu],
+    [AX_CXXFLAGS_WARN_ALL
+     AX_CXXFLAGS_GCC_OPTION([-Wextra])
+     AX_CXXFLAGS_GCC_OPTION([-ansi])
+     AS_IF([test "$enable_debugging" = yes],
+     [AX_CXXFLAGS_GCC_OPTION([-g3]) AX_CXXFLAGS_GCC_OPTION([-O0])],
+     [AX_CXXFLAGS_GCC_OPTION([-O2])])
+    ],
+    [sun],
+    [AX_CXXFLAGS_GCC_OPTION([+w])
+     AX_CXXFLAGS_GCC_OPTION([-xthreadvar])
+    ],
+    [AC_MSG_RESULT([---------------------------------------------])
+     AC_MSG_RESULT([--------- Default compiler version ----------])
+     AC_MSG_RESULT([---------------------------------------------])
+     dnl Default case.
+     AX_CXXFLAGS_WARN_ALL
+     dnl Check for IBM's compiler's TLS option.
+     AX_CXXFLAGS_GCC_OPTION([-qtls])
+     dnl Is Sun Studio compiler in use?
+    ])
+
 
 AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
 AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"],
