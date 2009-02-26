@@ -42,7 +42,7 @@ namespace
 
 static 
 int
-file_rename (tstring const & src, tstring const & target)
+file_rename (const tstring& src, const tstring& target)
 {
 #if defined (UNICODE) && defined (WIN32)
 	return _wrename (src.c_str (), target.c_str ());
@@ -55,12 +55,12 @@ file_rename (tstring const & src, tstring const & target)
 
 static
 int
-file_remove (tstring const & src)
+file_remove(const tstring& src)
 {
 #if defined (UNICODE) && defined (WIN32)
     return _wremove(src.c_str ());
 #else
-    return remove(LOG4CPLUS_TSTRING_TO_STRING (src).c_str ());
+    return std::remove(LOG4CPLUS_TSTRING_TO_STRING (src).c_str ());
 #endif
 }
 
@@ -68,8 +68,8 @@ file_remove (tstring const & src)
 static
 void
 loglog_renaming_result (helpers::LogLog & loglog, 
-						tstring const & src,
-						tstring const & target, 
+						const tstring& src,
+						const tstring& target, 
 						int ret)
 {
 	tostringstream buffer;
@@ -77,15 +77,15 @@ loglog_renaming_result (helpers::LogLog & loglog,
 	{
 	case 0: 
 		buffer << LOG4CPLUS_TEXT("Renamed file ") << src << LOG4CPLUS_TEXT(" to ") << target;
-		loglog->debug (buffer.str());
+		loglog.debug(buffer.str());
 		break;
-			case ENOENT: // 2 No such file or directory
-				break;
+	case ENOENT: // 2 No such file or directory
+		break;
 	default:
 		buffer << LOG4CPLUS_TEXT("Failed to rename file from ") << src 
 			   << LOG4CPLUS_TEXT(" to ") << target
 			   << LOG4CPLUS_TEXT("[errno=") << ret <<  LOG4CPLUS_TEXT("]");
-		loglog->error (buffer.str());
+		loglog.error (buffer.str());
 	}
 }
 
@@ -93,7 +93,8 @@ loglog_renaming_result (helpers::LogLog & loglog,
 static
 void
 loglog_opening_result (helpers::LogLog & loglog,
-    log4cplus::tostream const & os, tstring const & filename)
+					   const log4cplus::tostream& os, 
+					   const tstring& filename)
 {
     if (! os)
     {
@@ -283,7 +284,7 @@ RollingFileAppender::RollingFileAppender(const Properties& properties)
 
     tmp = properties.getProperty (LOG4CPLUS_TEXT("MaxBackupIndex"));
 
-    const int maxIndex = (tmp.empty() ? 1 : atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str()));
+    const int maxIndex = (tmp.empty() ? 1 : std::atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str()));
 
     init(maxSize, maxIndex);
 }
