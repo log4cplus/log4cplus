@@ -123,8 +123,8 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
     // Map {(maxBackupIndex - 1), ..., 2, 1} to {maxBackupIndex, ..., 3, 2}
     for (int i = maxBackupIndex - 1; i >= 1; --i)
     {
-		source_oss.str("");
-		target_oss.str("");
+		source_oss.str(LOG4CPLUS_TEXT(""));
+		target_oss.str(LOG4CPLUS_TEXT(""));
 
         source_oss << filename << LOG4CPLUS_TEXT(".") << i;
         target_oss << filename << LOG4CPLUS_TEXT(".") << (i+1);
