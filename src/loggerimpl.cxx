@@ -62,9 +62,11 @@ LoggerImpl::callAppenders(const InternalLoggingEvent& event)
     // No appenders in hierarchy, warn user only once.
     if(!hierarchy.emittedNoAppenderWarning && writes == 0) 
 	{
-        getLogLog().error(  LOG4CPLUS_TEXT("No appenders could be found for logger (") 
-                          + getName() 
-                          + LOG4CPLUS_TEXT(")."));
+		tostringstream errorBuffer;
+        errorBuffer << LOG4CPLUS_TEXT("No appenders could be found for logger (")
+					<< getName() 
+					<< LOG4CPLUS_TEXT(").");
+        getLogLog().error(errorBuffer.str());
         getLogLog().error(LOG4CPLUS_TEXT("Please initialize the log4cplus system properly."));
         hierarchy.emittedNoAppenderWarning = true;
     }
