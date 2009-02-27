@@ -30,158 +30,159 @@
 #include <log4cplus/win32debugappender.h>
 #endif
 
-namespace log4cplus
+using namespace log4cplus;
+
+namespace
 {
-	using namespace spi;
-	using namespace helpers;
-
-
-	namespace
-	{
 		
-		template <typename T, typename REGISTRY>
-		REGISTRY&
-		register_factory (REGISTRY & reg, const tstring& name)
-		{
-			reg.put(std::auto_ptr<typename REGISTRY::product_type>(new T(name)));
-			return reg;
-		}
-
-		template<typename T>
-		struct NameFactory
-		{
-			static log4cplus::tstring name();
-		};
-
-		
-		template<typename T, typename BASE, typename R>
-		struct obj_creator : public BASE
-		{
-			typedef R return_type;
-
-			obj_creator(const tstring& name)
-			{
-				factory_name = NameFactory<BASE>::name() + name;
-			}
-
-			return_type createObject(const helpers::Properties& props) 
-			{
-				return return_type(new T(props));
-			}
-			const log4cplus::tstring& getTypeName() const 
-			{
-				return factory_name;
-			}
-
-			tstring factory_name;
-
-		};
-
-		template<typename T> T& meyers_singleton()
-		{
-			static T data; 
-			return data;
-		}
-
-		template<>tstring NameFactory<spi::AppenderFactory>::name() {return LOG4CPLUS_TEXT("log4cplus::");}
-		template<>tstring NameFactory<spi::LayoutFactory>::name() {return LOG4CPLUS_TEXT("log4cplus::");}
-		template<>tstring NameFactory<spi::FilterFactory>::name() {return LOG4CPLUS_TEXT("log4cplus::spi::");}
-
-		// Special case: DenyAllFilter accepts no properties
-		template<>FilterPtr obj_creator<DenyAllFilter, FilterFactory, FilterPtr>::createObject(const helpers::Properties& props) 
-		{
-			// no-op  (to avoid warning about not using props)
-			if (0) props.size();
-			return FilterPtr(new DenyAllFilter());
-
-		}
-
-	} // anon namespace
-
-
-	void initializeFactoryRegistry()
+	template <typename T, typename REGISTRY>
+	REGISTRY&
+	register_factory (REGISTRY & reg, const tstring& name)
 	{
-		AppenderFactoryRegistry& reg = getAppenderFactoryRegistry();
-
-		register_factory<obj_creator<ConsoleAppender, AppenderFactory, SharedAppenderPtr> >(reg,LOG4CPLUS_TEXT("ConsoleAppender"));
-		register_factory<obj_creator<NullAppender, AppenderFactory, SharedAppenderPtr> >(reg,LOG4CPLUS_TEXT("NullAppender"));
-		register_factory<obj_creator<FileAppender, AppenderFactory, SharedAppenderPtr> >(reg,LOG4CPLUS_TEXT("FileAppender"));
-		register_factory<obj_creator<RollingFileAppender, AppenderFactory, SharedAppenderPtr> >(reg,LOG4CPLUS_TEXT("RollingFileAppender"));
-		register_factory<obj_creator<DailyRollingFileAppender, AppenderFactory, SharedAppenderPtr> >(reg,LOG4CPLUS_TEXT("DailyRollingFileAppender"));
-		register_factory<obj_creator<SocketAppender, AppenderFactory, SharedAppenderPtr> >(reg,LOG4CPLUS_TEXT("SocketAppender"));
-#if defined(_WIN32)
-		register_factory<obj_creator<NTEventLogAppender, AppenderFactory, SharedAppenderPtr> >(reg,LOG4CPLUS_TEXT("NTEventLogAppender"));
-		register_factory<obj_creator<Win32DebugAppender, AppenderFactory, SharedAppenderPtr> >(reg,LOG4CPLUS_TEXT("Win32DebugAppender"));
-#elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
-		register_factory<obj_creator<SysLogAppender, AppenderFactory, SharedAppenderPtr> >(reg,LOG4CPLUS_TEXT("SysLogAppender"));
-#endif
-#ifndef LOG4CPLUS_SINGLE_THREADED
-		register_factory<obj_creator<AsyncAppender, AppenderFactory, SharedAppenderPtr> >(reg,LOG4CPLUS_TEXT("AsyncAppender"));
-#endif
-
-		LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
-		register_factory<obj_creator<SimpleLayout,  LayoutFactory, std::auto_ptr<Layout> > >(reg2,LOG4CPLUS_TEXT("SimpleLayout"));
-		register_factory<obj_creator<TTCCLayout,    LayoutFactory, std::auto_ptr<Layout> > >(reg2,LOG4CPLUS_TEXT("TTCCLayout"));
-		register_factory<obj_creator<PatternLayout, LayoutFactory, std::auto_ptr<Layout> > >(reg2,LOG4CPLUS_TEXT("PatternLayout"));
-
-		FilterFactoryRegistry& reg3 = getFilterFactoryRegistry();
-		register_factory<obj_creator<DenyAllFilter,       FilterFactory, FilterPtr > >(reg3,LOG4CPLUS_TEXT("DenyAllFilter"));
-		register_factory<obj_creator<LogLevelMatchFilter, FilterFactory, FilterPtr > >(reg3,LOG4CPLUS_TEXT("LogLevelMatchFilter"));
-		register_factory<obj_creator<LogLevelRangeFilter, FilterFactory, FilterPtr > >(reg3,LOG4CPLUS_TEXT("LogLevelRangeFilter"));
-		register_factory<obj_creator<StringMatchFilter,   FilterFactory, FilterPtr > >(reg3,LOG4CPLUS_TEXT("StringMatchFilter"));
+		reg.put(std::auto_ptr<typename REGISTRY::product_type>(new T(name)));
+		return reg;
 	}
 
-	namespace spi 
+	template<typename T>
+	struct NameFactory
 	{
+		static tstring name() {return LOG4CPLUS_TEXT("log4cplus::");}
+	};
 
-		BaseFactory::~BaseFactory()
-		{ }
+	// Specialization for FilterFactories. They belong to the spi namespace
+	template<>tstring NameFactory<spi::FilterFactory>::name() 
+	{
+		return LOG4CPLUS_TEXT("log4cplus::spi::");
+	}
 
+		
+	template<typename T, typename BASE, typename R>
+	struct obj_creator : public BASE
+	{
+		typedef R return_type;
 
-		AppenderFactory::AppenderFactory()
-		{ }
-
-		AppenderFactory::~AppenderFactory()
-		{ }
-
-
-		LayoutFactory::LayoutFactory()
-		{ }
-
-		LayoutFactory::~LayoutFactory()
-		{ }
-
-    
-		FilterFactory::FilterFactory()
-		{ }
-
-		FilterFactory::~FilterFactory()
-		{ }
-
-
-		LoggerFactory::~LoggerFactory()
-		{ }
-
-		AppenderFactoryRegistry& getAppenderFactoryRegistry() 
+		obj_creator(const tstring& name)
 		{
-			return meyers_singleton<AppenderFactoryRegistry>();
+			factory_name = NameFactory<BASE>::name() + name;
 		}
 
-
-		LayoutFactoryRegistry& getLayoutFactoryRegistry()
+		return_type createObject(const helpers::Properties& props) 
 		{
-			return meyers_singleton<LayoutFactoryRegistry>();
+			return return_type(new T(props));
+		}
+		const tstring& getTypeName() const 
+		{
+			return factory_name;
 		}
 
+		tstring factory_name;
 
-		FilterFactoryRegistry& getFilterFactoryRegistry()
-		{
-			return meyers_singleton<FilterFactoryRegistry>();
-		}
+	};
+
+	template<typename T> T& meyers_singleton()
+	{
+		static T data; 
+		return data;
+	}
 
 
-	} // namespace spi
+	// Special case: DenyAllFilter accepts no properties
+	template<>spi::FilterPtr 
+	obj_creator<spi::DenyAllFilter, 
+				spi::FilterFactory, 
+				spi::FilterPtr>::createObject(const helpers::Properties& props) 
+	{
+		// no-op  (to avoid warning about not using props)
+		if (0) props.size();
+		return spi::FilterPtr(new spi::DenyAllFilter());
+
+	}
+
+} // anon namespace
+
+spi::BaseFactory::~BaseFactory()
+{ }
+
+spi::AppenderFactory::AppenderFactory()
+{ }
+
+spi::AppenderFactory::~AppenderFactory()
+{ }
 
 
-} // namespace log4cplus
+spi::LayoutFactory::LayoutFactory()
+{ }
+
+spi::LayoutFactory::~LayoutFactory()
+{ }
+
+spi::FilterFactory::FilterFactory()
+{ }
+
+spi::FilterFactory::~FilterFactory()
+{ }
+
+spi::LoggerFactory::~LoggerFactory()
+{ }
+		
+#define LOG4CPLUS_STRINGIFY(arg) LOG4CPLUS_TEXT(#arg)
+#define LOG4CPLUS_STRINGIFY2(arg) LOG4CPLUS_STRINGIFY(arg)
+
+#define REGISTER_FACTORY(FAC, OBJ, PTR, REG) \
+register_factory<obj_creator<OBJ, FAC, PTR> >(REG,LOG4CPLUS_STRINGIFY2(OBJECT));
+
+void
+initializeFactoryRegistry()
+{
+	spi::AppenderFactoryRegistry& reg = 
+		meyers_singleton<spi::AppenderFactoryRegistry>();
+	spi::LayoutFactoryRegistry& reg2 = 
+		meyers_singleton<spi::LayoutFactoryRegistry>();
+	spi::FilterFactoryRegistry& reg3 = 
+		meyers_singleton<spi::FilterFactoryRegistry>();
+
+	REGISTER_FACTORY(spi::AppenderFactory, 
+					 ConsoleAppender, SharedAppenderPtr, reg);
+	REGISTER_FACTORY(spi::AppenderFactory, 
+					 FileAppender, SharedAppenderPtr, reg);
+	REGISTER_FACTORY(spi::AppenderFactory, 
+					 RollingFileAppender, SharedAppenderPtr, reg);
+	REGISTER_FACTORY(spi::AppenderFactory, 
+					 DailyRollingFileAppender, SharedAppenderPtr, reg);
+	REGISTER_FACTORY(spi::AppenderFactory, 
+					 SocketAppender, SharedAppenderPtr, reg);
+#if defined(_WIN32)
+	REGISTER_FACTORY(spi::AppenderFactory, 
+					 NTEventLogAppender, SharedAppenderPtr, reg);
+	REGISTER_FACTORY(spi::AppenderFactory, 
+					 Win32DebugAppender, SharedAppenderPtr, reg);
+#elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
+	REGISTER_FACTORY(spi::AppenderFactory, 
+					 SysLogAppender, SharedAppenderPtr, reg);
+#endif
+#ifndef LOG4CPLUS_SINGLE_THREADED
+	REGISTER_FACTORY(spi::AppenderFactory, 
+					 AsyncAppender, SharedAppenderPtr, reg);
+#endif
+
+	REGISTER_FACTORY(spi::LayoutFactory, 
+					 SimpleLayout, std::auto_ptr<Layout>, reg2);
+	REGISTER_FACTORY(spi::LayoutFactory, 
+					 TTCCLayout, std::auto_ptr<Layout>, reg2);
+	REGISTER_FACTORY(spi::LayoutFactory, 
+					 PatternLayout, std::auto_ptr<Layout>, reg2);
+
+	REGISTER_FACTORY(spi::FilterFactory, 
+					 spi::DenyAllFilter, spi::FilterPtr, reg3);
+	REGISTER_FACTORY(spi::FilterFactory, 
+					 spi::LogLevelMatchFilter, spi::FilterPtr, reg3);
+	REGISTER_FACTORY(spi::FilterFactory, 
+					 spi::LogLevelRangeFilter, spi::FilterPtr, reg3);
+	REGISTER_FACTORY(spi::FilterFactory, 
+					 spi::StringMatchFilter, spi::FilterPtr, reg3);
+}
+
+#undef REGISTER_FACTORY
+#undef LOG4CPLUS_STRINGIFY2
+#undef LOG4CPLUS_STRINGIFY
 
