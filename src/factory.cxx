@@ -30,7 +30,8 @@
 #include <log4cplus/win32debugappender.h>
 #endif
 
-using namespace log4cplus;
+namespace log4cplus
+{
 
 namespace
 {
@@ -124,7 +125,27 @@ spi::FilterFactory::~FilterFactory()
 
 spi::LoggerFactory::~LoggerFactory()
 { }
-		
+
+spi::AppenderFactoryRegistry&
+spi::getAppenderFactoryRegistry()
+{
+	return meyers_singleton<spi::AppenderFactoryRegistry>();
+}
+
+spi::LayoutFactoryRegistry&
+spi::getLayoutFactoryRegistry()
+{
+	return meyers_singleton<spi::LayoutFactoryRegistry>();
+}
+
+
+spi::FilterFactoryRegistry&
+spi::getFilterFactoryRegistry()
+{
+	return meyers_singleton<spi::FilterFactoryRegistry>();
+}
+
+
 #define LOG4CPLUS_STRINGIFY(arg) LOG4CPLUS_TEXT(#arg)
 #define LOG4CPLUS_STRINGIFY2(arg) LOG4CPLUS_STRINGIFY(arg)
 
@@ -134,12 +155,9 @@ register_factory<obj_creator<OBJ, FAC, PTR > >(REG,LOG4CPLUS_STRINGIFY2(OBJECT))
 void
 initializeFactoryRegistry()
 {
-	spi::AppenderFactoryRegistry& reg = 
-		meyers_singleton<spi::AppenderFactoryRegistry>();
-	spi::LayoutFactoryRegistry& reg2 = 
-		meyers_singleton<spi::LayoutFactoryRegistry>();
-	spi::FilterFactoryRegistry& reg3 = 
-		meyers_singleton<spi::FilterFactoryRegistry>();
+	spi::AppenderFactoryRegistry& reg = spi::getAppenderFactoryRegistry();
+	spi::LayoutFactoryRegistry& reg2 = spi::getLayoutFactoryRegistry();
+	spi::FilterFactoryRegistry& reg3 = spi::getFilterFactoryRegistry();
 
 	REGISTER_FACTORY(spi::AppenderFactory, 
 					 ConsoleAppender, SharedAppenderPtr, reg);
@@ -182,6 +200,7 @@ initializeFactoryRegistry()
 					 spi::StringMatchFilter, spi::FilterPtr, reg3);
 }
 
+} // namespace log4cplus
 #undef REGISTER_FACTORY
 #undef LOG4CPLUS_STRINGIFY2
 #undef LOG4CPLUS_STRINGIFY
