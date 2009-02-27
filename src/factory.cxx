@@ -129,7 +129,7 @@ spi::LoggerFactory::~LoggerFactory()
 #define LOG4CPLUS_STRINGIFY2(arg) LOG4CPLUS_STRINGIFY(arg)
 
 #define REGISTER_FACTORY(FAC, OBJ, PTR, REG) \
-register_factory<obj_creator<OBJ, FAC, PTR> >(REG,LOG4CPLUS_STRINGIFY2(OBJECT));
+register_factory<obj_creator<OBJ, FAC, PTR > >(REG,LOG4CPLUS_STRINGIFY2(OBJECT));
 
 void
 initializeFactoryRegistry()
