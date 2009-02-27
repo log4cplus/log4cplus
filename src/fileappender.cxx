@@ -293,8 +293,8 @@ RollingFileAppender::RollingFileAppender(const Properties& properties)
 void
 RollingFileAppender::init(long _maxFileSize, int _maxBackupIndex)
 {
-    this->maxFileSize = std::max(_maxFileSize, MINIMUM_ROLLING_LOG_SIZE);
-    this->maxBackupIndex = std::max(_maxBackupIndex, 1);
+    this->maxFileSize = (std::max)(_maxFileSize, MINIMUM_ROLLING_LOG_SIZE);
+    this->maxBackupIndex = (std::max)(_maxBackupIndex, 1);
 }
 
 
