@@ -36,15 +36,12 @@
 
 #include <algorithm>
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-
 
 /////////////////////////////////////////////////////////////////////////////
 // Global Methods
 /////////////////////////////////////////////////////////////////////////////
 
-SOCKET_TYPE
+log4cplus::helpers::SOCKET_TYPE
 log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
 {
     SOCKET_TYPE sock = ::socket(AF_INET, SOCK_STREAM, 0);
@@ -58,10 +55,13 @@ log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
     server.sin_port = htons(port);
 
     int optval = 1;
-    setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval) );
+	socklen_t optlen = sizeof(optval);
+    setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, optlen);
+    //setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval) );
 
+	socklen_t namelen = sizeof(server);
     int retval = bind(sock, reinterpret_cast<struct sockaddr*>(&server),
-        sizeof(server));
+        namelen);
     if (retval < 0)
         return INVALID_SOCKET;
 
@@ -73,7 +73,7 @@ log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
 }
 
 
-SOCKET_TYPE
+log4cplus::helpers::SOCKET_TYPE
 log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
                                   unsigned short port, SocketState& state)
 {
@@ -96,11 +96,13 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
     server.sin_port = htons(port);
     server.sin_family = AF_INET;
 
+	socklen_t namelen = sizeof(server);
     while (
-        (retval = ::connect(sock, reinterpret_cast<struct sockaddr*>(&server),
-            sizeof(server)))
-        == -1
-        && (errno == EINTR))
+		   (retval = ::connect(sock, 
+							   reinterpret_cast<struct sockaddr*>(&server),
+							   namelen))
+		   == -1
+		   && (errno == EINTR))
         ;
     if (retval == INVALID_SOCKET) 
     {
@@ -114,7 +116,7 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
 
 
 
-SOCKET_TYPE
+log4cplus::helpers::SOCKET_TYPE
 log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& state)
 {
     struct sockaddr_in net_client;
