@@ -97,7 +97,7 @@ get_env_var (tstring & value, tstring const & name)
  */
 static
 bool
-substVars (tstring & dest, const tstring& val, 
+substVars (tstring& dest, const tstring& val, 
 		   const Properties& props,
 		   helpers::LogLog& loglog, 
 		   unsigned flags)
@@ -215,7 +215,7 @@ void
 PropertyConfigurator::init()
 {
 	replaceEnvironVariables();
-	properties = properties.getPropertySubset( LOG4CPLUS_TEXT("log4cplus.") );
+	properties = properties.getPropertySubset(LOG4CPLUS_TEXT("log4cplus."));
 }
 
 
@@ -251,7 +251,8 @@ PropertyConfigurator::configure()
 	configureLoggers();
 	configureAdditivity();
 
-	// Erase the appenders so that we are not artificially keeping them "alive".
+	// Erase the appenders 
+	// so that we are not artificially keeping them "alive".
 	appenders.clear ();
 }
 
@@ -364,7 +365,8 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
 		if (*iter != LOG4CPLUS_TEXT("INHERITED"))
 			logger.setLogLevel(getLogLevelManager().fromString(*iter));
 			
-		// Remove all existing appenders first so that we do not duplicate output.
+		// Remove all existing appenders first
+		// so that we do not duplicate output.
 		logger.removeAllAppenders();
 			
 		// Set the Appenders
@@ -376,9 +378,9 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
 			if ( (appenderIt = appenders.find(*iter)) == appender_end)
 			{
 				tostringstream errorBuffer;
-				errorBuffer 
-					<< LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()")
-					<< LOG4CPLUS_TEXT("Invalid appender: ") << *iter;
+				errorBuffer  <<
+					LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()")
+					LOG4CPLUS_TEXT("Invalid appender: ") << *iter;
 				getLogLog().error(errorBuffer.str());
 			}
 			else
@@ -396,10 +398,10 @@ PropertyConfigurator::configureAppenders()
 	typedef Properties::map_type data_type;
 	typedef data_type::const_iterator const_iterator;
 
-	Properties appenderProperties = 
+	Properties props = 
 		properties.getPropertySubset(LOG4CPLUS_TEXT("appender."));
-	const_iterator props_iter = appenderProperties.data().begin();
-	const const_iterator props_iter_end = appenderProperties.data().end();
+	const_iterator props_iter = props.data().begin();
+	const const_iterator props_iter_end = props.data().end();
 
 	for(; props_iter != props_iter_end; ++props_iter)
 	{
@@ -412,24 +414,28 @@ PropertyConfigurator::configureAppenders()
 				if (!factory)
 				{
 					tostringstream errorBuffer;
-					errorBuffer 
-						<< LOG4CPLUS_TEXT("PropertyConfigurator::configureAppenders()")
-						<< LOG4CPLUS_TEXT("- Cannot find AppenderFactory: ")
-						<< props_iter->second;
+					errorBuffer <<
+						LOG4CPLUS_TEXT("PropertyConfigurator::")
+						LOG4CPLUS_TEXT("configureAppenders()")
+						LOG4CPLUS_TEXT("- Cannot find AppenderFactory: ") <<
+						props_iter->second;
 					getLogLog().error(errorBuffer.str());
 				}
 				else
 				{
 					
 					Properties tmpProperties = 
-						appenderProperties.getPropertySubset(props_iter->first 
-															 + LOG4CPLUS_TEXT("."));
-					SharedAppenderPtr appender = factory->createObject(tmpProperties);
+						props.getPropertySubset(props_iter->first 
+												+ LOG4CPLUS_TEXT("."));
+					SharedAppenderPtr appender =
+						factory->createObject(tmpProperties);
 					if (!appender)
 					{
 						tostringstream errorBuffer;
-						errorBuffer 
-							<< LOG4CPLUS_TEXT("PropertyConfigurator::configureAppenders()- Failed to create appender: ") 
+						errorBuffer <<
+							LOG4CPLUS_TEXT("PropertyConfigurator::")
+							LOG4CPLUS_TEXT("configureAppenders()- ")
+							LOG4CPLUS_TEXT("Failed to create appender: ")
 							<< props_iter->first;
 						getLogLog().error(errorBuffer.str());
 					}
@@ -444,8 +450,11 @@ PropertyConfigurator::configureAppenders()
 		catch (const std::exception& e)
 		{
 			tostringstream errorBuffer;
-			errorBuffer << LOG4CPLUS_TEXT("PropertyConfigurator::configureAppenders()- Error while creating Appender: ")
-						<< LOG4CPLUS_C_STR_TO_TSTRING(e.what());
+			errorBuffer <<
+				LOG4CPLUS_TEXT("PropertyConfigurator::")
+				LOG4CPLUS_TEXT("configureAppenders()- ")
+				LOG4CPLUS_TEXT("Error while creating Appender: ")  <<
+				LOG4CPLUS_C_STR_TO_TSTRING(e.what());
 			getLogLog().error(errorBuffer.str());
 		}
 	} // end for loop
@@ -458,7 +467,8 @@ PropertyConfigurator::configureAdditivity()
 	const Properties additivityProperties =
 		properties.getPropertySubset(LOG4CPLUS_TEXT("additivity."));
 
-	const std::set<tstring>& additivitysProps = additivityProperties.propertyNames();
+	const std::set<tstring>& additivitysProps = 
+		additivityProperties.propertyNames();
 	std::set<tstring>::const_iterator iter = additivitysProps.begin();
 	const std::set<tstring>::const_iterator iter_end = additivitysProps.end();
 	while (iter != iter_end)
