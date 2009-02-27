@@ -95,10 +95,13 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
         log4cplus::tstring const & factoryName
             = properties.getProperty( LOG4CPLUS_TEXT("layout") );
         LayoutFactory* factory = getLayoutFactoryRegistry().get(factoryName);
-        if(factory == 0) {
-            getLogLog().error(  LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"")
-                              + factoryName
-                              + LOG4CPLUS_TEXT("\"") );
+        if(factory == 0) 
+		{
+			tostringstream buffer;
+			buffer << LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"") 
+				   << factoryName
+				   << LOG4CPLUS_TEXT("\"");
+            getLogLog().error(buffer.str());
             return;
         }
 
@@ -106,17 +109,22 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
                 properties.getPropertySubset( LOG4CPLUS_TEXT("layout.") );
         try {
             std::auto_ptr<Layout> newLayout(factory->createObject(layoutProperties));
-            if(newLayout.get() == 0) {
+            if(newLayout.get() == 0)
+			{
                 getLogLog().error(  LOG4CPLUS_TEXT("Failed to create appender: ")
-                                  + factoryName);
+									+ factoryName);
             }
-            else {
+            else 
+			{
                 layout = newLayout;
             }
         }
-        catch(std::exception& e) {
-            getLogLog().error(  LOG4CPLUS_TEXT("Error while creating Layout: ")
-                              + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
+        catch(std::exception& e) 
+		{
+			tostringstream buffer;
+			buffer << LOG4CPLUS_TEXT("Error while creating Layout: ")
+				   << LOG4CPLUS_C_STR_TO_TSTRING(e.what());
+			getLogLog().error(buffer.str());
             return;
         }
 
