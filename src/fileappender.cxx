@@ -40,9 +40,10 @@ const long MINIMUM_ROLLING_LOG_SIZE = 200*1024L;
 namespace
 {
 
-static 
+// The reason for the static declarations is 'ugly naming in DLLs'.
+static
 int
-file_rename (const tstring& src, const tstring& target)
+file_rename(const tstring& src, const tstring& target)
 {
 #if defined (UNICODE) && defined (WIN32)
 	return _wrename (src.c_str (), target.c_str ());
@@ -104,7 +105,7 @@ loglog_opening_result (helpers::LogLog & loglog,
 }
 
 
-static
+static 
 void
 rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 {
@@ -268,9 +269,8 @@ RollingFileAppender::RollingFileAppender(const Properties& properties)
 {
     long maxSize = 10*1024*1024;
     tstring tmp (
-        helpers::toUpper (
-            properties.getProperty (LOG4CPLUS_TEXT ("MaxFileSize"))));
-    if (! tmp.empty ())
+        helpers::toUpper (properties.getProperty(LOG4CPLUS_TEXT("MaxFileSize"))));
+    if (!tmp.empty ())
     {
         maxSize = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
         tstring::size_type const len = tmp.length();
@@ -356,11 +356,11 @@ RollingFileAppender::rollover()
         ret = file_remove (target);
 #endif
 
-        loglog.debug (
-            LOG4CPLUS_TEXT("Renaming file ") 
-            + filename 
-            + LOG4CPLUS_TEXT(" to ")
-            + target);
+		tostringstream buffer;
+		buffer << LOG4CPLUS_TEXT("Renaming file ")  <<filename 
+			   << LOG4CPLUS_TEXT(" to ") << target;
+		loglog.debug(buffer.str());
+
         ret = file_rename (filename, target);
         loglog_renaming_result (loglog, filename, target, ret);
     }
@@ -370,8 +370,7 @@ RollingFileAppender::rollover()
     }
 
     // Open it up again in truncation mode
-    out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), 
-        std::ios::out | std::ios::trunc);
+    out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), std::ios::out | std::ios::trunc);
     loglog_opening_result (loglog, out, filename);
 }
 
@@ -413,7 +412,7 @@ DailyRollingFileAppender::DailyRollingFileAppender(const Properties& properties)
     else if(scheduleStr == LOG4CPLUS_TEXT("MINUTELY"))
         theSchedule = MINUTELY;
     else {
-        getLogLog().warn(  LOG4CPLUS_TEXT("DailyRollingFileAppender::ctor()- \"Schedule\" not valid: ")
+        getLogLog().warn(LOG4CPLUS_TEXT("DailyRollingFileAppender::ctor()- \"Schedule\" not valid: ")
                          + properties.getProperty(LOG4CPLUS_TEXT("Schedule")));
         theSchedule = DAILY;
     }
@@ -511,20 +510,19 @@ DailyRollingFileAppender::close()
 void
 DailyRollingFileAppender::append(const spi::InternalLoggingEvent& event)
 {
-    if(!out.good()) {
-        getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
-                                 + filename);
-        return;
+    if(!out.good()) 
+	{
+        getErrorHandler()->error(LOG4CPLUS_TEXT("file is not open: ") + filename);
     }
-
-    if(event.getTimestamp() >= nextRolloverTime) {
-        rollover();
-    }
-
-    layout->formatAndAppend(out, event);
-    if(immediateFlush) {
-        out.flush();
-    }
+	else
+	{
+		if(event.getTimestamp() >= nextRolloverTime) 
+			rollover();
+		
+		layout->formatAndAppend(out, event);
+		if(immediateFlush) 
+			out.flush();
+	}
 }
 
 
@@ -557,17 +555,16 @@ DailyRollingFileAppender::rollover()
     loglog_renaming_result (loglog, scheduledFilename, backupTarget, ret);
     
     // Rename filename to scheduledFilename
-    loglog.debug(
-        LOG4CPLUS_TEXT("Renaming file ")
-        + filename 
-        + LOG4CPLUS_TEXT(" to ")
-        + scheduledFilename);
+    tostringstream buffer;
+	buffer << LOG4CPLUS_TEXT("Renaming file ")
+		   << filename  << LOG4CPLUS_TEXT(" to ") << scheduledFilename;
+    loglog.debug(buffer.str());
+
     ret = file_rename (filename, scheduledFilename);
     loglog_renaming_result (loglog, filename, scheduledFilename, ret);
 
     // Open a new file
-    out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), 
-        std::ios::out | std::ios::trunc);
+    out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(),  std::ios::out | std::ios::trunc);
     loglog_opening_result (loglog, out, filename);
 
     // Calculate the next rollover time
@@ -586,30 +583,29 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
     switch(schedule)
     {
     case MONTHLY: 
-    {
-        struct tm nextMonthTime;
-        t.localtime(&nextMonthTime);
-        nextMonthTime.tm_mon += 1;
-        nextMonthTime.tm_isdst = 0;
-
-        Time ret;
-        if(ret.setTime(&nextMonthTime) == -1) {
-            getLogLog().error(LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()- setTime() returned error"));
-            ret = (t + Time(2678400));
-        }
-
-        return ret;
-    }
-
+		{
+			struct tm nextMonthTime;
+			t.localtime(&nextMonthTime);
+			nextMonthTime.tm_mon += 1;
+			nextMonthTime.tm_isdst = 0;
+			
+			Time ret;
+			if(ret.setTime(&nextMonthTime) == -1)
+			{
+				getLogLog().error(LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()- setTime() returned error"));
+				ret = (t + Time(2678400));
+			}
+			
+			return ret;
+		}
+		
     case WEEKLY:
         return (t + Time(604800)); // 7 * 24 * 60 * 60 seconds
-
+		
     default:
-        getLogLog ().error (
-            LOG4CPLUS_TEXT ("DailyRollingFileAppender::calculateNextRolloverTime()-")
-            LOG4CPLUS_TEXT (" invalid schedule value"));
+        getLogLog ().error (LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()- invalid schedule value"));
         // Fall through.
-
+		
     case DAILY:
         return (t + Time(86400)); //      24 * 60 * 60 seconds
 
@@ -629,6 +625,7 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
 tstring
 DailyRollingFileAppender::getFilename(const Time& t) const
 {
+	
     tchar const * pattern = 0;
     switch (schedule)
     {
@@ -641,9 +638,7 @@ DailyRollingFileAppender::getFilename(const Time& t) const
         break;
 
     default:
-        getLogLog ().error (
-            LOG4CPLUS_TEXT ("DailyRollingFileAppender::getFilename()-")
-            LOG4CPLUS_TEXT (" invalid schedule value"));
+        getLogLog ().error(LOG4CPLUS_TEXT("DailyRollingFileAppender::getFilename()- invalid schedule value"));
         // Fall through.
 
     case DAILY:
@@ -663,7 +658,9 @@ DailyRollingFileAppender::getFilename(const Time& t) const
         break;
     };
 
-    return filename + LOG4CPLUS_TEXT(".") + t.getFormattedTime(pattern, false);
+    tostringstream buffer;
+	buffer << filename << LOG4CPLUS_TEXT(".") << t.getFormattedTime(pattern, false);
+	return buffer.str();
 }
 
 } // namespace log4cplus
