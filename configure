@@ -20484,6 +20484,37 @@ else
 sed 's/^/| /' conftest.$ac_ext >&5
 
 		    cat >conftest.$ac_ext <<_ACEOF
+#ifndef __SUNPRO_CC
+                      # error "Macro __SUNPRO_CC is undefined!"
+		      /* For some compilers (eg. SGI's CC), #error is not
+		         enough...  */
+		      please, do fail
+		      #endif
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_cxx_compiler_vendor=sun
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+		     cat >conftest.$ac_ext <<_ACEOF
 #ifndef __sgi
                       # error "Macro __sgi is undefined!"
 		      /* For some compilers (eg. SGI's CC), #error is not
@@ -20514,13 +20545,13 @@ else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-		      	      	      ac_ext=c
+		       	       	       ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
-	      cat >conftest.$ac_ext <<_ACEOF
+	       cat >conftest.$ac_ext <<_ACEOF
 #ifndef _MSC_VER
                       # error "Macro _MSC_VER is undefined!"
 		      /* For some compilers (eg. SGI's CC), #error is not
@@ -20555,12 +20586,15 @@ sed 's/^/| /' conftest.$ac_ext >&5
 fi
 
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-	      ac_ext=cpp
+	       ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 fi
 
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
