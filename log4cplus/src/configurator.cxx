@@ -21,24 +21,17 @@
 
 #include <sys/stat.h>
 #include <algorithm>
+#include <vector>
+
+
+namespace log4cplus
+{
 
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
 
 
-//////////////////////////////////////////////////////////////////////////////
-// Forward declarations
-//////////////////////////////////////////////////////////////////////////////
-
-namespace log4cplus
-{
-
 void initializeLog4cplus();
-
-
-//////////////////////////////////////////////////////////////////////////////
-// File LOCAL methods
-//////////////////////////////////////////////////////////////////////////////
 
 
 namespace
@@ -125,10 +118,10 @@ namespace
             replacement.clear ();
             if (shadow_env)
                 replacement = props.getProperty (key);
-            if ( (!shadow_env || !empty_vars) && replacement.empty ())
+            if (! shadow_env || ! empty_vars && replacement.empty ())
             {
-                const char * env_var
-                    = std::getenv(LOG4CPLUS_TSTRING_TO_STRING(key).c_str());
+                char const * env_var
+                    = getenv(LOG4CPLUS_TSTRING_TO_STRING(key).c_str());
                 if (env_var)
                     replacement = LOG4CPLUS_STRING_TO_TSTRING (env_var);
             }
@@ -302,7 +295,8 @@ PropertyConfigurator::configureLoggers()
     Properties loggerProperties
         = properties.getPropertySubset(LOG4CPLUS_TEXT("logger."));
     std::vector<tstring> loggers = loggerProperties.propertyNames();
-    for(std::vector<tstring>::iterator it=loggers.begin(); it!=loggers.end(); ++it)
+    for(std::vector<tstring>::iterator it=loggers.begin(); it!=loggers.end();
+        ++it)
     {
         Logger log = getLogger(*it);
         configureLogger(log, loggerProperties.getProperty(*it));
@@ -316,14 +310,13 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
 {
     // Remove all spaces from config
     tstring configString;
-	std::remove_copy_if(config.begin(), config.end(),
-						string_append_iterator<tstring>(configString),
-						std::bind1st(std::equal_to<tchar>(), LOG4CPLUS_TEXT(' ')));
+    remove_copy_if(config.begin(), config.end(),
+        string_append_iterator<tstring>(configString),
+        std::bind1st(std::equal_to<tchar>(), LOG4CPLUS_TEXT(' ')));
 
     // "Tokenize" configString
     std::vector<tstring> tokens;
-    tokenize(configString, ',',
-             std::back_insert_iterator<std::vector<tstring> >(tokens));
+    tokenize(configString, ',', std::back_inserter(tokens));
 
     if(tokens.size() == 0) {
         getLogLog().error(
@@ -386,11 +379,12 @@ PropertyConfigurator::configureAppenders()
                 continue;
             }
 
+            Properties properties
+                = appenderProperties.getPropertySubset((*it) 
+                    + LOG4CPLUS_TEXT("."));
             try
             {
-            Properties tmpProperties = 
-                appenderProperties.getPropertySubset((*it) + LOG4CPLUS_TEXT("."));
-                SharedAppenderPtr appender = factory->createObject(tmpProperties);
+                SharedAppenderPtr appender = factory->createObject(properties);
                 if (appender.get() == 0)
                 {
                     tstring err =

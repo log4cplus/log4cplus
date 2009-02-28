@@ -68,9 +68,9 @@ namespace log4cplus {
         log4cplus::tofstream out;
         log4cplus::tstring filename;
 
+    private:
         void init(const log4cplus::tstring& filename,
                   LOG4CPLUS_OPEN_MODE_TYPE mode);
-    private:
 
       // Disallow copying of instances of this class
         FileAppender(const FileAppender&);
@@ -104,7 +104,6 @@ namespace log4cplus {
         int maxBackupIndex;
 
     private:
-		using FileAppender::init;
         void init(long maxFileSize, int maxBackupIndex);
     };
 
@@ -146,7 +145,6 @@ namespace log4cplus {
         int maxBackupIndex;
 
     private:
-		using FileAppender::init;
         void init(DailyRollingFileSchedule schedule);
     };
 

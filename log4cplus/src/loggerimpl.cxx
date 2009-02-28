@@ -81,23 +81,23 @@ LoggerImpl::closeNestedAppenders()
 
 
 bool 
-LoggerImpl::isEnabledFor(LogLevel _ll) const
+LoggerImpl::isEnabledFor(LogLevel ll) const
 {
-    if(hierarchy.disableValue >= _ll) {
+    if(hierarchy.disableValue >= ll) {
         return false;
     }
-    return _ll >= getChainedLogLevel();
+    return ll >= getChainedLogLevel();
 }
 
 
 void 
-LoggerImpl::log(LogLevel _ll, 
+LoggerImpl::log(LogLevel ll, 
                 const log4cplus::tstring& message,
                 const char* file, 
                 int line)
 {
-    if(isEnabledFor(_ll)) {
-        forcedLog(_ll, message, file, line);
+    if(isEnabledFor(ll)) {
+        forcedLog(ll, message, file, line);
     }
 }
 
@@ -106,19 +106,14 @@ LoggerImpl::log(LogLevel _ll,
 LogLevel 
 LoggerImpl::getChainedLogLevel() const
 {
-    for(const LoggerImpl *c=this; c != NULL; c=c->parent.get()) 
-	{
-        if(c->ll != NOT_SET_LOG_LEVEL) 
-		{
+    for(const LoggerImpl *c=this; c != NULL; c=c->parent.get()) {
+        if(c->ll != NOT_SET_LOG_LEVEL) {
             return c->ll;
         }
     }
 
-    getLogLog().error(LOG4CPLUS_TEXT("LoggerImpl::getChainedLogLevel()- No valid LogLevel found") );
+    getLogLog().error( LOG4CPLUS_TEXT("LoggerImpl::getChainedLogLevel()- No valid LogLevel found") );
     throw std::runtime_error("No valid LogLevel found");
-
-	// Will never return this. Avoids warnings in some compilers
-	return NOT_SET_LOG_LEVEL;
 }
 
 
@@ -137,19 +132,19 @@ LoggerImpl::getAdditivity() const
 
 
 void 
-LoggerImpl::setAdditivity(bool _additive)
+LoggerImpl::setAdditivity(bool additive) 
 { 
-    this->additive = _additive;
+    this->additive = additive; 
 }
 
 
 void 
-LoggerImpl::forcedLog(LogLevel _ll,
+LoggerImpl::forcedLog(LogLevel ll,
                       const log4cplus::tstring& message,
                       const char* file, 
                       int line)
 {
-    callAppenders(spi::InternalLoggingEvent(this->getName(), _ll, message, file, line));
+    callAppenders(spi::InternalLoggingEvent(this->getName(), ll, message, file, line));
 }
 
 
