@@ -52,10 +52,10 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
 
 #define LOG4CPLUS_MACRO_BODY(logger, logEvent, logLevel)                \
     do {                                                                \
-        if(logger.isEnabledFor(log4cplus::logLevel##_LOG_LEVEL)) {      \
+        if((logger).isEnabledFor(log4cplus::logLevel##_LOG_LEVEL)) {    \
             _clear_tostringstream (_macros_oss);                        \
             _macros_oss << logEvent;                                    \
-            logger.forcedLog(log4cplus::logLevel##_LOG_LEVEL,           \
+            (logger).forcedLog(log4cplus::logLevel##_LOG_LEVEL,         \
                 _macros_oss.str(), __FILE__, __LINE__);                 \
         }                                                               \
     } while (0)
@@ -65,10 +65,10 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
 
 #define LOG4CPLUS_MACRO_BODY(logger, logEvent, logLevel)                \
     do {                                                                \
-        if(logger.isEnabledFor(log4cplus::logLevel##_LOG_LEVEL)) {      \
+        if((logger).isEnabledFor(log4cplus::logLevel##_LOG_LEVEL)) {    \
             log4cplus::tostringstream _log4cplus_buf;                   \
             _log4cplus_buf << logEvent;                                 \
-            logger.forcedLog(log4cplus::logLevel##_LOG_LEVEL,           \
+            (logger).forcedLog(log4cplus::logLevel##_LOG_LEVEL,         \
                 _log4cplus_buf.str(), __FILE__, __LINE__);              \
         }                                                               \
     } while (0)
@@ -78,8 +78,8 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
 
 #define LOG4CPLUS_MACRO_STR_BODY(logger, logEvent, logLevel)            \
     do {                                                                \
-        if(logger.isEnabledFor(log4cplus::logLevel##_LOG_LEVEL)) {      \
-            logger.forcedLog(log4cplus::logLevel##_LOG_LEVEL,           \
+        if((logger).isEnabledFor(log4cplus::logLevel##_LOG_LEVEL)) {    \
+            (logger).forcedLog(log4cplus::logLevel##_LOG_LEVEL,         \
                 logEvent, __FILE__, __LINE__);                          \
         }                                                               \
     } while(0)
