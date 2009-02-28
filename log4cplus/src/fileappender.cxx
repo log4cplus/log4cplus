@@ -19,8 +19,8 @@
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <algorithm>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cerrno>
 
 
 namespace log4cplus
@@ -47,7 +47,7 @@ file_rename (tstring const & src, tstring const & target)
 #if defined (UNICODE) && defined (WIN32)
     return _wrename (src.c_str (), target.c_str ()) == 0 ? 0 : -1;
 #else
-    return rename (LOG4CPLUS_TSTRING_TO_STRING (src).c_str (),
+    return std::rename (LOG4CPLUS_TSTRING_TO_STRING (src).c_str (),
         LOG4CPLUS_TSTRING_TO_STRING (target).c_str ()) == 0 ? 0 : -1;
 #endif
 }
@@ -60,7 +60,7 @@ file_remove (tstring const & src)
 #if defined (UNICODE) && defined (WIN32)
     return _wremove (src.c_str ()) == 0 ? 0 : -1;
 #else
-    return remove (LOG4CPLUS_TSTRING_TO_STRING (src).c_str ()) == 0
+    return std::remove (LOG4CPLUS_TSTRING_TO_STRING (src).c_str ()) == 0
         ? 0 : -1;
 #endif
 }
@@ -68,21 +68,20 @@ file_remove (tstring const & src)
 
 static
 void
-loglog_renaming_result (
-    helpers::SharedObjectPtr<helpers::LogLog> const & loglog,
-    tstring const & src, tstring const & target, int ret)
+loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
+    tstring const & target, int ret)
 {
     if (ret == 0)
     {
-        loglog->debug (
+        loglog.debug (
             LOG4CPLUS_TEXT("Renamed file ") 
             + src 
             + LOG4CPLUS_TEXT(" to ")
             + target);
     }
-    else
+    else if (ret == -1 && errno != ENOENT)
     {
-        loglog->error (
+        loglog.error (
             LOG4CPLUS_TEXT("Failed to rename file from ") 
             + target 
             + LOG4CPLUS_TEXT(" to ")
@@ -93,13 +92,12 @@ loglog_renaming_result (
 
 static
 void
-loglog_opening_result (
-    helpers::SharedObjectPtr<helpers::LogLog> const & loglog,
+loglog_opening_result (helpers::LogLog & loglog,
     log4cplus::tostream const & os, tstring const & filename)
 {
     if (! os)
     {
-        loglog->error (
+        loglog.error (
             LOG4CPLUS_TEXT("Failed to open file ") 
             + filename);
     }
@@ -119,17 +117,20 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
     tstring buffer_str = buffer.str ();
     int ret = file_remove (buffer.str ());
 
+    tostringstream source_oss;
+    tostringstream target_oss;
+
     // Map {(maxBackupIndex - 1), ..., 2, 1} to {maxBackupIndex, ..., 3, 2}
     for (int i = maxBackupIndex - 1; i >= 1; --i)
     {
-        tostringstream source_oss;
-        tostringstream target_oss;
+        source_oss.str(LOG4CPLUS_TEXT(""));
+        target_oss.str(LOG4CPLUS_TEXT(""));
 
         source_oss << filename << LOG4CPLUS_TEXT(".") << i;
         target_oss << filename << LOG4CPLUS_TEXT(".") << (i+1);
 
-        tstring source (source_oss.str ());
-        tstring target (target_oss.str ());
+        tstring const source (source_oss.str ());
+        tstring const target (target_oss.str ());
 
 #if defined (WIN32)
         // Try to remove the target first. It seems it is not
@@ -138,7 +139,7 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 #endif
 
         ret = file_rename (source, target);
-        loglog_renaming_result (loglog, source, target, ret);
+        loglog_renaming_result (*loglog, source, target, ret);
     }
 } // end rolloverFiles()
 
@@ -164,7 +165,8 @@ FileAppender::FileAppender(const Properties& properties,
 {
     bool append = (mode == std::ios::app);
     tstring filename = properties.getProperty( LOG4CPLUS_TEXT("File") );
-    if(filename.length() == 0) {
+    if (filename.empty())
+    {
         getErrorHandler()->error( LOG4CPLUS_TEXT("Invalid filename") );
         return;
     }
@@ -324,8 +326,7 @@ RollingFileAppender::append(const spi::InternalLoggingEvent& event)
 void 
 RollingFileAppender::rollover()
 {
-    helpers::SharedObjectPtr<helpers::LogLog> loglog
-        = helpers::LogLog::getLogLog();
+    helpers::LogLog & loglog = getLogLog();
 
     // Close the current file
     out.close();
@@ -348,7 +349,7 @@ RollingFileAppender::rollover()
         ret = file_remove (target);
 #endif
 
-        loglog->debug (
+        loglog.debug (
             LOG4CPLUS_TEXT("Renaming file ") 
             + filename 
             + LOG4CPLUS_TEXT(" to ")
@@ -358,7 +359,7 @@ RollingFileAppender::rollover()
     }
     else
     {
-        loglog->debug (filename + LOG4CPLUS_TEXT(" has no backups specified"));
+        loglog.debug (filename + LOG4CPLUS_TEXT(" has no backups specified"));
     }
 
     // Open it up again in truncation mode
@@ -407,6 +408,7 @@ DailyRollingFileAppender::DailyRollingFileAppender(
     else {
         getLogLog().warn(  LOG4CPLUS_TEXT("DailyRollingFileAppender::ctor()- \"Schedule\" not valid: ")
                          + properties.getProperty(LOG4CPLUS_TEXT("Schedule")));
+        theSchedule = DAILY;
     }
     
     if(properties.exists( LOG4CPLUS_TEXT("MaxBackupIndex") )) {
@@ -430,7 +432,8 @@ DailyRollingFileAppender::init(DailyRollingFileSchedule schedule)
     now.localtime(&time);
 
     time.tm_sec = 0;
-    switch(schedule) {
+    switch (schedule)
+    {
     case MONTHLY:
         time.tm_mday = 1;
         time.tm_hour = 0;
@@ -536,8 +539,7 @@ DailyRollingFileAppender::rollover()
     backup_target_oss << scheduledFilename << LOG4CPLUS_TEXT(".") << 1;
     tstring backupTarget = backup_target_oss.str();
 
-    helpers::SharedObjectPtr<helpers::LogLog> loglog
-        = helpers::LogLog::getLogLog();
+    helpers::LogLog & loglog = getLogLog();
     int ret;
 
 #if defined (WIN32)
@@ -550,7 +552,7 @@ DailyRollingFileAppender::rollover()
     loglog_renaming_result (loglog, scheduledFilename, backupTarget, ret);
     
     // Rename filename to scheduledFilename
-    loglog->debug(
+    loglog.debug(
         LOG4CPLUS_TEXT("Renaming file ")
         + filename 
         + LOG4CPLUS_TEXT(" to ")
@@ -597,6 +599,12 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
     case WEEKLY:
         return (t + Time(604800)); // 7 * 24 * 60 * 60 seconds
 
+    default:
+        getLogLog ().error (
+            LOG4CPLUS_TEXT ("DailyRollingFileAppender::calculateNextRolloverTime()-")
+            LOG4CPLUS_TEXT (" invalid schedule value"));
+        // Fall through.
+
     case DAILY:
         return (t + Time(86400)); //      24 * 60 * 60 seconds
 
@@ -609,9 +617,6 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
     case MINUTELY:
         return (t + Time(60));    //                60 seconds
     };
-
-    getLogLog().error(LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()- invalid schedule value"));
-    return (t + Time(86400));
 }
 
 
@@ -619,8 +624,8 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
 tstring
 DailyRollingFileAppender::getFilename(const Time& t) const
 {
-    tstring pattern;
-    switch(schedule)
+    tchar const * pattern = 0;
+    switch (schedule)
     {
     case MONTHLY:
         pattern = LOG4CPLUS_TEXT("%Y-%m");
@@ -629,6 +634,12 @@ DailyRollingFileAppender::getFilename(const Time& t) const
     case WEEKLY:
         pattern = LOG4CPLUS_TEXT("%Y-%W");
         break;
+
+    default:
+        getLogLog ().error (
+            LOG4CPLUS_TEXT ("DailyRollingFileAppender::getFilename()-")
+            LOG4CPLUS_TEXT (" invalid schedule value"));
+        // Fall through.
 
     case DAILY:
         pattern = LOG4CPLUS_TEXT("%Y-%m-%d");
