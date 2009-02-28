@@ -11,82 +11,73 @@
 // distribution in the LICENSE.APL file.
 //
 
-#include <log4cplus/fstreams.h>
-#include <log4cplus/helpers/property.h>
-#include <log4cplus/internal/internal.h>
-
-#include <algorithm>
 #include <cstring>
-#include <functional>
-#include <iostream>
-#include <ios>
 #if defined (UNICODE)
 #  include <cwctype>
 #else
 #  include <cctype>
 #endif
+#include <log4cplus/fstreams.h>
+#include <log4cplus/helpers/property.h>
+#include <log4cplus/internal/internal.h>
+
 
 namespace log4cplus { namespace helpers {
 
 
-namespace {
+const tchar Properties::PROPERTIES_COMMENT_CHAR = LOG4CPLUS_TEXT('#');
 
-static const tchar PROPERTIES_COMMENT_CHAR = LOG4CPLUS_TEXT('#');
 
-struct IsNotSpace 
+namespace
+{
+
+
+static
+int
+is_space (tchar ch)
 {
 #if defined (UNICODE)
-	bool operator()(int c) const { return (std::iswspace(c) ? false : true); }
+    return std::iswspace (ch);
 #else
-	bool operator()(int c) const { return (std::isspace(c) ? false : true); }
+    return std::isspace (ch);
 #endif
-};
-	
-/**
- * Removes all leading spaces from the input string
- */
-tstring&
-trim_left (tstring& input)
-{
-	input.erase(input.begin(), 
-				std::find_if(input.begin(), input.end(), IsNotSpace()));
-	return input;
-}
-
-tstring
-trim_left_copy(const tstring& input)
-{
-	return tstring(std::find_if(input.begin(), input.end(), IsNotSpace()), 
-				   input.end());
 }
 
 
-tstring&
-trim_right(tstring& input)
+static
+void
+trim_leading_ws (tstring & str)
 {
-	input.erase(std::find_if(input.rbegin(), input.rend(), IsNotSpace()).base(),
-				input.end());
-	return input;
-}
-
-tstring
-trim_right_copy(const tstring& input)
-{
-	return tstring(input.begin(), 
-				   std::find_if(input.rbegin(), 
-								input.rend(), 
-								IsNotSpace()).base());
-
+    tstring::iterator it = str.begin ();
+    for (; it != str.end (); ++it)
+    {
+        if (! is_space (*it))
+            break;
+    }
+    str.erase (str.begin (), it);
 }
 
 
-//static tstring& trim(tstring & input) {return trim_left(trim_right(input));}
-
-static tstring
-trim_copy(const tstring& input)
+static
+void
+trim_trailing_ws (tstring & str)
 {
-	tstring returnValue(input);
-	return trim_left(trim_right(returnValue));
+    tstring::reverse_iterator rit = str.rbegin ();
+    for (; rit != str.rend (); ++rit)
+    {
+        if (! is_space (*rit))
+            break;
+    }
+    str.erase (rit.base (), str.end ());
+}
+
+
+static
+void
+trim_ws (tstring & str)
+{
+    trim_trailing_ws (str);
+    trim_leading_ws (str);
 }
 
 
@@ -106,18 +97,18 @@ Properties::Properties()
 
 Properties::Properties(log4cplus::tistream& input)
 {
-	init(input);
+    init(input);
 }
 
 
 
 Properties::Properties(const log4cplus::tstring& inputFile)
 {
-	if (!inputFile.empty())
-	{
-		tifstream tmp(LOG4CPLUS_TSTRING_TO_STRING(inputFile).c_str());
-		init(tmp);
-	}
+    if (inputFile.length() == 0)
+        return;
+
+    tifstream file (LOG4CPLUS_TSTRING_TO_STRING(inputFile).c_str());
+    init(file);
 }
 
 
@@ -125,24 +116,33 @@ Properties::Properties(const log4cplus::tstring& inputFile)
 void 
 Properties::init(log4cplus::tistream& input) 
 {
-	tstring buffer;
-	while (!input.fail() && std::getline (input, buffer))
-	{
-		trim_left (buffer);
-		
-		if (!buffer.empty() && (*buffer.begin() != PROPERTIES_COMMENT_CHAR))
-		{		
-			// Check if we have a trailing \r because we are 
-			// reading a properties file produced on Windows.
-			if (*buffer.rend() == LOG4CPLUS_TEXT('\r')) 
-				buffer.resize (buffer.size() - 1);
-			
-			const tstring::size_type idx = buffer.find('=');
-			if (idx != tstring::npos)
-				setProperty(trim_right_copy(buffer.substr(0, idx)),
-								trim_copy(buffer.substr(idx + 1)));
-		}
-	}
+    if (! input)
+        return;
+
+    tstring buffer;
+    while (std::getline (input, buffer))
+    {
+        trim_leading_ws (buffer);
+
+        if (buffer[0] == PROPERTIES_COMMENT_CHAR)
+            continue;
+        
+        // Check if we have a trailing \r because we are 
+        // reading a properties file produced on Windows.
+        tstring::size_type const buffLen = buffer.size ();
+        if (buffLen > 0 && buffer[buffLen-1] == LOG4CPLUS_TEXT('\r'))
+            // Remove trailing 'Windows' \r.
+            buffer.resize (buffLen - 1);
+        tstring::size_type const idx = buffer.find('=');
+        if (idx != tstring::npos)
+        {
+            tstring key = buffer.substr(0, idx);
+            tstring value = buffer.substr(idx + 1);
+            trim_trailing_ws (key);
+            trim_ws (value);
+            setProperty(key, value);
+        }
+    }
 }
 
 
@@ -157,52 +157,70 @@ Properties::~Properties()
 // helpers::Properties public methods
 ///////////////////////////////////////////////////////////////////////////////
 
-const tstring&
+tstring const &
 Properties::getProperty(const tstring& key) const 
 {
-	const map_type::const_iterator it (data_map.find(key));
-	return (it == data_map.end() ? log4cplus::internal::empty_str : it->second);
+    StringMap::const_iterator it (data.find(key));
+    if (it == data.end())
+        return log4cplus::internal::empty_str;
+    else
+        return it->second;
 }
 
 
 
-const tstring&
+tstring
 Properties::getProperty(const tstring& key, const tstring& defaultVal) const
 {
-	const map_type::const_iterator it = data_map.find (key);
-	return (it == data_map.end() ? defaultVal : it->second);
+    StringMap::const_iterator it (data.find (key));
+    if (it == data.end ())
+        return defaultVal;
+    else
+        return it->second;
 }
+
+
+std::vector<tstring>
+Properties::propertyNames() const 
+{
+    std::vector<tstring> tmp;
+    for (StringMap::const_iterator it=data.begin(); it!=data.end(); ++it)
+        tmp.push_back(it->first);
+
+    return tmp;
+}
+
 
 
 void
 Properties::setProperty(const log4cplus::tstring& key,
-						const log4cplus::tstring& value)
+    const log4cplus::tstring& value)
 {
-	data_map.insert(std::make_pair(key, value));
-	keys.insert(key);			
+    data[key] = value;
 }
 
 
 bool
 Properties::removeProperty(const log4cplus::tstring& key)
 {
-	keys.erase(key);
-	return data_map.erase(key) > 0;
+    return data.erase(key) > 0;
 }
 
 
 Properties 
 Properties::getPropertySubset(const log4cplus::tstring& prefix) const
 {
-	Properties ret;
-	for (map_type::const_iterator iter = data_map.begin(); 
-		 iter != data_map.end(); ++iter)
-	{
-		if (iter->first.find(prefix) == 0)
-			ret.setProperty(iter->first.substr(prefix.size()), iter->second);
-	}
+    Properties ret;
+    size_t const prefix_len = prefix.size ();
+    std::vector<tstring> keys = propertyNames();
+    for (std::vector<tstring>::iterator it=keys.begin(); it!=keys.end(); ++it)
+    {
+        int result = it->compare (0, prefix_len, prefix);
+        if (result == 0)
+            ret.setProperty (it->substr (prefix_len), getProperty(*it));
+    }
 
-	return ret;
+    return ret;
 }
 
 

@@ -24,8 +24,8 @@
 #endif
  
 
-#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__hpux__) || defined (__CYGWIN__)
-#include <netinet/in.h>
+#if defined (LOG4CPLUS_HAVE_NETINET_IN_H)
+# include <netinet/in.h>
 #endif
 
 #include <sys/types.h>
@@ -37,12 +37,15 @@
 #include <algorithm>
 
 
+namespace log4cplus { namespace helpers {
+
+
 /////////////////////////////////////////////////////////////////////////////
 // Global Methods
 /////////////////////////////////////////////////////////////////////////////
 
-log4cplus::helpers::SOCKET_TYPE
-log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
+SOCKET_TYPE
+openSocket(unsigned short port, SocketState& state)
 {
     SOCKET_TYPE sock = ::socket(AF_INET, SOCK_STREAM, 0);
     if(sock < 0) {
@@ -55,13 +58,11 @@ log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
     server.sin_port = htons(port);
 
     int optval = 1;
-	socklen_t optlen = sizeof(optval);
-    setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, optlen);
-    //setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval) );
+    socklen_t optlen = sizeof (optval);
+    setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, optlen );
 
-	socklen_t namelen = sizeof(server);
     int retval = bind(sock, reinterpret_cast<struct sockaddr*>(&server),
-        namelen);
+        sizeof(server));
     if (retval < 0)
         return INVALID_SOCKET;
 
@@ -73,9 +74,8 @@ log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
 }
 
 
-log4cplus::helpers::SOCKET_TYPE
-log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
-                                  unsigned short port, SocketState& state)
+SOCKET_TYPE
+connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
 {
     struct sockaddr_in server;
     struct hostent *hp;
@@ -92,17 +92,16 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
         return INVALID_SOCKET;
     }
 
-	std::memcpy(&server.sin_addr, hp->h_addr_list[0], hp->h_length);
+    memcpy(&server.sin_addr, hp->h_addr_list[0], hp->h_length);
     server.sin_port = htons(port);
     server.sin_family = AF_INET;
+    socklen_t namelen = sizeof (server);
 
-	socklen_t namelen = sizeof(server);
     while (
-		   (retval = ::connect(sock, 
-							   reinterpret_cast<struct sockaddr*>(&server),
-							   namelen))
-		   == -1
-		   && (errno == EINTR))
+        (retval = ::connect(sock, reinterpret_cast<struct sockaddr*>(&server),
+            namelen))
+        == -1
+        && (errno == EINTR))
         ;
     if (retval == INVALID_SOCKET) 
     {
@@ -116,13 +115,12 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
 
 
 
-log4cplus::helpers::SOCKET_TYPE
-log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& state)
+SOCKET_TYPE
+acceptSocket(SOCKET_TYPE sock, SocketState& state)
 {
     struct sockaddr_in net_client;
     socklen_t len = sizeof(struct sockaddr);
     SOCKET_TYPE clientSock;
-//    struct hostent *hostptr;
 
     while (
         (clientSock = ::accept(sock,
@@ -131,7 +129,6 @@ log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& state)
         && (errno == EINTR))
         ;
 
-//    hostptr = gethostbyaddr((char*)&(net_client.sin_addr.s_addr), 4, AF_INET);
     if(clientSock != INVALID_SOCKET) {
         state = ok;
     }
@@ -142,7 +139,7 @@ log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& state)
 
 
 int
-log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
+closeSocket(SOCKET_TYPE sock)
 {
     return ::close(sock);
 }
@@ -150,32 +147,35 @@ log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
 
 
 long
-log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
+read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
-    long res, read = 0;
+    long res, readbytes = 0;
  
     do
     { 
-        res = ::read(sock, buffer.getBuffer() + read, buffer.getMaxSize() - read);
+        res = ::read(sock, buffer.getBuffer() + readbytes,
+            buffer.getMaxSize() - readbytes);
         if( res <= 0 ) {
             return res;
         }
-        read += res;
-    } while( read < static_cast<long>(buffer.getMaxSize()) );
+        readbytes += res;
+    } while( readbytes < static_cast<long>(buffer.getMaxSize()) );
  
-    return read;
+    return readbytes;
 }
 
 
 
 long
-log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
+write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
 #if defined(MSG_NOSIGNAL)
     int flags = MSG_NOSIGNAL;
 #else
     int flags = 0;
 #endif
-     return ::send( sock, buffer.getBuffer(), buffer.getSize(), flags );
-     // return ::write(sock, buffer.getBuffer(), buffer.getSize());
+    return ::send( sock, buffer.getBuffer(), buffer.getSize(), flags );
 }
+
+
+} } // namespace log4cplus

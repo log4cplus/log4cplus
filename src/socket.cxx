@@ -33,20 +33,19 @@ using namespace log4cplus::helpers;
 //////////////////////////////////////////////////////////////////////////////
 
 log4cplus::helpers::AbstractSocket::AbstractSocket()
-  : sock(INVALID_SOCKET),
-	state(not_opened),
-	err(0)
+: sock(INVALID_SOCKET),
+  state(not_opened),
+  err(0)
 {
 }
 
 
 
-log4cplus::helpers::AbstractSocket::AbstractSocket(SOCKET_TYPE _sock, 
-												   SocketState _state,
-												   int _err)
-  : sock(_sock),
-	state(_state),
-	err(_err)
+log4cplus::helpers::AbstractSocket::AbstractSocket(SOCKET_TYPE sock_,
+    SocketState state_, int err_)
+: sock(sock_),
+  state(state_),
+  err(err_)
 {
 }
 
@@ -121,22 +120,25 @@ log4cplus::helpers::AbstractSocket::copy(const log4cplus::helpers::AbstractSocke
 //////////////////////////////////////////////////////////////////////////////
 
 log4cplus::helpers::Socket::Socket()
+: AbstractSocket()
 {
 }
 
 
 
 log4cplus::helpers::Socket::Socket(const tstring& address, int port)
+: AbstractSocket()
 {
     sock = connectSocket(address, port, state);
-    if(sock == INVALID_SOCKET)
+    if(sock == INVALID_SOCKET) {
         err = errno;
-
+    }
 }
 
 
-log4cplus::helpers::Socket::Socket(SOCKET_TYPE _sock, SocketState _state, int _err)
-  : AbstractSocket(_sock, _state, _err)
+log4cplus::helpers::Socket::Socket(SOCKET_TYPE sock_, SocketState state_,
+    int err_)
+  : AbstractSocket(sock_, state_, err_)
 {
 }
 
@@ -158,11 +160,12 @@ bool
 log4cplus::helpers::Socket::read(SocketBuffer& buffer)
 {
     long retval = log4cplus::helpers::read(sock, buffer);
-    if(retval <= 0) 
+    if(retval <= 0) {
         close();
-    else
+    }
+    else {
         buffer.setSize(retval);
-
+    }
 
     return (retval > 0);
 }
@@ -210,9 +213,9 @@ log4cplus::helpers::ServerSocket::~ServerSocket()
 log4cplus::helpers::Socket
 log4cplus::helpers::ServerSocket::accept()
 {
-    SocketState tmpState;
-    SOCKET_TYPE clientSock = acceptSocket(sock, tmpState);
-    return Socket(clientSock, tmpState, 0);
+    SocketState st;
+    SOCKET_TYPE clientSock = acceptSocket(sock, st);
+    return Socket(clientSock, st, 0);
 }
 
 

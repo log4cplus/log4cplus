@@ -95,13 +95,10 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
         log4cplus::tstring const & factoryName
             = properties.getProperty( LOG4CPLUS_TEXT("layout") );
         LayoutFactory* factory = getLayoutFactoryRegistry().get(factoryName);
-        if(factory == 0) 
-		{
-			tostringstream buffer;
-			buffer << LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"") 
-				   << factoryName
-				   << LOG4CPLUS_TEXT("\"");
-            getLogLog().error(buffer.str());
+        if(factory == 0) {
+            getLogLog().error(  LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"")
+                              + factoryName
+                              + LOG4CPLUS_TEXT("\"") );
             return;
         }
 
@@ -109,22 +106,17 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
                 properties.getPropertySubset( LOG4CPLUS_TEXT("layout.") );
         try {
             std::auto_ptr<Layout> newLayout(factory->createObject(layoutProperties));
-            if(newLayout.get() == 0)
-			{
+            if(newLayout.get() == 0) {
                 getLogLog().error(  LOG4CPLUS_TEXT("Failed to create appender: ")
-									+ factoryName);
+                                  + factoryName);
             }
-            else 
-			{
+            else {
                 layout = newLayout;
             }
         }
-        catch(std::exception& e) 
-		{
-			tostringstream buffer;
-			buffer << LOG4CPLUS_TEXT("Error while creating Layout: ")
-				   << LOG4CPLUS_C_STR_TO_TSTRING(e.what());
-			getLogLog().error(buffer.str());
+        catch(std::exception& e) {
+            getLogLog().error(  LOG4CPLUS_TEXT("Error while creating Layout: ")
+                              + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
             return;
         }
 
@@ -142,7 +134,8 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
     int filterCount = 0;
     FilterPtr filterChain;
     tstring filterName;
-    while (filterProps.exists(filterName = convertIntegerToString (++filterCount)))
+    while (filterProps.exists(
+        filterName = convertIntegerToString (++filterCount)))
     {
         tstring const & factoryName = filterProps.getProperty(filterName);
         FilterFactory* factory = getFilterFactoryRegistry().get(factoryName);
@@ -155,7 +148,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
         }
         FilterPtr tmpFilter = factory->createObject (
             filterProps.getPropertySubset(filterName + LOG4CPLUS_TEXT(".")));
-        if (!tmpFilter)
+        if (! tmpFilter)
         {
             tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Failed to create filter: ");
             getLogLog().error(err + filterName);
@@ -238,9 +231,9 @@ Appender::getName()
 
 
 void
-Appender::setName(const log4cplus::tstring& _name)
+Appender::setName(const log4cplus::tstring& n)
 {
-    this->name = _name;
+    this->name = n;
 }
 
 

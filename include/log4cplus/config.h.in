@@ -129,6 +129,9 @@
 /* */
 #undef LOG4CPLUS_HAVE_TLS_SUPPORT
 
+/* */
+#undef LOG4CPLUS_HAVE_UNISTD_H
+
 /* Define if this is a single-threaded library. */
 #undef LOG4CPLUS_SINGLE_THREADED
 

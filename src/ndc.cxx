@@ -39,19 +39,19 @@ getNDC()
 // log4cplus::DiagnosticContext ctors
 ///////////////////////////////////////////////////////////////////////////////
 
-DiagnosticContext::DiagnosticContext(const log4cplus::tstring& _message,
+DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message_,
                                      DiagnosticContext const * parent)
-	: message(_message),
-	  fullMessage( (  (parent == NULL) 
-					  ? _message 
-					  : parent->fullMessage + LOG4CPLUS_TEXT(" ") + _message) )
+ : message(message_),
+   fullMessage( (  (parent == NULL) 
+                 ? message 
+                 : parent->fullMessage + LOG4CPLUS_TEXT(" ") + message) )
 {
 }
 
 
-DiagnosticContext::DiagnosticContext(const log4cplus::tstring& _message)
-	: message(_message),
-	  fullMessage(_message)
+DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message_)
+ : message(message_),
+   fullMessage(message)
 {
 }
 
@@ -77,18 +77,15 @@ NDC::~NDC()
 void
 NDC::clear()
 {
-    try 
-{
+    try {
         DiagnosticContextStack* ptr = getPtr();
         DiagnosticContextStack ().swap (*ptr);
     }
-    catch(std::exception& e) 
-{
+    catch(std::exception& e) {
         getLogLog().error(  LOG4CPLUS_TEXT("NDC::clear()- exception occured: ") 
                           + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
-    catch(...) 
-{
+    catch(...) {
         getLogLog().error(LOG4CPLUS_TEXT("NDC::clear()- exception occured"));
     }
 }
@@ -101,8 +98,7 @@ NDC::cloneStack() const
         DiagnosticContextStack* ptr = getPtr();
         return DiagnosticContextStack(*ptr);
     }
-    catch(std::exception& e) 
-{
+    catch(std::exception& e) {
         getLogLog().error(  LOG4CPLUS_TEXT("NDC::cloneStack()- exception occured: ") 
                           + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
@@ -117,14 +113,12 @@ NDC::cloneStack() const
 void 
 NDC::inherit(const DiagnosticContextStack& stack)
 {
-    try 
-	{
+    try {
         DiagnosticContextStack* ptr = getPtr();
         DiagnosticContextStack (stack).swap (*ptr);
     }
-    catch(std::exception& e) 
-	{
-        getLogLog().error(LOG4CPLUS_TEXT("NDC::inherit()- exception occured: ") 
+    catch(std::exception& e) {
+        getLogLog().error(  LOG4CPLUS_TEXT("NDC::inherit()- exception occured: ") 
                           + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
     catch(...) {
@@ -136,22 +130,19 @@ NDC::inherit(const DiagnosticContextStack& stack)
 log4cplus::tstring const &
 NDC::get() const
 {
-    try 
-{
+    try {
         DiagnosticContextStack* ptr = getPtr();
         if(!ptr->empty())
             return ptr->back().fullMessage;
     }
-    catch(std::exception& e)
-	{
+    catch(std::exception& e) {
         getLogLog().error(  LOG4CPLUS_TEXT("NDC::get()- exception occured: ") 
-							+ LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
+                          + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
-    catch(...)
-	{
+    catch(...) {
         getLogLog().error(LOG4CPLUS_TEXT("NDC::get()- exception occured"));
     }
-	
+
     return log4cplus::internal::empty_str;
 }
 

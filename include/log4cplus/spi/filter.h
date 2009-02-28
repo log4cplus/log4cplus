@@ -126,6 +126,9 @@ namespace log4cplus {
          */
         class LOG4CPLUS_EXPORT DenyAllFilter : public Filter {
         public:
+            DenyAllFilter ();
+            DenyAllFilter (const log4cplus::helpers::Properties&);
+
             /**
              * Always returns the {@link #DENY} regardless of the 
              * {@link InternalLoggingEvent} parameter.

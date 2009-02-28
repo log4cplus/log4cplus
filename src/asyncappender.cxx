@@ -121,7 +121,7 @@ AsyncAppender::AsyncAppender (helpers::Properties const & props)
 
     tstring str (props.getProperty (LOG4CPLUS_TEXT ("QueueLimit"),
         LOG4CPLUS_TEXT ("100")));
-    unsigned queue_len = std::atoi (LOG4CPLUS_TSTRING_TO_STRING (str).c_str ());
+    unsigned queue_len = atoi (LOG4CPLUS_TSTRING_TO_STRING (str).c_str ());
 
     init_queue_thread (queue_len);
 }

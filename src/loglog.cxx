@@ -14,6 +14,7 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
 
+using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 
@@ -83,9 +84,8 @@ void
 LogLog::debug(const log4cplus::tstring& msg)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        if(debugEnabled && !quietMode) 
-		{
-			tcout << PREFIX << msg << std::endl;
+        if(debugEnabled && !quietMode) {
+             tcout << PREFIX << msg << endl;
         }
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
@@ -97,7 +97,7 @@ LogLog::warn(const log4cplus::tstring& msg)
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
         if(quietMode) return;
 
-        tcerr << WARN_PREFIX << msg << std::endl;
+        tcerr << WARN_PREFIX << msg << endl;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
@@ -108,7 +108,7 @@ LogLog::error(const log4cplus::tstring& msg)
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
         if(quietMode) return;
 
-        tcerr << ERR_PREFIX << msg << std::endl;
+        tcerr << ERR_PREFIX << msg << endl;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 

@@ -2,6 +2,9 @@
 #define LOG4CPLUS_CONFIG_DEFINES_HXX
 
 /* */
+#undef LOG4CPLUS_HAVE_UNISTD_H
+
+/* */
 #undef LOG4CPLUS_HAVE_SYSLOG_H
 
 /* */
