@@ -63,26 +63,20 @@ AC_PROG_LIBTOOL
 dnl Checks for programs.
 AC_SEARCH_LIBS([strerror], [cposix])
 
+AX_CXXFLAGS_WARN_ALL
 AC_CXX_COMPILER_VENDOR([ac_cxx_compiler_vendor])
-
 AS_CASE([$ac_cxx_compiler_vendor],
   [gnu],
-  [AX_CXXFLAGS_WARN_ALL
-   AX_CXXFLAGS_GCC_OPTION([-Wextra])
+  [AX_CXXFLAGS_GCC_OPTION([-Wextra])
    AX_CXXFLAGS_GCC_OPTION([-ansi])
    AX_CXXFLAGS_GCC_OPTION([-pedantic])
-   AS_IF([test "$enable_debugging" = yes],
+   AS_IF([test "x$enable_debugging" = "xyes"],
    [AX_CXXFLAGS_GCC_OPTION([-g3])
     AX_CXXFLAGS_GCC_OPTION([-O0])],
    [AX_CXXFLAGS_GCC_OPTION([-O2])])
   ],
   [sun],
-  [AX_CXXFLAGS_GCC_OPTION([+w])],
-  [dnl Default case.
-   AX_CXXFLAGS_WARN_ALL
-   dnl Is Sun Studio compiler in use?
-  ])
-
+  [AX_CXXFLAGS_GCC_OPTION([+w])])
 
 AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
 AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"],
