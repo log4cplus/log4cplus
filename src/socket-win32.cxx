@@ -11,6 +11,7 @@
 // distribution in the LICENSE.APL file.
 //
 
+#include <cassert>
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>
 
@@ -28,39 +29,98 @@ using namespace log4cplus::helpers;
 namespace
 {
 
-    struct WinSockInitializer
+enum WSInitStates
+{
+    WS_UNINITIALIZED,
+    WS_INITIALIZING,
+    WS_INITIALIZED
+};
+
+
+static WSADATA wsa;
+static LONG volatile winsock_state = WS_UNINITIALIZED;
+
+
+static
+void
+init_winsock ()
+{
+    // Quick check first to avoid the expensive interlocked compare
+    // and exchange.
+    if (winsock_state == WS_INITIALIZED)
+        return;
+
+    // Try to change the state to WS_INITIALIZING.
+    LONG val = ::InterlockedCompareExchange (&winsock_state, WS_INITIALIZING,
+        WS_UNINITIALIZED);
+    switch (val)
     {
-        WinSockInitializer()
-            : initialized (false)
+    case WS_UNINITIALIZED:
+    {
+        int ret = WSAStartup (MAKEWORD (2, 2), &wsa);
+        if (ret != 0)
         {
-            int err;
+            // Revert the state back to WS_UNINITIALIZED to unblock other
+            // threads and let them throw exception.
+            val = ::InterlockedCompareExchange (&winsock_state, WS_UNINITIALIZED,
+                WS_INITIALIZING);
+            assert (val == WS_INITIALIZING);
+            throw std::runtime_error ("Could not initialize WinSock.");
+        }
 
-            err = WSAStartup(MAKEWORD(2, 2), &wsa);
-            if (err == 0)
+        // WinSock is initialized, change the state to WS_INITIALIZED.
+        val = ::InterlockedCompareExchange (&winsock_state, WS_INITIALIZED,
+            WS_INITIALIZING);
+        assert (val == WS_INITIALIZING);
+        return;
+    }
+
+    case WS_INITIALIZING:
+        // Wait for state change.
+        while (true)
+        {
+            switch (winsock_state)
             {
-                initialized = true;
+            case WS_INITIALIZED:
                 return;
-            }
 
-            if (HIBYTE (wsa.wHighVersion) >= 2)
-            {
-                err = WSAStartup(wsa.wHighVersion, &wsa);
-                if (err == 0)
-                    initialized = true;
+            case WS_INITIALIZING:
+                ::Sleep (0);
+                continue;
+        
+            default:
+                assert (0);
+                throw std::runtime_error ("Unknown WinSock state.");
             }
         }
 
-        ~WinSockInitializer()
-        {
-            if (initialized)
-                WSACleanup();
-        }
+    case WS_INITIALIZED:
+        // WinSock is already initialized.
+        return;
 
-        WSADATA wsa;
-        bool initialized;
-    } static winSockInitializer;
-
+    default:
+        assert (0);
+        throw std::runtime_error ("Unknown WinSock state.");
+    }
 }
+
+
+struct WinSockInitializer
+{
+private:
+    ~WinSockInitializer ()
+    {
+        if (winsock_state == WS_INITIALIZED)
+            WSACleanup ();
+    }
+
+static WinSockInitializer winSockInitializer;
+};
+
+WinSockInitializer WinSockInitializer::winSockInitializer;
+
+
+} // namespace
 
 
 
@@ -71,8 +131,7 @@ namespace
 SOCKET_TYPE
 log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
 {
-    if (! winSockInitializer.initialized)
-        return INVALID_SOCKET;
+    init_winsock ();
 
     SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
     if(sock == INVALID_SOCKET) {
@@ -101,8 +160,7 @@ SOCKET_TYPE
 log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn, 
                                   unsigned short port, SocketState& state)
 {
-    if (! winSockInitializer.initialized)
-        return INVALID_SOCKET;
+    init_winsock ();
 
     SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
     if(sock == INVALID_SOCKET) {
@@ -152,6 +210,8 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
 SOCKET_TYPE
 log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& /*state*/)
 {
+    init_winsock ();
+
     return ::accept(sock, NULL, NULL);
 }
 
