@@ -21795,187 +21795,6 @@ esac
 
 fi
  ;;
-  *)   { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -qtls" >&5
-$as_echo_n "checking CXXFLAGS for gcc -qtls... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__qtls+set}" = set; then
-  $as_echo_n "(cached) " >&6
-else
-  ac_cv_cxxflags_gcc_option__qtls="no, unknown"
-
- ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
- ac_save_CXXFLAGS="$CXXFLAGS"
-for ac_arg in "-pedantic -Werror % -qtls"     "-pedantic % -qtls %% no, obsolete"     #
-do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-int
-main ()
-{
-return 0;
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext
-if { (ac_try="$ac_compile"
-case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
-$as_echo "$ac_try_echo") >&5
-  (eval "$ac_compile") 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } && {
-	 test -z "$ac_cxx_werror_flag" ||
-	 test ! -s conftest.err
-       } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__qtls=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
-else
-  $as_echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-
-fi
-
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-done
- CXXFLAGS="$ac_save_CXXFLAGS"
- ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
-
-fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__qtls" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__qtls" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__qtls" in
-     .ok|.ok,*)  ;;
-   .|.no|.no,*)  ;;
-   *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__qtls " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__qtls") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__qtls) 2>&5
-  ac_status=$?
-  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__qtls\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__qtls") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__qtls"
-   fi
- ;;
-esac
-
-  { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -xthreadvar" >&5
-$as_echo_n "checking CXXFLAGS for gcc -xthreadvar... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__xthreadvar+set}" = set; then
-  $as_echo_n "(cached) " >&6
-else
-  ac_cv_cxxflags_gcc_option__xthreadvar="no, unknown"
-
- ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
- ac_save_CXXFLAGS="$CXXFLAGS"
-for ac_arg in "-pedantic -Werror % -xthreadvar"     "-pedantic % -xthreadvar %% no, obsolete"     #
-do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-int
-main ()
-{
-return 0;
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext
-if { (ac_try="$ac_compile"
-case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
-$as_echo "$ac_try_echo") >&5
-  (eval "$ac_compile") 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } && {
-	 test -z "$ac_cxx_werror_flag" ||
-	 test ! -s conftest.err
-       } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__xthreadvar=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
-else
-  $as_echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-
-fi
-
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-done
- CXXFLAGS="$ac_save_CXXFLAGS"
- ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
-
-fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__xthreadvar" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__xthreadvar" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__xthreadvar" in
-     .ok|.ok,*)  ;;
-   .|.no|.no,*)  ;;
-   *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__xthreadvar " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__xthreadvar") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__xthreadvar) 2>&5
-  ac_status=$?
-  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__xthreadvar\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__xthreadvar") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__xthreadvar"
-   fi
- ;;
-esac
-
- ;;
 esac
 
 
@@ -22331,187 +22150,6 @@ case ".$ac_cv_cxxflags_gcc_option__fkeep_inline_functions" in
 esac
  ;;
 esac
-
-fi
-
-
-
-
-
-
-
-
-{ $as_echo "$as_me:$LINENO: checking for __declspec(thread)" >&5
-$as_echo_n "checking for __declspec(thread)... " >&6; }
-if test "${ac_cv_declspec_thread+set}" = set; then
-  $as_echo_n "(cached) " >&6
-else
-
-  cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-#if defined (__GNUC__)
-#  error Please fail.
-And extra please fail.
-#else
-        extern __declspec(thread) int x;
-        __declspec(thread) int * ptr = 0;
-        int foo () { ptr = &x; }
-        __declspec(thread) int x = 1;
-#endif
-
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext
-if { (ac_try="$ac_compile"
-case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
-$as_echo "$ac_try_echo") >&5
-  (eval "$ac_compile") 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } && {
-	 test -z "$ac_cxx_werror_flag" ||
-	 test ! -s conftest.err
-       } && test -s conftest.$ac_objext; then
-  ac_cv_declspec_thread=yes
-else
-  $as_echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-	ac_cv_declspec_thread=no
-fi
-
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-
-fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_declspec_thread" >&5
-$as_echo "$ac_cv_declspec_thread" >&6; }
-
-if test "x$ac_cv_declspec_thread" = "xyes"; then
-  cat >>confdefs.h <<\_ACEOF
-#define HAVE_TLS_SUPPORT 1
-_ACEOF
-
-   cat >>confdefs.h <<\_ACEOF
-#define TLS_SUPPORT_CONSTRUCT __declspec(thread)
-_ACEOF
-
-else
-
-{ $as_echo "$as_me:$LINENO: checking for __thread" >&5
-$as_echo_n "checking for __thread... " >&6; }
-if test "${ac_cv__thread_keyword+set}" = set; then
-  $as_echo_n "(cached) " >&6
-else
-
-  cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-extern __thread int x;
-        __thread int * ptr = 0;
-        int foo () { ptr = &x; }
-        __thread int x = 1;
-
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext
-if { (ac_try="$ac_compile"
-case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
-$as_echo "$ac_try_echo") >&5
-  (eval "$ac_compile") 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } && {
-	 test -z "$ac_cxx_werror_flag" ||
-	 test ! -s conftest.err
-       } && test -s conftest.$ac_objext; then
-  ac_cv__thread_keyword=yes
-else
-  $as_echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-	ac_cv__thread_keyword=no
-fi
-
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-
-fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv__thread_keyword" >&5
-$as_echo "$ac_cv__thread_keyword" >&6; }
-
-if test "x$ac_cv__thread_keyword" = "xyes"; then
-  cat >>confdefs.h <<\_ACEOF
-#define HAVE_TLS_SUPPORT 1
-_ACEOF
-
-   cat >>confdefs.h <<\_ACEOF
-#define TLS_SUPPORT_CONSTRUCT __thread
-_ACEOF
-
-fi
-
-
-fi
-
-
-
-
-
-
-
-if test "x$ac_cv_declspec_thread" = "xyes"; then
-  cat >>confdefs.h <<\_ACEOF
-#define LOG4CPLUS_HAVE_TLS_SUPPORT 1
-_ACEOF
-
-   cat >>confdefs.h <<\_ACEOF
-#define LOG4CPLUS_THREAD_LOCAL_VAR __declspec(thread)
-_ACEOF
-
-else
-  if test "x$ac_cv__thread_keyword" = "xyes"; then
-  cat >>confdefs.h <<\_ACEOF
-#define LOG4CPLUS_HAVE_TLS_SUPPORT 1
-_ACEOF
-
-     cat >>confdefs.h <<\_ACEOF
-#define LOG4CPLUS_THREAD_LOCAL_VAR __thread
-_ACEOF
-
-fi
 
 fi
 
@@ -24651,18 +24289,19 @@ _ACEOF
 if test "${enable_threads+set}" = set; then
   enableval=$enable_threads; case "${enableval}" in
   yes) multi_threaded=true ;;
-  no)  multi_threaded=false ;;
+  no) multi_threaded=false ;;
   *) { { $as_echo "$as_me:$LINENO: error: bad value ${enableval} for --enable-threads" >&5
 $as_echo "$as_me: error: bad value ${enableval} for --enable-threads" >&2;}
    { (exit 1); exit 1; }; } ;;
- esac
-else
-  multi_threaded=true
+esac
+
 fi
 
 
-if test x$multi_threaded = xtrue ; then
-    CPPFLAGS="$CPPFLAGS -D_REENTRANT"
+if test x$multi_threaded = xtrue; then
+    { $as_echo "$as_me:$LINENO: Threads support:" >&5
+$as_echo "$as_me: Threads support:" >&6;}
+   CPPFLAGS="$CPPFLAGS -D_REENTRANT"
 
 
 
@@ -25106,12 +24745,378 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
-    echo "****************************************"
-    echo "Creating a multi-threaded library"
-    echo "****************************************"
-    CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
-    CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
-    LIBS="$PTHREAD_LIBS $LIBS"
+   { $as_echo "$as_me:$LINENO: Creating a multi-threaded library." >&5
+$as_echo "$as_me: Creating a multi-threaded library." >&6;}
+   CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
+   CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
+   LIBS="$PTHREAD_LIBS $LIBS"
+
+   case $ac_cxx_compiler_vendor in
+  gnu)       ;;
+  sun)       { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -xthreadvar" >&5
+$as_echo_n "checking CXXFLAGS for gcc -xthreadvar... " >&6; }
+if test "${ac_cv_cxxflags_gcc_option__xthreadvar+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_cv_cxxflags_gcc_option__xthreadvar="no, unknown"
+
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ ac_save_CXXFLAGS="$CXXFLAGS"
+for ac_arg in "-pedantic -Werror % -xthreadvar"     "-pedantic % -xthreadvar %% no, obsolete"     #
+do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+   cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+return 0;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_cxxflags_gcc_option__xthreadvar=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+done
+ CXXFLAGS="$ac_save_CXXFLAGS"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__xthreadvar" >&5
+$as_echo "$ac_cv_cxxflags_gcc_option__xthreadvar" >&6; }
+case ".$ac_cv_cxxflags_gcc_option__xthreadvar" in
+     .ok|.ok,*)  ;;
+   .|.no|.no,*)  ;;
+   *)
+   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__xthreadvar " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__xthreadvar") >&5
+  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__xthreadvar) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__xthreadvar\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__xthreadvar") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__xthreadvar"
+   fi
+ ;;
+esac
+ ;;
+  *)             { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -qtls" >&5
+$as_echo_n "checking CXXFLAGS for gcc -qtls... " >&6; }
+if test "${ac_cv_cxxflags_gcc_option__qtls+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_cv_cxxflags_gcc_option__qtls="no, unknown"
+
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ ac_save_CXXFLAGS="$CXXFLAGS"
+for ac_arg in "-pedantic -Werror % -qtls"     "-pedantic % -qtls %% no, obsolete"     #
+do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+   cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+return 0;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_cxxflags_gcc_option__qtls=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+done
+ CXXFLAGS="$ac_save_CXXFLAGS"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__qtls" >&5
+$as_echo "$ac_cv_cxxflags_gcc_option__qtls" >&6; }
+case ".$ac_cv_cxxflags_gcc_option__qtls" in
+     .ok|.ok,*)  ;;
+   .|.no|.no,*)  ;;
+   *)
+   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__qtls " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__qtls") >&5
+  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__qtls) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__qtls\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__qtls") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }
+                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__qtls"
+   fi
+ ;;
+esac
+ ;;
+esac
+
+
+
+
+
+
+
+
+{ $as_echo "$as_me:$LINENO: checking for __declspec(thread)" >&5
+$as_echo_n "checking for __declspec(thread)... " >&6; }
+if test "${ac_cv_declspec_thread+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#if defined (__GNUC__)
+#  error Please fail.
+And extra please fail.
+#else
+        extern __declspec(thread) int x;
+        __declspec(thread) int * ptr = 0;
+        int foo () { ptr = &x; }
+        __declspec(thread) int x = 1;
+#endif
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_declspec_thread=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_cv_declspec_thread=no
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_declspec_thread" >&5
+$as_echo "$ac_cv_declspec_thread" >&6; }
+
+if test "x$ac_cv_declspec_thread" = "xyes"; then
+  cat >>confdefs.h <<\_ACEOF
+#define HAVE_TLS_SUPPORT 1
+_ACEOF
+
+   cat >>confdefs.h <<\_ACEOF
+#define TLS_SUPPORT_CONSTRUCT __declspec(thread)
+_ACEOF
+
+else
+
+{ $as_echo "$as_me:$LINENO: checking for __thread" >&5
+$as_echo_n "checking for __thread... " >&6; }
+if test "${ac_cv__thread_keyword+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+extern __thread int x;
+        __thread int * ptr = 0;
+        int foo () { ptr = &x; }
+        __thread int x = 1;
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv__thread_keyword=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_cv__thread_keyword=no
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv__thread_keyword" >&5
+$as_echo "$ac_cv__thread_keyword" >&6; }
+
+if test "x$ac_cv__thread_keyword" = "xyes"; then
+  cat >>confdefs.h <<\_ACEOF
+#define HAVE_TLS_SUPPORT 1
+_ACEOF
+
+   cat >>confdefs.h <<\_ACEOF
+#define TLS_SUPPORT_CONSTRUCT __thread
+_ACEOF
+
+fi
+
+
+fi
+
+
+
+
+
+
+
+   if test "x$ac_cv_declspec_thread" = "xyes"; then
+  cat >>confdefs.h <<\_ACEOF
+#define LOG4CPLUS_HAVE_TLS_SUPPORT 1
+_ACEOF
+
+      cat >>confdefs.h <<\_ACEOF
+#define LOG4CPLUS_THREAD_LOCAL_VAR __declspec(thread)
+_ACEOF
+
+else
+  if test "x$ac_cv__thread_keyword" = "xyes"; then
+  cat >>confdefs.h <<\_ACEOF
+#define LOG4CPLUS_HAVE_TLS_SUPPORT 1
+_ACEOF
+
+        cat >>confdefs.h <<\_ACEOF
+#define LOG4CPLUS_THREAD_LOCAL_VAR __thread
+_ACEOF
+
+fi
+
+fi
+
+
 
 { $as_echo "$as_me:$LINENO: checking for nanosleep in -lrt" >&5
 $as_echo_n "checking for nanosleep in -lrt... " >&6; }
@@ -25188,15 +25193,16 @@ _ACEOF
 fi
 
 else
-    echo "****************************************"
-    echo "Creating a single-threaded library"
-    echo "****************************************"
+    { $as_echo "$as_me:$LINENO: Creating a single-threaded library" >&5
+$as_echo "$as_me: Creating a single-threaded library" >&6;}
 
 cat >>confdefs.h <<\_ACEOF
 #define LOG4CPLUS_SINGLE_THREADED 1
 _ACEOF
 
 fi
+
+
  if test x$multi_threaded = xtrue; then
   MULTI_THREADED_TRUE=
   MULTI_THREADED_FALSE='#'
