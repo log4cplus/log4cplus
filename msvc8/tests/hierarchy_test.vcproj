@@ -15,8 +15,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\hierarchy_test_Debug"
-			IntermediateDirectory=".\hierarchy_test_Debug"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -37,7 +37,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\hierarchy_test_Debug/hierarchy_test.tlb"
+				TypeLibraryName="$(OutDir)\hierarchy_test.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -48,10 +48,10 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\hierarchy_test_Debug/hierarchy_test.pch"
-				AssemblerListingLocation=".\hierarchy_test_Debug/"
-				ObjectFile=".\hierarchy_test_Debug/"
-				ProgramDataBaseFileName=".\hierarchy_test_Debug/"
+				PrecompiledHeaderFile="$(IntDir)\hierarchy_test.pch"
+				AssemblerListingLocation="$(IntDir)\"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -70,12 +70,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplusd.lib odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile=".\hierarchy_test_Debug/hierarchy_test.exe"
+				OutputFile="$(OutDir)\hierarchy_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\log4cplus_dll.Debug"
+				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\hierarchy_test_Debug/hierarchy_test.pdb"
+				ProgramDatabaseFile="$(OutDir)\hierarchy_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -91,7 +91,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\hierarchy_test_Debug/hierarchy_test.bsc"
+				OutputFile="$(IntDir)\hierarchy_test.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -108,8 +108,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\hierarchy_test_Release"
-			IntermediateDirectory=".\hierarchy_test_Release"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -130,7 +130,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\hierarchy_test_Release/hierarchy_test.tlb"
+				TypeLibraryName="$(OutDir)\hierarchy_test.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -142,10 +142,10 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\hierarchy_test_Release/hierarchy_test.pch"
-				AssemblerListingLocation=".\hierarchy_test_Release/"
-				ObjectFile=".\hierarchy_test_Release/"
-				ProgramDataBaseFileName=".\hierarchy_test_Release/"
+				PrecompiledHeaderFile="$(IntDir)\hierarchy_test.pch"
+				AssemblerListingLocation="$(IntDir)\"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -163,11 +163,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplus.lib odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile=".\hierarchy_test_Release/hierarchy_test.exe"
+				OutputFile="$(OutDir)\hierarchy_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\log4cplus_dll.Release"
-				ProgramDatabaseFile=".\hierarchy_test_Release/hierarchy_test.pdb"
+				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
+				ProgramDatabaseFile="$(OutDir)\hierarchy_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -183,7 +183,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\hierarchy_test_Release/hierarchy_test.bsc"
+				OutputFile="$(IntDir)\hierarchy_test.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

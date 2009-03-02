@@ -15,8 +15,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\fileappender_test_Release"
-			IntermediateDirectory=".\fileappender_test_Release"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -37,7 +37,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\fileappender_test_Release/fileappender_test.tlb"
+				TypeLibraryName="$(OutDir)\fileappender_test.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -49,10 +49,10 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\fileappender_test_Release/fileappender_test.pch"
-				AssemblerListingLocation=".\fileappender_test_Release/"
-				ObjectFile=".\fileappender_test_Release/"
-				ProgramDataBaseFileName=".\fileappender_test_Release/"
+				PrecompiledHeaderFile="$(IntDir)\fileappender_test.pch"
+				AssemblerListingLocation="$(IntDir)\"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -70,11 +70,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplus.lib odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile=".\fileappender_test_Release/fileappender_test.exe"
+				OutputFile="$(OutDir)\fileappender_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\log4cplus_dll.Release"
-				ProgramDatabaseFile=".\fileappender_test_Release/fileappender_test.pdb"
+				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
+				ProgramDatabaseFile="$(OutDir)\fileappender_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -90,7 +90,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\fileappender_test_Release/fileappender_test.bsc"
+				OutputFile="$(IntDir)\fileappender_test.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -107,8 +107,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\fileappender_test_Debug"
-			IntermediateDirectory=".\fileappender_test_Debug"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -129,7 +129,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\fileappender_test_Debug/fileappender_test.tlb"
+				TypeLibraryName="$(OutDir)\fileappender_test.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -140,10 +140,10 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\fileappender_test_Debug/fileappender_test.pch"
-				AssemblerListingLocation=".\fileappender_test_Debug/"
-				ObjectFile=".\fileappender_test_Debug/"
-				ProgramDataBaseFileName=".\fileappender_test_Debug/"
+				PrecompiledHeaderFile="$(IntDir)\fileappender_test.pch"
+				AssemblerListingLocation="$(IntDir)\"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -162,12 +162,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplusd.lib odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile=".\fileappender_test_Debug/fileappender_test.exe"
+				OutputFile="$(OutDir)\fileappender_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\log4cplus_dll.Debug"
+				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\fileappender_test_Debug/fileappender_test.pdb"
+				ProgramDatabaseFile="$(OutDir)\fileappender_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -183,7 +183,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\fileappender_test_Debug/fileappender_test.bsc"
+				OutputFile="$(IntDir)\fileappender_test.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

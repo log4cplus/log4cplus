@@ -15,8 +15,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\configandwatch_test_Release"
-			IntermediateDirectory=".\configandwatch_test_Release"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -37,7 +37,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\configandwatch_test_Release/configandwatch_test.tlb"
+				TypeLibraryName="$(OutDir)\configandwatch_test.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -49,10 +49,10 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\configandwatch_test_Release/configandwatch_test.pch"
-				AssemblerListingLocation=".\configandwatch_test_Release/"
-				ObjectFile=".\configandwatch_test_Release/"
-				ProgramDataBaseFileName=".\configandwatch_test_Release/"
+				PrecompiledHeaderFile="$(IntDir)\configandwatch_test.pch"
+				AssemblerListingLocation="$(IntDir)\"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -70,11 +70,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplus.lib odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile=".\configandwatch_test_Release/configandwatch_test.exe"
+				OutputFile="$(OutDir)\configandwatch_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\log4cplus_dll.Release"
-				ProgramDatabaseFile=".\configandwatch_test_Release/configandwatch_test.pdb"
+				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
+				ProgramDatabaseFile="$(OutDir)\configandwatch_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -90,7 +90,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\configandwatch_test_Release/configandwatch_test.bsc"
+				OutputFile="$(IntDir)\configandwatch_test.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -107,8 +107,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\configandwatch_test_Debug"
-			IntermediateDirectory=".\configandwatch_test_Debug"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -129,7 +129,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\configandwatch_test_Debug/configandwatch_test.tlb"
+				TypeLibraryName="$(OutDir)\configandwatch_test.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -140,10 +140,10 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\configandwatch_test_Debug/configandwatch_test.pch"
-				AssemblerListingLocation=".\configandwatch_test_Debug/"
-				ObjectFile=".\configandwatch_test_Debug/"
-				ProgramDataBaseFileName=".\configandwatch_test_Debug/"
+				PrecompiledHeaderFile="$(IntDir)\configandwatch_test.pch"
+				AssemblerListingLocation="$(IntDir)\"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -162,12 +162,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplusd.lib odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile=".\configandwatch_test_Debug/configandwatch_test.exe"
+				OutputFile="$(OutDir)\configandwatch_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\log4cplus_dll.Debug"
+				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\configandwatch_test_Debug/configandwatch_test.pdb"
+				ProgramDatabaseFile="$(OutDir)\configandwatch_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -183,7 +183,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\configandwatch_test_Debug/configandwatch_test.bsc"
+				OutputFile="$(IntDir)\configandwatch_test.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

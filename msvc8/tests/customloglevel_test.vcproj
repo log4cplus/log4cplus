@@ -15,8 +15,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\customloglevel_test_Release"
-			IntermediateDirectory=".\customloglevel_test_Release"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -37,7 +37,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\customloglevel_test_Release/customloglevel_test.tlb"
+				TypeLibraryName="$(OutDir)\customloglevel_test.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -49,10 +49,10 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\customloglevel_test_Release/customloglevel_test.pch"
-				AssemblerListingLocation=".\customloglevel_test_Release/"
-				ObjectFile=".\customloglevel_test_Release/"
-				ProgramDataBaseFileName=".\customloglevel_test_Release/"
+				PrecompiledHeaderFile="$(IntDir)\customloglevel_test.pch"
+				AssemblerListingLocation="$(IntDir)\"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -70,11 +70,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplus.lib odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile=".\customloglevel_test_Release/customloglevel_test.exe"
+				OutputFile="$(OutDir)\customloglevel_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\log4cplus_dll.Release"
-				ProgramDatabaseFile=".\customloglevel_test_Release/customloglevel_test.pdb"
+				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
+				ProgramDatabaseFile="$(OutDir)\customloglevel_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -90,7 +90,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\customloglevel_test_Release/customloglevel_test.bsc"
+				OutputFile="$(IntDir)\customloglevel_test.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -107,8 +107,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\customloglevel_test_Debug"
-			IntermediateDirectory=".\customloglevel_test_Debug"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -129,7 +129,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\customloglevel_test_Debug/customloglevel_test.tlb"
+				TypeLibraryName="$(OutDir)\customloglevel_test.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -140,10 +140,10 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\customloglevel_test_Debug/customloglevel_test.pch"
-				AssemblerListingLocation=".\customloglevel_test_Debug/"
-				ObjectFile=".\customloglevel_test_Debug/"
-				ProgramDataBaseFileName=".\customloglevel_test_Debug/"
+				PrecompiledHeaderFile="$(IntDir)\customloglevel_test.pch"
+				AssemblerListingLocation="$(IntDir)\"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -162,12 +162,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplusd.lib odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile=".\customloglevel_test_Debug/customloglevel_test.exe"
+				OutputFile="$(OutDir)\customloglevel_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\log4cplus_dll.Debug"
+				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\customloglevel_test_Debug/customloglevel_test.pdb"
+				ProgramDatabaseFile="$(OutDir)\customloglevel_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -183,7 +183,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\customloglevel_test_Debug/customloglevel_test.bsc"
+				OutputFile="$(IntDir)\customloglevel_test.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

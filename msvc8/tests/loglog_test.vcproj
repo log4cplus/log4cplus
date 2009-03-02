@@ -15,8 +15,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\loglog_test_Debug"
-			IntermediateDirectory=".\loglog_test_Debug"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -37,7 +37,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\loglog_test_Debug/loglog_test.tlb"
+				TypeLibraryName="$(OutDir)\loglog_test.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -48,10 +48,10 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\loglog_test_Debug/loglog_test.pch"
-				AssemblerListingLocation=".\loglog_test_Debug/"
-				ObjectFile=".\loglog_test_Debug/"
-				ProgramDataBaseFileName=".\loglog_test_Debug/"
+				PrecompiledHeaderFile="$(IntDir)\loglog_test.pch"
+				AssemblerListingLocation="$(IntDir)\"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -70,12 +70,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplusd.lib odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile=".\loglog_test_Debug/loglog_test.exe"
+				OutputFile="$(OutDir)\loglog_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\log4cplus_dll.Debug"
+				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\loglog_test_Debug/loglog_test.pdb"
+				ProgramDatabaseFile="$(OutDir)\loglog_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -91,7 +91,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\loglog_test_Debug/loglog_test.bsc"
+				OutputFile="$(IntDir)\loglog_test.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -108,8 +108,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\loglog_test_Release"
-			IntermediateDirectory=".\loglog_test_Release"
+			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
+			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -130,7 +130,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\loglog_test_Release/loglog_test.tlb"
+				TypeLibraryName="$(OutDir)\loglog_test.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -142,10 +142,10 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\loglog_test_Release/loglog_test.pch"
-				AssemblerListingLocation=".\loglog_test_Release/"
-				ObjectFile=".\loglog_test_Release/"
-				ProgramDataBaseFileName=".\loglog_test_Release/"
+				PrecompiledHeaderFile="$(IntDir)\loglog_test.pch"
+				AssemblerListingLocation="$(IntDir)\"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -163,11 +163,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplus.lib odbc32.lib odbccp32.lib ws2_32.lib"
-				OutputFile=".\loglog_test_Release/loglog_test.exe"
+				OutputFile="$(OutDir)\loglog_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\log4cplus_dll.Release"
-				ProgramDatabaseFile=".\loglog_test_Release/loglog_test.pdb"
+				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
+				ProgramDatabaseFile="$(OutDir)\loglog_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -183,7 +183,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\loglog_test_Release/loglog_test.bsc"
+				OutputFile="$(IntDir)\loglog_test.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
