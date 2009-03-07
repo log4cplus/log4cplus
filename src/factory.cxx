@@ -124,7 +124,6 @@ namespace {
                 LOG4CPLUS_TEXT(#layoutname));                               \
             return factory_name;                                            \
         }                                                                   \
-        static tstring const factory_name;                                  \
     }
     
 
@@ -134,9 +133,6 @@ namespace {
 
 #undef LAYOUT_FACTORY_DEF
 
-
-#define LOG4CPLUS_STRINGIFY2(arg) #arg
-#define LOG4CPLUS_STRINGIFY(arg) LOG4CPLUS_STRINGIFY2(arg)
 
 #define FILTER_FACTORY_DEF(factoryname, filtername)                         \
     class factoryname : public FilterFactory {                              \
@@ -174,7 +170,10 @@ template <typename Fac, typename Reg>
 static void
 reg_factory (Reg & reg)
 {
-    reg.put (std::auto_ptr<typename Reg::product_type> (new Fac));
+    std::auto_ptr<typename Reg::product_type> pfac (new Fac);
+    // Force initialization of inner static variable.
+    pfac->getTypeName ();
+    reg.put (pfac);
 }
 
 } // namespace
