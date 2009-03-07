@@ -18,40 +18,43 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/loggingevent.h>
 
-using namespace std;
-using namespace log4cplus::helpers;
+
+namespace log4cplus
+{
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::ConsoleAppender ctors and dtor
+// ConsoleAppender ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::ConsoleAppender::ConsoleAppender(bool logToStdErr, bool immediateFlush)
-: logToStdErr(logToStdErr),
-  immediateFlush(immediateFlush)
+ConsoleAppender::ConsoleAppender(bool logToStdErr_,
+    bool immediateFlush_)
+: logToStdErr(logToStdErr_),
+  immediateFlush(immediateFlush_)
 {
 }
 
 
 
-log4cplus::ConsoleAppender::ConsoleAppender(const log4cplus::helpers::Properties properties)
+ConsoleAppender::ConsoleAppender(const helpers::Properties properties)
 : Appender(properties),
   logToStdErr(false),
   immediateFlush(false)
 {
-    tstring val = toLower(properties.getProperty(LOG4CPLUS_TEXT("logToStdErr")));
+    tstring val = helpers::toLower(
+        properties.getProperty(LOG4CPLUS_TEXT("logToStdErr")));
     if(val == LOG4CPLUS_TEXT("true")) {
         logToStdErr = true;
     }
     if(properties.exists( LOG4CPLUS_TEXT("ImmediateFlush") )) {
         tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("ImmediateFlush") );
-        immediateFlush = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
+        immediateFlush = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
     }
 }
 
 
 
-log4cplus::ConsoleAppender::~ConsoleAppender()
+ConsoleAppender::~ConsoleAppender()
 {
     destructorImpl();
 }
@@ -59,11 +62,11 @@ log4cplus::ConsoleAppender::~ConsoleAppender()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::ConsoleAppender public methods
+// ConsoleAppender public methods
 //////////////////////////////////////////////////////////////////////////////
 
 void 
-log4cplus::ConsoleAppender::close()
+ConsoleAppender::close()
 {
     getLogLog().debug(LOG4CPLUS_TEXT("Entering ConsoleAppender::close().."));
     closed = true;
@@ -72,7 +75,7 @@ log4cplus::ConsoleAppender::close()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::ConsoleAppender protected methods
+// ConsoleAppender protected methods
 //////////////////////////////////////////////////////////////////////////////
 
 // Normally, append() methods do not need to be locked since they are
@@ -80,10 +83,10 @@ log4cplus::ConsoleAppender::close()
 // on the LogLog instance, so we don't have multiple threads writing to
 // tcout and tcerr
 void
-log4cplus::ConsoleAppender::append(const spi::InternalLoggingEvent& event)
+ConsoleAppender::append(const spi::InternalLoggingEvent& event)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( getLogLog().mutex )
-        log4cplus::tostream& output = (logToStdErr ? tcerr : tcout);
+        tostream& output = (logToStdErr ? tcerr : tcout);
         layout->formatAndAppend(output, event);
         if(immediateFlush) {
             output.flush();
@@ -92,3 +95,4 @@ log4cplus::ConsoleAppender::append(const spi::InternalLoggingEvent& event)
 }
 
 
+} // namespace log4cplus
