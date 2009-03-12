@@ -49,6 +49,7 @@ platforms, this is possible using the sigwait() call.  Log4cplus
 enables this approach by blocking all signals in any threads created
 through its threads helpers.
 
+
 License
 =======
 
