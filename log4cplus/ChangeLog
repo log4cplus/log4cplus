@@ -7,6 +7,8 @@ Version 1.0.3-RC9
     renaming non-existing files.
   - Fall back to DAILY schedule in DailyRollingFileAppender for
     invalid schedule specification.
+  - Added Debug_Unicode and Release_Unicode targets to MSVC8 test
+    cases builds.
 
 Version 1.0.3-RC8
 
