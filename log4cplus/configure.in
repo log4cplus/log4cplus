@@ -5,6 +5,7 @@ dnl automake-1.10.1
 dnl libtool-1.5.26
 
 AC_INIT([log4cplus], [1.0.3])
+AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.10 no-define nostdinc gnu -Wall])
@@ -74,6 +75,10 @@ AS_CASE([$ac_cxx_compiler_vendor],
    [AX_CXXFLAGS_GCC_OPTION([-g3])
     AX_CXXFLAGS_GCC_OPTION([-O0])],
    [AX_CXXFLAGS_GCC_OPTION([-O2])])
+   dnl The --enable-auto-import switch is required for log4cplus
+   dnl to work when compiled with Cygwin's GCC 4.3.x.
+   AS_IF([test "x$target_os" = "xcygwin"],
+   [LDFLAGS="${LDFLAGS} -Wl,--enable-auto-import"])
   ],
   [sun],
   [AX_CXXFLAGS_GCC_OPTION([+w])])
