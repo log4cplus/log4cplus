@@ -8,7 +8,6 @@ namespace log4cplus { namespace thread {
 Queue::Queue (unsigned len)
     : ev_consumer (false)
     , sem (len, len) 
-    , max_len (len)
     , flags (DRAIN)
 { }
 
@@ -17,12 +16,14 @@ Queue::~Queue ()
 { }
 
 
-unsigned
+Queue::flags_type
 Queue::put_event (spi::InternalLoggingEvent const & ev)
 {
-    unsigned ret_flags = ERROR_BIT | ERROR_AFTER;
+    flags_type ret_flags = ERROR_BIT;
     try
     {
+        // Make sure that the event will have NDC and thread ID of the
+        // calling thread and not the queue worker thread.
         ev.getThread ();
         ev.getNDC ();
         
@@ -39,6 +40,7 @@ Queue::put_event (spi::InternalLoggingEvent const & ev)
         else
         {
             queue.push_front (ev);
+            ret_flags |= ERROR_AFTER;
             semguard.detach ();
             flags |= QUEUE;
             ret_flags |= flags;
@@ -56,10 +58,10 @@ Queue::put_event (spi::InternalLoggingEvent const & ev)
 }
 
 
-unsigned
+Queue::flags_type
 Queue::signal_exit (bool drain)
 {
-    unsigned ret_flags = 0;
+    flags_type ret_flags = 0;
 
     try
     {
@@ -89,10 +91,10 @@ Queue::signal_exit (bool drain)
 }
 
 
-unsigned
+Queue::flags_type
 Queue::get_event (spi::InternalLoggingEvent & ev)
 {
-    unsigned ret_flags = 0;
+    flags_type ret_flags = 0;
 
     try
     {
