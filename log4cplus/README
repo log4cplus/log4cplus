@@ -40,12 +40,12 @@ attribute ignored."  This can be worked around by adding
 -Wno-attributes option to GCC command.  Unfortunatelly, not all
 affected version of GCC have this option.
 
-Log4cplus is not safe to be used from async signals' handlers.  This
+log4cplus is not safe to be used from async signals' handlers.  This
 is a property of most threaded programmes in general.  If you are
 going to use log4cplus in threaded application and if you want to use
 log4cplus from signal handlers then your only option is to block
 signals in all threads but one that will handle all signals.  On POSIX
-platforms, this is possible using the sigwait() call.  Log4cplus
+platforms, this is possible using the sigwait() call.  log4cplus
 enables this approach by blocking all signals in any threads created
 through its threads helpers.
 

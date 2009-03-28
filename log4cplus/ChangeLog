@@ -1,3 +1,8 @@
+Version 1.0.3
+
+  - List of bugs fixed or otherwise dealt with:
+    <https://sourceforge.net/tracker/?func=browse&group_id=40830&atid=429073&artgroup=877523>
+
 Version 1.0.3-RC9
 
   - Tweaked Doxygen docs in comments for more recent Doxygen versions.
