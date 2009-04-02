@@ -105,7 +105,7 @@ init_winsock ()
 }
 
 
-class WinSockInitializer
+struct WinSockInitializer
 {
     ~WinSockInitializer ()
     {
@@ -113,8 +113,9 @@ class WinSockInitializer
             WSACleanup ();
     }
 
-static WinSockInitializer winSockInitializer;
+    static WinSockInitializer winSockInitializer;
 };
+
 
 WinSockInitializer WinSockInitializer::winSockInitializer;
 

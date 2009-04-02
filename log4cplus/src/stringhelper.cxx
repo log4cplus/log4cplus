@@ -80,14 +80,14 @@ operator <<(log4cplus::tostream& stream, const char* str)
 
 static
 void
-clear_mbstate (mbstate_t & mbs)
+clear_mbstate (std::mbstate_t & mbs)
 {
     // Initialize/clear mbstate_t type.
     // XXX: This is just a hack that works. The shape of mbstate_t varies
     // from single unsigned to char[128]. Without some sort of initialization
     // the codecvt::in/out methods randomly fail because the initial state is
     // random/invalid.
-    ::memset (&mbs, 0, sizeof (mbstate_t));
+    ::memset (&mbs, 0, sizeof (std::mbstate_t));
 }
 
 
@@ -96,9 +96,9 @@ void
 towstring_internal (std::wstring & outstr, const char * src, size_t size,
     std::locale const & loc)
 {
-    typedef std::codecvt<wchar_t, char, mbstate_t> CodeCvt;
+    typedef std::codecvt<wchar_t, char, std::mbstate_t> CodeCvt;
     const CodeCvt & cdcvt = std::use_facet<CodeCvt>(loc);
-    mbstate_t state;
+    std::mbstate_t state;
     clear_mbstate (state);
 
     char const * from_first = src;
@@ -179,9 +179,9 @@ void
 tostring_internal (std::string & outstr, const wchar_t * src, size_t size,
     std::locale const & loc)
 {
-    typedef std::codecvt<wchar_t, char, mbstate_t> CodeCvt;
+    typedef std::codecvt<wchar_t, char, std::mbstate_t> CodeCvt;
     const CodeCvt & cdcvt = std::use_facet<CodeCvt>(loc);
-    mbstate_t state;
+    std::mbstate_t state;
     clear_mbstate (state);
 
     wchar_t const * from_first = src;

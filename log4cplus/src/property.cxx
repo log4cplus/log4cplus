@@ -85,24 +85,27 @@ trim_ws (tstring & str)
 
 
 
+namespace helpers
+{
+
 ///////////////////////////////////////////////////////////////////////////////
-// helpers::Properties ctors and dtor
+// Properties ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-helpers::Properties::Properties() 
+Properties::Properties() 
 {
 }
 
 
 
-helpers::Properties::Properties(tistream& input)
+Properties::Properties(tistream& input)
 {
     init(input);
 }
 
 
 
-helpers::Properties::Properties(const tstring& inputFile)
+Properties::Properties(const tstring& inputFile)
 {
     if (inputFile.length() == 0)
         return;
@@ -114,7 +117,7 @@ helpers::Properties::Properties(const tstring& inputFile)
 
 
 void 
-helpers::Properties::init(tistream& input) 
+Properties::init(tistream& input) 
 {
     if (! input)
         return;
@@ -147,18 +150,18 @@ helpers::Properties::init(tistream& input)
 
 
 
-helpers::Properties::~Properties() 
+Properties::~Properties() 
 {
 }
 
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// helpers::Properties public methods
+// Properties public methods
 ///////////////////////////////////////////////////////////////////////////////
 
 tstring
-helpers::Properties::getProperty(const tstring& key) const 
+Properties::getProperty(const tstring& key) const 
 {
     StringMap::const_iterator it (data.find(key));
     if (it == data.end())
@@ -170,7 +173,7 @@ helpers::Properties::getProperty(const tstring& key) const
 
 
 tstring
-helpers::Properties::getProperty(const tstring& key,
+Properties::getProperty(const tstring& key,
                                  const tstring& defaultVal) const
 {
     StringMap::const_iterator it (data.find (key));
@@ -182,7 +185,7 @@ helpers::Properties::getProperty(const tstring& key,
 
 
 std::vector<tstring>
-helpers::Properties::propertyNames() const 
+Properties::propertyNames() const 
 {
     std::vector<tstring> tmp;
     for (StringMap::const_iterator it=data.begin(); it!=data.end(); ++it)
@@ -194,21 +197,21 @@ helpers::Properties::propertyNames() const
 
 
 void
-helpers::Properties::setProperty(const tstring& key, const tstring& value)
+Properties::setProperty(const tstring& key, const tstring& value)
 {
     data[key] = value;
 }
 
 
 bool
-helpers::Properties::removeProperty(const tstring& key)
+Properties::removeProperty(const tstring& key)
 {
     return (data.erase(key) > 0);
 }
 
 
-helpers::Properties 
-helpers::Properties::getPropertySubset(
+Properties 
+Properties::getPropertySubset(
     const tstring& prefix) const
 {
     Properties ret;
@@ -225,5 +228,6 @@ helpers::Properties::getPropertySubset(
     return ret;
 }
 
+} // namespace helpers
 
 } // namespace log4cplus
