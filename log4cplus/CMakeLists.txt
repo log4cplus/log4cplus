@@ -132,8 +132,9 @@ if (WIN32)
   set_target_properties (log4cplus PROPERTIES
     DEBUG_POSTFIX "${log4cplus_postfix}D"
     RELEASE_POSTFIX "${log4cplus_postfix}"
-    MINSIZEREL "${log4cplus_postfix}"
+    MINSIZEREL_POSTFIX "${log4cplus_postfix}"
     RELWITHDEBINFO_POSTFIX "${log4cplus_postfix}")
 endif ()
 
 add_subdirectory (loggingserver)
+add_subdirectory (tests)
