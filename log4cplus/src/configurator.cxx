@@ -512,6 +512,8 @@ public:
         if(waitSecs <= 0)
             waitSecs = 1;
     }
+
+    virtual ~ConfigurationWatchDogThread(){}
     
     void terminate() { shouldTerminate = true; }
     
@@ -522,11 +524,10 @@ protected:
     
     bool checkForFileModification();
     void updateLastModTime();
-    virtual ~ConfigurationWatchDogThread(){}
     
 private:
     unsigned int waitSecs;
-    bool shouldTerminate;
+    volatile bool shouldTerminate;
     Time lastModTime;
     HierarchyLocker* lock;
 };
@@ -552,7 +553,6 @@ ConfigurationWatchDogThread::run()
             // release the lock
             lock = NULL;
         }
-
     }
 }
 
@@ -631,8 +631,9 @@ ConfigureAndWatchThread::ConfigureAndWatchThread(const tstring& file,
 
 ConfigureAndWatchThread::~ConfigureAndWatchThread()
 {
-    if(watchDogThread.get() != 0)
+    if (watchDogThread)
         watchDogThread->terminate();
+    delete watchDogThread;
 }
 
 
