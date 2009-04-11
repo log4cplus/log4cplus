@@ -114,8 +114,9 @@ private:
             WSACleanup ();
     }
 
-static WinSockInitializer winSockInitializer;
+    static WinSockInitializer winSockInitializer;
 };
+
 
 WinSockInitializer WinSockInitializer::winSockInitializer;
 

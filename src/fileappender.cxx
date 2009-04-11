@@ -20,6 +20,10 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <algorithm>
 #include <cstdio>
+#if defined (__BORLANDC__)
+// For _wrename() and _wremove() on Windows.
+#  include <stdio.h>
+#endif
 #include <cerrno>
 
 
