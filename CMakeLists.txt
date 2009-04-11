@@ -156,6 +156,7 @@ if (WIN32)
     RELEASE_POSTFIX "${log4cplus_postfix}"
     MINSIZEREL_POSTFIX "${log4cplus_postfix}"
     RELWITHDEBINFO_POSTFIX "${log4cplus_postfix}")
+  target_link_libraries (log4cplus ws2_32 advapi32)
 endif ()
 
 add_subdirectory (loggingserver)
