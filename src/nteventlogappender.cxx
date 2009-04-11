@@ -17,8 +17,8 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/internal/internal.h>
 
-#pragma comment(lib, "advapi32.lib")
 
+#if defined (LOG4CPLUS_HAVE_NT_EVENT_LOG)
 
 using namespace log4cplus;
 using namespace log4cplus::spi;
@@ -333,3 +333,6 @@ NTEventLogAppender::addRegistryInfo()
     RegCloseKey(hkey);
     return;
 }
+
+
+#endif

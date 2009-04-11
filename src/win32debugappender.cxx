@@ -14,7 +14,6 @@
 #include <log4cplus/win32debugappender.h>
 #include <log4cplus/internal/internal.h>
 
-#pragma comment(lib, "kernel32.lib")
 
 using namespace std;
 using namespace log4cplus;
