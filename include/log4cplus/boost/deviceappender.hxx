@@ -104,7 +104,8 @@ public:
     }
 
 protected:
-    virtual void
+    virtual
+    void
     append (log4cplus::spi::InternalLoggingEvent const & event)
     {
         tstring & str = formatEvent (event);
