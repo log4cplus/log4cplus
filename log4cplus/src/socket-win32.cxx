@@ -15,8 +15,6 @@
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>
 
-#pragma comment(lib, "ws2_32.lib")
-
 
 using namespace log4cplus;
 using namespace log4cplus::helpers;
