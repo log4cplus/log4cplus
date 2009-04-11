@@ -81,13 +81,15 @@ Semaphore::Semaphore (unsigned max, unsigned initial)
 
 inline
 Semaphore::~Semaphore ()
-try
 {
-    if (! CloseHandle (sem))
-        LOG4CPLUS_THROW_RTE ("Semaphore::~Semaphore");
+    try
+    {
+        if (! CloseHandle (sem))
+            LOG4CPLUS_THROW_RTE ("Semaphore::~Semaphore");
+    }
+    catch (...)
+    { }
 }
-catch (...)
-{ }
 
 
 inline
@@ -125,13 +127,15 @@ ManualResetEvent::ManualResetEvent (bool sig)
 
 inline
 ManualResetEvent::~ManualResetEvent ()
-try
 {
-    if (! CloseHandle (ev))
-        LOG4CPLUS_THROW_RTE ("ManualResetEvent::~ManualResetEvent");
+    try
+    {
+        if (! CloseHandle (ev))
+            LOG4CPLUS_THROW_RTE ("ManualResetEvent::~ManualResetEvent");
+    }
+    catch (...)
+    { }
 }
-catch (...)
-{ }
 
 
 inline

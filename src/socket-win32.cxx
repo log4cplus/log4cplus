@@ -107,7 +107,6 @@ init_winsock ()
 
 struct WinSockInitializer
 {
-private:
     ~WinSockInitializer ()
     {
         if (winsock_state == WS_INITIALIZED)
