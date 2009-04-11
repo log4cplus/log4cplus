@@ -15,7 +15,6 @@
 #include <log4cplus/spi/loggerfactory.h>
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/fileappender.h>
-#include <log4cplus/nteventlogappender.h>
 #include <log4cplus/nullappender.h>
 #include <log4cplus/socketappender.h>
 #include <log4cplus/syslogappender.h>
@@ -23,7 +22,10 @@
 #include <log4cplus/helpers/threads.h>
 
 #if defined (_WIN32)
-#include <log4cplus/Win32DebugAppender.h>
+#  if defined (LOG4CPLUS_HAVE_NT_EVENT_LOG)
+#    include <log4cplus/nteventlogappender.h>
+#  endif
+#  include <log4cplus/Win32DebugAppender.h>
 #endif
 
 
@@ -156,6 +158,7 @@ namespace {
 
 
 #if defined(_WIN32)
+#  if defined (LOG4CPLUS_HAVE_NT_EVENT_LOG)
     class NTEventLogAppenderFactory : public AppenderFactory {
     public:
         SharedAppenderPtr createObject(const Properties& props)
@@ -167,6 +170,7 @@ namespace {
             return LOG4CPLUS_TEXT("log4cplus::NTEventLogAppender"); 
         }
     };
+#  endif
 
     class Win32DebugAppenderFactory : public AppenderFactory {
     public:
@@ -318,7 +322,9 @@ void initializeFactoryRegistry()
     reg_factory<DailyRollingFileAppenderFactory> (reg);
     reg_factory<SocketAppenderFactory> (reg);
 #if defined(_WIN32)
+#  if defined(LOG4CPLUS_HAVE_NT_EVENT_LOG)
     reg_factory<NTEventLogAppenderFactory> (reg);
+#  endif
     reg_factory<Win32DebugAppenderFactory> (reg);
 #elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
     reg_factory<SysLogAppenderFactory> (reg);
