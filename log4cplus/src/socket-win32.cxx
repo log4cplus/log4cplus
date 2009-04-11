@@ -49,8 +49,8 @@ init_winsock ()
         return;
 
     // Try to change the state to WS_INITIALIZING.
-    LONG val = ::InterlockedCompareExchange (&winsock_state, WS_INITIALIZING,
-        WS_UNINITIALIZED);
+    LONG val = ::InterlockedCompareExchange (
+        const_cast<LPLONG>(&winsock_state), WS_INITIALIZING, WS_UNINITIALIZED);
     switch (val)
     {
     case WS_UNINITIALIZED:
@@ -60,14 +60,16 @@ init_winsock ()
         {
             // Revert the state back to WS_UNINITIALIZED to unblock other
             // threads and let them throw exception.
-            val = ::InterlockedCompareExchange (&winsock_state, WS_UNINITIALIZED,
+            val = ::InterlockedCompareExchange (
+                const_cast<LPLONG>(&winsock_state), WS_UNINITIALIZED,
                 WS_INITIALIZING);
             assert (val == WS_INITIALIZING);
             throw std::runtime_error ("Could not initialize WinSock.");
         }
 
         // WinSock is initialized, change the state to WS_INITIALIZED.
-        val = ::InterlockedCompareExchange (&winsock_state, WS_INITIALIZED,
+        val = ::InterlockedCompareExchange (
+            const_cast<LPLONG>(&winsock_state), WS_INITIALIZED,
             WS_INITIALIZING);
         assert (val == WS_INITIALIZING);
         return;
