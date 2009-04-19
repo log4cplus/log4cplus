@@ -41,13 +41,8 @@ static LONG volatile winsock_state = WS_UNINITIALIZED;
 
 static
 void
-init_winsock ()
+init_winsock_worker ()
 {
-    // Quick check first to avoid the expensive interlocked compare
-    // and exchange.
-    if (winsock_state == WS_INITIALIZED)
-        return;
-
     // Try to change the state to WS_INITIALIZING.
     LONG val = ::InterlockedCompareExchange (
         const_cast<LPLONG>(&winsock_state), WS_INITIALIZING, WS_UNINITIALIZED);
@@ -102,6 +97,19 @@ init_winsock ()
         assert (0);
         throw std::runtime_error ("Unknown WinSock state.");
     }
+}
+
+
+static
+void
+init_winsock ()
+{
+    // Quick check first to avoid the expensive interlocked compare
+    // and exchange.
+    if (winsock_state == WS_INITIALIZED)
+        return;
+    else
+        init_winsock_worker ();
 }
 
 
