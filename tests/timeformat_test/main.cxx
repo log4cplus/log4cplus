@@ -16,9 +16,8 @@ main()
     std::cout << "Entering main()..." << std::endl;
     try
     {
-        Time time (0, 1234567);
-        tstring str (time.getFormattedTime (fmtstr));
-        log4cplus::tcout << str << std::endl;
+		Time time;
+		log4cplus::tstring str;
 
         time = Time (0, 7);
         str = time.getFormattedTime (fmtstr);
