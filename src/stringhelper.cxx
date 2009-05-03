@@ -92,12 +92,23 @@ clear_tostringstream (tostringstream & os)
 //////////////////////////////////////////////////////////////////////////////
 
 #ifdef UNICODE
+
 log4cplus::tostream& 
 operator <<(log4cplus::tostream& stream, const char* str)
 {
     return (stream << log4cplus::helpers::towstring(str));
 }
 
+#endif
+
+
+namespace log4cplus
+{
+
+namespace helpers
+{
+
+#ifdef UNICODE
 
 #ifdef LOG4CPLUS_WORKING_LOCALE
 
@@ -180,7 +191,7 @@ towstring_internal (std::wstring & outstr, const char * src, size_t size,
 
 
 std::wstring 
-log4cplus::helpers::towstring(const std::string& src, std::locale const & loc)
+towstring(const std::string& src, std::locale const & loc)
 {
     std::wstring ret;
     towstring_internal (ret, src.c_str (), src.size (), loc);
@@ -189,7 +200,7 @@ log4cplus::helpers::towstring(const std::string& src, std::locale const & loc)
 
 
 std::wstring 
-log4cplus::helpers::towstring(char const * src, std::locale const & loc)
+towstring(char const * src, std::locale const & loc)
 {
     std::wstring ret;
     towstring_internal (ret, src, std::strlen (src), loc);
@@ -262,7 +273,7 @@ tostring_internal (std::string & outstr, const wchar_t * src, size_t size,
 
 
 std::string 
-log4cplus::helpers::tostring(const std::wstring& src, std::locale const & loc)
+tostring(const std::wstring& src, std::locale const & loc)
 {
     std::string ret;
     tostring_internal (ret, src.c_str (), src.size (), loc);
@@ -271,7 +282,7 @@ log4cplus::helpers::tostring(const std::wstring& src, std::locale const & loc)
 
 
 std::string 
-log4cplus::helpers::tostring(wchar_t const * src, std::locale const & loc)
+tostring(wchar_t const * src, std::locale const & loc)
 {
     std::string ret;
     tostring_internal (ret, src, std::wcslen (src), loc);
@@ -296,7 +307,7 @@ tostring_internal (std::string & ret, wchar_t const * src, size_t size)
 
 
 std::string 
-log4cplus::helpers::tostring(const std::wstring& src)
+tostring(const std::wstring& src)
 {
     std::string ret;
     tostring_internal (ret, src.c_str (), src.size ());
@@ -305,8 +316,9 @@ log4cplus::helpers::tostring(const std::wstring& src)
 
 
 std::string 
-log4cplus::helpers::tostring(wchar_t const * src)
+tostring(wchar_t const * src)
 {
+	assert (src);
     std::string ret;
     tostring_internal (ret, src, std::wcslen (src));
     return ret;
@@ -327,7 +339,7 @@ towstring_internal (std::wstring & ret, char const * src, size_t size)
 
 
 std::wstring 
-log4cplus::helpers::towstring(const std::string& src)
+towstring(const std::string& src)
 {
     std::wstring ret;
     towstring_internal (ret, src.c_str (), src.size ());
@@ -336,8 +348,9 @@ log4cplus::helpers::towstring(const std::string& src)
 
 
 std::wstring 
-log4cplus::helpers::towstring(char const * src)
+towstring(char const * src)
 {
+    assert (src);
     std::wstring ret;
     towstring_internal (ret, src, std::strlen (src));
     return ret;
@@ -348,8 +361,8 @@ log4cplus::helpers::towstring(char const * src)
 #endif // UNICODE
 
 
-log4cplus::tstring
-log4cplus::helpers::toUpper(const log4cplus::tstring& s)
+tstring
+toUpper(const log4cplus::tstring& s)
 {
     tstring ret;
     std::transform(s.begin(), s.end(),
@@ -368,8 +381,8 @@ log4cplus::helpers::toUpper(const log4cplus::tstring& s)
 }
 
 
-log4cplus::tstring
-log4cplus::helpers::toLower(const log4cplus::tstring& s)
+tstring
+toLower(const tstring& s)
 {
     tstring ret;
     std::transform(s.begin(), s.end(),
@@ -386,3 +399,8 @@ log4cplus::helpers::toLower(const log4cplus::tstring& s)
 
     return ret;
 }
+
+
+} // namespace helpers
+
+} // namespace log4cplus
