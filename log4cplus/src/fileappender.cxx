@@ -25,6 +25,7 @@
 #  include <stdio.h>
 #endif
 #include <cerrno>
+#include <cstdlib>
 
 
 namespace log4cplus
@@ -269,7 +270,7 @@ RollingFileAppender::RollingFileAppender(const Properties& properties)
     if(properties.exists( LOG4CPLUS_TEXT("MaxFileSize") )) {
         tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("MaxFileSize") );
         tmp = helpers::toUpper(tmp);
-        maxFileSize = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
+        maxFileSize = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
         if(tmp.find( LOG4CPLUS_TEXT("MB") ) == (tmp.length() - 2)) {
             maxFileSize *= (1024 * 1024); // convert to megabytes
         }
@@ -280,7 +281,7 @@ RollingFileAppender::RollingFileAppender(const Properties& properties)
 
     if(properties.exists( LOG4CPLUS_TEXT("MaxBackupIndex") )) {
         tstring tmp = properties.getProperty(LOG4CPLUS_TEXT("MaxBackupIndex"));
-        maxBackupIndex = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
+        maxBackupIndex = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
     }
 
     init(maxFileSize, maxBackupIndex);
@@ -417,7 +418,7 @@ DailyRollingFileAppender::DailyRollingFileAppender(
     
     if(properties.exists( LOG4CPLUS_TEXT("MaxBackupIndex") )) {
         tstring tmp = properties.getProperty(LOG4CPLUS_TEXT("MaxBackupIndex"));
-        maxBackupIndex = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
+        maxBackupIndex = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
     }
 
     init(theSchedule);
