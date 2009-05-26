@@ -68,7 +68,7 @@ VAR,[VAR="no, unknown"
  AC_LANG_C
  ac_save_[]FLAGS="$[]FLAGS"
 for ac_arg dnl
-in "-pedantic  % -Wall"       dnl   GCC
+in "-pass-exit-codes -pedantic % -Wall" dnl GCC
    "-xstrconst % -v"          dnl Solaris C
    "-std1      % -verbose -w0 -warnprotos" dnl Digital Unix
    "-qlanglvl=ansi % -qsrcmsg -qinfo=all:noppt:noppc:noobs:nocnd" dnl AIX
@@ -111,7 +111,7 @@ VAR,[VAR="no, unknown"
  AC_LANG_CPLUSPLUS
  ac_save_[]FLAGS="$[]FLAGS"
 for ac_arg dnl
-in "-pedantic  % -Wall"       dnl   GCC
+in "-pass-exit-codes -pedantic % -Wall" dnl GCC
    "-xstrconst % -v"          dnl Solaris C
    "-std1      % -verbose -w0 -warnprotos" dnl Digital Unix
    "-qlanglvl=ansi % -qsrcmsg -qinfo=all:noppt:noppc:noobs:nocnd" dnl AIX
