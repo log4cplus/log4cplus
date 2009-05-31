@@ -112,17 +112,7 @@ InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring & logger,
     LogLevel loglevel, const log4cplus::tstring & msg, const char * filename,
     int fline)
 {
-    loggerName = logger;
-    ll = loglevel;
-    message = msg;
-    timestamp = log4cplus::helpers::Time::gettimeofday();
-    if (filename)
-        file = LOG4CPLUS_C_STR_TO_TSTRING (filename);
-    else
-        file.clear ();
-    line = fline;
-    threadCached = false;
-    ndcCached = false;
+    InternalLoggingEvent (logger, loglevel, msg, filename, fline).swap (*this);
 }
 
 
@@ -150,22 +140,10 @@ InternalLoggingEvent::clone() const
 
 
 
-log4cplus::spi::InternalLoggingEvent&
-InternalLoggingEvent::operator=(const log4cplus::spi::InternalLoggingEvent& rhs)
+InternalLoggingEvent &
+InternalLoggingEvent::operator = (const InternalLoggingEvent& rhs)
 {
-    if(this == &rhs) return *this;
-
-    message = rhs.message;
-    loggerName = rhs.loggerName;
-    ll = rhs.ll;
-    ndc = rhs.getNDC();
-    thread = rhs.getThread();
-    timestamp = rhs.timestamp;
-    file = rhs.file;
-    line = rhs.line;
-    threadCached = true;
-    ndcCached = true;
-
+    InternalLoggingEvent (rhs).swap (*this);
     return *this;
 }
 
