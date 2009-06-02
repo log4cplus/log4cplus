@@ -625,6 +625,7 @@ ConfigureAndWatchThread::ConfigureAndWatchThread(const tstring& file,
     : watchDogThread(0)
 {
     watchDogThread = new ConfigurationWatchDogThread(file, millis);
+    watchDogThread->addReference ();
     watchDogThread->configure();
     watchDogThread->start();
 }
@@ -633,8 +634,10 @@ ConfigureAndWatchThread::ConfigureAndWatchThread(const tstring& file,
 ConfigureAndWatchThread::~ConfigureAndWatchThread()
 {
     if (watchDogThread)
+    {
         watchDogThread->terminate();
-    delete watchDogThread;
+        watchDogThread->removeReference ();
+    }
 }
 
 
