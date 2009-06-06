@@ -34,6 +34,8 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/helpers/socketbuffer.h \
 			 ../include/log4cplus/helpers/socket.h \
 			 ../include/log4cplus/helpers/stringhelper.h \
+			 ../include/log4cplus/helpers/syncprims.h \
+			 ../include/log4cplus/helpers/syncprims-pthreads.h \
 			 ../include/log4cplus/helpers/thread-config.h \
 			 ../include/log4cplus/helpers/threads.h \
 			 ../include/log4cplus/helpers/timehelper.h \
@@ -79,8 +81,10 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
 			 syslogappender.cxx \
 			 timehelper.cxx
 
-if MULTI_THREADED
-LIB_SRC = $(SINGLE_THREADED_SRC) threads.cxx
+if MULTI_THREADED	
+LIB_SRC = $(SINGLE_THREADED_SRC) \
+	threads.cxx \
+	syncprims.cxx
 else
 LIB_SRC = $(SINGLE_THREADED_SRC)
 endif

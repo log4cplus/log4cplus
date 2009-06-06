@@ -70,7 +70,8 @@ am__liblog4cplus_la_SOURCES_DIST = appenderattachableimpl.cxx \
 	ndc.cxx nullappender.cxx objectregistry.cxx patternlayout.cxx \
 	pointer.cxx property.cxx rootlogger.cxx sleep.cxx socket.cxx \
 	socket-unix.cxx socketappender.cxx socketbuffer.cxx \
-	stringhelper.cxx syslogappender.cxx timehelper.cxx threads.cxx
+	stringhelper.cxx syslogappender.cxx timehelper.cxx threads.cxx \
+	syncprims.cxx
 am__objects_1 = appenderattachableimpl.lo appender.lo configurator.lo \
 	consoleappender.lo factory.lo fileappender.lo filter.lo \
 	global-init.lo hierarchy.lo hierarchylocker.lo layout.lo \
@@ -80,7 +81,8 @@ am__objects_1 = appenderattachableimpl.lo appender.lo configurator.lo \
 	socket.lo socket-unix.lo socketappender.lo socketbuffer.lo \
 	stringhelper.lo syslogappender.lo timehelper.lo
 @MULTI_THREADED_FALSE@am__objects_2 = $(am__objects_1)
-@MULTI_THREADED_TRUE@am__objects_2 = $(am__objects_1) threads.lo
+@MULTI_THREADED_TRUE@am__objects_2 = $(am__objects_1) threads.lo \
+@MULTI_THREADED_TRUE@	syncprims.lo
 am_liblog4cplus_la_OBJECTS = $(am__objects_2)
 liblog4cplus_la_OBJECTS = $(am_liblog4cplus_la_OBJECTS)
 liblog4cplus_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -259,6 +261,8 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/helpers/socketbuffer.h \
 			 ../include/log4cplus/helpers/socket.h \
 			 ../include/log4cplus/helpers/stringhelper.h \
+			 ../include/log4cplus/helpers/syncprims.h \
+			 ../include/log4cplus/helpers/syncprims-pthreads.h \
 			 ../include/log4cplus/helpers/thread-config.h \
 			 ../include/log4cplus/helpers/threads.h \
 			 ../include/log4cplus/helpers/timehelper.h \
@@ -305,7 +309,10 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
 			 timehelper.cxx
 
 @MULTI_THREADED_FALSE@LIB_SRC = $(SINGLE_THREADED_SRC)
-@MULTI_THREADED_TRUE@LIB_SRC = $(SINGLE_THREADED_SRC) threads.cxx
+@MULTI_THREADED_TRUE@LIB_SRC = $(SINGLE_THREADED_SRC) \
+@MULTI_THREADED_TRUE@	threads.cxx \
+@MULTI_THREADED_TRUE@	syncprims.cxx
+
 liblog4cplus_la_SOURCES = $(LIB_SRC)
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
@@ -409,6 +416,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socketappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socketbuffer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stringhelper.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/syncprims.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/syslogappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/threads.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timehelper.Plo@am__quote@
