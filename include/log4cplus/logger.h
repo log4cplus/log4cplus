@@ -240,11 +240,9 @@ namespace log4cplus {
 
         virtual void removeAppender(const log4cplus::tstring& name);
 
-      // Copy Ctor
+        Logger ();
         Logger(const Logger& rhs);
         Logger& operator=(const Logger& rhs);
-
-      // Dtor
         ~Logger();
 
         /**

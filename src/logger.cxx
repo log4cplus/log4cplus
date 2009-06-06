@@ -94,6 +94,10 @@ Logger::shutdown ()
 // Logger ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
+Logger::Logger ()
+{ }
+
+
 Logger::Logger (const spi::SharedLoggerImplPtr& val)
     : value (val)
 { }
