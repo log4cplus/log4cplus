@@ -16,6 +16,7 @@
 #include <log4cplus/helpers/sleep.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/helpers/syncprims.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggerimpl.h>
 
@@ -503,21 +504,24 @@ class ConfigurationWatchDogThread
 {
 public:
     ConfigurationWatchDogThread(const tstring& file, unsigned int millis)
-        : PropertyConfigurator(file),
-          waitSecs(millis/1000),
-          shouldTerminate(false),
-          lastModTime(Time::gettimeofday()),
-          lock(NULL)
+        : PropertyConfigurator(file)
+        , waitMillis(waitMillis < 1000 ? 1000 : millis)
+        , shouldTerminate(false)
+        , lastModTime(Time::gettimeofday())
+        , lock(NULL)
     {
         updateLastModTime();
-        if(waitSecs <= 0)
-            waitSecs = 1;
     }
 
-    virtual ~ConfigurationWatchDogThread(){}
+    virtual ~ConfigurationWatchDogThread ()
+    { }
     
-    void terminate() { shouldTerminate = true; }
-    
+    void terminate ()
+    {
+        shouldTerminate.signal ();
+        join ();
+    }
+
 protected:
     virtual void run();
     virtual Logger getLogger(const tstring& name);
@@ -527,8 +531,8 @@ protected:
     void updateLastModTime();
     
 private:
-    unsigned int waitSecs;
-    volatile bool shouldTerminate;
+    unsigned int const waitMillis;
+    thread::ManualResetEvent shouldTerminate;
     Time lastModTime;
     HierarchyLocker* lock;
 };
@@ -537,9 +541,8 @@ private:
 void
 ConfigurationWatchDogThread::run()
 {
-    while(!shouldTerminate)
+    while (! shouldTerminate.timed_wait (waitMillis))
     {
-        helpers::sleep(waitSecs);
         bool modified = checkForFileModification();
         if(modified) {
             // Lock the Hierarchy

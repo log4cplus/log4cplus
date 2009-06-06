@@ -11,6 +11,7 @@
 // distribution in the LICENSE.APL file.
 //
 
+#include <log4cplus/config.hxx>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/pointer.h>
@@ -62,7 +63,7 @@ DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message)
 ///////////////////////////////////////////////////////////////////////////////
 
 NDC::NDC() 
- : threadLocal(LOG4CPLUS_THREAD_LOCAL_INIT)
+ : threadLocal(LOG4CPLUS_THREAD_LOCAL_INIT (0))
 {
 }
 
