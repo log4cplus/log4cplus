@@ -142,21 +142,13 @@ namespace log4cplus {
          * @param msg The message to print if <code>assertion</code> is
          * false.
          */
-        void assertion(bool assertionVal, const log4cplus::tstring& msg) const
-        {
-            if(!assertionVal) {
-                log(FATAL_LOG_LEVEL, msg);
-            }
-        }
+        void assertion(bool assertionVal, const log4cplus::tstring& msg) const;
 
         /**
          * Close all attached appenders implementing the AppenderAttachable
          * interface.  
          */
-        void closeNestedAppenders() const
-        {
-            value->closeNestedAppenders();
-        }
+        void closeNestedAppenders() const;
 
         /**
          * Check whether this logger is enabled for a given
@@ -164,29 +156,20 @@ namespace log4cplus {
          *
          * @return boolean True if this logger is enabled for <code>ll</code>.
          */
-        bool isEnabledFor(LogLevel ll) const
-        {
-            return value->isEnabledFor(ll);
-        }
+        bool isEnabledFor(LogLevel ll) const;
 
         /**
          * This generic form is intended to be used by wrappers. 
          */
         void log(LogLevel ll, const log4cplus::tstring& message,
-                 const char* file=NULL, int line=-1) const
-        {
-            value->log(ll, message, file, line);
-        }
+                 const char* file=NULL, int line=-1) const;
 
         /**
          * This method creates a new logging event and logs the event
          * without further checks.  
          */
         void forcedLog(LogLevel ll, const log4cplus::tstring& message,
-                       const char* file=NULL, int line=-1) const
-        {
-            value->forcedLog(ll, message, file, line);
-        }
+                       const char* file=NULL, int line=-1) const;
 
         /**
          * Call the appenders in the hierrachy starting at
@@ -199,10 +182,7 @@ namespace log4cplus {
          *
          * @param event the event to log.
          */
-        void callAppenders(const spi::InternalLoggingEvent& event) const
-        {
-            value->callAppenders(event);
-        }
+        void callAppenders(const spi::InternalLoggingEvent& event) const;
 
         /**
          * Starting from this logger, search the logger hierarchy for a
@@ -212,65 +192,40 @@ namespace log4cplus {
          * The Logger class is designed so that this method executes as
          * quickly as possible.
          */
-        LogLevel getChainedLogLevel() const
-        {
-            return value->getChainedLogLevel();
-        }
+        LogLevel getChainedLogLevel() const;
 
         /**
          * Returns the assigned LogLevel, if any, for this Logger.  
          *           
          * @return LogLevel - the assigned LogLevel, can be <code>NOT_SET_LOG_LEVEL</code>.
          */
-        LogLevel getLogLevel() const
-        {
-            return value->getLogLevel();
-        }
+        LogLevel getLogLevel() const;
 
         /**
          * Set the LogLevel of this Logger.
          */
-        void setLogLevel(LogLevel ll)
-        {
-            value->setLogLevel(ll);
-        }
-
+        void setLogLevel(LogLevel ll);
 
         /**
          * Return the the {@link Hierarchy} where this <code>Logger</code> instance is
          * attached.
          */
-        Hierarchy& getHierarchy() const
-        { 
-            return value->getHierarchy();
-        }
-
+        Hierarchy& getHierarchy() const;
 
         /**
          * Return the logger name.  
          */
-        log4cplus::tstring const & getName() const
-        {
-            return value->getName();
-        }
-
+        log4cplus::tstring const & getName() const;
 
         /**
          * Get the additivity flag for this Logger instance.  
          */
-        bool getAdditivity() const
-        {
-            return value->getAdditivity();
-        }
+        bool getAdditivity() const;
 
         /**
          * Set the additivity flag for this Logger instance.
          */
-        void setAdditivity(bool additive)
-        { 
-            value->setAdditivity(additive);
-        }
-
+        void setAdditivity(bool additive);
 
       // AppenderAttachable Methods
         virtual void addAppender(SharedAppenderPtr newAppender);
