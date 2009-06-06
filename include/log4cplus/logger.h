@@ -21,21 +21,27 @@
 #include <log4cplus/loglevel.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>
-#include <log4cplus/helpers/pointer.h>
 #include <log4cplus/spi/appenderattachable.h>
 #include <log4cplus/spi/loggerfactory.h>
-#include <log4cplus/spi/loggerimpl.h>
 
-#include <memory>
 #include <vector>
 
-namespace log4cplus {
+
+namespace log4cplus
+{
     // Forward declarations
 
     class Appender;
     class Hierarchy;
     class HierarchyLocker;
     class DefaultLoggerFactory;
+
+    namespace spi
+    {
+
+        class LoggerImpl;
+
+    }
 
 
     /** \typedef std::vector<Logger> LoggerList
@@ -245,6 +251,8 @@ namespace log4cplus {
         Logger& operator=(const Logger& rhs);
         ~Logger();
 
+        void swap (Logger &);
+
         /**
          * Used to retrieve the parent of this Logger in the
          * Logger tree.
@@ -254,7 +262,7 @@ namespace log4cplus {
     protected:
       // Data
         /** This is a pointer to the implementation class. */
-        spi::SharedLoggerImplPtr value;
+        spi::LoggerImpl * value;
 
     private:
       // Ctors
@@ -267,8 +275,7 @@ namespace log4cplus {
          * @param ptr A pointer to the Logger implementation.  This value
          *            cannot be NULL.  
          */
-        Logger(spi::LoggerImpl *ptr);
-        Logger(const spi::SharedLoggerImplPtr& val);
+        Logger(spi::LoggerImpl * ptr);
 
       // Friends
         friend class log4cplus::spi::LoggerImpl;

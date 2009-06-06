@@ -16,13 +16,10 @@
 #include <log4cplus/hierarchy.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggerimpl.h>
-#include <stdexcept>
+
 
 namespace log4cplus
 {
-
-
-using namespace log4cplus::helpers;
 
 
 Logger 
@@ -95,47 +92,58 @@ Logger::shutdown ()
 //////////////////////////////////////////////////////////////////////////////
 
 Logger::Logger ()
+    : value (0)
 { }
 
 
-Logger::Logger (const spi::SharedLoggerImplPtr& val)
-    : value (val)
-{ }
-
-
-Logger::Logger (spi::LoggerImpl *ptr)
+Logger::Logger (spi::LoggerImpl * ptr)
     : value (ptr)
-{ }
+{
+    if (value)
+        value->addReference ();
+}
 
 
 Logger::Logger (const Logger& rhs)
     : spi::AppenderAttachable (rhs)
     , value (rhs.value)
-{ }
+{
+    if (value)
+        value->addReference ();
+}
 
 
 Logger &
 Logger::operator = (const Logger& rhs)
 {
-    value = rhs.value;
+    Logger (rhs).swap (*this);
     return *this;
 }
 
 
 Logger::~Logger () 
-{ }
-
+{
+    if (value)
+        value->removeReference ();
+}
 
 
 //////////////////////////////////////////////////////////////////////////////
 // Logger Methods
 //////////////////////////////////////////////////////////////////////////////
 
+void
+Logger::swap (Logger & other)
+{
+    std::swap (value, other.value);
+}
+
+
 Logger
 Logger::getParent () const 
 {
     if (value->parent)
-        return Logger (value->parent);
+        return Logger (value->parent.get ());
     else
     {
         value->getLogLog().error(LOG4CPLUS_TEXT("********* This logger has no parent: " + getName()));

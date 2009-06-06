@@ -162,9 +162,7 @@ InternalLoggingEvent::swap (InternalLoggingEvent & other)
     swap (file, other.file);
     swap (line, other.line);
     swap (threadCached, other.threadCached);
-    assert (threadCached);
     swap (ndcCached, other.ndcCached);
-    assert (ndcCached);
 }
 
 
