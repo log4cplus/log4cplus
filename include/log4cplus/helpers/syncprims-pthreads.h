@@ -179,7 +179,6 @@ ManualResetEvent::wait () const
                 mguard.detach ();
                 LOG4CPLUS_THROW_RTE ("ManualResetEvent::wait");
             }
-            // TODO
         }
         while (prev_count == sigcount);
     }

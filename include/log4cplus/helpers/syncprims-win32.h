@@ -172,6 +172,9 @@ ManualResetEvent::timed_wait (unsigned long msec) const
 
     default:
         LOG4CPLUS_THROW_RTE ("ManualResetEvent::timed_wait");
+        // Silence warnings about not returning any value from function
+        // returning bool.
+        return false;
     }
 }
 
