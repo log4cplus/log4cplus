@@ -30,7 +30,7 @@ namespace log4cplus { namespace thread {
 
 
 #define LOG4CPLUS_THROW_RTE(msg) \
-    detail::syncprims_throw_exception (msg, __FILE__, __LINE__);
+    do { detail::syncprims_throw_exception (msg, __FILE__, __LINE__); } while (0)
 
 //
 //
@@ -183,6 +183,43 @@ ManualResetEvent::wait () const
         }
         while (prev_count == sigcount);
     }
+}
+
+
+inline
+bool
+ManualResetEvent::timed_wait (unsigned long msec) const
+{
+    MutexGuard mguard (mtx);
+
+    if (! signaled)
+    {       
+        helpers::Time const wakeup_time (helpers::Time::gettimeofday ()
+            + helpers::Time (msec / 1000, (msec % 1000) * 1000));
+        struct timespec const ts = {wakeup_time.sec (),
+            wakeup_time.usec () * 1000};
+        unsigned prev_count = sigcount;
+        do
+        {
+            int ret = pthread_cond_timedwait (&cv, &mtx.mtx, &ts);
+            switch (ret)
+            {
+            case 0:
+                break;
+
+            case ETIMEDOUT:
+                return false;
+
+            default:
+                mguard.unlock ();
+                mguard.detach ();
+                LOG4CPLUS_THROW_RTE ("ManualResetEvent::timed_wait");
+            }
+        }
+        while (prev_count == sigcount);
+    }
+
+    return true;
 }
 
 
