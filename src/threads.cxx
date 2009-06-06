@@ -209,11 +209,6 @@ AbstractThread::start()
 {
     running = true;
 
-    // Reference count must be non-zero here. If it were zero, we would
-    // end up with SIGSEGV if the thread ended sooner than this function
-    // would return.
-    assert (SharedObject::count > 0);
-
     // Increase reference count here. It will be lowered by the running
     // thread itself.
     addReference ();
