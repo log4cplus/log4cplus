@@ -201,6 +201,7 @@ namespace log4cplus {
          * @see NDCContextCreator
          */
         void push(const log4cplus::tstring& message);
+        void push(tchar const * message);
 
         /**
          * Remove the diagnostic context for this thread.
@@ -250,6 +251,9 @@ namespace log4cplus {
       // Methods
         DiagnosticContextStack* getPtr() const;
 
+        template <typename StringType>
+        void push_worker (StringType const &);
+
       // Disallow construction (and copying) except by getNDC()
         NDC();
         NDC(const NDC&);
@@ -273,11 +277,15 @@ namespace log4cplus {
     /**
      * This is the internal object that is stored on the NDC stack.
      */
-    struct LOG4CPLUS_EXPORT DiagnosticContext {
+    struct LOG4CPLUS_EXPORT DiagnosticContext
+    {
       // Ctors
         DiagnosticContext(const log4cplus::tstring& message,
             DiagnosticContext const * parent);
+        DiagnosticContext(tchar const * message,
+            DiagnosticContext const * parent);
         DiagnosticContext(const log4cplus::tstring& message);
+        DiagnosticContext(tchar const * message);
 
       // Data
         log4cplus::tstring message; /*!< The message at this context level. */
@@ -293,6 +301,7 @@ namespace log4cplus {
     public:
         /** Pushes <code>msg</code> onto the NDC stack. */
         NDCContextCreator(const log4cplus::tstring& msg);
+        NDCContextCreator(tchar const * msg);
 
         /** Pops the NDC stack. */
         ~NDCContextCreator();

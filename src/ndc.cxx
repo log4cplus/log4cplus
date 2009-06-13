@@ -56,6 +56,23 @@ DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message_)
 }
 
 
+DiagnosticContext::DiagnosticContext(tchar const * message_,
+                                     DiagnosticContext const * parent)
+ : message(message_),
+   fullMessage( (  (parent == NULL) 
+                 ? message 
+                 : parent->fullMessage + LOG4CPLUS_TEXT(" ") + message) )
+{
+}
+
+
+DiagnosticContext::DiagnosticContext(tchar const * message_)
+ : message(message_),
+   fullMessage(message)
+{
+}
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // log4cplus::NDC ctor and dtor
@@ -235,20 +252,39 @@ NDC::peek() const
 void 
 NDC::push(const log4cplus::tstring& message)
 {
-    try {
+    push_worker (message);
+}
+
+
+void 
+NDC::push(tchar const * message)
+{
+    push_worker (message);
+}
+
+
+template <typename StringType>
+void
+NDC::push_worker (StringType const & message)
+{
+    try
+    {
         DiagnosticContextStack* ptr = getPtr();
-        if(ptr->empty())
+        if (ptr->empty())
             ptr->push_back( DiagnosticContext(message, NULL) );
-        else {
+        else
+        {
             DiagnosticContext const & dc = ptr->back();
             ptr->push_back( DiagnosticContext(message, &dc) );
         }
     }
-    catch(std::exception& e) {
+    catch(std::exception& e)
+    {
         getLogLog().error(  LOG4CPLUS_TEXT("NDC::push()- exception occured: ") 
                           + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
     }
-    catch(...) {
+    catch(...)
+    {
         getLogLog().error(LOG4CPLUS_TEXT("NDC::push()- exception occured"));
     }
 }
@@ -303,6 +339,12 @@ DiagnosticContextStack* NDC::getPtr() const
 NDCContextCreator::NDCContextCreator(const log4cplus::tstring& msg) 
 { 
     getNDC().push(msg); 
+}
+
+
+NDCContextCreator::NDCContextCreator(tchar const * msg)
+{
+    getNDC().push(msg);
 }
 
 
