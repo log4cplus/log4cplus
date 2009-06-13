@@ -18,6 +18,7 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
+#include <log4cplus/streams.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/threads.h>
 
@@ -67,6 +68,7 @@ namespace log4cplus {
              * statements. Output goes to <code>std::cout</code>.
              */
             void debug(const log4cplus::tstring& msg);
+            void debug(tchar const * msg);
 
             /**
              * This method is used to output log4cplus internal error
@@ -74,6 +76,7 @@ namespace log4cplus {
              * Output goes to <code>std::cerr</code>.
              */
             void error(const log4cplus::tstring& msg);
+            void error(tchar const * msg);
 
             /**
              * This method is used to output log4cplus internal warning
@@ -81,6 +84,7 @@ namespace log4cplus {
              * Output goes to <code>std::cerr</code>.
              */
             void warn(const log4cplus::tstring& msg);
+            void warn(tchar const * msg);
 
           // Dtor
             virtual ~LogLog();
@@ -89,6 +93,14 @@ namespace log4cplus {
             LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
 
         private:
+            template <typename StringType>
+            void logging_worker (tostream & os,
+                bool (LogLog:: * cond) () const, tchar const *,
+                StringType const &);
+
+            bool get_quiet_mode () const;
+            bool get_debug_mode () const;
+
           // Data
             bool debugEnabled;
             bool quietMode;

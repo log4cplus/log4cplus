@@ -14,10 +14,8 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
 
+namespace log4cplus { namespace helpers {
 
 namespace
 {
@@ -83,33 +81,71 @@ LogLog::setQuietMode(bool quietModeVal)
 void
 LogLog::debug(const log4cplus::tstring& msg)
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        if(debugEnabled && !quietMode) {
-             tcout << PREFIX << msg << endl;
-        }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    logging_worker (tcout, &LogLog::get_debug_mode, ERR_PREFIX, msg);
+}
+
+
+void
+LogLog::debug(tchar const * msg)
+{
+    logging_worker (tcout, &LogLog::get_debug_mode, ERR_PREFIX, msg);
 }
 
 
 void
 LogLog::warn(const log4cplus::tstring& msg)
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        if(quietMode) return;
+    logging_worker (tcerr, &LogLog::get_quiet_mode, WARN_PREFIX, msg);
+}
 
-        tcerr << WARN_PREFIX << msg << endl;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+
+void
+LogLog::warn(tchar const * msg)
+{
+    logging_worker (tcerr, &LogLog::get_quiet_mode, WARN_PREFIX, msg);
 }
 
 
 void
 LogLog::error(const log4cplus::tstring& msg)
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        if(quietMode) return;
+    logging_worker (tcerr, &LogLog::get_quiet_mode, ERR_PREFIX, msg);
+}
 
-        tcerr << ERR_PREFIX << msg << endl;
+
+void
+LogLog::error(tchar const * msg)
+{
+    logging_worker (tcerr, &LogLog::get_quiet_mode, ERR_PREFIX, msg);
+}
+
+
+bool
+LogLog::get_quiet_mode () const
+{
+    return quietMode;
+}
+
+
+bool
+LogLog::get_debug_mode () const
+{
+    return debugEnabled && ! quietMode;
+}
+
+
+template <typename StringType>
+void
+LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
+    tchar const * prefix, StringType const & msg)
+{
+    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
+        if (! (this->*cond) ())
+            return;
+
+        os << prefix << msg << std::endl;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
+} } // namespace log4cplus { namespace helpers {
