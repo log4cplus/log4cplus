@@ -157,16 +157,33 @@ Properties::~Properties()
 // helpers::Properties public methods
 ///////////////////////////////////////////////////////////////////////////////
 
+
+bool
+Properties::exists(const log4cplus::tstring& key) const
+{
+    return data.find(key) != data.end();
+}
+
+
+bool
+Properties::exists(tchar const * key) const
+{
+    return data.find(key) != data.end();
+}
+
+
 tstring const &
 Properties::getProperty(const tstring& key) const 
 {
-    StringMap::const_iterator it (data.find(key));
-    if (it == data.end())
-        return log4cplus::internal::empty_str;
-    else
-        return it->second;
+    return get_property_worker (key);
 }
 
+
+log4cplus::tstring const &
+Properties::getProperty(tchar const * key) const
+{
+    return get_property_worker (key);
+}
 
 
 tstring
@@ -221,6 +238,18 @@ Properties::getPropertySubset(const log4cplus::tstring& prefix) const
     }
 
     return ret;
+}
+
+
+template <typename StringType>
+log4cplus::tstring const &
+Properties::get_property_worker (StringType const & key) const
+{
+    StringMap::const_iterator it (data.find (key));
+    if (it == data.end ())
+        return log4cplus::internal::empty_str;
+    else
+        return it->second;
 }
 
 

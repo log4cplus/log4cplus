@@ -40,15 +40,14 @@ namespace log4cplus {
             /**
              * Tests to see if <code>key</code> can be found in this map.
              */
-            bool exists(const log4cplus::tstring& key) const {
-                return data.find(key) != data.end();
-            }
-
+            bool exists(const log4cplus::tstring& key) const;
+            bool exists(tchar const * key) const;
 
             /**
              * Returns the number of entries in this map.
              */
-            size_t size() const {
+            size_t size() const
+            {
                 return data.size();
             }
 
@@ -59,6 +58,7 @@ namespace log4cplus {
              * The method returns <code>null</code> if the property is not found.
              */
             log4cplus::tstring const & getProperty(const log4cplus::tstring& key) const;
+            log4cplus::tstring const & getProperty(tchar const * key) const;
 
             /**
              * Searches for the property with the specified key in this property
@@ -102,6 +102,11 @@ namespace log4cplus {
 
           // Data
             StringMap data;
+
+        private:
+            template <typename StringType>
+            log4cplus::tstring const & get_property_worker (
+                StringType const & key) const;
         };
     } // end namespace helpers
 
