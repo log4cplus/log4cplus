@@ -159,13 +159,6 @@ getCurrentThreadName()
         }
         thread->running = false;
         getNDC().remove();
-
-#if defined(LOG4CPLUS_USE_WIN32_THREADS)
-        HANDLE h = InterlockedExchangePointer (&thread->handle,
-            INVALID_HANDLE_VALUE);
-        if (h != INVALID_HANDLE_VALUE)
-            ::CloseHandle (h);
-#endif
     }
 
     threadCleanup ();
