@@ -121,8 +121,7 @@ static
 void
 rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 {
-    helpers::SharedObjectPtr<helpers::LogLog> loglog
-        = helpers::LogLog::getLogLog();
+    helpers::LogLog * loglog = helpers::LogLog::getLogLog();
 
     // Delete the oldest file
     tostringstream buffer;

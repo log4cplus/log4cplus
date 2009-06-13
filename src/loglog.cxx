@@ -32,11 +32,11 @@ static tchar const ERR_PREFIX[] = LOG4CPLUS_TEXT("log4cplus:ERROR ");
 // static methods
 ///////////////////////////////////////////////////////////////////////////////
 
-SharedObjectPtr<LogLog>
+LogLog *
 LogLog::getLogLog()
 {
-    static SharedObjectPtr<LogLog> singleton(new LogLog());
-    return singleton;
+    static LogLog singleton;
+    return &singleton;
 }
 
 

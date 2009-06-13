@@ -42,10 +42,6 @@ namespace log4cplus {
             
           // operators
             LogLogUser& operator=(const LogLogUser& rhs);
-
-        private:
-          // Data
-            void* loglogRef;
         };
 
     } // end namespace helpers

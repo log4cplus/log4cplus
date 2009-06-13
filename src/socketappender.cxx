@@ -149,7 +149,7 @@ log4cplus::helpers::readFromBuffer(SocketBuffer& buffer)
 {
     unsigned char msgVersion = buffer.readByte();
     if(msgVersion != LOG4CPLUS_MESSAGE_VERSION) {
-        SharedObjectPtr<LogLog> loglog = log4cplus::helpers::LogLog::getLogLog();
+        LogLog * loglog = log4cplus::helpers::LogLog::getLogLog();
         loglog->warn(LOG4CPLUS_TEXT("helpers::readFromBuffer() received socket message with an invalid version"));
     }
 

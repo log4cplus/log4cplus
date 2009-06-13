@@ -40,14 +40,13 @@ namespace log4cplus {
          * the string "log4clus: ".
          */
         class LOG4CPLUS_EXPORT LogLog
-            : public virtual log4cplus::helpers::SharedObject 
         {
         public:
           // Static methods
             /**
              * Returns a reference to the <code>LogLog</code> singleton.
              */
-            static log4cplus::helpers::SharedObjectPtr<LogLog> getLogLog();
+            static LogLog * getLogLog();
 
 
             /**
@@ -86,9 +85,6 @@ namespace log4cplus {
             void warn(const log4cplus::tstring& msg);
             void warn(tchar const * msg);
 
-          // Dtor
-            virtual ~LogLog();
-
           // Data
             LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
 
@@ -108,6 +104,7 @@ namespace log4cplus {
 
             LogLog();
             LogLog(const LogLog&);
+            virtual ~LogLog();
             LogLog & operator = (LogLog const &);
         };
 

@@ -132,8 +132,7 @@ getCurrentThreadName()
 #endif
 {
     blockAllSignals ();
-    helpers::SharedObjectPtr<helpers::LogLog> loglog
-        = helpers::LogLog::getLogLog();
+    helpers::LogLog * loglog = helpers::LogLog::getLogLog();
     if (! arg)
         loglog->error(LOG4CPLUS_TEXT("threadStartFunc()- arg is NULL"));
     else
