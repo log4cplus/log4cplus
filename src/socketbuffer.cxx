@@ -237,7 +237,7 @@ SocketBuffer::appendString(const tstring& str)
         return;
     }
 
-    appendInt(strlen);
+    appendInt(static_cast<unsigned>(strlen));
 #ifndef UNICODE
     memcpy(&buffer[pos], str.data(), strlen);
     pos += strlen;
