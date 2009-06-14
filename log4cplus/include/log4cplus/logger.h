@@ -19,24 +19,29 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/loglevel.h>
-#include <log4cplus/loggingmacros.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>
-#include <log4cplus/helpers/pointer.h>
 #include <log4cplus/spi/appenderattachable.h>
 #include <log4cplus/spi/loggerfactory.h>
-#include <log4cplus/spi/loggerimpl.h>
 
-#include <memory>
 #include <vector>
 
-namespace log4cplus {
+
+namespace log4cplus
+{
     // Forward declarations
 
     class Appender;
     class Hierarchy;
     class HierarchyLocker;
     class DefaultLoggerFactory;
+
+    namespace spi
+    {
+
+        class LoggerImpl;
+
+    }
 
 
     /** \typedef std::vector<Logger> LoggerList
@@ -143,17 +148,13 @@ namespace log4cplus {
          * @param msg The message to print if <code>assertion</code> is
          * false.
          */
-        void assertion(bool assertionVal, const log4cplus::tstring& msg) {
-            if(!assertionVal) {
-                log(FATAL_LOG_LEVEL, msg);
-            }
-        }
+        void assertion(bool assertionVal, const log4cplus::tstring& msg) const;
 
         /**
          * Close all attached appenders implementing the AppenderAttachable
          * interface.  
          */
-        void closeNestedAppenders();
+        void closeNestedAppenders() const;
 
         /**
          * Check whether this logger is enabled for a given
@@ -167,14 +168,14 @@ namespace log4cplus {
          * This generic form is intended to be used by wrappers. 
          */
         void log(LogLevel ll, const log4cplus::tstring& message,
-                 const char* file=NULL, int line=-1);
+                 const char* file=NULL, int line=-1) const;
 
         /**
          * This method creates a new logging event and logs the event
          * without further checks.  
          */
         void forcedLog(LogLevel ll, const log4cplus::tstring& message,
-                       const char* file=NULL, int line=-1);
+                       const char* file=NULL, int line=-1) const;
 
         /**
          * Call the appenders in the hierrachy starting at
@@ -187,7 +188,7 @@ namespace log4cplus {
          *
          * @param event the event to log.
          */
-        void callAppenders(const spi::InternalLoggingEvent& event);
+        void callAppenders(const spi::InternalLoggingEvent& event) const;
 
         /**
          * Starting from this logger, search the logger hierarchy for a
@@ -209,7 +210,7 @@ namespace log4cplus {
         /**
          * Set the LogLevel of this Logger.
          */
-        void setLogLevel(LogLevel);
+        void setLogLevel(LogLevel ll);
 
         /**
          * Return the the {@link Hierarchy} where this <code>Logger</code> instance is
@@ -232,7 +233,6 @@ namespace log4cplus {
          */
         void setAdditivity(bool additive);
 
-
       // AppenderAttachable Methods
         virtual void addAppender(SharedAppenderPtr newAppender);
 
@@ -246,23 +246,23 @@ namespace log4cplus {
 
         virtual void removeAppender(const log4cplus::tstring& name);
 
-      // Copy Ctor
+        Logger ();
         Logger(const Logger& rhs);
         Logger& operator=(const Logger& rhs);
+        virtual ~Logger();
 
-      // Dtor
-        ~Logger();
+        void swap (Logger &);
 
         /**
          * Used to retrieve the parent of this Logger in the
          * Logger tree.
          */
-        Logger getParent();
+        Logger getParent() const;
 
     protected:
       // Data
         /** This is a pointer to the implementation class. */
-        spi::LoggerImpl *value;
+        spi::LoggerImpl * value;
 
     private:
       // Ctors
@@ -275,12 +275,7 @@ namespace log4cplus {
          * @param ptr A pointer to the Logger implementation.  This value
          *            cannot be NULL.  
          */
-        Logger(spi::LoggerImpl *ptr);
-        Logger(const spi::SharedLoggerImplPtr& val);
-
-      // Methods
-        void init();
-        void validate(const char *file, int line) const;
+        Logger(spi::LoggerImpl * ptr);
 
       // Friends
         friend class log4cplus::spi::LoggerImpl;
@@ -334,6 +329,9 @@ namespace log4cplus {
     };
 
 } // end namespace log4cplus
+
+
+#include <log4cplus/loggingmacros.h>
 
 
 #endif // _LOG4CPLUS_LOGGERHEADER_
