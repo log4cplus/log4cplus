@@ -81,14 +81,14 @@ LogLog::setQuietMode(bool quietModeVal)
 void
 LogLog::debug(const log4cplus::tstring& msg)
 {
-    logging_worker (tcout, &LogLog::get_debug_mode, ERR_PREFIX, msg);
+    logging_worker (tcout, &LogLog::get_debug_mode, PREFIX, msg);
 }
 
 
 void
 LogLog::debug(tchar const * msg)
 {
-    logging_worker (tcout, &LogLog::get_debug_mode, ERR_PREFIX, msg);
+    logging_worker (tcout, &LogLog::get_debug_mode, PREFIX, msg);
 }
 
 
