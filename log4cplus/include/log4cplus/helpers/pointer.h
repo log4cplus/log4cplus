@@ -25,6 +25,8 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <algorithm>
+#include <cassert>
 
 
 namespace log4cplus {
@@ -47,8 +49,6 @@ namespace log4cplus {
             { }
         };
 
-        void throwNullPointerException(const char* file, int line);
-
 
         /******************************************************************************
          *                       Class SharedObject (from pp. 204-205)                *
@@ -63,9 +63,14 @@ namespace log4cplus {
         protected:
           // Ctor
             SharedObject()
-             : access_mutex(LOG4CPLUS_MUTEX_CREATE), count(0), destroyed(false) {}
+                : access_mutex(LOG4CPLUS_MUTEX_CREATE)
+                , count(0)
+            { }
+
             SharedObject(const SharedObject&)
-             : access_mutex(LOG4CPLUS_MUTEX_CREATE), count(0), destroyed(false) {}
+                : access_mutex(LOG4CPLUS_MUTEX_CREATE)
+                , count(0)
+            { }
 
           // Dtor
             virtual ~SharedObject();
@@ -78,7 +83,6 @@ namespace log4cplus {
 
         private:
             mutable int count;
-            mutable bool destroyed;
         };
 
 
@@ -93,13 +97,13 @@ namespace log4cplus {
             SharedObjectPtr(T* realPtr = 0)
                 : pointee(realPtr)
             {
-                init();
+                addref ();
             }
 
             SharedObjectPtr(const SharedObjectPtr& rhs)
                 : pointee(rhs.pointee)
             {
-                init();
+                addref ();
             }
 
             // Dtor
@@ -114,8 +118,8 @@ namespace log4cplus {
             bool operator!=(const SharedObjectPtr& rhs) const { return (pointee != rhs.pointee); }
             bool operator==(const T* rhs) const { return (pointee == rhs); }
             bool operator!=(const T* rhs) const { return (pointee != rhs); }
-            T* operator->() const {validate(); return pointee; }
-            T& operator*() const {validate(); return *pointee; }
+            T* operator->() const {assert (pointee); return pointee; }
+            T& operator*() const {assert (pointee); return *pointee; }
 
             SharedObjectPtr& operator=(const SharedObjectPtr& rhs)
             {
@@ -124,27 +128,30 @@ namespace log4cplus {
 
             SharedObjectPtr& operator=(T* rhs)
             {
-                if (pointee != rhs) {
-                    T* oldPointee = pointee;
-                    pointee = rhs;
-                    init();
-                    if(oldPointee != 0)
-                        static_cast<SharedObject *>(oldPointee)->removeReference();
-                }
+                SharedObjectPtr (rhs).swap (*this);
                 return *this;
             }
 
           // Methods
             T* get() const { return pointee; }
 
+            void swap (SharedObjectPtr & other) throw ()
+            {
+                std::swap (pointee, other.pointee);
+            }
+
+            typedef T * (SharedObjectPtr:: * unspec_bool_type) () const;
+            operator unspec_bool_type () const
+            {
+                return pointee ? &SharedObjectPtr::get : 0;
+            }
+
         private:
           // Methods
-            void init() {
-                if(pointee == 0) return;
-                static_cast<SharedObject *>(pointee)->addReference();
-            }
-            void validate() const {
-                if(pointee == 0) throw std::runtime_error("NullPointer");
+            void addref()
+            {
+                if (pointee)
+                    static_cast<SharedObject *>(pointee)->addReference();
             }
 
           // Data
