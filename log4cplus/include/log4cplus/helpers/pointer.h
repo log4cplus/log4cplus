@@ -32,24 +32,6 @@
 namespace log4cplus {
     namespace helpers {
 
-#if (_MSC_VER >= 1300)
-        // Added to remove the following warning from MSVC++ 7:
-        // warning C4275: non dll-interface class 'std::runtime_error' used as
-        //                base for dll-interface class
-        //                'log4cplus::helpers::NullPointerException'
-        class LOG4CPLUS_EXPORT std::runtime_error;
-#endif
-
-        class LOG4CPLUS_EXPORT NullPointerException
-            : public std::runtime_error
-        {
-        public:
-            NullPointerException(const std::string& what_arg)
-                : std::runtime_error(what_arg)
-            { }
-        };
-
-
         /******************************************************************************
          *                       Class SharedObject (from pp. 204-205)                *
          ******************************************************************************/
@@ -94,6 +76,7 @@ namespace log4cplus {
         {
         public:
             // Ctor
+            explicit
             SharedObjectPtr(T* realPtr = 0)
                 : pointee(realPtr)
             {
@@ -110,7 +93,7 @@ namespace log4cplus {
             ~SharedObjectPtr()
             {
                 if (pointee)
-                    static_cast<SharedObject *>(pointee)->removeReference();
+                    pointee->removeReference();
             }
 
             // Operators
@@ -128,7 +111,7 @@ namespace log4cplus {
 
             SharedObjectPtr& operator=(T* rhs)
             {
-                SharedObjectPtr (rhs).swap (*this);
+                SharedObjectPtr<T> (rhs).swap (*this);
                 return *this;
             }
 
@@ -146,12 +129,17 @@ namespace log4cplus {
                 return pointee ? &SharedObjectPtr::get : 0;
             }
 
+            bool operator ! () const
+            {
+                return ! pointee;
+            }
+
         private:
           // Methods
-            void addref()
+            void addref() const
             {
                 if (pointee)
-                    static_cast<SharedObject *>(pointee)->addReference();
+                    pointee->addReference();
             }
 
           // Data
