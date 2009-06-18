@@ -279,6 +279,31 @@ namespace log4cplus {
      * 
      * </tr>
      * 
+     * <tr> 
+     *   <td align=center><b>h</b></td> 
+     *
+     *   <td>Used to output the hostname of this system (as returned
+     *   by gethostname(2)).
+     *
+     *   <b>NOTE</b> The hostname is only retrieved once at
+     *   initialization.
+     *
+     * </td>
+     * </tr>
+     * 
+     * <tr> 
+     *   <td align=center><b>H</b></td> 
+     *
+     *   <td>Used to output the fully-qualified domain name of this
+     *   system (as returned by gethostbyname(2) for the hostname
+     *   returned by gethostname(2)).
+     *
+     *   <b>NOTE</b> The hostname is only retrieved once at
+     *   initialization.
+     *
+     * </td>
+     * </tr>
+     * 
      * <tr>
      * <td align=center><b>l</b></td>
      * 

@@ -15,10 +15,12 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/helpers/socket.h>
 #include <log4cplus/spi/loggingevent.h>
 
 #include <stdlib.h>
 #include <exception>
+
 
 using namespace std;
 using namespace log4cplus;
@@ -146,6 +148,20 @@ namespace log4cplus {
         private:
             bool use_gmtime;
             log4cplus::tstring format;
+        };
+
+
+
+        /**
+         * This PatternConverter is used to format the hostname field.
+         */
+        class HostnamePatternConverter : public PatternConverter {
+        public:
+            HostnamePatternConverter(const FormattingInfo& info, bool fqdn);
+            virtual log4cplus::tstring convert(const InternalLoggingEvent& event);
+
+        private:
+            log4cplus::tstring hostname_;
         };
 
 
@@ -389,6 +405,26 @@ log4cplus::pattern::DatePatternConverter::convert
 
 
 ////////////////////////////////////////////////
+// HostnamePatternConverter methods:
+////////////////////////////////////////////////
+
+log4cplus::pattern::HostnamePatternConverter::HostnamePatternConverter (
+    const FormattingInfo& info, bool fqdn)
+    : PatternConverter(info)
+    , hostname_ (helpers::getHostname (fqdn))
+{ }
+
+
+log4cplus::tstring
+log4cplus::pattern::HostnamePatternConverter::convert (
+    const InternalLoggingEvent &)
+{
+    return hostname_;
+}
+
+
+
+////////////////////////////////////////////////
 // PatternParser methods:
 ////////////////////////////////////////////////
 
@@ -581,6 +617,16 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
                            BasicPatternConverter::FILE_CONVERTER);
             //getLogLog().debug("FILE NAME converter.");
             //formattingInfo.dump(getLogLog());      
+            break;
+
+        case LOG4CPLUS_TEXT('h'):
+        case LOG4CPLUS_TEXT('H'):
+            {
+                bool fqdn = (c == LOG4CPLUS_TEXT('H'));
+                pc = new HostnamePatternConverter(formattingInfo, fqdn);
+                // getLogLog().debug( LOG4CPLUS_TEXT("HOSTNAME converter.") );
+                // formattingInfo.dump(getLogLog());
+            }
             break;
 
         case LOG4CPLUS_TEXT('l'):
