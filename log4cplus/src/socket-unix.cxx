@@ -12,6 +12,8 @@
 //
 
 #include <cstring>
+#include <vector>
+#include <algorithm>
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
@@ -172,4 +174,37 @@ log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 }
 
 
+tstring
+log4cplus::helpers::getHostname (bool fqdn)
+{
+    char const * hostname = "unknown";
+    int ret;
+    std::vector<char> hn (1024, 0);
+
+    while (true)
+    {
+        ret = ::gethostname (&hn[0], hn.size () - 1);
+        if (ret == 0)
+        {
+            hostname = &hn[0];
+            break;
+        }
+#if defined (LOG4CPLUS_HAVE_ENAMETOOLONG)
+        else if (ret != 0 && errno == ENAMETOOLONG)
+            // Out buffer was too short. Retry with buffer twice the size.
+            hn.resize (hn.size () * 2, 0);
+#endif
+        else
+            break;
+    }
+
+    if (ret != 0 || ret == 0 && ! fqdn)
+        return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+
+    struct ::hostent * hp = ::gethostbyname (hostname);
+    if (hp)
+        hostname = hp->h_name;
+
+    return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+}
 
