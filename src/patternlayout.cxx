@@ -168,7 +168,8 @@ namespace log4cplus {
         class HostnamePatternConverter : public PatternConverter {
         public:
             HostnamePatternConverter(const FormattingInfo& info, bool fqdn);
-            virtual log4cplus::tstring convert(const InternalLoggingEvent& event);
+            virtual void convert(log4cplus::tstring & result,
+                const InternalLoggingEvent& event);
 
         private:
             log4cplus::tstring hostname_;
@@ -445,11 +446,11 @@ log4cplus::pattern::HostnamePatternConverter::HostnamePatternConverter (
 { }
 
 
-log4cplus::tstring
+void
 log4cplus::pattern::HostnamePatternConverter::convert (
-    const InternalLoggingEvent &)
+    log4cplus::tstring & result, const InternalLoggingEvent&)
 {
-    return hostname_;
+    result = hostname_;
 }
 
 

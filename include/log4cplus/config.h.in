@@ -91,6 +91,9 @@
 #undef LOG4CPLUS_DECLSPEC_IMPORT
 
 /* */
+#undef LOG4CPLUS_HAVE_ENAMETOOLONG
+
+/* */
 #undef LOG4CPLUS_HAVE_FTIME
 
 /* */

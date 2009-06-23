@@ -68,5 +68,7 @@
 /* */
 #undef LOG4CPLUS_THREAD_LOCAL_VAR
 
+/* Defined if the host OS provides ENAMETOOLONG errno value. */
+#undef LOG4CPLUS_HAVE_ENAMETOOLONG
 
 #endif // LOG4CPLUS_CONFIG_DEFINES_HXX

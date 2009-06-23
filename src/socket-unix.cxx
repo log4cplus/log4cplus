@@ -12,6 +12,7 @@
 //
 
 #include <cstring>
+#include <vector>
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
@@ -21,8 +22,7 @@
 # define _XOPEN_SOURCE_EXTENDED
 # endif
 # include <arpa/inet.h>
-#endif
- 
+#endif 
 
 #if defined (LOG4CPLUS_HAVE_NETINET_IN_H)
 # include <netinet/in.h>
@@ -33,8 +33,6 @@
 #include <errno.h>
 #include <netdb.h>
 #include <unistd.h>
-
-#include <algorithm>
 
 
 namespace log4cplus { namespace helpers {
@@ -175,6 +173,41 @@ write(SOCKET_TYPE sock, const SocketBuffer& buffer)
     int flags = 0;
 #endif
     return ::send( sock, buffer.getBuffer(), buffer.getSize(), flags );
+}
+
+
+tstring
+getHostname (bool fqdn)
+{
+    char const * hostname = "unknown";
+    int ret;
+    std::vector<char> hn (1024, 0);
+
+    while (true)
+    {
+        ret = ::gethostname (&hn[0], hn.size () - 1);
+        if (ret == 0)
+        {
+            hostname = &hn[0];
+            break;
+        }
+#if defined (LOG4CPLUS_HAVE_ENAMETOOLONG)
+        else if (ret != 0 && errno == ENAMETOOLONG)
+            // Out buffer was too short. Retry with buffer twice the size.
+            hn.resize (hn.size () * 2, 0);
+#endif
+        else
+            break;
+    }
+
+    if (ret != 0 || ret == 0 && ! fqdn)
+        return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+
+    struct ::hostent * hp = ::gethostbyname (hostname);
+    if (hp)
+        hostname = hp->h_name;
+
+    return LOG4CPLUS_STRING_TO_TSTRING (hostname);
 }
 
 
