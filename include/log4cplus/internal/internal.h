@@ -133,7 +133,7 @@ set_ptd (per_thread_data * p)
 
 
 //! The default value of the \param alloc is false for Win32 DLL builds
-//! since pert thread data are already initialized by DllMain().
+//! since per thread data are already initialized by DllMain().
 inline
 per_thread_data *
 get_ptd (bool alloc
