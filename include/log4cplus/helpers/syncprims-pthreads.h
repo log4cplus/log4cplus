@@ -123,6 +123,38 @@ Semaphore::lock () const
 //
 //
 
+
+inline
+FairMutex::FairMutex ()
+    : sem (1, 1)
+{ }
+
+
+inline
+FairMutex::~FairMutex ()
+{ }
+
+
+inline
+void
+FairMutex::lock () const
+{
+    sem.lock ();
+}
+
+
+inline
+void
+FairMutex::unlock () const
+{
+    sem.unlock ();
+}
+
+
+//
+//
+//
+
 inline
 ManualResetEvent::ManualResetEvent (bool sig)
     : sigcount (0)

@@ -116,6 +116,52 @@ Semaphore::lock () const
 //
 //
 
+
+inline
+FairMutex::FairMutex ()
+{
+    mtx = CreateMutex (0, false, 0);
+    if (! mtx)
+        LOG4CPLUS_THROW_RTE ("FairMutex::FairMutex");
+}
+
+
+inline
+FairMutex::~FairMutex ()
+{
+    try
+    {
+        if (! CloseHandle (mtx))
+            LOG4CPLUS_THROW_RTE ("FairMutex::~FairMutex");
+    }
+    catch (...)
+    { }
+}
+
+
+inline
+void
+FairMutex::lock () const
+{
+    DWORD ret = WaitForSingleObject (mtx, INFINITE);
+    if (ret != WAIT_OBJECT_0)
+        LOG4CPLUS_THROW_RTE ("FairMutex::lock");
+}
+
+
+inline
+void
+FairMutex::unlock () const
+{
+    if (! ReleaseMutex (mtx))
+        LOG4CPLUS_THROW_RTE ("FairMutex::unlock");
+}
+
+
+//
+//
+//
+
 inline
 ManualResetEvent::ManualResetEvent (bool sig)
 {

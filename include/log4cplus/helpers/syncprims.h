@@ -124,6 +124,30 @@ private:
 typedef SyncGuard<Semaphore> SemaphoreGuard;
 
 
+class FairMutex
+{
+public:
+    FairMutex ();
+    ~FairMutex ();
+
+    void lock () const;
+    void unlock () const;
+
+private:
+#if defined (LOG4CPLUS_USE_PTHREADS)
+    Semaphore sem;
+#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
+    HANDLE mtx;
+#endif
+
+    FairMutex (FairMutex const &);
+    FairMutex & operator = (FairMutex &);
+};
+
+
+typedef SyncGuard<FairMutex> FairMutexGuard;
+
+
 class ManualResetEvent
 {
 public:
