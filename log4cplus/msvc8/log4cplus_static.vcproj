@@ -69,6 +69,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="ws2_32.lib"
 				OutputFile="$(OutDir)\log4cplusSD.lib"
 				SuppressStartupBanner="true"
 			/>
@@ -145,6 +146,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="ws2_32.lib"
 				OutputFile="$(OutDir)\log4cplusUSD.lib"
 				SuppressStartupBanner="true"
 			/>
@@ -220,6 +222,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="ws2_32.lib"
 				OutputFile="$(OutDir)\log4cplusS.lib"
 				SuppressStartupBanner="true"
 			/>
@@ -295,6 +298,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="ws2_32.lib"
 				OutputFile="$(OutDir)\log4cplusUS.lib"
 				SuppressStartupBanner="true"
 			/>
