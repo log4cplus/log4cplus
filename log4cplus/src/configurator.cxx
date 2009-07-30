@@ -131,7 +131,7 @@ namespace
             if (empty_vars || ! replacement.empty ())
             {
                 // Substitute the variable with its value in place.
-                pattern.replace (var_start, var_end + DELIM_STOP_LEN,
+                pattern.replace (var_start, var_end - var_start + DELIM_STOP_LEN,
                     replacement);
                 changed = true;
                 if (rec_exp)
