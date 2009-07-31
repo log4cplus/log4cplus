@@ -75,7 +75,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib ws2_32.lib"
+				AdditionalDependencies="ws2_32.lib"
 				OutputFile="$(OutDir)/log4cplus.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -170,7 +170,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib ws2_32.lib"
+				AdditionalDependencies="ws2_32.lib"
 				OutputFile="$(OutDir)/log4cplusD.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -266,7 +266,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib ws2_32.lib"
+				AdditionalDependencies="ws2_32.lib"
 				OutputFile="$(OutDir)/log4cplusUD.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -363,7 +363,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib ws2_32.lib"
+				AdditionalDependencies="ws2_32.lib"
 				OutputFile="$(OutDir)/log4cplusU.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
