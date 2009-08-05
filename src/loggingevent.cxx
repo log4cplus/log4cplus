@@ -112,7 +112,24 @@ InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring & logger,
     LogLevel loglevel, const log4cplus::tstring & msg, const char * filename,
     int fline)
 {
-    InternalLoggingEvent (logger, loglevel, msg, filename, fline).swap (*this);
+    // This could be imlemented using the swap idiom:
+    //
+    // InternalLoggingEvent (logger, loglevel, msg, filename, fline).swap (*this);
+    //
+    // But that defeats the optimization of using thread local instance
+    // of InternalLoggingEvent to avoid memory allocation.
+
+    loggerName = logger;
+    ll = loglevel;
+    message = msg;
+    timestamp = helpers::Time::gettimeofday();
+    if (filename)
+        file = LOG4CPLUS_C_STR_TO_TSTRING (filename);
+    else
+        file.clear ();
+    line = fline;
+    threadCached = false;
+    ndcCached = false;
 }
 
 
