@@ -249,7 +249,7 @@ namespace log4cplus
         Logger ();
         Logger(const Logger& rhs);
         Logger& operator=(const Logger& rhs);
-        ~Logger();
+        virtual ~Logger();
 
         void swap (Logger &);
 
