@@ -22,7 +22,7 @@ LogLogUser::LogLogUser()
 { }
 
 
-LogLogUser::LogLogUser(const LogLogUser& rhs)
+LogLogUser::LogLogUser(const LogLogUser&)
 { }
 
 
@@ -38,7 +38,7 @@ LogLogUser::getLogLog() const
 
 
 LogLogUser&
-LogLogUser::operator=(const LogLogUser& rhs)
+LogLogUser::operator=(const LogLogUser&)
 {
     return *this;
 }
