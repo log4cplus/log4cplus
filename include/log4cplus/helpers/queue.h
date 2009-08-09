@@ -117,9 +117,6 @@ protected:
     //! Queue storage.
     std::deque<spi::InternalLoggingEvent> queue;
 
-    typedef thread::FairMutex Mutex;
-    typedef thread::FairMutexGuard MutexGuard;
-
     //! Mutex protecting queue and flags.
     Mutex mutex;
 
