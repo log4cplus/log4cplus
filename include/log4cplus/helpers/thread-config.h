@@ -36,7 +36,9 @@
 #   define LOG4CPLUS_GET_THREAD_LOCAL_VALUE(key) pthread_getspecific(*(key))
 #   define LOG4CPLUS_SET_THREAD_LOCAL_VALUE(key, value) \
     pthread_setspecific(*(key), value)
-#   define LOG4CPLUS_THREAD_LOCAL_CLEANUP(key) pthread_key_delete(*(key))
+#   define LOG4CPLUS_THREAD_LOCAL_CLEANUP(key) \
+    do { pthread_key_t * pthkey (key); pthread_key_delete(*pthkey); \
+    delete pthkey; } while(0)
 namespace log4cplus {
     namespace thread {
         LOG4CPLUS_EXPORT LOG4CPLUS_MUTEX_PTR_DECLARE createNewMutex();
