@@ -124,15 +124,16 @@ Properties::init(log4cplus::tistream& input)
     {
         trim_leading_ws (buffer);
 
-        if (buffer[0] == PROPERTIES_COMMENT_CHAR)
+        tstring::size_type const buffLen = buffer.size ();
+        if (buffLen == 0 || buffer[0] == PROPERTIES_COMMENT_CHAR)
             continue;
         
         // Check if we have a trailing \r because we are 
         // reading a properties file produced on Windows.
-        tstring::size_type const buffLen = buffer.size ();
-        if (buffLen > 0 && buffer[buffLen-1] == LOG4CPLUS_TEXT('\r'))
+        if (buffer[buffLen-1] == LOG4CPLUS_TEXT('\r'))
             // Remove trailing 'Windows' \r.
             buffer.resize (buffLen - 1);
+
         tstring::size_type const idx = buffer.find('=');
         if (idx != tstring::npos)
         {
