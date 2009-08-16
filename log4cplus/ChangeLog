@@ -1,3 +1,21 @@
+Version 1.0.4-RC2
+
+  - Fixed bug #2834811. Accessing index 0 of empty strings.
+  - Fixed bug #2834808. Memory leak in thread local storage code.
+  - Removed MSVC6 directory and project files.
+
+Version 1.0.4-RC1
+
+  - Fixed compilation with Borland C++ Builder compiler.
+  - Improved CMake build system to also build tests.
+  - Fixed compilation and improved support for Windows CE.
+  - Fixed compilation and improved support for Sun Studio 11 compiler.
+  - Fixed use after free and improved shutdown handling in
+    ConfigurationWatchDogThread.
+  - Implement %H (FQDN) and %h (host name) PatternLayout format
+    specifiers.
+  - Fixed bug #2829604. Environment variables substitution. 
+
 Version 1.0.3
 
   - List of bugs fixed or otherwise dealt with:
