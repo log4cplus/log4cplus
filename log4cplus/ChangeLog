@@ -3,6 +3,7 @@ Version 1.0.4-RC2
   - Fixed bug #2834811. Accessing index 0 of empty strings.
   - Fixed bug #2834808. Memory leak in thread local storage code.
   - Removed MSVC6 directory and project files.
+  - Update to libtool-2.2.6.
 
 Version 1.0.4-RC1
 
