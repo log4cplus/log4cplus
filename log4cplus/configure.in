@@ -71,6 +71,7 @@ AS_CASE([$ac_cxx_compiler_vendor],
   [AX_CXXFLAGS_GCC_OPTION([-Wextra])
    AX_CXXFLAGS_GCC_OPTION([-ansi])
    AX_CXXFLAGS_GCC_OPTION([-pedantic])
+   AX_CXXFLAGS_GCC_OPTION([-Wshadow])
    AS_IF([test "x$enable_debugging" = "xyes"],
    [AX_CXXFLAGS_GCC_OPTION([-g3])
     AX_CXXFLAGS_GCC_OPTION([-O0])],

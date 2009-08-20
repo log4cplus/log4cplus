@@ -33,8 +33,8 @@ using namespace log4cplus::thread;
 namespace loggingserver {
     class ClientThread : public AbstractThread {
     public:
-        ClientThread(Socket clientsock)
-        : clientsock(clientsock) 
+        ClientThread(Socket clientsock_)
+        : clientsock(clientsock_) 
         {
             cout << "Received a client connection!!!!" << endl;
         }
