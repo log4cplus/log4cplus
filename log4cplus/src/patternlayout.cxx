@@ -282,9 +282,9 @@ log4cplus::pattern::PatternConverter::formatAndAppend
 ////////////////////////////////////////////////
 
 log4cplus::pattern::LiteralPatternConverter::LiteralPatternConverter
-                                                      (const log4cplus::tstring& str)
+                                                      (const log4cplus::tstring& str_)
 : PatternConverter(FormattingInfo()),
-  str(str)
+  str(str_)
 {
 }
 
@@ -295,10 +295,10 @@ log4cplus::pattern::LiteralPatternConverter::LiteralPatternConverter
 ////////////////////////////////////////////////
 
 log4cplus::pattern::BasicPatternConverter::BasicPatternConverter
-                                        (const FormattingInfo& info, Type type)
+                                        (const FormattingInfo& info, Type type_)
 : PatternConverter(info),
   llmCache(getLogLevelManager()),
-  type(type)
+  type(type_)
 {
 }
 
@@ -349,9 +349,9 @@ log4cplus::pattern::BasicPatternConverter::convert
 ////////////////////////////////////////////////
 
 log4cplus::pattern::LoggerPatternConverter::LoggerPatternConverter
-                                    (const FormattingInfo& info, int precision)
+                                    (const FormattingInfo& info, int precision_)
 : PatternConverter(info),
-  precision(precision)
+  precision(precision_)
 {
 }
 
@@ -390,11 +390,11 @@ log4cplus::pattern::LoggerPatternConverter::convert
 
 
 log4cplus::pattern::DatePatternConverter::DatePatternConverter
-                                               (const FormattingInfo& info, 
-                                                const log4cplus::tstring& pattern, 
-                                                bool use_gmtime)
+                                               (const FormattingInfo& info,
+                                                const log4cplus::tstring& pattern,
+                                                bool use_gmtime_)
 : PatternConverter(info),
-  use_gmtime(use_gmtime),
+  use_gmtime(use_gmtime_),
   format(pattern)
 {
 }
@@ -435,8 +435,8 @@ log4cplus::pattern::HostnamePatternConverter::convert (
 // PatternParser methods:
 ////////////////////////////////////////////////
 
-log4cplus::pattern::PatternParser::PatternParser(const log4cplus::tstring& pattern) 
-: pattern(pattern), 
+log4cplus::pattern::PatternParser::PatternParser(const log4cplus::tstring& pattern_)
+: pattern(pattern_),
   state(LITERAL_STATE),
   pos(0)
 {
@@ -716,9 +716,9 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
 // PatternLayout methods:
 ////////////////////////////////////////////////
 
-PatternLayout::PatternLayout(const log4cplus::tstring& pattern)
+PatternLayout::PatternLayout(const log4cplus::tstring& pattern_)
 {
-    init(pattern);
+    init(pattern_);
 }
 
 
@@ -745,9 +745,9 @@ PatternLayout::PatternLayout(const log4cplus::helpers::Properties& properties)
 
 
 void
-PatternLayout::init(const log4cplus::tstring& pattern)
+PatternLayout::init(const log4cplus::tstring& pattern_)
 {
-    this->pattern = pattern;
+    this->pattern = pattern_;
     this->parsedPattern = PatternParser(pattern).parse();
 
     // Let's validate that our parser didn't give us any NULLs.  If it did,

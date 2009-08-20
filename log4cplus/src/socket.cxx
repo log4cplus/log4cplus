@@ -48,10 +48,10 @@ log4cplus::helpers::AbstractSocket::AbstractSocket()
 
 
 
-log4cplus::helpers::AbstractSocket::AbstractSocket(SOCKET_TYPE sock, SocketState state, int err)
-: sock(sock),
-  state(state),
-  err(err)
+log4cplus::helpers::AbstractSocket::AbstractSocket(SOCKET_TYPE sock_, SocketState state_, int err_)
+: sock(sock_),
+  state(state_),
+  err(err_)
 {
 }
 
@@ -142,8 +142,8 @@ log4cplus::helpers::Socket::Socket(const tstring& address, int port)
 }
 
 
-log4cplus::helpers::Socket::Socket(SOCKET_TYPE sock, SocketState state, int err)
-: AbstractSocket(sock, state, err)
+log4cplus::helpers::Socket::Socket(SOCKET_TYPE sock_, SocketState state_, int err_)
+: AbstractSocket(sock_, state_, err_)
 {
 }
 
@@ -218,9 +218,9 @@ log4cplus::helpers::ServerSocket::~ServerSocket()
 log4cplus::helpers::Socket
 log4cplus::helpers::ServerSocket::accept()
 {
-    SocketState state;
-    SOCKET_TYPE clientSock = acceptSocket(sock, state);
-    return Socket(clientSock, state, 0);
+    SocketState state_;
+    SOCKET_TYPE clientSock = acceptSocket(sock, state_);
+    return Socket(clientSock, state_, 0);
 }
 
 

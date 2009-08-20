@@ -41,11 +41,11 @@ using namespace log4cplus::helpers;
 // SocketBuffer ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::helpers::SocketBuffer::SocketBuffer(size_t maxsize)
-: maxsize(maxsize),
+log4cplus::helpers::SocketBuffer::SocketBuffer(size_t maxsize_)
+: maxsize(maxsize_),
   size(0),
   pos(0),
-  buffer(new char[maxsize])
+  buffer(new char[maxsize_])
 {
 }
 

@@ -33,9 +33,9 @@ using namespace log4cplus::helpers;
 // log4cplus::ConsoleAppender ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::ConsoleAppender::ConsoleAppender(bool logToStdErr, bool immediateFlush)
-: logToStdErr(logToStdErr),
-  immediateFlush(immediateFlush)
+log4cplus::ConsoleAppender::ConsoleAppender(bool logToStdErr_, bool immediateFlush_)
+: logToStdErr(logToStdErr_),
+  immediateFlush(immediateFlush_)
 {
 }
 

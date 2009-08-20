@@ -59,9 +59,9 @@ Time::Time()
 }
 
 
-Time::Time(time_t tv_sec, long tv_usec)
-: tv_sec(tv_sec),
-  tv_usec(tv_usec)
+Time::Time(time_t tv_sec_, long tv_usec_)
+: tv_sec(tv_sec_),
+  tv_usec(tv_usec_)
 {
     assert (tv_usec < ONE_SEC_IN_USEC);
 }

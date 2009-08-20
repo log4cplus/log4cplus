@@ -50,9 +50,9 @@ SimpleLayout::formatAndAppend(log4cplus::tostream& output,
 // log4cplus::TTCCLayout ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-TTCCLayout::TTCCLayout(bool use_gmtime)
+TTCCLayout::TTCCLayout(bool use_gmtime_)
 : dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S,%q") ),
-  use_gmtime(use_gmtime)
+  use_gmtime(use_gmtime_)
 {
 }
 

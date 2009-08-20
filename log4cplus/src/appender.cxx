@@ -147,17 +147,17 @@ Appender::Appender(const log4cplus::helpers::Properties properties)
             getLogLog().error(err + factoryName);
             continue;
         }
-        FilterPtr filter = factory->createObject
+        FilterPtr tmp_filter = factory->createObject
                       (filterProps.getPropertySubset(filterName + LOG4CPLUS_TEXT(".")));
-        if(filter.get() == 0) {
+        if(tmp_filter.get() == 0) {
             tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Failed to create filter: ");
             getLogLog().error(err + filterName);
         }
         if(filterChain.get() == 0) {
-            filterChain = filter;
+            filterChain = tmp_filter;
         }
         else {
-            filterChain->appendFilter(filter);
+            filterChain->appendFilter(tmp_filter);
         }
     }
     setFilter(filterChain);
@@ -226,9 +226,9 @@ Appender::getName()
 
 
 void
-Appender::setName(const log4cplus::tstring& name)
+Appender::setName(const log4cplus::tstring& name_)
 {
-    this->name = name;
+    this->name = name_;
 }
 
 

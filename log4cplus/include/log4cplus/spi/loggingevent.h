@@ -54,41 +54,41 @@ namespace log4cplus {
               *                 the <code>filename</code> parameter.
               */
              InternalLoggingEvent(const log4cplus::tstring& logger,
-                                  LogLevel ll,
-                                  const log4cplus::tstring& message,
+                                  LogLevel ll_,
+                                  const log4cplus::tstring& message_,
                                   const char* filename,
-                                  int line)
-              : message(message),
+                                  int line_)
+              : message(message_),
                 loggerName(logger),
-                ll(ll),
+                ll(ll_),
                 ndc(),
                 thread(),
                 timestamp(log4cplus::helpers::Time::gettimeofday()),
                 file( (  filename
                        ? LOG4CPLUS_C_STR_TO_TSTRING(filename) 
                        : log4cplus::tstring()) ),
-                line(line),
+                line(line_),
                 threadCached(false),
                 ndcCached(false)
              {
              }
 
              InternalLoggingEvent(const log4cplus::tstring& logger,
-                                  LogLevel ll,
-                                  const log4cplus::tstring& ndc,
-                                  const log4cplus::tstring& message,
-                                  const log4cplus::tstring& thread,
+                                  LogLevel ll_,
+                                  const log4cplus::tstring& ndc_,
+                                  const log4cplus::tstring& message_,
+                                  const log4cplus::tstring& thread_,
                                   log4cplus::helpers::Time time,
-                                  const log4cplus::tstring& file,
-                                  int line)
-              : message(message),
+                                  const log4cplus::tstring& file_,
+                                  int line_)
+              : message(message_),
                 loggerName(logger),
-                ll(ll),
-                ndc(ndc),
-                thread(thread),
+                ll(ll_),
+                ndc(ndc_),
+                thread(thread_),
                 timestamp(time),
-                file(file),
-                line(line),
+                file(file_),
+                line(line_),
                 threadCached(true),
                 ndcCached(true)
              {

@@ -36,11 +36,11 @@ using namespace log4cplus::helpers;
 // log4cplus::SocketAppender ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::SocketAppender::SocketAppender(const log4cplus::tstring& host, int port,
-                                          const log4cplus::tstring& serverName)
-: host(host),
-  port(port),
-  serverName(serverName)
+log4cplus::SocketAppender::SocketAppender(const log4cplus::tstring& host_, int port_,
+                                          const log4cplus::tstring& serverName_)
+: host(host_),
+  port(port_),
+  serverName(serverName_)
 {
     openSocket();
 }

@@ -128,7 +128,7 @@ namespace
             replacement.clear ();
             if (shadow_env)
                 replacement = props.getProperty (key);
-            if (! shadow_env || ! empty_vars && replacement.empty ())
+            if (! shadow_env || (! empty_vars && replacement.empty ()))
             {
                 char const * env_var
                     = std::getenv(LOG4CPLUS_TSTRING_TO_STRING(key).c_str());
@@ -166,33 +166,33 @@ namespace
 //////////////////////////////////////////////////////////////////////////////
 
 PropertyConfigurator::PropertyConfigurator(const tstring& propertyFile,
-    Hierarchy& h, unsigned flags)
-    : h(h)
+    Hierarchy& h_, unsigned flags_)
+    : h(h_)
     , propertyFilename(propertyFile)
     , properties(propertyFile)
-    , flags (flags)
+    , flags (flags_)
 {
     init();
 }
 
 
 PropertyConfigurator::PropertyConfigurator(const helpers::Properties& props,
-    Hierarchy& h, unsigned flags)
-    : h(h)
+    Hierarchy& h_, unsigned flags_)
+    : h(h_)
     , propertyFilename( LOG4CPLUS_TEXT("UNAVAILABLE") )
     , properties( props )
-    , flags (flags)
+    , flags (flags_)
 {
     init();
 }
 
 
 PropertyConfigurator::PropertyConfigurator(tistream& propertyStream,
-    Hierarchy& h, unsigned flags)
-    : h(h)
+    Hierarchy& h_, unsigned flags_)
+    : h(h_)
     , propertyFilename( LOG4CPLUS_TEXT("UNAVAILABLE") )
     , properties(propertyStream)
-    , flags (flags)
+    , flags (flags_)
 {
     init();
 }
@@ -389,12 +389,12 @@ PropertyConfigurator::configureAppenders()
                 continue;
             }
 
-            Properties properties
+            Properties my_properties
                 = appenderProperties.getPropertySubset((*it) 
                     + LOG4CPLUS_TEXT("."));
             try
             {
-                SharedAppenderPtr appender = factory->createObject(properties);
+                SharedAppenderPtr appender = factory->createObject(my_properties);
                 if (appender.get() == 0)
                 {
                     tstring err =
@@ -471,8 +471,8 @@ PropertyConfigurator::addAppender(Logger &logger, SharedAppenderPtr& appender)
 // BasicConfigurator ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-BasicConfigurator::BasicConfigurator(Hierarchy& h)
-    : PropertyConfigurator( LOG4CPLUS_TEXT(""), h )
+BasicConfigurator::BasicConfigurator(Hierarchy& h_)
+    : PropertyConfigurator( LOG4CPLUS_TEXT(""), h_ )
 {
     properties.setProperty(LOG4CPLUS_TEXT("rootLogger"),
                            LOG4CPLUS_TEXT("DEBUG, STDOUT"));

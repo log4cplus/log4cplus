@@ -35,8 +35,8 @@ using namespace log4cplus::spi;
 //////////////////////////////////////////////////////////////////////////////
 // Logger Constructors and Destructor
 //////////////////////////////////////////////////////////////////////////////
-LoggerImpl::LoggerImpl(const log4cplus::tstring& name, Hierarchy& h)
-  : name(name),
+LoggerImpl::LoggerImpl(const log4cplus::tstring& name_, Hierarchy& h)
+  : name(name_),
     ll(NOT_SET_LOG_LEVEL),
     parent(NULL),
     additive(true), 
@@ -88,23 +88,23 @@ LoggerImpl::closeNestedAppenders()
 
 
 bool 
-LoggerImpl::isEnabledFor(LogLevel ll) const
+LoggerImpl::isEnabledFor(LogLevel ll_) const
 {
-    if(hierarchy.disableValue >= ll) {
+    if(hierarchy.disableValue >= ll_) {
         return false;
     }
-    return ll >= getChainedLogLevel();
+    return ll_ >= getChainedLogLevel();
 }
 
 
 void 
-LoggerImpl::log(LogLevel ll, 
+LoggerImpl::log(LogLevel ll_, 
                 const log4cplus::tstring& message,
                 const char* file, 
                 int line)
 {
-    if(isEnabledFor(ll)) {
-        forcedLog(ll, message, file, line);
+    if(isEnabledFor(ll_)) {
+        forcedLog(ll_, message, file, line);
     }
 }
 
@@ -139,19 +139,19 @@ LoggerImpl::getAdditivity() const
 
 
 void 
-LoggerImpl::setAdditivity(bool additive) 
-{ 
-    this->additive = additive; 
+LoggerImpl::setAdditivity(bool additive_)
+{
+    this->additive = additive_;
 }
 
 
 void 
-LoggerImpl::forcedLog(LogLevel ll,
+LoggerImpl::forcedLog(LogLevel ll_,
                       const log4cplus::tstring& message,
-                      const char* file, 
+                      const char* file,
                       int line)
 {
-    callAppenders(spi::InternalLoggingEvent(this->getName(), ll, message, file, line));
+    callAppenders(spi::InternalLoggingEvent(this->getName(), ll_, message, file, line));
 }
 
 

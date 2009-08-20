@@ -48,8 +48,8 @@ log4cplus::getNDC()
 // log4cplus::DiagnosticContext ctors
 ///////////////////////////////////////////////////////////////////////////////
 
-DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message, DiagnosticContext* parent)
- : message(message),
+DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message_, DiagnosticContext* parent)
+ : message(message_),
    fullMessage( (  (parent == NULL) 
                  ? message 
                  : parent->fullMessage + LOG4CPLUS_TEXT(" ") + message) )
@@ -57,8 +57,8 @@ DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message, Diagnost
 }
 
 
-DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message)
- : message(message),
+DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message_)
+ : message(message_),
    fullMessage(message)
 {
 }
