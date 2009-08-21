@@ -240,6 +240,12 @@ PropertyConfigurator::configure()
 
     // Erase the appenders so that we are not artificially keeping them "alive".
     appenders.clear ();
+
+    // Configure log4cplus internals.
+    log4cplus::tstring val = properties.getProperty (
+        LOG4CPLUS_TEXT ("configDebug"), LOG4CPLUS_TEXT ("false"));
+    getLogLog ().setInternalDebugging (
+        helpers::toLower (val) == LOG4CPLUS_TEXT ("true"));
 }
 
 
