@@ -20,6 +20,7 @@
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
+#include <ostream>
 
 
 namespace log4cplus { namespace helpers {

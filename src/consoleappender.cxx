@@ -24,6 +24,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <ostream>
 
 
 namespace log4cplus

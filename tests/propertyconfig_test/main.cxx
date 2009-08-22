@@ -13,7 +13,7 @@ using namespace log4cplus::helpers;
 int
 main()
 {
-    cout << "Entering main()..." << endl;
+    tcout << "Entering main()..." << endl;
     LogLog::getLogLog()->setInternalDebugging(true);
     Logger root = Logger::getRoot();
     try {
@@ -28,11 +28,11 @@ main()
         }
     }
     catch(...) {
-        cout << "Exception..." << endl;
+        tcout << "Exception..." << endl;
 	LOG4CPLUS_FATAL(root, "Exception occured...");
     }
 
-    cout << "Exiting main()..." << endl;
+    tcout << "Exiting main()..." << endl;
     return 0;
 }
 
