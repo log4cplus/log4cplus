@@ -79,7 +79,7 @@ namespace log4cplus {
          *           Template Class SharedObjectPtr (from pp. 203, 206)               *
          ******************************************************************************/
         template<class T>
-        class LOG4CPLUS_EXPORT SharedObjectPtr
+        class SharedObjectPtr
         {
         public:
             // Ctor
