@@ -28,10 +28,8 @@
 #include <log4cplus/layout.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/property.h>
-#include <log4cplus/helpers/threads.h>
 #include <log4cplus/spi/filter.h>
 #include <log4cplus/spi/objectregistry.h>
-#include <map>
 #include <memory>
 #include <vector>
 

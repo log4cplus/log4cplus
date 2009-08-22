@@ -24,15 +24,40 @@
 #include <log4cplus/spi/loggingevent.h>
 
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-using namespace log4cplus::spi;
+namespace log4cplus
+{
+
+
+Layout::Layout ()
+    : llmCache(getLogLevelManager())
+{ }
+
+
+Layout::Layout (const log4cplus::helpers::Properties&)
+    : llmCache(getLogLevelManager())
+{ }
+
+
+Layout::~Layout()
+{ }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 // log4cplus::SimpleLayout public methods
 ///////////////////////////////////////////////////////////////////////////////
+
+SimpleLayout::SimpleLayout ()
+{ }
+
+
+SimpleLayout::SimpleLayout (const helpers::Properties& properties)
+    : Layout (properties)
+{ }
+
+
+SimpleLayout::~SimpleLayout()
+{ }
+
 
 void
 SimpleLayout::formatAndAppend(log4cplus::tostream& output, 
@@ -64,7 +89,7 @@ TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
     , use_gmtime(false)
 {
     tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("Use_gmtime") );
-    use_gmtime = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
+    use_gmtime = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
 }
 
 
@@ -95,3 +120,6 @@ TTCCLayout::formatAndAppend(log4cplus::tostream& output,
            << event.getMessage()
            << LOG4CPLUS_TEXT("\n");
 }
+
+
+} // namespace log4cplus

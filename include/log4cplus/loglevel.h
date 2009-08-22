@@ -26,10 +26,8 @@
 #define LOG4CPLUS_LOGLEVEL_HEADER_
 
 #include <log4cplus/config.hxx>
-#include <log4cplus/streams.h>
 #include <log4cplus/tstring.h>
 
-#include <vector>
 
 namespace log4cplus {
 
@@ -169,7 +167,7 @@ namespace log4cplus {
 
       // Disable Copy
         LogLevelManager(const LogLevelManager&);
-	LogLevelManager& operator=(const LogLevelManager&);
+        LogLevelManager& operator=(const LogLevelManager&);
     };
 
     /**
