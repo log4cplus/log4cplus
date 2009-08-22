@@ -207,7 +207,7 @@ getHostname (bool fqdn)
             break;
     }
 
-    if (ret != 0 || ret == 0 && ! fqdn)
+    if (ret != 0 || (ret == 0 && ! fqdn))
         return LOG4CPLUS_STRING_TO_TSTRING (hostname);
 
     struct ::hostent * hp = ::gethostbyname (hostname);
