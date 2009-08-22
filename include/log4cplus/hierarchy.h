@@ -26,7 +26,6 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/logger.h>
 #include <log4cplus/helpers/logloguser.h>
-#include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/threads.h>
 #include <map>
 #include <memory>
@@ -214,7 +213,7 @@ namespace log4cplus {
         /**
          * Returns the default LoggerFactory instance.
          */
-        virtual spi::LoggerFactory* getLoggerFactory() { return defaultFactory.get(); }
+        virtual spi::LoggerFactory* getLoggerFactory();
 
         /**
          * Shutting down a hierarchy will <em>safely</em> close and remove
@@ -271,7 +270,7 @@ namespace log4cplus {
          *
          *    We add 'logger' to the list of children for this potential parent.
          */
-        void updateParents(Logger logger);
+        void updateParents(Logger const & logger);
 
         /**
          * We update the links for all the children that placed themselves
@@ -287,7 +286,7 @@ namespace log4cplus {
          *   Otherwise, we set logger's parent field to c's parent and set
          *   c's parent field to logger.
          */
-        void updateChildren(ProvisionNode& pn, Logger logger);
+        void updateChildren(ProvisionNode& pn, Logger const & logger);
 
     // Data
        LOG4CPLUS_MUTEX_PTR_DECLARE hashtable_mutex;
@@ -299,7 +298,6 @@ namespace log4cplus {
        int disableValue;
 
        bool emittedNoAppenderWarning;
-       bool emittedNoResourceBundleWarning;
 
      // Disallow copying of instances of this class
        Hierarchy(const Hierarchy&);

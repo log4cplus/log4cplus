@@ -64,8 +64,7 @@ Hierarchy::Hierarchy()
     defaultFactory(new DefaultLoggerFactory()),
     root(NULL),
     disableValue(DISABLE_OFF),  // Don't disable any LogLevel level by default.
-    emittedNoAppenderWarning(false),
-    emittedNoResourceBundleWarning(false)
+    emittedNoAppenderWarning(false)
 {
     root = Logger( new spi::RootLogger(*this, DEBUG_LOG_LEVEL) );
 }
@@ -218,6 +217,13 @@ Hierarchy::setLoggerFactory(std::auto_ptr<spi::LoggerFactory> factory)
 }
 
 
+spi::LoggerFactory *
+Hierarchy::getLoggerFactory()
+{
+    return defaultFactory.get();
+}
+
+
 void 
 Hierarchy::shutdown()
 {
@@ -246,32 +252,37 @@ Hierarchy::shutdown()
 Logger 
 Hierarchy::getInstanceImpl(const log4cplus::tstring& name, spi::LoggerFactory& factory)
 {
-     LoggerMap::iterator it = loggerPtrs.find(name);
-     if(it != loggerPtrs.end()) {
-         return (*it).second;
-     }
-     else {
-         // Need to create a new logger
-         Logger logger = factory.makeNewLoggerInstance(name, *this);
-         bool inserted = loggerPtrs.insert(std::make_pair(name, logger)).second;
-         if(!inserted) {
-             getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstanceImpl()- Insert failed"));
-             throw std::runtime_error("Hierarchy::getInstanceImpl()- Insert failed");
-         }
-         
-         ProvisionNodeMap::iterator it2 = provisionNodes.find(name);
-         if(it2 != provisionNodes.end()) {
-             updateChildren(it2->second, logger);
-             bool deleted = (provisionNodes.erase(name) > 0);
-             if(!deleted) {
-                 getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstanceImpl()- Delete failed"));
-                 throw std::runtime_error("Hierarchy::getInstanceImpl()- Delete failed");
-             }
-         }
-         updateParents(logger);
-         
-         return logger;
-     }
+    Logger logger;
+
+    LoggerMap::iterator lm_it = loggerPtrs.find(name);
+    if (lm_it != loggerPtrs.end())
+        logger = lm_it->second;
+    else
+    {
+        // Need to create a new logger
+        logger = factory.makeNewLoggerInstance(name, *this);
+        bool inserted = loggerPtrs.insert(std::make_pair(name, logger)).second;
+        if (! inserted)
+        {
+            getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstanceImpl()- Insert failed"));
+            throw std::runtime_error("Hierarchy::getInstanceImpl()- Insert failed");
+        }
+
+        ProvisionNodeMap::iterator pnm_it = provisionNodes.find(name);
+        if (pnm_it != provisionNodes.end())
+        {
+            updateChildren(pnm_it->second, logger);
+            bool deleted = (provisionNodes.erase(name) > 0);
+            if (! deleted)
+            {
+                getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstanceImpl()- Delete failed"));
+                throw std::runtime_error("Hierarchy::getInstanceImpl()- Delete failed");
+            }
+        }
+        updateParents(logger);
+    }
+
+    return logger;
 }
 
 
@@ -288,18 +299,19 @@ Hierarchy::initializeLoggerList(LoggerList& list) const
 
 
 void 
-Hierarchy::updateParents(Logger logger)
+Hierarchy::updateParents(Logger const & logger)
 {
     log4cplus::tstring const & name = logger.getName();
     size_t const length = name.length();
     bool parentFound = false;
+    log4cplus::tstring substr;
 
     // if name = "w.x.y.z", loop thourgh "w.x.y", "w.x" and "w", but not "w.x.y.z"
     for(size_t i=name.find_last_of(LOG4CPLUS_TEXT('.'), length-1); 
         i != log4cplus::tstring::npos; 
         i = name.find_last_of(LOG4CPLUS_TEXT('.'), i-1)) 
     {
-        log4cplus::tstring substr = name.substr(0, i);
+        substr.assign (name, 0, i);
 
         LoggerMap::iterator it = loggerPtrs.find(substr);
         if(it != loggerPtrs.end()) {
@@ -333,7 +345,7 @@ Hierarchy::updateParents(Logger logger)
 
 
 void 
-Hierarchy::updateChildren(ProvisionNode& pn, Logger logger)
+Hierarchy::updateChildren(ProvisionNode& pn, Logger const & logger)
 {
 
     for(ProvisionNode::iterator it=pn.begin(); it!=pn.end(); ++it) {
