@@ -24,6 +24,7 @@
 #else
 #  include <cctype>
 #endif
+#include <fstream>
 #include <log4cplus/fstreams.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/internal/internal.h>

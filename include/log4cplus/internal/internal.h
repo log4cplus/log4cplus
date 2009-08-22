@@ -42,6 +42,7 @@
 
 #include <memory>
 #include <vector>
+#include <sstream>
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>

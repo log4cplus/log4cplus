@@ -27,6 +27,7 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/streams.h>
 #include <log4cplus/logger.h>
+#include <sstream>
 
 
 #if defined(LOG4CPLUS_DISABLE_FATAL) && !defined(LOG4CPLUS_DISABLE_ERROR)

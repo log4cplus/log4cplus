@@ -24,27 +24,17 @@
 #define LOG4CPLUS_FSTREAMS_HEADER_
 
 #include <log4cplus/config.hxx>
+#include <log4cplus/tstring.h>
+#include <iosfwd>
 
-#include <fstream>
-
-#if defined(__DECCXX) && !defined(__USE_STD_IOSTREAM)
-#  define LOG4CPLUS_FSTREAM_NAMESPACE
-#else
-#  define LOG4CPLUS_FSTREAM_NAMESPACE std
-#endif
+namespace log4cplus
+{
 
 
-#ifdef UNICODE
-    namespace log4cplus {
-        typedef LOG4CPLUS_FSTREAM_NAMESPACE::wofstream tofstream;
-        typedef LOG4CPLUS_FSTREAM_NAMESPACE::wifstream tifstream;
-    }
-#else
-    namespace log4cplus {
-        typedef LOG4CPLUS_FSTREAM_NAMESPACE::ofstream tofstream;
-        typedef LOG4CPLUS_FSTREAM_NAMESPACE::ifstream tifstream;
-    }
-#endif // UNICODE
+typedef std::basic_ofstream<tchar> tofstream;
+typedef std::basic_ifstream<tchar> tifstream;
+
+
+}
 
 #endif // LOG4CPLUS_FSTREAMS_HEADER_
-

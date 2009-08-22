@@ -32,6 +32,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <iterator>
+#include <sstream>
 #if defined (__BORLANDC__)
 // For _wgetnev() on Windows.
 #  include <stdlib.h>

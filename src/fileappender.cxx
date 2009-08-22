@@ -26,6 +26,7 @@
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <algorithm>
+#include <sstream>
 #include <cstdio>
 #if defined (__BORLANDC__)
 // For _wrename() and _wremove() on Windows.
@@ -170,7 +171,7 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 ///////////////////////////////////////////////////////////////////////////////
 
 FileAppender::FileAppender(const tstring& filename_, 
-    LOG4CPLUS_OPEN_MODE_TYPE mode_, bool immediateFlush_)
+    std::ios_base::openmode mode_, bool immediateFlush_)
     : immediateFlush(immediateFlush_)
 {
     init(filename_, mode_);
@@ -178,7 +179,7 @@ FileAppender::FileAppender(const tstring& filename_,
 
 
 FileAppender::FileAppender(const Properties& props, 
-                           LOG4CPLUS_OPEN_MODE_TYPE mode_)
+                           std::ios_base::openmode mode_)
     : Appender(props)
     , immediateFlush(true)
 {
@@ -205,7 +206,7 @@ FileAppender::FileAppender(const Properties& props,
 
 void
 FileAppender::init(const tstring& filename_, 
-                   LOG4CPLUS_OPEN_MODE_TYPE mode_)
+                   std::ios_base::openmode mode_)
 {
     filename = filename_;
     out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), mode_);

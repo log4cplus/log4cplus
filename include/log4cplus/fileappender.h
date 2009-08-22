@@ -27,14 +27,11 @@
 #include <log4cplus/appender.h>
 #include <log4cplus/fstreams.h>
 #include <log4cplus/helpers/property.h>
+#include <fstream>
 
-#if defined(__DECCXX)
-#   define LOG4CPLUS_OPEN_MODE_TYPE LOG4CPLUS_FSTREAM_NAMESPACE::ios::open_mode
-#else
-#   define LOG4CPLUS_OPEN_MODE_TYPE LOG4CPLUS_FSTREAM_NAMESPACE::ios::openmode
-#endif
 
-namespace log4cplus {
+namespace log4cplus
+{
 
     /**
      * Appends log events to a file. 
@@ -43,10 +40,10 @@ namespace log4cplus {
     public:
       // Ctors
         FileAppender(const log4cplus::tstring& filename, 
-                     LOG4CPLUS_OPEN_MODE_TYPE mode = LOG4CPLUS_FSTREAM_NAMESPACE::ios::trunc,
+                     std::ios_base::openmode mode = std::ios_base::trunc,
                      bool immediateFlush = true);
         FileAppender(const log4cplus::helpers::Properties& properties,
-                     LOG4CPLUS_OPEN_MODE_TYPE mode = LOG4CPLUS_FSTREAM_NAMESPACE::ios::trunc);
+                     std::ios_base::openmode mode = std::ios_base::trunc);
 
       // Dtor
         virtual ~FileAppender();
@@ -77,7 +74,7 @@ namespace log4cplus {
 
     private:
         void init(const log4cplus::tstring& filename,
-                  LOG4CPLUS_OPEN_MODE_TYPE mode);
+                  std::ios_base::openmode mode);
 
       // Disallow copying of instances of this class
         FileAppender(const FileAppender&);

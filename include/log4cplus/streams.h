@@ -26,31 +26,21 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 
-#include <iostream>
-#include <sstream>
+#include <iosfwd>
 
+
+namespace log4cplus
+{
+    typedef std::basic_ostream<tchar> tostream;
+    typedef std::basic_istream<tchar> tistream;
+    typedef std::basic_ostringstream<tchar> tostringstream;
+    extern LOG4CPLUS_EXPORT tostream & tcout;
+    extern LOG4CPLUS_EXPORT tostream & tcerr;
+}
 
 #ifdef UNICODE
-namespace log4cplus
-{
-    typedef std::wostream tostream;
-    typedef std::wistream tistream;
-    typedef std::wostringstream tostringstream;
-    extern LOG4CPLUS_EXPORT tostream & tcout;
-    extern LOG4CPLUS_EXPORT tostream & tcerr;
-}
 
 LOG4CPLUS_EXPORT log4cplus::tostream& operator <<(log4cplus::tostream&, const char* psz );
-
-#else
-namespace log4cplus
-{
-    typedef std::ostream tostream;
-    typedef std::istream tistream;
-    typedef std::ostringstream tostringstream;
-    extern LOG4CPLUS_EXPORT tostream & tcout;
-    extern LOG4CPLUS_EXPORT tostream & tcerr;
-}
 
 #endif // UNICODE
 
