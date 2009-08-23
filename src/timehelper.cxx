@@ -184,15 +184,11 @@ build_uc_q_value (log4cplus::tstring & uc_q_str, long tv_usec,
 {
     build_q_value (uc_q_str, tv_usec);
 
-#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
     tmp = convertIntegerToString(tv_usec % 1000);
     size_t const usecs_len = tmp.length();
     tmp.insert (0, usecs_len <= 3
         ? uc_q_padding_zeros[usecs_len] : uc_q_padding_zeros[3]);
     uc_q_str.append (tmp);
-#else
-    uc_q_str.append (uc_q_padding_zeros[0]);
-#endif
 }
 
 
@@ -207,7 +203,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
 
     struct tm time;
     
-    if(use_gmtime)
+    if (use_gmtime)
         gmtime(&time);
     else 
         localtime(&time);
@@ -268,6 +264,24 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
                 state = TEXT;
             }
             break;
+
+#if defined (WIN32)
+            // Windows do not support %s format specifier
+            // (seconds since epoch).
+            case LOG4CPLUS_TEXT ('s'):
+            {
+                if (! gft_sp.s_str_valid)
+                {
+                    time_t time_t_time;
+                    time_t_time = (use_gmtime ? _mkgmtime : mktime) (&time);
+                    gft_sp.s_str = convertIntegerToString (time_t_time);
+                    gft_sp.s_str_valid = true;
+                }
+                gft_sp.ret.append (gft_sp.s_str);
+                state = TEXT;
+            }
+            break;
+#endif
 
             default:
             {

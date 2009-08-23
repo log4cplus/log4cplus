@@ -48,6 +48,7 @@ namespace internal
 gft_scratch_pad::gft_scratch_pad ()
     : uc_q_str_valid (false)
     , q_str_valid (false)
+    , s_str_valid (false)
 { }
 
 
