@@ -101,7 +101,6 @@ namespace log4cplus {
 
         protected:
           // Types
-//            LOG4CPLUS_EXPIMP_TEMPLATE template class LOG4CPLUS_EXPORT std::map<log4cplus::tstring, log4cplus::tstring>;
             typedef std::map<log4cplus::tstring, log4cplus::tstring> StringMap;
 
           // Methods
