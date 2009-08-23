@@ -19,6 +19,10 @@ main()
 		Time time;
 		log4cplus::tstring str;
 
+        time = Time::gettimeofday ();
+        str = time.getFormattedTime (fmtstr);
+        log4cplus::tcout << LOG4CPLUS_TEXT ("now: ") << str << std::endl;
+
         time = Time (0, 7);
         str = time.getFormattedTime (fmtstr);
         log4cplus::tcout << str << std::endl;
