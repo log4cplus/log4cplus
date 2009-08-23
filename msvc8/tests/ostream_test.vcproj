@@ -69,7 +69,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="log4cplusd.lib odbc32.lib odbccp32.lib ws2_32.lib"
+				AdditionalDependencies="log4cplusd.lib"
 				OutputFile="$(OutDir)\ostream_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -162,7 +162,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="log4cplus.lib odbc32.lib odbccp32.lib ws2_32.lib"
+				AdditionalDependencies="log4cplus.lib"
 				OutputFile="$(OutDir)\ostream_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -254,7 +254,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="log4cplusud.lib odbc32.lib odbccp32.lib ws2_32.lib"
+				AdditionalDependencies="log4cplusud.lib"
 				OutputFile="$(OutDir)\ostream_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -348,7 +348,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="log4cplusu.lib odbc32.lib odbccp32.lib ws2_32.lib"
+				AdditionalDependencies="log4cplusu.lib"
 				OutputFile="$(OutDir)\ostream_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
