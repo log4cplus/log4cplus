@@ -24,39 +24,43 @@
 #include <log4cplus/spi/rootlogger.h>
 #include <utility>
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
+
+namespace log4cplus
+{
 
 
 //////////////////////////////////////////////////////////////////////////////
 // File "Local" methods
 //////////////////////////////////////////////////////////////////////////////
 
-namespace {
-    static
-    bool startsWith(log4cplus::tstring teststr, log4cplus::tstring substr) {
-        bool val = false;
-        if(teststr.length() > substr.length()) {
-            val =  teststr.substr(0, substr.length()) == substr;
-        }
+namespace
+{
 
-        return val;
+static
+bool startsWith(tstring const & teststr, tstring const & substr)
+{
+    bool val = false;
+    if(teststr.length() > substr.length()) {
+        val =  teststr.substr(0, substr.length()) == substr;
     }
+
+    return val;
+}
+
 }
 
 
+//////////////////////////////////////////////////////////////////////////////
+// Hierarchy static declarations
+//////////////////////////////////////////////////////////////////////////////
+
+const LogLevel Hierarchy::DISABLE_OFF = -1;
+const LogLevel Hierarchy::DISABLE_OVERRIDE = -2;
+
+
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::Hierarchy static declarations
-//////////////////////////////////////////////////////////////////////////////
-
-const LogLevel log4cplus::Hierarchy::DISABLE_OFF = -1;
-const LogLevel log4cplus::Hierarchy::DISABLE_OVERRIDE = -2;
-
-
-
-//////////////////////////////////////////////////////////////////////////////
-// log4cplus::Hierarchy ctor and dtor
+// Hierarchy ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
 Hierarchy::Hierarchy()
@@ -79,7 +83,7 @@ Hierarchy::~Hierarchy()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::Hierarchy public methods
+// Hierarchy public methods
 //////////////////////////////////////////////////////////////////////////////
 
 void 
@@ -93,7 +97,7 @@ Hierarchy::clear()
 
 
 bool
-Hierarchy::exists(const log4cplus::tstring& name)
+Hierarchy::exists(const tstring& name)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
         LoggerMap::iterator it = loggerPtrs.find(name);
@@ -103,7 +107,7 @@ Hierarchy::exists(const log4cplus::tstring& name)
 
 
 void 
-Hierarchy::disable(const log4cplus::tstring& loglevelStr)
+Hierarchy::disable(const tstring& loglevelStr)
 {
     if(disableValue != DISABLE_OVERRIDE) {
         disableValue = getLogLevelManager().fromString(loglevelStr);
@@ -149,14 +153,14 @@ Hierarchy::enableAll()
 
 
 Logger 
-Hierarchy::getInstance(const log4cplus::tstring& name) 
+Hierarchy::getInstance(const tstring& name) 
 { 
     return getInstance(name, *defaultFactory); 
 }
 
 
 Logger 
-Hierarchy::getInstance(const log4cplus::tstring& name, spi::LoggerFactory& factory)
+Hierarchy::getInstance(const tstring& name, spi::LoggerFactory& factory)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
         return getInstanceImpl(name, factory);
@@ -246,11 +250,11 @@ Hierarchy::shutdown()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::Hierarchy private methods
+// Hierarchy private methods
 //////////////////////////////////////////////////////////////////////////////
 
 Logger 
-Hierarchy::getInstanceImpl(const log4cplus::tstring& name, spi::LoggerFactory& factory)
+Hierarchy::getInstanceImpl(const tstring& name, spi::LoggerFactory& factory)
 {
     Logger logger;
 
@@ -301,14 +305,14 @@ Hierarchy::initializeLoggerList(LoggerList& list) const
 void 
 Hierarchy::updateParents(Logger const & logger)
 {
-    log4cplus::tstring const & name = logger.getName();
+    tstring const & name = logger.getName();
     size_t const length = name.length();
     bool parentFound = false;
-    log4cplus::tstring substr;
+    tstring substr;
 
     // if name = "w.x.y.z", loop thourgh "w.x.y", "w.x" and "w", but not "w.x.y.z"
     for(size_t i=name.find_last_of(LOG4CPLUS_TEXT('.'), length-1); 
-        i != log4cplus::tstring::npos; 
+        i != tstring::npos; 
         i = name.find_last_of(LOG4CPLUS_TEXT('.'), i-1)) 
     {
         substr.assign (name, 0, i);
@@ -359,3 +363,5 @@ Hierarchy::updateChildren(ProvisionNode& pn, Logger const & logger)
     }
 }
 
+
+} // namespace log4cplus

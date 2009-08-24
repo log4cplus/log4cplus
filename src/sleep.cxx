@@ -23,7 +23,8 @@
 
 #include <errno.h>
 
-using namespace log4cplus;
+
+namespace log4cplus { namespace helpers {
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -35,7 +36,7 @@ using namespace log4cplus;
 #define MAX_SLEEP_SECONDS (DWORD)4294966        // (2**32-2)/1000
 
 void
-log4cplus::helpers::sleep(unsigned long secs, unsigned long nanosecs)
+sleep(unsigned long secs, unsigned long nanosecs)
 {
 #if defined(_WIN32)
     DWORD nano_millis = nanosecs / static_cast<unsigned long>(MILLIS_TO_NANOS);
@@ -69,10 +70,11 @@ log4cplus::helpers::sleep(unsigned long secs, unsigned long nanosecs)
 
 
 void
-log4cplus::helpers::sleepmillis(unsigned long millis)
+sleepmillis(unsigned long millis)
 {
     unsigned long secs = millis / SEC_TO_MILLIS;
     unsigned long nanosecs = (millis % SEC_TO_MILLIS) * MILLIS_TO_NANOS;
     sleep(secs, nanosecs);
 }
 
+} } // namespace log4cplus { namespace helpers {

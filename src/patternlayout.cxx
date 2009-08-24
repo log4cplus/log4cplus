@@ -30,197 +30,191 @@
 #include <exception>
 
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-using namespace log4cplus::spi;
-
+namespace log4cplus
+{
 
 static tchar const ESCAPE_CHAR = LOG4CPLUS_TEXT('%');
 
-
-namespace log4cplus {
-    namespace pattern {
-
-        /**
-         * This is used by PatternConverter class to inform them how to format
-         * their output.
-         */
-        struct FormattingInfo {
-            int minLen;
-            size_t maxLen;
-            bool leftAlign;
-            FormattingInfo() { reset(); }
-
-            void reset();
-            void dump(log4cplus::helpers::LogLog&);
-        };
+namespace pattern
+{
 
 
+/**
+ * This is used by PatternConverter class to inform them how to format
+ * their output.
+ */
+struct FormattingInfo {
+    int minLen;
+    size_t maxLen;
+    bool leftAlign;
+    FormattingInfo() { reset(); }
 
-        /**
-         * This is the base class of all "Converter" classes that format a
-         * field of InternalLoggingEvent objects.  In fact, the PatternLayout
-         * class simply uses an array of PatternConverter objects to format
-         * and append a logging event.
-         */
-        class PatternConverter : protected log4cplus::helpers::LogLogUser
-        {
-        public:
-            PatternConverter(const FormattingInfo& info);
-            virtual ~PatternConverter() {}
-            void formatAndAppend(log4cplus::tostream& output, 
-                                 const InternalLoggingEvent& event);
-
-            virtual void convert(log4cplus::tstring & result,
-                const InternalLoggingEvent& event) = 0;
-
-        private:
-            int minLen;
-            size_t maxLen;
-            bool leftAlign;
-        };
+    void reset();
+    void dump(helpers::LogLog&);
+};
 
 
 
-        /**
-         * This PatternConverter returns a constant string.
-         */
-        class LiteralPatternConverter : public PatternConverter
-        {
-        public:
-            LiteralPatternConverter(const log4cplus::tstring& str);
-            virtual void convert(log4cplus::tstring & result,
-                const InternalLoggingEvent&)
-            {
-                result = str;
-            }
+/**
+ * This is the base class of all "Converter" classes that format a
+ * field of InternalLoggingEvent objects.  In fact, the PatternLayout
+ * class simply uses an array of PatternConverter objects to format
+ * and append a logging event.
+ */
+class PatternConverter : protected helpers::LogLogUser
+{
+public:
+    PatternConverter(const FormattingInfo& info);
+    virtual ~PatternConverter() {}
+    void formatAndAppend(tostream& output, 
+        const spi::InternalLoggingEvent& event);
 
-        private:
-            log4cplus::tstring str;
-        };
+    virtual void convert(tstring & result,
+        const spi::InternalLoggingEvent& event) = 0;
 
-
-
-        /**
-         * This PatternConverter is used to format most of the "simple" fields
-         * found in the InternalLoggingEvent object.
-         */
-        class BasicPatternConverter
-            : public PatternConverter
-        {
-        public:
-            enum Type { THREAD_CONVERTER,
-                        LOGLEVEL_CONVERTER,
-                        NDC_CONVERTER,
-                        MESSAGE_CONVERTER,
-                        NEWLINE_CONVERTER,
-                        FILE_CONVERTER,
-                        LINE_CONVERTER,
-                        FULL_LOCATION_CONVERTER };
-            BasicPatternConverter(const FormattingInfo& info, Type type);
-            virtual void convert(log4cplus::tstring & result, 
-                const InternalLoggingEvent& event);
-
-        private:
-          // Disable copy
-            BasicPatternConverter(const BasicPatternConverter&);
-            BasicPatternConverter& operator=(BasicPatternConverter&);
-            
-            LogLevelManager& llmCache;
-            Type type;
-        };
+private:
+    int minLen;
+    size_t maxLen;
+    bool leftAlign;
+};
 
 
-
-        /**
-         * This PatternConverter is used to format the Logger field found in
-         * the InternalLoggingEvent object.
-         */
-        class LoggerPatternConverter : public PatternConverter {
-        public:
-            LoggerPatternConverter(const FormattingInfo& info, int precision);
-            virtual void convert(log4cplus::tstring & result,
-                const InternalLoggingEvent& event);
-
-        private:
-            int precision;
-        };
+typedef std::vector<pattern::PatternConverter*> PatternConverterList;
 
 
-
-        /**
-         * This PatternConverter is used to format the timestamp field found in
-         * the InternalLoggingEvent object.  It will be formatted according to
-         * the specified "pattern".
-         */
-        class DatePatternConverter : public PatternConverter {
-        public:
-            DatePatternConverter(const FormattingInfo& info, 
-                                 const log4cplus::tstring& pattern, 
-                                 bool use_gmtime);
-            virtual void convert(log4cplus::tstring & result,
-                const InternalLoggingEvent& event);
-
-        private:
-            bool use_gmtime;
-            log4cplus::tstring format;
-        };
-
-
-
-        /**
-         * This PatternConverter is used to format the hostname field.
-         */
-        class HostnamePatternConverter : public PatternConverter {
-        public:
-            HostnamePatternConverter(const FormattingInfo& info, bool fqdn);
-            virtual void convert(log4cplus::tstring & result,
-                const InternalLoggingEvent& event);
-
-        private:
-            log4cplus::tstring hostname_;
-        };
-
-
-
-        /**
-         * This class parses a "pattern" string into an array of
-         * PatternConverter objects.
-         * <p>
-         * @see PatternLayout for the formatting of the "pattern" string.
-         */
-        class PatternParser : protected log4cplus::helpers::LogLogUser {
-        public:
-            PatternParser(const log4cplus::tstring& pattern);
-            std::vector<PatternConverter*> parse();
-
-        private:
-          // Types
-            enum ParserState { LITERAL_STATE, 
-                               CONVERTER_STATE,
-                               DOT_STATE,
-                               MIN_STATE,
-                               MAX_STATE };
-
-          // Methods
-            log4cplus::tstring extractOption();
-            int extractPrecisionOption();
-            void finalizeConverter(log4cplus::tchar c);
-
-          // Data
-            log4cplus::tstring pattern;
-            FormattingInfo formattingInfo;
-            std::vector<PatternConverter*> list;
-            ParserState state;
-            tstring::size_type pos;
-            log4cplus::tstring currentLiteral;
-        };
+/**
+ * This PatternConverter returns a constant string.
+ */
+class LiteralPatternConverter : public PatternConverter
+{
+public:
+    LiteralPatternConverter(const tstring& str);
+    virtual void convert(tstring & result,
+        const spi::InternalLoggingEvent&)
+    {
+        result = str;
     }
-}
-using namespace log4cplus::pattern;
-typedef std::vector<log4cplus::pattern::PatternConverter*> PatternConverterList;
 
+private:
+    tstring str;
+};
+
+
+
+/**
+ * This PatternConverter is used to format most of the "simple" fields
+ * found in the InternalLoggingEvent object.
+ */
+class BasicPatternConverter
+    : public PatternConverter
+{
+public:
+    enum Type { THREAD_CONVERTER,
+                LOGLEVEL_CONVERTER,
+                NDC_CONVERTER,
+                MESSAGE_CONVERTER,
+                NEWLINE_CONVERTER,
+                FILE_CONVERTER,
+                LINE_CONVERTER,
+                FULL_LOCATION_CONVERTER };
+    BasicPatternConverter(const FormattingInfo& info, Type type);
+    virtual void convert(tstring & result, 
+        const spi::InternalLoggingEvent& event);
+
+private:
+  // Disable copy
+    BasicPatternConverter(const BasicPatternConverter&);
+    BasicPatternConverter& operator=(BasicPatternConverter&);
+    
+    LogLevelManager& llmCache;
+    Type type;
+};
+
+
+
+/**
+ * This PatternConverter is used to format the Logger field found in
+ * the InternalLoggingEvent object.
+ */
+class LoggerPatternConverter : public PatternConverter {
+public:
+    LoggerPatternConverter(const FormattingInfo& info, int precision);
+    virtual void convert(tstring & result,
+        const spi::InternalLoggingEvent& event);
+
+private:
+    int precision;
+};
+
+
+
+/**
+ * This PatternConverter is used to format the timestamp field found in
+ * the InternalLoggingEvent object.  It will be formatted according to
+ * the specified "pattern".
+ */
+class DatePatternConverter : public PatternConverter {
+public:
+    DatePatternConverter(const FormattingInfo& info, 
+                         const tstring& pattern, 
+                         bool use_gmtime);
+    virtual void convert(tstring & result,
+        const spi::InternalLoggingEvent& event);
+
+private:
+    bool use_gmtime;
+    tstring format;
+};
+
+
+
+/**
+ * This PatternConverter is used to format the hostname field.
+ */
+class HostnamePatternConverter : public PatternConverter {
+public:
+    HostnamePatternConverter(const FormattingInfo& info, bool fqdn);
+    virtual void convert(tstring & result,
+        const spi::InternalLoggingEvent& event);
+
+private:
+    tstring hostname_;
+};
+
+
+
+/**
+ * This class parses a "pattern" string into an array of
+ * PatternConverter objects.
+ * <p>
+ * @see PatternLayout for the formatting of the "pattern" string.
+ */
+class PatternParser : protected helpers::LogLogUser {
+public:
+    PatternParser(const tstring& pattern);
+    std::vector<PatternConverter*> parse();
+
+private:
+  // Types
+    enum ParserState { LITERAL_STATE, 
+                       CONVERTER_STATE,
+                       DOT_STATE,
+                       MIN_STATE,
+                       MAX_STATE };
+
+  // Methods
+    tstring extractOption();
+    int extractPrecisionOption();
+    void finalizeConverter(tchar c);
+
+  // Data
+    tstring pattern;
+    FormattingInfo formattingInfo;
+    std::vector<PatternConverter*> list;
+    ParserState state;
+    tstring::size_type pos;
+    tstring currentLiteral;
+};
 
 
 ////////////////////////////////////////////////
@@ -228,7 +222,7 @@ typedef std::vector<log4cplus::pattern::PatternConverter*> PatternConverterList;
 ////////////////////////////////////////////////
 
 void 
-log4cplus::pattern::FormattingInfo::reset() {
+FormattingInfo::reset() {
     minLen = -1;
     maxLen = 0x7FFFFFFF;
     leftAlign = false;
@@ -236,8 +230,8 @@ log4cplus::pattern::FormattingInfo::reset() {
 
 
 void 
-log4cplus::pattern::FormattingInfo::dump(log4cplus::helpers::LogLog& loglog) {
-    log4cplus::tostringstream buf;
+FormattingInfo::dump(helpers::LogLog& loglog) {
+    tostringstream buf;
     buf << LOG4CPLUS_TEXT("min=") << minLen
         << LOG4CPLUS_TEXT(", max=") << maxLen
         << LOG4CPLUS_TEXT(", leftAlign=")
@@ -252,7 +246,7 @@ log4cplus::pattern::FormattingInfo::dump(log4cplus::helpers::LogLog& loglog) {
 // PatternConverter methods:
 ////////////////////////////////////////////////
 
-log4cplus::pattern::PatternConverter::PatternConverter(const FormattingInfo& i)
+PatternConverter::PatternConverter(const FormattingInfo& i)
 {
     minLen = i.minLen;
     maxLen = i.maxLen;
@@ -262,10 +256,10 @@ log4cplus::pattern::PatternConverter::PatternConverter(const FormattingInfo& i)
 
 
 void
-log4cplus::pattern::PatternConverter::formatAndAppend(
-    log4cplus::tostream& output, const InternalLoggingEvent& event)
+PatternConverter::formatAndAppend(
+    tostream& output, const spi::InternalLoggingEvent& event)
 {
-    log4cplus::tstring & s = internal::get_ptd ()->faa_str;
+    tstring & s = internal::get_ptd ()->faa_str;
     convert (s, event);
     size_t len = s.length();
 
@@ -292,8 +286,8 @@ log4cplus::pattern::PatternConverter::formatAndAppend(
 // LiteralPatternConverter methods:
 ////////////////////////////////////////////////
 
-log4cplus::pattern::LiteralPatternConverter::LiteralPatternConverter(
-    const log4cplus::tstring& str_)
+LiteralPatternConverter::LiteralPatternConverter(
+    const tstring& str_)
     : PatternConverter(FormattingInfo())
     , str(str_)
 {
@@ -305,7 +299,7 @@ log4cplus::pattern::LiteralPatternConverter::LiteralPatternConverter(
 // BasicPatternConverter methods:
 ////////////////////////////////////////////////
 
-log4cplus::pattern::BasicPatternConverter::BasicPatternConverter(
+BasicPatternConverter::BasicPatternConverter(
     const FormattingInfo& info, Type type_)
     : PatternConverter(info)
     , llmCache(getLogLevelManager())
@@ -316,8 +310,8 @@ log4cplus::pattern::BasicPatternConverter::BasicPatternConverter(
 
 
 void
-log4cplus::pattern::BasicPatternConverter::convert(log4cplus::tstring & result,
-    const InternalLoggingEvent& event)
+BasicPatternConverter::convert(tstring & result,
+    const spi::InternalLoggingEvent& event)
 {
     switch(type)
     {
@@ -348,7 +342,7 @@ log4cplus::pattern::BasicPatternConverter::convert(log4cplus::tstring & result,
     case LINE_CONVERTER:
         {
             if(event.getLine() != -1)
-                result = convertIntegerToString(event.getLine());
+                result = helpers::convertIntegerToString(event.getLine());
             else
                 result.clear ();
             return;
@@ -356,12 +350,12 @@ log4cplus::pattern::BasicPatternConverter::convert(log4cplus::tstring & result,
 
     case FULL_LOCATION_CONVERTER:
         {
-            log4cplus::tstring const & file = event.getFile();
+            tstring const & file = event.getFile();
             if (! file.empty ())
             {
                 result = file 
                     + LOG4CPLUS_TEXT(":") 
-                    + convertIntegerToString(event.getLine());
+                    + helpers::convertIntegerToString(event.getLine());
             }
             else
                 result = LOG4CPLUS_TEXT(":");
@@ -378,7 +372,7 @@ log4cplus::pattern::BasicPatternConverter::convert(log4cplus::tstring & result,
 // LoggerPatternConverter methods:
 ////////////////////////////////////////////////
 
-log4cplus::pattern::LoggerPatternConverter::LoggerPatternConverter(
+LoggerPatternConverter::LoggerPatternConverter(
     const FormattingInfo& info, int prec)
     : PatternConverter(info)
     , precision(prec)
@@ -388,10 +382,10 @@ log4cplus::pattern::LoggerPatternConverter::LoggerPatternConverter(
 
 
 void
-log4cplus::pattern::LoggerPatternConverter::convert(log4cplus::tstring & result,
-    const InternalLoggingEvent& event)
+LoggerPatternConverter::convert(tstring & result,
+    const spi::InternalLoggingEvent& event)
 {
-    const log4cplus::tstring& name = event.getLoggerName();
+    const tstring& name = event.getLoggerName();
     if (precision <= 0) {
         result = name;
     }
@@ -421,8 +415,8 @@ log4cplus::pattern::LoggerPatternConverter::convert(log4cplus::tstring & result,
 ////////////////////////////////////////////////
 
 
-log4cplus::pattern::DatePatternConverter::DatePatternConverter(
-    const FormattingInfo& info, const log4cplus::tstring& pattern,
+DatePatternConverter::DatePatternConverter(
+    const FormattingInfo& info, const tstring& pattern,
     bool use_gmtime_)
     : PatternConverter(info)
     , use_gmtime(use_gmtime_)
@@ -433,8 +427,8 @@ log4cplus::pattern::DatePatternConverter::DatePatternConverter(
 
 
 void
-log4cplus::pattern::DatePatternConverter::convert(log4cplus::tstring & result,
-    const InternalLoggingEvent& event)
+DatePatternConverter::convert(tstring & result,
+    const spi::InternalLoggingEvent& event)
 {
     result = event.getTimestamp().getFormattedTime(format, use_gmtime);
 }
@@ -446,7 +440,7 @@ log4cplus::pattern::DatePatternConverter::convert(log4cplus::tstring & result,
 // HostnamePatternConverter methods:
 ////////////////////////////////////////////////
 
-log4cplus::pattern::HostnamePatternConverter::HostnamePatternConverter (
+HostnamePatternConverter::HostnamePatternConverter (
     const FormattingInfo& info, bool fqdn)
     : PatternConverter(info)
     , hostname_ (helpers::getHostname (fqdn))
@@ -454,8 +448,8 @@ log4cplus::pattern::HostnamePatternConverter::HostnamePatternConverter (
 
 
 void
-log4cplus::pattern::HostnamePatternConverter::convert (
-    log4cplus::tstring & result, const InternalLoggingEvent&)
+HostnamePatternConverter::convert (
+    tstring & result, const spi::InternalLoggingEvent&)
 {
     result = hostname_;
 }
@@ -466,8 +460,8 @@ log4cplus::pattern::HostnamePatternConverter::convert (
 // PatternParser methods:
 ////////////////////////////////////////////////
 
-log4cplus::pattern::PatternParser::PatternParser(
-    const log4cplus::tstring& pattern_) 
+PatternParser::PatternParser(
+    const tstring& pattern_) 
     : pattern(pattern_)
     , state(LITERAL_STATE)
     , pos(0)
@@ -476,15 +470,15 @@ log4cplus::pattern::PatternParser::PatternParser(
 
 
 
-log4cplus::tstring 
-log4cplus::pattern::PatternParser::extractOption() 
+tstring 
+PatternParser::extractOption() 
 {
     if (   (pos < pattern.length()) 
         && (pattern[pos] == LOG4CPLUS_TEXT('{'))) 
     {
         tstring::size_type end = pattern.find_first_of(LOG4CPLUS_TEXT('}'), pos);
         if (end > pos) {
-            log4cplus::tstring r = pattern.substr(pos + 1, end - pos - 1);
+            tstring r = pattern.substr(pos + 1, end - pos - 1);
             pos = end + 1;
             return r;
         }
@@ -495,9 +489,9 @@ log4cplus::pattern::PatternParser::extractOption()
 
 
 int 
-log4cplus::pattern::PatternParser::extractPrecisionOption() 
+PatternParser::extractPrecisionOption() 
 {
-    log4cplus::tstring opt = extractOption();
+    tstring opt = extractOption();
     int r = 0;
     if(opt.length() > 0) {
         r = atoi(LOG4CPLUS_TSTRING_TO_STRING(opt).c_str());
@@ -508,7 +502,7 @@ log4cplus::pattern::PatternParser::extractPrecisionOption()
 
 
 PatternConverterList
-log4cplus::pattern::PatternParser::parse() 
+PatternParser::parse() 
 {
     tchar c;
     pos = 0;
@@ -586,7 +580,7 @@ log4cplus::pattern::PatternParser::parse()
                 state = MAX_STATE;
             }
             else {
-                log4cplus::tostringstream buf;
+                tostringstream buf;
                 buf << LOG4CPLUS_TEXT("Error occured in position ")
                     << pos
                     << LOG4CPLUS_TEXT(".\n Was expecting digit, instead got char \"")
@@ -620,7 +614,7 @@ log4cplus::pattern::PatternParser::parse()
 
 
 void
-log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c) 
+PatternParser::finalizeConverter(tchar c) 
 {
     PatternConverter* pc = 0;
     switch (c) {
@@ -634,7 +628,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
         case LOG4CPLUS_TEXT('d'):
         case LOG4CPLUS_TEXT('D'):
             {
-                log4cplus::tstring dOpt = extractOption();
+                tstring dOpt = extractOption();
                 if(dOpt.length() == 0) {
                     dOpt = LOG4CPLUS_TEXT("%Y-%m-%d %H:%M:%S");
                 }
@@ -724,7 +718,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
             break;
 
         default:
-            log4cplus::tostringstream buf;
+            tostringstream buf;
             buf << LOG4CPLUS_TEXT("Unexpected char [")
                 << c
                 << LOG4CPLUS_TEXT("] at position ")
@@ -741,20 +735,23 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
 }
 
 
+} // namespace pattern
 
+
+typedef pattern::PatternConverterList PatternConverterList;
 
 
 ////////////////////////////////////////////////
 // PatternLayout methods:
 ////////////////////////////////////////////////
 
-PatternLayout::PatternLayout(const log4cplus::tstring& pattern_)
+PatternLayout::PatternLayout(const tstring& pattern_)
 {
     init(pattern_);
 }
 
 
-PatternLayout::PatternLayout(const log4cplus::helpers::Properties& properties)
+PatternLayout::PatternLayout(const helpers::Properties& properties)
 {
     bool hasPattern = properties.exists( LOG4CPLUS_TEXT("Pattern") );
     bool hasConversionPattern = properties.exists( LOG4CPLUS_TEXT("ConversionPattern") );
@@ -777,10 +774,10 @@ PatternLayout::PatternLayout(const log4cplus::helpers::Properties& properties)
 
 
 void
-PatternLayout::init(const log4cplus::tstring& pattern_)
+PatternLayout::init(const tstring& pattern_)
 {
     pattern = pattern_;
-    parsedPattern = PatternParser(pattern).parse();
+    parsedPattern = pattern::PatternParser(pattern).parse();
 
     // Let's validate that our parser didn't give us any NULLs.  If it did,
     // we will convert them to a valid PatternConverter that does nothing so
@@ -791,14 +788,14 @@ PatternLayout::init(const log4cplus::tstring& pattern_)
     {
         if( (*it) == 0 ) {
             getLogLog().error(LOG4CPLUS_TEXT("Parsed Pattern created a NULL PatternConverter"));
-            (*it) = new LiteralPatternConverter( LOG4CPLUS_TEXT("") );
+            (*it) = new pattern::LiteralPatternConverter( LOG4CPLUS_TEXT("") );
         }
     }
     if(parsedPattern.size() == 0) {
         getLogLog().warn(LOG4CPLUS_TEXT("PatternLayout pattern is empty.  Using default..."));
-        parsedPattern.push_back
-           (new BasicPatternConverter(FormattingInfo(), 
-                                      BasicPatternConverter::MESSAGE_CONVERTER));
+        parsedPattern.push_back (
+            new pattern::BasicPatternConverter(pattern::FormattingInfo(), 
+            pattern::BasicPatternConverter::MESSAGE_CONVERTER));
     }
 }
 
@@ -817,8 +814,8 @@ PatternLayout::~PatternLayout()
 
 
 void
-PatternLayout::formatAndAppend(log4cplus::tostream& output, 
-                               const InternalLoggingEvent& event)
+PatternLayout::formatAndAppend(tostream& output, 
+                               const spi::InternalLoggingEvent& event)
 {
     for(PatternConverterList::iterator it=parsedPattern.begin(); 
         it!=parsedPattern.end(); 
@@ -827,3 +824,6 @@ PatternLayout::formatAndAppend(log4cplus::tostream& output,
         (*it)->formatAndAppend(output, event);
     }
 }
+
+
+} // namespace log4cplus

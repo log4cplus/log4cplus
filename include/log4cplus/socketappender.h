@@ -79,7 +79,7 @@ namespace log4cplus {
       // Ctors
         SocketAppender(const log4cplus::tstring& host, int port, 
                        const log4cplus::tstring& serverName = tstring());
-        SocketAppender(const log4cplus::helpers::Properties properties);
+        SocketAppender(const log4cplus::helpers::Properties & properties);
 
       // Dtor
         ~SocketAppender();

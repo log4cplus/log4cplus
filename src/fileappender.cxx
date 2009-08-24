@@ -79,15 +79,6 @@ file_remove (tstring const & src)
 
 
 static
-int
-get_errno ()
-{
-    using namespace std;
-    return errno;
-}
-
-
-static
 void
 loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
     tstring const & target, int ret)
@@ -100,7 +91,7 @@ loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
             + LOG4CPLUS_TEXT(" to ")
             + target);
     }
-    else if (ret == -1 && get_errno () != ENOENT)
+    else if (ret == -1 && errno != ENOENT)
     {
         loglog.error (
             LOG4CPLUS_TEXT("Failed to rename file from ") 

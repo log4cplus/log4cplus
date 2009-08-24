@@ -187,7 +187,7 @@ BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL,  // handle to DLL modu
                     DWORD fdwReason,     // reason for calling function
                     LPVOID lpReserved )  // reserved
 {
-    using namespace log4cplus;
+    namespace internal = log4cplus::internal;
 
     // Perform actions based on the reason for calling.
     switch( fdwReason ) 
@@ -217,7 +217,7 @@ BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL,  // handle to DLL modu
     {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
         // Do thread-specific cleanup.
-        threadCleanup ();
+        log4cplus::threadCleanup ();
 #endif
         break;
     }
@@ -227,7 +227,7 @@ BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL,  // handle to DLL modu
         // Perform any necessary cleanup.
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
         // Do thread-specific cleanup.
-        threadCleanup ();
+        log4cplus::threadCleanup ();
 #  if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
         LOG4CPLUS_THREAD_LOCAL_CLEANUP (internal::tls_storage_key);
 #  endif

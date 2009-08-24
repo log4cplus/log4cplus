@@ -23,30 +23,28 @@
 #include <log4cplus/internal/internal.h>
 
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-
+namespace log4cplus
+{
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::Win32DebugAppender ctors and dtor
+// Win32DebugAppender ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-log4cplus::Win32DebugAppender::Win32DebugAppender()
+Win32DebugAppender::Win32DebugAppender()
 {
 }
 
 
-log4cplus::Win32DebugAppender::Win32DebugAppender(
-    const log4cplus::helpers::Properties& properties)
+Win32DebugAppender::Win32DebugAppender(
+    const helpers::Properties& properties)
     : Appender(properties)
 {
 }
 
 
 
-log4cplus::Win32DebugAppender::~Win32DebugAppender()
+Win32DebugAppender::~Win32DebugAppender()
 {
     destructorImpl();
 }
@@ -54,11 +52,11 @@ log4cplus::Win32DebugAppender::~Win32DebugAppender()
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::Win32DebugAppender public methods
+// Win32DebugAppender public methods
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-log4cplus::Win32DebugAppender::close()
+Win32DebugAppender::close()
 {
     closed = true;
 }
@@ -66,14 +64,17 @@ log4cplus::Win32DebugAppender::close()
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::Win32DebugAppender protected methods
+// Win32DebugAppender protected methods
 ///////////////////////////////////////////////////////////////////////////////
 
 // This method does not need to be locked since it is called by
 // doAppend() which performs the locking
 void
-log4cplus::Win32DebugAppender::append(const spi::InternalLoggingEvent& event)
+Win32DebugAppender::append(const spi::InternalLoggingEvent& event)
 {
     const tchar * s = formatEvent (event).c_str();
     ::OutputDebugString(s);
 }
+
+
+} // namespace log4cplus

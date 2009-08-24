@@ -23,13 +23,12 @@
 #include <log4cplus/spi/loggerimpl.h>
 
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-
+namespace log4cplus
+{
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::HierarchyLocker ctor and dtor
+// HierarchyLocker ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
 HierarchyLocker::HierarchyLocker(Hierarchy& _h)
@@ -71,7 +70,7 @@ void
 HierarchyLocker::resetConfiguration()
 {
     Logger root = h.getRoot();
-    h.disable(log4cplus::Hierarchy::DISABLE_OFF);
+    h.disable(Hierarchy::DISABLE_OFF);
 
     // begin by closing nested appenders
     // then, remove all appenders
@@ -92,21 +91,21 @@ HierarchyLocker::resetConfiguration()
 
 
 Logger 
-HierarchyLocker::getInstance(const log4cplus::tstring& name)
+HierarchyLocker::getInstance(const tstring& name)
 {
     return h.getInstanceImpl(name, *h.getLoggerFactory());
 }
 
 
 Logger 
-HierarchyLocker::getInstance(const log4cplus::tstring& name, spi::LoggerFactory& factory)
+HierarchyLocker::getInstance(const tstring& name, spi::LoggerFactory& factory)
 {
     return h.getInstanceImpl(name, factory);
 }
 
 
 void 
-HierarchyLocker::addAppender(Logger& logger, log4cplus::SharedAppenderPtr& appender)
+HierarchyLocker::addAppender(Logger& logger, SharedAppenderPtr& appender)
 {
     for(LoggerList::iterator it=loggerList.begin(); it!=loggerList.end(); ++it) {
         if((*it).value == logger.value) {
@@ -122,3 +121,4 @@ HierarchyLocker::addAppender(Logger& logger, log4cplus::SharedAppenderPtr& appen
 }
 
 
+} // namespace log4cplus

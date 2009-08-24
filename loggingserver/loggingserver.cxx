@@ -24,31 +24,28 @@
 #include <log4cplus/spi/loggingevent.h>
 
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-using namespace log4cplus::thread;
+namespace loggingserver
+{
 
+class ClientThread : public log4cplus::thread::AbstractThread
+{
+public:
+    ClientThread(log4cplus::helpers::Socket clientsock)
+    : clientsock(clientsock) 
+    {
+        std::cout << "Received a client connection!!!!" << std::endl;
+    }
 
-namespace loggingserver {
-    class ClientThread : public AbstractThread {
-    public:
-        ClientThread(Socket clientsock)
-        : clientsock(clientsock) 
-        {
-            cout << "Received a client connection!!!!" << endl;
-        }
+    ~ClientThread()
+    {
+        std::cout << "Client connection closed." << std::endl;
+    }
 
-        ~ClientThread()
-        {
-            cout << "Client connection closed." << endl;
-        }
+    virtual void run();
 
-        virtual void run();
-
-    private:
-        Socket clientsock;
-    };
+private:
+    log4cplus::helpers::Socket clientsock;
+};
 
 }
 
@@ -59,16 +56,16 @@ int
 main(int argc, char** argv)
 {
     if(argc < 3) {
-        cout << "Usage: port config_file" << endl;
+        std::cout << "Usage: port config_file" << std::endl;
         return 1;
     }
     int port = std::atoi(argv[1]);
-    const tstring configFile = LOG4CPLUS_C_STR_TO_TSTRING(argv[2]);
+    const log4cplus::tstring configFile = LOG4CPLUS_C_STR_TO_TSTRING(argv[2]);
 
-    PropertyConfigurator config(configFile);
+    log4cplus::PropertyConfigurator config(configFile);
     config.configure();
 
-    ServerSocket serverSocket(port);
+    log4cplus::helpers::ServerSocket serverSocket(port);
     while(1) {
         loggingserver::ClientThread *thr = 
             new loggingserver::ClientThread(serverSocket.accept());
@@ -91,22 +88,22 @@ loggingserver::ClientThread::run()
         if(!clientsock.isOpen()) {
             return;
         }
-        SocketBuffer msgSizeBuffer(sizeof(unsigned int));
+        log4cplus::helpers::SocketBuffer msgSizeBuffer(sizeof(unsigned int));
         if(!clientsock.read(msgSizeBuffer)) {
             return;
         }
 
         unsigned int msgSize = msgSizeBuffer.readInt();
 
-        SocketBuffer buffer(msgSize);
+        log4cplus::helpers::SocketBuffer buffer(msgSize);
         if(!clientsock.read(buffer)) {
             return;
         }
         
-        spi::InternalLoggingEvent event = readFromBuffer(buffer);
-        Logger logger = Logger::getInstance(event.getLoggerName());
+        log4cplus::spi::InternalLoggingEvent event
+            = log4cplus::helpers::readFromBuffer(buffer);
+        log4cplus::Logger logger
+            = log4cplus::Logger::getInstance(event.getLoggerName());
         logger.callAppenders(event);   
     }
 }
-
-

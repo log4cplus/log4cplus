@@ -35,7 +35,6 @@
 #  include <vector>
 #endif
 
-using namespace log4cplus;
 
 namespace log4cplus
 {

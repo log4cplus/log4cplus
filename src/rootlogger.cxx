@@ -20,10 +20,8 @@
 
 #include <log4cplus/spi/rootlogger.h>
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-using namespace log4cplus::spi;
 
+namespace log4cplus { namespace spi {
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -60,3 +58,5 @@ RootLogger::setLogLevel(LogLevel loglevel)
     }
 }
 
+
+} } // namespace log4cplus { namespace spi {

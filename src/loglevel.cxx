@@ -23,8 +23,10 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <algorithm>
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
+
+namespace log4cplus
+{
+
 
 #define _ALL_STRING LOG4CPLUS_TEXT("ALL")
 #define _TRACE_STRING LOG4CPLUS_TEXT("TRACE")
@@ -66,7 +68,7 @@ namespace {
     
     
     static
-    log4cplus::tstring
+    tstring
     defaultLogLevelToStringMethod(LogLevel ll)
     {
         switch(ll) {
@@ -87,8 +89,8 @@ namespace {
     
     static
     LogLevel
-    defaultStringToLogLevelMethod(const log4cplus::tstring& arg) {
-        log4cplus::tstring s = log4cplus::helpers::toUpper(arg);
+    defaultStringToLogLevelMethod(const tstring& arg) {
+        tstring s = helpers::toUpper(arg);
         
         if(s == _ALL_STRING)   return ALL_LOG_LEVEL;
         if(s == _TRACE_STRING) return TRACE_LOG_LEVEL;
@@ -111,7 +113,7 @@ namespace {
 //////////////////////////////////////////////////////////////////////////////
 
 LogLevelManager&
-log4cplus::getLogLevelManager() 
+getLogLevelManager() 
 {
     static LogLevelManager singleton;
     return singleton;
@@ -120,7 +122,7 @@ log4cplus::getLogLevelManager()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::LogLevelManager ctors and dtor
+// LogLevelManager ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
 LogLevelManager::LogLevelManager() 
@@ -151,10 +153,10 @@ LogLevelManager::~LogLevelManager()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::LogLevelManager public methods
+// LogLevelManager public methods
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::tstring 
+tstring 
 LogLevelManager::toString(LogLevel ll) const
 {
     ToStringNode* toStringTmp = GET_TO_STRING_NODE;
@@ -172,7 +174,7 @@ LogLevelManager::toString(LogLevel ll) const
 
 
 LogLevel 
-LogLevelManager::fromString(const log4cplus::tstring& s) const
+LogLevelManager::fromString(const tstring& s) const
 {
     FromStringNode* fromStringTmp = GET_FROM_STRING_NODE;
     while(fromStringTmp) {
@@ -220,3 +222,4 @@ LogLevelManager::pushFromStringMethod(StringToLogLevelMethod newFromString)
     }
 }
         
+} // namespace log4cplus

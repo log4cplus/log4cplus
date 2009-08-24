@@ -31,12 +31,6 @@
 namespace log4cplus
 {
 
-using namespace log4cplus::helpers;
-using namespace log4cplus::spi;
-
-
-template class helpers::SharedObjectPtr<Appender>;
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // log4cplus::ErrorHandler dtor
@@ -101,7 +95,8 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
     {
         log4cplus::tstring const & factoryName
             = properties.getProperty( LOG4CPLUS_TEXT("layout") );
-        LayoutFactory* factory = getLayoutFactoryRegistry().get(factoryName);
+        spi::LayoutFactory* factory
+            = spi::getLayoutFactoryRegistry().get(factoryName);
         if(factory == 0) {
             getLogLog().error(  LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"")
                               + factoryName
@@ -109,7 +104,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
             return;
         }
 
-        Properties layoutProperties =
+        helpers::Properties layoutProperties =
                 properties.getPropertySubset( LOG4CPLUS_TEXT("layout.") );
         try {
             std::auto_ptr<Layout> newLayout(factory->createObject(layoutProperties));
@@ -137,15 +132,17 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
     }
 
     // Configure the filters
-    Properties filterProps = properties.getPropertySubset( LOG4CPLUS_TEXT("filters.") );
+    helpers::Properties filterProps
+        = properties.getPropertySubset( LOG4CPLUS_TEXT("filters.") );
     int filterCount = 0;
-    FilterPtr filterChain;
+    spi::FilterPtr filterChain;
     tstring filterName;
     while (filterProps.exists(
-        filterName = convertIntegerToString (++filterCount)))
+        filterName = helpers::convertIntegerToString (++filterCount)))
     {
         tstring const & factoryName = filterProps.getProperty(filterName);
-        FilterFactory* factory = getFilterFactoryRegistry().get(factoryName);
+        spi::FilterFactory* factory
+            = spi::getFilterFactoryRegistry().get(factoryName);
 
         if(! factory)
         {
@@ -153,7 +150,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
             getLogLog().error(err + factoryName);
             continue;
         }
-        FilterPtr tmpFilter = factory->createObject (
+        spi::FilterPtr tmpFilter = factory->createObject (
             filterProps.getPropertySubset(filterName + LOG4CPLUS_TEXT(".")));
         if (! tmpFilter)
         {
@@ -210,7 +207,7 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
         if (! isAsSevereAsThreshold(event.getLogLevel()))
             return;
 
-        if (checkFilter(filter.get(), event) == DENY)
+        if (checkFilter(filter.get(), event) == spi::DENY)
             return;
 
         append(event);

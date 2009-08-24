@@ -24,20 +24,19 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
+
+namespace log4cplus {
 
 #define LOG4CPLUS_MESSAGE_VERSION 2
 
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::SocketAppender ctors and dtor
+// SocketAppender ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::SocketAppender::SocketAppender(const log4cplus::tstring& host_,
-    int port_, const log4cplus::tstring& serverName_)
+SocketAppender::SocketAppender(const tstring& host_,
+    int port_, const tstring& serverName_)
 : host(host_),
   port(port_),
   serverName(serverName_)
@@ -47,7 +46,7 @@ log4cplus::SocketAppender::SocketAppender(const log4cplus::tstring& host_,
 
 
 
-log4cplus::SocketAppender::SocketAppender(const Properties properties)
+SocketAppender::SocketAppender(const helpers::Properties & properties)
  : Appender(properties),
    port(9998)
 {
@@ -63,7 +62,7 @@ log4cplus::SocketAppender::SocketAppender(const Properties properties)
 
 
 
-log4cplus::SocketAppender::~SocketAppender()
+SocketAppender::~SocketAppender()
 {
     destructorImpl();
 }
@@ -71,11 +70,11 @@ log4cplus::SocketAppender::~SocketAppender()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::SocketAppender public methods
+// SocketAppender public methods
 //////////////////////////////////////////////////////////////////////////////
 
 void 
-log4cplus::SocketAppender::close()
+SocketAppender::close()
 {
     getLogLog().debug(LOG4CPLUS_TEXT("Entering SocketAppender::close()..."));
     socket.close();
@@ -85,21 +84,21 @@ log4cplus::SocketAppender::close()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::SocketAppender protected methods
+// SocketAppender protected methods
 //////////////////////////////////////////////////////////////////////////////
 
 void
-log4cplus::SocketAppender::openSocket()
+SocketAppender::openSocket()
 {
     if(!socket.isOpen()) {
-        socket = Socket(host, port);
+        socket = helpers::Socket(host, port);
     }
 }
 
 
 
 void
-log4cplus::SocketAppender::append(const spi::InternalLoggingEvent& event)
+SocketAppender::append(const spi::InternalLoggingEvent& event)
 {
     if(!socket.isOpen()) {
         openSocket();
@@ -109,9 +108,9 @@ log4cplus::SocketAppender::append(const spi::InternalLoggingEvent& event)
         }
     }
 
-    SocketBuffer buffer(LOG4CPLUS_MAX_MESSAGE_SIZE - sizeof(unsigned int));
+    helpers::SocketBuffer buffer(LOG4CPLUS_MAX_MESSAGE_SIZE - sizeof(unsigned int));
     convertToBuffer (buffer, event, serverName);
-    SocketBuffer msgBuffer(LOG4CPLUS_MAX_MESSAGE_SIZE);
+    helpers::SocketBuffer msgBuffer(LOG4CPLUS_MAX_MESSAGE_SIZE);
 
     msgBuffer.appendInt(static_cast<unsigned>(buffer.getSize()));
     msgBuffer.appendBuffer(buffer);
@@ -123,13 +122,17 @@ log4cplus::SocketAppender::append(const spi::InternalLoggingEvent& event)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// namespace log4cplus::helpers methods
+// namespace helpers methods
 /////////////////////////////////////////////////////////////////////////////
 
+namespace helpers
+{
+
+
 void
-log4cplus::helpers::convertToBuffer(SocketBuffer & buffer,
-    const log4cplus::spi::InternalLoggingEvent& event,
-    const log4cplus::tstring& serverName)
+convertToBuffer(SocketBuffer & buffer,
+    const spi::InternalLoggingEvent& event,
+    const tstring& serverName)
 {
     buffer.appendByte(LOG4CPLUS_MESSAGE_VERSION);
 #ifndef UNICODE
@@ -151,13 +154,13 @@ log4cplus::helpers::convertToBuffer(SocketBuffer & buffer,
 }
 
 
-log4cplus::spi::InternalLoggingEvent
-log4cplus::helpers::readFromBuffer(SocketBuffer& buffer)
+spi::InternalLoggingEvent
+readFromBuffer(SocketBuffer& buffer)
 {
     unsigned char msgVersion = buffer.readByte();
     if(msgVersion != LOG4CPLUS_MESSAGE_VERSION) {
-        LogLog * loglog = log4cplus::helpers::LogLog::getLogLog();
-        loglog->warn(LOG4CPLUS_TEXT("helpers::readFromBuffer() received socket message with an invalid version"));
+        LogLog * loglog = LogLog::getLogLog();
+        loglog->warn(LOG4CPLUS_TEXT("readFromBuffer() received socket message with an invalid version"));
     }
 
     unsigned char sizeOfChar = buffer.readByte();
@@ -181,7 +184,7 @@ log4cplus::helpers::readFromBuffer(SocketBuffer& buffer)
     tstring file = buffer.readString(sizeOfChar);
     int line = buffer.readInt();
 
-    return log4cplus::spi::InternalLoggingEvent(loggerName,
+    return spi::InternalLoggingEvent(loggerName,
                                                 ll,
                                                 ndc,
                                                 message,
@@ -192,3 +195,7 @@ log4cplus::helpers::readFromBuffer(SocketBuffer& buffer)
 }
 
 
+} // namespace helpers
+
+
+} // namespace log4cplus

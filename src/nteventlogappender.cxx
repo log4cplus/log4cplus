@@ -27,9 +27,8 @@
 
 #if defined (LOG4CPLUS_HAVE_NT_EVENT_LOG)
 
-using namespace log4cplus;
-using namespace log4cplus::spi;
-using namespace log4cplus::helpers;
+namespace log4cplus
+{
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -38,13 +37,15 @@ using namespace log4cplus::helpers;
 
 namespace {
 
-    bool 
+    static
+    bool
     FreeSid(SID* pSid) 
     {
         return ::HeapFree(GetProcessHeap(), 0, (LPVOID)pSid) != 0;
     }
 
 
+    static
     bool 
     CopySid(SID** ppDstSid, SID* pSrcSid) 
     {
@@ -65,7 +66,7 @@ namespace {
     }
 
 
-
+    static
     bool 
     GetCurrentUserSID(SID** ppSid) 
     {
@@ -92,11 +93,9 @@ namespace {
     }
 
 
-
-    
-
+    static
     HKEY 
-    regGetKey(const log4cplus::tstring& subkey, DWORD* disposition)
+    regGetKey(const tstring& subkey, DWORD* disposition)
     {
         HKEY hkey = 0;
         RegCreateKeyEx(HKEY_LOCAL_MACHINE, 
@@ -112,9 +111,9 @@ namespace {
     }
 
 
-
+    static
     void 
-    regSetString(HKEY hkey, const log4cplus::tstring& name, const log4cplus::tstring& value)
+    regSetString(HKEY hkey, const tstring& name, const tstring& value)
     {
         RegSetValueEx(hkey, 
                       name.c_str(), 
@@ -125,9 +124,9 @@ namespace {
     }
 
 
-
+    static
     void 
-    regSetDword(HKEY hkey, const log4cplus::tstring& name, DWORD value)
+    regSetDword(HKEY hkey, const tstring& name, DWORD value)
     {
         RegSetValueEx(hkey, 
                       name.c_str(), 
@@ -142,12 +141,12 @@ namespace {
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::NTEventLogAppender ctor and dtor
+// NTEventLogAppender ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-NTEventLogAppender::NTEventLogAppender(const log4cplus::tstring& server, 
-                                       const log4cplus::tstring& log, 
-                                       const log4cplus::tstring& source)
+NTEventLogAppender::NTEventLogAppender(const tstring& server, 
+                                       const tstring& log, 
+                                       const tstring& source)
 : server(server), 
   log(log), 
   source(source), 
@@ -159,7 +158,7 @@ NTEventLogAppender::NTEventLogAppender(const log4cplus::tstring& server,
 
 
 
-NTEventLogAppender::NTEventLogAppender(const Properties properties)
+NTEventLogAppender::NTEventLogAppender(const helpers::Properties & properties)
 : Appender(properties),
   hEventLog(NULL), 
   pCurrentUserSID(NULL)
@@ -213,7 +212,7 @@ NTEventLogAppender::~NTEventLogAppender()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::NTEventLogAppender public methods
+// NTEventLogAppender public methods
 //////////////////////////////////////////////////////////////////////////////
 
 void 
@@ -229,11 +228,11 @@ NTEventLogAppender::close()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::NTEventLogAppender protected methods
+// NTEventLogAppender protected methods
 //////////////////////////////////////////////////////////////////////////////
 
 void 
-NTEventLogAppender::append(const InternalLoggingEvent& event)
+NTEventLogAppender::append(const spi::InternalLoggingEvent& event)
 {
     if(hEventLog == NULL) {
         getLogLog().warn(LOG4CPLUS_TEXT("NT EventLog not opened."));
@@ -260,7 +259,7 @@ NTEventLogAppender::append(const InternalLoggingEvent& event)
 
 
 WORD 
-NTEventLogAppender::getEventType(const InternalLoggingEvent& event)
+NTEventLogAppender::getEventType(const spi::InternalLoggingEvent& event)
 {
     WORD ret_val;
     
@@ -286,7 +285,7 @@ NTEventLogAppender::getEventType(const InternalLoggingEvent& event)
 
 
 WORD 
-NTEventLogAppender::getEventCategory(const InternalLoggingEvent& event)
+NTEventLogAppender::getEventCategory(const spi::InternalLoggingEvent& event)
 {
     WORD ret_val;
     
@@ -340,6 +339,9 @@ NTEventLogAppender::addRegistryInfo()
     RegCloseKey(hkey);
     return;
 }
+
+
+} // namespace log4cplus
 
 
 #endif

@@ -40,11 +40,6 @@
 #endif
 
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-using namespace log4cplus::spi;
-
-
 ///////////////////////////////////////////////////////////////////////////////
 // LOCAL file class definitions
 ///////////////////////////////////////////////////////////////////////////////
@@ -88,8 +83,8 @@ namespace spi {
 namespace {
 
 #define APPENDER_FACTORY_DEF(factoryname, appendername)                     \
-    class factoryname : public AppenderFactory {                            \
-        SharedAppenderPtr createObject(const Properties& props)             \
+    class factoryname : public spi::AppenderFactory {                       \
+        SharedAppenderPtr createObject(const helpers::Properties& props)    \
         {                                                                   \
             return SharedAppenderPtr(new log4cplus::appendername(props));   \
         }                                                                   \
@@ -124,8 +119,9 @@ namespace {
 
 
 #define LAYOUT_FACTORY_DEF(factoryname, layoutname)                         \
-    class factoryname : public LayoutFactory {                              \
-        std::auto_ptr<Layout> createObject(const Properties& props) {       \
+    class factoryname : public spi::LayoutFactory {                         \
+        std::auto_ptr<Layout>                                               \
+        createObject(const helpers::Properties& props) {                    \
              std::auto_ptr<Layout> tmp(new log4cplus::layoutname(props));   \
              return tmp;                                                    \
         }                                                                   \
@@ -146,9 +142,9 @@ namespace {
 
 
 #define FILTER_FACTORY_DEF(factoryname, filtername)                         \
-    class factoryname : public FilterFactory {                              \
-        FilterPtr createObject(const Properties& props) {                   \
-            return FilterPtr(new log4cplus::spi::filtername(props));        \
+    class factoryname : public spi::FilterFactory {                         \
+        spi::FilterPtr createObject(const helpers::Properties& props) {     \
+            return spi::FilterPtr(new log4cplus::spi::filtername(props));   \
         }                                                                   \
         tstring const & getTypeName() const {                               \
             static tstring const factory_name(                              \
@@ -192,7 +188,7 @@ reg_factory (Reg & reg)
 
 void initializeFactoryRegistry()
 {
-    AppenderFactoryRegistry& reg = getAppenderFactoryRegistry();
+    spi::AppenderFactoryRegistry& reg = spi::getAppenderFactoryRegistry();
     reg_factory<ConsoleAppenderFactory> (reg);
     reg_factory<NullAppenderFactory> (reg);
     reg_factory<FileAppenderFactory> (reg);
@@ -211,12 +207,12 @@ void initializeFactoryRegistry()
     reg_factory<AsyncAppenderFactory> (reg);
 #endif
 
-    LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
+    spi::LayoutFactoryRegistry& reg2 = spi::getLayoutFactoryRegistry();
     reg_factory<SimpleLayoutFactory> (reg2);
     reg_factory<TTCCLayoutFactory> (reg2);
     reg_factory<PatternLayoutFactory> (reg2);
 
-    FilterFactoryRegistry& reg3 = getFilterFactoryRegistry();
+    spi::FilterFactoryRegistry& reg3 = spi::getFilterFactoryRegistry();
     reg_factory<DenyAllFilterFactory> (reg3);
     reg_factory<LogLevelMatchFilterFactory> (reg3);
     reg_factory<LogLevelRangeFilterFactory> (reg3);

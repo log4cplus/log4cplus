@@ -24,10 +24,6 @@
 #include <log4cplus/helpers/loglog.h>
 
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-
-
 /////////////////////////////////////////////////////////////////////////////
 // file LOCAL Classes
 /////////////////////////////////////////////////////////////////////////////
@@ -139,13 +135,15 @@ WinSockInitializer WinSockInitializer::winSockInitializer;
 } // namespace
 
 
+namespace log4cplus { namespace helpers {
+
 
 /////////////////////////////////////////////////////////////////////////////
 // Global Methods
 /////////////////////////////////////////////////////////////////////////////
 
 SOCKET_TYPE
-log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
+openSocket(unsigned short port, SocketState& state)
 {
     init_winsock ();
 
@@ -173,7 +171,7 @@ log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
 
 
 SOCKET_TYPE
-log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn, 
+connectSocket(const tstring& hostn, 
                                   unsigned short port, SocketState& state)
 {
     init_winsock ();
@@ -224,7 +222,7 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
 
 
 SOCKET_TYPE
-log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& /*state*/)
+acceptSocket(SOCKET_TYPE sock, SocketState& /*state*/)
 {
     init_winsock ();
 
@@ -234,7 +232,7 @@ log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& /*state*/)
 
 
 int
-log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
+closeSocket(SOCKET_TYPE sock)
 {
     return ::closesocket(sock);
 }
@@ -242,7 +240,7 @@ log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
 
 
 long
-log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
+read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
     long res, read = 0;
  
@@ -264,14 +262,14 @@ log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 
 
 long
-log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
+write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
     return ::send(sock, buffer.getBuffer(), static_cast<int>(buffer.getSize()), 0);
 }
 
 
 tstring
-log4cplus::helpers::getHostname (bool fqdn)
+getHostname (bool fqdn)
 {
     char const * hostname = "unknown";
     int ret;
@@ -301,3 +299,6 @@ log4cplus::helpers::getHostname (bool fqdn)
 
     return LOG4CPLUS_STRING_TO_TSTRING (hostname);
 }
+
+
+} } // namespace log4cplus { namespace helpers {
