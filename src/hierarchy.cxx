@@ -40,9 +40,9 @@ static
 bool startsWith(tstring const & teststr, tstring const & substr)
 {
     bool val = false;
-    if(teststr.length() > substr.length()) {
-        val =  teststr.substr(0, substr.length()) == substr;
-    }
+    tstring::size_type const len = substr.length();
+    if (teststr.length() > len)
+        val = teststr.compare (0, len, substr) == 0;
 
     return val;
 }
