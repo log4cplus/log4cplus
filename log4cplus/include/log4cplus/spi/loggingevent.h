@@ -47,10 +47,11 @@ namespace log4cplus {
               * Instantiate a LoggingEvent from the supplied parameters.
               * 
               * @param logger   The logger of this event.
-              * @param ll       The LogLevel of this event.
-              * @param message  The message of this event.
-              * @param filename Name of file where this event has occurred, can be NULL.
-              * @param line     Line number in file specified by
+              * @param ll_      The LogLevel of this event.
+              * @param message_ The message of this event.
+              * @param filename Name of file where this event has occurred,
+              * can be NULL.
+              * @param line_    Line number in file specified by
               *                 the <code>filename</code> parameter.
               */
              InternalLoggingEvent(const log4cplus::tstring& logger,
