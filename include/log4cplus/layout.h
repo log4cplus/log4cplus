@@ -231,7 +231,7 @@ namespace log4cplus {
      * <tr> 
      *   <td align=center><b>d</b></td> 
      *
-     *   <td>Used to output the date of the logging event in <b>localtime</b>. 
+     *   <td>Used to output the date of the logging event in <b>UTC</b>. 
      *
      *   The date conversion specifier may be followed by a <em>date format
      *   specifier</em> enclosed between braces. For example, <b>%%d{%%H:%%M:%%s}</b>
@@ -275,7 +275,7 @@ namespace log4cplus {
      * <tr> 
      *   <td align=center><b>D</b></td> 
      *
-     *   <td>Used to output the date of the logging event in <b>Local</b> time. 
+     *   <td>Used to output the date of the logging event in <b>local</b> time.
      *
      *   All of the above information applies.
      * </td>

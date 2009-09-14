@@ -21,7 +21,8 @@
 //   (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-//! @file This file contains implementations of synchronization
+//! @file
+//! This file contains implementations of synchronization
 //! primitives using the POSIX threads. It does not contain any
 //! include guards because it is only a fragment to be included by
 //! syncprims.h.

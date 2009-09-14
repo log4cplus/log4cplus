@@ -228,7 +228,8 @@ namespace log4cplus
          * Refer to the <b>setOption</b> method in each Appender and
          * Layout for class specific options.
          *
-         * Use the <code>#</code> character at the beginning of a line for comments.
+         * Use the <code>#</code> character at the beginning of a line
+         * for comments.
          */
         virtual void configure();
 
@@ -264,8 +265,11 @@ namespace log4cplus
 
 
     /**
-     * Use this class to quickly configure the package. For file based 
-     * configuration see PropertyConfigurator.
+     * Use this class to quickly configure the package. For file based
+     * configuration see PropertyConfigurator. BasicConfigurator
+     * automatically attaches ConsoleAppender to
+     * <code>rootLogger</code>, with output going to standard output,
+     * using DEBUG LogLevel value.
      */
     class LOG4CPLUS_EXPORT BasicConfigurator : public PropertyConfigurator {
     public:
@@ -277,10 +281,10 @@ namespace log4cplus
          * This method eliminates the need to create a temporary
          * <code>BasicConfigurator</code> object to configure log4cplus.
          * It is equivalent to the following:<br>
-         * <code>
-         * BasicConfigurator config();
+         * <code><pre>
+         * BasicConfigurator config;
          * config.configure();
-         * </code>
+         * </pre></code>
          */
         static void doConfigure(Hierarchy& h = Logger::getDefaultHierarchy());
         
