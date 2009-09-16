@@ -355,7 +355,10 @@ BasicPatternConverter::convert(tstring & result,
     case LOGLEVEL_CONVERTER:
         result = llmCache.toString(event.getLogLevel());
         return;
-    case PROCESS_CONVERTER:  return convertIntegerToString(get_process_id ()); 
+
+    case PROCESS_CONVERTER:
+        result = helpers::convertIntegerToString(get_process_id ()); 
+        return;
 
     case NDC_CONVERTER:
         result = event.getNDC();
