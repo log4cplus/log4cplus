@@ -29,6 +29,43 @@
 #include <stdlib.h>
 #include <exception>
 
+#ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef LOG4CPLUS_HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
+
+namespace
+{
+
+static
+#if defined (_WIN32)
+DWORD
+get_process_id ()
+{
+    return GetCurrentProcessId ();
+}
+
+#elif defined (LOG4CPLUS_HAVE_GETPID)
+pid_t
+get_process_id ()
+{
+    return getpid ();
+}
+
+#else
+int
+get_process_id ()
+{
+    return 0; 
+}
+
+#endif
+
+} // namespace
+
 
 namespace log4cplus
 {
@@ -100,7 +137,6 @@ private:
 };
 
 
-
 /**
  * This PatternConverter is used to format most of the "simple" fields
  * found in the InternalLoggingEvent object.
@@ -110,6 +146,7 @@ class BasicPatternConverter
 {
 public:
     enum Type { THREAD_CONVERTER,
+                PROCESS_CONVERTER,
                 LOGLEVEL_CONVERTER,
                 NDC_CONVERTER,
                 MESSAGE_CONVERTER,
@@ -318,6 +355,7 @@ BasicPatternConverter::convert(tstring & result,
     case LOGLEVEL_CONVERTER:
         result = llmCache.toString(event.getLogLevel());
         return;
+    case PROCESS_CONVERTER:  return convertIntegerToString(get_process_id ()); 
 
     case NDC_CONVERTER:
         result = event.getNDC();
@@ -707,6 +745,14 @@ PatternParser::finalizeConverter(tchar c)
                           (formattingInfo, 
                            BasicPatternConverter::THREAD_CONVERTER);
             //getLogLog().debug("THREAD converter.");
+            //formattingInfo.dump(getLogLog());      
+            break;
+
+        case LOG4CPLUS_TEXT('i'):
+            pc = new BasicPatternConverter
+                          (formattingInfo, 
+                           BasicPatternConverter::PROCESS_CONVERTER);
+            //getLogLog().debug("PROCESS_CONVERTER converter.");
             //formattingInfo.dump(getLogLog());      
             break;
 
