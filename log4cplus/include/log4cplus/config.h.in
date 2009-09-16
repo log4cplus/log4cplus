@@ -10,6 +10,9 @@
 /* Define to 1 if you have the `ftime' function. */
 #undef HAVE_FTIME
 
+/* Define to 1 if you have the `getpid' function. */
+#undef HAVE_GETPID
+
 /* Define to 1 if you have the `gettimeofday' function. */
 #undef HAVE_GETTIMEOFDAY
 
@@ -93,6 +96,9 @@
 #undef LOG4CPLUS_HAVE_FTIME
 
 /* */
+#undef LOG4CPLUS_HAVE_GETPID
+
+/* */
 #undef LOG4CPLUS_HAVE_GETTIMEOFDAY
 
 /* */
@@ -124,6 +130,12 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_SYSLOG_H
+
+/* */
+#undef LOG4CPLUS_HAVE_SYS_TYPES_H
+
+/* */
+#undef LOG4CPLUS_HAVE_UNISTD_H
 
 /* Define if this is a single-threaded library. */
 #undef LOG4CPLUS_SINGLE_THREADED

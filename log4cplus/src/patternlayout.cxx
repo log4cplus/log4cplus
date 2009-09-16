@@ -28,6 +28,43 @@
 #include <stdlib.h>
 #include <exception>
 
+#ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef LOG4CPLUS_HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
+
+namespace
+{
+
+static
+#if defined (_WIN32)
+DWORD
+get_process_id ()
+{
+    return GetCurrentProcessId ();
+}
+
+#elif defined (LOG4CPLUS_HAVE_GETPID)
+pid_t
+get_process_id ()
+{
+    return getpid ();
+}
+
+#else
+int
+get_process_id ()
+{
+    return 0; 
+}
+
+#endif
+
+} // namespace
+
 
 using namespace std;
 using namespace log4cplus;
@@ -104,6 +141,7 @@ namespace log4cplus {
         class BasicPatternConverter : public PatternConverter {
         public:
             enum Type { THREAD_CONVERTER,
+                        PROCESS_CONVERTER,
                         LOGLEVEL_CONVERTER,
                         NDC_CONVERTER,
                         MESSAGE_CONVERTER,
@@ -315,6 +353,7 @@ log4cplus::pattern::BasicPatternConverter::convert
     case NEWLINE_CONVERTER:  return LOG4CPLUS_TEXT("\n");
     case FILE_CONVERTER:     return event.getFile();
     case THREAD_CONVERTER:   return event.getThread(); 
+    case PROCESS_CONVERTER:  return convertIntegerToString(get_process_id ()); 
 
     case LINE_CONVERTER:
         {
@@ -681,6 +720,14 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
                           (formattingInfo, 
                            BasicPatternConverter::THREAD_CONVERTER);
             //getLogLog().debug("THREAD converter.");
+            //formattingInfo.dump(getLogLog());      
+            break;
+
+        case LOG4CPLUS_TEXT('i'):
+            pc = new BasicPatternConverter
+                          (formattingInfo, 
+                           BasicPatternConverter::PROCESS_CONVERTER);
+            //getLogLog().debug("PROCESS_CONVERTER converter.");
             //formattingInfo.dump(getLogLog());      
             break;
 

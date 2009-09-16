@@ -358,7 +358,14 @@ namespace log4cplus {
      *   <td>Used to output the name of the thread that generated the
      *   logging event.</td>
      * </tr>
-     * 
+     *
+     * <tr>
+     *   <td align=center><b>i</b></td>
+     *
+     *   <td>Used to output the process ID of the process that generated the
+     *   logging event.</td>
+     * </tr>
+     *
      * <tr>
      * 
      *   <td align=center><b>x</b></td>
