@@ -60,10 +60,10 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
 #define LOG4CPLUS_MACRO_BODY(logger, logEvent, logLevel)                \
     do {                                                                \
         if((logger).isEnabledFor(log4cplus::logLevel##_LOG_LEVEL)) {    \
-            _clear_tostringstream (_macros_oss);                        \
-            _macros_oss << logEvent;                                    \
+            log4cplus::_clear_tostringstream (log4cplus::_macros_oss);  \
+            log4cplus::_macros_oss << logEvent;                         \
             (logger).forcedLog(log4cplus::logLevel##_LOG_LEVEL,         \
-                _macros_oss.str(), __FILE__, __LINE__);                 \
+                log4cplus::_macros_oss.str(), __FILE__, __LINE__);      \
         }                                                               \
     } while (0)
 
