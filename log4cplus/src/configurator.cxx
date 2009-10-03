@@ -349,6 +349,8 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
     tstring loglevel = tokens[0];
     if (loglevel != LOG4CPLUS_TEXT("INHERITED"))
         logger.setLogLevel( getLogLevelManager().fromString(loglevel) );
+    else
+        logger.setLogLevel (NOT_SET_LOG_LEVEL);
 
     // Remove all existing appenders first so that we do not duplicate output.
     logger.removeAllAppenders ();
