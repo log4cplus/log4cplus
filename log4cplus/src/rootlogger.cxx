@@ -52,7 +52,7 @@ RootLogger::getChainedLogLevel() const
 void 
 RootLogger::setLogLevel(LogLevel ll_)
 {
-    if(ll == NOT_SET_LOG_LEVEL) {
+    if(ll_ == NOT_SET_LOG_LEVEL) {
         getLogLog().error(LOG4CPLUS_TEXT("You have tried to set NOT_SET_LOG_LEVEL to root."));
     }
     else {
