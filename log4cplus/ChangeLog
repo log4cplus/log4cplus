@@ -1,3 +1,18 @@
+Version 1.0.4-RC3
+
+  IMPORTANT: Majority of log4cplus' source code is now licensed using
+  the Apache Software License 2.0. The rest is covered by two clause
+  BSD license.
+
+  - Fixed bug #2747435. Implement handling of log4cplus.configDebug
+    configuration property.
+  - Fixed variables shadowing.
+  - Doxygen documentation improvements and fixes.
+  - Add %i PatternLayout format. It expands to process ID.
+  - Fix logging macros compilation for LOG4CPLUS_SINGLE_THREADED case.
+  - Fix Logger log level configuration and root Logger handling log
+    level handling.
+
 Version 1.0.4-RC2
 
   - Fixed bug #2834811. Accessing index 0 of empty strings.
