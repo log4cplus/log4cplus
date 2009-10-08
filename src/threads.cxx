@@ -29,7 +29,7 @@
 #if defined(LOG4CPLUS_USE_PTHREADS)
 #  include <sched.h>
 #  include <signal.h>
-#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
+#elif defined (LOG4CPLUS_USE_WIN32_THREADS) && ! defined (_WIN32_WCE)
 #  include <process.h> 
 #endif
 
@@ -223,8 +223,12 @@ AbstractThread::start()
     if (h != INVALID_HANDLE_VALUE)
         ::CloseHandle (h);
 
+#if defined (_WIN32_WCE)
+    h = ::CreateThread  (0, 0, threadStartFunc, this, 0, &thread_id);
+#else
     h = reinterpret_cast<HANDLE>(
         ::_beginthreadex (0, 0, threadStartFunc, this, 0, &thread_id));
+#endif
     if (! h)
     {
         removeReference ();
