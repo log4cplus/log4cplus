@@ -1567,6 +1567,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\syncprims.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\include\log4cplus\helpers\syncprims.h"
 				>
 			</File>
