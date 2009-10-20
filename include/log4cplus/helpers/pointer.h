@@ -71,7 +71,7 @@ namespace log4cplus {
             LOG4CPLUS_MUTEX_PTR_DECLARE access_mutex;
 
         private:
-            mutable int count;
+            mutable unsigned count;
         };
 
 

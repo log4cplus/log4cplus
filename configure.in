@@ -197,6 +197,14 @@ dnl Multi threaded library.
       dnl Check for IBM's compiler's TLS option.
       AX_CXXFLAGS_GCC_OPTION([-qtls])])
 
+   AX__SYNC
+   AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])
+   AS_IF([test "x$ac_cv___sync_add_and_fetch" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])])
+   AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])
+   AS_IF([test "x$ac_cv___sync_sub_and_fetch" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])])
+
    AX_TLS_SUPPORT
    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
    AH_TEMPLATE([LOG4CPLUS_THREAD_LOCAL_VAR])

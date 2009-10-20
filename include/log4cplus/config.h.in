@@ -83,6 +83,12 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Defined if the compiler provides __sync_add_and_fetch(). */
+#undef HAVE___SYNC_ADD_AND_FETCH
+
+/* Defined if the compiler provides __sync_sub_and_fetch(). */
+#undef HAVE___SYNC_SUB_AND_FETCH
+
 /* Defined for --enable-debugging builds. */
 #undef LOG4CPLUS_DEBUGGING
 
@@ -143,6 +149,12 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_UNISTD_H
+
+/* */
+#undef LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH
+
+/* */
+#undef LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH
 
 /* Define if this is a single-threaded library. */
 #undef LOG4CPLUS_SINGLE_THREADED

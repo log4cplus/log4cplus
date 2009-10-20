@@ -46,10 +46,14 @@ SharedObject::~SharedObject()
 void
 SharedObject::addReference() const
 {
+#if ! defined(LOG4CPLUS_SINGLE_THREADED) \
+    && defined (LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH)
+    __sync_add_and_fetch (&count, 1);
+#else
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
-        assert (count >= 0);
         ++count;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+#endif
 }
 
 
@@ -57,11 +61,16 @@ void
 SharedObject::removeReference() const
 {
     bool destroy = false;
+#if ! defined(LOG4CPLUS_SINGLE_THREADED) \
+    && defined (LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH)
+    destroy = __sync_sub_and_fetch (&count, 1) == 0;
+#else
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex );
         assert (count > 0);
         if (--count == 0)
             destroy = true;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+#endif
     if (destroy)
         delete this;
 }
