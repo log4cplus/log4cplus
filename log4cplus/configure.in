@@ -59,7 +59,10 @@ AC_PROG_CXX
 AC_PROG_CXXCPP
 AC_LANG([C++])
 
-AC_PROG_LIBTOOL
+dnl Libtool setup.
+
+LT_PREREQ([2.2.6])
+LT_INIT
 
 dnl Checks for programs.
 AC_SEARCH_LIBS([strerror], [cposix])
