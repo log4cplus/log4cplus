@@ -4,8 +4,8 @@ set (CMAKE_VERBOSE_MAKEFILE on)
 
 set (log4cplus_version_major 1)
 set (log4cplus_version_minor 0)
-set (log4cplus_version_patch 3)
-set (log4cplus_soversion 3)
+set (log4cplus_version_patch 4)
+set (log4cplus_soversion 4)
 set (log4cplus_postfix "")
 
 find_package (Threads)
