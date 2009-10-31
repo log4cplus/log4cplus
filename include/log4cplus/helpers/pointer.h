@@ -71,7 +71,12 @@ namespace log4cplus {
             LOG4CPLUS_MUTEX_PTR_DECLARE access_mutex;
 
         private:
-            mutable unsigned count;
+#if defined (WIN32)
+            typedef LONG count_type;
+#else
+            typedef unsigned count_type;
+#endif
+            mutable count_type count;
         };
 
 
