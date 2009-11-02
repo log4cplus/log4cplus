@@ -103,6 +103,12 @@ void
 towstring_internal (std::wstring & outstr, const char * src, size_t size,
     std::locale const & loc)
 {
+    if (size == 0)
+    {
+        outstr.clear ();
+        return;
+    }
+
     typedef std::codecvt<wchar_t, char, std::mbstate_t> CodeCvt;
     const CodeCvt & cdcvt = std::use_facet<CodeCvt>(loc);
     std::mbstate_t state;
@@ -186,6 +192,12 @@ void
 tostring_internal (std::string & outstr, const wchar_t * src, size_t size,
     std::locale const & loc)
 {
+    if (size == 0)
+    {
+        outstr.clear ();
+        return;
+    }
+
     typedef std::codecvt<wchar_t, char, std::mbstate_t> CodeCvt;
     const CodeCvt & cdcvt = std::use_facet<CodeCvt>(loc);
     std::mbstate_t state;

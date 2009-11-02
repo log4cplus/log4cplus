@@ -41,6 +41,8 @@ main()
                     "This is a long double: " 
                     << setprecision(15) 
                     << (long double)123452342342.342);
+    LOG4CPLUS_WARN(test, "The following message is empty:");
+    LOG4CPLUS_WARN(test, "");
 
     return 0;
 }
