@@ -6,4 +6,16 @@
 	OutputDirectory=".\$(PlatformName)\$(ProjectName).$(ConfigurationName)"
 	IntermediateDirectory=".\$(PlatformName)\$(ProjectName).$(ConfigurationName)"
 	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="..\include"
+		EnableFunctionLevelLinking="true"
+		PrecompiledHeaderFile=".\$(IntDir)/$(ProjectName).pch"
+		AssemblerListingLocation=".\$(IntDir)/"
+		ObjectFile=".\$(IntDir)/"
+		ProgramDataBaseFileName=".\$(OutDir)/"
+		XMLDocumentationFileName=".\$(IntDir)/"
+		WarningLevel="3"
+		DebugInformationFormat="3"
+	/>
 </VisualStudioPropertySheet>
