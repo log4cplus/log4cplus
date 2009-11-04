@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="appender_test"
 	ProjectGUID="{63AF3784-3FFB-46AC-B341-76B55AEE3148}"
+	RootNamespace="appender_test"
 	>
 	<Platforms>
 		<Platform
@@ -15,10 +16,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
-			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets=".\log4cplus_tests.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -70,10 +69,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplus.lib"
-				OutputFile="$(OutDir)\appender_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
+				AdditionalLibraryDirectories=""
 				ProgramDatabaseFile="$(OutDir)\appender_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
@@ -107,10 +105,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
-			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets=".\log4cplus_tests.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -162,10 +158,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplusd.lib"
-				OutputFile="$(OutDir)\appender_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)\appender_test.pdb"
 				SubSystem="1"
@@ -200,10 +195,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug_Unicode|Win32"
-			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
-			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets=".\log4cplus_tests.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -255,10 +248,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplusud.lib"
-				OutputFile="$(OutDir)\appender_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)\appender_test.pdb"
 				SubSystem="1"
@@ -293,10 +285,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release_Unicode|Win32"
-			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
-			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets=".\log4cplus_tests.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -349,10 +339,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplusu.lib"
-				OutputFile="$(OutDir)\appender_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
+				AdditionalLibraryDirectories=""
 				ProgramDatabaseFile="$(OutDir)\appender_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"

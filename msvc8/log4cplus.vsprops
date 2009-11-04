@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="windows-1250"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="log4cplus"
+	OutputDirectory=".\$(PlatformName)\$(ProjectName).$(ConfigurationName)"
+	IntermediateDirectory=".\$(PlatformName)\$(ProjectName).$(ConfigurationName)"
+	>
+</VisualStudioPropertySheet>
