@@ -16,10 +16,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
-			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets=".\loggingserver.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -45,7 +43,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_CONSOLE"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -54,7 +52,6 @@
 				AssemblerListingLocation=".\$(IntDir)/"
 				ObjectFile=".\$(IntDir)/"
 				ProgramDataBaseFileName=".\$(OutDir)/"
-				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -74,7 +71,7 @@
 				OutputFile=".\$(OutDir)/loggingserver.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="log4cplus_dll.$(ConfigurationName)"
+				AdditionalLibraryDirectories=""
 				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
 				SubSystem="1"
 				TargetMachine="1"
@@ -108,10 +105,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
-			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets=".\loggingserver.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -136,7 +131,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_DEBUG;WIN32;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -145,7 +140,6 @@
 				AssemblerListingLocation=".\$(IntDir)/"
 				ObjectFile=".\$(IntDir)/"
 				ProgramDataBaseFileName=".\$(OutDir)/"
-				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 			/>
@@ -166,7 +160,7 @@
 				OutputFile=".\$(OutDir)/loggingserver.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="log4cplus_dll.$(ConfigurationName)"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
 				SubSystem="1"
@@ -201,10 +195,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release_Unicode|Win32"
-			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
-			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets=".\loggingserver.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -231,7 +223,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_CONSOLE"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -240,7 +232,6 @@
 				AssemblerListingLocation=".\$(IntDir)/"
 				ObjectFile=".\$(IntDir)/"
 				ProgramDataBaseFileName=".\$(OutDir)/"
-				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -260,7 +251,7 @@
 				OutputFile=".\$(OutDir)/loggingserver.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="log4cplus_dll.$(ConfigurationName)"
+				AdditionalLibraryDirectories=""
 				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
 				SubSystem="1"
 				TargetMachine="1"
@@ -294,10 +285,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug_Unicode|Win32"
-			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
-			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets=".\loggingserver.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -322,7 +311,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_DEBUG;WIN32;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -331,7 +320,6 @@
 				AssemblerListingLocation=".\$(IntDir)/"
 				ObjectFile=".\$(IntDir)/"
 				ProgramDataBaseFileName=".\$(OutDir)/"
-				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 			/>
@@ -352,7 +340,7 @@
 				OutputFile=".\$(OutDir)/loggingserver.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="log4cplus_dll.$(ConfigurationName)"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
 				SubSystem="1"
@@ -408,6 +396,10 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 		</Filter>
+		<File
+			RelativePath=".\loggingserver.vsprops"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
