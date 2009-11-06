@@ -319,7 +319,7 @@ log4cplus::helpers::SocketBuffer::appendString(const tstring& str)
         return;
     }
 
-    appendInt(strlen);
+    appendInt(static_cast<unsigned>(strlen));
     for(tstring::size_type i=0; i<str.length(); ++i) {
         appendShort(static_cast<unsigned short>(str[i]));
     }
