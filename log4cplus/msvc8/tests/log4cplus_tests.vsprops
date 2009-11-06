@@ -7,6 +7,11 @@
 	IntermediateDirectory="..\$(PlatformName)\$(ProjectName).$(ConfigurationName)"
 	>
 	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="..\..\include"
+		WarningLevel="3"
+	/>
+	<Tool
 		Name="VCLinkerTool"
 		AdditionalLibraryDirectories="&quot;..\$(PlatformName)\log4cplus_dll.$(ConfigurationName)&quot;"
 	/>
