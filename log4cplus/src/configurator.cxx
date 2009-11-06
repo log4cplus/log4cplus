@@ -523,11 +523,8 @@ public:
         : PropertyConfigurator(file)
         , waitMillis(waitMillis < 1000 ? 1000 : millis)
         , shouldTerminate(false)
-        , lastModTime(Time::gettimeofday())
         , lock(NULL)
-    {
-        updateLastModTime();
-    }
+    { }
 
     virtual ~ConfigurationWatchDogThread ()
     { }
@@ -543,8 +540,8 @@ protected:
     virtual Logger getLogger(const tstring& name);
     virtual void addAppender(Logger &logger, SharedAppenderPtr& appender);
     
-    bool checkForFileModification();
-    void updateLastModTime();
+    bool checkForFileModification(Time & mtime);
+    void updateLastModTime(Time const & mtime);
     
 private:
     unsigned int const waitMillis;
@@ -557,9 +554,15 @@ private:
 void
 ConfigurationWatchDogThread::run()
 {
+    Time mtime;
+
+    // Initialize last modification time.
+    checkForFileModification (mtime);
+    updateLastModTime (mtime);
+
     while (! shouldTerminate.timed_wait (waitMillis))
     {
-        bool modified = checkForFileModification();
+        bool modified = checkForFileModification(mtime);
         if(modified) {
             // Lock the Hierarchy
             HierarchyLocker theLock(h);
@@ -568,7 +571,7 @@ ConfigurationWatchDogThread::run()
             // reconfigure the Hierarchy
             theLock.resetConfiguration();
             reconfigure();
-            updateLastModTime();
+            updateLastModTime(mtime);
 
             // release the lock
             lock = NULL;
@@ -599,22 +602,22 @@ ConfigurationWatchDogThread::addAppender(Logger& logger,
 
 
 bool
-ConfigurationWatchDogThread::checkForFileModification()
+ConfigurationWatchDogThread::checkForFileModification(Time & mtime)
 {
     struct stat fileStatus;
     if(::stat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
             &fileStatus) == -1)
         return false;  // stat() returned error, so the file must not exist
-    Time modTime(fileStatus.st_mtime);
-    bool modified = (modTime > lastModTime);
+    mtime = Time (fileStatus.st_mtime);
+    bool modified = mtime != lastModTime;
 
 #if defined(HAVE_LSTAT)
     if(!modified && S_ISLNK(fileStatus.st_mode))
     {
         ::lstat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
             &fileStatus);
-        Time linkModTime(fileStatus.st_mtime);
-        modified = (linkModTime > lastModTime);
+        mtime = Time (fileStatus.st_mtime);
+        modified = mtime != lastModTime;
     }
 #endif
 
@@ -622,15 +625,10 @@ ConfigurationWatchDogThread::checkForFileModification()
 }
 
 
-
 void
-ConfigurationWatchDogThread::updateLastModTime()
+ConfigurationWatchDogThread::updateLastModTime(Time const & mtime)
 {
-    struct stat fileStatus;
-    if(::stat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
-            &fileStatus) == -1)
-        return;  // stat() returned error, so the file must not exist
-    lastModTime = Time(fileStatus.st_mtime);
+    lastModTime = mtime;
 }
 
 
