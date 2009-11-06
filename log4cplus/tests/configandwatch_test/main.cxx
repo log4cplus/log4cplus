@@ -9,11 +9,6 @@ using namespace log4cplus;
 using namespace log4cplus::helpers;
 
 
-Logger log_1 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_1"));
-Logger log_2 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_2"));
-Logger log_3 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_3"));
-
-
 void
 printMsgs(Logger& logger)
 {
@@ -32,6 +27,9 @@ main()
     cout << "Entering main()..." << endl;
     LogLog::getLogLog()->setInternalDebugging(true);
     Logger root = Logger::getRoot();
+    Logger log_1 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_1"));
+    Logger log_2 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_2"));
+    Logger log_3 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_3"));
     try 
     {
         ConfigureAndWatchThread configureThread(
@@ -48,7 +46,7 @@ main()
     }
     catch(...) {
         cout << "Exception..." << endl;
-	LOG4CPLUS_FATAL(root, "Exception occured...");
+	    LOG4CPLUS_FATAL(root, "Exception occured...");
     }
 
     cout << "Exiting main()..." << endl;
