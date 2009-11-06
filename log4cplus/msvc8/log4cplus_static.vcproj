@@ -16,10 +16,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
-			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets=".\log4cplus.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -42,19 +40,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_DEBUG;_USRDLL;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;INSIDE_LOG4CPLUS;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\$(IntDir)/log4cplus_static.pch"
-				AssemblerListingLocation=".\$(IntDir)/"
-				ObjectFile=".\$(IntDir)/"
-				ProgramDataBaseFileName=".\$(OutDir)/"
 				BrowseInformation="1"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -93,10 +84,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug_Unicode|Win32"
-			OutputDirectory="$(ProjectName).$(ConfigurationName)"
-			IntermediateDirectory="$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets=".\log4cplus.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -119,19 +108,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_DEBUG;_USRDLL;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;INSIDE_LOG4CPLUS;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\$(IntDir)/log4cplus_static.pch"
-				AssemblerListingLocation=".\$(IntDir)/"
-				ObjectFile=".\$(IntDir)/"
-				ProgramDataBaseFileName=".\$(OutDir)/"
 				BrowseInformation="1"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -170,10 +152,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\$(ProjectName).$(ConfigurationName)"
-			IntermediateDirectory=".\$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets=".\log4cplus.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -197,17 +177,10 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;INSIDE_LOG4CPLUS;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
 				StringPooling="true"
 				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\$(IntDir)/log4cplus_static.pch"
-				AssemblerListingLocation=".\$(IntDir)/"
-				ObjectFile=".\$(IntDir)/"
-				ProgramDataBaseFileName=".\$(OutDir)/"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -246,10 +219,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release_Unicode|Win32"
-			OutputDirectory="$(ProjectName).$(ConfigurationName)"
-			IntermediateDirectory="$(ProjectName).$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets=".\log4cplus.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -273,17 +244,10 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="2"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;INSIDE_LOG4CPLUS;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
 				StringPooling="true"
 				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\$(IntDir)/log4cplus_static.pch"
-				AssemblerListingLocation=".\$(IntDir)/"
-				ObjectFile=".\$(IntDir)/"
-				ProgramDataBaseFileName=".\$(OutDir)/"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -1973,6 +1937,10 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\log4cplus.vsprops"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
