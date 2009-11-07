@@ -35,19 +35,19 @@ main(int argc, char **argv)
     LOG4CPLUS_INFO(test, "This is a short: " << (short)-100);
     LOG4CPLUS_INFO(test, "This is a unsigned short: " << (unsigned short)100);
     log4cplus::helpers::sleep(0, 500000);
-    LOG4CPLUS_INFO(test, "This is a int: " << (int)1000);
-    LOG4CPLUS_INFO(test, "This is a unsigned int: " << (unsigned int)1000);
-    LOG4CPLUS_INFO(test, "This is a long(hex): " << hex << (long)100000000);
-    LOG4CPLUS_INFO(test, "This is a unsigned long: " << (unsigned long)100000000);
-    LOG4CPLUS_WARN(test, "This is a float: " << (float)1.2345);
+    LOG4CPLUS_INFO(test, "This is a int: " << 1000);
+    LOG4CPLUS_INFO(test, "This is a unsigned int: " << 1000u);
+    LOG4CPLUS_INFO(test, "This is a long(hex): " << hex << 100000000l);
+    LOG4CPLUS_INFO(test, "This is a unsigned long: " << 100000000ul);
+    LOG4CPLUS_WARN(test, "This is a float: " << 1.2345f);
     LOG4CPLUS_ERROR(test, 
                     "This is a double: " 
                     << setprecision(15) 
-                    << (double)1.2345234234);
+                    << 1.2345234234);
     LOG4CPLUS_FATAL(test, 
                     "This is a long double: " 
                     << setprecision(15) 
-                    << (long double)123452342342.342);
+                    << 123452342342.342L);
 
     return 0;
 }
