@@ -97,7 +97,7 @@ Appender::Appender(const log4cplus::helpers::Properties properties)
    closed(false)
 {
     if(properties.exists( LOG4CPLUS_TEXT("layout") )) {
-       log4cplus::tstring factoryName = properties.getProperty( LOG4CPLUS_TEXT("layout") );
+        log4cplus::tstring factoryName = properties.getProperty( LOG4CPLUS_TEXT("layout") );
         LayoutFactory* factory = getLayoutFactoryRegistry().get(factoryName);
         if(factory == 0) {
             getLogLog().error(  LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"")
