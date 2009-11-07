@@ -19,9 +19,9 @@ int
 main()
 {
     cout << "Entering main()..." << endl;
+    PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
     Logger root = Logger::getRoot();
     try {
-        PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
         Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("testlogger"));
 
         LOG4CPLUS_WARN(root, "Starting test loop....");
