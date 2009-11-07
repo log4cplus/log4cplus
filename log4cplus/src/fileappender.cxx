@@ -546,7 +546,12 @@ DailyRollingFileAppender::rollover()
 
     // If we've already rolled over this time period, we'll make sure that we
     // don't overwrite any of those previous files.
+    // E.g. if "log.2009-11-07.1" already exists we rename it
+    // to "log.2009-11-07.2", etc.
     rolloverFiles(scheduledFilename, maxBackupIndex);
+
+    // Do not overwriet the newest file either, e.g. if "log.2009-11-07"
+    // already exists rename it to "log.2009-11-07.1"
     tostringstream backup_target_oss;
     backup_target_oss << scheduledFilename << LOG4CPLUS_TEXT(".") << 1;
     tstring backupTarget = backup_target_oss.str();
@@ -556,14 +561,22 @@ DailyRollingFileAppender::rollover()
 
 #if defined (WIN32)
     // Try to remove the target first. It seems it is not
-    // possible to rename over existing file.
+    // possible to rename over existing file, e.g. "log.2009-11-07.1".
     ret = file_remove (backupTarget);
 #endif
 
+    // Rename e.g. "log.2009-11-07" to "log.2009-11-07.1".
     ret = file_rename (scheduledFilename, backupTarget);
     loglog_renaming_result (loglog, scheduledFilename, backupTarget, ret);
-    
-    // Rename filename to scheduledFilename
+
+#if defined (WIN32)
+    // Try to remove the target first. It seems it is not
+    // possible to rename over existing file, e.g. "log.2009-11-07".
+    ret = file_remove (scheduledFilename);
+#endif
+   
+    // Rename filename to scheduledFilename,
+    // e.g. rename "log" to "log.2009-11-07".
     loglog.debug(
         LOG4CPLUS_TEXT("Renaming file ")
         + filename 
@@ -572,16 +585,17 @@ DailyRollingFileAppender::rollover()
     ret = file_rename (filename, scheduledFilename);
     loglog_renaming_result (loglog, filename, scheduledFilename, ret);
 
-    // Open a new file
+    // Open a new file, e.g. "log".
     out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), 
         std::ios::out | std::ios::trunc);
     loglog_opening_result (loglog, out, filename);
 
     // Calculate the next rollover time
-    if (Time::gettimeofday() >= nextRolloverTime)
+    log4cplus::helpers::Time now = Time::gettimeofday();
+    if (now >= nextRolloverTime)
     {
-        scheduledFilename = getFilename(nextRolloverTime);
-        nextRolloverTime = calculateNextRolloverTime(nextRolloverTime);
+        scheduledFilename = getFilename(now);
+        nextRolloverTime = calculateNextRolloverTime(now);
     }
 }
 
@@ -601,7 +615,10 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
 
         Time ret;
         if(ret.setTime(&nextMonthTime) == -1) {
-            getLogLog().error(LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()- setTime() returned error"));
+            getLogLog().error(
+                LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()-")
+                LOG4CPLUS_TEXT(" setTime() returned error"));
+            // Set next rollover to 31 days in future.
             ret = (t + Time(2678400));
         }
 
@@ -609,7 +626,7 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
     }
 
     case WEEKLY:
-        return (t + Time(604800)); // 7 * 24 * 60 * 60 seconds
+        return (t + Time(7 * 24 * 60 * 60));
 
     default:
         getLogLog ().error (
@@ -618,16 +635,16 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
         // Fall through.
 
     case DAILY:
-        return (t + Time(86400)); //      24 * 60 * 60 seconds
+        return (t + Time(24 * 60 * 60));
 
     case TWICE_DAILY:
-        return (t + Time(43200)); //      12 * 60 * 60 seconds
+        return (t + Time(12 * 60 * 60));
 
     case HOURLY:
-        return (t + Time(3600));  //           60 * 60 seconds
+        return (t + Time(60 * 60));
 
     case MINUTELY:
-        return (t + Time(60));    //                60 seconds
+        return (t + Time(60));
     };
 }
 
@@ -670,7 +687,10 @@ DailyRollingFileAppender::getFilename(const Time& t) const
         break;
     };
 
-    return filename + LOG4CPLUS_TEXT(".") + t.getFormattedTime(pattern, false);
+    tstring result (filename);
+    result += LOG4CPLUS_TEXT(".");
+    result += t.getFormattedTime(pattern, false);
+    return result;
 }
 
 } // namespace log4cplus
