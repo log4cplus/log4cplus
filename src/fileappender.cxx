@@ -591,10 +591,11 @@ DailyRollingFileAppender::rollover()
     loglog_opening_result (loglog, out, filename);
 
     // Calculate the next rollover time
-    if (Time::gettimeofday() >= nextRolloverTime)
+    log4cplus::helpers::Time now = Time::gettimeofday();
+    if (now >= nextRolloverTime)
     {
-        scheduledFilename = getFilename(nextRolloverTime);
-        nextRolloverTime = calculateNextRolloverTime(nextRolloverTime);
+        scheduledFilename = getFilename(now);
+        nextRolloverTime = calculateNextRolloverTime(now);
     }
 }
 
