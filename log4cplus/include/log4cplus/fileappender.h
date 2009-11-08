@@ -37,7 +37,22 @@
 namespace log4cplus {
 
     /**
-     * Appends log events to a file. 
+     * Appends log events to a file.
+     * 
+     * <h3>Properties</h3>
+     * <dl>
+     * <dt><tt>File</tt></dt>
+     * <dd>This property specifies output file name.</dd>
+     * 
+     * <dt><tt>ImmediateFlush</tt></dt>
+     * <dd>When it is set true, output stream will be flushed after
+     * each appended event.</dd>
+     *
+     * <dt><tt>Append</tt></dt>
+     * <dd>When it is set true, output file will be appended to
+     * instead of being truncated at opening.</dd>
+     *
+     * </dl>
      */
     class LOG4CPLUS_EXPORT FileAppender : public Appender {
     public:
@@ -87,8 +102,24 @@ namespace log4cplus {
 
 
     /**
-     * RollingFileAppender extends FileAppender to backup the log files when 
-     * they reach a certain size. 
+     * RollingFileAppender extends FileAppender to backup the log
+     * files when they reach a certain size.
+     *
+     * <h3>Properties</h3>
+     * <p>Properties additional to {@link FileAppender}'s properties:
+     *
+     * <dl>
+     * <dt><tt>MaxFileSize</tt></dt>
+     * <dd>This property specifies maximal size of output file. The
+     * value is in bytes. It is possible to use <tt>MB</tt> and
+     * <tt>KB</tt> suffixes to specify the value in megabytes or
+     * kilobytes instead.</dd>
+     *
+     * <dt><tt>MaxBackupIndex</tt></dt>
+     * <dd>This property limits the number of backup output
+     * files; e.g. how many <tt>log.1</tt>, <tt>log.2</tt> etc. files
+     * will be kept.</dd>
+     * </dl>
      */
     class LOG4CPLUS_EXPORT RollingFileAppender : public FileAppender {
     public:
@@ -123,6 +154,22 @@ namespace log4cplus {
      * DailyRollingFileAppender extends {@link FileAppender} so that the
      * underlying file is rolled over at a user chosen frequency.
      *
+     * <h3>Properties</h3>
+     * <p>Properties additional to {@link FileAppender}'s properties:
+     *
+     * <dl>
+     * <dt><tt>Schedule</tt></dt>
+     * <dd>This property specifies rollover schedule. The possible
+     * values are <tt>MONTHLY</tt>, <tt>WEEKLY</tt>, <tt>DAILY</tt>,
+     * <tt>TWICE_DAILY</tt>, <tt>HOURLY</tt> and
+     * <tt>MINUTELY</tt>.</dd>
+     *
+     * <dt><tt>MaxBackupIndex</tt></dt>
+     * <dd>This property limits how many backup files are kept per
+     * single logging period; e.g. how many <tt>log.2009-11-07.1</tt>,
+     * <tt>log.2009-11-07.2</tt> etc. files are kept.</dd>
+     *
+     * </dl>
      */
     class LOG4CPLUS_EXPORT DailyRollingFileAppender : public FileAppender {
     public:
