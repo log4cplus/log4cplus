@@ -9,6 +9,7 @@
 	<Tool
 		Name="VCCLCompilerTool"
 		AdditionalIncludeDirectories="..\include"
+		PreprocessorDefinitions="WIN32;INSIDE_LOG4CPLUS;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
 		EnableFunctionLevelLinking="true"
 		PrecompiledHeaderFile=".\$(IntDir)/$(ProjectName).pch"
 		AssemblerListingLocation=".\$(IntDir)/"

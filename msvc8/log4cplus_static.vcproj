@@ -20,7 +20,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets=".\log4cplus.vsprops"
+			InheritedPropertySheets=".\log4cplus.vsprops;.\log4cplus_debug.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -44,7 +44,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="_DEBUG;_USRDLL;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;INSIDE_LOG4CPLUS;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -89,7 +89,7 @@
 		<Configuration
 			Name="Debug|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets=".\log4cplus.vsprops"
+			InheritedPropertySheets=".\log4cplus.vsprops;.\log4cplus_debug.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -114,7 +114,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="_DEBUG;_USRDLL;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;INSIDE_LOG4CPLUS;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -159,7 +159,7 @@
 		<Configuration
 			Name="Debug_Unicode|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets=".\log4cplus.vsprops"
+			InheritedPropertySheets=".\log4cplus.vsprops;.\log4cplus_debug.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -183,7 +183,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="_DEBUG;_USRDLL;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;INSIDE_LOG4CPLUS;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -228,7 +228,7 @@
 		<Configuration
 			Name="Debug_Unicode|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets=".\log4cplus.vsprops"
+			InheritedPropertySheets=".\log4cplus.vsprops;.\log4cplus_debug.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -253,7 +253,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="_DEBUG;_USRDLL;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;INSIDE_LOG4CPLUS;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -298,7 +298,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets=".\log4cplus.vsprops"
+			InheritedPropertySheets=".\log4cplus.vsprops;.\log4cplus_release.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -323,7 +323,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="NDEBUG;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;INSIDE_LOG4CPLUS;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				SuppressStartupBanner="true"
@@ -366,7 +366,7 @@
 		<Configuration
 			Name="Release|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets=".\log4cplus.vsprops"
+			InheritedPropertySheets=".\log4cplus.vsprops;.\log4cplus_release.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -392,7 +392,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="NDEBUG;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;INSIDE_LOG4CPLUS;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				SuppressStartupBanner="true"
@@ -435,7 +435,7 @@
 		<Configuration
 			Name="Release_Unicode|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets=".\log4cplus.vsprops"
+			InheritedPropertySheets=".\log4cplus.vsprops;.\log4cplus_release.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -460,7 +460,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="NDEBUG;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;INSIDE_LOG4CPLUS;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				SuppressStartupBanner="true"
@@ -503,7 +503,7 @@
 		<Configuration
 			Name="Release_Unicode|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets=".\log4cplus.vsprops"
+			InheritedPropertySheets=".\log4cplus.vsprops;.\log4cplus_release.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -529,7 +529,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="NDEBUG;WIN32;_LIB;_WINDOWS;LOG4CPLUS_STATIC;INSIDE_LOG4CPLUS;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				SuppressStartupBanner="true"
@@ -3560,6 +3560,14 @@
 		</Filter>
 		<File
 			RelativePath=".\log4cplus.vsprops"
+			>
+		</File>
+		<File
+			RelativePath=".\log4cplus_debug.vsprops"
+			>
+		</File>
+		<File
+			RelativePath=".\log4cplus_release.vsprops"
 			>
 		</File>
 	</Files>
