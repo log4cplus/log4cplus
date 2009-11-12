@@ -1,3 +1,18 @@
+Version 1.0.4-RC4
+
+  - Improved documentation of Appenders' properties.
+  - Improved behaviour of DailyRollingFileAppender.
+  - Added x64 (AMD64) build configuration to MSVC8 project files.
+  - Reworked MSVC8 project files to use .vsprops files to share
+    project settings.
+  - Moved all tests into Tests project folder.
+  - Improved behaviour of ConfigurationWatchDogThread.
+  - Fixed bug #2890819 - Handle empty input in towstring_internal()
+    and tostring_internal().
+  - Corrected VERSION and SOVERSION in CMakeLists.txt.
+  - Fixed thread_test compilation on AIX.
+  - Added missing syncprims.cxx file in log4cplus_static.vcproj.
+
 Version 1.0.4-RC3
 
   IMPORTANT: Majority of log4cplus' source code is now licensed using
