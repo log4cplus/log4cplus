@@ -19,4 +19,8 @@
 		Detect64BitPortabilityProblems="true"
 		DebugInformationFormat="3"
 	/>
+	<Tool
+		Name="VCLinkerTool"
+		GenerateDebugInformation="true"
+	/>
 </VisualStudioPropertySheet>
