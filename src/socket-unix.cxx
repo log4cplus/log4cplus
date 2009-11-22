@@ -192,7 +192,7 @@ getHostname (bool fqdn)
 
     while (true)
     {
-        ret = ::gethostname (&hn[0], hn.size () - 1);
+        ret = ::gethostname (&hn[0], static_cast<int>(hn.size ()) - 1);
         if (ret == 0)
         {
             hostname = &hn[0];
