@@ -80,7 +80,7 @@ SocketAppender::ConnectorThread::run ()
                 LOG4CPLUS_TEXT("SocketAppender::ConnectorThread::run()")
                 LOG4CPLUS_TEXT("- Cannot connect to server"));
 
-            // Sleep for a showrt while after unsuccessful connection attempt
+            // Sleep for a short while after unsuccessful connection attempt
             // so that we do not try to reconnect after each logging attempt
             // which could be many times per second.
             helpers::sleep (5);
