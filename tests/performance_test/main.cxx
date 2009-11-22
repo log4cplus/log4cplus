@@ -20,9 +20,9 @@ int
 main()
 {
     tcout << LOG4CPLUS_TEXT("Entering main()...") << endl;
+    PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
     Logger root = Logger::getRoot();
     try {
-        PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
         Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("testlogger"));
 
         LOG4CPLUS_WARN(Logger::getRoot (), "Starting test loop....");
