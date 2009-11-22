@@ -1,5 +1,7 @@
 Version 1.0.4-RC4
 
+  - Fixed bug #2875993 - Implement connector thread for
+    SocketAppender.
   - Improved documentation of Appenders' properties.
   - Improved behaviour of DailyRollingFileAppender.
   - Added x64 (AMD64) build configuration to MSVC8 project files.
