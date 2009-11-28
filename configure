@@ -17132,9 +17132,11 @@ esac
 
 fi
 
-      if test "x$target_os" = "xcygwin"; then
-  LDFLAGS="${LDFLAGS} -Wl,--enable-auto-import"
-fi
+
+        case "$target_os" in
+  cygwin|mingw*) LDFLAGS="${LDFLAGS} -Wl,--enable-auto-import"
+     LDFLAGS="${LDFLAGS} -Wl,--enable-runtime-pseudo-reloc" ;;
+esac
  ;;
 esac
 
