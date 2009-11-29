@@ -113,6 +113,8 @@ LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LOG4CPLUS_NDEBUG = @LOG4CPLUS_NDEBUG@
+LOG4CPLUS_PROFILING_CXXFLAGS = @LOG4CPLUS_PROFILING_CXXFLAGS@
+LOG4CPLUS_PROFILING_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@
 LTLIBOBJS = @LTLIBOBJS@
 LT_VERSION = @LT_VERSION@
 MAKEINFO = @MAKEINFO@
@@ -197,7 +199,6 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include
 SINGLE_THREADED_TESTS = appender_test \
           customloglevel_test \
           fileappender_test \

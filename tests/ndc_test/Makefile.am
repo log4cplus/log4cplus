@@ -1,4 +1,4 @@
-AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include
+include $(top_srcdir)/tests/Makefile.am.tests
 
 noinst_PROGRAMS = ndc_test
 

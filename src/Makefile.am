@@ -4,6 +4,10 @@ AM_CPPFLAGS = -DINSIDE_LOG4CPLUS \
 	-I$(top_srcdir)/include -I$(top_builddir)/include \
 	@LOG4CPLUS_NDEBUG@
 
+AM_LDFLAGS=@LOG4CPLUS_PROFILING_LDFLAGS@
+
+AM_CXXFLAGS=@LOG4CPLUS_PROFILING_CXXFLAGS@
+
 nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/asyncappender.h \
 			 ../include/log4cplus/config.hxx \
