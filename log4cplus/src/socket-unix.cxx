@@ -150,11 +150,12 @@ log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
 long
 log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
-    long res, read = 0;
+    long read = 0;
  
     do
     { 
-        res = ::read(sock, buffer.getBuffer() + read, buffer.getMaxSize() - read);
+        long res = ::read(sock, buffer.getBuffer() + read,
+            buffer.getMaxSize() - read);
         if( res <= 0 ) {
             return res;
         }

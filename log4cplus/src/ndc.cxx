@@ -132,9 +132,7 @@ NDC::inherit(const DiagnosticContextStack& stack)
 {
     try {
         DiagnosticContextStack* ptr = getPtr();
-        if(ptr != NULL) {
-            delete ptr;
-        }
+        delete ptr;
 
         ptr = new DiagnosticContextStack(stack);
         LOG4CPLUS_SET_THREAD_LOCAL_VALUE( threadLocal, ptr );
@@ -274,9 +272,7 @@ NDC::remove()
 {
     try {
         DiagnosticContextStack* ptr = getPtr();
-        if(ptr != NULL) {
-            delete ptr;
-        }
+        delete ptr;
         LOG4CPLUS_SET_THREAD_LOCAL_VALUE( threadLocal, NULL );
     }
     catch(std::exception& e) {

@@ -236,14 +236,12 @@ log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
 long
 log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
-    long res, read = 0;
+    long read = 0;
  
     do
     { 
-        res = ::recv(sock, 
-                     buffer.getBuffer() + read, 
-                     static_cast<int>(buffer.getMaxSize() - read),
-                     0);
+        long res = ::recv(sock, buffer.getBuffer() + read,
+            static_cast<int>(buffer.getMaxSize() - read), 0);
         if( res <= 0 ) {
             return res;
         }
