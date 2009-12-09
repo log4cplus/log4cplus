@@ -21,6 +21,10 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
+		LinkIncremental="1"
 		GenerateDebugInformation="true"
+		OptimizeReferences="2"
+		EnableCOMDATFolding="1"
+		OptimizeForWindows98="1"
 	/>
 </VisualStudioPropertySheet>
