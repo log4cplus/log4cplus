@@ -249,6 +249,12 @@ PropertyConfigurator::configure()
 }
 
 
+helpers::Properties const &
+PropertyConfigurator::getProperties () const
+{
+    return properties;
+}
+
 
 //////////////////////////////////////////////////////////////////////////////
 // PropertyConfigurator protected methods
