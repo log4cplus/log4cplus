@@ -233,6 +233,14 @@ namespace log4cplus
          */
         virtual void configure();
 
+        /**
+         * \return The return value is reference to Properties
+         * container of properties with the <code>"log4cplus."</code>
+         * prefix removed and references to other properties and/or
+         * environment variables expanded.
+         */
+        log4cplus::helpers::Properties const & getProperties () const;
+
     protected:
       // Methods
         void init();  // called by the ctor
