@@ -69,6 +69,14 @@ get_macros_oss ()
 //! Helper stream to get the defaults from.
 static tostringstream const macros_oss_defaults;
 
+// Individual defaults.
+
+static std::ios_base::fmtflags const default_flags
+    = macros_oss_defaults.flags ();
+static log4cplus::tchar const default_fill = macros_oss_defaults.fill ();
+static std::streamsize const default_precision
+    = macros_oss_defaults.precision ();
+static std::streamsize const default_width = macros_oss_defaults.width ();
 
 //! Clears string stream using defaults taken from macros_oss_defaults.
 void
@@ -76,10 +84,10 @@ clear_tostringstream (tostringstream & os)
 {
     os.clear ();
     os.str (internal::empty_str);
-    os.setf (macros_oss_defaults.flags ());
-    os.fill (macros_oss_defaults.fill ());
-    os.precision (macros_oss_defaults.precision ());
-    os.width (macros_oss_defaults.width ());
+    os.setf (default_flags);
+    os.fill (default_fill);
+    os.precision (default_precision);
+    os.width (default_width);
 #if defined (LOG4CPLUS_WORKING_LOCALE)
     std::locale glocale = std::locale ();
     if (os.getloc () != glocale)
