@@ -17689,6 +17689,170 @@ fi
 
 
 
+
+
+{ $as_echo "$as_me:$LINENO: checking for C99 variadic macros" >&5
+$as_echo_n "checking for C99 variadic macros... " >&6; }
+if test "${ac_cv_c99_variadic_macros+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+
+
+
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <cstdio>
+#include <cstdlib>
+
+int
+main ()
+{
+
+        using namespace std;
+#define MACRO(buf, ...) (sprintf (buf, "%d", __VA_ARGS__))
+        char a[10];
+        MACRO(a, 1);
+        if (a[0] != '1')
+          abort ();
+        if (a[1] != 0)
+          abort ();
+
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_c99_variadic_macros=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_cv_c99_variadic_macros=no
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_c99_variadic_macros" >&5
+$as_echo "$ac_cv_c99_variadic_macros" >&6; }
+
+
+
+if test "x$ac_cv_c99_variadic_macros" = "xyes"; then
+  cat >>confdefs.h <<\_ACEOF
+#define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS 1
+_ACEOF
+
+fi
+
+
+
+
+
+
+{ $as_echo "$as_me:$LINENO: checking for GNU style variadic macros" >&5
+$as_echo_n "checking for GNU style variadic macros... " >&6; }
+if test "${ac_cv_gnu_variadic_macros+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+
+
+
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#include <cstdio>
+#include <cstdlib>
+
+int
+main ()
+{
+
+        using namespace std;
+#define MACRO(buf, args...) (sprintf (buf, "%d", args))
+        char a[10];
+        MACRO(a, 1);
+        if (a[0] != '1')
+          abort ();
+        if (a[1] != 0)
+          abort ();
+
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_gnu_variadic_macros=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_cv_gnu_variadic_macros=no
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_gnu_variadic_macros" >&5
+$as_echo "$ac_cv_gnu_variadic_macros" >&6; }
+
+
+
+if test "x$ac_cv_gnu_variadic_macros" = "xyes"; then
+  cat >>confdefs.h <<\_ACEOF
+#define LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS 1
+_ACEOF
+
+fi
+
+
+
+
 { $as_echo "$as_me:$LINENO: checking for nanosleep in -lrt" >&5
 $as_echo_n "checking for nanosleep in -lrt... " >&6; }
 if test "${ac_cv_lib_rt_nanosleep+set}" = set; then

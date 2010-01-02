@@ -121,6 +121,16 @@ AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility"
        [AX_CXXFLAGS_GCC_OPTION([-fvisibility=hidden])])
      AX_CXXFLAGS_GCC_OPTION([-fkeep-inline-functions])])])
 
+AX_C99_VARIADIC_MACROS
+AH_TEMPLATE([LOG4CPLUS_HAVE_C99_VARIADIC_MACROS])
+AS_IF([test "x$ac_cv_c99_variadic_macros" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_HAVE_C99_VARIADIC_MACROS])])
+
+AX_GNU_VARIADIC_MACROS
+AH_TEMPLATE([LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS])
+AS_IF([test "x$ac_cv_gnu_variadic_macros" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS])])
+
 dnl Checks for libraries.
 
 AC_CHECK_LIB([rt], [nanosleep])
