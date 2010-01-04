@@ -69,6 +69,12 @@ main(int argc, char** argv)
     config.configure();
 
     ServerSocket serverSocket(port);
+    if (!serverSocket.isOpen()) {
+        cout << "Could not open server socket, maybe port "
+            << port << " is already in use." << endl;
+        return 2;
+    }
+
     while(1) {
         loggingserver::ClientThread *thr = 
             new loggingserver::ClientThread(serverSocket.accept());
