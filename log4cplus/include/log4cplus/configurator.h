@@ -241,6 +241,15 @@ namespace log4cplus
          */
         log4cplus::helpers::Properties const & getProperties () const;
 
+        /**
+         * \return The return value is a reference to log4cplus::tstring
+         * containing filename of properties source file. It will be
+         * string "UNAVAILABLE" if the PropertyConfigurator instance has been
+         * constructed using one of the other constructors that do not take
+         * filename as parameter.
+         */
+        log4cplus::tstring const & getPropertyFilename () const;
+
     protected:
       // Methods
         void init();  // called by the ctor
