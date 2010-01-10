@@ -35,7 +35,18 @@
 namespace log4cplus
 {
 
-    //! Prints events to Win32 console.
+   /**
+    * Prints events to Win32 console.
+    *
+    * <h3>Properties</h3>
+    * <dl>
+    * <dt><tt>AllocConsole</tt></dt>
+    * <dd>This boolean property specifies whether or not this appender
+    * will try to allocate new console using the
+    * <code>AllocConsole()</code> Win32 function.</dd>
+    *
+    * </dl>
+    */
     class LOG4CPLUS_EXPORT Win32ConsoleAppender
         : public Appender
     {
