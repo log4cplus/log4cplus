@@ -32,6 +32,9 @@
 #  if defined (LOG4CPLUS_HAVE_NT_EVENT_LOG)
 #    include <log4cplus/nteventlogappender.h>
 #  endif
+#  if defined (LOG4CPLUS_HAVE_WIN32_CONSOLE)
+#    include <log4cplus/win32consoleappender.h>
+#  endif
 #  include <log4cplus/Win32DebugAppender.h>
 #endif
 
@@ -175,6 +178,20 @@ namespace {
 
         tstring getTypeName() { 
             return LOG4CPLUS_TEXT("log4cplus::NTEventLogAppender"); 
+        }
+    };
+#  endif
+
+#  if defined (LOG4CPLUS_HAVE_WIN32_CONSOLE)
+    class Win32ConsoleAppenderFactory : public AppenderFactory {
+    public:
+        SharedAppenderPtr createObject(const Properties& props)
+        {
+            return SharedAppenderPtr(new log4cplus::Win32ConsoleAppender(props));
+        }
+
+        tstring getTypeName() {
+            return LOG4CPLUS_TEXT("log4cplus::Win32ConsoleAppender"); 
         }
     };
 #  endif
@@ -331,6 +348,9 @@ void initializeFactoryRegistry()
 #if defined(_WIN32)
 #  if defined(LOG4CPLUS_HAVE_NT_EVENT_LOG)
     reg_factory<NTEventLogAppenderFactory> (reg);
+#  endif
+#  if defined(LOG4CPLUS_HAVE_WIN32_CONSOLE)
+    reg_factory<Win32ConsoleAppenderFactory> (reg);
 #  endif
     reg_factory<Win32DebugAppenderFactory> (reg);
 #elif defined(LOG4CPLUS_HAVE_SYSLOG_H)

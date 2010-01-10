@@ -54,7 +54,8 @@ set (log4cplus_headers
   include/log4cplus/streams.h
   include/log4cplus/syslogappender.h
   include/log4cplus/tstring.h
-  include/log4cplus/win32debugappender.h)
+  include/log4cplus/win32debugappender.h
+  include/log4cplus/win32consoleappender.h)
 
 
 set (log4cplus_sources
@@ -107,7 +108,8 @@ elseif (WIN32)
   set (log4cplus_sources ${log4cplus_sources}
     src/socket-win32.cxx
     src/win32debugappender.cxx
-    src/nteventlogappender.cxx)
+    src/nteventlogappender.cxx
+    src/win32consoleappender.cxx)
   set (log4cplus_headers ${log4cplus_headers}
     include/log4cplus/helpers/syncprims-win32.h)
 
