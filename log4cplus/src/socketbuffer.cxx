@@ -307,7 +307,7 @@ log4cplus::helpers::SocketBuffer::appendString(const tstring& str)
         return;
     }
 
-    appendInt(strlen);
+    appendInt(static_cast<unsigned>(strlen));
     std::memcpy(&buffer[pos], str.data(), strlen);
     pos += strlen;
     size = pos;
