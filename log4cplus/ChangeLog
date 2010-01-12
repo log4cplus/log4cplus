@@ -1,3 +1,18 @@
+Version 1.0.4-RC5
+
+  - Implemented feature request #2927416 "Add a native Win32 Console
+    Appender".
+  - Loggingserver now exits with value 2 when it cannot open
+    listening socket.
+  - Improved Doxygen documentation.
+  - Added PropertyConfigurator::getProperties() and
+    PropertyConfigurator::getPropertyFilename() functions.
+  - Removed LOG4CPLUS_EXPORT on SharedObjectPtr<>.
+  - Turned on linker optimizations for MSVC8 builds to make resulting
+    binaries slightly smaller.
+  - Added --enable-runtime-pseudo-reloc linker option for Cygwin and
+    Mingw. Enable --enable-auto-import linker flag also for Mingw.
+
 Version 1.0.4-RC4
 
   - Fixed bug #2875993 - Implement connector thread for
