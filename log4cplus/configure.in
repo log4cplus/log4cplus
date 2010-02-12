@@ -105,6 +105,12 @@ AC_CHECK_LIB([rt], [nanosleep])
 AC_CHECK_FUNC([gethostent], [], [AC_CHECK_LIB([nsl], [gethostent])])
 AC_CHECK_FUNC([setsockopt], [], [AC_CHECK_LIB([socket], [setsockopt])])
 
+dnl Windows/MinGW specific.
+
+AC_CHECK_HEADERS([windows.h winsock.h])
+AC_CHECK_LIB([advapi32], [CopySid])
+AC_CHECK_LIB([ws2_32], [WSAStartup])
+
 dnl Checks for header files.
 
 AC_HEADER_STDC
