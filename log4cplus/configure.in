@@ -107,9 +107,11 @@ AC_CHECK_FUNC([setsockopt], [], [AC_CHECK_LIB([socket], [setsockopt])])
 
 dnl Windows/MinGW specific.
 
-AC_CHECK_HEADERS([windows.h winsock.h])
-AC_CHECK_LIB([advapi32], [CopySid])
-AC_CHECK_LIB([ws2_32], [WSAStartup])
+AC_LANG_PUSH([C])
+AC_HAVE_LIBRARY([kernel32])
+AC_HAVE_LIBRARY([advapi32])
+AC_HAVE_LIBRARY([ws2_32])
+AC_LANG_POP([C])
 
 dnl Checks for header files.
 

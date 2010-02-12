@@ -31,6 +31,9 @@
 /* Define to 1 if you have the `advapi32' library (-ladvapi32). */
 #undef HAVE_LIBADVAPI32
 
+/* Define to 1 if you have the `kernel32' library (-lkernel32). */
+#undef HAVE_LIBKERNEL32
+
 /* Define to 1 if you have the `nsl' library (-lnsl). */
 #undef HAVE_LIBNSL
 
@@ -84,12 +87,6 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
-
-/* Define to 1 if you have the <windows.h> header file. */
-#undef HAVE_WINDOWS_H
-
-/* Define to 1 if you have the <winsock.h> header file. */
-#undef HAVE_WINSOCK_H
 
 /* Defined for --enable-debugging builds. */
 #undef LOG4CPLUS_DEBUGGING
