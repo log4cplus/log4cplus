@@ -59,6 +59,18 @@ AC_PROG_CXX
 AC_PROG_CXXCPP
 AC_LANG([C++])
 
+AS_CASE(["$target_os"],
+  [mingw*],
+  dnl This is a workaround for MinGW compilation problem.  C++
+  dnl <cwchar> header does not compile in GCC 4.4.0 because some
+  dnl functions like swprintf() are not visible.
+  [CPPFLAGS="${CPPFLAGS} -U__STRICT_ANSI__"])
+
+AS_CASE(["$target_os"],
+  [mingw*],
+  [use_winsock_sockets=yes])
+AM_CONDITIONAL([WINSOCK_SOCKETS], [test "x$use_winsock_sockets" = "xyes"])
+
 dnl Libtool setup.
 
 LT_PREREQ([2.2.6])

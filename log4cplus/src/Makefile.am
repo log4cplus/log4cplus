@@ -4,6 +4,8 @@ AM_CPPFLAGS = -DINSIDE_LOG4CPLUS \
 	-I$(top_srcdir)/include -I$(top_builddir)/include \
 	@LOG4CPLUS_NDEBUG@
 
+AM_CXXFLAGS = -no-suppress
+
 nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/config.hxx \
 			 ../include/log4cplus/config/defines.hxx \
@@ -49,48 +51,55 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/spi/rootlogger.h
 
 SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
-                         appender.cxx \
-                         configurator.cxx \
-                         consoleappender.cxx \
+			 appender.cxx \
+			 configurator.cxx \
+			 consoleappender.cxx \
 			 factory.cxx \
-                         fileappender.cxx \
-                         filter.cxx \
+			 fileappender.cxx \
+			 filter.cxx \
 			 global-init.cxx \
-                         hierarchy.cxx \
-                         hierarchylocker.cxx \
-                         layout.cxx \
-                         logger.cxx \
-                         loggerimpl.cxx \
-                         loggingevent.cxx \
-                         loglevel.cxx \
-                         loglog.cxx \
-                         logloguser.cxx \
-                         ndc.cxx \
-                         nullappender.cxx \
+			 hierarchy.cxx \
+			 hierarchylocker.cxx \
+			 layout.cxx \
+			 logger.cxx \
+			 loggerimpl.cxx \
+			 loggingevent.cxx \
+			 loglevel.cxx \
+			 loglog.cxx \
+			 logloguser.cxx \
+			 ndc.cxx \
+			 nullappender.cxx \
 			 objectregistry.cxx \
-                         patternlayout.cxx \
-                         pointer.cxx \
+			 patternlayout.cxx \
+			 pointer.cxx \
 			 property.cxx \
 			 rootlogger.cxx \
 			 sleep.cxx \
 			 socket.cxx \
-			 socket-unix.cxx \
 			 socketappender.cxx \
 			 socketbuffer.cxx \
 			 stringhelper.cxx \
 			 syslogappender.cxx \
 			 timehelper.cxx
 
-if MULTI_THREADED	
-LIB_SRC = $(SINGLE_THREADED_SRC) \
-	threads.cxx \
+if WINSOCK_SOCKETS
+SOCKETS_SRC = socket-win32.cxx
+else
+SOCKETS_SRC = socket-unix.cxx
+endif
+
+if MULTI_THREADED
+THREADS_SRC = threads.cxx \
 	syncprims.cxx
 else
-LIB_SRC = $(SINGLE_THREADED_SRC)
+THREADS_SRC =
 endif
+
+LIB_SRC = $(SINGLE_THREADED_SRC) \
+	$(THREADS_SRC) \
+	$(SOCKETS_SRC)
 
 liblog4cplus_la_SOURCES = $(LIB_SRC)
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -no-suppress -no-undefined -version-info @LT_VERSION@ -release 1.0
-
+liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release 1.0
