@@ -62,7 +62,7 @@ AC_LANG([C++])
 dnl Libtool setup.
 
 LT_PREREQ([2.2.6])
-LT_INIT
+LT_INIT([win32-dll])
 
 dnl Checks for programs.
 AC_SEARCH_LIBS([strerror], [cposix])
