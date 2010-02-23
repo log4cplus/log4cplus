@@ -112,7 +112,7 @@ log4cplus::SysLogAppender::append(const spi::InternalLoggingEvent& event)
     if(level != -1) {
         log4cplus::tostringstream buf;
         layout->formatAndAppend(buf, event);
-        ::syslog(level, LOG4CPLUS_TSTRING_TO_STRING(buf.str()).c_str());
+        ::syslog(level, "%s", LOG4CPLUS_TSTRING_TO_STRING(buf.str()).c_str());
     }
 }
 
