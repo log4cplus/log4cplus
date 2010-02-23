@@ -31,23 +31,6 @@ using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
 
 
-template class log4cplus::helpers::SharedObjectPtr<Appender>;
-
-
-///////////////////////////////////////////////////////////////////////////////
-// file LOCAL methods
-///////////////////////////////////////////////////////////////////////////////
-
-namespace {
-    static
-    log4cplus::tstring asString(int i) {
-        log4cplus::tostringstream tmp;
-        tmp << i;
-        return tmp.str();
-    }
-}
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // log4cplus::ErrorHandler dtor
@@ -137,9 +120,9 @@ Appender::Appender(const log4cplus::helpers::Properties properties)
     Properties filterProps = properties.getPropertySubset( LOG4CPLUS_TEXT("filters.") );
     int filterCount = 0;
     FilterPtr filterChain;
-    while( filterProps.exists(asString(++filterCount)) ) {
-        tstring filterName = asString(filterCount);
-        tstring factoryName = filterProps.getProperty(filterName);
+    tstring filterName, factoryName;
+    while( filterProps.exists(filterName = convertIntegerToString(++filterCount)) ) {
+        factoryName = filterProps.getProperty(filterName);
         FilterFactory* factory = getFilterFactoryRegistry().get(factoryName);
 
         if(factory == 0) {
