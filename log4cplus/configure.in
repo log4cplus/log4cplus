@@ -8,7 +8,7 @@ AC_INIT([log4cplus],[1.0.4])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.10 no-define nostdinc gnu -Wall])
+AM_INIT_AUTOMAKE([1.10.1 no-define nostdinc gnu -Wall])
 
 #
 # +1 : ? : +1  == new interface that does not break old one
@@ -61,14 +61,13 @@ AC_LANG([C++])
 
 AS_CASE(["$target_os"],
   [mingw*],
-  dnl This is a workaround for MinGW compilation problem.  C++
-  dnl <cwchar> header does not compile in GCC 4.4.0 because some
-  dnl functions like swprintf() are not visible.
-  [CPPFLAGS="${CPPFLAGS} -U__STRICT_ANSI__"])
+  [dnl Undefining __STRICT_ANSI__ is a workaround for MinGW
+   dnl compilation problem.  C++ <cwchar> header does not compile in
+   dnl GCC 4.4.0 because some functions like swprintf() are not
+   dnl visible.
+   CPPFLAGS="${CPPFLAGS} -U__STRICT_ANSI__"
+   use_winsock_sockets=yes])
 
-AS_CASE(["$target_os"],
-  [mingw*],
-  [use_winsock_sockets=yes])
 AM_CONDITIONAL([WINSOCK_SOCKETS], [test "x$use_winsock_sockets" = "xyes"])
 
 dnl Libtool setup.
