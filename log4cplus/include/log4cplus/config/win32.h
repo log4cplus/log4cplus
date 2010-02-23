@@ -38,15 +38,30 @@
 #  define LOG4CPLUS_HAVE_WIN32_CONSOLE
 #endif
 
-#ifdef LOG4CPLUS_STATIC
-#  define LOG4CPLUS_EXPORT
-#else
-#  if defined (LOG4CPLUS_BUILD_DLL) || defined (log4cplus_EXPORTS) \
-  || (defined (DLL_EXPORT) && defined (INSIDE_LOG4CPLUS))
+// log4cplus_EXPORTS is used by the CMake build system.  DLL_EXPORT is
+// used by the autotools build system.
+#if defined (log4cplus_EXPORTS) || defined (DLL_EXPORT)
+#  undef LOG4CPLUS_BUILD_DLL
+#  define LOG4CPLUS_BUILD_DLL
+#endif
+
+#if ! defined (LOG4CPLUS_BUILD_DLL)
+#  undef LOG4CPLUS_STATIC
+#  define LOG4CPLUS_STATIC
+#endif
+
+#if defined (LOG4CPLUS_STATIC) && defined (LOG4CPLUS_BUILD_DLL)
+#  error LOG4CPLUS_STATIC and LOG4CPLUS_BUILD_DLL cannot be defined both.
+#endif
+
+#if defined (LOG4CPLUS_BUILD_DLL)
+#  if defined (INSIDE_LOG4CPLUS)
 #    define LOG4CPLUS_EXPORT __declspec(dllexport)
 #  else
 #    define LOG4CPLUS_EXPORT __declspec(dllimport)
 #  endif
+#else
+#  define LOG4CPLUS_EXPORT
 #endif
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
