@@ -1,4 +1,3 @@
-
 Short Description
 =================
 
@@ -18,7 +17,7 @@ feature requests, etc. there.
 Current Status
 ==============
 
-This library has now reached "Production" status.  
+This library has now reached "Production" status.
 
 
 Tested on the following platforms
@@ -26,7 +25,7 @@ Tested on the following platforms
 
 - Linux/amd64 with GCC 4.1.2 and 4.3.2
 - FreeBSD/i386 and amd64 with GCC 3.4.6, 4.2.1 and 4.3.3
-- Windows XP with MS Visual C++ 8.0
+- Windows XP with MS Visual C++ 8.0 and 9.0
 - Solaris 10 w/ Sun C++ 5.9 Patch 124863-01
 
 
@@ -53,6 +52,6 @@ through its threads helpers.
 License
 =======
 
-This library is licensed under the Apache Public License 1.1 and two
+This library is licensed under the Apache Public License 2.0 and two
 clause BSD license.  Please read the included LICENSE file for
 details.
