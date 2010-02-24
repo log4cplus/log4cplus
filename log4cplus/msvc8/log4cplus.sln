@@ -12,6 +12,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fileappender_test", "tests\
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "filter_test", "tests\filter_test.vcproj", "{66FE475D-D26C-4457-8B1C-B057D770C716}"
+	ProjectSection(ProjectDependencies) = postProject
+		{917836A4-0DDC-47BE-B930-1B3BFDF6C940} = {917836A4-0DDC-47BE-B930-1B3BFDF6C940}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hierarchy_test", "tests\hierarchy_test.vcproj", "{07817E6D-9FAB-4261-9D62-C5AD13810258}"
 	ProjectSection(ProjectDependencies) = postProject
