@@ -143,7 +143,7 @@ SocketAppender::SocketAppender(const helpers::Properties & properties)
     host = properties.getProperty( LOG4CPLUS_TEXT("host") );
     if(properties.exists( LOG4CPLUS_TEXT("port") )) {
         tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("port") );
-        port = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
+        port = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
     }
     serverName = properties.getProperty( LOG4CPLUS_TEXT("ServerName") );
 

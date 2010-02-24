@@ -507,7 +507,7 @@ log4cplus::pattern::PatternParser::extractPrecisionOption()
     log4cplus::tstring opt = extractOption();
     int r = 0;
     if(opt.length() > 0) {
-        r = atoi(LOG4CPLUS_TSTRING_TO_STRING(opt).c_str());
+        r = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(opt).c_str());
     }
     return r;
 }

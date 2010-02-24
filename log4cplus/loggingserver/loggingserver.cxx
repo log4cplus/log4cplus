@@ -62,7 +62,7 @@ main(int argc, char** argv)
         cout << "Usage: port config_file" << endl;
         return 1;
     }
-    int port = atoi(argv[1]);
+    int port = std::atoi(argv[1]);
     tstring configFile = LOG4CPLUS_C_STR_TO_TSTRING(argv[2]);
 
     PropertyConfigurator config(configFile);
