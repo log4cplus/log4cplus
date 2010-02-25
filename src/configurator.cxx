@@ -271,6 +271,13 @@ PropertyConfigurator::getProperties () const
 }
 
 
+log4cplus::tstring const &
+PropertyConfigurator::getPropertyFilename () const
+{
+    return propertyFilename;
+}
+
+
 //////////////////////////////////////////////////////////////////////////////
 // PropertyConfigurator protected methods
 //////////////////////////////////////////////////////////////////////////////

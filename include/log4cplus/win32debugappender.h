@@ -33,7 +33,7 @@
 namespace log4cplus {
 
     /**
-     * Appends log events to a file. 
+     * Prints log events using OutputDebugString(). 
      */
     class LOG4CPLUS_EXPORT Win32DebugAppender
         : public Appender
