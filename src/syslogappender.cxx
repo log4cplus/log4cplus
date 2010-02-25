@@ -117,7 +117,7 @@ log4cplus::SysLogAppender::append(const spi::InternalLoggingEvent& event)
         detail::clear_tostringstream (appender_sp.oss);
         layout->formatAndAppend(appender_sp.oss, event);
         appender_sp.str = appender_sp.oss.str ();
-        ::syslog(level,
+        ::syslog(level, "%s",
             LOG4CPLUS_TSTRING_TO_STRING(appender_sp.str).c_str());
     }
 }
