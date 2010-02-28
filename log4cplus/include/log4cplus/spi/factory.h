@@ -46,6 +46,9 @@ namespace log4cplus {
         public:
             virtual ~BaseFactory() = 0;
 
+            /**
+             * Returns the typename of the objects this factory creates.
+             */
             virtual log4cplus::tstring getTypeName() = 0;
         };
 
@@ -56,6 +59,9 @@ namespace log4cplus {
          */
         class LOG4CPLUS_EXPORT AppenderFactory : public BaseFactory {
         public:
+            typedef Appender ProductType;
+            typedef SharedAppenderPtr ProductPtr;
+
             AppenderFactory();
             virtual ~AppenderFactory() = 0;
 
@@ -63,11 +69,6 @@ namespace log4cplus {
              * Create an "Appender" object.
              */
             virtual SharedAppenderPtr createObject(const log4cplus::helpers::Properties& props) = 0;
-
-            /**
-             * Returns the typename of the "Appender" objects this factory creates.
-             */
-            virtual log4cplus::tstring getTypeName() = 0;
         };
 
 
@@ -78,6 +79,9 @@ namespace log4cplus {
          */
         class LOG4CPLUS_EXPORT LayoutFactory : public BaseFactory {
         public:
+            typedef Layout ProductType;
+            typedef std::auto_ptr<Layout> ProductPtr;
+
             LayoutFactory();
             virtual ~LayoutFactory() = 0;
 
@@ -85,11 +89,6 @@ namespace log4cplus {
              * Create a "Layout" object.
              */
             virtual std::auto_ptr<Layout> createObject(const log4cplus::helpers::Properties& props) = 0;
-
-            /**
-             * Returns the typename of the "Layout" objects this factory creates.
-             */
-            virtual log4cplus::tstring getTypeName() = 0;
         };
 
 
@@ -100,6 +99,9 @@ namespace log4cplus {
          */
         class LOG4CPLUS_EXPORT FilterFactory : public BaseFactory {
         public:
+            typedef Filter ProductType;
+            typedef FilterPtr ProductPtr;
+
             FilterFactory();
             virtual ~FilterFactory() = 0;
 
@@ -107,11 +109,6 @@ namespace log4cplus {
              * Create a "Filter" object.
              */
             virtual FilterPtr createObject(const log4cplus::helpers::Properties& props) = 0;
-
-            /**
-             * Returns the typename of the "Filter" objects this factory creates.
-             */
-            virtual log4cplus::tstring getTypeName() = 0;
         };
 
 
