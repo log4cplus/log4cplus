@@ -4,6 +4,12 @@ Version 1.0.4-RC6
     the source now defaults to static librar/empty LOG4CPLUS_EXPORT
     macro.
   - Fixed a security problem in SyslogAppender.
+  - Fixed bug #2955058 - Looping over properties during variables
+    expansion.
+  - Added missing dependency on log4cplus_dll project to filter_test
+    project.
+  - Added a constructor with Properties parameter to DenyAllFilter.
+  - Reworked Layout, Appender and Filter factories registration.
 
 Version 1.0.4-RC5
 
