@@ -115,7 +115,7 @@ public:
     typedef typename ProductFactoryBase::ProductPtr ProductPtr;
 
     FactoryTempl (tchar const * n)
-        : LocalFactoryBase (n)
+        : LocalFactoryBase<ProductFactoryBase> (n)
     { }
 
     virtual ProductPtr createObject (Properties const & props)
