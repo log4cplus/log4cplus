@@ -81,6 +81,14 @@ Filter::appendFilter(FilterPtr filter)
 // DenyAllFilter implementation
 ///////////////////////////////////////////////////////////////////////////////
 
+DenyAllFilter::DenyAllFilter ()
+{ }
+
+
+DenyAllFilter::DenyAllFilter (const log4cplus::helpers::Properties&)
+{ }
+
+
 FilterResult
 DenyAllFilter::decide(const InternalLoggingEvent&) const
 {
