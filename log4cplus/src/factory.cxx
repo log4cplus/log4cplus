@@ -125,36 +125,25 @@ public:
 };
 
 
-#define REG_APPENDER(reg, appendername)                             \
-reg.put (                                                           \
-    std::auto_ptr<AppenderFactory> (                                \
-        new FactoryTempl<appendername, AppenderFactory> (           \
-            LOG4CPLUS_TEXT("log4cplus::")                           \
-            LOG4CPLUS_TEXT(#appendername))))
-
-
-#define REG_LAYOUT(reg, layoutname)                                 \
-reg.put (                                                           \
-    std::auto_ptr<LayoutFactory> (                                  \
-        new FactoryTempl<layoutname, LayoutFactory> (               \
-            LOG4CPLUS_TEXT("log4cplus::")                           \
-            LOG4CPLUS_TEXT(#layoutname))))
-
-
-#define REG_FILTER(reg, filtername)                                 \
-reg.put (                                                           \
-    std::auto_ptr<FilterFactory> (                                  \
-        new FactoryTempl<spi::filtername, FilterFactory> (          \
-            LOG4CPLUS_TEXT("log4cplus::spi::")                      \
-            LOG4CPLUS_TEXT(#filtername))))
-
-
 } // namespace
 
 
-///////////////////////////////////////////////////////////////////////////////
-// LOCAL file methods 
-/////////////////////////////////////////////////////////////////////////////// 
+#define REG_PRODUCT(reg, productprefix, productname, productns, productfact) \
+reg.put (                                                               \
+    std::auto_ptr<productfact> (                                        \
+        new FactoryTempl<productns productname, productfact> (          \
+            LOG4CPLUS_TEXT(productprefix)                               \
+            LOG4CPLUS_TEXT(#productname))))
+
+
+#define REG_APPENDER(reg, appendername)                             \
+REG_PRODUCT (reg, "log4cplus::", appendername, log4cplus::, AppenderFactory) 
+
+#define REG_LAYOUT(reg, layoutname)                                 \
+REG_PRODUCT (reg, "log4cplus::", layoutname, log4cplus::, LayoutFactory)
+
+#define REG_FILTER(reg, filtername)                                 \
+REG_PRODUCT (reg, "log4cplus::spi::", filtername, spi::, FilterFactory)
 
 
 void initializeFactoryRegistry()
