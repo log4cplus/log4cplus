@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/threads.h>
 #include <log4cplus/spi/loggingevent.h>
 
 #if defined(__hpux__)
@@ -32,21 +33,93 @@
 # include <arpa/inet.h>
 #endif
  
-
-#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__hpux__) || defined (__CYGWIN__)
+#ifdef LOG4CPLUS_HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
 
+#ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>
+#endif
+
+#ifdef LOG4CPLUS_HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
+
 #include <errno.h>
+
+#ifdef LOG4CPLUS_HAVE_NETDB_H
 #include <netdb.h>
+#endif
+
 #include <unistd.h>
 
 #include <algorithm>
 
 using namespace log4cplus;
 using namespace log4cplus::helpers;
+
+
+namespace
+{
+
+
+static LOG4CPLUS_MUTEX_PTR_DECLARE ghbn_mutex = LOG4CPLUS_MUTEX_CREATE;
+
+
+static
+int
+get_host_by_name (char const * hostname, std::string * name,
+    struct sockaddr_in * addr, socklen_t * addr_len)
+{
+#if defined (LOG4CPLUS_HAVE_GETADDRINFO)
+    struct addrinfo hints;
+    std::memset (&hints, 0, sizeof (hints));
+    hints.ai_family = PF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+
+    struct addrinfo * res = 0;
+    int ret = getaddrinfo (hostname, 0, &hints, &res);
+    if (ret != 0)
+    {
+        return ret;
+    }
+
+    struct addrinfo const & ai = *res;
+    if (name)
+        *name = ai.ai_canonname;
+
+    if (addr && addr_len)
+    {
+        *addr_len = ai.ai_addrlen;
+        std::memcpy (addr, ai.ai_addr, ai.ai_addrlen);
+    }
+
+    freeaddrinfo (res);
+
+#else
+    thread::Guard guard (ghbn_mutex);
+
+    struct ::hostent * hp = gethostbyname (hostname);
+    if (! hp)
+        return 1;
+
+    if (name)
+        *name = hp->h_name;
+
+    if (addr && addr_len)
+    {
+        *addr_len = hp->h_length;
+        std::memcpy (addr, hp->h_addr_list[0], hp->h_length);
+    }
+
+#endif
+
+    return 0;
+}
+
+
+} // namespace
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -87,25 +160,26 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
                                   unsigned short port, SocketState& state)
 {
     struct sockaddr_in server;
-    struct hostent *hp;
+    socklen_t addr_len = 0;
     SOCKET_TYPE sock;
     int retval;
 
-    hp = ::gethostbyname(LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str());
-    if(hp == 0) {
+    std::memset (&server, 0, sizeof (server));
+    retval = get_host_by_name (LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str(),
+        0, &server, &addr_len);
+    if (retval != 0)
         return INVALID_SOCKET;
-    }
+
+    server.sin_port = htons(port);
+    server.sin_family = AF_INET;
 
     sock = ::socket(AF_INET, SOCK_STREAM, 0);
     if(sock < 0) {
         return INVALID_SOCKET;
     }
 
-    std::memcpy((char*)&server.sin_addr, hp->h_addr_list[0], hp->h_length);
-    server.sin_port = htons(port);
-    server.sin_family = AF_INET;
-
-    while(   (retval = ::connect(sock, (struct sockaddr*)&server, sizeof(server))) == -1
+    while ((retval = ::connect(sock,
+                reinterpret_cast<struct sockaddr *>(&server), addr_len)) == -1
           && (errno == EINTR))
         ;
     if(retval == INVALID_SOCKET) {
@@ -206,9 +280,10 @@ log4cplus::helpers::getHostname (bool fqdn)
     if (ret != 0 || (ret == 0 && ! fqdn))
         return LOG4CPLUS_STRING_TO_TSTRING (hostname);
 
-    struct ::hostent * hp = ::gethostbyname (hostname);
-    if (hp)
-        hostname = hp->h_name;
+    std::string full_hostname;
+    ret = get_host_by_name (hostname, &full_hostname, 0, 0);
+    if (ret == 0)
+        hostname = full_hostname.c_str ();
 
     return LOG4CPLUS_STRING_TO_TSTRING (hostname);
 }
