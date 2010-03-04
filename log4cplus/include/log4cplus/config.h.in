@@ -10,6 +10,12 @@
 /* Define to 1 if you have the `ftime' function. */
 #undef HAVE_FTIME
 
+/* */
+#undef HAVE_GETADDRINFO
+
+/* */
+#undef HAVE_GETHOSTBYNAME_R
+
 /* Define to 1 if you have the `getpid' function. */
 #undef HAVE_GETPID
 
@@ -105,6 +111,12 @@
 #undef LOG4CPLUS_HAVE_FTIME
 
 /* */
+#undef LOG4CPLUS_HAVE_GETADDRINFO
+
+/* */
+#undef LOG4CPLUS_HAVE_GETHOSTBYNAME_R
+
+/* */
 #undef LOG4CPLUS_HAVE_GETPID
 
 /* */
@@ -126,6 +138,9 @@
 #undef LOG4CPLUS_HAVE_LSTAT
 
 /* */
+#undef LOG4CPLUS_HAVE_NETDB_H
+
+/* */
 #undef LOG4CPLUS_HAVE_NETINET_IN_H
 
 /* */
@@ -139,6 +154,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_SYSLOG_H
+
+/* */
+#undef LOG4CPLUS_HAVE_SYS_SOCKET_H
 
 /* */
 #undef LOG4CPLUS_HAVE_SYS_TYPES_H
