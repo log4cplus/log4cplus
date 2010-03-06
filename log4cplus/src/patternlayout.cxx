@@ -357,8 +357,9 @@ log4cplus::pattern::BasicPatternConverter::convert
 
     case LINE_CONVERTER:
         {
-            if(event.getLine() != -1) {
-                return convertIntegerToString(event.getLine());
+            int line = event.getLine();
+            if(line != -1) {
+                return convertIntegerToString(line);
             }
             else {
                 return log4cplus::tstring();
@@ -367,8 +368,9 @@ log4cplus::pattern::BasicPatternConverter::convert
 
     case FULL_LOCATION_CONVERTER:
         {
-            if(event.getFile().length() > 0) {
-                return   event.getFile() 
+            tstring const & filename = event.getFile();
+            if(! filename.empty ()) {
+                return   filename 
                        + LOG4CPLUS_TEXT(":") 
                        + convertIntegerToString(event.getLine());
             }
