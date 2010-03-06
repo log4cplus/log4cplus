@@ -30,8 +30,8 @@
 # ifndef _XOPEN_SOURCE_EXTENDED
 # define _XOPEN_SOURCE_EXTENDED
 # endif
-# include <arpa/inet.h>
 #endif
+#include <arpa/inet.h>
  
 #ifdef LOG4CPLUS_HAVE_NETINET_IN_H
 #include <netinet/in.h>
@@ -77,7 +77,10 @@ get_host_by_name (char const * hostname, std::string * name,
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;
-    hints.ai_flags = AI_ALL;
+    hints.ai_flags = AI_CANONNAME;
+
+    if (inet_addr (hostname) != static_cast<in_addr_t>(-1))
+	hints.ai_flags |= AI_NUMERICHOST;
 
     struct addrinfo * res = 0;
     int ret = getaddrinfo (hostname, 0, &hints, &res);
@@ -107,7 +110,10 @@ get_host_by_name (char const * hostname, std::string * name,
         *name = hp->h_name;
 
     if (addr)
+    {
+	assert (hp->h_length <= sizeof (addr->sin_addr));
         std::memcpy (&addr->sin_addr, hp->h_addr_list[0], hp->h_length);
+    }
 
 #endif
 
