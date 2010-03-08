@@ -268,7 +268,7 @@ log4cplus::pattern::FormattingInfo::dump(log4cplus::helpers::LogLog& loglog) {
     buf << LOG4CPLUS_TEXT("min=") << minLen
         << LOG4CPLUS_TEXT(", max=") << maxLen
         << LOG4CPLUS_TEXT(", leftAlign=")
-        << (buf ? LOG4CPLUS_TEXT("true") : LOG4CPLUS_TEXT("false"));
+        << (leftAlign ? LOG4CPLUS_TEXT("true") : LOG4CPLUS_TEXT("false"));
     loglog.debug(buf.str());
 }
 
