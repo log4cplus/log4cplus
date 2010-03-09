@@ -9,6 +9,7 @@
 	<Tool
 		Name="VCCLCompilerTool"
 		AdditionalIncludeDirectories="..\..\include"
+		PreprocessorDefinitions="LOG4CPLUS_BUILD_DLL"
 		WarningLevel="3"
 	/>
 	<Tool
