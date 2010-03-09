@@ -181,7 +181,7 @@ void initializeLog4cplus()
 } // namespace log4cplus
 
 
-#if defined (_WIN32) && (defined (LOG4CPLUS_BUILD_DLL) || defined (log4cplus_EXPORTS))
+#if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL)
 
 BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL,  // handle to DLL module
                     DWORD fdwReason,     // reason for calling function

@@ -272,7 +272,7 @@ FormattingInfo::dump(helpers::LogLog& loglog) {
     buf << LOG4CPLUS_TEXT("min=") << minLen
         << LOG4CPLUS_TEXT(", max=") << maxLen
         << LOG4CPLUS_TEXT(", leftAlign=")
-        << (buf ? LOG4CPLUS_TEXT("true") : LOG4CPLUS_TEXT("false"));
+        << (leftAlign ? LOG4CPLUS_TEXT("true") : LOG4CPLUS_TEXT("false"));
     loglog.debug(buf.str());
 }
 
@@ -535,7 +535,7 @@ PatternParser::extractPrecisionOption()
     tstring opt = extractOption();
     int r = 0;
     if(opt.length() > 0) {
-        r = atoi(LOG4CPLUS_TSTRING_TO_STRING(opt).c_str());
+        r = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(opt).c_str());
     }
     return r;
 }
