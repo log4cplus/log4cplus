@@ -65,11 +65,6 @@ private:
 };
 
 
-#ifdef WIN32
-template class __declspec (dllexport) log4cplus::helpers::SharedObjectPtr<TestThread>;
-#endif
-
-
 int
 main() 
 {
