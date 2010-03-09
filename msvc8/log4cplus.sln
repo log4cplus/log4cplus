@@ -76,6 +76,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "thread_test", "tests\thread
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{92DEA81D-81ED-4283-BBC7-41975647F69E}"
+	ProjectSection(SolutionItems) = preProject
+		tests\log4cplus_tests.vsprops = tests\log4cplus_tests.vsprops
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "timeformat_test", "tests\timeformat_test.vcproj", "{7EFABA06-71CD-498F-BF10-C41A7D2DCF3B}"
 	ProjectSection(ProjectDependencies) = postProject

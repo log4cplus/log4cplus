@@ -760,11 +760,10 @@
 				>
 			</File>
 		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+		<File
+			RelativePath=".\loggingserver.vsprops"
 			>
-		</Filter>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
