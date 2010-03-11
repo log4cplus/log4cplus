@@ -170,7 +170,7 @@ static
 void
 build_q_value (log4cplus::tstring & q_str, long tv_usec)
 {
-    q_str = convertIntegerToString(tv_usec / 1000);
+    convertIntegerToString(q_str, tv_usec / 1000);
     size_t const len = q_str.length();
     if (len <= 2)
         q_str.insert (0, padding_zeros[q_str.length()]);
@@ -184,7 +184,7 @@ build_uc_q_value (log4cplus::tstring & uc_q_str, long tv_usec,
 {
     build_q_value (uc_q_str, tv_usec);
 
-    tmp = convertIntegerToString(tv_usec % 1000);
+    convertIntegerToString(tmp, tv_usec % 1000);
     size_t const usecs_len = tmp.length();
     tmp.insert (0, usecs_len <= 3
         ? uc_q_padding_zeros[usecs_len] : uc_q_padding_zeros[3]);
@@ -274,7 +274,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
                 {
                     time_t time_t_time;
                     time_t_time = (use_gmtime ? _mkgmtime : mktime) (&time);
-                    gft_sp.s_str = convertIntegerToString (time_t_time);
+                    convertIntegerToString (gft_sp.s_str, time_t_time);
                     gft_sp.s_str_valid = true;
                 }
                 gft_sp.ret.append (gft_sp.s_str);

@@ -357,7 +357,7 @@ BasicPatternConverter::convert(tstring & result,
         return;
 
     case PROCESS_CONVERTER:
-        result = helpers::convertIntegerToString(get_process_id ()); 
+		helpers::convertIntegerToString(result, get_process_id ()); 
         return;
 
     case NDC_CONVERTER:
@@ -383,7 +383,7 @@ BasicPatternConverter::convert(tstring & result,
     case LINE_CONVERTER:
         {
             if(event.getLine() != -1)
-                result = helpers::convertIntegerToString(event.getLine());
+                helpers::convertIntegerToString(result, event.getLine());
             else
                 result.clear ();
             return;
