@@ -1,3 +1,11 @@
+Version 1.0.4-RC7
+
+  - Fixed thread safety issues with gethostbyname() by using
+    getaddrinfo() instead, where available.
+  - Fixed bug #2965390 - Minor internal debugging output issue.
+  - Added --enable-warnings (--disable-warnings) switches to the
+    configure script.
+
 Version 1.0.4-RC6
 
   - Fixed bug #2945335 - MinGW/MSYS build problems. For Windows builds
