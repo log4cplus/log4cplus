@@ -126,7 +126,6 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
     // Delete the oldest file
     tostringstream buffer;
     buffer << filename << LOG4CPLUS_TEXT(".") << maxBackupIndex;
-    tstring buffer_str = buffer.str ();
     int ret = file_remove (buffer.str ());
 
     tostringstream source_oss;
