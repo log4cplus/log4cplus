@@ -173,6 +173,7 @@ FileAppender::FileAppender(const Properties& properties,
                            LOG4CPLUS_OPEN_MODE_TYPE mode)
     : Appender(properties)
     , immediateFlush(true)
+    , reopenDelay(1)
 {
     bool append_ = (mode == std::ios::app);
     tstring filename_ = properties.getProperty( LOG4CPLUS_TEXT("File") );
@@ -189,6 +190,10 @@ FileAppender::FileAppender(const Properties& properties,
         tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("Append") );
         append_ = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
     }
+    if(properties.exists( LOG4CPLUS_TEXT("ReopenDelay") )) {
+        tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("ReopenDelay") );
+        reopenDelay = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
+    }
 
     init(filename_, (append_ ? std::ios::app : std::ios::trunc));
 }
@@ -200,7 +205,7 @@ FileAppender::init(const tstring& filename_,
                    LOG4CPLUS_OPEN_MODE_TYPE mode)
 {
     this->filename = filename_;
-    out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), mode);
+    open(mode);
 
     if(!out.good()) {
         getErrorHandler()->error(  LOG4CPLUS_TEXT("Unable to open file: ") 
@@ -244,9 +249,15 @@ void
 FileAppender::append(const spi::InternalLoggingEvent& event)
 {
     if(!out.good()) {
-        getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
-                                 + filename);
-        return;
+        if(!reopen()) {
+            getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
+                                     + filename);
+            return;
+        }
+        // Resets the error handler to make it 
+        // ready to handle a future append error.
+        else
+            getErrorHandler()->reset();
     }
 
     layout->formatAndAppend(out, event);
@@ -255,6 +266,44 @@ FileAppender::append(const spi::InternalLoggingEvent& event)
     }
 }
 
+void
+FileAppender::open(std::ios::openmode mode)
+{
+    out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), mode);
+}
+
+bool
+FileAppender::reopen()
+{
+    // When append never failed and the file re-open attempt must 
+    // be delayed, set the time when reopen should take place.
+    if (reopen_time == log4cplus::helpers::Time () && reopenDelay != 0)
+        reopen_time = log4cplus::helpers::Time::gettimeofday()
+			+ log4cplus::helpers::Time(reopenDelay);
+    else
+	{
+        // Otherwise, check for end of the delay (or absence of delay) to re-open the file.
+        if (reopen_time <= log4cplus::helpers::Time::gettimeofday()
+			|| reopenDelay == 0)
+		{
+            // Close the current file
+            out.close();
+            out.clear(); // reset flags since the C++ standard specified that all the
+                         // flags should remain unchanged on a close
+
+            // Re-open the file.
+            open(std::ios::app);
+
+            // Reset last fail time.
+            reopen_time = log4cplus::helpers::Time ();
+
+            // Succeed if no errors are found.
+            if(out.good())
+                return true;
+        }
+    }
+    return false;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // RollingFileAppender ctors and dtor
@@ -318,9 +367,15 @@ void
 RollingFileAppender::append(const spi::InternalLoggingEvent& event)
 {
     if(!out.good()) {
-        getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
-                                 + filename);
-        return;
+        if(!reopen()) {
+            getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
+                                     + filename);
+            return;
+        }
+        // Resets the error handler to make it 
+        // ready to handle a future append error.
+        else
+            getErrorHandler()->reset();
     }
 
     layout->formatAndAppend(out, event);
@@ -374,8 +429,7 @@ RollingFileAppender::rollover()
     }
 
     // Open it up again in truncation mode
-    out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), 
-        std::ios::out | std::ios::trunc);
+    open(std::ios::out | std::ios::trunc);
     loglog_opening_result (loglog, out, filename);
 }
 
@@ -518,9 +572,15 @@ void
 DailyRollingFileAppender::append(const spi::InternalLoggingEvent& event)
 {
     if(!out.good()) {
-        getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
-                                 + filename);
-        return;
+        if(!reopen()) {
+            getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
+                                     + filename);
+            return;
+        }
+        // Resets the error handler to make it 
+        // ready to handle a future append error.
+        else
+            getErrorHandler()->reset();
     }
 
     if(event.getTimestamp() >= nextRolloverTime) {
@@ -585,8 +645,7 @@ DailyRollingFileAppender::rollover()
     loglog_renaming_result (loglog, filename, scheduledFilename, ret);
 
     // Open a new file, e.g. "log".
-    out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), 
-        std::ios::out | std::ios::trunc);
+    open(std::ios::out | std::ios::trunc);
     loglog_opening_result (loglog, out, filename);
 
     // Calculate the next rollover time

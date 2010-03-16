@@ -27,6 +27,7 @@
 #include <log4cplus/appender.h>
 #include <log4cplus/fstreams.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/helpers/timehelper.h>
 
 #if defined(__DECCXX)
 #   define LOG4CPLUS_OPEN_MODE_TYPE LOG4CPLUS_FSTREAM_NAMESPACE::ios::open_mode
@@ -52,6 +53,10 @@ namespace log4cplus {
      * <dd>When it is set true, output file will be appended to
      * instead of being truncated at opening.</dd>
      *
+     * <dt><tt>ReopenDelay</tt></dt>
+     * <dd>This property sets a delay after which the appender will try
+     * to reopen log file again, after last logging failure.
+     * </dd>
      * </dl>
      */
     class LOG4CPLUS_EXPORT FileAppender : public Appender {
@@ -72,6 +77,9 @@ namespace log4cplus {
     protected:
         virtual void append(const spi::InternalLoggingEvent& event);
 
+        void open(LOG4CPLUS_OPEN_MODE_TYPE mode);
+        bool reopen();
+
       // Data
         /**
          * Immediate flush means that the underlying writer or output stream
@@ -87,8 +95,19 @@ namespace log4cplus {
          */
         bool immediateFlush;
 
+        /**
+         * When any append operation fails, <code>reopenDelay<code> says 
+         * for how many seconds the next attempt to re-open the log file and 
+         * resume logging will be delayed. If <code>reopenDelay<code> is zero, 
+         * each failed append operation will cause log file to be re-opened. 
+         * By default, <code>reopenDelay<code> is 1 second.
+         */
+        int reopenDelay;
+
         log4cplus::tofstream out;
         log4cplus::tstring filename;
+
+        log4cplus::helpers::Time reopen_time;
 
     private:
         void init(const log4cplus::tstring& filename,
