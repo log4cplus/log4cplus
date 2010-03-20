@@ -54,8 +54,10 @@ namespace log4cplus {
      * instead of being truncated at opening.</dd>
      *
      * <dt><tt>ReopenDelay</tt></dt>
-     * <dd>This property sets a delay after which the appender will try
-     * to reopen log file again, after last logging failure.
+     * <dd>This property sets a delay after which the appender will
+     * try to reopen log file again, after last logging failure. The
+     * default value is 1 second. Setting the delay to 0 makes the
+     * appender not to try reopening the stream.
      * </dd>
      * </dl>
      */
