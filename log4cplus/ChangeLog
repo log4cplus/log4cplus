@@ -5,6 +5,8 @@ Version 1.0.4-RC7
   - Fixed bug #2965390 - Minor internal debugging output issue.
   - Added --enable-warnings (--disable-warnings) switches to the
     configure script.
+  - Added ReopenDelay property to FileAppender, allowing the appender
+    to reopen output stream after write failure. (Patch #2971315)
 
 Version 1.0.4-RC6
 
