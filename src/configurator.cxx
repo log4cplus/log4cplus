@@ -294,17 +294,22 @@ PropertyConfigurator::reconfigure()
 void
 PropertyConfigurator::replaceEnvironVariables()
 {
-    std::vector<tstring> keys = properties.propertyNames();
-    std::vector<tstring>::const_iterator it = keys.begin();
     tstring val, subKey, subVal;
+    std::vector<tstring> keys;
+    bool const rec_exp
+        = !! (flags & PropertyConfigurator::fRecursiveExpansion);
     bool changed;
+
     do 
     {
         changed = false;
-        for(; it != keys.end(); ++it)
+        properties.propertyNames().swap (keys);
+        for (std::vector<tstring>::const_iterator it = keys.begin();
+            it != keys.end(); ++it)
         {
             tstring const & key = *it;
             val = properties.getProperty(key);
+
             subKey.clear ();
             if (substVars(subKey, key, properties, getLogLog(), flags))
             {
@@ -312,7 +317,7 @@ PropertyConfigurator::replaceEnvironVariables()
                 properties.setProperty(subKey, val);
                 changed = true;
             }
-            
+
             subVal.clear ();
             if (substVars(subVal, val, properties, getLogLog(), flags))
             {
@@ -321,7 +326,7 @@ PropertyConfigurator::replaceEnvironVariables()
             }
         }
     }
-    while (changed);
+    while (changed && rec_exp);
 }
 
 
