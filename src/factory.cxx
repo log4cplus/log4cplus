@@ -159,6 +159,9 @@ void initializeFactoryRegistry()
 #elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
     REG_APPENDER (reg, SysLogAppender);
 #endif
+#ifndef LOG4CPLUS_SINGLE_THREADED
+    REG_APPENDER (reg, AsyncAppender);
+#endif
 
     spi::LayoutFactoryRegistry& reg2 = spi::getLayoutFactoryRegistry();
     REG_LAYOUT (reg2, SimpleLayout);
