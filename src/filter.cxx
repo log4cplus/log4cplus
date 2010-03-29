@@ -107,9 +107,7 @@ LogLevelMatchFilter::LogLevelMatchFilter(const helpers::Properties& properties)
 {
     init();
 
-    tstring const & accept_on_match
-        = properties.getProperty( LOG4CPLUS_TEXT("AcceptOnMatch") );
-    acceptOnMatch = helpers::toLower(accept_on_match) == LOG4CPLUS_TEXT("true");
+    properties.getBool (acceptOnMatch, LOG4CPLUS_TEXT("AcceptOnMatch"));
 
     tstring const & log_level_to_match
         = properties.getProperty( LOG4CPLUS_TEXT("LogLevelToMatch") );

@@ -34,6 +34,7 @@ namespace log4cplus
     typedef std::basic_ostream<tchar> tostream;
     typedef std::basic_istream<tchar> tistream;
     typedef std::basic_ostringstream<tchar> tostringstream;
+    typedef std::basic_istringstream<tchar> tistringstream;
     extern LOG4CPLUS_EXPORT tostream & tcout;
     extern LOG4CPLUS_EXPORT tostream & tcerr;
 }

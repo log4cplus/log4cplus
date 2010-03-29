@@ -25,7 +25,10 @@
 #  include <cctype>
 #endif
 #include <fstream>
+#include <sstream>
+#include <log4cplus/streams.h>
 #include <log4cplus/fstreams.h>
+#include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/internal/internal.h>
 
@@ -250,6 +253,74 @@ Properties::getPropertySubset(const log4cplus::tstring& prefix) const
 }
 
 
+bool
+Properties::getInt (int & val, log4cplus::tstring const & key) const
+{
+    return get_type_val_worker (val, key);
+}
+
+
+bool
+Properties::getUInt (unsigned & val, log4cplus::tstring const & key) const
+{
+    return get_type_val_worker (val, key);
+}
+
+
+bool
+Properties::getLong (long & val, log4cplus::tstring const & key) const
+{
+    return get_type_val_worker (val, key);
+}
+
+
+bool
+Properties::getULong (unsigned long & val, log4cplus::tstring const & key) const
+{
+    return get_type_val_worker (val, key);
+}
+
+
+bool
+Properties::getBool (bool & val, log4cplus::tstring const & key) const
+{
+    if (! exists (key))
+        return false;
+
+    log4cplus::tstring const & prop_val = getProperty (key);
+    log4cplus::tistringstream iss (prop_val);
+
+    log4cplus::tstring word;
+    if (! (iss >> word))
+        return false;
+    tchar ch;
+    if (iss >> ch)
+        return false;
+    word = helpers::toLower (word);
+
+    bool result = true;
+    if (word == LOG4CPLUS_TEXT ("true"))
+        val = true;
+    else if (word == LOG4CPLUS_TEXT ("false"))
+        val = false;
+    else
+    {
+        iss.clear ();
+        iss.seekg (0);
+        assert (iss);
+
+        long lval;
+        iss >> lval;
+        tchar ch;
+        result = !! iss && ! (iss >> ch);
+        if (result)
+            val = !! lval;
+    }
+
+    return result;
+}
+
+
 template <typename StringType>
 log4cplus::tstring const &
 Properties::get_property_worker (StringType const & key) const
@@ -259,6 +330,22 @@ Properties::get_property_worker (StringType const & key) const
         return log4cplus::internal::empty_str;
     else
         return it->second;
+}
+
+
+template <typename ValType>
+bool
+Properties::get_type_val_worker (ValType & val, log4cplus::tstring const & key)
+    const
+{
+    if (! exists (key))
+        return false;
+
+    log4cplus::tstring const & prop_val = getProperty (key);
+    log4cplus::tistringstream iss (prop_val);
+    iss >> val;
+    tchar ch;
+    return !! iss && ! (iss >> ch);
 }
 
 

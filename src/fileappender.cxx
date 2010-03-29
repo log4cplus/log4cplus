@@ -181,18 +181,10 @@ FileAppender::FileAppender(const Properties& props,
         getErrorHandler()->error( LOG4CPLUS_TEXT("Invalid filename") );
         return;
     }
-    if(props.exists( LOG4CPLUS_TEXT("ImmediateFlush") )) {
-        tstring const & tmp = props.getProperty( LOG4CPLUS_TEXT("ImmediateFlush") );
-        immediateFlush = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
-    }
-    if(props.exists( LOG4CPLUS_TEXT("Append") )) {
-        tstring const & tmp = props.getProperty( LOG4CPLUS_TEXT("Append") );
-        app = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
-    }
-    if(props.exists( LOG4CPLUS_TEXT("ReopenDelay") )) {
-        tstring tmp = props.getProperty( LOG4CPLUS_TEXT("ReopenDelay") );
-        reopenDelay = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
-    }
+
+    props.getBool (immediateFlush, LOG4CPLUS_TEXT("ImmediateFlush"));
+    props.getBool (app, LOG4CPLUS_TEXT("Append"));
+    props.getInt (reopenDelay, LOG4CPLUS_TEXT("ReopenDelay"));
 
     init(fn, (app ? std::ios::app : std::ios::trunc));
 }
@@ -336,9 +328,7 @@ RollingFileAppender::RollingFileAppender(const Properties& properties)
             tmpMaxFileSize *= 1024; // convert to kilobytes
     }
 
-    tmp = properties.getProperty (LOG4CPLUS_TEXT("MaxBackupIndex"));
-    if (! tmp.empty ())
-        tmpMaxBackupIndex = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
+    properties.getInt (tmpMaxBackupIndex, LOG4CPLUS_TEXT("MaxBackupIndex"));
 
     init(tmpMaxFileSize, tmpMaxBackupIndex);
 }
@@ -477,9 +467,8 @@ DailyRollingFileAppender::DailyRollingFileAppender(
         theSchedule = DAILY;
     }
     
-    tstring const tmp (properties.getProperty (
-        LOG4CPLUS_TEXT("MaxBackupIndex"), LOG4CPLUS_TEXT("10")));
-    maxBackupIndex = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
+    if (! properties.getInt (maxBackupIndex, LOG4CPLUS_TEXT("MaxBackupIndex")))
+        maxBackupIndex = 10;
 
     init(theSchedule);
 }

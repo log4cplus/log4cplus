@@ -140,10 +140,7 @@ SocketAppender::SocketAppender(const helpers::Properties & properties)
    port(9998)
 {
     host = properties.getProperty( LOG4CPLUS_TEXT("host") );
-    if(properties.exists( LOG4CPLUS_TEXT("port") )) {
-        tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("port") );
-        port = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
-    }
+    properties.getInt (port, LOG4CPLUS_TEXT("port"));
     serverName = properties.getProperty( LOG4CPLUS_TEXT("ServerName") );
 
     openSocket();
