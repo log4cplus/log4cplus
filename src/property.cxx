@@ -343,9 +343,18 @@ Properties::get_type_val_worker (ValType & val, log4cplus::tstring const & key)
 
     log4cplus::tstring const & prop_val = getProperty (key);
     log4cplus::tistringstream iss (prop_val);
-    iss >> val;
+    ValType tmp_val;
     tchar ch;
-    return !! iss && ! (iss >> ch);
+
+    iss >> tmp_val;
+    if (! iss)
+        return false;
+    iss >> ch;
+    if (iss)
+        return false;
+
+    val = tmp_val;
+    return true;
 }
 
 
