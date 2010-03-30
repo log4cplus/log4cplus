@@ -467,8 +467,7 @@ DailyRollingFileAppender::DailyRollingFileAppender(
         theSchedule = DAILY;
     }
     
-    if (! properties.getInt (maxBackupIndex, LOG4CPLUS_TEXT("MaxBackupIndex")))
-        maxBackupIndex = 10;
+    properties.getInt (maxBackupIndex, LOG4CPLUS_TEXT("MaxBackupIndex"));
 
     init(theSchedule);
 }

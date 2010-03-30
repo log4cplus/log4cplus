@@ -119,9 +119,8 @@ AsyncAppender::AsyncAppender (helpers::Properties const & props)
         LOG4CPLUS_TEXT ("Appender."));
     addAppender (factory->createObject (appender_props));
 
-    unsigned queue_len;
-    if (! props.getUInt (queue_len, LOG4CPLUS_TEXT ("QueueLimit")))
-        queue_len = 100;
+    unsigned queue_len = 100;
+    props.getUInt (queue_len, LOG4CPLUS_TEXT ("QueueLimit"));
 
     init_queue_thread (queue_len);
 }
