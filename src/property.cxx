@@ -311,7 +311,6 @@ Properties::getBool (bool & val, log4cplus::tstring const & key) const
 
         long lval;
         iss >> lval;
-        tchar ch;
         result = !! iss && ! (iss >> ch);
         if (result)
             val = !! lval;
