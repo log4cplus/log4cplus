@@ -163,6 +163,9 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 FileAppender::FileAppender(const tstring& filename_, 
     std::ios_base::openmode mode_, bool immediateFlush_)
     : immediateFlush(immediateFlush_)
+    , reopenDelay(1)
+    , bufferSize (0)
+    , buffer (0)
 {
     init(filename_, mode_);
 }
@@ -173,6 +176,8 @@ FileAppender::FileAppender(const Properties& props,
     : Appender(props)
     , immediateFlush(true)
     , reopenDelay(1)
+    , bufferSize (0)
+    , buffer (0)
 {
     bool app = (mode_ == std::ios::app);
     tstring const & fn = props.getProperty( LOG4CPLUS_TEXT("File") );
@@ -185,6 +190,7 @@ FileAppender::FileAppender(const Properties& props,
     props.getBool (immediateFlush, LOG4CPLUS_TEXT("ImmediateFlush"));
     props.getBool (app, LOG4CPLUS_TEXT("Append"));
     props.getInt (reopenDelay, LOG4CPLUS_TEXT("ReopenDelay"));
+    props.getULong (bufferSize, LOG4CPLUS_TEXT("BufferSize"));
 
     init(fn, (app ? std::ios::app : std::ios::trunc));
 }
@@ -197,6 +203,13 @@ FileAppender::init(const tstring& filename_,
 {
     filename = filename_;
     open(mode_);
+
+    if (bufferSize != 0)
+    {
+        delete buffer;
+        buffer = new tchar[bufferSize];
+        out.rdbuf ()->pubsetbuf (buffer, bufferSize);
+    }
 
     if(!out.good()) {
         getErrorHandler()->error(  LOG4CPLUS_TEXT("Unable to open file: ") 
@@ -224,6 +237,8 @@ FileAppender::close()
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         out.close();
+        delete buffer;
+        buffer = 0;
         closed = true;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }

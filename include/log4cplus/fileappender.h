@@ -55,6 +55,11 @@ namespace log4cplus
      * <dd>This property sets a delay after which the appender will try
      * to reopen log file again, after last logging failure.
      * </dd>
+     *
+     * <dt><tt>BufferSize</tt></dt>
+     * <dd>Non-zero value of this property sets up buffering of output
+     * stream using a buffer of given size.
+     * </dd>
      * </dl>
      */
     class LOG4CPLUS_EXPORT FileAppender : public Appender {
@@ -101,6 +106,9 @@ namespace log4cplus
          * By default, <code>reopenDelay<code> is 1 second.
          */
         int reopenDelay;
+
+        unsigned long bufferSize;
+        log4cplus::tchar * buffer;
 
         log4cplus::tofstream out;
         log4cplus::tstring filename;
