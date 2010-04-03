@@ -629,7 +629,7 @@ ConfigurationWatchDogThread::checkForFileModification(Time & mtime)
     mtime = Time (fileStatus.st_mtime);
     bool modified = mtime != lastModTime;
 
-#if defined(HAVE_LSTAT)
+#if defined(LOG4CPLUS_HAVE_LSTAT)
     if(!modified && S_ISLNK(fileStatus.st_mode))
     {
         ::lstat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
