@@ -59,6 +59,11 @@ namespace log4cplus {
      * default value is 1 second. Setting the delay to 0 makes the
      * appender not to try reopening the stream.
      * </dd>
+     *
+     * <dt><tt>BufferSize</tt></dt>
+     * <dd>Non-zero value of this property sets up buffering of output
+     * stream using a buffer of given size.
+     * </dd>
      * </dl>
      */
     class LOG4CPLUS_EXPORT FileAppender : public Appender {
@@ -105,6 +110,9 @@ namespace log4cplus {
          * By default, <code>reopenDelay<code> is 1 second.
          */
         int reopenDelay;
+
+        unsigned long bufferSize;
+        log4cplus::tchar * buffer;
 
         log4cplus::tofstream out;
         log4cplus::tstring filename;
