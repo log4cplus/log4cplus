@@ -57,37 +57,38 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/spi/rootlogger.h
 
 SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
-                         appender.cxx \
-                         configurator.cxx \
-                         consoleappender.cxx \
-			 factory.cxx \
-                         fileappender.cxx \
-                         filter.cxx \
-			 global-init.cxx \
-                         hierarchy.cxx \
-                         hierarchylocker.cxx \
-                         layout.cxx \
-                         logger.cxx \
-                         loggerimpl.cxx \
-                         loggingevent.cxx \
-                         loglevel.cxx \
-                         loglog.cxx \
-                         logloguser.cxx \
-                         ndc.cxx \
-                         nullappender.cxx \
-			 objectregistry.cxx \
-                         patternlayout.cxx \
-                         pointer.cxx \
-			 property.cxx \
-			 rootlogger.cxx \
-			 sleep.cxx \
-			 socket.cxx \
-			 socket-unix.cxx \
-			 socketappender.cxx \
-			 socketbuffer.cxx \
-			 stringhelper.cxx \
-			 syslogappender.cxx \
-			 timehelper.cxx
+                      appender.cxx \
+                      configurator.cxx \
+                      consoleappender.cxx \
+                      factory.cxx \
+                      fileappender.cxx \
+                      filter.cxx \
+                      global-init.cxx \
+                      hierarchy.cxx \
+                      hierarchylocker.cxx \
+                      layout.cxx \
+                      logger.cxx \
+                      loggerimpl.cxx \
+                      loggingevent.cxx \
+                      loggingmacros.cxx \
+                      loglevel.cxx \
+                      loglog.cxx \
+                      logloguser.cxx \
+                      ndc.cxx \
+                      nullappender.cxx \
+                      objectregistry.cxx \
+                      patternlayout.cxx \
+                      pointer.cxx \
+                      property.cxx \
+                      rootlogger.cxx \
+                      sleep.cxx \
+                      socket.cxx \
+                      socket-unix.cxx \
+                      socketappender.cxx \
+                      socketbuffer.cxx \
+                      stringhelper.cxx \
+                      syslogappender.cxx \
+                      timehelper.cxx
 
 if MULTI_THREADED	
 LIB_SRC = $(SINGLE_THREADED_SRC) \

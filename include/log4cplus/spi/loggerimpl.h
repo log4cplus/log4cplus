@@ -87,6 +87,8 @@ namespace log4cplus {
             virtual void log(LogLevel ll, const log4cplus::tstring& message,
                              const char* file=NULL, int line=-1);
 
+            virtual void log(spi::InternalLoggingEvent const &);
+
             /**
              * Starting from this logger, search the logger hierarchy for a
              * "set" LogLevel and return it. Otherwise, return the LogLevel of the
@@ -156,6 +158,8 @@ namespace log4cplus {
                                    const log4cplus::tstring& message,
                                    const char* file=NULL, 
                                    int line=-1);
+
+            virtual void forcedLog(spi::InternalLoggingEvent const & ev);
 
 
           // Data

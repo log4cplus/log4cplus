@@ -7,7 +7,7 @@ AC_INIT([log4cplus],[1.1.0])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.10 no-define nostdinc gnu -Wall])
+AM_INIT_AUTOMAKE([1.10.1 no-define nostdinc gnu -Wall])
 
 #
 # +1 : ? : +1  == new interface that does not break old one
@@ -130,6 +130,16 @@ AX_GNU_VARIADIC_MACROS
 AH_TEMPLATE([LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS])
 AS_IF([test "x$ac_cv_gnu_variadic_macros" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS])])
+
+AX___FUNCTION___MACRO
+AH_TEMPLATE([LOG4CPLUS_HAVE_FUNCTION_MACRO])
+AS_IF([test "x$ac_cv_have___function___macro" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_HAVE_FUNCTION_MACRO])])
+
+AX___PRETTY_FUNCTION___MACRO
+AH_TEMPLATE([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO])
+AS_IF([test "x$ac_cv_have___pretty_function___macro" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO])])
 
 dnl Checks for libraries.
 

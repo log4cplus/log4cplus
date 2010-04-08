@@ -72,10 +72,11 @@ namespace log4cplus {
 
             virtual ~InternalLoggingEvent();
 
-            void
-            setLoggingEvent (const log4cplus::tstring & logger, LogLevel ll,
-                const log4cplus::tstring & message, const char * filename,
-                int line);
+            void setLoggingEvent (const log4cplus::tstring & logger,
+                LogLevel ll, const log4cplus::tstring & message,
+                const char * filename, int line);
+
+            void setFunction (char const * func);
 
 
           // public virtual methods
@@ -148,6 +149,11 @@ namespace log4cplus {
             /** The is the line where this log statement was written */
             int getLine() const { return line; }
 
+            char const * getFunction () const
+            {
+                return function;
+            }
+
             void swap (InternalLoggingEvent &);
  
           // public operators
@@ -168,6 +174,7 @@ namespace log4cplus {
             mutable log4cplus::tstring thread;
             log4cplus::helpers::Time timestamp;
             log4cplus::tstring file;
+            char const * function;
             int line;
             /** Indicates whether or not the Threadname has been retrieved. */
             mutable bool threadCached;

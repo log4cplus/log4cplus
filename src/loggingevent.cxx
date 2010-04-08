@@ -44,6 +44,7 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , file(filename
         ? LOG4CPLUS_C_STR_TO_TSTRING(filename) 
         : log4cplus::tstring())
+    , function (0)
     , line(line_)
     , threadCached(false)
     , ndcCached(false)
@@ -62,6 +63,7 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , thread(thread_)
     , timestamp(time)
     , file(file_)
+    , function (0)
     , line(line_)
     , threadCached(true)
     , ndcCached(true)
@@ -71,6 +73,7 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
 
 InternalLoggingEvent::InternalLoggingEvent ()
     : ll (NOT_SET_LOG_LEVEL)
+    , function (0)
     , threadCached(false)
     , ndcCached(false)
 { }
@@ -85,6 +88,7 @@ InternalLoggingEvent::InternalLoggingEvent(
     , thread(rhs.getThread())
     , timestamp(rhs.getTimestamp())
     , file(rhs.getFile())
+    , function(rhs.getFunction())
     , line(rhs.getLine())
     , threadCached(true)
     , ndcCached(true)
@@ -140,6 +144,13 @@ InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring & logger,
 }
 
 
+void
+InternalLoggingEvent::setFunction (char const * func)
+{
+    function = func;
+}
+
+
 const log4cplus::tstring& 
 InternalLoggingEvent::getMessage() const
 {
@@ -184,6 +195,7 @@ InternalLoggingEvent::swap (InternalLoggingEvent & other)
     swap (thread, other.thread);
     swap (timestamp, other.timestamp);
     swap (file, other.file);
+    swap (function, other.function);
     swap (line, other.line);
     swap (threadCached, other.threadCached);
     swap (ndcCached, other.ndcCached);

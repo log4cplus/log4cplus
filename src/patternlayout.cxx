@@ -153,7 +153,8 @@ public:
                 NEWLINE_CONVERTER,
                 FILE_CONVERTER,
                 LINE_CONVERTER,
-                FULL_LOCATION_CONVERTER };
+                FULL_LOCATION_CONVERTER,
+                FUNCTION_CONVERTER };
     BasicPatternConverter(const FormattingInfo& info, Type type);
     virtual void convert(tstring & result, 
         const spi::InternalLoggingEvent& event);
@@ -394,12 +395,22 @@ BasicPatternConverter::convert(tstring & result,
             tstring const & file = event.getFile();
             if (! file.empty ())
             {
-                result = file 
-                    + LOG4CPLUS_TEXT(":") 
-                    + helpers::convertIntegerToString(event.getLine());
+                result = file;
+                result += LOG4CPLUS_TEXT(":");
+                result += helpers::convertIntegerToString(event.getLine());
             }
             else
                 result = LOG4CPLUS_TEXT(":");
+            return;
+        }
+        
+    case FUNCTION_CONVERTER:
+        {
+            char const * func = event.getFunction ();
+            if (func)
+                result = LOG4CPLUS_C_STR_TO_TSTRING (func);
+            else
+                result.clear ();
             return;
         }
     }
@@ -662,8 +673,8 @@ PatternParser::finalizeConverter(tchar c)
         case LOG4CPLUS_TEXT('c'):
             pc = new LoggerPatternConverter(formattingInfo, 
                                             extractPrecisionOption());
-            getLogLog().debug( LOG4CPLUS_TEXT("LOGGER converter.") );
-            formattingInfo.dump(getLogLog());      
+            //getLogLog().debug( LOG4CPLUS_TEXT("LOGGER converter.") );
+            //formattingInfo.dump(getLogLog());      
             break;
 
         case LOG4CPLUS_TEXT('d'):
@@ -685,6 +696,13 @@ PatternParser::finalizeConverter(tchar c)
             }
             break;
 
+        case LOG4CPLUS_TEXT('f'):
+            pc = new BasicPatternConverter (
+                formattingInfo, BasicPatternConverter::FUNCTION_CONVERTER);
+            //getLogLog().debug("FUNCTION NAME converter.");
+            //formattingInfo.dump(getLogLog());   
+            break;
+
         case LOG4CPLUS_TEXT('F'):
             pc = new BasicPatternConverter
                           (formattingInfo, 
@@ -701,6 +719,14 @@ PatternParser::finalizeConverter(tchar c)
                 // getLogLog().debug( LOG4CPLUS_TEXT("HOSTNAME converter.") );
                 // formattingInfo.dump(getLogLog());
             }
+            break;
+
+        case LOG4CPLUS_TEXT('i'):
+            pc = new BasicPatternConverter
+                          (formattingInfo, 
+                           BasicPatternConverter::PROCESS_CONVERTER);
+            //getLogLog().debug("PROCESS_CONVERTER converter.");
+            //formattingInfo.dump(getLogLog());      
             break;
 
         case LOG4CPLUS_TEXT('l'):
@@ -748,14 +774,6 @@ PatternParser::finalizeConverter(tchar c)
                           (formattingInfo, 
                            BasicPatternConverter::THREAD_CONVERTER);
             //getLogLog().debug("THREAD converter.");
-            //formattingInfo.dump(getLogLog());      
-            break;
-
-        case LOG4CPLUS_TEXT('i'):
-            pc = new BasicPatternConverter
-                          (formattingInfo, 
-                           BasicPatternConverter::PROCESS_CONVERTER);
-            //getLogLog().debug("PROCESS_CONVERTER converter.");
             //formattingInfo.dump(getLogLog());      
             break;
 

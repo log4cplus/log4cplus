@@ -1554,6 +1554,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\loggingmacros.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\include\log4cplus\loggingmacros.h"
 				>
 			</File>

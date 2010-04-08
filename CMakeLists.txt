@@ -77,6 +77,7 @@ set (log4cplus_sources
   src/logger.cxx
   src/loggerimpl.cxx
   src/loggingevent.cxx
+  src/loggingmacros.cxx
   src/loglevel.cxx
   src/loglog.cxx
   src/logloguser.cxx

@@ -89,22 +89,22 @@ macros_get_logger (tchar const * logger)
 LOG4CPLUS_EXPORT void clear_tostringstream (tostringstream &);
 
 
-#if defined (LOG4CPLUS_SINGLE_THREADED)
-
-extern LOG4CPLUS_EXPORT tostringstream macros_oss;
-
-static inline
-tostringstream &
-get_macros_oss ()
+struct macro_body_scratch_pad_type
 {
-    return macros_oss;
-}
+    macro_body_scratch_pad_type (tostringstream & s,
+        spi::InternalLoggingEvent & ev);
 
-#else
+    tostringstream & oss;
+    spi::InternalLoggingEvent & ev;
+};
 
-LOG4CPLUS_EXPORT tostringstream & get_macros_oss ();
 
-#endif
+LOG4CPLUS_EXPORT macro_body_scratch_pad_type & get_macro_body_scratch_pad ();
+LOG4CPLUS_EXPORT log4cplus::spi::InternalLoggingEvent & get_macros_event ();
+LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
+    log4cplus::LogLevel, log4cplus::tstring const &, char const *, int,
+    char const *);
+
 
 
 } // namespace detail
@@ -112,18 +112,34 @@ LOG4CPLUS_EXPORT tostringstream & get_macros_oss ();
 } // namespace log4cplus
 
 
+#undef LOG4CPLUS_MACRO_FUNCTION
+#define LOG4CPLUS_MACRO_FUNCTION() 0 
+#if ! defined (LOG4CPLUS_DISABLE_FUNCTION_MACRO)
+#  if defined (LOG4CPLUS_HAVE_FUNCSIG_MACRO)
+#    undef LOG4CPLUS_MACRO_FUNCTION
+#    define LOG4CPLUS_MACRO_FUNCTION() __FUNCSIG__
+#  elif defined (LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO)
+#    undef LOG4CPLUS_MACRO_FUNCTION
+#    define LOG4CPLUS_MACRO_FUNCTION() __PRETTY_FUNCTION__
+#  elif defined (LOG4CPLUS_HAVE_FUNCTION_MACRO)
+#    undef LOG4CPLUS_MACRO_FUNCTION
+#    define LOG4CPLUS_MACRO_FUNCTION() __FUNCTION__
+#  endif
+#endif
+
+
 #define LOG4CPLUS_MACRO_BODY(logger, logEvent, logLevel)                \
     do {                                                                \
         log4cplus::Logger const & _l                                    \
             = log4cplus::detail::macros_get_logger (logger);            \
         if (_l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {        \
-            log4cplus::tostringstream & _log4cplus_buf                  \
-                = log4cplus::detail::get_macros_oss ();                 \
-            log4cplus::detail::clear_tostringstream (_log4cplus_buf);   \
+            log4cplus::detail::macro_body_scratch_pad_type & pad        \
+                = log4cplus::detail::get_macro_body_scratch_pad ();     \
+            log4cplus::tostringstream & _log4cplus_buf = pad.oss;       \
             _log4cplus_buf << logEvent;                                 \
-            _l.forcedLog (                                              \
-                log4cplus::logLevel##_LOG_LEVEL,                        \
-                _log4cplus_buf.str(), __FILE__, __LINE__);              \
+            log4cplus::detail::macro_forced_log (_l,                    \
+                log4cplus::logLevel##_LOG_LEVEL, _log4cplus_buf.str(),  \
+                __FILE__, __LINE__, LOG4CPLUS_MACRO_FUNCTION ());       \
         }                                                               \
     } while (0)
 
@@ -133,9 +149,9 @@ LOG4CPLUS_EXPORT tostringstream & get_macros_oss ();
         log4cplus::Logger const & _l                                    \
             = log4cplus::detail::macros_get_logger (logger);            \
         if (_l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {        \
-            _l.forcedLog (                                              \
-                log4cplus::logLevel##_LOG_LEVEL,                        \
-                logEvent, __FILE__, __LINE__);                          \
+            log4cplus::detail::macro_forced_log (_l,                    \
+                log4cplus::logLevel##_LOG_LEVEL, logEvent,              \
+                __FILE__, __LINE__, LOG4CPLUS_MACRO_FUNCTION ());       \
         }                                                               \
     } while(0)
 

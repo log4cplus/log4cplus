@@ -77,8 +77,16 @@
 
 #  if _MSC_VER >= 1400
 #    define LOG4CPLUS_WORKING_LOCALE
+#    define LOG4CPLUS_HAVE_FUNCTION_MACRO
+#    define LOG4CPLUS_HAVE_FUNCSIG_MACRO
 #  endif
+#endif
 
+#if defined (__GNUC__)
+#  define LOG4CPLUS_HAVE_FUNCTION_MACRO
+#  if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 4)
+#    define LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
+#  endif
 #endif
 
 

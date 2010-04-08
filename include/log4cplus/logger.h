@@ -176,12 +176,16 @@ namespace log4cplus
         void log(LogLevel ll, const log4cplus::tstring& message,
                  const char* file=NULL, int line=-1) const;
 
+        void log(spi::InternalLoggingEvent const &) const;
+
         /**
          * This method creates a new logging event and logs the event
          * without further checks.  
          */
         void forcedLog(LogLevel ll, const log4cplus::tstring& message,
                        const char* file=NULL, int line=-1) const;
+
+        void forcedLog(spi::InternalLoggingEvent const &) const;
 
         /**
          * Call the appenders in the hierrachy starting at
