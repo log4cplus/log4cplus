@@ -44,7 +44,7 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , file(filename
         ? LOG4CPLUS_C_STR_TO_TSTRING(filename) 
         : log4cplus::tstring())
-    , function (0)
+    , function ()
     , line(line_)
     , threadCached(false)
     , ndcCached(false)
@@ -63,7 +63,7 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , thread(thread_)
     , timestamp(time)
     , file(file_)
-    , function (0)
+    , function ()
     , line(line_)
     , threadCached(true)
     , ndcCached(true)
@@ -73,7 +73,7 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
 
 InternalLoggingEvent::InternalLoggingEvent ()
     : ll (NOT_SET_LOG_LEVEL)
-    , function (0)
+    , function ()
     , threadCached(false)
     , ndcCached(false)
 { }
