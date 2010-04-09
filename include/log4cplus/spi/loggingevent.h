@@ -77,6 +77,7 @@ namespace log4cplus {
                 const char * filename, int line);
 
             void setFunction (char const * func);
+            void setFunction (log4cplus::tstring const &);
 
 
           // public virtual methods
@@ -149,7 +150,7 @@ namespace log4cplus {
             /** The is the line where this log statement was written */
             int getLine() const { return line; }
 
-            char const * getFunction () const
+            log4cplus::tstring const & getFunction () const
             {
                 return function;
             }
@@ -166,15 +167,13 @@ namespace log4cplus {
         protected:
           // Data
             log4cplus::tstring message;
-
-        private:
             log4cplus::tstring loggerName;
             LogLevel ll;
             mutable log4cplus::tstring ndc;
             mutable log4cplus::tstring thread;
             log4cplus::helpers::Time timestamp;
             log4cplus::tstring file;
-            char const * function;
+            log4cplus::tstring function;
             int line;
             /** Indicates whether or not the Threadname has been retrieved. */
             mutable bool threadCached;

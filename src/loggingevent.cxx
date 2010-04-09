@@ -147,6 +147,13 @@ InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring & logger,
 void
 InternalLoggingEvent::setFunction (char const * func)
 {
+    function = LOG4CPLUS_C_STR_TO_TSTRING (func);
+}
+
+
+void
+InternalLoggingEvent::setFunction (log4cplus::tstring const & func)
+{
     function = func;
 }
 

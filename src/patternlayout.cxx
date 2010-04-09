@@ -405,14 +405,8 @@ BasicPatternConverter::convert(tstring & result,
         }
         
     case FUNCTION_CONVERTER:
-        {
-            char const * func = event.getFunction ();
-            if (func)
-                result = LOG4CPLUS_C_STR_TO_TSTRING (func);
-            else
-                result.clear ();
-            return;
-        }
+        result = event.getFunction ();
+        return;
     }
 
     result = LOG4CPLUS_TEXT("INTERNAL LOG4CPLUS ERROR");

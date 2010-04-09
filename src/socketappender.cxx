@@ -27,7 +27,7 @@
 
 namespace log4cplus {
 
-#define LOG4CPLUS_MESSAGE_VERSION 2
+#define LOG4CPLUS_MESSAGE_VERSION 3
 
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
@@ -271,6 +271,7 @@ convertToBuffer(SocketBuffer & buffer,
     buffer.appendInt( static_cast<unsigned int>(event.getTimestamp().usec()) );
     buffer.appendString(event.getFile());
     buffer.appendInt(event.getLine());
+    buffer.appendString(event.getFunction());
 }
 
 
@@ -303,15 +304,12 @@ readFromBuffer(SocketBuffer& buffer)
     long usec = buffer.readInt();
     tstring file = buffer.readString(sizeOfChar);
     int line = buffer.readInt();
+    tstring function = buffer.readString(sizeOfChar);
 
-    return spi::InternalLoggingEvent(loggerName,
-                                                ll,
-                                                ndc,
-                                                message,
-                                                thread,
-                                                Time(sec, usec),
-                                                file,
-                                                line);
+    spi::InternalLoggingEvent ev (loggerName, ll, ndc, message, thread,
+        Time(sec, usec), file, line);
+    ev.setFunction (function);
+    return ev;
 }
 
 
