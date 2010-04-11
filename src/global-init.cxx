@@ -65,6 +65,7 @@ appender_sratch_pad::~appender_sratch_pad ()
 
 
 per_thread_data::per_thread_data ()
+    : macro_body_scratch_pad (macros_oss, forced_log_ev)
 { }
 
 
@@ -181,7 +182,7 @@ void initializeLog4cplus()
 } // namespace log4cplus
 
 
-#if defined (_WIN32) && (defined (LOG4CPLUS_BUILD_DLL) || defined (log4cplus_EXPORTS))
+#if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL)
 
 BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL,  // handle to DLL module
                     DWORD fdwReason,     // reason for calling function

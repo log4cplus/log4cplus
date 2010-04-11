@@ -4,6 +4,13 @@
 
 #define LOG4CPLUS_CONFIG_H
 
+/* Defined if the compiler supports C99 style variadic macros with
+   __VA_ARGS__. */
+#undef HAS_C99_VARIADIC_MACROS
+
+/* Defined if the compiler supports GNU style variadic macros. */
+#undef HAS_GNU_VARIADIC_MACROS
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
@@ -83,6 +90,12 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Defined if the compiler supports __FUNCTION__ macro. */
+#undef HAVE___FUNCTION___MACRO
+
+/* Defined if the compiler supports __PRETTY_FUNCTION__ macro. */
+#undef HAVE___PRETTY_FUNCTION___MACRO
+
 /* Defined if the compiler provides __sync_add_and_fetch(). */
 #undef HAVE___SYNC_ADD_AND_FETCH
 
@@ -100,10 +113,16 @@
 #undef LOG4CPLUS_DECLSPEC_IMPORT
 
 /* */
+#undef LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
+
+/* */
 #undef LOG4CPLUS_HAVE_ENAMETOOLONG
 
 /* */
 #undef LOG4CPLUS_HAVE_FTIME
+
+/* */
+#undef LOG4CPLUS_HAVE_FUNCTION_MACRO
 
 /* */
 #undef LOG4CPLUS_HAVE_GETPID
@@ -113,6 +132,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_GMTIME_R
+
+/* */
+#undef LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS
 
 /* */
 #undef LOG4CPLUS_HAVE_HTONL
@@ -134,6 +156,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_NTOHS
+
+/* */
+#undef LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
 
 /* */
 #undef LOG4CPLUS_HAVE_STAT

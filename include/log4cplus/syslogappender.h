@@ -32,6 +32,13 @@ namespace log4cplus {
 
     /**
      * Appends log events to a file. 
+     *
+     * <h3>Properties</h3>
+     * <dl>
+     * <dt><tt>ident</tt></dt>
+     * <dd>First argument to <code>openlog()</code>, a string that
+     * will be prepended to every message.</dd>
+     * </dl>
      */
     class LOG4CPLUS_EXPORT SysLogAppender : public Appender {
     public:

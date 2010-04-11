@@ -86,4 +86,17 @@
 /* Defined if the compiler provides __sync_sub_and_fetch(). */
 #undef LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH
 
+/* */
+#undef LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
+
+/* */
+#undef LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS
+
+/* Defined if the compiler supports __FUNCTION__ macro. */
+#undef LOG4CPLUS_HAVE_FUNCTION_MACRO
+
+/* Defined if the compiler supports __PRETTY_FUNCTION__ macro. */
+#undef LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
+
+
 #endif // LOG4CPLUS_CONFIG_DEFINES_HXX

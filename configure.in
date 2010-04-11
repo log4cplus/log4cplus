@@ -1,9 +1,13 @@
 dnl Process this file with autoconf to produce a configure script.
+dnl This version of log4cplus requires the follwing autotools versions:
+dnl autoconf-2.62
+dnl automake-1.10.1
+dnl libtool-2.2.6
 AC_INIT([log4cplus],[1.1.0])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.10 no-define nostdinc gnu -Wall])
+AM_INIT_AUTOMAKE([1.10.1 no-define nostdinc gnu -Wall])
 
 #
 # +1 : ? : +1  == new interface that does not break old one
@@ -49,10 +53,19 @@ AS_IF([test "x$enable_debugging" = "xyes"],
   [LOG4CPLUS_NDEBUG=-DNDEBUG])
 AC_SUBST([LOG4CPLUS_NDEBUG])
 
-dnl first check for c/c++ compilers
+dnl Check for c/c++ compilers.
+
 AC_PROG_CXX
 AC_PROG_CXXCPP
 AC_LANG([C++])
+
+AC_ARG_ENABLE([profiling],
+  [AS_HELP_STRING([--enable-profiling],
+    [Compile with profiling compiler options.])],
+  [enable_profiling=yes],
+  [enable_profiling=no])
+LOG4CPLUS_PROFILING_LDFLAGS=
+LOG4CPLUS_PROFILING_CXXFLAGS=
 
 dnl Libtool setup.
 
@@ -79,14 +92,26 @@ dnl  AX_CXXFLAGS_GCC_OPTION([-Wabi])
 dnl  AX_CXXFLAGS_GCC_OPTION([-Wconversion])
   AX_CXXFLAGS_GCC_OPTION([-Wundef])
   AX_CXXFLAGS_GCC_OPTION([-Wshadow])
+
   AS_IF([test "x$enable_debugging" = "xyes"],
     [AX_CXXFLAGS_GCC_OPTION([-g3])
      AX_CXXFLAGS_GCC_OPTION([-O0])],
     [AX_CXXFLAGS_GCC_OPTION([-O2])])
-  dnl The --enable-auto-import switch is required for log4cplus
-  dnl to work when compiled with Cygwin's GCC 4.3.x.
-  AS_IF([test "x$target_os" = "xcygwin"],
-  [LDFLAGS="${LDFLAGS} -Wl,--enable-auto-import"])])
+
+  dnl Try -pg profiling option.
+  AS_IF([test "x$enable_profiling" = "xyes"],
+    [AX_CXXFLAGS_GCC_OPTION([-pg],[],
+      [LOG4CPLUS_PROFILING_LDFLAGS="-pg"
+       LOG4CPLUS_PROFILING_CXXFLAGS="-pg"])
+     AX_CXXFLAGS_GCC_OPTION([-g3])])
+
+  dnl The --enable-auto-import and --enable-runtime-pseudo-reloc
+  dnl options are required for log4cplus to work when compiled with
+  dnl Cygwin's GCC 4.3.x.
+  AS_CASE(["$target_os"],
+    [cygwin|mingw*],
+    [LDFLAGS="${LDFLAGS} -Wl,--enable-auto-import"
+     LDFLAGS="${LDFLAGS} -Wl,--enable-runtime-pseudo-reloc"])])
 
 AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
 AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"],
@@ -95,6 +120,26 @@ AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility"
     [AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"],
        [AX_CXXFLAGS_GCC_OPTION([-fvisibility=hidden])])
      AX_CXXFLAGS_GCC_OPTION([-fkeep-inline-functions])])])
+
+AX_C99_VARIADIC_MACROS
+AH_TEMPLATE([LOG4CPLUS_HAVE_C99_VARIADIC_MACROS])
+AS_IF([test "x$ac_cv_c99_variadic_macros" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_HAVE_C99_VARIADIC_MACROS])])
+
+AX_GNU_VARIADIC_MACROS
+AH_TEMPLATE([LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS])
+AS_IF([test "x$ac_cv_gnu_variadic_macros" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS])])
+
+AX___FUNCTION___MACRO
+AH_TEMPLATE([LOG4CPLUS_HAVE_FUNCTION_MACRO])
+AS_IF([test "x$ac_cv_have___function___macro" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_HAVE_FUNCTION_MACRO])])
+
+AX___PRETTY_FUNCTION___MACRO
+AH_TEMPLATE([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO])
+AS_IF([test "x$ac_cv_have___pretty_function___macro" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO])])
 
 dnl Checks for libraries.
 
@@ -250,4 +295,8 @@ AC_CONFIG_FILES([Makefile
 	   tests/socket_test/Makefile
            tests/thread_test/Makefile
            tests/timeformat_test/Makefile])
+
+AC_SUBST([LOG4CPLUS_PROFILING_LDFLAGS])
+AC_SUBST([LOG4CPLUS_PROFILING_CXXFLAGS])
+
 AC_OUTPUT

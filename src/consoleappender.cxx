@@ -49,15 +49,8 @@ ConsoleAppender::ConsoleAppender(const helpers::Properties properties)
   logToStdErr(false),
   immediateFlush(false)
 {
-    tstring val = helpers::toLower(
-        properties.getProperty(LOG4CPLUS_TEXT("logToStdErr")));
-    if(val == LOG4CPLUS_TEXT("true")) {
-        logToStdErr = true;
-    }
-    if(properties.exists( LOG4CPLUS_TEXT("ImmediateFlush") )) {
-        tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("ImmediateFlush") );
-        immediateFlush = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
-    }
+    properties.getBool (logToStdErr, LOG4CPLUS_TEXT("logToStdErr"));
+    properties.getBool (immediateFlush, LOG4CPLUS_TEXT("ImmediateFlush"));
 }
 
 

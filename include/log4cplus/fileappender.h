@@ -27,6 +27,7 @@
 #include <log4cplus/appender.h>
 #include <log4cplus/fstreams.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/helpers/timehelper.h>
 #include <fstream>
 
 
@@ -35,6 +36,31 @@ namespace log4cplus
 
     /**
      * Appends log events to a file. 
+     * Appends log events to a file.
+     * 
+     * <h3>Properties</h3>
+     * <dl>
+     * <dt><tt>File</tt></dt>
+     * <dd>This property specifies output file name.</dd>
+     * 
+     * <dt><tt>ImmediateFlush</tt></dt>
+     * <dd>When it is set true, output stream will be flushed after
+     * each appended event.</dd>
+     *
+     * <dt><tt>Append</tt></dt>
+     * <dd>When it is set true, output file will be appended to
+     * instead of being truncated at opening.</dd>
+     *
+     * <dt><tt>ReopenDelay</tt></dt>
+     * <dd>This property sets a delay after which the appender will try
+     * to reopen log file again, after last logging failure.
+     * </dd>
+     *
+     * <dt><tt>BufferSize</tt></dt>
+     * <dd>Non-zero value of this property sets up buffering of output
+     * stream using a buffer of given size.
+     * </dd>
+     * </dl>
      */
     class LOG4CPLUS_EXPORT FileAppender : public Appender {
     public:
@@ -54,6 +80,9 @@ namespace log4cplus
     protected:
         virtual void append(const spi::InternalLoggingEvent& event);
 
+        void open(std::ios_base::openmode mode);
+        bool reopen();
+
       // Data
         /**
          * Immediate flush means that the underlying writer or output stream
@@ -69,8 +98,22 @@ namespace log4cplus
          */
         bool immediateFlush;
 
+        /**
+         * When any append operation fails, <code>reopenDelay</code> says 
+         * for how many seconds the next attempt to re-open the log file and 
+         * resume logging will be delayed. If <code>reopenDelay</code> is zero, 
+         * each failed append operation will cause log file to be re-opened. 
+         * By default, <code>reopenDelay</code> is 1 second.
+         */
+        int reopenDelay;
+
+        unsigned long bufferSize;
+        log4cplus::tchar * buffer;
+
         log4cplus::tofstream out;
         log4cplus::tstring filename;
+
+        log4cplus::helpers::Time reopen_time;
 
     private:
         void init(const log4cplus::tstring& filename,
@@ -86,6 +129,24 @@ namespace log4cplus
     /**
      * RollingFileAppender extends FileAppender to backup the log files when 
      * they reach a certain size. 
+     * RollingFileAppender extends FileAppender to backup the log
+     * files when they reach a certain size.
+     *
+     * <h3>Properties</h3>
+     * <p>Properties additional to {@link FileAppender}'s properties:
+     *
+     * <dl>
+     * <dt><tt>MaxFileSize</tt></dt>
+     * <dd>This property specifies maximal size of output file. The
+     * value is in bytes. It is possible to use <tt>MB</tt> and
+     * <tt>KB</tt> suffixes to specify the value in megabytes or
+     * kilobytes instead.</dd>
+     *
+     * <dt><tt>MaxBackupIndex</tt></dt>
+     * <dd>This property limits the number of backup output
+     * files; e.g. how many <tt>log.1</tt>, <tt>log.2</tt> etc. files
+     * will be kept.</dd>
+     * </dl>
      */
     class LOG4CPLUS_EXPORT RollingFileAppender : public FileAppender {
     public:
@@ -120,6 +181,22 @@ namespace log4cplus
      * DailyRollingFileAppender extends {@link FileAppender} so that the
      * underlying file is rolled over at a user chosen frequency.
      *
+     * <h3>Properties</h3>
+     * <p>Properties additional to {@link FileAppender}'s properties:
+     *
+     * <dl>
+     * <dt><tt>Schedule</tt></dt>
+     * <dd>This property specifies rollover schedule. The possible
+     * values are <tt>MONTHLY</tt>, <tt>WEEKLY</tt>, <tt>DAILY</tt>,
+     * <tt>TWICE_DAILY</tt>, <tt>HOURLY</tt> and
+     * <tt>MINUTELY</tt>.</dd>
+     *
+     * <dt><tt>MaxBackupIndex</tt></dt>
+     * <dd>This property limits how many backup files are kept per
+     * single logging period; e.g. how many <tt>log.2009-11-07.1</tt>,
+     * <tt>log.2009-11-07.2</tt> etc. files are kept.</dd>
+     *
+     * </dl>
      */
     class LOG4CPLUS_EXPORT DailyRollingFileAppender : public FileAppender {
     public:

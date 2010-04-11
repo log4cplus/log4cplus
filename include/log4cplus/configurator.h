@@ -233,6 +233,23 @@ namespace log4cplus
          */
         virtual void configure();
 
+        /**
+         * \return The return value is reference to Properties
+         * container of properties with the <code>"log4cplus."</code>
+         * prefix removed and references to other properties and/or
+         * environment variables expanded.
+         */
+        log4cplus::helpers::Properties const & getProperties () const;
+
+        /**
+         * \return The return value is a reference to log4cplus::tstring
+         * containing filename of properties source file. It will be
+         * string "UNAVAILABLE" if the PropertyConfigurator instance has been
+         * constructed using one of the other constructors that do not take
+         * filename as parameter.
+         */
+        log4cplus::tstring const & getPropertyFilename () const;
+
     protected:
       // Methods
         void init();  // called by the ctor

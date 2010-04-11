@@ -27,8 +27,96 @@
 
 namespace log4cplus {
 
-#define LOG4CPLUS_MESSAGE_VERSION 2
+#define LOG4CPLUS_MESSAGE_VERSION 3
 
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+SocketAppender::ConnectorThread::ConnectorThread (
+    SocketAppender & socket_appender)
+    : sa (socket_appender)
+    , exit_flag (false)
+{ }
+
+
+SocketAppender::ConnectorThread::~ConnectorThread ()
+{ }
+
+
+void
+SocketAppender::ConnectorThread::run ()
+{
+    while (true)
+    {
+        trigger_ev.timed_wait (30 * 1000);
+
+        getLogLog().debug (
+            LOG4CPLUS_TEXT("SocketAppender::ConnectorThread::run()")
+            LOG4CPLUS_TEXT("- running..."));
+
+        // Check exit condition as the very first thing.
+
+        {
+            thread::Guard guard (access_mutex);
+            if (exit_flag)
+                return;
+            trigger_ev.reset ();
+        }
+
+        // Do not try to re-open already open socket.
+
+        {
+            thread::Guard guard (sa.access_mutex);
+            if (sa.socket.isOpen ())
+                continue;
+        }
+
+        // The socket is not open, try to reconnect.
+
+        helpers::Socket socket (sa.host, sa.port);
+        if (! socket.isOpen ())
+        {
+            getLogLog().error(
+                LOG4CPLUS_TEXT("SocketAppender::ConnectorThread::run()")
+                LOG4CPLUS_TEXT("- Cannot connect to server"));
+
+            // Sleep for a short while after unsuccessful connection attempt
+            // so that we do not try to reconnect after each logging attempt
+            // which could be many times per second.
+            helpers::sleep (5);
+
+            continue;
+        }
+
+        // Connection was successful, move the socket into SocketAppender.
+
+        {
+            thread::Guard guard (sa.access_mutex);
+            sa.socket = socket;
+            sa.connected = true;
+        }
+    }
+}
+
+
+void
+SocketAppender::ConnectorThread::terminate ()
+{
+    {
+        thread::Guard guard (access_mutex);
+        exit_flag = true;
+        trigger_ev.signal ();
+    }
+    join ();
+}
+
+
+void
+SocketAppender::ConnectorThread::trigger ()
+{
+    trigger_ev.signal ();
+}
+
+#endif
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -42,6 +130,7 @@ SocketAppender::SocketAppender(const tstring& host_,
   serverName(serverName_)
 {
     openSocket();
+    initConnector ();
 }
 
 
@@ -51,19 +140,21 @@ SocketAppender::SocketAppender(const helpers::Properties & properties)
    port(9998)
 {
     host = properties.getProperty( LOG4CPLUS_TEXT("host") );
-    if(properties.exists( LOG4CPLUS_TEXT("port") )) {
-        tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("port") );
-        port = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
-    }
+    properties.getInt (port, LOG4CPLUS_TEXT("port"));
     serverName = properties.getProperty( LOG4CPLUS_TEXT("ServerName") );
 
     openSocket();
+    initConnector ();
 }
 
 
 
 SocketAppender::~SocketAppender()
 {
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    connector->terminate ();
+#endif
+
     destructorImpl();
 }
 
@@ -77,6 +168,11 @@ void
 SocketAppender::close()
 {
     getLogLog().debug(LOG4CPLUS_TEXT("Entering SocketAppender::close()..."));
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    connector->terminate ();
+#endif
+
     socket.close();
     closed = true;
 }
@@ -96,10 +192,28 @@ SocketAppender::openSocket()
 }
 
 
+void
+SocketAppender::initConnector ()
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    connected = true;
+    connector = new ConnectorThread (*this);
+    connector->start ();
+#endif
+}
+
 
 void
 SocketAppender::append(const spi::InternalLoggingEvent& event)
 {
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    if (! connected)
+    {
+        connector->trigger ();
+        return;
+    }
+
+#else
     if(!socket.isOpen()) {
         openSocket();
         if(!socket.isOpen()) {
@@ -107,6 +221,7 @@ SocketAppender::append(const spi::InternalLoggingEvent& event)
             return;
         }
     }
+#endif
 
     helpers::SocketBuffer buffer(LOG4CPLUS_MAX_MESSAGE_SIZE - sizeof(unsigned int));
     convertToBuffer (buffer, event, serverName);
@@ -115,10 +230,15 @@ SocketAppender::append(const spi::InternalLoggingEvent& event)
     msgBuffer.appendInt(static_cast<unsigned>(buffer.getSize()));
     msgBuffer.appendBuffer(buffer);
 
-    socket.write(msgBuffer);
+    bool ret = socket.write(msgBuffer);
+    if (! ret)
+    {
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+        connected = false;
+        connector->trigger ();
+#endif
+    }
 }
-
-
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -151,6 +271,7 @@ convertToBuffer(SocketBuffer & buffer,
     buffer.appendInt( static_cast<unsigned int>(event.getTimestamp().usec()) );
     buffer.appendString(event.getFile());
     buffer.appendInt(event.getLine());
+    buffer.appendString(event.getFunction());
 }
 
 
@@ -183,15 +304,12 @@ readFromBuffer(SocketBuffer& buffer)
     long usec = buffer.readInt();
     tstring file = buffer.readString(sizeOfChar);
     int line = buffer.readInt();
+    tstring function = buffer.readString(sizeOfChar);
 
-    return spi::InternalLoggingEvent(loggerName,
-                                                ll,
-                                                ndc,
-                                                message,
-                                                thread,
-                                                Time(sec, usec),
-                                                file,
-                                                line);
+    spi::InternalLoggingEvent ev (loggerName, ll, ndc, message, thread,
+        Time(sec, usec), file, line);
+    ev.setFunction (function);
+    return ev;
 }
 
 

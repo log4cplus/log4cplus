@@ -99,6 +99,12 @@ namespace log4cplus {
              */
             Properties getPropertySubset(const log4cplus::tstring& prefix) const;
 
+            bool getInt (int & val, log4cplus::tstring const & key) const;
+            bool getUInt (unsigned & val, log4cplus::tstring const & key) const;
+            bool getLong (long & val, log4cplus::tstring const & key) const;
+            bool getULong (unsigned long & val, log4cplus::tstring const & key) const;
+            bool getBool (bool & val, log4cplus::tstring const & key) const;
+
         protected:
           // Types
             typedef std::map<log4cplus::tstring, log4cplus::tstring> StringMap;
@@ -113,6 +119,10 @@ namespace log4cplus {
             template <typename StringType>
             log4cplus::tstring const & get_property_worker (
                 StringType const & key) const;
+
+            template <typename ValType>
+            bool get_type_val_worker (ValType & val,
+                log4cplus::tstring const & key) const;
         };
     } // end namespace helpers
 

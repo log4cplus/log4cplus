@@ -32,11 +32,6 @@
 #  include <semaphore.h>
 #  include <log4cplus/helpers/timehelper.h>
 
-#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
-#  undef WIN32_LEAN_AND_MEAN
-#  define WIN32_LEAN_AND_MEAN
-#  include <windows.h>
-
 #endif
 
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="windows-1250"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="log4cplus"
+	OutputDirectory=".\$(PlatformName)\$(ProjectName).$(ConfigurationName)"
+	IntermediateDirectory=".\$(PlatformName)\$(ProjectName).$(ConfigurationName)"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="..\include"
+		PreprocessorDefinitions="WIN32;_WIN32_WINNT=0x0400;WINVER=0x0400;INSIDE_LOG4CPLUS;_SCL_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS"
+		EnableFunctionLevelLinking="true"
+		PrecompiledHeaderFile=".\$(IntDir)/$(ProjectName).pch"
+		AssemblerListingLocation=".\$(IntDir)/"
+		ObjectFile=".\$(IntDir)/"
+		ProgramDataBaseFileName=".\$(OutDir)/"
+		XMLDocumentationFileName=".\$(IntDir)/"
+		WarningLevel="3"
+		DebugInformationFormat="3"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		LinkIncremental="1"
+		GenerateDebugInformation="true"
+		OptimizeReferences="2"
+		EnableCOMDATFolding="1"
+		OptimizeForWindows98="1"
+	/>
+</VisualStudioPropertySheet>

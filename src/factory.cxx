@@ -80,143 +80,99 @@ namespace spi {
 } // namespace spi
 
 
-namespace {
-
-#define APPENDER_FACTORY_DEF(factoryname, appendername)                     \
-    class factoryname : public spi::AppenderFactory {                       \
-        SharedAppenderPtr createObject(const helpers::Properties& props)    \
-        {                                                                   \
-            return SharedAppenderPtr(new log4cplus::appendername(props));   \
-        }                                                                   \
-        tstring const & getTypeName() const {                               \
-            static tstring const factory_name(                              \
-                LOG4CPLUS_TEXT("log4cplus::")                               \
-                LOG4CPLUS_TEXT(#appendername));                             \
-            return factory_name;                                            \
-        }                                                                   \
-    }
-    
-
-    APPENDER_FACTORY_DEF (ConsoleAppenderFactory, ConsoleAppender);
-    APPENDER_FACTORY_DEF (NullAppenderFactory, NullAppender);
-    APPENDER_FACTORY_DEF (FileAppenderFactory, FileAppender);
-    APPENDER_FACTORY_DEF (RollingFileAppenderFactory, RollingFileAppender);
-    APPENDER_FACTORY_DEF (DailyRollingFileAppenderFactory, DailyRollingFileAppender);
-    APPENDER_FACTORY_DEF (SocketAppenderFactory, SocketAppender);
-#ifndef LOG4CPLUS_SINGLE_THREADED
-    APPENDER_FACTORY_DEF (AsyncAppenderFactory, AsyncAppender);
-#endif
-#if defined(_WIN32)
-#  if defined (LOG4CPLUS_HAVE_NT_EVENT_LOG)
-    APPENDER_FACTORY_DEF (NTEventLogAppenderFactory, NTEventLogAppender);
-#  endif
-    APPENDER_FACTORY_DEF (Win32DebugAppenderFactory, Win32DebugAppender);
-#elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
-    APPENDER_FACTORY_DEF (SysLogAppenderFactory, SysLogAppender);
-#endif
-
-#undef APPENDER_FACTORY_DEF
-
-
-#define LAYOUT_FACTORY_DEF(factoryname, layoutname)                         \
-    class factoryname : public spi::LayoutFactory {                         \
-        std::auto_ptr<Layout>                                               \
-        createObject(const helpers::Properties& props) {                    \
-             std::auto_ptr<Layout> tmp(new log4cplus::layoutname(props));   \
-             return tmp;                                                    \
-        }                                                                   \
-        tstring const & getTypeName() const {                               \
-            static tstring const factory_name(                              \
-                LOG4CPLUS_TEXT("log4cplus::")                               \
-                LOG4CPLUS_TEXT(#layoutname));                               \
-            return factory_name;                                            \
-        }                                                                   \
-    }
-    
-
-    LAYOUT_FACTORY_DEF (SimpleLayoutFactory, SimpleLayout);
-    LAYOUT_FACTORY_DEF (TTCCLayoutFactory, TTCCLayout);
-    LAYOUT_FACTORY_DEF (PatternLayoutFactory, PatternLayout);
-
-#undef LAYOUT_FACTORY_DEF
-
-
-#define FILTER_FACTORY_DEF(factoryname, filtername)                         \
-    class factoryname : public spi::FilterFactory {                         \
-        spi::FilterPtr createObject(const helpers::Properties& props) {     \
-            return spi::FilterPtr(new log4cplus::spi::filtername(props));   \
-        }                                                                   \
-        tstring const & getTypeName() const {                               \
-            static tstring const factory_name(                              \
-                LOG4CPLUS_TEXT("log4cplus::spi::")                          \
-                LOG4CPLUS_TEXT(#filtername));                               \
-            return factory_name;                                            \
-        }                                                                   \
-    }
-    
-
-    FILTER_FACTORY_DEF (DenyAllFilterFactory, DenyAllFilter);
-    FILTER_FACTORY_DEF (LogLevelMatchFilterFactory, LogLevelMatchFilter);
-    FILTER_FACTORY_DEF (LogLevelRangeFilterFactory, LogLevelRangeFilter);
-    FILTER_FACTORY_DEF (StringMatchFilterFactory, StringMatchFilter);
-
-#undef FILTER_FACTORY_DEF
-
-
-} // namespace
-
-
-///////////////////////////////////////////////////////////////////////////////
-// LOCAL file methods 
-/////////////////////////////////////////////////////////////////////////////// 
-
 namespace
 {
 
-template <typename Fac, typename Reg>
-static void
-reg_factory (Reg & reg)
+
+template <typename ProductFactoryBase>
+class LocalFactoryBase
+    : public ProductFactoryBase
 {
-    std::auto_ptr<typename Reg::product_type> pfac (new Fac);
-    // Force initialization of inner static variable.
-    pfac->getTypeName ();
-    reg.put (pfac);
-}
+public:
+    LocalFactoryBase (tchar const * n)
+        : name (n)
+    { }
+
+    virtual log4cplus::tstring const & getTypeName() const
+    {
+        return name;
+    }
+
+private:
+    log4cplus::tstring name;
+};
+
+
+template <typename LocalProduct, typename ProductFactoryBase>
+class FactoryTempl
+    : public LocalFactoryBase<ProductFactoryBase>
+{
+public:
+    typedef typename ProductFactoryBase::ProductPtr ProductPtr;
+
+    FactoryTempl (tchar const * n)
+        : LocalFactoryBase<ProductFactoryBase> (n)
+    { }
+
+    virtual ProductPtr createObject (helpers::Properties const & props)
+    {
+        return ProductPtr (new LocalProduct (props));
+    }
+};
+
 
 } // namespace
+
+
+#define REG_PRODUCT(reg, productprefix, productname, productns, productfact) \
+reg.put (                                                               \
+    std::auto_ptr<productfact> (                                        \
+        new FactoryTempl<productns productname, productfact> (          \
+            LOG4CPLUS_TEXT(productprefix)                               \
+            LOG4CPLUS_TEXT(#productname))))
+
+
+#define REG_APPENDER(reg, appendername)                             \
+REG_PRODUCT (reg, "log4cplus::", appendername, log4cplus::, spi::AppenderFactory) 
+
+#define REG_LAYOUT(reg, layoutname)                                 \
+REG_PRODUCT (reg, "log4cplus::", layoutname, log4cplus::, spi::LayoutFactory)
+
+#define REG_FILTER(reg, filtername)                                 \
+REG_PRODUCT (reg, "log4cplus::spi::", filtername, spi::, spi::FilterFactory)
 
 
 void initializeFactoryRegistry()
 {
     spi::AppenderFactoryRegistry& reg = spi::getAppenderFactoryRegistry();
-    reg_factory<ConsoleAppenderFactory> (reg);
-    reg_factory<NullAppenderFactory> (reg);
-    reg_factory<FileAppenderFactory> (reg);
-    reg_factory<RollingFileAppenderFactory> (reg);
-    reg_factory<DailyRollingFileAppenderFactory> (reg);
-    reg_factory<SocketAppenderFactory> (reg);
+    REG_APPENDER (reg, ConsoleAppender);
+    REG_APPENDER (reg, NullAppender);
+    REG_APPENDER (reg, FileAppender);
+    REG_APPENDER (reg, RollingFileAppender);
+    REG_APPENDER (reg, DailyRollingFileAppender);
+    REG_APPENDER (reg, SocketAppender);
 #if defined(_WIN32)
 #  if defined(LOG4CPLUS_HAVE_NT_EVENT_LOG)
-    reg_factory<NTEventLogAppenderFactory> (reg);
+    REG_APPENDER (reg, NTEventLogAppender);
 #  endif
-    reg_factory<Win32DebugAppenderFactory> (reg);
+    REG_APPENDER (reg, Win32DebugAppender);
 #elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
-    reg_factory<SysLogAppenderFactory> (reg);
+    REG_APPENDER (reg, SysLogAppender);
 #endif
 #ifndef LOG4CPLUS_SINGLE_THREADED
-    reg_factory<AsyncAppenderFactory> (reg);
+    REG_APPENDER (reg, AsyncAppender);
 #endif
 
     spi::LayoutFactoryRegistry& reg2 = spi::getLayoutFactoryRegistry();
-    reg_factory<SimpleLayoutFactory> (reg2);
-    reg_factory<TTCCLayoutFactory> (reg2);
-    reg_factory<PatternLayoutFactory> (reg2);
+    REG_LAYOUT (reg2, SimpleLayout);
+    REG_LAYOUT (reg2, TTCCLayout);
+    REG_LAYOUT (reg2, PatternLayout);
 
     spi::FilterFactoryRegistry& reg3 = spi::getFilterFactoryRegistry();
-    reg_factory<DenyAllFilterFactory> (reg3);
-    reg_factory<LogLevelMatchFilterFactory> (reg3);
-    reg_factory<LogLevelRangeFilterFactory> (reg3);
-    reg_factory<StringMatchFilterFactory> (reg3);
+    REG_FILTER (reg3, DenyAllFilter);
+    REG_FILTER (reg3, LogLevelMatchFilter);
+    REG_FILTER (reg3, LogLevelRangeFilter);
+    REG_FILTER (reg3, StringMatchFilter);
 }
 
 

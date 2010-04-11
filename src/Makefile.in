@@ -49,7 +49,10 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/acx_pthread.m4 \
 	$(top_srcdir)/m4/ax_declspec.m4 \
 	$(top_srcdir)/m4/ax_tls_support.m4 \
-	$(top_srcdir)/m4/ax__sync.m4 $(top_srcdir)/configure.in
+	$(top_srcdir)/m4/ax__sync.m4 \
+	$(top_srcdir)/m4/ax_macro_va_args.m4 \
+	$(top_srcdir)/m4/ax_macro_function.m4 \
+	$(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -70,20 +73,22 @@ am__liblog4cplus_la_SOURCES_DIST = appenderattachableimpl.cxx \
 	appender.cxx configurator.cxx consoleappender.cxx factory.cxx \
 	fileappender.cxx filter.cxx global-init.cxx hierarchy.cxx \
 	hierarchylocker.cxx layout.cxx logger.cxx loggerimpl.cxx \
-	loggingevent.cxx loglevel.cxx loglog.cxx logloguser.cxx \
-	ndc.cxx nullappender.cxx objectregistry.cxx patternlayout.cxx \
-	pointer.cxx property.cxx rootlogger.cxx sleep.cxx socket.cxx \
-	socket-unix.cxx socketappender.cxx socketbuffer.cxx \
-	stringhelper.cxx syslogappender.cxx timehelper.cxx threads.cxx \
-	asyncappender.cxx queue.cxx syncprims.cxx
+	loggingevent.cxx loggingmacros.cxx loglevel.cxx loglog.cxx \
+	logloguser.cxx ndc.cxx nullappender.cxx objectregistry.cxx \
+	patternlayout.cxx pointer.cxx property.cxx rootlogger.cxx \
+	sleep.cxx socket.cxx socket-unix.cxx socketappender.cxx \
+	socketbuffer.cxx stringhelper.cxx syslogappender.cxx \
+	timehelper.cxx threads.cxx asyncappender.cxx queue.cxx \
+	syncprims.cxx
 am__objects_1 = appenderattachableimpl.lo appender.lo configurator.lo \
 	consoleappender.lo factory.lo fileappender.lo filter.lo \
 	global-init.lo hierarchy.lo hierarchylocker.lo layout.lo \
-	logger.lo loggerimpl.lo loggingevent.lo loglevel.lo loglog.lo \
-	logloguser.lo ndc.lo nullappender.lo objectregistry.lo \
-	patternlayout.lo pointer.lo property.lo rootlogger.lo sleep.lo \
-	socket.lo socket-unix.lo socketappender.lo socketbuffer.lo \
-	stringhelper.lo syslogappender.lo timehelper.lo
+	logger.lo loggerimpl.lo loggingevent.lo loggingmacros.lo \
+	loglevel.lo loglog.lo logloguser.lo ndc.lo nullappender.lo \
+	objectregistry.lo patternlayout.lo pointer.lo property.lo \
+	rootlogger.lo sleep.lo socket.lo socket-unix.lo \
+	socketappender.lo socketbuffer.lo stringhelper.lo \
+	syslogappender.lo timehelper.lo
 @MULTI_THREADED_FALSE@am__objects_2 = $(am__objects_1)
 @MULTI_THREADED_TRUE@am__objects_2 = $(am__objects_1) threads.lo \
 @MULTI_THREADED_TRUE@	asyncappender.lo queue.lo syncprims.lo
@@ -152,6 +157,8 @@ LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LOG4CPLUS_NDEBUG = @LOG4CPLUS_NDEBUG@
+LOG4CPLUS_PROFILING_CXXFLAGS = @LOG4CPLUS_PROFILING_CXXFLAGS@
+LOG4CPLUS_PROFILING_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@
 LTLIBOBJS = @LTLIBOBJS@
 LT_VERSION = @LT_VERSION@
 MAKEINFO = @MAKEINFO@
@@ -241,6 +248,8 @@ AM_CPPFLAGS = -DINSIDE_LOG4CPLUS \
 	-I$(top_srcdir)/include -I$(top_builddir)/include \
 	@LOG4CPLUS_NDEBUG@
 
+AM_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@
+AM_CXXFLAGS = @LOG4CPLUS_PROFILING_CXXFLAGS@
 nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/asyncappender.h \
 			 ../include/log4cplus/config.hxx \
@@ -290,37 +299,38 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/spi/rootlogger.h
 
 SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
-                         appender.cxx \
-                         configurator.cxx \
-                         consoleappender.cxx \
-			 factory.cxx \
-                         fileappender.cxx \
-                         filter.cxx \
-			 global-init.cxx \
-                         hierarchy.cxx \
-                         hierarchylocker.cxx \
-                         layout.cxx \
-                         logger.cxx \
-                         loggerimpl.cxx \
-                         loggingevent.cxx \
-                         loglevel.cxx \
-                         loglog.cxx \
-                         logloguser.cxx \
-                         ndc.cxx \
-                         nullappender.cxx \
-			 objectregistry.cxx \
-                         patternlayout.cxx \
-                         pointer.cxx \
-			 property.cxx \
-			 rootlogger.cxx \
-			 sleep.cxx \
-			 socket.cxx \
-			 socket-unix.cxx \
-			 socketappender.cxx \
-			 socketbuffer.cxx \
-			 stringhelper.cxx \
-			 syslogappender.cxx \
-			 timehelper.cxx
+                      appender.cxx \
+                      configurator.cxx \
+                      consoleappender.cxx \
+                      factory.cxx \
+                      fileappender.cxx \
+                      filter.cxx \
+                      global-init.cxx \
+                      hierarchy.cxx \
+                      hierarchylocker.cxx \
+                      layout.cxx \
+                      logger.cxx \
+                      loggerimpl.cxx \
+                      loggingevent.cxx \
+                      loggingmacros.cxx \
+                      loglevel.cxx \
+                      loglog.cxx \
+                      logloguser.cxx \
+                      ndc.cxx \
+                      nullappender.cxx \
+                      objectregistry.cxx \
+                      patternlayout.cxx \
+                      pointer.cxx \
+                      property.cxx \
+                      rootlogger.cxx \
+                      sleep.cxx \
+                      socket.cxx \
+                      socket-unix.cxx \
+                      socketappender.cxx \
+                      socketbuffer.cxx \
+                      stringhelper.cxx \
+                      syslogappender.cxx \
+                      timehelper.cxx
 
 @MULTI_THREADED_FALSE@LIB_SRC = $(SINGLE_THREADED_SRC)
 @MULTI_THREADED_TRUE@LIB_SRC = $(SINGLE_THREADED_SRC) \
@@ -417,6 +427,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logger.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loggerimpl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loggingevent.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loggingmacros.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loglevel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loglog.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logloguser.Plo@am__quote@

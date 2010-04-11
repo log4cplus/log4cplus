@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="windows-1250"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="loggingserver"
+	OutputDirectory=".\$(PlatformName)\$(ProjectName).$(ConfigurationName)"
+	IntermediateDirectory=".\$(PlatformName)\$(ProjectName).$(ConfigurationName)"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		PreprocessorDefinitions="LOG4CPLUS_BUILD_DLL"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalLibraryDirectories="&quot;.\$(PlatformName)\log4cplus_dll.$(ConfigurationName)&quot;"
+	/>
+</VisualStudioPropertySheet>

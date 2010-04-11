@@ -26,6 +26,8 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/appender.h>
 #include <log4cplus/helpers/socket.h>
+#include <log4cplus/helpers/syncprims.h>
+
 
 #ifndef UNICODE
 #  define LOG4CPLUS_MAX_MESSAGE_SIZE (8*1024)
@@ -89,6 +91,7 @@ namespace log4cplus {
 
     protected:
         void openSocket();
+        void initConnector ();
         virtual void append(const spi::InternalLoggingEvent& event);
 
       // Data
@@ -96,6 +99,33 @@ namespace log4cplus {
         log4cplus::tstring host;
         int port;
         log4cplus::tstring serverName;
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+        class LOG4CPLUS_EXPORT ConnectorThread;
+        friend class ConnectorThread;
+
+        class LOG4CPLUS_EXPORT ConnectorThread
+            : public thread::AbstractThread
+            , public helpers::LogLogUser
+        {
+        public:
+            ConnectorThread (SocketAppender &);
+            virtual ~ConnectorThread ();
+
+            virtual void run();
+
+            void terminate ();
+            void trigger ();
+
+        protected:
+            SocketAppender & sa;
+            thread::ManualResetEvent trigger_ev;
+            bool exit_flag;
+        };
+
+        volatile bool connected;
+        helpers::SharedObjectPtr<ConnectorThread> connector;
+#endif
 
     private:
       // Disallow copying of instances of this class

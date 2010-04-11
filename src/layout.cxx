@@ -89,8 +89,7 @@ TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
         LOG4CPLUS_TEXT ("%m-%d-%y %H:%M:%S,%q")))
     , use_gmtime(false)
 {
-    tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("Use_gmtime") );
-    use_gmtime = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
+    properties.getBool (use_gmtime, LOG4CPLUS_TEXT("Use_gmtime"));
 }
 
 

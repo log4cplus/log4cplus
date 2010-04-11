@@ -87,15 +87,15 @@ namespace log4cplus {
 
         template<class intType>
         inline
-        tstring 
-        convertIntegerToString (intType value) 
+        void 
+        convertIntegerToString (tstring & str, intType value) 
         {
             if (value == 0)
-                return LOG4CPLUS_TEXT("0");
+                str = LOG4CPLUS_TEXT("0");
             bool const negative = value < 0;
 
-            static const size_t buffer_size
-                = std::numeric_limits<intType>::digits10 + 2;
+            const size_t buffer_size
+				= std::numeric_limits<intType>::digits10 + 2;
             tchar buffer[buffer_size];           
             tchar * it = &buffer[buffer_size];
             tchar const * const buf_end = it;
@@ -133,8 +133,20 @@ namespace log4cplus {
                 *it = LOG4CPLUS_TEXT('-');
             }
 
-            return tstring (static_cast<tchar const *>(it), buf_end);
+			str.assign (static_cast<tchar const *>(it), buf_end);
         }
+
+		        
+		template<class intType>
+        inline
+        tstring 
+        convertIntegerToString (intType value)
+		{
+			tstring result;
+			convertIntegerToString (result, value);
+			return result;
+		}
+
 
 
         /**

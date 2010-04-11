@@ -20,7 +20,6 @@
 
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/streams.h>
-#include <log4cplus/loggingmacros.h>
 #include <log4cplus/internal/internal.h>
 
 #include <iterator>
@@ -45,50 +44,6 @@ namespace internal
 log4cplus::tstring const empty_str;
 
 } // namespace internal
-
-
-namespace detail
-{
-
-
-#if defined (LOG4CPLUS_SINGLE_THREADED)
-
-LOG4CPLUS_EXPORT tostringstream macros_oss;
-
-#else
-
-tostringstream &
-get_macros_oss ()
-{
-    return internal::get_ptd ()->macros_oss;
-}
-
-#endif
-
-
-//! Helper stream to get the defaults from.
-static tostringstream const macros_oss_defaults;
-
-
-//! Clears string stream using defaults taken from macros_oss_defaults.
-void
-clear_tostringstream (tostringstream & os)
-{
-    os.clear ();
-    os.str (internal::empty_str);
-    os.setf (macros_oss_defaults.flags ());
-    os.fill (macros_oss_defaults.fill ());
-    os.precision (macros_oss_defaults.precision ());
-    os.width (macros_oss_defaults.width ());
-#if defined (LOG4CPLUS_WORKING_LOCALE)
-    std::locale glocale = std::locale ();
-    if (os.getloc () != glocale)
-        os.imbue (glocale);
-#endif // defined (LOG4CPLUS_WORKING_LOCALE)
-}
-
-
-} // namespace detail
 
 } // namespace log4cplus
 
@@ -136,6 +91,12 @@ void
 towstring_internal (std::wstring & outstr, const char * src, size_t size,
     std::locale const & loc)
 {
+    if (size == 0)
+    {
+        outstr.clear ();
+        return;
+    }
+
     typedef std::codecvt<wchar_t, char, std::mbstate_t> CodeCvt;
     const CodeCvt & cdcvt = std::use_facet<CodeCvt>(loc);
     std::mbstate_t state;
@@ -219,6 +180,12 @@ void
 tostring_internal (std::string & outstr, const wchar_t * src, size_t size,
     std::locale const & loc)
 {
+    if (size == 0)
+    {
+        outstr.clear ();
+        return;
+    }
+
     typedef std::codecvt<wchar_t, char, std::mbstate_t> CodeCvt;
     const CodeCvt & cdcvt = std::use_facet<CodeCvt>(loc);
     std::mbstate_t state;

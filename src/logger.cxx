@@ -232,10 +232,24 @@ Logger::log (LogLevel ll, const log4cplus::tstring& message, const char* file,
 
 
 void
+Logger::log (spi::InternalLoggingEvent const & ev) const
+{
+    value->log (ev);
+}
+
+
+void
 Logger::forcedLog (LogLevel ll, const log4cplus::tstring& message,
     const char* file, int line) const
 {
     value->forcedLog (ll, message, file, line);
+}
+
+
+void
+Logger::forcedLog (spi::InternalLoggingEvent const & ev) const
+{
+    value->forcedLog (ev);
 }
 
 
