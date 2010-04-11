@@ -64,13 +64,13 @@ log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
     int optval = 1;
     setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval) );
 
-    if(bind(sock, (struct sockaddr*)&server, sizeof(server)) < 0) {
+    int retval = bind(sock, reinterpret_cast<struct sockaddr*>(&server),
+        sizeof(server));
+    if (retval < 0)
         return INVALID_SOCKET;
-    }
 
-    if(::listen(sock, 10)) {
+    if (::listen(sock, 10))
         return INVALID_SOCKET;
-    }
 
     state = ok;
     return sock;
@@ -96,14 +96,18 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
         return INVALID_SOCKET;
     }
 
-    memcpy((char*)&server.sin_addr, hp->h_addr_list[0], hp->h_length);
+	std::memcpy(&server.sin_addr, hp->h_addr_list[0], hp->h_length);
     server.sin_port = htons(port);
     server.sin_family = AF_INET;
 
-    while(   (retval = ::connect(sock, (struct sockaddr*)&server, sizeof(server))) == -1
-          && (errno == EINTR))
+    while (
+        (retval = ::connect(sock, reinterpret_cast<struct sockaddr*>(&server),
+            sizeof(server)))
+        == -1
+        && (errno == EINTR))
         ;
-    if(retval == INVALID_SOCKET) {
+    if (retval == INVALID_SOCKET) 
+    {
         ::close(sock);
         return INVALID_SOCKET;
     }
@@ -122,8 +126,11 @@ log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& state)
     SOCKET_TYPE clientSock;
 //    struct hostent *hostptr;
 
-    while(   (clientSock = ::accept(sock, (struct sockaddr*)&net_client, &len)) == -1
-          && (errno == EINTR))
+    while (
+        (clientSock = ::accept(sock,
+            reinterpret_cast<struct sockaddr*>(&net_client), &len)) 
+        == -1
+        && (errno == EINTR))
         ;
 
 //    hostptr = gethostbyaddr((char*)&(net_client.sin_addr.s_addr), 4, AF_INET);
@@ -144,10 +151,10 @@ log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
 
 
 
-size_t
+long
 log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
-    size_t res, read = 0;
+    long res, read = 0;
  
     do
     { 
@@ -156,14 +163,14 @@ log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
             return res;
         }
         read += res;
-    } while( read < buffer.getMaxSize() );
+    } while( read < static_cast<long>(buffer.getMaxSize()) );
  
     return read;
 }
 
 
 
-size_t
+long
 log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
 #if defined(MSG_NOSIGNAL)
@@ -174,6 +181,3 @@ log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
      return ::send( sock, buffer.getBuffer(), buffer.getSize(), flags );
      // return ::write(sock, buffer.getBuffer(), buffer.getSize());
 }
-
-
-

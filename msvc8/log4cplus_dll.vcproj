@@ -61,6 +61,7 @@
 				ProgramDataBaseFileName=".\$(OutDir)/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -79,6 +80,7 @@
 				OutputFile="$(OutDir)/log4cplus.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
+				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\$(OutDir)/log4cplus.pdb"
 				ImportLibrary=".\$(OutDir)/log4cplus.lib"
 				TargetMachine="1"
@@ -349,6 +351,7 @@
 				ProgramDataBaseFileName=".\$(IntDir)/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -528,87 +531,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\src\consoleappender.cxx"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\src\factory.cxx"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\src\fileappender.cxx"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1128,86 +1051,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\src\nteventlogappender.cxx"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\src\nullappender.cxx"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\src\objectregistry.cxx"
 				>
 				<FileConfiguration
@@ -1366,6 +1209,10 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\queue.cxx"
+				>
 			</File>
 			<File
 				RelativePath="..\src\rootlogger.cxx"
@@ -1528,46 +1375,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\src\socketappender.cxx"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\src\socketbuffer.cxx"
 				>
 				<FileConfiguration
@@ -1646,6 +1453,10 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\syncprims.cxx"
+				>
 			</File>
 			<File
 				RelativePath="..\src\threads.cxx"
@@ -1727,10 +1538,6 @@
 					/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath="..\src\win32debugappender.cxx"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -1757,15 +1564,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\log4cplus\consoleappender.h"
-				>
-			</File>
-			<File
 				RelativePath="..\include\log4cplus\spi\factory.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\fileappender.h"
 				>
 			</File>
 			<File
@@ -1782,6 +1581,10 @@
 			</File>
 			<File
 				RelativePath="..\include\log4cplus\hierarchylocker.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\internal\internal.h"
 				>
 			</File>
 			<File
@@ -1825,14 +1628,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\log4cplus\nteventlogappender.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\nullappender.h"
-				>
-			</File>
-			<File
 				RelativePath="..\include\log4cplus\spi\objectregistry.h"
 				>
 			</File>
@@ -1842,6 +1637,10 @@
 			</File>
 			<File
 				RelativePath="..\include\log4cplus\helpers\property.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\queue.h"
 				>
 			</File>
 			<File
@@ -1857,10 +1656,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\log4cplus\socketappender.h"
-				>
-			</File>
-			<File
 				RelativePath="..\include\log4cplus\helpers\socketbuffer.h"
 				>
 			</File>
@@ -1870,6 +1665,18 @@
 			</File>
 			<File
 				RelativePath="..\include\log4cplus\helpers\stringhelper.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\syncprims-pthreads.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\syncprims-win32.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\syncprims.h"
 				>
 			</File>
 			<File
@@ -1885,6 +1692,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\tracelogger.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\log4cplus\tstring.h"
 				>
 			</File>
@@ -1892,15 +1703,255 @@
 				RelativePath="..\include\log4cplus\config\win32.h"
 				>
 			</File>
-			<File
-				RelativePath="..\include\log4cplus\win32debugappender.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
+		</Filter>
+		<Filter
+			Name="Appenders"
+			>
+			<File
+				RelativePath="..\src\asyncappender.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\asyncappender.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\consoleappender.cxx"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\consoleappender.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\boost\deviceappender.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\src\fileappender.cxx"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\fileappender.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\nteventlogappender.cxx"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\nteventlogappender.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\nullappender.cxx"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\nullappender.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\socketappender.cxx"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_Unicode|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						AdditionalIncludeDirectories=""
+						PreprocessorDefinitions=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\socketappender.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\win32debugappender.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\win32debugappender.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

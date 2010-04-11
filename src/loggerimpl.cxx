@@ -11,6 +11,7 @@
 // distribution in the LICENSE.APL file.
 //
 
+#include <log4cplus/internal/internal.h>
 #include <log4cplus/spi/loggerimpl.h>
 #include <log4cplus/appender.h>
 #include <log4cplus/hierarchy.h>
@@ -19,21 +20,19 @@
 #include <log4cplus/spi/rootlogger.h>
 #include <stdexcept>
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-using namespace log4cplus::spi;
 
-
+namespace log4cplus { namespace spi {
 
 //////////////////////////////////////////////////////////////////////////////
 // Logger Constructors and Destructor
 //////////////////////////////////////////////////////////////////////////////
-LoggerImpl::LoggerImpl(const log4cplus::tstring& name, Hierarchy& h)
-  : name(name),
-    ll(NOT_SET_LOG_LEVEL),
-    parent(NULL),
-    additive(true), 
-    hierarchy(h)
+LoggerImpl::LoggerImpl(const log4cplus::tstring& _name,
+					   Hierarchy& _h)
+	: name(_name),
+	  ll(NOT_SET_LOG_LEVEL),
+	  parent(NULL),
+	  additive(true), 
+	  hierarchy(_h)
 {
 }
 
@@ -51,15 +50,18 @@ void
 LoggerImpl::callAppenders(const InternalLoggingEvent& event)
 {
     int writes = 0;
-    for(const LoggerImpl* c = this; c != NULL; c=c->parent.get()) {
+    for(const LoggerImpl* c = this; c != NULL; c=c->parent.get())
+	{
         writes += c->appendLoopOnAppenders(event);
-        if(!c->additive) {
+        if(!c->additive) 
+		{
             break;
         }
     }
-
+	
     // No appenders in hierarchy, warn user only once.
-    if(!hierarchy.emittedNoAppenderWarning && writes == 0) {
+    if(!hierarchy.emittedNoAppenderWarning && writes == 0) 
+	{
         getLogLog().error(  LOG4CPLUS_TEXT("No appenders could be found for logger (") 
                           + getName() 
                           + LOG4CPLUS_TEXT(")."));
@@ -81,33 +83,33 @@ LoggerImpl::closeNestedAppenders()
 
 
 bool 
-LoggerImpl::isEnabledFor(LogLevel ll) const
+LoggerImpl::isEnabledFor(LogLevel _ll) const
 {
-    if(hierarchy.disableValue >= ll) {
+    if(hierarchy.disableValue >= _ll)
+	{
         return false;
     }
-    return ll >= getChainedLogLevel();
+    return _ll >= getChainedLogLevel();
 }
 
 
 void 
-LoggerImpl::log(LogLevel ll, 
+LoggerImpl::log(LogLevel _ll, 
                 const log4cplus::tstring& message,
                 const char* file, 
                 int line)
 {
-    if(isEnabledFor(ll)) {
-        forcedLog(ll, message, file, line);
-    }
+    if(isEnabledFor(_ll)) 
+        forcedLog(_ll, message, file, line);
 }
-
-
 
 LogLevel 
 LoggerImpl::getChainedLogLevel() const
 {
-    for(const LoggerImpl *c=this; c != NULL; c=c->parent.get()) {
-        if(c->ll != NOT_SET_LOG_LEVEL) {
+    for(const LoggerImpl *c=this; c != NULL; c=c->parent.get()) 
+	{
+        if(c->ll != NOT_SET_LOG_LEVEL) 
+		{
             return c->ll;
         }
     }
@@ -132,20 +134,22 @@ LoggerImpl::getAdditivity() const
 
 
 void 
-LoggerImpl::setAdditivity(bool additive) 
+LoggerImpl::setAdditivity(bool _additive) 
 { 
-    this->additive = additive; 
+    this->additive = _additive; 
 }
 
 
 void 
-LoggerImpl::forcedLog(LogLevel ll,
+LoggerImpl::forcedLog(LogLevel _ll,
                       const log4cplus::tstring& message,
                       const char* file, 
                       int line)
 {
-    callAppenders(spi::InternalLoggingEvent(this->getName(), ll, message, file, line));
+    spi::InternalLoggingEvent & ev = internal::get_ptd ()->forced_log_ev;
+    ev.setLoggingEvent (this->getName(), _ll, message, file, line);
+    callAppenders(ev);
 }
 
 
-
+} } // namespace log4cplus { namespace spi {

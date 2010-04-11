@@ -44,7 +44,8 @@ am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/m4/ac_cxx_compiler_vendor.m4 \
 	$(top_srcdir)/m4/ax_cflags_gcc_option.m4 \
 	$(top_srcdir)/m4/acx_pthread.m4 \
-	$(top_srcdir)/m4/ax_declspec.m4 $(top_srcdir)/configure.in
+	$(top_srcdir)/m4/ax_declspec.m4 \
+	$(top_srcdir)/m4/ax_tls_support.m4 $(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -69,7 +70,8 @@ am__liblog4cplus_la_SOURCES_DIST = appenderattachableimpl.cxx \
 	ndc.cxx nullappender.cxx objectregistry.cxx patternlayout.cxx \
 	pointer.cxx property.cxx rootlogger.cxx sleep.cxx socket.cxx \
 	socket-unix.cxx socketappender.cxx socketbuffer.cxx \
-	stringhelper.cxx syslogappender.cxx timehelper.cxx threads.cxx
+	stringhelper.cxx syslogappender.cxx timehelper.cxx threads.cxx \
+	asyncappender.cxx queue.cxx syncprims.cxx
 am__objects_1 = appenderattachableimpl.lo appender.lo configurator.lo \
 	consoleappender.lo factory.lo fileappender.lo filter.lo \
 	global-init.lo hierarchy.lo hierarchylocker.lo layout.lo \
@@ -79,7 +81,8 @@ am__objects_1 = appenderattachableimpl.lo appender.lo configurator.lo \
 	socket.lo socket-unix.lo socketappender.lo socketbuffer.lo \
 	stringhelper.lo syslogappender.lo timehelper.lo
 @MULTI_THREADED_FALSE@am__objects_2 = $(am__objects_1)
-@MULTI_THREADED_TRUE@am__objects_2 = $(am__objects_1) threads.lo
+@MULTI_THREADED_TRUE@am__objects_2 = $(am__objects_1) threads.lo \
+@MULTI_THREADED_TRUE@	asyncappender.lo queue.lo syncprims.lo
 am_liblog4cplus_la_OBJECTS = $(am__objects_2)
 liblog4cplus_la_OBJECTS = $(am_liblog4cplus_la_OBJECTS)
 liblog4cplus_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -225,6 +228,7 @@ AM_CPPFLAGS = -DINSIDE_LOG4CPLUS \
 	@LOG4CPLUS_NDEBUG@
 
 nobase_include_HEADERS = ../include/log4cplus/appender.h \
+			 ../include/log4cplus/asyncappender.h \
 			 ../include/log4cplus/config.hxx \
 			 ../include/log4cplus/config/defines.hxx \
 			 ../include/log4cplus/config/win32.h \
@@ -235,6 +239,7 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/fstreams.h \
 			 ../include/log4cplus/hierarchy.h \
 			 ../include/log4cplus/hierarchylocker.h \
+			 ../include/log4cplus/internal/internal.h \
 			 ../include/log4cplus/layout.h \
 			 ../include/log4cplus/logger.h \
 			 ../include/log4cplus/loggingmacros.h \
@@ -244,16 +249,20 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/socketappender.h \
 			 ../include/log4cplus/streams.h \
 			 ../include/log4cplus/syslogappender.h \
+			 ../include/log4cplus/tracelogger.h \
 			 ../include/log4cplus/tstring.h \
 			 ../include/log4cplus/helpers/appenderattachableimpl.h \
 			 ../include/log4cplus/helpers/loglog.h \
 			 ../include/log4cplus/helpers/logloguser.h \
 			 ../include/log4cplus/helpers/pointer.h \
 			 ../include/log4cplus/helpers/property.h \
+			 ../include/log4cplus/helpers/queue.h \
 			 ../include/log4cplus/helpers/sleep.h \
 			 ../include/log4cplus/helpers/socketbuffer.h \
 			 ../include/log4cplus/helpers/socket.h \
 			 ../include/log4cplus/helpers/stringhelper.h \
+			 ../include/log4cplus/helpers/syncprims.h \
+			 ../include/log4cplus/helpers/syncprims-pthreads.h \
 			 ../include/log4cplus/helpers/thread-config.h \
 			 ../include/log4cplus/helpers/threads.h \
 			 ../include/log4cplus/helpers/timehelper.h \
@@ -300,11 +309,16 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
 			 timehelper.cxx
 
 @MULTI_THREADED_FALSE@LIB_SRC = $(SINGLE_THREADED_SRC)
-@MULTI_THREADED_TRUE@LIB_SRC = $(SINGLE_THREADED_SRC) threads.cxx
+@MULTI_THREADED_TRUE@LIB_SRC = $(SINGLE_THREADED_SRC) \
+@MULTI_THREADED_TRUE@	threads.cxx \
+@MULTI_THREADED_TRUE@	asyncappender.cxx \
+@MULTI_THREADED_TRUE@	queue.cxx \
+@MULTI_THREADED_TRUE@	syncprims.cxx
+
 liblog4cplus_la_SOURCES = $(LIB_SRC)
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release 1.0
+liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release 1.1
 all: all-am
 
 .SUFFIXES:
@@ -376,6 +390,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/appender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/appenderattachableimpl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/asyncappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/configurator.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/consoleappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/factory.Plo@am__quote@
@@ -397,6 +412,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/patternlayout.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pointer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/property.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/queue.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rootlogger.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sleep.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket-unix.Plo@am__quote@
@@ -404,6 +420,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socketappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socketbuffer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stringhelper.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/syncprims.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/syslogappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/threads.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timehelper.Plo@am__quote@

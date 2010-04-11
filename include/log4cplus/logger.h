@@ -19,7 +19,6 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/loglevel.h>
-#include <log4cplus/loggingmacros.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/pointer.h>
@@ -48,7 +47,7 @@ namespace log4cplus {
      * This is the central class in the log4cplus package. One of the
      * distintive features of log4cplus are hierarchical loggers and their
      * evaluation.
-     * <p>
+     * 
      * See the <a href="../../../../manual.html">user manual</a> for an
      * introduction on this class.
      */
@@ -68,7 +67,7 @@ namespace log4cplus {
         /*
          * Returns all the currently defined loggers in the default
          * hierarchy.
-         * <p>
+         * 
          * The root logger is <em>not</em> included in the returned
          * list.      
         */
@@ -83,23 +82,23 @@ namespace log4cplus {
          * Retrieve a logger with name <code>name</code>.  If the named 
          * logger already exists, then the existing instance will be returned. 
          * Otherwise, a new instance is created. 
-         * <p>
+         * 
          * By default, loggers do not have a set LogLevel but inherit
          * it from the hierarchy. This is one of the central features of
          * log4cplus.
-         * <p>
+         * 
          * @param name The name of the logger to retrieve.  
          */
         static Logger getInstance(const log4cplus::tstring& name);
 
         /**
-         * Like {@link #getInstance(log4cplus::tstring)} except that the type of logger
+         * Like getInstance() except that the type of logger
          * instantiated depends on the type returned by the {@link
          * spi::LoggerFactory#makeNewLoggerInstance} method of the
          * <code>factory</code> parameter.
-         * <p>                         
+         *                          
          * This method is intended to be used by sub-classes.
-         * <p>                                  
+         *                                   
          * @param name The name of the logger to retrieve.
          * @param factory A {@link spi::LoggerFactory} implementation that will
          * actually create a new Instance.
@@ -108,10 +107,10 @@ namespace log4cplus {
 
         /**
          * Return the root of the default logger hierrachy.
-         * <p>
+         * 
          * The root logger is always instantiated and available. It's
          * name is "root".
-         * <p>
+         * 
          * Nevertheless, calling {@link #getInstance
          * Logger.getInstance("root")} does not retrieve the root logger 
          * but a logger just under root named "root".
@@ -122,11 +121,11 @@ namespace log4cplus {
          * Calling this method will <em>safely</em> close and remove all
          * appenders in all the loggers including root contained in the
          * default hierachy.
-         * <p>                    
+         *                     
          * Some appenders such as SocketAppender need to be closed before the
          * application exits. Otherwise, pending logging events might be
          * lost.
-         * <p>
+         * 
          * The <code>shutdown</code> method is careful to close nested
          * appenders before closing regular appenders. This is allows
          * configurations where a regular appender is attached to a logger
@@ -136,15 +135,15 @@ namespace log4cplus {
 
       // Non-Static Methods
         /**
-         * If <code>assertion</code> parameter is <code>false</code>, then
-         * logs <code>msg</code> as an {@link #error(const log4cplus::tstring&) error} 
-         * statement.
+         * If <code>assertionVal</code> parameter is <code>false</code>, then
+         * logs <code>msg</code> with FATAL_LOG_LEVEL log level.
          *
-         * @param assertion 
+         * @param assertionVal Truth value of assertion condition.
          * @param msg The message to print if <code>assertion</code> is
          * false.
          */
-        void assertion(bool assertionVal, const log4cplus::tstring& msg) {
+        void assertion(bool assertionVal, const log4cplus::tstring& msg) const
+        {
             if(!assertionVal) {
                 log(FATAL_LOG_LEVEL, msg);
             }
@@ -154,84 +153,123 @@ namespace log4cplus {
          * Close all attached appenders implementing the AppenderAttachable
          * interface.  
          */
-        void closeNestedAppenders();
+        void closeNestedAppenders() const
+        {
+            value->closeNestedAppenders();
+        }
 
         /**
-         * Check whether this logger is enabled for a given {@link
-         * LogLevel} passed as parameter.
+         * Check whether this logger is enabled for a given
+         * LogLevel passed as parameter.
          *
          * @return boolean True if this logger is enabled for <code>ll</code>.
          */
-        bool isEnabledFor(LogLevel ll) const;
+        bool isEnabledFor(LogLevel ll) const
+        {
+            return value->isEnabledFor(ll);
+        }
 
         /**
          * This generic form is intended to be used by wrappers. 
          */
         void log(LogLevel ll, const log4cplus::tstring& message,
-                 const char* file=NULL, int line=-1);
+                 const char* file=NULL, int line=-1) const
+        {
+            value->log(ll, message, file, line);
+        }
 
         /**
          * This method creates a new logging event and logs the event
          * without further checks.  
          */
         void forcedLog(LogLevel ll, const log4cplus::tstring& message,
-                       const char* file=NULL, int line=-1);
+                       const char* file=NULL, int line=-1) const
+        {
+            value->forcedLog(ll, message, file, line);
+        }
 
         /**
          * Call the appenders in the hierrachy starting at
          * <code>this</code>.  If no appenders could be found, emit a
          * warning.
-         * <p>
+         * 
          * This method calls all the appenders inherited from the
          * hierarchy circumventing any evaluation of whether to log or not
          * to log the particular log request.
          *
-         * @param spi::InternalLoggingEvent the event to log.
+         * @param event the event to log.
          */
-        void callAppenders(const spi::InternalLoggingEvent& event);
+        void callAppenders(const spi::InternalLoggingEvent& event) const
+        {
+            value->callAppenders(event);
+        }
 
         /**
          * Starting from this logger, search the logger hierarchy for a
          * "set" LogLevel and return it. Otherwise, return the LogLevel of the
          * root logger.
-         * <p>
+         * 
          * The Logger class is designed so that this method executes as
          * quickly as possible.
          */
-        LogLevel getChainedLogLevel() const;
+        LogLevel getChainedLogLevel() const
+        {
+            return value->getChainedLogLevel();
+        }
 
         /**
-         * Returns the assigned {@link LogLevel}, if any, for this Logger.  
+         * Returns the assigned LogLevel, if any, for this Logger.  
          *           
          * @return LogLevel - the assigned LogLevel, can be <code>NOT_SET_LOG_LEVEL</code>.
          */
-        LogLevel getLogLevel() const;
+        LogLevel getLogLevel() const
+        {
+            return value->getLogLevel();
+        }
 
         /**
          * Set the LogLevel of this Logger.
          */
-        void setLogLevel(LogLevel);
+        void setLogLevel(LogLevel ll)
+        {
+            value->setLogLevel(ll);
+        }
+
 
         /**
          * Return the the {@link Hierarchy} where this <code>Logger</code> instance is
          * attached.
          */
-        Hierarchy& getHierarchy() const;
+        Hierarchy& getHierarchy() const
+        { 
+            return value->getHierarchy();
+        }
+
 
         /**
          * Return the logger name.  
          */
-        log4cplus::tstring getName() const;
+        log4cplus::tstring const & getName() const
+        {
+            return value->getName();
+        }
+
 
         /**
          * Get the additivity flag for this Logger instance.  
          */
-        bool getAdditivity() const;
+        bool getAdditivity() const
+        {
+            return value->getAdditivity();
+        }
 
         /**
          * Set the additivity flag for this Logger instance.
          */
-        void setAdditivity(bool additive);
+        void setAdditivity(bool additive)
+        { 
+            value->setAdditivity(additive);
+        }
 
 
       // AppenderAttachable Methods
@@ -258,19 +296,19 @@ namespace log4cplus {
          * Used to retrieve the parent of this Logger in the
          * Logger tree.
          */
-        Logger getParent();
+        Logger getParent() const;
 
     protected:
       // Data
         /** This is a pointer to the implementation class. */
-        spi::LoggerImpl *value;
+        spi::SharedLoggerImplPtr value;
 
     private:
       // Ctors
         /**
          * This constructor created a new <code>Logger</code> instance 
          * with a pointer to a Logger implementation.
-         * <p>
+         * 
          * You should not create loggers directly.
          *
          * @param ptr A pointer to the Logger implementation.  This value
@@ -278,10 +316,6 @@ namespace log4cplus {
          */
         Logger(spi::LoggerImpl *ptr);
         Logger(const spi::SharedLoggerImplPtr& val);
-
-      // Methods
-        void init();
-        void validate(const char *file, int line) const;
 
       // Friends
         friend class log4cplus::spi::LoggerImpl;
@@ -301,40 +335,11 @@ namespace log4cplus {
     };
 
 
-
-    /**
-     * This class is used to produce "Trace" logging.  When an instance of
-     * this class is created, it will log a <code>"ENTER: " + msg</code>
-     * log message if TRACE_LOG_LEVEL is enabled for <code>logger</code>.
-     * When an instance of this class is destroyed, it will log a
-     * <code>"ENTER: " + msg</code> log message if TRACE_LOG_LEVEL is enabled
-     * for <code>logger</code>.
-     * <p>
-     * @see LOG4CPLUS_TRACE
-     */
-    class TraceLogger
-    {
-    public:
-        TraceLogger(const Logger& l, const log4cplus::tstring& _msg,
-                    const char* _file=NULL, int _line=-1) 
-          : logger(l), msg(_msg), file(_file), line(_line)
-        { if(logger.isEnabledFor(TRACE_LOG_LEVEL))
-              logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg, file, line); 
-        }
-
-        ~TraceLogger()
-        { if(logger.isEnabledFor(TRACE_LOG_LEVEL))
-              logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("EXIT:  ") + msg, file, line); 
-        }
-
-    private:
-        Logger logger;
-        log4cplus::tstring msg;
-        const char* file;
-        int line;
-    };
-
 } // end namespace log4cplus
+
+
+#include <log4cplus/loggingmacros.h>
+#include <log4cplus/tracelogger.h>
 
 
 #endif // _LOG4CPLUS_LOGGERHEADER_

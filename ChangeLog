@@ -1,225 +1,869 @@
-Version 1.0.3-RC5
+------------------------------------------------------------------------
+r650 | wilx | 2008-12-28 15:08:22 +0100 (Sun, 28 Dec 2008) | 1 line
+Changed paths:
+   A /branches/1.1 (from /branches/PRODUCTION_1_0_x/log4cplus:649)
 
-  - Add CMakeLists.txt to facilitate compilation of log4cplus on
-    Windows with different compilers than just the MSVC8.
-  - Fix compilation of Unicode enabled build without working locale.
-    (Patch #2429185)
+Create 1.1 branch out of PRODUCTION_1_0_x.
+------------------------------------------------------------------------
+r653 | wilx | 2008-12-28 22:17:31 +0100 (Sun, 28 Dec 2008) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/pointer.h
+   M /branches/1.1/src/pointer.cxx
 
-Version 1.0.3-RC4
+pointer.h, pointer.cxx: Remove member destroyed. Clean up.
+------------------------------------------------------------------------
+r654 | wilx | 2008-12-28 22:37:38 +0100 (Sun, 28 Dec 2008) | 1 line
+Changed paths:
+   M /branches/1.1/src/property.cxx
 
-  - IMPORTANT: log4cplus shared library version has been bumped to
-    3. The interfaces have slightly changed and 1.0.3 is not binary
-    compatible with 1.0.2.
-  - Fix more MSVC compilation problems.
-  - Changed log4cplus_static.vcproj to link with DLL C/C++ run time
-    (MSVCR80.dll and MSVCP80.dll).
-  - Implemented environment variables shadowing by properties and
-    recursive properties expansion.
-  - Reworked output directories layout of MSVC8 project. Now it
-    produces directories of the form
-    "log4cplus_{static,dll}.{Release,Debug}{_Unicode,}" and
-    "loggingserver.{Release,Debug}{_Unicode,}". The tests directory
-    projects still only compile using non-Unicode release and debug
-    version of the library.
-  - For single-threaded builds, re-use single tostringstream instead
-    of using a new one for each LOG4CPLUS_DEBUG() etc. macros.
-  - Merge Win32DebugAppender from trunk. (Patches #834925 and #858128)
-  - Make configuration of local server for NTEventLogAppender easier
-    by allowing empty server parameter string. (Feature Request
-    #875935)
-	
-Version 1.0.3-RC3
+property.cxx: Fix bug #894464. Really only consider prefixes when searching for matching properties.
+------------------------------------------------------------------------
+r655 | wilx | 2008-12-28 22:46:04 +0100 (Sun, 28 Dec 2008) | 1 line
+Changed paths:
+   M /branches/1.1
+   M /branches/1.1/include/log4cplus/config/win32.h
+   M /branches/1.1/include/log4cplus/loggingmacros.h
 
-  - Fix Bug #2268760 - Trailing garbage in strings produced by 
-    Time::getFormattedTime().
-  - Fixed compilation of MSVC builds.
+Merge revision 652 from PRODUCTION_1_0_x branch.
+------------------------------------------------------------------------
+r652 | wilx | 2008-12-28 21:53:26 +0100 (Sun, 28 Dec 2008) | 1 line
+Changed paths:
+   M /branches/PRODUCTION_1_0_x/log4cplus/include/log4cplus/loggingmacros.h
+Merged via: r655
 
-Version 1.0.3-RC2
+loggingmacros.h: Align misaligned backslash.
+------------------------------------------------------------------------
+r656 | wilx | 2008-12-29 13:07:39 +0100 (Mon, 29 Dec 2008) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/pointer.h
 
-  - Fix Bug #2106949 - Compilation problem with Borland's compiler.
-  - Fix Bug #1717320, #1040902, #1040676 - strftime() complains about
-    our custom %q and %Q format specifiers with "Invalid format
-    directive".
-  - Removed safe_auto_ptr.
-  - Added --enable-debugging switch to configure script. It disables
-    optimization and turns on debugging info generation.
-  - Use locale and its codecvt facet in towstring()/tostring()
-    implementations when --with-working-locale is defined.
-  - Added support for GCC's -fvisibility=hidden flag where available
-    together with __attribute__ ((visibility("default"))).
+pointer.h: Implement swap() method and re-implement assignment using swap idiom. Rename init() to addref(). Fix formatting.
+------------------------------------------------------------------------
+r657 | wilx | 2008-12-29 13:08:23 +0100 (Mon, 29 Dec 2008) | 1 line
+Changed paths:
+   M /branches/1.1/src/win32debugappender.cxx
 
-Version 1.0.3-RC1
-  - IMPORTANT: VC6 users, VC6 is unsupported. Its standard C++ library
-    is too broken. The work around for VC6's std::string has been
-    removed from log4cplus code; it actually does not fix the problem,
-    it only makes it a little bit less likely to manifest. VC6 project
-    files are still distributed with the source but they are broken as
-    we have no means to update them. We strongly suggest that you
-    either move away from VC6 to some more modern and standard
-    conforming compiler (like VC8) or that you use the STLport
-    standard C++ library implementation instead of VC6's own.
+Remove $Log$ keyword.
+------------------------------------------------------------------------
+r658 | wilx | 2009-01-01 13:54:32 +0100 (Thu, 01 Jan 2009) | 4 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/config/win32.h
+   M /branches/1.1/include/log4cplus/helpers/socket.h
+   M /branches/1.1/src/socket-win32.cxx
+   M /branches/1.1/src/socketbuffer.cxx
 
-  - Fixed various compilation issues with MSVC8.
-  - Added MSVC8 project files.
-  - Fixed compilation with GCC 4.3.
-  - Fixed autoconf/automake build machinery so that it is possible to
-    build log4cplus in separate directory.
-  - Updated used autoconf and automake to version 2.62 and 1.10
-    respectively.
-  - Enabled DLL building on Cygwin.
-  - Fixed Bug #894623, #1178841 - Various compilation issues on
-    Cygwin.
-  - Fixed Bug #2017876 - Destruction synchronization issue.
-  - Fixed Bug #1831238 - Unintentional sign extension in char ->
-    wchar_t conversion.
-  - Fixed Bug #1548998 - config.h is exporting symbols that conflict
-    with other applications/libraries.
-  - Fixed Bug #898646 - Ambiguity between ::yield() and
-    thread::yeild() on Solaris.
-  - Fixed Bug #954455 - LOG4CPLUS_ macros semicolon problem.
+win32.h: Define WIN32_LEAN_AND_MEAN so that we do not include winsock.h when including windows.h.
+socket.h, socketbuffer.cxx: Include winsock2.h instead of winsock.h.
+socket-win32.cxx: Initialize WinSock2 as 2.2 or any lower 2.x version. Remember failed initialization; INVALID_SOCKET from socket creating function if Winsock2 initialization has failed.
 
-Version 1.0.2 (February 10, 2004)
-  - Added "ImmediateFlush" configuration option to log4cplus::ConsoleAppender.
-  - Added do while loops around the logging statements in the macros.
-  - Fixed Bug #875960 - "log4cplus::ConfigureAndWatchThread crash"
-  - Fixed Bug #992034 - "rpm[build] -ta log4cplus-1.0.1.tar.gz doesn't work"
-  - Fixed Bug #875724 - "ConfigureAndWatchThread and mounted file systems"
-  - Fixed Bug #842280 - "'Append' mode when using FileAppended from cfg file."
-    All FileAppenders now have the "Append" configuration option.  If this is
-    "true" any existing files will be opened with ios::append, otherwise they
-    will be opened with ios::trunc.
-  - Fixed Bug #805203 - "%q ConversionFormat does not accept modifiers"
+------------------------------------------------------------------------
+r659 | wilx | 2009-01-01 14:13:45 +0100 (Thu, 01 Jan 2009) | 1 line
+Changed paths:
+   D /branches/1.1/msvc6
+
+Remove MSVC6 project files.
+------------------------------------------------------------------------
+r661 | wilx | 2009-01-02 13:08:47 +0100 (Fri, 02 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1
+   M /branches/1.1/src/configurator.cxx
+
+Merge revision 660 from PRODUCTION_1_0_x branch, fix for bug #852513.
+
+------------------------------------------------------------------------
+r660 | wilx | 2009-01-02 13:04:21 +0100 (Fri, 02 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/PRODUCTION_1_0_x/log4cplus/src/configurator.cxx
+Merged via: r661
+
+configurator.cxx: Call removeAllAppenders() on logger in PropertyConfigurator::configureLogger()
+right before adding new appenders. This fixes bug #852513.
+------------------------------------------------------------------------
+r662 | wilx | 2009-01-03 23:41:23 +0100 (Sat, 03 Jan 2009) | 5 lines
+Changed paths:
+   M /branches/1.1/CMakeLists.txt
+   M /branches/1.1/include/log4cplus/helpers/property.h
+   A /branches/1.1/include/log4cplus/internal
+   A /branches/1.1/include/log4cplus/internal/internal.h
+   M /branches/1.1/include/log4cplus/ndc.h
+   M /branches/1.1/msvc8/log4cplus_dll.vcproj
+   M /branches/1.1/msvc8/log4cplus_static.vcproj
+   M /branches/1.1/src/ndc.cxx
+   M /branches/1.1/src/property.cxx
+   M /branches/1.1/src/stringhelper.cxx
+
+includes/log4cplus/internal/internal.h: New directory and header for declaration exclusively internal to log4cplus. Declare log4cplus::internal::empty_str.
+CMakeLists.txt: Add internal.h.
+property.h, property.cxx: Return log4cplus::tstring by reference where possible. Use empty_str for empty strings.
+ndc.h, ndc.cxx: Ditto. Constify methods where possible. Clean up unused headers and NULL checks before calling operator delete.
+stringhelper.cxx: Define log4cplus::internal::empty_str here.
+------------------------------------------------------------------------
+r663 | wilx | 2009-01-04 00:10:31 +0100 (Sun, 04 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/src/patternlayout.cxx
+
+patternlayout.cxx: Do not use .at() when we have just checked the index is ok.
+------------------------------------------------------------------------
+r666 | wilx | 2009-01-04 21:06:00 +0100 (Sun, 04 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/src/loggerimpl.cxx
+   M /branches/1.1/src/loglevel.cxx
+
+Two random white space cleanups.
+
+------------------------------------------------------------------------
+r667 | wilx | 2009-01-04 21:08:52 +0100 (Sun, 04 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/pointer.h
+
+pointer.h: Add conversion to unspecified boolean type to SharedObjectPtr. Remove 
+SharedObjectPtr::validate(), use assert() instead.
+------------------------------------------------------------------------
+r668 | wilx | 2009-01-04 21:19:09 +0100 (Sun, 04 Jan 2009) | 11 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/logger.h
+   M /branches/1.1/include/log4cplus/spi/factory.h
+   M /branches/1.1/include/log4cplus/spi/loggerimpl.h
+   M /branches/1.1/src/factory.cxx
+   M /branches/1.1/src/fileappender.cxx
+   M /branches/1.1/src/filter.cxx
+   M /branches/1.1/src/hierarchy.cxx
+   M /branches/1.1/src/layout.cxx
+   M /branches/1.1/src/logger.cxx
+   M /branches/1.1/src/socketappender.cxx
+   M /branches/1.1/src/stringhelper.cxx
+
+logger.h, logger.cxx: Move non-virtual methods of Logger into the class declaration
+to enable inlining. Hold the LoggerImpl pointer in SharedObjectPtr.
+factory.h, factory.cxx: Return factory name string by reference. Factor common code
+into macros.
+loggerimpl.h: Return name by reference to string.
+fileappender.cxx: Use reference to hold string returned by reference. Parenthesize 
+uses of max() to avoid macro expansion.
+filter.cxx, hierarchy.cxx, layout.cxx, socketappender.cxx: Use reference to hold
+string returned by reference.
+stringhelper.cxx: Remove _empty_str, use internal::empty_str instead.
+
+------------------------------------------------------------------------
+r669 | wilx | 2009-01-04 21:24:22 +0100 (Sun, 04 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/tests/performance_test/main.cxx
+
+Bump the performance_test loop count to 100000.
+
+------------------------------------------------------------------------
+r670 | wilx | 2009-01-04 22:53:12 +0100 (Sun, 04 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/pointer.h
+   M /branches/1.1/src/pointer.cxx
+
+pointer.h, pointer.cxx: Remove now unused throwNullPointerException().
+
+------------------------------------------------------------------------
+r671 | wilx | 2009-01-05 21:56:11 +0100 (Mon, 05 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/src/factory.cxx
+
+factory.cxx: Fix compilation of the UNICODE version.
+------------------------------------------------------------------------
+r672 | wilx | 2009-01-05 22:03:10 +0100 (Mon, 05 Jan 2009) | 6 lines
+Changed paths:
+   M /branches/1.1/CMakeLists.txt
+   M /branches/1.1/include/log4cplus/logger.h
+   M /branches/1.1/include/log4cplus/loggingmacros.h
+   A /branches/1.1/include/log4cplus/tracelogger.h
+   M /branches/1.1/msvc8/log4cplus_dll.vcproj
+   M /branches/1.1/msvc8/log4cplus_static.vcproj
+
+tracelogger.h: New file. Move TraceLogger implementation from logger.h into this file.
+logger.h: Mark most methods const.
+loggingmacros.h: Implement the ability to specify logger using string instead 
+of just Logger object.
+CMakeLists.txt, log4cplus_dll.vcproj, log4cplus_static.vcproj: Add tracelogger.h.
+
+------------------------------------------------------------------------
+r673 | wilx | 2009-01-05 22:08:36 +0100 (Mon, 05 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/src/Makefile.am
+   M /branches/1.1/src/Makefile.in
+
+src/Makefile.am, src/Makefile.in: Add interna.h and tracelogger.h and regenerate.
+------------------------------------------------------------------------
+r674 | wilx | 2009-01-05 22:20:15 +0100 (Mon, 05 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/configure
+   M /branches/1.1/configure.in
+   M /branches/1.1/docs/doxygen.config
+   M /branches/1.1/docs/webpage_doxygen.config
+   M /branches/1.1/log4cplus.spec
+   M /branches/1.1/src/Makefile.am
+   M /branches/1.1/src/Makefile.in
+
+Set the version to 1.1.0.
+------------------------------------------------------------------------
+r675 | wilx | 2009-01-05 23:59:04 +0100 (Mon, 05 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/README
+
+README: Update tested platforms section and add notice about workaround
+for some GCC warnings.
+------------------------------------------------------------------------
+r676 | wilx | 2009-01-06 07:50:57 +0100 (Tue, 06 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/logger.h
+
+logger.h: Include loggingmacros.h and tracelogger.h to fix compilation of existing code.
+------------------------------------------------------------------------
+r677 | wilx | 2009-01-06 15:50:11 +0100 (Tue, 06 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/src/threads.cxx
+
+threads.cxx: Initialize POSIX mutexes as recursive.
+------------------------------------------------------------------------
+r679 | wilx | 2009-01-07 10:25:46 +0100 (Wed, 07 Jan 2009) | 8 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/threads.h
+   M /branches/1.1/src/threads.cxx
+
+threads.h: New function blockAllSignals().
+
+threads.cxx: Revert revision 677. Recursive mutexes do not solve the
+problem that the revision is trying to solve. Implement
+blockAllSignals() and use it to block all signals in any log4cplus
+thread.
 
 
-Version 1.0.1 (December 18, 2003)
-  - Fixed Bug #831311 - "loggingserver.cxx clientsock.read()"
-  - Fixed Bug #851074 - "build problem HPUX 11, gcc 3.3"
-  - Fixed Bug #805242 - "Crash in log4cplus::helpers::SocketBuffer::appendSize_t"
-  - Fixed Bug #808119 - "TRACE_METHOD not displaying file name in log"
-  - Fixed Bug #827804 - "UMR in ConfigurationWatchdogThread"
-  - Fixed Bug #851116 - "Can not build"
-  - Added the OFF_LOG_LEVEL and the ALL_LOG_LEVEL LogLevels.
+------------------------------------------------------------------------
+r681 | wilx | 2009-01-07 20:37:31 +0100 (Wed, 07 Jan 2009) | 5 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/appenderattachableimpl.h
+   M /branches/1.1/include/log4cplus/helpers/threads.h
+   M /branches/1.1/include/log4cplus/spi/objectregistry.h
+   M /branches/1.1/include/log4cplus/tracelogger.h
+
+tracelogger.h, spi/objectregistry.h, helpers/appenderattachableimpl.h,
+helpers/threads.h: Disable copy ctor and assignment operator for
+non-copyable object.
 
 
-Version 1.0 (September 6 2003)
-  - Fix Bug #96934.  (fileappender.cxx would not compile in a UNICODE build)
-  - Fixed compilation warning in MSVC for pointer.h
+------------------------------------------------------------------------
+r682 | wilx | 2009-01-07 20:40:57 +0100 (Wed, 07 Jan 2009) | 7 lines
+Changed paths:
+   M /branches/1.1/configure
+   M /branches/1.1/configure.in
+
+configure.in: Add -Wstrict-aliasing, -Woverloaded-virtual,
+-Wold-style-cast, -Wc++0x-compat and -Wundef to GCC command line when
+available.
+
+configure: Regenerate.
 
 
-Version 0.9.10 (August 27 2003)
-  - Fixed singled-threaded build compilation issues
-  - The DailyRollingFileAppender no longer truncates files
-  - The DailyRollingFileAppender now performs a "rollover" on close().  If the
-    "rollover file" exists, then it will be renamed according to the pattern
-    that is used by the RollingFileAppender class.  (Thanks Philip Green for
-    the suggestion.)
-  - Some socket-unix.cxx corrections.
-  - Fixed the *Factory initialization so that it compile with the HP aCC
-    compiler.
-  - Corrected the getCurrentThreadName() for MacOS X and DEC.
-  - "make install" now installs the header files.
+------------------------------------------------------------------------
+r683 | wilx | 2009-01-07 20:50:31 +0100 (Wed, 07 Jan 2009) | 22 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/loglog.h
+   M /branches/1.1/include/log4cplus/helpers/pointer.h
+   M /branches/1.1/include/log4cplus/helpers/stringhelper.h
+   M /branches/1.1/include/log4cplus/helpers/thread-config.h
+   M /branches/1.1/include/log4cplus/internal/internal.h
+   M /branches/1.1/src/configurator.cxx
+   M /branches/1.1/src/socket-unix.cxx
+   M /branches/1.1/src/socketbuffer.cxx
+
+Various cleanups.
+
+thread-config.h: Clean up formatting. Parenthesize some macro arguments.
+
+pointer.h: Check for existence of _MSC_VER before checking for its
+value. Mark the SharedObjectPtr ctor explicit.
+
+loglog.h: Disable assignment.
+
+stringhelper.h: Rename _Container template parameter of
+string_append_iterator<> to Container. Use container_type
+typedef. Reformat.
+
+internal.h: Fix warning about unterminated char constant.
+
+socketbuffer.cxx, socket-unix.cxx: Use C++ casts instead of C style
+cast.
+
+configurator.cxx: Parenthesize condition. Disable copy ctor and
+assignment operator in ConfigurationWatchDogThread.
 
 
-Version 0.9.9 (August 9 2003)
-  - Fixed many MSVC++ compilation errors (6 and 7).
-  - Updated the MSVC++ projects
-  - Modified the Time::getFormattedTime() method to increase performance
-  - Modified Hierarcy::getInstanceImpl() to "deep copy" Logger names.
-  - Corrected some of the PatternLayout documentation to work better with
-    doxygen.
-  - Some Borland C++ Builder 6 fixes.
+------------------------------------------------------------------------
+r684 | wilx | 2009-01-07 20:55:59 +0100 (Wed, 07 Jan 2009) | 3 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/loggingmacros.h
+   M /branches/1.1/include/log4cplus/tracelogger.h
+
+loggingmacros.h: White space fix.
+tracelogger.h: Change include guard symbol.
+
+------------------------------------------------------------------------
+r685 | wilx | 2009-01-09 19:38:34 +0100 (Fri, 09 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/threads.h
+   M /branches/1.1/src/threads.cxx
+
+threads.h, threads.cxx: Use _beginthreadex() instead of CreateThread().
+
+------------------------------------------------------------------------
+r690 | wilx | 2009-01-09 20:19:33 +0100 (Fri, 09 Jan 2009) | 15 lines
+Changed paths:
+   M /branches/1.1
+   M /branches/1.1/Makefile.am
+   M /branches/1.1/Makefile.in
+   M /branches/1.1/configure
+   M /branches/1.1/configure.in
+
+Merge in revisions 688-689 from PRODUCTION_1_0_x.
+
+r688:
+
+Makefile.am, Makefile.in: Add ACLOCAL_AMFLAGS with -I m4. It might be
+needed for more recent version of automake/autoconf.
+
+r689:
+
+configure.in: Do not check for ranlib, libtool does that too. Add
+AC_CONFIG_MACRO_DIR for fute versions of autotools.
+
+configure: Regenerate.
 
 
-Version 0.9.8 (August 3 2003)
-  - Changed the LogLog class so that it is now reference counted.
-  - Restored the LOG4CPLUS_*_STR logging macros.
-  - Added support to disable the ERROR and FATAL macros by defining
-    LOG4CPLUS_DISABLE_*
-  - API Change:  The LOG4CPLUS_TRACE macro now has behavior similar to all of
-    the other logging macros.  If the old behavior is desired, then the new
-    LOG4CPLUS_TRACE_METHOD macro should be used.
-  - Modified Appender class to support the "Threshold" property.
-  - "localtime" is now the default time in log4cplus.
-  - The FileAppender no longer prints out the "header" when it opens a file.
-  - Added the "immediateFlush" field to the FileAppender class.
-  - Changed the API of the LogLevelManager class.
-  - Initial port work done to run on MacOS X.
-  - Added the HierarchyLocker class
-  - Added the ConfigureAndWatchThread class for runtime dynamic reconfiguration.
-  - Added several performance enhancements to the InternalLoggingEvent class.
-  - Renamed the PatternLayout "Pattern" configuration option to
-    "ConversionPattern".
-  - Added 3 new tests: configandwatch_test, customloglevel_test, and
-    performance_test.  (No MSVC projects created for these tests, yet.)
+------------------------------------------------------------------------
+r689 | wilx | 2009-01-09 20:01:25 +0100 (Fri, 09 Jan 2009) | 5 lines
+Changed paths:
+   M /branches/PRODUCTION_1_0_x/log4cplus/configure
+   M /branches/PRODUCTION_1_0_x/log4cplus/configure.in
+Merged via: r690
+
+configure.in: Do not check for ranlib, libtool does that too. Add
+AC_CONFIG_MACRO_DIR for fute versions of autotools.
+configure: Regenerate.
 
 
-Version 0.9.7 (June 28 2003)
-  - Added the log4cplus::DailyRollingFileAppender class.
-  - Added the log4cplus::helper::Time class.  Now log with millisecond
-    granularity. (microsecond granularity if the gettimeofday() function is
-    available.)
-  - Changed log4cplus::spi::InternalLoggingEvent from a POD to a class and
-    introduced several performance ehancements to that class.  This class
-    can now be extended to introduce "customized" logging.
-  - Fixed Bug #757989 - "TraceLogger should not hold a Logger reference"
-  - Added TYPE_SOCKLEN_T to configure.in (checking for whether <sys/socket.h>
-    defines `socklen_t').
-  - Added the "operator!=" to log4cplus::helpers::SharedObjectPtr.
-  - Made changes to make the DEC CXX 6.1 compiler happy.
-  - Renamed the tolower and toupper methods to avoid a name collision with a
-    macro with the DEC CXX compiler.
-  - Removed "-lstdc++" from the list of libraries in all Makefiles.
+------------------------------------------------------------------------
+r688 | wilx | 2009-01-09 19:50:42 +0100 (Fri, 09 Jan 2009) | 1 line
+Changed paths:
+   M /branches/PRODUCTION_1_0_x/log4cplus/Makefile.am
+   M /branches/PRODUCTION_1_0_x/log4cplus/Makefile.in
+Merged via: r690
+
+Makefile.am, Makefile.in: Add ACLOCAL_AMFLAGS with -I m4. It might be needed for more recent version of automake/autoconf.
+------------------------------------------------------------------------
+r693 | wilx | 2009-01-11 12:50:51 +0100 (Sun, 11 Jan 2009) | 3 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/stringhelper.h
+
+stringhelper.h (tokenize): Do not use _X kind of names, such are reserved for the C++ implementation. Rework the tokenization so that it works without extra temporary string. Fix potential buffer overrun when skipping separators.
+(convertIntegerToString): Rework without extra buffer and unnecessary string reversion. Fix for negative numbers.
+
+------------------------------------------------------------------------
+r694 | wilx | 2009-01-11 12:52:55 +0100 (Sun, 11 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/src/configurator.cxx
+
+configurator.cxx: Three assorted small tweaks to PropertyConfigurator::configureLogger.
+
+------------------------------------------------------------------------
+r695 | wilx | 2009-01-11 12:56:05 +0100 (Sun, 11 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/appender.h
+   M /branches/1.1/src/appender.cxx
+
+appender.h, appender.cxx: Pass Properties to Appender ctor by reference. Remove asString(), use convertIntegerToString() instead.
+------------------------------------------------------------------------
+r697 | wilx | 2009-01-11 14:48:26 +0100 (Sun, 11 Jan 2009) | 5 lines
+Changed paths:
+   M /branches/1.1
+   M /branches/1.1/src/global-init.cxx
+
+Merge in revision 692 from the PRODUCTION_1_0_x branch.
+
+global-init.cxx: Call also getLogLevelManager() in initializeLog4cplus()
+to initialize LogLevelManager on startup.
+
+------------------------------------------------------------------------
+r692 | wilx | 2009-01-10 15:31:22 +0100 (Sat, 10 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/PRODUCTION_1_0_x/log4cplus/src/global-init.cxx
+Merged via: r697
+
+global-init.cxx: Call also getLogLevelManager() in initializeLog4cplus()
+to initialize LogLevelManager on startup.
+------------------------------------------------------------------------
+r698 | wilx | 2009-01-11 16:10:04 +0100 (Sun, 11 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/stringhelper.h
+
+stringhelper.h: Fix fallout from previous change.
+------------------------------------------------------------------------
+r700 | wilx | 2009-01-12 11:15:47 +0100 (Mon, 12 Jan 2009) | 3 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/stringhelper.h
+
+stringhelper.h: Fix the previous fix.
 
 
-Version 0.9.6 (June 10 2003)
-  - Fixed multiple compiler warnings for the MSVC++ 7 compiler
-  - Modified configure.in so that it can now build on Solaris.
-  - Modified the configure script so that it can build a single-threaded
-    library (--enable-threads=no)
-  - Added "Filtering" to Appenders.
-  - Fixed Bug #741515 - "LogLog is causing a core on HP".
-  - Fixed Bug #733944 - "logging in system/local time"
-  - Fixed Bug #749040 - "Use of gmtime and localtime not thread-safe"
-  - Fixed Bug #750232 - "Copying of Hierarchy should not be allowed"
-  - Added an MSVC++ project to build log4cplus as a static library.
+------------------------------------------------------------------------
+r702 | wilx | 2009-01-13 23:52:09 +0100 (Tue, 13 Jan 2009) | 18 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/config.hxx
+   M /branches/1.1/include/log4cplus/helpers/thread-config.h
+   M /branches/1.1/include/log4cplus/internal/internal.h
+   M /branches/1.1/include/log4cplus/loggingmacros.h
+   M /branches/1.1/include/log4cplus/ndc.h
+   M /branches/1.1/src/global-init.cxx
+   M /branches/1.1/src/ndc.cxx
+   M /branches/1.1/src/stringhelper.cxx
+   M /branches/1.1/src/threads.cxx
+
+Implement per thread data using thread local storage. Implement using POSIX thread local storage using pthread_setspecific(), Win32 TlsSetValue() and MSVC __declspec(thread). Use the implemented per thread data in NDC and in loggingmacros.h/stringhelper.cxx.
+
+config.hxx: Declare threadCleanup().
+
+thread-config.h: Add cleanup function parameter to LOG4CPLUS_THREAD_LOCAL_INIT(), it is used with POSIX threads TLS; modify createPthreadKey() declaration accordingly. Define LOG4CPLUS_THREAD_LOCAL_VAR tag, so far only for MSVC.
+
+internal.h: Implement per thread data using thread local storage.
+
+loggingmacros.h: Move helper functions into detail namespace, drop leading underscore. Simplifiy LOG4CPLUS_MACRO_BODY() into just one instance using helper functions from namespace detail.
+
+stringhelper.cxx: Implement helper functions declared in loggingmacros.h using per thread data.
+
+ndc.h, ndc.cxx: Use new per thread data instead of directly using TLS.
+
+threads.cxx: Add POSIX TLS cleanup function parameter to createPthreadKey(). Call threadCleanup() as the last thing in threadStartFunc().
+
+global-init.cxx: Implement TLS and log4cplus' per thread data initialization and cleanup.
+
+------------------------------------------------------------------------
+r703 | wilx | 2009-01-14 15:35:54 +0100 (Wed, 14 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/internal/internal.h
+   M /branches/1.1/src/global-init.cxx
+   M /branches/1.1/src/ndc.cxx
+   M /branches/1.1/src/stringhelper.cxx
+
+Fix fallout of the per thread data change.
+------------------------------------------------------------------------
+r704 | wilx | 2009-01-14 16:24:21 +0100 (Wed, 14 Jan 2009) | 7 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/pointer.h
+   M /branches/1.1/src/stringhelper.cxx
+
+Fix Cygwin compilation after the per thread data changes.
+
+pointer.h: Remove unused NullPointerException class.
+
+stringhelper.cxx: Move get_macros_oss() into the detail namespace, where it is supposed to be.
 
 
-Version 0.9.5 (May 19 2003)
-  - Removed the LOG4CPLUS_*_STR logging macros.
-  - Added support to disable the TRACE, DEBUG, and INFO macros by defining
-    LOG4CPLUS_DISABLE_*
-  - Added a static doConfigure() method to PropertyConfigurator and
-    BasicConfigurator.
-  - Fixed problems with the configure script on several platforms.
-  - Optimized single-threaded mode.
-  - Fixed some problems with the MSVC++ 7 compiler.
+------------------------------------------------------------------------
+r705 | wilx | 2009-01-14 21:07:52 +0100 (Wed, 14 Jan 2009) | 5 lines
+Changed paths:
+   M /branches/1.1/Makefile.in
+   M /branches/1.1/acinclude.m4
+   M /branches/1.1/configure
+   M /branches/1.1/configure.in
+   M /branches/1.1/include/log4cplus/config/defines.hxx.in
+   M /branches/1.1/include/log4cplus/config.h.in
+   M /branches/1.1/include/log4cplus/helpers/thread-config.h
+   M /branches/1.1/include/log4cplus/internal/internal.h
+   M /branches/1.1/loggingserver/Makefile.in
+   A /branches/1.1/m4/ax_tls_support.m4
+   M /branches/1.1/src/Makefile.in
+   M /branches/1.1/src/global-init.cxx
+   M /branches/1.1/tests/Makefile.in
+   M /branches/1.1/tests/appender_test/Makefile.in
+   M /branches/1.1/tests/configandwatch_test/Makefile.in
+   M /branches/1.1/tests/customloglevel_test/Makefile.in
+   M /branches/1.1/tests/fileappender_test/Makefile.in
+   M /branches/1.1/tests/filter_test/Makefile.in
+   M /branches/1.1/tests/hierarchy_test/Makefile.in
+   M /branches/1.1/tests/loglog_test/Makefile.in
+   M /branches/1.1/tests/ndc_test/Makefile.in
+   M /branches/1.1/tests/ostream_test/Makefile.in
+   M /branches/1.1/tests/patternlayout_test/Makefile.in
+   M /branches/1.1/tests/performance_test/Makefile.in
+   M /branches/1.1/tests/priority_test/Makefile.in
+   M /branches/1.1/tests/propertyconfig_test/Makefile.in
+   M /branches/1.1/tests/socket_test/Makefile.in
+   M /branches/1.1/tests/thread_test/Makefile.in
+   M /branches/1.1/tests/timeformat_test/Makefile.in
+
+Fix more fallout of the TLS changes. Add detection for __thread and
+__declspec(thread) constructs. Regenerate makefiles and the configure
+script.
 
 
-Version 0.9.4 (May-5-2003)
-  Added SocketAppender class.
-  Now builds loggingserver to act as a source of logging messages from a
-  SocketAppender.
-  Numerous fixes needed for various compilers.
+------------------------------------------------------------------------
+r706 | wilx | 2009-01-14 21:26:11 +0100 (Wed, 14 Jan 2009) | 5 lines
+Changed paths:
+   M /branches/1.1/configure
+   M /branches/1.1/m4/ax_tls_support.m4
+
+Add GCC version check to the TLS compile test. GCC 3.4 on Cygwin
+happily compiles source with variable marked with __declspec(thread)
+just warning about it being ignore.
 
 
-Version 0.9.3 (Apr-19-2003)
-  Added preliminary UNICODE support. (Little testing.)  Thanks Michael CATANZARITI
-  Now built as a shared library instead of a static library.
-  Add support for Microsoft Visual C++ 6.0 back in.  (Multi-threaded DLL)
-  Added SysLogAppender class.
-  Added NTEventLogAppender class.  (Thanks Michael CATANZARITI)
+------------------------------------------------------------------------
+r707 | wilx | 2009-01-14 21:51:37 +0100 (Wed, 14 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/tests/thread_test/main.cxx
+
+Fix memory leak reported by valgrind in the thread_test.
+------------------------------------------------------------------------
+r708 | wilx | 2009-01-14 21:55:28 +0100 (Wed, 14 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/internal/internal.h
+
+Fix typo preventing compilation.
+
+------------------------------------------------------------------------
+r709 | wilx | 2009-01-15 10:22:00 +0100 (Thu, 15 Jan 2009) | 8 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/internal/internal.h
+   M /branches/1.1/src/global-init.cxx
+   M /branches/1.1/src/syslogappender.cxx
+   M /branches/1.1/src/threads.cxx
+   M /branches/1.1/src/timehelper.cxx
+   M /branches/1.1/src/win32debugappender.cxx
+
+More improvements using per thread data. Implement get_ptd() and
+friends even for non-threaded variant so that we do not have to use
+too many #ifdefs all over the code. Use per thread scratch buffers in
+syslogappender.cxx, timehelper.cxx and win32debugappender.cxx. In
+threads.cxx, remember threads "name" when getCurrentThreadName() is
+called the first time.
 
 
-Version 0.9.2 (Apr-5-2003)
-  Major API change:  Changed the name of the Category class to Logger and
-		     replaced the Priority class with LogLevel.
-  Added PropertyConfigurator class.
-  Added BasicConfigurator class.
+------------------------------------------------------------------------
+r710 | wilx | 2009-01-15 10:30:11 +0100 (Thu, 15 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/src/win32debugappender.cxx
+
+Fix typo in previous patch.
+------------------------------------------------------------------------
+r711 | wilx | 2009-01-15 19:53:03 +0100 (Thu, 15 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/spi/loggingevent.h
+   M /branches/1.1/src/loggingevent.cxx
+
+loggingevent.h, loggingevent.cxx: Move ctor into loggingevent.cxx, reformat.
+------------------------------------------------------------------------
+r712 | wilx | 2009-01-15 19:54:23 +0100 (Thu, 15 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/threads.h
+   M /branches/1.1/src/threads.cxx
+
+thread.h, thread.cxx: Return thread name by reference.
+------------------------------------------------------------------------
+r713 | wilx | 2009-01-15 19:55:47 +0100 (Thu, 15 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/timehelper.h
+   M /branches/1.1/include/log4cplus/internal/internal.h
+   M /branches/1.1/src/timehelper.cxx
+
+Add one more scratch buffer for getFormattedTime().
+------------------------------------------------------------------------
+r714 | wilx | 2009-01-15 20:43:19 +0100 (Thu, 15 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/internal/internal.h
+   M /branches/1.1/src/nteventlogappender.cxx
+   M /branches/1.1/src/syslogappender.cxx
+   M /branches/1.1/src/win32debugappender.cxx
+
+Add scratch pad for appenders, add scratch string buffer. Use it.
+
+------------------------------------------------------------------------
+r715 | wilx | 2009-01-15 20:45:07 +0100 (Thu, 15 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/src/patternlayout.cxx
+
+BasicPatternConverter::convertTweak FULL_LOCATION_CONVERTER case in BasicPatternConverter::convert() to do less copying.
+
+------------------------------------------------------------------------
+r716 | wilx | 2009-01-16 17:54:57 +0100 (Fri, 16 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/internal/internal.h
+   M /branches/1.1/src/global-init.cxx
+
+Fix, alloc_ptd() has to be defined for all of the three distinct cases.
+------------------------------------------------------------------------
+r717 | wilx | 2009-01-16 18:22:33 +0100 (Fri, 16 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/thread-config.h
+
+Fix compilation for combination of non-threaded and UNICODE settings.
+------------------------------------------------------------------------
+r718 | wilx | 2009-01-16 21:04:38 +0100 (Fri, 16 Jan 2009) | 4 lines
+Changed paths:
+   M /branches/1.1/src/configurator.cxx
+
+ConsoleAppender name in BasicConfiguration should be log4cplus::ConsoleAppender.
+
+Fix suggested by: Philip Strohecker
+
+------------------------------------------------------------------------
+r721 | wilx | 2009-01-16 21:32:34 +0100 (Fri, 16 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/stringhelper.h
+
+Make string_append_iterator inherit from std::iterator<>, reformat.
+------------------------------------------------------------------------
+r722 | wilx | 2009-01-16 23:38:30 +0100 (Fri, 16 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/internal/internal.h
+   M /branches/1.1/src/patternlayout.cxx
+
+Construct pattern conversion result in place instead of returning it by value. Use per thread scratch buffer. Use std::ostream formatting features for text alignment and padding.
+------------------------------------------------------------------------
+r728 | wilx | 2009-01-19 21:34:32 +0100 (Mon, 19 Jan 2009) | 14 lines
+Changed paths:
+   M /branches/1.1/CMakeLists.txt
+   M /branches/1.1/include/log4cplus/appender.h
+   A /branches/1.1/include/log4cplus/asyncappender.h
+   A /branches/1.1/include/log4cplus/helpers/queue.h
+   M /branches/1.1/include/log4cplus/helpers/thread-config.h
+   M /branches/1.1/include/log4cplus/helpers/threads.h
+   M /branches/1.1/include/log4cplus/spi/loggingevent.h
+   M /branches/1.1/msvc8/log4cplus_dll.vcproj
+   A /branches/1.1/src/asyncappender.cxx
+   M /branches/1.1/src/factory.cxx
+   M /branches/1.1/src/loggingevent.cxx
+   A /branches/1.1/src/queue.cxx
+   M /branches/1.1/src/threads.cxx
+
+First iteration of AsyncAppender, Windows bits.
+
+appender.h: Make doAppend() virtual.
+
+thread.h, thread.cxx, thread-config.h: Formatting changes.
+
+loggingevent.h, loggingevent.cxx: Add default ctor and swap() method.
+
+factory.cxx: Register AsyncAppender.
+
+asyncappender.{h,cxx}, queue.{h,cxx}: New files.
+
+log4cplus_dll.vcproj, CMakeLists.txt: Add new files.
+
+------------------------------------------------------------------------
+r729 | wilx | 2009-01-22 19:21:50 +0100 (Thu, 22 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/queue.h
+   A /branches/1.1/include/log4cplus/helpers/syncprims-pthreads.h
+   A /branches/1.1/include/log4cplus/helpers/syncprims-win32.h
+   A /branches/1.1/include/log4cplus/helpers/syncprims.h
+   M /branches/1.1/msvc8/log4cplus_dll.vcproj
+   M /branches/1.1/src/Makefile.am
+   M /branches/1.1/src/Makefile.in
+   M /branches/1.1/src/queue.cxx
+   M /branches/1.1/src/threads.cxx
+
+Implement wrappers for synchronization primitives. Use them in our many producers single consumer queue implementation instead of directly using POSIX or Win32 primitives.
+------------------------------------------------------------------------
+r730 | wilx | 2009-01-22 20:17:29 +0100 (Thu, 22 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/msvc8/log4cplus.sln
+
+Add missing dependency to the filter_test project.
+
+------------------------------------------------------------------------
+r731 | wilx | 2009-01-22 20:21:12 +0100 (Thu, 22 Jan 2009) | 6 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/syncprims-win32.h
+   M /branches/1.1/include/log4cplus/helpers/thread-config.h
+   M /branches/1.1/include/log4cplus/helpers/threads.h
+   M /branches/1.1/src/asyncappender.cxx
+   M /branches/1.1/src/threads.cxx
+
+thread.h. thread.cxx, thread-config.h: Distinguish between thread ID and thread handle. Add join() method.
+
+asyncappender.cxx: Use join the queue thread in close() method.
+
+syncprims-win32.h: Fix compilation on Win32.
+
+------------------------------------------------------------------------
+r732 | wilx | 2009-01-22 21:44:43 +0100 (Thu, 22 Jan 2009) | 4 lines
+Changed paths:
+   M /branches/1.1/src/asyncappender.cxx
+   M /branches/1.1/src/factory.cxx
+
+asyncappender.cxx: Use "Appender" for the underlying appender property name to match with existing appenders.
+
+factory.cxx: Add forgotten registration of the AsyncAppenderFactory.
+
+------------------------------------------------------------------------
+r733 | wilx | 2009-01-23 09:03:24 +0100 (Fri, 23 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/include/log4cplus/asyncappender.h
+   M /branches/1.1/include/log4cplus/helpers/queue.h
+   M /branches/1.1/src/asyncappender.cxx
+   M /branches/1.1/src/queue.cxx
+
+set svn:eol-style=LF for new files. Convert queue.cxx to Unix EOL style.
+------------------------------------------------------------------------
+r734 | wilx | 2009-01-23 09:10:47 +0100 (Fri, 23 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/tests/performance_test/log4cplus.properties
+   M /branches/1.1/tests/performance_test/main.cxx
+
+Add bits to help testing the AsyncAppender.
+
+------------------------------------------------------------------------
+r736 | wilx | 2009-01-23 22:50:34 +0100 (Fri, 23 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/threads.h
+   M /branches/1.1/src/threads.cxx
+
+threads.h, threads.cxx: Fix AbstractThread::getThreadId(); use ID stored during thread's creation, not GetCurrentThreadId().
+
+------------------------------------------------------------------------
+r737 | wilx | 2009-01-23 23:53:58 +0100 (Fri, 23 Jan 2009) | 10 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/syncprims-pthreads.h
+   M /branches/1.1/include/log4cplus/helpers/syncprims-win32.h
+   M /branches/1.1/include/log4cplus/helpers/syncprims.h
+   M /branches/1.1/src/Makefile.am
+   M /branches/1.1/src/Makefile.in
+   A /branches/1.1/src/syncprims.cxx
+
+syncprims.h, syncprims-pthreads.h, syncprims-win32.h: Add forgotten
+dtors. Use MutexGuard in the implementation of the ManualResetEvent
+for its internal mutex. Add new function syncprim_throw_exception()
+and use it for error handling inside the wrappers.
+
+syncprims.cxx: New file, implement syncprim_throw_exception() here.
+
+Makefile.am, Makefile.in: Add syncprims.cxx. Regenerate.
 
 
-Version 0.9.1 (Mar-22-2003)
-  Added PatternLayout class.
+------------------------------------------------------------------------
+r738 | wilx | 2009-01-24 09:42:22 +0100 (Sat, 24 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/loggingmacros.h
+
+loggingmacros.h: Use fully qualified name of helper functions in logging macros to resolve compilation/ambiguity problem.
+
+------------------------------------------------------------------------
+r739 | wilx | 2009-01-24 09:56:51 +0100 (Sat, 24 Jan 2009) | 4 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/internal/internal.h
+   M /branches/1.1/src/global-init.cxx
+
+internal.h: Add bool parameter to get_ptd(); when true, allocate per thread data. The default is true except for Win32 DLL builds where it is false because per thread data are initialized by DllMain() there.
+
+global-init.cxx: Call get_ptd() with false in threadCleanup().
+
+------------------------------------------------------------------------
+r740 | wilx | 2009-01-24 11:02:05 +0100 (Sat, 24 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/msvc8/log4cplus_dll.vcproj
+   M /branches/1.1/msvc8/log4cplus_static.vcproj
+
+Add "Appenders" folder to the project files, put all appenders there. Turn on debugging info generation for release builds.
+
+------------------------------------------------------------------------
+r741 | wilx | 2009-01-24 11:05:45 +0100 (Sat, 24 Jan 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/socket.h
+   M /branches/1.1/src/socket-unix.cxx
+   M /branches/1.1/src/socket-win32.cxx
+   M /branches/1.1/src/socket.cxx
+
+Return long instead of size_t from helpers::read/write functions to make possible negative return value more prominent.
+
+------------------------------------------------------------------------
+r742 | wilx | 2009-01-24 15:01:53 +0100 (Sat, 24 Jan 2009) | 5 lines
+Changed paths:
+   M /branches/1.1/configure
+   M /branches/1.1/m4/ax_tls_support.m4
+
+m4/ax_tls_support.m4: Do not even try __declspec(thread) with GCC.
+
+configure: Regenerate.
 
 
-Version 0.9.0
-  Initial beta release.
+------------------------------------------------------------------------
+r743 | wilx | 2009-01-24 16:59:41 +0100 (Sat, 24 Jan 2009) | 4 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/internal/internal.h
+   M /branches/1.1/src/global-init.cxx
+
+Add out of line ctors and dtors for gft_scratch_pad,
+appender_sratch_pad and per_thread_data.
+
+
+------------------------------------------------------------------------
+r744 | wilx | 2009-01-25 10:42:45 +0100 (Sun, 25 Jan 2009) | 1 line
+Changed paths:
+   M /branches/1.1/configure
+   M /branches/1.1/configure.in
+
+Add configure.in tests for built-in TLS support switches of IBM's and Sun's compilers.
+------------------------------------------------------------------------
+r746 | wilx | 2009-02-01 11:43:38 +0100 (Sun, 01 Feb 2009) | 12 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/internal/internal.h
+   M /branches/1.1/include/log4cplus/spi/loggingevent.h
+   M /branches/1.1/src/loggerimpl.cxx
+   M /branches/1.1/src/loggingevent.cxx
+
+Implement per thread scratch buffer event for LoggerImpl::forcedLog().
+
+loggingevent.h, loggerevent.cxx: Implement new method
+setLoggingEvent().
+
+internal.h: Add forced_log_ev member to per_thread_data.
+
+loggerimpl.cxx: Use forced_log_ev as scratch buffer in
+LoggerImpl::forcedLog(). Remove using namespace directives and wrap
+everything in log4cplus::spi namespace.
+
+
+------------------------------------------------------------------------
+r747 | wilx | 2009-02-01 15:45:59 +0100 (Sun, 01 Feb 2009) | 2 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/helpers/property.h
+
+property.h: Remove import of std::size_t into global namespace for MacOS.
+
+------------------------------------------------------------------------
+r748 | wilx | 2009-02-01 15:47:36 +0100 (Sun, 01 Feb 2009) | 4 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/streams.h
+   M /branches/1.1/src/global-init.cxx
+
+streams.h: Make tcout and tcerr globals.
+
+global-init.cxx: Initialize tcout and tcerr here.
+
+------------------------------------------------------------------------
+r749 | wilx | 2009-02-01 15:58:25 +0100 (Sun, 01 Feb 2009) | 12 lines
+Changed paths:
+   M /branches/1.1/include/log4cplus/appender.h
+   M /branches/1.1/include/log4cplus/asyncappender.h
+   M /branches/1.1/include/log4cplus/helpers/appenderattachableimpl.h
+   M /branches/1.1/include/log4cplus/helpers/logloguser.h
+   M /branches/1.1/include/log4cplus/helpers/pointer.h
+   M /branches/1.1/src/appender.cxx
+   M /branches/1.1/src/asyncappender.cxx
+
+Improve AsyncAppender. Make it a model of AppenderAttachableImpl to mimic log4j implementation closer. Cleanups.
+
+asyncappender.h, asyncappender.cxx: Implement AppenderAttachableImpl. Add fall back to synchronous call of appendLoopOnAppenders() in case of error. Use log4cplus::NullAppender if the attempt to construct user supplied appender fails.
+
+appender.h, appenderattachableimpl.h: Inherit virtually from helpers::LogLogUser.
+
+appender.h, appender.cxx: Move ErrorHandler and OnlyOnceErrorHandler implementations into appender.cxx.
+
+pointer.h: Do not static_cast<> pointee to SharedObject.
+
+logloguser.h: Tiny formatting change.
+

@@ -60,12 +60,10 @@ Filter::~Filter()
 void
 Filter::appendFilter(FilterPtr filter)
 {
-    if(next.get() == 0) {
+    if (! next)
         next = filter;
-    }
-    else {
+    else
         next->appendFilter(filter);
-    }
 }
 
 
@@ -97,11 +95,13 @@ LogLevelMatchFilter::LogLevelMatchFilter(const Properties& properties)
 {
     init();
 
-    tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("AcceptOnMatch") );
-    acceptOnMatch = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
+    tstring const & accept_on_match
+        = properties.getProperty( LOG4CPLUS_TEXT("AcceptOnMatch") );
+    acceptOnMatch = (toLower(accept_on_match) == LOG4CPLUS_TEXT("true"));
 
-    tmp = properties.getProperty( LOG4CPLUS_TEXT("LogLevelToMatch") );
-    logLevelToMatch = getLogLevelManager().fromString(tmp);
+    tstring const & log_level_to_match
+        = properties.getProperty( LOG4CPLUS_TEXT("LogLevelToMatch") );
+    logLevelToMatch = getLogLevelManager().fromString(log_level_to_match);
 }
 
 
@@ -147,14 +147,17 @@ LogLevelRangeFilter::LogLevelRangeFilter(const Properties& properties)
 {
     init();
 
-    tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("AcceptOnMatch") );
-    acceptOnMatch = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
+    tstring const & accept_on_match
+        = properties.getProperty( LOG4CPLUS_TEXT("AcceptOnMatch") );
+    acceptOnMatch = (toLower(accept_on_match) == LOG4CPLUS_TEXT("true"));
 
-    tmp = properties.getProperty( LOG4CPLUS_TEXT("LogLevelMin") );
-    logLevelMin = getLogLevelManager().fromString(tmp);
+    tstring const & log_level_min
+        = properties.getProperty( LOG4CPLUS_TEXT("LogLevelMin") );
+    logLevelMin = getLogLevelManager().fromString(log_level_min);
 
-    tmp = properties.getProperty( LOG4CPLUS_TEXT("LogLevelMax") );
-    logLevelMax = getLogLevelManager().fromString(tmp);
+    tstring const & log_level_max
+        = properties.getProperty( LOG4CPLUS_TEXT("LogLevelMax") );
+    logLevelMax = getLogLevelManager().fromString(log_level_max);
 }
 
 

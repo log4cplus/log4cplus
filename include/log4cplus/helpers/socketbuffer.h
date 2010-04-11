@@ -27,14 +27,12 @@ namespace log4cplus {
         /**
          *
          */
-        class LOG4CPLUS_EXPORT SocketBuffer : protected log4cplus::helpers::LogLogUser
+        class LOG4CPLUS_EXPORT SocketBuffer
+            : protected log4cplus::helpers::LogLogUser
         {
         public:
-            SocketBuffer(size_t max);
-            SocketBuffer(const SocketBuffer& rhs);
+            explicit SocketBuffer(size_t max);
             ~SocketBuffer();
-
-            SocketBuffer& operator=(const SocketBuffer& rhs);
 
             char *getBuffer() const { return buffer; }
             size_t getMaxSize() const { return maxsize; }
@@ -50,19 +48,18 @@ namespace log4cplus {
             void appendByte(unsigned char val);
             void appendShort(unsigned short val);
             void appendInt(unsigned int val);
-            void appendSize_t(size_t val);
             void appendString(const tstring& str);
             void appendBuffer(const SocketBuffer& buffer);
 
         private:
-          // Methods
-            void copy(const SocketBuffer& rhs);
-
           // Data
             size_t maxsize;
             size_t size;
             size_t pos;
             char *buffer;
+
+            SocketBuffer(SocketBuffer const & rhs);
+            SocketBuffer& operator= (SocketBuffer const& rhs);
         };
 
     } // end namespace helpers

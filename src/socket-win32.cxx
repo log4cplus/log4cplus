@@ -25,18 +25,40 @@ using namespace log4cplus::helpers;
 // file LOCAL Classes
 /////////////////////////////////////////////////////////////////////////////
 
-namespace {
-    class WinSockInitializer {
-    public:
-        WinSockInitializer() {
-            WSAStartup(MAKEWORD(1, 1), &wsa);
+namespace
+{
+
+    struct WinSockInitializer
+    {
+        WinSockInitializer()
+            : initialized (false)
+        {
+            int err;
+
+            err = WSAStartup(MAKEWORD(2, 2), &wsa);
+            if (err == 0)
+            {
+                initialized = true;
+                return;
+            }
+
+            if (HIBYTE (wsa.wHighVersion) >= 2)
+            {
+                err = WSAStartup(wsa.wHighVersion, &wsa);
+                if (err == 0)
+                    initialized = true;
+            }
         }
-        ~WinSockInitializer() {
-            WSACleanup();
+
+        ~WinSockInitializer()
+        {
+            if (initialized)
+                WSACleanup();
         }
 
         WSADATA wsa;
-    } winSockInitializer;
+        bool initialized;
+    } static winSockInitializer;
 
 }
 
@@ -49,6 +71,9 @@ namespace {
 SOCKET_TYPE
 log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
 {
+    if (! winSockInitializer.initialized)
+        return INVALID_SOCKET;
+
     SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
     if(sock == INVALID_SOCKET) {
         return sock;
@@ -76,6 +101,9 @@ SOCKET_TYPE
 log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn, 
                                   unsigned short port, SocketState& state)
 {
+    if (! winSockInitializer.initialized)
+        return INVALID_SOCKET;
+
     SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
     if(sock == INVALID_SOCKET) {
         return INVALID_SOCKET;
@@ -137,10 +165,10 @@ log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
 
 
 
-size_t
+long
 log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
-    size_t res, read = 0;
+    long res, read = 0;
  
     do
     { 
@@ -152,16 +180,15 @@ log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
             return res;
         }
         read += res;
-    } while( read < buffer.getMaxSize() );
+    } while( read < static_cast<long>(buffer.getMaxSize()) );
  
     return read;
 }
 
 
 
-size_t
+long
 log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
     return ::send(sock, buffer.getBuffer(), static_cast<int>(buffer.getSize()), 0);
 }
-

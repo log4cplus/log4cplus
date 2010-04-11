@@ -10,10 +10,9 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-//
 
 #include <log4cplus/win32debugappender.h>
+#include <log4cplus/internal/internal.h>
 
 #pragma comment(lib, "kernel32.lib")
 
@@ -67,10 +66,7 @@ log4cplus::Win32DebugAppender::close()
 void
 log4cplus::Win32DebugAppender::append(const spi::InternalLoggingEvent& event)
 {
-    tostringstream buf;
-    layout->formatAndAppend(buf, event);
-    tstring sz = buf.str();
-    const tchar * s = sz.c_str();
+    const tchar * s = formatEvent (event).c_str();
     ::OutputDebugString(s);
 }
 

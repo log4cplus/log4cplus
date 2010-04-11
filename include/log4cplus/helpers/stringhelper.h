@@ -20,6 +20,7 @@
 #include <log4cplus/tstring.h>
 
 #include <algorithm>
+#include <limits>
 
 
 namespace log4cplus {
@@ -42,7 +43,7 @@ namespace log4cplus {
          * put the resulting tokens in <code>_result</code>.  If 
          * <code>collapseTokens</code> is false, multiple adjacent delimiters
          * will result in zero length tokens.
-         * <p>
+         * 
          * <b>Example:</b>
          * <pre>
          *   string s = // Set string with '.' as delimiters
@@ -50,57 +51,80 @@ namespace log4cplus {
          *   tokenize(s, '.', back_insert_iterator<list<string> >(tokens));
          * </pre>
          */
-        template <class _StringType, class _OutputIter>
-        void tokenize(const _StringType& s, typename _StringType::value_type c, 
-                      _OutputIter _result, bool collapseTokens = true) 
+        template <class StringType, class OutputIter>
+        void tokenize(const StringType& s, typename StringType::value_type c, 
+                      OutputIter result, bool collapseTokens = true) 
         {
-            _StringType tmp;
-            for(typename _StringType::size_type i=0; i<s.length(); ++i) {
-                if(s[i] == c) {
-                    *_result = tmp;
-                    ++_result;
-                    tmp.erase(tmp.begin(), tmp.end());
-                    if(collapseTokens)
-                        while(s[i+1] == c) ++i;
+            typedef typename StringType::size_type size_type;
+            size_type const slen = s.length();
+            size_type first = 0;
+            size_type i = 0;
+            for (i=0; i < slen; ++i)
+            {
+                if (s[i] == c)
+                {
+                    *result = StringType (s, first, i - first);
+                    ++result;
+                    if (collapseTokens)
+                        while (i+1 < slen && s[i+1] == c)
+                            ++i;
+                    first = i + 1;
                 }
-                else
-                    tmp += s[i];
             }
-            if(tmp.length() > 0) *_result = tmp;
+            if (first != i)
+                *result = StringType (s, first, i - first);
         }
         
-        
-         
-        template<class intType>
-        inline tstring convertIntegerToString(intType value) 
-        {
-            if(value == 0) {
-                return LOG4CPLUS_TEXT("0");
-            }
-            
-            char buffer[21];
-            char ret[21];
-            unsigned int bufferPos = 0;
-            unsigned int retPos = 0;
 
-            if(value < 0) {
-                ret[retPos++] = '-';
+        template<class intType>
+        inline
+        tstring 
+        convertIntegerToString (intType value) 
+        {
+            if (value == 0)
+                return LOG4CPLUS_TEXT("0");
+            bool const negative = value < 0;
+
+            static const size_t buffer_size
+                = std::numeric_limits<intType>::digits10 + 2;
+            tchar buffer[buffer_size];           
+            tchar * it = &buffer[buffer_size];
+            tchar const * const buf_end = it;
+
+            // The sign of the result of the modulo operator is implementation
+            // defined. That's why we work with positive counterpart instead.
+            // Also, in twos complement arithmetic the smallest negative number
+            // does not have positive counterpart; the range is asymetric.
+            // That's why we handle the case of value == min() specially here.
+            if (negative)
+            {
+                if (value == (std::numeric_limits<intType>::min) ())
+                {
+                    intType const r = value / 10;
+                    intType const a = (-r) * 10;
+                    intType const mod = -(a + value);
+                    value = -r;
+                    *(it - 1) = LOG4CPLUS_TEXT('0') + static_cast<tchar>(mod);
+                    --it;
+                }
+                else
+                    value = -value;
             }
-            
-            // convert to string in reverse order
-            while(value != 0) {
+
+            for (; value != 0; --it)
+            {
                 intType mod = value % 10;
                 value = value / 10;
-                buffer[bufferPos++] = '0' + static_cast<char>(mod);
+                *(it - 1) = LOG4CPLUS_TEXT('0') + static_cast<tchar>(mod);
             }
-            
-            // now reverse the string to get it in proper order
-            while(bufferPos > 0) {
-                ret[retPos++] = buffer[--bufferPos];
+
+            if (negative)
+            {
+                --it;
+                *it = LOG4CPLUS_TEXT('-');
             }
-            ret[retPos] = 0;
-            
-            return LOG4CPLUS_C_STR_TO_TSTRING(ret);
+
+            return tstring (static_cast<tchar const *>(it), buf_end);
         }
 
 
@@ -109,31 +133,50 @@ namespace log4cplus {
          * for compilers that don't have a std::basic_string class that
          * has the <code>push_back</code> method.
          */
-        template <class _Container>
-        class string_append_iterator {
-        protected:
-            _Container* container;
+        template <class Container>
+        class string_append_iterator
+            : public std::iterator<std::output_iterator_tag, void, void, void,
+                void>
+        {
         public:
-            typedef std::input_iterator_tag iterator_category;
-            typedef _Container          container_type;
-            typedef void                value_type;
-            typedef void                difference_type;
-            typedef void                pointer;
-            typedef void                reference;
+            typedef Container container_type;
 
-            explicit string_append_iterator(_Container& __x) : container(&__x) {}
-            string_append_iterator<_Container>&
-            operator=(const typename _Container::value_type& _value) {
-                *container += _value;
+            explicit string_append_iterator(container_type & c)
+                : container(&c)
+            { }
+
+            string_append_iterator<container_type> &
+            operator = (const typename container_type::value_type& value)
+            {
+                *container += value;
                 return *this;
             }
-            string_append_iterator<_Container>& operator*() { return *this; }
-            string_append_iterator<_Container>& operator++() { return *this; }
-            string_append_iterator<_Container>& operator++(int) { return *this; }
+
+            string_append_iterator<container_type> &
+            operator * ()
+            {
+                return *this;
+            }
+            
+            string_append_iterator<container_type> &
+            operator ++ ()
+            {
+                return *this;
+            }
+
+            string_append_iterator<container_type>
+            operator ++ (int)
+            {
+                return *this;
+            }
+
+        protected:
+            container_type * container;
         };
 
-    } 
-}
+    } // namespace helpers
+
+} // namespace log4cplus
 
 #endif // LOG4CPLUS_HELPERS_STRINGHELPER_HEADER_
 

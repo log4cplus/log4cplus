@@ -60,7 +60,7 @@ namespace log4cplus {
          * logs events are not actually written to persistent media if and
          * when the application crashes.
          *  
-         * <p>The <code>immediateFlush</code> variable is set to
+         * The <code>immediateFlush</code> variable is set to
          * <code>true</code> by default.
          */
         bool immediateFlush;
@@ -116,8 +116,6 @@ namespace log4cplus {
      * DailyRollingFileAppender extends {@link FileAppender} so that the
      * underlying file is rolled over at a user chosen frequency.
      *
-     * <p>
-     *         
      */
     class LOG4CPLUS_EXPORT DailyRollingFileAppender : public FileAppender {
     public:

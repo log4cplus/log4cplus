@@ -26,7 +26,7 @@ namespace log4cplus {
     /**
      * Appends log events to a file. 
      */
-    class SysLogAppender : public Appender {
+    class LOG4CPLUS_EXPORT SysLogAppender : public Appender {
     public:
       // Ctors
         SysLogAppender(const tstring& ident);

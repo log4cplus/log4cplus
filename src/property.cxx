@@ -12,35 +12,97 @@
 //
 
 #include <cstring>
-#include <log4cplus/helpers/property.h>
+#if defined (UNICODE)
+#  include <cwctype>
+#else
+#  include <cctype>
+#endif
 #include <log4cplus/fstreams.h>
+#include <log4cplus/helpers/property.h>
+#include <log4cplus/internal/internal.h>
 
-using namespace std;
-using namespace log4cplus;
+
+namespace log4cplus { namespace helpers {
 
 
-const tchar helpers::Properties::PROPERTIES_COMMENT_CHAR = LOG4CPLUS_TEXT('#');
+const tchar Properties::PROPERTIES_COMMENT_CHAR = LOG4CPLUS_TEXT('#');
+
+
+namespace
+{
+
+
+static
+int
+is_space (tchar ch)
+{
+#if defined (UNICODE)
+    return std::iswspace (ch);
+#else
+    return std::isspace (ch);
+#endif
+}
+
+
+static
+void
+trim_leading_ws (tstring & str)
+{
+    tstring::iterator it = str.begin ();
+    for (; it != str.end (); ++it)
+    {
+        if (! is_space (*it))
+            break;
+    }
+    str.erase (str.begin (), it);
+}
+
+
+static
+void
+trim_trailing_ws (tstring & str)
+{
+    tstring::reverse_iterator rit = str.rbegin ();
+    for (; rit != str.rend (); ++rit)
+    {
+        if (! is_space (*rit))
+            break;
+    }
+    str.erase (rit.base (), str.end ());
+}
+
+
+static
+void
+trim_ws (tstring & str)
+{
+    trim_trailing_ws (str);
+    trim_leading_ws (str);
+}
+
+
+} // namespace
 
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::helpers::Properties ctors and dtor
+// Properties ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-log4cplus::helpers::Properties::Properties() 
+Properties::Properties() 
 {
 }
 
 
 
-log4cplus::helpers::Properties::Properties(log4cplus::tistream& input)
+Properties::Properties(log4cplus::tistream& input)
 {
     init(input);
 }
 
 
 
-log4cplus::helpers::Properties::Properties(const log4cplus::tstring& inputFile)
+Properties::Properties(const log4cplus::tstring& inputFile)
 {
     if (inputFile.length() == 0)
         return;
@@ -52,7 +114,7 @@ log4cplus::helpers::Properties::Properties(const log4cplus::tstring& inputFile)
 
 
 void 
-log4cplus::helpers::Properties::init(log4cplus::tistream& input) 
+Properties::init(log4cplus::tistream& input) 
 {
     if (! input)
         return;
@@ -60,6 +122,8 @@ log4cplus::helpers::Properties::init(log4cplus::tistream& input)
     tstring buffer;
     while (std::getline (input, buffer))
     {
+        trim_leading_ws (buffer);
+
         if (buffer[0] == PROPERTIES_COMMENT_CHAR)
             continue;
         
@@ -71,28 +135,34 @@ log4cplus::helpers::Properties::init(log4cplus::tistream& input)
             buffer.resize (buffLen - 1);
         tstring::size_type const idx = buffer.find('=');
         if (idx != tstring::npos)
-            setProperty(buffer.substr(0, idx), buffer.substr(idx + 1));
+        {
+            tstring key = buffer.substr(0, idx);
+            tstring value = buffer.substr(idx + 1);
+            trim_trailing_ws (key);
+            trim_ws (value);
+            setProperty(key, value);
+        }
     }
 }
 
 
 
-log4cplus::helpers::Properties::~Properties() 
+Properties::~Properties() 
 {
 }
 
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::helpers::Properties public methods
+// helpers::Properties public methods
 ///////////////////////////////////////////////////////////////////////////////
 
-tstring
-log4cplus::helpers::Properties::getProperty(const tstring& key) const 
+tstring const &
+Properties::getProperty(const tstring& key) const 
 {
     StringMap::const_iterator it (data.find(key));
     if (it == data.end())
-        return LOG4CPLUS_TEXT("");
+        return log4cplus::internal::empty_str;
     else
         return it->second;
 }
@@ -100,8 +170,7 @@ log4cplus::helpers::Properties::getProperty(const tstring& key) const
 
 
 tstring
-log4cplus::helpers::Properties::getProperty(const tstring& key,
-                                            const tstring& defaultVal) const 
+Properties::getProperty(const tstring& key, const tstring& defaultVal) const
 {
     StringMap::const_iterator it (data.find (key));
     if (it == data.end ())
@@ -111,10 +180,10 @@ log4cplus::helpers::Properties::getProperty(const tstring& key,
 }
 
 
-vector<tstring>
-log4cplus::helpers::Properties::propertyNames() const 
+std::vector<tstring>
+Properties::propertyNames() const 
 {
-    vector<tstring> tmp;
+    std::vector<tstring> tmp;
     for (StringMap::const_iterator it=data.begin(); it!=data.end(); ++it)
         tmp.push_back(it->first);
 
@@ -124,32 +193,35 @@ log4cplus::helpers::Properties::propertyNames() const
 
 
 void
-log4cplus::helpers::Properties::setProperty(const log4cplus::tstring& key, 
-                                            const log4cplus::tstring& value) 
+Properties::setProperty(const log4cplus::tstring& key,
+    const log4cplus::tstring& value)
 {
     data[key] = value;
 }
 
 
 bool
-log4cplus::helpers::Properties::removeProperty(const log4cplus::tstring& key)
+Properties::removeProperty(const log4cplus::tstring& key)
 {
-    return (data.erase(key) > 0);
+    return data.erase(key) > 0;
 }
 
 
-log4cplus::helpers::Properties 
-log4cplus::helpers::Properties::getPropertySubset(const log4cplus::tstring& prefix) const
+Properties 
+Properties::getPropertySubset(const log4cplus::tstring& prefix) const
 {
     Properties ret;
-
-    vector<tstring> keys = propertyNames();
-    for (vector<tstring>::iterator it=keys.begin(); it!=keys.end(); ++it)
+    size_t const prefix_len = prefix.size ();
+    std::vector<tstring> keys = propertyNames();
+    for (std::vector<tstring>::iterator it=keys.begin(); it!=keys.end(); ++it)
     {
-        tstring::size_type pos = (*it).find(prefix);
-        if (pos != tstring::npos)
-            ret.setProperty( (*it).substr(prefix.size()), getProperty(*it) );
+        int result = it->compare (0, prefix_len, prefix);
+        if (result == 0)
+            ret.setProperty (it->substr (prefix_len), getProperty(*it));
     }
 
     return ret;
 }
+
+
+} } // namespace log4cplus { namespace helpers {

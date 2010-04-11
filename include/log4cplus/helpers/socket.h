@@ -20,7 +20,7 @@
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/socketbuffer.h>
 #if defined(_WIN32)
-#include <winsock.h>
+#include <winsock2.h>
 #endif
 
 namespace log4cplus {
@@ -37,7 +37,7 @@ namespace log4cplus {
 
 #if !defined(_WIN32)
         typedef int SOCKET_TYPE;
-#define INVALID_SOCKET -1
+#  define INVALID_SOCKET -1
 #else
         typedef SOCKET SOCKET_TYPE;
 #endif
@@ -110,8 +110,8 @@ namespace log4cplus {
         LOG4CPLUS_EXPORT SOCKET_TYPE acceptSocket(SOCKET_TYPE sock, SocketState& state);
         LOG4CPLUS_EXPORT int closeSocket(SOCKET_TYPE sock);
 
-        LOG4CPLUS_EXPORT size_t read(SOCKET_TYPE sock, SocketBuffer& buffer);
-        LOG4CPLUS_EXPORT size_t write(SOCKET_TYPE sock, const SocketBuffer& buffer);
+        LOG4CPLUS_EXPORT long read(SOCKET_TYPE sock, SocketBuffer& buffer);
+        LOG4CPLUS_EXPORT long write(SOCKET_TYPE sock, const SocketBuffer& buffer);
 
     } // end namespace helpers
 } // end namespace log4cplus

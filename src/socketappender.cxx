@@ -29,11 +29,12 @@ using namespace log4cplus::helpers;
 // log4cplus::SocketAppender ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::SocketAppender::SocketAppender(const log4cplus::tstring& host, int port,
-                                          const log4cplus::tstring& serverName)
-: host(host),
-  port(port),
-  serverName(serverName)
+log4cplus::SocketAppender::SocketAppender(const log4cplus::tstring& _host, 
+										  int _port,
+                                          const log4cplus::tstring& _serverName)
+  : host(_host),
+	port(_port),
+	serverName(_serverName)
 {
     openSocket();
 }
@@ -41,12 +42,12 @@ log4cplus::SocketAppender::SocketAppender(const log4cplus::tstring& host, int po
 
 
 log4cplus::SocketAppender::SocketAppender(const Properties properties)
- : Appender(properties),
-   port(9998)
+	: Appender(properties),
+	  port(9998)
 {
     host = properties.getProperty( LOG4CPLUS_TEXT("host") );
     if(properties.exists( LOG4CPLUS_TEXT("port") )) {
-        tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("port") );
+        tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("port") );
         port = atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
     }
     serverName = properties.getProperty( LOG4CPLUS_TEXT("ServerName") );
@@ -102,10 +103,11 @@ log4cplus::SocketAppender::append(const spi::InternalLoggingEvent& event)
         }
     }
 
-    SocketBuffer buffer = convertToBuffer(event, serverName);
+    SocketBuffer buffer(LOG4CPLUS_MAX_MESSAGE_SIZE - sizeof(unsigned int));
+    convertToBuffer (buffer, event, serverName);
     SocketBuffer msgBuffer(LOG4CPLUS_MAX_MESSAGE_SIZE);
 
-    msgBuffer.appendSize_t(buffer.getSize());
+    msgBuffer.appendInt(buffer.getSize());
     msgBuffer.appendBuffer(buffer);
 
     socket.write(msgBuffer);
@@ -118,12 +120,11 @@ log4cplus::SocketAppender::append(const spi::InternalLoggingEvent& event)
 // namespace log4cplus::helpers methods
 /////////////////////////////////////////////////////////////////////////////
 
-SocketBuffer
-log4cplus::helpers::convertToBuffer(const log4cplus::spi::InternalLoggingEvent& event,
-                                    const log4cplus::tstring& serverName)
+void
+log4cplus::helpers::convertToBuffer(SocketBuffer & buffer,
+    const log4cplus::spi::InternalLoggingEvent& event,
+    const log4cplus::tstring& serverName)
 {
-    SocketBuffer buffer(LOG4CPLUS_MAX_MESSAGE_SIZE - sizeof(unsigned int));
-
     buffer.appendByte(LOG4CPLUS_MESSAGE_VERSION);
 #ifndef UNICODE
     buffer.appendByte(1);
@@ -141,8 +142,6 @@ log4cplus::helpers::convertToBuffer(const log4cplus::spi::InternalLoggingEvent& 
     buffer.appendInt( static_cast<unsigned int>(event.getTimestamp().usec()) );
     buffer.appendString(event.getFile());
     buffer.appendInt(event.getLine());
-
-    return buffer;
 }
 
 

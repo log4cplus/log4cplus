@@ -17,7 +17,6 @@
 #include <log4cplus/spi/loggingevent.h>
 
 
-using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
@@ -43,23 +42,20 @@ SimpleLayout::formatAndAppend(log4cplus::tostream& output,
 // log4cplus::TTCCLayout ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-TTCCLayout::TTCCLayout(bool use_gmtime)
-: dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S,%q") ),
-  use_gmtime(use_gmtime)
+TTCCLayout::TTCCLayout(bool _use_gmtime)
+    : dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S,%q") ),
+    use_gmtime(_use_gmtime)
 {
 }
 
 
 TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
-: Layout(properties),
-  dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S,%q") ),
-  use_gmtime(false)
+    : Layout(properties)
+    , dateFormat (properties.getProperty (LOG4CPLUS_TEXT("DateFormat"),
+        LOG4CPLUS_TEXT ("%m-%d-%y %H:%M:%S,%q")))
+    , use_gmtime(false)
 {
-    if(properties.exists( LOG4CPLUS_TEXT("DateFormat") )) {
-        dateFormat  = properties.getProperty( LOG4CPLUS_TEXT("DateFormat") );
-    }
-
-    tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("Use_gmtime") );
+    tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("Use_gmtime") );
     use_gmtime = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
 }
 
@@ -91,7 +87,3 @@ TTCCLayout::formatAndAppend(log4cplus::tostream& output,
            << event.getMessage()
            << LOG4CPLUS_TEXT("\n");
 }
-
-
-
-

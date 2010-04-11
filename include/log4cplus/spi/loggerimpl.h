@@ -35,7 +35,7 @@ namespace log4cplus {
          * distintive features of log4cplus are hierarchical loggers and their
          * evaluation.
          *
-         * <p>See the <a href="../../../../manual.html">user manual</a> for an
+         * See the <a href="../../../../manual.html">user manual</a> for an
          * introduction on this class. 
          */
         class LOG4CPLUS_EXPORT LoggerImpl
@@ -51,12 +51,12 @@ namespace log4cplus {
              * Call the appenders in the hierrachy starting at
              * <code>this</code>.  If no appenders could be found, emit a
              * warning.
-             * <p>
+             * 
              * This method calls all the appenders inherited from the
              * hierarchy circumventing any evaluation of whether to log or not
              * to log the particular log request.
              *                                   
-             * @param spi::InternalLoggingEvent the event to log. 
+             * @param event The event to log. 
              */
             virtual void callAppenders(const InternalLoggingEvent& event);
 
@@ -85,7 +85,7 @@ namespace log4cplus {
              * "set" LogLevel and return it. Otherwise, return the LogLevel of the
              * root logger.
              *                     
-             * <p>The Logger class is designed so that this method executes as
+             * The Logger class is designed so that this method executes as
              * quickly as possible.
              */
             virtual LogLevel getChainedLogLevel() const;
@@ -111,7 +111,7 @@ namespace log4cplus {
             /**
              * Return the logger name.  
              */
-            log4cplus::tstring getName() const { return name; }
+            log4cplus::tstring const & getName() const { return name; }
 
             /**
              * Get the additivity flag for this Logger instance.
@@ -131,10 +131,11 @@ namespace log4cplus {
              * This constructor created a new <code>Logger</code> instance and
              * sets its name.
              *
-             * <p>It is intended to be used by sub-classes only. You should not
+             * It is intended to be used by sub-classes only. You should not
              * create loggers directly.
              *
              * @param name The name of the logger.  
+             * @param h Hierarchy
              */
             LoggerImpl(const log4cplus::tstring& name, Hierarchy& h);
 
@@ -162,7 +163,7 @@ namespace log4cplus {
             /**
              * The parent of this logger. All loggers have at least one
              * ancestor which is the root logger. 
-             */ 
+             */
             SharedLoggerImplPtr parent;
 
             /** 

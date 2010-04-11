@@ -3,16 +3,18 @@ cmake_minimum_required (VERSION 2.6)
 set (CMAKE_VERBOSE_MAKEFILE on)
 
 set (log4cplus_version_major 1)
-set (log4cplus_version_minor 0)
-set (log4cplus_version_patch 3)
-set (log4cplus_soversion 3)
+set (log4cplus_version_minor 1)
+set (log4cplus_version_patch 0)
+set (log4cplus_soversion 0)
 set (log4cplus_postfix "")
 
 find_package (Threads)
 message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
 
-set(log4cplus_headers
+set (log4cplus_headers
   include/log4cplus/appender.h
+  include/log4cplus/asyncappender.h
+  include/log4cplus/boost/deviceappender.hxx
   include/log4cplus/config/macosx.h
   include/log4cplus/config/win32.h
   include/log4cplus/config.hxx
@@ -23,17 +25,20 @@ set(log4cplus_headers
   include/log4cplus/helpers/appenderattachableimpl.h
   include/log4cplus/helpers/loglog.h
   include/log4cplus/helpers/logloguser.h
+  include/log4cplus/helpers/queue.h
   include/log4cplus/helpers/pointer.h
   include/log4cplus/helpers/property.h
   include/log4cplus/helpers/sleep.h
   include/log4cplus/helpers/socket.h
   include/log4cplus/helpers/socketbuffer.h
   include/log4cplus/helpers/stringhelper.h
+  include/log4cplus/helpers/syncprims.h
   include/log4cplus/helpers/thread-config.h
   include/log4cplus/helpers/threads.h
   include/log4cplus/helpers/timehelper.h
   include/log4cplus/hierarchy.h
   include/log4cplus/hierarchylocker.h
+  include/log4cplus/internal/internal.h
   include/log4cplus/layout.h
   include/log4cplus/logger.h
   include/log4cplus/loggingmacros.h
@@ -52,14 +57,14 @@ set(log4cplus_headers
   include/log4cplus/spi/rootlogger.h
   include/log4cplus/streams.h
   include/log4cplus/syslogappender.h
+  include/log4cplus/tracelogger.h
   include/log4cplus/tstring.h
   include/log4cplus/win32debugappender.h)
-message (STATUS "Headers: ${log4cplus_headers}")
-
 
 set (log4cplus_sources
   src/appender.cxx
   src/appenderattachableimpl.cxx
+  src/asyncappender.cxx
   src/configurator.cxx
   src/consoleappender.cxx
   src/factory.cxx
@@ -78,6 +83,7 @@ set (log4cplus_sources
   src/ndc.cxx
   src/nullappender.cxx
   src/objectregistry.cxx
+  src/queue.cxx
   src/patternlayout.cxx
   src/pointer.cxx
   src/property.cxx
@@ -87,34 +93,51 @@ set (log4cplus_sources
   src/socketappender.cxx
   src/socketbuffer.cxx
   src/stringhelper.cxx
+  src/syncprims.cxx
   src/syslogappender.cxx
   src/threads.cxx
   src/timehelper.cxx)
-message (STATUS "Sources: ${log4cplus_sources}")
 
 #message (STATUS "Type: ${UNIX}|${CYGWIN}|${WIN32}")
 
 # Uncomment the following line to get locale aware string conversions.
+
 #add_definitions (-DLOG4CPLUS_WORKING_LOCALE)
 
-if (${UNIX} OR ${CYGWIN})
+# Uncomment one of the following to enable TLS support in the
+# respective compilers.
+
+# IBM's compiler's TLS option.
+#add_definitions (-qtls)
+# Sun's compiler's TLS option.
+#add_definitions (-xthreadvar)
+
+
+if ("${UNIX}" OR "${CYGWIN}")
   set (log4cplus_sources ${log4cplus_sources}
     src/socket-unix.cxx)
   set (log4cplus_headers ${log4cplus_headers}
-    include/log4cplus/config/defines.hxx)
+    include/log4cplus/config/defines.hxx
+    include/log4cplus/helpers/syncprims-pthreads.h)
 elseif (WIN32)
   set (log4cplus_sources ${log4cplus_sources}
     src/socket-win32.cxx
     src/win32debugappender.cxx
     src/nteventlogappender.cxx)
+  set (log4cplus_headers ${log4cplus_headers}
+    include/log4cplus/helpers/syncprims-win32.h)
 
   # Comment out the following lines if you want non-Unicode version.
+
   add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
   set (log4cplus_postfix "${log4cplus_postfix}U")
   
   #add_definitions (-DLOG4CPLUS_STATIC)
   #set (log4cplus_postfix "${log4cplus_postfix}S")
 endif ()
+
+message (STATUS "Sources: ${log4cplus_sources}")
+message (STATUS "Headers: ${log4cplus_headers}")
 
 include_directories ("include")
 set (log4cplus_all_sources ${log4cplus_sources} ${log4cplus_headers})
@@ -135,5 +158,4 @@ if (WIN32)
     RELWITHDEBINFO_POSTFIX "${log4cplus_postfix}")
 endif ()
 
-add_executable (loggingserver loggingserver/loggingserver.cxx)
-target_link_libraries (loggingserver log4cplus)
+add_subdirectory ("loggingserver")

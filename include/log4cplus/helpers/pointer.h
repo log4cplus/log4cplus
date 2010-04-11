@@ -25,30 +25,12 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <algorithm>
+#include <cassert>
 
 
 namespace log4cplus {
     namespace helpers {
-
-#if (_MSC_VER >= 1300)
-        // Added to remove the following warning from MSVC++ 7:
-        // warning C4275: non dll-interface class 'std::runtime_error' used as
-        //                base for dll-interface class
-        //                'log4cplus::helpers::NullPointerException'
-        class LOG4CPLUS_EXPORT std::runtime_error;
-#endif
-
-        class LOG4CPLUS_EXPORT NullPointerException
-            : public std::runtime_error
-        {
-        public:
-            NullPointerException(const std::string& what_arg)
-                : std::runtime_error(what_arg)
-            { }
-        };
-
-        void throwNullPointerException(const char* file, int line);
-
 
         /******************************************************************************
          *                       Class SharedObject (from pp. 204-205)                *
@@ -63,9 +45,14 @@ namespace log4cplus {
         protected:
           // Ctor
             SharedObject()
-             : access_mutex(LOG4CPLUS_MUTEX_CREATE), count(0), destroyed(false) {}
+                : access_mutex(LOG4CPLUS_MUTEX_CREATE)
+                , count(0)
+            { }
+
             SharedObject(const SharedObject&)
-             : access_mutex(LOG4CPLUS_MUTEX_CREATE), count(0), destroyed(false) {}
+                : access_mutex(LOG4CPLUS_MUTEX_CREATE)
+                , count(0)
+            { }
 
           // Dtor
             virtual ~SharedObject();
@@ -78,7 +65,6 @@ namespace log4cplus {
 
         private:
             mutable int count;
-            mutable bool destroyed;
         };
 
 
@@ -90,23 +76,24 @@ namespace log4cplus {
         {
         public:
             // Ctor
+            explicit
             SharedObjectPtr(T* realPtr = 0)
                 : pointee(realPtr)
             {
-                init();
+                addref ();
             }
 
             SharedObjectPtr(const SharedObjectPtr& rhs)
                 : pointee(rhs.pointee)
             {
-                init();
+                addref ();
             }
 
             // Dtor
             ~SharedObjectPtr()
             {
                 if (pointee)
-                    static_cast<SharedObject *>(pointee)->removeReference();
+                    pointee->removeReference();
             }
 
             // Operators
@@ -114,8 +101,8 @@ namespace log4cplus {
             bool operator!=(const SharedObjectPtr& rhs) const { return (pointee != rhs.pointee); }
             bool operator==(const T* rhs) const { return (pointee == rhs); }
             bool operator!=(const T* rhs) const { return (pointee != rhs); }
-            T* operator->() const {validate(); return pointee; }
-            T& operator*() const {validate(); return *pointee; }
+            T* operator->() const {assert (pointee); return pointee; }
+            T& operator*() const {assert (pointee); return *pointee; }
 
             SharedObjectPtr& operator=(const SharedObjectPtr& rhs)
             {
@@ -124,27 +111,35 @@ namespace log4cplus {
 
             SharedObjectPtr& operator=(T* rhs)
             {
-                if (pointee != rhs) {
-                    T* oldPointee = pointee;
-                    pointee = rhs;
-                    init();
-                    if(oldPointee != 0)
-                        static_cast<SharedObject *>(oldPointee)->removeReference();
-                }
+                SharedObjectPtr (rhs).swap (*this);
                 return *this;
             }
 
           // Methods
             T* get() const { return pointee; }
 
+            void swap (SharedObjectPtr & other) throw ()
+            {
+                std::swap (pointee, other.pointee);
+            }
+
+            typedef T * (SharedObjectPtr:: * unspec_bool_type) () const;
+            operator unspec_bool_type () const
+            {
+                return pointee ? &SharedObjectPtr::get : 0;
+            }
+
+            bool operator ! () const
+            {
+                return ! pointee;
+            }
+
         private:
           // Methods
-            void init() {
-                if(pointee == 0) return;
-                static_cast<SharedObject *>(pointee)->addReference();
-            }
-            void validate() const {
-                if(pointee == 0) throw std::runtime_error("NullPointer");
+            void addref() const
+            {
+                if (pointee)
+                    pointee->addReference();
             }
 
           // Data

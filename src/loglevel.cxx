@@ -60,7 +60,8 @@ namespace {
     
     static
     log4cplus::tstring
-    defaultLogLevelToStringMethod(LogLevel ll) {
+    defaultLogLevelToStringMethod(LogLevel ll)
+    {
         switch(ll) {
             case OFF_LOG_LEVEL:     return _OFF_STRING;
             case FATAL_LOG_LEVEL:   return _FATAL_STRING;

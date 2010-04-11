@@ -86,7 +86,7 @@ namespace log4cplus {
     /** 
      * This method type defined the signature of methods that convert LogLevels
      * into strings. 
-     * <p>
+     * 
      * <b>Note:</b> Must return an empty <code>tstring</code> for unrecognized values.
      */
     typedef log4cplus::tstring (*LogLevelToStringMethod)(LogLevel);
@@ -94,7 +94,7 @@ namespace log4cplus {
     /** 
      * This method type defined the signature of methods that convert strings
      * into LogLevels. 
-     * <p>
+     * 
      * <b>Note:</b> Must return <code>NOT_SET_LOG_LEVEL</code> for unrecognized values.
      */
     typedef LogLevel (*StringToLogLevelMethod)(const log4cplus::tstring&);
@@ -122,7 +122,7 @@ namespace log4cplus {
         /**
          * This method is called by all Layout classes to convert a LogLevel
          * into a string.
-         * <p>
+         * 
          * Note: It traverses the list of <code>LogLevelToStringMethod</code>
          *       to do this, so all "derived" LogLevels are recognized as well.
          */
@@ -131,7 +131,7 @@ namespace log4cplus {
         /**
          * This method is called by all classes internally to log4cplus to
          * convert a string into a LogLevel.
-         * <p>
+         * 
          * Note: It traverses the list of <code>StringToLogLevelMethod</code>
          *       to do this, so all "derived" LogLevels are recognized as well.
          */
@@ -141,7 +141,7 @@ namespace log4cplus {
          * When creating a "derived" LogLevel, a <code>LogLevelToStringMethod</code>
          * should be defined and registered with the LogLevelManager by calling
          * this method.
-         * <p>
+         * 
          * @see pushFromStringMethod
          */
         void pushToStringMethod(LogLevelToStringMethod newToString);
@@ -150,7 +150,7 @@ namespace log4cplus {
          * When creating a "derived" LogLevel, a <code>StringToLogLevelMethod</code>
          * should be defined and registered with the LogLevelManager by calling
          * this method.
-         * <p>
+         * 
          * @see pushToStringMethod
          */
         void pushFromStringMethod(StringToLogLevelMethod newFromString);

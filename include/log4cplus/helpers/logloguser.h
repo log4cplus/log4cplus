@@ -29,7 +29,8 @@ namespace log4cplus {
          * that uses the LogLog class should extend this class and retrieve
          * their reference to LogLog using the method provided.
          */
-        class LOG4CPLUS_EXPORT LogLogUser {
+        class LOG4CPLUS_EXPORT LogLogUser
+        {
         public:
           // ctor and dtor
             LogLogUser();

@@ -32,23 +32,25 @@ namespace log4cplus {
 
     /**
      * This class is used to "handle" errors encountered in an {@link
-     * #Appender}.
+     * log4cplus::Appender}.
      */
-    class LOG4CPLUS_EXPORT ErrorHandler {
+    class LOG4CPLUS_EXPORT ErrorHandler
+    {
     public:
-        virtual ~ErrorHandler();
+        ErrorHandler ();
+        virtual ~ErrorHandler() = 0;
         virtual void error(const log4cplus::tstring& err) = 0;
     };
 
 
-
-    class LOG4CPLUS_EXPORT OnlyOnceErrorHandler : public ErrorHandler,
-                                                  protected log4cplus::helpers::LogLogUser
+    class LOG4CPLUS_EXPORT OnlyOnceErrorHandler
+        : public ErrorHandler
+        , protected virtual log4cplus::helpers::LogLogUser
     {
     public:
       // Ctor
-        OnlyOnceErrorHandler() : firstTime(true){}
-
+        OnlyOnceErrorHandler();
+        virtual ~OnlyOnceErrorHandler ();
         virtual void error(const log4cplus::tstring& err);
 
     private:
@@ -62,13 +64,13 @@ namespace log4cplus {
      */
     class LOG4CPLUS_EXPORT Appender
         : public virtual log4cplus::helpers::SharedObject
-        , protected log4cplus::helpers::LogLogUser
+        , protected virtual log4cplus::helpers::LogLogUser
 
     {
     public:
       // Ctor
         Appender();
-        Appender(const log4cplus::helpers::Properties properties);
+        Appender(const log4cplus::helpers::Properties & properties);
 
       // Dtor
         virtual ~Appender();
@@ -79,7 +81,7 @@ namespace log4cplus {
         /**
          * Release any resources allocated within the appender such as file
          * handles, network connections, etc.
-         * <p>
+         * 
          * It is a programming error to append to a closed appender.
          */
         virtual void close() = 0;
@@ -87,9 +89,9 @@ namespace log4cplus {
         /**
          * This method performs threshold checks and invokes filters before
          * delegating actual logging to the subclasses specific {@link
-         * AppenderSkeleton#append} method.
+         * #append} method.
          */
-        void doAppend(const log4cplus::spi::InternalLoggingEvent& event);
+        virtual void doAppend(const log4cplus::spi::InternalLoggingEvent& event);
 
         /**
          * Get the name of this appender. The name uniquely identifies the
@@ -123,7 +125,7 @@ namespace log4cplus {
 
         /**
          * Returns the layout of this appender. The value may be NULL.
-         * <p>
+         * 
          * This class owns the returned pointer.
          */
         virtual Layout* getLayout();
@@ -147,7 +149,7 @@ namespace log4cplus {
         /**
          * Set the threshold LogLevel. All log events with lower LogLevel
          * than the threshold LogLevel are ignored by the appender.
-         * <p>
+         * 
          * In configuration files this option is specified by setting the
          * value of the <b>Threshold</b> option to a LogLevel
          * string, such as "DEBUG", "INFO" and so on.
@@ -166,11 +168,13 @@ namespace log4cplus {
     protected:
       // Methods
         /**
-         * Subclasses of <code>AppenderSkeleton</code> should implement this
-         * method to perform actual logging. See also {@link #doAppend
-         * AppenderSkeleton.doAppend} method.
+         * Subclasses of <code>Appender</code> should implement this
+         * method to perform actual logging.
+         * @see doAppend method.
          */
         virtual void append(const log4cplus::spi::InternalLoggingEvent& event) = 0;
+
+        tstring & formatEvent (const log4cplus::spi::InternalLoggingEvent& event) const;
 
       // Data
         /** The layout variable does not need to be set if the appender
@@ -194,7 +198,7 @@ namespace log4cplus {
         bool closed;
     };
 
-    /** @var This is a pointer to an Appender. */
+    /** This is a pointer to an Appender. */
     typedef helpers::SharedObjectPtr<Appender> SharedAppenderPtr;
 
 } // end namespace log4cplus

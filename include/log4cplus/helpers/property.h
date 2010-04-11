@@ -22,10 +22,6 @@
 #include <map>
 #include <vector>
 
-#if (defined(__MWERKS__) && defined(__MACOS__))
-using std::size_t;
-#endif
-
 
 namespace log4cplus {
     namespace helpers {
@@ -62,7 +58,7 @@ namespace log4cplus {
              * property list, and its defaults, recursively, are then checked. 
              * The method returns <code>null</code> if the property is not found.
              */
-            log4cplus::tstring getProperty(const log4cplus::tstring& key) const;
+            log4cplus::tstring const & getProperty(const log4cplus::tstring& key) const;
 
             /**
              * Searches for the property with the specified key in this property

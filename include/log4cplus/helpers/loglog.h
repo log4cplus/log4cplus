@@ -28,12 +28,12 @@ namespace log4cplus {
         /**
          * This class used to output log statements from within the log4cplus package.
          *
-         * <p>Log4cplus components cannot make log4cplus logging calls. However, it is
+         * Log4cplus components cannot make log4cplus logging calls. However, it is
          * sometimes useful for the user to learn about what log4cplus is
          * doing. You can enable log4cplus internal logging by defining the
          * <b>log4cplus.configDebug</b> variable.
          *
-         * <p>All log4cplus internal debug calls go to <code>cout</code>
+         * All log4cplus internal debug calls go to <code>cout</code>
          * where as internal error messages are sent to
          * <code>cerr</code>. All internal messages are prepended with
          * the string "log4clus: ".
@@ -93,9 +93,10 @@ namespace log4cplus {
             bool debugEnabled;
             bool quietMode;
 
-          // Ctors
+
             LogLog();
             LogLog(const LogLog&);
+            LogLog & operator = (LogLog const &);
         };
 
     } // end namespace helpers

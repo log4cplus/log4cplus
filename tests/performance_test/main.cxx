@@ -1,5 +1,6 @@
 
 #include <log4cplus/logger.h>
+#include <log4cplus/loggingmacros.h>
 #include <log4cplus/configurator.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
@@ -13,7 +14,7 @@ log4cplus::tostream& operator <<(log4cplus::tostream& s, const Time& t)
     return s << t.sec() << "sec " << t.usec() << "usec";
 }
 
-#define LOOP_COUNT 10000
+#define LOOP_COUNT 100000
 
 int
 main()
@@ -97,6 +98,8 @@ main()
     }
 
     cout << "Exiting main()..." << endl;
+
+    log4cplus::Logger::shutdown();
     return 0;
 }
 

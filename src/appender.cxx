@@ -18,43 +18,44 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/internal/internal.h>
 
-using namespace log4cplus;
+
+namespace log4cplus
+{
+
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
 
 
-template class log4cplus::helpers::SharedObjectPtr<Appender>;
-
-
-///////////////////////////////////////////////////////////////////////////////
-// file LOCAL methods
-///////////////////////////////////////////////////////////////////////////////
-
-namespace {
-    static
-    log4cplus::tstring asString(int i) {
-        log4cplus::tostringstream tmp;
-        tmp << i;
-        return tmp.str();
-    }
-}
-
+template class helpers::SharedObjectPtr<Appender>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
 // log4cplus::ErrorHandler dtor
 ///////////////////////////////////////////////////////////////////////////////
 
+ErrorHandler::ErrorHandler ()
+{ }
+
+
 ErrorHandler::~ErrorHandler()
-{
-}
+{ }
 
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::OnlyOnceErrorHandler public methods
+// log4cplus::OnlyOnceErrorHandler 
 ///////////////////////////////////////////////////////////////////////////////
+
+OnlyOnceErrorHandler::OnlyOnceErrorHandler()
+    : firstTime(true)
+{ }
+
+
+OnlyOnceErrorHandler::~OnlyOnceErrorHandler ()
+{ }
+
 
 void
 OnlyOnceErrorHandler::error(const log4cplus::tstring& err)
@@ -75,22 +76,24 @@ Appender::Appender()
  : layout(new SimpleLayout()),
    name( LOG4CPLUS_TEXT("") ),
    threshold(NOT_SET_LOG_LEVEL),
-   errorHandler(new OnlyOnceErrorHandler()),
+   errorHandler(new OnlyOnceErrorHandler),
    closed(false)
 {
 }
 
 
 
-Appender::Appender(const log4cplus::helpers::Properties properties)
- : layout(new SimpleLayout()),
-   name( LOG4CPLUS_TEXT("") ),
-   threshold(NOT_SET_LOG_LEVEL),
-   errorHandler(new OnlyOnceErrorHandler()),
-   closed(false)
+Appender::Appender(const log4cplus::helpers::Properties & properties)
+    : layout(new SimpleLayout())
+    , name()
+    , threshold(NOT_SET_LOG_LEVEL)
+    , errorHandler(new OnlyOnceErrorHandler)
+    , closed(false)
 {
-    if(properties.exists( LOG4CPLUS_TEXT("layout") )) {
-       log4cplus::tstring factoryName = properties.getProperty( LOG4CPLUS_TEXT("layout") );
+    if(properties.exists( LOG4CPLUS_TEXT("layout") ))
+    {
+        log4cplus::tstring const & factoryName
+            = properties.getProperty( LOG4CPLUS_TEXT("layout") );
         LayoutFactory* factory = getLayoutFactoryRegistry().get(factoryName);
         if(factory == 0) {
             getLogLog().error(  LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"")
@@ -130,28 +133,29 @@ Appender::Appender(const log4cplus::helpers::Properties properties)
     Properties filterProps = properties.getPropertySubset( LOG4CPLUS_TEXT("filters.") );
     int filterCount = 0;
     FilterPtr filterChain;
-    while( filterProps.exists(asString(++filterCount)) ) {
-        tstring filterName = asString(filterCount);
-        tstring factoryName = filterProps.getProperty(filterName);
+    tstring filterName;
+    while (filterProps.exists(filterName = convertIntegerToString (++filterCount)))
+    {
+        tstring const & factoryName = filterProps.getProperty(filterName);
         FilterFactory* factory = getFilterFactoryRegistry().get(factoryName);
 
-        if(factory == 0) {
+        if(! factory)
+        {
             tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Cannot find FilterFactory: ");
             getLogLog().error(err + factoryName);
             continue;
         }
-        FilterPtr filter = factory->createObject
-                      (filterProps.getPropertySubset(filterName + LOG4CPLUS_TEXT(".")));
-        if(filter.get() == 0) {
+        FilterPtr tmpFilter = factory->createObject (
+            filterProps.getPropertySubset(filterName + LOG4CPLUS_TEXT(".")));
+        if (!tmpFilter)
+        {
             tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Failed to create filter: ");
             getLogLog().error(err + filterName);
         }
-        if(filterChain.get() == 0) {
-            filterChain = filter;
-        }
-        else {
-            filterChain->appendFilter(filter);
-        }
+        if (! filterChain)
+            filterChain = tmpFilter;
+        else
+            filterChain->appendFilter(tmpFilter);
     }
     setFilter(filterChain);
 }
@@ -175,9 +179,8 @@ Appender::destructorImpl()
 
     // An appender might be closed then destroyed. There is no
     // point in closing twice.
-    if(closed) {
+    if(closed)
         return;
-    }
 
     close();
     closed = true;
@@ -196,18 +199,26 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
             return;
         }
 
-        if(!isAsSevereAsThreshold(event.getLogLevel())) {
+        if (! isAsSevereAsThreshold(event.getLogLevel()))
             return;
-        }
 
-        if(checkFilter(filter.get(), event) == DENY) {
+        if (checkFilter(filter.get(), event) == DENY)
             return;
-        }
 
         append(event);
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
+
+tstring &
+Appender::formatEvent (const spi::InternalLoggingEvent& event) const
+{
+    internal::appender_sratch_pad & appender_sp = internal::get_appender_sp ();
+    detail::clear_tostringstream (appender_sp.oss);
+    layout->formatAndAppend(appender_sp.oss, event);
+    appender_sp.str = appender_sp.oss.str();
+    return appender_sp.str;
+}
 
 
 log4cplus::tstring
@@ -219,9 +230,9 @@ Appender::getName()
 
 
 void
-Appender::setName(const log4cplus::tstring& name)
+Appender::setName(const log4cplus::tstring& _name)
 {
-    this->name = name;
+    this->name = _name;
 }
 
 
@@ -236,7 +247,8 @@ Appender::getErrorHandler()
 void
 Appender::setErrorHandler(std::auto_ptr<ErrorHandler> eh)
 {
-    if(eh.get() == NULL) {
+    if (! eh.get())
+    {
         // We do not throw exception here since the cause is probably a
         // bad config file.
         getLogLog().warn(LOG4CPLUS_TEXT("You have tried to set a null error-handler."));
@@ -266,3 +278,4 @@ Appender::getLayout()
 }
 
 
+} // namespace log4cplus

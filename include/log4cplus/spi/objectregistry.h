@@ -79,6 +79,10 @@ namespace log4cplus {
           // Data
             LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
             ObjectMap data;
+
+        private:
+            ObjectRegistryBase (ObjectRegistryBase const &);
+            ObjectRegistryBase & operator = (ObjectRegistryBase const &);
         };
 
     }

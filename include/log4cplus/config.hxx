@@ -23,5 +23,17 @@
 
 #include <log4cplus/helpers/thread-config.h>
 
+namespace log4cplus
+{
+
+//! Per thread cleanup function. Users should call this function before
+//! a thread ends its execution. It frees resources allocated in thread local
+//! storage. It is important only for multi-threaded static library builds
+//! of log4cplus and user threads. In all other cases the clean up is provided
+//! automatically by other means.
+LOG4CPLUS_EXPORT void threadCleanup ();
+
+} // namespace log4cplus
+
 
 #endif // LOG4CPLUS_CONFIG_HXX

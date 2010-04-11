@@ -77,7 +77,6 @@ Logger::getRoot()
 }
 
 
-
 void 
 Logger::shutdown() 
 { 
@@ -91,50 +90,31 @@ Logger::shutdown()
 //////////////////////////////////////////////////////////////////////////////
 
 Logger::Logger(const spi::SharedLoggerImplPtr& val)
- : value(val.get())
-{
-    init();
-}
+    : value(val)
+{ }
 
 
 Logger::Logger(spi::LoggerImpl *ptr)
- : value(ptr)
-{
-    init();
-}
+    : value(ptr)
+{ }
 
 
 Logger::Logger(const Logger& rhs)
-  : spi::AppenderAttachable (rhs)
-  , value(rhs.value)
-{
-    init();
-}
+    : spi::AppenderAttachable (rhs)
+    , value(rhs.value)
+{ }
 
 
 Logger&
 Logger::operator=(const Logger& rhs)
 {
-    if (value != rhs.value) {
-        spi::LoggerImpl *oldValue = value;
-
-        value = rhs.value;
-        init();
-        if(oldValue != NULL) {
-            oldValue->removeReference();
-        }
-    }
-
+    value = rhs.value;
     return *this;
 }
 
 
 Logger::~Logger() 
-{
-    if (value != NULL) {
-        value->removeReference();
-    }
-}
+{ }
 
 
 
@@ -143,130 +123,21 @@ Logger::~Logger()
 //////////////////////////////////////////////////////////////////////////////
 
 Logger
-Logger::getParent() {
-    validate(__FILE__, __LINE__);
-    if(value->parent.get() != NULL) {
+Logger::getParent() const 
+{
+    if (value->parent)
         return Logger(value->parent);
-    }
-    else {
+    else
+    {
         value->getLogLog().error(LOG4CPLUS_TEXT("********* This logger has no parent: " + getName()));
         return *this;
     }
 }
 
 
-void
-Logger::init() {
-    if(value == NULL) return;
-    value->addReference();
-}
-
-
-void
-Logger::validate(const char *file, int line) const
-{
-    if(value == NULL) {
-        SharedObjectPtr<LogLog> loglog = LogLog::getLogLog();
-        loglog->error(LOG4CPLUS_TEXT("Logger::validate()- Internal log4cplus error: NullPointerException"));
-        log4cplus::helpers::throwNullPointerException(file, line);
-    }
-}
-
-
-
-void 
-Logger::callAppenders(const spi::InternalLoggingEvent& event)
-{
-    validate(__FILE__, __LINE__);
-    value->callAppenders(event);
-}
-
-
-void 
-Logger::closeNestedAppenders()
-{
-    validate(__FILE__, __LINE__);
-    value->closeNestedAppenders();
-}
-
-
-bool 
-Logger::isEnabledFor(LogLevel ll) const
-{
-    validate(__FILE__, __LINE__);
-    return value->isEnabledFor(ll);
-}
-
-
-void 
-Logger::log(LogLevel ll, const log4cplus::tstring& message,
-            const char* file, int line)
-{
-    validate(__FILE__, __LINE__);
-    value->log(ll, message, file, line);
-}
-
-
-LogLevel
-Logger::getChainedLogLevel() const
-{
-    validate(__FILE__, __LINE__);
-    return value->getChainedLogLevel();
-}
-
-
-LogLevel
-Logger::getLogLevel() const
-{
-    validate(__FILE__, __LINE__);
-    return value->getLogLevel();
-}
-
-
-void 
-Logger::setLogLevel(LogLevel ll)
-{
-    validate(__FILE__, __LINE__);
-    value->setLogLevel(ll);
-}
-
-
-Hierarchy& 
-Logger::getHierarchy() const
-{ 
-    validate(__FILE__, __LINE__);
-    return value->getHierarchy();
-}
-
-
-log4cplus::tstring 
-Logger::getName() const
-{
-    validate(__FILE__, __LINE__);
-    return value->getName();
-}
-
-
-bool 
-Logger::getAdditivity() const
-{
-    validate(__FILE__, __LINE__);
-    return value->getAdditivity();
-}
-
-
-void 
-Logger::setAdditivity(bool additive) 
-{ 
-    validate(__FILE__, __LINE__);
-    value->setAdditivity(additive);
-}
-
-
 void 
 Logger::addAppender(SharedAppenderPtr newAppender)
 {
-    validate(__FILE__, __LINE__);
     value->addAppender(newAppender);
 }
 
@@ -274,7 +145,6 @@ Logger::addAppender(SharedAppenderPtr newAppender)
 SharedAppenderPtrList 
 Logger::getAllAppenders()
 {
-    validate(__FILE__, __LINE__);
     return value->getAllAppenders();
 }
 
@@ -282,7 +152,6 @@ Logger::getAllAppenders()
 SharedAppenderPtr 
 Logger::getAppender(const log4cplus::tstring& name)
 {
-    validate(__FILE__, __LINE__);
     return value->getAppender(name);
 }
 
@@ -290,7 +159,6 @@ Logger::getAppender(const log4cplus::tstring& name)
 void 
 Logger::removeAllAppenders()
 {
-    validate(__FILE__, __LINE__);
     value->removeAllAppenders();
 }
 
@@ -298,7 +166,6 @@ Logger::removeAllAppenders()
 void 
 Logger::removeAppender(SharedAppenderPtr appender)
 {
-    validate(__FILE__, __LINE__);
     value->removeAppender(appender);
 }
 
@@ -306,17 +173,5 @@ Logger::removeAppender(SharedAppenderPtr appender)
 void 
 Logger::removeAppender(const log4cplus::tstring& name)
 {
-    validate(__FILE__, __LINE__);
     value->removeAppender(name);
 }
-
-
-void 
-Logger::forcedLog(LogLevel ll, const log4cplus::tstring& message,
-                    const char* file, int line)
-{
-    validate(__FILE__, __LINE__);
-    value->forcedLog(ll, message, file, line);
-}
-
-

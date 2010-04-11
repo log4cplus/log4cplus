@@ -39,7 +39,7 @@ namespace log4cplus {
         public:
             virtual ~BaseFactory() = 0;
 
-            virtual log4cplus::tstring getTypeName() = 0;
+            virtual log4cplus::tstring const & getTypeName() const = 0;
         };
 
 
@@ -60,7 +60,7 @@ namespace log4cplus {
             /**
              * Returns the typename of the "Appender" objects this factory creates.
              */
-            virtual log4cplus::tstring getTypeName() = 0;
+            virtual log4cplus::tstring const & getTypeName() const = 0;
         };
 
 
@@ -82,7 +82,7 @@ namespace log4cplus {
             /**
              * Returns the typename of the "Layout" objects this factory creates.
              */
-            virtual log4cplus::tstring getTypeName() = 0;
+            virtual log4cplus::tstring const & getTypeName() const = 0;
         };
 
 
@@ -104,7 +104,7 @@ namespace log4cplus {
             /**
              * Returns the typename of the "Filter" objects this factory creates.
              */
-            virtual log4cplus::tstring getTypeName() = 0;
+            virtual log4cplus::tstring const & getTypeName() const = 0;
         };
 
 
@@ -115,7 +115,7 @@ namespace log4cplus {
          * <code>put()</code> method.  (The registry then owns the object.)  
          * These object can then be retrieved using the <code>get()</code> 
          * method.
-         * <p>
+         * 
          * <b>Note:</b>  This class is Thread-safe.
          */
         template<class T>

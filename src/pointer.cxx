@@ -15,29 +15,9 @@
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/threads.h>
 #include <assert.h>
-#include <stdio.h>
-
-using namespace std;
-using namespace log4cplus::helpers;
 
 
-///////////////////////////////////////////////////////////////////////////////
-// public methods
-///////////////////////////////////////////////////////////////////////////////
-
-void
-log4cplus::helpers::throwNullPointerException(const char* file, int line)
-{
-    tostringstream buf;
-    buf << LOG4CPLUS_TEXT("NullPointer: file=")
-        << file
-        << LOG4CPLUS_TEXT(" line=")
-        << line
-        << endl;
-
-    throw NullPointerException(LOG4CPLUS_TSTRING_TO_STRING(buf.str()));
-}
-
+namespace log4cplus { namespace helpers {
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -46,11 +26,7 @@ log4cplus::helpers::throwNullPointerException(const char* file, int line)
 
 SharedObject::~SharedObject()
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
-        if(!destroyed) {
-            assert(destroyed);
-        }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    assert(count == 0);
     LOG4CPLUS_MUTEX_FREE( access_mutex );
 }
 
@@ -63,13 +39,8 @@ SharedObject::~SharedObject()
 void
 SharedObject::addReference() const
 {
-    if(destroyed) {
-        assert(!destroyed);
-    }
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
-        if(destroyed) {
-            assert(!destroyed);
-        }
+        assert (count >= 0);
         ++count;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
@@ -79,12 +50,14 @@ void
 SharedObject::removeReference() const
 {
     bool destroy = false;
-    assert(!destroyed);
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex );
-    assert(!destroyed);
-    if(--count == 0)
-        destroy = destroyed = true;
+        assert (count > 0);
+        if (--count == 0)
+            destroy = true;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
     if (destroy)
         delete this;
 }
+
+
+} } // namespace log4cplus { namespace helpers

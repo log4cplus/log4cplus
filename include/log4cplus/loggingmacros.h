@@ -19,6 +19,7 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/streams.h>
+#include <log4cplus/logger.h>
 
 
 #if defined(LOG4CPLUS_DISABLE_FATAL) && !defined(LOG4CPLUS_DISABLE_ERROR)
@@ -38,48 +39,78 @@
 #endif
 
 
-#if defined (LOG4CPLUS_SINGLE_THREADED)
-
 namespace log4cplus
 {
 
-extern LOG4CPLUS_EXPORT tostringstream _macros_oss;
+namespace detail
+{
 
-LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
+
+static inline
+Logger const &
+macros_get_logger (Logger const & logger)
+{
+    return logger;
+}
+
+
+static inline
+Logger
+macros_get_logger (tstring const & logger)
+{
+    return Logger::getInstance (logger);
+}
+
+
+LOG4CPLUS_EXPORT void clear_tostringstream (tostringstream &);
+
+
+#if defined (LOG4CPLUS_SINGLE_THREADED)
+
+extern LOG4CPLUS_EXPORT tostringstream macros_oss;
+
+static inline
+tostringstream &
+get_macros_oss ()
+{
+    return macros_oss;
+}
+
+#else
+
+LOG4CPLUS_EXPORT tostringstream & get_macros_oss ();
+
+#endif
+
+
+} // namespace detail
 
 } // namespace log4cplus
 
 
 #define LOG4CPLUS_MACRO_BODY(logger, logEvent, logLevel)                \
     do {                                                                \
-        if(logger.isEnabledFor(log4cplus::logLevel##_LOG_LEVEL)) {      \
-            _clear_tostringstream (_macros_oss);                        \
-            _macros_oss << logEvent;                                    \
-            logger.forcedLog(log4cplus::logLevel##_LOG_LEVEL,           \
-                _macros_oss.str(), __FILE__, __LINE__);                 \
-        }                                                               \
-    } while (0)
-
-
-#else // defined (LOG4CPLUS_SINGLE_THREADED)
-
-#define LOG4CPLUS_MACRO_BODY(logger, logEvent, logLevel)                \
-    do {                                                                \
-        if(logger.isEnabledFor(log4cplus::logLevel##_LOG_LEVEL)) {    \
-            log4cplus::tostringstream _log4cplus_buf;                   \
+        log4cplus::Logger const & l                                     \
+            = log4cplus::detail::macros_get_logger (logger);            \
+        if (l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {         \
+            log4cplus::tostringstream & _log4cplus_buf                  \
+                = log4cplus::detail::get_macros_oss ();                 \
+            log4cplus::detail::clear_tostringstream (_log4cplus_buf);   \
             _log4cplus_buf << logEvent;                                 \
-            logger.forcedLog(log4cplus::logLevel##_LOG_LEVEL,           \
+            l.forcedLog (                                               \
+                log4cplus::logLevel##_LOG_LEVEL,                        \
                 _log4cplus_buf.str(), __FILE__, __LINE__);              \
         }                                                               \
     } while (0)
 
 
-#endif // defined (LOG4CPLUS_SINGLE_THREADED)
-
 #define LOG4CPLUS_MACRO_STR_BODY(logger, logEvent, logLevel)            \
     do {                                                                \
-        if(logger.isEnabledFor(log4cplus::logLevel##_LOG_LEVEL)) {      \
-            logger.forcedLog(log4cplus::logLevel##_LOG_LEVEL,           \
+        log4cplus::Logger const & l                                     \
+            = log4cplus::detail::macros_get_logger (logger);            \
+        if (l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {         \
+            l.forcedLog (                                               \
+                log4cplus::logLevel##_LOG_LEVEL,                        \
                 logEvent, __FILE__, __LINE__);                          \
         }                                                               \
     } while(0)
