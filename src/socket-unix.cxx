@@ -35,10 +35,6 @@
 # include <netinet/in.h>
 #endif
 
-#if defined(__CYGWIN__)
-#include <cygwin/in.h>
-#endif
-
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <errno.h>

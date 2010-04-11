@@ -79,11 +79,7 @@ main()
         tcout << "main Priority: " << getLogLevelManager().toString(ll) << endl;
 
         helpers::SharedObjectPtr<Appender> append_1(new ConsoleAppender());
-        std::string pattern = "%-5p [%F (%L)] - %m%n";
-        std::auto_ptr<Layout> layout( new PatternLayout(pattern) );
-//        std::auto_ptr<Layout> layout( new TTCCLayout() );
-//        append_1->setLayout( std::auto_ptr<Layout>(new log4cplus::TTCCLayout()) );
-        append_1->setLayout(layout );
+        append_1->setLayout( std::auto_ptr<Layout>(new log4cplus::TTCCLayout()) );
         Logger::getRoot().addAppender(append_1);
         append_1->setName(LOG4CPLUS_TEXT("cout"));
 

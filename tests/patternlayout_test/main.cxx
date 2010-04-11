@@ -29,8 +29,8 @@ main()
         Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("test.a.long_logger_name.c.logger"));
         LOG4CPLUS_DEBUG(logger, "This is the FIRST log message...");
 
-	    sleep(1, 0);
-	    {
+	sleep(1, 0);
+	{
             NDCContextCreator ndc(LOG4CPLUS_TEXT("second"));
             LOG4CPLUS_INFO(logger, "This is the SECOND log message...");
 	}

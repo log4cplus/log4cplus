@@ -23,7 +23,7 @@
 #ifndef _LOG4CPLUS_WIN32DEBUG_APPENDER_HEADER_
 #define _LOG4CPLUS_WIN32DEBUG_APPENDER_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #if defined(_WIN32)
 
 #include <log4cplus/appender.h>
@@ -35,7 +35,9 @@ namespace log4cplus {
     /**
      * Prints log events using OutputDebugString(). 
      */
-    class LOG4CPLUS_EXPORT Win32DebugAppender : public Appender {
+    class LOG4CPLUS_EXPORT Win32DebugAppender
+        : public Appender
+    {
     public:
       // Ctors
         Win32DebugAppender();
