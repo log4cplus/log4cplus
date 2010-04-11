@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_SPI_LOGGER_FACTORY_HEADER
 #define _LOG4CPLUS_SPI_LOGGER_FACTORY_HEADER
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/pointer.h>
 
@@ -38,7 +38,7 @@ namespace log4cplus {
              */
             virtual Logger makeNewLoggerInstance(const log4cplus::tstring& name,
                                                  Hierarchy& h) = 0; 
-            virtual ~LoggerFactory(){}
+            virtual ~LoggerFactory() = 0;
         };
 
     } // end namespace spi

@@ -9,29 +9,9 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.6  2003/06/23 20:56:43  tcsmith
-// Modified to support the changes in the spi::InternalLoggingEvent class.
-//
-// Revision 1.5  2003/06/06 17:04:31  tcsmith
-// Changed the ctor to take a 'const' Properties object.
-//
-// Revision 1.4  2003/06/03 20:19:41  tcsmith
-// Modified the close() method to set "closed = true;".
-//
-// Revision 1.3  2003/05/21 22:19:39  tcsmith
-// Changed getSysLogLevel(), so that it has a default return value to remove
-// a compiler warning message.
-//
-// Revision 1.2  2003/04/19 21:35:31  tcsmith
-// Added WIN32 check.
-//
-// Revision 1.1  2003/04/19 07:25:34  tcsmith
-// Initial version.
-//
 
 #include <log4cplus/syslogappender.h>
-#if defined(HAVE_SYSLOG_H) && !defined(_WIN32)
+#if defined(LOG4CPLUS_HAVE_SYSLOG_H) && !defined(_WIN32)
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
@@ -48,10 +28,10 @@ using namespace log4cplus::helpers;
 // log4cplus::SysLogAppender ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-log4cplus::SysLogAppender::SysLogAppender(const tstring& ident)
-: ident(ident)
+log4cplus::SysLogAppender::SysLogAppender(const tstring& id)
+: ident(id)
 {
-    ::openlog(ident.c_str(), 0, 0);
+    ::openlog(LOG4CPLUS_TSTRING_TO_STRING (ident).c_str(), 0, 0);
 }
 
 
@@ -59,7 +39,7 @@ log4cplus::SysLogAppender::SysLogAppender(const Properties properties)
 : Appender(properties)
 {
     ident = properties.getProperty( LOG4CPLUS_TEXT("ident") );
-    ::openlog(ident.c_str(), 0, 0);
+    ::openlog(LOG4CPLUS_TSTRING_TO_STRING (ident).c_str(), 0, 0);
 }
 
 
@@ -77,11 +57,11 @@ log4cplus::SysLogAppender::~SysLogAppender()
 void 
 log4cplus::SysLogAppender::close()
 {
-    getLogLog().debug("Entering SysLogAppender::close()...");
+    getLogLog().debug(LOG4CPLUS_TEXT("Entering SysLogAppender::close()..."));
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         ::closelog();
         closed = true;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -125,9 +105,9 @@ log4cplus::SysLogAppender::append(const spi::InternalLoggingEvent& event)
     if(level != -1) {
         log4cplus::tostringstream buf;
         layout->formatAndAppend(buf, event);
-        ::syslog(level, buf.str().c_str());
+        ::syslog(level, LOG4CPLUS_TSTRING_TO_STRING(buf.str()).c_str());
     }
 }
 
-#endif // defined(HAVE_SYSLOG_H)
+#endif // defined(LOG4CPLUS_HAVE_SYSLOG_H)
 

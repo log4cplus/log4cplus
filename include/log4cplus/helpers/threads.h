@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_THREADS_HEADER_
 #define _LOG4CPLUS_THREADS_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/sleep.h>
 #include <log4cplus/helpers/pointer.h>
@@ -64,7 +64,9 @@ namespace log4cplus {
          * libraries.  The goal of this class is to provide a simple Threading
          * class with basic functionality.
          */
-        class LOG4CPLUS_EXPORT AbstractThread : public log4cplus::helpers::SharedObject {
+        class LOG4CPLUS_EXPORT AbstractThread
+            : public virtual log4cplus::helpers::SharedObject
+        {
         public:
             AbstractThread();
             bool isRunning() { return running; }

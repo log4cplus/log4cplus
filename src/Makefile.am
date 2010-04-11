@@ -1,18 +1,14 @@
-
-if MULTI_THREADED
-noinst_PROGRAMS = loggingserver
-loggingserver_SOURCES = loggingserver.cxx
-loggingserver_LDADD = $(top_builddir)/src/liblog4cplus.la 
-endif
-
 lib_LTLIBRARIES = liblog4cplus.la
 
-AM_CPPFLAGS = -Wall
-
-INCLUDES = -I../include 
+AM_CPPFLAGS = -DINSIDE_LOG4CPLUS \
+	-I$(top_srcdir)/include -I$(top_builddir)/include \
+	@LOG4CPLUS_NDEBUG@
 
 nobase_include_HEADERS = ../include/log4cplus/appender.h \
-			 ../include/log4cplus/config.h \
+			 ../include/log4cplus/config.hxx \
+			 ../include/log4cplus/config/defines.hxx \
+			 ../include/log4cplus/config/win32.h \
+			 ../include/log4cplus/config/macosx.h \
 			 ../include/log4cplus/configurator.h \
 			 ../include/log4cplus/consoleappender.h \
 			 ../include/log4cplus/fileappender.h \
@@ -92,5 +88,5 @@ endif
 liblog4cplus_la_SOURCES = $(LIB_SRC)
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -version-info @LT_VERSION@
+liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release 1.0
 

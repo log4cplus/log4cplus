@@ -9,15 +9,15 @@ using namespace log4cplus;
 using namespace log4cplus::helpers;
 
 
-Logger log_1 =  Logger::getInstance("test.log_1");
-Logger log_2 =  Logger::getInstance("test.log_2");
-Logger log_3 =  Logger::getInstance("test.log_3");
+Logger log_1 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_1"));
+Logger log_2 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_2"));
+Logger log_3 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_3"));
 
 
 void
 printMsgs(Logger& logger)
 {
-    LOG4CPLUS_TRACE_METHOD(logger, "printMsgs()");
+    LOG4CPLUS_TRACE_METHOD(logger, LOG4CPLUS_TEXT("printMsgs()"));
     LOG4CPLUS_DEBUG(logger, "printMsgs()");
     LOG4CPLUS_INFO(logger, "printMsgs()");
     LOG4CPLUS_WARN(logger, "printMsgs()");
@@ -32,10 +32,12 @@ main()
     cout << "Entering main()..." << endl;
     LogLog::getLogLog()->setInternalDebugging(true);
     Logger root = Logger::getRoot();
-    try {
-        ConfigureAndWatchThread configureThread("log4cplus.properties", 5 * 1000);
+    try 
+    {
+        ConfigureAndWatchThread configureThread(
+            LOG4CPLUS_TEXT("log4cplus.properties"), 5 * 1000);
 
-	    LOG4CPLUS_WARN(root, "Testing....");
+        LOG4CPLUS_WARN(root, "Testing....");
 
         for(int i=0; i<100; ++i) {
             printMsgs(log_1);

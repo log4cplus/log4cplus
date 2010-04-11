@@ -36,9 +36,9 @@
 #   define LOG4CPLUS_THREAD_LOCAL_CLEANUP( key ) pthread_key_delete(*key)
 namespace log4cplus {
     namespace thread {
-        LOG4CPLUS_MUTEX_PTR_DECLARE createNewMutex();
-        void deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE);
-        LOG4CPLUS_THREAD_LOCAL_TYPE createPthreadKey();
+        LOG4CPLUS_EXPORT LOG4CPLUS_MUTEX_PTR_DECLARE createNewMutex();
+        LOG4CPLUS_EXPORT void deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE);
+        LOG4CPLUS_EXPORT LOG4CPLUS_THREAD_LOCAL_TYPE createPthreadKey();
     }
 }
 
@@ -99,12 +99,12 @@ namespace log4cplus {
  */
 #ifndef LOG4CPLUS_SINGLE_THREADED
 #  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex ) \
-             {::log4cplus::thread::Guard _sync_guard_object(mutex);
+             do { ::log4cplus::thread::Guard _sync_guard_object(mutex);
 #else
-#  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex ) {
+#  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex ) do {
 #endif
 
-#define LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX }
+#define LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX } while (0)
 
 
 #endif // LOG4CPLUS_HELPERS_THREAD_CONFIG_HEADER_

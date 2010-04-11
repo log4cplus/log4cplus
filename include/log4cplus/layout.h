@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_LAYOUT_HEADER_
 #define _LOG4CPLUS_LAYOUT_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/loglevel.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/tstring.h>

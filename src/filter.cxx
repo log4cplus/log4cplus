@@ -10,22 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.5  2003/06/12 23:50:21  tcsmith
-// Modified to support the rename of the toupper and tolower methods.
-//
-// Revision 1.4  2003/06/09 18:12:07  tcsmith
-// Fixed compilation error.
-//
-// Revision 1.3  2003/06/08 17:39:12  tcsmith
-// Corrected the LogLevelMatchFilter::decide() implementation.
-//
-// Revision 1.2  2003/06/04 00:13:57  tcsmith
-// Corrected some of the filtering implementations.
-//
-// Revision 1.1  2003/05/28 17:36:03  tcsmith
-// Initial version.
-//
 
 #include <log4cplus/spi/filter.h>
 #include <log4cplus/helpers/loglog.h>

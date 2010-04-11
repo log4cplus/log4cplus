@@ -16,7 +16,7 @@
 #ifndef LOG4CPLUS_HELPERS_SOCKET_BUFFER_HEADER_
 #define LOG4CPLUS_HELPERS_SOCKET_BUFFER_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/logloguser.h>
 

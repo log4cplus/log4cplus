@@ -1,3 +1,53 @@
+Version 1.0.3-RC3
+
+  - Fix Bug #2268760 - Trailing garbage in strings produced by 
+    Time::getFormattedTime().
+  - Fixed compilation of MSVC builds.
+
+Version 1.0.3-RC2
+
+  - Fix Bug #2106949 - Compilation problem with Borland's compiler.
+  - Fix Bug #1717320, #1040902, #1040676 - strftime() complains about
+    our custom %q and %Q format specifiers with "Invalid format
+    directive".
+  - Removed safe_auto_ptr.
+  - Added --enable-debugging switch to configure script. It disables
+    optimization and turns on debugging info generation.
+  - Use locale and its codecvt facet in towstring()/tostring()
+    implementations when --with-working-locale is defined.
+  - Added support for GCC's -fvisibility=hidden flag where available
+    together with __attribute__ ((visibility("default"))).
+
+Version 1.0.3-RC1
+  - IMPORTANT: VC6 users, VC6 is unsupported. Its standard C++ library
+    is too broken. The work around for VC6's std::string has been
+    removed from log4cplus code; it actually does not fix the problem,
+    it only makes it a little bit less likely to manifest. VC6 project
+    files are still distributed with the source but they are broken as
+    we have no means to update them. We strongly suggest that you
+    either move away from VC6 to some more modern and standard
+    conforming compiler (like VC8) or that you use the STLport
+    standard C++ library implementation instead of VC6's own.
+
+  - Fixed various compilation issues with MSVC8.
+  - Added MSVC8 project files.
+  - Fixed compilation with GCC 4.3.
+  - Fixed autoconf/automake build machinery so that it is possible to
+    build log4cplus in separate directory.
+  - Updated used autoconf and automake to version 2.62 and 1.10
+    respectively.
+  - Enabled DLL building on Cygwin.
+  - Fixed Bug #894623, #1178841 - Various compilation issues on
+    Cygwin.
+  - Fixed Bug #2017876 - Destruction synchronization issue.
+  - Fixed Bug #1831238 - Unintentional sign extension in char ->
+    wchar_t conversion.
+  - Fixed Bug #1548998 - config.h is exporting symbols that conflict
+    with other applications/libraries.
+  - Fixed Bug #898646 - Ambiguity between ::yield() and
+    thread::yeild() on Solaris.
+  - Fixed Bug #954455 - LOG4CPLUS_ macros semicolon problem.
+
 Version 1.0.2 (February 10, 2004)
   - Added "ImmediateFlush" configuration option to log4cplus::ConsoleAppender.
   - Added do while loops around the logging statements in the macros.
@@ -6,7 +56,7 @@ Version 1.0.2 (February 10, 2004)
   - Fixed Bug #875724 - "ConfigureAndWatchThread and mounted file systems"
   - Fixed Bug #842280 - "'Append' mode when using FileAppended from cfg file."
     All FileAppenders now have the "Append" configuration option.  If this is
-    "true" any existing files will be opened with ios::append, otherwise they 
+    "true" any existing files will be opened with ios::append, otherwise they
     will be opened with ios::trunc.
   - Fixed Bug #805203 - "%q ConversionFormat does not accept modifiers"
 
@@ -29,8 +79,8 @@ Version 1.0 (September 6 2003)
 Version 0.9.10 (August 27 2003)
   - Fixed singled-threaded build compilation issues
   - The DailyRollingFileAppender no longer truncates files
-  - The DailyRollingFileAppender now performs a "rollover" on close().  If the 
-    "rollover file" exists, then it will be renamed according to the pattern 
+  - The DailyRollingFileAppender now performs a "rollover" on close().  If the
+    "rollover file" exists, then it will be renamed according to the pattern
     that is used by the RollingFileAppender class.  (Thanks Philip Green for
     the suggestion.)
   - Some socket-unix.cxx corrections.
@@ -55,7 +105,7 @@ Version 0.9.8 (August 3 2003)
   - Restored the LOG4CPLUS_*_STR logging macros.
   - Added support to disable the ERROR and FATAL macros by defining
     LOG4CPLUS_DISABLE_*
-  - API Change:  The LOG4CPLUS_TRACE macro now has behavior similar to all of 
+  - API Change:  The LOG4CPLUS_TRACE macro now has behavior similar to all of
     the other logging macros.  If the old behavior is desired, then the new
     LOG4CPLUS_TRACE_METHOD macro should be used.
   - Modified Appender class to support the "Threshold" property.
@@ -67,22 +117,22 @@ Version 0.9.8 (August 3 2003)
   - Added the HierarchyLocker class
   - Added the ConfigureAndWatchThread class for runtime dynamic reconfiguration.
   - Added several performance enhancements to the InternalLoggingEvent class.
-  - Renamed the PatternLayout "Pattern" configuration option to 
+  - Renamed the PatternLayout "Pattern" configuration option to
     "ConversionPattern".
-  - Added 3 new tests: configandwatch_test, customloglevel_test, and 
+  - Added 3 new tests: configandwatch_test, customloglevel_test, and
     performance_test.  (No MSVC projects created for these tests, yet.)
 
 
 Version 0.9.7 (June 28 2003)
   - Added the log4cplus::DailyRollingFileAppender class.
-  - Added the log4cplus::helper::Time class.  Now log with millisecond 
+  - Added the log4cplus::helper::Time class.  Now log with millisecond
     granularity. (microsecond granularity if the gettimeofday() function is
     available.)
   - Changed log4cplus::spi::InternalLoggingEvent from a POD to a class and
     introduced several performance ehancements to that class.  This class
     can now be extended to introduce "customized" logging.
   - Fixed Bug #757989 - "TraceLogger should not hold a Logger reference"
-  - Added TYPE_SOCKLEN_T to configure.in (checking for whether <sys/socket.h> 
+  - Added TYPE_SOCKLEN_T to configure.in (checking for whether <sys/socket.h>
     defines `socklen_t').
   - Added the "operator!=" to log4cplus::helpers::SharedObjectPtr.
   - Made changes to make the DEC CXX 6.1 compiler happy.
@@ -131,8 +181,8 @@ Version 0.9.3 (Apr-19-2003)
 
 
 Version 0.9.2 (Apr-5-2003)
-  Major API change:  Changed the name of the Category class to Logger and 
-                     replaced the Priority class with LogLevel.
+  Major API change:  Changed the name of the Category class to Logger and
+		     replaced the Priority class with LogLevel.
   Added PropertyConfigurator class.
   Added BasicConfigurator class.
 
@@ -143,4 +193,3 @@ Version 0.9.1 (Mar-22-2003)
 
 Version 0.9.0
   Initial beta release.
-

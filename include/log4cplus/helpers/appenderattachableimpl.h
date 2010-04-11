@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_HELPERS_APPENDER_ATTACHABLE_IMPL_HEADER_
 #define _LOG4CPLUS_HELPERS_APPENDER_ATTACHABLE_IMPL_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/layout.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/logloguser.h>

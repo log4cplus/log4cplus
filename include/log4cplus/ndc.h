@@ -18,7 +18,7 @@
 #ifndef _LO4CPLUS_NDC_HEADER_
 #define _LO4CPLUS_NDC_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/threads.h>
@@ -37,10 +37,10 @@ namespace log4cplus {
     struct DiagnosticContext;
     typedef std::stack<DiagnosticContext> DiagnosticContextStack;
 
-    /**
-     * Return a reference to the singleton object.
-     */
+#if defined (_MSC_VER)
     LOG4CPLUS_EXPORT NDC& getNDC();
+#endif
+
 
     /**
      * The NDC class implements <i>nested diagnostic contexts</i> as
@@ -243,9 +243,7 @@ namespace log4cplus {
 
     private:
       // Methods
-        DiagnosticContextStack* getPtr()
-            { return static_cast<DiagnosticContextStack*>
-                          (LOG4CPLUS_GET_THREAD_LOCAL_VALUE( threadLocal )); }
+        DiagnosticContextStack* getPtr();
 
       // Data
         LOG4CPLUS_THREAD_LOCAL_TYPE threadLocal;
@@ -256,9 +254,18 @@ namespace log4cplus {
         NDC& operator=(const NDC&);
 
       // Friends
+#if defined (_MSC_VER)
         friend LOG4CPLUS_EXPORT NDC& getNDC();
+#else
+        friend NDC& getNDC();
+#endif
     };
 
+
+    /**
+     * Return a reference to the singleton object.
+     */
+    LOG4CPLUS_EXPORT NDC& getNDC();
 
 
     /**
@@ -282,10 +289,10 @@ namespace log4cplus {
     class LOG4CPLUS_EXPORT NDCContextCreator {
     public:
         /** Pushes <code>msg</code> onto the NDC stack. */
-        NDCContextCreator(const log4cplus::tstring& msg) { getNDC().push(msg); }
+        NDCContextCreator(const log4cplus::tstring& msg);
 
         /** Pops the NDC stack. */
-        ~NDCContextCreator() { getNDC().pop(); }
+        ~NDCContextCreator();
     };
 
 } // end namespace log4cplus

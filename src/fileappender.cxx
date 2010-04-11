@@ -10,63 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.22  2003/09/10 06:42:17  tcsmith
-// Modified calculateNextRolloverTime() to remove the unnecessary break statements
-// in the switch statement.
-//
-// Revision 1.21  2003/08/29 05:03:40  tcsmith
-// Changed rolloverFiles() to take a log4cplus::tstring instead of a std::string.
-//
-// Revision 1.20  2003/08/28 05:09:38  tcsmith
-// The DailyRollingFileAppender now performs a "rollover" on close().  If the "rollover
-// file" exists, then it will be renamed according to the pattern that is used by the
-// RollingFileAppender class.
-//
-// Revision 1.19  2003/08/05 06:24:12  tcsmith
-// Now initialize the "immediateFlush" field in all ctors.
-//
-// Revision 1.18  2003/07/30 05:19:02  tcsmith
-// Added the "immediateFlush" field to the FileAppender class.
-//
-// Revision 1.17  2003/06/29 02:05:01  tcsmith
-// Now using the new #defined type for open_mode.
-//
-// Revision 1.16  2003/06/28 17:56:19  tcsmith
-// Changed the FileAppender ctors to take an 'int' instead of 'open_mode'.
-//
-// Revision 1.15  2003/06/26 21:34:02  baldheadedguy
-// Added LOG4CPLUS_TEXT to strings in DailyRollingFileAppender::getFilename and
-// DailyRollingFileAppender constructor.  In both cases, the comiple was failing
-// under UNICODE.
-//
-// Revision 1.14  2003/06/23 23:14:12  tcsmith
-// Corrected the DailyRollingFileAppender's weekly and montly calculations.
-//
-// Revision 1.13  2003/06/23 20:56:43  tcsmith
-// Modified to support the changes in the spi::InternalLoggingEvent class.
-//
-// Revision 1.12  2003/06/13 20:56:24  tcsmith
-// Made changes to make the DEC cXX 6.1 compiler happy.
-//
-// Revision 1.11  2003/06/12 23:55:49  tcsmith
-// Initial implementation of the DailyRollingFileAppender class.
-//
-// Revision 1.10  2003/06/06 17:04:31  tcsmith
-// Changed the ctor to take a 'const' Properties object.
-//
-// Revision 1.9  2003/06/03 20:19:42  tcsmith
-// Modified the close() method to set "closed = true;".
-//
-// Revision 1.8  2003/04/19 23:04:31  tcsmith
-// Fixed UNICODE support.
-//
-// Revision 1.7  2003/04/18 21:56:39  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.6  2003/04/03 00:49:07  tcsmith
-// Standardized the formatting.
-//
 
 #include <log4cplus/fileappender.h>
 #include <log4cplus/layout.h>
@@ -91,14 +34,15 @@ using namespace log4cplus::helpers;
 ///////////////////////////////////////////////////////////////////////////////
 
 namespace {
-    
+
+    static
     void rolloverFiles(const log4cplus::tstring& filename, unsigned int maxBackupIndex)
     {
         SharedObjectPtr<LogLog> loglog = LogLog::getLogLog();
 
         // Delete the oldest file
         log4cplus::tostringstream buffer;
-        buffer << filename << LOG4CPLUS_TEXT('.') << maxBackupIndex;
+        buffer << filename << LOG4CPLUS_TEXT(".") << maxBackupIndex;
         remove(LOG4CPLUS_TSTRING_TO_STRING(buffer.str()).c_str());
 
         // Map {(maxBackupIndex - 1), ..., 2, 1} to {maxBackupIndex, ..., 3, 2}
@@ -106,8 +50,8 @@ namespace {
             log4cplus::tostringstream source;
             log4cplus::tostringstream target;
 
-            source << filename << LOG4CPLUS_TEXT('.') << i;
-            target << filename << LOG4CPLUS_TEXT('.') << (i+1);
+            source << filename << LOG4CPLUS_TEXT(".") << i;
+            target << filename << LOG4CPLUS_TEXT(".") << (i+1);
             if(rename(LOG4CPLUS_TSTRING_TO_STRING(source.str()).c_str(), 
                       LOG4CPLUS_TSTRING_TO_STRING(target.str()).c_str()) == 0) 
             {
@@ -195,7 +139,7 @@ log4cplus::FileAppender::close()
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         out.close();
         closed = true;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -522,7 +466,7 @@ DailyRollingFileAppender::rollover()
     // don't overwrite any of those previous files.
     rolloverFiles(scheduledFilename, maxBackupIndex);
     log4cplus::tostringstream backupTarget;
-    backupTarget << scheduledFilename << LOG4CPLUS_TEXT('.') << 1;
+    backupTarget << scheduledFilename << LOG4CPLUS_TEXT(".") << 1;
     if( rename(LOG4CPLUS_TSTRING_TO_STRING(scheduledFilename).c_str(), 
                LOG4CPLUS_TSTRING_TO_STRING(backupTarget.str()).c_str()) == 0 )
     {

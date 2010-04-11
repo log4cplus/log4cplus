@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_HELPERS_SLEEP_HEADER_
 #define _LOG4CPLUS_HELPERS_SLEEP_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 
 
 namespace log4cplus {

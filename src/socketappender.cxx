@@ -10,36 +10,8 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.9  2003/06/23 20:56:43  tcsmith
-// Modified to support the changes in the spi::InternalLoggingEvent class.
-//
-// Revision 1.8  2003/06/13 15:27:48  tcsmith
-// Modified to support changes to the InternalLoggingEvent.
-//
-// Revision 1.7  2003/06/11 22:58:38  tcsmith
-// Updated to support the changes in the InternalLoggingEvent class.
-//
-// Revision 1.6  2003/06/06 17:04:31  tcsmith
-// Changed the ctor to take a 'const' Properties object.
-//
-// Revision 1.5  2003/06/03 20:22:00  tcsmith
-// Modified the close() method to set "closed = true;".
-//
-// Revision 1.4  2003/05/21 22:14:46  tcsmith
-// Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
-// of data".
-//
-// Revision 1.3  2003/05/04 17:47:13  tcsmith
-// Fixed for UNICODE.
-//
-// Revision 1.2  2003/05/04 08:40:30  tcsmith
-// Fixed the readFromBuffer() to properly prepend the ServerName to the NDC.
-//
-// Revision 1.1  2003/05/04 07:25:16  tcsmith
-// Initial version.
-//
 
+#include <cstdlib>
 #include <log4cplus/socketappender.h>
 #include <log4cplus/layout.h>
 #include <log4cplus/helpers/loglog.h>

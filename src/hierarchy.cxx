@@ -10,31 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.9  2003/08/04 01:08:49  tcsmith
-// Made changes to support the HierarchyLocker class.
-//
-// Revision 1.8  2003/06/03 20:28:13  tcsmith
-// Made changes to support converting root from a pointer to a "concreate"
-// object.
-//
-// Revision 1.7  2003/05/21 22:13:49  tcsmith
-// Fixed compiler warning: "conversion from 'size_t' to 'int', possible loss
-// of data".
-//
-// Revision 1.6  2003/05/01 19:37:36  tcsmith
-// Fixed VC++ compiler "performance warning".
-//
-// Revision 1.5  2003/04/19 23:04:31  tcsmith
-// Fixed UNICODE support.
-//
-// Revision 1.4  2003/04/18 21:37:35  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.3  2003/04/03 01:32:46  tcsmith
-// Changed to support the rename of Category to Logger and Priority to
-// LogLevel.
-//
 
 #include <log4cplus/hierarchy.h>
 #include <log4cplus/helpers/loglog.h>
@@ -51,6 +26,7 @@ using namespace log4cplus::helpers;
 //////////////////////////////////////////////////////////////////////////////
 
 namespace {
+    static
     bool startsWith(log4cplus::tstring teststr, log4cplus::tstring substr) {
         bool val = false;
         if(teststr.length() > substr.length()) {
@@ -106,7 +82,7 @@ Hierarchy::clear()
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
         provisionNodes.erase(provisionNodes.begin(), provisionNodes.end());
         loggerPtrs.erase(loggerPtrs.begin(), loggerPtrs.end());
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -116,7 +92,7 @@ Hierarchy::exists(const log4cplus::tstring& name)
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
         LoggerMap::iterator it = loggerPtrs.find(name);
         return it != loggerPtrs.end();
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -178,7 +154,7 @@ Hierarchy::getInstance(const log4cplus::tstring& name, spi::LoggerFactory& facto
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
         return getInstanceImpl(name, factory);
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -189,7 +165,7 @@ Hierarchy::getCurrentLoggers()
     
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( hashtable_mutex )
         initializeLoggerList(ret);
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 
     return ret;
 }
@@ -268,24 +244,18 @@ Hierarchy::getInstanceImpl(const log4cplus::tstring& name, spi::LoggerFactory& f
          return (*it).second;
      }
      else {
-         // NOTE: The following "deep copy" of 'name' is intentional.  MSVC has
-         //       a reference counted string and there was a report of the
-         //       underlying char[] being deleted before the string during 
-         //       program termination.
-         log4cplus::tstring newname(name.c_str());
-         
          // Need to create a new logger
-         Logger logger = factory.makeNewLoggerInstance(newname, *this);
-         bool inserted = loggerPtrs.insert(std::make_pair(newname, logger)).second;
+         Logger logger = factory.makeNewLoggerInstance(name, *this);
+         bool inserted = loggerPtrs.insert(std::make_pair(name, logger)).second;
          if(!inserted) {
              getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstanceImpl()- Insert failed"));
              throw std::runtime_error("Hierarchy::getInstanceImpl()- Insert failed");
          }
          
-         ProvisionNodeMap::iterator it2 = provisionNodes.find(newname);
+         ProvisionNodeMap::iterator it2 = provisionNodes.find(name);
          if(it2 != provisionNodes.end()) {
              updateChildren(it2->second, logger);
-             bool deleted = (provisionNodes.erase(newname) > 0);
+             bool deleted = (provisionNodes.erase(name) > 0);
              if(!deleted) {
                  getLogLog().error(LOG4CPLUS_TEXT("Hierarchy::getInstanceImpl()- Delete failed"));
                  throw std::runtime_error("Hierarchy::getInstanceImpl()- Delete failed");

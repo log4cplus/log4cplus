@@ -15,7 +15,7 @@
 #ifndef _LOG4CPLUS_NT_EVENT_LOG_APPENDER_HEADER_
 #define _LOG4CPLUS_NT_EVENT_LOG_APPENDER_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #if defined(_WIN32)
 
 #include <log4cplus/appender.h>

@@ -10,41 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.14  2003/07/30 03:19:29  tcsmith
-// Added support for the "Threshold" property.
-//
-// Revision 1.13  2003/06/23 20:56:43  tcsmith
-// Modified to support the changes in the spi::InternalLoggingEvent class.
-//
-// Revision 1.12  2003/06/06 17:04:27  tcsmith
-// Changed the ctor to take a 'const' Properties object.
-//
-// Revision 1.11  2003/06/04 00:19:15  tcsmith
-// Modified the Appender(Properties) ctor to build the filtering chain
-// specified in the properties file.
-//
-// Revision 1.10  2003/06/03 20:20:51  tcsmith
-// Changed the logging in the destructorImpl() method.
-//
-// Revision 1.9  2003/05/28 17:39:54  tcsmith
-// Added filtering support.
-//
-// Revision 1.8  2003/05/14 23:07:16  tcsmith
-// Fixed some TABs.
-//
-// Revision 1.7  2003/04/18 21:00:34  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.6  2003/04/07 16:35:21  tcsmith
-// Fixed gcc 3.2 compilation error.
-//
-// Revision 1.5  2003/04/03 01:37:16  tcsmith
-// Removed tabs from this file.
-//
-// Revision 1.4  2003/04/03 00:35:22  tcsmith
-// Standardized the formatting.
-//
 
 #include <log4cplus/appender.h>
 #include <log4cplus/layout.h>
@@ -59,11 +24,15 @@ using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
 
 
+template class log4cplus::helpers::SharedObjectPtr<Appender>;
+
+
 ///////////////////////////////////////////////////////////////////////////////
 // file LOCAL methods
 ///////////////////////////////////////////////////////////////////////////////
 
 namespace {
+    static
     log4cplus::tstring asString(int i) {
         log4cplus::tostringstream tmp;
         tmp << i;
@@ -188,6 +157,10 @@ Appender::Appender(const log4cplus::helpers::Properties properties)
 }
 
 
+Appender::~Appender()
+{ }
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // log4cplus::Appender public methods
@@ -232,7 +205,7 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
         }
 
         append(event);
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -271,7 +244,7 @@ Appender::setErrorHandler(std::auto_ptr<ErrorHandler> eh)
     }
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         this->errorHandler = eh;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -281,7 +254,7 @@ Appender::setLayout(std::auto_ptr<Layout> lo)
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         this->layout = lo;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 

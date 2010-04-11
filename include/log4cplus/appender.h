@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_APPENDER_HEADER_
 #define _LOG4CPLUS_APPENDER_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/layout.h>
 #include <log4cplus/loglevel.h>
 #include <log4cplus/tstring.h>
@@ -60,8 +60,9 @@ namespace log4cplus {
      * Extend this class for implementing your own strategies for printing log
      * statements.
      */
-    class LOG4CPLUS_EXPORT Appender : public log4cplus::helpers::SharedObject,
-                                      protected log4cplus::helpers::LogLogUser
+    class LOG4CPLUS_EXPORT Appender
+        : public virtual log4cplus::helpers::SharedObject
+        , protected log4cplus::helpers::LogLogUser
 
     {
     public:
@@ -70,7 +71,7 @@ namespace log4cplus {
         Appender(const log4cplus::helpers::Properties properties);
 
       // Dtor
-        virtual ~Appender(){};
+        virtual ~Appender();
 
         void destructorImpl();
 

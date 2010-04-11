@@ -10,19 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.6  2003/06/13 17:49:30  tcsmith
-// Changed to use the old style C headers.
-//
-// Revision 1.5  2003/04/19 23:04:32  tcsmith
-// Fixed UNICODE support.
-//
-// Revision 1.4  2003/04/18 21:13:25  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.3  2003/04/03 01:20:23  tcsmith
-// Standardized the formatting.
-//
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/pointer.h>
@@ -63,7 +50,7 @@ SharedObject::~SharedObject()
         if(!destroyed) {
             assert(destroyed);
         }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
     LOG4CPLUS_MUTEX_FREE( access_mutex );
 }
 
@@ -74,7 +61,7 @@ SharedObject::~SharedObject()
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-SharedObject::addReference()
+SharedObject::addReference() const
 {
     if(destroyed) {
         assert(!destroyed);
@@ -84,23 +71,20 @@ SharedObject::addReference()
             assert(!destroyed);
         }
         ++count;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
 void
-SharedObject::removeReference()
+SharedObject::removeReference() const
 {
-    if(destroyed) {
-        assert(!destroyed);
-    }
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
-        if(destroyed) {
-            assert(!destroyed);
-        }
-        if(--count == 0) destroyed = true;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
-    if (destroyed) delete this;
+    bool destroy = false;
+    assert(!destroyed);
+    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex );
+    assert(!destroyed);
+    if(--count == 0)
+        destroy = destroyed = true;
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    if (destroy)
+        delete this;
 }
-
-

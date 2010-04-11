@@ -10,64 +10,35 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.6  2003/08/05 09:20:08  tcsmith
-// Modified the getFormattedTime() method to increase performance.
-//
-// Revision 1.5  2003/06/29 16:36:10  tcsmith
-// Removed the setTime(long) method.
-//
-// Revision 1.4  2003/06/27 15:45:51  tcsmith
-// Removed getMillis() method.
-//
-// Revision 1.3  2003/06/23 20:54:33  tcsmith
-// Added mutliplication and division operator implementations for the Time
-// class.
-//
-// Revision 1.2  2003/06/12 23:10:54  tcsmith
-// Added the Time class implementation.
-//
-// Revision 1.1  2003/06/04 18:54:31  tcsmith
-// Renamed strftime.cxx to timehelper.cxx
-//
-// Revision 1.2  2003/04/19 23:51:17  tcsmith
-// Now call the strftime() function in the global namespace.
-//
-// Revision 1.1  2003/04/19 22:55:27  tcsmith
-// Initial version.
-//
 
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/stringhelper.h>
 
+#include <vector>
 #include <iomanip>
+#include <cassert>
 
-#if defined(HAVE_FTIME)
+#if defined(LOG4CPLUS_HAVE_FTIME)
 #include <sys/timeb.h>
 #endif
 
-#if defined(HAVE_GETTIMEOFDAY)
+#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
 #include <sys/time.h>
 #endif
 
-#if defined(HAVE_GMTIME_R) && !defined(LOG4CPLUS_SINGLE_THREADED)
+#if defined(LOG4CPLUS_HAVE_GMTIME_R) && !defined(LOG4CPLUS_SINGLE_THREADED)
 #define LOG4CPLUS_NEED_GMTIME_R
 #endif
 
-#if defined(HAVE_LOCALTIME_R) && !defined(LOG4CPLUS_SINGLE_THREADED)
+#if defined(LOG4CPLUS_HAVE_LOCALTIME_R) && !defined(LOG4CPLUS_SINGLE_THREADED)
 #define LOG4CPLUS_NEED_LOCALTIME_R
 #endif
 
 
-#define BUFFER_SIZE 40
-#define ONE_SEC_IN_USEC 1000000
+namespace log4cplus { namespace helpers {
 
-
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-
+const int ONE_SEC_IN_USEC = 1000000;
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -81,15 +52,12 @@ Time::Time()
 }
 
 
-
-
-Time::Time(long tv_sec, long tv_usec)
+Time::Time(time_t tv_sec, long tv_usec)
 : tv_sec(tv_sec),
   tv_usec(tv_usec)
 {
+    assert (tv_usec < ONE_SEC_IN_USEC);
 }
-
-
 
 
 Time::Time(time_t time)
@@ -99,16 +67,15 @@ Time::Time(time_t time)
 }
 
 
-
 Time
 Time::gettimeofday()
 {
-#if defined(HAVE_GETTIMEOFDAY)
+#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
     timeval tp;
     ::gettimeofday(&tp, 0);
 
     return Time(tp.tv_sec, tp.tv_usec);
-#elif defined(HAVE_FTIME)
+#elif defined(LOG4CPLUS_HAVE_FTIME)
     struct timeb tp;
     ::ftime(&tp);
 
@@ -120,13 +87,11 @@ Time::gettimeofday()
 }
 
 
-
-
 //////////////////////////////////////////////////////////////////////////////
 // Time methods
 //////////////////////////////////////////////////////////////////////////////
 
-int
+time_t
 Time::setTime(struct tm* t)
 {
     time_t time = ::mktime(t);
@@ -138,13 +103,11 @@ Time::setTime(struct tm* t)
 }
 
 
-
 time_t
 Time::getTime() const
 {
     return tv_sec;
 }
-
 
 
 void
@@ -160,7 +123,6 @@ Time::gmtime(struct tm* t) const
 }
 
 
-
 void
 Time::localtime(struct tm* t) const
 {
@@ -174,67 +136,164 @@ Time::localtime(struct tm* t) const
 }
 
 
+namespace 
+{
+
+static log4cplus::tstring const padding_zeros[4] =
+{
+    log4cplus::tstring (LOG4CPLUS_TEXT("000")),
+    log4cplus::tstring (LOG4CPLUS_TEXT("00")),
+    log4cplus::tstring (LOG4CPLUS_TEXT("0")),
+    log4cplus::tstring (LOG4CPLUS_TEXT(""))
+};
+
+static log4cplus::tstring const uc_q_padding_zeros[4] =
+{
+    log4cplus::tstring (LOG4CPLUS_TEXT(".000")),
+    log4cplus::tstring (LOG4CPLUS_TEXT(".00")),
+    log4cplus::tstring (LOG4CPLUS_TEXT(".0")),
+    log4cplus::tstring (LOG4CPLUS_TEXT("."))
+};
+
+}
+
+
+void
+Time::build_q_value (log4cplus::tstring & q_str) const
+{
+    q_str = convertIntegerToString(tv_usec / 1000);
+    size_t const len = q_str.length();
+    if (len <= 2)
+        q_str.insert (0, padding_zeros[q_str.length()]);
+}
+
+
+void 
+Time::build_uc_q_value (log4cplus::tstring & uc_q_str) const
+{
+    build_q_value (uc_q_str);
+
+#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
+    log4cplus::tstring usecs (convertIntegerToString(tv_usec % 1000));
+    size_t usecs_len = usecs.length();
+    usecs.insert (0, usecs_len <= 3 
+                  ? uc_q_padding_zeros[usecs_len] : uc_q_padding_zeros[3]);
+    uc_q_str.append (usecs);
+#else
+    uc_q_str.append (uc_q_padding_zeros[0]);
+#endif
+
+}
+
 
 log4cplus::tstring
-Time::getFormattedTime(const log4cplus::tstring& fmt, bool use_gmtime) const
+Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) const
 {
-    tchar buffer[BUFFER_SIZE];
+    if (fmt_orig.empty () || fmt_orig[0] == 0)
+        return log4cplus::tstring ();
+
     struct tm time;
-
-    if(use_gmtime) {
+    
+    if(use_gmtime)
         gmtime(&time);
-    }
-    else {
+    else 
         localtime(&time);
+    
+    enum State
+    {
+        TEXT,
+        PERCENT_SIGN
+    };
+    
+    log4cplus::tstring fmt (fmt_orig);
+    log4cplus::tstring ret;
+    ret.reserve (static_cast<size_t>(fmt.size () * 1.35));
+    State state = TEXT;
+    
+    log4cplus::tstring q_str;
+    bool q_str_valid = false;
+
+    log4cplus::tstring uc_q_str;
+    bool uc_q_str_valid = false;
+
+    // Walk the format string and process all occurences of %q and %Q.
+    
+    for (log4cplus::tstring::const_iterator fmt_it = fmt.begin ();
+         fmt_it != fmt.end (); ++fmt_it)
+    {
+        switch (state)
+        {
+        case TEXT:
+        {
+            if (*fmt_it == LOG4CPLUS_TEXT ('%'))
+                state = PERCENT_SIGN;
+            else
+                ret.push_back (*fmt_it);
+        }
+        break;
+            
+        case PERCENT_SIGN:
+        {
+            switch (*fmt_it)
+            {
+            case LOG4CPLUS_TEXT ('q'):
+            {
+                if (! q_str_valid)
+                {
+                    build_q_value (q_str);
+                    q_str_valid = true;
+                }
+                ret.append (q_str);
+                state = TEXT;
+            }
+            break;
+            
+            case LOG4CPLUS_TEXT ('Q'):
+            {
+                if (! uc_q_str_valid)
+                {
+                    build_uc_q_value (uc_q_str);
+                    uc_q_str_valid = true;
+                }
+                ret.append (uc_q_str);
+                state = TEXT;
+            }
+            break;
+
+            default:
+            {
+                ret.push_back (LOG4CPLUS_TEXT ('%'));
+                ret.push_back (*fmt_it);
+                state = TEXT;
+            }
+            }
+        }
+        break;
+        }
     }
 
+    // Finally call strftime/wcsftime to format the rest of the string.
+
+    ret.swap (fmt);
+    size_t buffer_size = fmt.size () + 1;
+    std::vector<tchar> buffer;
+    size_t len;
+    do
+    {
+        buffer.resize (buffer_size);
 #ifdef UNICODE
-    size_t len = ::wcsftime(buffer, BUFFER_SIZE, fmt.c_str(), &time);
+        len = ::wcsftime(&buffer[0], buffer_size, fmt.c_str(), &time);
 #else
-    size_t len = ::strftime(buffer, BUFFER_SIZE, fmt.c_str(), &time);
+        len = ::strftime(&buffer[0], buffer_size, fmt.c_str(), &time);
 #endif
-
-    buffer[len] = '\0';
-    tstring ret(buffer);
-
-    size_t pos = ret.find( LOG4CPLUS_TEXT("%q") );
-    if(pos != tstring::npos) {
-        tstring tmp(ret.substr(0, pos));
-        tstring seconds( convertIntegerToString((tv_usec / 1000)) );
-        switch(seconds.length()) {
-            case 1: tmp += LOG4CPLUS_TEXT("00"); break;
-            case 2: tmp += LOG4CPLUS_TEXT("0"); break;
-        }
-        tmp += seconds;
-        tmp += ret.substr(pos + 2);
-        ret = tmp;
-    }
-
-    pos = ret.find( LOG4CPLUS_TEXT("%Q") );
-    if(pos != tstring::npos) {
-        tstring tmp(ret.substr(0, pos));
-        tstring seconds( convertIntegerToString((tv_usec / 1000)) );
-        switch(seconds.length()) {
-            case 1: tmp += LOG4CPLUS_TEXT("00"); break;
-            case 2: tmp += LOG4CPLUS_TEXT("0"); break;
-        }
-        tmp += seconds;
-#if defined(HAVE_GETTIMEOFDAY)
-        tstring usecs( convertIntegerToString((tv_usec % 1000)) );
-        switch(usecs.length()) {
-            case 1: tmp += LOG4CPLUS_TEXT(".00"); break;
-            case 2: tmp += LOG4CPLUS_TEXT(".0"); break;
-            case 3: tmp += LOG4CPLUS_TEXT("."); break;
-        }
-        tmp += usecs;
-#endif
-        tmp += ret.substr(pos + 2);
-        ret = tmp;
-    }
+        if (len == 0)
+            buffer_size *= 2;
+    } 
+    while (len == 0);
+    ret.assign (buffer.begin (), buffer.begin () + len);
 
     return ret;
 }
-
 
 
 Time&
@@ -252,7 +311,6 @@ Time::operator+=(const Time& rhs)
 }
 
 
-
 Time&
 Time::operator-=(const Time& rhs)
 {
@@ -268,19 +326,17 @@ Time::operator-=(const Time& rhs)
 }
 
 
-
 Time&
 Time::operator/=(long rhs)
 {
-    long rem_secs = tv_sec % rhs;
+    long rem_secs = static_cast<long>(tv_sec % rhs);
     tv_sec /= rhs;
     
     tv_usec /= rhs;
-    tv_usec += ((rem_secs * ONE_SEC_IN_USEC) / rhs);
+    tv_usec += static_cast<long>((rem_secs * ONE_SEC_IN_USEC) / rhs);
 
     return *this;
 }
-
 
 
 Time&
@@ -297,9 +353,6 @@ Time::operator*=(long rhs)
 }
 
 
-
-
-
 //////////////////////////////////////////////////////////////////////////////
 // Time globals
 //////////////////////////////////////////////////////////////////////////////
@@ -312,13 +365,11 @@ operator+(const Time& lhs, const Time& rhs)
 }
 
 
-
 const Time
 operator-(const Time& lhs, const Time& rhs)
 {
     return Time(lhs) -= rhs;
 }
-
 
 
 const Time
@@ -328,13 +379,11 @@ operator/(const Time& lhs, long rhs)
 }
 
 
-
 const Time
 operator*(const Time& lhs, long rhs)
 {
     return Time(lhs) *= rhs;
 }
-
 
 
 bool
@@ -346,13 +395,11 @@ operator<(const Time& lhs, const Time& rhs)
 }
 
 
-
 bool
 operator<=(const Time& lhs, const Time& rhs)
 {
     return ((lhs < rhs) || (lhs == rhs));
 }
-
 
 
 bool
@@ -364,13 +411,11 @@ operator>(const Time& lhs, const Time& rhs)
 }
 
 
-
 bool
 operator>=(const Time& lhs, const Time& rhs)
 {
     return ((lhs > rhs) || (lhs == rhs));
 }
-
 
 
 bool
@@ -381,7 +426,6 @@ operator==(const Time& lhs, const Time& rhs)
 }
 
 
-
 bool
 operator!=(const Time& lhs, const Time& rhs)
 {
@@ -389,3 +433,4 @@ operator!=(const Time& lhs, const Time& rhs)
 }
 
 
+} } // namespace log4cplus { namespace helpers {

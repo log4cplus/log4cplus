@@ -17,8 +17,8 @@ main()
     LogLog::getLogLog()->setInternalDebugging(true);
     Logger root = Logger::getRoot();
     try {
-        PropertyConfigurator::doConfigure("log4cplus.properties");
-        Logger fileCat = Logger::getInstance("filelogger");
+        PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
+        Logger fileCat = Logger::getInstance(LOG4CPLUS_TEXT("filelogger"));
 
 	LOG4CPLUS_WARN(root, "Testing....");
 

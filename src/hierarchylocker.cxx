@@ -10,13 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.2  2003/12/07 07:40:34  tcsmith
-// Changed ctor() to remove warnings for the SUN CC compiler.
-//
-// Revision 1.1  2003/08/03 16:57:08  tcsmith
-// Initial version.
-//
 
 #include <log4cplus/hierarchylocker.h>
 #include <log4cplus/helpers/loglog.h>

@@ -7,9 +7,9 @@ using namespace log4cplus::helpers;
 
 void printMsgs() {
     cout << "Entering printMsgs()..." << endl;
-    LogLog::getLogLog()->debug("This is a Debug statement...");
-    LogLog::getLogLog()->warn("This is a Warning...");
-    LogLog::getLogLog()->error("This is a Error...");
+    LogLog::getLogLog()->debug(LOG4CPLUS_TEXT("This is a Debug statement..."));
+    LogLog::getLogLog()->warn(LOG4CPLUS_TEXT("This is a Warning..."));
+    LogLog::getLogLog()->error(LOG4CPLUS_TEXT("This is a Error..."));
     cout << "Exiting printMsgs()..." << endl << endl;
 }
 

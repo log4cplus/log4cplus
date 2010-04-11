@@ -21,12 +21,12 @@ main()
     cout << "Entering main()..." << endl;
     Logger root = Logger::getRoot();
     try {
-        PropertyConfigurator::doConfigure("log4cplus.properties");
-        Logger logger = Logger::getInstance("testlogger");
+        PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
+        Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("testlogger"));
 
         LOG4CPLUS_WARN(root, "Starting test loop....");
         Time start = Time::gettimeofday();
-        tstring msg("This is a WARNING...");
+        tstring msg(LOG4CPLUS_TEXT("This is a WARNING..."));
         int i = 0;
         for(i=0; i<LOOP_COUNT; ++i) {
             LOG4CPLUS_WARN(logger, msg);

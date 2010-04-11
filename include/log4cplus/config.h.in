@@ -1,0 +1,160 @@
+/* include/log4cplus/config.h.in.  Generated from configure.in by autoheader.  */
+
+#ifndef LOG4CPLUS_CONFIG_H
+
+#define LOG4CPLUS_CONFIG_H
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* Define to 1 if you have the `ftime' function. */
+#undef HAVE_FTIME
+
+/* Define to 1 if you have the `gettimeofday' function. */
+#undef HAVE_GETTIMEOFDAY
+
+/* Define to 1 if you have the `gmtime_r' function. */
+#undef HAVE_GMTIME_R
+
+/* Define to 1 if you have the `htonl' function. */
+#undef HAVE_HTONL
+
+/* Define to 1 if you have the `htons' function. */
+#undef HAVE_HTONS
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `nsl' library (-lnsl). */
+#undef HAVE_LIBNSL
+
+/* Define to 1 if you have the `rt' library (-lrt). */
+#undef HAVE_LIBRT
+
+/* Define to 1 if you have the `socket' library (-lsocket). */
+#undef HAVE_LIBSOCKET
+
+/* Define to 1 if you have the `localtime_r' function. */
+#undef HAVE_LOCALTIME_R
+
+/* Define to 1 if you have the `lstat' function. */
+#undef HAVE_LSTAT
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the `ntohl' function. */
+#undef HAVE_NTOHL
+
+/* Define to 1 if you have the `ntohs' function. */
+#undef HAVE_NTOHS
+
+/* Define if you have POSIX threads libraries and header files. */
+#undef HAVE_PTHREAD
+
+/* Define to 1 if you have the `stat' function. */
+#undef HAVE_STAT
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Defined for --enable-debugging builds. */
+#undef LOG4CPLUS_DEBUGGING
+
+/* Defined if the compiler understands __declspec(dllimport) or
+   __attribute__((visibility("default"))) construct. */
+#undef LOG4CPLUS_DECLSPEC_EXPORT
+
+/* Defined if the compiler understands __declspec(dllexport) or construct. */
+#undef LOG4CPLUS_DECLSPEC_IMPORT
+
+/* */
+#undef LOG4CPLUS_HAVE_FTIME
+
+/* */
+#undef LOG4CPLUS_HAVE_GETTIMEOFDAY
+
+/* */
+#undef LOG4CPLUS_HAVE_GMTIME_R
+
+/* */
+#undef LOG4CPLUS_HAVE_HTONL
+
+/* */
+#undef LOG4CPLUS_HAVE_HTONS
+
+/* */
+#undef LOG4CPLUS_HAVE_LOCALTIME_R
+
+/* */
+#undef LOG4CPLUS_HAVE_LSTAT
+
+/* */
+#undef LOG4CPLUS_HAVE_NETINET_IN_H
+
+/* */
+#undef LOG4CPLUS_HAVE_NTOHL
+
+/* */
+#undef LOG4CPLUS_HAVE_NTOHS
+
+/* */
+#undef LOG4CPLUS_HAVE_STAT
+
+/* */
+#undef LOG4CPLUS_HAVE_SYSLOG_H
+
+/* Define if this is a single-threaded library. */
+#undef LOG4CPLUS_SINGLE_THREADED
+
+/* */
+#undef LOG4CPLUS_USE_PTHREADS
+
+/* Define for compilers/standard libraries that support more than just the "C"
+   locale. */
+#undef LOG4CPLUS_WORKING_LOCALE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define to necessary symbol if this constant uses a non-standard name on
+   your system. */
+#undef PTHREAD_CREATE_JOINABLE
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Define to int if undefined. */
+#undef socklen_t
+
+#endif // LOG4CPLUS_CONFIG_H

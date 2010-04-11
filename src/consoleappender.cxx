@@ -10,28 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.10  2003/10/29 16:08:33  tcsmith
-// Ensure that "logToStdErr" is set in the ctor.
-//
-// Revision 1.9  2003/06/12 23:50:22  tcsmith
-// Modified to support the rename of the toupper and tolower methods.
-//
-// Revision 1.8  2003/06/06 17:04:31  tcsmith
-// Changed the ctor to take a 'const' Properties object.
-//
-// Revision 1.7  2003/06/03 20:19:42  tcsmith
-// Modified the close() method to set "closed = true;".
-//
-// Revision 1.6  2003/05/04 01:29:19  tcsmith
-// Added the ability to log to stderr.
-//
-// Revision 1.5  2003/04/18 21:00:40  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.4  2003/04/03 00:37:26  tcsmith
-// Standardized the formatting.
-//
 
 #include <log4cplus/layout.h>
 #include <log4cplus/consoleappender.h>
@@ -110,7 +88,7 @@ log4cplus::ConsoleAppender::append(const spi::InternalLoggingEvent& event)
         if(immediateFlush) {
             output.flush();
         }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 

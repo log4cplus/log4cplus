@@ -16,7 +16,7 @@
 #ifndef LOG4CPLUS_HELPERS_STRINGHELPER_HEADER_
 #define LOG4CPLUS_HELPERS_STRINGHELPER_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 
 #include <algorithm>
@@ -114,6 +114,7 @@ namespace log4cplus {
         protected:
             _Container* container;
         public:
+            typedef std::input_iterator_tag iterator_category;
             typedef _Container          container_type;
             typedef void                value_type;
             typedef void                difference_type;
@@ -122,8 +123,8 @@ namespace log4cplus {
 
             explicit string_append_iterator(_Container& __x) : container(&__x) {}
             string_append_iterator<_Container>&
-            operator=(const typename _Container::value_type& __value) {
-                *container += __value;
+            operator=(const typename _Container::value_type& _value) {
+                *container += _value;
                 return *this;
             }
             string_append_iterator<_Container>& operator*() { return *this; }

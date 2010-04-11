@@ -10,19 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.6  2003/05/04 00:29:00  tcsmith
-// Removed the static initializer class.
-//
-// Revision 1.5  2003/04/18 21:15:17  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.4  2003/04/12 13:51:08  tcsmith
-// No longer dynamically allocate the object in the "singleton" method.
-//
-// Revision 1.3  2003/04/03 01:02:02  tcsmith
-// Standardized the formatting.
-//
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
@@ -93,7 +80,7 @@ LogLog::debug(const log4cplus::tstring& msg)
         if(debugEnabled && !quietMode) {
              tcout << PREFIX << msg << endl;
         }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -104,7 +91,7 @@ LogLog::warn(const log4cplus::tstring& msg)
         if(quietMode) return;
 
         tcerr << WARN_PREFIX << msg << endl;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -115,7 +102,7 @@ LogLog::error(const log4cplus::tstring& msg)
         if(quietMode) return;
 
         tcerr << ERR_PREFIX << msg << endl;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 

@@ -17,7 +17,7 @@
 #ifndef LOG4CPLUS_SPI_FILTER_HEADER_
 #define LOG4CPLUS_SPI_FILTER_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/spi/loggingevent.h>
@@ -81,7 +81,9 @@ namespace log4cplus {
          * <p>The philosophy of log4cplus filters is largely inspired from the
          * Linux ipchains. 
          */
-        class LOG4CPLUS_EXPORT Filter : public log4cplus::helpers::SharedObject {
+        class LOG4CPLUS_EXPORT Filter 
+            : public virtual log4cplus::helpers::SharedObject 
+        {
         public:
           // ctor and dtor
             Filter();

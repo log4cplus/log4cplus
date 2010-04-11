@@ -1,4 +1,4 @@
-
+AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include
 
 SINGLE_THREADED_TESTS = appender_test \
           customloglevel_test \
@@ -12,11 +12,11 @@ SINGLE_THREADED_TESTS = appender_test \
 	  performance_test \
           priority_test \
 	  propertyconfig_test \
-	  socket_test
+	  socket_test \
+	  timeformat_test
 
 if MULTI_THREADED
 SUBDIRS = $(SINGLE_THREADED_TESTS) thread_test configandwatch_test
 else
 SUBDIRS = $(SINGLE_THREADED_TESTS)
 endif
-

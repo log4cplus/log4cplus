@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_HELPERS_LOGLOG_USER
 #define _LOG4CPLUS_HELPERS_LOGLOG_USER
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 
 
 namespace log4cplus {

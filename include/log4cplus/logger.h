@@ -17,7 +17,7 @@
 #ifndef _LOG4CPLUS_LOGGERHEADER_
 #define _LOG4CPLUS_LOGGERHEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/loglevel.h>
 #include <log4cplus/loggingmacros.h>
 #include <log4cplus/tstring.h>
@@ -25,16 +25,14 @@
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/spi/appenderattachable.h>
 #include <log4cplus/spi/loggerfactory.h>
+#include <log4cplus/spi/loggerimpl.h>
 
 #include <memory>
 #include <vector>
 
 namespace log4cplus {
     // Forward declarations
-    namespace spi {
-        class LoggerImpl;
-        typedef helpers::SharedObjectPtr<LoggerImpl> SharedLoggerImplPtr;
-    }
+
     class Appender;
     class Hierarchy;
     class HierarchyLocker;
@@ -54,7 +52,9 @@ namespace log4cplus {
      * See the <a href="../../../../manual.html">user manual</a> for an
      * introduction on this class.
      */
-    class LOG4CPLUS_EXPORT Logger : public log4cplus::spi::AppenderAttachable {
+    class LOG4CPLUS_EXPORT Logger
+        : public log4cplus::spi::AppenderAttachable
+    {
     public:
       // Static Methods
         /**
@@ -70,8 +70,8 @@ namespace log4cplus {
          * hierarchy.
          * <p>
          * The root logger is <em>not</em> included in the returned
-         * list.     
-         */
+         * list.      
+        */
         static LoggerList getCurrentLoggers();
      
         /**
@@ -312,7 +312,8 @@ namespace log4cplus {
      * <p>
      * @see LOG4CPLUS_TRACE
      */
-    class LOG4CPLUS_EXPORT TraceLogger {
+    class TraceLogger
+    {
     public:
         TraceLogger(const Logger& l, const log4cplus::tstring& _msg,
                     const char* _file=NULL, int _line=-1) 

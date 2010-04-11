@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_NULL_APPENDER_HEADER_
 #define _LOG4CPLUS_NULL_APPENDER_HEADER_
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/appender.h>
 #include <log4cplus/helpers/property.h>
 

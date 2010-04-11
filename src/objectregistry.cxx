@@ -10,10 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.2  2003/04/03 01:10:38  tcsmith
-// Standardized the formatting.
-//
 
 #include <log4cplus/spi/objectregistry.h>
 
@@ -47,21 +43,19 @@ log4cplus::spi::ObjectRegistryBase::exists(const log4cplus::tstring& name) const
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
         return data.find(name) != data.end();
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
 std::vector<log4cplus::tstring>
 log4cplus::spi::ObjectRegistryBase::getAllNames() const
 {
+    std::vector<log4cplus::tstring> tmp;
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        std::vector<log4cplus::tstring> tmp;
-        for(ObjectMap::const_iterator it=data.begin(); it!=data.end(); ++it) {
+        for(ObjectMap::const_iterator it=data.begin(); it!=data.end(); ++it)
             tmp.push_back( (*it).first );
-        }
-
-        return tmp;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    return tmp;
 }
 
 
@@ -73,33 +67,29 @@ log4cplus::spi::ObjectRegistryBase::getAllNames() const
 bool
 log4cplus::spi::ObjectRegistryBase::putVal(const log4cplus::tstring& name, void* object)
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        ObjectMap::value_type value(name, object);
-        std::pair<ObjectMap::iterator, bool> ret = data.insert(value);
+    ObjectMap::value_type value(name, object);
+    std::pair<ObjectMap::iterator, bool> ret;
 
-        if(ret.second) {
-            return true;
-        }
-        else {
-            deleteObject( value.second );
-            return false;
-        }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
+        ret = data.insert(value);
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+
+    if (! ret.second)
+        deleteObject( value.second );
+    return ret.second;
 }
 
 
 void*
 log4cplus::spi::ObjectRegistryBase::getVal(const log4cplus::tstring& name) const
 {
-    bool found = exists(name);
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        if(found) {
-            return data.find(name)->second;
-        }
-        else {
+        ObjectMap::const_iterator it (data.find (name));
+        if (it != data.end ())
+            return it->second;
+        else
             return 0;
-        }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
@@ -112,7 +102,5 @@ log4cplus::spi::ObjectRegistryBase::clear()
     for(ObjectMap::iterator it=data.begin(); it!=data.end(); ++it) {
         deleteObject( (*it).second );
     }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
+    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
-
-

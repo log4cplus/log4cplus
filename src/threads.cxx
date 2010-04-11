@@ -10,45 +10,6 @@
 // License version 1.1, a copy of which has been included with this
 // distribution in the LICENSE.APL file.
 //
-// $Log: not supported by cvs2svn $
-// Revision 1.17  2003/09/10 07:01:36  tcsmith
-// Added support for NetBSD.
-//
-// Revision 1.16  2003/08/27 15:22:38  tcsmith
-// Corrected the getCurrentThreadName() method for MacOS X and DEC cxx.
-//
-// Revision 1.15  2003/08/09 06:58:21  tcsmith
-// Fixed the getCurrentThreadName() method for MacOS X.
-//
-// Revision 1.14  2003/08/04 01:10:12  tcsmith
-// Modified the getCurrentThreadName() method to use convertIntegerToString().
-//
-// Revision 1.13  2003/07/19 15:41:04  tcsmith
-// Cleaned up the threadStartFunc() method.
-//
-// Revision 1.12  2003/06/29 16:48:25  tcsmith
-// Modified to support that move of the getLogLog() method into the LogLog
-// class.
-//
-// Revision 1.11  2003/06/13 15:25:07  tcsmith
-// Added the getCurrentThreadName() function.
-//
-// Revision 1.10  2003/06/04 18:56:41  tcsmith
-// Modified to use the new timehelper.h header.
-//
-// Revision 1.9  2003/05/22 21:17:32  tcsmith
-// Moved the sleep() method into sleep.cxx
-//
-// Revision 1.8  2003/04/29 17:38:45  tcsmith
-// Added "return NULL" to the threadStartFunc() method to make the Sun Forte
-// compiler happy.
-//
-// Revision 1.7  2003/04/18 21:58:47  tcsmith
-// Converted from std::string to log4cplus::tstring.
-//
-// Revision 1.6  2003/04/03 01:31:43  tcsmith
-// Standardized the formatting.
-//
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
@@ -206,7 +167,7 @@ log4cplus::thread::AbstractThread::start()
     running = true;
 #if defined(LOG4CPLUS_USE_PTHREADS)
     if( pthread_create(&threadId, NULL, threadStartFunc, this) ) {
-        throw std::runtime_error(LOG4CPLUS_TEXT("Thread creation was not successful"));
+        throw std::runtime_error("Thread creation was not successful");
     }
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     HANDLE h = CreateThread(NULL, 0, threadStartFunc, (LPVOID)this, 0, &threadId);

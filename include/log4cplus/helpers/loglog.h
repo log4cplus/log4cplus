@@ -16,7 +16,7 @@
 #ifndef _LOG4CPLUS_HELPERS_LOGLOG
 #define _LOG4CPLUS_HELPERS_LOGLOG
 
-#include <log4cplus/config.h>
+#include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/threads.h>
@@ -38,7 +38,9 @@ namespace log4cplus {
          * <code>cerr</code>. All internal messages are prepended with
          * the string "log4clus: ".
          */
-        class LOG4CPLUS_EXPORT LogLog : public log4cplus::helpers::SharedObject {
+        class LOG4CPLUS_EXPORT LogLog
+            : public virtual log4cplus::helpers::SharedObject 
+        {
         public:
           // Static methods
             /**
