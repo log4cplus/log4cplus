@@ -140,6 +140,10 @@ getCurrentThreadName()
     {
         AbstractThread * ptr = static_cast<AbstractThread*>(arg);
         AbstractThreadPtr thread(ptr);
+
+        // Decrease reference count increased by AbstractThread::start().
+        ptr->removeReference ();
+
         try
         {
             thread->run();
@@ -156,8 +160,12 @@ getCurrentThreadName()
         }
         thread->running = false;
         getNDC().remove();
+
 #if defined(LOG4CPLUS_USE_WIN32_THREADS)
-        ::CloseHandle (thread->handle);
+        HANDLE h = InterlockedExchangePointer (&thread->handle,
+            INVALID_HANDLE_VALUE);
+        if (h != INVALID_HANDLE_VALUE)
+            ::CloseHandle (h);
 #endif
     }
 
@@ -173,7 +181,10 @@ getCurrentThreadName()
 ///////////////////////////////////////////////////////////////////////////////
 
 AbstractThread::AbstractThread()
-: running(false)
+    : running(false)
+#if defined(LOG4CPLUS_USE_WIN32_THREADS)
+    , handle (INVALID_HANDLE_VALUE)
+#endif
 {
 }
 
@@ -181,6 +192,10 @@ AbstractThread::AbstractThread()
 
 AbstractThread::~AbstractThread()
 {
+#if defined(LOG4CPLUS_USE_WIN32_THREADS)
+    if (handle != INVALID_HANDLE_VALUE)
+        ::CloseHandle (handle);
+#endif
 }
 
 
@@ -193,14 +208,36 @@ void
 AbstractThread::start()
 {
     running = true;
+
+    // Reference count must be non-zero here. If it were zero, we would
+    // end up with SIGSEGV if the thread ended sooner than this function
+    // would return.
+    assert (SharedObject::count > 0);
+
+    // Increase reference count here. It will be lowered by the running
+    // thread itself.
+    addReference ();
+
 #if defined(LOG4CPLUS_USE_PTHREADS)
     if (::pthread_create(&handle, NULL, threadStartFunc, this) )
+    {
+        removeReference ();
         throw std::runtime_error("Thread creation was not successful");
+    }
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    handle = reinterpret_cast<HANDLE>(
+    HANDLE h = InterlockedExchangePointer (&handle, INVALID_HANDLE_VALUE);
+    if (h != INVALID_HANDLE_VALUE)
+        ::CloseHandle (h);
+
+    h = reinterpret_cast<HANDLE>(
         ::_beginthreadex (0, 0, threadStartFunc, this, 0, &thread_id));
-    if (! handle)
+    if (! h)
+    {
+        removeReference ();
         throw std::runtime_error("Thread creation was not successful");
+    }
+    h = InterlockedExchangePointer (&handle, h);
+    assert (h == INVALID_HANDLE_VALUE);
 #endif
 }
 

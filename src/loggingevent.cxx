@@ -25,65 +25,62 @@ static const int LOG4CPLUS_DEFAULT_TYPE = 1;
 // InternalLoggingEvent ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& _logger,
-										   LogLevel _ll, 
-										   const log4cplus::tstring& _message, 
-										   const char* _filename,
-										   int _line)
-	: message(_message),
-    loggerName(_logger),
-    ll(_ll),
-    timestamp(log4cplus::helpers::Time::gettimeofday()),
-    line(_line),
-    threadCached(false),
-    ndcCached(false)
+InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
+    LogLevel loglevel, const log4cplus::tstring& message_, const char* filename,
+    int line_)
+    : message(message_)
+    , loggerName(logger)
+    , ll(loglevel)
+    , ndc()
+    , thread()
+    , timestamp(log4cplus::helpers::Time::gettimeofday())
+    , file(filename
+        ? LOG4CPLUS_C_STR_TO_TSTRING(filename) 
+        : log4cplus::tstring())
+    , line(line_)
+    , threadCached(false)
+    , ndcCached(false)
 {
-    if (_filename)
-		file = LOG4CPLUS_C_STR_TO_TSTRING(_filename);
-
 }
 
 
-InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& _logger,
-										   LogLevel _ll, 
-										   const log4cplus::tstring& _ndc,
-										   const log4cplus::tstring& _message, 
-										   const log4cplus::tstring& _thread,
-										   log4cplus::helpers::Time _time, 
-										   const log4cplus::tstring& _file, 
-										   int _line)
-    : message(_message),
-	  loggerName(_logger),
-	  ll(_ll),
-	  ndc(_ndc),
-	  thread(_thread),
-	  timestamp(_time),
-	  file(_file),
-	  line(_line),
-	  threadCached(true),
-	  ndcCached(true)
+InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
+    LogLevel loglevel, const log4cplus::tstring& ndc_,
+    const log4cplus::tstring& message_, const log4cplus::tstring& thread_,
+    log4cplus::helpers::Time time, const log4cplus::tstring& file_, int line_)
+    : message(message_)
+    , loggerName(logger)
+    , ll(loglevel)
+    , ndc(ndc_)
+    , thread(thread_)
+    , timestamp(time)
+    , file(file_)
+    , line(line_)
+    , threadCached(true)
+    , ndcCached(true)
 {
 }
 
 
 InternalLoggingEvent::InternalLoggingEvent ()
-    : ll (NOT_SET_LOG_LEVEL),
-	  threadCached(false),
-	  ndcCached(false)
+    : ll (NOT_SET_LOG_LEVEL)
+    , threadCached(false)
+    , ndcCached(false)
 { }
 
 
-InternalLoggingEvent::InternalLoggingEvent(const log4cplus::spi::InternalLoggingEvent& rhs)
-    : message(rhs.getMessage()),
-	  loggerName(rhs.getLoggerName()),
-	  ll(rhs.getLogLevel()),
-	  ndc(rhs.getNDC()),
-	  thread(rhs.getThread()),
-	  timestamp(rhs.getTimestamp()),
-	  file(rhs.getFile()),
-	  line(rhs.getLine()),
-	  threadCached(true),
-	  ndcCached(true)
+InternalLoggingEvent::InternalLoggingEvent(
+    const log4cplus::spi::InternalLoggingEvent& rhs)
+    : message(rhs.getMessage())
+    , loggerName(rhs.getLoggerName())
+    , ll(rhs.getLogLevel())
+    , ndc(rhs.getNDC())
+    , thread(rhs.getThread())
+    , timestamp(rhs.getTimestamp())
+    , file(rhs.getFile())
+    , line(rhs.getLine())
+    , threadCached(true)
+    , ndcCached(true)
 {
 }
 
@@ -111,23 +108,11 @@ InternalLoggingEvent::getDefaultType()
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring& _logger,
-									   LogLevel _loglevel, 
-									   const log4cplus::tstring& _msg, 
-									   const char * _filename,
-									   int _fline)
+InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring & logger,
+    LogLevel loglevel, const log4cplus::tstring & msg, const char * filename,
+    int fline)
 {
-    loggerName = _logger;
-    ll = _loglevel;
-    message = _msg;
-    timestamp = log4cplus::helpers::Time::gettimeofday();
-    if (_filename)
-        file = LOG4CPLUS_C_STR_TO_TSTRING (_filename);
-    else
-        file.clear();
-    line = _fline;
-    threadCached = false;
-    ndcCached = false;
+    InternalLoggingEvent (logger, loglevel, msg, filename, fline).swap (*this);
 }
 
 
@@ -155,22 +140,10 @@ InternalLoggingEvent::clone() const
 
 
 
-log4cplus::spi::InternalLoggingEvent&
-InternalLoggingEvent::operator=(const log4cplus::spi::InternalLoggingEvent& rhs)
+InternalLoggingEvent &
+InternalLoggingEvent::operator = (const InternalLoggingEvent& rhs)
 {
-    if(this == &rhs) return *this;
-
-    message = rhs.message;
-    loggerName = rhs.loggerName;
-    ll = rhs.ll;
-    ndc = rhs.getNDC();
-    thread = rhs.getThread();
-    timestamp = rhs.timestamp;
-    file = rhs.file;
-    line = rhs.line;
-    threadCached = true;
-    ndcCached = true;
-
+    InternalLoggingEvent (rhs).swap (*this);
     return *this;
 }
 
@@ -178,17 +151,19 @@ InternalLoggingEvent::operator=(const log4cplus::spi::InternalLoggingEvent& rhs)
 void
 InternalLoggingEvent::swap (InternalLoggingEvent & other)
 {
-    std::swap(message, other.message);
-    std::swap(loggerName, other.loggerName);
-    std::swap(ll, other.ll);
-    std::swap(ndc, other.ndc);
-    std::swap(thread, other.thread);
-    std::swap(timestamp, other.timestamp);
-    std::swap(file, other.file);
-    std::swap(line, other.line);
-    std::swap(threadCached, other.threadCached);
+    using std::swap;
+
+    swap (message, other.message);
+    swap (loggerName, other.loggerName);
+    swap (ll, other.ll);
+    swap (ndc, other.ndc);
+    swap (thread, other.thread);
+    swap (timestamp, other.timestamp);
+    swap (file, other.file);
+    swap (line, other.line);
+    swap (threadCached, other.threadCached);
     assert (threadCached);
-    std::swap (ndcCached, other.ndcCached);
+    swap (ndcCached, other.ndcCached);
     assert (ndcCached);
 }
 

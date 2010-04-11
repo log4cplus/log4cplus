@@ -24,6 +24,14 @@
 /* Define if you have the ftime function.  */
 #define LOG4CPLUS_HAVE_FTIME 1
 
+#if defined (_WIN32_WCE)
+#  define LOG4CPLUS_DLLMAIN_HINSTANCE HANDLE
+#  undef LOG4CPLUS_HAVE_NT_EVENT_LOG
+#else
+#  define LOG4CPLUS_DLLMAIN_HINSTANCE HINSTANCE
+#  define LOG4CPLUS_HAVE_NT_EVENT_LOG
+#endif
+
 #ifdef LOG4CPLUS_STATIC
 #  define LOG4CPLUS_EXPORT
 #else

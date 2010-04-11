@@ -15,7 +15,6 @@
 #include <log4cplus/spi/loggerfactory.h>
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/fileappender.h>
-#include <log4cplus/nteventlogappender.h>
 #include <log4cplus/nullappender.h>
 #include <log4cplus/socketappender.h>
 #include <log4cplus/syslogappender.h>
@@ -27,7 +26,10 @@
 #endif
 
 #if defined (_WIN32)
-#include <log4cplus/Win32DebugAppender.h>
+#  if defined (LOG4CPLUS_HAVE_NT_EVENT_LOG)
+#    include <log4cplus/nteventlogappender.h>
+#  endif
+#  include <log4cplus/Win32DebugAppender.h>
 #endif
 
 
@@ -102,7 +104,9 @@ namespace {
     APPENDER_FACTORY_DEF (AsyncAppenderFactory, AsyncAppender);
 #endif
 #if defined(_WIN32)
+#  if defined (LOG4CPLUS_HAVE_NT_EVENT_LOG)
     APPENDER_FACTORY_DEF (NTEventLogAppenderFactory, NTEventLogAppender);
+#  endif
     APPENDER_FACTORY_DEF (Win32DebugAppenderFactory, Win32DebugAppender);
 #elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
     APPENDER_FACTORY_DEF (SysLogAppenderFactory, SysLogAppender);
@@ -133,13 +137,10 @@ namespace {
 #undef LAYOUT_FACTORY_DEF
 
 
-#define LOG4CPLUS_STRINGIFY2(arg) #arg
-#define LOG4CPLUS_STRINGIFY(arg) LOG4CPLUS_STRINGIFY2(arg)
-
 #define FILTER_FACTORY_DEF(factoryname, filtername)                         \
     class factoryname : public FilterFactory {                              \
-        FilterPtr createObject(const Properties&) {                         \
-            return FilterPtr(new log4cplus::spi::filtername);               \
+        FilterPtr createObject(const Properties& props) {                   \
+            return FilterPtr(new log4cplus::spi::filtername(props));        \
         }                                                                   \
         tstring const & getTypeName() const {                               \
             static tstring const factory_name(                              \
@@ -172,7 +173,10 @@ template <typename Fac, typename Reg>
 static void
 reg_factory (Reg & reg)
 {
-    reg.put (std::auto_ptr<typename Reg::product_type> (new Fac));
+    std::auto_ptr<typename Reg::product_type> pfac (new Fac);
+    // Force initialization of inner static variable.
+    pfac->getTypeName ();
+    reg.put (pfac);
 }
 
 } // namespace
@@ -188,7 +192,9 @@ void initializeFactoryRegistry()
     reg_factory<DailyRollingFileAppenderFactory> (reg);
     reg_factory<SocketAppenderFactory> (reg);
 #if defined(_WIN32)
+#  if defined(LOG4CPLUS_HAVE_NT_EVENT_LOG)
     reg_factory<NTEventLogAppenderFactory> (reg);
+#  endif
     reg_factory<Win32DebugAppenderFactory> (reg);
 #elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
     reg_factory<SysLogAppenderFactory> (reg);

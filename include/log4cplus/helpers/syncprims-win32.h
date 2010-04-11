@@ -30,7 +30,7 @@ namespace log4cplus { namespace thread {
 
 
 #define LOG4CPLUS_THROW_RTE(msg) \
-    detail::syncprims_throw_exception (msg, __FILE__, __LINE__);
+    do { detail::syncprims_throw_exception (msg, __FILE__, __LINE__); } while (0)
 
 //
 //
@@ -81,13 +81,15 @@ Semaphore::Semaphore (unsigned max, unsigned initial)
 
 inline
 Semaphore::~Semaphore ()
-try
 {
-    if (! CloseHandle (sem))
-        LOG4CPLUS_THROW_RTE ("Semaphore::~Semaphore");
+    try
+    {
+        if (! CloseHandle (sem))
+            LOG4CPLUS_THROW_RTE ("Semaphore::~Semaphore");
+    }
+    catch (...)
+    { }
 }
-catch (...)
-{ }
 
 
 inline
@@ -125,13 +127,15 @@ ManualResetEvent::ManualResetEvent (bool sig)
 
 inline
 ManualResetEvent::~ManualResetEvent ()
-try
 {
-    if (! CloseHandle (ev))
-        LOG4CPLUS_THROW_RTE ("ManualResetEvent::~ManualResetEvent");
+    try
+    {
+        if (! CloseHandle (ev))
+            LOG4CPLUS_THROW_RTE ("ManualResetEvent::~ManualResetEvent");
+    }
+    catch (...)
+    { }
 }
-catch (...)
-{ }
 
 
 inline
@@ -150,6 +154,28 @@ ManualResetEvent::wait () const
     DWORD ret = WaitForSingleObject (ev, INFINITE);
     if (ret != WAIT_OBJECT_0)
         LOG4CPLUS_THROW_RTE ("ManualResetEvent::wait");
+}
+
+
+inline
+bool
+ManualResetEvent::timed_wait (unsigned long msec) const
+{
+    DWORD ret = WaitForSingleObject (ev, static_cast<DWORD>(msec));
+    switch(ret)
+    {
+    case WAIT_OBJECT_0:
+        return true;
+
+    case WAIT_TIMEOUT:
+        return false;
+
+    default:
+        LOG4CPLUS_THROW_RTE ("ManualResetEvent::timed_wait");
+        // Silence warnings about not returning any value from function
+        // returning bool.
+        return false;
+    }
 }
 
 

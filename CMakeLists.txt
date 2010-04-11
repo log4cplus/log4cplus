@@ -109,9 +109,9 @@ set (log4cplus_sources
 
 # IBM's compiler's TLS option.
 #add_definitions (-qtls)
+
 # Sun's compiler's TLS option.
 #add_definitions (-xthreadvar)
-
 
 if ("${UNIX}" OR "${CYGWIN}")
   set (log4cplus_sources ${log4cplus_sources}
@@ -127,11 +127,41 @@ elseif (WIN32)
   set (log4cplus_headers ${log4cplus_headers}
     include/log4cplus/helpers/syncprims-win32.h)
 
-  # Comment out the following lines if you want non-Unicode version.
+  if (BORLAND)
+    # More detailed errors.
+    add_definitions (-Q)
+    # Debug line numbers on.
+    add_definitions (-y)
+    # Turn on source debugging.
+    add_definitions (-v)
+    # Turn off inlining, it seems to be buggy.
+    add_definitions (-vi-)
+    # Generate CodeView4 compatible debug info.
+    #add_definitions (-v4)
+    # Defining -tU (Unicode) flag break test cases, the linker then
+    # cannot find _main symbol.
+    #add_definitions (-tU)
+    # Multi-threading.
+    add_definitions (-WM- -tWM)
+    # Console.
+    add_definitions (-tC)
+    # Dynamic RTL.
+    add_definitions (-tWR)
+    # Zero sized empty base classes, this option is on in the IDE by
+    # default and effects binary compatibility.
+    add_definitions (-Ve)
+    # zero sized empty members, this option is on in the IDE by
+    # default and effects binary compatibility.
+    add_definitions (-Vx)   
+    # 8 byte alignment, this option is on in the IDE by default and
+    # effects binary compatibility.
+    add_definitions (-a8)
+  endif ()
 
+  # Comment out the following lines if you want non-Unicode version.
   add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
   set (log4cplus_postfix "${log4cplus_postfix}U")
-  
+
   #add_definitions (-DLOG4CPLUS_STATIC)
   #set (log4cplus_postfix "${log4cplus_postfix}S")
 endif ()
@@ -154,8 +184,10 @@ if (WIN32)
   set_target_properties (log4cplus PROPERTIES
     DEBUG_POSTFIX "${log4cplus_postfix}D"
     RELEASE_POSTFIX "${log4cplus_postfix}"
-    MINSIZEREL "${log4cplus_postfix}"
+    MINSIZEREL_POSTFIX "${log4cplus_postfix}"
     RELWITHDEBINFO_POSTFIX "${log4cplus_postfix}")
+  target_link_libraries (log4cplus ws2_32 advapi32)
 endif ()
 
-add_subdirectory ("loggingserver")
+add_subdirectory (loggingserver)
+add_subdirectory (tests)

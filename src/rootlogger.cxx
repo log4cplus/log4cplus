@@ -23,10 +23,10 @@ using namespace log4cplus::spi;
 // RootLogger Constructor
 //////////////////////////////////////////////////////////////////////////////
 
-RootLogger::RootLogger(Hierarchy& _h, LogLevel _ll)
-  : LoggerImpl(LOG4CPLUS_TEXT("root"), _h)
+RootLogger::RootLogger(Hierarchy& h, LogLevel loglevel)
+: LoggerImpl(LOG4CPLUS_TEXT("root"), h)
 {
-    setLogLevel(_ll);
+    setLogLevel(loglevel);
 }
 
 
@@ -43,15 +43,13 @@ RootLogger::getChainedLogLevel() const
 
 
 void 
-RootLogger::setLogLevel(LogLevel _ll)
+RootLogger::setLogLevel(LogLevel loglevel)
 {
-    if(_ll == NOT_SET_LOG_LEVEL)
-	{
+    if(loglevel == NOT_SET_LOG_LEVEL) {
         getLogLog().error(LOG4CPLUS_TEXT("You have tried to set NOT_SET_LOG_LEVEL to root."));
     }
-    else
-	{
-        LoggerImpl::setLogLevel(_ll);
+    else {
+        LoggerImpl::setLogLevel(loglevel);
     }
 }
 

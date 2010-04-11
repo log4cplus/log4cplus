@@ -24,28 +24,28 @@
 #include <log4cplus/spi/loggingevent.h>
 
 
+using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::thread;
 
 
 namespace loggingserver {
-    class ClientThread : public AbstractThread 
-	{
+    class ClientThread : public AbstractThread {
     public:
-        ClientThread(Socket _clientsock)
-			: clientsock(_clientsock) 
+        ClientThread(Socket clientsock)
+        : clientsock(clientsock) 
         {
-			std::cout << "Received a client connection!!!!" << std::endl;
+            cout << "Received a client connection!!!!" << endl;
         }
 
         ~ClientThread()
         {
-            std::cout << "Client connection closed." << std::endl;
+            cout << "Client connection closed." << endl;
         }
 
         virtual void run();
-		
+
     private:
         Socket clientsock;
     };
@@ -58,13 +58,12 @@ namespace loggingserver {
 int
 main(int argc, char** argv)
 {
-    if(argc < 3) 
-	{
-        std::cout << "Usage: port config_file" << std::endl;
+    if(argc < 3) {
+        cout << "Usage: port config_file" << endl;
         return 1;
     }
-    int port = atoi(argv[1]);
-    tstring configFile = LOG4CPLUS_C_STR_TO_TSTRING(argv[2]);
+    int port = std::atoi(argv[1]);
+    const tstring configFile = LOG4CPLUS_C_STR_TO_TSTRING(argv[2]);
 
     PropertyConfigurator config(configFile);
     config.configure();
@@ -88,23 +87,19 @@ main(int argc, char** argv)
 void
 loggingserver::ClientThread::run()
 {
-    while(1) 
-	{
-        if(!clientsock.isOpen()) 
-		{
+    while(1) {
+        if(!clientsock.isOpen()) {
             return;
         }
         SocketBuffer msgSizeBuffer(sizeof(unsigned int));
-        if(!clientsock.read(msgSizeBuffer)) 
-		{
+        if(!clientsock.read(msgSizeBuffer)) {
             return;
         }
-		
+
         unsigned int msgSize = msgSizeBuffer.readInt();
-		
+
         SocketBuffer buffer(msgSize);
-        if(!clientsock.read(buffer)) 
-		{
+        if(!clientsock.read(buffer)) {
             return;
         }
         

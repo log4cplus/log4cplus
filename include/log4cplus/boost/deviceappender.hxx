@@ -104,7 +104,8 @@ public:
     }
 
 protected:
-    virtual void
+    virtual
+    void
     append (log4cplus::spi::InternalLoggingEvent const & event)
     {
         tstring & str = formatEvent (event);
@@ -144,7 +145,8 @@ make_device_appender (T & d, const helpers::Properties & props)
 template <typename T>
 inline
 SharedAppenderPtr
-make_device_appender_sp (boost::shared_ptr<T> const & p, bool close_device = true)
+make_device_appender_sp (boost::shared_ptr<T> const & p,
+    bool close_device = true)
 {
     SharedAppenderPtr app (
         new DeviceAppender<boost::shared_ptr<T> > (p, close_device));

@@ -111,7 +111,7 @@ namespace log4cplus {
 
             SharedObjectPtr& operator=(T* rhs)
             {
-                SharedObjectPtr (rhs).swap (*this);
+                SharedObjectPtr<T> (rhs).swap (*this);
                 return *this;
             }
 

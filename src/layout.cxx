@@ -17,6 +17,7 @@
 #include <log4cplus/spi/loggingevent.h>
 
 
+using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
@@ -42,9 +43,9 @@ SimpleLayout::formatAndAppend(log4cplus::tostream& output,
 // log4cplus::TTCCLayout ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-TTCCLayout::TTCCLayout(bool _use_gmtime)
-    : dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S,%q") ),
-    use_gmtime(_use_gmtime)
+TTCCLayout::TTCCLayout(bool use_gmtime_)
+    : dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S,%q") )
+    , use_gmtime(use_gmtime_)
 {
 }
 

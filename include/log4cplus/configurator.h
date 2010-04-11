@@ -302,7 +302,7 @@ namespace log4cplus
        ConfigureAndWatchThread& operator=(const ConfigureAndWatchThread&);
        
       // Data
-        log4cplus::helpers::SharedObjectPtr<ConfigurationWatchDogThread> watchDogThread;
+       ConfigurationWatchDogThread * watchDogThread;
     };
 #endif
 

@@ -451,6 +451,14 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\appender.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\spi\appenderattachable.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\appenderattachableimpl.cxx"
 				>
 				<FileConfiguration
@@ -489,6 +497,14 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\appenderattachableimpl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\config.hxx"
+				>
 			</File>
 			<File
 				RelativePath="..\src\configurator.cxx"
@@ -531,6 +547,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\configurator.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\factory.cxx"
 				>
 				<FileConfiguration
@@ -571,6 +591,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\spi\factory.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\filter.cxx"
 				>
 				<FileConfiguration
@@ -609,6 +633,14 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\spi\filter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\fstreams.h"
+				>
 			</File>
 			<File
 				RelativePath="..\src\global-init.cxx"
@@ -691,6 +723,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\hierarchy.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\hierarchylocker.cxx"
 				>
 				<FileConfiguration
@@ -729,6 +765,14 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\hierarchylocker.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\internal\internal.h"
+				>
 			</File>
 			<File
 				RelativePath="..\src\layout.cxx"
@@ -771,6 +815,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\layout.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\logger.cxx"
 				>
 				<FileConfiguration
@@ -809,6 +857,14 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\logger.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\spi\loggerfactory.h"
+				>
 			</File>
 			<File
 				RelativePath="..\src\loggerimpl.cxx"
@@ -851,6 +907,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\spi\loggerimpl.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\loggingevent.cxx"
 				>
 				<FileConfiguration
@@ -889,6 +949,14 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\spi\loggingevent.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\loggingmacros.h"
+				>
 			</File>
 			<File
 				RelativePath="..\src\loglevel.cxx"
@@ -931,6 +999,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\loglevel.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\loglog.cxx"
 				>
 				<FileConfiguration
@@ -969,6 +1041,10 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\loglog.h"
+				>
 			</File>
 			<File
 				RelativePath="..\src\logloguser.cxx"
@@ -1011,6 +1087,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\helpers\logloguser.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\ndc.cxx"
 				>
 				<FileConfiguration
@@ -1051,6 +1131,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\ndc.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\objectregistry.cxx"
 				>
 				<FileConfiguration
@@ -1089,6 +1173,10 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\spi\objectregistry.h"
+				>
 			</File>
 			<File
 				RelativePath="..\src\patternlayout.cxx"
@@ -1171,6 +1259,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\helpers\pointer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\property.cxx"
 				>
 				<FileConfiguration
@@ -1211,7 +1303,15 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\helpers\property.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\queue.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\queue.h"
 				>
 			</File>
 			<File
@@ -1255,6 +1355,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\spi\rootlogger.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\sleep.cxx"
 				>
 				<FileConfiguration
@@ -1293,6 +1397,10 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\sleep.h"
+				>
 			</File>
 			<File
 				RelativePath="..\src\socket-win32.cxx"
@@ -1375,6 +1483,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\helpers\socket.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\socketbuffer.cxx"
 				>
 				<FileConfiguration
@@ -1413,6 +1525,14 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\socketbuffer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\streams.h"
+				>
 			</File>
 			<File
 				RelativePath="..\src\stringhelper.cxx"
@@ -1455,7 +1575,27 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\helpers\stringhelper.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\syncprims-pthreads.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\syncprims-win32.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\syncprims.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\syncprims.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\thread-config.h"
 				>
 			</File>
 			<File
@@ -1499,6 +1639,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\helpers\threads.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\timehelper.cxx"
 				>
 				<FileConfiguration
@@ -1537,155 +1681,6 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl"
-			>
-			<File
-				RelativePath="..\include\log4cplus\appender.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\spi\appenderattachable.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\appenderattachableimpl.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\config.hxx"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\configurator.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\spi\factory.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\spi\filter.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\fstreams.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\hierarchy.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\hierarchylocker.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\internal\internal.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\layout.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\logger.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\spi\loggerfactory.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\spi\loggerimpl.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\spi\loggingevent.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\loggingmacros.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\loglevel.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\loglog.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\logloguser.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\ndc.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\spi\objectregistry.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\pointer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\property.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\queue.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\spi\rootlogger.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\sleep.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\socket.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\socketbuffer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\streams.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\stringhelper.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\syncprims-pthreads.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\syncprims-win32.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\syncprims.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\thread-config.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\threads.h"
-				>
 			</File>
 			<File
 				RelativePath="..\include\log4cplus\helpers\timehelper.h"

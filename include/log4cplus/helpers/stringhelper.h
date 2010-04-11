@@ -52,8 +52,10 @@ namespace log4cplus {
          * </pre>
          */
         template <class StringType, class OutputIter>
-        void tokenize(const StringType& s, typename StringType::value_type c, 
-                      OutputIter result, bool collapseTokens = true) 
+        inline
+        void
+        tokenize(const StringType& s, typename StringType::value_type c, 
+            OutputIter result, bool collapseTokens = true) 
         {
             typedef typename StringType::size_type size_type;
             size_type const slen = s.length();

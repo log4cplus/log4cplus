@@ -27,8 +27,10 @@
 #include <stdexcept>
 #include <log4cplus/config.hxx>
 #if defined (LOG4CPLUS_USE_PTHREADS)
+#  include <errno.h>
 #  include <pthread.h>
 #  include <semaphore.h>
+#  include <log4cplus/helpers/timehelper.h>
 
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS)
 #  undef WIN32_LEAN_AND_MEAN
@@ -130,6 +132,7 @@ public:
 
     void signal () const;
     void wait () const;
+    bool timed_wait (unsigned long msec) const;
     void reset () const;
 
 private:
