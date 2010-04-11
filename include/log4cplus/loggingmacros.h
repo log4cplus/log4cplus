@@ -100,9 +100,9 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
 #define LOG4CPLUS_TRACE_STR(logger, logEvent)                           \
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, TRACE)
 #else
-#define LOG4CPLUS_TRACE_METHOD(logger, logEvent) do{ } while(0)
-#define LOG4CPLUS_TRACE(logger, logEvent) do{ } while(0)
-#define LOG4CPLUS_TRACE_STR(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_TRACE_METHOD(logger, logEvent) do { } while (0)
+#define LOG4CPLUS_TRACE(logger, logEvent) do { } while (0)
+#define LOG4CPLUS_TRACE_STR(logger, logEvent) do { } while (0)
 #endif
 
 /**
@@ -116,8 +116,8 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
 #define LOG4CPLUS_DEBUG_STR(logger, logEvent)                           \
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, DEBUG)
 #else
-#define LOG4CPLUS_DEBUG(logger, logEvent) do{ } while(0)
-#define LOG4CPLUS_DEBUG_STR(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_DEBUG(logger, logEvent) do { } while (0)
+#define LOG4CPLUS_DEBUG_STR(logger, logEvent) do { } while (0)
 #endif
 
 /**
@@ -131,8 +131,8 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
 #define LOG4CPLUS_INFO_STR(logger, logEvent)                            \
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, INFO)
 #else
-#define LOG4CPLUS_INFO(logger, logEvent) do{ } while(0)
-#define LOG4CPLUS_INFO_STR(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_INFO(logger, logEvent) do { } while (0)
+#define LOG4CPLUS_INFO_STR(logger, logEvent) do { } while (0)
 #endif
 
 /**
@@ -146,8 +146,8 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
 #define LOG4CPLUS_WARN_STR(logger, logEvent)                            \
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, WARN)
 #else
-#define LOG4CPLUS_WARN(logger, logEvent) do{ } while(0)
-#define LOG4CPLUS_WARN_STR(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_WARN(logger, logEvent) do { } while (0)
+#define LOG4CPLUS_WARN_STR(logger, logEvent) do { } while (0)
 #endif
 
 /**
@@ -161,8 +161,8 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
 #define LOG4CPLUS_ERROR_STR(logger, logEvent)                           \
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, ERROR)
 #else
-#define LOG4CPLUS_ERROR(logger, logEvent) do{ } while(0)
-#define LOG4CPLUS_ERROR_STR(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_ERROR(logger, logEvent) do { } while (0)
+#define LOG4CPLUS_ERROR_STR(logger, logEvent) do { } while (0)
 #endif
 
 /**
@@ -176,8 +176,8 @@ LOG4CPLUS_EXPORT void _clear_tostringstream (tostringstream &);
 #define LOG4CPLUS_FATAL_STR(logger, logEvent)                           \
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, FATAL)
 #else
-#define LOG4CPLUS_FATAL(logger, logEvent) do{ } while(0)
-#define LOG4CPLUS_FATAL_STR(logger, logEvent) do{ } while(0)
+#define LOG4CPLUS_FATAL(logger, logEvent) do { } while (0)
+#define LOG4CPLUS_FATAL_STR(logger, logEvent) do { } while (0)
 #endif
 
 #endif /* _LOG4CPLUS_LOGGING_MACROS_HEADER_ */

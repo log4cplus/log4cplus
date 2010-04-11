@@ -19,6 +19,16 @@ using namespace log4cplus;
 using namespace log4cplus::helpers;
 
 
+namespace
+{
+
+static tchar const PREFIX[] = LOG4CPLUS_TEXT("log4cplus: ");
+static tchar const WARN_PREFIX[] = LOG4CPLUS_TEXT("log4cplus:WARN ");
+static tchar const ERR_PREFIX[] = LOG4CPLUS_TEXT("log4cplus:ERROR ");
+
+} // namespace
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // static methods
@@ -40,10 +50,7 @@ LogLog::getLogLog()
 LogLog::LogLog()
  : mutex(LOG4CPLUS_MUTEX_CREATE),
    debugEnabled(false),
-   quietMode(false),
-   PREFIX( LOG4CPLUS_TEXT("log4cplus: ") ),
-   WARN_PREFIX( LOG4CPLUS_TEXT("log4cplus:WARN ") ),
-   ERR_PREFIX( LOG4CPLUS_TEXT("log4cplus:ERROR ") )
+   quietMode(false)
 {
 }
 
