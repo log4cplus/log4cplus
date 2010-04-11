@@ -4,30 +4,37 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2003-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <log4cplus/spi/objectregistry.h>
 
-using namespace std;
-using namespace log4cplus::spi;
+
+namespace log4cplus { namespace spi {
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::spi::ObjectRegistryBase ctor and dtor
+// ObjectRegistryBase ctor and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-log4cplus::spi::ObjectRegistryBase::ObjectRegistryBase()
+ObjectRegistryBase::ObjectRegistryBase()
  : mutex(LOG4CPLUS_MUTEX_CREATE)
 {
 }
 
 
-log4cplus::spi::ObjectRegistryBase::~ObjectRegistryBase()
+ObjectRegistryBase::~ObjectRegistryBase()
 {
     LOG4CPLUS_MUTEX_FREE( mutex );
 }
@@ -35,11 +42,11 @@ log4cplus::spi::ObjectRegistryBase::~ObjectRegistryBase()
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::spi::ObjectRegistryBase public methods
+// ObjectRegistryBase public methods
 ///////////////////////////////////////////////////////////////////////////////
 
 bool
-log4cplus::spi::ObjectRegistryBase::exists(const log4cplus::tstring& name) const
+ObjectRegistryBase::exists(const tstring& name) const
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
         return data.find(name) != data.end();
@@ -47,10 +54,10 @@ log4cplus::spi::ObjectRegistryBase::exists(const log4cplus::tstring& name) const
 }
 
 
-std::vector<log4cplus::tstring>
-log4cplus::spi::ObjectRegistryBase::getAllNames() const
+std::vector<tstring>
+ObjectRegistryBase::getAllNames() const
 {
-    std::vector<log4cplus::tstring> tmp;
+    std::vector<tstring> tmp;
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
         for(ObjectMap::const_iterator it=data.begin(); it!=data.end(); ++it)
             tmp.push_back( (*it).first );
@@ -61,11 +68,11 @@ log4cplus::spi::ObjectRegistryBase::getAllNames() const
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::spi::ObjectRegistryBase protected methods
+// ObjectRegistryBase protected methods
 ///////////////////////////////////////////////////////////////////////////////
 
 bool
-log4cplus::spi::ObjectRegistryBase::putVal(const log4cplus::tstring& name, void* object)
+ObjectRegistryBase::putVal(const tstring& name, void* object)
 {
     ObjectMap::value_type value(name, object);
     std::pair<ObjectMap::iterator, bool> ret;
@@ -81,7 +88,7 @@ log4cplus::spi::ObjectRegistryBase::putVal(const log4cplus::tstring& name, void*
 
 
 void*
-log4cplus::spi::ObjectRegistryBase::getVal(const log4cplus::tstring& name) const
+ObjectRegistryBase::getVal(const tstring& name) const
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
         ObjectMap::const_iterator it (data.find (name));
@@ -96,7 +103,7 @@ log4cplus::spi::ObjectRegistryBase::getVal(const log4cplus::tstring& name) const
 
 
 void
-log4cplus::spi::ObjectRegistryBase::clear()
+ObjectRegistryBase::clear()
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
     for(ObjectMap::iterator it=data.begin(); it!=data.end(); ++it) {
@@ -104,3 +111,6 @@ log4cplus::spi::ObjectRegistryBase::clear()
     }
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
+
+
+} } // namespace log4cplus { namespace spi {

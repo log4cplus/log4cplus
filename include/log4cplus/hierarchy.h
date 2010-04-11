@@ -4,12 +4,19 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2001-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 /** @file */
 
@@ -19,7 +26,6 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/logger.h>
 #include <log4cplus/helpers/logloguser.h>
-#include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/threads.h>
 #include <map>
 #include <memory>
@@ -207,7 +213,7 @@ namespace log4cplus {
         /**
          * Returns the default LoggerFactory instance.
          */
-        virtual spi::LoggerFactory* getLoggerFactory() { return defaultFactory.get(); }
+        virtual spi::LoggerFactory* getLoggerFactory();
 
         /**
          * Shutting down a hierarchy will <em>safely</em> close and remove
@@ -264,7 +270,7 @@ namespace log4cplus {
          *
          *    We add 'logger' to the list of children for this potential parent.
          */
-        void updateParents(Logger logger);
+        void updateParents(Logger const & logger);
 
         /**
          * We update the links for all the children that placed themselves
@@ -280,7 +286,7 @@ namespace log4cplus {
          *   Otherwise, we set logger's parent field to c's parent and set
          *   c's parent field to logger.
          */
-        void updateChildren(ProvisionNode& pn, Logger logger);
+        void updateChildren(ProvisionNode& pn, Logger const & logger);
 
     // Data
        LOG4CPLUS_MUTEX_PTR_DECLARE hashtable_mutex;
@@ -292,7 +298,6 @@ namespace log4cplus {
        int disableValue;
 
        bool emittedNoAppenderWarning;
-       bool emittedNoResourceBundleWarning;
 
      // Disallow copying of instances of this class
        Hierarchy(const Hierarchy&);

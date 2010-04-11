@@ -42,6 +42,7 @@
 
 #include <memory>
 #include <vector>
+#include <sstream>
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>
@@ -69,17 +70,20 @@ struct gft_scratch_pad
     {
         uc_q_str_valid = false;
         q_str_valid = false;
+        s_str_valid = false;
         ret.clear ();
     }
     
     log4cplus::tstring q_str;
     log4cplus::tstring uc_q_str;
+    log4cplus::tstring s_str;
     log4cplus::tstring ret;
     log4cplus::tstring fmt;
     log4cplus::tstring tmp;
     std::vector<tchar> buffer;
     bool uc_q_str_valid;
-    bool q_str_valid;    
+    bool q_str_valid;
+    bool s_str_valid;
 };
 
 
@@ -133,7 +137,7 @@ set_ptd (per_thread_data * p)
 
 
 //! The default value of the \param alloc is false for Win32 DLL builds
-//! since pert thread data are already initialized by DllMain().
+//! since per thread data are already initialized by DllMain().
 inline
 per_thread_data *
 get_ptd (bool alloc

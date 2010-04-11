@@ -4,25 +4,31 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2003-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <log4cplus/hierarchylocker.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggerimpl.h>
 
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-
+namespace log4cplus
+{
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::HierarchyLocker ctor and dtor
+// HierarchyLocker ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
 HierarchyLocker::HierarchyLocker(Hierarchy& _h)
@@ -64,7 +70,7 @@ void
 HierarchyLocker::resetConfiguration()
 {
     Logger root = h.getRoot();
-    h.disable(log4cplus::Hierarchy::DISABLE_OFF);
+    h.disable(Hierarchy::DISABLE_OFF);
 
     // begin by closing nested appenders
     // then, remove all appenders
@@ -85,21 +91,21 @@ HierarchyLocker::resetConfiguration()
 
 
 Logger 
-HierarchyLocker::getInstance(const log4cplus::tstring& name)
+HierarchyLocker::getInstance(const tstring& name)
 {
     return h.getInstanceImpl(name, *h.getLoggerFactory());
 }
 
 
 Logger 
-HierarchyLocker::getInstance(const log4cplus::tstring& name, spi::LoggerFactory& factory)
+HierarchyLocker::getInstance(const tstring& name, spi::LoggerFactory& factory)
 {
     return h.getInstanceImpl(name, factory);
 }
 
 
 void 
-HierarchyLocker::addAppender(Logger& logger, log4cplus::SharedAppenderPtr& appender)
+HierarchyLocker::addAppender(Logger& logger, SharedAppenderPtr& appender)
 {
     for(LoggerList::iterator it=loggerList.begin(); it!=loggerList.end(); ++it) {
         if((*it).value == logger.value) {
@@ -115,3 +121,4 @@ HierarchyLocker::addAppender(Logger& logger, log4cplus::SharedAppenderPtr& appen
 }
 
 
+} // namespace log4cplus

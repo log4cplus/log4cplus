@@ -4,19 +4,27 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2003-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <log4cplus/helpers/sleep.h>
 #include <log4cplus/helpers/timehelper.h>
 
 #include <errno.h>
 
-using namespace log4cplus;
+
+namespace log4cplus { namespace helpers {
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -28,7 +36,7 @@ using namespace log4cplus;
 #define MAX_SLEEP_SECONDS (DWORD)4294966        // (2**32-2)/1000
 
 void
-log4cplus::helpers::sleep(unsigned long secs, unsigned long nanosecs)
+sleep(unsigned long secs, unsigned long nanosecs)
 {
 #if defined(_WIN32)
     DWORD nano_millis = nanosecs / static_cast<unsigned long>(MILLIS_TO_NANOS);
@@ -62,10 +70,11 @@ log4cplus::helpers::sleep(unsigned long secs, unsigned long nanosecs)
 
 
 void
-log4cplus::helpers::sleepmillis(unsigned long millis)
+sleepmillis(unsigned long millis)
 {
     unsigned long secs = millis / SEC_TO_MILLIS;
     unsigned long nanosecs = (millis % SEC_TO_MILLIS) * MILLIS_TO_NANOS;
     sleep(secs, nanosecs);
 }
 
+} } // namespace log4cplus { namespace helpers {

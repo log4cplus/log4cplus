@@ -4,12 +4,19 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2001-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/pointer.h>
@@ -39,10 +46,14 @@ SharedObject::~SharedObject()
 void
 SharedObject::addReference() const
 {
+#if ! defined(LOG4CPLUS_SINGLE_THREADED) \
+    && defined (LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH)
+    __sync_add_and_fetch (&count, 1);
+#else
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
-        assert (count >= 0);
         ++count;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+#endif
 }
 
 
@@ -50,11 +61,16 @@ void
 SharedObject::removeReference() const
 {
     bool destroy = false;
+#if ! defined(LOG4CPLUS_SINGLE_THREADED) \
+    && defined (LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH)
+    destroy = __sync_sub_and_fetch (&count, 1) == 0;
+#else
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex );
         assert (count > 0);
         if (--count == 0)
             destroy = true;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+#endif
     if (destroy)
         delete this;
 }

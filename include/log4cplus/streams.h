@@ -4,12 +4,19 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2003-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 /** @file */
 
@@ -19,31 +26,21 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 
-#include <iostream>
-#include <sstream>
+#include <iosfwd>
 
+
+namespace log4cplus
+{
+    typedef std::basic_ostream<tchar> tostream;
+    typedef std::basic_istream<tchar> tistream;
+    typedef std::basic_ostringstream<tchar> tostringstream;
+    extern LOG4CPLUS_EXPORT tostream & tcout;
+    extern LOG4CPLUS_EXPORT tostream & tcerr;
+}
 
 #ifdef UNICODE
-namespace log4cplus
-{
-    typedef std::wostream tostream;
-    typedef std::wistream tistream;
-    typedef std::wostringstream tostringstream;
-    extern LOG4CPLUS_EXPORT tostream & tcout;
-    extern LOG4CPLUS_EXPORT tostream & tcerr;
-}
 
 LOG4CPLUS_EXPORT log4cplus::tostream& operator <<(log4cplus::tostream&, const char* psz );
-
-#else
-namespace log4cplus
-{
-    typedef std::ostream tostream;
-    typedef std::istream tistream;
-    typedef std::ostringstream tostringstream;
-    extern LOG4CPLUS_EXPORT tostream & tcout;
-    extern LOG4CPLUS_EXPORT tostream & tcerr;
-}
 
 #endif // UNICODE
 

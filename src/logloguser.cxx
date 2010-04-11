@@ -4,70 +4,50 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2003-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-#include <log4cplus/streams.h>
 #include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/loglog.h>
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
 
-typedef SharedObjectPtr<LogLog> LogLogPtr;
+namespace log4cplus { namespace helpers {
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// log4cplus::helpers::LogLogUser ctor and dtor
-///////////////////////////////////////////////////////////////////////////////
 
 LogLogUser::LogLogUser()
-{
-    loglogRef = new SharedObjectPtr<LogLog>(LogLog::getLogLog());
-}
+{ }
 
 
-LogLogUser::LogLogUser(const LogLogUser& rhs)
-{
-    loglogRef = new SharedObjectPtr<LogLog>(*static_cast<LogLogPtr*>(rhs.loglogRef));
-}
+LogLogUser::LogLogUser(const LogLogUser&)
+{ }
 
 
 LogLogUser::~LogLogUser()
-{
-    delete static_cast<LogLogPtr*>(loglogRef);
-}
+{ }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// log4cplus::helpers::LogLogUser public methods
-///////////////////////////////////////////////////////////////////////////////
 
 LogLog&
 LogLogUser::getLogLog() const
 {
-    LogLogPtr* ptr = static_cast<LogLogPtr*>(loglogRef);
-    return **ptr;
+    return *LogLog::getLogLog ();
 }
 
 
 LogLogUser&
-LogLogUser::operator=(const LogLogUser& rhs)
+LogLogUser::operator=(const LogLogUser&)
 {
-    if(this == &rhs) {
-        return *this;
-    }
-    
-    delete static_cast<LogLogPtr*>(loglogRef);
-    loglogRef = new SharedObjectPtr<LogLog>(*static_cast<LogLogPtr*>(rhs.loglogRef));
-    
     return *this;
 }
 
+} } // namespace log4cplus { namespace helpers {

@@ -4,20 +4,24 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2003-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <cassert>
+#include <vector>
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>
-
-
-using namespace log4cplus;
-using namespace log4cplus::helpers;
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -131,13 +135,15 @@ WinSockInitializer WinSockInitializer::winSockInitializer;
 } // namespace
 
 
+namespace log4cplus { namespace helpers {
+
 
 /////////////////////////////////////////////////////////////////////////////
 // Global Methods
 /////////////////////////////////////////////////////////////////////////////
 
 SOCKET_TYPE
-log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
+openSocket(unsigned short port, SocketState& state)
 {
     init_winsock ();
 
@@ -165,7 +171,7 @@ log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
 
 
 SOCKET_TYPE
-log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn, 
+connectSocket(const tstring& hostn, 
                                   unsigned short port, SocketState& state)
 {
     init_winsock ();
@@ -216,7 +222,7 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
 
 
 SOCKET_TYPE
-log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& /*state*/)
+acceptSocket(SOCKET_TYPE sock, SocketState& /*state*/)
 {
     init_winsock ();
 
@@ -226,7 +232,7 @@ log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& /*state*/)
 
 
 int
-log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
+closeSocket(SOCKET_TYPE sock)
 {
     return ::closesocket(sock);
 }
@@ -234,7 +240,7 @@ log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
 
 
 long
-log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
+read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
     long res, read = 0;
  
@@ -256,7 +262,43 @@ log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 
 
 long
-log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
+write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
     return ::send(sock, buffer.getBuffer(), static_cast<int>(buffer.getSize()), 0);
 }
+
+
+tstring
+getHostname (bool fqdn)
+{
+    char const * hostname = "unknown";
+    int ret;
+    std::vector<char> hn (1024, 0);
+
+    while (true)
+    {
+        ret = ::gethostname (&hn[0], hn.size () - 1);
+        if (ret == 0)
+        {
+            hostname = &hn[0];
+            break;
+        }
+        else if (ret != 0 && WSAGetLastError () == WSAEFAULT)
+            // Out buffer was too short. Retry with buffer twice the size.
+            hn.resize (hn.size () * 2, 0);
+        else
+            break;
+    }
+
+    if (ret != 0 || (ret == 0 && ! fqdn))
+        return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+
+    struct ::hostent * hp = ::gethostbyname (hostname);
+    if (hp)
+        hostname = hp->h_name;
+
+    return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+}
+
+
+} } // namespace log4cplus { namespace helpers {

@@ -4,29 +4,33 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2003-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <log4cplus/spi/filter.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 
-using namespace log4cplus;
-using namespace log4cplus::spi;
-using namespace log4cplus::helpers;
 
+namespace log4cplus { namespace spi {
 
 ///////////////////////////////////////////////////////////////////////////////
 // global methods
 ///////////////////////////////////////////////////////////////////////////////
 
 FilterResult
-log4cplus::spi::checkFilter(const Filter* filter, 
-                            const InternalLoggingEvent& event)
+checkFilter(const Filter* filter, const InternalLoggingEvent& event)
 {
     const Filter* currentFilter = filter;
     while(currentFilter) {
@@ -76,7 +80,7 @@ DenyAllFilter::DenyAllFilter ()
 { }
 
 
-DenyAllFilter::DenyAllFilter (const log4cplus::helpers::Properties&)
+DenyAllFilter::DenyAllFilter (const helpers::Properties&)
 { }
 
 
@@ -99,13 +103,13 @@ LogLevelMatchFilter::LogLevelMatchFilter()
 
 
 
-LogLevelMatchFilter::LogLevelMatchFilter(const Properties& properties)
+LogLevelMatchFilter::LogLevelMatchFilter(const helpers::Properties& properties)
 {
     init();
 
     tstring const & accept_on_match
         = properties.getProperty( LOG4CPLUS_TEXT("AcceptOnMatch") );
-    acceptOnMatch = (toLower(accept_on_match) == LOG4CPLUS_TEXT("true"));
+    acceptOnMatch = helpers::toLower(accept_on_match) == LOG4CPLUS_TEXT("true");
 
     tstring const & log_level_to_match
         = properties.getProperty( LOG4CPLUS_TEXT("LogLevelToMatch") );
@@ -151,13 +155,13 @@ LogLevelRangeFilter::LogLevelRangeFilter()
 
 
 
-LogLevelRangeFilter::LogLevelRangeFilter(const Properties& properties)
+LogLevelRangeFilter::LogLevelRangeFilter(const helpers::Properties& properties)
 {
     init();
 
     tstring const & accept_on_match
         = properties.getProperty( LOG4CPLUS_TEXT("AcceptOnMatch") );
-    acceptOnMatch = (toLower(accept_on_match) == LOG4CPLUS_TEXT("true"));
+    acceptOnMatch = helpers::toLower(accept_on_match) == LOG4CPLUS_TEXT("true");
 
     tstring const & log_level_min
         = properties.getProperty( LOG4CPLUS_TEXT("LogLevelMin") );
@@ -215,12 +219,12 @@ StringMatchFilter::StringMatchFilter()
 
 
 
-StringMatchFilter::StringMatchFilter(const Properties& properties)
+StringMatchFilter::StringMatchFilter(const helpers::Properties& properties)
 {
     init();
 
     tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("AcceptOnMatch") );
-    acceptOnMatch = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
+    acceptOnMatch = helpers::toLower(tmp) == LOG4CPLUS_TEXT("true");
 
     stringToMatch = properties.getProperty( LOG4CPLUS_TEXT("StringToMatch") );
 }
@@ -250,3 +254,5 @@ StringMatchFilter::decide(const InternalLoggingEvent& event) const
     }
 }
 
+
+} } // namespace log4cplus { namespace spi {

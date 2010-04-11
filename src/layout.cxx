@@ -4,28 +4,61 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2001-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <log4cplus/layout.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <ostream>
 
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-using namespace log4cplus::spi;
+namespace log4cplus
+{
+
+
+Layout::Layout ()
+    : llmCache(getLogLevelManager())
+{ }
+
+
+Layout::Layout (const log4cplus::helpers::Properties&)
+    : llmCache(getLogLevelManager())
+{ }
+
+
+Layout::~Layout()
+{ }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 // log4cplus::SimpleLayout public methods
 ///////////////////////////////////////////////////////////////////////////////
+
+SimpleLayout::SimpleLayout ()
+{ }
+
+
+SimpleLayout::SimpleLayout (const helpers::Properties& properties)
+    : Layout (properties)
+{ }
+
+
+SimpleLayout::~SimpleLayout()
+{ }
+
 
 void
 SimpleLayout::formatAndAppend(log4cplus::tostream& output, 
@@ -57,7 +90,7 @@ TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
     , use_gmtime(false)
 {
     tstring const & tmp = properties.getProperty( LOG4CPLUS_TEXT("Use_gmtime") );
-    use_gmtime = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
+    use_gmtime = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
 }
 
 
@@ -88,3 +121,6 @@ TTCCLayout::formatAndAppend(log4cplus::tostream& output,
            << event.getMessage()
            << LOG4CPLUS_TEXT("\n");
 }
+
+
+} // namespace log4cplus

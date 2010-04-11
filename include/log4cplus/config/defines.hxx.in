@@ -11,7 +11,16 @@
 #undef LOG4CPLUS_HAVE_NETINET_IN_H
 
 /* */
+#undef LOG4CPLUS_HAVE_SYS_TYPES_H
+
+/* */
+#undef LOG4CPLUS_HAVE_UNISTD_H
+
+/* */
 #undef LOG4CPLUS_HAVE_FTIME
+
+/* */
+#undef LOG4CPLUS_HAVE_GETPID
 
 /* */
 #undef LOG4CPLUS_HAVE_GETTIMEOFDAY
@@ -68,5 +77,13 @@
 /* */
 #undef LOG4CPLUS_THREAD_LOCAL_VAR
 
+/* Defined if the host OS provides ENAMETOOLONG errno value. */
+#undef LOG4CPLUS_HAVE_ENAMETOOLONG
+
+/* Defined if the compiler provides __sync_add_and_fetch(). */
+#undef LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH
+
+/* Defined if the compiler provides __sync_sub_and_fetch(). */
+#undef LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH
 
 #endif // LOG4CPLUS_CONFIG_DEFINES_HXX

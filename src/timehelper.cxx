@@ -4,12 +4,19 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2003-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/streams.h>
@@ -177,15 +184,11 @@ build_uc_q_value (log4cplus::tstring & uc_q_str, long tv_usec,
 {
     build_q_value (uc_q_str, tv_usec);
 
-#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
     tmp = convertIntegerToString(tv_usec % 1000);
     size_t const usecs_len = tmp.length();
     tmp.insert (0, usecs_len <= 3
         ? uc_q_padding_zeros[usecs_len] : uc_q_padding_zeros[3]);
     uc_q_str.append (tmp);
-#else
-    uc_q_str.append (uc_q_padding_zeros[0]);
-#endif
 }
 
 
@@ -200,7 +203,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
 
     struct tm time;
     
-    if(use_gmtime)
+    if (use_gmtime)
         gmtime(&time);
     else 
         localtime(&time);
@@ -261,6 +264,24 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
                 state = TEXT;
             }
             break;
+
+#if defined (WIN32)
+            // Windows do not support %s format specifier
+            // (seconds since epoch).
+            case LOG4CPLUS_TEXT ('s'):
+            {
+                if (! gft_sp.s_str_valid)
+                {
+                    time_t time_t_time;
+                    time_t_time = (use_gmtime ? _mkgmtime : mktime) (&time);
+                    gft_sp.s_str = convertIntegerToString (time_t_time);
+                    gft_sp.s_str_valid = true;
+                }
+                gft_sp.ret.append (gft_sp.s_str);
+                state = TEXT;
+            }
+            break;
+#endif
 
             default:
             {

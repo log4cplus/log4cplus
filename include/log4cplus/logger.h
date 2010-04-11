@@ -4,12 +4,19 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2001-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 /** @file 
  * This header defines the Logger class and the logging macros. */
@@ -20,22 +27,27 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/loglevel.h>
 #include <log4cplus/tstring.h>
-#include <log4cplus/streams.h>
-#include <log4cplus/helpers/pointer.h>
 #include <log4cplus/spi/appenderattachable.h>
 #include <log4cplus/spi/loggerfactory.h>
-#include <log4cplus/spi/loggerimpl.h>
 
-#include <memory>
 #include <vector>
 
-namespace log4cplus {
+
+namespace log4cplus
+{
     // Forward declarations
 
     class Appender;
     class Hierarchy;
     class HierarchyLocker;
     class DefaultLoggerFactory;
+
+    namespace spi
+    {
+
+        class LoggerImpl;
+
+    }
 
 
     /** \typedef std::vector<Logger> LoggerList
@@ -142,21 +154,13 @@ namespace log4cplus {
          * @param msg The message to print if <code>assertion</code> is
          * false.
          */
-        void assertion(bool assertionVal, const log4cplus::tstring& msg) const
-        {
-            if(!assertionVal) {
-                log(FATAL_LOG_LEVEL, msg);
-            }
-        }
+        void assertion(bool assertionVal, const log4cplus::tstring& msg) const;
 
         /**
          * Close all attached appenders implementing the AppenderAttachable
          * interface.  
          */
-        void closeNestedAppenders() const
-        {
-            value->closeNestedAppenders();
-        }
+        void closeNestedAppenders() const;
 
         /**
          * Check whether this logger is enabled for a given
@@ -164,29 +168,20 @@ namespace log4cplus {
          *
          * @return boolean True if this logger is enabled for <code>ll</code>.
          */
-        bool isEnabledFor(LogLevel ll) const
-        {
-            return value->isEnabledFor(ll);
-        }
+        bool isEnabledFor(LogLevel ll) const;
 
         /**
          * This generic form is intended to be used by wrappers. 
          */
         void log(LogLevel ll, const log4cplus::tstring& message,
-                 const char* file=NULL, int line=-1) const
-        {
-            value->log(ll, message, file, line);
-        }
+                 const char* file=NULL, int line=-1) const;
 
         /**
          * This method creates a new logging event and logs the event
          * without further checks.  
          */
         void forcedLog(LogLevel ll, const log4cplus::tstring& message,
-                       const char* file=NULL, int line=-1) const
-        {
-            value->forcedLog(ll, message, file, line);
-        }
+                       const char* file=NULL, int line=-1) const;
 
         /**
          * Call the appenders in the hierrachy starting at
@@ -199,10 +194,7 @@ namespace log4cplus {
          *
          * @param event the event to log.
          */
-        void callAppenders(const spi::InternalLoggingEvent& event) const
-        {
-            value->callAppenders(event);
-        }
+        void callAppenders(const spi::InternalLoggingEvent& event) const;
 
         /**
          * Starting from this logger, search the logger hierarchy for a
@@ -212,65 +204,40 @@ namespace log4cplus {
          * The Logger class is designed so that this method executes as
          * quickly as possible.
          */
-        LogLevel getChainedLogLevel() const
-        {
-            return value->getChainedLogLevel();
-        }
+        LogLevel getChainedLogLevel() const;
 
         /**
          * Returns the assigned LogLevel, if any, for this Logger.  
          *           
          * @return LogLevel - the assigned LogLevel, can be <code>NOT_SET_LOG_LEVEL</code>.
          */
-        LogLevel getLogLevel() const
-        {
-            return value->getLogLevel();
-        }
+        LogLevel getLogLevel() const;
 
         /**
          * Set the LogLevel of this Logger.
          */
-        void setLogLevel(LogLevel ll)
-        {
-            value->setLogLevel(ll);
-        }
-
+        void setLogLevel(LogLevel ll);
 
         /**
          * Return the the {@link Hierarchy} where this <code>Logger</code> instance is
          * attached.
          */
-        Hierarchy& getHierarchy() const
-        { 
-            return value->getHierarchy();
-        }
-
+        Hierarchy& getHierarchy() const;
 
         /**
          * Return the logger name.  
          */
-        log4cplus::tstring const & getName() const
-        {
-            return value->getName();
-        }
-
+        log4cplus::tstring const & getName() const;
 
         /**
          * Get the additivity flag for this Logger instance.  
          */
-        bool getAdditivity() const
-        {
-            return value->getAdditivity();
-        }
+        bool getAdditivity() const;
 
         /**
          * Set the additivity flag for this Logger instance.
          */
-        void setAdditivity(bool additive)
-        { 
-            value->setAdditivity(additive);
-        }
-
+        void setAdditivity(bool additive);
 
       // AppenderAttachable Methods
         virtual void addAppender(SharedAppenderPtr newAppender);
@@ -285,12 +252,12 @@ namespace log4cplus {
 
         virtual void removeAppender(const log4cplus::tstring& name);
 
-      // Copy Ctor
+        Logger ();
         Logger(const Logger& rhs);
         Logger& operator=(const Logger& rhs);
+        virtual ~Logger();
 
-      // Dtor
-        ~Logger();
+        void swap (Logger &);
 
         /**
          * Used to retrieve the parent of this Logger in the
@@ -301,7 +268,7 @@ namespace log4cplus {
     protected:
       // Data
         /** This is a pointer to the implementation class. */
-        spi::SharedLoggerImplPtr value;
+        spi::LoggerImpl * value;
 
     private:
       // Ctors
@@ -314,8 +281,7 @@ namespace log4cplus {
          * @param ptr A pointer to the Logger implementation.  This value
          *            cannot be NULL.  
          */
-        Logger(spi::LoggerImpl *ptr);
-        Logger(const spi::SharedLoggerImplPtr& val);
+        Logger(spi::LoggerImpl * ptr);
 
       // Friends
         friend class log4cplus::spi::LoggerImpl;

@@ -4,12 +4,19 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2002-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 /** @file */
 
@@ -40,15 +47,14 @@ namespace log4cplus {
             /**
              * Tests to see if <code>key</code> can be found in this map.
              */
-            bool exists(const log4cplus::tstring& key) const {
-                return data.find(key) != data.end();
-            }
-
+            bool exists(const log4cplus::tstring& key) const;
+            bool exists(tchar const * key) const;
 
             /**
              * Returns the number of entries in this map.
              */
-            size_t size() const {
+            size_t size() const
+            {
                 return data.size();
             }
 
@@ -59,6 +65,7 @@ namespace log4cplus {
              * The method returns <code>null</code> if the property is not found.
              */
             log4cplus::tstring const & getProperty(const log4cplus::tstring& key) const;
+            log4cplus::tstring const & getProperty(tchar const * key) const;
 
             /**
              * Searches for the property with the specified key in this property
@@ -94,7 +101,6 @@ namespace log4cplus {
 
         protected:
           // Types
-//            LOG4CPLUS_EXPIMP_TEMPLATE template class LOG4CPLUS_EXPORT std::map<log4cplus::tstring, log4cplus::tstring>;
             typedef std::map<log4cplus::tstring, log4cplus::tstring> StringMap;
 
           // Methods
@@ -102,6 +108,11 @@ namespace log4cplus {
 
           // Data
             StringMap data;
+
+        private:
+            template <typename StringType>
+            log4cplus::tstring const & get_property_worker (
+                StringType const & key) const;
         };
     } // end namespace helpers
 

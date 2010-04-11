@@ -4,12 +4,19 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2001-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <log4cplus/fileappender.h>
 #include <log4cplus/layout.h>
@@ -19,6 +26,7 @@
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <algorithm>
+#include <sstream>
 #include <cstdio>
 #if defined (__BORLANDC__)
 // For _wrename() and _wremove() on Windows.
@@ -71,15 +79,6 @@ file_remove (tstring const & src)
 
 
 static
-int
-get_errno ()
-{
-    using namespace std;
-    return errno;
-}
-
-
-static
 void
 loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
     tstring const & target, int ret)
@@ -92,7 +91,7 @@ loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
             + LOG4CPLUS_TEXT(" to ")
             + target);
     }
-    else if (ret == -1 && get_errno () != ENOENT)
+    else if (ret == -1 && errno != ENOENT)
     {
         loglog.error (
             LOG4CPLUS_TEXT("Failed to rename file from ") 
@@ -121,8 +120,7 @@ static
 void
 rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 {
-    helpers::SharedObjectPtr<helpers::LogLog> loglog
-        = helpers::LogLog::getLogLog();
+    helpers::LogLog * loglog = helpers::LogLog::getLogLog();
 
     // Delete the oldest file
     tostringstream buffer;
@@ -164,7 +162,7 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 ///////////////////////////////////////////////////////////////////////////////
 
 FileAppender::FileAppender(const tstring& filename_, 
-    LOG4CPLUS_OPEN_MODE_TYPE mode_, bool immediateFlush_)
+    std::ios_base::openmode mode_, bool immediateFlush_)
     : immediateFlush(immediateFlush_)
 {
     init(filename_, mode_);
@@ -172,7 +170,7 @@ FileAppender::FileAppender(const tstring& filename_,
 
 
 FileAppender::FileAppender(const Properties& props, 
-                           LOG4CPLUS_OPEN_MODE_TYPE mode_)
+                           std::ios_base::openmode mode_)
     : Appender(props)
     , immediateFlush(true)
 {
@@ -199,7 +197,7 @@ FileAppender::FileAppender(const Properties& props,
 
 void
 FileAppender::init(const tstring& filename_, 
-                   LOG4CPLUS_OPEN_MODE_TYPE mode_)
+                   std::ios_base::openmode mode_)
 {
     filename = filename_;
     out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), mode_);

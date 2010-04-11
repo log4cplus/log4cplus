@@ -21,7 +21,8 @@
 //   (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-//! @file This file contains implementations of synchronization
+//! @file
+//! This file contains implementations of synchronization
 //! primitives using the POSIX threads. It does not contain any
 //! include guards because it is only a fragment to be included by
 //! syncprims.h.
@@ -116,6 +117,38 @@ Semaphore::lock () const
     int ret = sem_wait (&sem);
     if (ret != 0)
         LOG4CPLUS_THROW_RTE ("Semaphore::lock");
+}
+
+
+//
+//
+//
+
+
+inline
+FairMutex::FairMutex ()
+    : sem (1, 1)
+{ }
+
+
+inline
+FairMutex::~FairMutex ()
+{ }
+
+
+inline
+void
+FairMutex::lock () const
+{
+    sem.lock ();
+}
+
+
+inline
+void
+FairMutex::unlock () const
+{
+    sem.unlock ();
 }
 
 

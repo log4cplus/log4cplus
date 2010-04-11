@@ -19,7 +19,7 @@ And extra please fail.
 #else
         extern __declspec(thread) int x;
         __declspec(thread) int * ptr = 0;
-        int foo () { ptr = &x; }
+        int foo () { ptr = &x; return x; }
         __declspec(thread) int x = 1;
 #endif
       ]], 
@@ -39,7 +39,7 @@ AC_CACHE_CHECK([for __thread], [ac_cv__thread_keyword],
     [AC_LANG_PROGRAM(
       [[extern __thread int x;
         __thread int * ptr = 0;
-        int foo () { ptr = &x; }
+        int foo () { ptr = &x; return x; }
         __thread int x = 1;
       ]],
       [[]])],

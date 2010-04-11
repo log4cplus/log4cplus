@@ -4,12 +4,19 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2002-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <cstring>
 #if defined (UNICODE)
@@ -17,6 +24,7 @@
 #else
 #  include <cctype>
 #endif
+#include <fstream>
 #include <log4cplus/fstreams.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/internal/internal.h>
@@ -124,15 +132,16 @@ Properties::init(log4cplus::tistream& input)
     {
         trim_leading_ws (buffer);
 
-        if (buffer[0] == PROPERTIES_COMMENT_CHAR)
+        tstring::size_type const buffLen = buffer.size ();
+        if (buffLen == 0 || buffer[0] == PROPERTIES_COMMENT_CHAR)
             continue;
         
         // Check if we have a trailing \r because we are 
         // reading a properties file produced on Windows.
-        tstring::size_type const buffLen = buffer.size ();
-        if (buffLen > 0 && buffer[buffLen-1] == LOG4CPLUS_TEXT('\r'))
+        if (buffer[buffLen-1] == LOG4CPLUS_TEXT('\r'))
             // Remove trailing 'Windows' \r.
             buffer.resize (buffLen - 1);
+
         tstring::size_type const idx = buffer.find('=');
         if (idx != tstring::npos)
         {
@@ -157,16 +166,33 @@ Properties::~Properties()
 // helpers::Properties public methods
 ///////////////////////////////////////////////////////////////////////////////
 
+
+bool
+Properties::exists(const log4cplus::tstring& key) const
+{
+    return data.find(key) != data.end();
+}
+
+
+bool
+Properties::exists(tchar const * key) const
+{
+    return data.find(key) != data.end();
+}
+
+
 tstring const &
 Properties::getProperty(const tstring& key) const 
 {
-    StringMap::const_iterator it (data.find(key));
-    if (it == data.end())
-        return log4cplus::internal::empty_str;
-    else
-        return it->second;
+    return get_property_worker (key);
 }
 
+
+log4cplus::tstring const &
+Properties::getProperty(tchar const * key) const
+{
+    return get_property_worker (key);
+}
 
 
 tstring
@@ -221,6 +247,18 @@ Properties::getPropertySubset(const log4cplus::tstring& prefix) const
     }
 
     return ret;
+}
+
+
+template <typename StringType>
+log4cplus::tstring const &
+Properties::get_property_worker (StringType const & key) const
+{
+    StringMap::const_iterator it (data.find (key));
+    if (it == data.end ())
+        return log4cplus::internal::empty_str;
+    else
+        return it->second;
 }
 
 

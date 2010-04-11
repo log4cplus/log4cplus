@@ -21,7 +21,8 @@
 //   (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-//! @file This file contains implementations of synchronization
+//! @file
+//! This file contains implementations of synchronization
 //! primitives using the Win32 API. It does not contain any include
 //! guards because it is only a fragment to be included by
 //! syncprims.h.
@@ -109,6 +110,52 @@ Semaphore::lock () const
     DWORD ret = WaitForSingleObject (sem, INFINITE);
     if (ret != WAIT_OBJECT_0)
         LOG4CPLUS_THROW_RTE ("Semaphore::lock");
+}
+
+
+//
+//
+//
+
+
+inline
+FairMutex::FairMutex ()
+{
+    mtx = CreateMutex (0, false, 0);
+    if (! mtx)
+        LOG4CPLUS_THROW_RTE ("FairMutex::FairMutex");
+}
+
+
+inline
+FairMutex::~FairMutex ()
+{
+    try
+    {
+        if (! CloseHandle (mtx))
+            LOG4CPLUS_THROW_RTE ("FairMutex::~FairMutex");
+    }
+    catch (...)
+    { }
+}
+
+
+inline
+void
+FairMutex::lock () const
+{
+    DWORD ret = WaitForSingleObject (mtx, INFINITE);
+    if (ret != WAIT_OBJECT_0)
+        LOG4CPLUS_THROW_RTE ("FairMutex::lock");
+}
+
+
+inline
+void
+FairMutex::unlock () const
+{
+    if (! ReleaseMutex (mtx))
+        LOG4CPLUS_THROW_RTE ("FairMutex::unlock");
 }
 
 

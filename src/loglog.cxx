@@ -4,20 +4,26 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2001-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
+#include <ostream>
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
 
+namespace log4cplus { namespace helpers {
 
 namespace
 {
@@ -34,11 +40,11 @@ static tchar const ERR_PREFIX[] = LOG4CPLUS_TEXT("log4cplus:ERROR ");
 // static methods
 ///////////////////////////////////////////////////////////////////////////////
 
-SharedObjectPtr<LogLog>
+LogLog *
 LogLog::getLogLog()
 {
-    static SharedObjectPtr<LogLog> singleton(new LogLog());
-    return singleton;
+    static LogLog singleton;
+    return &singleton;
 }
 
 
@@ -83,33 +89,71 @@ LogLog::setQuietMode(bool quietModeVal)
 void
 LogLog::debug(const log4cplus::tstring& msg)
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        if(debugEnabled && !quietMode) {
-             tcout << PREFIX << msg << endl;
-        }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    logging_worker (tcout, &LogLog::get_debug_mode, PREFIX, msg);
+}
+
+
+void
+LogLog::debug(tchar const * msg)
+{
+    logging_worker (tcout, &LogLog::get_debug_mode, PREFIX, msg);
 }
 
 
 void
 LogLog::warn(const log4cplus::tstring& msg)
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        if(quietMode) return;
+    logging_worker (tcerr, &LogLog::get_quiet_mode, WARN_PREFIX, msg);
+}
 
-        tcerr << WARN_PREFIX << msg << endl;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+
+void
+LogLog::warn(tchar const * msg)
+{
+    logging_worker (tcerr, &LogLog::get_quiet_mode, WARN_PREFIX, msg);
 }
 
 
 void
 LogLog::error(const log4cplus::tstring& msg)
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        if(quietMode) return;
+    logging_worker (tcerr, &LogLog::get_quiet_mode, ERR_PREFIX, msg);
+}
 
-        tcerr << ERR_PREFIX << msg << endl;
+
+void
+LogLog::error(tchar const * msg)
+{
+    logging_worker (tcerr, &LogLog::get_quiet_mode, ERR_PREFIX, msg);
+}
+
+
+bool
+LogLog::get_quiet_mode () const
+{
+    return quietMode;
+}
+
+
+bool
+LogLog::get_debug_mode () const
+{
+    return debugEnabled && ! quietMode;
+}
+
+
+template <typename StringType>
+void
+LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
+    tchar const * prefix, StringType const & msg)
+{
+    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
+        if (! (this->*cond) ())
+            return;
+
+        os << prefix << msg << std::endl;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
 }
 
 
+} } // namespace log4cplus { namespace helpers {

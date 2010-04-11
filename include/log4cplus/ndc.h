@@ -4,12 +4,19 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2001-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 /** @file 
  * This header defined the NDC class.
@@ -201,6 +208,7 @@ namespace log4cplus {
          * @see NDCContextCreator
          */
         void push(const log4cplus::tstring& message);
+        void push(tchar const * message);
 
         /**
          * Remove the diagnostic context for this thread.
@@ -250,6 +258,9 @@ namespace log4cplus {
       // Methods
         DiagnosticContextStack* getPtr() const;
 
+        template <typename StringType>
+        void push_worker (StringType const &);
+
       // Disallow construction (and copying) except by getNDC()
         NDC();
         NDC(const NDC&);
@@ -273,11 +284,15 @@ namespace log4cplus {
     /**
      * This is the internal object that is stored on the NDC stack.
      */
-    struct LOG4CPLUS_EXPORT DiagnosticContext {
+    struct LOG4CPLUS_EXPORT DiagnosticContext
+    {
       // Ctors
         DiagnosticContext(const log4cplus::tstring& message,
             DiagnosticContext const * parent);
+        DiagnosticContext(tchar const * message,
+            DiagnosticContext const * parent);
         DiagnosticContext(const log4cplus::tstring& message);
+        DiagnosticContext(tchar const * message);
 
       // Data
         log4cplus::tstring message; /*!< The message at this context level. */
@@ -293,6 +308,7 @@ namespace log4cplus {
     public:
         /** Pushes <code>msg</code> onto the NDC stack. */
         NDCContextCreator(const log4cplus::tstring& msg);
+        NDCContextCreator(tchar const * msg);
 
         /** Pops the NDC stack. */
         ~NDCContextCreator();

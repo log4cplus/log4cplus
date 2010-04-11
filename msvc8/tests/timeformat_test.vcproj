@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="priority_test"
-	ProjectGUID="{CBD762A9-79BC-4AE7-8890-76360F539D76}"
+	Name="timeformat_test"
+	ProjectGUID="{7EFABA06-71CD-498F-BF10-C41A7D2DCF3B}"
 	>
 	<Platforms>
 		<Platform
@@ -37,7 +37,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName="$(OutDir)\priority_test.tlb"
+				TypeLibraryName="$(OutDir)\timeformat_test.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -48,7 +48,7 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile="$(IntDir)\priority_test.pch"
+				PrecompiledHeaderFile="$(IntDir)\timeformat_test.pch"
 				AssemblerListingLocation="$(IntDir)\"
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\"
@@ -70,12 +70,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplusd.lib"
-				OutputFile="$(OutDir)\priority_test.exe"
+				OutputFile="$(OutDir)\timeformat_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)\priority_test.pdb"
+				ProgramDatabaseFile="$(OutDir)\timeformat_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -91,7 +91,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile="$(IntDir)\priority_test.bsc"
+				OutputFile="$(IntDir)\timeformat_test.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -130,7 +130,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName="$(OutDir)\priority_test.tlb"
+				TypeLibraryName="$(OutDir)\timeformat_test.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -142,7 +142,7 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile="$(IntDir)\priority_test.pch"
+				PrecompiledHeaderFile="$(IntDir)\timeformat_test.pch"
 				AssemblerListingLocation="$(IntDir)\"
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\"
@@ -163,11 +163,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplus.lib"
-				OutputFile="$(OutDir)\priority_test.exe"
+				OutputFile="$(OutDir)\timeformat_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
-				ProgramDatabaseFile="$(OutDir)\priority_test.pdb"
+				ProgramDatabaseFile="$(OutDir)\timeformat_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -183,7 +183,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile="$(IntDir)\priority_test.bsc"
+				OutputFile="$(IntDir)\timeformat_test.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -222,7 +222,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName="$(OutDir)\priority_test.tlb"
+				TypeLibraryName="$(OutDir)\timeformat_test.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -233,7 +233,7 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile="$(IntDir)\priority_test.pch"
+				PrecompiledHeaderFile="$(IntDir)\timeformat_test.pch"
 				AssemblerListingLocation="$(IntDir)\"
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\"
@@ -255,12 +255,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplusud.lib"
-				OutputFile="$(OutDir)\priority_test.exe"
+				OutputFile="$(OutDir)\timeformat_test.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)\priority_test.pdb"
+				ProgramDatabaseFile="$(OutDir)\timeformat_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -276,7 +276,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile="$(IntDir)\priority_test.bsc"
+				OutputFile="$(IntDir)\timeformat_test.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -316,7 +316,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName="$(OutDir)\priority_test.tlb"
+				TypeLibraryName="$(OutDir)\timeformat_test.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -328,7 +328,7 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile="$(IntDir)\priority_test.pch"
+				PrecompiledHeaderFile="$(IntDir)\timeformat_test.pch"
 				AssemblerListingLocation="$(IntDir)\"
 				ObjectFile="$(IntDir)\"
 				ProgramDataBaseFileName="$(IntDir)\"
@@ -349,11 +349,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="log4cplusu.lib"
-				OutputFile="$(OutDir)\priority_test.exe"
+				OutputFile="$(OutDir)\timeformat_test.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\log4cplus_dll.$(ConfigurationName)"
-				ProgramDatabaseFile="$(OutDir)\priority_test.pdb"
+				ProgramDatabaseFile="$(OutDir)\timeformat_test.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -369,7 +369,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile="$(IntDir)\priority_test.bsc"
+				OutputFile="$(IntDir)\timeformat_test.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -393,47 +393,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\..\tests\priority_test\func.cxx"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\tests\priority_test\main.cxx"
+				RelativePath="..\..\tests\timeformat_test\main.cxx"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"

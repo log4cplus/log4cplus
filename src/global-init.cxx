@@ -4,18 +4,26 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2003-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/internal/internal.h>
+#include <iostream>
 
 
 // Forward Declarations
@@ -40,6 +48,7 @@ namespace internal
 gft_scratch_pad::gft_scratch_pad ()
     : uc_q_str_valid (false)
     , q_str_valid (false)
+    , s_str_valid (false)
 { }
 
 
@@ -178,7 +187,7 @@ BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL,  // handle to DLL modu
                     DWORD fdwReason,     // reason for calling function
                     LPVOID lpReserved )  // reserved
 {
-    using namespace log4cplus;
+    namespace internal = log4cplus::internal;
 
     // Perform actions based on the reason for calling.
     switch( fdwReason ) 
@@ -208,7 +217,7 @@ BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL,  // handle to DLL modu
     {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
         // Do thread-specific cleanup.
-        threadCleanup ();
+        log4cplus::threadCleanup ();
 #endif
         break;
     }
@@ -218,7 +227,7 @@ BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL,  // handle to DLL modu
         // Perform any necessary cleanup.
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
         // Do thread-specific cleanup.
-        threadCleanup ();
+        log4cplus::threadCleanup ();
 #  if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
         LOG4CPLUS_THREAD_LOCAL_CLEANUP (internal::tls_storage_key);
 #  endif

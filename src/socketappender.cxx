@@ -4,12 +4,19 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2003-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <cstdlib>
 #include <log4cplus/socketappender.h>
@@ -17,20 +24,19 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
+
+namespace log4cplus {
 
 #define LOG4CPLUS_MESSAGE_VERSION 2
 
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::SocketAppender ctors and dtor
+// SocketAppender ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::SocketAppender::SocketAppender(const log4cplus::tstring& host_,
-    int port_, const log4cplus::tstring& serverName_)
+SocketAppender::SocketAppender(const tstring& host_,
+    int port_, const tstring& serverName_)
 : host(host_),
   port(port_),
   serverName(serverName_)
@@ -40,7 +46,7 @@ log4cplus::SocketAppender::SocketAppender(const log4cplus::tstring& host_,
 
 
 
-log4cplus::SocketAppender::SocketAppender(const Properties properties)
+SocketAppender::SocketAppender(const helpers::Properties & properties)
  : Appender(properties),
    port(9998)
 {
@@ -56,7 +62,7 @@ log4cplus::SocketAppender::SocketAppender(const Properties properties)
 
 
 
-log4cplus::SocketAppender::~SocketAppender()
+SocketAppender::~SocketAppender()
 {
     destructorImpl();
 }
@@ -64,11 +70,11 @@ log4cplus::SocketAppender::~SocketAppender()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::SocketAppender public methods
+// SocketAppender public methods
 //////////////////////////////////////////////////////////////////////////////
 
 void 
-log4cplus::SocketAppender::close()
+SocketAppender::close()
 {
     getLogLog().debug(LOG4CPLUS_TEXT("Entering SocketAppender::close()..."));
     socket.close();
@@ -78,21 +84,21 @@ log4cplus::SocketAppender::close()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::SocketAppender protected methods
+// SocketAppender protected methods
 //////////////////////////////////////////////////////////////////////////////
 
 void
-log4cplus::SocketAppender::openSocket()
+SocketAppender::openSocket()
 {
     if(!socket.isOpen()) {
-        socket = Socket(host, port);
+        socket = helpers::Socket(host, port);
     }
 }
 
 
 
 void
-log4cplus::SocketAppender::append(const spi::InternalLoggingEvent& event)
+SocketAppender::append(const spi::InternalLoggingEvent& event)
 {
     if(!socket.isOpen()) {
         openSocket();
@@ -102,11 +108,11 @@ log4cplus::SocketAppender::append(const spi::InternalLoggingEvent& event)
         }
     }
 
-    SocketBuffer buffer(LOG4CPLUS_MAX_MESSAGE_SIZE - sizeof(unsigned int));
+    helpers::SocketBuffer buffer(LOG4CPLUS_MAX_MESSAGE_SIZE - sizeof(unsigned int));
     convertToBuffer (buffer, event, serverName);
-    SocketBuffer msgBuffer(LOG4CPLUS_MAX_MESSAGE_SIZE);
+    helpers::SocketBuffer msgBuffer(LOG4CPLUS_MAX_MESSAGE_SIZE);
 
-    msgBuffer.appendInt(buffer.getSize());
+    msgBuffer.appendInt(static_cast<unsigned>(buffer.getSize()));
     msgBuffer.appendBuffer(buffer);
 
     socket.write(msgBuffer);
@@ -116,13 +122,17 @@ log4cplus::SocketAppender::append(const spi::InternalLoggingEvent& event)
 
 
 /////////////////////////////////////////////////////////////////////////////
-// namespace log4cplus::helpers methods
+// namespace helpers methods
 /////////////////////////////////////////////////////////////////////////////
 
+namespace helpers
+{
+
+
 void
-log4cplus::helpers::convertToBuffer(SocketBuffer & buffer,
-    const log4cplus::spi::InternalLoggingEvent& event,
-    const log4cplus::tstring& serverName)
+convertToBuffer(SocketBuffer & buffer,
+    const spi::InternalLoggingEvent& event,
+    const tstring& serverName)
 {
     buffer.appendByte(LOG4CPLUS_MESSAGE_VERSION);
 #ifndef UNICODE
@@ -144,13 +154,13 @@ log4cplus::helpers::convertToBuffer(SocketBuffer & buffer,
 }
 
 
-log4cplus::spi::InternalLoggingEvent
-log4cplus::helpers::readFromBuffer(SocketBuffer& buffer)
+spi::InternalLoggingEvent
+readFromBuffer(SocketBuffer& buffer)
 {
     unsigned char msgVersion = buffer.readByte();
     if(msgVersion != LOG4CPLUS_MESSAGE_VERSION) {
-        SharedObjectPtr<LogLog> loglog = log4cplus::helpers::LogLog::getLogLog();
-        loglog->warn(LOG4CPLUS_TEXT("helpers::readFromBuffer() received socket message with an invalid version"));
+        LogLog * loglog = LogLog::getLogLog();
+        loglog->warn(LOG4CPLUS_TEXT("readFromBuffer() received socket message with an invalid version"));
     }
 
     unsigned char sizeOfChar = buffer.readByte();
@@ -174,7 +184,7 @@ log4cplus::helpers::readFromBuffer(SocketBuffer& buffer)
     tstring file = buffer.readString(sizeOfChar);
     int line = buffer.readInt();
 
-    return log4cplus::spi::InternalLoggingEvent(loggerName,
+    return spi::InternalLoggingEvent(loggerName,
                                                 ll,
                                                 ndc,
                                                 message,
@@ -185,3 +195,7 @@ log4cplus::helpers::readFromBuffer(SocketBuffer& buffer)
 }
 
 
+} // namespace helpers
+
+
+} // namespace log4cplus

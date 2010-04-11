@@ -19,13 +19,13 @@ log4cplus::tostream& operator <<(log4cplus::tostream& s, const Time& t)
 int
 main()
 {
-    cout << "Entering main()..." << endl;
+    tcout << LOG4CPLUS_TEXT("Entering main()...") << endl;
     Logger root = Logger::getRoot();
     try {
         PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
         Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("testlogger"));
 
-        LOG4CPLUS_WARN(root, "Starting test loop....");
+        LOG4CPLUS_WARN(Logger::getRoot (), "Starting test loop....");
         Time start = Time::gettimeofday();
         tstring msg(LOG4CPLUS_TEXT("This is a WARNING..."));
         int i = 0;
@@ -34,7 +34,7 @@ main()
         }
         Time end = Time::gettimeofday();
         Time diff = end - start;
-        LOG4CPLUS_WARN(root, "Logging " << LOOP_COUNT << " took: " << diff << endl);
+        LOG4CPLUS_WARN(LOG4CPLUS_TEXT("root"), "Logging " << LOOP_COUNT << " took: " << diff << endl);
         LOG4CPLUS_WARN(root, "Logging average: " << (diff/LOOP_COUNT) << endl);
 
         start = Time::gettimeofday();
@@ -93,11 +93,11 @@ main()
         LOG4CPLUS_WARN(root, "getThread() average: " << (diff/LOOP_COUNT) << endl);
     }
     catch(...) {
-        cout << "Exception..." << endl;
+        tcout << LOG4CPLUS_TEXT("Exception...") << endl;
         LOG4CPLUS_FATAL(root, "Exception occured...");
     }
 
-    cout << "Exiting main()..." << endl;
+    tcout << LOG4CPLUS_TEXT("Exiting main()...") << endl;
 
     log4cplus::Logger::shutdown();
     return 0;

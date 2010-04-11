@@ -10,6 +10,9 @@
 /* Define to 1 if you have the `ftime' function. */
 #undef HAVE_FTIME
 
+/* Define to 1 if you have the `getpid' function. */
+#undef HAVE_GETPID
+
 /* Define to 1 if you have the `gettimeofday' function. */
 #undef HAVE_GETTIMEOFDAY
 
@@ -80,6 +83,12 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Defined if the compiler provides __sync_add_and_fetch(). */
+#undef HAVE___SYNC_ADD_AND_FETCH
+
+/* Defined if the compiler provides __sync_sub_and_fetch(). */
+#undef HAVE___SYNC_SUB_AND_FETCH
+
 /* Defined for --enable-debugging builds. */
 #undef LOG4CPLUS_DEBUGGING
 
@@ -91,7 +100,13 @@
 #undef LOG4CPLUS_DECLSPEC_IMPORT
 
 /* */
+#undef LOG4CPLUS_HAVE_ENAMETOOLONG
+
+/* */
 #undef LOG4CPLUS_HAVE_FTIME
+
+/* */
+#undef LOG4CPLUS_HAVE_GETPID
 
 /* */
 #undef LOG4CPLUS_HAVE_GETTIMEOFDAY
@@ -127,10 +142,19 @@
 #undef LOG4CPLUS_HAVE_SYSLOG_H
 
 /* */
+#undef LOG4CPLUS_HAVE_SYS_TYPES_H
+
+/* */
 #undef LOG4CPLUS_HAVE_TLS_SUPPORT
 
 /* */
 #undef LOG4CPLUS_HAVE_UNISTD_H
+
+/* */
+#undef LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH
+
+/* */
+#undef LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH
 
 /* Define if this is a single-threaded library. */
 #undef LOG4CPLUS_SINGLE_THREADED
@@ -144,6 +168,10 @@
 /* Define for compilers/standard libraries that support more than just the "C"
    locale. */
 #undef LOG4CPLUS_WORKING_LOCALE
+
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#undef LT_OBJDIR
 
 /* Define to the address where bug reports for this package should be sent. */
 #undef PACKAGE_BUGREPORT

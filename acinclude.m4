@@ -6,4 +6,4 @@ m4_include([m4/ax_cflags_gcc_option.m4])
 m4_include([m4/acx_pthread.m4])
 m4_include([m4/ax_declspec.m4])
 m4_include([m4/ax_tls_support.m4])
-
+m4_include([m4/ax__sync.m4])

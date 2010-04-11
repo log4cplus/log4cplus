@@ -4,12 +4,19 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2001-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 /** @file */
 
@@ -22,7 +29,6 @@
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/property.h>
-#include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
 
 #include <vector>
@@ -40,22 +46,24 @@ namespace log4cplus {
      * This class is used to layout strings sent to an {@link
      * log4cplus::Appender}.
      */
-    class LOG4CPLUS_EXPORT Layout : protected :: log4cplus::helpers::LogLogUser {
+    class LOG4CPLUS_EXPORT Layout
+        : protected helpers::LogLogUser
+    {
     public:
-        Layout() : llmCache(getLogLevelManager()) {}
-        Layout(const log4cplus::helpers::Properties&) 
-          : llmCache(getLogLevelManager())  {}
-        virtual ~Layout() {}
+        Layout();
+        Layout(const helpers::Properties& properties);
+        virtual ~Layout() = 0;
 
         virtual void formatAndAppend(log4cplus::tostream& output, 
-                                     const log4cplus::spi::InternalLoggingEvent& event) = 0;
+            const log4cplus::spi::InternalLoggingEvent& event) = 0;
+
     protected:
         LogLevelManager& llmCache;
         
     private:
       // Disable copy
         Layout(const Layout&);
-        Layout& operator=(Layout&);
+        Layout& operator=(Layout const &);
     };
 
 
@@ -70,10 +78,13 @@ namespace log4cplus {
      *
      * {@link PatternLayout} offers a much more powerful alternative.
      */
-    class LOG4CPLUS_EXPORT SimpleLayout : public Layout {
+    class LOG4CPLUS_EXPORT SimpleLayout
+        : public Layout
+    {
     public:
-        SimpleLayout() {}
-        SimpleLayout(const log4cplus::helpers::Properties& properties) : Layout(properties) {}
+        SimpleLayout();
+        SimpleLayout(const log4cplus::helpers::Properties& properties);
+        virtual ~SimpleLayout();
 
         virtual void formatAndAppend(log4cplus::tostream& output, 
                                      const log4cplus::spi::InternalLoggingEvent& event);
@@ -122,7 +133,9 @@ namespace log4cplus {
      * 
      *  PatternLayout offers a much more flexible alternative.
      */
-    class LOG4CPLUS_EXPORT TTCCLayout : public Layout {
+    class LOG4CPLUS_EXPORT TTCCLayout
+        : public Layout
+    {
     public:
       // Ctor and dtor
         TTCCLayout(bool use_gmtime = false);
@@ -218,7 +231,7 @@ namespace log4cplus {
      * <tr> 
      *   <td align=center><b>d</b></td> 
      *
-     *   <td>Used to output the date of the logging event in <b>localtime</b>. 
+     *   <td>Used to output the date of the logging event in <b>UTC</b>. 
      *
      *   The date conversion specifier may be followed by a <em>date format
      *   specifier</em> enclosed between braces. For example, <b>%%d{%%H:%%M:%%s}</b>
@@ -262,7 +275,7 @@ namespace log4cplus {
      * <tr> 
      *   <td align=center><b>D</b></td> 
      *
-     *   <td>Used to output the date of the logging event in <b>Local</b> time. 
+     *   <td>Used to output the date of the logging event in <b>local</b> time.
      *
      *   All of the above information applies.
      * </td>
@@ -277,6 +290,31 @@ namespace log4cplus {
      *   <b>NOTE</b> Unlike log4j, there is no performance penalty for
      *   calling this method.
      * 
+     * </tr>
+     * 
+     * <tr> 
+     *   <td align=center><b>h</b></td> 
+     *
+     *   <td>Used to output the hostname of this system (as returned
+     *   by gethostname(2)).
+     *
+     *   <b>NOTE</b> The hostname is only retrieved once at
+     *   initialization.
+     *
+     * </td>
+     * </tr>
+     * 
+     * <tr> 
+     *   <td align=center><b>H</b></td> 
+     *
+     *   <td>Used to output the fully-qualified domain name of this
+     *   system (as returned by gethostbyname(2) for the hostname
+     *   returned by gethostname(2)).
+     *
+     *   <b>NOTE</b> The hostname is only retrieved once at
+     *   initialization.
+     *
+     * </td>
      * </tr>
      * 
      * <tr>
@@ -326,7 +364,14 @@ namespace log4cplus {
      *   <td>Used to output the name of the thread that generated the
      *   logging event.</td>
      * </tr>
-     * 
+     *
+     * <tr>
+     *   <td align=center><b>i</b></td>
+     *
+     *   <td>Used to output the process ID of the process that generated the
+     *   logging event.</td>
+     * </tr>
+     *
      * <tr>
      * 
      *   <td align=center><b>x</b></td>
@@ -456,7 +501,9 @@ namespace log4cplus {
      * Philip E. Margolis' highly recommended book "C -- a Software
      * Engineering Approach", ISBN 0-387-97389-3.
      */
-    class LOG4CPLUS_EXPORT PatternLayout : public Layout {
+    class LOG4CPLUS_EXPORT PatternLayout
+        : public Layout
+    {
     public:
       // Ctors and dtor
         PatternLayout(const log4cplus::tstring& pattern);

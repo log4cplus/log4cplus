@@ -4,20 +4,29 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2001-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <log4cplus/loglevel.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <algorithm>
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
+
+namespace log4cplus
+{
+
 
 #define _ALL_STRING LOG4CPLUS_TEXT("ALL")
 #define _TRACE_STRING LOG4CPLUS_TEXT("TRACE")
@@ -59,7 +68,7 @@ namespace {
     
     
     static
-    log4cplus::tstring
+    tstring
     defaultLogLevelToStringMethod(LogLevel ll)
     {
         switch(ll) {
@@ -80,8 +89,8 @@ namespace {
     
     static
     LogLevel
-    defaultStringToLogLevelMethod(const log4cplus::tstring& arg) {
-        log4cplus::tstring s = log4cplus::helpers::toUpper(arg);
+    defaultStringToLogLevelMethod(const tstring& arg) {
+        tstring s = helpers::toUpper(arg);
         
         if(s == _ALL_STRING)   return ALL_LOG_LEVEL;
         if(s == _TRACE_STRING) return TRACE_LOG_LEVEL;
@@ -104,7 +113,7 @@ namespace {
 //////////////////////////////////////////////////////////////////////////////
 
 LogLevelManager&
-log4cplus::getLogLevelManager() 
+getLogLevelManager() 
 {
     static LogLevelManager singleton;
     return singleton;
@@ -113,7 +122,7 @@ log4cplus::getLogLevelManager()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::LogLevelManager ctors and dtor
+// LogLevelManager ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
 LogLevelManager::LogLevelManager() 
@@ -144,10 +153,10 @@ LogLevelManager::~LogLevelManager()
 
 
 //////////////////////////////////////////////////////////////////////////////
-// log4cplus::LogLevelManager public methods
+// LogLevelManager public methods
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::tstring 
+tstring 
 LogLevelManager::toString(LogLevel ll) const
 {
     ToStringNode* toStringTmp = GET_TO_STRING_NODE;
@@ -165,7 +174,7 @@ LogLevelManager::toString(LogLevel ll) const
 
 
 LogLevel 
-LogLevelManager::fromString(const log4cplus::tstring& s) const
+LogLevelManager::fromString(const tstring& s) const
 {
     FromStringNode* fromStringTmp = GET_FROM_STRING_NODE;
     while(fromStringTmp) {
@@ -213,3 +222,4 @@ LogLevelManager::pushFromStringMethod(StringToLogLevelMethod newFromString)
     }
 }
         
+} // namespace log4cplus

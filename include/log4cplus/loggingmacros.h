@@ -4,12 +4,19 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2003-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 /** @file 
  * This header defines the logging macros. */
@@ -20,6 +27,7 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/streams.h>
 #include <log4cplus/logger.h>
+#include <sstream>
 
 
 #if defined(LOG4CPLUS_DISABLE_FATAL) && !defined(LOG4CPLUS_DISABLE_ERROR)
@@ -46,17 +54,33 @@ namespace detail
 {
 
 
-static inline
-Logger const &
+inline
+Logger
 macros_get_logger (Logger const & logger)
 {
     return logger;
 }
 
 
-static inline
+inline
+Logger const &
+macros_get_logger (Logger & logger)
+{
+    return logger;
+}
+
+
+inline
 Logger
 macros_get_logger (tstring const & logger)
+{
+    return Logger::getInstance (logger);
+}
+
+
+inline
+Logger
+macros_get_logger (tchar const * logger)
 {
     return Logger::getInstance (logger);
 }
@@ -90,14 +114,14 @@ LOG4CPLUS_EXPORT tostringstream & get_macros_oss ();
 
 #define LOG4CPLUS_MACRO_BODY(logger, logEvent, logLevel)                \
     do {                                                                \
-        log4cplus::Logger const & l                                     \
+        log4cplus::Logger const & _l                                    \
             = log4cplus::detail::macros_get_logger (logger);            \
-        if (l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {         \
+        if (_l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {        \
             log4cplus::tostringstream & _log4cplus_buf                  \
                 = log4cplus::detail::get_macros_oss ();                 \
             log4cplus::detail::clear_tostringstream (_log4cplus_buf);   \
             _log4cplus_buf << logEvent;                                 \
-            l.forcedLog (                                               \
+            _l.forcedLog (                                              \
                 log4cplus::logLevel##_LOG_LEVEL,                        \
                 _log4cplus_buf.str(), __FILE__, __LINE__);              \
         }                                                               \
@@ -106,10 +130,10 @@ LOG4CPLUS_EXPORT tostringstream & get_macros_oss ();
 
 #define LOG4CPLUS_MACRO_STR_BODY(logger, logEvent, logLevel)            \
     do {                                                                \
-        log4cplus::Logger const & l                                     \
+        log4cplus::Logger const & _l                                    \
             = log4cplus::detail::macros_get_logger (logger);            \
-        if (l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {         \
-            l.forcedLog (                                               \
+        if (_l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {        \
+            _l.forcedLog (                                              \
                 log4cplus::logLevel##_LOG_LEVEL,                        \
                 logEvent, __FILE__, __LINE__);                          \
         }                                                               \

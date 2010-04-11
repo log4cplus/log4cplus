@@ -4,12 +4,19 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2001-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 /** @file */
 
@@ -18,6 +25,7 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
+#include <log4cplus/streams.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/threads.h>
 
@@ -39,14 +47,13 @@ namespace log4cplus {
          * the string "log4clus: ".
          */
         class LOG4CPLUS_EXPORT LogLog
-            : public virtual log4cplus::helpers::SharedObject 
         {
         public:
           // Static methods
             /**
              * Returns a reference to the <code>LogLog</code> singleton.
              */
-            static log4cplus::helpers::SharedObjectPtr<LogLog> getLogLog();
+            static LogLog * getLogLog();
 
 
             /**
@@ -67,6 +74,7 @@ namespace log4cplus {
              * statements. Output goes to <code>std::cout</code>.
              */
             void debug(const log4cplus::tstring& msg);
+            void debug(tchar const * msg);
 
             /**
              * This method is used to output log4cplus internal error
@@ -74,6 +82,7 @@ namespace log4cplus {
              * Output goes to <code>std::cerr</code>.
              */
             void error(const log4cplus::tstring& msg);
+            void error(tchar const * msg);
 
             /**
              * This method is used to output log4cplus internal warning
@@ -81,14 +90,20 @@ namespace log4cplus {
              * Output goes to <code>std::cerr</code>.
              */
             void warn(const log4cplus::tstring& msg);
-
-          // Dtor
-            virtual ~LogLog();
+            void warn(tchar const * msg);
 
           // Data
             LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
 
         private:
+            template <typename StringType>
+            void logging_worker (tostream & os,
+                bool (LogLog:: * cond) () const, tchar const *,
+                StringType const &);
+
+            bool get_quiet_mode () const;
+            bool get_debug_mode () const;
+
           // Data
             bool debugEnabled;
             bool quietMode;
@@ -96,6 +111,7 @@ namespace log4cplus {
 
             LogLog();
             LogLog(const LogLog&);
+            virtual ~LogLog();
             LogLog & operator = (LogLog const &);
         };
 

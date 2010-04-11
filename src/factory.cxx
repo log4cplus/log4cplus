@@ -4,12 +4,19 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright (C) Tad E. Smith  All rights reserved.
+// Copyright 2002-2009 Tad E. Smith
 //
-// This software is published under the terms of the Apache Software
-// License version 1.1, a copy of which has been included with this
-// distribution in the LICENSE.APL file.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
 //
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggerfactory.h>
@@ -32,10 +39,6 @@
 #  include <log4cplus/Win32DebugAppender.h>
 #endif
 
-
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-using namespace log4cplus::spi;
 
 ///////////////////////////////////////////////////////////////////////////////
 // LOCAL file class definitions
@@ -80,8 +83,8 @@ namespace spi {
 namespace {
 
 #define APPENDER_FACTORY_DEF(factoryname, appendername)                     \
-    class factoryname : public AppenderFactory {                            \
-        SharedAppenderPtr createObject(const Properties& props)             \
+    class factoryname : public spi::AppenderFactory {                       \
+        SharedAppenderPtr createObject(const helpers::Properties& props)    \
         {                                                                   \
             return SharedAppenderPtr(new log4cplus::appendername(props));   \
         }                                                                   \
@@ -116,8 +119,9 @@ namespace {
 
 
 #define LAYOUT_FACTORY_DEF(factoryname, layoutname)                         \
-    class factoryname : public LayoutFactory {                              \
-        std::auto_ptr<Layout> createObject(const Properties& props) {       \
+    class factoryname : public spi::LayoutFactory {                         \
+        std::auto_ptr<Layout>                                               \
+        createObject(const helpers::Properties& props) {                    \
              std::auto_ptr<Layout> tmp(new log4cplus::layoutname(props));   \
              return tmp;                                                    \
         }                                                                   \
@@ -138,9 +142,9 @@ namespace {
 
 
 #define FILTER_FACTORY_DEF(factoryname, filtername)                         \
-    class factoryname : public FilterFactory {                              \
-        FilterPtr createObject(const Properties& props) {                   \
-            return FilterPtr(new log4cplus::spi::filtername(props));        \
+    class factoryname : public spi::FilterFactory {                         \
+        spi::FilterPtr createObject(const helpers::Properties& props) {     \
+            return spi::FilterPtr(new log4cplus::spi::filtername(props));   \
         }                                                                   \
         tstring const & getTypeName() const {                               \
             static tstring const factory_name(                              \
@@ -184,7 +188,7 @@ reg_factory (Reg & reg)
 
 void initializeFactoryRegistry()
 {
-    AppenderFactoryRegistry& reg = getAppenderFactoryRegistry();
+    spi::AppenderFactoryRegistry& reg = spi::getAppenderFactoryRegistry();
     reg_factory<ConsoleAppenderFactory> (reg);
     reg_factory<NullAppenderFactory> (reg);
     reg_factory<FileAppenderFactory> (reg);
@@ -203,12 +207,12 @@ void initializeFactoryRegistry()
     reg_factory<AsyncAppenderFactory> (reg);
 #endif
 
-    LayoutFactoryRegistry& reg2 = getLayoutFactoryRegistry();
+    spi::LayoutFactoryRegistry& reg2 = spi::getLayoutFactoryRegistry();
     reg_factory<SimpleLayoutFactory> (reg2);
     reg_factory<TTCCLayoutFactory> (reg2);
     reg_factory<PatternLayoutFactory> (reg2);
 
-    FilterFactoryRegistry& reg3 = getFilterFactoryRegistry();
+    spi::FilterFactoryRegistry& reg3 = spi::getFilterFactoryRegistry();
     reg_factory<DenyAllFilterFactory> (reg3);
     reg_factory<LogLevelMatchFilterFactory> (reg3);
     reg_factory<LogLevelRangeFilterFactory> (reg3);
