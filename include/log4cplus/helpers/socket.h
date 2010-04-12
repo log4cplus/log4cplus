@@ -40,7 +40,7 @@ namespace log4cplus {
                            message_truncated
                          };
 
-        typedef void * SOCKET_TYPE;
+        typedef std::ptrdiff_t SOCKET_TYPE;
 
         extern LOG4CPLUS_EXPORT SOCKET_TYPE const INVALID_SOCKET_VALUE;
 

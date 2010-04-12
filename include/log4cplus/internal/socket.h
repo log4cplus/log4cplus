@@ -72,7 +72,7 @@ static inline
 os_socket_type
 to_os_socket (SOCKET_TYPE const & x)
 {
-    return static_cast<os_socket_type>(reinterpret_cast<std::ptrdiff_t>(x));
+    return static_cast<os_socket_type>(x);
 }
 
 
@@ -80,7 +80,7 @@ static inline
 SOCKET_TYPE
 to_log4cplus_socket (os_socket_type const & x)
 {
-    return reinterpret_cast<SOCKET_TYPE>(x);
+    return static_cast<SOCKET_TYPE>(x);
 }
 
 

@@ -36,9 +36,9 @@ namespace log4cplus { namespace helpers {
 
 extern LOG4CPLUS_EXPORT SOCKET_TYPE const INVALID_SOCKET_VALUE
 #if defined(_WIN32)
-    = reinterpret_cast<SOCKET_TYPE>(INVALID_SOCKET);
+    = static_cast<SOCKET_TYPE>(INVALID_SOCKET);
 #else
-    = reinterpret_cast<SOCKET_TYPE>(-1);
+    = static_cast<SOCKET_TYPE>(-1);
 #endif
 
 
