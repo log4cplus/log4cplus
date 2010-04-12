@@ -12,8 +12,9 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/asyncappender.h \
 			 ../include/log4cplus/config.hxx \
 			 ../include/log4cplus/config/defines.hxx \
-			 ../include/log4cplus/config/win32.h \
 			 ../include/log4cplus/config/macosx.h \
+			 ../include/log4cplus/config/win32.h \
+			 ../include/log4cplus/config/windowsh-inc.h \
 			 ../include/log4cplus/configurator.h \
 			 ../include/log4cplus/consoleappender.h \
 			 ../include/log4cplus/fileappender.h \
@@ -21,6 +22,7 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/hierarchy.h \
 			 ../include/log4cplus/hierarchylocker.h \
 			 ../include/log4cplus/internal/internal.h \
+			 ../include/log4cplus/internal/socket.h \
 			 ../include/log4cplus/layout.h \
 			 ../include/log4cplus/logger.h \
 			 ../include/log4cplus/loggingmacros.h \
