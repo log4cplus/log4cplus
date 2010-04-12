@@ -18,8 +18,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/internal/socket.h>
 
 
 #if !defined(_WIN32)
@@ -34,12 +34,20 @@
 namespace log4cplus { namespace helpers {
 
 
+extern LOG4CPLUS_EXPORT SOCKET_TYPE const INVALID_SOCKET_VALUE
+#if defined(_WIN32)
+    = reinterpret_cast<SOCKET_TYPE>(INVALID_SOCKET);
+#else
+    = reinterpret_cast<SOCKET_TYPE>(-1);
+#endif
+
+
 //////////////////////////////////////////////////////////////////////////////
 // AbstractSocket ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
 AbstractSocket::AbstractSocket()
-: sock(INVALID_SOCKET),
+: sock(INVALID_SOCKET_VALUE),
   state(not_opened),
   err(0)
 {
@@ -77,9 +85,9 @@ AbstractSocket::~AbstractSocket()
 void
 AbstractSocket::close()
 {
-    if(sock != INVALID_SOCKET) {
+    if(sock != INVALID_SOCKET_VALUE) {
         closeSocket(sock);
-        sock = INVALID_SOCKET;
+        sock = INVALID_SOCKET_VALUE;
     }
 }
 
@@ -88,7 +96,7 @@ AbstractSocket::close()
 bool
 AbstractSocket::isOpen() const
 {
-    return sock != INVALID_SOCKET;
+    return sock != INVALID_SOCKET_VALUE;
 }
 
 
@@ -114,7 +122,7 @@ AbstractSocket::copy(const AbstractSocket& r)
     sock = rhs.sock;
     state = rhs.state;
     err = rhs.err;
-    rhs.sock = INVALID_SOCKET;
+    rhs.sock = INVALID_SOCKET_VALUE;
     rhs.state = not_opened;
     rhs.err = 0;
 }
@@ -136,7 +144,7 @@ Socket::Socket(const tstring& address, int port)
 : AbstractSocket()
 {
     sock = connectSocket(address, port, state);
-    if(sock == INVALID_SOCKET) {
+    if(sock == INVALID_SOCKET_VALUE) {
         err = errno;
     }
 }
@@ -199,7 +207,7 @@ Socket::write(const SocketBuffer& buffer)
 ServerSocket::ServerSocket(int port)
 {
     sock = openSocket(port, state);
-    if(sock == INVALID_SOCKET) {
+    if(sock == INVALID_SOCKET_VALUE) {
         err = errno;
     }
 }

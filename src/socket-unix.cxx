@@ -20,7 +20,7 @@
 
 #include <cstring>
 #include <vector>
-#include <log4cplus/helpers/socket.h>
+#include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
 
@@ -52,9 +52,9 @@ namespace log4cplus { namespace helpers {
 SOCKET_TYPE
 openSocket(unsigned short port, SocketState& state)
 {
-    SOCKET_TYPE sock = ::socket(AF_INET, SOCK_STREAM, 0);
+    int sock = ::socket(AF_INET, SOCK_STREAM, 0);
     if(sock < 0) {
-        return INVALID_SOCKET;
+        return INVALID_SOCKET_VALUE;
     }
 
     struct sockaddr_in server;
@@ -69,13 +69,13 @@ openSocket(unsigned short port, SocketState& state)
     int retval = bind(sock, reinterpret_cast<struct sockaddr*>(&server),
         sizeof(server));
     if (retval < 0)
-        return INVALID_SOCKET;
+        return INVALID_SOCKET_VALUE;
 
     if (::listen(sock, 10))
-        return INVALID_SOCKET;
+        return INVALID_SOCKET_VALUE;
 
     state = ok;
-    return sock;
+    return to_log4cplus_socket (sock);
 }
 
 
@@ -84,17 +84,17 @@ connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
 {
     struct sockaddr_in server;
     struct hostent *hp;
-    SOCKET_TYPE sock;
+    int sock;
     int retval;
 
     hp = ::gethostbyname(LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str());
     if(hp == 0) {
-        return INVALID_SOCKET;
+        return INVALID_SOCKET_VALUE;
     }
 
     sock = ::socket(AF_INET, SOCK_STREAM, 0);
     if(sock < 0) {
-        return INVALID_SOCKET;
+        return INVALID_SOCKET_VALUE;
     }
 
     memcpy(&server.sin_addr, hp->h_addr_list[0], hp->h_length);
@@ -108,14 +108,14 @@ connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
         == -1
         && (errno == EINTR))
         ;
-    if (retval == INVALID_SOCKET) 
+    if (retval == INVALID_OS_SOCKET_VALUE) 
     {
         ::close(sock);
-        return INVALID_SOCKET;
+        return INVALID_SOCKET_VALUE;
     }
 
     state = ok;
-    return sock;
+    return to_log4cplus_socket (sock);
 }
 
 
@@ -125,20 +125,20 @@ acceptSocket(SOCKET_TYPE sock, SocketState& state)
 {
     struct sockaddr_in net_client;
     socklen_t len = sizeof(struct sockaddr);
-    SOCKET_TYPE clientSock;
+    int clientSock;
 
     while (
-        (clientSock = ::accept(sock,
+        (clientSock = ::accept(to_os_socket (sock),
             reinterpret_cast<struct sockaddr*>(&net_client), &len)) 
         == -1
         && (errno == EINTR))
         ;
 
-    if(clientSock != INVALID_SOCKET) {
+    if(clientSock != INVALID_OS_SOCKET_VALUE) {
         state = ok;
     }
 
-    return clientSock;
+    return to_log4cplus_socket (clientSock);
 }
 
 
@@ -146,7 +146,7 @@ acceptSocket(SOCKET_TYPE sock, SocketState& state)
 int
 closeSocket(SOCKET_TYPE sock)
 {
-    return ::close(sock);
+    return ::close(to_os_socket (sock));
 }
 
 
@@ -158,7 +158,7 @@ read(SOCKET_TYPE sock, SocketBuffer& buffer)
  
     do
     { 
-        res = ::read(sock, buffer.getBuffer() + readbytes,
+        res = ::read(to_os_socket (sock), buffer.getBuffer() + readbytes,
             buffer.getMaxSize() - readbytes);
         if( res <= 0 ) {
             return res;
@@ -179,7 +179,8 @@ write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 #else
     int flags = 0;
 #endif
-    return ::send( sock, buffer.getBuffer(), buffer.getSize(), flags );
+    return ::send( to_os_socket (sock), buffer.getBuffer(), buffer.getSize(),
+        flags );
 }
 
 

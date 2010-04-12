@@ -26,7 +26,7 @@
 #if !defined(_WIN32)
 #  include <netdb.h>
 #else
-#include <winsock2.h>
+#  include <winsock2.h>
 #endif
 
 #if defined (__CYGWIN__) || defined (LOG4CPLUS_HAVE_NETINET_IN_H)

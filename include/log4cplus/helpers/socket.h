@@ -26,9 +26,7 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/socketbuffer.h>
-#if defined(_WIN32)
-#include <winsock2.h>
-#endif
+
 
 namespace log4cplus {
     namespace helpers {
@@ -42,12 +40,9 @@ namespace log4cplus {
                            message_truncated
                          };
 
-#if !defined(_WIN32)
-        typedef int SOCKET_TYPE;
-#  define INVALID_SOCKET -1
-#else
-        typedef SOCKET SOCKET_TYPE;
-#endif
+        typedef void * SOCKET_TYPE;
+
+        extern LOG4CPLUS_EXPORT SOCKET_TYPE const INVALID_SOCKET_VALUE;
 
         class LOG4CPLUS_EXPORT AbstractSocket {
         public:

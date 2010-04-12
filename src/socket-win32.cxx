@@ -20,7 +20,7 @@
 
 #include <cassert>
 #include <vector>
-#include <log4cplus/helpers/socket.h>
+#include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
 
 
@@ -148,8 +148,8 @@ openSocket(unsigned short port, SocketState& state)
     init_winsock ();
 
     SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
-    if(sock == INVALID_SOCKET) {
-        return sock;
+    if(sock == INVALID_OS_SOCKET_VALUE) {
+        return INVALID_SOCKET_VALUE;
     }
 
     struct sockaddr_in server;
@@ -158,15 +158,15 @@ openSocket(unsigned short port, SocketState& state)
     server.sin_port = htons(port);
 
     if(bind(sock, (struct sockaddr*)&server, sizeof(server)) != 0) {
-        return INVALID_SOCKET;
+        return INVALID_SOCKET_VALUE;
     }
 
     if(::listen(sock, 10) != 0) {
-        return INVALID_SOCKET;
+        return INVALID_SOCKET_VALUE;
     }
 
     state = ok;
-    return sock;
+    return to_log4cplus_socket (sock);
 }
 
 
@@ -177,8 +177,8 @@ connectSocket(const tstring& hostn,
     init_winsock ();
 
     SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
-    if(sock == INVALID_SOCKET) {
-        return INVALID_SOCKET;
+    if(sock == INVALID_OS_SOCKET_VALUE) {
+        return INVALID_SOCKET_VALUE;
     }
 
     unsigned long ip = INADDR_NONE;
@@ -187,7 +187,7 @@ connectSocket(const tstring& hostn,
         ip = inet_addr( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
         if(ip == INADDR_NONE) {
             state = bad_address;
-            return INVALID_SOCKET;
+            return INVALID_SOCKET_VALUE;
         }
     }
 
@@ -207,17 +207,17 @@ connectSocket(const tstring& hostn,
         ;
     if(retval == SOCKET_ERROR) {
         ::closesocket(sock);
-        return INVALID_SOCKET;
+        return INVALID_SOCKET_VALUE;
     }
 
     int enabled = 1;
     if(setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (char*)&enabled, sizeof(enabled)) != 0) {
         ::closesocket(sock);    
-        return INVALID_SOCKET;
+        return INVALID_SOCKET_VALUE;
     }
 
     state = ok;
-    return sock;
+    return to_log4cplus_socket (sock);
 }
 
 
@@ -226,7 +226,7 @@ acceptSocket(SOCKET_TYPE sock, SocketState& /*state*/)
 {
     init_winsock ();
 
-    return ::accept(sock, NULL, NULL);
+    return to_log4cplus_socket (::accept (to_os_socket (sock), NULL, NULL));
 }
 
 
@@ -234,7 +234,7 @@ acceptSocket(SOCKET_TYPE sock, SocketState& /*state*/)
 int
 closeSocket(SOCKET_TYPE sock)
 {
-    return ::closesocket(sock);
+    return ::closesocket (to_os_socket (sock));
 }
 
 
@@ -246,7 +246,7 @@ read(SOCKET_TYPE sock, SocketBuffer& buffer)
  
     do
     { 
-        res = ::recv(sock, 
+        res = ::recv(to_os_socket (sock), 
                      buffer.getBuffer() + read, 
                      static_cast<int>(buffer.getMaxSize() - read),
                      0);
@@ -264,7 +264,8 @@ read(SOCKET_TYPE sock, SocketBuffer& buffer)
 long
 write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
-    return ::send(sock, buffer.getBuffer(), static_cast<int>(buffer.getSize()), 0);
+    return ::send (to_os_socket (sock), buffer.getBuffer(),
+        static_cast<int>(buffer.getSize()), 0);
 }
 
 
