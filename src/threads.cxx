@@ -195,7 +195,6 @@ ThreadStart::threadStartFuncWorker(void * arg)
             loglog->warn(LOG4CPLUS_TEXT("threadStartFunc()- run() terminated with an exception."));
         }
         thread->running = false;
-        getNDC().remove();
     }
 
     threadCleanup ();
