@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2009 Tad E. Smith
+// Copyright 2003-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,10 +48,10 @@ namespace log4cplus {
 
         /**
          * Tokenize <code>s</code> using <code>c</code> as the delimiter and
-         * put the resulting tokens in <code>_result</code>.  If 
+         * put the resulting tokens in <code>_result</code>.  If
          * <code>collapseTokens</code> is false, multiple adjacent delimiters
          * will result in zero length tokens.
-         * 
+         *
          * <b>Example:</b>
          * <pre>
          *   string s = // Set string with '.' as delimiters
@@ -60,8 +60,10 @@ namespace log4cplus {
          * </pre>
          */
         template <class StringType, class OutputIter>
-        void tokenize(const StringType& s, typename StringType::value_type c, 
-                      OutputIter result, bool collapseTokens = true) 
+        inline
+        void
+        tokenize(const StringType& s, typename StringType::value_type c,
+            OutputIter result, bool collapseTokens = true)
         {
             typedef typename StringType::size_type size_type;
             size_type const slen = s.length();
@@ -82,43 +84,75 @@ namespace log4cplus {
             if (first != i)
                 *result = StringType (s, first, i - first);
         }
-        
 
-        template<class intType>
-        inline
-        tstring 
-        convertIntegerToString (intType value) 
+
+        template <typename intType, bool isSigned>
+        struct ConvertIntegerToStringHelper;
+
+
+        template <typename intType>
+        struct ConvertIntegerToStringHelper<intType, true>
         {
-            if (value == 0)
-                return LOG4CPLUS_TEXT("0");
-            bool const negative = value < 0;
-
-            static const size_t buffer_size
-                = std::numeric_limits<intType>::digits10 + 2;
-            tchar buffer[buffer_size];           
-            tchar * it = &buffer[buffer_size];
-            tchar const * const buf_end = it;
-
-            // The sign of the result of the modulo operator is implementation
-            // defined. That's why we work with positive counterpart instead.
-            // Also, in twos complement arithmetic the smallest negative number
-            // does not have positive counterpart; the range is asymetric.
-            // That's why we handle the case of value == min() specially here.
-            if (negative)
+            static inline
+            void
+            step1 (tchar * & it, intType & value)
             {
-                // The modulo operator on 
+                // The sign of the result of the modulo operator is
+                // implementation defined. That's why we work with
+                // positive counterpart instead. Also, in twos
+                // complement arithmetic the smallest negative number
+                // does not have positive counterpart; the range is
+                // asymetric. That's why we handle the case of value
+                // == min() specially here.
                 if (value == (std::numeric_limits<intType>::min) ())
                 {
                     intType const r = value / 10;
                     intType const a = (-r) * 10;
                     intType const mod = -(a + value);
                     value = -r;
+
                     *(it - 1) = LOG4CPLUS_TEXT('0') + static_cast<tchar>(mod);
                     --it;
                 }
                 else
                     value = -value;
             }
+        };
+
+
+        template <typename intType>
+        struct ConvertIntegerToStringHelper<intType, false>
+        {
+            static inline
+            void
+            step1 (tchar * &, intType &)
+            {
+                // This will never be called for unsigned types.
+            }
+        };
+
+
+        template<class intType>
+        inline
+        void
+        convertIntegerToString (tstring & str, intType value)
+        {
+            typedef std::numeric_limits<intType> intTypeLimits;
+            typedef ConvertIntegerToStringHelper<intType,
+                intTypeLimits::is_signed> HelperType;
+
+            if (value == 0)
+                str = LOG4CPLUS_TEXT("0");
+            bool const negative = value < 0;
+
+            const size_t buffer_size
+                = intTypeLimits::digits10 + 2;
+            tchar buffer[buffer_size];
+            tchar * it = &buffer[buffer_size];
+            tchar const * const buf_end = it;
+
+            if (negative)
+                HelperType::step1 (it, value);
 
             for (; value != 0; --it)
             {
@@ -133,8 +167,20 @@ namespace log4cplus {
                 *it = LOG4CPLUS_TEXT('-');
             }
 
-            return tstring (static_cast<tchar const *>(it), buf_end);
+            str.assign (static_cast<tchar const *>(it), buf_end);
         }
+
+
+        template<class intType>
+        inline
+        tstring
+        convertIntegerToString (intType value)
+        {
+            tstring result;
+            convertIntegerToString (result, value);
+            return result;
+        }
+
 
 
         /**
@@ -166,7 +212,7 @@ namespace log4cplus {
             {
                 return *this;
             }
-            
+
             string_append_iterator<container_type> &
             operator ++ ()
             {
@@ -185,7 +231,6 @@ namespace log4cplus {
 
     } // namespace helpers
 
-} //namespace log4cplus
-
+} // namespace log4cplus
 
 #endif // LOG4CPLUS_HELPERS_STRINGHELPER_HEADER_
