@@ -25,9 +25,7 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
-#include <log4cplus/helpers/sleep.h>
 #include <log4cplus/helpers/pointer.h>
-#include <memory>
 
 
 namespace log4cplus { namespace thread {
@@ -63,13 +61,12 @@ private:
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
 LOG4CPLUS_EXPORT void blockAllSignals();
+LOG4CPLUS_EXPORT void yield();
+LOG4CPLUS_EXPORT tstring getCurrentThreadName();
 
 
 struct ThreadStart;
 
-
-LOG4CPLUS_EXPORT void yield();
-LOG4CPLUS_EXPORT tstring getCurrentThreadName();
 
 /**
  * There are many cross-platform C++ Threading libraries.  The goal of

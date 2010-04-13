@@ -5,6 +5,7 @@
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
+#include <log4cplus/helpers/sleep.h>
 #include <log4cplus/streams.h>
 #include <exception>
 #include <iostream>

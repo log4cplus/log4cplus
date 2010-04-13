@@ -23,6 +23,7 @@
 #include <log4cplus/layout.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/helpers/sleep.h>
 
 
 #define LOG4CPLUS_MESSAGE_VERSION 2

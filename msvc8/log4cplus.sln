@@ -80,6 +80,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BAC1F7E5
 		tests\log4cplus_tests.vsprops = tests\log4cplus_tests.vsprops
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "patternlayout_test", "tests\patternlayout_test.vcproj", "{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_Unicode|Win32 = Debug_Unicode|Win32
@@ -348,6 +350,22 @@ Global
 		{F83D31E0-B607-4D3E-AF53-BA2A19BE17ED}.Release|Win32.Build.0 = Release|Win32
 		{F83D31E0-B607-4D3E-AF53-BA2A19BE17ED}.Release|x64.ActiveCfg = Release|x64
 		{F83D31E0-B607-4D3E-AF53-BA2A19BE17ED}.Release|x64.Build.0 = Release|x64
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Debug_Unicode|Win32.ActiveCfg = Debug_Unicode|Win32
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Debug_Unicode|Win32.Build.0 = Debug_Unicode|Win32
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Debug_Unicode|x64.ActiveCfg = Debug_Unicode|x64
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Debug_Unicode|x64.Build.0 = Debug_Unicode|x64
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Debug|Win32.Build.0 = Debug|Win32
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Debug|x64.ActiveCfg = Debug|x64
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Debug|x64.Build.0 = Debug|x64
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Release_Unicode|Win32.ActiveCfg = Release_Unicode|Win32
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Release_Unicode|Win32.Build.0 = Release_Unicode|Win32
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Release_Unicode|x64.ActiveCfg = Release_Unicode|x64
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Release_Unicode|x64.Build.0 = Release_Unicode|x64
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Release|Win32.ActiveCfg = Release|Win32
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Release|Win32.Build.0 = Release|Win32
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Release|x64.ActiveCfg = Release|x64
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -366,5 +384,6 @@ Global
 		{D405C4A0-D62F-4EE7-96D2-76AD808C7319} = {BAC1F7E5-C861-4FB2-A466-D0D675F4C33D}
 		{F83D31E0-B607-4D3E-AF53-BA2A19BE17ED} = {BAC1F7E5-C861-4FB2-A466-D0D675F4C33D}
 		{63AF3784-3FFB-46AC-B341-76B55AEE3148} = {BAC1F7E5-C861-4FB2-A466-D0D675F4C33D}
+		{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508} = {BAC1F7E5-C861-4FB2-A466-D0D675F4C33D}
 	EndGlobalSection
 EndGlobal
