@@ -80,7 +80,7 @@ namespace log4cplus {
           // ctor and dtor
             Socket();
             Socket(SOCKET_TYPE sock, SocketState state, int err);
-            Socket(const tstring& address, int port);
+            Socket(const tstring& address, unsigned short port);
             virtual ~Socket();
 
           // methods
@@ -99,7 +99,7 @@ namespace log4cplus {
         class LOG4CPLUS_EXPORT ServerSocket : public AbstractSocket {
         public:
           // ctor and dtor
-            ServerSocket(int port);
+            ServerSocket(unsigned short port);
             virtual ~ServerSocket();
 
             Socket accept();

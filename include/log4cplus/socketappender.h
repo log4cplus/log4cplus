@@ -79,7 +79,7 @@ namespace log4cplus {
     class LOG4CPLUS_EXPORT SocketAppender : public Appender {
     public:
       // Ctors
-        SocketAppender(const log4cplus::tstring& host, int port, 
+        SocketAppender(const log4cplus::tstring& host, unsigned short port, 
                        const log4cplus::tstring& serverName = tstring());
         SocketAppender(const log4cplus::helpers::Properties & properties);
 
@@ -97,7 +97,7 @@ namespace log4cplus {
       // Data
         log4cplus::helpers::Socket socket;
         log4cplus::tstring host;
-        int port;
+        unsigned int port;
         log4cplus::tstring serverName;
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)

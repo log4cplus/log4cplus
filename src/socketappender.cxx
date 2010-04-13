@@ -73,7 +73,7 @@ SocketAppender::ConnectorThread::run ()
 
         // The socket is not open, try to reconnect.
 
-        helpers::Socket socket (sa.host, sa.port);
+        helpers::Socket socket (sa.host, static_cast<unsigned short>(sa.port));
         if (! socket.isOpen ())
         {
             getLogLog().error(
@@ -125,7 +125,7 @@ SocketAppender::ConnectorThread::trigger ()
 //////////////////////////////////////////////////////////////////////////////
 
 SocketAppender::SocketAppender(const tstring& host_,
-    int port_, const tstring& serverName_)
+    unsigned short port_, const tstring& serverName_)
 : host(host_),
   port(port_),
   serverName(serverName_)
@@ -141,7 +141,7 @@ SocketAppender::SocketAppender(const helpers::Properties & properties)
    port(9998)
 {
     host = properties.getProperty( LOG4CPLUS_TEXT("host") );
-    properties.getInt (port, LOG4CPLUS_TEXT("port"));
+    properties.getUInt (port, LOG4CPLUS_TEXT("port"));
     serverName = properties.getProperty( LOG4CPLUS_TEXT("ServerName") );
 
     openSocket();
@@ -188,7 +188,7 @@ void
 SocketAppender::openSocket()
 {
     if(!socket.isOpen()) {
-        socket = helpers::Socket(host, port);
+        socket = helpers::Socket(host, static_cast<unsigned short>(port));
     }
 }
 

@@ -140,7 +140,7 @@ Socket::Socket()
 
 
 
-Socket::Socket(const tstring& address, int port)
+Socket::Socket(const tstring& address, unsigned short port)
 : AbstractSocket()
 {
     sock = connectSocket(address, port, state);
@@ -204,7 +204,7 @@ Socket::write(const SocketBuffer& buffer)
 // ServerSocket ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-ServerSocket::ServerSocket(int port)
+ServerSocket::ServerSocket(unsigned short port)
 {
     sock = openSocket(port, state);
     if(sock == INVALID_SOCKET_VALUE) {
