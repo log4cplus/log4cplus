@@ -49,7 +49,7 @@ main()
     }
     catch(...) {
         tcout << LOG4CPLUS_TEXT("Exception...") << endl;
-	LOG4CPLUS_FATAL(root, "Exception occured...");
+        LOG4CPLUS_FATAL(root, "Exception occured...");
     }
 
     tcout << LOG4CPLUS_TEXT("Exiting main()...") << endl;
