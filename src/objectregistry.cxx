@@ -48,9 +48,9 @@ ObjectRegistryBase::~ObjectRegistryBase()
 bool
 ObjectRegistryBase::exists(const tstring& name) const
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        return data.find(name) != data.end();
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    thread::Guard guard (mutex);
+
+    return data.find(name) != data.end();
 }
 
 
@@ -58,10 +58,13 @@ std::vector<tstring>
 ObjectRegistryBase::getAllNames() const
 {
     std::vector<tstring> tmp;
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
+
+    {
+        thread::Guard guard (mutex);
         for(ObjectMap::const_iterator it=data.begin(); it!=data.end(); ++it)
             tmp.push_back( (*it).first );
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    }
+
     return tmp;
 }
 
@@ -77,9 +80,10 @@ ObjectRegistryBase::putVal(const tstring& name, void* object)
     ObjectMap::value_type value(name, object);
     std::pair<ObjectMap::iterator, bool> ret;
 
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
+    {
+        thread::Guard guard (mutex);
         ret = data.insert(value);
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    }
 
     if (! ret.second)
         deleteObject( value.second );
@@ -90,13 +94,13 @@ ObjectRegistryBase::putVal(const tstring& name, void* object)
 void*
 ObjectRegistryBase::getVal(const tstring& name) const
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        ObjectMap::const_iterator it (data.find (name));
-        if (it != data.end ())
-            return it->second;
-        else
-            return 0;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    thread::Guard guard (mutex);
+
+    ObjectMap::const_iterator it (data.find (name));
+    if (it != data.end ())
+        return it->second;
+    else
+        return 0;
 }
 
 
@@ -105,11 +109,10 @@ ObjectRegistryBase::getVal(const tstring& name) const
 void
 ObjectRegistryBase::clear()
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-    for(ObjectMap::iterator it=data.begin(); it!=data.end(); ++it) {
-        deleteObject( (*it).second );
-    }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    thread::Guard guard (mutex);
+
+    for(ObjectMap::iterator it=data.begin(); it!=data.end(); ++it)
+        deleteObject( it->second );
 }
 
 

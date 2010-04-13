@@ -235,12 +235,12 @@ FileAppender::~FileAppender()
 void 
 FileAppender::close()
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
-        out.close();
-        delete buffer;
-        buffer = 0;
-        closed = true;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    thread::Guard guard (access_mutex);
+
+    out.close();
+    delete buffer;
+    buffer = 0;
+    closed = true;
 }
 
 

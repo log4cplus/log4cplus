@@ -31,11 +31,12 @@ public:
 
     void doSomething() {
         LOG4CPLUS_TRACE_METHOD(logger, LOG4CPLUS_TEXT("SlowObject::doSomething()"));
-        LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
+        {
+            thread::Guard guard (mutex);
             LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("Actually doing something..."));
             sleep(0, 75 * MILLIS_TO_NANOS);
             LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("Actually doing something...DONE"));
-        LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+        }
         log4cplus::thread::yield();
     }
 

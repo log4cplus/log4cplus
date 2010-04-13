@@ -55,9 +55,9 @@ SharedObject::addReference() const
     InterlockedIncrement (&count);
 
 #else
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
-        ++count;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    thread::Guard guard (access_mutex);
+
+    ++count;
 
 #endif
 }
@@ -75,11 +75,12 @@ SharedObject::removeReference() const
     destroy = InterlockedDecrement (&count) == 0;
 
 #else
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex );
+    {
+        thread::Guard guard (access_mutex);
         assert (count > 0);
         if (--count == 0)
             destroy = true;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    }
 
 #endif
     if (destroy)

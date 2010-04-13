@@ -116,26 +116,5 @@ LOG4CPLUS_EXPORT void deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE);
 #   error "You Must define a Threading model"
 #endif
 
-/**
- * @def LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX(mutex)
- * Begin a block synchronized on a mutex.
- *
- * @see LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
- *
- * @def LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX
- * End a block synchronized on a mutex.
- *
- * @see LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX
- */
-#ifndef LOG4CPLUS_SINGLE_THREADED
-#  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX(mutex) \
-             do { ::log4cplus::thread::Guard _sync_guard_object(mutex);
-#else
-#  define LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX(mutex) do { (void)(mutex);
-#endif
-
-#define LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX } while (0)
-
 
 #endif // LOG4CPLUS_HELPERS_THREAD_CONFIG_HEADER_
-

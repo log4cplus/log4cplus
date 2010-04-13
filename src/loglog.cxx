@@ -147,12 +147,12 @@ void
 LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
     tchar const * prefix, StringType const & msg)
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        if (! (this->*cond) ())
-            return;
+    thread::Guard guard (mutex);
 
-        os << prefix << msg << std::endl;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    if (! (this->*cond) ())
+        return;
+
+    os << prefix << msg << std::endl;
 }
 
 

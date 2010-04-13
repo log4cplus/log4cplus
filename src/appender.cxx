@@ -204,22 +204,22 @@ Appender::destructorImpl()
 void
 Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
-        if(closed) {
-            getLogLog().error(  LOG4CPLUS_TEXT("Attempted to append to closed appender named [")
-                              + name
-                              + LOG4CPLUS_TEXT("]."));
-            return;
-        }
+    thread::Guard guard (access_mutex);
 
-        if (! isAsSevereAsThreshold(event.getLogLevel()))
-            return;
+    if(closed) {
+        getLogLog().error(  LOG4CPLUS_TEXT("Attempted to append to closed appender named [")
+                          + name
+                          + LOG4CPLUS_TEXT("]."));
+        return;
+    }
 
-        if (checkFilter(filter.get(), event) == spi::DENY)
-            return;
+    if (! isAsSevereAsThreshold(event.getLogLevel()))
+        return;
 
-        append(event);
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    if (checkFilter(filter.get(), event) == spi::DENY)
+        return;
+
+    append(event);
 }
 
 
@@ -267,9 +267,10 @@ Appender::setErrorHandler(std::auto_ptr<ErrorHandler> eh)
         getLogLog().warn(LOG4CPLUS_TEXT("You have tried to set a null error-handler."));
         return;
     }
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
-        this->errorHandler = eh;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+
+    thread::Guard guard (access_mutex);
+
+    this->errorHandler = eh;
 }
 
 
@@ -277,9 +278,9 @@ Appender::setErrorHandler(std::auto_ptr<ErrorHandler> eh)
 void
 Appender::setLayout(std::auto_ptr<Layout> lo)
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
-        this->layout = lo;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    thread::Guard guard (access_mutex);
+
+    this->layout = lo;
 }
 
 

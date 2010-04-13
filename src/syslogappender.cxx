@@ -66,10 +66,10 @@ void
 log4cplus::SysLogAppender::close()
 {
     getLogLog().debug(LOG4CPLUS_TEXT("Entering SysLogAppender::close()..."));
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
-        ::closelog();
-        closed = true;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    thread::Guard guard (access_mutex);
+
+    ::closelog();
+    closed = true;
 }
 
 
