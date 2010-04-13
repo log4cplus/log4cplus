@@ -6,7 +6,7 @@ AM_CPPFLAGS = -DINSIDE_LOG4CPLUS \
 
 AM_LDFLAGS=@LOG4CPLUS_PROFILING_LDFLAGS@
 
-AM_CXXFLAGS=@LOG4CPLUS_PROFILING_CXXFLAGS@
+AM_CXXFLAGS=-no-suppress @LOG4CPLUS_PROFILING_CXXFLAGS@
 
 nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/asyncappender.h \
