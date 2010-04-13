@@ -4,6 +4,7 @@
 #include <log4cplus/loglevel.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/threads.h>
+#include <log4cplus/helpers/sleep.h>
 #include <iomanip>
 
 using namespace std;
