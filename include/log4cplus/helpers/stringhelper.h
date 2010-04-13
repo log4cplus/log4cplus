@@ -85,40 +85,71 @@ namespace log4cplus {
         }
         
 
-        template<class intType>
-        inline
-        void 
-        convertIntegerToString (tstring & str, intType value) 
+        template <typename intType, bool isSigned>
+        struct ConvertIntegerToStringHelper;
+
+
+        template <typename intType>
+        struct ConvertIntegerToStringHelper<intType, true>
         {
-            if (value == 0)
-                str = LOG4CPLUS_TEXT("0");
-            bool const negative = value < 0;
-
-            const size_t buffer_size
-				= std::numeric_limits<intType>::digits10 + 2;
-            tchar buffer[buffer_size];           
-            tchar * it = &buffer[buffer_size];
-            tchar const * const buf_end = it;
-
-            // The sign of the result of the modulo operator is implementation
-            // defined. That's why we work with positive counterpart instead.
-            // Also, in twos complement arithmetic the smallest negative number
-            // does not have positive counterpart; the range is asymetric.
-            // That's why we handle the case of value == min() specially here.
-            if (negative)
+            static inline
+            void
+            step1 (tchar * & it, intType & value)
             {
+                // The sign of the result of the modulo operator is implementation
+                // defined. That's why we work with positive counterpart instead.
+                // Also, in twos complement arithmetic the smallest negative number
+                // does not have positive counterpart; the range is asymetric.
+                // That's why we handle the case of value == min() specially here.
                 if (value == (std::numeric_limits<intType>::min) ())
                 {
                     intType const r = value / 10;
                     intType const a = (-r) * 10;
                     intType const mod = -(a + value);
                     value = -r;
+
                     *(it - 1) = LOG4CPLUS_TEXT('0') + static_cast<tchar>(mod);
                     --it;
                 }
                 else
                     value = -value;
             }
+        };
+
+
+        template <typename intType>
+        struct ConvertIntegerToStringHelper<intType, false>
+        {
+            static inline
+            void
+            step1 (tchar * &, intType &)
+            {
+                // This will never be called for unsigned types.
+            }
+        };
+
+
+        template<class intType>
+        inline
+        void 
+        convertIntegerToString (tstring & str, intType value) 
+        {
+            typedef std::numeric_limits<intType> intTypeLimits;
+            typedef ConvertIntegerToStringHelper<intType, intTypeLimits::is_signed>
+                HelperType;
+
+            if (value == 0)
+                str = LOG4CPLUS_TEXT("0");
+            bool const negative = value < 0;
+
+            const size_t buffer_size
+				= intTypeLimits::digits10 + 2;
+            tchar buffer[buffer_size];           
+            tchar * it = &buffer[buffer_size];
+            tchar const * const buf_end = it;
+
+            if (negative)
+                HelperType::step1 (it, value);
 
             for (; value != 0; --it)
             {
