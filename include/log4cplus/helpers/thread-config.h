@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2009 Tad E. Smith
+// Copyright 2003-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -55,12 +55,13 @@ namespace log4cplus {
 
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
 #   include <log4cplus/config/windowsh-inc.h>
+#   include <log4cplus/helpers/syncprims.h>
 
-#   define LOG4CPLUS_MUTEX_PTR_DECLARE CRITICAL_SECTION*
-#   define LOG4CPLUS_MUTEX_CREATE ::log4cplus::thread::createNewMutex()
-#   define LOG4CPLUS_MUTEX_LOCK(mutex)  EnterCriticalSection(mutex)
-#   define LOG4CPLUS_MUTEX_UNLOCK(mutex)  LeaveCriticalSection(mutex)
-#   define LOG4CPLUS_MUTEX_FREE(mutex) ::log4cplus::thread::deleteMutex(mutex)
+#   define LOG4CPLUS_MUTEX_PTR_DECLARE log4cplus::thread::Mutex *
+#   define LOG4CPLUS_MUTEX_CREATE (new log4cplus::thread::Mutex)
+#   define LOG4CPLUS_MUTEX_LOCK(mutex)  do { (mutex)->lock (); } while (0)
+#   define LOG4CPLUS_MUTEX_UNLOCK(mutex)  do { (mutex)->unlock (); } while (0)
+#   define LOG4CPLUS_MUTEX_FREE(mutex) do { delete (mutex); } while (0)
 
 #   define LOG4CPLUS_THREAD_HANDLE_TYPE  HANDLE
 #   define LOG4CPLUS_THREAD_KEY_TYPE  DWORD
@@ -83,14 +84,6 @@ namespace log4cplus {
 #     define LOG4CPLUS_HAVE_TLS_SUPPORT 1
 #     define LOG4CPLUS_THREAD_LOCAL_VAR __declspec(thread)
 #   endif
-
-
-namespace log4cplus { namespace thread {
-
-LOG4CPLUS_EXPORT LOG4CPLUS_MUTEX_PTR_DECLARE createNewMutex();
-LOG4CPLUS_EXPORT void deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE);
-    
-} } // namespace log4cplus { namespace thread {
 
 #elif defined(LOG4CPLUS_SINGLE_THREADED)
 #   define LOG4CPLUS_MUTEX_PTR_DECLARE int*

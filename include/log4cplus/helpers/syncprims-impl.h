@@ -31,7 +31,10 @@
 #include <stdexcept>
 #include <log4cplus/config.hxx>
 #include <log4cplus/helpers/syncprims.h>
-#if defined (LOG4CPLUS_USE_PTHREADS)
+#if defined (WIN32)
+#  include <windows.h>
+
+#elif defined (LOG4CPLUS_USE_PTHREADS)
 #  include <errno.h>
 #  include <pthread.h>
 #  include <semaphore.h>

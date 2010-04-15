@@ -23,6 +23,7 @@
 #include <log4cplus/helpers/appenderattachableimpl.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/helpers/syncprims-pub-impl.h>
 
 #include <algorithm>
 

@@ -21,6 +21,7 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/threads.h>
+#include <log4cplus/helpers/syncprims-pub-impl.h>
 #include <assert.h>
 
 

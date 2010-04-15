@@ -19,6 +19,7 @@
 // limitations under the License.
 
 #include <log4cplus/spi/objectregistry.h>
+#include <log4cplus/helpers/syncprims-pub-impl.h>
 
 
 namespace log4cplus { namespace spi {
