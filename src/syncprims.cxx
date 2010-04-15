@@ -22,8 +22,8 @@
 //   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <sstream>
-#include <log4cplus/helpers/syncprims.h>
-#include <log4cplus/helpers/syncprims-pub-impl.h>
+#include <log4cplus/thread/syncprims.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
 
 
 namespace log4cplus { namespace thread {

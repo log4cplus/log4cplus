@@ -55,7 +55,7 @@ namespace log4cplus {
 
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
 #   include <log4cplus/config/windowsh-inc.h>
-#   include <log4cplus/helpers/syncprims.h>
+#   include <log4cplus/thread/syncprims.h>
 
 #   define LOG4CPLUS_MUTEX_PTR_DECLARE log4cplus::thread::Mutex *
 #   define LOG4CPLUS_MUTEX_CREATE (new log4cplus::thread::Mutex)

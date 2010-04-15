@@ -25,10 +25,10 @@
 #define LOG4CPLUS_HELPERS_QUEUE_H
 
 #include <deque>
-#include <log4cplus/helpers/threads.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/helpers/logloguser.h>
-#include <log4cplus/helpers/syncprims.h>
+#include <log4cplus/thread/threads.h>
+#include <log4cplus/thread/syncprims.h>
 
 
 namespace log4cplus { namespace thread {

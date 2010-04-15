@@ -26,7 +26,7 @@
 #include <log4cplus/socketappender.h>
 #include <log4cplus/syslogappender.h>
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/helpers/threads.h>
+#include <log4cplus/thread/threads.h>
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
 #include <log4cplus/asyncappender.h>

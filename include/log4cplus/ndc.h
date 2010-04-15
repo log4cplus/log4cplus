@@ -28,7 +28,7 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/logloguser.h>
-#include <log4cplus/helpers/threads.h>
+#include <log4cplus/thread/threads.h>
 
 #include <map>
 #include <deque>

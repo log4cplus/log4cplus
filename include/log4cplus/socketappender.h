@@ -26,7 +26,7 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/appender.h>
 #include <log4cplus/helpers/socket.h>
-#include <log4cplus/helpers/syncprims.h>
+#include <log4cplus/thread/syncprims.h>
 
 
 #ifndef UNICODE

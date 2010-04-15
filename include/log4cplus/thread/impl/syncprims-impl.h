@@ -30,7 +30,7 @@
 
 #include <stdexcept>
 #include <log4cplus/config.hxx>
-#include <log4cplus/helpers/syncprims.h>
+#include <log4cplus/thread/syncprims.h>
 #if defined (WIN32)
 #  include <windows.h>
 
@@ -167,9 +167,9 @@ private:
 // above.
 
 #if defined (LOG4CPLUS_USE_PTHREADS)
-#  include <log4cplus/helpers/syncprims-pthreads.h>
+#  include <log4cplus/thread/impl/syncprims-pthreads.h>
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS)
-#  include <log4cplus/helpers/syncprims-win32.h>
+#  include <log4cplus/thread/impl/syncprims-win32.h>
 #endif
 
 

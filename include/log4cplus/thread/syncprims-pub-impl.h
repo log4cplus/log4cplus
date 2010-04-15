@@ -25,8 +25,8 @@
 #define LOG4CPLUS_THREAD_SYNCPRIMS_PUB_IMPL_H
 
 #include <log4cplus/config.hxx>
-#include <log4cplus/helpers/syncprims.h>
-#include <log4cplus/helpers/syncprims-impl.h>
+#include <log4cplus/thread/syncprims.h>
+#include <log4cplus/thread/impl/syncprims-impl.h>
 
 
 namespace log4cplus { namespace thread {

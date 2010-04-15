@@ -33,14 +33,14 @@
 #  include <process.h> 
 #endif
 
-#include <log4cplus/helpers/threads.h>
+#include <log4cplus/thread/threads.h>
+#include <log4cplus/thread/syncprims.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
-#include <log4cplus/helpers/syncprims.h>
-#include <log4cplus/helpers/syncprims-pub-impl.h>
 #include <log4cplus/internal/internal.h>
 
 
