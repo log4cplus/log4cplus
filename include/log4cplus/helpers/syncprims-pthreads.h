@@ -1,4 +1,4 @@
-//   Copyright (C) 2009, Vaclav Haisman. All rights reserved.
+//   Copyright (C) 2009-2010, Vaclav Haisman. All rights reserved.
 //   
 //   Redistribution and use in source and binary forms, with or without modifica-
 //   tion, are permitted provided that the following conditions are met:
@@ -27,11 +27,8 @@
 //! include guards because it is only a fragment to be included by
 //! syncprims.h.
 
-namespace log4cplus { namespace thread {
+namespace log4cplus { namespace thread { namespace impl {
 
-
-#define LOG4CPLUS_THROW_RTE(msg) \
-    do { detail::syncprims_throw_exception (msg, __FILE__, __LINE__); } while (0)
 
 //
 //
@@ -268,4 +265,4 @@ ManualResetEvent::reset () const
 #undef LOG4CPLUS_THROW_RTE
 
 
-} } // namespace log4cplus { namespace thread {
+} } } // namespace log4cplus { namespace thread { namespace impl {

@@ -1,4 +1,4 @@
-//   Copyright (C) 2010, Vaclav Haisman. All rights reserved.
+//   Copyright (C) 2009-2010, Vaclav Haisman. All rights reserved.
 //   
 //   Redistribution and use in source and binary forms, with or without modifica-
 //   tion, are permitted provided that the following conditions are met:
@@ -21,46 +21,41 @@
 //   (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef LOG4CPLUS_THREAD_SYNCPRIMS_H
-#define LOG4CPLUS_THREAD_SYNCPRIMS_H
+#ifndef LOG4CPLUS_THREAD_SYNCPRIMS_IMPL_H
+#define LOG4CPLUS_THREAD_SYNCPRIMS_IMPL_H
 
+#if ! defined (INSIDE_LOG4CPLUS)
+#  error "This header must not be be used outside log4cplus' implementation files."
+#endif
+
+#include <stdexcept>
 #include <log4cplus/config.hxx>
+#include <log4cplus/helpers/syncprims.h>
+#if defined (LOG4CPLUS_USE_PTHREADS)
+#  include <errno.h>
+#  include <pthread.h>
+#  include <semaphore.h>
+#  include <log4cplus/helpers/timehelper.h>
+
+#endif
 
 
-namespace log4cplus { namespace thread {
+namespace log4cplus { namespace thread { namespace impl {
 
 
-template <typename SP>
-class SyncGuard
-{
-public:
-    SyncGuard (SP const &);
-    ~SyncGuard ();
+LOG4CPLUS_EXPORT void syncprims_throw_exception (char const * const msg,
+    char const * const file, int line);
 
-    void lock ();
-    void unlock ();
-    void attach (SP const &);
-    void detach ();
 
-private:
-    SP const * sp;
-
-    SyncGuard (SyncGuard const &);
-    SyncGuard & operator = (SyncGuard const &);
-};
+#define LOG4CPLUS_THROW_RTE(msg) \
+    do { syncprims_throw_exception (msg, __FILE__, __LINE__); } while (0)
 
 
 class ManualResetEvent;
 
 
-class MutexImplBase
-{
-protected:
-    ~MutexImplBase ();
-};
-
-
-class LOG4CPLUS_EXPORT Mutex
+class Mutex
+    : public MutexImplBase
 {
 public:
     Mutex ();
@@ -70,8 +65,13 @@ public:
     void unlock () const;
 
 private:
-    MutexImplBase * mtx;
-
+#if defined (LOG4CPLUS_USE_PTHREADS)
+    mutable pthread_mutex_t mtx;
+    friend class ManualResetEvent;
+#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
+    mutable CRITICAL_SECTION cs;
+#endif
+    
     Mutex (Mutex const &);
     Mutex & operator = (Mutex &);
 };
@@ -80,14 +80,8 @@ private:
 typedef SyncGuard<Mutex> MutexGuard;
 
 
-class SemaphoreImplBase
-{
-protected:
-    ~SemaphoreImplBase ();
-};
-
-
-class LOG4CPLUS_EXPORT Semaphore
+class Semaphore
+    : public SemaphoreImplBase
 {
 public:
     Semaphore (unsigned max, unsigned initial);
@@ -97,7 +91,11 @@ public:
     void unlock () const;
 
 private:
-    SemaphoreImplBase * sem;
+#if defined (LOG4CPLUS_USE_PTHREADS)
+    mutable sem_t sem;
+#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
+    HANDLE sem;
+#endif
 
     Semaphore (Semaphore const &);
     Semaphore & operator = (Semaphore const &);
@@ -107,14 +105,8 @@ private:
 typedef SyncGuard<Semaphore> SemaphoreGuard;
 
 
-class FairMutexImplBase
-{
-protected:
-    ~FairMutexImplBase ();
-};
-
-
-class LOG4CPLUS_EXPORT FairMutex
+class FairMutex
+    : public FairMutexImplBase
 {
 public:
     FairMutex ();
@@ -124,7 +116,11 @@ public:
     void unlock () const;
 
 private:
-    FairMutexImplBase * mtx;
+#if defined (LOG4CPLUS_USE_PTHREADS)
+    Semaphore sem;
+#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
+    HANDLE mtx;
+#endif
 
     FairMutex (FairMutex const &);
     FairMutex & operator = (FairMutex &);
@@ -134,14 +130,8 @@ private:
 typedef SyncGuard<FairMutex> FairMutexGuard;
 
 
-class ManualResetEventImplBase
-{
-protected:
-    ~ManualResetEventImplBase ();
-};
-
-
-class LOG4CPLUS_EXPORT ManualResetEvent
+class ManualResetEvent
+    : public ManualResetEventImplBase
 {
 public:
     ManualResetEvent (bool = false);
@@ -153,72 +143,31 @@ public:
     void reset () const;
 
 private:
-    ManualResetEventImplBase * ev;
+#if defined (LOG4CPLUS_USE_PTHREADS)
+    mutable pthread_cond_t cv;
+    mutable Mutex mtx;
+    mutable volatile unsigned sigcount;
+    mutable volatile bool signaled;
+#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
+    HANDLE ev;
+#endif
 
     ManualResetEvent (ManualResetEvent const &);
     ManualResetEvent & operator = (ManualResetEvent const &);
 };
 
 
-//
-//
-//
-
-template <typename SP>
-inline
-SyncGuard<SP>::SyncGuard (SP const & m)
-    : sp (&m)
-{
-    sp->lock ();
-}
+} } } // namespace log4cplus { namespace thread { namespace impl {
 
 
-template <typename SP>
-inline
-SyncGuard<SP>::~SyncGuard ()
-{
-    if (sp)
-        sp->unlock ();
-}
+// Include the appropriate implementations of the classes declared
+// above.
+
+#if defined (LOG4CPLUS_USE_PTHREADS)
+#  include <log4cplus/helpers/syncprims-pthreads.h>
+#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
+#  include <log4cplus/helpers/syncprims-win32.h>
+#endif
 
 
-template <typename SP>
-inline
-void
-SyncGuard<SP>::lock ()
-{
-    sp->lock ();
-}
-
-
-template <typename SP>
-inline
-void
-SyncGuard<SP>::unlock ()
-{
-    sp->unlock ();
-}
-
-
-template <typename SP>
-inline
-void
-SyncGuard<SP>::attach (SP const & m)
-{
-    sp = &m;
-}
-
-
-template <typename SP>
-inline
-void
-SyncGuard<SP>::detach ()
-{
-    sp = 0;
-}
-
-
-} } // namespace log4cplus { namespace thread { 
-
-
-#endif // LOG4CPLUS_THREAD_SYNCPRIMS_H
+#endif // LOG4CPLUS_THREAD_SYNCPRIMS_IMPL_H

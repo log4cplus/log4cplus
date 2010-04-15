@@ -1,4 +1,4 @@
-//   Copyright (C) 2009, Vaclav Haisman. All rights reserved.
+//   Copyright (C) 2009-2010, Vaclav Haisman. All rights reserved.
 //   
 //   Redistribution and use in source and binary forms, with or without modifica-
 //   tion, are permitted provided that the following conditions are met:
@@ -23,9 +23,14 @@
 
 #include <sstream>
 #include <log4cplus/helpers/syncprims.h>
+#include <log4cplus/helpers/syncprims-pub-impl.h>
 
 
-namespace log4cplus { namespace thread { namespace detail {
+namespace log4cplus { namespace thread {
+
+
+namespace impl
+{
 
 
 LOG4CPLUS_EXPORT
@@ -39,4 +44,7 @@ syncprims_throw_exception (char const * const msg, char const * const file,
 }
 
 
-} } } // namespace log4cplus { namespace thread { namespace detail {
+}
+
+
+} } // namespace log4cplus { namespace thread namespace impl {

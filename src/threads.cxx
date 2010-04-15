@@ -40,6 +40,7 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/helpers/syncprims.h>
+#include <log4cplus/helpers/syncprims-pub-impl.h>
 #include <log4cplus/internal/internal.h>
 
 

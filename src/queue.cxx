@@ -23,6 +23,7 @@
 
 #include <log4cplus/helpers/queue.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/syncprims-pub-impl.h>
 
 
 namespace log4cplus { namespace thread {

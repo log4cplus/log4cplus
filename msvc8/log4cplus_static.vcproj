@@ -2434,6 +2434,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\helpers\syncprims-impl.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\log4cplus\helpers\syncprims-pthreads.h"
 				>
 				<FileConfiguration
@@ -2500,6 +2504,10 @@
 						Name="VCCustomBuildTool"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\syncprims-pub-impl.h"
+				>
 			</File>
 			<File
 				RelativePath="..\include\log4cplus\helpers\syncprims-win32.h"
