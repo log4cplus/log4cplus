@@ -26,7 +26,13 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/thread/syncprims.h>
-#include <log4cplus/thread/impl/syncprims-impl.h>
+
+#if defined (LOG4CPLUS_SINGLE_THREADED)
+#  define LOG4CPLUS_THREADED(x)
+#else
+#  include <log4cplus/thread/impl/syncprims-impl.h>
+#  define LOG4CPLUS_THREADED(x) (x)
+#endif
 
 
 namespace log4cplus { namespace thread {
@@ -47,14 +53,14 @@ MutexImplBase::~MutexImplBase ()
 
 inline
 Mutex::Mutex ()
-    : mtx (new impl::Mutex)
+    : mtx (LOG4CPLUS_THREADED (new impl::Mutex) + 0)
 { }
 
 
 inline
 Mutex::~Mutex ()
 {
-    delete static_cast<impl::Mutex *>(mtx);
+    LOG4CPLUS_THREADED (delete static_cast<impl::Mutex *>(mtx));
 }
 
 
@@ -62,7 +68,7 @@ inline
 void
 Mutex::lock () const
 {
-    static_cast<impl::Mutex *>(mtx)->lock ();
+    LOG4CPLUS_THREADED (static_cast<impl::Mutex *>(mtx)->lock ());
 }
 
 
@@ -70,7 +76,7 @@ inline
 void
 Mutex::unlock () const
 {
-    static_cast<impl::Mutex *>(mtx)->unlock ();
+    LOG4CPLUS_THREADED (static_cast<impl::Mutex *>(mtx)->unlock ());
 }
 
 
@@ -89,14 +95,14 @@ SemaphoreImplBase::~SemaphoreImplBase ()
 
 inline
 Semaphore::Semaphore (unsigned max, unsigned initial)
-    : sem (new impl::Semaphore (max, initial))
+    : sem (LOG4CPLUS_THREADED (new impl::Semaphore (max, initial)) + 0)
 { }
 
 
 inline
 Semaphore::~Semaphore ()
 {
-    delete static_cast<impl::Semaphore *>(sem);
+    LOG4CPLUS_THREADED (delete static_cast<impl::Semaphore *>(sem));
 }
 
 
@@ -104,7 +110,7 @@ inline
 void
 Semaphore::lock () const
 {
-    static_cast<impl::Semaphore *>(sem)->lock ();
+    LOG4CPLUS_THREADED (static_cast<impl::Semaphore *>(sem)->lock ());
 }
 
 
@@ -112,7 +118,7 @@ inline
 void
 Semaphore::unlock () const
 {
-    static_cast<impl::Semaphore *>(sem)->unlock ();
+    LOG4CPLUS_THREADED (static_cast<impl::Semaphore *>(sem)->unlock ());
 }
 
 
@@ -131,14 +137,14 @@ FairMutexImplBase::~FairMutexImplBase ()
 
 inline
 FairMutex::FairMutex ()
-    : mtx (new impl::FairMutex)
+    : mtx (LOG4CPLUS_THREADED (new impl::FairMutex) + 0)
 { }
 
 
 inline
 FairMutex::~FairMutex ()
 {
-    delete static_cast<impl::FairMutex *>(mtx);
+    LOG4CPLUS_THREADED (delete static_cast<impl::FairMutex *>(mtx));
 }
 
 
@@ -146,7 +152,7 @@ inline
 void
 FairMutex::lock () const
 {
-    static_cast<impl::FairMutex *>(mtx)->lock ();
+    LOG4CPLUS_THREADED (static_cast<impl::FairMutex *>(mtx)->lock ());
 }
 
 
@@ -154,7 +160,7 @@ inline
 void
 FairMutex::unlock () const
 {
-    static_cast<impl::FairMutex *>(mtx)->unlock ();
+    LOG4CPLUS_THREADED (static_cast<impl::FairMutex *>(mtx)->unlock ());
 }
 
 
@@ -173,14 +179,14 @@ ManualResetEventImplBase::~ManualResetEventImplBase ()
 
 inline
 ManualResetEvent::ManualResetEvent (bool sig)
-    : ev (new impl::ManualResetEvent (sig))
+    : ev (LOG4CPLUS_THREADED (new impl::ManualResetEvent (sig)) + 0)
 { }
 
 
 inline
 ManualResetEvent::~ManualResetEvent ()
 {
-    delete static_cast<impl::ManualResetEvent *>(ev);
+    LOG4CPLUS_THREADED (delete static_cast<impl::ManualResetEvent *>(ev));
 }
 
 
@@ -188,7 +194,7 @@ inline
 void
 ManualResetEvent::signal () const
 {
-    static_cast<impl::ManualResetEvent *>(ev)->signal ();
+    LOG4CPLUS_THREADED (static_cast<impl::ManualResetEvent *>(ev)->signal ());
 }
 
 
@@ -196,7 +202,7 @@ inline
 void
 ManualResetEvent::wait () const
 {
-    static_cast<impl::ManualResetEvent *>(ev)->wait ();
+    LOG4CPLUS_THREADED (static_cast<impl::ManualResetEvent *>(ev)->wait ());
 }
 
 
@@ -204,7 +210,11 @@ inline
 bool
 ManualResetEvent::timed_wait (unsigned long msec) const
 {
+#if defined (LOG4CPLUS_SINGLE_THREADED)
+    return true;
+#else
     return static_cast<impl::ManualResetEvent *>(ev)->timed_wait (msec);
+#endif
 }
 
 
@@ -212,7 +222,7 @@ inline
 void
 ManualResetEvent::reset () const
 {
-    return static_cast<impl::ManualResetEvent *>(ev)->reset ();
+    LOG4CPLUS_THREADED (static_cast<impl::ManualResetEvent *>(ev)->reset ());
 }
 
 

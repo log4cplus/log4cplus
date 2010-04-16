@@ -21,6 +21,8 @@
 //   (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#ifndef LOG4CPLUS_SINGLE_THREADED
+
 #include <log4cplus/helpers/queue.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
@@ -172,3 +174,6 @@ Queue::get_event (spi::InternalLoggingEvent & ev)
 
 
 } } // namespace log4cplus { namespace thread {
+
+
+#endif // LOG4CPLUS_SINGLE_THREADED

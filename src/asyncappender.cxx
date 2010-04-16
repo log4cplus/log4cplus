@@ -21,6 +21,8 @@
 //   (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#ifndef LOG4CPLUS_SINGLE_THREADED
+
 #include <log4cplus/asyncappender.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/helpers/loglog.h>
@@ -190,3 +192,6 @@ AsyncAppender::append (spi::InternalLoggingEvent const & ev)
 
 
 } // namespace log4cplus
+
+
+#endif // #ifndef LOG4CPLUS_SINGLE_THREADED

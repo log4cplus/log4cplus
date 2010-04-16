@@ -35,6 +35,8 @@
 #ifndef LOG4CPLUS_ASYNCAPPENDER_H
 #define LOG4CPLUS_ASYNCAPPENDER_H
 
+#ifndef LOG4CPLUS_SINGLE_THREADED
+
 #include <log4cplus/config.hxx>
 #include <log4cplus/helpers/queue.h>
 #include <log4cplus/appender.h>
@@ -78,5 +80,7 @@ typedef helpers::SharedObjectPtr<AsyncAppender> AsyncAppenderPtr;
 
 } // namespace log4cplus
 
+
+#endif // LOG4CPLUS_SINGLE_THREADED
 
 #endif // LOG4CPLUS_ASYNCAPPENDER_H

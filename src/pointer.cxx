@@ -20,7 +20,7 @@
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/pointer.h>
-#include <log4cplus/helpers/thread-config.h>
+#include <log4cplus/thread/threads.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <assert.h>
 
@@ -55,9 +55,11 @@ SharedObject::addReference() const
     && defined (WIN32)
     InterlockedIncrement (&count);
 
-#else
+#elif ! defined(LOG4CPLUS_SINGLE_THREADED)
     thread::Guard guard (access_mutex);
+    ++count;
 
+#else
     ++count;
 
 #endif
