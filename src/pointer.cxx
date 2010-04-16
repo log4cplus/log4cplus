@@ -55,7 +55,7 @@ SharedObject::addReference() const
     InterlockedIncrement (&count);
 
 #elif ! defined(LOG4CPLUS_SINGLE_THREADED)
-    thread::Guard guard (access_mutex);
+    thread::MutexGuard guard (access_mutex);
     ++count;
 
 #else
@@ -78,7 +78,7 @@ SharedObject::removeReference() const
 
 #else
     {
-        thread::Guard guard (access_mutex);
+        thread::MutexGuard guard (access_mutex);
         assert (count > 0);
         if (--count == 0)
             destroy = true;

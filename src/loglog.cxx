@@ -145,7 +145,7 @@ void
 LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
     tchar const * prefix, StringType const & msg)
 {
-    thread::Guard guard (mutex);
+    thread::MutexGuard guard (mutex);
 
     if (! (this->*cond) ())
         return;

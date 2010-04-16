@@ -24,6 +24,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
 #include <ostream>
 
 
@@ -86,7 +87,7 @@ ConsoleAppender::close()
 void
 ConsoleAppender::append(const spi::InternalLoggingEvent& event)
 {
-    thread::Guard guard (getLogLog().mutex);
+    thread::MutexGuard guard (getLogLog().mutex);
 
     tostream& output = (logToStdErr ? tcerr : tcout);
     layout->formatAndAppend(output, event);

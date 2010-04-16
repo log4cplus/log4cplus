@@ -58,7 +58,7 @@ SocketAppender::ConnectorThread::run ()
         // Check exit condition as the very first thing.
 
         {
-            thread::Guard guard (access_mutex);
+            thread::MutexGuard guard (access_mutex);
             if (exit_flag)
                 return;
             trigger_ev.reset ();
@@ -67,7 +67,7 @@ SocketAppender::ConnectorThread::run ()
         // Do not try to re-open already open socket.
 
         {
-            thread::Guard guard (sa.access_mutex);
+            thread::MutexGuard guard (sa.access_mutex);
             if (sa.socket.isOpen ())
                 continue;
         }
@@ -92,7 +92,7 @@ SocketAppender::ConnectorThread::run ()
         // Connection was successful, move the socket into SocketAppender.
 
         {
-            thread::Guard guard (sa.access_mutex);
+            thread::MutexGuard guard (sa.access_mutex);
             sa.socket = socket;
             sa.connected = true;
         }
@@ -104,7 +104,7 @@ void
 SocketAppender::ConnectorThread::terminate ()
 {
     {
-        thread::Guard guard (access_mutex);
+        thread::MutexGuard guard (access_mutex);
         exit_flag = true;
         trigger_ev.signal ();
     }

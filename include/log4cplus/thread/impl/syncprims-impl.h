@@ -32,7 +32,7 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/thread/syncprims.h>
 #if defined (WIN32)
-#  include <windows.h>
+#  include <log4cplus/config/windowsh-inc.h>
 
 #elif defined (LOG4CPLUS_USE_PTHREADS)
 #  include <errno.h>

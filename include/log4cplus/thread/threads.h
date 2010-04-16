@@ -30,39 +30,6 @@
 
 namespace log4cplus { namespace thread {
 
-/**
- * This is used to lock a mutex.  The dtor unlocks the mutex.
- */
-class Guard
-{
-public:
-    /** "locks" <code>mutex</code>. */
-    Guard(thread::Mutex const * mutex)
-        : _mutex (mutex)
-    {
-        _mutex->lock ();
-    }
-
-    Guard(thread::Mutex const & mutex)
-        : _mutex (&mutex)
-    {
-        _mutex->lock ();
-    }
-
-    /** "unlocks" <code>mutex</code>. */
-    ~Guard()
-    {
-        _mutex->unlock ();
-    }
-
-private:
-    thread::Mutex const * const _mutex;
-
-    // disable copy
-    Guard(const Guard&);
-    Guard& operator=(const Guard&);
-};
-
 
 LOG4CPLUS_EXPORT log4cplus::tstring const & getCurrentThreadName();
 LOG4CPLUS_EXPORT void yield();

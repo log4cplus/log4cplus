@@ -66,7 +66,7 @@ void
 log4cplus::SysLogAppender::close()
 {
     getLogLog().debug(LOG4CPLUS_TEXT("Entering SysLogAppender::close()..."));
-    thread::Guard guard (access_mutex);
+    thread::MutexGuard guard (access_mutex);
 
     ::closelog();
     closed = true;

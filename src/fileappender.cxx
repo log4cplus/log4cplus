@@ -25,6 +25,7 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
 #include <algorithm>
 #include <sstream>
 #include <cstdio>
@@ -235,7 +236,7 @@ FileAppender::~FileAppender()
 void 
 FileAppender::close()
 {
-    thread::Guard guard (access_mutex);
+    thread::MutexGuard guard (access_mutex);
 
     out.close();
     delete buffer;

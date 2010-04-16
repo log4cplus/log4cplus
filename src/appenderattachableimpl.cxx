@@ -67,7 +67,7 @@ AppenderAttachableImpl::~AppenderAttachableImpl()
 void
 AppenderAttachableImpl::addAppender(SharedAppenderPtr newAppender)
 {
-    thread::Guard guard (appender_list_mutex);
+    thread::MutexGuard guard (appender_list_mutex);
 
     if(newAppender == NULL) {
         getLogLog().warn( LOG4CPLUS_TEXT("Tried to add NULL appender") );
@@ -86,7 +86,7 @@ AppenderAttachableImpl::addAppender(SharedAppenderPtr newAppender)
 AppenderAttachableImpl::ListType
 AppenderAttachableImpl::getAllAppenders()
 {
-    thread::Guard guard (appender_list_mutex);
+    thread::MutexGuard guard (appender_list_mutex);
     
     return appenderList;
 }
@@ -96,7 +96,7 @@ AppenderAttachableImpl::getAllAppenders()
 SharedAppenderPtr 
 AppenderAttachableImpl::getAppender(const log4cplus::tstring& name)
 {
-    thread::Guard guard (appender_list_mutex);
+    thread::MutexGuard guard (appender_list_mutex);
 
     for(ListType::iterator it=appenderList.begin(); 
         it!=appenderList.end(); 
@@ -115,7 +115,7 @@ AppenderAttachableImpl::getAppender(const log4cplus::tstring& name)
 void 
 AppenderAttachableImpl::removeAllAppenders()
 {
-    thread::Guard guard (appender_list_mutex);
+    thread::MutexGuard guard (appender_list_mutex);
 
     appenderList.erase(appenderList.begin(), appenderList.end());
 }
@@ -130,7 +130,7 @@ AppenderAttachableImpl::removeAppender(SharedAppenderPtr appender)
         return;
     }
 
-    thread::Guard guard (appender_list_mutex);
+    thread::MutexGuard guard (appender_list_mutex);
 
     ListType::iterator it =
         std::find(appenderList.begin(), appenderList.end(), appender);
@@ -154,7 +154,7 @@ AppenderAttachableImpl::appendLoopOnAppenders(const spi::InternalLoggingEvent& e
 {
     int count = 0;
 
-    thread::Guard guard (appender_list_mutex);
+    thread::MutexGuard guard (appender_list_mutex);
 
     for(ListType::const_iterator it=appenderList.begin();
         it!=appenderList.end();

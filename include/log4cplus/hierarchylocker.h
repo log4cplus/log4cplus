@@ -57,7 +57,7 @@ namespace log4cplus {
     private:
       // Data
         Hierarchy& h;
-        log4cplus::thread::Guard hierarchyLocker;
+        log4cplus::thread::MutexGuard hierarchyLocker;
         LoggerList loggerList;
     };
 
