@@ -2792,6 +2792,10 @@
 					RelativePath="..\include\log4cplus\thread\impl\syncprims-win32.h"
 					>
 				</File>
+				<File
+					RelativePath="..\include\log4cplus\thread\impl\threads-impl.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

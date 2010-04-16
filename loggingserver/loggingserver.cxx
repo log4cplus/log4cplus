@@ -16,7 +16,7 @@
 #include <log4cplus/configurator.h>
 #include <log4cplus/socketappender.h>
 #include <log4cplus/helpers/socket.h>
-#include <log4cplus/helpers/threads.h>
+#include <log4cplus/thread/threads.h>
 #include <log4cplus/spi/loggingevent.h>
 
 

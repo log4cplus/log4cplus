@@ -26,7 +26,7 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/logger.h>
 #include <log4cplus/helpers/logloguser.h>
-#include <log4cplus/thread/threads.h>
+#include <log4cplus/helpers/thread-config.h>
 #include <map>
 #include <memory>
 #include <vector>

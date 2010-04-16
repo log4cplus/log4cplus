@@ -65,7 +65,12 @@ LOG4CPLUS_EXPORT void yield();
 LOG4CPLUS_EXPORT log4cplus::tstring const & getCurrentThreadName();
 
 
-struct ThreadStart;
+class ThreadImplBase
+    : public virtual log4cplus::helpers::SharedObject
+{
+protected:
+    virtual ~ThreadImplBase ();
+};
 
 
 /**
@@ -79,31 +84,17 @@ class LOG4CPLUS_EXPORT AbstractThread
 {
 public:
     AbstractThread();
-    bool isRunning() const { return running; }
-    LOG4CPLUS_THREAD_KEY_TYPE getThreadId() const;
-    LOG4CPLUS_THREAD_HANDLE_TYPE getThreadHandle () const;
+    bool isRunning() const;
     virtual void start();
     void join () const;
+    virtual void run() = 0;
 
 protected:
     // Force objects to be constructed on the heap
     virtual ~AbstractThread();
-    virtual void run() = 0;
 
 private:
-    bool running;
-
-    // Friends.
-    friend struct ThreadStart;
-
-#  ifdef LOG4CPLUS_USE_PTHREADS
-    pthread_t handle;
-
-#  elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    HANDLE handle;
-    unsigned thread_id;
-
-#  endif
+    helpers::SharedObjectPtr<ThreadImplBase> thread;
 
     // Disallow copying of instances of this class.
     AbstractThread(const AbstractThread&);

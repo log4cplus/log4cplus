@@ -28,8 +28,8 @@
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/pointer.h>
-#include <log4cplus/thread/threads.h>
 #include <log4cplus/spi/appenderattachable.h>
+#include <log4cplus/helpers/thread-config.h>
 
 #include <memory>
 #include <vector>
