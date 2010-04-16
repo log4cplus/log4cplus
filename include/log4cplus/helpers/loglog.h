@@ -27,7 +27,7 @@
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/pointer.h>
-#include <log4cplus/helpers/thread-config.h>
+#include <log4cplus/thread/syncprims.h>
 
 
 namespace log4cplus {
@@ -93,7 +93,7 @@ namespace log4cplus {
             void warn(tchar const * msg);
 
           // Data
-            LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
+            thread::Mutex mutex;
 
         private:
             template <typename StringType>
@@ -108,10 +108,10 @@ namespace log4cplus {
             bool debugEnabled;
             bool quietMode;
 
-
             LogLog();
-            LogLog(const LogLog&);
             virtual ~LogLog();
+
+            LogLog(const LogLog&);
             LogLog & operator = (LogLog const &);
         };
 

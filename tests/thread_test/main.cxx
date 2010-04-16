@@ -25,11 +25,13 @@ using namespace log4cplus::thread;
 class SlowObject {
 public:
     SlowObject() 
-      : mutex( LOG4CPLUS_MUTEX_CREATE ), 
-        logger(Logger::getInstance(LOG4CPLUS_TEXT("SlowObject"))) 
-    { logger.setLogLevel(TRACE_LOG_LEVEL); }
+        : logger(Logger::getInstance(LOG4CPLUS_TEXT("SlowObject"))) 
+    {
+        logger.setLogLevel(TRACE_LOG_LEVEL);
+    }
 
-    void doSomething() {
+    void doSomething()
+    {
         LOG4CPLUS_TRACE_METHOD(logger, LOG4CPLUS_TEXT("SlowObject::doSomething()"));
         {
             thread::Guard guard (mutex);
@@ -41,14 +43,13 @@ public:
     }
 
     ~SlowObject ()
-    {
-        LOG4CPLUS_MUTEX_FREE (mutex);
-    }
+    { }
 
 private:
-    LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
+    thread::Mutex mutex;
     Logger logger;
 };
+
 SlowObject *global;
 
 

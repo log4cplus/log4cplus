@@ -1,4 +1,4 @@
-//   Copyright (C) 2009-2010, Vaclav Haisman. All rights reserved.
+//   Copyright (C) 2010, Vaclav Haisman. All rights reserved.
 //   
 //   Redistribution and use in source and binary forms, with or without modifica-
 //   tion, are permitted provided that the following conditions are met:
@@ -21,29 +21,13 @@
 //   (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include <sstream>
-#include <log4cplus/thread/syncprims-pub-impl.h>
+#include <log4cplus/thread/impl/tls.h>
 
 
-namespace log4cplus { namespace thread {
+namespace log4cplus { namespace thread { namespace impl {
 
 
-namespace impl
-{
+tls_value_type tls_single_threaded_value;
 
 
-LOG4CPLUS_EXPORT
-void
-syncprims_throw_exception (char const * const msg, char const * const file,
-    int line)
-{
-    std::ostringstream oss;
-    oss << file << ":" << line << msg;
-    throw std::runtime_error (oss.str ());
-}
-
-
-}
-
-
-} } // namespace log4cplus { namespace thread namespace impl {
+} } } // namespace log4cplus { namespace thread { namespace impl {

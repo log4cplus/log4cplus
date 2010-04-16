@@ -52,15 +52,11 @@ namespace helpers
 //////////////////////////////////////////////////////////////////////////////
 
 AppenderAttachableImpl::AppenderAttachableImpl()
- : appender_list_mutex(LOG4CPLUS_MUTEX_CREATE)
-{
-}
+{ }
 
 
 AppenderAttachableImpl::~AppenderAttachableImpl()
-{
-   LOG4CPLUS_MUTEX_FREE( appender_list_mutex );
-}
+{ }
 
 
 

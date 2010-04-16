@@ -49,6 +49,7 @@
 #include <log4cplus/ndc.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/loggingmacros.h>
+#include <log4cplus/thread/impl/tls.h>
 
 
 namespace log4cplus {
@@ -122,7 +123,7 @@ per_thread_data * alloc_ptd ();
 
 
 // TLS key whose value is pointer struct per_thread_data.
-extern LOG4CPLUS_THREAD_LOCAL_TYPE tls_storage_key;
+extern log4cplus::thread::impl::tls_key_type tls_storage_key;
 
 
 #if defined (LOG4CPLUS_THREAD_LOCAL_VAR)

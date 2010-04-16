@@ -36,6 +36,51 @@
 namespace log4cplus { namespace thread { namespace impl {
 
 
+#if defined (LOG4CPLUS_USE_PTHREADS)
+
+typedef pthread_t os_handle_type;
+typedef pthread_t os_id_type;
+
+
+inline
+pthread_t
+getCurrentThreadId ()
+{
+    return pthread_self ();
+}
+
+
+#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
+
+typedef HANDLE os_handle_type;
+typedef DWORD os_id_type;
+
+
+inline
+DWORD
+getCurrentThreadId ()
+{
+    return GetCurrentThreadId ();
+}
+
+
+#elif defined (LOG4CPLUS_SINGLE_THREADED)
+
+typedef void * os_handle_type;
+typedef int os_id_type;
+
+
+inline
+int
+getCurrentThreadId ()
+{
+    return 1;
+}
+
+
+#endif
+
+
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
 
@@ -61,8 +106,8 @@ class Thread
 public:
     Thread();
     bool isRunning() const;
-    LOG4CPLUS_THREAD_KEY_TYPE getThreadId() const;
-    LOG4CPLUS_THREAD_HANDLE_TYPE getThreadHandle () const;
+    os_id_type getThreadId() const;
+    os_handle_type getThreadHandle () const;
     void start();
     void join () const;
 
@@ -72,18 +117,14 @@ protected:
     virtual void run() = 0;
 
 private:
-    bool running;
-
     // Friends.
     friend struct ThreadStart;
 
-#  ifdef LOG4CPLUS_USE_PTHREADS
-    pthread_t handle;
+    bool running;
+    os_handle_type handle;
 
-#  elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    HANDLE handle;
+#  if defined(LOG4CPLUS_USE_WIN32_THREADS)
     unsigned thread_id;
-
 #  endif
 
     // Disallow copying of instances of this class.

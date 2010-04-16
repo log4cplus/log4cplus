@@ -37,20 +37,26 @@ class Guard
 {
 public:
     /** "locks" <code>mutex</code>. */
-    Guard(LOG4CPLUS_MUTEX_PTR_DECLARE mutex)
+    Guard(thread::Mutex const * mutex)
         : _mutex (mutex)
     {
-        LOG4CPLUS_MUTEX_LOCK( _mutex );
+        _mutex->lock ();
+    }
+
+    Guard(thread::Mutex const & mutex)
+        : _mutex (&mutex)
+    {
+        _mutex->lock ();
     }
 
     /** "unlocks" <code>mutex</code>. */
     ~Guard()
     {
-        LOG4CPLUS_MUTEX_UNLOCK( _mutex );
+        _mutex->unlock ();
     }
 
 private:
-    LOG4CPLUS_MUTEX_PTR_DECLARE _mutex;
+    thread::Mutex const * const _mutex;
 
     // disable copy
     Guard(const Guard&);
@@ -58,12 +64,12 @@ private:
 };
 
 
-#ifndef LOG4CPLUS_SINGLE_THREADED
-
-LOG4CPLUS_EXPORT void blockAllSignals();
-LOG4CPLUS_EXPORT void yield();
 LOG4CPLUS_EXPORT log4cplus::tstring const & getCurrentThreadName();
+LOG4CPLUS_EXPORT void yield();
+LOG4CPLUS_EXPORT void blockAllSignals();
 
+
+#ifndef LOG4CPLUS_SINGLE_THREADED
 
 class ThreadImplBase
     : public virtual log4cplus::helpers::SharedObject

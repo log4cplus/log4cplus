@@ -73,7 +73,7 @@ per_thread_data::~per_thread_data ()
 { }
 
 
-LOG4CPLUS_THREAD_LOCAL_TYPE tls_storage_key;
+log4cplus::thread::impl::tls_key_type tls_storage_key;
 
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
@@ -92,7 +92,7 @@ alloc_ptd ()
     // get the ptd_cleanup_func to execute when this thread ends. The
     // cast is safe; the associated value will never be used if read
     // again using the key.
-    LOG4CPLUS_SET_THREAD_LOCAL_VALUE (tls_storage_key,
+    thread::impl::tls_set_value (tls_storage_key,
         reinterpret_cast<void *>(1));
 
     return tmp;
@@ -151,7 +151,7 @@ ptd_cleanup_func (void * arg)
     // are using TLS using __thread or __declspec(thread) or similar
     // constructs with POSIX threads. Otherwise POSIX calls this cleanup
     // routine more than once if the value stays non-NULL after it returns.
-    LOG4CPLUS_SET_THREAD_LOCAL_VALUE (internal::tls_storage_key, 0);
+    thread::impl::tls_set_value (internal::tls_storage_key, 0);
 }
 
 #endif
@@ -165,7 +165,7 @@ void initializeLog4cplus()
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
 
-    internal::tls_storage_key = LOG4CPLUS_THREAD_LOCAL_INIT (ptd_cleanup_func);
+    internal::tls_storage_key = thread::impl::tls_init (ptd_cleanup_func);
 
 #endif
 

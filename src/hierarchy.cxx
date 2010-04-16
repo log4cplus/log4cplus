@@ -65,11 +65,11 @@ const LogLevel Hierarchy::DISABLE_OVERRIDE = -2;
 //////////////////////////////////////////////////////////////////////////////
 
 Hierarchy::Hierarchy()
-  : hashtable_mutex(LOG4CPLUS_MUTEX_CREATE),
-    defaultFactory(new DefaultLoggerFactory()),
-    root(NULL),
-    disableValue(DISABLE_OFF),  // Don't disable any LogLevel level by default.
-    emittedNoAppenderWarning(false)
+  : defaultFactory(new DefaultLoggerFactory())
+  , root(NULL)
+  // Don't disable any LogLevel level by default.
+  , disableValue(DISABLE_OFF)
+  , emittedNoAppenderWarning(false)
 {
     root = Logger( new spi::RootLogger(*this, DEBUG_LOG_LEVEL) );
 }
@@ -78,7 +78,6 @@ Hierarchy::Hierarchy()
 Hierarchy::~Hierarchy()
 {
     shutdown();
-    LOG4CPLUS_MUTEX_FREE( hashtable_mutex );
 }
 
 

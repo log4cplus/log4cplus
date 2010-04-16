@@ -35,7 +35,6 @@ namespace log4cplus { namespace helpers {
 SharedObject::~SharedObject()
 {
     assert(count == 0);
-    LOG4CPLUS_MUTEX_FREE( access_mutex );
 }
 
 

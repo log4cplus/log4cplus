@@ -35,8 +35,7 @@
 
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/thread/impl/threads-impl.h>
-#include <log4cplus/thread/syncprims.h>
-#include <log4cplus/thread/syncprims-pub-impl.h>
+#include <log4cplus/thread/impl/tls.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
@@ -168,7 +167,7 @@ Thread::isRunning() const
 }
 
 
-LOG4CPLUS_THREAD_KEY_TYPE
+os_id_type
 Thread::getThreadId () const
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
@@ -179,7 +178,7 @@ Thread::getThreadId () const
 }
 
 
-LOG4CPLUS_THREAD_HANDLE_TYPE
+os_handle_type
 Thread::getThreadHandle () const
 {
     return handle;
@@ -200,36 +199,6 @@ Thread::join () const
 } // namespace impl {
 
 
-
-#if defined(LOG4CPLUS_USE_PTHREADS)
-LOG4CPLUS_MUTEX_PTR_DECLARE 
-createNewMutex()
-{
-    ::pthread_mutex_t* m = new ::pthread_mutex_t;
-    ::pthread_mutex_init(m, NULL);
-    return m;
-}
-
-
-void 
-deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE m)
-{
-    ::pthread_mutex_destroy(m);
-    delete m;
-}
-
-
-pthread_key_t*
-createPthreadKey(void (*cleanupfunc)(void *))
-{
-    ::pthread_key_t* key = new ::pthread_key_t;
-    ::pthread_key_create(key, cleanupfunc);
-    return key;
-}
-#endif
-
-
-#ifndef LOG4CPLUS_SINGLE_THREADED
 void
 blockAllSignals()
 {
@@ -240,7 +209,6 @@ blockAllSignals()
     ::pthread_sigmask (SIG_BLOCK, &signal_set, 0);
 #endif    
 }
-#endif // LOG4CPLUS_SINGLE_THREADED
 
 
 void
@@ -248,7 +216,7 @@ yield()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
     ::sched_yield();
-#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
+#elif defined(WIN32)
     ::Sleep(0);
 #endif
 }
@@ -257,13 +225,17 @@ yield()
 log4cplus::tstring const &
 getCurrentThreadName()
 {
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
     log4cplus::tstring & name = log4cplus::internal::get_thread_name_str ();
     if (name.empty ())
     {
         log4cplus::tostringstream tmp;
-        tmp << LOG4CPLUS_GET_CURRENT_THREAD;
+        tmp << impl::getCurrentThreadId ();
         name = tmp.str ();
     }
+#else
+    log4cplus::tstring const name (LOG4CPLUS_TEXT ("single"));
+#endif
 
     return name;
 }

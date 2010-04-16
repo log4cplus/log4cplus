@@ -25,7 +25,7 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
-#include <log4cplus/helpers/thread-config.h>
+#include <log4cplus/thread/syncprims.h>
 #include <map>
 #include <memory>
 #include <vector>
@@ -84,7 +84,7 @@ namespace log4cplus {
             typedef std::map<log4cplus::tstring, void*> ObjectMap;
 
           // Data
-            LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
+            thread::Mutex mutex;
             ObjectMap data;
 
         private:

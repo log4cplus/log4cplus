@@ -31,15 +31,11 @@ namespace log4cplus { namespace spi {
 ///////////////////////////////////////////////////////////////////////////////
 
 ObjectRegistryBase::ObjectRegistryBase()
- : mutex(LOG4CPLUS_MUTEX_CREATE)
-{
-}
+{ }
 
 
 ObjectRegistryBase::~ObjectRegistryBase()
-{
-    LOG4CPLUS_MUTEX_FREE( mutex );
-}
+{ }
 
 
 

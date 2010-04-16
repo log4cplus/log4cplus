@@ -21,6 +21,7 @@
 #include <log4cplus/hierarchylocker.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggerimpl.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
 
 
 namespace log4cplus
@@ -42,7 +43,7 @@ HierarchyLocker::HierarchyLocker(Hierarchy& _h)
     // Lock all of the Hierarchy's Loggers' mutexs
     try {
         for(LoggerList::iterator it=loggerList.begin(); it!=loggerList.end(); ++it) {
-            LOG4CPLUS_MUTEX_LOCK( (*it).value->appender_list_mutex ) ;
+            it->value->appender_list_mutex.lock ();
         }
     }
     catch(...) {
@@ -57,7 +58,7 @@ HierarchyLocker::~HierarchyLocker()
 {
     try {
         for(LoggerList::iterator it=loggerList.begin(); it!=loggerList.end(); ++it) {
-            LOG4CPLUS_MUTEX_UNLOCK( (*it).value->appender_list_mutex ) ;
+            it->value->appender_list_mutex.unlock ();
         }
     }
     catch(...) {
@@ -86,10 +87,10 @@ HierarchyLocker::resetConfiguration()
         // We need to temporarilly unlock appender_list_mutex because
         // closeNestedAppenders() and removeAllAppenders() lock it themselves.
 
-        LOG4CPLUS_MUTEX_UNLOCK( logger.value->appender_list_mutex ) ;
+        logger.value->appender_list_mutex.unlock ();
         logger.closeNestedAppenders();
         logger.removeAllAppenders();
-        LOG4CPLUS_MUTEX_LOCK( (*it).value->appender_list_mutex ) ;
+        it->value->appender_list_mutex.lock ();
         
         logger.setLogLevel(NOT_SET_LOG_LEVEL);
         logger.setAdditivity(true);
@@ -116,9 +117,9 @@ HierarchyLocker::addAppender(Logger& logger, SharedAppenderPtr& appender)
 {
     for(LoggerList::iterator it=loggerList.begin(); it!=loggerList.end(); ++it) {
         if((*it).value == logger.value) {
-            LOG4CPLUS_MUTEX_UNLOCK( logger.value->appender_list_mutex );
+            logger.value->appender_list_mutex.unlock ();
             logger.addAppender(appender);
-            LOG4CPLUS_MUTEX_LOCK( logger.value->appender_list_mutex );
+            logger.value->appender_list_mutex.lock ();
             return;
         }
     }

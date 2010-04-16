@@ -810,6 +810,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\config.hxx"
+				>
+			</File>
+			<File
 				RelativePath="..\src\configurator.cxx"
 				>
 				<FileConfiguration
@@ -2796,6 +2800,14 @@
 					RelativePath="..\include\log4cplus\thread\impl\threads-impl.h"
 					>
 				</File>
+				<File
+					RelativePath="..\src\tls.cxx"
+					>
+				</File>
+				<File
+					RelativePath="..\include\log4cplus\thread\impl\tls.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -3758,10 +3770,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath="..\include\log4cplus\config.hxx"
-			>
-		</File>
 		<File
 			RelativePath=".\log4cplus.vsprops"
 			>

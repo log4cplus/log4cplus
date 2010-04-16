@@ -288,24 +288,24 @@ namespace log4cplus {
          */
         void updateChildren(ProvisionNode& pn, Logger const & logger);
 
-    // Data
-       LOG4CPLUS_MUTEX_PTR_DECLARE hashtable_mutex;
-       std::auto_ptr<spi::LoggerFactory> defaultFactory;
-       ProvisionNodeMap provisionNodes;
-       LoggerMap loggerPtrs;
-       Logger root;
+     // Data
+        thread::Mutex hashtable_mutex;
+        std::auto_ptr<spi::LoggerFactory> defaultFactory;
+        ProvisionNodeMap provisionNodes;
+        LoggerMap loggerPtrs;
+        Logger root;
 
-       int disableValue;
+        int disableValue;
 
-       bool emittedNoAppenderWarning;
+        bool emittedNoAppenderWarning;
 
-     // Disallow copying of instances of this class
-       Hierarchy(const Hierarchy&);
-       Hierarchy& operator=(const Hierarchy&);
+        // Disallow copying of instances of this class
+        Hierarchy(const Hierarchy&);
+        Hierarchy& operator=(const Hierarchy&);
 
-    // Friends
-       friend class log4cplus::spi::LoggerImpl;
-       friend class log4cplus::HierarchyLocker;
+     // Friends
+        friend class log4cplus::spi::LoggerImpl;
+        friend class log4cplus::HierarchyLocker;
     };
 
 } // end namespace log4cplus

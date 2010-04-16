@@ -128,7 +128,7 @@ namespace log4cplus {
             {
                 if (! threadCached)
                 {
-                    thread = LOG4CPLUS_GET_CURRENT_THREAD_NAME;
+                    thread = thread::getCurrentThreadName ();
                     threadCached = true;
                 }
                 return thread; 
