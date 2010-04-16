@@ -77,7 +77,7 @@ ThreadStart::threadStartFuncWorker(void * arg)
         loglog->error(LOG4CPLUS_TEXT("threadStartFunc()- arg is NULL"));
     else
     {
-        Thread * ptr = static_cast<Thread *>(static_cast<ThreadImplBase*>(arg));
+        Thread * ptr = static_cast<Thread *>(arg);
         ThreadPtr thread(ptr);
 
         // Decrease reference count increased by Thread::start().
