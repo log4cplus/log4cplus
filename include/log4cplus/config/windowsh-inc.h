@@ -29,8 +29,10 @@
 
 // NOTE: This file is a fragment intentionally left without include guards.
 
+#if defined (_WIN32)
 #undef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#endif
 
 // NOTE: This file is a fragment intentionally left without include guards.
