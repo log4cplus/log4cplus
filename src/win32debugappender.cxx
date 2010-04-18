@@ -18,7 +18,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
+#include <log4cplus/config.hxx>
 #if defined (LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING)
 
 #include <log4cplus/win32debugappender.h>
