@@ -50,7 +50,7 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
                          ../include/log4cplus/spi/loggerimpl.h \
                          ../include/log4cplus/spi/loggingevent.h \
                          ../include/log4cplus/spi/objectregistry.h \
-                         ../include/log4cplus/spi/rootlogger.h
+                         ../include/log4cplus/spi/rootlogger.h \
                          ../include/log4cplus/socketappender.h \
                          ../include/log4cplus/streams.h \
                          ../include/log4cplus/syslogappender.h \

@@ -18,6 +18,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
+#include <log4cplus/config.hxx>
+#if defined (LOG4CPLUS_USE_BSD_SOCKETS)
+
 #include <cstring>
 #include <vector>
 #include <log4cplus/internal/socket.h>
@@ -220,3 +224,5 @@ getHostname (bool fqdn)
 
 
 } } // namespace log4cplus
+
+#endif // LOG4CPLUS_USE_BSD_SOCKETS

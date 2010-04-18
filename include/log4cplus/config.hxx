@@ -35,6 +35,7 @@
 #endif
 
 #if !defined(_WIN32)
+#  define LOG4CPLUS_USE_BSD_SOCKETS
 #  if !defined(LOG4CPLUS_SINGLE_THREADED)
 #    define LOG4CPLUS_USE_PTHREADS
 #  endif

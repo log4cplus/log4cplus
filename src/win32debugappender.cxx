@@ -19,6 +19,8 @@
 // limitations under the License.
 
 
+#if defined (LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING)
+
 #include <log4cplus/win32debugappender.h>
 #include <log4cplus/internal/internal.h>
 
@@ -78,3 +80,6 @@ Win32DebugAppender::append(const spi::InternalLoggingEvent& event)
 
 
 } // namespace log4cplus
+
+
+#endif // LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING

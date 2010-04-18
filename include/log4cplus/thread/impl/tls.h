@@ -66,7 +66,7 @@ inline void tls_cleanup (tls_key_type);
 
 #if defined (LOG4CPLUS_USE_PTHREADS)
 tls_key_type
-tls_init (tls_cleanup_func_param_type cleanupfunc)
+tls_init (tls_init_cleanup_func_type cleanupfunc)
 {
     pthread_key_t * key = new pthread_key_t;
     pthread_key_create (key, cleanupfunc);

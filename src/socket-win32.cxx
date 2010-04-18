@@ -18,6 +18,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <log4cplus/config.hxx>
+#if defined (LOG4CPLUS_USE_WINSOCK)
+
 #include <cassert>
 #include <vector>
 #include <log4cplus/internal/socket.h>
@@ -303,3 +306,5 @@ getHostname (bool fqdn)
 
 
 } } // namespace log4cplus { namespace helpers {
+
+#endif // LOG4CPLUS_USE_WINSOCK

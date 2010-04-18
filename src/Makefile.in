@@ -69,29 +69,18 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 liblog4cplus_la_LIBADD =
-am__liblog4cplus_la_SOURCES_DIST = appenderattachableimpl.cxx \
-	appender.cxx configurator.cxx consoleappender.cxx factory.cxx \
-	fileappender.cxx filter.cxx global-init.cxx hierarchy.cxx \
-	hierarchylocker.cxx layout.cxx logger.cxx loggerimpl.cxx \
-	loggingevent.cxx loggingmacros.cxx loglevel.cxx loglog.cxx \
-	logloguser.cxx ndc.cxx nullappender.cxx objectregistry.cxx \
-	patternlayout.cxx pointer.cxx property.cxx rootlogger.cxx \
-	sleep.cxx socket.cxx socket-unix.cxx socketappender.cxx \
-	socketbuffer.cxx stringhelper.cxx syslogappender.cxx \
-	timehelper.cxx threads.cxx asyncappender.cxx queue.cxx \
-	syncprims.cxx
-am__objects_1 = appenderattachableimpl.lo appender.lo configurator.lo \
-	consoleappender.lo factory.lo fileappender.lo filter.lo \
-	global-init.lo hierarchy.lo hierarchylocker.lo layout.lo \
-	logger.lo loggerimpl.lo loggingevent.lo loggingmacros.lo \
-	loglevel.lo loglog.lo logloguser.lo ndc.lo nullappender.lo \
-	objectregistry.lo patternlayout.lo pointer.lo property.lo \
-	rootlogger.lo sleep.lo socket.lo socket-unix.lo \
-	socketappender.lo socketbuffer.lo stringhelper.lo \
-	syslogappender.lo timehelper.lo
-@MULTI_THREADED_FALSE@am__objects_2 = $(am__objects_1)
-@MULTI_THREADED_TRUE@am__objects_2 = $(am__objects_1) threads.lo \
-@MULTI_THREADED_TRUE@	asyncappender.lo queue.lo syncprims.lo
+am__objects_1 = appenderattachableimpl.lo appender.lo asyncappender.lo \
+	configurator.lo consoleappender.lo factory.lo fileappender.lo \
+	filter.lo global-init.lo hierarchy.lo hierarchylocker.lo \
+	layout.lo logger.lo loggerimpl.lo loggingevent.lo \
+	loggingmacros.lo loglevel.lo loglog.lo logloguser.lo ndc.lo \
+	nullappender.lo nteventlogappender.lo objectregistry.lo \
+	patternlayout.lo pointer.lo property.lo queue.lo rootlogger.lo \
+	sleep.lo socketappender.lo socketbuffer.lo socket.lo \
+	socket-unix.lo socket-win32.lo stringhelper.lo syncprims.lo \
+	syslogappender.lo threads.lo timehelper.lo tls.lo \
+	win32debugappender.lo
+am__objects_2 = $(am__objects_1)
 am_liblog4cplus_la_OBJECTS = $(am__objects_2)
 liblog4cplus_la_OBJECTS = $(am_liblog4cplus_la_OBJECTS)
 liblog4cplus_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -110,7 +99,7 @@ CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(liblog4cplus_la_SOURCES)
-DIST_SOURCES = $(am__liblog4cplus_la_SOURCES_DIST)
+DIST_SOURCES = $(liblog4cplus_la_SOURCES)
 nobase_includeHEADERS_INSTALL = $(install_sh_DATA)
 HEADERS = $(nobase_include_HEADERS)
 ETAGS = etags
@@ -245,63 +234,72 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = liblog4cplus.la
 AM_CPPFLAGS = -DINSIDE_LOG4CPLUS \
-	-I$(top_srcdir)/include -I$(top_builddir)/include \
-	@LOG4CPLUS_NDEBUG@
+        -I$(top_srcdir)/include -I$(top_builddir)/include \
+        @LOG4CPLUS_NDEBUG@
 
 AM_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@
 AM_CXXFLAGS = -no-suppress @LOG4CPLUS_PROFILING_CXXFLAGS@
 nobase_include_HEADERS = ../include/log4cplus/appender.h \
-			 ../include/log4cplus/asyncappender.h \
-			 ../include/log4cplus/config.hxx \
-			 ../include/log4cplus/config/defines.hxx \
-			 ../include/log4cplus/config/macosx.h \
-			 ../include/log4cplus/config/win32.h \
-			 ../include/log4cplus/config/windowsh-inc.h \
-			 ../include/log4cplus/configurator.h \
-			 ../include/log4cplus/consoleappender.h \
-			 ../include/log4cplus/fileappender.h \
-			 ../include/log4cplus/fstreams.h \
-			 ../include/log4cplus/hierarchy.h \
-			 ../include/log4cplus/hierarchylocker.h \
-			 ../include/log4cplus/internal/internal.h \
-			 ../include/log4cplus/internal/socket.h \
-			 ../include/log4cplus/layout.h \
-			 ../include/log4cplus/logger.h \
-			 ../include/log4cplus/loggingmacros.h \
-			 ../include/log4cplus/loglevel.h \
-			 ../include/log4cplus/ndc.h \
-			 ../include/log4cplus/nullappender.h \
-			 ../include/log4cplus/socketappender.h \
-			 ../include/log4cplus/streams.h \
-			 ../include/log4cplus/syslogappender.h \
-			 ../include/log4cplus/tracelogger.h \
-			 ../include/log4cplus/tstring.h \
-			 ../include/log4cplus/helpers/appenderattachableimpl.h \
-			 ../include/log4cplus/helpers/loglog.h \
-			 ../include/log4cplus/helpers/logloguser.h \
-			 ../include/log4cplus/helpers/pointer.h \
-			 ../include/log4cplus/helpers/property.h \
-			 ../include/log4cplus/helpers/queue.h \
-			 ../include/log4cplus/helpers/sleep.h \
-			 ../include/log4cplus/helpers/socketbuffer.h \
-			 ../include/log4cplus/helpers/socket.h \
-			 ../include/log4cplus/helpers/stringhelper.h \
-			 ../include/log4cplus/helpers/syncprims.h \
-			 ../include/log4cplus/helpers/syncprims-pthreads.h \
-			 ../include/log4cplus/helpers/thread-config.h \
-			 ../include/log4cplus/helpers/threads.h \
-			 ../include/log4cplus/helpers/timehelper.h \
-			 ../include/log4cplus/spi/appenderattachable.h \
-			 ../include/log4cplus/spi/factory.h \
-			 ../include/log4cplus/spi/filter.h \
-			 ../include/log4cplus/spi/loggerfactory.h \
-			 ../include/log4cplus/spi/loggerimpl.h \
-			 ../include/log4cplus/spi/loggingevent.h \
-			 ../include/log4cplus/spi/objectregistry.h \
-			 ../include/log4cplus/spi/rootlogger.h
+                         ../include/log4cplus/asyncappender.h \
+                         ../include/log4cplus/boost/deviceappender.hxx \
+                         ../include/log4cplus/config.hxx \
+                         ../include/log4cplus/config/defines.hxx \
+                         ../include/log4cplus/config/macosx.h \
+                         ../include/log4cplus/config/win32.h \
+                         ../include/log4cplus/config/windowsh-inc.h \
+                         ../include/log4cplus/configurator.h \
+                         ../include/log4cplus/consoleappender.h \
+                         ../include/log4cplus/fileappender.h \
+                         ../include/log4cplus/fstreams.h \
+                         ../include/log4cplus/helpers/appenderattachableimpl.h \
+                         ../include/log4cplus/helpers/loglog.h \
+                         ../include/log4cplus/helpers/logloguser.h \
+                         ../include/log4cplus/helpers/pointer.h \
+                         ../include/log4cplus/helpers/property.h \
+                         ../include/log4cplus/helpers/queue.h \
+                         ../include/log4cplus/helpers/sleep.h \
+                         ../include/log4cplus/helpers/socketbuffer.h \
+                         ../include/log4cplus/helpers/socket.h \
+                         ../include/log4cplus/helpers/stringhelper.h \
+                         ../include/log4cplus/helpers/thread-config.h \
+                         ../include/log4cplus/helpers/timehelper.h \
+                         ../include/log4cplus/hierarchy.h \
+                         ../include/log4cplus/hierarchylocker.h \
+                         ../include/log4cplus/internal/internal.h \
+                         ../include/log4cplus/internal/socket.h \
+                         ../include/log4cplus/layout.h \
+                         ../include/log4cplus/logger.h \
+                         ../include/log4cplus/loggingmacros.h \
+                         ../include/log4cplus/loglevel.h \
+                         ../include/log4cplus/ndc.h \
+                         ../include/log4cplus/nteventlogappender.h \
+                         ../include/log4cplus/nullappender.h \
+                         ../include/log4cplus/spi/appenderattachable.h \
+                         ../include/log4cplus/spi/factory.h \
+                         ../include/log4cplus/spi/filter.h \
+                         ../include/log4cplus/spi/loggerfactory.h \
+                         ../include/log4cplus/spi/loggerimpl.h \
+                         ../include/log4cplus/spi/loggingevent.h \
+                         ../include/log4cplus/spi/objectregistry.h \
+                         ../include/log4cplus/spi/rootlogger.h \
+                         ../include/log4cplus/socketappender.h \
+                         ../include/log4cplus/streams.h \
+                         ../include/log4cplus/syslogappender.h \
+                         ../include/log4cplus/thread/impl/syncprims-impl.h \
+                         ../include/log4cplus/thread/impl/syncprims-pthreads.h \
+                         ../include/log4cplus/thread/impl/syncprims-win32.h \
+                         ../include/log4cplus/thread/impl/threads-impl.h \
+                         ../include/log4cplus/thread/impl/tls.h \
+                         ../include/log4cplus/thread/syncprims.h \
+                         ../include/log4cplus/thread/syncprims-pub-impl.h \
+                         ../include/log4cplus/thread/threads.h \
+                         ../include/log4cplus/tracelogger.h \
+                         ../include/log4cplus/tstring.h \
+                         ../include/log4cplus/win32debugappender.h
 
 SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                       appender.cxx \
+                      asyncappender.cxx \
                       configurator.cxx \
                       consoleappender.cxx \
                       factory.cxx \
@@ -320,27 +318,28 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                       logloguser.cxx \
                       ndc.cxx \
                       nullappender.cxx \
+                      nteventlogappender.cxx \
                       objectregistry.cxx \
                       patternlayout.cxx \
                       pointer.cxx \
                       property.cxx \
+                      queue.cxx \
                       rootlogger.cxx \
                       sleep.cxx \
-                      socket.cxx \
-                      socket-unix.cxx \
                       socketappender.cxx \
                       socketbuffer.cxx \
+                      socket.cxx \
+                      socket-unix.cxx \
+                      socket-win32.cxx \
                       stringhelper.cxx \
+                      syncprims.cxx \
                       syslogappender.cxx \
-                      timehelper.cxx
+                      threads.cxx \
+                      timehelper.cxx \
+                      tls.cxx \
+                      win32debugappender.cxx
 
-@MULTI_THREADED_FALSE@LIB_SRC = $(SINGLE_THREADED_SRC)
-@MULTI_THREADED_TRUE@LIB_SRC = $(SINGLE_THREADED_SRC) \
-@MULTI_THREADED_TRUE@	threads.cxx \
-@MULTI_THREADED_TRUE@	asyncappender.cxx \
-@MULTI_THREADED_TRUE@	queue.cxx \
-@MULTI_THREADED_TRUE@	syncprims.cxx
-
+LIB_SRC = $(SINGLE_THREADED_SRC)
 liblog4cplus_la_SOURCES = $(LIB_SRC)
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
@@ -434,6 +433,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loglog.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logloguser.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ndc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nteventlogappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nullappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/objectregistry.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/patternlayout.Plo@am__quote@
@@ -443,6 +443,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rootlogger.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sleep.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket-unix.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket-win32.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socketappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socketbuffer.Plo@am__quote@
@@ -451,6 +452,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/syslogappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/threads.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timehelper.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tls.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/win32debugappender.Plo@am__quote@
 
 .cxx.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
