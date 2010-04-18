@@ -29,6 +29,7 @@
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS) && ! defined (_WIN32_WCE)
 #  include <process.h> 
 #endif
+#include <log4cplus/config/windowsh-inc.h>
 
 #include <log4cplus/tstring.h>
 

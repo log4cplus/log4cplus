@@ -25,6 +25,7 @@
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/config/windowsh-inc.h>
 
 #include <stdlib.h>
 #include <exception>
