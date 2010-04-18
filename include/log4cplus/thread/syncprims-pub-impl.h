@@ -94,7 +94,8 @@ SemaphoreImplBase::~SemaphoreImplBase ()
 //
 
 inline
-Semaphore::Semaphore (unsigned max, unsigned initial)
+Semaphore::Semaphore (unsigned LOG4CPLUS_THREADED (max),
+    unsigned LOG4CPLUS_THREADED (initial))
     : sem (LOG4CPLUS_THREADED (new impl::Semaphore (max, initial)) + 0)
 { }
 
@@ -178,7 +179,7 @@ ManualResetEventImplBase::~ManualResetEventImplBase ()
 //
 
 inline
-ManualResetEvent::ManualResetEvent (bool sig)
+ManualResetEvent::ManualResetEvent (bool LOG4CPLUS_THREADED (sig))
     : ev (LOG4CPLUS_THREADED (new impl::ManualResetEvent (sig)) + 0)
 { }
 
@@ -208,7 +209,7 @@ ManualResetEvent::wait () const
 
 inline
 bool
-ManualResetEvent::timed_wait (unsigned long msec) const
+ManualResetEvent::timed_wait (unsigned long LOG4CPLUS_THREADED (msec)) const
 {
 #if defined (LOG4CPLUS_SINGLE_THREADED)
     return true;

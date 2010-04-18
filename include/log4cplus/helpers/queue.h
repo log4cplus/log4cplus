@@ -24,6 +24,8 @@
 #ifndef LOG4CPLUS_HELPERS_QUEUE_H
 #define LOG4CPLUS_HELPERS_QUEUE_H
 
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+
 #include <deque>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/helpers/logloguser.h>
@@ -141,5 +143,6 @@ typedef helpers::SharedObjectPtr<Queue> QueuePtr;
 } } // namespace log4cplus { namespace thread {
 
 
+#endif // LOG4CPLUS_SINGLE_THREADED
 
 #endif // LOG4CPLUS_HELPERS_QUEUE_H

@@ -18,20 +18,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LOG4CPLUS_SINGLE_THREADED
+#include <log4cplus/config.hxx>
 
 #include <exception>
 #include <stdexcept>
 #include <errno.h>
-
-#include <log4cplus/config.hxx>
-
 #if defined(LOG4CPLUS_USE_PTHREADS)
 #  include <sched.h>
 #  include <signal.h>
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS) && ! defined (_WIN32_WCE)
 #  include <process.h> 
 #endif
+
+#include <log4cplus/tstring.h>
+
+#ifndef LOG4CPLUS_SINGLE_THREADED
 
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/thread/impl/threads-impl.h>
@@ -43,6 +44,59 @@
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/internal/internal.h>
 
+#endif // LOG4CPLUS_SINGLE_THREADED
+
+
+namespace log4cplus { namespace thread {
+
+LOG4CPLUS_EXPORT
+void
+blockAllSignals()
+{
+#if defined (LOG4CPLUS_USE_PTHREADS)
+    // Block all signals.
+    ::sigset_t signal_set;
+    ::sigfillset (&signal_set);
+    ::pthread_sigmask (SIG_BLOCK, &signal_set, 0);
+#endif    
+}
+
+
+LOG4CPLUS_EXPORT
+void
+yield()
+{
+#if defined(LOG4CPLUS_USE_PTHREADS)
+    ::sched_yield();
+#elif defined(WIN32)
+    ::Sleep(0);
+#endif
+}
+
+
+LOG4CPLUS_EXPORT
+log4cplus::tstring const &
+getCurrentThreadName()
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    log4cplus::tstring & name = log4cplus::internal::get_thread_name_str ();
+    if (name.empty ())
+    {
+        log4cplus::tostringstream tmp;
+        tmp << impl::getCurrentThreadId ();
+        name = tmp.str ();
+    }
+#else
+    static log4cplus::tstring const name (LOG4CPLUS_TEXT ("single"));
+#endif
+
+    return name;
+}
+
+} } // namespace log4cplus { namespace thread {
+
+
+#ifndef LOG4CPLUS_SINGLE_THREADED
 
 namespace
 {
@@ -197,48 +251,6 @@ Thread::join () const
 
 
 } // namespace impl {
-
-
-void
-blockAllSignals()
-{
-#if defined (LOG4CPLUS_USE_PTHREADS)
-    // Block all signals.
-    ::sigset_t signal_set;
-    ::sigfillset (&signal_set);
-    ::pthread_sigmask (SIG_BLOCK, &signal_set, 0);
-#endif    
-}
-
-
-void
-yield()
-{
-#if defined(LOG4CPLUS_USE_PTHREADS)
-    ::sched_yield();
-#elif defined(WIN32)
-    ::Sleep(0);
-#endif
-}
-
-
-log4cplus::tstring const &
-getCurrentThreadName()
-{
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
-    log4cplus::tstring & name = log4cplus::internal::get_thread_name_str ();
-    if (name.empty ())
-    {
-        log4cplus::tostringstream tmp;
-        tmp << impl::getCurrentThreadId ();
-        name = tmp.str ();
-    }
-#else
-    log4cplus::tstring const name (LOG4CPLUS_TEXT ("single"));
-#endif
-
-    return name;
-}
 
 
 //
