@@ -24,6 +24,7 @@
 #define LOG4CPLUS_IMPL_THREADS_IMPL_HEADER_
 
 #include <log4cplus/config.hxx>
+#include <log4cplus/config/windowsh-inc.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/thread/threads.h>

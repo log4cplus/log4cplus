@@ -73,7 +73,7 @@ namespace log4cplus {
 
         private:
 #if defined (WIN32)
-            typedef LONG count_type;
+            typedef long count_type;
 #else
             typedef unsigned count_type;
 #endif

@@ -1,10 +1,10 @@
 // Module:  Log4CPLUS
 // File:    windowsh-inc.h
-// Created: 1/2010
+// Created: 4/2010
 // Author:  Vaclav Haisman
 //
 //
-//   Copyright (C) 2009, Vaclav Haisman. All rights reserved.
+//   Copyright (C) 2010, Vaclav Haisman. All rights reserved.
 //   
 //   Redistribution and use in source and binary forms, with or without modifica-
 //   tion, are permitted provided that the following conditions are met:
@@ -29,17 +29,8 @@
 
 // NOTE: This file is a fragment intentionally left without include guards.
 
-#if defined (WIN32_LEAN_AND_MEAN)
-#  define LOG4CPLUS_WIN32_LEAN_AND_MEAN
-#endif
 #undef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
-
 #include <windows.h>
-
-#if ! defined (LOG4CPLUS_WIN32_LEAN_AND_MEAN)
-#undef WIN32_LEAN_AND_MEAN
-#endif
-#undef LOG4CPLUS_WIN32_LEAN_AND_MEAN
 
 // NOTE: This file is a fragment intentionally left without include guards.

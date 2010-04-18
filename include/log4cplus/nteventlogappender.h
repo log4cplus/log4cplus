@@ -24,6 +24,7 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/appender.h>
+#include <log4cplus/config/windowsh-inc.h>
 
 #if defined(_WIN32)
 #  if ! defined (LOG4CPLUS_HAVE_NT_EVENT_LOG)

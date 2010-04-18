@@ -25,8 +25,6 @@
 
 #ifdef _WIN32
 
-#include <log4cplus/config/windowsh-inc.h>
-
 /* Define if you have the ftime function.  */
 #define LOG4CPLUS_HAVE_FTIME 1
 
