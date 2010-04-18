@@ -75,5 +75,4 @@ namespace log4cplus {
 } // end namespace log4cplus
 
 #endif // LOG4CPLUS_HAVE_NT_EVENT_LOG
-#endif // _WIN32
 #endif //_LOG4CPLUS_NT_EVENT_LOG_APPENDER_HEADER_
