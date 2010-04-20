@@ -138,16 +138,19 @@ namespace log4cplus {
             typedef ConvertIntegerToStringHelper<intType, intTypeLimits::is_signed>
                 HelperType;
 
-            if (value == 0)
-                str = LOG4CPLUS_TEXT("0");
-            bool const negative = value < 0;
-
             const size_t buffer_size
 				= intTypeLimits::digits10 + 2;
             tchar buffer[buffer_size];           
             tchar * it = &buffer[buffer_size];
             tchar const * const buf_end = it;
 
+            if (value == 0)
+            {
+                --it;
+                *it = LOG4CPLUS_TEXT('0');
+            }
+
+            bool const negative = value < 0;
             if (negative)
                 HelperType::step1 (it, value);
 
