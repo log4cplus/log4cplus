@@ -43,6 +43,7 @@ using helpers::Properties;
 using helpers::Time;
 
 
+const long DEFAULT_ROLLING_LOG_SIZE = 10 * 1024 * 1024L;
 const long MINIMUM_ROLLING_LOG_SIZE = 200*1024L;
 
 
@@ -327,7 +328,7 @@ RollingFileAppender::RollingFileAppender(const tstring& filename_,
 RollingFileAppender::RollingFileAppender(const Properties& properties)
     : FileAppender(properties, std::ios::app)
 {
-    long tmpMaxFileSize = 10*1024*1024;
+    long tmpMaxFileSize = DEFAULT_ROLLING_LOG_SIZE;
     int tmpMaxBackupIndex = 1;
     tstring tmp (
         helpers::toUpper (
@@ -335,13 +336,17 @@ RollingFileAppender::RollingFileAppender(const Properties& properties)
     if (! tmp.empty ())
     {
         tmpMaxFileSize = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(tmp).c_str());
-        tstring::size_type const len = tmp.length();
-        if (len > 2
-            && tmp.compare (len - 2, 2, LOG4CPLUS_TEXT("MB")) == 0)
-            tmpMaxFileSize *= (1024 * 1024); // convert to megabytes
-        else if (len > 2
-            && tmp.compare (len - 2, 2, LOG4CPLUS_TEXT("KB")) == 0)
-            tmpMaxFileSize *= 1024; // convert to kilobytes
+        if (tmpMaxFileSize != 0)
+        {
+            tstring::size_type const len = tmp.length();
+            if (len > 2
+                && tmp.compare (len - 2, 2, LOG4CPLUS_TEXT("MB")) == 0)
+                tmpMaxFileSize *= (1024 * 1024); // convert to megabytes
+            else if (len > 2
+                && tmp.compare (len - 2, 2, LOG4CPLUS_TEXT("KB")) == 0)
+                tmpMaxFileSize *= 1024; // convert to kilobytes
+        }
+        tmpMaxFileSize = (std::max)(tmpMaxFileSize, MINIMUM_ROLLING_LOG_SIZE);
     }
 
     properties.getInt (tmpMaxBackupIndex, LOG4CPLUS_TEXT("MaxBackupIndex"));
