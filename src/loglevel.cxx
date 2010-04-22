@@ -54,14 +54,14 @@ struct log_levels_table_rec
 #define DEF_LLTAB_REC(x) { x ## _LOG_LEVEL, &(x ## _STRING) }
 
 static log_levels_table_rec const log_levels_table[8] = {
-    DEF_LLTAB_REC (ALL),
-    DEF_LLTAB_REC (DEBUG),
-    DEF_LLTAB_REC (ERROR),
-    DEF_LLTAB_REC (FATAL),
-    DEF_LLTAB_REC (INFO),
     DEF_LLTAB_REC (OFF),
-    DEF_LLTAB_REC (TRACE),
+    DEF_LLTAB_REC (FATAL),
+    DEF_LLTAB_REC (ERROR),
     DEF_LLTAB_REC (WARN),
+    DEF_LLTAB_REC (INFO),
+    DEF_LLTAB_REC (DEBUG),
+    DEF_LLTAB_REC (TRACE),
+    DEF_LLTAB_REC (ALL),
 };
 
 #undef DEF_LLTAB_REC
@@ -99,7 +99,7 @@ defaultStringToLogLevelMethod(const tstring& arg)
     for (log_levels_table_rec const * it = log_levels_table;
         it != log_levels_table + tbl_size; ++it)
     {
-        if ((*it->str)[0] == arg[0])
+        if (*it->str == arg)
             return it->ll;
     }
     
