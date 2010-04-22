@@ -49,8 +49,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_BUILD_DLL"
 				StringPooling="true"
@@ -137,8 +135,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_BUILD_DLL"
 				StringPooling="true"
@@ -224,7 +220,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_BUILD_DLL"
 				MinimalRebuild="true"
@@ -311,7 +306,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_BUILD_DLL"
 				MinimalRebuild="true"
@@ -398,7 +392,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_BUILD_DLL"
 				MinimalRebuild="true"
@@ -485,7 +478,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_BUILD_DLL"
 				MinimalRebuild="true"
@@ -573,8 +565,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_BUILD_DLL"
 				StringPooling="true"
@@ -661,8 +651,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_BUILD_DLL"
 				StringPooling="true"

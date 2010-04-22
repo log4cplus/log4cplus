@@ -6,6 +6,13 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		PreprocessorDefinitions="NDEBUG"
+		Optimization="2"
+		InlineFunctionExpansion="2"
+		EnableIntrinsicFunctions="true"
+		FavorSizeOrSpeed="1"
+		OmitFramePointers="true"
+		WholeProgramOptimization="true"
+		PreprocessorDefinitions="NDEBUG;_SECURE_SCL=0;_HAS_ITERATOR_DEBUGGING=0"
+		BufferSecurityCheck="false"
 	/>
 </VisualStudioPropertySheet>

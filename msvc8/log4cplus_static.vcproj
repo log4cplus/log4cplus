@@ -42,7 +42,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				MinimalRebuild="true"
@@ -112,7 +111,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				MinimalRebuild="true"
@@ -181,7 +179,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				MinimalRebuild="true"
@@ -251,7 +248,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				MinimalRebuild="true"
@@ -320,8 +316,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				StringPooling="true"
@@ -389,8 +383,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				StringPooling="true"
@@ -457,8 +449,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				StringPooling="true"
@@ -526,8 +516,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="LOG4CPLUS_STATIC"
 				StringPooling="true"
