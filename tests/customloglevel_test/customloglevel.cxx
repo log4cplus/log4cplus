@@ -1,27 +1,28 @@
 
 #include "customloglevel.h"
 
-#define _CRITICAL_STRING LOG4CPLUS_TEXT("CRITICAL")
+static log4cplus::tstring const CRITICAL_STRING (LOG4CPLUS_TEXT("CRITICAL"));
+static log4cplus::tstring const empty_str;
 
 
-
-tstring
+static
+tstring const &
 criticalToStringMethod(LogLevel ll)
 {
     if(ll == CRITICAL_LOG_LEVEL) {
-        return _CRITICAL_STRING;
+        return CRITICAL_STRING;
     }
     else {
-        return tstring();
+        return empty_str;
     }
 }
 
 
-
+static
 LogLevel
 criticalFromStringMethod(const tstring& s) 
 {
-    if(s == _CRITICAL_STRING) return CRITICAL_LOG_LEVEL;
+    if(s == CRITICAL_STRING) return CRITICAL_LOG_LEVEL;
 
     return NOT_SET_LOG_LEVEL;
 }

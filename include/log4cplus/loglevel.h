@@ -25,6 +25,7 @@
 #ifndef LOG4CPLUS_LOGLEVEL_HEADER_
 #define LOG4CPLUS_LOGLEVEL_HEADER_
 
+#include <vector>
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 
@@ -94,7 +95,7 @@ namespace log4cplus {
      * 
      * <b>Note:</b> Must return an empty <code>tstring</code> for unrecognized values.
      */
-    typedef log4cplus::tstring (*LogLevelToStringMethod)(LogLevel);
+    typedef log4cplus::tstring const & (*LogLevelToStringMethod)(LogLevel);
 
     /** 
      * This method type defined the signature of methods that convert strings
@@ -131,7 +132,7 @@ namespace log4cplus {
          * Note: It traverses the list of <code>LogLevelToStringMethod</code>
          *       to do this, so all "derived" LogLevels are recognized as well.
          */
-        log4cplus::tstring toString(LogLevel ll) const;
+        log4cplus::tstring const & toString(LogLevel ll) const;
         
         /**
          * This method is called by all classes internally to log4cplus to
@@ -162,8 +163,8 @@ namespace log4cplus {
 
     private:
       // Data
-        void* toStringMethods;
-        void* fromStringMethods;
+        std::vector<LogLevelToStringMethod> toStringMethods;
+        std::vector<StringToLogLevelMethod> fromStringMethods;
 
       // Disable Copy
         LogLevelManager(const LogLevelManager&);
