@@ -145,10 +145,9 @@ LogLevelManager::~LogLevelManager()
 
 tstring const &
 LogLevelManager::toString(LogLevel ll) const
-{   
-    LogLevelToStringMethod const * const first = &toStringMethods[0];
-    LogLevelToStringMethod const * const last = first + toStringMethods.size ();
-    for (LogLevelToStringMethod const * it = first; it != last; ++it)
+{
+    for (LogLevelToStringMethodList::const_iterator it
+        = toStringMethods.begin (); it != toStringMethods.end (); ++it)
     {
         tstring const & ret = (*it) (ll);
         if (! ret.empty ())
@@ -162,7 +161,7 @@ LogLevelManager::toString(LogLevel ll) const
 LogLevel 
 LogLevelManager::fromString(const tstring& s) const
 {
-    for (std::vector<StringToLogLevelMethod>::const_iterator it
+    for (StringToLogLevelMethodList::const_iterator it
         = fromStringMethods.begin (); it != fromStringMethods.end (); ++it)
     {
         LogLevel ret = (*it) (s);

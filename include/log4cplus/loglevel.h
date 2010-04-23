@@ -163,8 +163,11 @@ namespace log4cplus {
 
     private:
       // Data
-        std::vector<LogLevelToStringMethod> toStringMethods;
-        std::vector<StringToLogLevelMethod> fromStringMethods;
+        typedef std::vector<LogLevelToStringMethod> LogLevelToStringMethodList;
+        LogLevelToStringMethodList toStringMethods;
+
+        typedef std::vector<StringToLogLevelMethod> StringToLogLevelMethodList;
+        StringToLogLevelMethodList fromStringMethods;
 
       // Disable Copy
         LogLevelManager(const LogLevelManager&);
