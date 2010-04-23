@@ -165,7 +165,7 @@ inline
 void
 set_ptd (per_thread_data * p)
 {
-    LOG4CPLUS_SET_THREAD_LOCAL_VALUE (tls_storage_key, p);
+    thread::impl::tls_set_value (tls_storage_key, p);
 }
 
 
@@ -175,7 +175,7 @@ get_ptd (bool alloc = true)
 {
     per_thread_data * ptd
         = reinterpret_cast<per_thread_data *>(
-            LOG4CPLUS_GET_THREAD_LOCAL_VALUE (tls_storage_key));
+            thread::impl::tls_get_value (tls_storage_key));
 
     if (! ptd && alloc)
         return alloc_ptd ();
