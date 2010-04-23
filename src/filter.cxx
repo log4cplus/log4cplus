@@ -21,6 +21,7 @@
 #include <log4cplus/spi/filter.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
 
 
 namespace log4cplus { namespace spi {

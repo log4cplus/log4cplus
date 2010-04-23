@@ -27,6 +27,7 @@
 #include <log4cplus/asyncappender.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
 
 
 namespace log4cplus

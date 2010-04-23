@@ -79,6 +79,8 @@
   // Warning about: <type1> needs to have dll-interface to be used by clients of class <type2>
 #  pragma warning( disable : 4251 )
 
+#  define LOG4CPLUS_INLINES_ARE_EXPORTED
+
 #  if _MSC_VER >= 1400
 #    define LOG4CPLUS_WORKING_LOCALE
 #    define LOG4CPLUS_HAVE_FUNCTION_MACRO
@@ -87,6 +89,7 @@
 #endif
 
 #if defined (__GNUC__)
+#  undef LOG4CPLUS_INLINES_ARE_EXPORTED
 #  define LOG4CPLUS_HAVE_FUNCTION_MACRO
 #  if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 4)
 #    define LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO

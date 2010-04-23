@@ -23,6 +23,7 @@
 
 #include <sstream>
 #include <stdexcept>
+#define LOG4CPLUS_ENABLE_SYNCPRIMS_PUB_IMPL
 #include <log4cplus/thread/syncprims-pub-impl.h>
 
 

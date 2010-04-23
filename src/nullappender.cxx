@@ -19,6 +19,7 @@
 // limitations under the License.
 
 #include <log4cplus/nullappender.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
 
 
 namespace log4cplus

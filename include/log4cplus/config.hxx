@@ -44,7 +44,15 @@
 #  else
 #    define LOG4CPLUS_EXPORT LOG4CPLUS_DECLSPEC_IMPORT
 #  endif // defined (INSIDE_LOG4CPLUS)
+
 #endif // !_WIN32
+
+#if defined (LOG4CPLUS_INLINES_ARE_EXPORTED)
+#  define LOG4CPLUS_INLINE_EXPORT inline
+#else
+#  define LOG4CPLUS_INLINE_EXPORT
+#endif
+
 
 #include <log4cplus/helpers/thread-config.h>
 

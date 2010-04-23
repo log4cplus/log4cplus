@@ -30,7 +30,7 @@
 #  include <process.h> 
 #endif
 #include <log4cplus/config/windowsh-inc.h>
-
+#include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/tstring.h>
 
 #ifndef LOG4CPLUS_SINGLE_THREADED

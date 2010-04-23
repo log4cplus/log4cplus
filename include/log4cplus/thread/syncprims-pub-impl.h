@@ -25,6 +25,9 @@
 #define LOG4CPLUS_THREAD_SYNCPRIMS_PUB_IMPL_H
 
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_INLINES_ARE_EXPORTED) \
+    || defined (LOG4CPLUS_ENABLE_SYNCPRIMS_PUB_IMPL)
 #include <log4cplus/thread/syncprims.h>
 
 #if defined (LOG4CPLUS_SINGLE_THREADED)
@@ -42,7 +45,7 @@ namespace log4cplus { namespace thread {
 //
 //
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 MutexImplBase::~MutexImplBase ()
 { }
 
@@ -51,20 +54,20 @@ MutexImplBase::~MutexImplBase ()
 //
 //
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 Mutex::Mutex ()
     : mtx (LOG4CPLUS_THREADED (new impl::Mutex) + 0)
 { }
 
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 Mutex::~Mutex ()
 {
     LOG4CPLUS_THREADED (delete static_cast<impl::Mutex *>(mtx));
 }
 
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 void
 Mutex::lock () const
 {
@@ -72,7 +75,7 @@ Mutex::lock () const
 }
 
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 void
 Mutex::unlock () const
 {
@@ -84,7 +87,7 @@ Mutex::unlock () const
 //
 //
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 SemaphoreImplBase::~SemaphoreImplBase ()
 { }
 
@@ -93,21 +96,21 @@ SemaphoreImplBase::~SemaphoreImplBase ()
 //
 //
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 Semaphore::Semaphore (unsigned LOG4CPLUS_THREADED (max),
     unsigned LOG4CPLUS_THREADED (initial))
     : sem (LOG4CPLUS_THREADED (new impl::Semaphore (max, initial)) + 0)
 { }
 
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 Semaphore::~Semaphore ()
 {
     LOG4CPLUS_THREADED (delete static_cast<impl::Semaphore *>(sem));
 }
 
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 void
 Semaphore::lock () const
 {
@@ -115,7 +118,7 @@ Semaphore::lock () const
 }
 
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 void
 Semaphore::unlock () const
 {
@@ -127,7 +130,7 @@ Semaphore::unlock () const
 //
 //
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 FairMutexImplBase::~FairMutexImplBase ()
 { }
 
@@ -136,20 +139,20 @@ FairMutexImplBase::~FairMutexImplBase ()
 //
 //
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 FairMutex::FairMutex ()
     : mtx (LOG4CPLUS_THREADED (new impl::FairMutex) + 0)
 { }
 
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 FairMutex::~FairMutex ()
 {
     LOG4CPLUS_THREADED (delete static_cast<impl::FairMutex *>(mtx));
 }
 
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 void
 FairMutex::lock () const
 {
@@ -157,7 +160,7 @@ FairMutex::lock () const
 }
 
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 void
 FairMutex::unlock () const
 {
@@ -169,7 +172,7 @@ FairMutex::unlock () const
 //
 //
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 ManualResetEventImplBase::~ManualResetEventImplBase ()
 { }
 
@@ -178,20 +181,20 @@ ManualResetEventImplBase::~ManualResetEventImplBase ()
 //
 //
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 ManualResetEvent::ManualResetEvent (bool LOG4CPLUS_THREADED (sig))
     : ev (LOG4CPLUS_THREADED (new impl::ManualResetEvent (sig)) + 0)
 { }
 
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 ManualResetEvent::~ManualResetEvent ()
 {
     LOG4CPLUS_THREADED (delete static_cast<impl::ManualResetEvent *>(ev));
 }
 
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 void
 ManualResetEvent::signal () const
 {
@@ -199,7 +202,7 @@ ManualResetEvent::signal () const
 }
 
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 void
 ManualResetEvent::wait () const
 {
@@ -207,7 +210,7 @@ ManualResetEvent::wait () const
 }
 
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 bool
 ManualResetEvent::timed_wait (unsigned long LOG4CPLUS_THREADED (msec)) const
 {
@@ -219,7 +222,7 @@ ManualResetEvent::timed_wait (unsigned long LOG4CPLUS_THREADED (msec)) const
 }
 
 
-inline
+LOG4CPLUS_INLINE_EXPORT
 void
 ManualResetEvent::reset () const
 {
@@ -229,6 +232,6 @@ ManualResetEvent::reset () const
 
 } } // namespace log4cplus { namespace thread { 
 
-
+#endif // LOG4CPLUS_ENABLE_SYNCPRIMS_PUB_IMPL
 
 #endif // LOG4CPLUS_THREAD_SYNCPRIMS_PUB_IMPL_H
