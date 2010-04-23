@@ -20,24 +20,17 @@
 
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggerfactory.h>
-#include <log4cplus/consoleappender.h>
-#include <log4cplus/fileappender.h>
-#include <log4cplus/nullappender.h>
-#include <log4cplus/socketappender.h>
-#include <log4cplus/syslogappender.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/thread-config.h>
 
-#ifndef LOG4CPLUS_SINGLE_THREADED
 #include <log4cplus/asyncappender.h>
-#endif
-
-#if defined (_WIN32)
-#  if defined (LOG4CPLUS_HAVE_NT_EVENT_LOG)
-#    include <log4cplus/nteventlogappender.h>
-#  endif
-#  include <log4cplus/Win32DebugAppender.h>
-#endif
+#include <log4cplus/consoleappender.h>
+#include <log4cplus/fileappender.h>
+#include <log4cplus/nteventlogappender.h>
+#include <log4cplus/nullappender.h>
+#include <log4cplus/socketappender.h>
+#include <log4cplus/syslogappender.h>
+#include <log4cplus/win32debugappender.h>
 
 
 ///////////////////////////////////////////////////////////////////////////////
