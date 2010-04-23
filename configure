@@ -17593,7 +17593,7 @@ fi
 fi
 
 
-if test "x$ac_cv__attribute__visibility" = "xno" && test "x$ac_cv_declspec" == "xno"; then
+if test "x$ac_cv__attribute__visibility" = "xno" && test "x$ac_cv_declspec" = "xno"; then
   cat >>confdefs.h <<\_ACEOF
 #define LOG4CPLUS_DECLSPEC_IMPORT /**/
 _ACEOF
