@@ -15,9 +15,10 @@ set (log4cplus_headers
   include/log4cplus/appender.h
   include/log4cplus/asyncappender.h
   include/log4cplus/boost/deviceappender.hxx
+  include/log4cplus/config.hxx
   include/log4cplus/config/macosx.h
   include/log4cplus/config/win32.h
-  include/log4cplus/config.hxx
+  include/log4cplus/config/windowsh-inc.h
   include/log4cplus/configurator.h
   include/log4cplus/consoleappender.h
   include/log4cplus/fileappender.h
@@ -25,20 +26,19 @@ set (log4cplus_headers
   include/log4cplus/helpers/appenderattachableimpl.h
   include/log4cplus/helpers/loglog.h
   include/log4cplus/helpers/logloguser.h
-  include/log4cplus/helpers/queue.h
   include/log4cplus/helpers/pointer.h
   include/log4cplus/helpers/property.h
+  include/log4cplus/helpers/queue.h
   include/log4cplus/helpers/sleep.h
   include/log4cplus/helpers/socket.h
   include/log4cplus/helpers/socketbuffer.h
   include/log4cplus/helpers/stringhelper.h
-  include/log4cplus/helpers/syncprims.h
   include/log4cplus/helpers/thread-config.h
-  include/log4cplus/helpers/threads.h
   include/log4cplus/helpers/timehelper.h
   include/log4cplus/hierarchy.h
   include/log4cplus/hierarchylocker.h
   include/log4cplus/internal/internal.h
+  include/log4cplus/internal/socket.h
   include/log4cplus/layout.h
   include/log4cplus/logger.h
   include/log4cplus/loggingmacros.h
@@ -57,6 +57,14 @@ set (log4cplus_headers
   include/log4cplus/spi/rootlogger.h
   include/log4cplus/streams.h
   include/log4cplus/syslogappender.h
+  include/log4cplus/thread/impl/syncprims-impl.h
+  include/log4cplus/thread/impl/syncprims-pthreads.h
+  include/log4cplus/thread/impl/syncprims-win32.h
+  include/log4cplus/thread/impl/threads-impl.h
+  include/log4cplus/thread/impl/tls.h
+  include/log4cplus/thread/syncprims.h
+  include/log4cplus/thread/syncprims-pub-impl.h
+  include/log4cplus/thread/threads.h
   include/log4cplus/tracelogger.h
   include/log4cplus/tstring.h
   include/log4cplus/win32debugappender.h)
@@ -83,21 +91,26 @@ set (log4cplus_sources
   src/logloguser.cxx
   src/ndc.cxx
   src/nullappender.cxx
+  src/nteventlogappender.cxx
   src/objectregistry.cxx
-  src/queue.cxx
   src/patternlayout.cxx
   src/pointer.cxx
   src/property.cxx
+  src/queue.cxx
   src/rootlogger.cxx
   src/sleep.cxx
   src/socket.cxx
+  src/socket-unix.cxx
+  src/socket-win32.cxx
   src/socketappender.cxx
   src/socketbuffer.cxx
   src/stringhelper.cxx
   src/syncprims.cxx
   src/syslogappender.cxx
   src/threads.cxx
-  src/timehelper.cxx)
+  src/timehelper.cxx
+  src/tls.cxx
+  src/win32debugappender.cxx)
 
 #message (STATUS "Type: ${UNIX}|${CYGWIN}|${WIN32}")
 
@@ -115,19 +128,9 @@ set (log4cplus_sources
 #add_definitions (-xthreadvar)
 
 if ("${UNIX}" OR "${CYGWIN}")
-  set (log4cplus_sources ${log4cplus_sources}
-    src/socket-unix.cxx)
   set (log4cplus_headers ${log4cplus_headers}
-    include/log4cplus/config/defines.hxx
-    include/log4cplus/helpers/syncprims-pthreads.h)
+    include/log4cplus/config/defines.hxx)
 elseif (WIN32)
-  set (log4cplus_sources ${log4cplus_sources}
-    src/socket-win32.cxx
-    src/win32debugappender.cxx
-    src/nteventlogappender.cxx)
-  set (log4cplus_headers ${log4cplus_headers}
-    include/log4cplus/helpers/syncprims-win32.h)
-
   if (BORLAND)
     # More detailed errors.
     add_definitions (-Q)
