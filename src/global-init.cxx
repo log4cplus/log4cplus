@@ -24,6 +24,7 @@
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/thread/impl/tls.h>
 #include <iostream>
 
 
@@ -231,7 +232,7 @@ BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL,  // handle to DLL modu
         // Do thread-specific cleanup.
         log4cplus::threadCleanup ();
 #  if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
-        LOG4CPLUS_THREAD_LOCAL_CLEANUP (internal::tls_storage_key);
+        log4cplus::thread::impl::tls_cleanup (internal::tls_storage_key);
 #  endif
 #endif
         break;

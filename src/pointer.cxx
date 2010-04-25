@@ -22,7 +22,8 @@
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
-#include <assert.h>
+#include <log4cplus/config/windowsh-inc.h>
+#include <cassert>
 
 
 namespace log4cplus { namespace helpers {
