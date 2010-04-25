@@ -54,7 +54,7 @@ AS_IF([test "x$ac_cv__attribute__visibility" = "xyes"],
    AC_DEFINE($1_EXPORT, [__attribute__ ((visibility("default")))])])
 ])
 
-AS_IF([test "x$ac_cv__attribute__visibility" = "xno" && test "x$ac_cv_declspec" == "xno"],
+AS_IF([test "x$ac_cv__attribute__visibility" = "xno" && test "x$ac_cv_declspec" = "xno"],
   [AC_DEFINE($1_IMPORT, [])
    AC_DEFINE($1_EXPORT, [])])
 
