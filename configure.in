@@ -87,7 +87,7 @@ LOG4CPLUS_PROFILING_CXXFLAGS=
 dnl Libtool setup.
 
 LT_PREREQ([2.2.6])
-LT_INIT
+LT_INIT([win32-dll])
 
 dnl Checks for programs.
 AC_SEARCH_LIBS([strerror], [cposix])
@@ -236,17 +236,20 @@ AC_ARG_ENABLE([threads],
   [AS_HELP_STRING([--enable-threads=yes/no],
     [Use this option to create a singled-threaded version of this library])],
   [],
-  [enable_threads=no])
+  [enable_threads=yes])
 
 AS_IF([test "x$enable_threads" = "xyes"],
 dnl Multi threaded library.
-  [AC_MSG_NOTICE([Threads support:])
+  [AC_MSG_NOTICE([Creating a multi-threaded library.])
+   AC_MSG_NOTICE([Threads support:])
+  
    CPPFLAGS="$CPPFLAGS -D_REENTRANT"
+
    AS_CASE(["$target_os"],
      [mingw*], [],
      [ACX_PTHREAD([],
        [AC_MSG_ERROR([Requested threads support but no threads were found.])])])
-   AC_MSG_NOTICE([Creating a multi-threaded library.])
+
    CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
    CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
    LIBS="$PTHREAD_LIBS $LIBS"
