@@ -89,17 +89,15 @@ defaultLogLevelToStringMethod(LogLevel ll)
 
 static
 LogLevel
-defaultStringToLogLevelMethod(const tstring& arg)
+defaultStringToLogLevelMethod(const tstring& s)
 {
-    tstring s = helpers::toUpper(arg);
-
     size_t const tbl_size
         = sizeof (log_levels_table) / sizeof (log_levels_table[0]);
 
     for (log_levels_table_rec const * it = log_levels_table;
         it != log_levels_table + tbl_size; ++it)
     {
-        if (*it->str == arg)
+        if (*it->str == s)
             return it->ll;
     }
     
@@ -159,8 +157,10 @@ LogLevelManager::toString(LogLevel ll) const
 
 
 LogLevel 
-LogLevelManager::fromString(const tstring& s) const
+LogLevelManager::fromString(const tstring& arg) const
 {
+    tstring s = helpers::toUpper(arg);
+
     for (StringToLogLevelMethodList::const_iterator it
         = fromStringMethods.begin (); it != fromStringMethods.end (); ++it)
     {
