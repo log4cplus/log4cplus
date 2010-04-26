@@ -202,7 +202,7 @@ connectSocket(const tstring& hostn,
     insock.sin_port = htons(port);
     insock.sin_family = AF_INET;
     if(hp != 0) {
-        memcpy(&insock.sin_addr, hp->h_addr, sizeof insock.sin_addr);
+        std::memcpy(&insock.sin_addr, hp->h_addr, sizeof insock.sin_addr);
     }
     else {
         insock.sin_addr.S_un.S_addr = ip;

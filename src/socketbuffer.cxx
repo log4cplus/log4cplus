@@ -93,7 +93,7 @@ SocketBuffer::readShort()
     }
 
     unsigned short ret;
-    memcpy(&ret, buffer + pos, sizeof(ret));
+    std::memcpy(&ret, buffer + pos, sizeof(ret));
     ret = ntohs(ret);
     pos += sizeof(unsigned short);
 
@@ -115,7 +115,7 @@ SocketBuffer::readInt()
     }
 
     unsigned int ret;
-    memcpy (&ret, buffer + pos, sizeof(ret));
+    std::memcpy (&ret, buffer + pos, sizeof(ret));
     ret = ntohl(ret);
     pos += sizeof(unsigned int);
     
@@ -208,7 +208,7 @@ SocketBuffer::appendShort(unsigned short val)
     }
 
     unsigned short s = htons(val);
-    memcpy(buffer + pos, &s, sizeof (s));
+    std::memcpy(buffer + pos, &s, sizeof (s));
     pos += sizeof(s);
     size = pos;
 }
@@ -224,7 +224,7 @@ SocketBuffer::appendInt(unsigned int val)
     }
 
     int i = htonl(val);
-    memcpy(buffer + pos, &i, sizeof (i));
+    std::memcpy(buffer + pos, &i, sizeof (i));
     pos += sizeof(i);
     size = pos;
 }
@@ -246,7 +246,7 @@ SocketBuffer::appendString(const tstring& str)
 
     appendInt(static_cast<unsigned>(strlen));
 #ifndef UNICODE
-    memcpy(&buffer[pos], str.data(), strlen);
+    std::memcpy(&buffer[pos], str.data(), strlen);
     pos += strlen;
     size = pos;
 #else
@@ -266,7 +266,7 @@ SocketBuffer::appendBuffer(const SocketBuffer& buf)
         return;
     }
 
-    memcpy(&buffer[pos], buf.buffer, buf.getSize());
+    std::memcpy(&buffer[pos], buf.buffer, buf.getSize());
     pos += buf.getSize();
     size = pos;
 }

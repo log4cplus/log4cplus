@@ -82,7 +82,7 @@ clear_mbstate (std::mbstate_t & mbs)
     // from single unsigned to char[128]. Without some sort of initialization
     // the codecvt::in/out methods randomly fail because the initial state is
     // random/invalid.
-    ::memset (&mbs, 0, sizeof (std::mbstate_t));
+    std::memset (&mbs, 0, sizeof (std::mbstate_t));
 }
 
 

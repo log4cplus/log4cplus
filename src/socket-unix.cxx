@@ -101,7 +101,7 @@ connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
         return INVALID_SOCKET_VALUE;
     }
 
-    memcpy(&server.sin_addr, hp->h_addr_list[0], hp->h_length);
+    std::memcpy(&server.sin_addr, hp->h_addr_list[0], hp->h_length);
     server.sin_port = htons(port);
     server.sin_family = AF_INET;
     socklen_t namelen = sizeof (server);
