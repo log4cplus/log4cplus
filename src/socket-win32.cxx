@@ -50,6 +50,9 @@ static
 void
 init_winsock_worker ()
 {
+    log4cplus::helpers::LogLog * loglog
+        = log4cplus::helpers::LogLog::getLogLog ();
+
     // Try to change the state to WS_INITIALIZING.
     LONG val = ::InterlockedCompareExchange (
         const_cast<LPLONG>(&winsock_state), WS_INITIALIZING, WS_UNINITIALIZED);
@@ -66,7 +69,8 @@ init_winsock_worker ()
                 const_cast<LPLONG>(&winsock_state), WS_UNINITIALIZED,
                 WS_INITIALIZING);
             assert (val == WS_INITIALIZING);
-            throw std::runtime_error ("Could not initialize WinSock.");
+            loglog->error (LOG4CPLUS_TEXT ("Could not initialize WinSock."),
+                true);
         }
 
         // WinSock is initialized, change the state to WS_INITIALIZED.
@@ -92,7 +96,7 @@ init_winsock_worker ()
         
             default:
                 assert (0);
-                throw std::runtime_error ("Unknown WinSock state.");
+                loglog->error (LOG4CPLUS_TEXT ("Unknown WinSock state."), true);
             }
         }
 
@@ -102,7 +106,7 @@ init_winsock_worker ()
 
     default:
         assert (0);
-        throw std::runtime_error ("Unknown WinSock state.");
+        loglog->error (LOG4CPLUS_TEXT ("Unknown WinSock state."), true);
     }
 }
 

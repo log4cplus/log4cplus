@@ -23,6 +23,7 @@
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/thread/threads.h>
 #include <ostream>
+#include <stdexcept>
 
 
 namespace log4cplus { namespace helpers {
@@ -113,16 +114,18 @@ LogLog::warn(tchar const * msg)
 
 
 void
-LogLog::error(const log4cplus::tstring& msg)
+LogLog::error(const log4cplus::tstring& msg, bool throw_flag)
 {
-    logging_worker (tcerr, &LogLog::get_quiet_mode, ERR_PREFIX, msg);
+    logging_worker (tcerr, &LogLog::get_quiet_mode, ERR_PREFIX, msg,
+        throw_flag);
 }
 
 
 void
-LogLog::error(tchar const * msg)
+LogLog::error(tchar const * msg, bool throw_flag)
 {
-    logging_worker (tcerr, &LogLog::get_quiet_mode, ERR_PREFIX, msg);
+    logging_worker (tcerr, &LogLog::get_quiet_mode, ERR_PREFIX, msg,
+        throw_flag);
 }
 
 
@@ -143,7 +146,7 @@ LogLog::get_debug_mode () const
 template <typename StringType>
 void
 LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
-    tchar const * prefix, StringType const & msg)
+    tchar const * prefix, StringType const & msg, bool throw_flag)
 {
     thread::MutexGuard guard (mutex);
 
@@ -151,6 +154,9 @@ LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
         return;
 
     os << prefix << msg << std::endl;
+
+    if (throw_flag)
+        throw std::runtime_error (LOG4CPLUS_TSTRING_TO_STRING (msg));
 }
 
 

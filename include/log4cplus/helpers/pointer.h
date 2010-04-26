@@ -30,9 +30,6 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/thread/syncprims.h>
-#include <memory>
-#include <stdexcept>
-#include <string>
 #include <algorithm>
 #include <cassert>
 

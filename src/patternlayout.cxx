@@ -27,8 +27,7 @@
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/config/windowsh-inc.h>
 
-#include <stdlib.h>
-#include <exception>
+#include <cstdlib>
 
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -540,9 +539,9 @@ PatternParser::extractPrecisionOption()
 {
     tstring opt = extractOption();
     int r = 0;
-    if(opt.length() > 0) {
+    if (! opt.empty ())
         r = std::atoi(LOG4CPLUS_TSTRING_TO_STRING(opt).c_str());
-    }
+
     return r;
 }
 
@@ -829,7 +828,9 @@ PatternLayout::PatternLayout(const helpers::Properties& properties)
         init(properties.getProperty( LOG4CPLUS_TEXT("Pattern") ));
     }
     else {
-        throw std::runtime_error("ConversionPattern not specified in properties");
+        getLogLog().error(
+            LOG4CPLUS_TEXT ("ConversionPattern not specified in properties"),
+            true);
     }
 
 }

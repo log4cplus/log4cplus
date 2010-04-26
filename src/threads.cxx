@@ -21,7 +21,6 @@
 #include <log4cplus/config.hxx>
 
 #include <exception>
-#include <stdexcept>
 #include <errno.h>
 #if defined(LOG4CPLUS_USE_PTHREADS)
 #  include <sched.h>
@@ -191,7 +190,8 @@ Thread::start()
     if (::pthread_create(&handle, NULL, threadStartFunc, this) )
     {
         removeReference ();
-        throw std::runtime_error("Thread creation was not successful");
+        log4cplus::helpers::LogLog::getLogLog ()->error (
+            LOG4CPLUS_TEXT ("Thread creation was not successful"), true);
     }
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     HANDLE h = InterlockedExchangePointer (&handle, INVALID_HANDLE_VALUE);
@@ -207,7 +207,8 @@ Thread::start()
     if (! h)
     {
         removeReference ();
-        throw std::runtime_error("Thread creation was not successful");
+        log4cplus::helpers::LogLog::getLogLog ()->error (
+            LOG4CPLUS_TEXT ("Thread creation was not successful"), true);
     }
     h = InterlockedExchangePointer (&handle, h);
     assert (h == INVALID_HANDLE_VALUE);

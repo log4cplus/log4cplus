@@ -26,7 +26,6 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/spi/rootlogger.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
-#include <stdexcept>
 
 
 namespace log4cplus { namespace spi {
@@ -125,8 +124,10 @@ LoggerImpl::getChainedLogLevel() const
         }
     }
 
-    getLogLog().error( LOG4CPLUS_TEXT("LoggerImpl::getChainedLogLevel()- No valid LogLevel found") );
-    throw std::runtime_error("No valid LogLevel found");
+    getLogLog().error(
+        LOG4CPLUS_TEXT("LoggerImpl::getChainedLogLevel()- No valid LogLevel found"),
+        true);
+    return NOT_SET_LOG_LEVEL;
 }
 
 

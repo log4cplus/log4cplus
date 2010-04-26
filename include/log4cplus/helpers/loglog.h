@@ -78,11 +78,13 @@ namespace log4cplus {
 
             /**
              * This method is used to output log4cplus internal error
-             * statements. There is no way to disable error statements.
-             * Output goes to <code>std::cerr</code>.
+             * statements. There is no way to disable error
+             * statements.  Output goes to
+             * <code>std::cerr</code>. Optionally, this method can
+             * throw std::runtime_error exception too.
              */
-            void error(const log4cplus::tstring& msg);
-            void error(tchar const * msg);
+            void error(const log4cplus::tstring& msg, bool throw_flag = false);
+            void error(tchar const * msg, bool throw_flag = false);
 
             /**
              * This method is used to output log4cplus internal warning
@@ -99,7 +101,7 @@ namespace log4cplus {
             template <typename StringType>
             void logging_worker (tostream & os,
                 bool (LogLog:: * cond) () const, tchar const *,
-                StringType const &);
+                StringType const &, bool throw_flag = false);
 
             bool get_quiet_mode () const;
             bool get_debug_mode () const;
