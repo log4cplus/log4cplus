@@ -18,4 +18,4 @@ export IFNAMES="ifnames${AUTOCONF_SUFFIX}"
 export LIBTOOLIZE="libtoolize${LIBTOOL_SUFFIX}"
 export LIBTOOL="libtool${LIBTOOL_SUFFIX}"
 
-$AUTORECONF -f -i
+$AUTORECONF -f
