@@ -84,7 +84,7 @@ getCurrentThreadName()
     {
         log4cplus::tostringstream tmp;
         tmp << impl::getCurrentThreadId ();
-        name = tmp.str ();
+        tmp.str ().swap (name);
     }
 #else
     static log4cplus::tstring const name (LOG4CPLUS_TEXT ("single"));
