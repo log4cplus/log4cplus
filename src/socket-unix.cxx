@@ -24,29 +24,107 @@
 
 #include <cstring>
 #include <vector>
+#include <algorithm>
 #include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/spi/loggingevent.h>
 
 #if defined(__hpux__)
 # ifndef _XOPEN_SOURCE_EXTENDED
 # define _XOPEN_SOURCE_EXTENDED
 # endif
-# include <arpa/inet.h>
-#endif 
-
+#endif
+#include <arpa/inet.h>
+ 
 #if defined (LOG4CPLUS_HAVE_NETINET_IN_H)
-# include <netinet/in.h>
+#include <netinet/in.h>
 #endif
 
+#ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>
+#endif
+
+#ifdef LOG4CPLUS_HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
+
 #include <errno.h>
+
+#ifdef LOG4CPLUS_HAVE_NETDB_H
 #include <netdb.h>
+#endif
+
 #include <unistd.h>
 
+#include <algorithm>
 
 namespace log4cplus { namespace helpers {
+
+
+namespace
+{
+
+
+static thread::Mutex ghbn_mutex;
+
+
+static
+int
+get_host_by_name (char const * hostname, std::string * name,
+    struct sockaddr_in * addr)
+{
+#if defined (LOG4CPLUS_HAVE_GETADDRINFO)
+    struct addrinfo hints;
+    std::memset (&hints, 0, sizeof (hints));
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+    hints.ai_flags = AI_CANONNAME;
+
+    if (inet_addr (hostname) != static_cast<in_addr_t>(-1))
+        hints.ai_flags |= AI_NUMERICHOST;
+
+    struct addrinfo * res = 0;
+    int ret = getaddrinfo (hostname, 0, &hints, &res);
+    if (ret != 0)
+        return ret;
+
+    struct addrinfo const & ai = *res;
+    assert (ai.ai_family == AF_INET);
+    
+    if (name)
+        *name = ai.ai_canonname;
+
+    if (addr)
+        std::memcpy (addr, ai.ai_addr, ai.ai_addrlen);
+
+    freeaddrinfo (res);
+
+#else
+    thread::MutexGuard guard (ghbn_mutex);
+
+    struct ::hostent * hp = gethostbyname (hostname);
+    if (! hp)
+        return 1;
+    assert (hp->h_addrtype == AF_INET);
+
+    if (name)
+        *name = hp->h_name;
+
+    if (addr)
+    {
+        assert (hp->h_length <= sizeof (addr->sin_addr));
+        std::memcpy (&addr->sin_addr, hp->h_addr_list[0], hp->h_length);
+    }
+
+#endif
+
+    return 0;
+}
+
+
+} // namespace
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -87,25 +165,24 @@ SOCKET_TYPE
 connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
 {
     struct sockaddr_in server;
-    struct hostent *hp;
     int sock;
     int retval;
 
-    hp = ::gethostbyname(LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str());
-    if(hp == 0) {
+    std::memset (&server, 0, sizeof (server));
+    retval = get_host_by_name (LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str(),
+        0, &server);
+    if (retval != 0)
         return INVALID_SOCKET_VALUE;
-    }
+
+    server.sin_port = htons(port);
+    server.sin_family = AF_INET;
 
     sock = ::socket(AF_INET, SOCK_STREAM, 0);
     if(sock < 0) {
         return INVALID_SOCKET_VALUE;
     }
 
-    std::memcpy(&server.sin_addr, hp->h_addr_list[0], hp->h_length);
-    server.sin_port = htons(port);
-    server.sin_family = AF_INET;
     socklen_t namelen = sizeof (server);
-
     while (
         (retval = ::connect(sock, reinterpret_cast<struct sockaddr*>(&server),
             namelen))
@@ -215,9 +292,10 @@ getHostname (bool fqdn)
     if (ret != 0 || (ret == 0 && ! fqdn))
         return LOG4CPLUS_STRING_TO_TSTRING (hostname);
 
-    struct ::hostent * hp = ::gethostbyname (hostname);
-    if (hp)
-        hostname = hp->h_name;
+    std::string full_hostname;
+    ret = get_host_by_name (hostname, &full_hostname, 0);
+    if (ret == 0)
+        hostname = full_hostname.c_str ();
 
     return LOG4CPLUS_STRING_TO_TSTRING (hostname);
 }
