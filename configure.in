@@ -169,6 +169,14 @@ AC_CHECK_LIB([rt], [nanosleep])
 AC_CHECK_FUNC([gethostent], [], [AC_CHECK_LIB([nsl], [gethostent])])
 AC_CHECK_FUNC([setsockopt], [], [AC_CHECK_LIB([socket], [setsockopt])])
 
+dnl Windows/MinGW specific.
+
+AC_LANG_PUSH([C])
+AC_HAVE_LIBRARY([kernel32])
+AC_HAVE_LIBRARY([advapi32])
+AC_HAVE_LIBRARY([ws2_32])
+AC_LANG_POP([C])
+
 dnl Checks for header files.
 
 AC_HEADER_STDC
