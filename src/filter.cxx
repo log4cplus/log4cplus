@@ -242,7 +242,7 @@ StringMatchFilter::decide(const InternalLoggingEvent& event) const
 {
     const tstring& message = event.getMessage();
 
-    if(stringToMatch.length() == 0 || message.length() == 0) {
+    if(stringToMatch.empty () || message.empty ()) {
         return NEUTRAL;
     }
 

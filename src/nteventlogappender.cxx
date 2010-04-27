@@ -182,7 +182,7 @@ NTEventLogAppender::init()
         return;
     }
 
-    if(log.length() == 0) {
+    if(log.empty ()) {
         log = LOG4CPLUS_TEXT("Application");
     }
 

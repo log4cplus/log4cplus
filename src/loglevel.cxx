@@ -159,7 +159,7 @@ LogLevelManager::toString(LogLevel ll) const
     ToStringNode* toStringTmp = GET_TO_STRING_NODE;
     while(toStringTmp) {
         tstring ret = toStringTmp->method(ll);
-        if(ret.length() > 0) {
+        if(! ret.empty ()) {
             return ret;
         }
         toStringTmp = toStringTmp->next;

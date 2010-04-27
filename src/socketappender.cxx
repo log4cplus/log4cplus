@@ -296,8 +296,8 @@ readFromBuffer(SocketBuffer& buffer)
     tstring loggerName = buffer.readString(sizeOfChar);
     LogLevel ll = buffer.readInt();
     tstring ndc = buffer.readString(sizeOfChar);
-    if(serverName.length() > 0) {
-        if(ndc.length() == 0) {
+    if(! serverName.empty ()) {
+        if(ndc.empty ()) {
             ndc = serverName;
         }
         else {

@@ -114,7 +114,7 @@ Properties::Properties(tistream& input)
 
 Properties::Properties(const tstring& inputFile)
 {
-    if (inputFile.length() == 0)
+    if (inputFile.empty ())
         return;
 
     tifstream file (LOG4CPLUS_TSTRING_TO_STRING(inputFile).c_str());

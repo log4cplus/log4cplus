@@ -352,7 +352,7 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
     std::vector<tstring> tokens;
     tokenize(configString, ',', std::back_inserter(tokens));
 
-    if(tokens.size() == 0) {
+    if(tokens.empty()) {
         getLogLog().error(
             LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()")
             LOG4CPLUS_TEXT("- Invalid config string(Logger = ")
