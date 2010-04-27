@@ -359,7 +359,7 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
     // Remove all spaces from config
     tstring configString;
     std::remove_copy_if(config.begin(), config.end(),
-        helpers::string_append_iterator<tstring>(configString),
+        std::back_inserter (configString),
         std::bind1st(std::equal_to<tchar>(), LOG4CPLUS_TEXT(' ')));
 
     // "Tokenize" configString

@@ -181,54 +181,6 @@ namespace log4cplus {
 			return result;
 		}
 
-
-
-        /**
-         * This iterator can be used in place of the back_insert_iterator
-         * for compilers that don't have a std::basic_string class that
-         * has the <code>push_back</code> method.
-         */
-        template <class Container>
-        class string_append_iterator
-            : public std::iterator<std::output_iterator_tag, void, void, void,
-                void>
-        {
-        public:
-            typedef Container container_type;
-
-            explicit string_append_iterator(container_type & c)
-                : container(&c)
-            { }
-
-            string_append_iterator<container_type> &
-            operator = (const typename container_type::value_type& value)
-            {
-                *container += value;
-                return *this;
-            }
-
-            string_append_iterator<container_type> &
-            operator * ()
-            {
-                return *this;
-            }
-            
-            string_append_iterator<container_type> &
-            operator ++ ()
-            {
-                return *this;
-            }
-
-            string_append_iterator<container_type>
-            operator ++ (int)
-            {
-                return *this;
-            }
-
-        protected:
-            container_type * container;
-        };
-
     } // namespace helpers
 
 } // namespace log4cplus

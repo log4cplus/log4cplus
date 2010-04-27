@@ -338,8 +338,7 @@ tstring
 toUpper(const log4cplus::tstring& s)
 {
     tstring ret;
-    std::transform(s.begin(), s.end(),
-                   string_append_iterator<tstring>(ret),
+    std::transform(s.begin(), s.end(), std::back_inserter (ret),
 #ifdef UNICODE
 #  if (defined(__MWERKS__) && defined(__MACOS__)) || defined (LOG4CPLUS_WORKING_LOCALE)
                    std::towupper);
@@ -358,8 +357,7 @@ tstring
 toLower(const tstring& s)
 {
     tstring ret;
-    std::transform(s.begin(), s.end(),
-                   string_append_iterator<tstring>(ret),
+    std::transform(s.begin(), s.end(), std::back_inserter (ret),
 #ifdef UNICODE
 #  if (defined(__MWERKS__) && defined(__MACOS__))
                    std::towlower);
