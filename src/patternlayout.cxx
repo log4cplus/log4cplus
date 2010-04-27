@@ -569,7 +569,7 @@ PatternParser::parse()
                     pos++; // move pointer
                     break;
                 default:
-                    if(currentLiteral.length() != 0) {
+                    if(! currentLiteral.empty ()) {
                         list.push_back
                              (new LiteralPatternConverter(currentLiteral));
                         //getLogLog().debug("Parsed LITERAL converter: \"" 
@@ -649,7 +649,7 @@ PatternParser::parse()
         } // end switch
     } // end while
 
-    if(currentLiteral.length() != 0) {
+    if(! currentLiteral.empty ()) {
         list.push_back(new LiteralPatternConverter(currentLiteral));
       //getLogLog().debug("Parsed LITERAL converter: \""+currentLiteral+"\".");
     }
@@ -675,7 +675,7 @@ PatternParser::finalizeConverter(tchar c)
         case LOG4CPLUS_TEXT('D'):
             {
                 tstring dOpt = extractOption();
-                if(dOpt.length() == 0) {
+                if(dOpt.empty ()) {
                     dOpt = LOG4CPLUS_TEXT("%Y-%m-%d %H:%M:%S");
                 }
                 bool use_gmtime = c == LOG4CPLUS_TEXT('d');
@@ -854,7 +854,7 @@ PatternLayout::init(const tstring& pattern_)
             (*it) = new pattern::LiteralPatternConverter( LOG4CPLUS_TEXT("") );
         }
     }
-    if(parsedPattern.size() == 0) {
+    if(parsedPattern.empty ()) {
         getLogLog().warn(LOG4CPLUS_TEXT("PatternLayout pattern is empty.  Using default..."));
         parsedPattern.push_back (
             new pattern::BasicPatternConverter(pattern::FormattingInfo(), 
