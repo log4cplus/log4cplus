@@ -3,6 +3,7 @@ dnl This version of log4cplus requires the follwing autotools versions:
 dnl autoconf-2.62
 dnl automake-1.10.1
 dnl libtool-2.2.6
+
 AC_INIT([log4cplus],[1.1.0])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
@@ -92,8 +93,10 @@ LT_INIT([win32-dll])
 dnl Checks for programs.
 AC_SEARCH_LIBS([strerror], [cposix])
 
-AX_CXXFLAGS_WARN_ALL
 AC_CXX_COMPILER_VENDOR([ac_cxx_compiler_vendor])
+
+AS_IF([test "x$enable_warnings" = "xyes"],
+  [AX_CXXFLAGS_WARN_ALL])
 
 AS_CASE([$ac_cxx_compiler_vendor],
   [gnu],
@@ -266,7 +269,10 @@ AH_TEMPLATE([LOG4CPLUS_USE_PTHREADS])
 AC_ARG_ENABLE([threads],
   [AS_HELP_STRING([--enable-threads=yes/no],
     [Use this option to create a singled-threaded version of this library])],
-  [],
+  [AS_CASE(["${enableval}"],
+    [yes], [],
+    [no], [],
+    [AC_MSG_ERROR([bad value ${enableval} for --enable-threads])])],
   [enable_threads=yes])
 
 AS_IF([test "x$enable_threads" = "xyes"],
