@@ -1,5 +1,5 @@
 # ===========================================================================
-#           http://autoconf-archive.cryp.to/ax_cflags_warn_all.html
+#    http://www.gnu.org/software/autoconf-archive/ax_cflags_warn_all.html
 # ===========================================================================
 #
 # SYNOPSIS
@@ -9,8 +9,6 @@
 # DESCRIPTION
 #
 #   Try to find a compiler option that enables most reasonable warnings.
-#   This macro is directly derived from VL_PROG_CC_WARNINGS which is split
-#   up into two AX_CFLAGS_WARN_ALL and AX_CFLAGS_WARN_ALL_ANSI
 #
 #   For the GNU CC compiler it will be -Wall (and -ansi -pedantic) The
 #   result is added to the shellvar being CFLAGS by default.
@@ -25,11 +23,7 @@
 #    - $3 action-if-found : add value to shellvariable
 #    - $4 action-if-not-found : nothing
 #
-# LAST MODIFICATION
-#
-#   2008-04-12
-#
-# COPYLEFT
+# LICENSE
 #
 #   Copyright (c) 2008 Guido U. Draheim <guidod@gmx.de>
 #
@@ -55,9 +49,11 @@
 #   all other use of the material that constitutes the Autoconf Macro.
 #
 #   This special exception to the GPL applies to versions of the Autoconf
-#   Macro released by the Autoconf Macro Archive. When you make and
-#   distribute a modified version of the Autoconf Macro, you may extend this
-#   special exception to the GPL to apply to your modified version as well.
+#   Macro released by the Autoconf Archive. When you make and distribute a
+#   modified version of the Autoconf Macro, you may extend this special
+#   exception to the GPL to apply to your modified version as well.
+
+#serial 8
 
 AC_DEFUN([AX_CFLAGS_WARN_ALL],[dnl
 AS_VAR_PUSHDEF([FLAGS],[CFLAGS])dnl
@@ -104,7 +100,7 @@ dnl the only difference - the LANG selection... and the default FLAGS
 
 AC_DEFUN([AX_CXXFLAGS_WARN_ALL],[dnl
 AS_VAR_PUSHDEF([FLAGS],[CXXFLAGS])dnl
-AS_VAR_PUSHDEF([VAR],[ac_cv_cxxflags_warn_all])dnl
+AS_VAR_PUSHDEF([VAR],[ax_cv_cxxflags_warn_all])dnl
 AC_CACHE_CHECK([m4_ifval($1,$1,FLAGS) for maximum warnings],
 VAR,[VAR="no, unknown"
  AC_LANG_SAVE

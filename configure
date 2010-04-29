@@ -903,7 +903,7 @@ LIPO
 OTOOL
 OTOOL64
 CPP
-acx_pthread_config
+ax_pthread_config
 PTHREAD_CC
 PTHREAD_LIBS
 PTHREAD_CFLAGS
@@ -16212,10 +16212,10 @@ $as_echo "$ac_cv_cxx_compiler_vendor" >&6; }
 if test "x$enable_warnings" = "xyes"; then
   { $as_echo "$as_me:$LINENO: checking CXXFLAGS for maximum warnings" >&5
 $as_echo_n "checking CXXFLAGS for maximum warnings... " >&6; }
-if test "${ac_cv_cxxflags_warn_all+set}" = set; then
+if test "${ax_cv_cxxflags_warn_all+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_warn_all="no, unknown"
+  ax_cv_cxxflags_warn_all="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -16259,7 +16259,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_warn_all=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_warn_all=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -16278,25 +16278,25 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_warn_all" >&5
-$as_echo "$ac_cv_cxxflags_warn_all" >&6; }
-case ".$ac_cv_cxxflags_warn_all" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_warn_all" >&5
+$as_echo "$ax_cv_cxxflags_warn_all" >&6; }
+case ".$ax_cv_cxxflags_warn_all" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)
  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_warn_all " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_warn_all") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_warn_all) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_warn_all " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_warn_all") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_warn_all) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_warn_all\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_warn_all\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_warn_all") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_warn_all"
    fi
  ;;
 esac
@@ -16308,10 +16308,10 @@ case $ac_cxx_compiler_vendor in
   gnu) if test "x$enable_warnings" = "xyes"; then
   { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -Wextra" >&5
 $as_echo_n "checking CXXFLAGS for gcc -Wextra... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__Wextra+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__Wextra+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__Wextra="no, unknown"
+  ax_cv_cxxflags_gcc_option__Wextra="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -16355,7 +16355,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__Wextra=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__Wextra=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -16374,34 +16374,34 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__Wextra" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__Wextra" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__Wextra" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__Wextra" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__Wextra" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__Wextra" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__Wextra " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__Wextra") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__Wextra) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__Wextra " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__Wextra") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__Wextra) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__Wextra\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Wextra") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__Wextra\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Wextra") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Wextra"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Wextra"
    fi
  ;;
 esac
 
       { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -ansi" >&5
 $as_echo_n "checking CXXFLAGS for gcc -ansi... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__ansi+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__ansi+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__ansi="no, unknown"
+  ax_cv_cxxflags_gcc_option__ansi="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -16445,7 +16445,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__ansi=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__ansi=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -16464,34 +16464,34 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__ansi" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__ansi" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__ansi" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__ansi" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__ansi" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__ansi" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__ansi " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__ansi") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__ansi) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__ansi " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__ansi") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__ansi) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__ansi\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__ansi") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__ansi\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__ansi") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__ansi"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__ansi"
    fi
  ;;
 esac
 
       { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -pedantic" >&5
 $as_echo_n "checking CXXFLAGS for gcc -pedantic... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__pedantic+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__pedantic+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__pedantic="no, unknown"
+  ax_cv_cxxflags_gcc_option__pedantic="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -16535,7 +16535,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__pedantic=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__pedantic=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -16554,34 +16554,34 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__pedantic" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__pedantic" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__pedantic" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__pedantic" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__pedantic" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__pedantic" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__pedantic " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__pedantic") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__pedantic) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__pedantic " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__pedantic") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__pedantic) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__pedantic\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__pedantic") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__pedantic\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__pedantic") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__pedantic"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__pedantic"
    fi
  ;;
 esac
 
       { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -Wstrict-aliasing" >&5
 $as_echo_n "checking CXXFLAGS for gcc -Wstrict-aliasing... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__Wstrict_aliasing+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__Wstrict_aliasing+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__Wstrict_aliasing="no, unknown"
+  ax_cv_cxxflags_gcc_option__Wstrict_aliasing="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -16625,7 +16625,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__Wstrict_aliasing=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__Wstrict_aliasing=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -16644,34 +16644,34 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__Wstrict_aliasing" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__Wstrict_aliasing" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__Wstrict_aliasing" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__Wstrict_aliasing" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__Wstrict_aliasing" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__Wstrict_aliasing" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__Wstrict_aliasing " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__Wstrict_aliasing") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__Wstrict_aliasing) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__Wstrict_aliasing " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__Wstrict_aliasing") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__Wstrict_aliasing) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__Wstrict_aliasing\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Wstrict_aliasing") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__Wstrict_aliasing\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Wstrict_aliasing") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Wstrict_aliasing"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Wstrict_aliasing"
    fi
  ;;
 esac
 
       { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -Wstrict-overflow" >&5
 $as_echo_n "checking CXXFLAGS for gcc -Wstrict-overflow... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__Wstrict_overflow+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__Wstrict_overflow+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__Wstrict_overflow="no, unknown"
+  ax_cv_cxxflags_gcc_option__Wstrict_overflow="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -16715,7 +16715,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__Wstrict_overflow=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__Wstrict_overflow=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -16734,34 +16734,34 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__Wstrict_overflow" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__Wstrict_overflow" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__Wstrict_overflow" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__Wstrict_overflow" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__Wstrict_overflow" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__Wstrict_overflow" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__Wstrict_overflow " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__Wstrict_overflow") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__Wstrict_overflow) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__Wstrict_overflow " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__Wstrict_overflow") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__Wstrict_overflow) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__Wstrict_overflow\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Wstrict_overflow") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__Wstrict_overflow\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Wstrict_overflow") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Wstrict_overflow"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Wstrict_overflow"
    fi
  ;;
 esac
 
             { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -Woverloaded-virtual" >&5
 $as_echo_n "checking CXXFLAGS for gcc -Woverloaded-virtual... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__Woverloaded_virtual+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__Woverloaded_virtual+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__Woverloaded_virtual="no, unknown"
+  ax_cv_cxxflags_gcc_option__Woverloaded_virtual="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -16805,7 +16805,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__Woverloaded_virtual=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__Woverloaded_virtual=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -16824,34 +16824,34 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__Woverloaded_virtual" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__Woverloaded_virtual" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__Woverloaded_virtual" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__Woverloaded_virtual" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__Woverloaded_virtual" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__Woverloaded_virtual" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__Woverloaded_virtual " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__Woverloaded_virtual") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__Woverloaded_virtual) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__Woverloaded_virtual " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__Woverloaded_virtual") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__Woverloaded_virtual) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__Woverloaded_virtual\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Woverloaded_virtual") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__Woverloaded_virtual\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Woverloaded_virtual") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Woverloaded_virtual"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Woverloaded_virtual"
    fi
  ;;
 esac
 
       { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -Wold-style-cast" >&5
 $as_echo_n "checking CXXFLAGS for gcc -Wold-style-cast... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__Wold_style_cast+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__Wold_style_cast+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__Wold_style_cast="no, unknown"
+  ax_cv_cxxflags_gcc_option__Wold_style_cast="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -16895,7 +16895,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__Wold_style_cast=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__Wold_style_cast=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -16914,34 +16914,34 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__Wold_style_cast" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__Wold_style_cast" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__Wold_style_cast" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__Wold_style_cast" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__Wold_style_cast" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__Wold_style_cast" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__Wold_style_cast " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__Wold_style_cast") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__Wold_style_cast) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__Wold_style_cast " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__Wold_style_cast") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__Wold_style_cast) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__Wold_style_cast\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Wold_style_cast") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__Wold_style_cast\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Wold_style_cast") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Wold_style_cast"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Wold_style_cast"
    fi
  ;;
 esac
 
             { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -Wc++0x-compat" >&5
 $as_echo_n "checking CXXFLAGS for gcc -Wc++0x-compat... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__Wcpp0x_compat+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__Wcpp0x_compat+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__Wcpp0x_compat="no, unknown"
+  ax_cv_cxxflags_gcc_option__Wcpp0x_compat="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -16985,7 +16985,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__Wcpp0x_compat=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__Wcpp0x_compat=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -17004,34 +17004,34 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__Wcpp0x_compat" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__Wcpp0x_compat" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__Wcpp0x_compat" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__Wcpp0x_compat" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__Wcpp0x_compat" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__Wcpp0x_compat" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__Wcpp0x_compat " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__Wcpp0x_compat") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__Wcpp0x_compat) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__Wcpp0x_compat " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__Wcpp0x_compat") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__Wcpp0x_compat) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__Wcpp0x_compat\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Wcpp0x_compat") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__Wcpp0x_compat\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Wcpp0x_compat") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Wcpp0x_compat"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Wcpp0x_compat"
    fi
  ;;
 esac
 
             { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -Wundef" >&5
 $as_echo_n "checking CXXFLAGS for gcc -Wundef... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__Wundef+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__Wundef+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__Wundef="no, unknown"
+  ax_cv_cxxflags_gcc_option__Wundef="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -17075,7 +17075,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__Wundef=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__Wundef=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -17094,34 +17094,34 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__Wundef" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__Wundef" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__Wundef" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__Wundef" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__Wundef" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__Wundef" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__Wundef " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__Wundef") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__Wundef) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__Wundef " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__Wundef") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__Wundef) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__Wundef\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Wundef") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__Wundef\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Wundef") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Wundef"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Wundef"
    fi
  ;;
 esac
 
       { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -Wshadow" >&5
 $as_echo_n "checking CXXFLAGS for gcc -Wshadow... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__Wshadow+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__Wshadow+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__Wshadow="no, unknown"
+  ax_cv_cxxflags_gcc_option__Wshadow="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -17165,7 +17165,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__Wshadow=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__Wshadow=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -17184,24 +17184,24 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__Wshadow" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__Wshadow" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__Wshadow" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__Wshadow" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__Wshadow" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__Wshadow" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__Wshadow " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__Wshadow") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__Wshadow) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__Wshadow " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__Wshadow") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__Wshadow) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__Wshadow\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Wshadow") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__Wshadow\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Wshadow") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__Wshadow"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__Wshadow"
    fi
  ;;
 esac
@@ -17212,10 +17212,10 @@ fi
    if test "x$enable_debugging" = "xyes"; then
   { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -g3" >&5
 $as_echo_n "checking CXXFLAGS for gcc -g3... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__g3+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__g3+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__g3="no, unknown"
+  ax_cv_cxxflags_gcc_option__g3="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -17259,7 +17259,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__g3=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__g3=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -17278,34 +17278,34 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__g3" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__g3" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__g3" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__g3" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__g3" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__g3" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__g3 " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__g3") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__g3) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__g3 " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__g3") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__g3) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__g3\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__g3") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__g3\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__g3") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__g3"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__g3"
    fi
  ;;
 esac
 
       { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -fkeep-inline-functions" >&5
 $as_echo_n "checking CXXFLAGS for gcc -fkeep-inline-functions... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__fkeep_inline_functions+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__fkeep_inline_functions+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__fkeep_inline_functions="no, unknown"
+  ax_cv_cxxflags_gcc_option__fkeep_inline_functions="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -17349,7 +17349,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__fkeep_inline_functions=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__fkeep_inline_functions=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -17368,24 +17368,24 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__fkeep_inline_functions" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__fkeep_inline_functions" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__fkeep_inline_functions" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__fkeep_inline_functions" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__fkeep_inline_functions" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__fkeep_inline_functions" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__fkeep_inline_functions " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__fkeep_inline_functions") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__fkeep_inline_functions) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__fkeep_inline_functions " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__fkeep_inline_functions") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__fkeep_inline_functions) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__fkeep_inline_functions\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__fkeep_inline_functions") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__fkeep_inline_functions\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__fkeep_inline_functions") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__fkeep_inline_functions"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__fkeep_inline_functions"
    fi
  ;;
 esac
@@ -17393,10 +17393,10 @@ esac
 else
   { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -O2" >&5
 $as_echo_n "checking CXXFLAGS for gcc -O2... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__O2+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__O2+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__O2="no, unknown"
+  ax_cv_cxxflags_gcc_option__O2="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -17440,7 +17440,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__O2=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__O2=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -17459,24 +17459,24 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__O2" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__O2" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__O2" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__O2" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__O2" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__O2" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__O2 " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__O2") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__O2) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__O2 " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__O2") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__O2) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__O2\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__O2") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__O2\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__O2") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__O2"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__O2"
    fi
  ;;
 esac
@@ -17487,10 +17487,10 @@ fi
       if test "x$enable_profiling" = "xyes"; then
   { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -pg" >&5
 $as_echo_n "checking CXXFLAGS for gcc -pg... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__pg+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__pg+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__pg="no, unknown"
+  ax_cv_cxxflags_gcc_option__pg="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -17534,7 +17534,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__pg=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__pg=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -17553,9 +17553,9 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__pg" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__pg" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__pg" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__pg" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__pg" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__pg" in
      .ok|.ok,*) LOG4CPLUS_PROFILING_LDFLAGS="-pg"
          LOG4CPLUS_PROFILING_CXXFLAGS="-pg"
  ;;
@@ -17567,10 +17567,10 @@ esac
 
       { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -g3" >&5
 $as_echo_n "checking CXXFLAGS for gcc -g3... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__g3+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__g3+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__g3="no, unknown"
+  ax_cv_cxxflags_gcc_option__g3="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -17614,7 +17614,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__g3=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__g3=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -17633,24 +17633,24 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__g3" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__g3" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__g3" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__g3" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__g3" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__g3" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__g3 " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__g3") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__g3) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__g3 " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__g3") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__g3) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__g3\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__g3") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__g3\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__g3") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__g3"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__g3"
    fi
  ;;
 esac
@@ -17666,10 +17666,10 @@ esac
   sun) if test "x$enable_warnings" = "xyes"; then
   { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc +w" >&5
 $as_echo_n "checking CXXFLAGS for gcc +w... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option_pw+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option_pw+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option_pw="no, unknown"
+  ax_cv_cxxflags_gcc_option_pw="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -17713,7 +17713,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option_pw=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option_pw=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -17732,24 +17732,24 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option_pw" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option_pw" >&6; }
-case ".$ac_cv_cxxflags_gcc_option_pw" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option_pw" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option_pw" >&6; }
+case ".$ax_cv_cxxflags_gcc_option_pw" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option_pw " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option_pw") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option_pw) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option_pw " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option_pw") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option_pw) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option_pw\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option_pw") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option_pw\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option_pw") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option_pw"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option_pw"
    fi
  ;;
 esac
@@ -17930,10 +17930,10 @@ if test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "
   gnu) if test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"; then
   { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -fvisibility=hidden" >&5
 $as_echo_n "checking CXXFLAGS for gcc -fvisibility=hidden... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__fvisibility_hidden+set}" = set; then
+if test "${ax_cv_cxxflags_gcc_option__fvisibility_hidden+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__fvisibility_hidden="no, unknown"
+  ax_cv_cxxflags_gcc_option__fvisibility_hidden="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -17977,7 +17977,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__fvisibility_hidden=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__fvisibility_hidden=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -17996,24 +17996,24 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__fvisibility_hidden" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__fvisibility_hidden" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__fvisibility_hidden" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_gcc_option__fvisibility_hidden" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__fvisibility_hidden" >&6; }
+case ".$ax_cv_cxxflags_gcc_option__fvisibility_hidden" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__fvisibility_hidden " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__fvisibility_hidden") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__fvisibility_hidden) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_gcc_option__fvisibility_hidden " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_gcc_option__fvisibility_hidden") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_gcc_option__fvisibility_hidden) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__fvisibility_hidden\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__fvisibility_hidden") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_gcc_option__fvisibility_hidden\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__fvisibility_hidden") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__fvisibility_hidden"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_gcc_option__fvisibility_hidden"
    fi
  ;;
 esac
@@ -19143,7 +19143,7 @@ fi
 
 
 
-if test "${ac_cv_header_sys_types_h+set}" = set; then
+   if test "${ac_cv_header_sys_types_h+set}" = set; then
   { $as_echo "$as_me:$LINENO: checking for sys/types.h" >&5
 $as_echo_n "checking for sys/types.h... " >&6; }
 if test "${ac_cv_header_sys_types_h+set}" = set; then
@@ -19280,8 +19280,7 @@ fi
 
 
 
-
-if test "${ac_cv_header_sys_socket_h+set}" = set; then
+   if test "${ac_cv_header_sys_socket_h+set}" = set; then
   { $as_echo "$as_me:$LINENO: checking for sys/socket.h" >&5
 $as_echo_n "checking for sys/socket.h... " >&6; }
 if test "${ac_cv_header_sys_socket_h+set}" = set; then
@@ -19418,8 +19417,7 @@ fi
 
 
 
-
-if test "${ac_cv_header_unistd_h+set}" = set; then
+   if test "${ac_cv_header_unistd_h+set}" = set; then
   { $as_echo "$as_me:$LINENO: checking for unistd.h" >&5
 $as_echo_n "checking for unistd.h... " >&6; }
 if test "${ac_cv_header_unistd_h+set}" = set; then
@@ -19556,8 +19554,7 @@ fi
 
 
 
-
-if test "${ac_cv_header_syslog_h+set}" = set; then
+   if test "${ac_cv_header_syslog_h+set}" = set; then
   { $as_echo "$as_me:$LINENO: checking for syslog.h" >&5
 $as_echo_n "checking for syslog.h... " >&6; }
 if test "${ac_cv_header_syslog_h+set}" = set; then
@@ -19694,8 +19691,7 @@ fi
 
 
 
-
-if test "${ac_cv_header_netinet_in_h+set}" = set; then
+   if test "${ac_cv_header_netinet_in_h+set}" = set; then
   { $as_echo "$as_me:$LINENO: checking for netinet/in.h" >&5
 $as_echo_n "checking for netinet/in.h... " >&6; }
 if test "${ac_cv_header_netinet_in_h+set}" = set; then
@@ -19832,8 +19828,7 @@ fi
 
 
 
-
-if test "${ac_cv_header_netdb_h+set}" = set; then
+   if test "${ac_cv_header_netdb_h+set}" = set; then
   { $as_echo "$as_me:$LINENO: checking for netdb.h" >&5
 $as_echo_n "checking for netdb.h... " >&6; }
 if test "${ac_cv_header_netdb_h+set}" = set; then
@@ -19970,8 +19965,7 @@ fi
 
 
 
-
-if test "${ac_cv_header_unistd_h+set}" = set; then
+   if test "${ac_cv_header_unistd_h+set}" = set; then
   { $as_echo "$as_me:$LINENO: checking for unistd.h" >&5
 $as_echo_n "checking for unistd.h... " >&6; }
 if test "${ac_cv_header_unistd_h+set}" = set; then
@@ -20216,7 +20210,6 @@ done
 
 
 
-
 for ac_func in localtime_r
 do
 as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
@@ -20318,7 +20311,6 @@ _ACEOF
 
 fi
 done
-
 
 
 
@@ -20428,7 +20420,6 @@ done
 
 
 
-
 for ac_func in getpid
 do
 as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
@@ -20530,7 +20521,6 @@ _ACEOF
 
 fi
 done
-
 
 
 
@@ -20640,7 +20630,6 @@ done
 
 
 
-
 for ac_func in stat
 do
 as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
@@ -20742,7 +20731,6 @@ _ACEOF
 
 fi
 done
-
 
 
 
@@ -20852,7 +20840,6 @@ done
 
 
 
-
 for ac_func in htons
 do
 as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
@@ -20954,7 +20941,6 @@ _ACEOF
 
 fi
 done
-
 
 
 
@@ -21064,7 +21050,6 @@ done
 
 
 
-
 for ac_func in htonl
 do
 as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
@@ -21166,7 +21151,6 @@ _ACEOF
 
 fi
 done
-
 
 
 
@@ -21604,7 +21588,7 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
-acx_pthread_ok=no
+ax_pthread_ok=no
 
 # We used to check for pthread.h first, but this fails if pthread.h
 # requires special compiler flags (e.g. on True64 or Sequent).
@@ -21663,7 +21647,7 @@ $as_echo "$ac_try_echo") >&5
 	 test "$cross_compiling" = yes ||
 	 $as_test_x conftest$ac_exeext
        }; then
-  acx_pthread_ok=yes
+  ax_pthread_ok=yes
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -21674,9 +21658,9 @@ fi
 rm -rf conftest.dSYM
 rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
       conftest$ac_exeext conftest.$ac_ext
-        { $as_echo "$as_me:$LINENO: result: $acx_pthread_ok" >&5
-$as_echo "$acx_pthread_ok" >&6; }
-        if test x"$acx_pthread_ok" = xno; then
+        { $as_echo "$as_me:$LINENO: result: $ax_pthread_ok" >&5
+$as_echo "$ax_pthread_ok" >&6; }
+        if test x"$ax_pthread_ok" = xno; then
                 PTHREAD_LIBS=""
                 PTHREAD_CFLAGS=""
         fi
@@ -21694,7 +21678,7 @@ fi
 # which indicates that we try without any flags at all, and "pthread-config"
 # which is a program returning the flags for the Pth emulation library.
 
-acx_pthread_flags="pthreads none -Kthread -kthread lthread -pthread -pthreads -mthreads pthread --thread-safe -mt pthread-config"
+ax_pthread_flags="pthreads none -Kthread -kthread lthread -pthread -pthreads -mthreads pthread --thread-safe -mt pthread-config"
 
 # The ordering *is* (sometimes) important.  Some notes on the
 # individual items follow:
@@ -21727,12 +21711,16 @@ case "${host_cpu}-${host_os}" in
         # who knows whether they'll stub that too in a future libc.)  So,
         # we'll just look for -pthreads and -lpthread first:
 
-        acx_pthread_flags="-pthreads pthread -mt -pthread $acx_pthread_flags"
+        ax_pthread_flags="-pthreads pthread -mt -pthread $ax_pthread_flags"
         ;;
+
+	*-darwin*)
+	acx_pthread_flags="-pthread $acx_pthread_flags"
+	;;
 esac
 
-if test x"$acx_pthread_ok" = xno; then
-for flag in $acx_pthread_flags; do
+if test x"$ax_pthread_ok" = xno; then
+for flag in $ax_pthread_flags; do
 
         case $flag in
                 none)
@@ -21751,11 +21739,11 @@ $as_echo_n "checking whether pthreads work with $flag... " >&6; }
 set dummy pthread-config; ac_word=$2
 { $as_echo "$as_me:$LINENO: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
-if test "${ac_cv_prog_acx_pthread_config+set}" = set; then
+if test "${ac_cv_prog_ax_pthread_config+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  if test -n "$acx_pthread_config"; then
-  ac_cv_prog_acx_pthread_config="$acx_pthread_config" # Let the user override the test.
+  if test -n "$ax_pthread_config"; then
+  ac_cv_prog_ax_pthread_config="$ax_pthread_config" # Let the user override the test.
 else
 as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 for as_dir in $PATH
@@ -21764,7 +21752,7 @@ do
   test -z "$as_dir" && as_dir=.
   for ac_exec_ext in '' $ac_executable_extensions; do
   if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_prog_acx_pthread_config="yes"
+    ac_cv_prog_ax_pthread_config="yes"
     $as_echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
     break 2
   fi
@@ -21772,20 +21760,20 @@ done
 done
 IFS=$as_save_IFS
 
-  test -z "$ac_cv_prog_acx_pthread_config" && ac_cv_prog_acx_pthread_config="no"
+  test -z "$ac_cv_prog_ax_pthread_config" && ac_cv_prog_ax_pthread_config="no"
 fi
 fi
-acx_pthread_config=$ac_cv_prog_acx_pthread_config
-if test -n "$acx_pthread_config"; then
-  { $as_echo "$as_me:$LINENO: result: $acx_pthread_config" >&5
-$as_echo "$acx_pthread_config" >&6; }
+ax_pthread_config=$ac_cv_prog_ax_pthread_config
+if test -n "$ax_pthread_config"; then
+  { $as_echo "$as_me:$LINENO: result: $ax_pthread_config" >&5
+$as_echo "$ax_pthread_config" >&6; }
 else
   { $as_echo "$as_me:$LINENO: result: no" >&5
 $as_echo "no" >&6; }
 fi
 
 
-		if test x"$acx_pthread_config" = xno; then continue; fi
+		if test x"$ax_pthread_config" = xno; then continue; fi
 		PTHREAD_CFLAGS="`pthread-config --cflags`"
 		PTHREAD_LIBS="`pthread-config --ldflags` `pthread-config --libs`"
 		;;
@@ -21818,12 +21806,17 @@ cat confdefs.h >>conftest.$ac_ext
 cat >>conftest.$ac_ext <<_ACEOF
 /* end confdefs.h.  */
 #include <pthread.h>
+	             static void routine(void* a) {a=0;}
+	             static void* start_routine(void* a) {return a;}
 int
 main ()
 {
-pthread_t th; pthread_join(th, 0);
-                     pthread_attr_init(0); pthread_cleanup_push(0, 0);
-                     pthread_create(0,0,0,0); pthread_cleanup_pop(0);
+pthread_t th; pthread_attr_t attr;
+                     pthread_join(th, 0);
+                     pthread_attr_init(&attr);
+                     pthread_cleanup_push(routine, 0);
+                     pthread_create(&th,0,start_routine,0);
+                     pthread_cleanup_pop(0);
   ;
   return 0;
 }
@@ -21849,7 +21842,7 @@ $as_echo "$ac_try_echo") >&5
 	 test "$cross_compiling" = yes ||
 	 $as_test_x conftest$ac_exeext
        }; then
-  acx_pthread_ok=yes
+  ax_pthread_ok=yes
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -21864,9 +21857,9 @@ rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
         LIBS="$save_LIBS"
         CFLAGS="$save_CFLAGS"
 
-        { $as_echo "$as_me:$LINENO: result: $acx_pthread_ok" >&5
-$as_echo "$acx_pthread_ok" >&6; }
-        if test "x$acx_pthread_ok" = xyes; then
+        { $as_echo "$as_me:$LINENO: result: $ax_pthread_ok" >&5
+$as_echo "$ax_pthread_ok" >&6; }
+        if test "x$ax_pthread_ok" = xyes; then
                 break;
         fi
 
@@ -21876,7 +21869,7 @@ done
 fi
 
 # Various other checks:
-if test "x$acx_pthread_ok" = xyes; then
+if test "x$ax_pthread_ok" = xyes; then
         save_LIBS="$LIBS"
         LIBS="$PTHREAD_LIBS $LIBS"
         save_CFLAGS="$CFLAGS"
@@ -22018,7 +22011,7 @@ fi
 
 
 # Finally, execute ACTION-IF-FOUND/ACTION-IF-NOT-FOUND:
-if test x"$acx_pthread_ok" = xyes; then
+if test x"$ax_pthread_ok" = xyes; then
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_PTHREAD 1
@@ -22026,7 +22019,7 @@ _ACEOF
 
         :
 else
-        acx_pthread_ok=no
+        ax_pthread_ok=no
         { { $as_echo "$as_me:$LINENO: error: Requested threads support but no threads were found." >&5
 $as_echo "$as_me: error: Requested threads support but no threads were found." >&2;}
    { (exit 1); exit 1; }; }
@@ -22047,12 +22040,12 @@ esac
 
    case $ac_cxx_compiler_vendor in
   gnu)       ;;
-  sun)       { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -xthreadvar" >&5
-$as_echo_n "checking CXXFLAGS for gcc -xthreadvar... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__xthreadvar+set}" = set; then
+  sun)       { $as_echo "$as_me:$LINENO: checking CXXFLAGS for sun/cc -xthreadvar" >&5
+$as_echo_n "checking CXXFLAGS for sun/cc -xthreadvar... " >&6; }
+if test "${ax_cv_cxxflags_sun_option__xthreadvar+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__xthreadvar="no, unknown"
+  ax_cv_cxxflags_sun_option__xthreadvar="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -22061,7 +22054,7 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
  ac_save_CXXFLAGS="$CXXFLAGS"
-for ac_arg in "-pedantic -Werror % -xthreadvar"     "-pedantic % -xthreadvar %% no, obsolete"     #
+for ac_arg in "+xstrconst -Xc % -xthreadvar"        #
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
@@ -22096,7 +22089,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__xthreadvar=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_sun_option__xthreadvar=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -22115,34 +22108,34 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__xthreadvar" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__xthreadvar" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__xthreadvar" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_sun_option__xthreadvar" >&5
+$as_echo "$ax_cv_cxxflags_sun_option__xthreadvar" >&6; }
+case ".$ax_cv_cxxflags_sun_option__xthreadvar" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__xthreadvar " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__xthreadvar") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__xthreadvar) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_sun_option__xthreadvar " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_sun_option__xthreadvar") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_sun_option__xthreadvar) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__xthreadvar\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__xthreadvar") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_sun_option__xthreadvar\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_sun_option__xthreadvar") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__xthreadvar"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_sun_option__xthreadvar"
    fi
  ;;
 esac
  ;;
-  *)             { $as_echo "$as_me:$LINENO: checking CXXFLAGS for gcc -qtls" >&5
-$as_echo_n "checking CXXFLAGS for gcc -qtls... " >&6; }
-if test "${ac_cv_cxxflags_gcc_option__qtls+set}" = set; then
+  *)             { $as_echo "$as_me:$LINENO: checking CXXFLAGS for aix/cc -qtls" >&5
+$as_echo_n "checking CXXFLAGS for aix/cc -qtls... " >&6; }
+if test "${ax_cv_cxxflags_aix_option__qtls+set}" = set; then
   $as_echo_n "(cached) " >&6
 else
-  ac_cv_cxxflags_gcc_option__qtls="no, unknown"
+  ax_cv_cxxflags_aix_option__qtls="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -22151,7 +22144,7 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
  ac_save_CXXFLAGS="$CXXFLAGS"
-for ac_arg in "-pedantic -Werror % -qtls"     "-pedantic % -qtls %% no, obsolete"     #
+for ac_arg in "-qlanglvl=ansi -qsrcmsg % -qtls"        #
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
@@ -22186,7 +22179,7 @@ $as_echo "$ac_try_echo") >&5
 	 test -z "$ac_cxx_werror_flag" ||
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
-  ac_cv_cxxflags_gcc_option__qtls=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_aix_option__qtls=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -22205,24 +22198,24 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_cxxflags_gcc_option__qtls" >&5
-$as_echo "$ac_cv_cxxflags_gcc_option__qtls" >&6; }
-case ".$ac_cv_cxxflags_gcc_option__qtls" in
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_cxxflags_aix_option__qtls" >&5
+$as_echo "$ax_cv_cxxflags_aix_option__qtls" >&6; }
+case ".$ax_cv_cxxflags_aix_option__qtls" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ac_cv_cxxflags_gcc_option__qtls " 2>&1 >/dev/null
-   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ac_cv_cxxflags_gcc_option__qtls") >&5
-  (: CXXFLAGS does contain $ac_cv_cxxflags_gcc_option__qtls) 2>&5
+   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_aix_option__qtls " 2>&1 >/dev/null
+   then { ($as_echo "$as_me:$LINENO: : CXXFLAGS does contain \$ax_cv_cxxflags_aix_option__qtls") >&5
+  (: CXXFLAGS does contain $ax_cv_cxxflags_aix_option__qtls) 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_gcc_option__qtls\"") >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__qtls") 2>&5
+   else { ($as_echo "$as_me:$LINENO: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_aix_option__qtls\"") >&5
+  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_aix_option__qtls") 2>&5
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }
-                      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_gcc_option__qtls"
+                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_aix_option__qtls"
    fi
  ;;
 esac
