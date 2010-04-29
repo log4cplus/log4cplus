@@ -86,7 +86,8 @@ public:
     //!
     //! \param ev spi::InternalLoggingEvent instance to be filled from queue.
     //! \return Flags.
-    flags_type get_event (spi::InternalLoggingEvent & ev);
+    flags_type get_events (spi::InternalLoggingEvent * buf,
+        std::size_t buf_size, std::size_t * pulled);
 
     //! Possible state flags.
     enum Flags
@@ -116,8 +117,11 @@ public:
     };
 
 protected:
+    //! Queue storage type.
+    typedef std::deque<spi::InternalLoggingEvent> queue_storage_type;
+
     //! Queue storage.
-    std::deque<spi::InternalLoggingEvent> queue;
+    queue_storage_type queue;
 
     //! Mutex protecting queue and flags.
     Mutex mutex;

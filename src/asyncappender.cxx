@@ -62,14 +62,19 @@ QueueThread::QueueThread (AsyncAppenderPtr const & aai,
 void
 QueueThread::run()
 {
-    spi::InternalLoggingEvent ev;
+    std::size_t const BATCH_SIZE = 10;
+    std::vector<spi::InternalLoggingEvent> ev_buf (BATCH_SIZE);
 
     while (true)
     {
-        unsigned flags = queue->get_event (ev);
+        std::size_t pulled = 0;
+        unsigned flags = queue->get_events (&ev_buf[0], BATCH_SIZE, &pulled);
 
         if (flags & thread::Queue::EVENT)
-            appenders->appendLoopOnAppenders (ev);
+        {
+            for (std::size_t i = 0; i != pulled; ++i)
+                appenders->appendLoopOnAppenders (ev_buf[i]);
+        }
 
         if (((thread::Queue::EXIT | thread::Queue::DRAIN
                 | thread::Queue::EVENT) & flags)
