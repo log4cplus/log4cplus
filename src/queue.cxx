@@ -72,6 +72,8 @@ Queue::put_event (spi::InternalLoggingEvent const & ev)
             semguard.detach ();
             flags |= QUEUE;
             ret_flags |= flags;
+            mguard.unlock ();
+            mguard.detach ();
             ev_consumer.signal ();
         }
     }
@@ -105,6 +107,8 @@ Queue::signal_exit (bool drain)
                 flags &= ~DRAIN;
             flags |= EXIT;
             ret_flags = flags;
+            mguard.unlock ();
+            mguard.detach ();
             ev_consumer.signal ();
         }
     }
