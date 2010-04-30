@@ -105,6 +105,12 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define to 1 if you have the `vsnprintf' function. */
+#undef HAVE_VSNPRINTF
+
+/* Define to 1 if you have the `_vsnprintf' function. */
+#undef HAVE__VSNPRINTF
+
 /* Defined if the compiler supports __FUNCTION__ macro. */
 #undef HAVE___FUNCTION___MACRO
 
@@ -188,6 +194,12 @@
 #undef LOG4CPLUS_HAVE_STAT
 
 /* */
+#undef LOG4CPLUS_HAVE_STDARG_H
+
+/* */
+#undef LOG4CPLUS_HAVE_STDIO_H
+
+/* */
 #undef LOG4CPLUS_HAVE_SYSLOG_H
 
 /* */
@@ -201,6 +213,15 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_UNISTD_H
+
+/* */
+#undef LOG4CPLUS_HAVE_VSNPRINTF
+
+/* */
+#undef LOG4CPLUS_HAVE_WCHAR_H
+
+/* */
+#undef LOG4CPLUS_HAVE__VSNPRINTF
 
 /* */
 #undef LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH

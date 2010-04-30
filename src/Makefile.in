@@ -80,9 +80,9 @@ am__objects_1 = appenderattachableimpl.lo appender.lo asyncappender.lo \
 	loggingmacros.lo loglevel.lo loglog.lo logloguser.lo ndc.lo \
 	nullappender.lo nteventlogappender.lo objectregistry.lo \
 	patternlayout.lo pointer.lo property.lo queue.lo rootlogger.lo \
-	sleep.lo socketappender.lo socketbuffer.lo socket.lo \
-	socket-unix.lo socket-win32.lo stringhelper.lo syncprims.lo \
-	syslogappender.lo threads.lo timehelper.lo tls.lo \
+	sleep.lo snprintf.lo socketappender.lo socketbuffer.lo \
+	socket.lo socket-unix.lo socket-win32.lo stringhelper.lo \
+	syncprims.lo syslogappender.lo threads.lo timehelper.lo tls.lo \
 	win32debugappender.lo
 am__objects_2 = $(am__objects_1)
 am_liblog4cplus_la_OBJECTS = $(am__objects_2)
@@ -264,6 +264,7 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
                          ../include/log4cplus/helpers/property.h \
                          ../include/log4cplus/helpers/queue.h \
                          ../include/log4cplus/helpers/sleep.h \
+                         ../include/log4cplus/helpers/snprintf.h \
                          ../include/log4cplus/helpers/socketbuffer.h \
                          ../include/log4cplus/helpers/socket.h \
                          ../include/log4cplus/helpers/stringhelper.h \
@@ -332,6 +333,7 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                       queue.cxx \
                       rootlogger.cxx \
                       sleep.cxx \
+                      snprintf.cxx \
                       socketappender.cxx \
                       socketbuffer.cxx \
                       socket.cxx \
@@ -448,6 +450,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/queue.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rootlogger.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sleep.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/snprintf.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket-unix.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket-win32.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket.Plo@am__quote@

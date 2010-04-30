@@ -23,6 +23,12 @@
 #undef LOG4CPLUS_HAVE_UNISTD_H
 
 /* */
+#undef LOG4CPLUS_HAVE_STDIO_H
+
+/* */
+#undef LOG4CPLUS_HAVE_WCHAR_H
+
+/* */
 #undef LOG4CPLUS_HAVE_FTIME
 
 /* */
@@ -104,11 +110,16 @@
 /* */
 #undef LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS
 
+/* */
+#undef LOG4CPLUS_HAVE_VSNPRINTF
+
+/* */
+#undef LOG4CPLUS_HAVE__VSNPRINTF
+
 /* Defined if the compiler supports __FUNCTION__ macro. */
 #undef LOG4CPLUS_HAVE_FUNCTION_MACRO
 
 /* Defined if the compiler supports __PRETTY_FUNCTION__ macro. */
 #undef LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
-
 
 #endif // LOG4CPLUS_CONFIG_DEFINES_HXX

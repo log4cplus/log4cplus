@@ -43,6 +43,7 @@
 #include <memory>
 #include <vector>
 #include <sstream>
+#include <cstdio>
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>
@@ -113,6 +114,7 @@ struct per_thread_data
     log4cplus::tstring faa_str;
     spi::InternalLoggingEvent forced_log_ev;
     log4cplus::detail::macro_body_scratch_pad_type macro_body_scratch_pad;
+    std::FILE * fnull;
 };
 
 

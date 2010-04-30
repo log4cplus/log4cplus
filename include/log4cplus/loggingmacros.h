@@ -155,6 +155,32 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
         }                                                               \
     } while(0)
 
+#if defined (LOG4CPLUS_HAVE_C99_VARIADIC_MACROS)
+#define LOG4CPLUS_MACRO_FMT_BODY(logger, logLevel, logFmt, ...)         \
+    do {                                                                \
+        log4cplus::Logger const & _l                                    \
+            = log4cplus::detail::macros_get_logger (logger);            \
+        if (_l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {        \
+            _l.forcedLog (                                              \
+                log4cplus::logLevel##_LOG_LEVEL,                        \
+                logEvent, __FILE__, __LINE__);                          \
+        }                                                               \
+    } while(0)
+
+#elif defined (LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS)
+#define LOG4CPLUS_MACRO_FMT_BODY(logger, logLevel, logFmt, logArgs...)  \
+    do {                                                                \
+        log4cplus::Logger const & _l                                    \
+            = log4cplus::detail::macros_get_logger (logger);            \
+        if (_l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {        \
+            _l.forcedLog (                                              \
+                log4cplus::logLevel##_LOG_LEVEL,                        \
+                logEvent, __FILE__, __LINE__);                          \
+        }                                                               \
+    } while(0)
+
+#endif
+
 
 /**
  * @def LOG4CPLUS_TRACE(logger, logEvent)  This macro creates a TraceLogger 

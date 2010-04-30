@@ -68,6 +68,7 @@ appender_sratch_pad::~appender_sratch_pad ()
 
 per_thread_data::per_thread_data ()
     : macro_body_scratch_pad (macros_oss, forced_log_ev)
+    , fnull (0)
 { }
 
 
