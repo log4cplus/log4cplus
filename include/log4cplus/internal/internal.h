@@ -51,6 +51,7 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/loggingmacros.h>
 #include <log4cplus/thread/impl/tls.h>
+#include <log4cplus/helpers/snprintf.h>
 
 
 namespace log4cplus {
@@ -115,6 +116,7 @@ struct per_thread_data
     spi::InternalLoggingEvent forced_log_ev;
     log4cplus::detail::macro_body_scratch_pad_type macro_body_scratch_pad;
     std::FILE * fnull;
+    log4cplus::helpers::snprintf_buf snprintf_buf;
 };
 
 

@@ -93,4 +93,11 @@ macro_forced_log (log4cplus::Logger const & logger,
 }
 
 
+log4cplus::helpers::snprintf_buf &
+get_macro_body_snprintf_buf ()
+{
+    return internal::get_ptd ()->snprintf_buf;
+}
+
+
 } } // namespace log4cplus { namespace detail {

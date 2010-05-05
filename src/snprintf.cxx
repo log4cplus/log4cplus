@@ -102,6 +102,9 @@ snprintf_buf::print (tchar const * fmt, ...)
 #  elif defined (LOG4CPLUS_HAVE__VSNPRINTF)
         printed = _vsnprintf (&buf[0], buf_size - 1, fmt, args);
 
+#  else
+#    error "Neither vsnprintf nor _vsnprintf is available."
+
 #  endif
 
         va_end (args);

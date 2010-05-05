@@ -3362,6 +3362,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\snprintf.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\helpers\snprintf.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\socket-unix.cxx"
 				>
 				<FileConfiguration
