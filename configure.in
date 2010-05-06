@@ -96,7 +96,9 @@ AS_CASE([$ac_cxx_compiler_vendor],
   [gnu],
   [AS_IF([test "x$enable_warnings" = "xyes"],
      [AX_CXXFLAGS_GCC_OPTION([-Wextra])
-      AX_CXXFLAGS_GCC_OPTION([-ansi])
+      dnl The -ansi flag removes declarations of some useful functions
+      dnl from headers.
+      dnl AX_CXXFLAGS_GCC_OPTION([-ansi])
       AX_CXXFLAGS_GCC_OPTION([-pedantic])
       AX_CXXFLAGS_GCC_OPTION([-Wshadow])])
 
