@@ -25,6 +25,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/thread/impl/tls.h>
+#include <cstdio>
 #include <iostream>
 
 
@@ -73,7 +74,10 @@ per_thread_data::per_thread_data ()
 
 
 per_thread_data::~per_thread_data ()
-{ }
+{
+    if (fnull)
+        std::fclose (fnull);
+}
 
 
 log4cplus::thread::impl::tls_key_type tls_storage_key;
