@@ -2,8 +2,10 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/internal/internal.h>
 #include <cstdarg>
-#include <cwchar>
 #include <cstdio>
+#if defined (UNICODE)
+#include <cwchar>
+#endif
 #if defined (LOG4CPLUS_HAVE_STDARG_H)
 #  include <stdarg.h>
 #endif
@@ -27,6 +29,44 @@ char const NULL_FILE[] = "/dev/null";
 #endif
 
 
+namespace
+{
+
+
+static inline
+int
+vftprintf (std::FILE * file, tchar const * fmt, std::va_list const & args)
+{
+#if defined (UNICODE)
+    return std::vfwprintf (file, fmt, args);
+#else
+    return std::vfprintf (file, fmt, args);
+#endif
+}
+
+
+static inline
+int
+vstprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
+    std::va_list const & args)
+{
+    int ret;
+#if defined (UNICODE)
+    ret = std::vswprintf (dest, dest_size, fmt, args);
+#else
+    ret = std::vsprintf (dest, fmt, args);
+#endif
+
+    if (ret >= 0)
+        assert (ret <= dest_size);
+    
+    return ret;
+}
+
+
+}
+
+
 snprintf_buf::snprintf_buf ()
     : buf (START_BUF_SIZE)
 { }
@@ -38,6 +78,16 @@ snprintf_buf::print (tchar const * fmt, ...)
     assert (fmt);
 
     std::va_list args;
+    va_start (args, fmt);
+    tchar const * ret = print (fmt, args);
+    va_end (args);
+    return ret;
+}
+
+
+tchar const *
+snprintf_buf::print (tchar const * fmt, std::va_list const & args)
+{
     int printed;
     size_t const fmt_len = char_traits::length (fmt);
     size_t buf_size = buf.size ();
@@ -52,32 +102,30 @@ snprintf_buf::print (tchar const * fmt, ...)
         fnull = std::fopen (NULL_FILE, "wb");
         if (! fnull)
         {
-            LogLog::getLogLog ()->error ("Could not open NULL_FILE.");
+            LogLog::getLogLog ()->error (
+                LOG4CPLUS_TEXT ("Could not open NULL_FILE."));
             buf.clear ();
             buf.push_back (0);
             return &buf[0];
         }
     }
-    
-    va_start (args, fmt);
-    
-    printed = std::vfprintf (fnull, fmt, args);
+   
+    printed = vftprintf (fnull, fmt, args);
     if (printed == -1)
     {
-        LogLog::getLogLog ()->error ("Error printing into NULL_FILE.");
+        LogLog::getLogLog ()->error (
+            LOG4CPLUS_TEXT ("Error printing into NULL_FILE."));
         buf.clear ();
         buf.push_back (0);
         return &buf[0];
     }
-    
-    va_end (args);
-    va_start (args, fmt);
-    
+
     buf.resize (printed + 1);
-    int sprinted = std::vsprintf (&buf[0], fmt, args);
+    int sprinted = vstprintf (&buf[0], buf.size (), fmt, args);
     if (sprinted == -1)
     {
-        LogLog::getLogLog ()->error ("Error printing into string.");
+        LogLog::getLogLog ()->error (
+            LOG4CPLUS_TEXT ("Error printing into string."));
         buf.clear ();
         buf.push_back (0);
         return &buf[0];
@@ -86,13 +134,9 @@ snprintf_buf::print (tchar const * fmt, ...)
     
     buf[sprinted] = 0;
 
-    va_end (args);
-
 #else
     do
     {
-        va_start (args, fmt);
-   
 #  if defined (UNICODE)
         printed = std::vswprintf (&buf[0], buf_size - 1, fmt, args);
 
@@ -107,8 +151,6 @@ snprintf_buf::print (tchar const * fmt, ...)
 
 #  endif
 
-        va_end (args);
-        
         if (printed == -1)
         {
             buf_size *= 2;

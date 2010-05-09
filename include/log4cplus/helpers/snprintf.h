@@ -25,6 +25,7 @@
 #define LOG4CPLUS_HELPERS_SNPRINTF_H
 
 #include <log4cplus/tstring.h>
+#include <cstdarg>
 #include <vector>
 
 
@@ -39,6 +40,7 @@ public:
     snprintf_buf ();
 
     tchar const * print (tchar const * fmt, ...);
+    tchar const * print (tchar const * fmt, std::va_list const &);
 
 private:
     std::vector<tchar> buf;
