@@ -23052,79 +23052,7 @@ fi
 
 
 
-{ $as_echo "$as_me:$LINENO: checking for __declspec(thread)" >&5
-$as_echo_n "checking for __declspec(thread)... " >&6; }
-if test "${ac_cv_declspec_thread+set}" = set; then
-  $as_echo_n "(cached) " >&6
-else
-
-  cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-#if defined (__GNUC__)
-#  error Please fail.
-And extra please fail.
-#else
-        extern __declspec(thread) int x;
-        __declspec(thread) int * ptr = 0;
-        int foo () { ptr = &x; return x; }
-        __declspec(thread) int x = 1;
-#endif
-
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext
-if { (ac_try="$ac_compile"
-case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
-$as_echo "$ac_try_echo") >&5
-  (eval "$ac_compile") 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } && {
-	 test -z "$ac_cxx_werror_flag" ||
-	 test ! -s conftest.err
-       } && test -s conftest.$ac_objext; then
-  ac_cv_declspec_thread=yes
-else
-  $as_echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-	ac_cv_declspec_thread=no
-fi
-
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-
-fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_declspec_thread" >&5
-$as_echo "$ac_cv_declspec_thread" >&6; }
-
-if test "x$ac_cv_declspec_thread" = "xyes"; then
-  cat >>confdefs.h <<\_ACEOF
-#define HAVE_TLS_SUPPORT 1
-_ACEOF
-
-   cat >>confdefs.h <<\_ACEOF
-#define TLS_SUPPORT_CONSTRUCT __declspec(thread)
-_ACEOF
-
-else
+ax_tls_support=no
 
 { $as_echo "$as_me:$LINENO: checking for __thread" >&5
 $as_echo_n "checking for __thread... " >&6; }
@@ -23170,6 +23098,7 @@ $as_echo "$ac_try_echo") >&5
 	 test ! -s conftest.err
        } && test -s conftest.$ac_objext; then
   ac_cv__thread_keyword=yes
+     ax_tls_support=yes
 else
   $as_echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
@@ -23194,6 +23123,83 @@ _ACEOF
 
 fi
 
+
+if test "x$ax_tls_support" = "xno"; then
+
+  { $as_echo "$as_me:$LINENO: checking for __declspec(thread)" >&5
+$as_echo_n "checking for __declspec(thread)... " >&6; }
+if test "${ac_cv_declspec_thread+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+
+    cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+#if defined (__GNUC__)
+#  error Please fail.
+And extra please fail.
+#else
+        extern __declspec(thread) int x;
+        __declspec(thread) int * ptr = 0;
+        int foo () { ptr = &x; return x; }
+        __declspec(thread) int x = 1;
+#endif
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ac_cv_declspec_thread=yes
+       ax_tls_support=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_cv_declspec_thread=no
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_declspec_thread" >&5
+$as_echo "$ac_cv_declspec_thread" >&6; }
+
+  if test "x$ac_cv_declspec_thread" = "xyes"; then
+  cat >>confdefs.h <<\_ACEOF
+#define HAVE_TLS_SUPPORT 1
+_ACEOF
+
+     cat >>confdefs.h <<\_ACEOF
+#define TLS_SUPPORT_CONSTRUCT __declspec(thread)
+_ACEOF
+
+fi
 
 fi
 
