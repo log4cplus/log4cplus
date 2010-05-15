@@ -40,7 +40,7 @@ public:
     snprintf_buf ();
 
     tchar const * print (tchar const * fmt, ...);
-    tchar const * print (tchar const * fmt, std::va_list const &);
+    tchar const * print (tchar const * fmt, std::va_list);
 
 private:
     std::vector<tchar> buf;

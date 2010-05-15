@@ -35,7 +35,7 @@ namespace
 
 static inline
 int
-vftprintf (std::FILE * file, tchar const * fmt, std::va_list const & args)
+vftprintf (std::FILE * file, tchar const * fmt, std::va_list args)
 {
 #if defined (UNICODE)
     return std::vfwprintf (file, fmt, args);
@@ -48,7 +48,7 @@ vftprintf (std::FILE * file, tchar const * fmt, std::va_list const & args)
 static inline
 int
 vstprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
-    std::va_list const & args)
+    std::va_list args)
 {
     int ret;
 #if defined (UNICODE)
@@ -86,7 +86,7 @@ snprintf_buf::print (tchar const * fmt, ...)
 
 
 tchar const *
-snprintf_buf::print (tchar const * fmt, std::va_list const & args)
+snprintf_buf::print (tchar const * fmt, std::va_list args)
 {
     int printed;
     size_t const fmt_len = char_traits::length (fmt);
