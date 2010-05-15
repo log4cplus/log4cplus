@@ -23,6 +23,7 @@
 #include <exception>
 #include <errno.h>
 #if defined(LOG4CPLUS_USE_PTHREADS)
+#  include <pthread.h>
 #  include <sched.h>
 #  include <signal.h>
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS) && ! defined (_WIN32_WCE)
