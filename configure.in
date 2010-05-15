@@ -117,7 +117,9 @@ AS_CASE([$ac_cxx_compiler_vendor],
 
   [sun],
   [AS_IF([test "x$enable_warnings" = "xyes"],
-     [AX_CXXFLAGS_SUN_OPTION([+w])])])
+     [AX_CXXFLAGS_SUN_OPTION([+w])])
+   AX_CXXFLAGS_SUN_OPTION([-library=stlport4])
+   AX_CXXFLAGS_SUN_OPTION([-library=Crun])])
 
 AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
 AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"],
