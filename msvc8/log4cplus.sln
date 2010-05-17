@@ -86,6 +86,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "timeformat_test", "tests\ti
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "patternlayout_test", "tests\patternlayout_test.vcproj", "{AE4CF05D-9770-4BF2-BB73-1DA37E2A1508}"
+	ProjectSection(ProjectDependencies) = postProject
+		{917836A4-0DDC-47BE-B930-1B3BFDF6C940} = {917836A4-0DDC-47BE-B930-1B3BFDF6C940}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
