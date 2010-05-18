@@ -52,7 +52,8 @@
 
 // log4cplus_EXPORTS is used by the CMake build system.  DLL_EXPORT is
 // used by the autotools build system.
-#if defined (log4cplus_EXPORTS) || defined (DLL_EXPORT)
+#if (defined (log4cplus_EXPORTS) || defined (DLL_EXPORT)) \
+    && ! defined (LOG4CPLUS_STATIC)
 #  undef LOG4CPLUS_BUILD_DLL
 #  define LOG4CPLUS_BUILD_DLL
 #endif
