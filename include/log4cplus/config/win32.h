@@ -42,6 +42,20 @@
 #define LOG4CPLUS_HAVE_VSNPRINTF
 #define LOG4CPLUS_HAVE__VSNPRINTF
 
+// MS secure versions of vprintf().
+#define LOG4CPLUS_HAVE_VSPRINTF_S
+#define LOG4CPLUS_HAVE_VSWPRINTF_S
+
+// MS secure versions of vfprintf().
+#define LOG4CPLUS_HAVE_VFPRINTF_S
+#define LOG4CPLUS_HAVE_VFWPRINTF_S
+
+// MS secure versions of vsnprintf().
+#define LOG4CPLUS_HAVE_VSNPRINTF_S
+#define LOG4CPLUS_HAVE__VSNPRINTF_S
+#define LOG4CPLUS_HAVE__VSNWPRINTF_S
+
+
 #if defined (_WIN32_WCE)
 #  define LOG4CPLUS_DLLMAIN_HINSTANCE HANDLE
 #  undef LOG4CPLUS_HAVE_NT_EVENT_LOG

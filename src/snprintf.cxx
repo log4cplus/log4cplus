@@ -38,9 +38,17 @@ int
 vftprintf (std::FILE * file, tchar const * fmt, std::va_list args)
 {
 #if defined (UNICODE)
+#  if defined (LOG4CPLUS_HAVE_VFWPRINTF_S)
+    return vfwprintf_s (file, fmt, args);
+#  else
     return std::vfwprintf (file, fmt, args);
+#  endif
 #else
+#  if defined (LOG4CPLUS_HAVE_VFPRINTF_S)
+    return vfprintf_s (file, fmt, args);
+#  else
     return std::vfprintf (file, fmt, args);
+#  endif
 #endif
 }
 
@@ -52,16 +60,57 @@ vstprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
 {
     int ret;
 #if defined (UNICODE)
+#  if defined (LOG4CPLUS_HAVE_VSWPRINTF_S)
+    ret = vswprintf_s (dest, dest_size, fmt, args);
+#  else
     ret = std::vswprintf (dest, dest_size, fmt, args);
+#  endif
 #else
+#  if defined (LOG4CPLUS_HAVE_VSPRINTF_S)
+    ret = vsprintf_s (dest, dest_size, fmt, args);
+#  else
     ret = std::vsprintf (dest, fmt, args);
+#  endif
 #endif
 
     if (ret >= 0)
-        assert (ret <= dest_size);
+        assert (static_cast<std::size_t>(ret) <= dest_size);
     
     return ret;
 }
+
+
+#if ! defined (LOG4CPLUS_USE_POOR_MANS_SNPRINTF)
+static inline
+int
+vsntprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
+    std::va_list args)
+{
+    int ret;
+
+#if defined (UNICODE)
+#  if defined (LOG4CPLUS_HAVE__VSNWPRINTF_S) && defined (_TRUNCATE)
+    ret = _vsnwprintf_s (dest, dest_size, _TRUNCATE, fmt, args);
+#  else
+    ret = std::vswprintf (dest, dest_size, fmt, args);
+#  endif
+#else
+#  if defined (LOG4CPLUS_HAVE_VSNPRINTF_S) && defined (_TRUNCATE)
+    ret = vsnprintf_s (dest, dest_size, _TRUNCATE, fmt, args);
+#  elif defined (LOG4CPLUS_HAVE__VSNPRINTF_S) && defined (_TRUNCATE)
+    ret = _vsnprintf_s (dest, dest_size, _TRUNCATE, fmt, args);
+#  elif defined (LOG4CPLUS_HAVE_VSNPRINTF)
+    ret = vsnprintf (dest, dest_size, fmt, args);
+#  elif defined (LOG4CPLUS_HAVE__VSNPRINTF)
+    ret = _vsnprintf (dest, dest_size, fmt, args);
+#  else
+#    error "None of vsnprintf_s, _vsnprintf_s, vsnprintf or _vsnprintf is available."
+#  endif
+#endif
+    
+    return ret;
+}
+#endif
 
 
 }
@@ -137,20 +186,7 @@ snprintf_buf::print (tchar const * fmt, std::va_list args)
 #else
     do
     {
-#  if defined (UNICODE)
-        printed = std::vswprintf (&buf[0], buf_size - 1, fmt, args);
-
-#  elif defined (LOG4CPLUS_HAVE_VSNPRINTF)
-        printed = vsnprintf (&buf[0], buf_size - 1, fmt, args);
-
-#  elif defined (LOG4CPLUS_HAVE__VSNPRINTF)
-        printed = _vsnprintf (&buf[0], buf_size - 1, fmt, args);
-
-#  else
-#    error "Neither vsnprintf nor _vsnprintf is available."
-
-#  endif
-
+        printed = vsntprintf (&buf[0], buf_size - 1, fmt, args);
         if (printed == -1)
         {
             buf_size *= 2;

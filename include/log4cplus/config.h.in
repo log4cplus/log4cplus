@@ -105,11 +105,29 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define to 1 if you have the `vfprintf_s' function. */
+#undef HAVE_VFPRINTF_S
+
+/* Define to 1 if you have the `vfwprintf_s' function. */
+#undef HAVE_VFWPRINTF_S
+
 /* Define to 1 if you have the `vsnprintf' function. */
 #undef HAVE_VSNPRINTF
 
+/* Define to 1 if you have the `vsprintf_s' function. */
+#undef HAVE_VSPRINTF_S
+
+/* Define to 1 if you have the `vswprintf_s' function. */
+#undef HAVE_VSWPRINTF_S
+
 /* Define to 1 if you have the `_vsnprintf' function. */
 #undef HAVE__VSNPRINTF
+
+/* Define to 1 if you have the `_vsnprintf_s' function. */
+#undef HAVE__VSNPRINTF_S
+
+/* Define to 1 if you have the `_vsnwprintf_s' function. */
+#undef HAVE__VSNWPRINTF_S
 
 /* Defined if the compiler supports __FUNCTION__ macro. */
 #undef HAVE___FUNCTION___MACRO
@@ -215,13 +233,31 @@
 #undef LOG4CPLUS_HAVE_UNISTD_H
 
 /* */
+#undef LOG4CPLUS_HAVE_VFPRINTF_S
+
+/* */
+#undef LOG4CPLUS_HAVE_VFWPRINTF_S
+
+/* */
 #undef LOG4CPLUS_HAVE_VSNPRINTF
+
+/* */
+#undef LOG4CPLUS_HAVE_VSPRINTF_S
+
+/* */
+#undef LOG4CPLUS_HAVE_VSWPRINTF_S
 
 /* */
 #undef LOG4CPLUS_HAVE_WCHAR_H
 
 /* */
 #undef LOG4CPLUS_HAVE__VSNPRINTF
+
+/* */
+#undef LOG4CPLUS_HAVE__VSNPRINTF_S
+
+/* */
+#undef LOG4CPLUS_HAVE__VSNWPRINTF_S
 
 /* */
 #undef LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH
