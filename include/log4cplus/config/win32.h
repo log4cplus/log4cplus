@@ -38,23 +38,24 @@
 #define LOG4CPLUS_HAVE_WCHAR_H
 #define LOG4CPLUS_HAVE_STDARG_H
 
-// MSVC has both.
+// MSVC has both and so does MinGW.
 #define LOG4CPLUS_HAVE_VSNPRINTF
 #define LOG4CPLUS_HAVE__VSNPRINTF
 
+#if defined (_MSC_VER)
 // MS secure versions of vprintf().
-#define LOG4CPLUS_HAVE_VSPRINTF_S
-#define LOG4CPLUS_HAVE_VSWPRINTF_S
+#  define LOG4CPLUS_HAVE_VSPRINTF_S
+#  define LOG4CPLUS_HAVE_VSWPRINTF_S
 
 // MS secure versions of vfprintf().
-#define LOG4CPLUS_HAVE_VFPRINTF_S
-#define LOG4CPLUS_HAVE_VFWPRINTF_S
+#  define LOG4CPLUS_HAVE_VFPRINTF_S
+#  define LOG4CPLUS_HAVE_VFWPRINTF_S
 
 // MS secure versions of vsnprintf().
-#define LOG4CPLUS_HAVE_VSNPRINTF_S
-#define LOG4CPLUS_HAVE__VSNPRINTF_S
-#define LOG4CPLUS_HAVE__VSNWPRINTF_S
-
+#  define LOG4CPLUS_HAVE_VSNPRINTF_S
+#  define LOG4CPLUS_HAVE__VSNPRINTF_S
+#  define LOG4CPLUS_HAVE__VSNWPRINTF_S
+#endif
 
 #if defined (_WIN32_WCE)
 #  define LOG4CPLUS_DLLMAIN_HINSTANCE HANDLE
