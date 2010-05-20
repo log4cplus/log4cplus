@@ -125,9 +125,9 @@ blockAllSignals()
 {
 #if defined (LOG4CPLUS_USE_PTHREADS)
     // Block all signals.
-    ::sigset_t signal_set;
-    ::sigfillset (&signal_set);
-    ::pthread_sigmask (SIG_BLOCK, &signal_set, 0);
+    sigset_t signal_set;
+    sigfillset (&signal_set);
+    pthread_sigmask (SIG_BLOCK, &signal_set, 0);
 #endif    
 }
 #endif // LOG4CPLUS_SINGLE_THREADED
@@ -137,7 +137,7 @@ void
 yield()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
-    ::sched_yield();
+    sched_yield();
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     ::Sleep(0);
 #endif
@@ -235,7 +235,7 @@ AbstractThread::start()
     addReference ();
 
 #if defined(LOG4CPLUS_USE_PTHREADS)
-    if (::pthread_create(&handle, NULL, threadStartFunc, this) )
+    if (pthread_create(&handle, NULL, threadStartFunc, this) )
     {
         removeReference ();
         throw std::runtime_error("Thread creation was not successful");
@@ -284,7 +284,7 @@ void
 AbstractThread::join () const
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
-    ::pthread_join (handle, 0);
+    pthread_join (handle, 0);
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     ::WaitForSingleObject (handle, INFINITE);
 #endif
