@@ -27,7 +27,6 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/loglevel.h>
 #include <log4cplus/tstring.h>
-#include <log4cplus/streams.h>
 #include <log4cplus/spi/appenderattachable.h>
 #include <log4cplus/spi/loggerfactory.h>
 
