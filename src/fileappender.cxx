@@ -218,7 +218,7 @@ FileAppender::init(const tstring& filename_,
 
     if (bufferSize != 0)
     {
-        delete buffer;
+        delete[] buffer;
         buffer = new tchar[bufferSize];
         out.rdbuf ()->pubsetbuf (buffer, bufferSize);
     }
@@ -249,7 +249,7 @@ FileAppender::close()
 {
     LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
         out.close();
-        delete buffer;
+        delete[] buffer;
         buffer = 0;
         closed = true;
     LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;

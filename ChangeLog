@@ -1,5 +1,7 @@
 Version 1.0.4-RC8
 
+  - Fixed use of operator delete/delete[] in FileAppender (Patch
+    #3005234).
   - Updated config.guess and config.sub to latest Git repository
     versions.
   - Added BufferSize property to FileAppender to allow control of the
@@ -20,7 +22,7 @@ Version 1.0.4-RC7
 Version 1.0.4-RC6
 
   - Fixed bug #2945335 - MinGW/MSYS build problems. For Windows builds
-    the source now defaults to static librar/empty LOG4CPLUS_EXPORT
+    the source now defaults to static library/empty LOG4CPLUS_EXPORT
     macro.
   - Fixed a security problem in SyslogAppender.
   - Fixed bug #2955058 - Looping over properties during variables
