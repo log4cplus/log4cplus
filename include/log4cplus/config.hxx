@@ -34,6 +34,14 @@
 #  include <log4cplus/config/defines.hxx>
 #endif
 
+#if ! defined (UNICODE) && ! defined (LOG4CPLUS_HAVE_VSNPRINTF_S) \
+    && ! defined (LOG4CPLUS_HAVE__VSNPRINTF_S) \
+    && ! defined (LOG4CPLUS_HAVE_VSNPRINTF) \
+    && ! defined (LOG4CPLUS_HAVE__VSNPRINTF)
+#  undef LOG4CPLUS_USE_POOR_MANS_SNPRINTF
+#  define LOG4CPLUS_USE_POOR_MANS_SNPRINTF
+#endif
+
 #if !defined(_WIN32)
 #  define LOG4CPLUS_USE_BSD_SOCKETS
 #  if !defined(LOG4CPLUS_SINGLE_THREADED)
