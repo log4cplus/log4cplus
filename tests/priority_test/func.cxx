@@ -1,6 +1,7 @@
 
 #include "log4cplus/logger.h"
 #include "log4cplus/helpers/loglog.h"
+#include "log4cplus/loggingmacros.h"
 
 using namespace log4cplus;
 using namespace log4cplus::helpers;

@@ -28,6 +28,7 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/logger.h>
 #include <log4cplus/helpers/snprintf.h>
+#include <log4cplus/tracelogger.h>
 #include <sstream>
 
 

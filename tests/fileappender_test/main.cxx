@@ -3,6 +3,7 @@
 #include <log4cplus/layout.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/loggingmacros.h>
 
 
 using namespace log4cplus;

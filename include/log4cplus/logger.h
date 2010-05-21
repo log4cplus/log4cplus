@@ -308,9 +308,4 @@ namespace log4cplus
 } // end namespace log4cplus
 
 
-#include <log4cplus/loggingmacros.h>
-#include <log4cplus/tracelogger.h>
-
-
 #endif // _LOG4CPLUS_LOGGERHEADER_
-

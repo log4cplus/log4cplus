@@ -1,6 +1,7 @@
 
 #include "customloglevel.h"
 #include <log4cplus/consoleappender.h>
+#include <log4cplus/loggingmacros.h>
 #include <iomanip>
 #include <iostream>
 

@@ -2,6 +2,7 @@
 #include "log4cplus/logger.h"
 #include "log4cplus/consoleappender.h"
 #include "log4cplus/loglevel.h"
+#include <log4cplus/loggingmacros.h>
 #include <iomanip>
 
 using namespace std;

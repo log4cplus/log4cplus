@@ -3,6 +3,7 @@
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/loggingmacros.h>
 #include <iostream>
 #include <string>
 
