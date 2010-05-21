@@ -103,11 +103,11 @@ namespace log4cplus {
         bool immediateFlush;
 
         /**
-         * When any append operation fails, <code>reopenDelay<code> says 
+         * When any append operation fails, <code>reopenDelay</code> says 
          * for how many seconds the next attempt to re-open the log file and 
-         * resume logging will be delayed. If <code>reopenDelay<code> is zero, 
+         * resume logging will be delayed. If <code>reopenDelay</code> is zero, 
          * each failed append operation will cause log file to be re-opened. 
-         * By default, <code>reopenDelay<code> is 1 second.
+         * By default, <code>reopenDelay</code> is 1 second.
          */
         int reopenDelay;
 
