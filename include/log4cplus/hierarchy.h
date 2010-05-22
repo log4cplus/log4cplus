@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2009 Tad E. Smith
+// Copyright 2001-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/logger.h>
 #include <log4cplus/helpers/logloguser.h>
-#include <log4cplus/helpers/thread-config.h>
+#include <log4cplus/thread/syncprims.h>
 #include <map>
 #include <memory>
 #include <vector>

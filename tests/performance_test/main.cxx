@@ -4,17 +4,23 @@
 #include <log4cplus/configurator.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/spi/loggingevent.h>
+
 
 using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
+
 
 log4cplus::tostream& operator <<(log4cplus::tostream& s, const Time& t)
 {
     return s << t.sec() << "sec " << t.usec() << "usec";
 }
 
+
 #define LOOP_COUNT 100000
+
 
 int
 main()
@@ -102,5 +108,3 @@ main()
     log4cplus::Logger::shutdown();
     return 0;
 }
-
-

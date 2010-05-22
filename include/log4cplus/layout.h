@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2009 Tad E. Smith
+// Copyright 2001-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,8 +28,6 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/logloguser.h>
-#include <log4cplus/helpers/property.h>
-#include <log4cplus/spi/loggingevent.h>
 
 #include <vector>
 
@@ -37,8 +35,27 @@
 namespace log4cplus {
 
     // Forward Declarations
-    namespace pattern {
+    namespace pattern
+    {
+
         class PatternConverter;
+
+    }
+
+    
+    namespace helpers
+    {
+
+        class Properties;
+
+    }
+
+
+    namespace spi
+    {
+
+        class InternalLoggingEvent;
+
     }
 
 

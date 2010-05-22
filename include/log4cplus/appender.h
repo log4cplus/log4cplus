@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2009 Tad E. Smith
+// Copyright 2001-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,13 +29,21 @@
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/pointer.h>
-#include <log4cplus/helpers/property.h>
 #include <log4cplus/spi/filter.h>
 
 #include <memory>
 
 
 namespace log4cplus {
+
+
+    namespace helpers
+    {
+
+        class Properties;
+
+    }
+
 
     /**
      * This class is used to "handle" errors encountered in an {@link

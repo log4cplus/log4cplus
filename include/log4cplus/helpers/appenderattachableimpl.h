@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2009 Tad E. Smith
+// Copyright 2001-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,12 +24,11 @@
 #define _LOG4CPLUS_HELPERS_APPENDER_ATTACHABLE_IMPL_HEADER_
 
 #include <log4cplus/config.hxx>
-#include <log4cplus/layout.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/spi/appenderattachable.h>
-#include <log4cplus/helpers/thread-config.h>
+#include <log4cplus/thread/syncprims.h>
 
 #include <memory>
 #include <vector>
