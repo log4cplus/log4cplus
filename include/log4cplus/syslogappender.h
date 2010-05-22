@@ -28,7 +28,15 @@
 #if defined(LOG4CPLUS_HAVE_SYSLOG_H) && !defined(_WIN32)
 #include <log4cplus/appender.h>
 
-namespace log4cplus {
+namespace log4cplus
+{
+
+    namespace helpers
+    {
+
+        class Properties;
+
+    }
 
     /**
      * Appends log events to a file. 
@@ -44,7 +52,7 @@ namespace log4cplus {
     public:
       // Ctors
         SysLogAppender(const tstring& ident);
-        SysLogAppender(const log4cplus::helpers::Properties properties);
+        SysLogAppender(const log4cplus::helpers::Properties & properties);
 
       // Dtor
         virtual ~SysLogAppender();
