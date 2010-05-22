@@ -61,7 +61,10 @@ clear_tostringstream (tostringstream & os)
 log4cplus::tostringstream &
 get_macro_body_oss ()
 {
-    return internal::get_ptd ()->macros_oss;
+    
+    tostringstream & oss = internal::get_ptd ()->macros_oss;
+    clear_tostringstream (oss);
+    return oss;
 }
 
 
