@@ -91,18 +91,7 @@ macros_get_logger (tchar const * logger)
 LOG4CPLUS_EXPORT void clear_tostringstream (tostringstream &);
 
 
-struct macro_body_scratch_pad_type
-{
-    macro_body_scratch_pad_type (tostringstream & s,
-        spi::InternalLoggingEvent & ev);
-
-    tostringstream & oss;
-    spi::InternalLoggingEvent & ev;
-};
-
-
-LOG4CPLUS_EXPORT macro_body_scratch_pad_type & get_macro_body_scratch_pad ();
-LOG4CPLUS_EXPORT log4cplus::spi::InternalLoggingEvent & get_macros_event ();
+LOG4CPLUS_EXPORT log4cplus::tostringstream & get_macro_body_oss ();
 LOG4CPLUS_EXPORT log4cplus::helpers::snprintf_buf & get_macro_body_snprintf_buf ();
 LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     log4cplus::LogLevel, log4cplus::tstring const &, char const *, int,
@@ -135,9 +124,8 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
         log4cplus::Logger const & _l                                    \
             = log4cplus::detail::macros_get_logger (logger);            \
         if (_l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {        \
-            log4cplus::detail::macro_body_scratch_pad_type & pad        \
-                = log4cplus::detail::get_macro_body_scratch_pad ();     \
-            log4cplus::tostringstream & _log4cplus_buf = pad.oss;       \
+            log4cplus::tostringstream & _log4cplus_buf                  \
+                = log4cplus::detail::get_macro_body_oss ();             \
             _log4cplus_buf << logEvent;                                 \
             log4cplus::detail::macro_forced_log (_l,                    \
                 log4cplus::logLevel##_LOG_LEVEL, _log4cplus_buf.str(),  \
@@ -346,4 +334,3 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 #endif
 
 #endif /* _LOG4CPLUS_LOGGING_MACROS_HEADER_ */
-

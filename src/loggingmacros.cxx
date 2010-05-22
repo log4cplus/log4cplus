@@ -22,33 +22,10 @@
  * This file implements support function for loggingmacros.h file. */
 
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/loggingmacros.h>
 
 
 namespace log4cplus { namespace detail {
-
-
-macro_body_scratch_pad_type::macro_body_scratch_pad_type (tostringstream & s,
-    spi::InternalLoggingEvent & e)
-    : oss (s)
-    , ev (e)
-{ }
-
-
-log4cplus::spi::InternalLoggingEvent &
-get_macros_event ()
-{
-    return internal::get_ptd ()->forced_log_ev;
-}
-
-
-macro_body_scratch_pad_type &
-get_macro_body_scratch_pad ()
-{
-    macro_body_scratch_pad_type & sp
-        = internal::get_ptd ()->macro_body_scratch_pad;
-    clear_tostringstream (sp.oss);
-    return sp;
-}
 
 
 //! Helper stream to get the defaults from.
@@ -81,6 +58,20 @@ clear_tostringstream (tostringstream & os)
 }
 
 
+log4cplus::tostringstream &
+get_macro_body_oss ()
+{
+    return internal::get_ptd ()->macros_oss;
+}
+
+
+log4cplus::helpers::snprintf_buf &
+get_macro_body_snprintf_buf ()
+{
+    return internal::get_ptd ()->snprintf_buf;
+}
+
+
 void
 macro_forced_log (log4cplus::Logger const & logger,
     log4cplus::LogLevel log_level, log4cplus::tstring const & msg,
@@ -90,13 +81,6 @@ macro_forced_log (log4cplus::Logger const & logger,
     ev.setLoggingEvent (logger.getName (), log_level, msg, filename, line);
     ev.setFunction (func ? func : "");
     logger.forcedLog (ev);
-}
-
-
-log4cplus::helpers::snprintf_buf &
-get_macro_body_snprintf_buf ()
-{
-    return internal::get_ptd ()->snprintf_buf;
 }
 
 
