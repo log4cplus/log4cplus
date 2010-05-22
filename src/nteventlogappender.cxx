@@ -24,6 +24,7 @@
 #include <log4cplus/loglevel.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/property.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/internal/internal.h>
 
@@ -42,7 +43,7 @@ namespace {
     bool
     FreeSid(SID* pSid) 
     {
-        return ::HeapFree(GetProcessHeap(), 0, (LPVOID)pSid) != 0;
+        return ::HeapFree(GetProcessHeap(), 0, pSid) != 0;
     }
 
 
@@ -53,8 +54,9 @@ namespace {
         bool bSuccess = false;
 
         DWORD dwLength = ::GetLengthSid(pSrcSid);
-        *ppDstSid = (SID *) ::HeapAlloc(GetProcessHeap(),
-        HEAP_ZERO_MEMORY, dwLength);
+        *ppDstSid = static_cast<SID *>(
+            ::HeapAlloc(GetProcessHeap(),
+                HEAP_ZERO_MEMORY, dwLength));
 
         if(::CopySid(dwLength, *ppDstSid, pSrcSid)) {
             bSuccess = true;
@@ -80,14 +82,14 @@ namespace {
             // Get the required size
             DWORD tusize = 0;
             GetTokenInformation(hToken, TokenUser, NULL, 0, &tusize);
-            TOKEN_USER* ptu = (TOKEN_USER*)new BYTE[tusize];
+            TOKEN_USER* ptu = reinterpret_cast<TOKEN_USER*>(new BYTE[tusize]);
 
-            if(GetTokenInformation(hToken, TokenUser, (LPVOID)ptu, tusize, &tusize)) {
-                bSuccess = CopySid(ppSid, (SID *)ptu->User.Sid);
+            if(GetTokenInformation(hToken, TokenUser, ptu, tusize, &tusize)) {
+                bSuccess = CopySid(ppSid, static_cast<SID *>(ptu->User.Sid));
             }
             
             CloseHandle(hToken);
-            delete [] ptu;
+            delete [] reinterpret_cast<BYTE *>(ptu);
         }
 
         return bSuccess;
@@ -120,7 +122,7 @@ namespace {
                       name.c_str(), 
                       0, 
                       REG_SZ, 
-                      (LPBYTE)value.c_str(), 
+                      reinterpret_cast<BYTE const *>(value.c_str()),
                       static_cast<DWORD>(value.length() * sizeof(tchar)));
     }
 
@@ -133,7 +135,7 @@ namespace {
                       name.c_str(), 
                       0, 
                       REG_DWORD, 
-                      (LPBYTE)&value, 
+                      reinterpret_cast<LPBYTE>(&value), 
                       sizeof(DWORD));
     }
 
