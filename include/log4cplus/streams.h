@@ -39,11 +39,11 @@ namespace log4cplus
     extern LOG4CPLUS_EXPORT tostream & tcerr;
 }
 
-#ifdef UNICODE
+#if defined (UNICODE) && defined (LOG4CPLUS_ENABLE_GLOBAL_C_STRING_STREAM_INSERTER)
 
 LOG4CPLUS_EXPORT log4cplus::tostream& operator <<(log4cplus::tostream&, const char* psz );
 
-#endif // UNICODE
+#endif
 
 #endif // LOG4CPLUS_STREAMS_HEADER_
 

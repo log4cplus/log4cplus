@@ -52,7 +52,7 @@ log4cplus::tstring const empty_str;
 // Global Methods
 //////////////////////////////////////////////////////////////////////////////
 
-#ifdef UNICODE
+#if defined (UNICODE) && defined (LOG4CPLUS_ENABLE_GLOBAL_C_STRING_STREAM_INSERTER)
 
 log4cplus::tostream& 
 operator <<(log4cplus::tostream& stream, const char* str)
