@@ -17,7 +17,6 @@
 #define LOG4CPLUS_TRACELOGGER_H
 
 #include <log4cplus/logger.h>
-#include <log4cplus/loggingmacros.h>
 
 
 namespace log4cplus

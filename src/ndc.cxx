@@ -19,10 +19,7 @@
 // limitations under the License.
 
 #include <log4cplus/ndc.h>
-#include <log4cplus/helpers/loglog.h>
-#include <log4cplus/helpers/pointer.h>
 #include <log4cplus/internal/internal.h>
-#include <exception>
 
 
 namespace log4cplus
