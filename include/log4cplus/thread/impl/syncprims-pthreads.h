@@ -92,7 +92,8 @@ Semaphore::Semaphore (unsigned max, unsigned initial)
         ;
 
     unsigned const limited_max = (std::min) (max, sem_value_max);
-    int ret = sem_init (&sem, 0, (std::min) (initial, limited_max));
+    unsigned const limited_initial = (std::min) (initial, limited_max);
+    int ret = sem_init (&sem, 0, limited_initial);
     if (ret != 0)
         LOG4CPLUS_THROW_RTE ("Semaphore::Semaphore");
 }
