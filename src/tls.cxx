@@ -27,7 +27,11 @@
 namespace log4cplus { namespace thread { namespace impl {
 
 
+#if defined (LOG4CPLUS_SINGLE_THREADED)
+
 tls_value_type tls_single_threaded_value;
+
+#endif
 
 
 } } } // namespace log4cplus { namespace thread { namespace impl {
