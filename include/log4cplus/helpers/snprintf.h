@@ -35,8 +35,6 @@ namespace log4cplus { namespace helpers {
 class LOG4CPLUS_EXPORT snprintf_buf
 {
 public:
-    typedef std::char_traits<tchar> char_traits;
-
     snprintf_buf ();
 
     tchar const * print (tchar const * fmt, ...);

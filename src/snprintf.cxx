@@ -138,7 +138,7 @@ tchar const *
 snprintf_buf::print (tchar const * fmt, std::va_list args)
 {
     int printed;
-    size_t const fmt_len = char_traits::length (fmt);
+    size_t const fmt_len = std::char_traits<tchar>::length (fmt);
     size_t buf_size = buf.size ();
     size_t const output_estimate = fmt_len + fmt_len / 2 + 1;
     if (output_estimate > buf_size)
