@@ -22,6 +22,7 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/internal/internal.h>
 
+#include <locale>
 #include <iterator>
 #include <algorithm>
 #include <cstring>
@@ -158,19 +159,19 @@ towstring_internal (std::wstring & outstr, const char * src, size_t size,
 
 
 std::wstring 
-towstring(const std::string& src, std::locale const & loc)
+towstring(const std::string& src)
 {
     std::wstring ret;
-    towstring_internal (ret, src.c_str (), src.size (), loc);
+    towstring_internal (ret, src.c_str (), src.size (), std::locale ());
     return ret;
 }
 
 
 std::wstring 
-towstring(char const * src, std::locale const & loc)
+towstring(char const * src)
 {
     std::wstring ret;
-    towstring_internal (ret, src, std::strlen (src), loc);
+    towstring_internal (ret, src, std::strlen (src), std::locale ());
     return ret;
 }
 
@@ -246,19 +247,19 @@ tostring_internal (std::string & outstr, const wchar_t * src, size_t size,
 
 
 std::string 
-tostring(const std::wstring& src, std::locale const & loc)
+tostring(const std::wstring& src)
 {
     std::string ret;
-    tostring_internal (ret, src.c_str (), src.size (), loc);
+    tostring_internal (ret, src.c_str (), src.size (), std::locale ());
     return ret;
 }
 
 
 std::string 
-tostring(wchar_t const * src, std::locale const & loc)
+tostring(wchar_t const * src)
 {
     std::string ret;
-    tostring_internal (ret, src, std::wcslen (src), loc);
+    tostring_internal (ret, src, std::wcslen (src), std::locale ());
     return ret;
 }
 
