@@ -455,7 +455,7 @@ PropertyConfigurator::configureAppenders()
                     appenders[*it] = appender;
                 }
             }
-            catch(std::exception& e)
+            catch(std::exception const & e)
             {
                 tstring err =
                     LOG4CPLUS_TEXT("PropertyConfigurator::")
@@ -651,7 +651,7 @@ ConfigurationWatchDogThread::checkForFileModification()
     helpers::Time modTime(fileStatus.st_mtime);
     bool modified = (modTime > lastModTime);
 
-#if defined(HAVE_LSTAT)
+#if defined(LOG4CPLUS_HAVE_LSTAT)
     if(!modified && S_ISLNK(fileStatus.st_mode))
     {
         ::lstat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
