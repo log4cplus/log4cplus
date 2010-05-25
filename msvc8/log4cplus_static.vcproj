@@ -1458,6 +1458,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\tchar.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\log4cplus\tracelogger.h"
 				>
 			</File>

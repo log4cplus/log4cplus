@@ -23,22 +23,13 @@
 #ifndef LOG4CPLUS_TSTRING_HEADER_
 #define LOG4CPLUS_TSTRING_HEADER_
 
-#include <log4cplus/config.hxx>
 #include <string>
-
-#ifdef UNICODE
-#  define LOG4CPLUS_TEXT2(STRING) L##STRING
-#else
-#  define LOG4CPLUS_TEXT2(STRING) STRING
-#endif // UNICODE
-#define LOG4CPLUS_TEXT(STRING) LOG4CPLUS_TEXT2(STRING)
-
+#include <log4cplus/tchar.h>
 
 #ifdef UNICODE
 namespace log4cplus
 {
 
-typedef wchar_t tchar;
 typedef std::wstring tstring;
 
 namespace helpers
@@ -61,7 +52,6 @@ LOG4CPLUS_EXPORT std::wstring towstring(char const *);
 namespace log4cplus
 {
 
-typedef char tchar;
 typedef std::string tstring;
 
 } // namespace log4cplus
