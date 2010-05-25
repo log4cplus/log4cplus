@@ -24,7 +24,7 @@
 #ifndef LOG4CPLUS_HELPERS_SNPRINTF_H
 #define LOG4CPLUS_HELPERS_SNPRINTF_H
 
-#include <log4cplus/tstring.h>
+#include <log4cplus/tchar.h>
 #include <cstdarg>
 #include <vector>
 

@@ -24,7 +24,7 @@
 #define LOG4CPLUS_STREAMS_HEADER_
 
 #include <log4cplus/config.hxx>
-#include <log4cplus/tstring.h>
+#include <log4cplus/tchar.h>
 
 #include <iosfwd>
 
