@@ -656,7 +656,7 @@ ConfigurationWatchDogThread::checkForFileModification()
     {
         ::lstat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
             &fileStatus);
-        Time linkModTime(fileStatus.st_mtime);
+        helpers::Time linkModTime(fileStatus.st_mtime);
         modified = (linkModTime > lastModTime);
     }
 #endif
