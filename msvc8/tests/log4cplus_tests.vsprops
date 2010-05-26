@@ -9,9 +9,12 @@
 	<Tool
 		Name="VCCLCompilerTool"
 		PreprocessorDefinitions="LOG4CPLUS_BUILD_DLL"
+		DebugInformationFormat="3"
 	/>
 	<Tool
 		Name="VCLinkerTool"
 		AdditionalLibraryDirectories="&quot;..\$(PlatformName)\log4cplus_dll.$(ConfigurationName)&quot;"
+		GenerateDebugInformation="true"
+		FixedBaseAddress="1"
 	/>
 </VisualStudioPropertySheet>
