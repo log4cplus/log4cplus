@@ -146,7 +146,7 @@ set_ptd (per_thread_data * p)
 inline
 per_thread_data *
 get_ptd (bool alloc
-#if defined (_WIN32) && (defined (LOG4CPLUS_BUILD_DLL) || defined (log4cplus_EXPORTS))
+#if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL)
          = false
 #else
          = true
@@ -155,6 +155,10 @@ get_ptd (bool alloc
 {
     if (! ptd && alloc)
         return alloc_ptd ();
+
+    // The assert() does not belong here. get_ptd() might be called by
+    // cleanup code that can handle the returned NULL pointer.
+    //assert (ptd);
 
     return ptd;
 }
