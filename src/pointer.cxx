@@ -24,6 +24,9 @@
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/config/windowsh-inc.h>
 #include <cassert>
+#if defined (LOG4CPLUS_HAVE_INTRIN_H)
+#include <intrin.h>
+#endif
 
 
 namespace log4cplus { namespace helpers {
@@ -52,6 +55,10 @@ SharedObject::addReference() const
     __sync_add_and_fetch (&count, 1);
 
 #elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
+    && defined (WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
+    _InterlockedIncrement (&count);
+
+#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
     && defined (WIN32)
     InterlockedIncrement (&count);
 
@@ -73,6 +80,10 @@ SharedObject::removeReference() const
 #if ! defined(LOG4CPLUS_SINGLE_THREADED) \
     && defined (LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH)
     destroy = __sync_sub_and_fetch (&count, 1) == 0;
+
+#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
+    && defined (WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
+    destroy = _InterlockedDecrement (&count) == 0;
 
 #elif ! defined(LOG4CPLUS_SINGLE_THREADED) && defined (WIN32)
     destroy = InterlockedDecrement (&count) == 0;

@@ -25,6 +25,10 @@
 
 #ifdef _WIN32
 
+#if (defined (_MSC_VER) && _MSC_VER >= 1400) || defined (__MINGW32__)
+#  define LOG4CPLUS_HAVE_INTRIN_H
+#endif
+
 /* Define if you have the ftime function.  */
 #define LOG4CPLUS_HAVE_FTIME 1
 
