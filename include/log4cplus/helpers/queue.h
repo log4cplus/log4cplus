@@ -71,11 +71,14 @@ public:
 
     // Consumer's methods.
 
-    //! The get_event() function is used by queue's consumer. It fills
-    //! <code>ev</code> argument using the first item in queue and
-    //! sets EVENT flag in return value. If EXIT flag is already set
-    //! in flags member upon entering the function then depending on
-    //! DRAIN flag it either fills ev argument or does not fill the
+    //! The get_events() function is used by queue's consumer. It
+    //! fills <code>buf</code> argument using the first
+    //! <code>buf_size</code> items in queue and sets EVENT flag in
+    //! return value. The actual item count pulled from the queue is
+    //! stored into <code>std::size_t</code> variable pointed to by
+    //! <code>pulled</code>. If EXIT flag is already set in flags
+    //! member upon entering the function then depending on DRAIN flag
+    //! it either fills <code>buf</code> argument or does not fill the
     //! argument, if the queue is non-empty. The function blocks by
     //! waiting for internal event object to be signaled if the queue
     //! is empty, unless EXIT flag is set. The calling thread is
@@ -84,7 +87,10 @@ public:
     //!
     //! Upon error, return value has one of the error flags set.
     //!
-    //! \param ev spi::InternalLoggingEvent instance to be filled from queue.
+    //! \param buf Pointer to array of spi::InternalLoggingEvent
+    //! instances to be filled from queue.
+    //! \param buf_size Size of buffer pointed to by <code>buf</code>.
+    //! \param pulled The actual number of pulled items.
     //! \return Flags.
     flags_type get_events (spi::InternalLoggingEvent * buf,
         std::size_t buf_size, std::size_t * pulled);

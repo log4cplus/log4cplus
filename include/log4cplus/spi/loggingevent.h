@@ -48,19 +48,19 @@ namespace log4cplus {
               * Instantiate a LoggingEvent from the supplied parameters.
               * 
               * @param logger   The logger of this event.
-              * @param ll_      The LogLevel of this event.
-              * @param message_ The message of this event.
+              * @param loglevel The LogLevel of this event.
+              * @param message  The message of this event.
               * @param filename Name of file where this event has occurred,
               * can be NULL.
-              * @param line_    Line number in file specified by
+              * @param line     Line number in file specified by
               *                 the <code>filename</code> parameter.
               */
             InternalLoggingEvent(const log4cplus::tstring& logger,
-                LogLevel ll,const log4cplus::tstring& message,
+                LogLevel loglevel, const log4cplus::tstring& message,
                 const char* filename, int line);
 
             InternalLoggingEvent(const log4cplus::tstring& logger,
-                LogLevel ll, const log4cplus::tstring& ndc,
+                LogLevel loglevel, const log4cplus::tstring& ndc,
                 const log4cplus::tstring& message,
                 const log4cplus::tstring& thread,
                 log4cplus::helpers::Time time, const log4cplus::tstring& file,
