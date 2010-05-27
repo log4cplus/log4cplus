@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2009 Tad E. Smith
+// Copyright 2003-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -185,6 +185,24 @@ void initializeLog4cplus()
 }
 
 
+static
+void
+threadSetup ()
+{
+    internal::get_ptd (true);
+}
+
+
+void
+threadCleanup ()
+{
+    // Do thread-specific cleanup.
+    internal::per_thread_data * ptd = internal::get_ptd (false);
+    delete ptd;
+    internal::set_ptd (0);
+}
+
+
 } // namespace log4cplus
 
 
@@ -194,50 +212,44 @@ BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL,  // handle to DLL modu
                     DWORD fdwReason,     // reason for calling function
                     LPVOID lpReserved )  // reserved
 {
-    namespace internal = log4cplus::internal;
-
     // Perform actions based on the reason for calling.
     switch( fdwReason ) 
     { 
     case DLL_PROCESS_ATTACH:
     {
         log4cplus::initializeLog4cplus();
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+
         // Do thread-specific initialization for the main thread.
-        internal::per_thread_data * ptd = new internal::per_thread_data;
-        internal::set_ptd (ptd);
-#endif
+        log4cplus::threadSetup ();
+
         break;
     }
 
     case DLL_THREAD_ATTACH:
     {
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
         // Do thread-specific initialization.
-        internal::per_thread_data * ptd = new internal::per_thread_data;
-        internal::set_ptd (ptd);
-#endif
+        log4cplus::threadSetup ();
+
         break;
     }
 
     case DLL_THREAD_DETACH:
     {
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
         // Do thread-specific cleanup.
         log4cplus::threadCleanup ();
-#endif
+
         break;
     }
 
     case DLL_PROCESS_DETACH:
     {
         // Perform any necessary cleanup.
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+
         // Do thread-specific cleanup.
         log4cplus::threadCleanup ();
-#  if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
-        log4cplus::thread::impl::tls_cleanup (internal::tls_storage_key);
-#  endif
+#if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
+        log4cplus::thread::impl::tls_cleanup (
+            log4cplus::internal::tls_storage_key);
 #endif
         break;
     }
@@ -268,22 +280,3 @@ namespace {
 
 
 #endif
-
-
-namespace log4cplus
-{
-
-
-void
-threadCleanup ()
-{
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
-    // Do thread-specific cleanup.
-    internal::per_thread_data * ptd = internal::get_ptd (false);
-    delete ptd;
-    internal::set_ptd (0);
-#endif
-}
-
-
-} // namespace log4cplus
