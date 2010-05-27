@@ -119,7 +119,7 @@ alloc_ptd ()
 
 #else
 
-std::auto_ptr<per_thread_data> ptd;
+per_thread_data * ptd;
 
 
 per_thread_data *

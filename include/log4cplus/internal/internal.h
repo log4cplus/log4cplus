@@ -195,14 +195,14 @@ get_ptd (bool alloc = true)
 #else
 
 
-extern std::auto_ptr<per_thread_data> ptd;
+extern per_thread_data * ptd;
 
 
 inline
 void
 set_ptd (per_thread_data * p)
 {
-    ptd.reset (p);
+    ptd = p;
 }
 
 
@@ -210,10 +210,10 @@ inline
 per_thread_data *
 get_ptd (bool alloc = true)
 {
-    if (! ptd.get () && alloc)
+    if (! ptd && alloc)
         return alloc_ptd ();
 
-    return ptd.get ();
+    return ptd;
 }
 
 
