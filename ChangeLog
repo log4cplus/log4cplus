@@ -1,5 +1,6 @@
 Version 1.0.4-RC8
 
+  - Fixed compilation on OpenSolaris with Sun C++.
   - Fixed use of operator delete/delete[] in FileAppender (Patch
     #3005234).
   - Updated config.guess and config.sub to latest Git repository

@@ -23,10 +23,11 @@ This library has now reached "Production" status.
 Tested on the following platforms
 =================================
 
-- Linux/amd64 with GCC 4.1.2 and 4.3.2
-- FreeBSD/i386 and amd64 with GCC 3.4.6, 4.2.1 and 4.3.3
+- Linux/AMD64 with GCC 4.1.2 and 4.3.2
+- FreeBSD/i386 and AMD64 with GCC 3.4.6, 4.2.1 and 4.3.3
 - Windows XP with MS Visual C++ 8.0 and 9.0
-- Solaris 10 w/ Sun C++ 5.9 Patch 124863-01
+- OpenSolaris 5.11 with Sun C++ 5.10 SunOS_i386 128229-02 2009/09/21,
+  with -library=stlport4.
 
 
 Notes
