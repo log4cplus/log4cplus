@@ -27,6 +27,10 @@
 //! include guards because it is only a fragment to be included by
 //! syncprims.h.
 
+#include <limits>
+#include <algorithm>
+
+
 namespace log4cplus { namespace thread {
 
 
@@ -82,7 +86,17 @@ Mutex::unlock () const
 inline
 Semaphore::Semaphore (unsigned max, unsigned initial)
 {
-    int ret = sem_init (&sem, max, initial);
+    unsigned const sem_value_max =
+#if defined (SEM_VALUE_MAX)
+        SEM_VALUE_MAX
+#else
+        std::numeric_limits<int>::max ()
+#endif
+        ;
+
+    unsigned const limited_max = (std::min) (max, sem_value_max);
+    unsigned const limited_initial = (std::min) (initial, limited_max);
+    int ret = sem_init (&sem, 0, limited_initial);
     if (ret != 0)
         LOG4CPLUS_THROW_RTE ("Semaphore::Semaphore");
 }
