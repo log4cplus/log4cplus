@@ -30,7 +30,7 @@
 
 namespace log4cplus {
 
-#define LOG4CPLUS_MESSAGE_VERSION 3
+int const LOG4CPLUS_MESSAGE_VERSION = 3;
 
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)

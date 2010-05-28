@@ -32,9 +32,9 @@ namespace log4cplus { namespace helpers {
 // public methods
 ///////////////////////////////////////////////////////////////////////////////
 
-#define MILLIS_TO_NANOS 1000000
-#define SEC_TO_MILLIS 1000
-#define MAX_SLEEP_SECONDS (DWORD)4294966        // (2**32-2)/1000
+int const MILLIS_TO_NANOS = 1000000;
+int const SEC_TO_MILLIS = 1000;
+DWORD const MAX_SLEEP_SECONDS = (DWORD)4294966;        // (2**32-2)/1000
 
 void
 sleep(unsigned long secs, unsigned long nanosecs)
