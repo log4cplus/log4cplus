@@ -34,12 +34,14 @@ namespace log4cplus { namespace helpers {
 
 int const MILLIS_TO_NANOS = 1000000;
 int const SEC_TO_MILLIS = 1000;
-DWORD const MAX_SLEEP_SECONDS = (DWORD)4294966;        // (2**32-2)/1000
+
 
 void
 sleep(unsigned long secs, unsigned long nanosecs)
 {
 #if defined(_WIN32)
+    DWORD const MAX_SLEEP_SECONDS = 4294966;        // (2**32-2)/1000
+
     DWORD nano_millis = nanosecs / static_cast<unsigned long>(MILLIS_TO_NANOS);
     if (secs <= MAX_SLEEP_SECONDS) {
         Sleep((secs * SEC_TO_MILLIS) + nano_millis);
