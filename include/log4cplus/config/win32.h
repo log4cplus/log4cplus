@@ -29,8 +29,13 @@
 #  define LOG4CPLUS_HAVE_INTRIN_H
 #endif
 
-/* Define if you have the ftime function.  */
-#define LOG4CPLUS_HAVE_FTIME 1
+// Time related functions and headers.
+#define LOG4CPLUS_HAVE_TIME_H
+#define LOG4CPLUS_HAVE_SYS_TIMEB_H
+#define LOG4CPLUS_HAVE_FTIME
+#if defined (_MSC_VER) || defined (__BORLANDC__) 
+#define LOG4CPLUS_HAVE_GMTIME_S
+#endif
 
 // Use Winsock on Windows.
 #define LOG4CPLUS_USE_WINSOCK
@@ -38,9 +43,11 @@
 // Enable Win32DebugAppender
 #define LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING
 
+#define LOG4CPLUS_HAVE_SYS_TYPES_H
 #define LOG4CPLUS_HAVE_STDIO_H
 #define LOG4CPLUS_HAVE_WCHAR_H
 #define LOG4CPLUS_HAVE_STDARG_H
+#define LOG4CPLUS_HAVE_ERRNO_H
 
 // MSVC has both and so does MinGW.
 #define LOG4CPLUS_HAVE_VSNPRINTF
@@ -129,4 +136,3 @@
 
 #endif // _WIN32
 #endif // LOG4CPLUS_CONFIG_WIN32_HEADER_
-

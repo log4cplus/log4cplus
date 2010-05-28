@@ -11,7 +11,16 @@
 #undef LOG4CPLUS_HAVE_NETINET_IN_H
 
 /* */
+#undef LOG4CPLUS_HAVE_SYS_TIMEB_H
+
+/* */
+#undef LOG4CPLUS_HAVE_SYS_TIME_H
+
+/* */
 #undef LOG4CPLUS_HAVE_SYS_TYPES_H
+
+/* */
+#undef LOG4CPLUS_HAVE_TIME_H
 
 /* */
 #undef LOG4CPLUS_HAVE_SYS_SOCKET_H
@@ -23,7 +32,13 @@
 #undef LOG4CPLUS_HAVE_UNISTD_H
 
 /* */
+#undef LOG4CPLUS_HAVE_STDARG_H
+
+/* */
 #undef LOG4CPLUS_HAVE_STDIO_H
+
+/* */
+#undef LOG4CPLUS_HAVE_ERRNO_H
 
 /* */
 #undef LOG4CPLUS_HAVE_WCHAR_H
@@ -42,6 +57,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_GETTIMEOFDAY
+
+/* Define to 1 if you have the `clock_gettime' function. */
+#undef LOG4CPLUS_HAVE_CLOCK_GETTIME
 
 /* */
 #undef LOG4CPLUS_HAVE_GMTIME_R

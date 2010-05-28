@@ -26,11 +26,7 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 
-#ifdef TM_IN_SYS_TIME
-#include <sys/time.h>
-#endif
-
-#include <time.h>
+#include <ctime>
 
 
 namespace log4cplus {
@@ -43,8 +39,8 @@ namespace helpers {
 class LOG4CPLUS_EXPORT Time {
 public:
     Time();
-    Time(time_t tv_sec, long tv_usec);
-    explicit Time(time_t time);
+    Time(std::time_t tv_sec, long tv_usec);
+    explicit Time(std::time_t time);
 
     /**
      * Returns the current time using the <code>gettimeofday()</code>
@@ -57,7 +53,7 @@ public:
     /**
      * Returns <i>seconds</i> value.
      */
-    time_t sec() const { return tv_sec; }
+    std::time_t sec() const { return tv_sec; }
 
     /**
      * Returns <i>microseconds</i> value.
@@ -67,7 +63,7 @@ public:
     /**
      * Sets the <i>seconds</i> value.
      */
-    void sec(time_t s) { tv_sec = s; }
+    void sec(std::time_t s) { tv_sec = s; }
 
     /**
      * Sets the <i>microseconds</i> value.
@@ -77,24 +73,24 @@ public:
     /**
      * Sets this Time using the <code>mktime</code> function.
      */
-    time_t setTime(struct tm* t);
+    std::time_t setTime(std::tm * t);
 
     /**
      * Returns this Time as a <code>time_t></code> value.
      */
-    time_t getTime() const;
+    std::time_t getTime() const;
 
     /**
      * Populates <code>tm</code> using the <code>gmtime()</code>
      * function.
      */
-    void gmtime(struct tm* t) const;
+    void gmtime(std::tm * t) const;
 
     /**
      * Populates <code>tm</code> using the <code>localtime()</code>
      * function.
      */
-    void localtime(struct tm* t) const;
+    void localtime(std::tm * t) const;
 
     /**
      * Returns a string with a "formatted time" specified by
@@ -120,7 +116,7 @@ public:
 
 private:
   // Data
-    time_t tv_sec;  /* seconds */
+    std::time_t tv_sec;  /* seconds */
     long tv_usec;  /* microseconds */
 };
 

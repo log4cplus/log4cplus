@@ -11,6 +11,9 @@
 /* Defined if the compiler supports GNU style variadic macros. */
 #undef HAS_GNU_VARIADIC_MACROS
 
+/* Define to 1 if you have the `clock_gettime' function. */
+#undef HAVE_CLOCK_GETTIME
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
@@ -155,7 +158,13 @@
 #undef LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
 
 /* */
+#undef LOG4CPLUS_HAVE_CLOCK_GETTIME
+
+/* */
 #undef LOG4CPLUS_HAVE_ENAMETOOLONG
+
+/* */
+#undef LOG4CPLUS_HAVE_ERRNO_H
 
 /* */
 #undef LOG4CPLUS_HAVE_FTIME
@@ -224,7 +233,16 @@
 #undef LOG4CPLUS_HAVE_SYS_SOCKET_H
 
 /* */
+#undef LOG4CPLUS_HAVE_SYS_TIMEB_H
+
+/* */
+#undef LOG4CPLUS_HAVE_SYS_TIME_H
+
+/* */
 #undef LOG4CPLUS_HAVE_SYS_TYPES_H
+
+/* */
+#undef LOG4CPLUS_HAVE_TIME_H
 
 /* */
 #undef LOG4CPLUS_HAVE_TLS_SUPPORT

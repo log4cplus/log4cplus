@@ -19,20 +19,34 @@
 // limitations under the License.
 
 #include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/helpers/loglog.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/internal/internal.h>
 
+#include <algorithm>
 #include <vector>
 #include <iomanip>
 #include <cassert>
-
-#if defined(LOG4CPLUS_HAVE_FTIME)
-#include <sys/timeb.h>
+#include <cerrno>
+#if defined (UNICODE)
+#include <cwchar>
 #endif
 
-#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
+#if defined (LOG4CPLUS_HAVE_TIME_H)
+#include <time.h>
+#endif
+
+#if defined (LOG4CPLUS_HAVE_SYS_TYPES_H)
+#include <sys/types.h>
+#endif
+
+#if defined(LOG4CPLUS_HAVE_SYS_TIME_H)
 #include <sys/time.h>
+#endif
+
+#if defined (LOG4CPLUS_HAVE_SYS_TIMEB_H)
+#include <sys/timeb.h>
 #endif
 
 #if defined(LOG4CPLUS_HAVE_GMTIME_R) && !defined(LOG4CPLUS_SINGLE_THREADED)
@@ -54,23 +68,23 @@ const int ONE_SEC_IN_USEC = 1000000;
 //////////////////////////////////////////////////////////////////////////////
 
 Time::Time()
-: tv_sec(0),
-  tv_usec(0)
+    : tv_sec(0)
+    , tv_usec(0)
 {
 }
 
 
 Time::Time(time_t tv_sec_, long tv_usec_)
-: tv_sec(tv_sec_),
-  tv_usec(tv_usec_)
+    : tv_sec(tv_sec_)
+    , tv_usec(tv_usec_)
 {
     assert (tv_usec < ONE_SEC_IN_USEC);
 }
 
 
-Time::Time(time_t time)
-: tv_sec(time),
-  tv_usec(0)
+Time::Time(std::time_t time)
+    : tv_sec(time)
+    , tv_usec(0)
 {
 }
 
@@ -78,14 +92,20 @@ Time::Time(time_t time)
 Time
 Time::gettimeofday()
 {
-#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
-    timeval tp;
+#if defined (LOG4CPLUS_HAVE_CLOCK_GETTIME)
+    struct timespec ts;
+    int res = clock_gettime (CLOCK_REALTIME, &ts);
+    assert (res == 0);
+
+    return Time (ts.tv_sec, ts.tv_nsec / 1000);
+#elif defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
+    struct timeval tp;
     ::gettimeofday(&tp, 0);
 
     return Time(tp.tv_sec, tp.tv_usec);
 #elif defined(LOG4CPLUS_HAVE_FTIME)
     struct timeb tp;
-    ::ftime(&tp);
+    ftime(&tp);
 
     return Time(tp.time, tp.millitm * 1000);
 #else
@@ -99,19 +119,18 @@ Time::gettimeofday()
 // Time methods
 //////////////////////////////////////////////////////////////////////////////
 
-time_t
-Time::setTime(struct tm* t)
+std::time_t
+Time::setTime(std::tm * t)
 {
-    time_t time = ::mktime(t);
-    if(time != -1) {
+    std::time_t time = std::mktime(t);
+    if (time != -1)
         tv_sec = time;
-    }
 
     return time;
 }
 
 
-time_t
+std::time_t
 Time::getTime() const
 {
     return tv_sec;
@@ -119,26 +138,30 @@ Time::getTime() const
 
 
 void
-Time::gmtime(struct tm* t) const
+Time::gmtime(std::tm * t) const
 {
     time_t clock = tv_sec;
-#ifdef LOG4CPLUS_NEED_GMTIME_R
-    ::gmtime_r(&clock, t);
+#if defined (LOG4CPLUS_HAVE_GMTIME_S) && defined (_MSC_VER)
+    gmtime_s (t, &clock);
+#elif defined (LOG4CPLUS_HAVE_GMTIME_S) && defined (__BORLANDC__)
+    gmtime_s (&clock, t);
+#elif defined (LOG4CPLUS_NEED_GMTIME_R)
+    gmtime_r (&clock, t);
 #else
-    struct tm* tmp = ::gmtime(&clock);
+    std::tm * tmp = std::gmtime(&clock);
     *t = *tmp;
 #endif
 }
 
 
 void
-Time::localtime(struct tm* t) const
+Time::localtime(std::tm * t) const
 {
-    time_t clock = tv_sec;
+    std::time_t clock = tv_sec;
 #ifdef LOG4CPLUS_NEED_LOCALTIME_R
     ::localtime_r(&clock, t);
 #else
-    struct tm* tmp = ::localtime(&clock);
+    std::tm * tmp = std::localtime(&clock);
     *t = *tmp;
 #endif
 }
@@ -201,7 +224,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
     if (fmt_orig.empty () || fmt_orig[0] == 0)
         return log4cplus::tstring ();
 
-    struct tm time;
+    std::tm time;
     
     if (use_gmtime)
         gmtime(&time);
@@ -298,18 +321,37 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
     gft_sp.ret.swap (gft_sp.fmt);
     size_t buffer_size = gft_sp.fmt.size () + 1;
     size_t len;
+
+    // Limit how far can the buffer grow. This is necessary so that we
+    // catch bad format string. Some implementations of strftime() signal
+    // both too small buffer and invalid format string by returning 0
+    // without changing errno. 
+    size_t const buffer_size_max
+        = (std::max) (static_cast<size_t>(1024), buffer_size * 16);
+
     do
     {
         gft_sp.buffer.resize (buffer_size);
+        errno = 0;
 #ifdef UNICODE
-        len = ::wcsftime(&gft_sp.buffer[0], buffer_size, gft_sp.fmt.c_str(),
+        len = std::wcsftime(&gft_sp.buffer[0], buffer_size, gft_sp.fmt.c_str(),
             &time);
 #else
-        len = ::strftime(&gft_sp.buffer[0], buffer_size, gft_sp.fmt.c_str(),
+        len = std::strftime(&gft_sp.buffer[0], buffer_size, gft_sp.fmt.c_str(),
             &time);
 #endif
         if (len == 0)
+        {
+            int const eno = errno;
             buffer_size *= 2;
+            if (buffer_size > buffer_size_max)
+            {
+                LogLog::getLogLog ()->error (
+                    LOG4CPLUS_TEXT("Error in strftime(): ")
+                    + convertIntegerToString (eno), true);
+                break;
+            }
+        }
     } 
     while (len == 0);
 

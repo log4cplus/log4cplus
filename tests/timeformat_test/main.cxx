@@ -51,6 +51,10 @@ main()
         str = time.getFormattedTime (fmtstr);
         log4cplus::tcout << str << std::endl;
     }
+    catch(std::exception const & e)
+    {
+        std::cout << "Exception: " << e.what () << std::endl;
+    }
     catch(...)
     {
         std::cout << "Exception..." << std::endl;
