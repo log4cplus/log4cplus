@@ -272,9 +272,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
             {
                 if (! gft_sp.s_str_valid)
                 {
-                    time_t time_t_time;
-                    time_t_time = (use_gmtime ? _mkgmtime : mktime) (&time);
-                    convertIntegerToString (gft_sp.s_str, time_t_time);
+                    convertIntegerToString (gft_sp.s_str, tv_sec);
                     gft_sp.s_str_valid = true;
                 }
                 gft_sp.ret.append (gft_sp.s_str);
