@@ -150,10 +150,8 @@ LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
 {
     thread::MutexGuard guard (mutex);
 
-    if (! (this->*cond) ())
-        return;
-
-    os << prefix << msg << std::endl;
+    if ((this->*cond) ())
+        os << prefix << msg << std::endl;
 
     if (throw_flag)
         throw std::runtime_error (LOG4CPLUS_TSTRING_TO_STRING (msg));
