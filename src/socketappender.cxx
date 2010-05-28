@@ -26,7 +26,7 @@
 #include <log4cplus/helpers/sleep.h>
 
 
-#define LOG4CPLUS_MESSAGE_VERSION 2
+int const LOG4CPLUS_MESSAGE_VERSION = 2;
 
 
 namespace log4cplus
