@@ -25,7 +25,6 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/appender.h>
-#include <log4cplus/helpers/property.h>
 
 
 namespace log4cplus {
@@ -37,7 +36,7 @@ namespace log4cplus {
     public:
       // Ctors
         NullAppender();
-        NullAppender(const log4cplus::helpers::Properties& properties);
+        NullAppender(const log4cplus::helpers::Properties&);
 
       // Dtor
         virtual ~NullAppender();

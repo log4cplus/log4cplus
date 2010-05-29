@@ -24,7 +24,6 @@
 #define _LOG4CPLUS_SPI_ROOT_LOGGER_HEADER_
 
 #include <log4cplus/config.hxx>
-#include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggerimpl.h>
 
 namespace log4cplus {
