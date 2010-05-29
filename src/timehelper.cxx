@@ -96,6 +96,8 @@ Time::gettimeofday()
     struct timespec ts;
     int res = clock_gettime (CLOCK_REALTIME, &ts);
     assert (res == 0);
+    if (res != 0)
+        LogLog::getLogLog ()->error ("clock_gettime() has failed", true);
 
     return Time (ts.tv_sec, ts.tv_nsec / 1000);
 #elif defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
@@ -288,7 +290,6 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
             }
             break;
 
-#if defined (WIN32)
             // Windows do not support %s format specifier
             // (seconds since epoch).
             case LOG4CPLUS_TEXT ('s'):
@@ -302,7 +303,6 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
                 state = TEXT;
             }
             break;
-#endif
 
             default:
             {
@@ -349,7 +349,6 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
                 LogLog::getLogLog ()->error (
                     LOG4CPLUS_TEXT("Error in strftime(): ")
                     + convertIntegerToString (eno), true);
-                break;
             }
         }
     } 
