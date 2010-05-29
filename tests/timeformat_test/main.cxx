@@ -16,8 +16,8 @@ main()
     std::cout << "Entering main()..." << std::endl;
     try
     {
-		Time time;
-		log4cplus::tstring str;
+        Time time;
+        log4cplus::tstring str;
 
         time = Time::gettimeofday ();
         str = time.getFormattedTime (fmtstr);
