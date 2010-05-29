@@ -1,6 +1,9 @@
 Version 1.0.4-RC8
 
+  - Always handle %s time format specifier (seconds since epoch) in
+    log4cplus. Detect and use clock_gettime() when available.
   - Fixed compilation on OpenSolaris with Sun C++.
+  - Fixed compilation on OpenBSD.
   - Fixed use of operator delete/delete[] in FileAppender (Patch
     #3005234).
   - Updated config.guess and config.sub to latest Git repository
