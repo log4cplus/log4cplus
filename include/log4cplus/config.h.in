@@ -4,6 +4,9 @@
 
 #define LOG4CPLUS_CONFIG_H
 
+/* Define to 1 if you have the `clock_gettime' function. */
+#undef HAVE_CLOCK_GETTIME
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
@@ -105,7 +108,13 @@
 #undef LOG4CPLUS_DECLSPEC_IMPORT
 
 /* */
+#undef LOG4CPLUS_HAVE_CLOCK_GETTIME
+
+/* */
 #undef LOG4CPLUS_HAVE_ENAMETOOLONG
+
+/* */
+#undef LOG4CPLUS_HAVE_ERRNO_H
 
 /* */
 #undef LOG4CPLUS_HAVE_FTIME
@@ -153,16 +162,34 @@
 #undef LOG4CPLUS_HAVE_STAT
 
 /* */
+#undef LOG4CPLUS_HAVE_STDARG_H
+
+/* */
+#undef LOG4CPLUS_HAVE_STDIO_H
+
+/* */
 #undef LOG4CPLUS_HAVE_SYSLOG_H
 
 /* */
 #undef LOG4CPLUS_HAVE_SYS_SOCKET_H
 
 /* */
+#undef LOG4CPLUS_HAVE_SYS_TIMEB_H
+
+/* */
+#undef LOG4CPLUS_HAVE_SYS_TIME_H
+
+/* */
 #undef LOG4CPLUS_HAVE_SYS_TYPES_H
 
 /* */
+#undef LOG4CPLUS_HAVE_TIME_H
+
+/* */
 #undef LOG4CPLUS_HAVE_UNISTD_H
+
+/* */
+#undef LOG4CPLUS_HAVE_WCHAR_H
 
 /* Define if this is a single-threaded library. */
 #undef LOG4CPLUS_SINGLE_THREADED

@@ -16,9 +16,12 @@ main()
     std::cout << "Entering main()..." << std::endl;
     try
     {
-        Time time (0, 1234567);
-        tstring str (time.getFormattedTime (fmtstr));
-        log4cplus::tcout << str << std::endl;
+        Time time;
+        log4cplus::tstring str;
+
+        time = Time::gettimeofday ();
+        str = time.getFormattedTime (fmtstr);
+        log4cplus::tcout << LOG4CPLUS_TEXT ("now: ") << str << std::endl;
 
         time = Time (0, 7);
         str = time.getFormattedTime (fmtstr);
@@ -47,6 +50,10 @@ main()
         time = Time (0, 0);
         str = time.getFormattedTime (fmtstr);
         log4cplus::tcout << str << std::endl;
+    }
+    catch(std::exception const & e)
+    {
+        std::cout << "Exception: " << e.what () << std::endl;
     }
     catch(...)
     {

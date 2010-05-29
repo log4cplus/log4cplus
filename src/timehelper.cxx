@@ -19,12 +19,27 @@
 // limitations under the License.
 
 #include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/helpers/loglog.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/stringhelper.h>
 
+#include <algorithm>
+#include <stdexcept>
 #include <vector>
 #include <iomanip>
 #include <cassert>
+#include <cerrno>
+#if defined (UNICODE)
+#include <cwchar>
+#endif
+
+#if defined (LOG4CPLUS_HAVE_TIME_H)
+#include <time.h>
+#endif
+
+#if defined (LOG4CPLUS_HAVE_SYS_TYPES_H)
+#include <sys/types.h>
+#endif
 
 #if defined(LOG4CPLUS_HAVE_FTIME)
 #include <sys/timeb.h>
@@ -77,7 +92,15 @@ Time::Time(time_t time)
 Time
 Time::gettimeofday()
 {
-#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
+#if defined (LOG4CPLUS_HAVE_CLOCK_GETTIME)
+    struct timespec ts;
+    int res = clock_gettime (CLOCK_REALTIME, &ts);
+    assert (res == 0);
+    if (res != 0)
+        throw std::runtime_error ("clock_gettime() has failed");
+
+    return Time (ts.tv_sec, ts.tv_nsec / 1000);
+#elif defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
     timeval tp;
     ::gettimeofday(&tp, 0);
 
@@ -102,9 +125,8 @@ time_t
 Time::setTime(struct tm* t)
 {
     time_t time = ::mktime(t);
-    if(time != -1) {
+    if (time != -1)
         tv_sec = time;
-    }
 
     return time;
 }
@@ -180,16 +202,11 @@ Time::build_uc_q_value (log4cplus::tstring & uc_q_str) const
 {
     build_q_value (uc_q_str);
 
-#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
     log4cplus::tstring usecs (convertIntegerToString(tv_usec % 1000));
     size_t usecs_len = usecs.length();
     usecs.insert (0, usecs_len <= 3 
                   ? uc_q_padding_zeros[usecs_len] : uc_q_padding_zeros[3]);
     uc_q_str.append (usecs);
-#else
-    uc_q_str.append (uc_q_padding_zeros[0]);
-#endif
-
 }
 
 
@@ -222,6 +239,9 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
 
     log4cplus::tstring uc_q_str;
     bool uc_q_str_valid = false;
+
+    log4cplus::tstring s_str;
+    bool s_str_valid = false;
 
     // Walk the format string and process all occurences of %q and %Q.
     
@@ -267,6 +287,20 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
             }
             break;
 
+            // Windows do not support %s format specifier
+            // (seconds since epoch).
+            case LOG4CPLUS_TEXT ('s'):
+            {
+                if (! s_str_valid)
+                {
+                    convertIntegerToString (s_str, tv_sec);
+                    s_str_valid = true;
+                }
+                ret.append (s_str);
+                state = TEXT;
+            }
+            break;
+
             default:
             {
                 ret.push_back (LOG4CPLUS_TEXT ('%'));
@@ -285,16 +319,35 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
     size_t buffer_size = fmt.size () + 1;
     std::vector<tchar> buffer;
     size_t len;
+
+    // Limit how far can the buffer grow. This is necessary so that we
+    // catch bad format string. Some implementations of strftime() signal
+    // both too small buffer and invalid format string by returning 0
+    // without changing errno.
+    size_t const buffer_size_max
+        = (std::max) (static_cast<size_t>(1024), buffer_size * 16);
+    
     do
     {
         buffer.resize (buffer_size);
+        errno = 0;
 #ifdef UNICODE
-        len = ::wcsftime(&buffer[0], buffer_size, fmt.c_str(), &time);
+        len = std::wcsftime(&buffer[0], buffer_size, fmt.c_str(), &time);
 #else
-        len = ::strftime(&buffer[0], buffer_size, fmt.c_str(), &time);
+        len = std::strftime(&buffer[0], buffer_size, fmt.c_str(), &time);
 #endif
         if (len == 0)
+        {
+            int const eno = errno;
             buffer_size *= 2;
+            if (buffer_size > buffer_size_max)
+            {
+                std::string msg ("Error in strftime(): "
+                    + convertIntegerToString (eno));
+                LogLog::getLogLog ()->error (msg);
+                throw std::runtime_error (msg);
+            }
+        }
     } 
     while (len == 0);
     ret.assign (buffer.begin (), buffer.begin () + len);
