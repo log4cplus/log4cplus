@@ -44,7 +44,7 @@ namespace log4cplus {
     public:
       // Ctors
         SysLogAppender(const tstring& ident);
-        SysLogAppender(const log4cplus::helpers::Properties properties);
+        SysLogAppender(const log4cplus::helpers::Properties & properties);
 
       // Dtor
         virtual ~SysLogAppender();

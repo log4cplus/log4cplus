@@ -42,7 +42,7 @@ log4cplus::SysLogAppender::SysLogAppender(const tstring& id)
 }
 
 
-log4cplus::SysLogAppender::SysLogAppender(const Properties properties)
+log4cplus::SysLogAppender::SysLogAppender(const Properties & properties)
 : Appender(properties)
 {
     ident = properties.getProperty( LOG4CPLUS_TEXT("ident") );
