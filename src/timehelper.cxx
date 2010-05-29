@@ -342,10 +342,11 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
             buffer_size *= 2;
             if (buffer_size > buffer_size_max)
             {
-                std::string msg ("Error in strftime(): "
-                    + convertIntegerToString (eno));
+                log4cplus::tstring msg (
+                    LOG4CPLUS_TEXT ("Error in strftime(): "));
+                msg += convertIntegerToString (eno);
                 LogLog::getLogLog ()->error (msg);
-                throw std::runtime_error (msg);
+                throw std::runtime_error (LOG4CPLUS_TSTRING_TO_STRING (msg));
             }
         }
     } 
