@@ -1469,6 +1469,14 @@
 				RelativePath="..\include\log4cplus\tstring.h"
 				>
 			</File>
+			<File
+				RelativePath="..\src\version.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\version.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Appenders"

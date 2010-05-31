@@ -68,6 +68,7 @@ set (log4cplus_headers
   include/log4cplus/thread/threads.h
   include/log4cplus/tracelogger.h
   include/log4cplus/tstring.h
+  include/log4cplus/version.h
   include/log4cplus/win32debugappender.h)
 
 set (log4cplus_sources
@@ -111,6 +112,7 @@ set (log4cplus_sources
   src/threads.cxx
   src/timehelper.cxx
   src/tls.cxx
+  src/version.cxx
   src/win32debugappender.cxx)
 
 #message (STATUS "Type: ${UNIX}|${CYGWIN}|${WIN32}")

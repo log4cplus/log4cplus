@@ -66,6 +66,7 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
                          ../include/log4cplus/thread/threads.h \
                          ../include/log4cplus/tracelogger.h \
                          ../include/log4cplus/tstring.h \
+                         ../include/log4cplus/version.h \
                          ../include/log4cplus/win32debugappender.h
 
 SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
@@ -109,6 +110,7 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                       threads.cxx \
                       timehelper.cxx \
                       tls.cxx \
+                      version.cxx \
                       win32debugappender.cxx
 
 LIB_SRC = $(SINGLE_THREADED_SRC)
