@@ -3118,6 +3118,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\version.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\version.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\log4cplus\config\win32.h"
 				>
 			</File>

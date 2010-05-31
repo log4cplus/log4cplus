@@ -27,6 +27,7 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/streams.h \
 			 ../include/log4cplus/syslogappender.h \
 			 ../include/log4cplus/tstring.h \
+             ../include/log4cplus/version.h \
 			 ../include/log4cplus/helpers/appenderattachableimpl.h \
 			 ../include/log4cplus/helpers/loglog.h \
 			 ../include/log4cplus/helpers/logloguser.h \
@@ -80,7 +81,8 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
 			 socketbuffer.cxx \
 			 stringhelper.cxx \
 			 syslogappender.cxx \
-			 timehelper.cxx
+			 timehelper.cxx \
+             version.cxx
 
 if WINSOCK_SOCKETS
 SOCKETS_SRC = socket-win32.cxx

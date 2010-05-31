@@ -76,8 +76,8 @@ am__liblog4cplus_la_SOURCES_DIST = appenderattachableimpl.cxx \
 	ndc.cxx nullappender.cxx objectregistry.cxx patternlayout.cxx \
 	pointer.cxx property.cxx rootlogger.cxx sleep.cxx socket.cxx \
 	socketappender.cxx socketbuffer.cxx stringhelper.cxx \
-	syslogappender.cxx timehelper.cxx threads.cxx syncprims.cxx \
-	socket-unix.cxx socket-win32.cxx
+	syslogappender.cxx timehelper.cxx version.cxx threads.cxx \
+	syncprims.cxx socket-unix.cxx socket-win32.cxx
 am__objects_1 = appenderattachableimpl.lo appender.lo configurator.lo \
 	consoleappender.lo factory.lo fileappender.lo filter.lo \
 	global-init.lo hierarchy.lo hierarchylocker.lo layout.lo \
@@ -85,7 +85,7 @@ am__objects_1 = appenderattachableimpl.lo appender.lo configurator.lo \
 	logloguser.lo ndc.lo nullappender.lo objectregistry.lo \
 	patternlayout.lo pointer.lo property.lo rootlogger.lo sleep.lo \
 	socket.lo socketappender.lo socketbuffer.lo stringhelper.lo \
-	syslogappender.lo timehelper.lo
+	syslogappender.lo timehelper.lo version.lo
 @MULTI_THREADED_TRUE@am__objects_2 = threads.lo syncprims.lo
 @WINSOCK_SOCKETS_FALSE@am__objects_3 = socket-unix.lo
 @WINSOCK_SOCKETS_TRUE@am__objects_3 = socket-win32.lo
@@ -268,6 +268,7 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
 			 ../include/log4cplus/streams.h \
 			 ../include/log4cplus/syslogappender.h \
 			 ../include/log4cplus/tstring.h \
+             ../include/log4cplus/version.h \
 			 ../include/log4cplus/helpers/appenderattachableimpl.h \
 			 ../include/log4cplus/helpers/loglog.h \
 			 ../include/log4cplus/helpers/logloguser.h \
@@ -321,7 +322,8 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
 			 socketbuffer.cxx \
 			 stringhelper.cxx \
 			 syslogappender.cxx \
-			 timehelper.cxx
+			 timehelper.cxx \
+             version.cxx
 
 @WINSOCK_SOCKETS_FALSE@SOCKETS_SRC = socket-unix.cxx
 @WINSOCK_SOCKETS_TRUE@SOCKETS_SRC = socket-win32.cxx
@@ -441,6 +443,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/syslogappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/threads.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timehelper.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/version.Plo@am__quote@
 
 .cxx.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

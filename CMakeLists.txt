@@ -54,6 +54,7 @@ set (log4cplus_headers
   include/log4cplus/streams.h
   include/log4cplus/syslogappender.h
   include/log4cplus/tstring.h
+  include/log4cplus/version.h
   include/log4cplus/win32debugappender.h
   include/log4cplus/win32consoleappender.h)
 
@@ -91,7 +92,8 @@ set (log4cplus_sources
   src/syncprims.cxx
   src/syslogappender.cxx
   src/threads.cxx
-  src/timehelper.cxx)
+  src/timehelper.cxx
+  src/version.cxx)
 
 #message (STATUS "Type: ${UNIX}|${CYGWIN}|${WIN32}")
 
