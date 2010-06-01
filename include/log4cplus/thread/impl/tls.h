@@ -26,6 +26,7 @@
 
 #include <log4cplus/config.hxx>
 #include <new>
+#include <cassert>
 
 #if ! defined (INSIDE_LOG4CPLUS)
 #  error "This header must not be be used outside log4cplus' implementation files."
@@ -36,6 +37,9 @@
 
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS)
 #  include <log4cplus/config/windowsh-inc.h>
+
+#elif defined (LOG4CPLUS_SINGLE_THREADED)
+#include <vector>
 
 #endif
 
@@ -53,7 +57,7 @@ typedef pthread_key_t * tls_key_type;
 typedef DWORD tls_key_type;
 
 #elif defined (LOG4CPLUS_SINGLE_THREADED)
-typedef int tls_key_type;
+typedef std::size_t tls_key_type;
 
 #endif
 
@@ -125,34 +129,39 @@ tls_cleanup (tls_key_type k)
 
 
 #elif defined (LOG4CPLUS_SINGLE_THREADED)
-extern tls_value_type tls_single_threaded_value;
+extern std::vector<tls_value_type> tls_single_threaded_values;
 
 
 tls_key_type
 tls_init (tls_init_cleanup_func_type)
 {
-    return 0;
+    tls_key_type key = tls_single_threaded_values.size ();
+    tls_single_threaded_values.resize (key + 1);
+    return key;
 }
 
 
 tls_value_type
-tls_get_value (tls_key_type)
+tls_get_value (tls_key_type k)
 {
-    return tls_single_threaded_value;
+    assert (k < tls_single_threaded_values.size ());
+    return tls_single_threaded_values[k];
 }
 
 
 void
-tls_set_value (tls_key_type, tls_value_type val)
+tls_set_value (tls_key_type k, tls_value_type val)
 {
-    tls_single_threaded_value = val;
+    assert (k < tls_single_threaded_values.size ());
+    tls_single_threaded_values[k] = val;
 }
 
 
 void
-tls_cleanup (tls_key_type)
+tls_cleanup (tls_key_type k)
 {
-    tls_single_threaded_value = 0;
+    assert (k < tls_single_threaded_values.size ());
+    tls_single_threaded_values[k] = 0;
 }
 
 #endif
