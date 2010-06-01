@@ -82,9 +82,8 @@ per_thread_data::~per_thread_data ()
 log4cplus::thread::impl::tls_key_type tls_storage_key;
 
 
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
-
-# if defined (LOG4CPLUS_THREAD_LOCAL_VAR)
+#if ! defined (LOG4CPLUS_SINGLE_THREADED) \
+    && defined (LOG4CPLUS_THREAD_LOCAL_VAR)
 
 LOG4CPLUS_THREAD_LOCAL_VAR per_thread_data * ptd = 0;
 
@@ -106,7 +105,6 @@ alloc_ptd ()
 
 #  else
 
-
 per_thread_data *
 alloc_ptd ()
 {
@@ -117,28 +115,12 @@ alloc_ptd ()
 
 #  endif
 
-#else
-
-per_thread_data * ptd;
-
-
-per_thread_data *
-alloc_ptd ()
-{
-    per_thread_data * tmp = new per_thread_data;
-    set_ptd (tmp);
-    return tmp;
-}
-
-#endif
 
 } // namespace internal
 
 
 void initializeFactoryRegistry();
 
-
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
 
 //! Thread local storage clean up function for POSIX threads.
 static 
@@ -160,8 +142,6 @@ ptd_cleanup_func (void * arg)
     thread::impl::tls_set_value (internal::tls_storage_key, 0);
 }
 
-#endif
-
 
 void initializeLog4cplus()
 {
@@ -169,11 +149,7 @@ void initializeLog4cplus()
     if (initialized)
         return;
 
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
-
     internal::tls_storage_key = thread::impl::tls_init (ptd_cleanup_func);
-
-#endif
 
     helpers::LogLog::getLogLog();
     getLogLevelManager ();

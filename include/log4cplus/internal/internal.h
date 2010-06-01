@@ -120,15 +120,12 @@ struct per_thread_data
 
 per_thread_data * alloc_ptd ();
 
-
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
-
-
 // TLS key whose value is pointer struct per_thread_data.
 extern log4cplus::thread::impl::tls_key_type tls_storage_key;
 
 
-#if defined (LOG4CPLUS_THREAD_LOCAL_VAR)
+#if ! defined (LOG4CPLUS_SINGLE_THREADED) \
+    && defined (LOG4CPLUS_THREAD_LOCAL_VAR)
 
 extern LOG4CPLUS_THREAD_LOCAL_VAR per_thread_data * ptd;
 
@@ -191,33 +188,6 @@ get_ptd (bool alloc = true)
 
 
 #endif // defined (LOG4CPLUS_THREAD_LOCAL_VAR)
-
-#else
-
-
-extern per_thread_data * ptd;
-
-
-inline
-void
-set_ptd (per_thread_data * p)
-{
-    ptd = p;
-}
-
-
-inline
-per_thread_data *
-get_ptd (bool alloc = true)
-{
-    if (! ptd && alloc)
-        return alloc_ptd ();
-
-    return ptd;
-}
-
-
-#endif // ! defined (LOG4CPLUS_SINGLE_THREADED)
 
 
 inline
