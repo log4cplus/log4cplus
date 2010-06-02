@@ -58,6 +58,7 @@ namespace log4cplus {
 
       // Data
         tstring ident;
+        int facility;
 
     private:
       // Disallow copying of instances of this class
