@@ -29,7 +29,6 @@
 #include <iomanip>
 #include <cassert>
 #include <cerrno>
-#include <ctime>
 #if defined (UNICODE)
 #include <cwchar>
 #endif
@@ -75,7 +74,7 @@ Time::Time()
 }
 
 
-Time::Time(time_t tv_sec_, long tv_usec_)
+Time::Time(std::time_t tv_sec_, long tv_usec_)
 : tv_sec(tv_sec_),
   tv_usec(tv_usec_)
 {
@@ -83,7 +82,7 @@ Time::Time(time_t tv_sec_, long tv_usec_)
 }
 
 
-Time::Time(time_t time)
+Time::Time(std::time_t time)
 : tv_sec(time),
   tv_usec(0)
 {
@@ -122,10 +121,10 @@ Time::gettimeofday()
 // Time methods
 //////////////////////////////////////////////////////////////////////////////
 
-time_t
-Time::setTime(struct tm* t)
+std::time_t
+Time::setTime(std::tm* t)
 {
-    time_t time = ::mktime(t);
+    std::time_t time = std::mktime(t);
     if (time != -1)
         tv_sec = time;
 
@@ -133,7 +132,7 @@ Time::setTime(struct tm* t)
 }
 
 
-time_t
+std::time_t
 Time::getTime() const
 {
     return tv_sec;
@@ -141,26 +140,26 @@ Time::getTime() const
 
 
 void
-Time::gmtime(struct tm* t) const
+Time::gmtime(std::tm* t) const
 {
-    time_t clock = tv_sec;
+    std::time_t clock = tv_sec;
 #ifdef LOG4CPLUS_NEED_GMTIME_R
     ::gmtime_r(&clock, t);
 #else
-    struct tm* tmp = ::gmtime(&clock);
+    std::tm* tmp = std::gmtime(&clock);
     *t = *tmp;
 #endif
 }
 
 
 void
-Time::localtime(struct tm* t) const
+Time::localtime(std::tm* t) const
 {
-    time_t clock = tv_sec;
+    std::time_t clock = tv_sec;
 #ifdef LOG4CPLUS_NEED_LOCALTIME_R
     ::localtime_r(&clock, t);
 #else
-    struct tm* tmp = ::localtime(&clock);
+    std::tm* tmp = std::localtime(&clock);
     *t = *tmp;
 #endif
 }
@@ -217,7 +216,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
     if (fmt_orig.empty () || fmt_orig[0] == 0)
         return log4cplus::tstring ();
 
-    struct tm time;
+    std::tm time;
     
     if(use_gmtime)
         gmtime(&time);
