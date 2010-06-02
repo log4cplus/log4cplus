@@ -36,17 +36,22 @@ using namespace log4cplus::helpers;
 ///////////////////////////////////////////////////////////////////////////////
 
 log4cplus::SysLogAppender::SysLogAppender(const tstring& id)
-: ident(id)
+    : ident(id)
+    // Store std::string form of ident as member of SysLogAppender so
+    // the address of the c_str() result remains stable for openlog &
+    // co to use even if we use wstrings.
+    , identStr(LOG4CPLUS_TSTRING_TO_STRING (id) )
 {
-    ::openlog(LOG4CPLUS_TSTRING_TO_STRING (ident).c_str(), 0, 0);
+    ::openlog(identStr.c_str(), 0, 0);
 }
 
 
 log4cplus::SysLogAppender::SysLogAppender(const Properties & properties)
-: Appender(properties)
+    : Appender(properties)
 {
     ident = properties.getProperty( LOG4CPLUS_TEXT("ident") );
-    ::openlog(LOG4CPLUS_TSTRING_TO_STRING (ident).c_str(), 0, 0);
+    identStr = LOG4CPLUS_TSTRING_TO_STRING (ident);
+    ::openlog(identStr.c_str(), 0, 0);
 }
 
 

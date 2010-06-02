@@ -63,6 +63,8 @@ namespace log4cplus {
       // Disallow copying of instances of this class
         SysLogAppender(const SysLogAppender&);
         SysLogAppender& operator=(const SysLogAppender&);
+
+        std::string identStr;
     };
 
 } // end namespace log4cplus
