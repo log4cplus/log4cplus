@@ -30,6 +30,20 @@ using namespace std;
 using namespace log4cplus::helpers;
 
 
+namespace
+{
+
+static
+const char*
+useIdent (const std::string& string)
+{
+    if (string.empty ())
+        return 0;
+    else
+        return string.c_str ();
+}
+
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // log4cplus::SysLogAppender ctors and dtor
@@ -42,7 +56,7 @@ log4cplus::SysLogAppender::SysLogAppender(const tstring& id)
     // co to use even if we use wstrings.
     , identStr(LOG4CPLUS_TSTRING_TO_STRING (id) )
 {
-    ::openlog(identStr.c_str(), 0, 0);
+    ::openlog(useIdent(identStr), 0, 0);
 }
 
 
@@ -51,7 +65,7 @@ log4cplus::SysLogAppender::SysLogAppender(const Properties & properties)
 {
     ident = properties.getProperty( LOG4CPLUS_TEXT("ident") );
     identStr = LOG4CPLUS_TSTRING_TO_STRING (ident);
-    ::openlog(identStr.c_str(), 0, 0);
+    ::openlog(useIdent(identStr), 0, 0);
 }
 
 
