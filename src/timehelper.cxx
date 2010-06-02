@@ -29,6 +29,7 @@
 #include <iomanip>
 #include <cassert>
 #include <cerrno>
+#include <ctime>
 #if defined (UNICODE)
 #include <cwchar>
 #endif
