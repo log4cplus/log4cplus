@@ -92,8 +92,9 @@ Win32ConsoleAppender::append (spi::InternalLoggingEvent const & event)
     tstring str = oss.str ();
     size_t const str_len = str.size ();
     tchar const * s = str.c_str ();
+    DWORD mode;
 
-    if (handle_type == FILE_TYPE_CHAR)
+    if (handle_type == FILE_TYPE_CHAR && GetConsoleMode (console_out, &mode))
         // It seems that we have real console handle here. We can use
         // WriteConsole() directly.
         write_console (console_out, s, str_len);
