@@ -1,3 +1,10 @@
+Version 1.0.4-RC9
+
+  - Fixed compilation problem in timehelper.cxx.
+  - Added %X{N} PatternLayout format specifier for NDC with limited
+    depth.
+  - Added facility property to SysLogAppender.
+
 Version 1.0.4-RC8
 
   - Always handle %s time format specifier (seconds since epoch) in
