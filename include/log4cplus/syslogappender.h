@@ -66,11 +66,14 @@ namespace log4cplus
 
       // Data
         tstring ident;
+        int facility;
 
     private:
       // Disallow copying of instances of this class
         SysLogAppender(const SysLogAppender&);
         SysLogAppender& operator=(const SysLogAppender&);
+
+        std::string identStr;
     };
 
 } // end namespace log4cplus

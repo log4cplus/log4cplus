@@ -23,6 +23,7 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
@@ -33,23 +34,97 @@ using namespace std;
 using namespace log4cplus::helpers;
 
 
+namespace
+{
+
+static
+const char*
+useIdent (const std::string& string)
+{
+    if (string.empty ())
+        return 0;
+    else
+        return string.c_str ();
+}
+
+
+static
+int
+parseFacility (const log4cplus::tstring& text)
+{
+    if (text == LOG4CPLUS_TEXT ("auth"))
+        return LOG_AUTH;
+    else if (text == LOG4CPLUS_TEXT ("authpriv"))
+        return LOG_AUTHPRIV;
+    else if (text == LOG4CPLUS_TEXT ("cron"))
+        return LOG_CRON;
+    else if (text == LOG4CPLUS_TEXT ("daemon"))
+        return LOG_DAEMON;
+    else if (text == LOG4CPLUS_TEXT ("ftp"))
+        return LOG_FTP;
+    else if (text == LOG4CPLUS_TEXT ("kern"))
+        return LOG_KERN;
+    else if (text == LOG4CPLUS_TEXT ("local0"))
+        return LOG_LOCAL0;
+    else if (text == LOG4CPLUS_TEXT ("local1"))
+        return LOG_LOCAL1;
+    else if (text == LOG4CPLUS_TEXT ("local2"))
+        return LOG_LOCAL2;
+    else if (text == LOG4CPLUS_TEXT ("local3"))
+        return LOG_LOCAL3;
+    else if (text == LOG4CPLUS_TEXT ("local4"))
+        return LOG_LOCAL4;
+    else if (text == LOG4CPLUS_TEXT ("local5"))
+        return LOG_LOCAL5;
+    else if (text == LOG4CPLUS_TEXT ("local6"))
+        return LOG_LOCAL6;
+    else if (text == LOG4CPLUS_TEXT ("local7"))
+        return LOG_LOCAL7;
+    else if (text == LOG4CPLUS_TEXT ("lpr"))
+        return LOG_LPR;
+    else if (text == LOG4CPLUS_TEXT ("mail"))
+        return LOG_MAIL;
+    else if (text == LOG4CPLUS_TEXT ("news"))
+        return LOG_NEWS;
+    else if (text == LOG4CPLUS_TEXT ("syslog"))
+        return LOG_SYSLOG;
+    else if (text == LOG4CPLUS_TEXT ("user"))
+        return LOG_USER;
+    else if (text == LOG4CPLUS_TEXT ("uucp"))
+        return LOG_UUCP;
+    else
+        // unknown
+        return 0;
+}
+
+} // namespace
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // log4cplus::SysLogAppender ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
 log4cplus::SysLogAppender::SysLogAppender(const tstring& id)
-: ident(id)
+    : ident(id)
+    , facility (0)
+    // Store std::string form of ident as member of SysLogAppender so
+    // the address of the c_str() result remains stable for openlog &
+    // co to use even if we use wstrings.
+    , identStr(LOG4CPLUS_TSTRING_TO_STRING (id) )
 {
-    ::openlog(LOG4CPLUS_TSTRING_TO_STRING (ident).c_str(), 0, 0);
+    ::openlog(useIdent(identStr), 0, 0);
 }
 
 
 log4cplus::SysLogAppender::SysLogAppender(const Properties & properties)
-: Appender(properties)
+    : Appender(properties)
+    , facility (0)
 {
     ident = properties.getProperty( LOG4CPLUS_TEXT("ident") );
-    ::openlog(LOG4CPLUS_TSTRING_TO_STRING (ident).c_str(), 0, 0);
+    facility = parseFacility (
+        toLower (properties.getProperty (LOG4CPLUS_TEXT ("facility"))));
+    identStr = LOG4CPLUS_TSTRING_TO_STRING (ident);
+    ::openlog(useIdent(identStr), 0, 0);
 }
 
 
@@ -119,7 +194,7 @@ log4cplus::SysLogAppender::append(const spi::InternalLoggingEvent& event)
         detail::clear_tostringstream (appender_sp.oss);
         layout->formatAndAppend(appender_sp.oss, event);
         appender_sp.str = appender_sp.oss.str ();
-        ::syslog(level, "%s",
+        ::syslog(facility | level, "%s",
             LOG4CPLUS_TSTRING_TO_STRING(appender_sp.str).c_str());
     }
 }
