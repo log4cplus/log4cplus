@@ -49,7 +49,9 @@ static
 int
 parseFacility (const log4cplus::tstring& text)
 {
-    if (text == LOG4CPLUS_TEXT ("auth"))
+    if (text.empty ())
+        return 0;
+    else if (text == LOG4CPLUS_TEXT ("auth"))
         return LOG_AUTH;
     else if (text == LOG4CPLUS_TEXT ("authpriv"))
         return LOG_AUTHPRIV;
@@ -90,8 +92,14 @@ parseFacility (const log4cplus::tstring& text)
     else if (text == LOG4CPLUS_TEXT ("uucp"))
         return LOG_UUCP;
     else
-        // unknown
+    {
+        // Unknown facility.
+        log4cplus::tstring msg (LOG4CPLUS_TEXT ("Unknown syslog facility: "));
+        msg += text;
+        log4cplus::helpers::LogLog::getLogLog ()->error (msg);
+
         return 0;
+    }
 }
 
 } // namespace
