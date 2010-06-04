@@ -53,8 +53,8 @@ namespace
 {
     static tchar const DELIM_START[] = LOG4CPLUS_TEXT("${");
     static tchar const DELIM_STOP[] = LOG4CPLUS_TEXT("}");
-    static size_t const DELIM_START_LEN = 2;
-    static size_t const DELIM_STOP_LEN = 1;
+    static std::size_t const DELIM_START_LEN = 2;
+    static std::size_t const DELIM_STOP_LEN = 1;
 
 
     static

@@ -196,7 +196,7 @@ void
 build_q_value (log4cplus::tstring & q_str, long tv_usec)
 {
     convertIntegerToString(q_str, tv_usec / 1000);
-    size_t const len = q_str.length();
+    std::size_t const len = q_str.length();
     if (len <= 2)
         q_str.insert (0, padding_zeros[q_str.length()]);
 }
@@ -210,7 +210,7 @@ build_uc_q_value (log4cplus::tstring & uc_q_str, long tv_usec,
     build_q_value (uc_q_str, tv_usec);
 
     convertIntegerToString(tmp, tv_usec % 1000);
-    size_t const usecs_len = tmp.length();
+    std::size_t const usecs_len = tmp.length();
     tmp.insert (0, usecs_len <= 3
         ? uc_q_padding_zeros[usecs_len] : uc_q_padding_zeros[3]);
     uc_q_str.append (tmp);
@@ -243,7 +243,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
     gft_sp.reset ();
 
     gft_sp.fmt.assign (fmt_orig);
-    gft_sp.ret.reserve (static_cast<size_t>(gft_sp.fmt.size () * 1.35));
+    gft_sp.ret.reserve (static_cast<std::size_t>(gft_sp.fmt.size () * 1.35));
     State state = TEXT;
 
     // Walk the format string and process all occurences of %q and %Q.
@@ -319,15 +319,15 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
     // Finally call strftime/wcsftime to format the rest of the string.
 
     gft_sp.ret.swap (gft_sp.fmt);
-    size_t buffer_size = gft_sp.fmt.size () + 1;
-    size_t len;
+    std::size_t buffer_size = gft_sp.fmt.size () + 1;
+    std::size_t len;
 
     // Limit how far can the buffer grow. This is necessary so that we
     // catch bad format string. Some implementations of strftime() signal
     // both too small buffer and invalid format string by returning 0
     // without changing errno. 
-    size_t const buffer_size_max
-        = (std::max) (static_cast<size_t>(1024), buffer_size * 16);
+    std::size_t const buffer_size_max
+        = (std::max) (static_cast<std::size_t>(1024), buffer_size * 16);
 
     do
     {

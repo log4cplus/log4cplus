@@ -91,7 +91,7 @@ static
 LogLevel
 defaultStringToLogLevelMethod(const tstring& s)
 {
-    size_t const tbl_size
+    std::size_t const tbl_size
         = sizeof (log_levels_table) / sizeof (log_levels_table[0]);
 
     for (log_levels_table_rec const * it = log_levels_table;

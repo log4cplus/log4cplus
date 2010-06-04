@@ -53,7 +53,7 @@ namespace log4cplus {
             /**
              * Returns the number of entries in this map.
              */
-            size_t size() const
+            std::size_t size() const
             {
                 return data.size();
             }

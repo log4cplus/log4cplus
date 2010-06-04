@@ -43,7 +43,7 @@
 namespace log4cplus { namespace helpers {
 
 
-size_t const START_BUF_SIZE = 512;
+std::size_t const START_BUF_SIZE = 512;
 
 #if defined (WIN32)
 char const NULL_FILE[] = "NUL";
@@ -161,9 +161,9 @@ tchar const *
 snprintf_buf::print (tchar const * fmt, std::va_list args)
 {
     int printed;
-    size_t const fmt_len = std::char_traits<tchar>::length (fmt);
-    size_t buf_size = buf.size ();
-    size_t const output_estimate = fmt_len + fmt_len / 2 + 1;
+    std::size_t const fmt_len = std::char_traits<tchar>::length (fmt);
+    std::size_t buf_size = buf.size ();
+    std::size_t const output_estimate = fmt_len + fmt_len / 2 + 1;
     if (output_estimate > buf_size)
         buf.resize (output_estimate);
 

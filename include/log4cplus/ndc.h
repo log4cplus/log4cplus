@@ -161,7 +161,7 @@ namespace log4cplus {
          *
          * @see #setMaxDepth
          */
-        size_t getDepth() const;
+        std::size_t getDepth() const;
 
         /**
          * Clients should call this method before leaving a diagnostic
@@ -228,7 +228,7 @@ namespace log4cplus {
          * For example, the combination
          * <pre>
          *    void foo() {
-         *    &nbsp;  size_t depth = NDC.getDepth();
+         *    &nbsp;  std::size_t depth = NDC.getDepth();
          *
          *    &nbsp;  ... complex sequence of calls
          *
@@ -244,7 +244,7 @@ namespace log4cplus {
          *
          * @see #getDepth
          */
-        void setMaxDepth(size_t maxDepth);
+        void setMaxDepth(std::size_t maxDepth);
 
       // Dtor
         ~NDC();

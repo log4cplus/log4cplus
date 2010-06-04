@@ -91,7 +91,7 @@ Win32ConsoleAppender::append (spi::InternalLoggingEvent const & event)
     }
 
     tstring & str = formatEvent (event);
-    size_t const str_len = str.size ();
+    std::size_t const str_len = str.size ();
     const tchar * s = str.c_str ();
     DWORD mode;
 
@@ -106,7 +106,8 @@ Win32ConsoleAppender::append (spi::InternalLoggingEvent const & event)
 
 
 void
-Win32ConsoleAppender::write_handle (void * outvoid, tchar const * s, size_t str_len)
+Win32ConsoleAppender::write_handle (void * outvoid, tchar const * s,
+    std::size_t str_len)
 {
     HANDLE out = static_cast<HANDLE>(outvoid);
 #if defined (UNICODE)
@@ -146,7 +147,7 @@ Win32ConsoleAppender::write_handle (void * outvoid, tchar const * s, size_t str_
 
 void
 Win32ConsoleAppender::write_console (void * console_void, tchar const * s,
-    size_t str_len)
+    std::size_t str_len)
 {
     HANDLE console_out = static_cast<HANDLE>(console_void);
     DWORD const total_to_write = static_cast<DWORD>(str_len);

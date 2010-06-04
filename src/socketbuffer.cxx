@@ -41,7 +41,7 @@ namespace log4cplus { namespace helpers {
 // SocketBuffer ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-SocketBuffer::SocketBuffer(size_t maxsize_)
+SocketBuffer::SocketBuffer(std::size_t maxsize_)
 : maxsize(maxsize_),
   size(0),
   pos(0),
@@ -126,8 +126,8 @@ SocketBuffer::readInt()
 tstring
 SocketBuffer::readString(unsigned char sizeOfChar)
 {
-    size_t strlen = readInt();
-    size_t bufferLen = strlen * sizeOfChar;
+    std::size_t strlen = readInt();
+    std::size_t bufferLen = strlen * sizeOfChar;
 
     if(strlen == 0) {
         return tstring();
@@ -234,8 +234,8 @@ SocketBuffer::appendInt(unsigned int val)
 void
 SocketBuffer::appendString(const tstring& str)
 {
-    size_t const strlen = str.length();
-    static size_t const sizeOfChar = sizeof (tchar) == 1 ? 1 : 2;
+    std::size_t const strlen = str.length();
+    static std::size_t const sizeOfChar = sizeof (tchar) == 1 ? 1 : 2;
 
     if((pos + sizeof(unsigned int) + strlen * sizeOfChar) > maxsize)
     {

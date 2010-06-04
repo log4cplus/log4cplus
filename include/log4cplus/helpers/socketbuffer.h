@@ -38,14 +38,14 @@ namespace log4cplus {
             : protected log4cplus::helpers::LogLogUser
         {
         public:
-            explicit SocketBuffer(size_t max);
+            explicit SocketBuffer(std::size_t max);
             ~SocketBuffer();
 
             char *getBuffer() const { return buffer; }
-            size_t getMaxSize() const { return maxsize; }
-            size_t getSize() const { return size; }
-            void setSize(size_t s) { size = s; }
-            size_t getPos() const { return pos; }
+            std::size_t getMaxSize() const { return maxsize; }
+            std::size_t getSize() const { return size; }
+            void setSize(std::size_t s) { size = s; }
+            std::size_t getPos() const { return pos; }
 
             unsigned char readByte();
             unsigned short readShort();
@@ -60,9 +60,9 @@ namespace log4cplus {
 
         private:
           // Data
-            size_t maxsize;
-            size_t size;
-            size_t pos;
+            std::size_t maxsize;
+            std::size_t size;
+            std::size_t pos;
             char *buffer;
 
             SocketBuffer(SocketBuffer const & rhs);

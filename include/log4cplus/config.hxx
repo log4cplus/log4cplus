@@ -67,11 +67,6 @@
 namespace log4cplus
 {
 
-// Make sure size_t is visible here if we are using compiler
-// that does not have ::size_t.
-using std::size_t;
-
-
 //! Per thread cleanup function. Users should call this function before
 //! a thread ends its execution. It frees resources allocated in thread local
 //! storage. It is important only for multi-threaded static library builds

@@ -138,7 +138,7 @@ namespace log4cplus {
             typedef ConvertIntegerToStringHelper<intType, intTypeLimits::is_signed>
                 HelperType;
 
-            const size_t buffer_size
+            const std::size_t buffer_size
 				= intTypeLimits::digits10 + 2;
             tchar buffer[buffer_size];           
             tchar * it = &buffer[buffer_size];

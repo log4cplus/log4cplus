@@ -83,7 +83,7 @@ namespace pattern
  */
 struct FormattingInfo {
     int minLen;
-    size_t maxLen;
+    std::size_t maxLen;
     bool leftAlign;
     FormattingInfo() { reset(); }
 
@@ -112,7 +112,7 @@ public:
 
 private:
     int minLen;
-    size_t maxLen;
+    std::size_t maxLen;
     bool leftAlign;
 };
 
@@ -300,7 +300,7 @@ PatternConverter::formatAndAppend(
 {
     tstring & s = internal::get_ptd ()->faa_str;
     convert (s, event);
-    size_t len = s.length();
+    std::size_t len = s.length();
 
     if (len > maxLen)
         output << s.substr(len - maxLen);
@@ -437,7 +437,7 @@ LoggerPatternConverter::convert(tstring & result,
         result = name;
     }
     else {
-        size_t len = name.length();
+        std::size_t len = name.length();
 
         // We substract 1 from 'len' when assigning to 'end' to avoid out of
         // bounds exception in return r.substring(end+1, len). This can happen

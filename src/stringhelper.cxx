@@ -89,7 +89,7 @@ clear_mbstate (std::mbstate_t & mbs)
 
 static
 void
-towstring_internal (std::wstring & outstr, const char * src, size_t size,
+towstring_internal (std::wstring & outstr, const char * src, std::size_t size,
     std::locale const & loc)
 {
     if (size == 0)
@@ -104,19 +104,19 @@ towstring_internal (std::wstring & outstr, const char * src, size_t size,
     clear_mbstate (state);
 
     char const * from_first = src;
-    size_t const from_size = size;
+    std::size_t const from_size = size;
     char const * const from_last = from_first + from_size;
     char const * from_next = from_first;
 
     std::vector<wchar_t> dest (from_size);
 
     wchar_t * to_first = &dest.front ();
-    size_t to_size = dest.size ();
+    std::size_t to_size = dest.size ();
     wchar_t * to_last = to_first + to_size;
     wchar_t * to_next = to_first;
 
     CodeCvt::result result;
-    size_t converted = 0;
+    std::size_t converted = 0;
     while (true)
     {
         result = cdcvt.in (
@@ -178,7 +178,7 @@ towstring(char const * src)
 
 static
 void
-tostring_internal (std::string & outstr, const wchar_t * src, size_t size,
+tostring_internal (std::string & outstr, const wchar_t * src, std::size_t size,
     std::locale const & loc)
 {
     if (size == 0)
@@ -193,19 +193,19 @@ tostring_internal (std::string & outstr, const wchar_t * src, size_t size,
     clear_mbstate (state);
 
     wchar_t const * from_first = src;
-    size_t const from_size = size;
+    std::size_t const from_size = size;
     wchar_t const * const from_last = from_first + from_size;
     wchar_t const * from_next = from_first;
 
     std::vector<char> dest (from_size);
 
     char * to_first = &dest.front ();
-    size_t to_size = dest.size ();
+    std::size_t to_size = dest.size ();
     char * to_last = to_first + to_size;
     char * to_next = to_first;
 
     CodeCvt::result result;
-    size_t converted = 0;
+    std::size_t converted = 0;
     while (from_next != from_last)
     {
         result = cdcvt.out (
@@ -269,10 +269,10 @@ tostring(wchar_t const * src)
 
 static
 void
-tostring_internal (std::string & ret, wchar_t const * src, size_t size)
+tostring_internal (std::string & ret, wchar_t const * src, std::size_t size)
 {
     ret.resize(size);
-    for (size_t i = 0; i < size; ++i)
+    for (std::size_t i = 0; i < size; ++i)
     {
         ret[i] = static_cast<unsigned> (static_cast<int> (src[i])) < 256
             ? static_cast<char>(src[i]) : ' ';
@@ -301,10 +301,10 @@ tostring(wchar_t const * src)
 
 static
 void
-towstring_internal (std::wstring & ret, char const * src, size_t size)
+towstring_internal (std::wstring & ret, char const * src, std::size_t size)
 {
     ret.resize(size);
-    for (size_t i = 0; i < size; ++i)
+    for (std::size_t i = 0; i < size; ++i)
     {
         ret[i] = static_cast<wchar_t>
             (static_cast<unsigned char> (src[i]));

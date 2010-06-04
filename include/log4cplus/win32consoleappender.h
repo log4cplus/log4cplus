@@ -59,8 +59,8 @@ namespace log4cplus
     protected:
         virtual void append (spi::InternalLoggingEvent const &);
 
-        void write_handle (void *, tchar const *, size_t);
-        void write_console (void *, tchar const *, size_t);
+        void write_handle (void *, tchar const *, std::size_t);
+        void write_console (void *, tchar const *, std::size_t);
 
         bool alloc_console;
 

@@ -154,7 +154,7 @@ NDC::get() const
 }
 
 
-size_t 
+std::size_t 
 NDC::getDepth() const
 {
     DiagnosticContextStack* ptr = getPtr();

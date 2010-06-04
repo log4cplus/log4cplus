@@ -240,7 +240,7 @@ Properties
 Properties::getPropertySubset(const log4cplus::tstring& prefix) const
 {
     Properties ret;
-    size_t const prefix_len = prefix.size ();
+    std::size_t const prefix_len = prefix.size ();
     std::vector<tstring> keys = propertyNames();
     for (std::vector<tstring>::iterator it=keys.begin(); it!=keys.end(); ++it)
     {
