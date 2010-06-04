@@ -75,7 +75,7 @@ Win32ConsoleAppender::append (spi::InternalLoggingEvent const & event)
     HANDLE const console_out = GetStdHandle (STD_OUTPUT_HANDLE);
     if (console_out == INVALID_HANDLE_VALUE)
     {
-        getLogLog ().error (
+        helpers::getLogLog ().error (
             LOG4CPLUS_TEXT ("Win32ConsoleAppender::append")
             LOG4CPLUS_TEXT ("- Unable to get STD_OUTPUT_HANDLE."));
         return;
@@ -84,7 +84,7 @@ Win32ConsoleAppender::append (spi::InternalLoggingEvent const & event)
     DWORD const handle_type = GetFileType (console_out);
     if (handle_type == FILE_TYPE_UNKNOWN && GetLastError () != NO_ERROR)
     {
-        getLogLog ().error (
+        helpers::getLogLog ().error (
             LOG4CPLUS_TEXT ("Win32ConsoleAppender::append")
             LOG4CPLUS_TEXT ("- Error retrieving handle type."));
         return;
@@ -133,7 +133,7 @@ Win32ConsoleAppender::write_handle (void * outvoid, tchar const * s,
             0);
         if (! ret)
         {
-            getLogLog ().error (
+            helpers::getLogLog ().error (
                 LOG4CPLUS_TEXT ("Win32ConsoleAppender::write_handle")
                 LOG4CPLUS_TEXT ("- WriteFile has failed."));
             return;
@@ -163,7 +163,7 @@ Win32ConsoleAppender::write_console (void * console_void, tchar const * s,
             &written, 0);
         if (! ret)
         {
-            getLogLog ().error (
+            helpers::getLogLog ().error (
                 LOG4CPLUS_TEXT ("Win32ConsoleAppender::write_console")
                 LOG4CPLUS_TEXT ("- WriteConsole has failed."));
             return;

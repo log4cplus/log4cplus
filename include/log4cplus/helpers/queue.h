@@ -28,7 +28,6 @@
 
 #include <deque>
 #include <log4cplus/spi/loggingevent.h>
-#include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/thread/syncprims.h>
 
@@ -39,7 +38,6 @@ namespace log4cplus { namespace thread {
 //! Single consumer, multiple producers queue.
 class LOG4CPLUS_EXPORT Queue
     : public virtual helpers::SharedObject
-    , protected helpers::LogLogUser
 {
 public:
     //! Type of the state flags field.

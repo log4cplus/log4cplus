@@ -25,7 +25,6 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
-#include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/spi/appenderattachable.h>
 #include <log4cplus/thread/syncprims.h>
@@ -42,7 +41,6 @@ namespace log4cplus {
          */
         class LOG4CPLUS_EXPORT AppenderAttachableImpl 
             : public log4cplus::spi::AppenderAttachable
-            , protected virtual log4cplus::helpers::LogLogUser
         {
         public:
           // Data

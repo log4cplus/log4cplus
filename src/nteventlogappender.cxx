@@ -179,9 +179,10 @@ void
 NTEventLogAppender::init()
 {
     if(source.empty()) {
-        getLogLog().warn(  LOG4CPLUS_TEXT("Source option not set for appender [")
-                         + name 
-                         + LOG4CPLUS_TEXT("]."));
+        helpers::getLogLog().warn(
+            LOG4CPLUS_TEXT("Source option not set for appender [")
+            + name 
+            + LOG4CPLUS_TEXT("]."));
         return;
     }
 
@@ -197,7 +198,8 @@ NTEventLogAppender::init()
     hEventLog = ::RegisterEventSource(server.empty () ? 0 : server.c_str(),
         source.c_str());
     if (! hEventLog || hEventLog == HANDLE(ERROR_INVALID_HANDLE))
-        getLogLog().warn (LOG4CPLUS_TEXT("Event source registration failed."));
+        helpers::getLogLog().warn (
+            LOG4CPLUS_TEXT("Event source registration failed."));
 }
 
 
@@ -238,7 +240,7 @@ void
 NTEventLogAppender::append(const spi::InternalLoggingEvent& event)
 {
     if(hEventLog == NULL) {
-        getLogLog().warn(LOG4CPLUS_TEXT("NT EventLog not opened."));
+        helpers::getLogLog().warn(LOG4CPLUS_TEXT("NT EventLog not opened."));
         return;
     }
 
@@ -254,7 +256,8 @@ NTEventLogAppender::append(const spi::InternalLoggingEvent& event)
                                   NULL);
 
     if(!bSuccess) {
-        getLogLog().error(LOG4CPLUS_TEXT("Cannot report event in NT EventLog."));
+        helpers::getLogLog().error(
+            LOG4CPLUS_TEXT("Cannot report event in NT EventLog."));
     }
 }
 

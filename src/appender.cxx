@@ -64,7 +64,7 @@ void
 OnlyOnceErrorHandler::error(const log4cplus::tstring& err)
 {
     if(firstTime) {
-        getLogLog().error(err);
+        helpers::getLogLog().error(err);
         firstTime = false;
     }
 }
@@ -108,9 +108,10 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
         spi::LayoutFactory* factory
             = spi::getLayoutFactoryRegistry().get(factoryName);
         if(factory == 0) {
-            getLogLog().error(  LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"")
-                              + factoryName
-                              + LOG4CPLUS_TEXT("\"") );
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"")
+                + factoryName
+                + LOG4CPLUS_TEXT("\"") );
             return;
         }
 
@@ -119,16 +120,18 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
         try {
             std::auto_ptr<Layout> newLayout(factory->createObject(layoutProperties));
             if(newLayout.get() == 0) {
-                getLogLog().error(  LOG4CPLUS_TEXT("Failed to create appender: ")
-                                  + factoryName);
+                helpers::getLogLog().error(
+                    LOG4CPLUS_TEXT("Failed to create appender: ")
+                    + factoryName);
             }
             else {
                 layout = newLayout;
             }
         }
         catch(std::exception const & e) {
-            getLogLog().error(  LOG4CPLUS_TEXT("Error while creating Layout: ")
-                              + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
+            helpers::getLogLog().error( 
+                LOG4CPLUS_TEXT("Error while creating Layout: ")
+                + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
             return;
         }
 
@@ -157,7 +160,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
         if(! factory)
         {
             tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Cannot find FilterFactory: ");
-            getLogLog().error(err + factoryName);
+            helpers::getLogLog().error(err + factoryName);
             continue;
         }
         spi::FilterPtr tmpFilter = factory->createObject (
@@ -165,7 +168,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
         if (! tmpFilter)
         {
             tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Failed to create filter: ");
-            getLogLog().error(err + filterName);
+            helpers::getLogLog().error(err + filterName);
         }
         if (! filterChain)
             filterChain = tmpFilter;
@@ -188,9 +191,9 @@ Appender::~Appender()
 void
 Appender::destructorImpl()
 {
-    getLogLog().debug(  LOG4CPLUS_TEXT("Destroying appender named [")
-                      + name
-                      + LOG4CPLUS_TEXT("]."));
+    helpers::getLogLog().debug(  LOG4CPLUS_TEXT("Destroying appender named [")
+        + name
+        + LOG4CPLUS_TEXT("]."));
 
     // An appender might be closed then destroyed. There is no
     // point in closing twice.
@@ -209,9 +212,10 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
     thread::MutexGuard guard (access_mutex);
 
     if(closed) {
-        getLogLog().error(  LOG4CPLUS_TEXT("Attempted to append to closed appender named [")
-                          + name
-                          + LOG4CPLUS_TEXT("]."));
+        helpers::getLogLog().error(
+            LOG4CPLUS_TEXT("Attempted to append to closed appender named [")
+            + name
+            + LOG4CPLUS_TEXT("]."));
         return;
     }
 
@@ -266,7 +270,8 @@ Appender::setErrorHandler(std::auto_ptr<ErrorHandler> eh)
     {
         // We do not throw exception here since the cause is probably a
         // bad config file.
-        getLogLog().warn(LOG4CPLUS_TEXT("You have tried to set a null error-handler."));
+        helpers::getLogLog().warn(
+            LOG4CPLUS_TEXT("You have tried to set a null error-handler."));
         return;
     }
 

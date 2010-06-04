@@ -25,7 +25,6 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
-#include <log4cplus/helpers/logloguser.h>
 
 
 namespace log4cplus {
@@ -35,11 +34,10 @@ namespace log4cplus {
          *
          */
         class LOG4CPLUS_EXPORT SocketBuffer
-            : protected log4cplus::helpers::LogLogUser
         {
         public:
             explicit SocketBuffer(std::size_t max);
-            ~SocketBuffer();
+            virtual ~SocketBuffer();
 
             char *getBuffer() const { return buffer; }
             std::size_t getMaxSize() const { return maxsize; }

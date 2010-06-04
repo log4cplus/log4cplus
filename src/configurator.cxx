@@ -254,7 +254,7 @@ PropertyConfigurator::configure()
     // Configure log4cplus internals.
     bool internal_debugging = false;
     properties.getBool (internal_debugging, LOG4CPLUS_TEXT ("configDebug"));
-    getLogLog ().setInternalDebugging (internal_debugging);
+    helpers::getLogLog ().setInternalDebugging (internal_debugging);
 
     initializeLog4cplus();
     configureAppenders();
@@ -313,7 +313,7 @@ PropertyConfigurator::replaceEnvironVariables()
             val = properties.getProperty(key);
 
             subKey.clear ();
-            if (substVars(subKey, key, properties, getLogLog(), flags))
+            if (substVars(subKey, key, properties, helpers::getLogLog(), flags))
             {
                 properties.removeProperty(key);
                 properties.setProperty(subKey, val);
@@ -321,7 +321,7 @@ PropertyConfigurator::replaceEnvironVariables()
             }
 
             subVal.clear ();
-            if (substVars(subVal, val, properties, getLogLog(), flags))
+            if (substVars(subVal, val, properties, helpers::getLogLog(), flags))
             {
                 properties.setProperty(subKey, subVal);
                 changed = true;
@@ -372,7 +372,7 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
 
     if (tokens.empty ())
     {
-        getLogLog().error(
+        helpers::getLogLog().error(
             LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()")
             LOG4CPLUS_TEXT("- Invalid config string(Logger = ")
             + logger.getName()
@@ -398,7 +398,7 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
         AppenderMap::iterator appenderIt = appenders.find(tokens[j]);
         if (appenderIt == appenders.end())
         {
-            getLogLog().error(
+            helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("PropertyConfigurator::configureLogger()")
                 LOG4CPLUS_TEXT("- Invalid appender: ")
                 + tokens[j]);
@@ -430,7 +430,7 @@ PropertyConfigurator::configureAppenders()
                 tstring err =
                     LOG4CPLUS_TEXT("PropertyConfigurator::configureAppenders()")
                     LOG4CPLUS_TEXT("- Cannot find AppenderFactory: ");
-                getLogLog().error(err + factoryName);
+                helpers::getLogLog().error(err + factoryName);
                 continue;
             }
 
@@ -447,7 +447,7 @@ PropertyConfigurator::configureAppenders()
                         LOG4CPLUS_TEXT("PropertyConfigurator::")
                         LOG4CPLUS_TEXT("configureAppenders()")
                         LOG4CPLUS_TEXT("- Failed to create appender: ");
-                    getLogLog().error(err + *it);
+                    helpers::getLogLog().error(err + *it);
                 }
                 else
                 {
@@ -461,7 +461,7 @@ PropertyConfigurator::configureAppenders()
                     LOG4CPLUS_TEXT("PropertyConfigurator::")
                     LOG4CPLUS_TEXT("configureAppenders()")
                     LOG4CPLUS_TEXT("- Error while creating Appender: ");
-                getLogLog().error(err + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
+                helpers::getLogLog().error(err + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
             }
         }
     } // end for loop
@@ -491,9 +491,10 @@ PropertyConfigurator::configureAdditivity()
         else if(value == LOG4CPLUS_TEXT("false"))
             logger.setAdditivity(false);
         else
-            getLogLog().warn(  LOG4CPLUS_TEXT("Invalid Additivity value: \"")
-                             + actualValue
-                             + LOG4CPLUS_TEXT("\""));
+            helpers::getLogLog().warn(
+                LOG4CPLUS_TEXT("Invalid Additivity value: \"")
+                + actualValue
+                + LOG4CPLUS_TEXT("\""));
     }
 }
 

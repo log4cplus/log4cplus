@@ -27,7 +27,6 @@
 #include <log4cplus/layout.h>
 #include <log4cplus/loglevel.h>
 #include <log4cplus/tstring.h>
-#include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/spi/filter.h>
 
@@ -61,7 +60,6 @@ namespace log4cplus {
 
     class LOG4CPLUS_EXPORT OnlyOnceErrorHandler
         : public ErrorHandler
-        , protected virtual log4cplus::helpers::LogLogUser
     {
     public:
       // Ctor
@@ -81,8 +79,6 @@ namespace log4cplus {
      */
     class LOG4CPLUS_EXPORT Appender
         : public virtual log4cplus::helpers::SharedObject
-        , protected virtual log4cplus::helpers::LogLogUser
-
     {
     public:
       // Ctor

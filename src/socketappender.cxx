@@ -52,7 +52,7 @@ SocketAppender::ConnectorThread::run ()
     {
         trigger_ev.timed_wait (30 * 1000);
 
-        getLogLog().debug (
+        helpers::getLogLog().debug (
             LOG4CPLUS_TEXT("SocketAppender::ConnectorThread::run()")
             LOG4CPLUS_TEXT("- running..."));
 
@@ -78,7 +78,7 @@ SocketAppender::ConnectorThread::run ()
         helpers::Socket socket (sa.host, static_cast<unsigned short>(sa.port));
         if (! socket.isOpen ())
         {
-            getLogLog().error(
+            helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("SocketAppender::ConnectorThread::run()")
                 LOG4CPLUS_TEXT("- Cannot connect to server"));
 
@@ -170,7 +170,8 @@ SocketAppender::~SocketAppender()
 void 
 SocketAppender::close()
 {
-    getLogLog().debug(LOG4CPLUS_TEXT("Entering SocketAppender::close()..."));
+    helpers::getLogLog().debug(
+        LOG4CPLUS_TEXT("Entering SocketAppender::close()..."));
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     connector->terminate ();

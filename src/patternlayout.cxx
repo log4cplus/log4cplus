@@ -99,7 +99,7 @@ struct FormattingInfo {
  * class simply uses an array of PatternConverter objects to format
  * and append a logging event.
  */
-class PatternConverter : protected helpers::LogLogUser
+class PatternConverter
 {
 public:
     PatternConverter(const FormattingInfo& info);
@@ -228,7 +228,8 @@ private:
  * <p>
  * @see PatternLayout for the formatting of the "pattern" string.
  */
-class PatternParser : protected helpers::LogLogUser {
+class PatternParser
+{
 public:
     PatternParser(const tstring& pattern);
     std::vector<PatternConverter*> parse();
@@ -633,7 +634,7 @@ PatternParser::parse()
                     << LOG4CPLUS_TEXT(".\n Was expecting digit, instead got char \"")
                     << c
                     << LOG4CPLUS_TEXT("\".");
-                getLogLog().error(buf.str());
+                helpers::getLogLog().error(buf.str());
                 state = LITERAL_STATE;
             }
             break;
@@ -786,7 +787,7 @@ PatternParser::finalizeConverter(tchar c)
                 << LOG4CPLUS_TEXT("] at position ")
                 << pos
                 << LOG4CPLUS_TEXT(" in conversion patterrn.");
-            getLogLog().error(buf.str());
+            helpers::getLogLog().error(buf.str());
             pc = new LiteralPatternConverter(currentLiteral);
     }
 
@@ -819,7 +820,9 @@ PatternLayout::PatternLayout(const helpers::Properties& properties)
     bool hasConversionPattern = properties.exists( LOG4CPLUS_TEXT("ConversionPattern") );
     
     if(hasPattern) {
-        getLogLog().warn( LOG4CPLUS_TEXT("PatternLayout- the \"Pattern\" property has been deprecated.  Use \"ConversionPattern\" instead."));
+        helpers::getLogLog().warn(
+            LOG4CPLUS_TEXT("PatternLayout- the \"Pattern\" property has been")
+            LOG4CPLUS_TEXT(" deprecated.  Use \"ConversionPattern\" instead."));
     }
     
     if(hasConversionPattern) {
@@ -829,7 +832,7 @@ PatternLayout::PatternLayout(const helpers::Properties& properties)
         init(properties.getProperty( LOG4CPLUS_TEXT("Pattern") ));
     }
     else {
-        getLogLog().error(
+        helpers::getLogLog().error(
             LOG4CPLUS_TEXT ("ConversionPattern not specified in properties"),
             true);
     }
@@ -851,12 +854,14 @@ PatternLayout::init(const tstring& pattern_)
         ++it)
     {
         if( (*it) == 0 ) {
-            getLogLog().error(LOG4CPLUS_TEXT("Parsed Pattern created a NULL PatternConverter"));
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT("Parsed Pattern created a NULL PatternConverter"));
             (*it) = new pattern::LiteralPatternConverter( LOG4CPLUS_TEXT("") );
         }
     }
     if(parsedPattern.empty ()) {
-        getLogLog().warn(LOG4CPLUS_TEXT("PatternLayout pattern is empty.  Using default..."));
+        helpers::getLogLog().warn(
+            LOG4CPLUS_TEXT("PatternLayout pattern is empty.  Using default..."));
         parsedPattern.push_back (
             new pattern::BasicPatternConverter(pattern::FormattingInfo(), 
             pattern::BasicPatternConverter::MESSAGE_CONVERTER));

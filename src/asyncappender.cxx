@@ -117,7 +117,7 @@ AsyncAppender::AsyncAppender (helpers::Properties const & props)
     {
         tstring const err (LOG4CPLUS_TEXT ("AsyncAppender::AsyncAppender()")
             LOG4CPLUS_TEXT (" - Cannot find AppenderFactory: "));
-        getLogLog ().error (err + appender_name);
+        helpers::getLogLog ().error (err + appender_name);
         // Add at least null appender so that we do not crash unexpectedly
         // elsewhere.
         // XXX: What about throwing an exception instead?
@@ -148,7 +148,7 @@ AsyncAppender::init_queue_thread (unsigned queue_len)
     queue = new thread::Queue (queue_len);
     queue_thread = new QueueThread (AsyncAppenderPtr (this), queue);
     queue_thread->start ();
-    getLogLog ().debug (LOG4CPLUS_TEXT("Queue thread started."));
+    helpers::getLogLog ().debug (LOG4CPLUS_TEXT("Queue thread started."));
 }
 
 

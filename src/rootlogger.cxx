@@ -53,7 +53,8 @@ void
 RootLogger::setLogLevel(LogLevel loglevel)
 {
     if(loglevel == NOT_SET_LOG_LEVEL) {
-        getLogLog().error(LOG4CPLUS_TEXT("You have tried to set NOT_SET_LOG_LEVEL to root."));
+        helpers::getLogLog().error(
+            LOG4CPLUS_TEXT("You have tried to set NOT_SET_LOG_LEVEL to root."));
     }
     else {
         LoggerImpl::setLogLevel(loglevel);

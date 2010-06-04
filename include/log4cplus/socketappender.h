@@ -109,7 +109,6 @@ namespace log4cplus
 
         class LOG4CPLUS_EXPORT ConnectorThread
             : public thread::AbstractThread
-            , public helpers::LogLogUser
         {
         public:
             ConnectorThread (SocketAppender &);

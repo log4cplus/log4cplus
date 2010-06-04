@@ -269,7 +269,7 @@ Hierarchy::getInstanceImpl(const tstring& name, spi::LoggerFactory& factory)
         bool inserted = loggerPtrs.insert(std::make_pair(name, logger)).second;
         if (! inserted)
         {
-            getLogLog().error(
+            helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("Hierarchy::getInstanceImpl()- Insert failed"),
                 true);
         }
@@ -281,7 +281,7 @@ Hierarchy::getInstanceImpl(const tstring& name, spi::LoggerFactory& factory)
             bool deleted = (provisionNodes.erase(name) > 0);
             if (! deleted)
             {
-                getLogLog().error(
+                helpers::getLogLog().error(
                     LOG4CPLUS_TEXT("Hierarchy::getInstanceImpl()- Delete failed"),
                     true);
             }
@@ -338,7 +338,7 @@ Hierarchy::updateParents(Logger const & logger)
                     provisionNodes.insert(std::make_pair(substr, node));
                 //bool inserted = provisionNodes.insert(std::make_pair(substr, node)).second;
                 if(!tmp.second) {
-                    getLogLog().error(
+                    helpers::getLogLog().error(
                         LOG4CPLUS_TEXT("Hierarchy::updateParents()- Insert failed"),
                         true);
                 }

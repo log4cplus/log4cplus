@@ -219,7 +219,7 @@ FileAppender::init(const tstring& filename_,
                                  + filename);
         return;
     }
-    getLogLog().debug(LOG4CPLUS_TEXT("Just opened file: ") + filename);
+    helpers::getLogLog().debug(LOG4CPLUS_TEXT("Just opened file: ") + filename);
 }
 
 
@@ -405,7 +405,7 @@ RollingFileAppender::append(const spi::InternalLoggingEvent& event)
 void 
 RollingFileAppender::rollover()
 {
-    helpers::LogLog & loglog = getLogLog();
+    helpers::LogLog & loglog = helpers::getLogLog();
 
     // Close the current file
     out.close();
@@ -484,8 +484,10 @@ DailyRollingFileAppender::DailyRollingFileAppender(
     else if(scheduleStr == LOG4CPLUS_TEXT("MINUTELY"))
         theSchedule = MINUTELY;
     else {
-        getLogLog().warn(  LOG4CPLUS_TEXT("DailyRollingFileAppender::ctor()- \"Schedule\" not valid: ")
-                         + properties.getProperty(LOG4CPLUS_TEXT("Schedule")));
+        helpers::getLogLog().warn(
+            LOG4CPLUS_TEXT("DailyRollingFileAppender::ctor()")
+            LOG4CPLUS_TEXT("- \"Schedule\" not valid: ")
+            + properties.getProperty(LOG4CPLUS_TEXT("Schedule")));
         theSchedule = DAILY;
     }
     
@@ -625,7 +627,7 @@ DailyRollingFileAppender::rollover()
     backup_target_oss << scheduledFilename << LOG4CPLUS_TEXT(".") << 1;
     tstring backupTarget = backup_target_oss.str();
 
-    helpers::LogLog & loglog = getLogLog();
+    helpers::LogLog & loglog = helpers::getLogLog();
     int ret;
 
 #if defined (WIN32)
@@ -683,7 +685,7 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
 
         Time ret;
         if(ret.setTime(&nextMonthTime) == -1) {
-            getLogLog().error(
+            helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()-")
                 LOG4CPLUS_TEXT(" setTime() returned error"));
             // Set next rollover to 31 days in future.
@@ -697,7 +699,7 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
         return (t + Time(7 * 24 * 60 * 60));
 
     default:
-        getLogLog ().error (
+        helpers::getLogLog ().error (
             LOG4CPLUS_TEXT ("DailyRollingFileAppender::calculateNextRolloverTime()-")
             LOG4CPLUS_TEXT (" invalid schedule value"));
         // Fall through.
@@ -733,7 +735,7 @@ DailyRollingFileAppender::getFilename(const Time& t) const
         break;
 
     default:
-        getLogLog ().error (
+        helpers::getLogLog ().error (
             LOG4CPLUS_TEXT ("DailyRollingFileAppender::getFilename()-")
             LOG4CPLUS_TEXT (" invalid schedule value"));
         // Fall through.

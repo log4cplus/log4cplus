@@ -153,7 +153,9 @@ Logger::getParent () const
         return Logger (value->parent.get ());
     else
     {
-        value->getLogLog().error(LOG4CPLUS_TEXT("********* This logger has no parent: " + getName()));
+        helpers::getLogLog().error(
+            LOG4CPLUS_TEXT("********* This logger has no parent: "
+            + getName()));
         return *this;
     }
 }

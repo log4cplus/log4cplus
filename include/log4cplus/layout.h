@@ -27,7 +27,6 @@
 #include <log4cplus/loglevel.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/tstring.h>
-#include <log4cplus/helpers/logloguser.h>
 
 #include <vector>
 
@@ -64,7 +63,6 @@ namespace log4cplus {
      * log4cplus::Appender}.
      */
     class LOG4CPLUS_EXPORT Layout
-        : protected helpers::LogLogUser
     {
     public:
         Layout();

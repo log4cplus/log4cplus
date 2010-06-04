@@ -71,7 +71,8 @@ ConsoleAppender::~ConsoleAppender()
 void 
 ConsoleAppender::close()
 {
-    getLogLog().debug(LOG4CPLUS_TEXT("Entering ConsoleAppender::close().."));
+    helpers::getLogLog().debug(
+        LOG4CPLUS_TEXT("Entering ConsoleAppender::close().."));
     closed = true;
 }
 
@@ -88,7 +89,7 @@ ConsoleAppender::close()
 void
 ConsoleAppender::append(const spi::InternalLoggingEvent& event)
 {
-    thread::MutexGuard guard (getLogLog().mutex);
+    thread::MutexGuard guard (helpers::getLogLog().mutex);
 
     tostream& output = (logToStdErr ? tcerr : tcout);
     layout->formatAndAppend(output, event);

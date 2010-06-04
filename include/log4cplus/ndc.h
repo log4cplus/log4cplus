@@ -27,7 +27,6 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
-#include <log4cplus/helpers/logloguser.h>
 
 #include <map>
 #include <deque>
@@ -108,7 +107,8 @@ namespace log4cplus {
      * #cloneStack cloneStack} method and pass the reference to any other
      * thread, in particular to a child.
      */
-    class LOG4CPLUS_EXPORT NDC : protected log4cplus::helpers::LogLogUser {
+    class LOG4CPLUS_EXPORT NDC
+    {
     public:
         /**
          * Clear any nested diagnostic information if any. This method is
@@ -247,7 +247,7 @@ namespace log4cplus {
         void setMaxDepth(std::size_t maxDepth);
 
       // Dtor
-        ~NDC();
+        virtual ~NDC();
 
     private:
       // Methods
