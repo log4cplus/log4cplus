@@ -31,6 +31,7 @@
 #include <log4cplus/socketappender.h>
 #include <log4cplus/syslogappender.h>
 #include <log4cplus/win32debugappender.h>
+#include <log4cplus/win32consoleappender.h>
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -147,6 +148,9 @@ void initializeFactoryRegistry()
 #if defined(_WIN32)
 #  if defined(LOG4CPLUS_HAVE_NT_EVENT_LOG)
     REG_APPENDER (reg, NTEventLogAppender);
+#  endif
+#  if defined(LOG4CPLUS_HAVE_WIN32_CONSOLE)
+    REG_APPENDER (reg, Win32ConsoleAppender);
 #  endif
     REG_APPENDER (reg, Win32DebugAppender);
 #elif defined(LOG4CPLUS_HAVE_SYSLOG_H)

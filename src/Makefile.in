@@ -83,7 +83,7 @@ am__objects_1 = appenderattachableimpl.lo appender.lo asyncappender.lo \
 	sleep.lo snprintf.lo socketappender.lo socketbuffer.lo \
 	socket.lo socket-unix.lo socket-win32.lo stringhelper.lo \
 	syncprims.lo syslogappender.lo threads.lo timehelper.lo tls.lo \
-	version.lo win32debugappender.lo
+	version.lo win32consoleappender.lo win32debugappender.lo
 am__objects_2 = $(am__objects_1)
 am_liblog4cplus_la_OBJECTS = $(am__objects_2)
 liblog4cplus_la_OBJECTS = $(am_liblog4cplus_la_OBJECTS)
@@ -304,6 +304,7 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
                          ../include/log4cplus/tracelogger.h \
                          ../include/log4cplus/tstring.h \
                          ../include/log4cplus/version.h \
+                         ../include/log4cplus/win32consoleappender.h \
                          ../include/log4cplus/win32debugappender.h
 
 SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
@@ -348,6 +349,7 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                       timehelper.cxx \
                       tls.cxx \
                       version.cxx \
+                      win32consoleappender.cxx \
                       win32debugappender.cxx
 
 LIB_SRC = $(SINGLE_THREADED_SRC)
@@ -466,6 +468,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timehelper.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tls.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/version.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/win32consoleappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/win32debugappender.Plo@am__quote@
 
 .cxx.o:

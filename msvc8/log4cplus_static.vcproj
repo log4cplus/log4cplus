@@ -2030,6 +2030,14 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\win32consoleappender.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\win32consoleappender.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\win32debugappender.cxx"
 				>
 			</File>
