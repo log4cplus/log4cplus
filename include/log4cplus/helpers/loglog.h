@@ -72,8 +72,8 @@ namespace log4cplus {
              * This method is used to output log4cplus internal debug
              * statements. Output goes to <code>std::cout</code>.
              */
-            void debug(const log4cplus::tstring& msg);
-            void debug(tchar const * msg);
+            void debug(const log4cplus::tstring& msg) const;
+            void debug(tchar const * msg) const;
 
             /**
              * This method is used to output log4cplus internal error
@@ -82,16 +82,16 @@ namespace log4cplus {
              * <code>std::cerr</code>. Optionally, this method can
              * throw std::runtime_error exception too.
              */
-            void error(const log4cplus::tstring& msg, bool throw_flag = false);
-            void error(tchar const * msg, bool throw_flag = false);
+            void error(const log4cplus::tstring& msg, bool throw_flag = false) const;
+            void error(tchar const * msg, bool throw_flag = false) const;
 
             /**
              * This method is used to output log4cplus internal warning
              * statements. There is no way to disable warning statements.
              * Output goes to <code>std::cerr</code>.
              */
-            void warn(const log4cplus::tstring& msg);
-            void warn(tchar const * msg);
+            void warn(const log4cplus::tstring& msg) const;
+            void warn(tchar const * msg) const;
 
           // Data
             thread::Mutex mutex;
@@ -100,7 +100,7 @@ namespace log4cplus {
             template <typename StringType>
             void logging_worker (tostream & os,
                 bool (LogLog:: * cond) () const, tchar const *,
-                StringType const &, bool throw_flag = false);
+                StringType const &, bool throw_flag = false) const;
 
             bool get_quiet_mode () const;
             bool get_debug_mode () const;
@@ -115,6 +115,8 @@ namespace log4cplus {
             LogLog(const LogLog&);
             LogLog & operator = (LogLog const &);
         };
+
+        LOG4CPLUS_EXPORT LogLog & getLogLog ();
 
     } // end namespace helpers
 } // end namespace log4cplus

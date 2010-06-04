@@ -38,10 +38,12 @@ static tchar const ERR_PREFIX[] = LOG4CPLUS_TEXT("log4cplus:ERROR ");
 } // namespace
 
 
+LogLog &
+getLogLog ()
+{
+    return *LogLog::getLogLog();
+}
 
-///////////////////////////////////////////////////////////////////////////////
-// static methods
-///////////////////////////////////////////////////////////////////////////////
 
 LogLog *
 LogLog::getLogLog()
@@ -50,11 +52,6 @@ LogLog::getLogLog()
     return &singleton;
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// log4cplus::helpers::LogLog ctor and dtor
-///////////////////////////////////////////////////////////////////////////////
 
 LogLog::LogLog()
     : debugEnabled(false)
@@ -65,11 +62,6 @@ LogLog::LogLog()
 LogLog::~LogLog()
 { }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// log4cplus::helpers::LogLog public methods
-///////////////////////////////////////////////////////////////////////////////
 
 void
 LogLog::setInternalDebugging(bool enabled)
@@ -86,35 +78,35 @@ LogLog::setQuietMode(bool quietModeVal)
 
 
 void
-LogLog::debug(const log4cplus::tstring& msg)
+LogLog::debug(const log4cplus::tstring& msg) const
 {
     logging_worker (tcout, &LogLog::get_debug_mode, PREFIX, msg);
 }
 
 
 void
-LogLog::debug(tchar const * msg)
+LogLog::debug(tchar const * msg) const
 {
     logging_worker (tcout, &LogLog::get_debug_mode, PREFIX, msg);
 }
 
 
 void
-LogLog::warn(const log4cplus::tstring& msg)
+LogLog::warn(const log4cplus::tstring& msg) const
 {
     logging_worker (tcerr, &LogLog::get_quiet_mode, WARN_PREFIX, msg);
 }
 
 
 void
-LogLog::warn(tchar const * msg)
+LogLog::warn(tchar const * msg) const
 {
     logging_worker (tcerr, &LogLog::get_quiet_mode, WARN_PREFIX, msg);
 }
 
 
 void
-LogLog::error(const log4cplus::tstring& msg, bool throw_flag)
+LogLog::error(const log4cplus::tstring& msg, bool throw_flag) const
 {
     logging_worker (tcerr, &LogLog::get_quiet_mode, ERR_PREFIX, msg,
         throw_flag);
@@ -122,7 +114,7 @@ LogLog::error(const log4cplus::tstring& msg, bool throw_flag)
 
 
 void
-LogLog::error(tchar const * msg, bool throw_flag)
+LogLog::error(tchar const * msg, bool throw_flag) const
 {
     logging_worker (tcerr, &LogLog::get_quiet_mode, ERR_PREFIX, msg,
         throw_flag);
@@ -146,7 +138,7 @@ LogLog::get_debug_mode () const
 template <typename StringType>
 void
 LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
-    tchar const * prefix, StringType const & msg, bool throw_flag)
+    tchar const * prefix, StringType const & msg, bool throw_flag) const
 {
     thread::MutexGuard guard (mutex);
 
