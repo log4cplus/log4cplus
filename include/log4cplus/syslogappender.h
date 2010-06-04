@@ -28,15 +28,9 @@
 #if defined(LOG4CPLUS_HAVE_SYSLOG_H) && !defined(_WIN32)
 #include <log4cplus/appender.h>
 
+
 namespace log4cplus
 {
-
-    namespace helpers
-    {
-
-        class Properties;
-
-    }
 
     /**
      * Appends log events to a file. 

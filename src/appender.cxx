@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2009 Tad E. Smith
+// Copyright 2003-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/helpers/property.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/internal/internal.h>
@@ -125,7 +126,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
                 layout = newLayout;
             }
         }
-        catch(std::exception& e) {
+        catch(std::exception const & e) {
             getLogLog().error(  LOG4CPLUS_TEXT("Error while creating Layout: ")
                               + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
             return;

@@ -26,7 +26,6 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/appender.h>
 #include <log4cplus/fstreams.h>
-#include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <fstream>
 

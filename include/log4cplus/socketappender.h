@@ -30,14 +30,16 @@
 #include <log4cplus/thread/threads.h>
 
 
+namespace log4cplus
+{
+ 
+
 #ifndef UNICODE
-#  define LOG4CPLUS_MAX_MESSAGE_SIZE (8*1024)
+    std::size_t const LOG4CPLUS_MAX_MESSAGE_SIZE = 8*1024;
 #else
-#  define LOG4CPLUS_MAX_MESSAGE_SIZE (2*8*1024)
+    std::size_t const LOG4CPLUS_MAX_MESSAGE_SIZE = 2*8*1024;
 #endif
 
-
-namespace log4cplus {
 
     /**
      * Sends {@link spi::InternalLoggingEvent} objects to a remote a log server.

@@ -27,7 +27,6 @@
 #if defined (LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING) 
 
 #include <log4cplus/appender.h>
-#include <log4cplus/helpers/property.h>
 
 
 namespace log4cplus {

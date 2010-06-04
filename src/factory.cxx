@@ -22,7 +22,7 @@
 #include <log4cplus/spi/loggerfactory.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/thread-config.h>
-
+#include <log4cplus/helpers/property.h>
 #include <log4cplus/asyncappender.h>
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/fileappender.h>

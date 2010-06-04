@@ -39,7 +39,7 @@
 #  include <log4cplus/config/windowsh-inc.h>
 
 #elif defined (LOG4CPLUS_SINGLE_THREADED)
-#include <vector>
+#  include <vector>
 
 #endif
 

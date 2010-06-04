@@ -40,7 +40,6 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/helpers/queue.h>
 #include <log4cplus/appender.h>
-#include <log4cplus/helpers/property.h>
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/helpers/appenderattachableimpl.h>
 

@@ -29,7 +29,6 @@
 #if defined(_WIN32) && defined (LOG4CPLUS_HAVE_WIN32_CONSOLE)
 
 #include <log4cplus/appender.h>
-#include <log4cplus/helpers/property.h>
 
 
 namespace log4cplus

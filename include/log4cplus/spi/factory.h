@@ -27,7 +27,6 @@
 #include <log4cplus/appender.h>
 #include <log4cplus/layout.h>
 #include <log4cplus/tstring.h>
-#include <log4cplus/helpers/property.h>
 #include <log4cplus/spi/filter.h>
 #include <log4cplus/spi/objectregistry.h>
 #include <memory>

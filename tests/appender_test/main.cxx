@@ -67,7 +67,7 @@ main()
             append_1->doAppend(event);
             append_2->doAppend(event);
         }
-        catch(std::exception& e) {
+        catch(std::exception const & e) {
             log4cplus::tcout << "**** Exception occured: " << e.what() << endl;
         }
 
