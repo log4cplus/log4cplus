@@ -42,14 +42,21 @@ HierarchyLocker::HierarchyLocker(Hierarchy& _h)
     h.initializeLoggerList(loggerList);
 
     // Lock all of the Hierarchy's Loggers' mutexs
-    try {
-        for(LoggerList::iterator it=loggerList.begin(); it!=loggerList.end(); ++it) {
+    LoggerList::iterator it;
+    try
+    {
+        for (LoggerList::iterator it = loggerList.begin();
+            it != loggerList.end(); ++it)
             it->value->appender_list_mutex.lock ();
-        }
     }
-    catch(...) {
-        h.getLogLog().error(LOG4CPLUS_TEXT("HierarchyLocker::ctor()- An error occurred while locking"));
-        // TODO --> We need to unlock any Logger mutex that we were able to lock
+    catch (...)
+    {
+        helpers::getLogLog().error(
+            LOG4CPLUS_TEXT("HierarchyLocker::ctor()")
+            LOG4CPLUS_TEXT("- An error occurred while locking"));
+        LoggerList::iterator range_end = it;
+        for (it = loggerList.begin (); it != range_end; ++it)
+            it->value->appender_list_mutex.unlock ();
         throw;
     }
 }
@@ -63,7 +70,7 @@ HierarchyLocker::~HierarchyLocker()
         }
     }
     catch(...) {
-        h.getLogLog().error(LOG4CPLUS_TEXT("HierarchyLocker::dtor()- An error occurred while unlocking"));
+        helpers::getLogLog().error(LOG4CPLUS_TEXT("HierarchyLocker::dtor()- An error occurred while unlocking"));
         throw;
     }
 }
