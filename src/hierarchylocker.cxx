@@ -45,8 +45,7 @@ HierarchyLocker::HierarchyLocker(Hierarchy& _h)
     LoggerList::iterator it;
     try
     {
-        for (LoggerList::iterator it = loggerList.begin();
-            it != loggerList.end(); ++it)
+        for (it = loggerList.begin(); it != loggerList.end(); ++it)
             it->value->appender_list_mutex.lock ();
     }
     catch (...)
