@@ -40,6 +40,12 @@ namespace log4cplus
      * <dt><tt>ident</tt></dt>
      * <dd>First argument to <code>openlog()</code>, a string that
      * will be prepended to every message.</dd>
+     * 
+     * <dt><tt>facility</tt></dt>
+     * <dd>Facility is used in combination with syslog level in first
+     * argument to syslog(). It can be one of the supported facility
+     * names (case insensitive), e.g. auth, cron, kern, mail, news
+     * etc.</dd>
      * </dl>
      */
     class LOG4CPLUS_EXPORT SysLogAppender : public Appender {
