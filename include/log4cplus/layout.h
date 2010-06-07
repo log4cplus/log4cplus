@@ -401,12 +401,19 @@ namespace log4cplus {
      * </tr>
      *
      * <tr>
-     * 
      *   <td align=center><b>x</b></td>
      * 
      *   <td>Used to output the NDC (nested diagnostic context) associated
      *   with the thread that generated the logging event.
      *   </td>     
+     * </tr>
+     *
+     * <tr>
+     *   <td align=center><b>X{N}</b></td>
+     * 
+     *   <td>Like <b>%x</b> but with limit of NDC depth specified
+     *   as precision, e.g. <code>%X{3}</code>. Using N = 0 is equivalent to
+     *   using <code>%x</code>.</td>
      * </tr>
      * 
      * <tr>

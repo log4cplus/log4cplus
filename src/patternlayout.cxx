@@ -223,6 +223,23 @@ private:
 
 
 /**
+ * This PatternConverter is used to format the NDC field found in
+ * the InternalLoggingEvent object, optionally limited to
+ * \c precision levels (using space to separate levels).
+ */
+class NDCPatternConverter : public PatternConverter {
+public:
+    NDCPatternConverter(const FormattingInfo& info, int precision);
+    virtual void convert(tstring & result,
+        const spi::InternalLoggingEvent& event);
+
+private:
+    int precision;
+};
+
+
+
+/**
  * This class parses a "pattern" string into an array of
  * PatternConverter objects.
  * <p>
@@ -505,6 +522,36 @@ HostnamePatternConverter::convert (
 
 
 ////////////////////////////////////////////////
+// NDCPatternConverter methods:
+////////////////////////////////////////////////
+
+log4cplus::pattern::NDCPatternConverter::NDCPatternConverter (
+    const FormattingInfo& info, int precision_)
+    : PatternConverter(info)
+    , precision(precision_)
+{ }
+
+
+void
+log4cplus::pattern::NDCPatternConverter::convert (tstring & result,
+    const spi::InternalLoggingEvent& event)
+{
+    const log4cplus::tstring& text = event.getNDC();
+    if (precision <= 0)
+        result = text;
+    else
+    {
+        tstring::size_type p = text.find(LOG4CPLUS_TEXT(' '));
+        for (int i = 1; i < precision && p != tstring::npos; ++i)
+            p = text.find(LOG4CPLUS_TEXT(' '), p + 1);
+
+        result = text.substr(0, p);
+    }
+}
+
+
+
+////////////////////////////////////////////////
 // PatternParser methods:
 ////////////////////////////////////////////////
 
@@ -778,6 +825,14 @@ PatternParser::finalizeConverter(tchar c)
                           (formattingInfo, 
                            BasicPatternConverter::NDC_CONVERTER);
             //getLogLog().debug("NDC converter.");      
+            break;
+
+        case LOG4CPLUS_TEXT('X'):
+            pc = new NDCPatternConverter
+                          (formattingInfo,
+                           extractPrecisionOption());
+            //getLogLog().debug("NDC converter with precision limit.");
+            //formattingInfo.dump(getLogLog());
             break;
 
         default:
