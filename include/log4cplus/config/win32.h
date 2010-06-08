@@ -25,7 +25,10 @@
 
 #ifdef _WIN32
 
-#if (defined (_MSC_VER) && _MSC_VER >= 1400) || defined (__MINGW32__)
+#if (defined (_MSC_VER) && _MSC_VER >= 1400)
+// Newer versions of Win32 headers shipped with MinGW have this header, too.
+// But at this time it is not possible to recoginze such versions anyhow.
+//|| defined (__MINGW32__)
 #  define LOG4CPLUS_HAVE_INTRIN_H
 #endif
 
