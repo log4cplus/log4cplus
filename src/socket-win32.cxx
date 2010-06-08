@@ -24,6 +24,7 @@
 #include <cassert>
 #include <cerrno>
 #include <vector>
+#include <cstring>
 #include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
 
@@ -190,24 +191,31 @@ SOCKET_TYPE
 connectSocket(const tstring& hostn, 
                                   unsigned short port, SocketState& state)
 {
+    unsigned long ip;
+    struct hostent * hp;
+    struct sockaddr_in insock;
+    int retval;
+    int enabled = 1;
+
     init_winsock ();
 
     SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
     if (sock == INVALID_OS_SOCKET_VALUE)
         goto error;
 
-    unsigned long ip = INADDR_NONE;
-    struct hostent *hp = ::gethostbyname( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
-    if(hp == 0 || hp->h_addrtype != AF_INET) {
+    ip = INADDR_NONE;
+    hp = ::gethostbyname( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
+    if (hp == 0 || hp->h_addrtype != AF_INET)
+    {
         ip = inet_addr( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
-        if(ip == INADDR_NONE) {
+        if(ip == INADDR_NONE)
+        {
             state = bad_address;
             WSASetLastError (WSAEINVAL);
             goto error;
         }
     }
 
-    struct sockaddr_in insock;
     insock.sin_port = htons(port);
     insock.sin_family = AF_INET;
     if (hp != 0)
@@ -215,14 +223,12 @@ connectSocket(const tstring& hostn,
     else
         insock.sin_addr.S_un.S_addr = ip;
 
-    int retval;
     while(   (retval = ::connect(sock, (struct sockaddr*)&insock, sizeof(insock))) == -1
           && (WSAGetLastError() == WSAEINTR))
         ;
     if (retval == SOCKET_ERROR)
         goto error;
 
-    int enabled = 1;
     if (setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (char*)&enabled,
         sizeof(enabled)) != 0)
         goto error;
