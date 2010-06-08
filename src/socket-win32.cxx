@@ -22,6 +22,7 @@
 #if defined (LOG4CPLUS_USE_WINSOCK)
 
 #include <cassert>
+#include <cerrno>
 #include <vector>
 #include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
@@ -152,28 +153,36 @@ namespace log4cplus { namespace helpers {
 SOCKET_TYPE
 openSocket(unsigned short port, SocketState& state)
 {
+    struct sockaddr_in server;
+
     init_winsock ();
 
     SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
-    if(sock == INVALID_OS_SOCKET_VALUE) {
-        return INVALID_SOCKET_VALUE;
-    }
+    if (sock == INVALID_OS_SOCKET_VALUE)
+        goto error;
 
-    struct sockaddr_in server;
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = htonl(INADDR_ANY);
     server.sin_port = htons(port);
 
-    if(bind(sock, (struct sockaddr*)&server, sizeof(server)) != 0) {
-        return INVALID_SOCKET_VALUE;
-    }
+    if (bind(sock, reinterpret_cast<struct sockaddr*>(&server), sizeof(server))
+        != 0)
+        goto error;
 
-    if(::listen(sock, 10) != 0) {
-        return INVALID_SOCKET_VALUE;
-    }
+    if (::listen(sock, 10) != 0)
+        goto error;
 
     state = ok;
     return to_log4cplus_socket (sock);
+
+error:
+    int eno = WSAGetLastError ();
+
+    if (sock != INVALID_OS_SOCKET_VALUE)
+        ::closesocket (sock);
+
+    errno = eno;
+    return INVALID_SOCKET_VALUE;
 }
 
 
@@ -184,9 +193,8 @@ connectSocket(const tstring& hostn,
     init_winsock ();
 
     SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
-    if(sock == INVALID_OS_SOCKET_VALUE) {
-        return INVALID_SOCKET_VALUE;
-    }
+    if (sock == INVALID_OS_SOCKET_VALUE)
+        goto error;
 
     unsigned long ip = INADDR_NONE;
     struct hostent *hp = ::gethostbyname( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
@@ -194,37 +202,42 @@ connectSocket(const tstring& hostn,
         ip = inet_addr( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
         if(ip == INADDR_NONE) {
             state = bad_address;
-            return INVALID_SOCKET_VALUE;
+            WSASetLastError (WSAEINVAL);
+            goto error;
         }
     }
 
     struct sockaddr_in insock;
     insock.sin_port = htons(port);
     insock.sin_family = AF_INET;
-    if(hp != 0) {
-        std::memcpy(&insock.sin_addr, hp->h_addr, sizeof insock.sin_addr);
-    }
-    else {
+    if (hp != 0)
+        std::memcpy (&insock.sin_addr, hp->h_addr, sizeof insock.sin_addr);
+    else
         insock.sin_addr.S_un.S_addr = ip;
-    }
 
     int retval;
     while(   (retval = ::connect(sock, (struct sockaddr*)&insock, sizeof(insock))) == -1
           && (WSAGetLastError() == WSAEINTR))
         ;
-    if(retval == SOCKET_ERROR) {
-        ::closesocket(sock);
-        return INVALID_SOCKET_VALUE;
-    }
+    if (retval == SOCKET_ERROR)
+        goto error;
 
     int enabled = 1;
-    if(setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (char*)&enabled, sizeof(enabled)) != 0) {
-        ::closesocket(sock);    
-        return INVALID_SOCKET_VALUE;
-    }
+    if (setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (char*)&enabled,
+        sizeof(enabled)) != 0)
+        goto error;
 
     state = ok;
     return to_log4cplus_socket (sock);
+
+error:
+    int eno = WSAGetLastError ();
+
+    if (sock != INVALID_OS_SOCKET_VALUE)
+        ::closesocket (sock);
+
+    errno = eno;
+    return INVALID_SOCKET_VALUE;
 }
 
 
@@ -257,11 +270,14 @@ read(SOCKET_TYPE sock, SocketBuffer& buffer)
                      buffer.getBuffer() + read, 
                      static_cast<int>(buffer.getMaxSize() - read),
                      0);
-        if( res <= 0 ) {
+        if (res == SOCKET_ERROR)
+        {
+            errno = WSAGetLastError ();
             return res;
         }
         read += res;
-    } while( read < static_cast<long>(buffer.getMaxSize()) );
+    }
+    while (read < static_cast<long>(buffer.getMaxSize()));
  
     return read;
 }
@@ -271,8 +287,11 @@ read(SOCKET_TYPE sock, SocketBuffer& buffer)
 long
 write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
-    return ::send (to_os_socket (sock), buffer.getBuffer(),
+    long ret = ::send (to_os_socket (sock), buffer.getBuffer(),
         static_cast<int>(buffer.getSize()), 0);
+    if (ret == SOCKET_ERROR)
+        errno = WSAGetLastError ();
+    return ret;
 }
 
 

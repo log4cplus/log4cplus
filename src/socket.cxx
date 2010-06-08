@@ -20,15 +20,7 @@
 
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/internal/socket.h>
-
-
-#if !defined(_WIN32)
-#  include <errno.h>
-#  include <unistd.h>
-#  define GET_LAST_ERROR errno
-#else
-#  define GET_LAST_ERROR WSAGetLastError()
-#endif
+#include <cerrno>
 
 
 namespace log4cplus { namespace helpers {
