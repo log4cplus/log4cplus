@@ -1,0 +1,18 @@
+Possible enhancements and directions of development, in no particular
+order:
+
+- XML appender compatible with Chainsaw GUI.
+
+- EventLog library appender.
+
+- org.apache.log4j.net.ZeroConfSocketHubAppender.
+
+- Friendlier thread ID, %T.
+
+- log4j like MDC.
+
+- Reading log4j-like XML configuration files.
+
+- More flexible events format for transport (ASN.1?, XML?).
+
+- Syslog appender capable of logging using UDP to another host.
