@@ -251,7 +251,7 @@ namespace log4cplus {
 
     private:
       // Methods
-        DiagnosticContextStack* getPtr() const;
+        static DiagnosticContextStack* getPtr();
 
         template <typename StringType>
         void push_worker (StringType const &);

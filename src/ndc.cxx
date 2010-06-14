@@ -244,7 +244,7 @@ NDC::setMaxDepth(std::size_t maxDepth)
 }
 
 
-DiagnosticContextStack* NDC::getPtr() const
+DiagnosticContextStack* NDC::getPtr()
 {
     internal::per_thread_data * ptd = internal::get_ptd ();
     return &ptd->ndc_dcs;
