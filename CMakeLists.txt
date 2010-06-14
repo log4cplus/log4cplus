@@ -43,6 +43,7 @@ set (log4cplus_headers
   include/log4cplus/logger.h
   include/log4cplus/loggingmacros.h
   include/log4cplus/loglevel.h
+  include/log4cplus/mdc.h
   include/log4cplus/ndc.h
   include/log4cplus/nteventlogappender.h
   include/log4cplus/nullappender.h
@@ -92,6 +93,7 @@ set (log4cplus_sources
   src/loglevel.cxx
   src/loglog.cxx
   src/logloguser.cxx
+  src/mdc.cxx
   src/ndc.cxx
   src/nullappender.cxx
   src/nteventlogappender.cxx

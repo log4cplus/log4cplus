@@ -48,6 +48,7 @@
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/ndc.h>
+#include <log4cplus/mdc.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/thread/impl/tls.h>
 #include <log4cplus/helpers/snprintf.h>
@@ -108,6 +109,7 @@ struct per_thread_data
 
     tostringstream macros_oss;
     DiagnosticContextStack ndc_dcs;
+    MappedDiagnosticContextMap mdc_map;
     log4cplus::tstring thread_name;
     gft_scratch_pad gft_sp;
     appender_sratch_pad appender_sp;

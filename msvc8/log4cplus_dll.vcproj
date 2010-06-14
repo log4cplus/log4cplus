@@ -1366,6 +1366,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\mdc.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\mdc.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\ndc.cxx"
 				>
 				<FileConfiguration

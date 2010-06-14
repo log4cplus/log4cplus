@@ -41,6 +41,7 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
                          ../include/log4cplus/logger.h \
                          ../include/log4cplus/loggingmacros.h \
                          ../include/log4cplus/loglevel.h \
+                         ../include/log4cplus/mdc.h \
                          ../include/log4cplus/ndc.h \
                          ../include/log4cplus/nteventlogappender.h \
                          ../include/log4cplus/nullappender.h \
@@ -89,6 +90,7 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                       loglevel.cxx \
                       loglog.cxx \
                       logloguser.cxx \
+                      mdc.cxx \
                       ndc.cxx \
                       nullappender.cxx \
                       nteventlogappender.cxx \
