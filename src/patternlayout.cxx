@@ -723,6 +723,14 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
             }
             break;
 
+        case LOG4CPLUS_TEXT('i'):
+            pc = new BasicPatternConverter
+                          (formattingInfo, 
+                           BasicPatternConverter::PROCESS_CONVERTER);
+            //getLogLog().debug("PROCESS_CONVERTER converter.");
+            //formattingInfo.dump(getLogLog());      
+            break;
+
         case LOG4CPLUS_TEXT('l'):
             pc = new BasicPatternConverter
                           (formattingInfo, 
@@ -747,6 +755,11 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
             //formattingInfo.dump(getLogLog());      
             break;
 
+        // 'M' is METHOD converter in log4j.
+        // Not implemented.
+        case LOG4CPLUS_TEXT('M'):
+            goto not_implemented;
+
         case LOG4CPLUS_TEXT('n'):
             pc = new BasicPatternConverter
                           (formattingInfo, 
@@ -763,19 +776,16 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
             //formattingInfo.dump(getLogLog());
             break;
 
+        // 'r' is RELATIVE time converter in log4j.
+        // Not implemented.
+        case LOG4CPLUS_TEXT('r'):
+            goto not_implemented;
+
         case LOG4CPLUS_TEXT('t'):
             pc = new BasicPatternConverter
                           (formattingInfo, 
                            BasicPatternConverter::THREAD_CONVERTER);
             //getLogLog().debug("THREAD converter.");
-            //formattingInfo.dump(getLogLog());      
-            break;
-
-        case LOG4CPLUS_TEXT('i'):
-            pc = new BasicPatternConverter
-                          (formattingInfo, 
-                           BasicPatternConverter::PROCESS_CONVERTER);
-            //getLogLog().debug("PROCESS_CONVERTER converter.");
             //formattingInfo.dump(getLogLog());      
             break;
 
@@ -786,14 +796,12 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
             //getLogLog().debug("NDC converter.");      
             break;
 
+        // 'X' is MDC in log4j.
+        // Not implemented.
         case LOG4CPLUS_TEXT('X'):
-            pc = new NDCPatternConverter
-                          (formattingInfo,
-                           extractPrecisionOption());
-            //getLogLog().debug("NDC converter with precision limit.");
-            //formattingInfo.dump(getLogLog());
-            break;
+            goto not_implemented;
 
+not_implemented:;
         default:
             log4cplus::tostringstream buf;
             buf << LOG4CPLUS_TEXT("Unexpected char [")
