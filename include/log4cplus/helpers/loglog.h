@@ -96,6 +96,11 @@ namespace log4cplus {
           // Data
             thread::Mutex mutex;
 
+            // Public ctor and dtor to be used only by internal::DefaultContext.
+            LogLog();
+            virtual ~LogLog();
+
+
         private:
             template <typename StringType>
             void logging_worker (tostream & os,
@@ -108,9 +113,6 @@ namespace log4cplus {
           // Data
             bool debugEnabled;
             bool quietMode;
-
-            LogLog();
-            virtual ~LogLog();
 
             LogLog(const LogLog&);
             LogLog & operator = (LogLog const &);

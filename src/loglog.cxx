@@ -38,18 +38,10 @@ static tchar const ERR_PREFIX[] = LOG4CPLUS_TEXT("log4cplus:ERROR ");
 } // namespace
 
 
-LogLog &
-getLogLog ()
-{
-    return *LogLog::getLogLog();
-}
-
-
 LogLog *
 LogLog::getLogLog()
 {
-    static LogLog singleton;
-    return &singleton;
+    return &helpers::getLogLog ();
 }
 
 

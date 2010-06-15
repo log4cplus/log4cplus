@@ -173,41 +173,4 @@ void initializeFactoryRegistry()
 }
 
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// public methods
-///////////////////////////////////////////////////////////////////////////////
-
-namespace spi
-{
-
-
-AppenderFactoryRegistry&
-getAppenderFactoryRegistry()
-{
-    static AppenderFactoryRegistry singleton;
-    return singleton;
-}
-
-
-LayoutFactoryRegistry&
-getLayoutFactoryRegistry()
-{
-    static LayoutFactoryRegistry singleton;
-    return singleton;
-}
-
-
-FilterFactoryRegistry&
-getFilterFactoryRegistry()
-{
-    static FilterFactoryRegistry singleton;
-    return singleton;
-}
-
-
-} // namespace spi
-
-
 } // namespace log4cplus

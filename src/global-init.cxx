@@ -25,8 +25,12 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/thread/impl/tls.h>
+#include <log4cplus/helpers/loglog.h>
+#include <log4cplus/spi/factory.h>
+#include <log4cplus/hierarchy.h>
 #include <cstdio>
 #include <iostream>
+#include <stdexcept>
 
 
 // Forward Declarations
@@ -42,6 +46,148 @@ LOG4CPLUS_EXPORT tostream & tcout = std::cout;
 LOG4CPLUS_EXPORT tostream & tcerr = std::cerr;
 
 #endif // UNICODE
+
+
+namespace 
+{
+
+
+//! Default context.
+struct DefaultContext
+{
+    helpers::LogLog loglog;
+    LogLevelManager log_level_manager;
+    NDC ndc;
+    Hierarchy hierarchy;
+    spi::AppenderFactoryRegistry appender_factory_registry;
+    spi::LayoutFactoryRegistry layout_factory_registry;
+    spi::FilterFactoryRegistry filter_factory_registry;
+};
+
+
+enum DCState
+{ 
+    DC_UNINITIALIZED,
+    DC_INITIALIZED,
+    DC_DESTROYED
+};
+
+
+static DCState default_context_state;
+static DefaultContext * default_context;
+
+   
+struct destroy_default_context
+{
+    ~destroy_default_context ()
+    {
+        delete default_context;
+        default_context = 0;
+        default_context_state = DC_DESTROYED;
+    }
+} static destroy_default_context_;
+
+
+static
+void
+alloc_dc ()
+{
+    assert (! default_context);
+    assert (default_context_state == DC_UNINITIALIZED);
+
+    if (default_context)
+        throw std::logic_error (
+            "alloc_dc() called with non-NULL default_context.");
+
+    if (default_context_state == DC_INITIALIZED)
+        throw std::logic_error ("alloc_dc() called in DC_INITIALIZED state.");
+
+    default_context = new DefaultContext;
+    
+    if (default_context_state == DC_DESTROYED)
+        default_context->loglog.error (
+            LOG4CPLUS_TEXT ("Re-initializing default context after it has")
+            LOG4CPLUS_TEXT (" already been destroyed.\n")
+            LOG4CPLUS_TEXT ("The memory will be leaked."));
+
+    default_context_state = DC_INITIALIZED;
+}
+
+
+static
+DefaultContext *
+get_dc (bool alloc = true)
+{
+    if (! default_context && alloc)
+        alloc_dc ();
+    return default_context;
+}
+
+
+} // namespace
+
+
+namespace helpers
+{
+
+
+LogLog &
+getLogLog ()
+{
+    return get_dc ()->loglog;
+}
+
+
+} // namespace helpers
+
+
+LogLevelManager &
+getLogLevelManager () 
+{
+    return get_dc ()->log_level_manager;
+}
+
+
+Hierarchy &
+getDefaultHierarchy ()
+{
+    return get_dc ()->hierarchy;
+}
+
+
+NDC & 
+getNDC ()
+{
+    return get_dc ()->ndc;
+}
+
+
+namespace spi
+{
+
+
+AppenderFactoryRegistry &
+getAppenderFactoryRegistry ()
+{
+    return get_dc ()->appender_factory_registry;
+}
+
+
+LayoutFactoryRegistry &
+getLayoutFactoryRegistry ()
+{
+    return get_dc ()->layout_factory_registry;
+}
+
+
+FilterFactoryRegistry &
+getFilterFactoryRegistry ()
+{
+    return get_dc ()->filter_factory_registry;
+}
+
+
+} // namespace spi
 
 
 namespace internal
@@ -151,9 +297,7 @@ void initializeLog4cplus()
 
     internal::tls_storage_key = thread::impl::tls_init (ptd_cleanup_func);
 
-    helpers::LogLog::getLogLog();
-    getLogLevelManager ();
-    getNDC();
+    get_dc (true);
     Logger::getRoot();
     initializeFactoryRegistry();
 

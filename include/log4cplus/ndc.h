@@ -34,14 +34,8 @@
 
 namespace log4cplus {
     // Forward declarations
-    class NDC;
     struct DiagnosticContext;
     typedef std::deque<DiagnosticContext> DiagnosticContextStack;
-
-#if defined (_MSC_VER)
-    LOG4CPLUS_EXPORT NDC& getNDC();
-#endif
-
 
     /**
      * The NDC class implements <i>nested diagnostic contexts</i> as
@@ -246,6 +240,9 @@ namespace log4cplus {
          */
         void setMaxDepth(std::size_t maxDepth);
 
+        // Public ctor but only to be used by internal::DefaultContext.
+        NDC();
+
       // Dtor
         virtual ~NDC();
 
@@ -257,16 +254,8 @@ namespace log4cplus {
         void push_worker (StringType const &);
 
       // Disallow construction (and copying) except by getNDC()
-        NDC();
         NDC(const NDC&);
         NDC& operator=(const NDC&);
-
-      // Friends
-#if defined (_MSC_VER)
-        friend LOG4CPLUS_EXPORT NDC& getNDC();
-#else
-        friend NDC& getNDC();
-#endif
     };
 
 

@@ -44,9 +44,7 @@ DefaultLoggerFactory::makeNewLoggerInstance (const log4cplus::tstring & name,
 Hierarchy & 
 Logger::getDefaultHierarchy ()
 {
-    static Hierarchy defaultHierarchy;
-
-    return defaultHierarchy;
+    return log4cplus::getDefaultHierarchy ();
 }
 
 

@@ -308,6 +308,10 @@ namespace log4cplus {
         friend class log4cplus::HierarchyLocker;
     };
 
+
+    LOG4CPLUS_EXPORT Hierarchy & getDefaultHierarchy ();
+
+
 } // end namespace log4cplus
 
 #endif // _LOG4CPLUS_HIERARCHY_HEADER_
