@@ -235,7 +235,7 @@ namespace log4cplus {
          */
         class PatternParser : protected log4cplus::helpers::LogLogUser {
         public:
-            PatternParser(const log4cplus::tstring& pattern);
+            PatternParser(const log4cplus::tstring& pattern, unsigned ndcMaxDepth);
             std::vector<PatternConverter*> parse();
 
         private:
@@ -258,6 +258,7 @@ namespace log4cplus {
             ParserState state;
             tstring::size_type pos;
             log4cplus::tstring currentLiteral;
+            unsigned ndcMaxDepth;
         };
     }
 }
@@ -522,10 +523,12 @@ log4cplus::pattern::NDCPatternConverter::convert (
 // PatternParser methods:
 ////////////////////////////////////////////////
 
-log4cplus::pattern::PatternParser::PatternParser(const log4cplus::tstring& pattern_)
-: pattern(pattern_),
-  state(LITERAL_STATE),
-  pos(0)
+log4cplus::pattern::PatternParser::PatternParser(
+    const log4cplus::tstring& pattern_, unsigned ndcMaxDepth_)
+    : pattern(pattern_)
+    , state(LITERAL_STATE)
+    , pos(0)
+    , ndcMaxDepth (ndcMaxDepth_)
 {
 }
 
@@ -790,9 +793,7 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
             break;
 
         case LOG4CPLUS_TEXT('x'):
-            pc = new BasicPatternConverter
-                          (formattingInfo, 
-                           BasicPatternConverter::NDC_CONVERTER);
+            pc = new NDCPatternConverter (formattingInfo, ndcMaxDepth);
             //getLogLog().debug("NDC converter.");      
             break;
 
@@ -829,12 +830,18 @@ not_implemented:;
 
 PatternLayout::PatternLayout(const log4cplus::tstring& pattern_)
 {
-    init(pattern_);
+    init(pattern_, 0);
 }
 
 
 PatternLayout::PatternLayout(const log4cplus::helpers::Properties& properties)
 {
+    unsigned ndcMaxDepth
+        = std::atoi (LOG4CPLUS_TSTRING_TO_STRING (
+            properties.getProperty (
+                LOG4CPLUS_TEXT ("NDCMaxDepth"),
+                LOG4CPLUS_TEXT ("0"))).c_str ());
+
     bool hasPattern = properties.exists( LOG4CPLUS_TEXT("Pattern") );
     bool hasConversionPattern = properties.exists( LOG4CPLUS_TEXT("ConversionPattern") );
     
@@ -843,10 +850,11 @@ PatternLayout::PatternLayout(const log4cplus::helpers::Properties& properties)
     }
     
     if(hasConversionPattern) {
-        init(properties.getProperty( LOG4CPLUS_TEXT("ConversionPattern") ));
+        init(properties.getProperty( LOG4CPLUS_TEXT("ConversionPattern") ),
+            ndcMaxDepth);
     }
     else if(hasPattern) {
-        init(properties.getProperty( LOG4CPLUS_TEXT("Pattern") ));
+        init(properties.getProperty( LOG4CPLUS_TEXT("Pattern") ), ndcMaxDepth);
     }
     else {
         throw std::runtime_error("ConversionPattern not specified in properties");
@@ -856,10 +864,10 @@ PatternLayout::PatternLayout(const log4cplus::helpers::Properties& properties)
 
 
 void
-PatternLayout::init(const log4cplus::tstring& pattern_)
+PatternLayout::init(const log4cplus::tstring& pattern_, unsigned ndcMaxDepth)
 {
     this->pattern = pattern_;
-    this->parsedPattern = PatternParser(pattern).parse();
+    this->parsedPattern = PatternParser(pattern, ndcMaxDepth).parse();
 
     // Let's validate that our parser didn't give us any NULLs.  If it did,
     // we will convert them to a valid PatternConverter that does nothing so
