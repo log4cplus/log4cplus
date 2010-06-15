@@ -20,7 +20,6 @@
 
 #include <log4cplus/spi/rootlogger.h>
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/thread/syncprims-pub-impl.h>
 
 
 namespace log4cplus { namespace spi {
