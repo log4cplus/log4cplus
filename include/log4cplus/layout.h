@@ -549,7 +549,7 @@ namespace log4cplus {
                                      const log4cplus::spi::InternalLoggingEvent& event);
 
     protected:
-        void init(const log4cplus::tstring& pattern);
+        void init(const log4cplus::tstring& pattern, unsigned ndcMaxDepth = 0);
 
       // Data
         log4cplus::tstring pattern;
