@@ -796,6 +796,11 @@ PatternParser::finalizeConverter(tchar c)
             //formattingInfo.dump(getLogLog());      
             break;
 
+        // 'M' is METHOD converter in log4j.
+        // Not implemented.
+        case LOG4CPLUS_TEXT('M'):
+            goto not_implemented;
+
         case LOG4CPLUS_TEXT('n'):
             pc = new BasicPatternConverter
                           (formattingInfo, 
@@ -812,6 +817,11 @@ PatternParser::finalizeConverter(tchar c)
             //formattingInfo.dump(getLogLog());
             break;
 
+        // 'r' is RELATIVE time converter in log4j.
+        // Not implemented.
+        case LOG4CPLUS_TEXT('r'):
+            goto not_implemented;
+
         case LOG4CPLUS_TEXT('t'):
             pc = new BasicPatternConverter
                           (formattingInfo, 
@@ -827,14 +837,12 @@ PatternParser::finalizeConverter(tchar c)
             //getLogLog().debug("NDC converter.");      
             break;
 
+        // 'X' is MDC in log4j.
+        // Not implemented.
         case LOG4CPLUS_TEXT('X'):
-            pc = new NDCPatternConverter
-                          (formattingInfo,
-                           extractPrecisionOption());
-            //getLogLog().debug("NDC converter with precision limit.");
-            //formattingInfo.dump(getLogLog());
-            break;
+            goto not_implemented;
 
+not_implemented:;
         default:
             tostringstream buf;
             buf << LOG4CPLUS_TEXT("Unexpected char [")
