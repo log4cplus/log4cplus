@@ -41,9 +41,6 @@ typedef std::map<tstring, tstring> MappedDiagnosticContextMap;
 class LOG4CPLUS_EXPORT MDC
 {
 public:
-    static MDC & getMDC ();
-
-
     /**
      * Clear any nested diagnostic information if any. This method is
      * useful in cases where the same thread can be potentially used
@@ -55,11 +52,12 @@ public:
     bool get (tstring * value, tstring const & key) const;
     void remove (tstring const & key);
 
-private:
-    static MappedDiagnosticContextMap * getPtr ();
-
+    // Public ctor and dtor but only to be used by internal::DefaultContext.
     MDC ();
     virtual ~MDC ();
+
+private:
+    static MappedDiagnosticContextMap * getPtr ();
 };
 
 

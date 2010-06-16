@@ -37,14 +37,6 @@ MDC::~MDC ()
 { }
 
 
-MDC &
-MDC::getMDC ()
-{
-    static MDC singleton;
-    return singleton;
-}
-
-
 MappedDiagnosticContextMap *
 MDC::getPtr ()
 {
@@ -90,13 +82,6 @@ MDC::remove (tstring const & key)
 {
     MappedDiagnosticContextMap * const dc = getPtr ();
     dc->erase (key);
-}
-
-
-MDC &
-getMDC ()
-{
-    return MDC::getMDC ();
 }
 
 

@@ -22,6 +22,7 @@
 #include <log4cplus/config/windowsh-inc.h>
 #include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
+#include <log4cplus/mdc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/thread/impl/tls.h>
@@ -58,6 +59,7 @@ struct DefaultContext
     helpers::LogLog loglog;
     LogLevelManager log_level_manager;
     NDC ndc;
+    MDC mdc;
     Hierarchy hierarchy;
     spi::AppenderFactoryRegistry appender_factory_registry;
     spi::LayoutFactoryRegistry layout_factory_registry;
@@ -159,6 +161,13 @@ NDC &
 getNDC ()
 {
     return get_dc ()->ndc;
+}
+
+
+MDC &
+getMDC ()
+{
+    return get_dc ()->mdc;
 }
 
 
