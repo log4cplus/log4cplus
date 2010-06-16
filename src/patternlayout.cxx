@@ -221,6 +221,23 @@ private:
 };
 
 
+/**
+ * This PatternConverter is used to format the MDC field found in
+ * the InternalLoggingEvent object, optionally limited to
+ * \c k Mapped diagnostic context key.
+ */
+class MDCPatternConverter
+    : public PatternConverter
+{
+public:
+    MDCPatternConverter(const FormattingInfo& info, tstring const & k);
+    virtual void convert(tstring & result,
+        const spi::InternalLoggingEvent& event);
+
+private:
+    tstring key;
+};
+
 
 /**
  * This PatternConverter is used to format the NDC field found in
@@ -520,6 +537,25 @@ HostnamePatternConverter::convert (
     result = hostname_;
 }
 
+
+
+////////////////////////////////////////////////
+// MDCPatternConverter methods:
+////////////////////////////////////////////////
+
+log4cplus::pattern::MDCPatternConverter::MDCPatternConverter (
+    const FormattingInfo& info, tstring const & k)
+    : PatternConverter(info)
+    , key (k)
+{ }
+
+
+void
+log4cplus::pattern::MDCPatternConverter::convert (tstring & result,
+    const spi::InternalLoggingEvent& event)
+{
+    result = event.getMDC (key);
+}
 
 
 ////////////////////////////////////////////////
@@ -832,10 +868,10 @@ PatternParser::finalizeConverter(tchar c)
             //getLogLog().debug("NDC converter.");      
             break;
 
-        // 'X' is MDC in log4j.
-        // Not implemented.
         case LOG4CPLUS_TEXT('X'):
-            goto not_implemented;
+            pc = new MDCPatternConverter (formattingInfo, extractOption ());
+            //getLogLog().debug("MDC converter.");
+            break;
 
 not_implemented:;
         default:
