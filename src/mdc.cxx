@@ -85,4 +85,11 @@ MDC::remove (tstring const & key)
 }
 
 
+MappedDiagnosticContextMap &
+MDC::getContext ()
+{
+    return *getPtr ();
+}
+
+
 } // namespace log4cplus

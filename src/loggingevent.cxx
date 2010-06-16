@@ -19,6 +19,7 @@
 // limitations under the License.
 
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/internal/internal.h>
 #include <algorithm>
 
 
@@ -39,6 +40,7 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , loggerName(logger)
     , ll(loglevel)
     , ndc()
+    , mdc()
     , thread()
     , timestamp(log4cplus::helpers::Time::gettimeofday())
     , file(filename
@@ -48,18 +50,21 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , line(line_)
     , threadCached(false)
     , ndcCached(false)
+    , mdcCached(false)
 {
 }
 
 
 InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     LogLevel loglevel, const log4cplus::tstring& ndc_,
-    const log4cplus::tstring& message_, const log4cplus::tstring& thread_,
-    log4cplus::helpers::Time time, const log4cplus::tstring& file_, int line_)
+    MappedDiagnosticContextMap const & mdc_, const log4cplus::tstring& message_,
+    const log4cplus::tstring& thread_, log4cplus::helpers::Time time,
+    const log4cplus::tstring& file_, int line_)
     : message(message_)
     , loggerName(logger)
     , ll(loglevel)
     , ndc(ndc_)
+    , mdc(mdc_)
     , thread(thread_)
     , timestamp(time)
     , file(file_)
@@ -67,6 +72,7 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , line(line_)
     , threadCached(true)
     , ndcCached(true)
+    , mdcCached(true)
 {
 }
 
@@ -76,6 +82,7 @@ InternalLoggingEvent::InternalLoggingEvent ()
     , function ()
     , threadCached(false)
     , ndcCached(false)
+    , mdcCached(false)
 { }
 
 
@@ -85,6 +92,7 @@ InternalLoggingEvent::InternalLoggingEvent(
     , loggerName(rhs.getLoggerName())
     , ll(rhs.getLogLevel())
     , ndc(rhs.getNDC())
+    , mdc(rhs.getMDCCopy())
     , thread(rhs.getThread())
     , timestamp(rhs.getTimestamp())
     , file(rhs.getFile())
@@ -92,6 +100,7 @@ InternalLoggingEvent::InternalLoggingEvent(
     , line(rhs.getLine())
     , threadCached(true)
     , ndcCached(true)
+    , mdcCached(true)
 {
 }
 
@@ -141,6 +150,7 @@ InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring & logger,
     line = fline;
     threadCached = false;
     ndcCached = false;
+    mdcCached = false;
 }
 
 
@@ -181,12 +191,33 @@ InternalLoggingEvent::clone() const
 }
 
 
+tstring const &
+InternalLoggingEvent::getMDC (tstring const & key) const
+{
+    MappedDiagnosticContextMap const & mdc = getMDCCopy ();
+    MappedDiagnosticContextMap::const_iterator it = mdc.find (key);
+    if (it != mdc.end ())
+        return it->second;
+    else
+        return internal::empty_str;
+}
+
+
 
 InternalLoggingEvent &
 InternalLoggingEvent::operator = (const InternalLoggingEvent& rhs)
 {
     InternalLoggingEvent (rhs).swap (*this);
     return *this;
+}
+
+
+void
+InternalLoggingEvent::gatherThreadSpecificData () const
+{
+    getNDC ();
+    getMDCCopy ();
+    getThread ();
 }
 
 
@@ -199,6 +230,7 @@ InternalLoggingEvent::swap (InternalLoggingEvent & other)
     swap (loggerName, other.loggerName);
     swap (ll, other.ll);
     swap (ndc, other.ndc);
+    swap (mdc, other.mdc);
     swap (thread, other.thread);
     swap (timestamp, other.timestamp);
     swap (file, other.file);

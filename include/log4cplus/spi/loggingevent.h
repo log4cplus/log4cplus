@@ -27,6 +27,7 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/loglevel.h>
 #include <log4cplus/ndc.h>
+#include <log4cplus/mdc.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/thread/threads.h>
@@ -61,6 +62,7 @@ namespace log4cplus {
 
             InternalLoggingEvent(const log4cplus::tstring& logger,
                 LogLevel loglevel, const log4cplus::tstring& ndc,
+                MappedDiagnosticContextMap const & mdc,
                 const log4cplus::tstring& message,
                 const log4cplus::tstring& thread,
                 log4cplus::helpers::Time time, const log4cplus::tstring& file,
@@ -124,6 +126,18 @@ namespace log4cplus {
                 return ndc; 
             }
 
+            MappedDiagnosticContextMap const & getMDCCopy () const
+            { 
+                if (!mdcCached)
+                {
+                    mdc = log4cplus::getMDC().getContext ();
+                    mdcCached = true;
+                }
+                return mdc; 
+            }
+
+            tstring const & getMDC (tstring const & key) const;
+
             /** The name of thread in which this logging event was generated. */
             const log4cplus::tstring& getThread() const
             {
@@ -156,6 +170,8 @@ namespace log4cplus {
                 return function;
             }
 
+            void gatherThreadSpecificData () const;
+
             void swap (InternalLoggingEvent &);
  
           // public operators
@@ -171,6 +187,7 @@ namespace log4cplus {
             log4cplus::tstring loggerName;
             LogLevel ll;
             mutable log4cplus::tstring ndc;
+            mutable MappedDiagnosticContextMap mdc;
             mutable log4cplus::tstring thread;
             log4cplus::helpers::Time timestamp;
             log4cplus::tstring file;
@@ -180,6 +197,8 @@ namespace log4cplus {
             mutable bool threadCached;
             /** Indicates whether or not the NDC has been retrieved. */
             mutable bool ndcCached;
+            /** Indicates whether or not the MDC has been retrieved. */
+            mutable bool mdcCached;
         };
 
     } // end namespace spi

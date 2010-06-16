@@ -52,6 +52,8 @@ public:
     bool get (tstring * value, tstring const & key) const;
     void remove (tstring const & key);
 
+    MappedDiagnosticContextMap & getContext ();
+
     // Public ctor and dtor but only to be used by internal::DefaultContext.
     MDC ();
     virtual ~MDC ();

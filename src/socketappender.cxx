@@ -310,8 +310,10 @@ readFromBuffer(SocketBuffer& buffer)
     int line = buffer.readInt();
     tstring function = buffer.readString(sizeOfChar);
 
-    spi::InternalLoggingEvent ev (loggerName, ll, ndc, message, thread,
-        Time(sec, usec), file, line);
+    // TODO: Pass MDC through.
+    spi::InternalLoggingEvent ev (loggerName, ll, ndc,
+        MappedDiagnosticContextMap (), message, thread, Time(sec, usec), file,
+        line);
     ev.setFunction (function);
     return ev;
 }

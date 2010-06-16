@@ -52,10 +52,7 @@ Queue::put_event (spi::InternalLoggingEvent const & ev)
     flags_type ret_flags = ERROR_BIT;
     try
     {
-        // Make sure that the event will have NDC and thread ID of the
-        // calling thread and not the queue worker thread.
-        ev.getThread ();
-        ev.getNDC ();
+        ev.gatherThreadSpecificData ();
         
         SemaphoreGuard semguard (sem);
         MutexGuard mguard (mutex);
