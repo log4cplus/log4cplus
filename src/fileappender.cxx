@@ -359,7 +359,17 @@ RollingFileAppender::RollingFileAppender(const Properties& properties)
 void
 RollingFileAppender::init(long maxFileSize_, int maxBackupIndex_)
 {
-    maxFileSize = (std::max)(maxFileSize_, MINIMUM_ROLLING_LOG_SIZE);
+    if (maxFileSize_ < MINIMUM_ROLLING_LOG_SIZE)
+    {
+        tostringstream oss;
+        oss << LOG4CPLUS_TEXT ("RollingFileAppender: MaxFileSize property")
+            LOG4CPLUS_TEXT (" value is too small. Resetting to ")
+            << MINIMUM_ROLLING_LOG_SIZE << ".";
+        helpers::getLogLog ().warn (oss.str ());
+        maxFileSize_ = MINIMUM_ROLLING_LOG_SIZE;
+    }
+
+    maxFileSize = maxFileSize_;
     maxBackupIndex = (std::max)(maxBackupIndex_, 1);
 }
 
