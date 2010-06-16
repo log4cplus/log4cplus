@@ -297,20 +297,6 @@ namespace log4cplus {
      * </tr>
      *
      * <tr>
-     *   <td align=center><b>f</b></td>
-     * 
-     *   <td>Used to output function name using
-     *   <code>__FUNCTION__</code> or similar macro.
-     * 
-     *   <b>NOTE</b> The <code>__FUNCTION__</code> macro is not
-     *   standard but it is common extension provided by all compilers
-     *   (as of 2010). In case it is missing or in case this feature
-     *   is disabled using the
-     *   <code>LOG4CPLUS_DISABLE_FUNCTION_MACRO</code> macro, %%f
-     *   expands to an empty string.</td>
-     * </tr>
-     * 
-     * <tr>
      *   <td align=center><b>F</b></td>
      * 
      *   <td>Used to output the file name where the logging request was
@@ -366,12 +352,25 @@ namespace log4cplus {
      *   calling this method.
      * 
      * </tr>
-     * 
-     *  
+     *
      * <tr>
      *   <td align=center><b>m</b></td>
      *   <td>Used to output the application supplied message associated with 
      *   the logging event.</td>   
+     * </tr>
+     *
+     * <tr>
+     *   <td align=center><b>M</b></td>
+     *
+     *   <td>Used to output function name using
+     *   <code>__FUNCTION__</code> or similar macro.
+     *
+     *   <b>NOTE</b> The <code>__FUNCTION__</code> macro is not
+     *   standard but it is common extension provided by all compilers
+     *   (as of 2010). In case it is missing or in case this feature
+     *   is disabled using the
+     *   <code>LOG4CPLUS_DISABLE_FUNCTION_MACRO</code> macro, %%M
+     *   expands to an empty string.</td>
      * </tr>
      * 
      * <tr>

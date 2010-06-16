@@ -741,13 +741,6 @@ PatternParser::finalizeConverter(tchar c)
             }
             break;
 
-        case LOG4CPLUS_TEXT('f'):
-            pc = new BasicPatternConverter (
-                formattingInfo, BasicPatternConverter::FUNCTION_CONVERTER);
-            //getLogLog().debug("FUNCTION NAME converter.");
-            //formattingInfo.dump(getLogLog());   
-            break;
-
         case LOG4CPLUS_TEXT('F'):
             pc = new BasicPatternConverter
                           (formattingInfo, 
@@ -798,10 +791,12 @@ PatternParser::finalizeConverter(tchar c)
             //formattingInfo.dump(getLogLog());      
             break;
 
-        // 'M' is METHOD converter in log4j.
-        // Not implemented.
         case LOG4CPLUS_TEXT('M'):
-            goto not_implemented;
+            pc = new BasicPatternConverter (
+                formattingInfo, BasicPatternConverter::FUNCTION_CONVERTER);
+            //getLogLog().debug("METHOD (function name) converter.");
+            //formattingInfo.dump(getLogLog());   
+            break;
 
         case LOG4CPLUS_TEXT('n'):
             pc = new BasicPatternConverter
