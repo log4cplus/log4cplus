@@ -85,8 +85,8 @@ MDC::remove (tstring const & key)
 }
 
 
-MappedDiagnosticContextMap &
-MDC::getContext ()
+MappedDiagnosticContextMap const &
+MDC::getContext () const
 {
     return *getPtr ();
 }
