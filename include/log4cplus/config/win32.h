@@ -27,7 +27,10 @@
 #include <windows.h>
 
 /* Define if you have the ftime function.  */
+#if ! defined (_WIN32_WCE)
 #define LOG4CPLUS_HAVE_FTIME 1
+#define LOG4CPLUS_HAVE_ERRNO_H
+#endif
 
 #if defined (_WIN32_WCE)
 #  define LOG4CPLUS_DLLMAIN_HINSTANCE HANDLE
@@ -75,7 +78,7 @@
   // Warning about: <type1> needs to have dll-interface to be used by clients of class <type2>
 #  pragma warning( disable : 4251 )
 
-#  if _MSC_VER >= 1400
+#  if _MSC_VER >= 1400 && ! defined (_WIN32_WCE)
 #    define LOG4CPLUS_WORKING_LOCALE
 #  endif
 

@@ -101,7 +101,11 @@ private:
 
 #  elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     HANDLE handle;
+#    if defined (_WIN32_WCE)
+    DWORD thread_id;
+#    else
     unsigned thread_id;
+#    endif
 
 #  endif
 

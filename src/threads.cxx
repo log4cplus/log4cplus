@@ -23,9 +23,12 @@
 #include <cassert>
 #include <exception>
 #include <stdexcept>
-#include <errno.h>
 
 #include <log4cplus/config.hxx>
+
+#ifdef LOG4CPLUS_HAVE_ERRNO_H
+#include <errno.h>
+#endif
 
 #if defined(LOG4CPLUS_USE_PTHREADS)
 #  include <sched.h>
@@ -50,6 +53,8 @@ struct ThreadStart
 {
 #  ifdef LOG4CPLUS_USE_PTHREADS
 static void* threadStartFuncWorker(void *);
+#  elif defined(LOG4CPLUS_USE_WIN32_THREADS) && defined (_WIN32_WCE)
+static DWORD threadStartFuncWorker(void *);
 #  elif defined(LOG4CPLUS_USE_WIN32_THREADS)
 static unsigned threadStartFuncWorker(void *);
 #  endif
@@ -64,6 +69,8 @@ namespace
 
 #  ifdef LOG4CPLUS_USE_PTHREADS
 extern "C" void * threadStartFunc(void * param)
+#  elif defined(LOG4CPLUS_USE_WIN32_THREADS) && defined (_WIN32_WCE)
+static DWORD WINAPI threadStartFunc(void * param)
 #  elif defined(LOG4CPLUS_USE_WIN32_THREADS)
 static unsigned WINAPI threadStartFunc(void * param)
 #  endif
@@ -155,6 +162,9 @@ getCurrentThreadName()
 
 #if defined(LOG4CPLUS_USE_PTHREADS)
 void* 
+ThreadStart::threadStartFuncWorker(void * arg)
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS) && defined (_WIN32_WCE)
+DWORD
 ThreadStart::threadStartFuncWorker(void * arg)
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
 unsigned
