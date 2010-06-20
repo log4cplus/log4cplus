@@ -30,6 +30,7 @@
 #if ! defined (_WIN32_WCE)
 #define LOG4CPLUS_HAVE_FTIME 1
 #define LOG4CPLUS_HAVE_ERRNO_H
+#define LOG4CPLUS_HAVE_SYS_STAT_H
 #endif
 
 #if defined (_WIN32_WCE)

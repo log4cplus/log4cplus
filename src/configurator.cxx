@@ -28,7 +28,9 @@
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggerimpl.h>
 
+#ifdef LOG4CPLUS_HAVE_SYS_STAT_H
 #include <sys/stat.h>
+#endif
 #include <algorithm>
 #include <vector>
 #include <cstdlib>
@@ -50,6 +52,23 @@ namespace
     static tchar const DELIM_STOP[] = LOG4CPLUS_TEXT("}");
     static size_t const DELIM_START_LEN = 2;
     static size_t const DELIM_STOP_LEN = 1;
+
+
+    static
+    tchar const *
+    tgetenv (tchar const * name)
+    {
+#if defined (_WIN32_WCE)
+        return 0;
+
+#elif defined (_WIN32) && defined (UNICODE)
+        return _wgetenv (name);
+
+#else
+        return std::getenv (name);
+
+#endif
+    }
 
 
     /**
@@ -130,10 +149,9 @@ namespace
                 replacement = props.getProperty (key);
             if (! shadow_env || (! empty_vars && replacement.empty ()))
             {
-                char const * env_var
-                    = std::getenv(LOG4CPLUS_TSTRING_TO_STRING(key).c_str());
+                tchar const * env_var = tgetenv (key.c_str());
                 if (env_var)
-                    replacement = LOG4CPLUS_STRING_TO_TSTRING (env_var);
+                    replacement = env_var;
             }
             
             if (empty_vars || ! replacement.empty ())
