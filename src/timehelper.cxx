@@ -65,11 +65,21 @@ const int ONE_SEC_IN_USEC = 1000000;
 using ::mktime;
 using ::gmtime;
 using ::localtime;
+#if defined (UNICODE)
+using ::wcsftime;
+#else
+using ::strftime;
+#endif
 
 #else
 using std::mktime;
 using std::gmtime;
 using std::localtime;
+#if defined (UNICODE)
+using std::wcsftime;
+#else
+using std::strftime;
+#endif
 
 #endif
 
@@ -136,7 +146,7 @@ Time::gettimeofday()
 time_t
 Time::setTime(tm* t)
 {
-    time_t time = mktime(t);
+    time_t time = helpers::mktime(t);
     if (time != -1)
         tv_sec = time;
 
@@ -344,9 +354,9 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
         buffer.resize (buffer_size);
         errno = 0;
 #ifdef UNICODE
-        len = std::wcsftime(&buffer[0], buffer_size, fmt.c_str(), &time);
+        len = helpers::wcsftime(&buffer[0], buffer_size, fmt.c_str(), &time);
 #else
-        len = std::strftime(&buffer[0], buffer_size, fmt.c_str(), &time);
+        len = helpers::strftime(&buffer[0], buffer_size, fmt.c_str(), &time);
 #endif
         if (len == 0)
         {
