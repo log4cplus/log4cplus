@@ -34,6 +34,12 @@
 #include <cerrno>
 #include <cstdlib>
 
+#if defined (_WIN32_WCE)
+#undef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
+
 
 namespace log4cplus
 {
@@ -52,28 +58,63 @@ const long MINIMUM_ROLLING_LOG_SIZE = 200*1024L;
 namespace
 {
 
+
+#if defined (_WIN32_WCE)
+long const LOG4CPLUS_FILE_NOT_FOUND = ERROR_FILE_NOT_FOUND;
+#else
+long const LOG4CPLUS_FILE_NOT_FOUND = ENOENT;
+#endif
+
+
 static 
-int
+long
 file_rename (tstring const & src, tstring const & target)
 {
-#if defined (UNICODE) && defined (WIN32)
-    return _wrename (src.c_str (), target.c_str ()) == 0 ? 0 : -1;
+#if defined (_WIN32_WCE)
+    if (MoveFile (src.c_str (), target.c_str ()))
+        return 0;
+    else
+        return GetLastError ();
+
+#elif defined (UNICODE) && defined (WIN32)
+    if (_wrename (src.c_str (), target.c_str ()) == 0)
+        return 0;
+    else
+        return errno;
+
 #else
-    return std::rename (LOG4CPLUS_TSTRING_TO_STRING (src).c_str (),
-        LOG4CPLUS_TSTRING_TO_STRING (target).c_str ()) == 0 ? 0 : -1;
+    if (std::rename (LOG4CPLUS_TSTRING_TO_STRING (src).c_str (),
+            LOG4CPLUS_TSTRING_TO_STRING (target).c_str ()) == 0)
+        return 0;
+    else
+        return errno;
+
 #endif
 }
 
 
 static
-int
+long
 file_remove (tstring const & src)
 {
-#if defined (UNICODE) && defined (WIN32)
-    return _wremove (src.c_str ()) == 0 ? 0 : -1;
+#if defined (_WIN32_WCE)
+    if (DeleteFile (src.c_str ()))
+        return 0;
+    else
+        return GetLastError ();
+
+#elif defined (UNICODE) && defined (WIN32)
+    if (_wremove (src.c_str ()) == 0)
+        return 0;
+    else
+        return errno;
+
 #else
-    return std::remove (LOG4CPLUS_TSTRING_TO_STRING (src).c_str ()) == 0
-        ? 0 : -1;
+    if (std::remove (LOG4CPLUS_TSTRING_TO_STRING (src).c_str ()) == 0)
+        return 0;
+    else
+        return errno;
+
 #endif
 }
 
@@ -81,7 +122,7 @@ file_remove (tstring const & src)
 static
 void
 loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
-    tstring const & target, int ret)
+    tstring const & target, long ret)
 {
     if (ret == 0)
     {
@@ -91,13 +132,16 @@ loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
             + LOG4CPLUS_TEXT(" to ")
             + target);
     }
-    else if (ret == -1 && errno != ENOENT)
+    else if (ret != LOG4CPLUS_FILE_NOT_FOUND)
     {
-        loglog.error (
-            LOG4CPLUS_TEXT("Failed to rename file from ") 
-            + target 
-            + LOG4CPLUS_TEXT(" to ")
-            + target);
+        tostringstream oss;
+        oss << LOG4CPLUS_TEXT("Failed to rename file from ")
+            << target
+            << LOG4CPLUS_TEXT(" to ")
+            << target
+            << LOG4CPLUS_TEXT("; error ")
+            << ret;
+        loglog.error (oss.str ());
     }
 }
 
@@ -126,7 +170,7 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
     // Delete the oldest file
     tostringstream buffer;
     buffer << filename << LOG4CPLUS_TEXT(".") << maxBackupIndex;
-    int ret = file_remove (buffer.str ());
+    long ret = file_remove (buffer.str ());
 
     tostringstream source_oss;
     tostringstream target_oss;
@@ -435,7 +479,7 @@ RollingFileAppender::rollover()
         // Rename fileName to fileName.1
         tstring target = filename + LOG4CPLUS_TEXT(".1");
 
-        int ret;
+        long ret;
 
 #if defined (WIN32)
         // Try to remove the target first. It seems it is not
@@ -644,7 +688,7 @@ DailyRollingFileAppender::rollover()
     tstring backupTarget = backup_target_oss.str();
 
     helpers::LogLog & loglog = getLogLog();
-    int ret;
+    long ret;
 
 #if defined (WIN32)
     // Try to remove the target first. It seems it is not
