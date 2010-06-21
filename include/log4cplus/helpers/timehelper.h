@@ -26,12 +26,30 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 
+#if defined (LOG4CPLUS_HAVE_TIME_H)
+#include <time.h>
+#endif
+
+#if ! defined (_WIN32_WCE)
 #include <ctime>
+#endif
 
 
 namespace log4cplus {
 
 namespace helpers {
+
+
+#if defined (_WIN32_WCE)
+using ::time_t;
+using ::tm;
+
+#else
+using std::time_t;
+using std::tm;
+
+#endif
+
 
 /**
  * This class represents a Epoch time with microsecond accuracy.
@@ -39,8 +57,8 @@ namespace helpers {
 class LOG4CPLUS_EXPORT Time {
 public:
     Time();
-    Time(std::time_t tv_sec, long tv_usec);
-    explicit Time(std::time_t time);
+    Time(time_t tv_sec, long tv_usec);
+    explicit Time(time_t time);
 
     /**
      * Returns the current time using the <code>gettimeofday()</code>
@@ -53,7 +71,7 @@ public:
     /**
      * Returns <i>seconds</i> value.
      */
-    std::time_t sec() const { return tv_sec; }
+    time_t sec() const { return tv_sec; }
 
     /**
      * Returns <i>microseconds</i> value.
@@ -63,7 +81,7 @@ public:
     /**
      * Sets the <i>seconds</i> value.
      */
-    void sec(std::time_t s) { tv_sec = s; }
+    void sec(time_t s) { tv_sec = s; }
 
     /**
      * Sets the <i>microseconds</i> value.
@@ -73,24 +91,24 @@ public:
     /**
      * Sets this Time using the <code>mktime</code> function.
      */
-    std::time_t setTime(std::tm* t);
+    time_t setTime(tm* t);
 
     /**
-     * Returns this Time as a <code>std::time_t></code> value.
+     * Returns this Time as a <code>time_t></code> value.
      */
-    std::time_t getTime() const;
+    time_t getTime() const;
 
     /**
      * Populates <code>tm</code> using the <code>gmtime()</code>
      * function.
      */
-    void gmtime(std::tm* t) const;
+    void gmtime(tm* t) const;
 
     /**
      * Populates <code>tm</code> using the <code>localtime()</code>
      * function.
      */
-    void localtime(std::tm* t) const;
+    void localtime(tm* t) const;
 
     /**
      * Returns a string with a "formatted time" specified by
@@ -119,7 +137,7 @@ private:
     void build_uc_q_value (log4cplus::tstring & uc_q_str) const;
 
   // Data
-    std::time_t tv_sec;  /* seconds */
+    time_t tv_sec;  /* seconds */
     long tv_usec;  /* microseconds */
 };
 

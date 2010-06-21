@@ -26,12 +26,13 @@
 #ifdef _WIN32
 #include <windows.h>
 
-/* Define if you have the ftime function.  */
 #if ! defined (_WIN32_WCE)
+/* Define if you have the ftime function.  */
 #define LOG4CPLUS_HAVE_FTIME 1
 #define LOG4CPLUS_HAVE_ERRNO_H
 #define LOG4CPLUS_HAVE_SYS_STAT_H
 #endif
+#define LOG4CPLUS_HAVE_TIME_H
 
 #if defined (_WIN32_WCE)
 #  define LOG4CPLUS_DLLMAIN_HINSTANCE HANDLE

@@ -28,13 +28,11 @@
 #include <vector>
 #include <iomanip>
 #include <cassert>
+#if ! defined (_WIN32_WCE)
 #include <cerrno>
+#endif
 #if defined (UNICODE)
 #include <cwchar>
-#endif
-
-#if defined (LOG4CPLUS_HAVE_TIME_H)
-#include <time.h>
 #endif
 
 #if defined (LOG4CPLUS_HAVE_SYS_TYPES_H)
@@ -63,6 +61,20 @@ namespace log4cplus { namespace helpers {
 const int ONE_SEC_IN_USEC = 1000000;
 
 
+#if defined (_WIN32_WCE)
+using ::mktime;
+using ::gmtime;
+using ::localtime;
+
+#else
+using std::mktime;
+using std::gmtime;
+using std::localtime;
+
+#endif
+
+
+
 //////////////////////////////////////////////////////////////////////////////
 // Time ctors
 //////////////////////////////////////////////////////////////////////////////
@@ -74,7 +86,7 @@ Time::Time()
 }
 
 
-Time::Time(std::time_t tv_sec_, long tv_usec_)
+Time::Time(time_t tv_sec_, long tv_usec_)
 : tv_sec(tv_sec_),
   tv_usec(tv_usec_)
 {
@@ -82,7 +94,7 @@ Time::Time(std::time_t tv_sec_, long tv_usec_)
 }
 
 
-Time::Time(std::time_t time)
+Time::Time(time_t time)
 : tv_sec(time),
   tv_usec(0)
 {
@@ -121,10 +133,10 @@ Time::gettimeofday()
 // Time methods
 //////////////////////////////////////////////////////////////////////////////
 
-std::time_t
-Time::setTime(std::tm* t)
+time_t
+Time::setTime(tm* t)
 {
-    std::time_t time = std::mktime(t);
+    time_t time = mktime(t);
     if (time != -1)
         tv_sec = time;
 
@@ -132,7 +144,7 @@ Time::setTime(std::tm* t)
 }
 
 
-std::time_t
+time_t
 Time::getTime() const
 {
     return tv_sec;
@@ -140,26 +152,26 @@ Time::getTime() const
 
 
 void
-Time::gmtime(std::tm* t) const
+Time::gmtime(tm* t) const
 {
-    std::time_t clock = tv_sec;
+    time_t clock = tv_sec;
 #ifdef LOG4CPLUS_NEED_GMTIME_R
     ::gmtime_r(&clock, t);
 #else
-    std::tm* tmp = std::gmtime(&clock);
+    tm* tmp = helpers::gmtime(&clock);
     *t = *tmp;
 #endif
 }
 
 
 void
-Time::localtime(std::tm* t) const
+Time::localtime(tm* t) const
 {
-    std::time_t clock = tv_sec;
+    time_t clock = tv_sec;
 #ifdef LOG4CPLUS_NEED_LOCALTIME_R
     ::localtime_r(&clock, t);
 #else
-    std::tm* tmp = std::localtime(&clock);
+    tm* tmp = helpers::localtime(&clock);
     *t = *tmp;
 #endif
 }
@@ -216,7 +228,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
     if (fmt_orig.empty () || fmt_orig[0] == 0)
         return log4cplus::tstring ();
 
-    std::tm time;
+    tm time;
     
     if(use_gmtime)
         gmtime(&time);
