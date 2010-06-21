@@ -28,9 +28,13 @@
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggerimpl.h>
 
+#ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
 #ifdef LOG4CPLUS_HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
+
 #include <algorithm>
 #include <vector>
 #include <cstdlib>
