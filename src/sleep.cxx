@@ -21,7 +21,10 @@
 #include <log4cplus/helpers/sleep.h>
 #include <log4cplus/helpers/timehelper.h>
 
+#ifdef LOG4CPLUS_HAVE_ERRNO_H
 #include <errno.h>
+#endif
+
 
 using namespace log4cplus;
 

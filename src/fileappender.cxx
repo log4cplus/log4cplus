@@ -31,7 +31,9 @@
 // For _wrename() and _wremove() on Windows.
 #  include <stdio.h>
 #endif
+#if ! defined (_WIN32_WCE)
 #include <cerrno>
+#endif
 #include <cstdlib>
 
 #if defined (_WIN32_WCE)

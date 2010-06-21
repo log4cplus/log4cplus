@@ -137,7 +137,7 @@ log4cplus::helpers::Socket::Socket(const tstring& address, int port)
 {
     sock = connectSocket(address, port, state);
     if(sock == INVALID_SOCKET) {
-        err = errno;
+        err = GET_LAST_ERROR;
     }
 }
 
@@ -199,7 +199,7 @@ log4cplus::helpers::ServerSocket::ServerSocket(int port)
 {
     sock = openSocket(port, state);
     if(sock == INVALID_SOCKET) {
-        err = errno;
+        err = GET_LAST_ERROR;
     }
 }
 
