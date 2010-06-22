@@ -94,7 +94,7 @@ public:
     time_t setTime(tm* t);
 
     /**
-     * Returns this Time as a <code>time_t></code> value.
+     * Returns this Time as a <code>time_t</code> value.
      */
     time_t getTime() const;
 
