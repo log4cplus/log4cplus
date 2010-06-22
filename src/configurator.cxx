@@ -25,6 +25,7 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/syncprims.h>
+#include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggerimpl.h>
 
@@ -33,6 +34,16 @@
 #endif
 #ifdef LOG4CPLUS_HAVE_SYS_STAT_H
 #include <sys/stat.h>
+#endif
+
+#ifdef LOG4CPLUS_HAVE_STDLIB_H
+#include <stdlib.h>
+#endif
+#if defined (WIN32)
+#include <tchar.h>
+#endif
+#if defined (_WIN32_WCE)
+#include <windows.h>
 #endif
 
 #include <algorithm>
@@ -72,6 +83,64 @@ namespace
         return std::getenv (name);
 
 #endif
+    }
+
+
+    struct file_info
+    {
+        Time mtime;
+        bool is_link;
+    };
+
+
+    static
+    int
+    get_file_info (file_info * fi, tchar const * name)
+    {
+#if defined (_WIN32_WCE)
+        WIN32_FILE_ATTRIBUTE_DATA fad;
+        BOOL ret = GetFileAttributesEx (name, GetFileExInfoStandard, &fad);
+        if (! ret)
+            return -1;
+
+        SYSTEMTIME systime;
+        ret = FileTimeToSystemTime (&fad.ftLastWriteTime, &systime);
+        if (! ret)
+            return -1;
+
+        helpers::tm tm;
+        tm.tm_isdst = 0;
+        tm.tm_yday = 0;
+        tm.tm_wday = systime.wDayOfWeek;
+        tm.tm_year = systime.wYear - 1900;
+        tm.tm_mon = systime.wMonth - 1;
+        tm.tm_mday = systime.wDay;
+        tm.tm_hour = systime.wHour;
+        tm.tm_min = systime.wMinute;
+        tm.tm_sec = systime.wSecond;
+
+        fi->mtime.setTime (&tm);
+        fi->is_link = false;
+
+#elif defined (_WIN32)
+        struct _stat fileStatus;
+        if (_tstat (name, &fileStatus) == -1)
+            return -1;
+        
+        fi->mtime = Time (fileStatus.st_mtime);
+        fi->is_link = false;
+
+#else
+        struct stat fileStatus;
+        if (stat (LOG4CPLUS_TSTRING_TO_STRING (name).c_str (),
+                &fileStatus) == -1)
+            return -1;
+        fi->mtime = Time (fileStatus.st_mtime);
+        fi->is_link = S_ISLNK (fileStatus.st_mode);
+
+#endif
+
+        return 0;
     }
 
 
@@ -644,17 +713,18 @@ ConfigurationWatchDogThread::addAppender(Logger& logger,
 bool
 ConfigurationWatchDogThread::checkForFileModification(Time & mtime)
 {
-    struct stat fileStatus;
-    if(::stat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
-            &fileStatus) == -1)
-        return false;  // stat() returned error, so the file must not exist
-    mtime = Time (fileStatus.st_mtime);
+    file_info fi;
+
+    if (get_file_info (&fi, propertyFilename.c_str ()) != 0)
+        return false;
+
+    mtime = fi.mtime;
     bool modified = mtime != lastModTime;
 
 #if defined(LOG4CPLUS_HAVE_LSTAT)
-    if(!modified && S_ISLNK(fileStatus.st_mode))
+    if (!modified && fi->is_link)
     {
-        ::lstat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
+        lstat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
             &fileStatus);
         mtime = Time (fileStatus.st_mtime);
         modified = mtime != lastModTime;
