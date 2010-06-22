@@ -132,7 +132,7 @@ namespace
 
 #else
         struct stat fileStatus;
-        if (stat (LOG4CPLUS_TSTRING_TO_STRING (name).c_str (),
+        if (stat (LOG4CPLUS_TSTRING_TO_STRING (tstring (name)).c_str (),
                 &fileStatus) == -1)
             return -1;
         fi->mtime = Time (fileStatus.st_mtime);
@@ -722,8 +722,9 @@ ConfigurationWatchDogThread::checkForFileModification(Time & mtime)
     bool modified = mtime != lastModTime;
 
 #if defined(LOG4CPLUS_HAVE_LSTAT)
-    if (!modified && fi->is_link)
+    if (!modified && fi.is_link)
     {
+        struct stat fileStatus;
         lstat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
             &fileStatus);
         mtime = Time (fileStatus.st_mtime);
