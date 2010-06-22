@@ -95,11 +95,11 @@ namespace
 
     static
     int
-    get_file_info (file_info * fi, tchar const * name)
+    get_file_info (file_info * fi, tstring const & name)
     {
 #if defined (_WIN32_WCE)
         WIN32_FILE_ATTRIBUTE_DATA fad;
-        BOOL ret = GetFileAttributesEx (name, GetFileExInfoStandard, &fad);
+        BOOL ret = GetFileAttributesEx (name.c_str (), GetFileExInfoStandard, &fad);
         if (! ret)
             return -1;
 
@@ -124,7 +124,7 @@ namespace
 
 #elif defined (_WIN32)
         struct _stat fileStatus;
-        if (_tstat (name, &fileStatus) == -1)
+        if (_tstat (name.c_str (), &fileStatus) == -1)
             return -1;
         
         fi->mtime = Time (fileStatus.st_mtime);
@@ -132,7 +132,7 @@ namespace
 
 #else
         struct stat fileStatus;
-        if (stat (LOG4CPLUS_TSTRING_TO_STRING (tstring (name)).c_str (),
+        if (stat (LOG4CPLUS_TSTRING_TO_STRING (name).c_str (),
                 &fileStatus) == -1)
             return -1;
         fi->mtime = Time (fileStatus.st_mtime);
