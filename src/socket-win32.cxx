@@ -182,7 +182,7 @@ error:
     if (sock != INVALID_OS_SOCKET_VALUE)
         ::closesocket (sock);
 
-    errno = eno;
+    set_last_socket_error (eno);
     return INVALID_SOCKET_VALUE;
 }
 
@@ -242,7 +242,7 @@ error:
     if (sock != INVALID_OS_SOCKET_VALUE)
         ::closesocket (sock);
 
-    errno = eno;
+    set_last_socket_error (eno);
     return INVALID_SOCKET_VALUE;
 }
 
@@ -278,7 +278,7 @@ read(SOCKET_TYPE sock, SocketBuffer& buffer)
                      0);
         if (res == SOCKET_ERROR)
         {
-            errno = WSAGetLastError ();
+            set_last_socket_error (WSAGetLastError ());
             return res;
         }
         read += res;
@@ -296,7 +296,7 @@ write(SOCKET_TYPE sock, const SocketBuffer& buffer)
     long ret = ::send (to_os_socket (sock), buffer.getBuffer(),
         static_cast<int>(buffer.getSize()), 0);
     if (ret == SOCKET_ERROR)
-        errno = WSAGetLastError ();
+        set_last_socket_error (WSAGetLastError ());
     return ret;
 }
 

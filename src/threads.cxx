@@ -21,7 +21,11 @@
 #include <log4cplus/config.hxx>
 
 #include <exception>
+
+#ifdef LOG4CPLUS_HAVE_ERRNO_H
 #include <errno.h>
+#endif
+
 #if defined(LOG4CPLUS_USE_PTHREADS)
 #  include <pthread.h>
 #  include <sched.h>
@@ -104,6 +108,8 @@ namespace
 
 #  ifdef LOG4CPLUS_USE_PTHREADS
 extern "C" void* threadStartFunc(void * param)
+#  elif defined(LOG4CPLUS_USE_WIN32_THREADS) && defined (_WIN32_WCE)
+static DWORD threadStartFuncWorker(void * param)
 #  elif defined(LOG4CPLUS_USE_WIN32_THREADS)
 static unsigned WINAPI threadStartFunc(void * param)
 #  endif
@@ -119,6 +125,9 @@ namespace log4cplus { namespace thread { namespace impl {
 
 #if defined(LOG4CPLUS_USE_PTHREADS)
 void* 
+ThreadStart::threadStartFuncWorker(void * arg)
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS) && defined (_WIN32_WCE)
+DWORD
 ThreadStart::threadStartFuncWorker(void * arg)
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
 unsigned

@@ -31,7 +31,23 @@
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggerimpl.h>
 
+#ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef LOG4CPLUS_HAVE_SYS_STAT_H
 #include <sys/stat.h>
+#endif
+
+#ifdef LOG4CPLUS_HAVE_STDLIB_H
+#include <stdlib.h>
+#endif
+#if defined (WIN32)
+#include <tchar.h>
+#endif
+#if defined (_WIN32_WCE)
+#include <windows.h>
+#endif
+
 #include <algorithm>
 #include <cstdlib>
 #include <iterator>
@@ -61,16 +77,79 @@ namespace
     void
     get_env_var (tstring & value, tstring const & name)
     {
-#if defined (WIN32) && defined (UNICODE)
+#if defined (_WIN32_WCE)
+        // Nothing to do here. Windows CE does not have environment variables.
+
+#elif defined (WIN32) && defined (UNICODE)
         tchar const * val = _wgetenv (name.c_str ());
         if (val)
             value = val;
+
 #else
         char const * val
             = std::getenv (LOG4CPLUS_TSTRING_TO_STRING (name).c_str ());
         if (val)
             value = LOG4CPLUS_STRING_TO_TSTRING (val);
+
 #endif
+    }
+
+
+    struct file_info
+    {
+        helpers::Time mtime;
+        bool is_link;
+    };
+
+
+    static
+    int
+    get_file_info (file_info * fi, tstring const & name)
+    {
+#if defined (_WIN32_WCE)
+        WIN32_FILE_ATTRIBUTE_DATA fad;
+        BOOL ret = GetFileAttributesEx (name.c_str (), GetFileExInfoStandard, &fad);
+        if (! ret)
+            return -1;
+
+        SYSTEMTIME systime;
+        ret = FileTimeToSystemTime (&fad.ftLastWriteTime, &systime);
+        if (! ret)
+            return -1;
+
+        helpers::tm tm;
+        tm.tm_isdst = 0;
+        tm.tm_yday = 0;
+        tm.tm_wday = systime.wDayOfWeek;
+        tm.tm_year = systime.wYear - 1900;
+        tm.tm_mon = systime.wMonth - 1;
+        tm.tm_mday = systime.wDay;
+        tm.tm_hour = systime.wHour;
+        tm.tm_min = systime.wMinute;
+        tm.tm_sec = systime.wSecond;
+
+        fi->mtime.setTime (&tm);
+        fi->is_link = false;
+
+#elif defined (_WIN32)
+        struct _stat fileStatus;
+        if (_tstat (name.c_str (), &fileStatus) == -1)
+            return -1;
+        
+        fi->mtime = helpers::Time (fileStatus.st_mtime);
+        fi->is_link = false;
+
+#else
+        struct stat fileStatus;
+        if (stat (LOG4CPLUS_TSTRING_TO_STRING (name).c_str (),
+                &fileStatus) == -1)
+            return -1;
+        fi->mtime = helpers::Time (fileStatus.st_mtime);
+        fi->is_link = S_ISLNK (fileStatus.st_mode);
+
+#endif
+
+        return 0;
     }
 
 
@@ -645,17 +724,18 @@ ConfigurationWatchDogThread::addAppender(Logger& logger,
 bool
 ConfigurationWatchDogThread::checkForFileModification()
 {
-    struct stat fileStatus;
-    if(::stat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
-            &fileStatus) == -1)
-        return false;  // stat() returned error, so the file must not exist
-    helpers::Time modTime(fileStatus.st_mtime);
-    bool modified = (modTime > lastModTime);
+    file_info fi;
+
+    if (get_file_info (&fi, propertyFilename) != 0)
+        return false;
+
+    bool modified = (fi.mtime > lastModTime);
 
 #if defined(LOG4CPLUS_HAVE_LSTAT)
-    if(!modified && S_ISLNK(fileStatus.st_mode))
+    if (!modified && fi.is_link)
     {
-        ::lstat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
+        struct stat fileStatus;
+        lstat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
             &fileStatus);
         helpers::Time linkModTime(fileStatus.st_mtime);
         modified = (linkModTime > lastModTime);
@@ -670,11 +750,10 @@ ConfigurationWatchDogThread::checkForFileModification()
 void
 ConfigurationWatchDogThread::updateLastModTime()
 {
-    struct stat fileStatus;
-    if(::stat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
-            &fileStatus) == -1)
-        return;  // stat() returned error, so the file must not exist
-    lastModTime = helpers::Time(fileStatus.st_mtime);
+    file_info fi;
+
+    if (get_file_info (&fi, propertyFilename))
+        lastModTime = fi.mtime;
 }
 
 

@@ -20,7 +20,6 @@
 
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/internal/socket.h>
-#include <cerrno>
 
 
 namespace log4cplus { namespace helpers {
@@ -137,7 +136,7 @@ Socket::Socket(const tstring& address, unsigned short port)
 {
     sock = connectSocket(address, port, state);
     if(sock == INVALID_SOCKET_VALUE) {
-        err = errno;
+        err = get_last_socket_error ();
     }
 }
 
@@ -200,7 +199,7 @@ ServerSocket::ServerSocket(unsigned short port)
 {
     sock = openSocket(port, state);
     if(sock == INVALID_SOCKET_VALUE) {
-        err = errno;
+        err = get_last_socket_error ();
     }
 }
 
