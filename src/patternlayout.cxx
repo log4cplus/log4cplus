@@ -25,7 +25,9 @@
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/spi/loggingevent.h>
 
+#ifdef LOG4CPLUS_HAVE_STDLIB_H
 #include <stdlib.h>
+#endif
 #include <exception>
 
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
