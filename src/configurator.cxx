@@ -70,17 +70,22 @@ namespace
 
 
     static
-    tchar const *
-    tgetenv (tchar const * name)
+    void
+    get_env_var (tstring & value, tstring const & name)
     {
 #if defined (_WIN32_WCE)
-        return 0;
+        // Nothing to do here. Windows CE does not have environment variables.
 
-#elif defined (_WIN32) && defined (UNICODE)
-        return _wgetenv (name);
+#elif defined (WIN32) && defined (UNICODE)
+        tchar const * val = _wgetenv (name.c_str ());
+        if (val)
+            value = val;
 
 #else
-        return std::getenv (name);
+        char const * val
+            = std::getenv (LOG4CPLUS_TSTRING_TO_STRING (name).c_str ());
+        if (val)
+            value = LOG4CPLUS_STRING_TO_TSTRING (val);
 
 #endif
     }
@@ -221,11 +226,7 @@ namespace
             if (shadow_env)
                 replacement = props.getProperty (key);
             if (! shadow_env || (! empty_vars && replacement.empty ()))
-            {
-                tchar const * env_var = tgetenv (key.c_str());
-                if (env_var)
-                    replacement = env_var;
-            }
+                get_env_var (replacement, key);
             
             if (empty_vars || ! replacement.empty ())
             {
