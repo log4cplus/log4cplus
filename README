@@ -25,13 +25,16 @@ Tested on the following platforms
 
 - Linux/AMD64 with GCC 4.1.2 and 4.3.2
 - FreeBSD/i386 and AMD64 with GCC 3.4.6, 4.2.1 and 4.3.3
-- Windows XP with MS Visual C++ 8.0 and 9.0
+- Windows XP with MS Visual C++ 8.0, 9.0 and 10.0
 - OpenSolaris 5.11 with Sun C++ 5.10 SunOS_i386 128229-02 2009/09/21,
-  with -library=stlport4.
+  with -library=stlport4
 
 
 Notes
 =====
+
+Cygwin/MinGW
+------------
 
 Some version of GCC (3.4.x and probably some of 4.x series too) on
 Windows (both Mingw and Cygwin) produces lots of warnings of the form
@@ -39,6 +42,10 @@ Windows (both Mingw and Cygwin) produces lots of warnings of the form
 attribute ignored."  This can be worked around by adding
 -Wno-attributes option to GCC command.  Unfortunatelly, not all
 affected version of GCC have this option.
+
+
+Threads and signals
+-------------------
 
 log4cplus is not safe to be used from async signals' handlers.  This
 is a property of most threaded programmes in general.  If you are
@@ -48,6 +55,26 @@ signals in all threads but one that will handle all signals.  On POSIX
 platforms, this is possible using the sigwait() call.  log4cplus
 enables this approach by blocking all signals in any threads created
 through its threads helpers.
+
+
+Unsupported compilers
+---------------------
+
+log4cplus does not support too old and broken C++ compilers:
+
+- Visual C++ prior to 7.1
+- GCC prior to 3.2
+- All Borland/CodeGear/Embarcadero C++ compilers
+
+
+Unsupported platforms
+---------------------
+
+log4cplus requires some minimal set of C and/or C++ library
+functions. Some systems/platforms fail to provide these functions and
+thus log4cplus cannot be supported there:
+
+- Windows CE - missing implementations of <time.h> functions
 
 
 License
