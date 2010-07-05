@@ -63,8 +63,10 @@ using namespace log4cplus::helpers;
 namespace
 {
 
-
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
 static thread::Mutex ghbn_mutex;
+
+#endif
 
 
 static
@@ -100,7 +102,9 @@ get_host_by_name (char const * hostname, std::string * name,
     freeaddrinfo (res);
 
 #else
+#  if ! defined (LOG4CPLUS_SINGLE_THREADED)
     thread::MutexGuard guard (ghbn_mutex);
+#  endif
 
     struct ::hostent * hp = gethostbyname (hostname);
     if (! hp)
