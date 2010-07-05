@@ -18,13 +18,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <cstring>
-#include <vector>
-#include <algorithm>
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/helpers/syncprims.h>
 
 #if defined(__hpux__)
 # ifndef _XOPEN_SOURCE_EXTENDED
@@ -53,7 +51,10 @@
 
 #include <unistd.h>
 
+#include <cstring>
+#include <vector>
 #include <algorithm>
+
 
 using namespace log4cplus;
 using namespace log4cplus::helpers;
@@ -63,7 +64,7 @@ namespace
 {
 
 
-static LOG4CPLUS_MUTEX_PTR_DECLARE ghbn_mutex = LOG4CPLUS_MUTEX_CREATE;
+static thread::Mutex ghbn_mutex;
 
 
 static
@@ -99,7 +100,7 @@ get_host_by_name (char const * hostname, std::string * name,
     freeaddrinfo (res);
 
 #else
-    thread::Guard guard (ghbn_mutex);
+    thread::MutexGuard guard (ghbn_mutex);
 
     struct ::hostent * hp = gethostbyname (hostname);
     if (! hp)
