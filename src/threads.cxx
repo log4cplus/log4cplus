@@ -223,9 +223,14 @@ AbstractThread::AbstractThread()
 
 AbstractThread::~AbstractThread()
 {
-#if defined(LOG4CPLUS_USE_WIN32_THREADS)
+#if defined(LOG4CPLUS_USE_PTHREADS)
+    if (! pthread_equal (pthread_self (), handle))
+        pthread_join (handle, 0);
+
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     if (handle != INVALID_HANDLE_VALUE)
         ::CloseHandle (handle);
+
 #endif
 }
 
