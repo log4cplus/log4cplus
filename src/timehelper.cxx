@@ -119,7 +119,8 @@ Time::gettimeofday()
     int res = clock_gettime (CLOCK_REALTIME, &ts);
     assert (res == 0);
     if (res != 0)
-        LogLog::getLogLog ()->error ("clock_gettime() has failed", true);
+        LogLog::getLogLog ()->error (
+            LOG4CPLUS_TEXT("clock_gettime() has failed"), true);
 
     return Time (ts.tv_sec, ts.tv_nsec / 1000);
 #elif defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
