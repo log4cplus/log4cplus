@@ -42,6 +42,10 @@
 #  define LOG4CPLUS_USE_POOR_MANS_SNPRINTF
 #endif
 
+# if ! defined (LOG4CPLUS_WORKING_LOCALE)
+# define LOG4CPLUS_POOR_MANS_CHCONV
+#endif
+
 #if !defined(_WIN32)
 #  define LOG4CPLUS_USE_BSD_SOCKETS
 #  if !defined(LOG4CPLUS_SINGLE_THREADED)

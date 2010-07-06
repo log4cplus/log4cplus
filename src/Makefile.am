@@ -108,6 +108,7 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                       socket-unix.cxx \
                       socket-win32.cxx \
                       stringhelper.cxx \
+                      stringhelper-cxxlocale.cxx \
                       syncprims.cxx \
                       syslogappender.cxx \
                       threads.cxx \

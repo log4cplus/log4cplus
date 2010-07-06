@@ -110,6 +110,7 @@ set (log4cplus_sources
   src/socketappender.cxx
   src/socketbuffer.cxx
   src/stringhelper.cxx
+  src/stringhelper-cxxlocale.cxx
   src/syncprims.cxx
   src/syslogappender.cxx
   src/threads.cxx
