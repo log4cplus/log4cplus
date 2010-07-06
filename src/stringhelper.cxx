@@ -286,7 +286,7 @@ tostring_internal (std::string & ret, wchar_t const * src, size_t size)
     for (size_t i = 0; i < size; ++i)
     {
         ret[i] = static_cast<unsigned> (static_cast<int> (src[i])) < 256
-            ? static_cast<char>(src[i]) : ' ';
+            ? static_cast<char>(src[i]) : '?';
     }
 }
 
