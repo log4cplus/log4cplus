@@ -3702,6 +3702,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\stringhelper-clocale.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\src\stringhelper-cxxlocale.cxx"
 				>
 			</File>

@@ -68,6 +68,9 @@
 /* Define to 1 if you have the `lstat' function. */
 #undef HAVE_LSTAT
 
+/* Define to 1 if you have the `mbstowcs' function. */
+#undef HAVE_MBSTOWCS
+
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
@@ -122,6 +125,9 @@
 
 /* Define to 1 if you have the `vswprintf_s' function. */
 #undef HAVE_VSWPRINTF_S
+
+/* Define to 1 if you have the `wcstombs' function. */
+#undef HAVE_WCSTOMBS
 
 /* Define to 1 if you have the `_vsnprintf' function. */
 #undef HAVE__VSNPRINTF
@@ -197,10 +203,16 @@
 #undef LOG4CPLUS_HAVE_HTONS
 
 /* */
+#undef LOG4CPLUS_HAVE_LIMITS_H
+
+/* */
 #undef LOG4CPLUS_HAVE_LOCALTIME_R
 
 /* */
 #undef LOG4CPLUS_HAVE_LSTAT
+
+/* */
+#undef LOG4CPLUS_HAVE_MBSTOWCS
 
 /* */
 #undef LOG4CPLUS_HAVE_NETDB_H
@@ -225,6 +237,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_STDIO_H
+
+/* */
+#undef LOG4CPLUS_HAVE_STDLIB_H
 
 /* */
 #undef LOG4CPLUS_HAVE_SYSLOG_H
@@ -272,6 +287,9 @@
 #undef LOG4CPLUS_HAVE_WCHAR_H
 
 /* */
+#undef LOG4CPLUS_HAVE_WCSTOMBS
+
+/* */
 #undef LOG4CPLUS_HAVE__VSNPRINTF
 
 /* */
@@ -294,6 +312,10 @@
 
 /* */
 #undef LOG4CPLUS_USE_PTHREADS
+
+/* Define for C99 compilers/standard libraries that support more than just the
+   "C" locale. */
+#undef LOG4CPLUS_WORKING_C_LOCALE
 
 /* Define for compilers/standard libraries that support more than just the "C"
    locale. */

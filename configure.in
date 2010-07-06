@@ -20,7 +20,7 @@ AM_INIT_AUTOMAKE([1.10.1 no-define nostdinc gnu -Wall])
 LT_VERSION=0:0:0
 AC_SUBST([LT_VERSION])
 
-dnl Sane locale?
+dnl Use C++ std::locale and std::codecvt facet for string conversion.
 
 AH_TEMPLATE([LOG4CPLUS_WORKING_LOCALE],
   [Define for compilers/standard libraries that support more than
@@ -34,6 +34,22 @@ AC_ARG_WITH([working-locale],
 
 AS_IF([test "x$with_working_locale" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_WORKING_LOCALE], [1])],
+  [])
+
+dnl Use C99 wcsrtombs() etc. functions for string conversion.
+
+AH_TEMPLATE([LOG4CPLUS_WORKING_C_LOCALE],
+  [Define for C99 compilers/standard libraries that support more than
+   just the "C" locale.])
+
+AC_ARG_WITH([working-c-locale],
+  [AS_HELP_STRING([--with-working-c-locale],
+    [Use C99 locale facilities for char->wchar_t conversion.])],
+  [],
+  [with_working_c_locale=no])
+
+AS_IF([test "x$with_working_c_locale" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_WORKING_C_LOCALE], [1])],
   [])
 
 dnl Debugging or release build?
@@ -200,10 +216,12 @@ LOG4CPLUS_CHECK_HEADER([netinet/in.h], [LOG4CPLUS_HAVE_NETINET_IN_H])
 LOG4CPLUS_CHECK_HEADER([netdb.h], [LOG4CPLUS_HAVE_NETDB_H])
 LOG4CPLUS_CHECK_HEADER([unistd.h], [LOG4CPLUS_HAVE_UNISTD_H])
 LOG4CPLUS_CHECK_HEADER([stdio.h], [LOG4CPLUS_HAVE_STDIO_H])
-LOG4CPLUS_CHECK_HEADER([wchar.h], [LOG4CPLUS_HAVE_WCHAR_H])
 LOG4CPLUS_CHECK_HEADER([stdarg.h], [LOG4CPLUS_HAVE_STDARG_H])
+LOG4CPLUS_CHECK_HEADER([stdlib.h], [LOG4CPLUS_HAVE_STDLIB_H])
+LOG4CPLUS_CHECK_HEADER([wchar.h], [LOG4CPLUS_HAVE_WCHAR_H])
 LOG4CPLUS_CHECK_HEADER([time.h], [LOG4CPLUS_HAVE_TIME_H])
 LOG4CPLUS_CHECK_HEADER([errno.h], [LOG4CPLUS_HAVE_ERRNO_H])
+LOG4CPLUS_CHECK_HEADER([limits.h], [LOG4CPLUS_HAVE_LIMITS_H])
 
 dnl Checks for library functions.
 
@@ -219,6 +237,8 @@ LOG4CPLUS_CHECK_FUNCS([htons], [LOG4CPLUS_HAVE_HTONS])
 LOG4CPLUS_CHECK_FUNCS([ntohs], [LOG4CPLUS_HAVE_NTOHS])
 LOG4CPLUS_CHECK_FUNCS([htonl], [LOG4CPLUS_HAVE_HTONL])
 LOG4CPLUS_CHECK_FUNCS([ntohl], [LOG4CPLUS_HAVE_NTOHL])
+LOG4CPLUS_CHECK_FUNCS([mbstowcs], [LOG4CPLUS_HAVE_MBSTOWCS])
+LOG4CPLUS_CHECK_FUNCS([wcstombs], [LOG4CPLUS_HAVE_WCSTOMBS])
 
 dnl Various functions used by snprintf.cxx.
 

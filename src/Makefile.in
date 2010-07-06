@@ -82,8 +82,8 @@ am__objects_1 = appenderattachableimpl.lo appender.lo asyncappender.lo \
 	patternlayout.lo pointer.lo property.lo queue.lo rootlogger.lo \
 	sleep.lo snprintf.lo socketappender.lo socketbuffer.lo \
 	socket.lo socket-unix.lo socket-win32.lo stringhelper.lo \
-	stringhelper-cxxlocale.lo syncprims.lo syslogappender.lo \
-	threads.lo timehelper.lo tls.lo version.lo \
+	stringhelper-clocale.lo stringhelper-cxxlocale.lo syncprims.lo \
+	syslogappender.lo threads.lo timehelper.lo tls.lo version.lo \
 	win32consoleappender.lo win32debugappender.lo
 am__objects_2 = $(am__objects_1)
 am_liblog4cplus_la_OBJECTS = $(am__objects_2)
@@ -346,6 +346,7 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                       socket-unix.cxx \
                       socket-win32.cxx \
                       stringhelper.cxx \
+                      stringhelper-clocale.cxx \
                       stringhelper-cxxlocale.cxx \
                       syncprims.cxx \
                       syslogappender.cxx \
@@ -466,6 +467,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socketappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socketbuffer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stringhelper-clocale.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stringhelper-cxxlocale.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stringhelper.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/syncprims.Plo@am__quote@

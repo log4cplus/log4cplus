@@ -41,10 +41,16 @@
 #undef LOG4CPLUS_HAVE_STDIO_H
 
 /* */
+#undef LOG4CPLUS_HAVE_STDLIB_H
+
+/* */
 #undef LOG4CPLUS_HAVE_ERRNO_H
 
 /* */
 #undef LOG4CPLUS_HAVE_WCHAR_H
+
+/* */
+#undef LOG4CPLUS_HAVE_LIMITS_H
 
 /* */
 #undef LOG4CPLUS_HAVE_FTIME
@@ -97,6 +103,10 @@
 /* Define for compilers/standard libraries that support more than just the "C"
    locale. */
 #undef LOG4CPLUS_WORKING_LOCALE
+
+/* Define for C99 compilers/standard libraries that support more than just the
+   "C" locale. */
+#undef LOG4CPLUS_WORKING_C_LOCALE
 
 /* Define to int if undefined. */
 #undef socklen_t
@@ -160,5 +170,11 @@
 
 /* Defined if the compiler supports __PRETTY_FUNCTION__ macro. */
 #undef LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
+
+/* Define to 1 if you have the `mbstowcs' function. */
+#undef LOG4CPLUS_HAVE_MBSTOWCS
+
+/* Define to 1 if you have the `wcstombs' function. */
+#undef LOG4CPLUS_HAVE_WCSTOMBS
 
 #endif // LOG4CPLUS_CONFIG_DEFINES_HXX
