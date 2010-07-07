@@ -36,6 +36,8 @@
 #include <wchar.h>
 #endif
 
+#include <cstring>
+#include <cwchar>
 #include <cassert>
 
 
