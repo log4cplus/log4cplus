@@ -45,17 +45,13 @@
 #include <tchar.h>
 #endif
 #if defined (_WIN32_WCE)
-#include <windows.h>
+#include <log4cplus/config/windowsh-inc.h>
 #endif
 
 #include <algorithm>
 #include <cstdlib>
 #include <iterator>
 #include <sstream>
-#if defined (__BORLANDC__)
-// For _wgetnev() on Windows.
-#  include <stdlib.h>
-#endif
 
 
 namespace log4cplus
