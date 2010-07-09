@@ -344,22 +344,55 @@ log4cplus::helpers::towstring(char const * src)
 #endif // UNICODE
 
 
+namespace
+{
+
+
+struct toupper_func
+{
+    tchar
+    operator () (tchar ch) const
+    {
+#ifdef UNICODE
+#  if (defined(__MWERKS__) && defined(__MACOS__)) || defined (LOG4CPLUS_WORKING_LOCALE)
+        return std::towupper (ch);
+#  else
+        return ::towupper (ch);
+#  endif
+#else
+        return ::toupper (static_cast<unsigned char>(ch));
+#endif
+    }
+};
+
+
+struct tolower_func
+{
+    tchar
+    operator () (tchar ch) const
+    {
+#ifdef UNICODE
+#  if (defined(__MWERKS__) && defined(__MACOS__)) || defined (LOG4CPLUS_WORKING_LOCALE)
+        return std::towlower (ch);
+#  else
+        return ::towlower (ch);
+#  endif
+#else
+        return ::tolower (static_cast<unsigned char>(ch));
+#endif
+    }
+};
+
+
+} // namespace
+
+
 log4cplus::tstring
 log4cplus::helpers::toUpper(const log4cplus::tstring& s)
 {
     tstring ret;
     std::transform(s.begin(), s.end(),
-                   string_append_iterator<tstring>(ret),
-#ifdef UNICODE
-#  if (defined(__MWERKS__) && defined(__MACOS__)) || defined (LOG4CPLUS_WORKING_LOCALE)
-                   std::towupper);
-#  else
-                   ::towupper);
-#  endif
-#else
-                   ::toupper);
-#endif
-
+                   string_append_iterator<tstring>(ret), toupper_func ());
     return ret;
 }
 
@@ -369,16 +402,6 @@ log4cplus::helpers::toLower(const log4cplus::tstring& s)
 {
     tstring ret;
     std::transform(s.begin(), s.end(),
-                   string_append_iterator<tstring>(ret),
-#ifdef UNICODE
-#  if (defined(__MWERKS__) && defined(__MACOS__))
-                   std::towlower);
-#  else
-                   ::towlower);
-#  endif
-#else
-                   ::tolower);
-#endif
-
+                   string_append_iterator<tstring>(ret), tolower_func ());
     return ret;
 }
