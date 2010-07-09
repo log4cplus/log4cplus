@@ -46,7 +46,7 @@ is_space (tchar ch)
 #if defined (UNICODE)
     return std::iswspace (ch);
 #else
-    return std::isspace (ch);
+    return std::isspace (static_cast<unsigned char>(ch));
 #endif
 }
 
