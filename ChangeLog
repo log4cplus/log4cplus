@@ -1,3 +1,13 @@
+Version 1.0.4-RC10
+
+  - Removed %X{N} PatternLayout format specifier for NDC with limited
+    depth. Replaced it with NDCMaxDepth property.
+  - Improved compatibility with Windows CE.
+  - Fixed memory leak when using POSIX threads.
+  - Fixed leak of mutex used to synchronize gethostbyname() calls.
+  - Fixed problem with how std::toupper(), std::tolower() and
+    std::isspace() are used in non-Unicode builds.
+
 Version 1.0.4-RC9
 
   - Fixed compilation problem in timehelper.cxx.
