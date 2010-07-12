@@ -79,11 +79,11 @@ class LOG4CPLUS_EXPORT AbstractThread
 {
 public:
     AbstractThread();
-    bool isRunning() const { return running; }
+    bool isRunning() const { return (flags & fRUNNING) != 0; }
     LOG4CPLUS_THREAD_KEY_TYPE getThreadId() const;
     LOG4CPLUS_THREAD_HANDLE_TYPE getThreadHandle () const;
     virtual void start();
-    void join () const;
+    void join ();
 
 protected:
     // Force objects to be constructed on the heap
@@ -91,7 +91,13 @@ protected:
     virtual void run() = 0;
 
 private:
-    bool running;
+    enum Flags
+    {
+        fRUNNING  = 0x01,
+        fJOINED   = 0x02
+    };
+
+    unsigned flags;
 
     // Friends.
     friend struct ThreadStart;

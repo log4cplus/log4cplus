@@ -198,7 +198,7 @@ ThreadStart::threadStartFuncWorker(void * arg)
         {
             loglog->warn(LOG4CPLUS_TEXT("threadStartFunc()- run() terminated with an exception."));
         }
-        thread->running = false;
+        thread->flags &= ~AbstractThread::fRUNNING;
         getNDC().remove();
     }
 
@@ -212,7 +212,7 @@ ThreadStart::threadStartFuncWorker(void * arg)
 ///////////////////////////////////////////////////////////////////////////////
 
 AbstractThread::AbstractThread()
-    : running(false)
+    : flags (0)
 #if defined(LOG4CPLUS_USE_WIN32_THREADS)
     , handle (INVALID_HANDLE_VALUE)
 #endif
@@ -224,8 +224,8 @@ AbstractThread::AbstractThread()
 AbstractThread::~AbstractThread()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
-    if (! pthread_equal (pthread_self (), handle))
-        pthread_join (handle, 0);
+    if ((flags & fJOINED) == 0)
+        pthread_detach (handle);
 
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     if (handle != INVALID_HANDLE_VALUE)
@@ -243,7 +243,7 @@ AbstractThread::~AbstractThread()
 void
 AbstractThread::start()
 {
-    running = true;
+    flags |= fRUNNING;
 
     // Increase reference count here. It will be lowered by the running
     // thread itself.
@@ -253,6 +253,7 @@ AbstractThread::start()
     if (pthread_create(&handle, NULL, threadStartFunc, this) )
     {
         removeReference ();
+        flags &= ~fRUNNING;
         throw std::runtime_error("Thread creation was not successful");
     }
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
@@ -269,6 +270,7 @@ AbstractThread::start()
     if (! h)
     {
         removeReference ();
+        flags &= ~fRUNNING;
         throw std::runtime_error("Thread creation was not successful");
     }
     h = InterlockedExchangePointer (&handle, h);
@@ -296,13 +298,14 @@ AbstractThread::getThreadHandle () const
 
 
 void
-AbstractThread::join () const
+AbstractThread::join ()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
     pthread_join (handle, 0);
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     ::WaitForSingleObject (handle, INFINITE);
 #endif
+    flags |= fJOINED;
 }
 
 
