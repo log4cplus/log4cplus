@@ -184,22 +184,22 @@ struct tolower_func
 } // namespace
 
 
-log4cplus::tstring
+tstring
 toUpper(const tstring& s)
 {
     tstring ret;
-    std::transform(s.begin(), s.end(),std::back_inserter (ret),
+    std::transform(s.begin(), s.end(), std::back_inserter (ret),
         toupper_func ());
     return ret;
 }
 
 
-log4cplus::tstring
+tstring
 toLower(const tstring& s)
 {
     tstring ret;
     std::transform(s.begin(), s.end(), std::back_inserter (ret),
-         tolower_func ());
+        tolower_func ());
     return ret;
 }
 
