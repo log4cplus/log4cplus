@@ -141,40 +141,65 @@ towstring(char const * src)
 #endif // UNICODE
 
 
-tstring
-toUpper(const log4cplus::tstring& s)
+namespace
 {
-    tstring ret;
-    std::transform(s.begin(), s.end(), std::back_inserter (ret),
+
+
+struct toupper_func
+{
+    tchar
+    operator () (tchar ch) const
+    {
 #ifdef UNICODE
 #  if (defined(__MWERKS__) && defined(__MACOS__)) || defined (LOG4CPLUS_WORKING_LOCALE)
-                   std::towupper);
+        return std::towupper (ch);
 #  else
-                   ::towupper);
+        return ::towupper (ch);
 #  endif
 #else
-                   ::toupper);
+        return ::toupper (static_cast<unsigned char>(ch));
 #endif
+    }
+};
 
+
+struct tolower_func
+{
+    tchar
+    operator () (tchar ch) const
+    {
+#ifdef UNICODE
+#  if (defined(__MWERKS__) && defined(__MACOS__)) || defined (LOG4CPLUS_WORKING_LOCALE)
+        return std::towlower (ch);
+#  else
+        return ::towlower (ch);
+#  endif
+#else
+        return ::tolower (static_cast<unsigned char>(ch));
+#endif
+    }
+};
+
+
+} // namespace
+
+
+log4cplus::tstring
+toUpper(const tstring& s)
+{
+    tstring ret;
+    std::transform(s.begin(), s.end(),std::back_inserter (ret),
+        toupper_func ());
     return ret;
 }
 
 
-tstring
+log4cplus::tstring
 toLower(const tstring& s)
 {
     tstring ret;
     std::transform(s.begin(), s.end(), std::back_inserter (ret),
-#ifdef UNICODE
-#  if (defined(__MWERKS__) && defined(__MACOS__))
-                   std::towlower);
-#  else
-                   ::towlower);
-#  endif
-#else
-                   ::tolower);
-#endif
-
+         tolower_func ());
     return ret;
 }
 
