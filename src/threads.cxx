@@ -160,7 +160,7 @@ ThreadStart::threadStartFuncWorker(void * arg)
         {
             loglog->warn(LOG4CPLUS_TEXT("threadStartFunc()- run() terminated with an exception."));
         }
-        thread->running = false;
+        thread->flags &= ~Thread::fRUNNING;
     }
 
     threadCleanup ();
@@ -170,7 +170,7 @@ ThreadStart::threadStartFuncWorker(void * arg)
 
 
 Thread::Thread()
-    : running(false)
+    : flags (0)
 #if defined(LOG4CPLUS_USE_WIN32_THREADS)
     , handle (INVALID_HANDLE_VALUE)
 #endif
@@ -180,9 +180,14 @@ Thread::Thread()
 
 Thread::~Thread()
 {
-#if defined(LOG4CPLUS_USE_WIN32_THREADS)
+#if defined(LOG4CPLUS_USE_PTHREADS)
+    if ((flags & fJOINED) == 0)
+        pthread_detach (handle);
+
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     if (handle != INVALID_HANDLE_VALUE)
         ::CloseHandle (handle);
+
 #endif
 }
 
@@ -190,7 +195,7 @@ Thread::~Thread()
 void
 Thread::start()
 {
-    running = true;
+    flags |= fRUNNING;
 
     // Increase reference count here. It will be lowered by the running
     // thread itself.
@@ -200,6 +205,7 @@ Thread::start()
     if (pthread_create(&handle, NULL, threadStartFunc, this) )
     {
         removeReference ();
+        flags &= ~fRUNNING;
         log4cplus::helpers::LogLog::getLogLog ()->error (
             LOG4CPLUS_TEXT ("Thread creation was not successful"), true);
     }
@@ -217,6 +223,7 @@ Thread::start()
     if (! h)
     {
         removeReference ();
+        flags &= ~fRUNNING;
         log4cplus::helpers::LogLog::getLogLog ()->error (
             LOG4CPLUS_TEXT ("Thread creation was not successful"), true);
     }
@@ -229,7 +236,7 @@ Thread::start()
 bool
 Thread::isRunning() const
 {
-    return running;
+    return (flags & fRUNNING) != 0;
 }
 
 
@@ -252,13 +259,14 @@ Thread::getThreadHandle () const
 
 
 void
-Thread::join () const
+Thread::join ()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
     pthread_join (handle, 0);
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     ::WaitForSingleObject (handle, INFINITE);
 #endif
+    flags |= fJOINED;
 }
 
 

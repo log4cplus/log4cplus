@@ -112,7 +112,7 @@ public:
     os_id_type getThreadId() const;
     os_handle_type getThreadHandle () const;
     void start();
-    void join () const;
+    void join ();
 
 protected:
     // Force objects to be constructed on the heap
@@ -123,7 +123,14 @@ private:
     // Friends.
     friend struct ThreadStart;
 
-    bool running;
+    enum Flags
+    {
+        fRUNNING  = 0x01,
+        fJOINED   = 0x02
+    };
+
+    unsigned flags;
+
     os_handle_type handle;
 
 #  if defined(LOG4CPLUS_USE_WIN32_THREADS)
