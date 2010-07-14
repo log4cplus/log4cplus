@@ -102,17 +102,27 @@ namespace log4cplus {
 
 
         private:
+            enum TriState
+            {
+                TriUndef = -1,
+                TriFalse,
+                TriTrue
+            };
+
             template <typename StringType>
             void logging_worker (tostream & os,
                 bool (LogLog:: * cond) () const, tchar const *,
                 StringType const &, bool throw_flag = false) const;
 
+            static void set_tristate_from_env (TriState *,
+                tchar const * envvar);
+
             bool get_quiet_mode () const;
             bool get_debug_mode () const;
 
           // Data
-            bool debugEnabled;
-            bool quietMode;
+            mutable TriState debugEnabled;
+            mutable TriState quietMode;
 
             LogLog(const LogLog&);
             LogLog & operator = (LogLog const &);

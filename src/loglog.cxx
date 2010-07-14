@@ -22,6 +22,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/thread/threads.h>
+#include <log4cplus/internal/env.h>
 #include <ostream>
 #include <stdexcept>
 
@@ -46,8 +47,8 @@ LogLog::getLogLog()
 
 
 LogLog::LogLog()
-    : debugEnabled(false)
-    , quietMode(false)
+    : debugEnabled(TriUndef)
+    , quietMode(TriUndef)
 { }
 
 
@@ -58,14 +59,14 @@ LogLog::~LogLog()
 void
 LogLog::setInternalDebugging(bool enabled)
 {
-    debugEnabled = enabled;
+    debugEnabled = enabled ? TriTrue : TriFalse;
 }
 
 
 void
 LogLog::setQuietMode(bool quietModeVal)
 {
-    quietMode = quietModeVal;
+    quietMode = quietModeVal ? TriTrue : TriFalse;
 }
 
 
@@ -116,14 +117,35 @@ LogLog::error(tchar const * msg, bool throw_flag) const
 bool
 LogLog::get_quiet_mode () const
 {
-    return quietMode;
+    if (quietMode == TriUndef)
+        set_tristate_from_env (&quietMode,
+            LOG4CPLUS_TEXT ("LOG4CPLUS_LOGLOG_QUIETMODE"));
+
+    return quietMode == TriTrue;
 }
 
 
 bool
 LogLog::get_debug_mode () const
 {
-    return debugEnabled && ! quietMode;
+    if (debugEnabled == TriUndef)
+        set_tristate_from_env (&debugEnabled,
+            LOG4CPLUS_TEXT ("LOG4CPLUS_LOGLOG_DEBUGENABLED"));
+
+    return debugEnabled && ! get_quiet_mode ();
+}
+
+
+void
+LogLog::set_tristate_from_env (TriState * result, tchar const * envvar_name)
+{
+    tstring envvar_value;
+    bool exists = internal::get_env_var (envvar_value, envvar_name);
+    bool value = false;
+    if (exists && internal::parse_bool (value, envvar_value) && value)
+        *result = TriTrue;
+    else
+        *result = TriFalse;
 }
 
 
