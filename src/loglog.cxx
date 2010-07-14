@@ -87,21 +87,21 @@ LogLog::debug(tchar const * msg) const
 void
 LogLog::warn(const log4cplus::tstring& msg) const
 {
-    logging_worker (tcerr, &LogLog::get_quiet_mode, WARN_PREFIX, msg);
+    logging_worker (tcerr, &LogLog::get_not_quiet_mode, WARN_PREFIX, msg);
 }
 
 
 void
 LogLog::warn(tchar const * msg) const
 {
-    logging_worker (tcerr, &LogLog::get_quiet_mode, WARN_PREFIX, msg);
+    logging_worker (tcerr, &LogLog::get_not_quiet_mode, WARN_PREFIX, msg);
 }
 
 
 void
 LogLog::error(const log4cplus::tstring& msg, bool throw_flag) const
 {
-    logging_worker (tcerr, &LogLog::get_quiet_mode, ERR_PREFIX, msg,
+    logging_worker (tcerr, &LogLog::get_not_quiet_mode, ERR_PREFIX, msg,
         throw_flag);
 }
 
@@ -109,7 +109,7 @@ LogLog::error(const log4cplus::tstring& msg, bool throw_flag) const
 void
 LogLog::error(tchar const * msg, bool throw_flag) const
 {
-    logging_worker (tcerr, &LogLog::get_quiet_mode, ERR_PREFIX, msg,
+    logging_worker (tcerr, &LogLog::get_not_quiet_mode, ERR_PREFIX, msg,
         throw_flag);
 }
 
@@ -122,6 +122,13 @@ LogLog::get_quiet_mode () const
             LOG4CPLUS_TEXT ("LOG4CPLUS_LOGLOG_QUIETMODE"));
 
     return quietMode == TriTrue;
+}
+
+
+bool
+LogLog::get_not_quiet_mode () const
+{
+    return ! get_quiet_mode ();
 }
 
 
