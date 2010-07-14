@@ -74,14 +74,15 @@ libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 liblog4cplus_la_LIBADD =
 am__objects_1 = appenderattachableimpl.lo appender.lo asyncappender.lo \
-	configurator.lo consoleappender.lo factory.lo fileappender.lo \
-	filter.lo global-init.lo hierarchy.lo hierarchylocker.lo \
-	layout.lo logger.lo loggerimpl.lo loggingevent.lo \
-	loggingmacros.lo loglevel.lo loglog.lo logloguser.lo mdc.lo \
-	ndc.lo nullappender.lo nteventlogappender.lo objectregistry.lo \
-	patternlayout.lo pointer.lo property.lo queue.lo rootlogger.lo \
-	sleep.lo snprintf.lo socketappender.lo socketbuffer.lo \
-	socket.lo socket-unix.lo socket-win32.lo stringhelper.lo \
+	configurator.lo consoleappender.lo env.lo factory.lo \
+	fileappender.lo filter.lo global-init.lo hierarchy.lo \
+	hierarchylocker.lo layout.lo logger.lo loggerimpl.lo \
+	loggingevent.lo loggingmacros.lo loglevel.lo loglog.lo \
+	logloguser.lo mdc.lo ndc.lo nullappender.lo \
+	nteventlogappender.lo objectregistry.lo patternlayout.lo \
+	pointer.lo property.lo queue.lo rootlogger.lo sleep.lo \
+	snprintf.lo socketappender.lo socketbuffer.lo socket.lo \
+	socket-unix.lo socket-win32.lo stringhelper.lo \
 	stringhelper-clocale.lo stringhelper-cxxlocale.lo syncprims.lo \
 	syslogappender.lo threads.lo timehelper.lo tls.lo version.lo \
 	win32consoleappender.lo win32debugappender.lo
@@ -273,6 +274,7 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
                          ../include/log4cplus/helpers/timehelper.h \
                          ../include/log4cplus/hierarchy.h \
                          ../include/log4cplus/hierarchylocker.h \
+                         ../include/log4cplus/internal/env.h \
                          ../include/log4cplus/internal/internal.h \
                          ../include/log4cplus/internal/socket.h \
                          ../include/log4cplus/layout.h \
@@ -314,6 +316,7 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                       asyncappender.cxx \
                       configurator.cxx \
                       consoleappender.cxx \
+                      env.cxx \
                       factory.cxx \
                       fileappender.cxx \
                       filter.cxx \
@@ -436,6 +439,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/asyncappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/configurator.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/consoleappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/env.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/factory.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filter.Plo@am__quote@

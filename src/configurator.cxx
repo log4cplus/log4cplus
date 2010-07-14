@@ -30,6 +30,7 @@
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggerimpl.h>
+#include <log4cplus/internal/env.h>
 
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -67,28 +68,6 @@ namespace
     static tchar const DELIM_STOP[] = LOG4CPLUS_TEXT("}");
     static std::size_t const DELIM_START_LEN = 2;
     static std::size_t const DELIM_STOP_LEN = 1;
-
-
-    static
-    void
-    get_env_var (tstring & value, tstring const & name)
-    {
-#if defined (_WIN32_WCE)
-        // Nothing to do here. Windows CE does not have environment variables.
-
-#elif defined (WIN32) && defined (UNICODE)
-        tchar const * val = _wgetenv (name.c_str ());
-        if (val)
-            value = val;
-
-#else
-        char const * val
-            = std::getenv (LOG4CPLUS_TSTRING_TO_STRING (name).c_str ());
-        if (val)
-            value = LOG4CPLUS_STRING_TO_TSTRING (val);
-
-#endif
-    }
 
 
     struct file_info
@@ -227,7 +206,7 @@ namespace
             if (shadow_env)
                 replacement = props.getProperty (key);
             if (! shadow_env || (! empty_vars && replacement.empty ()))
-                get_env_var (replacement, key);
+                internal::get_env_var (replacement, key);
             
             if (empty_vars || ! replacement.empty ())
             {

@@ -35,6 +35,7 @@ nobase_include_HEADERS = ../include/log4cplus/appender.h \
                          ../include/log4cplus/helpers/timehelper.h \
                          ../include/log4cplus/hierarchy.h \
                          ../include/log4cplus/hierarchylocker.h \
+                         ../include/log4cplus/internal/env.h \
                          ../include/log4cplus/internal/internal.h \
                          ../include/log4cplus/internal/socket.h \
                          ../include/log4cplus/layout.h \
@@ -76,6 +77,7 @@ SINGLE_THREADED_SRC = appenderattachableimpl.cxx \
                       asyncappender.cxx \
                       configurator.cxx \
                       consoleappender.cxx \
+                      env.cxx \
                       factory.cxx \
                       fileappender.cxx \
                       filter.cxx \

@@ -31,6 +31,7 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/internal/env.h>
 
 
 namespace log4cplus { namespace helpers {
@@ -288,35 +289,7 @@ Properties::getBool (bool & val, log4cplus::tstring const & key) const
         return false;
 
     log4cplus::tstring const & prop_val = getProperty (key);
-    log4cplus::tistringstream iss (prop_val);
-
-    log4cplus::tstring word;
-    if (! (iss >> word))
-        return false;
-    tchar ch;
-    if (iss >> ch)
-        return false;
-    word = helpers::toLower (word);
-
-    bool result = true;
-    if (word == LOG4CPLUS_TEXT ("true"))
-        val = true;
-    else if (word == LOG4CPLUS_TEXT ("false"))
-        val = false;
-    else
-    {
-        iss.clear ();
-        iss.seekg (0);
-        assert (iss);
-
-        long lval;
-        iss >> lval;
-        result = !! iss && ! (iss >> ch);
-        if (result)
-            val = !! lval;
-    }
-
-    return result;
+    return internal::parse_bool (val, prop_val);
 }
 
 

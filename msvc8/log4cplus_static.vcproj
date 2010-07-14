@@ -2058,6 +2058,14 @@
 			Name="internal"
 			>
 			<File
+				RelativePath="..\src\env.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\internal\env.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\log4cplus\internal\internal.h"
 				>
 			</File>
