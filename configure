@@ -22275,7 +22275,7 @@ ac_config_headers="$ac_config_headers include/log4cplus/config.h"
 
 ac_config_headers="$ac_config_headers include/log4cplus/config/defines.hxx"
 
-ac_config_files="$ac_config_files Makefile src/Makefile loggingserver/Makefile tests/Makefile tests/appender_test/Makefile tests/configandwatch_test/Makefile tests/customloglevel_test/Makefile tests/fileappender_test/Makefile tests/filter_test/Makefile tests/hierarchy_test/Makefile tests/loglog_test/Makefile tests/ndc_test/Makefile tests/ostream_test/Makefile tests/patternlayout_test/Makefile tests/performance_test/Makefile tests/priority_test/Makefile tests/propertyconfig_test/Makefile tests/socket_test/Makefile tests/thread_test/Makefile tests/timeformat_test/Makefile"
+ac_config_files="$ac_config_files Makefile include/Makefile src/Makefile loggingserver/Makefile tests/Makefile tests/appender_test/Makefile tests/configandwatch_test/Makefile tests/customloglevel_test/Makefile tests/fileappender_test/Makefile tests/filter_test/Makefile tests/hierarchy_test/Makefile tests/loglog_test/Makefile tests/ndc_test/Makefile tests/ostream_test/Makefile tests/patternlayout_test/Makefile tests/performance_test/Makefile tests/priority_test/Makefile tests/propertyconfig_test/Makefile tests/socket_test/Makefile tests/thread_test/Makefile tests/timeformat_test/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -23271,6 +23271,7 @@ do
     "include/log4cplus/config.h") CONFIG_HEADERS="$CONFIG_HEADERS include/log4cplus/config.h" ;;
     "include/log4cplus/config/defines.hxx") CONFIG_HEADERS="$CONFIG_HEADERS include/log4cplus/config/defines.hxx" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+    "include/Makefile") CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "loggingserver/Makefile") CONFIG_FILES="$CONFIG_FILES loggingserver/Makefile" ;;
     "tests/Makefile") CONFIG_FILES="$CONFIG_FILES tests/Makefile" ;;
