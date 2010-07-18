@@ -1,5 +1,7 @@
 Version 1.0.4-RC10
 
+  - Fixed bug #3030133. Make Autoconf/Automake build system to respect
+    provided --includedir= value.
   - Removed %X{N} PatternLayout format specifier for NDC with limited
     depth. Replaced it with NDCMaxDepth property.
   - Improved compatibility with Windows CE.
