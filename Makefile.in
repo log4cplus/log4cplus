@@ -223,7 +223,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 EXTRA_DIST = ChangeLog
-SUBDIRS = src loggingserver tests
+SUBDIRS = include src loggingserver tests
 all: all-recursive
 
 .SUFFIXES:
