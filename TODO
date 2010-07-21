@@ -11,6 +11,10 @@ order:
 
 - Reading log4j-like XML configuration files.
 
-- More flexible events format for transport (ASN.1?, XML?).
+- More flexible events format for transport over network. ASN.1? XML?
+  YAML? JSON?.
 
 - Syslog appender capable of logging using UDP to another host.
+
+- Modular PatternLayout; public PatternConverter classes; user defined
+  format specifiers.
