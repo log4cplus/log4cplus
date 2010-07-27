@@ -299,7 +299,7 @@ Hierarchy::updateParents(Logger logger)
 
     // if name = "w.x.y.z", loop thourgh "w.x.y", "w.x" and "w", but not "w.x.y.z"
     for(size_t i=name.find_last_of(LOG4CPLUS_TEXT('.'), length-1); 
-        i != log4cplus::tstring::npos; 
+        i != log4cplus::tstring::npos && i > 0; 
         i = name.find_last_of(LOG4CPLUS_TEXT('.'), i-1)) 
     {
         log4cplus::tstring substr = name.substr(0, i);
