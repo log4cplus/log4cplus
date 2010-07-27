@@ -710,8 +710,10 @@ ConfigurationWatchDogThread::checkForFileModification()
     if (!modified && fi.is_link)
     {
         struct stat fileStatus;
-        lstat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
-            &fileStatus);
+        if (lstat(LOG4CPLUS_TSTRING_TO_STRING(propertyFilename).c_str(),
+                &fileStatus) == -1)
+            return false;
+
         helpers::Time linkModTime(fileStatus.st_mtime);
         modified = (linkModTime > lastModTime);
     }
