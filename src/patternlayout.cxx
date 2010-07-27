@@ -543,10 +543,18 @@ log4cplus::pattern::PatternParser::extractOption()
         && (pattern[pos] == LOG4CPLUS_TEXT('{'))) 
     {
         tstring::size_type end = pattern.find_first_of(LOG4CPLUS_TEXT('}'), pos);
-        if (end > pos) {
+        if (end != tstring::npos) {
             log4cplus::tstring r = pattern.substr(pos + 1, end - pos - 1);
             pos = end + 1;
             return r;
+        }
+        else {
+            log4cplus::tostringstream buf;
+            buf << LOG4CPLUS_TEXT("No matching '}' found in conversion pattern string \"")
+                << pattern
+                << LOG4CPLUS_TEXT("\"");
+            getLogLog().error(buf.str());
+            pos = pattern.length();
         }
     }
 
