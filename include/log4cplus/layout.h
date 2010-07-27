@@ -177,16 +177,16 @@ namespace log4cplus {
      * Let the conversion pattern be <b>"%-5p [%t]: %m%n"</b> and assume
      * that the log4cplus environment was set to use a PatternLayout. Then the
      * statements
-     * <pre>
+     * <code><pre>
      * Logger root = Logger.getRoot();
      * LOG4CPLUS_DEBUG(root, "Message 1");
      * LOG4CPLUS_WARN(root, "Message 2");
-     * </pre>
+     * </pre></code>
      * would yield the output
-     * <pre>
+     * <tt><pre>
      * DEBUG [main]: Message 1
      * WARN  [main]: Message 2  
-     * </pre>
+     * </pre></tt>
      * 
      * Note that there is no explicit separator between text and
      * conversion specifiers. The pattern parser knows when it has reached
@@ -203,7 +203,14 @@ namespace log4cplus {
      * <td>Conversion Character</td>
      * <td>Effect</td>
      * </tr>
-     * 
+     *
+     * <tr>
+     *   <td align=center><b>b</b></td>
+     *
+     *   <td>Used to output file name component of path name.
+     *   E.g. <tt>main.cxx</tt> from path <tt>../../main.cxx</tt>.</td>
+     * </tr>
+     *
      * <tr>
      *   <td align=center><b>c</b></td>
      * 
@@ -374,14 +381,6 @@ namespace log4cplus {
      *   </td>     
      * </tr>
      *
-     * <tr>
-     *   <td align=center><b>X{N}</b></td>
-     * 
-     *   <td>Like <b>%x</b> but with limit of NDC depth specified
-     *   as precision, e.g. <code>%X{3}</code>. Using N = 0 is equivalent to
-     *   using <code>%x</code>.</td>
-     * </tr>
-     * 
      * <tr>
      *   <td align=center><b>"%%"</b></td>
      *   <td>The sequence "%%" outputs a single percent sign.
