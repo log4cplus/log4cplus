@@ -65,6 +65,25 @@ get_process_id ()
 
 #endif
 
+
+static
+log4cplus::tstring
+get_basename (const log4cplus::tstring& filename)
+{
+#if defined(_WIN32)
+    log4cplus::tchar const dir_sep(LOG4CPLUS_TEXT('\\'));
+#else
+    log4cplus::tchar const dir_sep(LOG4CPLUS_TEXT('/'));
+#endif
+
+    log4cplus::tstring::size_type pos = filename.rfind(dir_sep);
+    if (pos != log4cplus::tstring::npos)
+        return filename.substr(pos+1);
+    else
+        return filename;
+}
+
+
 } // namespace
 
 
@@ -148,6 +167,7 @@ namespace log4cplus {
                         NDC_CONVERTER,
                         MESSAGE_CONVERTER,
                         NEWLINE_CONVERTER,
+                        BASENAME_CONVERTER,
                         FILE_CONVERTER,
                         LINE_CONVERTER,
                         FULL_LOCATION_CONVERTER };
@@ -370,6 +390,7 @@ log4cplus::pattern::BasicPatternConverter::convert
     case NDC_CONVERTER:      return event.getNDC();
     case MESSAGE_CONVERTER:  return event.getMessage();
     case NEWLINE_CONVERTER:  return LOG4CPLUS_TEXT("\n");
+    case BASENAME_CONVERTER: return get_basename(event.getFile());
     case FILE_CONVERTER:     return event.getFile();
     case THREAD_CONVERTER:   return event.getThread(); 
     case PROCESS_CONVERTER:  return convertIntegerToString(get_process_id ()); 
@@ -692,6 +713,14 @@ log4cplus::pattern::PatternParser::finalizeConverter(log4cplus::tchar c)
 {
     PatternConverter* pc = 0;
     switch (c) {
+        case LOG4CPLUS_TEXT('b'):
+            pc = new BasicPatternConverter
+                          (formattingInfo, 
+                           BasicPatternConverter::BASENAME_CONVERTER);
+            //getLogLog().debug("BASENAME converter.");
+            //formattingInfo.dump(getLogLog());      
+            break;
+            
         case LOG4CPLUS_TEXT('c'):
             pc = new LoggerPatternConverter(formattingInfo, 
                                             extractPrecisionOption());
