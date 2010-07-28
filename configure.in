@@ -211,6 +211,7 @@ LOG4CPLUS_CHECK_HEADER([sys/socket.h], [LOG4CPLUS_HAVE_SYS_SOCKET_H])
 LOG4CPLUS_CHECK_HEADER([sys/time.h], [LOG4CPLUS_HAVE_SYS_TIME_H])
 LOG4CPLUS_CHECK_HEADER([sys/timeb.h], [LOG4CPLUS_HAVE_SYS_TIMEB_H])
 LOG4CPLUS_CHECK_HEADER([sys/stat.h], [LOG4CPLUS_HAVE_SYS_STAT_H])
+LOG4CPLUS_CHECK_HEADER([sys/syscall.h], [LOG4CPLUS_HAVE_SYS_SYSCALL_H])
 LOG4CPLUS_CHECK_HEADER([syslog.h], [LOG4CPLUS_HAVE_SYSLOG_H])
 LOG4CPLUS_CHECK_HEADER([netinet/in.h], [LOG4CPLUS_HAVE_NETINET_IN_H])
 LOG4CPLUS_CHECK_HEADER([netdb.h], [LOG4CPLUS_HAVE_NETDB_H])
@@ -281,6 +282,17 @@ AH_TEMPLATE([LOG4CPLUS_HAVE_GETHOSTBYNAME_R])
 AX_GETHOSTBYNAME_R
 AS_IF([test "x$ax_cv_have_gethostbyname_r" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_HAVE_GETHOSTBYNAME_R])])
+
+AH_TEMPLATE([LOG4CPLUS_HAVE_GETTID])
+AC_CACHE_CHECK([for gettid], [ax_cv_have_gettid],
+  [AC_COMPILE_IFELSE(
+    [AC_LANG_PROGRAM([#include <sys/types.h>
+#include <sys/syscall.h>
+#include <unistd.h>], [int rv = syscall(SYS_gettid);])],
+    [ax_cv_have_gettid=yes],
+    [ax_cv_have_gettid=no])])
+AS_IF([test "x$ax_cv_have_gettid" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_HAVE_GETTID])])
 
 dnl Check for the existance of type socklen_t.
 TYPE_SOCKLEN_T

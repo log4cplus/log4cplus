@@ -32,6 +32,7 @@ namespace log4cplus { namespace thread {
 
 
 LOG4CPLUS_EXPORT log4cplus::tstring const & getCurrentThreadName();
+LOG4CPLUS_EXPORT log4cplus::tstring const & getCurrentThreadName2();
 LOG4CPLUS_EXPORT void yield();
 LOG4CPLUS_EXPORT void blockAllSignals();
 

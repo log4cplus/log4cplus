@@ -22,8 +22,20 @@
 
 #include <exception>
 
+#ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+
+#ifdef LOG4CPLUS_HAVE_SYS_SYSCALL_H
+#include <sys/syscall.h>
+#endif
+
 #ifdef LOG4CPLUS_HAVE_ERRNO_H
 #include <errno.h>
+#endif
+
+#ifdef LOG4CPLUS_HAVE_UNISTD_H
+#include <unistd.h>
 #endif
 
 #if defined(LOG4CPLUS_USE_PTHREADS)
@@ -97,6 +109,60 @@ getCurrentThreadName()
 
     return name;
 }
+
+
+namespace
+{
+
+
+static
+bool
+get_current_thread_name_alt (log4cplus::tostringstream * s)
+{
+    log4cplus::tostringstream & os = *s;
+
+#if defined (LOG4CPLUS_USE_PTHREADS) && defined (__linux__) \
+    && defined (LOG4CPLUS_HAVE_GETTID)
+    pid_t tid = syscall (SYS_gettid);
+    os << std::hex << tid;
+
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS) || defined (__CYGWIN__)
+    DWORD tid = GetCurrentThreadId ();
+    os << tid;
+    
+#else
+    os << getCurrentThreadName ();
+
+#endif
+
+    return true;
+}
+
+
+} // namespace
+
+
+LOG4CPLUS_EXPORT
+log4cplus::tstring const &
+getCurrentThreadName2()
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    log4cplus::tstring & name = log4cplus::internal::get_thread_name2_str ();
+    if (name.empty ())
+    {
+        log4cplus::tostringstream tmp;
+        get_current_thread_name_alt (&tmp);
+        tmp.str ().swap (name);
+    }
+
+#else
+    static log4cplus::tstring const name (getCurrentThreadName ());
+
+#endif
+
+    return name;
+}
+
 
 } } // namespace log4cplus { namespace thread {
 

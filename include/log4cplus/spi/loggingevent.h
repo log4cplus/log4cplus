@@ -149,6 +149,19 @@ namespace log4cplus {
                 return thread; 
             }
 
+            //! The alternative name of thread in which this logging event
+            //! was generated.
+            const log4cplus::tstring& getThread2() const
+            {
+                if (! thread2Cached)
+                {
+                    thread2 = thread::getCurrentThreadName2 ();
+                    thread2Cached = true;
+                }
+                return thread2; 
+            }
+
+
             /** The number of milliseconds elapsed from 1/1/1970 until
              *  logging event was created. */
             const log4cplus::helpers::Time& getTimestamp() const
@@ -189,12 +202,14 @@ namespace log4cplus {
             mutable log4cplus::tstring ndc;
             mutable MappedDiagnosticContextMap mdc;
             mutable log4cplus::tstring thread;
+            mutable log4cplus::tstring thread2;
             log4cplus::helpers::Time timestamp;
             log4cplus::tstring file;
             log4cplus::tstring function;
             int line;
             /** Indicates whether or not the Threadname has been retrieved. */
             mutable bool threadCached;
+            mutable bool thread2Cached;
             /** Indicates whether or not the NDC has been retrieved. */
             mutable bool ndcCached;
             /** Indicates whether or not the MDC has been retrieved. */

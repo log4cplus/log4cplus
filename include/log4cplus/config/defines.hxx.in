@@ -23,6 +23,9 @@
 #undef LOG4CPLUS_HAVE_SYS_STAT_H
 
 /* */
+#undef LOG4CPLUS_HAVE_SYS_SYSCALL_H
+
+/* */
 #undef LOG4CPLUS_HAVE_TIME_H
 
 /* */
@@ -176,5 +179,8 @@
 
 /* Define to 1 if you have the `wcstombs' function. */
 #undef LOG4CPLUS_HAVE_WCSTOMBS
+
+/* Define to 1 if you have Linux style syscall(SYS_gettid). */
+#undef LOG4CPLUS_HAVE_GETTID
 
 #endif // LOG4CPLUS_CONFIG_DEFINES_HXX

@@ -188,6 +188,9 @@
 #undef LOG4CPLUS_HAVE_GETPID
 
 /* */
+#undef LOG4CPLUS_HAVE_GETTID
+
+/* */
 #undef LOG4CPLUS_HAVE_GETTIMEOFDAY
 
 /* */
@@ -249,6 +252,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_SYS_STAT_H
+
+/* */
+#undef LOG4CPLUS_HAVE_SYS_SYSCALL_H
 
 /* */
 #undef LOG4CPLUS_HAVE_SYS_TIMEB_H

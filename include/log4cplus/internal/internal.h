@@ -111,6 +111,7 @@ struct per_thread_data
     DiagnosticContextStack ndc_dcs;
     MappedDiagnosticContextMap mdc_map;
     log4cplus::tstring thread_name;
+    log4cplus::tstring thread_name2;
     gft_scratch_pad gft_sp;
     appender_sratch_pad appender_sp;
     log4cplus::tstring faa_str;
@@ -197,6 +198,14 @@ tstring &
 get_thread_name_str ()
 {
     return get_ptd ()->thread_name;
+}
+
+
+inline
+tstring &
+get_thread_name2_str ()
+{
+    return get_ptd ()->thread_name2;
 }
 
 

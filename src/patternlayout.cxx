@@ -147,6 +147,7 @@ class BasicPatternConverter
 {
 public:
     enum Type { THREAD_CONVERTER,
+                THREAD2_CONVERTER,
                 PROCESS_CONVERTER,
                 LOGLEVEL_CONVERTER,
                 NDC_CONVERTER,
@@ -416,6 +417,10 @@ BasicPatternConverter::convert(tstring & result,
 
     case THREAD_CONVERTER:
         result = event.getThread();
+        return;
+
+    case THREAD2_CONVERTER:
+        result = event.getThread2();
         return;
 
     case LINE_CONVERTER:
@@ -869,6 +874,14 @@ PatternParser::finalizeConverter(tchar c)
                            BasicPatternConverter::THREAD_CONVERTER);
             //getLogLog().debug("THREAD converter.");
             //formattingInfo.dump(getLogLog());      
+            break;
+
+        case LOG4CPLUS_TEXT('T'):
+            pc = new BasicPatternConverter
+                          (formattingInfo,
+                           BasicPatternConverter::THREAD2_CONVERTER);
+            //getLogLog().debug("THREAD2 converter.");
+            //formattingInfo.dump(getLogLog());
             break;
 
         case LOG4CPLUS_TEXT('x'):

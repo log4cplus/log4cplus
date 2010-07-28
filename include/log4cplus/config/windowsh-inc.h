@@ -29,9 +29,13 @@
 
 // NOTE: This file is a fragment intentionally left without include guards.
 
-#if defined (_WIN32)
+#if defined (_WIN32) || defined (__CYGWIN__)
 #undef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
+// Define NOMINMAX for Cygwin's version of windows.h, WIN32_LEAN_AND_MEAN
+// is not enough.
+#undef NOMINMAX
+#define NOMINMAX
 #include <windows.h>
 #endif
 

@@ -49,6 +49,7 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , function ()
     , line(line_)
     , threadCached(false)
+    , thread2Cached(false)
     , ndcCached(false)
     , mdcCached(false)
 {
@@ -71,6 +72,7 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , function ()
     , line(line_)
     , threadCached(true)
+    , thread2Cached(true)
     , ndcCached(true)
     , mdcCached(true)
 {
@@ -81,6 +83,7 @@ InternalLoggingEvent::InternalLoggingEvent ()
     : ll (NOT_SET_LOG_LEVEL)
     , function ()
     , threadCached(false)
+    , thread2Cached(false)
     , ndcCached(false)
     , mdcCached(false)
 { }
@@ -99,6 +102,7 @@ InternalLoggingEvent::InternalLoggingEvent(
     , function(rhs.getFunction())
     , line(rhs.getLine())
     , threadCached(true)
+    , thread2Cached(true)
     , ndcCached(true)
     , mdcCached(true)
 {
@@ -149,6 +153,7 @@ InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring & logger,
         file.clear ();
     line = fline;
     threadCached = false;
+    thread2Cached = false;
     ndcCached = false;
     mdcCached = false;
 }
@@ -218,6 +223,7 @@ InternalLoggingEvent::gatherThreadSpecificData () const
     getNDC ();
     getMDCCopy ();
     getThread ();
+    getThread2 ();
 }
 
 
@@ -232,6 +238,7 @@ InternalLoggingEvent::swap (InternalLoggingEvent & other)
     swap (ndc, other.ndc);
     swap (mdc, other.mdc);
     swap (thread, other.thread);
+    swap (thread2, other.thread2);
     swap (timestamp, other.timestamp);
     swap (file, other.file);
     swap (function, other.function);
