@@ -124,7 +124,7 @@ get_current_thread_name_alt (log4cplus::tostringstream * s)
 #if defined (LOG4CPLUS_USE_PTHREADS) && defined (__linux__) \
     && defined (LOG4CPLUS_HAVE_GETTID)
     pid_t tid = syscall (SYS_gettid);
-    os << std::hex << tid;
+    os << tid;
 
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS) || defined (__CYGWIN__)
     DWORD tid = GetCurrentThreadId ();
