@@ -151,13 +151,9 @@ struct toupper_func
     operator () (tchar ch) const
     {
 #ifdef UNICODE
-#  if (defined(__MWERKS__) && defined(__MACOS__)) || defined (LOG4CPLUS_WORKING_LOCALE)
         return std::towupper (ch);
-#  else
-        return ::towupper (ch);
-#  endif
 #else
-        return ::toupper (static_cast<unsigned char>(ch));
+        return std::toupper (static_cast<unsigned char>(ch));
 #endif
     }
 };
@@ -169,13 +165,9 @@ struct tolower_func
     operator () (tchar ch) const
     {
 #ifdef UNICODE
-#  if (defined(__MWERKS__) && defined(__MACOS__)) || defined (LOG4CPLUS_WORKING_LOCALE)
         return std::towlower (ch);
-#  else
-        return ::towlower (ch);
-#  endif
 #else
-        return ::tolower (static_cast<unsigned char>(ch));
+        return std::tolower (static_cast<unsigned char>(ch));
 #endif
     }
 };
