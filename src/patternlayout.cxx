@@ -102,7 +102,7 @@ struct FormattingInfo {
 class PatternConverter
 {
 public:
-    PatternConverter(const FormattingInfo& info);
+    explicit PatternConverter(const FormattingInfo& info);
     virtual ~PatternConverter() {}
     void formatAndAppend(tostream& output, 
         const spi::InternalLoggingEvent& event);
@@ -294,7 +294,7 @@ private:
 
 
 ////////////////////////////////////////////////
-// PatternConverter methods:
+// FormattingInfo methods:
 ////////////////////////////////////////////////
 
 void 
@@ -310,8 +310,7 @@ FormattingInfo::dump(helpers::LogLog& loglog) {
     tostringstream buf;
     buf << LOG4CPLUS_TEXT("min=") << minLen
         << LOG4CPLUS_TEXT(", max=") << maxLen
-        << LOG4CPLUS_TEXT(", leftAlign=")
-        << (leftAlign ? LOG4CPLUS_TEXT("true") : LOG4CPLUS_TEXT("false"));
+        << LOG4CPLUS_TEXT(", leftAlign=") << std::boolalpha << leftAlign;
     loglog.debug(buf.str());
 }
 
