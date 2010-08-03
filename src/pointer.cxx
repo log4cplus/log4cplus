@@ -55,11 +55,11 @@ SharedObject::addReference() const
     __sync_add_and_fetch (&count, 1);
 
 #elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
-    && defined (WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
+    && defined (_WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
     _InterlockedIncrement (&count);
 
 #elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
-    && defined (WIN32)
+    && (defined (_WIN32) || defined (__CYGWIN__))
     InterlockedIncrement (&count);
 
 #elif ! defined(LOG4CPLUS_SINGLE_THREADED)
@@ -82,10 +82,11 @@ SharedObject::removeReference() const
     destroy = __sync_sub_and_fetch (&count, 1) == 0;
 
 #elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
-    && defined (WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
+    && defined (_WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
     destroy = _InterlockedDecrement (&count) == 0;
 
-#elif ! defined(LOG4CPLUS_SINGLE_THREADED) && defined (WIN32)
+#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
+    && (defined (_WIN32) || defined (__CYGWIN__))
     destroy = InterlockedDecrement (&count) == 0;
 
 #else

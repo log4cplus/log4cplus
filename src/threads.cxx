@@ -85,7 +85,7 @@ yield()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
     sched_yield();
-#elif defined(WIN32)
+#elif defined(_WIN32)
     ::Sleep(0);
 #endif
 }

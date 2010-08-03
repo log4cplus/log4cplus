@@ -42,7 +42,7 @@
 #ifdef LOG4CPLUS_HAVE_STDLIB_H
 #include <stdlib.h>
 #endif
-#if defined (WIN32)
+#if defined (_WIN32)
 #include <tchar.h>
 #endif
 #if defined (_WIN32_WCE)

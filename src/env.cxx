@@ -49,7 +49,7 @@ get_env_var (tstring & value, tstring const & name)
     // Nothing to do here. Windows CE does not have environment variables.
     return false;
 
-#elif defined (WIN32) && defined (UNICODE)
+#elif defined (_WIN32) && defined (UNICODE)
     tchar const * val = _wgetenv (name.c_str ());
     if (val)
         value = val;

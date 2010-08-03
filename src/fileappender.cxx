@@ -82,7 +82,7 @@ file_rename (tstring const & src, tstring const & target)
     else
         return GetLastError ();
 
-#elif defined (UNICODE) && defined (WIN32)
+#elif defined (UNICODE) && defined (_WIN32)
     if (_wrename (src.c_str (), target.c_str ()) == 0)
         return 0;
     else
@@ -109,7 +109,7 @@ file_remove (tstring const & src)
     else
         return GetLastError ();
 
-#elif defined (UNICODE) && defined (WIN32)
+#elif defined (UNICODE) && defined (_WIN32)
     if (_wremove (src.c_str ()) == 0)
         return 0;
     else
@@ -192,7 +192,7 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
         tstring const source (source_oss.str ());
         tstring const target (target_oss.str ());
 
-#if defined (WIN32)
+#if defined (_WIN32)
         // Try to remove the target first. It seems it is not
         // possible to rename over existing file.
         ret = file_remove (target);
@@ -479,7 +479,7 @@ RollingFileAppender::rollover()
 
         long ret;
 
-#if defined (WIN32)
+#if defined (_WIN32)
         // Try to remove the target first. It seems it is not
         // possible to rename over existing file.
         ret = file_remove (target);
@@ -687,7 +687,7 @@ DailyRollingFileAppender::rollover()
     helpers::LogLog & loglog = helpers::getLogLog();
     long ret;
 
-#if defined (WIN32)
+#if defined (_WIN32)
     // Try to remove the target first. It seems it is not
     // possible to rename over existing file, e.g. "log.2009-11-07.1".
     ret = file_remove (backupTarget);
@@ -697,7 +697,7 @@ DailyRollingFileAppender::rollover()
     ret = file_rename (scheduledFilename, backupTarget);
     loglog_renaming_result (loglog, scheduledFilename, backupTarget, ret);
 
-#if defined (WIN32)
+#if defined (_WIN32)
     // Try to remove the target first. It seems it is not
     // possible to rename over existing file, e.g. "log.2009-11-07".
     ret = file_remove (scheduledFilename);

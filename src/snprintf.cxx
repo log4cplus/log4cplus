@@ -45,7 +45,7 @@ namespace log4cplus { namespace helpers {
 
 std::size_t const START_BUF_SIZE = 512;
 
-#if defined (WIN32)
+#if defined (_WIN32)
 char const NULL_FILE[] = "NUL";
 #else
 char const NULL_FILE[] = "/dev/null";

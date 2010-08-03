@@ -69,7 +69,7 @@ namespace log4cplus {
             thread::Mutex access_mutex;
 
         private:
-#if defined (WIN32)
+#if defined (_WIN32) || defined (__CYGWIN__)
             typedef long count_type;
 #else
             typedef unsigned count_type;
