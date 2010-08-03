@@ -5,17 +5,17 @@
 //
 //
 //   Copyright (C) 2010, Vaclav Haisman. All rights reserved.
-//   
+//
 //   Redistribution and use in source and binary forms, with or without modifica-
 //   tion, are permitted provided that the following conditions are met:
-//   
+//
 //   1. Redistributions of  source code must  retain the above copyright  notice,
 //      this list of conditions and the following disclaimer.
-//   
+//
 //   2. Redistributions in binary form must reproduce the above copyright notice,
 //      this list of conditions and the following disclaimer in the documentation
 //      and/or other materials provided with the distribution.
-//   
+//
 //   THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //   FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -32,10 +32,121 @@
 #if defined (_WIN32) || defined (__CYGWIN__)
 #undef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
-// Define NOMINMAX for Cygwin's version of windows.h, WIN32_LEAN_AND_MEAN
-// is not enough.
+
+#undef NOGDICAPMASKS
+#define NOGDICAPMASKS
+
+#undef NOVIRTUALKEYCODES
+#define NOVIRTUALKEYCODES
+
+#undef NOWINMESSAGES
+#define NOWINMESSAGES
+
+#undef NOWINSTYLES
+#define NOWINSTYLES
+
+#undef NOSYSMETRICS
+#define NOSYSMETRICS
+
+#undef NOMENUS
+#define NOMENUS
+
+#undef NOICONS
+#define NOICONS
+
+#undef NOKEYSTATES
+#define NOKEYSTATES
+
+#undef NOSYSCOMMANDS
+#define NOSYSCOMMANDS
+
+#undef NORASTEROPS
+#define NORASTEROPS
+
+#undef NOSHOWWINDOW
+#define NOSHOWWINDOW
+
+#undef NOATOM
+#define NOATOM
+
+#undef NOCLIPBOARD
+#define NOCLIPBOARD
+
+#undef NOCOLOR
+#define NOCOLOR
+
+#undef NOCTLMGR
+#define NOCTLMGR
+
+#undef NODRAWTEXT
+#define NODRAWTEXT
+
+#undef NOGDI
+#define NOGDI
+
+#undef NOKERNEL
+#define NOKERNEL
+
+#undef NOUSER
+#define NOUSER
+
+#undef NONLS
+#define NONLS
+
+#undef NOMB
+#define NOMB
+
+#undef NOMEMMGR
+#define NOMEMMGR
+
+#undef NOMETAFILE
+#define NOMETAFILE
+
 #undef NOMINMAX
 #define NOMINMAX
+
+#undef NOMSG
+#define NOMSG
+
+#undef NOOPENFILE
+#define NOOPENFILE
+
+#undef NOSCROLL
+#define NOSCROLL
+
+#undef NOSERVICE
+#define NOSERVICE
+
+#undef NOSOUND
+#define NOSOUND
+
+#undef NOTEXTMETRIC
+#define NOTEXTMETRIC
+
+#undef NOWH
+#define NOWH
+
+#undef NOWINOFFSETS
+#define NOWINOFFSETS
+
+#undef NOCOMM
+#define NOCOMM
+
+#undef NOKANJI
+#define NOKANJI
+
+#undef NOHELP
+#define NOHELP
+
+#undef NOPROFILER
+#define NOPROFILER
+
+#undef NODEFERWINDOWPOS
+#define NODEFERWINDOWPOS
+
+#undef NOMCX
+#define NOMCX
+
 #include <windows.h>
 #endif
 
