@@ -7,8 +7,6 @@ order:
 
 - org.apache.log4j.net.ZeroConfSocketHubAppender.
 
-- Friendlier thread ID, %T.
-
 - Reading log4j-like XML configuration files.
 
 - More flexible events format for transport over network. ASN.1? XML?
