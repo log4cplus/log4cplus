@@ -29,7 +29,7 @@
 #  include <winsock2.h>
 #endif
 
-#if defined (__CYGWIN__) || defined (LOG4CPLUS_HAVE_NETINET_IN_H)
+#if defined (LOG4CPLUS_HAVE_NETINET_IN_H)
 #include <netinet/in.h>
 #endif
 
