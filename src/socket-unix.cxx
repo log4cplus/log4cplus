@@ -37,16 +37,20 @@
 #endif
 #include <arpa/inet.h>
  
-#if defined (LOG4CPLUS_HAVE_NETINET_IN_H)
-#include <netinet/in.h>
-#endif
-
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
 
 #ifdef LOG4CPLUS_HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
+
+#if defined (LOG4CPLUS_HAVE_NETINET_IN_H)
+#include <netinet/in.h>
+#endif
+
+#if defined (LOG4CPLUS_HAVE_NETINET_TCP_H)
+#include <netinet/tcp.h>
 #endif
 
 #include <errno.h>
@@ -58,6 +62,7 @@
 #include <unistd.h>
 
 #include <algorithm>
+
 
 namespace log4cplus { namespace helpers {
 
@@ -298,6 +303,34 @@ getHostname (bool fqdn)
         hostname = full_hostname.c_str ();
 
     return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+}
+
+
+int
+setTCPNoDelay (SOCKET_TYPE sock, bool val)
+{
+#if (defined (SOL_TCP) || defined (IPPROTO_TCP)) && defined (TCP_NODELAY)
+#if defined (SOL_TCP)
+    int level = SOL_TCP;
+
+#elif defined (IPPROTO_TCP)
+    int level = IPPROTO_TCP;
+
+#endif
+
+    int result;
+    int enabled = static_cast<int>(val);
+    if ((result = setsockopt(sock, level, TCP_NODELAY, &enabled,
+                sizeof(enabled))) != 0)
+        set_last_socket_error (errno);
+    
+    return result;
+
+#else
+    // No recognizable TCP_NODELAY option.
+    return 0;
+
+#endif
 }
 
 

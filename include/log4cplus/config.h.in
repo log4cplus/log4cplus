@@ -224,6 +224,9 @@
 #undef LOG4CPLUS_HAVE_NETINET_IN_H
 
 /* */
+#undef LOG4CPLUS_HAVE_NETINET_TCP_H
+
+/* */
 #undef LOG4CPLUS_HAVE_NTOHL
 
 /* */

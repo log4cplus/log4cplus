@@ -125,35 +125,34 @@ AbstractSocket::copy(const AbstractSocket& r)
 //////////////////////////////////////////////////////////////////////////////
 
 Socket::Socket()
-: AbstractSocket()
-{
-}
-
+    : AbstractSocket()
+{ }
 
 
 Socket::Socket(const tstring& address, unsigned short port)
-: AbstractSocket()
+    : AbstractSocket()
 {
     sock = connectSocket(address, port, state);
-    if(sock == INVALID_SOCKET_VALUE) {
-        err = get_last_socket_error ();
-    }
+    if (sock == INVALID_SOCKET_VALUE)
+        goto error;
+
+    if (setTCPNoDelay (sock, true) != 0)
+        goto error;
+
+    return;
+
+error:
+    err = get_last_socket_error ();
 }
 
 
-Socket::Socket(SOCKET_TYPE sock_, SocketState state_,
-    int err_)
-  : AbstractSocket(sock_, state_, err_)
-{
-}
-
+Socket::Socket(SOCKET_TYPE sock_, SocketState state_, int err_)
+    : AbstractSocket(sock_, state_, err_)
+{ }
 
 
 Socket::~Socket()
-{
-}
-
-
+{ }
 
 
 

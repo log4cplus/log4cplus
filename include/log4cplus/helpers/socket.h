@@ -116,6 +116,7 @@ namespace log4cplus {
         LOG4CPLUS_EXPORT long write(SOCKET_TYPE sock, const SocketBuffer& buffer);
 
         LOG4CPLUS_EXPORT tstring getHostname (bool fqdn);
+        LOG4CPLUS_EXPORT int setTCPNoDelay (SOCKET_TYPE, bool);
 
     } // end namespace helpers
 } // end namespace log4cplus

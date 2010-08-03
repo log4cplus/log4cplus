@@ -188,8 +188,7 @@ error:
 
 
 SOCKET_TYPE
-connectSocket(const tstring& hostn, 
-                                  unsigned short port, SocketState& state)
+connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
 {
     unsigned long ip;
     struct hostent * hp;
@@ -227,10 +226,6 @@ connectSocket(const tstring& hostn,
           && (WSAGetLastError() == WSAEINTR))
         ;
     if (retval == SOCKET_ERROR)
-        goto error;
-
-    if (setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (char*)&enabled,
-        sizeof(enabled)) != 0)
         goto error;
 
     state = ok;
@@ -331,6 +326,23 @@ getHostname (bool fqdn)
         hostname = hp->h_name;
 
     return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+}
+
+
+int
+setTCPNoDelay (SOCKET_TYPE sock, bool val)
+{
+    int result;
+    int enabled = static_cast<int>(val);
+    if ((result = setsockopt(sock, IPPROTO_TCP, TCP_NODELAY,
+            reinterpret_cast<char*>(&enabled),sizeof(enabled))) != 0)
+    {
+        int eno = WSAGetLastError ();
+        set_last_socket_error (eno);
+        return result;
+    }
+    else
+        return result;
 }
 
 
