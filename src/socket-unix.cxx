@@ -64,7 +64,9 @@ namespace
 {
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-static thread::Mutex ghbn_mutex;
+// We need to use log4cplus::thread here to work around compilation
+// problem on AIX.
+static log4cplus::thread::Mutex ghbn_mutex;
 
 #endif
 
@@ -103,7 +105,9 @@ get_host_by_name (char const * hostname, std::string * name,
 
 #else
 #  if ! defined (LOG4CPLUS_SINGLE_THREADED)
-    thread::MutexGuard guard (ghbn_mutex);
+    // We need to use log4cplus::thread here to work around
+    // compilation problem on AIX.
+    log4cplus::thread::MutexGuard guard (ghbn_mutex);
 #  endif
 
     struct ::hostent * hp = gethostbyname (hostname);
