@@ -440,23 +440,8 @@ RollingFileAppender::~RollingFileAppender()
 void
 RollingFileAppender::append(const spi::InternalLoggingEvent& event)
 {
-    if(!out.good()) {
-        if(!reopen()) {
-            getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
-                                     + filename);
-            return;
-        }
-        // Resets the error handler to make it 
-        // ready to handle a future append error.
-        else
-            getErrorHandler()->reset();
-    }
+    FileAppender::append(event);
 
-    layout->formatAndAppend(out, event);
-    if(immediateFlush) {
-        out.flush();
-    }
-        
     if(out.tellp() > maxFileSize) {
         rollover();
     }
@@ -645,26 +630,11 @@ DailyRollingFileAppender::close()
 void
 DailyRollingFileAppender::append(const spi::InternalLoggingEvent& event)
 {
-    if(!out.good()) {
-        if(!reopen()) {
-            getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
-                                     + filename);
-            return;
-        }
-        // Resets the error handler to make it 
-        // ready to handle a future append error.
-        else
-            getErrorHandler()->reset();
-    }
-
     if(event.getTimestamp() >= nextRolloverTime) {
         rollover();
     }
 
-    layout->formatAndAppend(out, event);
-    if(immediateFlush) {
-        out.flush();
-    }
+    FileAppender::append(event);
 }
 
 
