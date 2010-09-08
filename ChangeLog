@@ -1,3 +1,14 @@
+Version 1.0.4-RC11
+
+  - Fixed bug #3058706, compilation error on AIX in socket-unix.cxx.
+  - Added %b pattern layout specifier. It expands to file name
+    component of path name.
+  - Fixed bug #3034758. Fixed infinite loop in
+    Hierarchy::updateParents() when logger hierarchy name starts with
+    a dot.
+  - Fixed bug #3034748. Fixed infinite loop in
+    PatternParser::extractOption() on missing '}'.
+
 Version 1.0.4-RC10
 
   - Fixed bug #3030133. Make Autoconf/Automake build system to respect
@@ -119,7 +130,7 @@ Version 1.0.4-RC1
     ConfigurationWatchDogThread.
   - Implement %H (FQDN) and %h (host name) PatternLayout format
     specifiers.
-  - Fixed bug #2829604. Environment variables substitution. 
+  - Fixed bug #2829604. Environment variables substitution.
 
 Version 1.0.3
 
@@ -207,10 +218,10 @@ Version 1.0.3-RC4
   - Make configuration of local server for NTEventLogAppender easier
     by allowing empty server parameter string. (Feature Request
     #875935)
-	
+
 Version 1.0.3-RC3
 
-  - Fix Bug #2268760 - Trailing garbage in strings produced by 
+  - Fix Bug #2268760 - Trailing garbage in strings produced by
     Time::getFormattedTime().
   - Fixed compilation of MSVC builds.
 
@@ -392,7 +403,7 @@ Version 0.9.3 (Apr-19-2003)
 
 Version 0.9.2 (Apr-5-2003)
   Major API change:  Changed the name of the Category class to Logger and
-		     replaced the Priority class with LogLevel.
+             replaced the Priority class with LogLevel.
   Added PropertyConfigurator class.
   Added BasicConfigurator class.
 
