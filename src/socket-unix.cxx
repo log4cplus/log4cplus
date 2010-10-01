@@ -202,6 +202,29 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
 }
 
 
+namespace
+{
+
+
+// Some systems like HP-UX have socklen_t but accept() does not use it
+// as type of its 3rd parameter. This wrapper works around this
+// incompatibility.
+template <typename sockaddr_ptr_type, typename socklen_type>
+static
+SOCKET_TYPE
+accept_wrap (
+    int (* accept_func) (int, sockaddr_ptr_type, socklen_type *),
+    SOCKET_TYPE sock, struct sockaddr * sa, socklen_t * len)
+{
+    socklen_type l = *len;
+    SOCKET_TYPE result = static_cast<SOCKET_TYPE>(accept_func (sock, sa, &l));
+    *len = static_cast<socklen_t>(l);
+    return result;
+}
+
+
+} // namespace
+
 
 SOCKET_TYPE
 log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& state)
@@ -210,7 +233,8 @@ log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& state)
     socklen_t len = sizeof(struct sockaddr);
     SOCKET_TYPE clientSock;
 
-    while(   (clientSock = ::accept(sock, (struct sockaddr*)&net_client, &len)) == -1
+    while(   (clientSock = accept_wrap (accept, sock,
+                (struct sockaddr*)&net_client, &len)) == -1
           && (errno == EINTR))
         ;
 
