@@ -530,25 +530,13 @@ PropertyConfigurator::configureAdditivity()
     std::vector<tstring> additivitysProps
         = additivityProperties.propertyNames();
 
-    tstring actualValue;
-    tstring value;
-
     for(std::vector<tstring>::const_iterator it = additivitysProps.begin();
         it != additivitysProps.end(); ++it)
     {
         Logger logger = getLogger(*it);
-        actualValue = additivityProperties.getProperty(*it);
-        value = helpers::toLower(actualValue);
-
-        if(value == LOG4CPLUS_TEXT("true"))
-            logger.setAdditivity(true);
-        else if(value == LOG4CPLUS_TEXT("false"))
-            logger.setAdditivity(false);
-        else
-            helpers::getLogLog().warn(
-                LOG4CPLUS_TEXT("Invalid Additivity value: \"")
-                + actualValue
-                + LOG4CPLUS_TEXT("\""));
+        bool additivity;
+        if (additivityProperties.getBool (additivity, *it))
+            logger.setAdditivity (additivity);
     }
 }
 
