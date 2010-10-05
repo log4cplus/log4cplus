@@ -43,7 +43,7 @@ namespace log4cplus {
     struct DiagnosticContext;
     typedef std::stack<DiagnosticContext> DiagnosticContextStack;
 
-#if defined (_MSC_VER)
+#if defined (_MSC_VER) || defined (__HP_aCC)
     LOG4CPLUS_EXPORT NDC& getNDC();
 #endif
 
@@ -260,7 +260,7 @@ namespace log4cplus {
         NDC& operator=(const NDC&);
 
       // Friends
-#if defined (_MSC_VER)
+#if defined (_MSC_VER) || defined (__HP_aCC)
         friend LOG4CPLUS_EXPORT NDC& getNDC();
 #else
         friend NDC& getNDC();
