@@ -24,11 +24,6 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/helpers/syncprims.h>
 
-#if defined(__hpux__)
-# ifndef _XOPEN_SOURCE_EXTENDED
-# define _XOPEN_SOURCE_EXTENDED
-# endif
-#endif
 #include <arpa/inet.h>
  
 #ifdef LOG4CPLUS_HAVE_NETINET_IN_H
@@ -120,7 +115,7 @@ get_host_by_name (char const * hostname, std::string * name,
 
     if (addr)
     {
-	assert (hp->h_length <= sizeof (addr->sin_addr));
+        assert (hp->h_length <= sizeof (addr->sin_addr));
         std::memcpy (&addr->sin_addr, hp->h_addr_list[0], hp->h_length);
     }
 
