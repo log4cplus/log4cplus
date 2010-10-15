@@ -92,12 +92,51 @@ LOG4CPLUS_MUTEX_PTR_DECLARE
 createNewMutex()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
+    int ret;
+    pthread_mutexattr_t mattr;
+    helpers::SharedObjectPtr<helpers::LogLog> loglog
+        = helpers::LogLog::getLogLog();
+
+
+    ret = pthread_mutexattr_init (&mattr);
+    if (ret != 0)
+    {
+        loglog->error(LOG4CPLUS_TEXT("createNewMutex()- pthread_mutexattr_init() failed."));
+        return 0;
+    }
+
+    // The mutexes that we provide need to be recursive. This is
+    // because of double locking, first lock gets acquired in
+    // ConfigurationWatchDogThread::run() through the HierarchyLocker
+    // instance there. The second lock on appender_list_mutex is
+    // attempted in
+    // helpers::AppenderAttachableImpl::removeAllAppenders(). This
+    // results into deadlock on (at least) Linux.
+
+    ret = pthread_mutexattr_settype (&mattr, PTHREAD_MUTEX_RECURSIVE);
+    if (ret != 0)
+    {
+        loglog->error(LOG4CPLUS_TEXT("createNewMutex()- pthread_mutexattr_settype() failed."));
+        pthread_mutexattr_destroy (&mattr);
+        return 0;
+    }
+
     ::pthread_mutex_t* m = new ::pthread_mutex_t;
-    ::pthread_mutex_init(m, NULL);
+    ret = ::pthread_mutex_init(m, &mattr);
+    if (ret != 0)
+    {
+        loglog->error(LOG4CPLUS_TEXT("createNewMutex()- pthread_mutex_init() failed."));
+        pthread_mutexattr_destroy (&mattr);
+        delete m;
+        m = 0;
+    }
+
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     ::CRITICAL_SECTION* m = new ::CRITICAL_SECTION;
     ::InitializeCriticalSection(m);
+
 #endif
+
     return m;
 }
 
