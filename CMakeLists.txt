@@ -114,6 +114,7 @@ set (log4cplus_sources
   src/stringhelper.cxx
   src/stringhelper-clocale.cxx
   src/stringhelper-cxxlocale.cxx
+  src/stringhelper-iconv.cxx
   src/syncprims.cxx
   src/syslogappender.cxx
   src/threads.cxx

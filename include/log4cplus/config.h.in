@@ -41,6 +41,15 @@
 /* Define to 1 if you have the `htons' function. */
 #undef HAVE_HTONS
 
+/* Define to 1 if you have the `iconv' function. */
+#undef HAVE_ICONV
+
+/* Define to 1 if you have the `iconv_close' function. */
+#undef HAVE_ICONV_CLOSE
+
+/* Define to 1 if you have the `iconv_open' function. */
+#undef HAVE_ICONV_OPEN
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
@@ -206,6 +215,18 @@
 #undef LOG4CPLUS_HAVE_HTONS
 
 /* */
+#undef LOG4CPLUS_HAVE_ICONV
+
+/* */
+#undef LOG4CPLUS_HAVE_ICONV_CLOSE
+
+/* */
+#undef LOG4CPLUS_HAVE_ICONV_H
+
+/* */
+#undef LOG4CPLUS_HAVE_ICONV_OPEN
+
+/* */
 #undef LOG4CPLUS_HAVE_LIMITS_H
 
 /* */
@@ -321,6 +342,9 @@
 
 /* */
 #undef LOG4CPLUS_USE_PTHREADS
+
+/* Define when iconv() is available. */
+#undef LOG4CPLUS_WITH_ICONV
 
 /* Define for C99 compilers/standard libraries that support more than just the
    "C" locale. */

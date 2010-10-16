@@ -56,6 +56,9 @@
 #undef LOG4CPLUS_HAVE_WCHAR_H
 
 /* */
+#undef LOG4CPLUS_HAVE_ICONV_H
+
+/* */
 #undef LOG4CPLUS_HAVE_LIMITS_H
 
 /* */
@@ -185,5 +188,17 @@
 
 /* Define to 1 if you have Linux style syscall(SYS_gettid). */
 #undef LOG4CPLUS_HAVE_GETTID
+
+/* Define when iconv() is available. */
+#undef LOG4CPLUS_WITH_ICONV
+
+/* Define to 1 if you have the `iconv' function. */
+#undef LOG4CPLUS_HAVE_ICONV
+
+/* Define to 1 if you have the `iconv_close' function. */
+#undef LOG4CPLUS_HAVE_ICONV_CLOSE
+
+/* Define to 1 if you have the `iconv_open' function. */
+#undef LOG4CPLUS_HAVE_ICONV_OPEN
 
 #endif // LOG4CPLUS_CONFIG_DEFINES_HXX

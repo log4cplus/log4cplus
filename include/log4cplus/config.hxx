@@ -43,7 +43,8 @@
 #endif
 
 # if ! defined (LOG4CPLUS_WORKING_LOCALE) \
-  && ! defined (LOG4CPLUS_WORKING_C_LOCALE)
+  && ! defined (LOG4CPLUS_WORKING_C_LOCALE) \
+  && ! defined (LOG4CPLUS_WITH_ICONV)
 # define LOG4CPLUS_POOR_MANS_CHCONV
 #endif
 

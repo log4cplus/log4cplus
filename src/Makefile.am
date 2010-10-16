@@ -117,6 +117,7 @@ SINGLE_THREADED_SRC = \
 	stringhelper.cxx \
 	stringhelper-clocale.cxx \
 	stringhelper-cxxlocale.cxx \
+	stringhelper-iconv.cxx \
 	syncprims.cxx \
 	syslogappender.cxx \
 	threads.cxx \
