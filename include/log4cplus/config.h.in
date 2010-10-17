@@ -56,17 +56,17 @@
 /* Define to 1 if you have the `advapi32' library (-ladvapi32). */
 #undef HAVE_LIBADVAPI32
 
+/* Define to 1 if you have the `libiconv' function. */
+#undef HAVE_LIBICONV
+
+/* Define to 1 if you have the `libiconv_close' function. */
+#undef HAVE_LIBICONV_CLOSE
+
+/* Define to 1 if you have the `libiconv_open' function. */
+#undef HAVE_LIBICONV_OPEN
+
 /* Define to 1 if you have the `kernel32' library (-lkernel32). */
 #undef HAVE_LIBKERNEL32
-
-/* Define to 1 if you have the `nsl' library (-lnsl). */
-#undef HAVE_LIBNSL
-
-/* Define to 1 if you have the `rt' library (-lrt). */
-#undef HAVE_LIBRT
-
-/* Define to 1 if you have the `socket' library (-lsocket). */
-#undef HAVE_LIBSOCKET
 
 /* Define to 1 if you have the `ws2_32' library (-lws2_32). */
 #undef HAVE_LIBWS2_32
