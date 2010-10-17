@@ -63,7 +63,13 @@ protected:
 class LOG4CPLUS_EXPORT Mutex
 {
 public:
-    Mutex ();
+    enum Type
+    {
+        DEFAULT,
+        RECURSIVE
+    };
+
+    explicit Mutex (Type = RECURSIVE);
     ~Mutex ();
 
     void lock () const;

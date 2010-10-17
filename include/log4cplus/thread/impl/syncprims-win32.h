@@ -35,7 +35,7 @@ namespace log4cplus { namespace thread { namespace impl {
 //
 
 inline
-Mutex::Mutex ()
+Mutex::Mutex (log4cplus::thread::Mutex::Type)
 {
     InitializeCriticalSection (&cs);
 }

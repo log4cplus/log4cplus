@@ -61,7 +61,7 @@ class Mutex
     : public MutexImplBase
 {
 public:
-    Mutex ();
+    explicit Mutex (log4cplus::thread::Mutex::Type);
     ~Mutex ();
 
     void lock () const;

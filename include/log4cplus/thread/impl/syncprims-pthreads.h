@@ -34,14 +34,62 @@
 namespace log4cplus { namespace thread { namespace impl {
 
 
+struct PthreadMutexAttr
+{
+    PthreadMutexAttr ()
+    {
+        int ret = pthread_mutexattr_init (&attr);
+        if (ret != 0)
+            LOG4CPLUS_THROW_RTE ("PthreadMutexAttr::PthreadMutexAttr");
+    }
+
+
+    ~PthreadMutexAttr ()
+    try
+    {
+        int ret = pthread_mutexattr_destroy (&attr);
+        if (ret != 0)
+            LOG4CPLUS_THROW_RTE ("PthreadMutexAttr::~PthreadMutexAttr");
+    }
+    catch (...)
+    { }
+
+
+    void
+    set_type (log4cplus::thread::Mutex::Type t)
+    {
+        int mutex_type;
+        switch (t)
+        {
+        case log4cplus::thread::Mutex::RECURSIVE:
+            mutex_type = PTHREAD_MUTEX_RECURSIVE;
+            break;
+
+        default:
+            mutex_type = PTHREAD_MUTEX_DEFAULT;
+        }
+
+        int ret = pthread_mutexattr_settype (&attr, mutex_type);
+        if (ret != 0)
+            LOG4CPLUS_THROW_RTE ("PthreadMutexAttr::set_type");
+    }
+
+
+    pthread_mutexattr_t attr;
+};
+
+
 //
 //
 //
 
 inline
-Mutex::Mutex ()
+Mutex::Mutex (log4cplus::thread::Mutex::Type t)
 {
-    int ret = pthread_mutex_init (&mtx, 0);
+    PthreadMutexAttr attr;
+    attr.set_type (t);
+
+    int ret = pthread_mutex_init (&mtx, &attr.attr);
     if (ret != 0)
         LOG4CPLUS_THROW_RTE ("Mutex::Mutex");
 }
@@ -169,7 +217,8 @@ FairMutex::unlock () const
 
 inline
 ManualResetEvent::ManualResetEvent (bool sig)
-    : sigcount (0)
+    : mtx (log4cplus::thread::Mutex::DEFAULT)
+    , sigcount (0)
     , signaled (sig)
 {
     int ret = pthread_cond_init (&cv, 0);

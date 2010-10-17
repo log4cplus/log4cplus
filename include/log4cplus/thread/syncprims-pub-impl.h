@@ -55,8 +55,8 @@ MutexImplBase::~MutexImplBase ()
 //
 
 LOG4CPLUS_INLINE_EXPORT
-Mutex::Mutex ()
-    : mtx (LOG4CPLUS_THREADED (new impl::Mutex) + 0)
+Mutex::Mutex (Mutex::Type t)
+    : mtx (LOG4CPLUS_THREADED (new impl::Mutex (t)) + 0)
 { }
 
 
