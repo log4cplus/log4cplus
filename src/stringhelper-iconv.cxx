@@ -22,12 +22,13 @@
 //   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <log4cplus/helpers/stringhelper.h>
-#include <log4cplus/helpers/loglog.h>
 
 #ifdef LOG4CPLUS_HAVE_ICONV_H
 #include <iconv.h>
 #endif
 
+#include <stdexcept>
+#include <iostream>
 #include <sstream>
 #include <cassert>
 #include <cerrno>
@@ -57,9 +58,10 @@ struct iconv_handle
     {
         if (handle == iconv_error_handle)
         {
-            tostringstream oss;
-            oss << "iconv_open fialed: " << errno;
-            getLogLog ().error (oss.str ());
+            std::ostringstream oss;
+            oss << "iconv_open failed: " << errno;
+            std::cerr << oss.str () << std::endl;
+            throw std::runtime_error (oss.str ().c_str ());
         }
     }
 
@@ -70,9 +72,10 @@ struct iconv_handle
             int ret = iconv_close (handle);
             if (ret == -1)
             {
-                tostringstream oss;
-                oss << "iconv_close fialed: " << errno;
-                getLogLog ().error (oss.str ());
+                std::ostringstream oss;
+                oss << "iconv_close failed: " << errno;
+                std::cerr << oss.str () << std::endl;
+                throw std::runtime_error (oss.str ().c_str ());
             }
         }
     }
