@@ -31,6 +31,7 @@
 #include <sstream>
 #include <cassert>
 #include <cerrno>
+#include <cstring>
 
 
 namespace log4cplus
