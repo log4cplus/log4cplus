@@ -23,6 +23,7 @@
 #include <cassert>
 #include <exception>
 #include <stdexcept>
+#include <memory>
 
 #include <log4cplus/config.hxx>
 
@@ -92,19 +93,6 @@ LOG4CPLUS_MUTEX_PTR_DECLARE
 createNewMutex()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
-    int ret;
-    pthread_mutexattr_t mattr;
-    helpers::SharedObjectPtr<helpers::LogLog> loglog
-        = helpers::LogLog::getLogLog();
-
-
-    ret = pthread_mutexattr_init (&mattr);
-    if (ret != 0)
-    {
-        loglog->error(LOG4CPLUS_TEXT("createNewMutex()- pthread_mutexattr_init() failed."));
-        return 0;
-    }
-
     // The mutexes that we provide need to be recursive. This is
     // because of double locking, first lock gets acquired in
     // ConfigurationWatchDogThread::run() through the HierarchyLocker
@@ -113,31 +101,21 @@ createNewMutex()
     // helpers::AppenderAttachableImpl::removeAllAppenders(). This
     // results into deadlock on (at least) Linux.
 
-    ret = pthread_mutexattr_settype (&mattr, PTHREAD_MUTEX_RECURSIVE);
-    if (ret != 0)
-    {
-        loglog->error(LOG4CPLUS_TEXT("createNewMutex()- pthread_mutexattr_settype() failed."));
-        pthread_mutexattr_destroy (&mattr);
-        return 0;
-    }
+    log4cplus::thread::PthreadMutexAttr mattr;
+    mattr.set_type (log4cplus::thread::Mutex::RECURSIVE);
 
-    ::pthread_mutex_t* m = new ::pthread_mutex_t;
-    ret = ::pthread_mutex_init(m, &mattr);
+    std::auto_ptr<pthread_mutex_t> m (new pthread_mutex_t);
+    int ret = pthread_mutex_init (m.get (), &mattr.attr);
     if (ret != 0)
-    {
-        loglog->error(LOG4CPLUS_TEXT("createNewMutex()- pthread_mutex_init() failed."));
-        pthread_mutexattr_destroy (&mattr);
-        delete m;
-        m = 0;
-    }
+        throw std::runtime_error ("createNewMutex(): pthread_mutex_init () has failed.");
 
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    ::CRITICAL_SECTION* m = new ::CRITICAL_SECTION;
-    ::InitializeCriticalSection(m);
+	std::auto_ptr< ::CRITICAL_SECTION> m (new ::CRITICAL_SECTION);
+    ::InitializeCriticalSection(m.get ());
 
 #endif
 
-    return m;
+    return m.release ();
 }
 
 

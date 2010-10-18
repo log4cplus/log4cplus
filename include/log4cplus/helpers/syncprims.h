@@ -78,7 +78,13 @@ class ManualResetEvent;
 class Mutex
 {
 public:
-    Mutex ();
+    enum Type
+    {
+        DEFAULT,
+        RECURSIVE
+    };
+
+    explicit Mutex (Type = RECURSIVE);
     ~Mutex ();
 
     void lock () const;
