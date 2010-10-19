@@ -3718,6 +3718,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\stringhelper-iconv.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\src\stringhelper.cxx"
 				>
 				<FileConfiguration
