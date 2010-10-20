@@ -114,6 +114,30 @@ struct iconv_handle
 };
 
 
+template <typename T>
+struct question_mark;
+
+
+template <>
+struct question_mark<char>
+{
+    static char const value = '?';
+};
+
+
+template <>
+struct question_mark<wchar_t>
+{
+    static wchar_t const value = L'?';
+};
+
+
+char const question_mark<char>::value;
+
+
+wchar_t const question_mark<wchar_t>::value;
+
+
 template <typename DestType, typename SrcType>
 static
 void
@@ -161,7 +185,7 @@ iconv_conv (std::basic_string<DestType> & result, char const * destenc,
                 if (outbytesleft > 0)
                 {
                     assert (outbytesleft > sizeof (outbuf_type));
-                    *outbuf = static_cast<outbuf_type>('?');
+                    *outbuf = question_mark<outbuf_type>::value;
                     ++outbuf;
                     outbytesleft += sizeof (outbuf_type);
                     
