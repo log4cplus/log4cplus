@@ -176,39 +176,32 @@ iconv_conv (std::basic_string<DestType> & result, char const * destenc,
             {
             case EILSEQ:
             case EINVAL:
-                if (inbytesleft > 0)
+                if (outbytesleft >= sizeof (outbuf_type))
                 {
-                    ++inbuf;
-                    inbytesleft -= sizeof (inbuf_type);
-                }
+                    if (inbytesleft > 0)
+                    {
+                        ++inbuf;
+                        inbytesleft -= sizeof (inbuf_type);
+                    }
 
-                if (outbytesleft > 0)
-                {
-                    assert (outbytesleft > sizeof (outbuf_type));
                     *outbuf = question_mark<outbuf_type>::value;
                     ++outbuf;
-                    outbytesleft += sizeof (outbuf_type);
+                    outbytesleft -= sizeof (outbuf_type);
                     
                     continue;
                 }
 
                 // Fall through.
                 
-            case E2BIG:
-                goto e2big;
+            case E2BIG:;
+                // Fall through.
             }
 
-        e2big:
-            {
-                std::size_t const outbuf_index = result_size;
-                result_size *= 2;
-                result.resize (result_size);
-                outbuf = reinterpret_cast<char *>(&result[0] + outbuf_index);
-                outbytesleft
-                    = (result_size - outbuf_index) * sizeof (outbuf_type);
-
-                continue;
-            }            
+            std::size_t const outbuf_index = result_size;
+            result_size *= 2;
+            result.resize (result_size);
+            outbuf = reinterpret_cast<char *>(&result[0] + outbuf_index);
+            outbytesleft = (result_size - outbuf_index) * sizeof (outbuf_type);
         }
         else
             result.resize (result_size - outbytesleft / sizeof (outbuf_type));
