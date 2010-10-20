@@ -36,7 +36,8 @@ namespace log4cplus { namespace thread {
 
 
 Queue::Queue (unsigned len)
-    : ev_consumer (false)
+    : mutex (Mutex::DEFAULT)
+    , ev_consumer (false)
     , sem (len, len) 
     , flags (DRAIN)
 { }
