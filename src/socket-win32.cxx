@@ -194,7 +194,6 @@ connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
     struct hostent * hp;
     struct sockaddr_in insock;
     int retval;
-    int enabled = 1;
 
     init_winsock ();
 
@@ -339,10 +338,9 @@ setTCPNoDelay (SOCKET_TYPE sock, bool val)
     {
         int eno = WSAGetLastError ();
         set_last_socket_error (eno);
-        return result;
     }
-    else
-        return result;
+
+    return result;
 }
 
 
