@@ -1,5 +1,10 @@
 Version 1.0.4-RC11
 
+  - Fixed bug #3083313, deadlock because of double locking when using
+    ConfigurationWatchDogThread.
+  - Improved portability to HP-UX and aCC compiler.
+  - Added %b PatternLayout format specifier; it expands to file
+    component of file path.
   - Fixed bug #3058706, compilation error on AIX in socket-unix.cxx.
   - Added %b pattern layout specifier. It expands to file name
     component of path name.
