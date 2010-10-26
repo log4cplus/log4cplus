@@ -3706,7 +3706,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\include\log4cplus\helpers\threads.h"
+				RelativePath="..\include\log4cplus\thread\threads.h"
 				>
 			</File>
 			<Filter
