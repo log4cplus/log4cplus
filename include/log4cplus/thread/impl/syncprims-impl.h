@@ -182,6 +182,11 @@ private:
     Semaphore r;
     mutable unsigned reader_count;
 
+#elif defined (LOG4CPLUS_USE_PTHREADS)
+    void unlock () const;
+
+    mutable pthread_rwlock_t rwl;
+
 #endif
 
     SharedMutex (SharedMutex const &);

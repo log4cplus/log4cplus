@@ -27,6 +27,7 @@
 //! include guards because it is only a fragment to be included by
 //! syncprims.h.
 
+#include "log4cplus/thread/threads.h"
 #include <limits>
 #include <algorithm>
 
@@ -329,7 +330,99 @@ ManualResetEvent::reset () const
 //
 //
 
+#if defined (LOG4CPLUS_POOR_MANS_SHAREDMUTEX)
 #include "log4cplus/thread/impl/syncprims-pmsm.h"
+
+#else
+inline
+SharedMutex::SharedMutex ()
+{
+    int ret = pthread_rwlock_init (&rwl, 0);
+    if (ret != 0)
+        LOG4CPLUS_THROW_RTE ("SharedMutex::SharedMutex");    
+}
+
+
+inline
+SharedMutex::~SharedMutex ()
+try
+{
+    int ret = pthread_rwlock_destroy (&rwl);
+    if (ret != 0)
+        LOG4CPLUS_THROW_RTE ("SharedMutex::~SharedMutex");    
+}
+catch (...)
+{ }
+
+
+inline
+void
+SharedMutex::rdlock () const
+{
+    int ret;
+
+    do
+    {
+        ret = pthread_rwlock_rdlock (&rwl);
+        switch (ret)
+        {
+        case EAGAIN:
+            // The read lock could not be acquired because the maximum
+            // number of read locks for rwlock has been exceeded.
+
+            log4cplus::thread::yield ();
+            // Fall through.
+
+        case 0:
+            break;
+
+        default:
+            LOG4CPLUS_THROW_RTE ("SharedMutex::rdlock");
+            
+        }
+    }
+    while (ret != 0);
+}
+
+
+inline
+void
+SharedMutex::rdunlock () const
+{
+    unlock ();
+}
+
+
+inline
+void
+SharedMutex::wrlock () const
+{
+    int ret = pthread_rwlock_wrlock (&rwl);
+    if (ret != 0)
+        LOG4CPLUS_THROW_RTE ("SharedMutex::wrlock");
+}
+
+
+inline
+void
+SharedMutex::wrunlock () const
+{
+    unlock ();
+}
+
+
+inline
+void
+SharedMutex::unlock () const
+{
+    int ret = pthread_rwlock_unlock (&rwl);
+    if (ret != 0)
+        LOG4CPLUS_THROW_RTE ("SharedMutex::unlock");
+
+}
+
+
+#endif
 
 
 } } } // namespace log4cplus { namespace thread { namespace impl {
