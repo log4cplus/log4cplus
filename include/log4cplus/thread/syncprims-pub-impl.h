@@ -230,6 +230,62 @@ ManualResetEvent::reset () const
 }
 
 
+//
+//
+//
+
+LOG4CPLUS_INLINE_EXPORT
+SharedMutexImplBase::~SharedMutexImplBase ()
+{ }
+
+
+//
+//
+//
+
+LOG4CPLUS_INLINE_EXPORT
+SharedMutex::SharedMutex ()
+    : sm (LOG4CPLUS_THREADED (new impl::SharedMutex) + 0)
+{ }
+
+
+LOG4CPLUS_INLINE_EXPORT
+SharedMutex::~SharedMutex ()
+{ }
+
+
+LOG4CPLUS_INLINE_EXPORT
+void
+SharedMutex::rdlock () const
+{
+    LOG4CPLUS_THREADED (static_cast<impl::SharedMutex *>(sm)->rdlock ());
+}
+
+
+LOG4CPLUS_INLINE_EXPORT
+void
+SharedMutex::wrlock () const
+{
+    LOG4CPLUS_THREADED (static_cast<impl::SharedMutex *>(sm)->wrlock ());
+}
+
+
+LOG4CPLUS_INLINE_EXPORT
+void
+SharedMutex::rdunlock () const
+{
+    LOG4CPLUS_THREADED (static_cast<impl::SharedMutex *>(sm)->rdunlock ());
+}
+
+
+LOG4CPLUS_INLINE_EXPORT
+void
+SharedMutex::wrunlock () const
+{
+    LOG4CPLUS_THREADED (static_cast<impl::SharedMutex *>(sm)->wrunlock ());
+}
+
+
 } } // namespace log4cplus { namespace thread { 
 
 #endif // LOG4CPLUS_ENABLE_SYNCPRIMS_PUB_IMPL

@@ -160,6 +160,35 @@ private:
 };
 
 
+class SharedMutex
+    : public SharedMutexImplBase
+{
+public:
+    SharedMutex ();
+    ~SharedMutex ();
+
+    void rdlock () const;
+    void wrlock () const;
+    void rdunlock () const;
+    void wrunlock () const;
+
+private:
+#if defined (LOG4CPLUS_POOR_MANS_SHAREDMUTEX)
+    Mutex m1;
+    Mutex m2;
+    Mutex m3;
+    Semaphore w;
+    mutable unsigned writer_count;
+    Semaphore r;
+    mutable unsigned reader_count;
+
+#endif
+
+    SharedMutex (SharedMutex const &);
+    SharedMutex & operator = (SharedMutex const &);
+};
+
+
 } } } // namespace log4cplus { namespace thread { namespace impl {
 
 
@@ -171,6 +200,9 @@ private:
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS)
 #  include <log4cplus/thread/impl/syncprims-win32.h>
 #endif
+
+
+#undef LOG4CPLUS_THROW_RTE
 
 
 #endif // LOG4CPLUS_THREAD_SYNCPRIMS_IMPL_H

@@ -324,6 +324,7 @@ INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/syslogappender.h \
 	$(INCLUDES_SRC_PATH)/tchar.h \
 	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-impl.h \
+	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-pmsm.h \
 	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-pthreads.h \
 	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-win32.h \
 	$(INCLUDES_SRC_PATH)/thread/impl/threads-impl.h \

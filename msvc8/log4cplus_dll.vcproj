@@ -2885,6 +2885,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\include\log4cplus\thread\impl\syncprims-pmsm.h"
+					>
+				</File>
+				<File
 					RelativePath="..\include\log4cplus\thread\impl\syncprims-pthreads.h"
 					>
 				</File>

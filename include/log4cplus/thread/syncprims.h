@@ -166,6 +166,32 @@ private:
 };
 
 
+class SharedMutexImplBase
+{
+protected:
+    ~SharedMutexImplBase ();
+};
+
+
+class LOG4CPLUS_EXPORT SharedMutex
+{
+public:
+    SharedMutex ();
+    ~SharedMutex ();
+
+    void rdlock () const;
+    void wrlock () const;
+    void rdunlock () const;
+    void wrunlock () const;
+
+private:
+    SharedMutexImplBase * sm;
+
+    SharedMutex (SharedMutex const &);
+    SharedMutex & operator = (SharedMutex const &);
+};
+
+
 //
 //
 //

@@ -61,6 +61,7 @@ set (log4cplus_headers
   include/log4cplus/syslogappender.h
   include/log4cplus/tchar.h
   include/log4cplus/thread/impl/syncprims-impl.h
+  include/log4cplus/thread/impl/syncprims-pmsm.h
   include/log4cplus/thread/impl/syncprims-pthreads.h
   include/log4cplus/thread/impl/syncprims-win32.h
   include/log4cplus/thread/impl/threads-impl.h

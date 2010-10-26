@@ -325,7 +325,11 @@ ManualResetEvent::reset () const
 }
 
 
-#undef LOG4CPLUS_THROW_RTE
+//
+//
+//
+
+#include "log4cplus/thread/impl/syncprims-pmsm.h"
 
 
 } } } // namespace log4cplus { namespace thread { namespace impl {
