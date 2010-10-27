@@ -173,6 +173,27 @@ protected:
 };
 
 
+template <typename SP, void (SP:: * lock_func) () const,
+    void (SP:: * unlock_func) () const>
+class SyncGuardFunc
+{
+public:
+    SyncGuardFunc (SP const &);
+    ~SyncGuardFunc ();
+
+    void lock ();
+    void unlock ();
+    void attach (SP const &);
+    void detach ();
+
+private:
+    SP const * sp;
+
+    SyncGuardFunc (SyncGuardFunc const &);
+    SyncGuardFunc & operator = (SyncGuardFunc const &);
+};
+
+
 class LOG4CPLUS_EXPORT SharedMutex
 {
 public:
@@ -180,8 +201,9 @@ public:
     ~SharedMutex ();
 
     void rdlock () const;
-    void wrlock () const;
     void rdunlock () const;
+
+    void wrlock () const;
     void wrunlock () const;
 
 private:
@@ -190,6 +212,14 @@ private:
     SharedMutex (SharedMutex const &);
     SharedMutex & operator = (SharedMutex const &);
 };
+
+
+typedef SyncGuardFunc<SharedMutex, &SharedMutex::rdlock,
+    &SharedMutex::rdunlock> SharedMutexReaderGuard;
+
+
+typedef SyncGuardFunc<SharedMutex, &SharedMutex::wrlock,
+    &SharedMutex::wrunlock> SharedMutexWriterGuard;
 
 
 //
@@ -245,6 +275,70 @@ template <typename SP>
 inline
 void
 SyncGuard<SP>::detach ()
+{
+    sp = 0;
+}
+
+
+//
+//
+//
+
+template <typename SP, void (SP:: * lock_func) () const,
+    void (SP:: * unlock_func) () const>
+inline
+SyncGuardFunc<SP, lock_func, unlock_func>::SyncGuardFunc (SP const & m)
+    : sp (&m)
+{
+    (sp->*lock_func) ();
+}
+
+
+template <typename SP, void (SP:: * lock_func) () const,
+    void (SP:: * unlock_func) () const>
+inline
+SyncGuardFunc<SP, lock_func, unlock_func>::~SyncGuardFunc ()
+{
+    if (sp)
+        (sp->*unlock_func) ();
+}
+
+
+template <typename SP, void (SP:: * lock_func) () const,
+    void (SP:: * unlock_func) () const>
+inline
+void
+SyncGuardFunc<SP, lock_func, unlock_func>::lock ()
+{
+    (sp->*lock_func) ();
+}
+
+
+template <typename SP, void (SP:: * lock_func) () const,
+    void (SP:: * unlock_func) () const>
+inline
+void
+SyncGuardFunc<SP, lock_func, unlock_func>::unlock ()
+{
+    (sp->*unlock_func) ();
+}
+
+
+template <typename SP, void (SP:: * lock_func) () const,
+    void (SP:: * unlock_func) () const>
+inline
+void
+SyncGuardFunc<SP, lock_func, unlock_func>::attach (SP const & m)
+{
+    sp = &m;
+}
+
+
+template <typename SP, void (SP:: * lock_func) () const,
+    void (SP:: * unlock_func) () const>
+inline
+void
+SyncGuardFunc<SP, lock_func, unlock_func>::detach ()
 {
     sp = 0;
 }
