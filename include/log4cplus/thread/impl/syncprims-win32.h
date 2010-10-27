@@ -236,7 +236,55 @@ ManualResetEvent::reset () const
 //
 //
 
+#if defined (LOG4CPLUS_POOR_MANS_SHAREDMUTEX)
 #include "log4cplus/thread/impl/syncprims-pmsm.h"
+
+#else
+inline
+SharedMutex::SharedMutex ()
+{
+    InitializeSRWLock (&srwl);
+}
+
+
+inline
+SharedMutex::~SharedMutex ()
+{ }
+
+
+inline
+void
+SharedMutex::rdlock () const
+{
+    AcquireSRWLockShared (&srwl);
+}
+
+
+inline
+void
+SharedMutex::rdunlock () const
+{
+    ReleaseSRWLockShared (&srwl);
+}
+
+
+inline
+void
+SharedMutex::wrlock () const
+{
+    AcquireSRWLockExclusive (&srwl);
+}
+
+
+inline
+void
+SharedMutex::wrunlock () const
+{
+    ReleaseSRWLockExclusive (&srwl);
+}
+
+
+#endif
 
 
 } } } // namespace log4cplus { namespace thread { namespace impl {

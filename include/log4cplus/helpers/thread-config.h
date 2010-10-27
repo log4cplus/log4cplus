@@ -26,7 +26,11 @@
 // Nothing.
 
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-#   define LOG4CPLUS_POOR_MANS_SHAREDMUTEX
+#   if (_WIN32_WINNT + 0 >= 0x0600)
+#     define LOG4CPLUS_USE_SRW_LOCK
+#   else
+#     define LOG4CPLUS_POOR_MANS_SHAREDMUTEX
+#   endif
 #   if defined (_MSC_VER)
 #     undef LOG4CPLUS_HAVE_TLS_SUPPORT
 #     undef LOG4CPLUS_THREAD_LOCAL_VAR

@@ -187,6 +187,9 @@ private:
 
     mutable pthread_rwlock_t rwl;
 
+#elif defined (LOG4CPLUS_USE_SRW_LOCK)
+    mutable SRWLOCK srwl;
+
 #endif
 
     SharedMutex (SharedMutex const &);
