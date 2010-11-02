@@ -44,6 +44,9 @@
 #  define LOG4CPLUS_HAVE_WIN32_CONSOLE
 #endif
 
+// Enable Win32DebugAppender
+#define LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING
+
 // log4cplus_EXPORTS is used by the CMake build system.  DLL_EXPORT is
 // used by the autotools build system.
 #if (defined (log4cplus_EXPORTS) || defined (DLL_EXPORT)) \

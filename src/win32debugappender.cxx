@@ -22,6 +22,8 @@
 #include <log4cplus/win32debugappender.h>
 
 
+#if defined (LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING)
+
 using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
@@ -79,3 +81,6 @@ log4cplus::Win32DebugAppender::append(const spi::InternalLoggingEvent& event)
     const tchar * s = sz.c_str();
     ::OutputDebugString(s);
 }
+
+
+#endif // LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING

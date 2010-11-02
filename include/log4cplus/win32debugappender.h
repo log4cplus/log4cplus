@@ -24,7 +24,7 @@
 #define _LOG4CPLUS_WIN32DEBUG_APPENDER_HEADER_
 
 #include <log4cplus/config.hxx>
-#if defined(_WIN32)
+#if defined (LOG4CPLUS_HAVE_WIN32_CONSOLE)
 
 #include <log4cplus/appender.h>
 #include <log4cplus/helpers/property.h>
@@ -60,6 +60,6 @@ namespace log4cplus {
 
 } // end namespace log4cplus
 
-#endif // _WIN32
+#endif // LOG4CPLUS_HAVE_WIN32_CONSOLE
 #endif // _LOG4CPLUS_WIN32DEBUG_APPENDER_HEADER_
 
