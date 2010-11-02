@@ -74,6 +74,7 @@ SINGLE_THREADED_SRC = \
 	loglog.cxx \
 	logloguser.cxx \
 	ndc.cxx \
+	nteventlogappender.cxx \
 	nullappender.cxx \
 	objectregistry.cxx \
 	patternlayout.cxx \
@@ -87,7 +88,9 @@ SINGLE_THREADED_SRC = \
 	stringhelper.cxx \
 	syslogappender.cxx \
 	timehelper.cxx \
-	version.cxx
+	version.cxx \
+	win32consoleappender.cxx \
+	win32debugappender.cxx
 
 if WINSOCK_SOCKETS
 SOCKETS_SRC = socket-win32.cxx

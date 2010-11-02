@@ -128,22 +128,24 @@ am__liblog4cplus_la_SOURCES_DIST = $(INCLUDES_SRC_PATH)/appender.h \
 	consoleappender.cxx factory.cxx fileappender.cxx filter.cxx \
 	global-init.cxx hierarchy.cxx hierarchylocker.cxx layout.cxx \
 	logger.cxx loggerimpl.cxx loggingevent.cxx loglevel.cxx \
-	loglog.cxx logloguser.cxx ndc.cxx nullappender.cxx \
-	objectregistry.cxx patternlayout.cxx pointer.cxx property.cxx \
-	rootlogger.cxx sleep.cxx socket.cxx socketappender.cxx \
-	socketbuffer.cxx stringhelper.cxx syslogappender.cxx \
-	timehelper.cxx version.cxx threads.cxx syncprims.cxx \
-	socket-unix.cxx socket-win32.cxx
+	loglog.cxx logloguser.cxx ndc.cxx nteventlogappender.cxx \
+	nullappender.cxx objectregistry.cxx patternlayout.cxx \
+	pointer.cxx property.cxx rootlogger.cxx sleep.cxx socket.cxx \
+	socketappender.cxx socketbuffer.cxx stringhelper.cxx \
+	syslogappender.cxx timehelper.cxx version.cxx \
+	win32consoleappender.cxx win32debugappender.cxx threads.cxx \
+	syncprims.cxx socket-unix.cxx socket-win32.cxx
 am__objects_1 =
 am__objects_2 = $(am__objects_1) appenderattachableimpl.lo appender.lo \
 	configurator.lo consoleappender.lo factory.lo fileappender.lo \
 	filter.lo global-init.lo hierarchy.lo hierarchylocker.lo \
 	layout.lo logger.lo loggerimpl.lo loggingevent.lo loglevel.lo \
-	loglog.lo logloguser.lo ndc.lo nullappender.lo \
-	objectregistry.lo patternlayout.lo pointer.lo property.lo \
-	rootlogger.lo sleep.lo socket.lo socketappender.lo \
+	loglog.lo logloguser.lo ndc.lo nteventlogappender.lo \
+	nullappender.lo objectregistry.lo patternlayout.lo pointer.lo \
+	property.lo rootlogger.lo sleep.lo socket.lo socketappender.lo \
 	socketbuffer.lo stringhelper.lo syslogappender.lo \
-	timehelper.lo version.lo
+	timehelper.lo version.lo win32consoleappender.lo \
+	win32debugappender.lo
 @MULTI_THREADED_TRUE@am__objects_3 = threads.lo syncprims.lo
 @WINSOCK_SOCKETS_FALSE@am__objects_4 = socket-unix.lo
 @WINSOCK_SOCKETS_TRUE@am__objects_4 = socket-win32.lo
@@ -380,6 +382,7 @@ SINGLE_THREADED_SRC = \
 	loglog.cxx \
 	logloguser.cxx \
 	ndc.cxx \
+	nteventlogappender.cxx \
 	nullappender.cxx \
 	objectregistry.cxx \
 	patternlayout.cxx \
@@ -393,7 +396,9 @@ SINGLE_THREADED_SRC = \
 	stringhelper.cxx \
 	syslogappender.cxx \
 	timehelper.cxx \
-	version.cxx
+	version.cxx \
+	win32consoleappender.cxx \
+	win32debugappender.cxx
 
 @WINSOCK_SOCKETS_FALSE@SOCKETS_SRC = socket-unix.cxx
 @WINSOCK_SOCKETS_TRUE@SOCKETS_SRC = socket-win32.cxx
@@ -501,6 +506,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loglog.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logloguser.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ndc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nteventlogappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nullappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/objectregistry.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/patternlayout.Plo@am__quote@
@@ -519,6 +525,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/threads.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timehelper.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/version.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/win32consoleappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/win32debugappender.Plo@am__quote@
 
 .cxx.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
