@@ -43,6 +43,9 @@ public:
     //! Type of the state flags field.
     typedef unsigned flags_type;
 
+    //! Queue storage type.
+    typedef std::deque<spi::InternalLoggingEvent> queue_storage_type;
+
     Queue (unsigned len = 100);
     virtual ~Queue ();
 
@@ -70,28 +73,23 @@ public:
     // Consumer's methods.
 
     //! The get_events() function is used by queue's consumer. It
-    //! fills <code>buf</code> argument using the first
-    //! <code>buf_size</code> items in queue and sets EVENT flag in
-    //! return value. The actual item count pulled from the queue is
-    //! stored into <code>std::size_t</code> variable pointed to by
-    //! <code>pulled</code>. If EXIT flag is already set in flags
-    //! member upon entering the function then depending on DRAIN flag
-    //! it either fills <code>buf</code> argument or does not fill the
-    //! argument, if the queue is non-empty. The function blocks by
-    //! waiting for internal event object to be signaled if the queue
-    //! is empty, unless EXIT flag is set. The calling thread is
-    //! unblocked by when items are added into the queue or when exit
-    //! is signaled using the signal_exit() function.
+    //! fills <code>buf</code> argument and sets EVENT flag in return
+    //! value. If EXIT flag is already set in flags member upon
+    //! entering the function then depending on DRAIN flag it either
+    //! fills <code>buf</code> argument or does not fill the argument,
+    //! if the queue is non-empty. The function blocks by waiting for
+    //! internal event object to be signaled if the queue is empty,
+    //! unless EXIT flag is set. The calling thread is unblocked when
+    //! items are added into the queue or when exit is signaled using
+    //! the signal_exit() function.
+    //!
     //!
     //! Upon error, return value has one of the error flags set.
     //!
-    //! \param buf Pointer to array of spi::InternalLoggingEvent
+    //! \param buf Pointer to storage of spi::InternalLoggingEvent
     //! instances to be filled from queue.
-    //! \param buf_size Size of buffer pointed to by <code>buf</code>.
-    //! \param pulled The actual number of pulled items.
     //! \return Flags.
-    flags_type get_events (spi::InternalLoggingEvent * buf,
-        std::size_t buf_size, std::size_t * pulled);
+    flags_type get_events (queue_storage_type * buf);
 
     //! Possible state flags.
     enum Flags
@@ -121,9 +119,6 @@ public:
     };
 
 protected:
-    //! Queue storage type.
-    typedef std::deque<spi::InternalLoggingEvent> queue_storage_type;
-
     //! Queue storage.
     queue_storage_type queue;
 

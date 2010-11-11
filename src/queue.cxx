@@ -124,8 +124,7 @@ Queue::signal_exit (bool drain)
 
 
 Queue::flags_type
-Queue::get_events (spi::InternalLoggingEvent * buf, std::size_t buf_size,
-    std::size_t * pulled)
+Queue::get_events (queue_storage_type * buf)
 {
     flags_type ret_flags = 0;
 
@@ -142,24 +141,13 @@ Queue::get_events (spi::InternalLoggingEvent * buf, std::size_t buf_size,
             {
                 assert (! queue.empty ());
 
-                std::size_t const pull_count = (std::min) (queue.size (), buf_size);
+                std::size_t const count = queue.size ();
+                queue.swap (*buf);
+                queue.clear ();
+                flags &= ~QUEUE;
+                for (std::size_t i = 0; i != count; ++i)
+                    sem.unlock ();
 
-                queue_storage_type::reverse_iterator qit = queue.rbegin ();
-                spi::InternalLoggingEvent * bufit = buf;
-                spi::InternalLoggingEvent const * const buf_end = buf + pull_count;
-                for (; bufit != buf_end; ++qit, ++bufit)
-                {
-                    bufit->swap (*qit);
-                }
-
-                assert (std::distance (qit.base (), queue.end ())
-                    == static_cast<queue_storage_type::difference_type>(pull_count));
-                queue.erase (qit.base (), queue.end ());
-                *pulled = pull_count;
-
-                if (queue.empty ())
-                    flags &= ~QUEUE;
-                sem.unlock ();
                 ret_flags = flags | EVENT;
                 break;
             }

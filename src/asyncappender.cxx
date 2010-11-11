@@ -63,18 +63,18 @@ QueueThread::QueueThread (AsyncAppenderPtr const & aai,
 void
 QueueThread::run()
 {
-    std::size_t const BATCH_SIZE = 10;
-    std::vector<spi::InternalLoggingEvent> ev_buf (BATCH_SIZE);
+    typedef log4cplus::thread::Queue::queue_storage_type ev_buf_type;
+    ev_buf_type ev_buf;
 
     while (true)
     {
-        std::size_t pulled = 0;
-        unsigned flags = queue->get_events (&ev_buf[0], BATCH_SIZE, &pulled);
-
+        unsigned flags = queue->get_events (&ev_buf);
         if (flags & thread::Queue::EVENT)
         {
-            for (std::size_t i = 0; i != pulled; ++i)
-                appenders->appendLoopOnAppenders (ev_buf[i]);
+            ev_buf_type::const_iterator const ev_buf_end = ev_buf.end ();
+            for (ev_buf_type::const_iterator it = ev_buf.begin ();
+                it != ev_buf_end; ++it)
+                appenders->appendLoopOnAppenders (*it);
         }
 
         if (((thread::Queue::EXIT | thread::Queue::DRAIN
