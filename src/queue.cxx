@@ -67,7 +67,7 @@ Queue::put_event (spi::InternalLoggingEvent const & ev)
         }
         else
         {
-            queue.push_front (ev);
+            queue.push_back (ev);
             ret_flags |= ERROR_AFTER;
             semguard.detach ();
             flags |= QUEUE;
