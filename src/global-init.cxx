@@ -30,6 +30,7 @@ namespace log4cplus
 
 
 void initializeFactoryRegistry();
+void initializeLayout ();
 
 
 void initializeLog4cplus()
@@ -43,6 +44,7 @@ void initializeLog4cplus()
     getNDC();
     Logger::getRoot();
     initializeFactoryRegistry();
+    initializeLayout ();
 
     initialized = true;
 }

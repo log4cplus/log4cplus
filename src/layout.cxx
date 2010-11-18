@@ -22,12 +22,21 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <iomanip>
 
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-using namespace log4cplus::spi;
+namespace log4cplus
+{
+
+
+static helpers::Time time_base;
+
+
+void
+initializeLayout ()
+{
+    time_base = helpers::Time::gettimeofday ();
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -51,7 +60,7 @@ SimpleLayout::formatAndAppend(log4cplus::tostream& output,
 ///////////////////////////////////////////////////////////////////////////////
 
 TTCCLayout::TTCCLayout(bool use_gmtime_)
-: dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S,%q") ),
+: dateFormat(),
   use_gmtime(use_gmtime_)
 {
 }
@@ -59,15 +68,15 @@ TTCCLayout::TTCCLayout(bool use_gmtime_)
 
 TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
 : Layout(properties),
-  dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S,%q") ),
+  dateFormat(),
   use_gmtime(false)
 {
     if(properties.exists( LOG4CPLUS_TEXT("DateFormat") )) {
-        dateFormat  = properties.getProperty( LOG4CPLUS_TEXT("DateFormat") );
+        dateFormat = properties.getProperty( LOG4CPLUS_TEXT("DateFormat") );
     }
 
     tstring tmp = properties.getProperty( LOG4CPLUS_TEXT("Use_gmtime") );
-    use_gmtime = (toLower(tmp) == LOG4CPLUS_TEXT("true"));
+    use_gmtime = (helpers::toLower(tmp) == LOG4CPLUS_TEXT("true"));
 }
 
 
@@ -85,8 +94,23 @@ void
 TTCCLayout::formatAndAppend(log4cplus::tostream& output, 
                             const log4cplus::spi::InternalLoggingEvent& event)
 {
-    output << event.getTimestamp().getFormattedTime(dateFormat, use_gmtime) 
-           << LOG4CPLUS_TEXT(" [")
+    if (dateFormat.empty ())
+    {
+        helpers::Time const rel_time = event.getTimestamp () - time_base;
+        tchar const old_fill = output.fill ();
+        helpers::time_t const sec = rel_time.sec ();
+
+        if (sec != 0)
+            output << sec << std::setfill (LOG4CPLUS_TEXT ('0'))
+                   << std::setw (3);
+
+        output << rel_time.usec () / 1000;
+        output.fill (old_fill);
+    }
+    else
+        output << event.getTimestamp().getFormattedTime(dateFormat, use_gmtime);
+
+    output << LOG4CPLUS_TEXT(" [")
            << event.getThread()
            << LOG4CPLUS_TEXT("] ")
            << llmCache.toString(event.getLogLevel()) 
@@ -100,5 +124,4 @@ TTCCLayout::formatAndAppend(log4cplus::tostream& output,
 }
 
 
-
-
+} // namespace log4cplus
