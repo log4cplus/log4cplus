@@ -200,19 +200,38 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
 namespace
 {
 
+//! Helper for accept_wrap().
+template <typename T, typename U>
+struct socklen_var
+{
+    typedef T type;
+};
+
+
+template <typename U>
+struct socklen_var<void, U>
+{
+    typedef U type;
+};
+
 
 // Some systems like HP-UX have socklen_t but accept() does not use it
 // as type of its 3rd parameter. This wrapper works around this
 // incompatibility.
-template <typename sockaddr_ptr_type, typename socklen_type>
+template <typename accept_sockaddr_ptr_type, typename accept_socklen_type>
 static
 SOCKET_TYPE
 accept_wrap (
-    int (* accept_func) (int, sockaddr_ptr_type, socklen_type *),
+    int (* accept_func) (int, accept_sockaddr_ptr_type, accept_socklen_type *),
     SOCKET_TYPE sock, struct sockaddr * sa, socklen_t * len)
 {
-    socklen_type l = *len;
-    SOCKET_TYPE result = static_cast<SOCKET_TYPE>(accept_func (sock, sa, &l));
+    typedef typename socklen_var<accept_socklen_type, socklen_t>::type
+        socklen_var_type;
+    socklen_var_type l = static_cast<socklen_var_type>(*len);
+    SOCKET_TYPE result
+        = static_cast<SOCKET_TYPE>(
+            accept_func (sock, sa,
+                reinterpret_cast<accept_socklen_type *>(&l)));
     *len = static_cast<socklen_t>(l);
     return result;
 }
