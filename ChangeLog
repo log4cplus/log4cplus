@@ -1,3 +1,9 @@
+Version 1.0.4
+
+  - Fixed bug #3101459 - TTCCLayout time is not in milliseconds since
+    process start by default.
+  - Fixed compilation of Non-Windows builds.
+	
 Version 1.0.4-RC11
 
   - Fixed bug #3083313, deadlock because of double locking when using
