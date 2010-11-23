@@ -29,7 +29,7 @@ namespace log4cplus
 {
 
 
-static helpers::Time time_base;
+static helpers::Time time_base (helpers::Time::gettimeofday ());
 
 
 void
