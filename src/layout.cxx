@@ -29,13 +29,13 @@ namespace log4cplus
 {
 
 
-static helpers::Time time_base (helpers::Time::gettimeofday ());
+extern helpers::Time TTCCLayout_time_base;
 
 
 void
 initializeLayout ()
 {
-    time_base = helpers::Time::gettimeofday ();
+    TTCCLayout_time_base = helpers::Time::gettimeofday ();
 }
 
 
@@ -96,7 +96,7 @@ TTCCLayout::formatAndAppend(log4cplus::tostream& output,
 {
     if (dateFormat.empty ())
     {
-        helpers::Time const rel_time = event.getTimestamp () - time_base;
+        helpers::Time const rel_time = event.getTimestamp () - TTCCLayout_time_base;
         tchar const old_fill = output.fill ();
         helpers::time_t const sec = rel_time.sec ();
 

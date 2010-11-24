@@ -29,6 +29,10 @@ namespace log4cplus
 {
 
 
+//! Defined here, used by initializeLayout().
+helpers::Time TTCCLayout_time_base;
+
+
 void initializeFactoryRegistry();
 void initializeLayout ();
 
