@@ -217,7 +217,7 @@ ServerSocket::~ServerSocket()
 Socket
 ServerSocket::accept()
 {
-    SocketState st;
+    SocketState st = not_opened;
     SOCKET_TYPE clientSock = acceptSocket(sock, st);
     return Socket(clientSock, st, 0);
 }

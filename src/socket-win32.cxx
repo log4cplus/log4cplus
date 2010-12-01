@@ -242,11 +242,16 @@ error:
 
 
 SOCKET_TYPE
-acceptSocket(SOCKET_TYPE sock, SocketState& /*state*/)
+acceptSocket(SOCKET_TYPE sock, SocketState & state)
 {
     init_winsock ();
 
-    return to_log4cplus_socket (::accept (to_os_socket (sock), NULL, NULL));
+    SOCKET connected_socket = ::accept (to_os_socket (sock), NULL, NULL);
+
+    if (connected_socket != INVALID_OS_SOCKET_VALUE)
+        state = ok;
+
+    return to_log4cplus_socket (connected_socket);
 }
 
 
