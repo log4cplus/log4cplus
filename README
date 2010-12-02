@@ -57,6 +57,19 @@ enables this approach by blocking all signals in any threads created
 through its threads helpers.
 
 
+AIX
+---
+
+There appears to be some kind of deadlock/live-lock (bug #3056687)
+situation occuring on AIX which does not manifest anywhere
+else. Adding -D__NOLOCK_ON_OUTPUT ([1]) to CPPFLAGS during
+configuration seems to work around the problem. See also [2] for more
+details.
+
+[1] <http://publib.boulder.ibm.com/infocenter/comphelp/v8v101/index.jsp?topic=/com.ibm.xlcpp8a.doc/proguide/ref/threadsafe_streams.htm>
+[2] <https://sourceforge.net/tracker/?func=detail&aid=3056687&group_id=40830&atid=429073>
+
+
 Unsupported compilers
 ---------------------
 
