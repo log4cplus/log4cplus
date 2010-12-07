@@ -172,11 +172,16 @@ namespace log4cplus {
          * context.
          *
          * The returned value is the value that was pushed last. If no
-         * context is available, then the empty string "" is returned.
+         * context is available, then the empty string "" is
+         * returned. If each call to push() is paired with a call to
+         * pop() (even in presence of thrown exceptions), the last
+         * pop() call frees the memory used by NDC for this
+         * thread. Otherwise, remove() must be called at the end of
+         * the thread to free the memory used by NDC for the thread.
          *
          * @return String The innermost diagnostic context.
          *
-         * @see NDCContextCreator
+         * @see NDCContextCreator, remove(), push()
          */
         log4cplus::tstring pop();
 
@@ -195,11 +200,12 @@ namespace log4cplus {
          * Push new diagnostic context information for the current thread.
          *
          * The contents of the <code>message</code> parameter is
-         * determined solely by the client.  
+         * determined solely by the client. Each call to push() should
+         * be paired with a call to pop().
          *
          * @param message The new diagnostic context information.
          *
-         * @see NDCContextCreator
+         * @see NDCContextCreator, pop(), remove()
          */
         void push(const log4cplus::tstring& message);
 
@@ -207,8 +213,13 @@ namespace log4cplus {
          * Remove the diagnostic context for this thread.
          *
          * Each thread that created a diagnostic context by calling
-         * {@link #push} should call this method before exiting. Otherwise,
-         * the memory used by the thread cannot be reclaimed.
+         * push() should call this method before exiting. Otherwise,
+         * the memory used by the thread cannot be reclaimed. It is
+         * possible to omit this call if and only if each push() call
+         * is always paired with a pop() call (even in presence of
+         * thrown exceptions). Then the memory used by NDC will be
+         * returned by the last pop() call and a call to remove() will
+         * be no-op.
          */
         void remove();
 
