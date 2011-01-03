@@ -84,8 +84,7 @@ dnl Libtool setup.
 LT_PREREQ([2.2.6])
 LT_INIT([win32-dll])
 
-dnl Checks for programs.
-AC_SEARCH_LIBS([strerror], [cposix])
+dnl Check for compiler specifics.
 
 AC_CXX_COMPILER_VENDOR([ac_cxx_compiler_vendor])
 
@@ -130,9 +129,11 @@ AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility"
 
 dnl Checks for libraries.
 
-AC_CHECK_LIB([rt], [nanosleep])
-AC_CHECK_FUNC([gethostent], [], [AC_CHECK_LIB([nsl], [gethostent])])
-AC_CHECK_FUNC([setsockopt], [], [AC_CHECK_LIB([socket], [setsockopt])])
+AC_SEARCH_LIBS([strerror], [cposix])
+AC_SEARCH_LIBS([clock_gettime], [posix4])
+AC_SEARCH_LIBS([nanosleep], [rt])
+AC_SEARCH_LIBS([gethostent], [nsl])
+AC_SEARCH_LIBS([setsockopt], [socket])
 
 dnl Windows/MinGW specific.
 
