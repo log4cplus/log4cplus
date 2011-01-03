@@ -60,14 +60,21 @@ through its threads helpers.
 AIX
 ---
 
-There appears to be some kind of deadlock/live-lock (bug #3056687)
-situation occuring on AIX which does not manifest anywhere
-else. Adding -D__NOLOCK_ON_OUTPUT ([1]) to CPPFLAGS during
-configuration seems to work around the problem. See also [2] for more
-details.
+There appears to be a reentracy problem with AIX 5.3 and xlC 8 which
+can result into a deadlock condition in some curcumstances. It is
+unknown whether the problem manifests with other versions of either
+the OS or the compiler, too. The problem was initially reported in a
+bug report #3056687 ([1]).
 
-[1] <http://publib.boulder.ibm.com/infocenter/comphelp/v8v101/index.jsp?topic=/com.ibm.xlcpp8a.doc/proguide/ref/threadsafe_streams.htm>
-[2] <https://sourceforge.net/tracker/?func=detail&aid=3056687&group_id=40830&atid=429073>
+The core of the problem is that IBM's/xlC's standard C++ IOStreams
+implementation uses global non recursive lock to protect some of its
+state. The application in the bug report was trying to do logging
+using log4cplus from inside overflow() member function of a class
+derived from std::streambuf class. log4cplus itself uses
+std::ostringstream. This resulted into an attempt to recursivly lock
+the global non recursive lock and a deadlock.
+
+[1] <https://sourceforge.net/tracker/?func=detail&aid=3056687&group_id=40830&atid=429073>
 
 
 Unsupported compilers
