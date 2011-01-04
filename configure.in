@@ -88,13 +88,11 @@ dnl Check for compiler specifics.
 
 AC_CXX_COMPILER_VENDOR([ac_cxx_compiler_vendor])
 
-AS_IF([test "x$enable_warnings" = "xyes"],
-  [AX_CXXFLAGS_WARN_ALL])
-
 AS_CASE([$ac_cxx_compiler_vendor],
   [gnu],
   [AS_IF([test "x$enable_warnings" = "xyes"],
-     [AX_CXXFLAGS_GCC_OPTION([-Wextra])
+     [AX_CXXFLAGS_GCC_OPTION([-Wall])
+      AX_CXXFLAGS_GCC_OPTION([-Wextra])
       dnl The -ansi flag removes declarations of some useful functions
       dnl from headers.
       dnl AX_CXXFLAGS_GCC_OPTION([-ansi])
@@ -225,8 +223,7 @@ AS_IF([test x$enable_threads = xyes],
 
    CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
    CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
-   LIBS="$PTHREAD_LIBS $LIBS"
-   AC_CHECK_LIB([rt], [nanosleep])],
+   LIBS="$PTHREAD_LIBS $LIBS"],
 
   [AC_MSG_NOTICE([Creating a single-threaded library])
    AC_DEFINE([LOG4CPLUS_SINGLE_THREADED], [1],

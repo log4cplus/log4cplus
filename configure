@@ -14881,13 +14881,15 @@ $as_echo "$ac_cv_cxx_compiler_vendor" >&6; }
 
 
 
-if test "x$enable_warnings" = "xyes"; then :
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for maximum warnings" >&5
-$as_echo_n "checking CXXFLAGS for maximum warnings... " >&6; }
-if ${ax_cv_cxxflags_warn_all+:} false; then :
+case $ac_cxx_compiler_vendor in #(
+  gnu) :
+    if test "x$enable_warnings" = "xyes"; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -Wall" >&5
+$as_echo_n "checking CXXFLAGS for gcc -Wall... " >&6; }
+if ${ax_cv_cxxflags_gcc_option__Wall+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  ax_cv_cxxflags_warn_all="no, unknown"
+  ax_cv_cxxflags_gcc_option__Wall="no, unknown"
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -14896,7 +14898,7 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
  ac_save_CXXFLAGS="$CXXFLAGS"
-for ac_arg in "-pass-exit-codes -pedantic % -Wall"    "-xstrconst % -v"             "-std1      % -verbose -w0 -warnprotos"    "-qlanglvl=ansi % -qsrcmsg -qinfo=all:noppt:noppc:noobs:nocnd"    "-ansi -ansiE % -fullwarn"    "+ESlit     % +w1"            "-Xc        % -pvctl,fullmsg"    "-h conform % -h msglevel 2"    #
+for ac_arg in "-pedantic -Werror % -Wall"     "-pedantic % -Wall %% no, obsolete"     #
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
@@ -14910,7 +14912,7 @@ return 0;
 }
 _ACEOF
 if ac_fn_cxx_try_compile "$LINENO"; then :
-  ax_cv_cxxflags_warn_all=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_gcc_option__Wall=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 done
@@ -14923,35 +14925,30 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_cxxflags_warn_all" >&5
-$as_echo "$ax_cv_cxxflags_warn_all" >&6; }
-case ".$ax_cv_cxxflags_warn_all" in
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_cxxflags_gcc_option__Wall" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__Wall" >&6; }
+var=$ax_cv_cxxflags_gcc_option__Wall
+case ".$var" in
      .ok|.ok,*)  ;;
-   .|.no|.no,*)
- ;;
+   .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_warn_all " 2>&1 >/dev/null
-   then { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$ax_cv_cxxflags_warn_all"; } >&5
-  (: CXXFLAGS does contain $ax_cv_cxxflags_warn_all) 2>&5
+   if echo " $CXXFLAGS " | grep " $var " 2>&1 >/dev/null
+   then { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$var"; } >&5
+  (: CXXFLAGS does contain $var) 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-   else { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_warn_all\""; } >&5
-  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_warn_all") 2>&5
+   else { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$var\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS $var") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_warn_all"
+                      CXXFLAGS="$CXXFLAGS $var"
    fi
  ;;
 esac
 
-fi
-
-case $ac_cxx_compiler_vendor in #(
-  gnu) :
-    if test "x$enable_warnings" = "xyes"; then :
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -Wextra" >&5
+      { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -Wextra" >&5
 $as_echo_n "checking CXXFLAGS for gcc -Wextra... " >&6; }
 if ${ax_cv_cxxflags_gcc_option__Wextra+:} false; then :
   $as_echo_n "(cached) " >&6
@@ -17086,51 +17083,6 @@ esac
    CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
    CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
    LIBS="$PTHREAD_LIBS $LIBS"
-   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nanosleep in -lrt" >&5
-$as_echo_n "checking for nanosleep in -lrt... " >&6; }
-if ${ac_cv_lib_rt_nanosleep+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lrt  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char nanosleep ();
-int
-main ()
-{
-return nanosleep ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv_lib_rt_nanosleep=yes
-else
-  ac_cv_lib_rt_nanosleep=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_rt_nanosleep" >&5
-$as_echo "$ac_cv_lib_rt_nanosleep" >&6; }
-if test "x$ac_cv_lib_rt_nanosleep" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBRT 1
-_ACEOF
-
-  LIBS="-lrt $LIBS"
-
-fi
-
 else
   { $as_echo "$as_me:${as_lineno-$LINENO}: Creating a single-threaded library" >&5
 $as_echo "$as_me: Creating a single-threaded library" >&6;}
