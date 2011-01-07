@@ -190,7 +190,6 @@ error:
 SOCKET_TYPE
 connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
 {
-    unsigned long ip;
     struct hostent * hp;
     struct sockaddr_in insock;
     int retval;
@@ -201,25 +200,26 @@ connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
     if (sock == INVALID_OS_SOCKET_VALUE)
         goto error;
 
-    ip = INADDR_NONE;
     hp = ::gethostbyname( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
     if (hp == 0 || hp->h_addrtype != AF_INET)
     {
-        ip = inet_addr( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
-        if(ip == INADDR_NONE)
+        insock.sin_family = AF_INET;
+        INT insock_size = sizeof (insock);
+        INT ret = WSAStringToAddress (const_cast<LPWSTR>(hostn.c_str ()),
+            AF_INET, 0, reinterpret_cast<struct sockaddr *>(&insock),
+            &insock_size);
+        if (ret == SOCKET_ERROR || insock_size != sizeof (insock)) 
         {
             state = bad_address;
-            WSASetLastError (WSAEINVAL);
             goto error;
         }
     }
+    else
+        std::memcpy (&insock.sin_addr, hp->h_addr_list[0],
+            sizeof (insock.sin_addr));
 
     insock.sin_port = htons(port);
     insock.sin_family = AF_INET;
-    if (hp != 0)
-        std::memcpy (&insock.sin_addr, hp->h_addr, sizeof insock.sin_addr);
-    else
-        insock.sin_addr.S_un.S_addr = ip;
 
     while(   (retval = ::connect(sock, (struct sockaddr*)&insock, sizeof(insock))) == -1
           && (WSAGetLastError() == WSAEINTR))
