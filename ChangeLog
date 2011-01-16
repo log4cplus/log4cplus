@@ -3,7 +3,8 @@ Version 1.0.4
   - Fixed bug #3101459 - TTCCLayout time is not in milliseconds since
     process start by default.
   - Fixed compilation of Non-Windows builds.
-	
+  - Fixed various compilation and linking issues on SunOS.
+
 Version 1.0.4-RC11
 
   - Fixed bug #3083313, deadlock because of double locking when using
@@ -414,7 +415,7 @@ Version 0.9.3 (Apr-19-2003)
 
 Version 0.9.2 (Apr-5-2003)
   Major API change:  Changed the name of the Category class to Logger and
-             replaced the Priority class with LogLevel.
+	     replaced the Priority class with LogLevel.
   Added PropertyConfigurator class.
   Added BasicConfigurator class.
 
