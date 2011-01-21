@@ -122,6 +122,10 @@
 #  define LOG4CPLUS_USE_WIN32_THREADS
 #endif
 
+#if _WIN32_WINNT + 0 < 0x0600
+#  define LOG4CPLUS_POOR_MANS_SHAREDMUTEX
+#endif
+
 #if defined(_MSC_VER)
   // Warning about: identifier was truncated to '255' characters in the debug information
 #  pragma warning( disable : 4786 )

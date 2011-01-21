@@ -27,6 +27,9 @@
 //! guards because it is only a fragment to be included by
 //! syncprims.h.
 
+#include <new>
+
+
 namespace log4cplus { namespace thread { namespace impl {
 
 
@@ -35,9 +38,31 @@ namespace log4cplus { namespace thread { namespace impl {
 //
 
 inline
+void
+InitializeCriticalSection_wrap (LPCRITICAL_SECTION cs)
+{
+#if defined (_MSC_VER)
+    __try
+    {
+#endif
+
+    InitializeCriticalSection (cs);
+
+#if defined (_MSC_VER)
+    }
+    __except (GetExceptionCode() == STATUS_NO_MEMORY
+        ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
+    {
+        throw std::bad_alloc ("InitializeCriticalSection: STATUS_NO_MEMORY");
+    }
+#endif
+}
+
+
+inline
 Mutex::Mutex (log4cplus::thread::Mutex::Type)
 {
-    InitializeCriticalSection (&cs);
+    InitializeCriticalSection_wrap (&cs);
 }
 
 
