@@ -241,6 +241,12 @@ NTEventLogAppender::append(const InternalLoggingEvent& event)
     tostringstream buf;
     layout->formatAndAppend(buf, event);
     tstring sz = buf.str();
+
+    // From MSDN documentation for ReportEvent():
+    // Each string is limited to 31,839 characters.
+    if (sz.size () > 31839)
+        sz.resize (31839);
+
     const tchar * s = sz.c_str();
 
     BOOL bSuccess = ::ReportEvent(hEventLog,
@@ -265,22 +271,14 @@ WORD
 NTEventLogAppender::getEventType(const InternalLoggingEvent& event)
 {
     WORD ret_val;
-    
-    switch ((int)event.getLogLevel())
-    {
-    case FATAL_LOG_LEVEL:
-    case ERROR_LOG_LEVEL:
+    LogLevel const ll = event.getLogLevel();
+
+    if (ll >= ERROR_LOG_LEVEL) // or FATAL_LOG_LEVEL
         ret_val = EVENTLOG_ERROR_TYPE;
-        break;
-    case WARN_LOG_LEVEL:
+    else if (ll >= WARN_LOG_LEVEL)
         ret_val = EVENTLOG_WARNING_TYPE;
-        break;
-    case INFO_LOG_LEVEL:
-    case DEBUG_LOG_LEVEL:
-    default:
+    else // INFO_LOG_LEVEL or DEBUG_LOG_LEVEL or TRACE_LOG_LEVEL
         ret_val = EVENTLOG_INFORMATION_TYPE;
-        break;
-    }
 
     return ret_val;
 }
@@ -291,26 +289,20 @@ WORD
 NTEventLogAppender::getEventCategory(const InternalLoggingEvent& event)
 {
     WORD ret_val;
-    
-    switch (event.getLogLevel())
-    {
-    case FATAL_LOG_LEVEL:
+    LogLevel const ll = event.getLogLevel();
+
+    if (ll >= FATAL_LOG_LEVEL)
         ret_val = 1;
-        break;
-    case ERROR_LOG_LEVEL:
+    else if (ll >= ERROR_LOG_LEVEL)
         ret_val = 2;
-        break;
-    case WARN_LOG_LEVEL:
+    else if (ll >= WARN_LOG_LEVEL)
         ret_val = 3;
-        break;
-    case INFO_LOG_LEVEL:
+    else if (ll >= INFO_LOG_LEVEL)
         ret_val = 4;
-        break;
-    case DEBUG_LOG_LEVEL:
-    default:
+    else if (ll >= DEBUG_LOG_LEVEL)
         ret_val = 5;
-        break;
-    }
+    else // TRACE_LOG_LEVEL
+        ret_val = 6;
 
     return ret_val;
 }
