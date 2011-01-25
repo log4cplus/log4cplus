@@ -182,7 +182,7 @@ Hierarchy::getCurrentLoggers()
 
 
 bool 
-Hierarchy::isDisabled(int level) 
+Hierarchy::isDisabled(LogLevel level) 
 { 
     return disableValue >= level; 
 }
