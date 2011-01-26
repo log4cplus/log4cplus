@@ -24,6 +24,7 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <sstream>
 
 #ifdef LOG4CPLUS_HAVE_STDLIB_H
 #include <stdlib.h>

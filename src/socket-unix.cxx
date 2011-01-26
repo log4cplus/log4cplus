@@ -18,24 +18,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <log4cplus/helpers/socket.h>
+
+#include <log4cplus/config.hxx>
+#if defined (LOG4CPLUS_USE_BSD_SOCKETS)
+
+#include <cstring>
+#include <vector>
+#include <algorithm>
+#include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/threads.h>
 #include <log4cplus/spi/loggingevent.h>
-#include <log4cplus/helpers/syncprims.h>
 
 #include <arpa/inet.h>
  
-#ifdef LOG4CPLUS_HAVE_NETINET_IN_H
-#include <netinet/in.h>
-#endif
-
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
 
 #ifdef LOG4CPLUS_HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
+
+#if defined (LOG4CPLUS_HAVE_NETINET_IN_H)
+#include <netinet/in.h>
+#endif
+
+#if defined (LOG4CPLUS_HAVE_NETINET_TCP_H)
+#include <netinet/tcp.h>
 #endif
 
 #include <errno.h>
@@ -46,13 +56,10 @@
 
 #include <unistd.h>
 
-#include <cstring>
-#include <vector>
 #include <algorithm>
 
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
+namespace log4cplus { namespace helpers {
 
 
 namespace
@@ -80,7 +87,7 @@ get_host_by_name (char const * hostname, std::string * name,
     hints.ai_flags = AI_CANONNAME;
 
     if (inet_addr (hostname) != static_cast<in_addr_t>(-1))
-	hints.ai_flags |= AI_NUMERICHOST;
+        hints.ai_flags |= AI_NUMERICHOST;
 
     struct addrinfo * res = 0;
     int ret = getaddrinfo (hostname, 0, &hints, &res);
@@ -133,11 +140,11 @@ get_host_by_name (char const * hostname, std::string * name,
 /////////////////////////////////////////////////////////////////////////////
 
 SOCKET_TYPE
-log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
+openSocket(unsigned short port, SocketState& state)
 {
-    SOCKET_TYPE sock = ::socket(AF_INET, SOCK_STREAM, 0);
+    int sock = ::socket(AF_INET, SOCK_STREAM, 0);
     if(sock < 0) {
-        return INVALID_SOCKET;
+        return INVALID_SOCKET_VALUE;
     }
 
     struct sockaddr_in server;
@@ -146,54 +153,58 @@ log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
     server.sin_port = htons(port);
 
     int optval = 1;
-    setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval) );
+    socklen_t optlen = sizeof (optval);
+    setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, optlen );
 
-    if(bind(sock, (struct sockaddr*)&server, sizeof(server)) < 0) {
-        return INVALID_SOCKET;
-    }
+    int retval = bind(sock, reinterpret_cast<struct sockaddr*>(&server),
+        sizeof(server));
+    if (retval < 0)
+        return INVALID_SOCKET_VALUE;
 
-    if(::listen(sock, 10)) {
-        return INVALID_SOCKET;
-    }
+    if (::listen(sock, 10))
+        return INVALID_SOCKET_VALUE;
 
     state = ok;
-    return sock;
+    return to_log4cplus_socket (sock);
 }
 
 
 SOCKET_TYPE
-log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
-                                  unsigned short port, SocketState& state)
+connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
 {
     struct sockaddr_in server;
-    SOCKET_TYPE sock;
+    int sock;
     int retval;
 
     std::memset (&server, 0, sizeof (server));
     retval = get_host_by_name (LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str(),
         0, &server);
     if (retval != 0)
-        return INVALID_SOCKET;
+        return INVALID_SOCKET_VALUE;
 
     server.sin_port = htons(port);
     server.sin_family = AF_INET;
 
     sock = ::socket(AF_INET, SOCK_STREAM, 0);
     if(sock < 0) {
-        return INVALID_SOCKET;
+        return INVALID_SOCKET_VALUE;
     }
 
-    while ((retval = ::connect(sock,
-                reinterpret_cast<struct sockaddr *>(&server), sizeof (server))) == -1
-          && (errno == EINTR))
+    socklen_t namelen = sizeof (server);
+    while (
+        (retval = ::connect(sock, reinterpret_cast<struct sockaddr*>(&server),
+            namelen))
+        == -1
+        && (errno == EINTR))
         ;
-    if(retval == INVALID_SOCKET) {
+    if (retval == INVALID_OS_SOCKET_VALUE) 
+    {
         ::close(sock);
-        return INVALID_SOCKET;
+        return INVALID_SOCKET_VALUE;
     }
 
     state = ok;
-    return sock;
+    return to_log4cplus_socket (sock);
 }
 
 
@@ -241,68 +252,71 @@ accept_wrap (
 
 
 SOCKET_TYPE
-log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& state)
+acceptSocket(SOCKET_TYPE sock, SocketState& state)
 {
     struct sockaddr_in net_client;
     socklen_t len = sizeof(struct sockaddr);
-    SOCKET_TYPE clientSock;
+    int clientSock;
 
-    while(   (clientSock = accept_wrap (accept, sock,
-                (struct sockaddr*)&net_client, &len)) == -1
-          && (errno == EINTR))
+    while (
+        (clientSock = accept_wrap (to_os_socket (sock),
+            reinterpret_cast<struct sockaddr*>(&net_client), &len)) 
+        == -1
+        && (errno == EINTR))
         ;
 
-    if(clientSock != INVALID_SOCKET) {
+    if(clientSock != INVALID_OS_SOCKET_VALUE) {
         state = ok;
     }
 
-    return clientSock;
+    return to_log4cplus_socket (clientSock);
 }
 
 
 
 int
-log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
+closeSocket(SOCKET_TYPE sock)
 {
-    return ::close(sock);
+    return ::close(to_os_socket (sock));
 }
 
 
 
 long
-log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
+read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
-    long read = 0;
+    long res, readbytes = 0;
  
     do
     { 
-        long res = ::read(sock, buffer.getBuffer() + read,
-            buffer.getMaxSize() - read);
+        res = ::read(to_os_socket (sock), buffer.getBuffer() + readbytes,
+            buffer.getMaxSize() - readbytes);
         if( res <= 0 ) {
             return res;
         }
-        read += res;
-    } while( read < static_cast<long>(buffer.getMaxSize()) );
+        readbytes += res;
+    } while( readbytes < static_cast<long>(buffer.getMaxSize()) );
  
-    return read;
+    return readbytes;
 }
 
 
 
 long
-log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
+write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
 #if defined(MSG_NOSIGNAL)
     int flags = MSG_NOSIGNAL;
 #else
     int flags = 0;
 #endif
-    return ::send( sock, buffer.getBuffer(), buffer.getSize(), flags );
+    return ::send( to_os_socket (sock), buffer.getBuffer(), buffer.getSize(),
+        flags );
 }
 
 
 tstring
-log4cplus::helpers::getHostname (bool fqdn)
+getHostname (bool fqdn)
 {
     char const * hostname = "unknown";
     int ret;
@@ -336,3 +350,35 @@ log4cplus::helpers::getHostname (bool fqdn)
     return LOG4CPLUS_STRING_TO_TSTRING (hostname);
 }
 
+
+int
+setTCPNoDelay (SOCKET_TYPE sock, bool val)
+{
+#if (defined (SOL_TCP) || defined (IPPROTO_TCP)) && defined (TCP_NODELAY)
+#if defined (SOL_TCP)
+    int level = SOL_TCP;
+
+#elif defined (IPPROTO_TCP)
+    int level = IPPROTO_TCP;
+
+#endif
+
+    int result;
+    int enabled = static_cast<int>(val);
+    if ((result = setsockopt(sock, level, TCP_NODELAY, &enabled,
+                sizeof(enabled))) != 0)
+        set_last_socket_error (errno);
+    
+    return result;
+
+#else
+    // No recognizable TCP_NODELAY option.
+    return 0;
+
+#endif
+}
+
+
+} } // namespace log4cplus
+
+#endif // LOG4CPLUS_USE_BSD_SOCKETS

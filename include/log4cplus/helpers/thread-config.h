@@ -54,9 +54,7 @@ namespace log4cplus {
 }
 
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-#   undef WIN32_LEAN_AND_MEAN
-#   define WIN32_LEAN_AND_MEAN
-#   include <windows.h>
+#   include <log4cplus/config/windowsh-inc.h>
 
 #   define LOG4CPLUS_MUTEX_PTR_DECLARE CRITICAL_SECTION*
 #   define LOG4CPLUS_MUTEX_CREATE ::log4cplus::thread::createNewMutex()

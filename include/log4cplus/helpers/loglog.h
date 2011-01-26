@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2009 Tad E. Smith
+// Copyright 2001-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
-#include <log4cplus/helpers/pointer.h>
-#include <log4cplus/helpers/threads.h>
+#include <log4cplus/streams.h>
+#include <log4cplus/helpers/syncprims.h>
 
 
 namespace log4cplus {
@@ -46,14 +46,13 @@ namespace log4cplus {
          * the string "log4clus: ".
          */
         class LOG4CPLUS_EXPORT LogLog
-            : public virtual log4cplus::helpers::SharedObject 
         {
         public:
           // Static methods
             /**
              * Returns a reference to the <code>LogLog</code> singleton.
              */
-            static log4cplus::helpers::SharedObjectPtr<LogLog> getLogLog();
+            static LogLog * getLogLog();
 
 
             /**
@@ -73,37 +72,64 @@ namespace log4cplus {
              * This method is used to output log4cplus internal debug
              * statements. Output goes to <code>std::cout</code>.
              */
-            void debug(const log4cplus::tstring& msg);
+            void debug(const log4cplus::tstring& msg) const;
+            void debug(tchar const * msg) const;
 
             /**
              * This method is used to output log4cplus internal error
-             * statements. There is no way to disable error statements.
-             * Output goes to <code>std::cerr</code>.
+             * statements. There is no way to disable error
+             * statements.  Output goes to
+             * <code>std::cerr</code>. Optionally, this method can
+             * throw std::runtime_error exception too.
              */
-            void error(const log4cplus::tstring& msg);
+            void error(const log4cplus::tstring& msg, bool throw_flag = false) const;
+            void error(tchar const * msg, bool throw_flag = false) const;
 
             /**
              * This method is used to output log4cplus internal warning
              * statements. There is no way to disable warning statements.
              * Output goes to <code>std::cerr</code>.
              */
-            void warn(const log4cplus::tstring& msg);
+            void warn(const log4cplus::tstring& msg) const;
+            void warn(tchar const * msg) const;
 
-          // Dtor
+          // Data
+            thread::Mutex mutex;
+
+            // Public ctor and dtor to be used only by internal::DefaultContext.
+            LogLog();
             virtual ~LogLog();
 
-          // Data
-            LOG4CPLUS_MUTEX_PTR_DECLARE mutex;
 
         private:
-          // Data
-            bool debugEnabled;
-            bool quietMode;
+            enum TriState
+            {
+                TriUndef = -1,
+                TriFalse,
+                TriTrue
+            };
 
-          // Ctors
-            LogLog();
+            template <typename StringType>
+            void logging_worker (tostream & os,
+                bool (LogLog:: * cond) () const, tchar const *,
+                StringType const &, bool throw_flag = false) const;
+
+            static void set_tristate_from_env (TriState *,
+                tchar const * envvar);
+
+            bool get_quiet_mode () const;
+            bool get_not_quiet_mode () const;
+            bool get_debug_mode () const;
+
+          // Data
+            mutable TriState debugEnabled;
+            mutable TriState quietMode;
+
             LogLog(const LogLog&);
+            LogLog & operator = (LogLog const &);
         };
+
+        LOG4CPLUS_EXPORT LogLog & getLogLog ();
 
     } // end namespace helpers
 } // end namespace log4cplus

@@ -27,7 +27,7 @@ int
 main()
 {
 #ifdef WIN32
-    cout << "=-=-=-= NOTICE =-=-=-=" << endl
+    tcout << "=-=-=-= NOTICE =-=-=-=" << endl
          << "Make sure you copy the log4cplus\\tests\\filter_test\\log4cplus.properties"
          << " file into the directory you run this test from"
          << endl
@@ -35,7 +35,7 @@ main()
          << endl << endl;
 #endif
 
-    cout << "Entering main()..." << endl;
+    tcout << "Entering main()..." << endl;
     LogLog::getLogLog()->setInternalDebugging(true);
     Logger root = Logger::getRoot();
     try {
@@ -45,11 +45,11 @@ main()
         printDebug();
     }
     catch(...) {
-        cout << "Exception..." << endl;
+        tcout << "Exception..." << endl;
         LOG4CPLUS_FATAL(root, "Exception occured...");
     }
 
-    cout << "Exiting main()..." << endl;
+    tcout << "Exiting main()..." << endl;
     return 0;
 }
 

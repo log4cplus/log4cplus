@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2009 Tad E. Smith
+// Copyright 2003-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,32 +24,26 @@
 #define LOG4CPLUS_STREAMS_HEADER_
 
 #include <log4cplus/config.hxx>
-#include <log4cplus/tstring.h>
+#include <log4cplus/tchar.h>
 
-#include <iostream>
-#include <sstream>
-#define LOG4CPLUS_STREAM_NAMESPACE std
+#include <iosfwd>
 
-#ifdef UNICODE
-    namespace log4cplus {
-        typedef LOG4CPLUS_STREAM_NAMESPACE::wostream tostream;
-        typedef LOG4CPLUS_STREAM_NAMESPACE::wistream tistream;
-        typedef LOG4CPLUS_STREAM_NAMESPACE::wostringstream tostringstream;
-        static tostream &tcout = LOG4CPLUS_STREAM_NAMESPACE::wcout;
-        static tostream &tcerr = LOG4CPLUS_STREAM_NAMESPACE::wcerr;
-    }
+
+namespace log4cplus
+{
+    typedef std::basic_ostream<tchar> tostream;
+    typedef std::basic_istream<tchar> tistream;
+    typedef std::basic_ostringstream<tchar> tostringstream;
+    typedef std::basic_istringstream<tchar> tistringstream;
+    extern LOG4CPLUS_EXPORT tostream & tcout;
+    extern LOG4CPLUS_EXPORT tostream & tcerr;
+}
+
+#if defined (UNICODE) && defined (LOG4CPLUS_ENABLE_GLOBAL_C_STRING_STREAM_INSERTER)
 
 LOG4CPLUS_EXPORT log4cplus::tostream& operator <<(log4cplus::tostream&, const char* psz );
 
-#else
-    namespace log4cplus {
-        typedef LOG4CPLUS_STREAM_NAMESPACE::ostream tostream;
-        typedef LOG4CPLUS_STREAM_NAMESPACE::istream tistream;
-        static tostream &tcout = LOG4CPLUS_STREAM_NAMESPACE::cout;
-        static tostream &tcerr = LOG4CPLUS_STREAM_NAMESPACE::cerr;
-        typedef LOG4CPLUS_STREAM_NAMESPACE::ostringstream tostringstream;
-    }
-#endif // UNICODE
+#endif
 
 #endif // LOG4CPLUS_STREAMS_HEADER_
 

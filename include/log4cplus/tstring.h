@@ -23,23 +23,18 @@
 #ifndef LOG4CPLUS_TSTRING_HEADER_
 #define LOG4CPLUS_TSTRING_HEADER_
 
-#include <log4cplus/config.hxx>
+#include <log4cplus/tchar.h>
 #include <string>
 
 #ifdef UNICODE
 #  ifdef LOG4CPLUS_WORKING_LOCALE
 #    include <locale>
 #  endif // LOG4CPLUS_WORKING_LOCALE
-#  define LOG4CPLUS_TEXT2(STRING) L##STRING
-#else
-#  define LOG4CPLUS_TEXT2(STRING) STRING
-#endif // UNICODE
-#define LOG4CPLUS_TEXT(STRING) LOG4CPLUS_TEXT2(STRING)
+#endif
 
 
 #ifdef UNICODE
 namespace log4cplus {
-    typedef wchar_t tchar;
     typedef std::wstring tstring;
 
     namespace helpers {
@@ -72,7 +67,6 @@ namespace log4cplus {
 
 #else // UNICODE
 namespace log4cplus {
-    typedef char tchar;
     typedef std::string tstring;
 }
 

@@ -25,7 +25,7 @@ printMsgs(Logger& logger)
 int
 main()
 {
-    cout << "Entering main()..." << endl;
+    tcout << "Entering main()..." << endl;
     LogLog::getLogLog()->setInternalDebugging(true);
     Logger root = Logger::getRoot();
     Logger log_1 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_1"));
@@ -46,11 +46,11 @@ main()
         }
     }
     catch(...) {
-        cout << "Exception..." << endl;
+        tcout << "Exception..." << endl;
 	    LOG4CPLUS_FATAL(root, "Exception occured...");
     }
 
-    cout << "Exiting main()..." << endl;
+    tcout << "Exiting main()..." << endl;
     return 0;
 }
 

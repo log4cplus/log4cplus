@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2009 Tad E. Smith
+// Copyright 2003-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
-#include <log4cplus/helpers/logloguser.h>
 
 
 namespace log4cplus {
@@ -34,20 +33,17 @@ namespace log4cplus {
         /**
          *
          */
-        class LOG4CPLUS_EXPORT SocketBuffer : protected log4cplus::helpers::LogLogUser
+        class LOG4CPLUS_EXPORT SocketBuffer
         {
         public:
-            SocketBuffer(size_t max);
-            SocketBuffer(const SocketBuffer& rhs);
-            ~SocketBuffer();
-
-            SocketBuffer& operator=(const SocketBuffer& rhs);
+            explicit SocketBuffer(std::size_t max);
+            virtual ~SocketBuffer();
 
             char *getBuffer() const { return buffer; }
-            size_t getMaxSize() const { return maxsize; }
-            size_t getSize() const { return size; }
-            void setSize(size_t s) { size = s; }
-            size_t getPos() const { return pos; }
+            std::size_t getMaxSize() const { return maxsize; }
+            std::size_t getSize() const { return size; }
+            void setSize(std::size_t s) { size = s; }
+            std::size_t getPos() const { return pos; }
 
             unsigned char readByte();
             unsigned short readShort();
@@ -57,19 +53,18 @@ namespace log4cplus {
             void appendByte(unsigned char val);
             void appendShort(unsigned short val);
             void appendInt(unsigned int val);
-            void appendSize_t(size_t val);
             void appendString(const tstring& str);
             void appendBuffer(const SocketBuffer& buffer);
 
         private:
-          // Methods
-            void copy(const SocketBuffer& rhs);
-
           // Data
-            size_t maxsize;
-            size_t size;
-            size_t pos;
+            std::size_t maxsize;
+            std::size_t size;
+            std::size_t pos;
             char *buffer;
+
+            SocketBuffer(SocketBuffer const & rhs);
+            SocketBuffer& operator= (SocketBuffer const& rhs);
         };
 
     } // end namespace helpers

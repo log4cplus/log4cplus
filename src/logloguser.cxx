@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2009 Tad E. Smith
+// Copyright 2003-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,63 +18,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <log4cplus/streams.h>
 #include <log4cplus/helpers/logloguser.h>
 #include <log4cplus/helpers/loglog.h>
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
 
-typedef SharedObjectPtr<LogLog> LogLogPtr;
+namespace log4cplus { namespace helpers {
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// log4cplus::helpers::LogLogUser ctor and dtor
-///////////////////////////////////////////////////////////////////////////////
 
 LogLogUser::LogLogUser()
-{
-    loglogRef = new SharedObjectPtr<LogLog>(LogLog::getLogLog());
-}
+{ }
 
 
-LogLogUser::LogLogUser(const LogLogUser& rhs)
-{
-    loglogRef = new SharedObjectPtr<LogLog>(*static_cast<LogLogPtr*>(rhs.loglogRef));
-}
+LogLogUser::LogLogUser(const LogLogUser&)
+{ }
 
 
 LogLogUser::~LogLogUser()
-{
-    delete static_cast<LogLogPtr*>(loglogRef);
-}
+{ }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// log4cplus::helpers::LogLogUser public methods
-///////////////////////////////////////////////////////////////////////////////
 
 LogLog&
 LogLogUser::getLogLog() const
 {
-    LogLogPtr* ptr = static_cast<LogLogPtr*>(loglogRef);
-    return **ptr;
+    return *LogLog::getLogLog ();
 }
 
 
 LogLogUser&
-LogLogUser::operator=(const LogLogUser& rhs)
+LogLogUser::operator=(const LogLogUser&)
 {
-    if(this == &rhs) {
-        return *this;
-    }
-    
-    delete static_cast<LogLogPtr*>(loglogRef);
-    loglogRef = new SharedObjectPtr<LogLog>(*static_cast<LogLogPtr*>(rhs.loglogRef));
-    
     return *this;
 }
 
+} } // namespace log4cplus { namespace helpers {

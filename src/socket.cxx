@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2009 Tad E. Smith
+// Copyright 2003-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,29 +18,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/internal/socket.h>
 
 
-using namespace log4cplus;
-using namespace log4cplus::helpers;
+namespace log4cplus { namespace helpers {
 
-#if !defined(_WIN32)
-#  include <errno.h>
-#  include <unistd.h>
-#  define GET_LAST_ERROR errno
+
+extern LOG4CPLUS_EXPORT SOCKET_TYPE const INVALID_SOCKET_VALUE
+#if defined(_WIN32)
+    = static_cast<SOCKET_TYPE>(INVALID_SOCKET);
 #else
-#  define GET_LAST_ERROR WSAGetLastError()
+    = static_cast<SOCKET_TYPE>(-1);
 #endif
-
 
 
 //////////////////////////////////////////////////////////////////////////////
 // AbstractSocket ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::helpers::AbstractSocket::AbstractSocket()
-: sock(INVALID_SOCKET),
+AbstractSocket::AbstractSocket()
+: sock(INVALID_SOCKET_VALUE),
   state(not_opened),
   err(0)
 {
@@ -48,7 +46,8 @@ log4cplus::helpers::AbstractSocket::AbstractSocket()
 
 
 
-log4cplus::helpers::AbstractSocket::AbstractSocket(SOCKET_TYPE sock_, SocketState state_, int err_)
+AbstractSocket::AbstractSocket(SOCKET_TYPE sock_,
+    SocketState state_, int err_)
 : sock(sock_),
   state(state_),
   err(err_)
@@ -57,13 +56,13 @@ log4cplus::helpers::AbstractSocket::AbstractSocket(SOCKET_TYPE sock_, SocketStat
 
 
 
-log4cplus::helpers::AbstractSocket::AbstractSocket(const log4cplus::helpers::AbstractSocket& rhs)
+AbstractSocket::AbstractSocket(const AbstractSocket& rhs)
 {
     copy(rhs);
 }
 
 
-log4cplus::helpers::AbstractSocket::~AbstractSocket()
+AbstractSocket::~AbstractSocket()
 {
     close();
 }
@@ -75,27 +74,27 @@ log4cplus::helpers::AbstractSocket::~AbstractSocket()
 //////////////////////////////////////////////////////////////////////////////
 
 void
-log4cplus::helpers::AbstractSocket::close()
+AbstractSocket::close()
 {
-    if(sock != INVALID_SOCKET) {
+    if(sock != INVALID_SOCKET_VALUE) {
         closeSocket(sock);
-        sock = INVALID_SOCKET;
+        sock = INVALID_SOCKET_VALUE;
     }
 }
 
 
 
 bool
-log4cplus::helpers::AbstractSocket::isOpen() const
+AbstractSocket::isOpen() const
 {
-    return sock != INVALID_SOCKET;
+    return sock != INVALID_SOCKET_VALUE;
 }
 
 
 
 
-log4cplus::helpers::AbstractSocket&
-log4cplus::helpers::AbstractSocket::operator=(const log4cplus::helpers::AbstractSocket& rhs)
+AbstractSocket&
+AbstractSocket::operator=(const AbstractSocket& rhs)
 {
     if(&rhs != this) {
         close();
@@ -108,13 +107,13 @@ log4cplus::helpers::AbstractSocket::operator=(const log4cplus::helpers::Abstract
 
 
 void
-log4cplus::helpers::AbstractSocket::copy(const log4cplus::helpers::AbstractSocket& r)
+AbstractSocket::copy(const AbstractSocket& r)
 {
     AbstractSocket& rhs = const_cast<AbstractSocket&>(r);
     sock = rhs.sock;
     state = rhs.state;
     err = rhs.err;
-    rhs.sock = INVALID_SOCKET;
+    rhs.sock = INVALID_SOCKET_VALUE;
     rhs.state = not_opened;
     rhs.err = 0;
 }
@@ -125,35 +124,35 @@ log4cplus::helpers::AbstractSocket::copy(const log4cplus::helpers::AbstractSocke
 // Socket ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::helpers::Socket::Socket()
-: AbstractSocket()
-{
-}
+Socket::Socket()
+    : AbstractSocket()
+{ }
 
 
-
-log4cplus::helpers::Socket::Socket(const tstring& address, int port)
-: AbstractSocket()
+Socket::Socket(const tstring& address, unsigned short port)
+    : AbstractSocket()
 {
     sock = connectSocket(address, port, state);
-    if(sock == INVALID_SOCKET) {
-        err = GET_LAST_ERROR;
-    }
+    if (sock == INVALID_SOCKET_VALUE)
+        goto error;
+
+    if (setTCPNoDelay (sock, true) != 0)
+        goto error;
+
+    return;
+
+error:
+    err = get_last_socket_error ();
 }
 
 
-log4cplus::helpers::Socket::Socket(SOCKET_TYPE sock_, SocketState state_, int err_)
-: AbstractSocket(sock_, state_, err_)
-{
-}
+Socket::Socket(SOCKET_TYPE sock_, SocketState state_, int err_)
+    : AbstractSocket(sock_, state_, err_)
+{ }
 
 
-
-log4cplus::helpers::Socket::~Socket()
-{
-}
-
-
+Socket::~Socket()
+{ }
 
 
 
@@ -162,9 +161,9 @@ log4cplus::helpers::Socket::~Socket()
 //////////////////////////////////////////////////////////////////////////////
 
 bool
-log4cplus::helpers::Socket::read(SocketBuffer& buffer)
+Socket::read(SocketBuffer& buffer)
 {
-    long retval = log4cplus::helpers::read(sock, buffer);
+    long retval = helpers::read(sock, buffer);
     if(retval <= 0) {
         close();
     }
@@ -178,9 +177,9 @@ log4cplus::helpers::Socket::read(SocketBuffer& buffer)
 
 
 bool
-log4cplus::helpers::Socket::write(const SocketBuffer& buffer)
+Socket::write(const SocketBuffer& buffer)
 {
-    long retval = log4cplus::helpers::write(sock, buffer);
+    long retval = helpers::write(sock, buffer);
     if(retval <= 0) {
         close();
     }
@@ -195,17 +194,17 @@ log4cplus::helpers::Socket::write(const SocketBuffer& buffer)
 // ServerSocket ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::helpers::ServerSocket::ServerSocket(int port)
+ServerSocket::ServerSocket(unsigned short port)
 {
     sock = openSocket(port, state);
-    if(sock == INVALID_SOCKET) {
-        err = GET_LAST_ERROR;
+    if(sock == INVALID_SOCKET_VALUE) {
+        err = get_last_socket_error ();
     }
 }
 
 
 
-log4cplus::helpers::ServerSocket::~ServerSocket()
+ServerSocket::~ServerSocket()
 {
 }
 
@@ -215,12 +214,13 @@ log4cplus::helpers::ServerSocket::~ServerSocket()
 // ServerSocket methods
 //////////////////////////////////////////////////////////////////////////////
 
-log4cplus::helpers::Socket
-log4cplus::helpers::ServerSocket::accept()
+Socket
+ServerSocket::accept()
 {
-    SocketState state_;
-    SOCKET_TYPE clientSock = acceptSocket(sock, state_);
-    return Socket(clientSock, state_, 0);
+    SocketState st = not_opened;
+    SOCKET_TYPE clientSock = acceptSocket(sock, st);
+    return Socket(clientSock, st, 0);
 }
 
 
+} } // namespace log4cplus { namespace helpers {

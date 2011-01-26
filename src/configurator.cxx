@@ -43,11 +43,12 @@
 #include <tchar.h>
 #endif
 #if defined (_WIN32_WCE)
-#include <windows.h>
+#include <log4cplus/config/windowsh-inc.h>
 #endif
 
 #include <algorithm>
 #include <vector>
+#include <sstream>
 #include <cstdlib>
 
 

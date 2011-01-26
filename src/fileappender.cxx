@@ -25,6 +25,7 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <sstream>
 #include <algorithm>
 #include <cstdio>
 #if defined (__BORLANDC__)
@@ -37,9 +38,7 @@
 #include <cstdlib>
 
 #if defined (_WIN32_WCE)
-#undef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include <log4cplus/config/windowsh-inc.h>
 #endif
 
 
@@ -166,8 +165,7 @@ static
 void
 rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 {
-    helpers::SharedObjectPtr<helpers::LogLog> loglog
-        = helpers::LogLog::getLogLog();
+    helpers::LogLog * loglog = helpers::LogLog::getLogLog();
 
     // Delete the oldest file
     tostringstream buffer;

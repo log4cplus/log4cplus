@@ -20,6 +20,7 @@
 
 
 #include <log4cplus/win32debugappender.h>
+#include <sstream>
 
 
 #if defined (LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING)

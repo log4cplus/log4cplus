@@ -18,14 +18,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <log4cplus/config.hxx>
+#if defined (LOG4CPLUS_USE_WINSOCK)
+
 #include <cassert>
+#include <cerrno>
 #include <vector>
-#include <log4cplus/helpers/socket.h>
+#include <cstring>
+#include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
-
-
-using namespace log4cplus;
-using namespace log4cplus::helpers;
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -49,12 +50,10 @@ static LONG volatile winsock_state = WS_UNINITIALIZED;
 
 static
 void
-init_winsock ()
+init_winsock_worker ()
 {
-    // Quick check first to avoid the expensive interlocked compare
-    // and exchange.
-    if (winsock_state == WS_INITIALIZED)
-        return;
+    log4cplus::helpers::LogLog & loglog
+        = log4cplus::helpers::getLogLog ();
 
     // Try to change the state to WS_INITIALIZING.
     LONG val = ::InterlockedCompareExchange (
@@ -72,7 +71,8 @@ init_winsock ()
                 const_cast<LPLONG>(&winsock_state), WS_UNINITIALIZED,
                 WS_INITIALIZING);
             assert (val == WS_INITIALIZING);
-            throw std::runtime_error ("Could not initialize WinSock.");
+            loglog.error (LOG4CPLUS_TEXT ("Could not initialize WinSock."),
+                true);
         }
 
         // WinSock is initialized, change the state to WS_INITIALIZED.
@@ -98,7 +98,7 @@ init_winsock ()
         
             default:
                 assert (0);
-                throw std::runtime_error ("Unknown WinSock state.");
+                loglog.error (LOG4CPLUS_TEXT ("Unknown WinSock state."), true);
             }
         }
 
@@ -108,8 +108,21 @@ init_winsock ()
 
     default:
         assert (0);
-        throw std::runtime_error ("Unknown WinSock state.");
+        loglog.error (LOG4CPLUS_TEXT ("Unknown WinSock state."), true);
     }
+}
+
+
+static
+void
+init_winsock ()
+{
+    // Quick check first to avoid the expensive interlocked compare
+    // and exchange.
+    if (winsock_state == WS_INITIALIZED)
+        return;
+    else
+        init_winsock_worker ();
 }
 
 
@@ -131,79 +144,82 @@ WinSockInitializer WinSockInitializer::winSockInitializer;
 } // namespace
 
 
+namespace log4cplus { namespace helpers {
+
 
 /////////////////////////////////////////////////////////////////////////////
 // Global Methods
 /////////////////////////////////////////////////////////////////////////////
 
 SOCKET_TYPE
-log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
+openSocket(unsigned short port, SocketState& state)
 {
     struct sockaddr_in server;
-    SOCKET sock;
 
     init_winsock ();
 
-    sock = ::socket(AF_INET, SOCK_STREAM, 0);
-    if(sock == INVALID_SOCKET)
+    SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
+    if (sock == INVALID_OS_SOCKET_VALUE)
         goto error;
 
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = htonl(INADDR_ANY);
     server.sin_port = htons(port);
 
-    if(bind(sock, (struct sockaddr*)&server, sizeof(server)) != 0)
+    if (bind(sock, reinterpret_cast<struct sockaddr*>(&server), sizeof(server))
+        != 0)
         goto error;
 
-    if(::listen(sock, 10) != 0)
+    if (::listen(sock, 10) != 0)
         goto error;
 
     state = ok;
-    return sock;
+    return to_log4cplus_socket (sock);
 
 error:
     int eno = WSAGetLastError ();
 
-    if (sock != INVALID_SOCKET)
-        closesocket (sock);
+    if (sock != INVALID_OS_SOCKET_VALUE)
+        ::closesocket (sock);
 
-    WSASetLastError (eno);
-    return INVALID_SOCKET;
+    set_last_socket_error (eno);
+    return INVALID_SOCKET_VALUE;
 }
 
 
 SOCKET_TYPE
-log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn, 
-                                  unsigned short port, SocketState& state)
+connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
 {
-    SOCKET sock;
-    unsigned long ip = INADDR_NONE;
-    struct hostent *hp;
+    struct hostent * hp;
     struct sockaddr_in insock;
     int retval;
-    int enabled = 1;
 
     init_winsock ();
 
-    sock = ::socket(AF_INET, SOCK_STREAM, 0);
-    if(sock == INVALID_SOCKET)
+    SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
+    if (sock == INVALID_OS_SOCKET_VALUE)
         goto error;
 
     hp = ::gethostbyname( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
-    if(hp == 0 || hp->h_addrtype != AF_INET) {
-        ip = inet_addr( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
-        if(ip == INADDR_NONE){
+    if (hp == 0 || hp->h_addrtype != AF_INET)
+    {
+        insock.sin_family = AF_INET;
+        INT insock_size = sizeof (insock);
+        INT ret = WSAStringToAddress (const_cast<LPTSTR>(hostn.c_str ()),
+            AF_INET, 0, reinterpret_cast<struct sockaddr *>(&insock),
+            &insock_size);
+        if (ret == SOCKET_ERROR || insock_size != sizeof (insock)) 
+        {
             state = bad_address;
             goto error;
         }
     }
+    else
+        std::memcpy (&insock.sin_addr, hp->h_addr_list[0],
+            sizeof (insock.sin_addr));
 
     insock.sin_port = htons(port);
     insock.sin_family = AF_INET;
-    if(hp != 0)
-        memcpy(&insock.sin_addr, hp->h_addr, sizeof insock.sin_addr);
-    else
-        insock.sin_addr.S_un.S_addr = ip;
 
     while(   (retval = ::connect(sock, (struct sockaddr*)&insock, sizeof(insock))) == -1
           && (WSAGetLastError() == WSAEINTR))
@@ -211,55 +227,62 @@ log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn,
     if (retval == SOCKET_ERROR)
         goto error;
 
-    if (setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (char*)&enabled, sizeof(enabled)) != 0)
-        goto error;
-
     state = ok;
-    return sock;
+    return to_log4cplus_socket (sock);
 
 error:
     int eno = WSAGetLastError ();
 
-    if (sock != INVALID_SOCKET)
-        closesocket (sock);
+    if (sock != INVALID_OS_SOCKET_VALUE)
+        ::closesocket (sock);
 
-    WSASetLastError (eno);
-    return INVALID_SOCKET;
+    set_last_socket_error (eno);
+    return INVALID_SOCKET_VALUE;
 }
 
 
 SOCKET_TYPE
-log4cplus::helpers::acceptSocket(SOCKET_TYPE sock, SocketState& /*state*/)
+acceptSocket(SOCKET_TYPE sock, SocketState & state)
 {
     init_winsock ();
 
-    return ::accept(sock, NULL, NULL);
+    SOCKET connected_socket = ::accept (to_os_socket (sock), NULL, NULL);
+
+    if (connected_socket != INVALID_OS_SOCKET_VALUE)
+        state = ok;
+
+    return to_log4cplus_socket (connected_socket);
 }
 
 
 
 int
-log4cplus::helpers::closeSocket(SOCKET_TYPE sock)
+closeSocket(SOCKET_TYPE sock)
 {
-    return ::closesocket(sock);
+    return ::closesocket (to_os_socket (sock));
 }
 
 
 
 long
-log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
+read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
-    long read = 0;
+    long res, read = 0;
  
     do
     { 
-        long res = ::recv(sock, buffer.getBuffer() + read,
-            static_cast<int>(buffer.getMaxSize() - read), 0);
-        if( res <= 0 ) {
+        res = ::recv(to_os_socket (sock), 
+                     buffer.getBuffer() + read, 
+                     static_cast<int>(buffer.getMaxSize() - read),
+                     0);
+        if (res == SOCKET_ERROR)
+        {
+            set_last_socket_error (WSAGetLastError ());
             return res;
         }
         read += res;
-    } while( read < static_cast<long>(buffer.getMaxSize()) );
+    }
+    while (read < static_cast<long>(buffer.getMaxSize()));
  
     return read;
 }
@@ -267,14 +290,18 @@ log4cplus::helpers::read(SOCKET_TYPE sock, SocketBuffer& buffer)
 
 
 long
-log4cplus::helpers::write(SOCKET_TYPE sock, const SocketBuffer& buffer)
+write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 {
-    return ::send(sock, buffer.getBuffer(), static_cast<int>(buffer.getSize()), 0);
+    long ret = ::send (to_os_socket (sock), buffer.getBuffer(),
+        static_cast<int>(buffer.getSize()), 0);
+    if (ret == SOCKET_ERROR)
+        set_last_socket_error (WSAGetLastError ());
+    return ret;
 }
 
 
 tstring
-log4cplus::helpers::getHostname (bool fqdn)
+getHostname (bool fqdn)
 {
     char const * hostname = "unknown";
     int ret;
@@ -304,3 +331,24 @@ log4cplus::helpers::getHostname (bool fqdn)
 
     return LOG4CPLUS_STRING_TO_TSTRING (hostname);
 }
+
+
+int
+setTCPNoDelay (SOCKET_TYPE sock, bool val)
+{
+    int result;
+    int enabled = static_cast<int>(val);
+    if ((result = setsockopt(sock, IPPROTO_TCP, TCP_NODELAY,
+            reinterpret_cast<char*>(&enabled),sizeof(enabled))) != 0)
+    {
+        int eno = WSAGetLastError ();
+        set_last_socket_error (eno);
+    }
+
+    return result;
+}
+
+
+} } // namespace log4cplus { namespace helpers {
+
+#endif // LOG4CPLUS_USE_WINSOCK

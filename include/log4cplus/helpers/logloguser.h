@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2009 Tad E. Smith
+// Copyright 2003-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,7 +36,8 @@ namespace log4cplus {
          * that uses the LogLog class should extend this class and retrieve
          * their reference to LogLog using the method provided.
          */
-        class LOG4CPLUS_EXPORT LogLogUser {
+        class LOG4CPLUS_EXPORT LogLogUser
+        {
         public:
           // ctor and dtor
             LogLogUser();
@@ -48,10 +49,6 @@ namespace log4cplus {
             
           // operators
             LogLogUser& operator=(const LogLogUser& rhs);
-
-        private:
-          // Data
-            void* loglogRef;
         };
 
     } // end namespace helpers

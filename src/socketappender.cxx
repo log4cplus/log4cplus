@@ -229,10 +229,11 @@ SocketAppender::append(const spi::InternalLoggingEvent& event)
 
 #endif
 
-    helpers::SocketBuffer buffer = helpers::convertToBuffer(event, serverName);
+    helpers::SocketBuffer buffer(LOG4CPLUS_MAX_MESSAGE_SIZE - sizeof(unsigned int));
+    convertToBuffer (buffer, event, serverName);
     helpers::SocketBuffer msgBuffer(LOG4CPLUS_MAX_MESSAGE_SIZE);
 
-    msgBuffer.appendSize_t(buffer.getSize());
+    msgBuffer.appendInt(static_cast<unsigned>(buffer.getSize()));
     msgBuffer.appendBuffer(buffer);
 
     bool ret = socket.write(msgBuffer);
@@ -253,12 +254,11 @@ SocketAppender::append(const spi::InternalLoggingEvent& event)
 namespace helpers
 {
 
-SocketBuffer
-convertToBuffer(const spi::InternalLoggingEvent& event,
+void
+convertToBuffer(SocketBuffer & buffer,
+    const spi::InternalLoggingEvent& event,
     const tstring& serverName)
 {
-    SocketBuffer buffer(LOG4CPLUS_MAX_MESSAGE_SIZE - sizeof(unsigned int));
-
     buffer.appendByte(LOG4CPLUS_MESSAGE_VERSION);
 #ifndef UNICODE
     buffer.appendByte(1);
@@ -276,8 +276,6 @@ convertToBuffer(const spi::InternalLoggingEvent& event,
     buffer.appendInt( static_cast<unsigned int>(event.getTimestamp().usec()) );
     buffer.appendString(event.getFile());
     buffer.appendInt(event.getLine());
-
-    return buffer;
 }
 
 
@@ -286,7 +284,7 @@ readFromBuffer(SocketBuffer& buffer)
 {
     unsigned char msgVersion = buffer.readByte();
     if(msgVersion != LOG4CPLUS_MESSAGE_VERSION) {
-        SharedObjectPtr<LogLog> loglog = LogLog::getLogLog();
+        LogLog * loglog = LogLog::getLogLog();
         loglog->warn(LOG4CPLUS_TEXT("readFromBuffer() received socket message with an invalid version"));
     }
 

@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2009 Tad E. Smith
+// Copyright 2003-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,9 +26,7 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/socketbuffer.h>
-#if defined(_WIN32)
-#include <winsock.h>
-#endif
+
 
 namespace log4cplus {
     namespace helpers {
@@ -42,12 +40,9 @@ namespace log4cplus {
                            message_truncated
                          };
 
-#if !defined(_WIN32)
-        typedef int SOCKET_TYPE;
-#define INVALID_SOCKET -1
-#else
-        typedef SOCKET SOCKET_TYPE;
-#endif
+        typedef std::ptrdiff_t SOCKET_TYPE;
+
+        extern LOG4CPLUS_EXPORT SOCKET_TYPE const INVALID_SOCKET_VALUE;
 
         class LOG4CPLUS_EXPORT AbstractSocket {
         public:
@@ -85,7 +80,7 @@ namespace log4cplus {
           // ctor and dtor
             Socket();
             Socket(SOCKET_TYPE sock, SocketState state, int err);
-            Socket(const tstring& address, int port);
+            Socket(const tstring& address, unsigned short port);
             virtual ~Socket();
 
           // methods
@@ -104,7 +99,7 @@ namespace log4cplus {
         class LOG4CPLUS_EXPORT ServerSocket : public AbstractSocket {
         public:
           // ctor and dtor
-            ServerSocket(int port);
+            ServerSocket(unsigned short port);
             virtual ~ServerSocket();
 
             Socket accept();
@@ -121,6 +116,7 @@ namespace log4cplus {
         LOG4CPLUS_EXPORT long write(SOCKET_TYPE sock, const SocketBuffer& buffer);
 
         LOG4CPLUS_EXPORT tstring getHostname (bool fqdn);
+        LOG4CPLUS_EXPORT int setTCPNoDelay (SOCKET_TYPE, bool);
 
     } // end namespace helpers
 } // end namespace log4cplus

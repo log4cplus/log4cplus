@@ -18,7 +18,7 @@ log4cplus::tostream& operator <<(log4cplus::tostream& s, const Time& t)
 int
 main()
 {
-    cout << "Entering main()..." << endl;
+    tcout << "Entering main()..." << endl;
     PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
     Logger root = Logger::getRoot();
     try {
@@ -92,11 +92,11 @@ main()
         LOG4CPLUS_WARN(root, "getThread() average: " << (diff/LOOP_COUNT) << endl);
     }
     catch(...) {
-        cout << "Exception..." << endl;
+        tcout << "Exception..." << endl;
         LOG4CPLUS_FATAL(root, "Exception occured...");
     }
 
-    cout << "Exiting main()..." << endl;
+    tcout << "Exiting main()..." << endl;
     return 0;
 }
 

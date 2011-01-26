@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2009 Tad E. Smith
+// Copyright 2001-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,11 +20,13 @@
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/threads.h>
+#include <log4cplus/internal/env.h>
+#include <ostream>
+#include <stdexcept>
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
 
+namespace log4cplus { namespace helpers {
 
 namespace
 {
@@ -36,87 +38,144 @@ static tchar const ERR_PREFIX[] = LOG4CPLUS_TEXT("log4cplus:ERROR ");
 } // namespace
 
 
-
-///////////////////////////////////////////////////////////////////////////////
-// static methods
-///////////////////////////////////////////////////////////////////////////////
-
-SharedObjectPtr<LogLog>
+LogLog *
 LogLog::getLogLog()
 {
-    static SharedObjectPtr<LogLog> singleton(new LogLog());
-    return singleton;
+    return &helpers::getLogLog ();
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// log4cplus::helpers::LogLog ctor and dtor
-///////////////////////////////////////////////////////////////////////////////
 
 LogLog::LogLog()
- : mutex(LOG4CPLUS_MUTEX_CREATE),
-   debugEnabled(false),
-   quietMode(false)
-{
-}
+    : debugEnabled(TriUndef)
+    , quietMode(TriUndef)
+{ }
 
 
 LogLog::~LogLog()
-{
-    LOG4CPLUS_MUTEX_FREE( mutex );
-}
+{ }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// log4cplus::helpers::LogLog public methods
-///////////////////////////////////////////////////////////////////////////////
 
 void
 LogLog::setInternalDebugging(bool enabled)
 {
-    debugEnabled = enabled;
+    debugEnabled = enabled ? TriTrue : TriFalse;
 }
 
 
 void
 LogLog::setQuietMode(bool quietModeVal)
 {
-    quietMode = quietModeVal;
+    quietMode = quietModeVal ? TriTrue : TriFalse;
 }
 
 
 void
-LogLog::debug(const log4cplus::tstring& msg)
+LogLog::debug(const log4cplus::tstring& msg) const
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        if(debugEnabled && !quietMode) {
-             tcout << PREFIX << msg << endl;
-        }
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    logging_worker (tcout, &LogLog::get_debug_mode, PREFIX, msg);
 }
 
 
 void
-LogLog::warn(const log4cplus::tstring& msg)
+LogLog::debug(tchar const * msg) const
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        if(quietMode) return;
-
-        tcerr << WARN_PREFIX << msg << endl;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    logging_worker (tcout, &LogLog::get_debug_mode, PREFIX, msg);
 }
 
 
 void
-LogLog::error(const log4cplus::tstring& msg)
+LogLog::warn(const log4cplus::tstring& msg) const
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( mutex )
-        if(quietMode) return;
-
-        tcerr << ERR_PREFIX << msg << endl;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    logging_worker (tcerr, &LogLog::get_not_quiet_mode, WARN_PREFIX, msg);
 }
 
 
+void
+LogLog::warn(tchar const * msg) const
+{
+    logging_worker (tcerr, &LogLog::get_not_quiet_mode, WARN_PREFIX, msg);
+}
+
+
+void
+LogLog::error(const log4cplus::tstring& msg, bool throw_flag) const
+{
+    logging_worker (tcerr, &LogLog::get_not_quiet_mode, ERR_PREFIX, msg,
+        throw_flag);
+}
+
+
+void
+LogLog::error(tchar const * msg, bool throw_flag) const
+{
+    logging_worker (tcerr, &LogLog::get_not_quiet_mode, ERR_PREFIX, msg,
+        throw_flag);
+}
+
+
+bool
+LogLog::get_quiet_mode () const
+{
+    if (quietMode == TriUndef)
+        set_tristate_from_env (&quietMode,
+            LOG4CPLUS_TEXT ("LOG4CPLUS_LOGLOG_QUIETMODE"));
+
+    return quietMode == TriTrue;
+}
+
+
+bool
+LogLog::get_not_quiet_mode () const
+{
+    return ! get_quiet_mode ();
+}
+
+
+bool
+LogLog::get_debug_mode () const
+{
+    if (debugEnabled == TriUndef)
+        set_tristate_from_env (&debugEnabled,
+            LOG4CPLUS_TEXT ("LOG4CPLUS_LOGLOG_DEBUGENABLED"));
+
+    return debugEnabled && ! get_quiet_mode ();
+}
+
+
+void
+LogLog::set_tristate_from_env (TriState * result, tchar const * envvar_name)
+{
+    tstring envvar_value;
+    bool exists = internal::get_env_var (envvar_value, envvar_name);
+    bool value = false;
+    if (exists && internal::parse_bool (value, envvar_value) && value)
+        *result = TriTrue;
+    else
+        *result = TriFalse;
+}
+
+
+template <typename StringType>
+void
+LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
+    tchar const * prefix, StringType const & msg, bool throw_flag) const
+{
+    thread::MutexGuard guard (mutex);
+
+    if ((this->*cond) ())
+        os << prefix << msg << std::endl;
+
+    if (throw_flag)
+        throw std::runtime_error (LOG4CPLUS_TSTRING_TO_STRING (msg));
+}
+
+
+LogLog &
+getLogLog ()
+{
+    static LogLog singleton;
+    return singleton;
+}
+
+
+} } // namespace log4cplus { namespace helpers {

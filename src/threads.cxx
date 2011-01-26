@@ -24,6 +24,7 @@
 #include <exception>
 #include <stdexcept>
 #include <memory>
+#include <sstream>
 
 #include <log4cplus/config.hxx>
 
@@ -189,8 +190,7 @@ ThreadStart::threadStartFuncWorker(void * arg)
 #endif
 {
     blockAllSignals ();
-    helpers::SharedObjectPtr<helpers::LogLog> loglog
-        = helpers::LogLog::getLogLog();
+    helpers::LogLog * loglog = helpers::LogLog::getLogLog();
     if (! arg)
         loglog->error(LOG4CPLUS_TEXT("threadStartFunc()- arg is NULL"));
     else

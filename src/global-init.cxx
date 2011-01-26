@@ -21,12 +21,24 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
+#include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
+#include <iostream>
 
 
 // Forward Declarations
 namespace log4cplus
 {
+
+#ifdef UNICODE
+LOG4CPLUS_EXPORT tostream & tcout = std::wcout;
+LOG4CPLUS_EXPORT tostream & tcerr = std::wcerr;
+
+#else
+LOG4CPLUS_EXPORT tostream & tcout = std::cout;
+LOG4CPLUS_EXPORT tostream & tcerr = std::cerr;
+
+#endif // UNICODE
 
 
 //! Defined here, used by initializeLayout().

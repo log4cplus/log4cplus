@@ -958,6 +958,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\env.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\src\factory.cxx"
 				>
 				<FileConfiguration
@@ -2950,6 +2954,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\log4cplus\tchar.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\log4cplus\helpers\thread-config.h"
 				>
 			</File>
@@ -3127,6 +3135,10 @@
 			</File>
 			<File
 				RelativePath="..\include\log4cplus\config\win32.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\config\windowsh-inc.h"
 				>
 			</File>
 		</Filter>
@@ -3683,6 +3695,18 @@
 			</File>
 			<File
 				RelativePath="..\include\log4cplus\win32debugappender.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="internal"
+			>
+			<File
+				RelativePath="..\include\log4cplus\internal\env.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\internal\socket.h"
 				>
 			</File>
 		</Filter>

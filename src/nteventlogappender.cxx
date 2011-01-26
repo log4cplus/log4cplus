@@ -22,6 +22,7 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <sstream>
 #include <cstdlib>
 
 
