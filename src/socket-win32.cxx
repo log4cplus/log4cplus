@@ -205,7 +205,7 @@ connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
     {
         insock.sin_family = AF_INET;
         INT insock_size = sizeof (insock);
-        INT ret = WSAStringToAddress (const_cast<LPWSTR>(hostn.c_str ()),
+        INT ret = WSAStringToAddress (const_cast<LPTSTR>(hostn.c_str ()),
             AF_INET, 0, reinterpret_cast<struct sockaddr *>(&insock),
             &insock_size);
         if (ret == SOCKET_ERROR || insock_size != sizeof (insock)) 
