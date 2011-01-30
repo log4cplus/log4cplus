@@ -1,4 +1,4 @@
-//   Copyright (C) 2009, Vaclav Haisman. All rights reserved.
+//   Copyright (C) 2009-2010, Vaclav Haisman. All rights reserved.
 //   
 //   Redistribution and use in source and binary forms, with or without modifica-
 //   tion, are permitted provided that the following conditions are met:
@@ -27,20 +27,42 @@
 //! guards because it is only a fragment to be included by
 //! syncprims.h.
 
-namespace log4cplus { namespace thread {
+#include <new>
 
 
-#define LOG4CPLUS_THROW_RTE(msg) \
-    do { detail::syncprims_throw_exception (msg, __FILE__, __LINE__); } while (0)
+namespace log4cplus { namespace thread { namespace impl {
+
 
 //
 //
 //
 
 inline
-Mutex::Mutex (Mutex::Type)
+void
+InitializeCriticalSection_wrap (LPCRITICAL_SECTION cs)
 {
-    InitializeCriticalSection (&cs);
+#if defined (_MSC_VER)
+    __try
+    {
+#endif
+
+    InitializeCriticalSection (cs);
+
+#if defined (_MSC_VER)
+    }
+    __except (GetExceptionCode() == STATUS_NO_MEMORY
+        ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH)
+    {
+        throw std::bad_alloc ("InitializeCriticalSection: STATUS_NO_MEMORY");
+    }
+#endif
+}
+
+
+inline
+Mutex::Mutex (log4cplus::thread::Mutex::Type)
+{
+    InitializeCriticalSection_wrap (&cs);
 }
 
 
@@ -110,6 +132,52 @@ Semaphore::lock () const
     DWORD ret = WaitForSingleObject (sem, INFINITE);
     if (ret != WAIT_OBJECT_0)
         LOG4CPLUS_THROW_RTE ("Semaphore::lock");
+}
+
+
+//
+//
+//
+
+
+inline
+FairMutex::FairMutex ()
+{
+    mtx = CreateMutex (0, false, 0);
+    if (! mtx)
+        LOG4CPLUS_THROW_RTE ("FairMutex::FairMutex");
+}
+
+
+inline
+FairMutex::~FairMutex ()
+{
+    try
+    {
+        if (! CloseHandle (mtx))
+            LOG4CPLUS_THROW_RTE ("FairMutex::~FairMutex");
+    }
+    catch (...)
+    { }
+}
+
+
+inline
+void
+FairMutex::lock () const
+{
+    DWORD ret = WaitForSingleObject (mtx, INFINITE);
+    if (ret != WAIT_OBJECT_0)
+        LOG4CPLUS_THROW_RTE ("FairMutex::lock");
+}
+
+
+inline
+void
+FairMutex::unlock () const
+{
+    if (! ReleaseMutex (mtx))
+        LOG4CPLUS_THROW_RTE ("FairMutex::unlock");
 }
 
 
@@ -189,7 +257,59 @@ ManualResetEvent::reset () const
 }
 
 
-#undef LOG4CPLUS_THROW_RTE
+//
+//
+//
+
+#if defined (LOG4CPLUS_POOR_MANS_SHAREDMUTEX)
+#include "log4cplus/thread/impl/syncprims-pmsm.h"
+
+#else
+inline
+SharedMutex::SharedMutex ()
+{
+    InitializeSRWLock (&srwl);
+}
 
 
-} } // namespace log4cplus { namespace thread {
+inline
+SharedMutex::~SharedMutex ()
+{ }
+
+
+inline
+void
+SharedMutex::rdlock () const
+{
+    AcquireSRWLockShared (&srwl);
+}
+
+
+inline
+void
+SharedMutex::rdunlock () const
+{
+    ReleaseSRWLockShared (&srwl);
+}
+
+
+inline
+void
+SharedMutex::wrlock () const
+{
+    AcquireSRWLockExclusive (&srwl);
+}
+
+
+inline
+void
+SharedMutex::wrunlock () const
+{
+    ReleaseSRWLockExclusive (&srwl);
+}
+
+
+#endif
+
+
+} } } // namespace log4cplus { namespace thread { namespace impl {

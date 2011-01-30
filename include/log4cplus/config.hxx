@@ -1,4 +1,4 @@
-//   Copyright (C) 2009, Vaclav Haisman. All rights reserved.
+//   Copyright (C) 2009-2010, Vaclav Haisman. All rights reserved.
 //   
 //   Redistribution and use in source and binary forms, with or without modifica-
 //   tion, are permitted provided that the following conditions are met:
@@ -24,6 +24,7 @@
 #ifndef LOG4CPLUS_CONFIG_HXX
 #define LOG4CPLUS_CONFIG_HXX
 
+#include <cstddef>
 
 #if defined (_WIN32)
 #  include <log4cplus/config/win32.h>
@@ -33,7 +34,22 @@
 #  include <log4cplus/config/defines.hxx>
 #endif
 
+#if ! defined (UNICODE) && ! defined (LOG4CPLUS_HAVE_VSNPRINTF_S) \
+    && ! defined (LOG4CPLUS_HAVE__VSNPRINTF_S) \
+    && ! defined (LOG4CPLUS_HAVE_VSNPRINTF) \
+    && ! defined (LOG4CPLUS_HAVE__VSNPRINTF)
+#  undef LOG4CPLUS_USE_POOR_MANS_SNPRINTF
+#  define LOG4CPLUS_USE_POOR_MANS_SNPRINTF
+#endif
+
+# if ! defined (LOG4CPLUS_WORKING_LOCALE) \
+  && ! defined (LOG4CPLUS_WORKING_C_LOCALE) \
+  && ! defined (LOG4CPLUS_WITH_ICONV)
+# define LOG4CPLUS_POOR_MANS_CHCONV
+#endif
+
 #if !defined(_WIN32)
+#  define LOG4CPLUS_USE_BSD_SOCKETS
 #  if !defined(LOG4CPLUS_SINGLE_THREADED)
 #    define LOG4CPLUS_USE_PTHREADS
 #  endif
@@ -42,9 +58,29 @@
 #  else
 #    define LOG4CPLUS_EXPORT LOG4CPLUS_DECLSPEC_IMPORT
 #  endif // defined (INSIDE_LOG4CPLUS)
+
 #endif // !_WIN32
 
+#if defined (LOG4CPLUS_INLINES_ARE_EXPORTED)
+#  define LOG4CPLUS_INLINE_EXPORT inline
+#else
+#  define LOG4CPLUS_INLINE_EXPORT
+#endif
+
+
 #include <log4cplus/helpers/thread-config.h>
+
+namespace log4cplus
+{
+
+//! Per thread cleanup function. Users should call this function before
+//! a thread ends its execution. It frees resources allocated in thread local
+//! storage. It is important only for multi-threaded static library builds
+//! of log4cplus and user threads. In all other cases the clean up is provided
+//! automatically by other means.
+LOG4CPLUS_EXPORT void threadCleanup ();
+
+} // namespace log4cplus
 
 
 #endif // LOG4CPLUS_CONFIG_HXX

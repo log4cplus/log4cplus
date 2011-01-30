@@ -24,7 +24,7 @@
 #include <log4cplus/helpers/sleep.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/property.h>
-#include <log4cplus/helpers/syncprims.h>
+#include <log4cplus/thread/syncprims.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggerimpl.h>

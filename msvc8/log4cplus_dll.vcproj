@@ -2874,78 +2874,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\log4cplus\helpers\syncprims-pthreads.h"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_Unicode|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_Unicode|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_Unicode|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_Unicode|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\include\log4cplus\helpers\syncprims-win32.h"
-				>
-			</File>
-			<File
 				RelativePath="..\src\syncprims.cxx"
 				>
 			</File>
@@ -3709,6 +3637,50 @@
 				RelativePath="..\include\log4cplus\internal\socket.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="thread"
+			>
+			<File
+				RelativePath="..\include\log4cplus\thread\syncprims-pub-impl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\thread\syncprims.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\log4cplus\thread\threads.h"
+				>
+			</File>
+			<Filter
+				Name="impl"
+				>
+				<File
+					RelativePath="..\include\log4cplus\thread\impl\syncprims-impl.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\log4cplus\thread\impl\syncprims-pmsm.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\log4cplus\thread\impl\syncprims-pthreads.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\log4cplus\thread\impl\syncprims-win32.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\log4cplus\thread\impl\threads-impl.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\log4cplus\thread\impl\tls.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\log4cplus.vsprops"

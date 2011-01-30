@@ -26,7 +26,7 @@
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>
-#include <log4cplus/helpers/syncprims.h>
+#include <log4cplus/thread/syncprims.h>
 
 
 namespace log4cplus {
