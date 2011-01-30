@@ -56,8 +56,6 @@
 
 #include <unistd.h>
 
-#include <algorithm>
-
 
 namespace log4cplus { namespace helpers {
 
