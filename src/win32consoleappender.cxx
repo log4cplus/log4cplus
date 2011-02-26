@@ -23,12 +23,12 @@
 
 
 #include <log4cplus/win32consoleappender.h>
+
+#if defined(_WIN32) && defined (LOG4CPLUS_HAVE_WIN32_CONSOLE)
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <sstream>
 
-
-#if defined(_WIN32) && defined (LOG4CPLUS_HAVE_WIN32_CONSOLE)
 namespace log4cplus
 {
 
