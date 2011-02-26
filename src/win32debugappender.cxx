@@ -20,10 +20,12 @@
 
 
 #include <log4cplus/win32debugappender.h>
-#include <sstream>
 
 
 #if defined (LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING)
+#include <log4cplus/config/windowsh-inc.h>
+#include <sstream>
+
 
 using namespace std;
 using namespace log4cplus;
