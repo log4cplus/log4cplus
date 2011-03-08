@@ -116,11 +116,6 @@ AC_ARG_ENABLE([profiling],
 LOG4CPLUS_PROFILING_LDFLAGS=
 LOG4CPLUS_PROFILING_CXXFLAGS=
 
-dnl Libtool setup.
-
-LT_PREREQ([2.2.10])
-LT_INIT([win32-dll])
-
 dnl Checks for programs.
 AC_SEARCH_LIBS([strerror], [cposix])
 
@@ -386,6 +381,13 @@ dnl Single threaded library.
      [Define if this is a single-threaded library.])])
 
 AM_CONDITIONAL([MULTI_THREADED], [test "x$enable_threads" = "xyes"])
+
+dnl Libtool setup.
+dnl Must be latest to catch rpath compiled in by changes made during
+dnl checks before.
+
+LT_PREREQ([2.2.10])
+LT_INIT([win32-dll])
 
 AH_TOP([#ifndef LOG4CPLUS_CONFIG_H])
 AH_TOP([#define LOG4CPLUS_CONFIG_H])
