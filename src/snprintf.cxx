@@ -56,6 +56,7 @@ namespace
 {
 
 
+#if defined (LOG4CPLUS_USE_POOR_MANS_SNPRINTF)
 static inline
 int
 vftprintf (std::FILE * file, tchar const * fmt, std::va_list args)
@@ -102,8 +103,8 @@ vstprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
     return ret;
 }
 
+#else /* ?defined (LOG4CPLUS_USE_POOR_MANS_SNPRINTF) */
 
-#if ! defined (LOG4CPLUS_USE_POOR_MANS_SNPRINTF)
 static inline
 int
 vsntprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
