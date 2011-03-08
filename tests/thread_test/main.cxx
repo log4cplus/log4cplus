@@ -36,7 +36,7 @@ public:
     {
         LOG4CPLUS_TRACE_METHOD(logger, LOG4CPLUS_TEXT("SlowObject::doSomething()"));
         {
-            thread::MutexGuard guard (mutex);
+            log4cplus::thread::MutexGuard guard (mutex);
             LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("Actually doing something..."));
             sleep(0, 75 * MILLIS_TO_NANOS);
             LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("Actually doing something...DONE"));
@@ -48,7 +48,7 @@ public:
     { }
 
 private:
-    thread::Mutex mutex;
+    log4cplus::thread::Mutex mutex;
     Logger logger;
 };
 
