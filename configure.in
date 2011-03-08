@@ -346,6 +346,9 @@ dnl Multi threaded library.
    CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
    LIBS="$PTHREAD_LIBS $LIBS"
 
+   dnl required on HP-UX
+   AC_SEARCH_LIBS([sem_init], [rt])
+
    AS_CASE([$ax_cv_cxx_compiler_vendor],
      [gnu],
      [dnl GCC, empty case to avoid false positive for -qtls check.
@@ -420,4 +423,4 @@ AC_CONFIG_FILES([Makefile
 AC_SUBST([LOG4CPLUS_PROFILING_LDFLAGS])
 AC_SUBST([LOG4CPLUS_PROFILING_CXXFLAGS])
 
-AC_OUTPUT
+AC_OUTPUT([log4cplus.pc])

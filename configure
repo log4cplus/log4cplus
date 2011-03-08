@@ -8154,6 +8154,63 @@ esac
    CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
    LIBS="$PTHREAD_LIBS $LIBS"
 
+      { $as_echo "$as_me:${as_lineno-$LINENO}: checking for library containing sem_init" >&5
+$as_echo_n "checking for library containing sem_init... " >&6; }
+if test "${ac_cv_search_sem_init+set}" = set; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_func_search_save_LIBS=$LIBS
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char sem_init ();
+int
+main ()
+{
+return sem_init ();
+  ;
+  return 0;
+}
+_ACEOF
+for ac_lib in '' rt; do
+  if test -z "$ac_lib"; then
+    ac_res="none required"
+  else
+    ac_res=-l$ac_lib
+    LIBS="-l$ac_lib  $ac_func_search_save_LIBS"
+  fi
+  if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv_search_sem_init=$ac_res
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext
+  if test "${ac_cv_search_sem_init+set}" = set; then :
+  break
+fi
+done
+if test "${ac_cv_search_sem_init+set}" = set; then :
+
+else
+  ac_cv_search_sem_init=no
+fi
+rm conftest.$ac_ext
+LIBS=$ac_func_search_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_search_sem_init" >&5
+$as_echo "$ac_cv_search_sem_init" >&6; }
+ac_res=$ac_cv_search_sem_init
+if test "$ac_res" != no; then :
+  test "$ac_res" = "none required" || LIBS="$ac_res $LIBS"
+
+fi
+
+
    case $ax_cv_cxx_compiler_vendor in #(
   gnu) :
           ;; #(
@@ -18290,6 +18347,8 @@ ac_config_files="$ac_config_files Makefile include/Makefile src/Makefile logging
 
 
 
+ac_config_files="$ac_config_files log4cplus.pc"
+
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -19404,6 +19463,7 @@ do
     "tests/socket_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/socket_test/Makefile" ;;
     "tests/thread_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/thread_test/Makefile" ;;
     "tests/timeformat_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/timeformat_test/Makefile" ;;
+    "log4cplus.pc") CONFIG_FILES="$CONFIG_FILES log4cplus.pc" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
