@@ -14,6 +14,7 @@ INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/appender.h \
 	$(INCLUDES_SRC_PATH)/asyncappender.h \
 	$(INCLUDES_SRC_PATH)/boost/deviceappender.hxx \
+	$(INCLUDES_SRC_PATH)/clogger.h \
 	$(INCLUDES_SRC_PATH)/config.hxx \
 	$(INCLUDES_SRC_PATH)/config/macosx.h \
 	$(INCLUDES_SRC_PATH)/config/win32.h \
@@ -81,6 +82,7 @@ SINGLE_THREADED_SRC = \
 	appenderattachableimpl.cxx \
 	appender.cxx \
 	asyncappender.cxx \
+	clogger.cxx \
 	configurator.cxx \
 	consoleappender.cxx \
 	env.cxx \

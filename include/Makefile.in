@@ -226,6 +226,7 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/appender.h \
 	log4cplus/asyncappender.h \
 	log4cplus/boost/deviceappender.hxx \
+	log4cplus/clogger.h \
 	log4cplus/config.hxx \
 	log4cplus/config/defines.hxx \
 	log4cplus/config/macosx.h \

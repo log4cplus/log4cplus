@@ -2994,12 +2994,12 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 
 #
 # +1 : ? : +1  == new interface that does not break old one
-# +1 : ? : 0   == new interfac that breaks old one
+# +1 : ? : 0   == new interface that breaks old one
 #  ? : ? : 0   == no new interfaces, but breaks apps
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=0:0:0
+LT_VERSION=1:0:1
 
 
 

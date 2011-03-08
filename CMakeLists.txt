@@ -15,6 +15,7 @@ set (log4cplus_headers
   include/log4cplus/appender.h
   include/log4cplus/asyncappender.h
   include/log4cplus/boost/deviceappender.hxx
+  include/log4cplus/clogger.h
   include/log4cplus/config.hxx
   include/log4cplus/config/macosx.h
   include/log4cplus/config/win32.h
@@ -79,6 +80,7 @@ set (log4cplus_sources
   src/appender.cxx
   src/appenderattachableimpl.cxx
   src/asyncappender.cxx
+  src/clogger.cxx
   src/configurator.cxx
   src/consoleappender.cxx
   src/env.cxx

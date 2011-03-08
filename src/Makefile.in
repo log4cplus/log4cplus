@@ -90,8 +90,8 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 liblog4cplus_la_LIBADD =
 am__objects_1 =
 am__objects_2 = $(am__objects_1) appenderattachableimpl.lo appender.lo \
-	asyncappender.lo configurator.lo consoleappender.lo env.lo \
-	factory.lo fileappender.lo filter.lo global-init.lo \
+	asyncappender.lo clogger.lo configurator.lo consoleappender.lo \
+	env.lo factory.lo fileappender.lo filter.lo global-init.lo \
 	hierarchy.lo hierarchylocker.lo layout.lo logger.lo \
 	loggerimpl.lo loggingevent.lo loggingmacros.lo loglevel.lo \
 	loglog.lo logloguser.lo mdc.lo ndc.lo nullappender.lo \
@@ -276,6 +276,7 @@ INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/appender.h \
 	$(INCLUDES_SRC_PATH)/asyncappender.h \
 	$(INCLUDES_SRC_PATH)/boost/deviceappender.hxx \
+	$(INCLUDES_SRC_PATH)/clogger.h \
 	$(INCLUDES_SRC_PATH)/config.hxx \
 	$(INCLUDES_SRC_PATH)/config/macosx.h \
 	$(INCLUDES_SRC_PATH)/config/win32.h \
@@ -343,6 +344,7 @@ SINGLE_THREADED_SRC = \
 	appenderattachableimpl.cxx \
 	appender.cxx \
 	asyncappender.cxx \
+	clogger.cxx \
 	configurator.cxx \
 	consoleappender.cxx \
 	env.cxx \
@@ -472,6 +474,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/appender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/appenderattachableimpl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/asyncappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/clogger.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/configurator.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/consoleappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/env.Plo@am__quote@
