@@ -26,7 +26,9 @@
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/internal/internal.h>
+#if defined (_WIN32)
 #include <log4cplus/config/windowsh-inc.h>
+#endif
 
 #include <cstdlib>
 
