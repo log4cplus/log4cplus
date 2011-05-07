@@ -1,0 +1,113 @@
+#ifndef LOG4CPLUS_CONFIG_DEFINES_HXX
+#define LOG4CPLUS_CONFIG_DEFINES_HXX
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_SYSLOG_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_NETINET_IN_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_SYS_TYPES_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_SYS_SOCKET_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_SYS_STAT_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_SYS_TIMEB_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_SYS_TIME_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_TIME_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_NETDB_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_UNISTD_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_ERRNO_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_STDARG_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_STDIO_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_WCHAR_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_FTIME 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_GETADDRINFO 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_GETHOSTBYNAME_R 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_GETPID 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_GETTIMEOFDAY 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_GMTIME_R 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_HTONL 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_HTONS 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_LOCALTIME_R 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_LSTAT 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_NTOHL 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_NTOHS 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_STAT 1
+
+/* Define if this is a single-threaded library. */
+#undef LOG4CPLUS_SINGLE_THREADED
+
+/* */
+#undef LOG4CPLUS_USE_PTHREADS
+
+/* Define for compilers/standard libraries that support more than just the "C"
+   locale. */
+#cmakedefine LOG4CPLUS_WORKING_LOCALE 1
+
+/* Define to int if undefined. */
+#cmakedefine socklen_t int
+
+/* Defined for --enable-debugging builds. */
+/* this is not used anywhere #undef LOG4CPLUS_DEBUGGING */
+
+/* Defined if the compiler understands __declspec(export) or __attribute__((export)) construct. */
+#define LOG4CPLUS_DECLSPEC_EXPORT @LOG4CPLUS_DECLSPEC_EXPORT@
+
+/* Defined if the compiler understands __declspec(import) or __attribute__((import)) construct. */
+#define LOG4CPLUS_DECLSPEC_IMPORT @LOG4CPLUS_DECLSPEC_IMPORT@ /**/
+
+/* Defined if the host OS provides ENAMETOOLONG errno value. */
+#cmakedefine LOG4CPLUS_HAVE_ENAMETOOLONG 1
+
+/* Define to 1 if you have the `clock_gettime' function. */
+#cmakedefine LOG4CPLUS_HAVE_CLOCK_GETTIME 1
+
+#endif // LOG4CPLUS_CONFIG_DEFINES_HXX
