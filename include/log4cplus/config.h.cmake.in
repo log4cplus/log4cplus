@@ -4,6 +4,13 @@
 
 #define LOG4CPLUS_CONFIG_H
 
+/* Defined if the compiler supports C99 style variadic macros with
+   __VA_ARGS__. */
+/* #undef HAS_C99_VARIADIC_MACROS */
+
+/* Defined if the compiler supports GNU style variadic macros. */
+/* #undef HAS_GNU_VARIADIC_MACROS */
+
 /* Define to 1 if you have the `clock_gettime' function. */
 #undef HAVE_CLOCK_GETTIME
 
@@ -34,11 +41,29 @@
 /* Define to 1 if you have the `htons' function. */
 #cmakedefine HAVE_HTONS 1
 
+/* Define to 1 if you have the `iconv' function. */
+#cmakedefine HAVE_ICONV 1
+
+/* Define to 1 if you have the `iconv_close' function. */
+#cmakedefine HAVE_ICONV_CLOSE 1
+
+/* Define to 1 if you have the `iconv_open' function. */
+#cmakedefine HAVE_ICONV_OPEN 1
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #cmakedefine HAVE_INTTYPES_H 1
 
 /* Define to 1 if you have the `advapi32' library (-ladvapi32). */
 #cmakedefine HAVE_LIBADVAPI32 1
+
+/* Define to 1 if you have the `libiconv' function. */
+/* #undef HAVE_LIBICONV */
+
+/* Define to 1 if you have the `libiconv_close' function. */
+/* #undef HAVE_LIBICONV_CLOSE */
+
+/* Define to 1 if you have the `libiconv_open' function. */
+/* #undef HAVE_LIBICONV_OPEN */
 
 /* Define to 1 if you have the `kernel32' library (-lkernel32). */
 #cmakedefine HAVE_LIBKERNEL32 1
@@ -97,6 +122,42 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #cmakedefine HAVE_UNISTD_H 1
 
+/* Define to 1 if you have the `vfprintf_s' function. */
+#cmakedefine HAVE_VFPRINTF_S 1
+
+/* Define to 1 if you have the `vfwprintf_s' function. */
+#cmakedefine HAVE_VFWPRINTF_S 1
+
+/* Define to 1 if you have the `vsnprintf' function. */
+#cmakedefine HAVE_VSNPRINTF 1
+
+/* Define to 1 if you have the `vsprintf_s' function. */
+#cmakedefine HAVE_VSPRINTF_S 1
+
+/* Define to 1 if you have the `vswprintf_s' function. */
+#cmakedefine HAVE_VSWPRINTF_S 1
+
+/* Define to 1 if you have the `_vsnprintf' function. */
+#cmakedefine HAVE__VSNPRINTF 1
+
+/* Define to 1 if you have the `_vsnprintf_s' function. */
+#cmakedefine HAVE__VSNPRINTF_S 1
+
+/* Define to 1 if you have the `_vsnwprintf_s' function. */
+#cmakedefine HAVE__VSNWPRINTF_S 1
+
+/* Defined if the compiler supports __FUNCTION__ macro. */
+#cmakedefine HAVE___FUNCTION___MACRO 1
+
+/* Defined if the compiler supports __PRETTY_FUNCTION__ macro. */
+#cmakedefine HAVE___PRETTY_FUNCTION___MACRO 1
+
+/* Defined if the compiler provides __sync_add_and_fetch(). */
+#cmakedefine HAVE___SYNC_ADD_AND_FETCH 1
+
+/* Defined if the compiler provides __sync_sub_and_fetch(). */
+#cmakedefine HAVE___SYNC_SUB_AND_FETCH 1
+
 /* Defined for --enable-debugging builds. */
 #undef LOG4CPLUS_DEBUGGING
 
@@ -106,6 +167,9 @@
 
 /* Defined if the compiler understands __declspec(dllexport) or construct. */
 #define LOG4CPLUS_DECLSPEC_IMPORT @LOG4CPLUS_DECLSPEC_IMPORT@ /**/
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_C99_VARIADIC_MACROS 1
 
 /* */
 #cmakedefine LOG4CPLUS_HAVE_CLOCK_GETTIME 1
@@ -120,6 +184,9 @@
 #cmakedefine LOG4CPLUS_HAVE_FTIME 1
 
 /* */
+#define LOG4CPLUS_HAVE_FUNCTION_MACRO 1
+
+/* */
 #cmakedefine LOG4CPLUS_HAVE_GETADDRINFO 1
 
 /* */
@@ -129,16 +196,37 @@
 #cmakedefine LOG4CPLUS_HAVE_GETPID 1
 
 /* */
+#cmakedefine LOG4CPLUS_HAVE_GETTID 1
+
+/* */
 #cmakedefine LOG4CPLUS_HAVE_GETTIMEOFDAY 1
 
 /* */
 #cmakedefine LOG4CPLUS_HAVE_GMTIME_R 1
 
 /* */
+#cmakedefine LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS 1
+
+/* */
 #cmakedefine LOG4CPLUS_HAVE_HTONL 1
 
 /* */
 #cmakedefine LOG4CPLUS_HAVE_HTONS 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_ICONV 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_ICONV_CLOSE 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_ICONV_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_ICONV_OPEN 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_LIMITS_H 1
 
 /* */
 #cmakedefine LOG4CPLUS_HAVE_LOCALTIME_R 1
@@ -153,10 +241,16 @@
 #cmakedefine LOG4CPLUS_HAVE_NETINET_IN_H 1
 
 /* */
+#cmakedefine LOG4CPLUS_HAVE_NETINET_TCP_H 1
+
+/* */
 #cmakedefine LOG4CPLUS_HAVE_NTOHL 1
 
 /* */
 #cmakedefine LOG4CPLUS_HAVE_NTOHS 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO 1
 
 /* */
 #cmakedefine LOG4CPLUS_HAVE_STAT 1
@@ -168,6 +262,9 @@
 #cmakedefine LOG4CPLUS_HAVE_STDIO_H 1
 
 /* */
+#cmakedefine LOG4CPLUS_HAVE_STDLIB_H 1
+
+/* */
 #cmakedefine LOG4CPLUS_HAVE_SYSLOG_H 1
 
 /* */
@@ -175,6 +272,9 @@
 
 /* */
 #cmakedefine LOG4CPLUS_HAVE_SYS_STAT_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_SYS_SYSCALL_H 1
 
 /* */
 #cmakedefine LOG4CPLUS_HAVE_SYS_TIMEB_H 1
@@ -192,7 +292,37 @@
 #cmakedefine LOG4CPLUS_HAVE_UNISTD_H 1
 
 /* */
-#undef LOG4CPLUS_HAVE_WCHAR_H
+#cmakedefine LOG4CPLUS_HAVE_VFPRINTF_S 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_VFWPRINTF_S 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_VSNPRINTF 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_VSPRINTF_S 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_VSWPRINTF_S 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_WCHAR_H 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE__VSNPRINTF 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE__VSNPRINTF_S 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE__VSNWPRINTF_S 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH 1
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH 1
 
 /* Define if this is a single-threaded library. */
 #undef LOG4CPLUS_SINGLE_THREADED
