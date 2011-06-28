@@ -16,3 +16,6 @@ order:
 
 - Modular PatternLayout; public PatternConverter classes; user defined
   format specifiers.
+
+- More flexible log file rotation, like keeping only last 31 days of
+  logs produced by DailyRollingFileAppender, etc.
