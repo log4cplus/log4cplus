@@ -21,6 +21,7 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/loggingmacros.h>
+#include <log4cplus/internal/internal.h>
 
 #include <iterator>
 #include <algorithm>
@@ -33,6 +34,14 @@
 #  include <cassert>
 #  include <vector>
 #endif
+
+
+namespace log4cplus { namespace internal {
+
+LOG4CPLUS_EXPORT log4cplus::tstring const empty_str;
+
+} } // namespace log4cplus { namespace internal {
+
 
 using namespace log4cplus;
 

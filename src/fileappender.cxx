@@ -165,7 +165,7 @@ static
 void
 rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 {
-    helpers::LogLog * loglog = helpers::LogLog::getLogLog();
+    log4cplus::helpers::SharedObjectPtr<helpers::LogLog> loglog = helpers::LogLog::getLogLog();
 
     // Delete the oldest file
     tostringstream buffer;
@@ -291,12 +291,12 @@ FileAppender::~FileAppender()
 void 
 FileAppender::close()
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
-        out.close();
-        delete[] buffer;
-        buffer = 0;
-        closed = true;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    log4cplus::thread::MutexGuard guard (access_mutex);
+
+    out.close();
+    delete[] buffer;
+    buffer = 0;
+    closed = true;
 }
 
 

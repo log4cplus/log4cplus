@@ -20,6 +20,7 @@
 
 #include <log4cplus/helpers/sleep.h>
 #include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/config/windowsh-inc.h>
 
 #ifdef LOG4CPLUS_HAVE_ERRNO_H
 #include <errno.h>

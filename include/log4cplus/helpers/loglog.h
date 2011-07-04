@@ -27,6 +27,7 @@
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/thread/syncprims.h>
+#include <log4cplus/helpers/pointer.h>
 
 
 namespace log4cplus {
@@ -46,13 +47,14 @@ namespace log4cplus {
          * the string "log4clus: ".
          */
         class LOG4CPLUS_EXPORT LogLog
+            : public virtual log4cplus::helpers::SharedObject 
         {
         public:
           // Static methods
             /**
              * Returns a reference to the <code>LogLog</code> singleton.
              */
-            static LogLog * getLogLog();
+            static log4cplus::helpers::SharedObjectPtr<LogLog> getLogLog();
 
 
             /**

@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2009 Tad E. Smith
+// Copyright 2001-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,9 +29,7 @@
 #define _LOG4CPLUS_HELPERS_POINTERS_HEADER_
 
 #include <log4cplus/config.hxx>
-#include <memory>
-#include <stdexcept>
-#include <string>
+#include <log4cplus/thread/syncprims.h>
 #include <algorithm>
 #include <cassert>
 
@@ -52,12 +50,12 @@ namespace log4cplus {
         protected:
           // Ctor
             SharedObject()
-                : access_mutex(LOG4CPLUS_MUTEX_CREATE)
+                : access_mutex()
                 , count(0)
             { }
 
             SharedObject(const SharedObject&)
-                : access_mutex(LOG4CPLUS_MUTEX_CREATE)
+                : access_mutex()
                 , count(0)
             { }
 
@@ -68,10 +66,15 @@ namespace log4cplus {
             SharedObject& operator=(const SharedObject&) { return *this; }
 
         public:
-            LOG4CPLUS_MUTEX_PTR_DECLARE access_mutex;
+            thread::Mutex access_mutex;
 
         private:
-            mutable int count;
+#if defined (_WIN32) || defined (__CYGWIN__)
+            typedef long count_type;
+#else
+            typedef unsigned count_type;
+#endif
+            mutable count_type count;
         };
 
 

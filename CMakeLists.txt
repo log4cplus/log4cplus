@@ -4,8 +4,8 @@ set (CMAKE_VERBOSE_MAKEFILE on)
 
 set (log4cplus_version_major 1)
 set (log4cplus_version_minor 0)
-set (log4cplus_version_patch 4)
-set (log4cplus_soversion 4)
+set (log4cplus_version_patch 5)
+set (log4cplus_soversion 5)
 set (log4cplus_postfix "")
 
 find_package (Threads)
@@ -35,6 +35,9 @@ set (log4cplus_headers
   include/log4cplus/helpers/timehelper.h
   include/log4cplus/hierarchy.h
   include/log4cplus/hierarchylocker.h
+  include/log4cplus/internal/env.h
+  include/log4cplus/internal/internal.h
+  include/log4cplus/internal/socket.h
   include/log4cplus/layout.h
   include/log4cplus/logger.h
   include/log4cplus/loggingmacros.h
@@ -54,6 +57,15 @@ set (log4cplus_headers
   include/log4cplus/streams.h
   include/log4cplus/syslogappender.h
   include/log4cplus/tstring.h
+  include/log4cplus/thread/threads.h
+  include/log4cplus/thread/syncprims.h
+  include/log4cplus/thread/syncprims-pub-impl.h
+  include/log4cplus/thread/impl/syncprims-impl.h
+  include/log4cplus/thread/impl/syncprims-pmsm.h
+  include/log4cplus/thread/impl/syncprims-pthreads.h
+  include/log4cplus/thread/impl/syncprims-win32.h
+  include/log4cplus/thread/impl/threads-impl.h
+  include/log4cplus/thread/impl/tls.h
   include/log4cplus/version.h
   include/log4cplus/win32debugappender.h
   include/log4cplus/win32consoleappender.h)

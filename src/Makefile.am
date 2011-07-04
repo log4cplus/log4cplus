@@ -19,6 +19,9 @@ INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/fstreams.h \
 	$(INCLUDES_SRC_PATH)/hierarchy.h \
 	$(INCLUDES_SRC_PATH)/hierarchylocker.h \
+	$(INCLUDES_SRC_PATH)/internal/env.h \
+	$(INCLUDES_SRC_PATH)/internal/internal.h \
+	$(INCLUDES_SRC_PATH)/internal/socket.h \
 	$(INCLUDES_SRC_PATH)/layout.h \
 	$(INCLUDES_SRC_PATH)/logger.h \
 	$(INCLUDES_SRC_PATH)/loggingmacros.h \
@@ -52,6 +55,14 @@ INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/spi/loggingevent.h \
 	$(INCLUDES_SRC_PATH)/spi/objectregistry.h \
 	$(INCLUDES_SRC_PATH)/spi/rootlogger.h \
+	$(INCLUDES_SRC_PATH)/thread/syncprims.h \
+	$(INCLUDES_SRC_PATH)/thread/syncprims-pub-impl.h \
+	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-impl.h \
+	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-pmsm.h \
+	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-pthreads.h \
+	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-win32.h \
+	$(INCLUDES_SRC_PATH)/thread/impl/threads-impl.h \
+	$(INCLUDES_SRC_PATH)/thread/impl/tls.h \
 	$(top_builddir)/include/log4cplus/config/defines.hxx
 
 SINGLE_THREADED_SRC = \

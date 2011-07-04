@@ -19,10 +19,13 @@
 // limitations under the License.
 
 #include <log4cplus/config.hxx>
+#include <log4cplus/config/windowsh-inc.h>
 #include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
-#include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/internal/internal.h>
+#include <log4cplus/thread/impl/tls.h>
+#include <cstdio>
 #include <iostream>
 
 
@@ -45,8 +48,82 @@ LOG4CPLUS_EXPORT tostream & tcerr = std::cerr;
 helpers::Time TTCCLayout_time_base;
 
 
+namespace internal
+{
+
+
+per_thread_data::per_thread_data ()
+{ }
+
+
+per_thread_data::~per_thread_data ()
+{ }
+
+
+log4cplus::thread::impl::tls_key_type tls_storage_key;
+
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED) \
+    && defined (LOG4CPLUS_THREAD_LOCAL_VAR)
+
+LOG4CPLUS_THREAD_LOCAL_VAR per_thread_data * ptd = 0;
+
+
+per_thread_data *
+alloc_ptd ()
+{
+    per_thread_data * tmp = new per_thread_data;
+    set_ptd (tmp);
+    // This is a special hack. We set the keys' value to non-NULL to
+    // get the ptd_cleanup_func to execute when this thread ends. The
+    // cast is safe; the associated value will never be used if read
+    // again using the key.
+    thread::impl::tls_set_value (tls_storage_key,
+        reinterpret_cast<void *>(1));
+
+    return tmp;
+}
+
+#  else
+
+per_thread_data *
+alloc_ptd ()
+{
+    per_thread_data * tmp = new per_thread_data;
+    set_ptd (tmp);
+    return tmp;
+}
+
+#  endif
+
+
+} // namespace internal
+
+
 void initializeFactoryRegistry();
 void initializeLayout ();
+void threadCleanup ();
+
+
+//! Thread local storage clean up function for POSIX threads.
+static 
+void 
+ptd_cleanup_func (void * arg)
+{
+    // Either it is a dummy value or it should be the per thread data
+    // pointer we get from internal::get_ptd().
+    assert (arg == reinterpret_cast<void *>(1)
+        || arg == internal::get_ptd ());
+    (void)arg;
+
+    threadCleanup ();
+
+    // Setting the value through the key here is necessary in case we
+    // are using TLS using __thread or __declspec(thread) or similar
+    // constructs with POSIX threads. Otherwise POSIX calls this cleanup
+    // routine more than once if the value stays non-NULL after it returns.
+    thread::impl::tls_set_value (internal::tls_storage_key, 0);
+}
 
 
 void initializeLog4cplus()
@@ -54,6 +131,8 @@ void initializeLog4cplus()
     static bool initialized = false;
     if (initialized)
         return;
+
+    internal::tls_storage_key = thread::impl::tls_init (ptd_cleanup_func);
 
     helpers::LogLog::getLogLog();
     getLogLevelManager ();
@@ -63,6 +142,24 @@ void initializeLog4cplus()
     initializeLayout ();
 
     initialized = true;
+}
+
+
+static
+void
+threadSetup ()
+{
+    internal::get_ptd (true);
+}
+
+
+void
+threadCleanup ()
+{
+    // Do thread-specific cleanup.
+    internal::per_thread_data * ptd = internal::get_ptd (false);
+    delete ptd;
+    internal::set_ptd (0);
 }
 
 
@@ -78,21 +175,45 @@ BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL,  // handle to DLL modu
     // Perform actions based on the reason for calling.
     switch( fdwReason ) 
     { 
-        case DLL_PROCESS_ATTACH:
-            log4cplus::initializeLog4cplus();
-            break;
+    case DLL_PROCESS_ATTACH:
+    {
+        log4cplus::initializeLog4cplus();
 
-        case DLL_THREAD_ATTACH:
-         // Do thread-specific initialization.
-            break;
+        // Do thread-specific initialization for the main thread.
+        log4cplus::threadSetup ();
 
-        case DLL_THREAD_DETACH:
-         // Do thread-specific cleanup.
-            break;
+        break;
+    }
 
-        case DLL_PROCESS_DETACH:
-         // Perform any necessary cleanup.
-            break;
+    case DLL_THREAD_ATTACH:
+    {
+        // Do thread-specific initialization.
+        log4cplus::threadSetup ();
+
+        break;
+    }
+
+    case DLL_THREAD_DETACH:
+    {
+        // Do thread-specific cleanup.
+        log4cplus::threadCleanup ();
+
+        break;
+    }
+
+    case DLL_PROCESS_DETACH:
+    {
+        // Perform any necessary cleanup.
+
+        // Do thread-specific cleanup.
+        log4cplus::threadCleanup ();
+#if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
+        log4cplus::thread::impl::tls_cleanup (
+            log4cplus::internal::tls_storage_key);
+#endif
+        break;
+    }
+
     }
 
     return TRUE;  // Successful DLL_PROCESS_ATTACH.
@@ -102,12 +223,20 @@ BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL,  // handle to DLL modu
 
 namespace {
 
-    class _static_log4cplus_initializer {
-    public:
-        _static_log4cplus_initializer() {
+    struct _static_log4cplus_initializer
+    {
+        _static_log4cplus_initializer ()
+        {
             log4cplus::initializeLog4cplus();
+        }
+
+        ~_static_log4cplus_initializer ()
+        {
+            // Last thread cleanup.
+            log4cplus::threadCleanup ();
         }
     } static initializer;
 }
+
 
 #endif

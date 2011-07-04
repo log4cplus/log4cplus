@@ -18,133 +18,72 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LOG4CPLUS_SINGLE_THREADED
+#include <log4cplus/config.hxx>
 
-#include <cassert>
 #include <exception>
-#include <stdexcept>
-#include <memory>
 #include <sstream>
 
-#include <log4cplus/config.hxx>
+#ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+
+#ifdef LOG4CPLUS_HAVE_SYS_SYSCALL_H
+#include <sys/syscall.h>
+#endif
 
 #ifdef LOG4CPLUS_HAVE_ERRNO_H
 #include <errno.h>
 #endif
 
+#ifdef LOG4CPLUS_HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 #if defined(LOG4CPLUS_USE_PTHREADS)
+#  include <pthread.h>
 #  include <sched.h>
 #  include <signal.h>
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS) && ! defined (_WIN32_WCE)
 #  include <process.h> 
 #endif
+#include <log4cplus/config/windowsh-inc.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
+#include <log4cplus/tstring.h>
 
-#include <log4cplus/helpers/threads.h>
+#ifndef LOG4CPLUS_SINGLE_THREADED
+
+#include <log4cplus/thread/threads.h>
+#include <log4cplus/thread/impl/threads-impl.h>
+#include <log4cplus/thread/impl/tls.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
-#include <log4cplus/thread/syncprims.h>
+
+#endif // LOG4CPLUS_SINGLE_THREADED
 
 
 namespace log4cplus { namespace thread {
 
 
-struct ThreadStart
+LOG4CPLUS_EXPORT
+LOG4CPLUS_MUTEX_PTR_DECLARE
+createNewMutex ()
 {
-#  ifdef LOG4CPLUS_USE_PTHREADS
-static void* threadStartFuncWorker(void *);
-#  elif defined(LOG4CPLUS_USE_WIN32_THREADS) && defined (_WIN32_WCE)
-static DWORD threadStartFuncWorker(void *);
-#  elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-static unsigned threadStartFuncWorker(void *);
-#  endif
-};
-
-
-} } // namespace log4cplus { namespace thread {
-
-
-namespace
-{
-
-#  ifdef LOG4CPLUS_USE_PTHREADS
-extern "C" void * threadStartFunc(void * param)
-#  elif defined(LOG4CPLUS_USE_WIN32_THREADS) && defined (_WIN32_WCE)
-static DWORD WINAPI threadStartFunc(void * param)
-#  elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-static unsigned WINAPI threadStartFunc(void * param)
-#  endif
-{
-    return log4cplus::thread::ThreadStart::threadStartFuncWorker (param);
-}
-
-} // namespace
-
-
-namespace log4cplus { namespace thread {
-
-
-///////////////////////////////////////////////////////////////////////////////
-// public methods
-///////////////////////////////////////////////////////////////////////////////
-
-LOG4CPLUS_MUTEX_PTR_DECLARE 
-createNewMutex()
-{
-#if defined(LOG4CPLUS_USE_PTHREADS)
-    // The mutexes that we provide need to be recursive. This is
-    // because of double locking, first lock gets acquired in
-    // ConfigurationWatchDogThread::run() through the HierarchyLocker
-    // instance there. The second lock on appender_list_mutex is
-    // attempted in
-    // helpers::AppenderAttachableImpl::removeAllAppenders(). This
-    // results into deadlock on (at least) Linux.
-
-    log4cplus::thread::PthreadMutexAttr mattr;
-    mattr.set_type (log4cplus::thread::Mutex::RECURSIVE);
-
-    std::auto_ptr<pthread_mutex_t> m (new pthread_mutex_t);
-    int ret = pthread_mutex_init (m.get (), &mattr.attr);
-    if (ret != 0)
-        throw std::runtime_error ("createNewMutex(): pthread_mutex_init () has failed.");
-
-#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-	std::auto_ptr< ::CRITICAL_SECTION> m (new ::CRITICAL_SECTION);
-    ::InitializeCriticalSection(m.get ());
-
-#endif
-
-    return m.release ();
+    return new log4cplus::thread::Mutex;
 }
 
 
-void 
-deleteMutex(LOG4CPLUS_MUTEX_PTR_DECLARE m)
+LOG4CPLUS_EXPORT
+void
+deleteMutex (LOG4CPLUS_MUTEX_PTR_DECLARE mutex)
 {
-#if defined(LOG4CPLUS_USE_PTHREADS)
-    ::pthread_mutex_destroy(m);
-#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    ::DeleteCriticalSection(m);
-#endif
-    delete m;
+    delete mutex;
 }
 
 
-
-#if defined(LOG4CPLUS_USE_PTHREADS)
-pthread_key_t*
-createPthreadKey(void (*cleanupfunc)(void *))
-{
-    ::pthread_key_t* key = new ::pthread_key_t;
-    ::pthread_key_create(key, cleanupfunc);
-    return key;
-}
-#endif
-
-
-#ifndef LOG4CPLUS_SINGLE_THREADED
+LOG4CPLUS_EXPORT
 void
 blockAllSignals()
 {
@@ -155,27 +94,111 @@ blockAllSignals()
     pthread_sigmask (SIG_BLOCK, &signal_set, 0);
 #endif    
 }
-#endif // LOG4CPLUS_SINGLE_THREADED
 
 
+LOG4CPLUS_EXPORT
 void
 yield()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
     sched_yield();
-#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
+#elif defined(_WIN32)
     ::Sleep(0);
 #endif
 }
 
 
-tstring
+LOG4CPLUS_EXPORT
+log4cplus::tstring
 getCurrentThreadName()
 {
-    tostringstream tmp;
-    tmp << LOG4CPLUS_GET_CURRENT_THREAD;
-    return tmp.str ();
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    log4cplus::tstring name;
+    log4cplus::tostringstream tmp;
+    tmp << impl::getCurrentThreadId ();
+    tmp.str ().swap (name);
+
+#else
+    static log4cplus::tstring const name (LOG4CPLUS_TEXT ("single"));
+#endif
+
+    return name;
 }
+
+
+namespace
+{
+
+
+static
+bool
+get_current_thread_name_alt (log4cplus::tostringstream * s)
+{
+    log4cplus::tostringstream & os = *s;
+
+#if defined (LOG4CPLUS_USE_PTHREADS) && defined (__linux__) \
+    && defined (LOG4CPLUS_HAVE_GETTID)
+    pid_t tid = syscall (SYS_gettid);
+    os << tid;
+
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS) || defined (__CYGWIN__)
+    DWORD tid = GetCurrentThreadId ();
+    os << tid;
+    
+#else
+    os << getCurrentThreadName ();
+
+#endif
+
+    return true;
+}
+
+
+} // namespace
+
+
+LOG4CPLUS_EXPORT
+log4cplus::tstring
+getCurrentThreadName2()
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    log4cplus::tstring name;
+    log4cplus::tostringstream tmp;
+    get_current_thread_name_alt (&tmp);
+    tmp.str ().swap (name);
+
+#else
+    static log4cplus::tstring const name (getCurrentThreadName ());
+
+#endif
+
+    return name;
+}
+
+
+} } // namespace log4cplus { namespace thread {
+
+
+#ifndef LOG4CPLUS_SINGLE_THREADED
+
+namespace
+{
+
+#  ifdef LOG4CPLUS_USE_PTHREADS
+extern "C" void* threadStartFunc(void * param)
+#  elif defined(LOG4CPLUS_USE_WIN32_THREADS) && defined (_WIN32_WCE)
+static DWORD threadStartFuncWorker(void * param)
+#  elif defined(LOG4CPLUS_USE_WIN32_THREADS)
+static unsigned WINAPI threadStartFunc(void * param)
+#  endif
+{
+    return log4cplus::thread::impl::ThreadStart::threadStartFuncWorker (param);
+}
+
+} // namespace
+
+
+namespace log4cplus { namespace thread { namespace impl {
 
 
 #if defined(LOG4CPLUS_USE_PTHREADS)
@@ -190,22 +213,22 @@ ThreadStart::threadStartFuncWorker(void * arg)
 #endif
 {
     blockAllSignals ();
-    helpers::LogLog * loglog = helpers::LogLog::getLogLog();
+    log4cplus::helpers::SharedObjectPtr<helpers::LogLog> loglog = helpers::LogLog::getLogLog();
     if (! arg)
         loglog->error(LOG4CPLUS_TEXT("threadStartFunc()- arg is NULL"));
     else
     {
-        AbstractThread * ptr = static_cast<AbstractThread*>(arg);
-        AbstractThreadPtr thread(ptr);
+        Thread * ptr = static_cast<Thread *>(arg);
+        ThreadPtr thread(ptr);
 
-        // Decrease reference count increased by AbstractThread::start().
+        // Decrease reference count increased by Thread::start().
         ptr->removeReference ();
 
         try
         {
             thread->run();
         }
-        catch(std::exception& e)
+        catch(std::exception const & e)
         {
             tstring err = LOG4CPLUS_TEXT("threadStartFunc()- run() terminated with an exception: ");
             err += LOG4CPLUS_C_STR_TO_TSTRING(e.what());
@@ -215,20 +238,16 @@ ThreadStart::threadStartFuncWorker(void * arg)
         {
             loglog->warn(LOG4CPLUS_TEXT("threadStartFunc()- run() terminated with an exception."));
         }
-        thread->flags &= ~AbstractThread::fRUNNING;
-        getNDC().remove();
+        thread->flags &= ~Thread::fRUNNING;
     }
+
+    threadCleanup ();
 
     return 0;
 }
 
 
-
-///////////////////////////////////////////////////////////////////////////////
-// AbstractThread ctor and dtor
-///////////////////////////////////////////////////////////////////////////////
-
-AbstractThread::AbstractThread()
+Thread::Thread()
     : flags (0)
 #if defined(LOG4CPLUS_USE_WIN32_THREADS)
     , handle (INVALID_HANDLE_VALUE)
@@ -237,8 +256,7 @@ AbstractThread::AbstractThread()
 }
 
 
-
-AbstractThread::~AbstractThread()
+Thread::~Thread()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
     if ((flags & fJOINED) == 0)
@@ -252,13 +270,8 @@ AbstractThread::~AbstractThread()
 }
 
 
-
-///////////////////////////////////////////////////////////////////////////////
-// AbstractThread public methods
-///////////////////////////////////////////////////////////////////////////////
-
 void
-AbstractThread::start()
+Thread::start()
 {
     flags |= fRUNNING;
 
@@ -271,7 +284,8 @@ AbstractThread::start()
     {
         removeReference ();
         flags &= ~fRUNNING;
-        throw std::runtime_error("Thread creation was not successful");
+        log4cplus::helpers::LogLog::getLogLog ()->error (
+            LOG4CPLUS_TEXT ("Thread creation was not successful"), true);
     }
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     HANDLE h = InterlockedExchangePointer (&handle, INVALID_HANDLE_VALUE);
@@ -288,7 +302,8 @@ AbstractThread::start()
     {
         removeReference ();
         flags &= ~fRUNNING;
-        throw std::runtime_error("Thread creation was not successful");
+        log4cplus::helpers::LogLog::getLogLog ()->error (
+            LOG4CPLUS_TEXT ("Thread creation was not successful"), true);
     }
     h = InterlockedExchangePointer (&handle, h);
     assert (h == INVALID_HANDLE_VALUE);
@@ -296,8 +311,15 @@ AbstractThread::start()
 }
 
 
-LOG4CPLUS_THREAD_KEY_TYPE
-AbstractThread::getThreadId () const
+bool
+Thread::isRunning() const
+{
+    return (flags & fRUNNING) != 0;
+}
+
+
+os_id_type
+Thread::getThreadId () const
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
     return handle;
@@ -307,15 +329,15 @@ AbstractThread::getThreadId () const
 }
 
 
-LOG4CPLUS_THREAD_HANDLE_TYPE
-AbstractThread::getThreadHandle () const
+os_handle_type
+Thread::getThreadHandle () const
 {
     return handle;
 }
 
 
 void
-AbstractThread::join ()
+Thread::join ()
 {
 #if defined(LOG4CPLUS_USE_PTHREADS)
     pthread_join (handle, 0);
@@ -326,6 +348,95 @@ AbstractThread::join ()
 }
 
 
-} } // namespace log4cplus { namespace thread {
+} // namespace impl {
+
+
+//
+//
+//
+
+ThreadImplBase::~ThreadImplBase ()
+{ }
+
+
+//
+//
+//
+
+
+namespace
+{
+
+
+class ThreadImpl
+    : public impl::Thread
+{
+public:
+    ThreadImpl ()
+        : abs_thread (0)
+    { }
+
+    virtual ~ThreadImpl ()
+    { }
+
+    virtual
+    void
+    run ()
+    {
+        abs_thread->run ();
+    }
+
+    void
+    set_abs_thread (AbstractThread * at)
+    {
+        abs_thread = at;
+    }
+
+protected:
+    AbstractThread * abs_thread;
+};
+
+
+} // namespace
+
+
+//
+//
+//
+
+AbstractThread::AbstractThread ()
+    : thread (new ThreadImpl)
+{
+    static_cast<ThreadImpl *>(thread.get ())->set_abs_thread (this);
+}
+
+
+bool
+AbstractThread::isRunning() const
+{
+    return static_cast<ThreadImpl *>(thread.get ())->isRunning ();
+}
+
+
+void
+AbstractThread::start()
+{
+    static_cast<ThreadImpl *>(thread.get ())->start ();
+}
+
+
+void
+AbstractThread::join () const
+{
+    static_cast<ThreadImpl *>(thread.get ())->join ();
+}
+
+
+AbstractThread::~AbstractThread()
+{ }
+
+
+} } // namespace log4cplus { namespace thread { 
+
 
 #endif // LOG4CPLUS_SINGLE_THREADED

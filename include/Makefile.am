@@ -11,6 +11,9 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/fstreams.h \
 	log4cplus/hierarchy.h \
 	log4cplus/hierarchylocker.h \
+	log4cplus/internal/env.h \
+	log4cplus/internal/internal.h \
+	log4cplus/internal/socket.h \
 	log4cplus/layout.h \
 	log4cplus/logger.h \
 	log4cplus/loggingmacros.h \
@@ -43,4 +46,13 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/spi/loggerimpl.h \
 	log4cplus/spi/loggingevent.h \
 	log4cplus/spi/objectregistry.h \
-	log4cplus/spi/rootlogger.h
+	log4cplus/spi/rootlogger.h \
+	log4cplus/thread/threads.h \
+	log4cplus/thread/syncprims.h \
+	log4cplus/thread/syncprims-pub-impl.h \
+	log4cplus/thread/impl/syncprims-impl.h \
+	log4cplus/thread/impl/syncprims-pmsm.h \
+	log4cplus/thread/impl/syncprims-pthreads.h \
+	log4cplus/thread/impl/syncprims-win32.h \
+	log4cplus/thread/impl/threads-impl.h \
+	log4cplus/thread/impl/tls.h

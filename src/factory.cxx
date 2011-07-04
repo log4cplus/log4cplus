@@ -26,7 +26,7 @@
 #include <log4cplus/socketappender.h>
 #include <log4cplus/syslogappender.h>
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/helpers/threads.h>
+#include <log4cplus/thread/threads.h>
 
 #if defined (_WIN32)
 #  if defined (LOG4CPLUS_HAVE_NT_EVENT_LOG)

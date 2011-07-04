@@ -4,7 +4,7 @@
 #include <log4cplus/layout.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/helpers/threads.h>
+#include <log4cplus/thread/threads.h>
 #include <log4cplus/helpers/sleep.h>
 #include <iostream>
 #include <string>

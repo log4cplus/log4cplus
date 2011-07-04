@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2009 Tad E. Smith
+// Copyright 2001-2010 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,8 +20,13 @@
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/pointer.h>
-#include <log4cplus/helpers/threads.h>
-#include <assert.h>
+#include <log4cplus/thread/threads.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
+#include <log4cplus/config/windowsh-inc.h>
+#include <cassert>
+#if defined (LOG4CPLUS_HAVE_INTRIN_H)
+#include <intrin.h>
+#endif
 
 
 namespace log4cplus { namespace helpers {
@@ -34,7 +39,6 @@ namespace log4cplus { namespace helpers {
 SharedObject::~SharedObject()
 {
     assert(count == 0);
-    LOG4CPLUS_MUTEX_FREE( access_mutex );
 }
 
 
@@ -46,10 +50,26 @@ SharedObject::~SharedObject()
 void
 SharedObject::addReference() const
 {
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex )
-        assert (count >= 0);
-        ++count;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+#if ! defined(LOG4CPLUS_SINGLE_THREADED) \
+    && defined (LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH)
+    __sync_add_and_fetch (&count, 1);
+
+#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
+    && defined (_WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
+    _InterlockedIncrement (&count);
+
+#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
+    && (defined (_WIN32) || defined (__CYGWIN__))
+    InterlockedIncrement (&count);
+
+#elif ! defined(LOG4CPLUS_SINGLE_THREADED)
+    thread::MutexGuard guard (access_mutex);
+    ++count;
+
+#else
+    ++count;
+
+#endif
 }
 
 
@@ -57,11 +77,27 @@ void
 SharedObject::removeReference() const
 {
     bool destroy = false;
-    LOG4CPLUS_BEGIN_SYNCHRONIZE_ON_MUTEX( access_mutex );
+#if ! defined(LOG4CPLUS_SINGLE_THREADED) \
+    && defined (LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH)
+    destroy = __sync_sub_and_fetch (&count, 1) == 0;
+
+#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
+    && defined (_WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
+    destroy = _InterlockedDecrement (&count) == 0;
+
+#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
+    && (defined (_WIN32) || defined (__CYGWIN__))
+    destroy = InterlockedDecrement (&count) == 0;
+
+#else
+    {
+        thread::MutexGuard guard (access_mutex);
         assert (count > 0);
         if (--count == 0)
             destroy = true;
-    LOG4CPLUS_END_SYNCHRONIZE_ON_MUTEX;
+    }
+
+#endif
     if (destroy)
         delete this;
 }

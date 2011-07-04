@@ -20,7 +20,7 @@
 
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/helpers/threads.h>
+#include <log4cplus/thread/threads.h>
 #include <log4cplus/internal/env.h>
 #include <ostream>
 #include <stdexcept>
@@ -38,10 +38,11 @@ static tchar const ERR_PREFIX[] = LOG4CPLUS_TEXT("log4cplus:ERROR ");
 } // namespace
 
 
-LogLog *
+log4cplus::helpers::SharedObjectPtr<LogLog>
 LogLog::getLogLog()
 {
-    return &helpers::getLogLog ();
+    static log4cplus::helpers::SharedObjectPtr<LogLog> singleton (new LogLog);
+    return singleton;
 }
 
 
@@ -173,8 +174,7 @@ LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
 LogLog &
 getLogLog ()
 {
-    static LogLog singleton;
-    return singleton;
+    return *LogLog::getLogLog ();
 }
 
 

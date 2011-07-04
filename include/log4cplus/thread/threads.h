@@ -20,8 +20,8 @@
 
 /** @file */
 
-#ifndef _LOG4CPLUS_THREADS_HEADER_
-#define _LOG4CPLUS_THREADS_HEADER_
+#ifndef _LOG4CPLUS_THREAD_THREADS_HEADER_
+#define _LOG4CPLUS_THREAD_THREADS_HEADER_
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
@@ -31,8 +31,43 @@
 namespace log4cplus { namespace thread {
 
 
-LOG4CPLUS_EXPORT log4cplus::tstring const & getCurrentThreadName();
-LOG4CPLUS_EXPORT log4cplus::tstring const & getCurrentThreadName2();
+/**
+ * This is used to lock a mutex.  The dtor unlocks the mutex.
+ */
+class Guard
+{
+public:
+    /** "locks" <code>mutex</code>. */
+    Guard(Mutex const * mutex)
+        : _mutex (mutex)
+    {
+        _mutex->lock ();
+    }
+
+    /** "locks" <code>mutex</code>. */
+    Guard(Mutex const & mutex)
+        : _mutex (&mutex)
+    {
+        _mutex->lock ();
+    }
+
+    /** "unlocks" <code>mutex</code>. */
+    ~Guard()
+    {
+        _mutex->unlock ();
+    }
+
+private:
+    Mutex const * _mutex;
+
+    // disable copy
+    Guard(const Guard&);
+    Guard& operator=(const Guard&);
+};
+
+
+LOG4CPLUS_EXPORT log4cplus::tstring getCurrentThreadName();
+LOG4CPLUS_EXPORT log4cplus::tstring getCurrentThreadName2();
 LOG4CPLUS_EXPORT void yield();
 LOG4CPLUS_EXPORT void blockAllSignals();
 
@@ -84,5 +119,5 @@ typedef helpers::SharedObjectPtr<AbstractThread> AbstractThreadPtr;
 } } // namespace log4cplus { namespace thread {
 
 
-#endif // _LOG4CPLUS_THREADS_HEADER_
+#endif // _LOG4CPLUS_THREAD_THREADS_HEADER_
 

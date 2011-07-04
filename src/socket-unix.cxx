@@ -27,7 +27,7 @@
 #include <algorithm>
 #include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/helpers/threads.h>
+#include <log4cplus/thread/threads.h>
 #include <log4cplus/spi/loggingevent.h>
 
 #include <arpa/inet.h>
