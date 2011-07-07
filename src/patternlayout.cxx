@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #endif
 #include <exception>
+#include <stdexcept>
 
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>

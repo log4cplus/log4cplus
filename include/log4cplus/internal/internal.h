@@ -52,7 +52,7 @@ namespace internal {
 
 //! Canonical empty string. It is used when the need to return empty string
 //! by reference arises.
-extern LOG4CPLUS_EXPORT log4cplus::tstring const empty_str;
+extern log4cplus::tstring const empty_str;
 
 
 //! Per thread data.

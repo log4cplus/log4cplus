@@ -29,6 +29,7 @@
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/thread/threads.h>
+#include <memory>
 
 namespace log4cplus {
     namespace spi {

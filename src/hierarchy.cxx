@@ -23,6 +23,7 @@
 #include <log4cplus/spi/loggerimpl.h>
 #include <log4cplus/spi/rootlogger.h>
 #include <utility>
+#include <stdexcept>
 
 using namespace log4cplus;
 using namespace log4cplus::helpers;
