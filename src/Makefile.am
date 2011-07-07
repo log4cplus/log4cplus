@@ -71,6 +71,7 @@ SINGLE_THREADED_SRC = \
 	appender.cxx \
 	configurator.cxx \
 	consoleappender.cxx \
+	env.cxx \
 	factory.cxx \
 	fileappender.cxx \
 	filter.cxx \
