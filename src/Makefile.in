@@ -47,6 +47,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ax_cflags_gcc_option.m4 \
 	$(top_srcdir)/m4/ax_cflags_sun_option.m4 \
 	$(top_srcdir)/m4/ax_pthread.m4 $(top_srcdir)/m4/ax_declspec.m4 \
+	$(top_srcdir)/m4/ax__sync.m4 \
 	$(top_srcdir)/m4/ax_gethostbyname_r.m4 \
 	$(top_srcdir)/m4/ax_getaddrinfo.m4 \
 	$(top_srcdir)/m4/ax_log4cplus_wrappers.m4 \
@@ -92,6 +93,7 @@ am__liblog4cplus_la_SOURCES_DIST = $(INCLUDES_SRC_PATH)/appender.h \
 	$(INCLUDES_SRC_PATH)/fstreams.h \
 	$(INCLUDES_SRC_PATH)/hierarchy.h \
 	$(INCLUDES_SRC_PATH)/hierarchylocker.h \
+	$(INCLUDES_SRC_PATH)/internal/cygwin-win32.h \
 	$(INCLUDES_SRC_PATH)/internal/env.h \
 	$(INCLUDES_SRC_PATH)/internal/internal.h \
 	$(INCLUDES_SRC_PATH)/internal/socket.h \
@@ -135,27 +137,29 @@ am__liblog4cplus_la_SOURCES_DIST = $(INCLUDES_SRC_PATH)/appender.h \
 	$(INCLUDES_SRC_PATH)/thread/impl/tls.h \
 	$(top_builddir)/include/log4cplus/config/defines.hxx \
 	appenderattachableimpl.cxx appender.cxx configurator.cxx \
-	consoleappender.cxx env.cxx factory.cxx fileappender.cxx \
-	filter.cxx global-init.cxx hierarchy.cxx hierarchylocker.cxx \
-	layout.cxx logger.cxx loggerimpl.cxx loggingevent.cxx \
-	loglevel.cxx loglog.cxx logloguser.cxx ndc.cxx \
-	nteventlogappender.cxx nullappender.cxx objectregistry.cxx \
-	patternlayout.cxx pointer.cxx property.cxx rootlogger.cxx \
-	sleep.cxx socket.cxx socketappender.cxx socketbuffer.cxx \
-	stringhelper.cxx syslogappender.cxx timehelper.cxx version.cxx \
-	win32consoleappender.cxx win32debugappender.cxx threads.cxx \
-	syncprims.cxx socket-unix.cxx socket-win32.cxx
+	consoleappender.cxx cygwin-win32.cxx env.cxx factory.cxx \
+	fileappender.cxx filter.cxx global-init.cxx hierarchy.cxx \
+	hierarchylocker.cxx layout.cxx logger.cxx loggerimpl.cxx \
+	loggingevent.cxx loglevel.cxx loglog.cxx logloguser.cxx \
+	ndc.cxx nteventlogappender.cxx nullappender.cxx \
+	objectregistry.cxx patternlayout.cxx pointer.cxx property.cxx \
+	rootlogger.cxx sleep.cxx socket.cxx socketappender.cxx \
+	socketbuffer.cxx stringhelper.cxx syslogappender.cxx \
+	timehelper.cxx version.cxx win32consoleappender.cxx \
+	win32debugappender.cxx threads.cxx syncprims.cxx \
+	socket-unix.cxx socket-win32.cxx
 am__objects_1 =
 am__objects_2 = $(am__objects_1) appenderattachableimpl.lo appender.lo \
-	configurator.lo consoleappender.lo env.lo factory.lo \
-	fileappender.lo filter.lo global-init.lo hierarchy.lo \
-	hierarchylocker.lo layout.lo logger.lo loggerimpl.lo \
-	loggingevent.lo loglevel.lo loglog.lo logloguser.lo ndc.lo \
-	nteventlogappender.lo nullappender.lo objectregistry.lo \
-	patternlayout.lo pointer.lo property.lo rootlogger.lo sleep.lo \
-	socket.lo socketappender.lo socketbuffer.lo stringhelper.lo \
-	syslogappender.lo timehelper.lo version.lo \
-	win32consoleappender.lo win32debugappender.lo
+	configurator.lo consoleappender.lo cygwin-win32.lo env.lo \
+	factory.lo fileappender.lo filter.lo global-init.lo \
+	hierarchy.lo hierarchylocker.lo layout.lo logger.lo \
+	loggerimpl.lo loggingevent.lo loglevel.lo loglog.lo \
+	logloguser.lo ndc.lo nteventlogappender.lo nullappender.lo \
+	objectregistry.lo patternlayout.lo pointer.lo property.lo \
+	rootlogger.lo sleep.lo socket.lo socketappender.lo \
+	socketbuffer.lo stringhelper.lo syslogappender.lo \
+	timehelper.lo version.lo win32consoleappender.lo \
+	win32debugappender.lo
 @MULTI_THREADED_TRUE@am__objects_3 = threads.lo syncprims.lo
 @WINSOCK_SOCKETS_FALSE@am__objects_4 = socket-unix.lo
 @WINSOCK_SOCKETS_TRUE@am__objects_4 = socket-win32.lo
@@ -337,6 +341,7 @@ INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/fstreams.h \
 	$(INCLUDES_SRC_PATH)/hierarchy.h \
 	$(INCLUDES_SRC_PATH)/hierarchylocker.h \
+	$(INCLUDES_SRC_PATH)/internal/cygwin-win32.h \
 	$(INCLUDES_SRC_PATH)/internal/env.h \
 	$(INCLUDES_SRC_PATH)/internal/internal.h \
 	$(INCLUDES_SRC_PATH)/internal/socket.h \
@@ -389,6 +394,7 @@ SINGLE_THREADED_SRC = \
 	appender.cxx \
 	configurator.cxx \
 	consoleappender.cxx \
+	cygwin-win32.cxx \
 	env.cxx \
 	factory.cxx \
 	fileappender.cxx \
@@ -514,6 +520,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/appenderattachableimpl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/configurator.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/consoleappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cygwin-win32.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/env.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/factory.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileappender.Plo@am__quote@

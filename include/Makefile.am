@@ -11,6 +11,7 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/fstreams.h \
 	log4cplus/hierarchy.h \
 	log4cplus/hierarchylocker.h \
+	log4cplus/internal/cygwin-win32.h \
 	log4cplus/internal/env.h \
 	log4cplus/internal/internal.h \
 	log4cplus/internal/socket.h \
