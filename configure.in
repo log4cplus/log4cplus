@@ -110,7 +110,16 @@ AS_CASE([$ac_cxx_compiler_vendor],
    AS_CASE(["$target_os"],
      [cygwin*|mingw*],
      [LDFLAGS="${LDFLAGS} -Wl,--enable-auto-import"
-      LDFLAGS="${LDFLAGS} -Wl,--enable-runtime-pseudo-reloc"])],
+      LDFLAGS="${LDFLAGS} -Wl,--enable-runtime-pseudo-reloc"])
+
+   AX__SYNC
+   AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])
+   AS_IF([test "x$ac_cv___sync_add_and_fetch" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])])
+   AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])
+   AS_IF([test "x$ac_cv___sync_sub_and_fetch" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])])
+  ],
 
   [sun],
   [AS_IF([test "x$enable_warnings" = "xyes"],

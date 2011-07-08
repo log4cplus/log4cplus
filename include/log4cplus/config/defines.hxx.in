@@ -107,6 +107,12 @@
 /* Defined if the host OS provides ENAMETOOLONG errno value. */
 #undef LOG4CPLUS_HAVE_ENAMETOOLONG
 
+/* Defined if the compiler provides __sync_add_and_fetch(). */
+#undef LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH
+
+/* Defined if the compiler provides __sync_sub_and_fetch(). */
+#undef LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH
+
 /* Define to 1 if you have the `clock_gettime' function. */
 #undef LOG4CPLUS_HAVE_CLOCK_GETTIME
 

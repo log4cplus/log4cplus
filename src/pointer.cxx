@@ -59,7 +59,7 @@ SharedObject::addReference() const
     _InterlockedIncrement (&count);
 
 #elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
-    && (defined (_WIN32) || defined (__CYGWIN__))
+    && defined (_WIN32)
     InterlockedIncrement (&count);
 
 #elif ! defined(LOG4CPLUS_SINGLE_THREADED)
@@ -86,7 +86,7 @@ SharedObject::removeReference() const
     destroy = _InterlockedDecrement (&count) == 0;
 
 #elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
-    && (defined (_WIN32) || defined (__CYGWIN__))
+    && defined (_WIN32)
     destroy = InterlockedDecrement (&count) == 0;
 
 #else
