@@ -29,7 +29,7 @@
 
 // NOTE: This file is a fragment intentionally left without include guards.
 
-#if defined (_WIN32) || defined (__CYGWIN__)
+#if defined (_WIN32)
 #undef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 

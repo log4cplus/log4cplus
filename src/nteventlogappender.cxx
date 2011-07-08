@@ -17,6 +17,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_NT_EVENT_LOG)
+
 #include <log4cplus/nteventlogappender.h>
 #include <log4cplus/loglevel.h>
 #include <log4cplus/streams.h>
@@ -25,8 +29,6 @@
 #include <sstream>
 #include <cstdlib>
 
-
-#if defined (LOG4CPLUS_HAVE_NT_EVENT_LOG)
 
 using namespace log4cplus;
 using namespace log4cplus::spi;

@@ -40,9 +40,7 @@
 #  error "This header must not be be used outside log4cplus' implementation files."
 #endif
 
-#if defined(_WIN32)
 #include <log4cplus/config/windowsh-inc.h>
-#endif
 #include <log4cplus/config.hxx>
 #include <log4cplus/helpers/socket.h>
 
