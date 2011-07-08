@@ -257,7 +257,7 @@ acceptSocket(SOCKET_TYPE sock, SocketState& state)
     int clientSock;
 
     while (
-        (clientSock = accept_wrap (to_os_socket (sock),
+        (clientSock = accept_wrap (accept, to_os_socket (sock),
             reinterpret_cast<struct sockaddr*>(&net_client), &len)) 
         == -1
         && (errno == EINTR))
