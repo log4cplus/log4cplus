@@ -98,11 +98,14 @@ Mutex::Mutex (log4cplus::thread::Mutex::Type t)
 
 inline
 Mutex::~Mutex ()
+try
 {
     int ret = pthread_mutex_destroy (&mtx);
     if (ret != 0)
         LOG4CPLUS_THROW_RTE ("Mutex::~Mutex");
 }
+catch (...)
+{ }
 
 
 inline
