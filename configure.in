@@ -1,10 +1,10 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl This version of log4cplus requires the follwing autotools versions:
-dnl autoconf-2.67
+dnl autoconf-2.68
 dnl automake-1.11.1
 dnl libtool-2.2.10
 
-AC_INIT([log4cplus],[1.0.4])
+AC_INIT([log4cplus],[1.0.5])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
