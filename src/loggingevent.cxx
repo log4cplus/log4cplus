@@ -85,14 +85,14 @@ InternalLoggingEvent::operator=(const log4cplus::spi::InternalLoggingEvent& rhs)
 
     message = rhs.message;
     loggerName = rhs.loggerName;
-    ll = rhs.ll;
     ndc = rhs.getNDC();
     thread = rhs.getThread();
+    threadCached = true;
+    ndcCached = true;
+    ll = rhs.ll;
     timestamp = rhs.timestamp;
     file = rhs.file;
     line = rhs.line;
-    threadCached = true;
-    ndcCached = true;
 
     return *this;
 }

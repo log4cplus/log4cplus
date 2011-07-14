@@ -62,16 +62,16 @@ namespace log4cplus {
                                   int line_)
               : message(message_),
                 loggerName(logger),
-                ll(ll_),
                 ndc(),
                 thread(),
+                threadCached(false),
+                ndcCached(false),
+                ll(ll_),
                 timestamp(log4cplus::helpers::Time::gettimeofday()),
                 file( (  filename
                        ? LOG4CPLUS_C_STR_TO_TSTRING(filename) 
                        : log4cplus::tstring()) ),
-                line(line_),
-                threadCached(false),
-                ndcCached(false)
+                line(line_)
              {
              }
 
@@ -85,28 +85,28 @@ namespace log4cplus {
                                   int line_)
               : message(message_),
                 loggerName(logger),
-                ll(ll_),
                 ndc(ndc_),
                 thread(thread_),
+                threadCached(true),
+                ndcCached(true),
+                ll(ll_),
                 timestamp(time),
                 file(file_),
-                line(line_),
-                threadCached(true),
-                ndcCached(true)
+                line(line_)
              {
              }
 
              InternalLoggingEvent(const log4cplus::spi::InternalLoggingEvent& rhs)
               : message(rhs.getMessage()),
                 loggerName(rhs.getLoggerName()),
-                ll(rhs.getLogLevel()),
                 ndc(rhs.getNDC()),
                 thread(rhs.getThread()),
+                threadCached(true),
+                ndcCached(true),
+                ll(rhs.getLogLevel()),
                 timestamp(rhs.getTimestamp()),
                 file(rhs.getFile()),
-                line(rhs.getLine()),
-                threadCached(true),
-                ndcCached(true)
+                line(rhs.getLine())
              {
              }
 
@@ -180,16 +180,16 @@ namespace log4cplus {
 
         private:
             log4cplus::tstring loggerName;
-            LogLevel ll;
             mutable log4cplus::tstring ndc;
             mutable log4cplus::tstring thread;
-            log4cplus::helpers::Time timestamp;
-            log4cplus::tstring file;
-            int line;
             /** Indicates whether or not the Threadname has been retrieved. */
             mutable bool threadCached;
             /** Indicates whether or not the NDC has been retrieved. */
             mutable bool ndcCached;
+            LogLevel ll;
+            log4cplus::helpers::Time timestamp;
+            log4cplus::tstring file;
+            int line;
         };
 
     } // end namespace spi
