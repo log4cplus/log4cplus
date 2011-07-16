@@ -10,13 +10,18 @@ AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11.1 no-define nostdinc gnu -Wall])
 
-#
-# +1 : ? : +1  == new interface that does not break old one
-# +1 : ? : 0   == new interfac that breaks old one
-#  ? : ? : 0   == no new interfaces, but breaks apps
-#  ? :+1 : ?   == just some internal changes, nothing breaks but might work
-#                 better
-# CURRENT : REVISION : AGE
+dnl Check for commands.
+
+AC_PROG_INSTALL
+AC_CHECK_TOOL([STRIP], [strip], [:])
+
+dnl +1 : ? : +1  == new interface that does not break old one
+dnl +1 : ? : 0   == new interfac that breaks old one
+dnl  ? : ? : 0   == no new interfaces, but breaks apps
+dnl  ? :+1 : ?   == just some internal changes, nothing breaks but might work
+dnl                 better
+dnl CURRENT : REVISION : AGE
+
 LT_VERSION=4:0:0
 AC_SUBST([LT_VERSION])
 
