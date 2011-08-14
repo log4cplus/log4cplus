@@ -18,11 +18,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <log4cplus/config.hxx>
+
 #include <cstring>
 #if defined (UNICODE)
 #  include <cwctype>
 #  if defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET)
 #    include <codecvt>
+#    include <locale>
 #  endif
 #else
 #  include <cctype>
