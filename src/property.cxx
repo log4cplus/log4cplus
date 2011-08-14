@@ -21,10 +21,12 @@
 #include <cstring>
 #if defined (UNICODE)
 #  include <cwctype>
+#  if defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET)
+#    include <codecvt>
+#  endif
 #else
 #  include <cctype>
 #endif
-#include <codecvt>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/fstreams.h>
 
