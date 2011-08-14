@@ -62,6 +62,9 @@ namespace log4cplus
             fRecursiveExpansion = 0x0001,
             fShadowEnvironment  = 0x0002,
             fAllowEmptyVars     = 0x0004
+#if defined (UNICODE) && defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET)
+            , fUTF16File        = 0x0008
+#endif
         };
         
         // ctor and dtor

@@ -24,6 +24,7 @@
 #else
 #  include <cctype>
 #endif
+#include <codecvt>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/fstreams.h>
 
@@ -112,12 +113,22 @@ Properties::Properties(tistream& input)
 
 
 
-Properties::Properties(const tstring& inputFile)
+Properties::Properties(const tstring& inputFile, unsigned flags)
 {
     if (inputFile.empty ())
         return;
 
-    tifstream file (LOG4CPLUS_TSTRING_TO_STRING(inputFile).c_str());
+    tifstream file (LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(inputFile).c_str(),
+        std::ios::binary);
+
+#if defined (UNICODE) && defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET)
+    if ((flags & fUTF16File) == fUTF16File)
+        file.imbue (
+            std::locale (file.getloc (),
+                new std::codecvt_utf16<wchar_t, 0x10FFFF,
+                    static_cast<std::codecvt_mode>(std::consume_header | std::little_endian)>));
+#endif
+
     init(file);
 }
 
