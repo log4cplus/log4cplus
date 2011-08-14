@@ -331,7 +331,7 @@ FileAppender::append(const spi::InternalLoggingEvent& event)
 void
 FileAppender::open(std::ios::openmode mode)
 {
-    out.open(LOG4CPLUS_TSTRING_TO_STRING(filename).c_str(), mode);
+    out.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(filename).c_str(), mode);
 }
 
 bool
