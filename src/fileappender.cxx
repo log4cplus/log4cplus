@@ -300,6 +300,19 @@ FileAppender::close()
 }
 
 
+std::locale
+FileAppender::imbue(std::locale const& loc)
+{
+    return out.imbue (loc);
+}
+
+
+std::locale
+FileAppender::getloc () const
+{
+    return out.getloc ();
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // FileAppender protected methods
