@@ -753,7 +753,6 @@ with_pic
 enable_fast_install
 with_gnu_ld
 enable_libtool_lock
-with_gnu_ld
 enable_threads
 '
       ac_precious_vars='build_alias
@@ -766,11 +765,8 @@ LIBS
 CPPFLAGS
 CCC
 CXXCPP
-CPPFLAGS
 CC
 CFLAGS
-LDFLAGS
-LIBS
 CPP'
 
 
@@ -14845,132 +14841,64 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
-
-
-   { $as_echo "$as_me:${as_lineno-$LINENO}: checking the C++ compiler vendor" >&5
-$as_echo_n "checking the C++ compiler vendor... " >&6; }
-if ${ac_cv_cxx_compiler_vendor+:} false; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for C++ compiler vendor" >&5
+$as_echo_n "checking for C++ compiler vendor... " >&6; }
+if ${ax_cv_cxx_compiler_vendor+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
-
-          cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+  # note: don't check for gcc first since some other compilers define __GNUC__
+  vendors="intel:     __ICC,__ECC,__INTEL_COMPILER
+           ibm:       __xlc__,__xlC__,__IBMC__,__IBMCPP__
+           pathscale: __PATHCC__,__PATHSCALE__
+           clang:     __clang__
+           gnu:       __GNUC__
+           sun:       __SUNPRO_C,__SUNPRO_CC
+           hp:        __HP_cc,__HP_aCC
+           dec:       __DECC,__DECCXX,__DECC_VER,__DECCXX_VER
+           borland:   __BORLANDC__,__TURBOC__
+           comeau:    __COMO__
+           cray:      _CRAYC
+           kai:       __KCC
+           lcc:       __LCC__
+           sgi:       __sgi,sgi
+           microsoft: _MSC_VER
+           metrowerks: __MWERKS__
+           watcom:    __WATCOMC__
+           portland:  __PGI
+           unknown:   UNKNOWN"
+  for ventest in $vendors; do
+    case $ventest in
+      *:) vendor=$ventest; continue ;;
+      *)  vencpp="defined("`echo $ventest | sed 's/,/) || defined(/g'`")" ;;
+    esac
+    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-#ifndef __GNUG__
-                      # error "Macro __GNUG__ is undefined!"
-		      /* For some compilers (eg. SGI's CC), #error is not
-		         enough...  */
-		      please, do fail
-		      #endif
+
+int
+main ()
+{
+
+      #if !($vencpp)
+        thisisanerror;
+      #endif
+
+  ;
+  return 0;
+}
 _ACEOF
 if ac_fn_cxx_try_compile "$LINENO"; then :
-  ac_cv_cxx_compiler_vendor=gnu
-else
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#ifndef __DECCXX
-                      # error "Macro __DECCXX is undefined!"
-		      /* For some compilers (eg. SGI's CC), #error is not
-		         enough...  */
-		      please, do fail
-		      #endif
-_ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
-  ac_cv_cxx_compiler_vendor=compaq
-else
-  	  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#ifndef __HP_aCC
-                      # error "Macro __HP_aCC is undefined!"
-		      /* For some compilers (eg. SGI's CC), #error is not
-		         enough...  */
-		      please, do fail
-		      #endif
-_ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
-  ac_cv_cxx_compiler_vendor=hp
-else
-  	    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#ifndef __SUNPRO_CC
-                      # error "Macro __SUNPRO_CC is undefined!"
-		      /* For some compilers (eg. SGI's CC), #error is not
-		         enough...  */
-		      please, do fail
-		      #endif
-_ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
-  ac_cv_cxx_compiler_vendor=sun
-else
-  	     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#ifndef __sgi
-                      # error "Macro __sgi is undefined!"
-		      /* For some compilers (eg. SGI's CC), #error is not
-		         enough...  */
-		      please, do fail
-		      #endif
-_ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
-  ac_cv_cxx_compiler_vendor=sgi
-else
-  	       	       	       ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-	       cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#ifndef _MSC_VER
-                      # error "Macro _MSC_VER is undefined!"
-		      /* For some compilers (eg. SGI's CC), #error is not
-		         enough...  */
-		      please, do fail
-		      #endif
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"; then :
-  ac_cv_cxx_compiler_vendor=microsoft
-else
-  ac_cv_cxx_compiler_vendor=unknown
+  break
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-	       ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+  done
+  ax_cv_cxx_compiler_vendor=`echo $vendor | cut -d: -f1`
 
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-
-     ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_cxx_compiler_vendor" >&5
-$as_echo "$ac_cv_cxx_compiler_vendor" >&6; }
-   ac_cxx_compiler_vendor="$ac_cv_cxx_compiler_vendor"
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_cxx_compiler_vendor" >&5
+$as_echo "$ax_cv_cxx_compiler_vendor" >&6; }
 
 
-
-case $ac_cxx_compiler_vendor in #(
+case $ax_cv_cxx_compiler_vendor in #(
   gnu) :
     if test "x$enable_warnings" = "xyes"; then :
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -Wall" >&5
@@ -15700,10 +15628,18 @@ else
 
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-__declspec(dllexport) int x = 0;
+
+#if defined (__clang__)
+// Here the problem is that Clang only warns that it does not support
+// __declspec(dllexport) but still compiles the executable.
+#  error Please fail.
+And extra please fail.
+#else
+        __declspec(dllexport) int x = 0;
         __declspec(dllexport) int foo ();
         int foo () { return 0; }
         __declspec(dllexport) int bar () { return x; }
+#endif
 
 int
 main ()
@@ -15788,7 +15724,7 @@ fi
 
 
 if test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"; then :
-  case $ac_cxx_compiler_vendor in #(
+  case $ax_cv_cxx_compiler_vendor in #(
   gnu) :
     if test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"; then :
   as_VAR=`$as_echo "ax_cv_cxxflags_gcc_option_-fvisibility=hidden" | $as_tr_sh`

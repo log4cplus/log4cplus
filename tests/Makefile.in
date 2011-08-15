@@ -42,7 +42,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
 	$(top_srcdir)/acinclude.m4 $(top_srcdir)/m4/ax_c_ifdef.m4 \
 	$(top_srcdir)/m4/type_socklen_t.m4 \
-	$(top_srcdir)/m4/ac_cxx_compiler_vendor.m4 \
+	$(top_srcdir)/m4/ax_compiler_vendor.m4 \
 	$(top_srcdir)/m4/ax_cflags_gcc_option.m4 \
 	$(top_srcdir)/m4/ax_cflags_sun_option.m4 \
 	$(top_srcdir)/m4/ax_pthread.m4 $(top_srcdir)/m4/ax_declspec.m4 \
