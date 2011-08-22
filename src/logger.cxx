@@ -23,6 +23,7 @@
 #include <log4cplus/hierarchy.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggerimpl.h>
+#include <utility>
 
 
 namespace log4cplus
@@ -124,6 +125,24 @@ Logger::operator = (const Logger& rhs)
     Logger (rhs).swap (*this);
     return *this;
 }
+
+
+#if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
+Logger::Logger (Logger && rhs)
+{
+    value = rhs.value;
+    rhs.value = 0;
+}
+
+
+Logger &
+Logger::operator = (Logger && rhs)
+{
+    Logger (std::move (rhs)).swap (*this);
+    return *this;
+}
+
+#endif
 
 
 Logger::~Logger () 

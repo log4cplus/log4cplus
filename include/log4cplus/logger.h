@@ -259,6 +259,10 @@ namespace log4cplus
         Logger ();
         Logger(const Logger& rhs);
         Logger& operator=(const Logger& rhs);
+#if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
+        Logger (Logger && rhs);
+        Logger & operator = (Logger && rhs);
+#endif
         virtual ~Logger();
 
         void swap (Logger &);
