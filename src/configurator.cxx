@@ -241,7 +241,12 @@ PropertyConfigurator::PropertyConfigurator(const tstring& propertyFile,
     Hierarchy& hier, unsigned f)
     : h(hier)
     , propertyFilename(propertyFile)
+#if defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET)
+    , properties(propertyFile,
+        (f & fUTF16File) == fUTF16File ? helpers::Properties::fUTF16File : 0)
+#else
     , properties(propertyFile)
+#endif
     , flags (f)
 {
     init();

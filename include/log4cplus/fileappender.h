@@ -28,6 +28,7 @@
 #include <log4cplus/fstreams.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <fstream>
+#include <locale>
 
 
 namespace log4cplus
@@ -75,6 +76,13 @@ namespace log4cplus
 
       // Methods
         virtual void close();
+
+      //! Redefine default locale for output stream. It may be a good idea to
+      //! provide UTF-8 locale in case UNICODE macro is defined.
+        virtual std::locale imbue(std::locale const& loc);
+
+      //! \Return Locale imbued in fstream. 
+        virtual std::locale getloc () const;
 
     protected:
         virtual void append(const spi::InternalLoggingEvent& event);

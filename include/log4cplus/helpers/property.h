@@ -35,9 +35,16 @@ namespace log4cplus {
 
         class LOG4CPLUS_EXPORT Properties {
         public:
+            enum PFlags
+            {
+#if defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET)
+                fUTF16File = 0x0001
+#endif
+            };
+
             Properties();
             explicit Properties(log4cplus::tistream& input);
-            explicit Properties(const log4cplus::tstring& inputFile);
+            explicit Properties(const log4cplus::tstring& inputFile, unsigned flags = 0);
             virtual ~Properties();
 
           // constants
