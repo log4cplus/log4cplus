@@ -164,6 +164,7 @@ Properties::Properties(const tstring& inputFile, unsigned flags)
         break;
 #endif
 
+    case fUnspecEncoding:;
     default:
         // Do nothing.
         ;

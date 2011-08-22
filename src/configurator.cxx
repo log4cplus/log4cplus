@@ -253,6 +253,7 @@ namespace
 
     //! Translates encoding in ProtpertyConfigurator::PCFlags
     //! to helpers::Properties::PFlags
+    static
     unsigned
     pcflag_to_pflags_encoding (unsigned pcflags)
     {
@@ -276,6 +277,7 @@ namespace
             return helpers::Properties::fUTF32;
 #endif
 
+        case PropertyConfigurator::fUnspecEncoding:;
         default:
             return 0;
         }
