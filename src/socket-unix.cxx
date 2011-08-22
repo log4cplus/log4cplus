@@ -30,11 +30,6 @@
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/spi/loggingevent.h>
 
-#if defined(__hpux__)
-# ifndef _XOPEN_SOURCE_EXTENDED
-# define _XOPEN_SOURCE_EXTENDED
-# endif
-#endif
 #include <arpa/inet.h>
  
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
@@ -61,8 +56,6 @@
 
 #include <unistd.h>
 
-#include <algorithm>
-
 
 namespace log4cplus { namespace helpers {
 
@@ -71,7 +64,9 @@ namespace
 {
 
 
-static thread::Mutex ghbn_mutex;
+// We need to use log4cplus::thread here to work around compilation
+// problem on AIX.
+static log4cplus::thread::Mutex ghbn_mutex;
 
 
 static
@@ -107,7 +102,9 @@ get_host_by_name (char const * hostname, std::string * name,
     freeaddrinfo (res);
 
 #else
-    thread::MutexGuard guard (ghbn_mutex);
+    // We need to use log4cplus::thread here to work around
+    // compilation problem on AIX.
+    log4cplus::thread::MutexGuard guard (ghbn_mutex);
 
     struct ::hostent * hp = gethostbyname (hostname);
     if (! hp)
@@ -205,6 +202,48 @@ connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
 }
 
 
+namespace
+{
+
+//! Helper for accept_wrap().
+template <typename T, typename U>
+struct socklen_var
+{
+    typedef T type;
+};
+
+
+template <typename U>
+struct socklen_var<void, U>
+{
+    typedef U type;
+};
+
+
+// Some systems like HP-UX have socklen_t but accept() does not use it
+// as type of its 3rd parameter. This wrapper works around this
+// incompatibility.
+template <typename accept_sockaddr_ptr_type, typename accept_socklen_type>
+static
+SOCKET_TYPE
+accept_wrap (
+    int (* accept_func) (int, accept_sockaddr_ptr_type, accept_socklen_type *),
+    SOCKET_TYPE sock, struct sockaddr * sa, socklen_t * len)
+{
+    typedef typename socklen_var<accept_socklen_type, socklen_t>::type
+        socklen_var_type;
+    socklen_var_type l = static_cast<socklen_var_type>(*len);
+    SOCKET_TYPE result
+        = static_cast<SOCKET_TYPE>(
+            accept_func (sock, sa,
+                reinterpret_cast<accept_socklen_type *>(&l)));
+    *len = static_cast<socklen_t>(l);
+    return result;
+}
+
+
+} // namespace
+
 
 SOCKET_TYPE
 acceptSocket(SOCKET_TYPE sock, SocketState& state)
@@ -213,8 +252,8 @@ acceptSocket(SOCKET_TYPE sock, SocketState& state)
     socklen_t len = sizeof(struct sockaddr);
     int clientSock;
 
-    while (
-        (clientSock = ::accept(to_os_socket (sock),
+    while(
+        (clientSock = accept_wrap (accept, to_os_socket (sock),
             reinterpret_cast<struct sockaddr*>(&net_client), &len)) 
         == -1
         && (errno == EINTR))
