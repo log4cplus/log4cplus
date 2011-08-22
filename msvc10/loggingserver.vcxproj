@@ -154,7 +154,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
-      <TypeLibraryName>.\$(OutDir)loggingserver.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)loggingserver.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -166,10 +166,10 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeaderOutputFile>.\$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\$(IntDir)</AssemblerListingLocation>
-      <ObjectFileName>.\$(IntDir)</ObjectFileName>
-      <ProgramDataBaseFileName>.\$(OutDir)</ProgramDataBaseFileName>
+      <PrecompiledHeaderOutputFile>$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)</ProgramDataBaseFileName>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </ClCompile>
     <ResourceCompile>
@@ -178,22 +178,22 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>.\$(OutDir)loggingserver.exe</OutputFile>
+      <OutputFile>$(OutDir)loggingserver.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ProgramDatabaseFile>.\$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\$(IntDir)loggingserver.bsc</OutputFile>
+      <OutputFile>$(IntDir)loggingserver.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
-      <TypeLibraryName>.\$(OutDir)loggingserver.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)loggingserver.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -205,10 +205,10 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeaderOutputFile>.\$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\$(IntDir)</AssemblerListingLocation>
-      <ObjectFileName>.\$(IntDir)</ObjectFileName>
-      <ProgramDataBaseFileName>.\$(OutDir)</ProgramDataBaseFileName>
+      <PrecompiledHeaderOutputFile>$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)</ProgramDataBaseFileName>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </ClCompile>
     <ResourceCompile>
@@ -217,21 +217,21 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>.\$(OutDir)loggingserver.exe</OutputFile>
+      <OutputFile>$(OutDir)loggingserver.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ProgramDatabaseFile>.\$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\$(IntDir)loggingserver.bsc</OutputFile>
+      <OutputFile>$(IntDir)loggingserver.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
-      <TypeLibraryName>.\$(OutDir)loggingserver.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)loggingserver.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -242,10 +242,10 @@
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PrecompiledHeaderOutputFile>.\$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\$(IntDir)</AssemblerListingLocation>
-      <ObjectFileName>.\$(IntDir)</ObjectFileName>
-      <ProgramDataBaseFileName>.\$(OutDir)</ProgramDataBaseFileName>
+      <PrecompiledHeaderOutputFile>$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)</ProgramDataBaseFileName>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
@@ -255,23 +255,23 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>.\$(OutDir)loggingserver.exe</OutputFile>
+      <OutputFile>$(OutDir)loggingserver.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>.\$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\$(IntDir)loggingserver.bsc</OutputFile>
+      <OutputFile>$(IntDir)loggingserver.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
-      <TypeLibraryName>.\$(OutDir)loggingserver.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)loggingserver.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -282,10 +282,10 @@
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PrecompiledHeaderOutputFile>.\$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\$(IntDir)</AssemblerListingLocation>
-      <ObjectFileName>.\$(IntDir)</ObjectFileName>
-      <ProgramDataBaseFileName>.\$(OutDir)</ProgramDataBaseFileName>
+      <PrecompiledHeaderOutputFile>$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)</ProgramDataBaseFileName>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
@@ -295,22 +295,22 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>.\$(OutDir)loggingserver.exe</OutputFile>
+      <OutputFile>$(OutDir)loggingserver.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>.\$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\$(IntDir)loggingserver.bsc</OutputFile>
+      <OutputFile>$(IntDir)loggingserver.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Unicode|Win32'">
     <Midl>
-      <TypeLibraryName>.\$(OutDir)loggingserver.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)loggingserver.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -322,10 +322,10 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeaderOutputFile>.\$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\$(IntDir)</AssemblerListingLocation>
-      <ObjectFileName>.\$(IntDir)</ObjectFileName>
-      <ProgramDataBaseFileName>.\$(OutDir)</ProgramDataBaseFileName>
+      <PrecompiledHeaderOutputFile>$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)</ProgramDataBaseFileName>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </ClCompile>
     <ResourceCompile>
@@ -334,22 +334,22 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>.\$(OutDir)loggingserver.exe</OutputFile>
+      <OutputFile>$(OutDir)loggingserver.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ProgramDatabaseFile>.\$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\$(IntDir)loggingserver.bsc</OutputFile>
+      <OutputFile>$(IntDir)loggingserver.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Unicode|x64'">
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
-      <TypeLibraryName>.\$(OutDir)loggingserver.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)loggingserver.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -361,10 +361,10 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeaderOutputFile>.\$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\$(IntDir)</AssemblerListingLocation>
-      <ObjectFileName>.\$(IntDir)</ObjectFileName>
-      <ProgramDataBaseFileName>.\$(OutDir)</ProgramDataBaseFileName>
+      <PrecompiledHeaderOutputFile>$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)</ProgramDataBaseFileName>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </ClCompile>
     <ResourceCompile>
@@ -373,21 +373,21 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>.\$(OutDir)loggingserver.exe</OutputFile>
+      <OutputFile>$(OutDir)loggingserver.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ProgramDatabaseFile>.\$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\$(IntDir)loggingserver.bsc</OutputFile>
+      <OutputFile>$(IntDir)loggingserver.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|Win32'">
     <Midl>
-      <TypeLibraryName>.\$(OutDir)loggingserver.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)loggingserver.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -398,10 +398,10 @@
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PrecompiledHeaderOutputFile>.\$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\$(IntDir)</AssemblerListingLocation>
-      <ObjectFileName>.\$(IntDir)</ObjectFileName>
-      <ProgramDataBaseFileName>.\$(OutDir)</ProgramDataBaseFileName>
+      <PrecompiledHeaderOutputFile>$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)</ProgramDataBaseFileName>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
@@ -411,23 +411,23 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>.\$(OutDir)loggingserver.exe</OutputFile>
+      <OutputFile>$(OutDir)loggingserver.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>.\$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\$(IntDir)loggingserver.bsc</OutputFile>
+      <OutputFile>$(IntDir)loggingserver.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|x64'">
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
-      <TypeLibraryName>.\$(OutDir)loggingserver.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)loggingserver.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -438,10 +438,10 @@
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PrecompiledHeaderOutputFile>.\$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\$(IntDir)</AssemblerListingLocation>
-      <ObjectFileName>.\$(IntDir)</ObjectFileName>
-      <ProgramDataBaseFileName>.\$(OutDir)</ProgramDataBaseFileName>
+      <PrecompiledHeaderOutputFile>$(IntDir)loggingserver.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)</ProgramDataBaseFileName>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
@@ -451,17 +451,17 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>.\$(OutDir)loggingserver.exe</OutputFile>
+      <OutputFile>$(OutDir)loggingserver.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>.\$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>$(OutDir)loggingserver.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\$(IntDir)loggingserver.bsc</OutputFile>
+      <OutputFile>$(IntDir)loggingserver.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -167,7 +167,7 @@
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <TypeLibraryName>.\$(OutDir)log4cplus.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)log4cplus.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -187,12 +187,12 @@
       <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)log4cplus.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ImportLibrary>.\$(OutDir)log4cplus.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)log4cplus.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\$(IntDir)log4cplus.bsc</OutputFile>
+      <OutputFile>$(IntDir)log4cplus.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -201,7 +201,7 @@
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>X64</TargetEnvironment>
-      <TypeLibraryName>.\$(OutDir)log4cplus.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)log4cplus.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -221,12 +221,12 @@
       <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)log4cplus.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ImportLibrary>.\$(OutDir)log4cplus.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)log4cplus.lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\$(IntDir)log4cplus.bsc</OutputFile>
+      <OutputFile>$(IntDir)log4cplus.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -235,7 +235,7 @@
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <TypeLibraryName>.\$(OutDir)log4cplusD_dll.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)log4cplusD_dll.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -255,7 +255,7 @@
       <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)log4cplusD.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ImportLibrary>.\$(OutDir)log4cplusD.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)log4cplusD.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <Bscmake>
@@ -269,7 +269,7 @@
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>X64</TargetEnvironment>
-      <TypeLibraryName>.\$(OutDir)log4cplusD_dll.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)log4cplusD_dll.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -289,7 +289,7 @@
       <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)log4cplusD.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ImportLibrary>.\$(OutDir)log4cplusD.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)log4cplusD.lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <Bscmake>
@@ -303,7 +303,7 @@
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <TypeLibraryName>.\$(OutDir)log4cplusUD_dll.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)log4cplusUD_dll.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -323,12 +323,12 @@
       <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)log4cplusUD.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ImportLibrary>.\$(OutDir)log4cplusUD.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)log4cplusUD.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\$(IntDir)log4cplus.bsc</OutputFile>
+      <OutputFile>$(IntDir)log4cplus.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|x64'">
@@ -337,7 +337,7 @@
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>X64</TargetEnvironment>
-      <TypeLibraryName>.\$(OutDir)log4cplusUD_dll.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)log4cplusUD_dll.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -357,12 +357,12 @@
       <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)log4cplusUD.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ImportLibrary>.\$(OutDir)log4cplusUD.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)log4cplusUD.lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\$(IntDir)log4cplus.bsc</OutputFile>
+      <OutputFile>$(IntDir)log4cplus.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Unicode|Win32'">
@@ -371,7 +371,7 @@
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <TypeLibraryName>.\$(OutDir)log4cplusU_dll.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)log4cplusU_dll.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -391,12 +391,12 @@
       <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)log4cplusU.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ImportLibrary>.\$(OutDir)log4cplusU.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)log4cplusU.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\$(IntDir)log4cplus.bsc</OutputFile>
+      <OutputFile>$(IntDir)log4cplus.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Unicode|x64'">
@@ -405,7 +405,7 @@
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>X64</TargetEnvironment>
-      <TypeLibraryName>.\$(OutDir)log4cplusU_dll.tlb</TypeLibraryName>
+      <TypeLibraryName>$(OutDir)log4cplusU_dll.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -425,12 +425,12 @@
       <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)log4cplusU.dll</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ImportLibrary>.\$(OutDir)log4cplusU.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)log4cplusU.lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\$(IntDir)log4cplus.bsc</OutputFile>
+      <OutputFile>$(IntDir)log4cplus.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>

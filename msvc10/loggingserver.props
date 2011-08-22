@@ -2,8 +2,8 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
-    <OutDir>.\$(PlatformName)\$(ProjectName).$(Configuration)\</OutDir>
-    <IntDir>.\$(PlatformName)\$(ProjectName).$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)\$(PlatformName)\bin.$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\$(PlatformName)\obj.$(ProjectName).$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -11,5 +11,8 @@
       <PreprocessorDefinitions>LOG4CPLUS_BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
 </Project>
