@@ -46,14 +46,16 @@ struct PthreadMutexAttr
 
 
     ~PthreadMutexAttr ()
-    try
     {
-        int ret = pthread_mutexattr_destroy (&attr);
-        if (ret != 0)
-            LOG4CPLUS_THROW_RTE ("PthreadMutexAttr::~PthreadMutexAttr");
+        try
+        {
+            int ret = pthread_mutexattr_destroy (&attr);
+            if (ret != 0)
+                LOG4CPLUS_THROW_RTE ("PthreadMutexAttr::~PthreadMutexAttr");
+        }
+        catch (...)
+        { }
     }
-    catch (...)
-    { }
 
 
     void
@@ -99,9 +101,14 @@ Mutex::Mutex (log4cplus::thread::Mutex::Type t)
 inline
 Mutex::~Mutex ()
 {
-    int ret = pthread_mutex_destroy (&mtx);
-    if (ret != 0)
-        LOG4CPLUS_THROW_RTE ("Mutex::~Mutex");
+    try
+    {
+        int ret = pthread_mutex_destroy (&mtx);
+        if (ret != 0)
+            LOG4CPLUS_THROW_RTE ("Mutex::~Mutex");
+    }
+    catch (...)
+    { }
 }
 
 
@@ -150,14 +157,16 @@ Semaphore::Semaphore (unsigned max, unsigned initial)
 
 inline
 Semaphore::~Semaphore ()
-try
 {
-    int ret = sem_destroy (&sem);
-    if (ret != 0)
-        LOG4CPLUS_THROW_RTE ("Semaphore::~Semaphore");
+    try
+    {
+        int ret = sem_destroy (&sem);
+        if (ret != 0)
+            LOG4CPLUS_THROW_RTE ("Semaphore::~Semaphore");
+    }
+    catch (...)
+    { }
 }
-catch (...)
-{ }
 
 
 inline
@@ -230,14 +239,16 @@ ManualResetEvent::ManualResetEvent (bool sig)
 
 inline
 ManualResetEvent::~ManualResetEvent ()
-try
 {
-    int ret = pthread_cond_destroy (&cv);
-    if (ret != 0)
-        LOG4CPLUS_THROW_RTE ("ManualResetEvent::~ManualResetEvent");
+    try
+    {
+        int ret = pthread_cond_destroy (&cv);
+        if (ret != 0)
+            LOG4CPLUS_THROW_RTE ("ManualResetEvent::~ManualResetEvent");
+    }
+    catch (...)
+    { }
 }
-catch (...)
-{ }
 
 
 inline
@@ -345,14 +356,16 @@ SharedMutex::SharedMutex ()
 
 inline
 SharedMutex::~SharedMutex ()
-try
 {
-    int ret = pthread_rwlock_destroy (&rwl);
-    if (ret != 0)
-        LOG4CPLUS_THROW_RTE ("SharedMutex::~SharedMutex");    
+    try
+    {
+        int ret = pthread_rwlock_destroy (&rwl);
+        if (ret != 0)
+            LOG4CPLUS_THROW_RTE ("SharedMutex::~SharedMutex");    
+    }
+    catch (...)
+    { }
 }
-catch (...)
-{ }
 
 
 inline
