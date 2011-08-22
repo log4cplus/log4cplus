@@ -76,6 +76,24 @@
 #  endif
 #endif
 
+// C++11 stuff
+
+#if ! defined (__has_feature)
+//! __has_feature(X) is Clangs way for testing features.
+//! Define it to 0 if it does not exist.
+#  define __has_feature(X) 0
+#endif
+
+#if (_MSC_VER+0 >= 1600) \
+    || defined (__GXX_EXPERIMENTAL_CXX0X__)
+#  define LOG4CPLUS_HAVE_CXX11_SUPPORT
+#endif
+
+#if defined (LOG4CPLUS_HAVE_CXX11_SUPPORT) \
+    || __has_feature (cxx_rvalue_references)
+#  define LOG4CPLUS_HAVE_RVALUE_REFS
+#endif
+
 #include <log4cplus/helpers/thread-config.h>
 
 namespace log4cplus

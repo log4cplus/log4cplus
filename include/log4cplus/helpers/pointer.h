@@ -99,6 +99,20 @@ namespace log4cplus {
                 addref ();
             }
 
+#if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
+            SharedObjectPtr(SharedObjectPtr && rhs)
+            {
+                pointee = rhs.pointee;
+                rhs.pointee = 0;
+            }
+
+            SharedObjectPtr & operator = (SharedObjectPtr && rhs)
+            {
+                rhs.swap (*this);
+                return *this;
+            }
+#endif
+
             // Dtor
             ~SharedObjectPtr()
             {
