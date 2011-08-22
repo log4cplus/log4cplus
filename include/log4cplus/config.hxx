@@ -67,13 +67,12 @@
 #  define LOG4CPLUS_INLINE_EXPORT
 #endif
 
-#if defined (UNICODE)
-#  if _MSC_VER+0 >= 1400
-#    define LOG4CPLUS_FSTREAM_ACCEPTS_WCHAR_T
-#  endif
-#  if _MSC_VER+0 >= 1600
-#    define LOG4CPLUS_HAVE_CODECVT_UTF16_FACET
-#  endif
+#if _MSC_VER+0 >= 1400
+#  define LOG4CPLUS_FSTREAM_ACCEPTS_WCHAR_T
+#endif
+#if _MSC_VER+0 >= 1600
+#  define LOG4CPLUS_HAVE_CODECVT_UTF8_FACET
+#  define LOG4CPLUS_HAVE_CODECVT_UTF16_FACET
 #endif
 
 // C++11 stuff
