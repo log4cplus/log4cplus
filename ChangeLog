@@ -1,3 +1,23 @@
+Version 1.0.5-RC1
+
+  - Open files in FileAppender and Properties with wchar_t path where
+    possible (Windows).
+  - Allow to imbue FileAppender with user provided std::locale.
+  - Add limitted support for UTF-8 and UTF-16 encoded properties
+    files.
+  - Add move ctor and move assignment operator to Logger and
+    SharedObjectPtr.
+  - Update libtool to 2.4.
+  - Merged cleanups from trunk that hide OS specific includes from
+    public log4cplus headers.
+  - Limit the logged text size to 31839 for NTEventLogAppender as per
+    MSDN recommendation.
+  - Use range checks instead of equality checks when converting
+    LogLevel value to NT EventLog category and event type to allow
+    user defined log levels to work.
+  - Improved error handling and resource management in sockets and NT
+    EventLog code.
+
 Version 1.0.4
 
   - Fixed bug #3101459 - TTCCLayout time is not in milliseconds since
