@@ -15,6 +15,7 @@ set (log4cplus_headers
   include/log4cplus/appender.h
   include/log4cplus/config/macosx.h
   include/log4cplus/config/win32.h
+  include/log4cplus/config/windowsh-inc.h
   include/log4cplus/config.hxx
   include/log4cplus/configurator.h
   include/log4cplus/consoleappender.h
@@ -57,6 +58,7 @@ set (log4cplus_headers
   include/log4cplus/spi/rootlogger.h
   include/log4cplus/streams.h
   include/log4cplus/syslogappender.h
+  include/log4cplus/tchar.h
   include/log4cplus/tstring.h
   include/log4cplus/thread/threads.h
   include/log4cplus/thread/syncprims.h
