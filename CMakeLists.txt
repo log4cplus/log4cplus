@@ -35,6 +35,7 @@ set (log4cplus_headers
   include/log4cplus/helpers/timehelper.h
   include/log4cplus/hierarchy.h
   include/log4cplus/hierarchylocker.h
+  include/log4cplus/internal/cygwin-win32.h
   include/log4cplus/internal/env.h
   include/log4cplus/internal/internal.h
   include/log4cplus/internal/socket.h
@@ -76,6 +77,8 @@ set (log4cplus_sources
   src/appenderattachableimpl.cxx
   src/configurator.cxx
   src/consoleappender.cxx
+  src/cygwin-win32.cxx
+  src/env.cxx
   src/factory.cxx
   src/fileappender.cxx
   src/filter.cxx
