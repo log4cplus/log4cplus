@@ -283,6 +283,13 @@ namespace log4cplus {
         DiagnosticContext(const log4cplus::tstring& message);
         DiagnosticContext(tchar const * message);
 
+#if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
+        DiagnosticContext(DiagnosticContext &&);
+        DiagnosticContext & operator = (DiagnosticContext &&);
+#endif
+
+        void swap (DiagnosticContext &);
+
       // Data
         log4cplus::tstring message; /*!< The message at this context level. */
         log4cplus::tstring fullMessage; /*!< The entire message stack. */
