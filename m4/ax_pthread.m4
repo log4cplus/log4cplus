@@ -82,7 +82,7 @@
 #   modified version of the Autoconf Macro, you may extend this special
 #   exception to the GPL to apply to your modified version as well.
 
-#serial 14
+#serial 17
 
 AU_ALIAS([ACX_PTHREAD], [AX_PTHREAD])
 AC_DEFUN([AX_PTHREAD], [
@@ -123,7 +123,7 @@ fi
 # which indicates that we try without any flags at all, and "pthread-config"
 # which is a program returning the flags for the Pth emulation library.
 
-ax_pthread_flags="none pthreads -Kthread -kthread lthread -pthread -pthreads -mthreads pthread --thread-safe -mt pthread-config"
+ax_pthread_flags="pthreads none -Kthread -kthread lthread -pthread -pthreads -mthreads pthread --thread-safe -mt pthread-config"
 
 # The ordering *is* (sometimes) important.  Some notes on the
 # individual items follow:
@@ -156,7 +156,7 @@ case "${host_cpu}-${host_os}" in
         # who knows whether they'll stub that too in a future libc.)  So,
         # we'll just look for -pthreads and -lpthread first:
 
-        ax_pthread_flags="-mt pthread -pthread $ax_pthread_flags"
+        ax_pthread_flags="-pthreads pthread -mt -pthread $ax_pthread_flags"
         ;;
 
         *-darwin*)
@@ -256,7 +256,14 @@ if test "x$ax_pthread_ok" = xyes; then
         flag=no
         case "${host_cpu}-${host_os}" in
             *-aix* | *-freebsd* | *-darwin*) flag="-D_THREAD_SAFE";;
-            *solaris* | *-osf* | *-hpux*) flag="-D_REENTRANT";;
+            *-osf* | *-hpux*) flag="-D_REENTRANT";;
+            *solaris*)
+            if test "$GCC" = "yes"; then
+                flag="-D_REENTRANT"
+            else
+                flag="-mt -D_REENTRANT"
+            fi
+            ;;
         esac
         AC_MSG_RESULT(${flag})
         if test "x$flag" != xno; then
@@ -265,8 +272,8 @@ if test "x$ax_pthread_ok" = xyes; then
 
         AC_CACHE_CHECK([for PTHREAD_PRIO_INHERIT],
             ax_cv_PTHREAD_PRIO_INHERIT, [
-                AC_LINK_IFELSE(
-                    AC_LANG_PROGRAM([[#include <pthread.h>]], [[int i = PTHREAD_PRIO_INHERIT;]]),
+                AC_LINK_IFELSE([
+                    AC_LANG_PROGRAM([[#include <pthread.h>]], [[int i = PTHREAD_PRIO_INHERIT;]])],
                     [ax_cv_PTHREAD_PRIO_INHERIT=yes],
                     [ax_cv_PTHREAD_PRIO_INHERIT=no])
             ])
