@@ -105,7 +105,7 @@ DiagnosticContext::DiagnosticContext(tchar const * message_)
 #if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
 DiagnosticContext::DiagnosticContext (DiagnosticContext && other)
     : message (std::move (other.message))
-    , fullMessage (std::move (other.message))
+    , fullMessage (std::move (other.fullMessage))
 { }
 
 
