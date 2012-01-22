@@ -10277,10 +10277,6 @@ fi
       hardcode_shlibpath_var=no
       ;;
 
-    freebsd1*)
-      ld_shlibs=no
-      ;;
-
     # FreeBSD 2.2.[012] allows us to include c++rt0.o to get C++ constructor
     # support.  Future versions do this automatically, but an explicit c++rt0.o
     # does not break anything, and helps significantly (at the cost of a little
@@ -10293,7 +10289,7 @@ fi
       ;;
 
     # Unfortunately, older versions of FreeBSD 2 do not have this feature.
-    freebsd2*)
+    freebsd2.*)
       archive_cmds='$LD -Bshareable -o $lib $libobjs $deplibs $linker_flags'
       hardcode_direct=yes
       hardcode_minus_L=yes
@@ -11271,10 +11267,6 @@ dgux*)
   shlibpath_var=LD_LIBRARY_PATH
   ;;
 
-freebsd1*)
-  dynamic_linker=no
-  ;;
-
 freebsd* | dragonfly*)
   # DragonFly does not have aout.  When/if they implement a new
   # versioning mechanism, adjust this.
@@ -11282,7 +11274,7 @@ freebsd* | dragonfly*)
     objformat=`/usr/bin/objformat`
   else
     case $host_os in
-    freebsd[123]*) objformat=aout ;;
+    freebsd[23].*) objformat=aout ;;
     *) objformat=elf ;;
     esac
   fi
@@ -11300,7 +11292,7 @@ freebsd* | dragonfly*)
   esac
   shlibpath_var=LD_LIBRARY_PATH
   case $host_os in
-  freebsd2*)
+  freebsd2.*)
     shlibpath_overrides_runpath=yes
     ;;
   freebsd3.[01]* | freebsdelf3.[01]*)
@@ -13240,7 +13232,7 @@ fi
         esac
         ;;
 
-      freebsd[12]*)
+      freebsd2.*)
         # C++ shared libraries reported to be fairly broken before
 	# switch to ELF
         ld_shlibs_CXX=no
@@ -15104,10 +15096,6 @@ dgux*)
   shlibpath_var=LD_LIBRARY_PATH
   ;;
 
-freebsd1*)
-  dynamic_linker=no
-  ;;
-
 freebsd* | dragonfly*)
   # DragonFly does not have aout.  When/if they implement a new
   # versioning mechanism, adjust this.
@@ -15115,7 +15103,7 @@ freebsd* | dragonfly*)
     objformat=`/usr/bin/objformat`
   else
     case $host_os in
-    freebsd[123]*) objformat=aout ;;
+    freebsd[23].*) objformat=aout ;;
     *) objformat=elf ;;
     esac
   fi
@@ -15133,7 +15121,7 @@ freebsd* | dragonfly*)
   esac
   shlibpath_var=LD_LIBRARY_PATH
   case $host_os in
-  freebsd2*)
+  freebsd2.*)
     shlibpath_overrides_runpath=yes
     ;;
   freebsd3.[01]* | freebsdelf3.[01]*)
@@ -17429,6 +17417,19 @@ fi
 done
 
 
+   for ac_func in lockf
+do :
+  ac_fn_cxx_check_func "$LINENO" "lockf" "ac_cv_func_lockf"
+if test "x$ac_cv_func_lockf" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LOCKF 1
+_ACEOF
+ $as_echo "#define LOG4CPLUS_HAVE_LOCKF 1" >>confdefs.h
+
+fi
+done
+
+
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for ENAMETOOLONG" >&5
 $as_echo_n "checking for ENAMETOOLONG... " >&6; }
@@ -17693,7 +17694,7 @@ fi
 # which indicates that we try without any flags at all, and "pthread-config"
 # which is a program returning the flags for the Pth emulation library.
 
-ax_pthread_flags="none pthreads -Kthread -kthread lthread -pthread -pthreads -mthreads pthread --thread-safe -mt pthread-config"
+ax_pthread_flags="pthreads none -Kthread -kthread lthread -pthread -pthreads -mthreads pthread --thread-safe -mt pthread-config"
 
 # The ordering *is* (sometimes) important.  Some notes on the
 # individual items follow:
@@ -17726,7 +17727,7 @@ case "${host_cpu}-${host_os}" in
         # who knows whether they'll stub that too in a future libc.)  So,
         # we'll just look for -pthreads and -lpthread first:
 
-        ax_pthread_flags="-mt pthread -pthread $ax_pthread_flags"
+        ax_pthread_flags="-pthreads pthread -mt -pthread $ax_pthread_flags"
         ;;
 
         *-darwin*)
@@ -17896,7 +17897,14 @@ $as_echo_n "checking if more special flags are required for pthreads... " >&6; }
         flag=no
         case "${host_cpu}-${host_os}" in
             *-aix* | *-freebsd* | *-darwin*) flag="-D_THREAD_SAFE";;
-            *solaris* | *-osf* | *-hpux*) flag="-D_REENTRANT";;
+            *-osf* | *-hpux*) flag="-D_REENTRANT";;
+            *solaris*)
+            if test "$GCC" = "yes"; then
+                flag="-D_REENTRANT"
+            else
+                flag="-mt -D_REENTRANT"
+            fi
+            ;;
         esac
         { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${flag}" >&5
 $as_echo "${flag}" >&6; }
@@ -17912,7 +17920,8 @@ else
 
                 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-#include <pthread.h>
+
+                    #include <pthread.h>
 int
 main ()
 {
