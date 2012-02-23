@@ -3,3 +3,4 @@
 *.suo
 ipch
 *.sdf
+autom4te.cache
