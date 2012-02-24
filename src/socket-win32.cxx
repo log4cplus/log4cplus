@@ -139,28 +139,36 @@ WinSockInitializer WinSockInitializer::winSockInitializer;
 SOCKET_TYPE
 log4cplus::helpers::openSocket(unsigned short port, SocketState& state)
 {
+    struct sockaddr_in server;
+    SOCKET sock;
+
     init_winsock ();
 
-    SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
-    if(sock == INVALID_SOCKET) {
-        return sock;
-    }
+    sock = ::socket(AF_INET, SOCK_STREAM, 0);
+    if(sock == INVALID_SOCKET)
+        goto error;
 
-    struct sockaddr_in server;
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = htonl(INADDR_ANY);
     server.sin_port = htons(port);
 
-    if(bind(sock, (struct sockaddr*)&server, sizeof(server)) != 0) {
-        return INVALID_SOCKET;
-    }
+    if(bind(sock, (struct sockaddr*)&server, sizeof(server)) != 0)
+        goto error;
 
-    if(::listen(sock, 10) != 0) {
-        return INVALID_SOCKET;
-    }
+    if(::listen(sock, 10) != 0)
+        goto error;
 
     state = ok;
     return sock;
+
+error:
+    int eno = WSAGetLastError ();
+
+    if (sock != INVALID_SOCKET)
+        closesocket (sock);
+
+    WSASetLastError (eno);
+    return INVALID_SOCKET;
 }
 
 
@@ -168,50 +176,55 @@ SOCKET_TYPE
 log4cplus::helpers::connectSocket(const log4cplus::tstring& hostn, 
                                   unsigned short port, SocketState& state)
 {
+    SOCKET sock;
+    unsigned long ip = INADDR_NONE;
+    struct hostent *hp;
+    struct sockaddr_in insock;
+    int retval;
+    int enabled = 1;
+
     init_winsock ();
 
-    SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
-    if(sock == INVALID_SOCKET) {
-        return INVALID_SOCKET;
-    }
+    sock = ::socket(AF_INET, SOCK_STREAM, 0);
+    if(sock == INVALID_SOCKET)
+        goto error;
 
-    unsigned long ip = INADDR_NONE;
-    struct hostent *hp = ::gethostbyname( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
+    hp = ::gethostbyname( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
     if(hp == 0 || hp->h_addrtype != AF_INET) {
         ip = inet_addr( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
-        if(ip == INADDR_NONE) {
+        if(ip == INADDR_NONE){
             state = bad_address;
-            return INVALID_SOCKET;
+            goto error;
         }
     }
 
-    struct sockaddr_in insock;
     insock.sin_port = htons(port);
     insock.sin_family = AF_INET;
-    if(hp != 0) {
+    if(hp != 0)
         memcpy(&insock.sin_addr, hp->h_addr, sizeof insock.sin_addr);
-    }
-    else {
+    else
         insock.sin_addr.S_un.S_addr = ip;
-    }
 
-    int retval;
     while(   (retval = ::connect(sock, (struct sockaddr*)&insock, sizeof(insock))) == -1
           && (WSAGetLastError() == WSAEINTR))
         ;
-    if(retval == SOCKET_ERROR) {
-        ::closesocket(sock);
-        return INVALID_SOCKET;
-    }
+    if (retval == SOCKET_ERROR)
+        goto error;
 
-    int enabled = 1;
-    if(setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (char*)&enabled, sizeof(enabled)) != 0) {
-        ::closesocket(sock);    
-        return INVALID_SOCKET;
-    }
+    if (setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, (char*)&enabled, sizeof(enabled)) != 0)
+        goto error;
 
     state = ok;
     return sock;
+
+error:
+    int eno = WSAGetLastError ();
+
+    if (sock != INVALID_SOCKET)
+        closesocket (sock);
+
+    WSASetLastError (eno);
+    return INVALID_SOCKET;
 }
 
 
