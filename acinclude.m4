@@ -1,5 +1,7 @@
 m4_include([m4/ax_type_socklen_t.m4])
 m4_include([m4/ax_compiler_vendor.m4])
+m4_include([m4/ax_append_flag.m4])
+m4_include([m4/ax_check_compile_flag.m4])
 m4_include([m4/ax_cflags_gcc_option.m4])
 m4_include([m4/ax_cflags_sun_option.m4])
 m4_include([m4/ax_pthread.m4])
