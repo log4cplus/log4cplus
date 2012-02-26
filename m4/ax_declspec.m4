@@ -13,10 +13,18 @@ AC_CACHE_CHECK([for __declspec(dllexport)], [ac_cv_declspec],
 [
   AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM(
-      [[__declspec(dllexport) int x = 0;
+      [[
+#if defined (__clang__)
+// Here the problem is that Clang only warns that it does not support
+// __declspec(dllexport) but still compiles the executable.
+#  error Please fail.
+And extra please fail.
+#else
+        __declspec(dllexport) int x = 0;
         __declspec(dllexport) int foo ();
         int foo () { return 0; }
         __declspec(dllexport) int bar () { return x; }
+#endif
       ]], 
       [[]])],
     [ac_cv_declspec=yes],

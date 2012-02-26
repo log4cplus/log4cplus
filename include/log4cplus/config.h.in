@@ -227,7 +227,7 @@
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
-/* Define to int if undefined. */
+/* Substitute for socklen_t */
 #undef socklen_t
 
 #endif // LOG4CPLUS_CONFIG_H
