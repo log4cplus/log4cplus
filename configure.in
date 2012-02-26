@@ -89,7 +89,7 @@ dnl Check for compiler specifics.
 AX_COMPILER_VENDOR
 
 AS_CASE([$ax_cv_cxx_compiler_vendor],
-  [gnu],
+  [gnu|clang],
   [AS_IF([test "x$enable_warnings" = "xyes"],
      [AX_CXXFLAGS_GCC_OPTION([-Wall])
       AX_CXXFLAGS_GCC_OPTION([-Wextra])
@@ -121,7 +121,7 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
 AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
 AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"],
   [AS_CASE([$ax_cv_cxx_compiler_vendor],
-    [gnu],
+    [gnu|clang],
     [AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"],
        [AX_CXXFLAGS_GCC_OPTION([-fvisibility=hidden])])])])
 
