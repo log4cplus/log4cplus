@@ -1,3 +1,11 @@
+Version 1.0.4.1-RC1
+
+  - Fixed use of uninitialized member in ConfigurationWatchDogThread.
+  - Updated libtool to 2.4; updated configure macros.
+  - Improved resource and error handling in NTEventLogAppender and
+    Win32 sockets code.
+  - Fixed issue with function-try-catch blocks in dtors.
+
 Version 1.0.4
 
   - Fixed bug #3101459 - TTCCLayout time is not in milliseconds since
