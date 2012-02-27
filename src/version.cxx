@@ -1,4 +1,4 @@
-//   Copyright (C) 2010, Vaclav Haisman. All rights reserved.
+//   Copyright (C) 2011-2012, Vaclav Zeman. All rights reserved.
 //   
 //   Redistribution and use in source and binary forms, with or without modifica-
 //   tion, are permitted provided that the following conditions are met:
@@ -32,6 +32,6 @@ namespace log4cplus
 #endif
 
 unsigned const version = LOG4CPLUS_VERSION;
-char const versionStr[] = LOG4CPLUS_VERSION_STR LOG4CPLUS_VERSION_STR_SUFFIX;
+char const versionStr[] = LOG4CPLUS_VERSION_STR ".1" LOG4CPLUS_VERSION_STR_SUFFIX;
 
 }
