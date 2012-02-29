@@ -4107,7 +4107,7 @@ esac
 fi
 
 case $ax_cv_cxx_compiler_vendor in #(
-  gnu) :
+  gnu|clang) :
     if test "x$enable_warnings" = "xyes"; then :
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -Wextra" >&5
 $as_echo_n "checking CXXFLAGS for gcc -Wextra... " >&6; }
@@ -5439,7 +5439,7 @@ fi
 
 if test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"; then :
   case $ax_cv_cxx_compiler_vendor in #(
-  gnu) :
+  gnu|clang) :
     if test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"; then :
   as_VAR=`$as_echo "ax_cv_cxxflags_gcc_option_-fvisibility=hidden" | $as_tr_sh`
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -fvisibility=hidden" >&5
@@ -8220,7 +8220,7 @@ fi
 
 
    case $ax_cv_cxx_compiler_vendor in #(
-  gnu) :
+  gnu|clang) :
           ;; #(
   sun) :
           { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for sun/cc -xthreadvar" >&5

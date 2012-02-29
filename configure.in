@@ -125,7 +125,7 @@ AS_IF([test "x$enable_warnings" = "xyes"],
   [AX_CXXFLAGS_WARN_ALL])
 
 AS_CASE([$ax_cv_cxx_compiler_vendor],
-  [gnu],
+  [gnu|clang],
   [AS_IF([test "x$enable_warnings" = "xyes"],
      [AX_CXXFLAGS_GCC_OPTION([-Wextra])
       dnl The -ansi switch sets __STRICT_ANSI__ which disables some
@@ -174,7 +174,7 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
 AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
 AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"],
   [AS_CASE([$ax_cv_cxx_compiler_vendor],
-    [gnu],
+    [gnu|clang],
     [AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"],
        [AX_CXXFLAGS_GCC_OPTION([-fvisibility=hidden])])])])
 
@@ -350,7 +350,7 @@ dnl Multi threaded library.
    AC_SEARCH_LIBS([sem_init], [rt])
 
    AS_CASE([$ax_cv_cxx_compiler_vendor],
-     [gnu],
+     [gnu|clang],
      [dnl GCC, empty case to avoid false positive for -qtls check.
      ],
      [sun],
