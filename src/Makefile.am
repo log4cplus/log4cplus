@@ -38,6 +38,7 @@ INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/helpers/timehelper.h \
 	$(INCLUDES_SRC_PATH)/hierarchy.h \
 	$(INCLUDES_SRC_PATH)/hierarchylocker.h \
+	$(INCLUDES_SRC_PATH)/internal/cygwin-win32.h \
 	$(INCLUDES_SRC_PATH)/internal/env.h \
 	$(INCLUDES_SRC_PATH)/internal/internal.h \
 	$(INCLUDES_SRC_PATH)/internal/socket.h \
@@ -85,6 +86,7 @@ SINGLE_THREADED_SRC = \
 	clogger.cxx \
 	configurator.cxx \
 	consoleappender.cxx \
+	cygwin-win32.cxx \
 	env.cxx \
 	factory.cxx \
 	fileappender.cxx \

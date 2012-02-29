@@ -91,14 +91,14 @@ liblog4cplus_la_LIBADD =
 am__objects_1 =
 am__objects_2 = $(am__objects_1) appenderattachableimpl.lo appender.lo \
 	asyncappender.lo clogger.lo configurator.lo consoleappender.lo \
-	env.lo factory.lo fileappender.lo filter.lo global-init.lo \
-	hierarchy.lo hierarchylocker.lo layout.lo logger.lo \
-	loggerimpl.lo loggingevent.lo loggingmacros.lo loglevel.lo \
-	loglog.lo logloguser.lo mdc.lo ndc.lo nullappender.lo \
-	nteventlogappender.lo objectregistry.lo patternlayout.lo \
-	pointer.lo property.lo queue.lo rootlogger.lo sleep.lo \
-	snprintf.lo socketappender.lo socketbuffer.lo socket.lo \
-	socket-unix.lo socket-win32.lo stringhelper.lo \
+	cygwin-win32.lo env.lo factory.lo fileappender.lo filter.lo \
+	global-init.lo hierarchy.lo hierarchylocker.lo layout.lo \
+	logger.lo loggerimpl.lo loggingevent.lo loggingmacros.lo \
+	loglevel.lo loglog.lo logloguser.lo mdc.lo ndc.lo \
+	nullappender.lo nteventlogappender.lo objectregistry.lo \
+	patternlayout.lo pointer.lo property.lo queue.lo rootlogger.lo \
+	sleep.lo snprintf.lo socketappender.lo socketbuffer.lo \
+	socket.lo socket-unix.lo socket-win32.lo stringhelper.lo \
 	stringhelper-clocale.lo stringhelper-cxxlocale.lo \
 	stringhelper-iconv.lo syncprims.lo syslogappender.lo \
 	threads.lo timehelper.lo tls.lo version.lo \
@@ -300,6 +300,7 @@ INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/helpers/timehelper.h \
 	$(INCLUDES_SRC_PATH)/hierarchy.h \
 	$(INCLUDES_SRC_PATH)/hierarchylocker.h \
+	$(INCLUDES_SRC_PATH)/internal/cygwin-win32.h \
 	$(INCLUDES_SRC_PATH)/internal/env.h \
 	$(INCLUDES_SRC_PATH)/internal/internal.h \
 	$(INCLUDES_SRC_PATH)/internal/socket.h \
@@ -347,6 +348,7 @@ SINGLE_THREADED_SRC = \
 	clogger.cxx \
 	configurator.cxx \
 	consoleappender.cxx \
+	cygwin-win32.cxx \
 	env.cxx \
 	factory.cxx \
 	fileappender.cxx \
@@ -477,6 +479,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/clogger.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/configurator.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/consoleappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cygwin-win32.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/env.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/factory.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileappender.Plo@am__quote@

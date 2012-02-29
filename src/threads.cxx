@@ -48,6 +48,7 @@
 #include <log4cplus/config/windowsh-inc.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/tstring.h>
+#include <log4cplus/internal/cygwin-win32.h>
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
@@ -126,8 +127,12 @@ get_current_thread_name_alt (log4cplus::tostringstream * s)
     pid_t tid = syscall (SYS_gettid);
     os << tid;
 
-#elif defined(LOG4CPLUS_USE_WIN32_THREADS) || defined (__CYGWIN__)
+#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
     DWORD tid = GetCurrentThreadId ();
+    os << tid;
+
+#elif defined (__CYGWIN__)
+    unsigned long tid = cygwin::get_current_win32_thread_id ();
     os << tid;
     
 #else
