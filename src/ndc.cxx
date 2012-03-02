@@ -112,7 +112,7 @@ DiagnosticContext::DiagnosticContext (DiagnosticContext && other)
 DiagnosticContext &
 DiagnosticContext::operator = (DiagnosticContext && other)
 {
-    DiagnosticContext (std::move (other)).swap (other);
+    DiagnosticContext (std::move (other)).swap (*this);
     return *this;
 }
 
