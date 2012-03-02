@@ -58,11 +58,26 @@ namespace log4cplus
     public:
         enum PCFlags
         {
-            fRecursiveExpansion = 0x0001,
-            fShadowEnvironment  = 0x0002,
-            fAllowEmptyVars     = 0x0004
-#if defined (UNICODE) && defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET)
-            , fUTF16File        = 0x0008
+            fRecursiveExpansion   = (1 << 0)
+            , fShadowEnvironment  = (1 << 1)
+            , fAllowEmptyVars     = (1 << 2)
+
+            // These encoding related options occupy 2 bits of the flags
+            // and are mutually exclusive. These flags are synchronized with
+            // PFlags in Properties.
+
+            , fEncodingShift      = 3
+            , fEncodingMask       = 0x3
+            , fUnspecEncoding     = (0 << fEncodingShift)
+#if defined (LOG4CPLUS_HAVE_CODECVT_UTF8_FACET) && defined (UNICODE)
+            , fUTF8               = (1 << fEncodingShift)
+#endif
+#if (defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET) || defined (WIN32)) \
+    && defined (UNICODE)
+            , fUTF16              = (2 << fEncodingShift)
+#endif
+#if defined (LOG4CPLUS_HAVE_CODECVT_UTF32_FACET) && defined (UNICODE)
+            , fUTF32              = (3 << fEncodingShift)
 #endif
         };
         

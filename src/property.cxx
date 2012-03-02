@@ -23,13 +23,15 @@
 #include <cstring>
 #if defined (UNICODE)
 #  include <cwctype>
-#  if defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET)
-#    include <codecvt>
-#    include <locale>
-#  endif
 #else
 #  include <cctype>
 #endif
+#if defined (LOG4CPLUS_HAVE_CODECVT_UTF8_FACET) \
+    || defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET) \
+    || defined (LOG4CPLUS_HAVE_CODECVT_UTF32_FACET)
+#  include <codecvt>
+#endif
+#include <locale>
 #include <fstream>
 #include <sstream>
 #include <log4cplus/streams.h>
@@ -125,17 +127,52 @@ Properties::Properties(const tstring& inputFile, unsigned flags)
     if (inputFile.empty ())
         return;
 
-    tifstream file (LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(inputFile).c_str(),
-        std::ios::binary);
+    tifstream file;
 
-#if defined (UNICODE) && defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET)
-    if ((flags & fUTF16File) == fUTF16File)
+    switch (flags & fEncodingMask)
+    {
+#if defined (LOG4CPLUS_HAVE_CODECVT_UTF8_FACET) && defined (UNICODE)
+    case fUTF8:
         file.imbue (
             std::locale (file.getloc (),
-                new std::codecvt_utf16<wchar_t, 0x10FFFF,
+                new std::codecvt_utf8<tchar, 0x10FFFF,
                     static_cast<std::codecvt_mode>(std::consume_header | std::little_endian)>));
+        break;
 #endif
 
+#if defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET) && defined (UNICODE)
+    case fUTF16:
+        file.imbue (
+            std::locale (file.getloc (),
+                new std::codecvt_utf16<tchar, 0x10FFFF,
+                    static_cast<std::codecvt_mode>(std::consume_header | std::little_endian)>));
+        break;
+
+#elif defined (UNICODE) && defined (WIN32)
+    case fUTF16:
+        file.imbue (
+            std::locale (file.getloc (),
+                new std::codecvt<wchar_t, wchar_t, std::mbstate_t>));
+    break;
+
+#endif
+
+#if defined (LOG4CPLUS_HAVE_CODECVT_UTF32_FACET) && defined (UNICODE)
+    case fUTF32:
+        file.imbue (
+            std::locale (file.getloc (),
+                new std::codecvt_utf32<tchar, 0x10FFFF,
+                    static_cast<std::codecvt_mode>(std::consume_header | std::little_endian)>));
+        break;
+#endif
+
+    default:
+        // Do nothing.
+        ;
+    }
+
+    file.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(inputFile).c_str(),
+        std::ios::binary);
     init(file);
 }
 

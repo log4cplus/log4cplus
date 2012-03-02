@@ -229,6 +229,39 @@ namespace
 
     } // end substVars()
 
+
+    //! Translates encoding in ProtpertyConfigurator::PCFlags
+    //! to helpers::Properties::PFlags
+    static
+    unsigned
+    pcflag_to_pflags_encoding (unsigned pcflags)
+    {
+        switch (pcflags
+            & (PropertyConfigurator::fEncodingMask
+                << PropertyConfigurator::fEncodingShift))
+        {
+#if defined (LOG4CPLUS_HAVE_CODECVT_UTF8_FACET) && defined (UNICODE)
+        case PropertyConfigurator::fUTF8:
+            return helpers::Properties::fUTF8;
+#endif
+
+#if (defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET) || defined (WIN32)) \
+    && defined (UNICODE)
+        case PropertyConfigurator::fUTF16:
+            return helpers::Properties::fUTF16;
+#endif
+
+#if defined (LOG4CPLUS_HAVE_CODECVT_UTF32_FACET) && defined (UNICODE)
+        case PropertyConfigurator::fUTF32:
+            return helpers::Properties::fUTF32;
+#endif
+
+        case PropertyConfigurator::fUnspecEncoding:;
+        default:
+            return 0;
+        }
+    }
+
 } // namespace
 
 
@@ -241,12 +274,7 @@ PropertyConfigurator::PropertyConfigurator(const tstring& propertyFile,
     Hierarchy& hier, unsigned f)
     : h(hier)
     , propertyFilename(propertyFile)
-#if defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET)
-    , properties(propertyFile,
-        (f & fUTF16File) == fUTF16File ? helpers::Properties::fUTF16File : 0)
-#else
-    , properties(propertyFile)
-#endif
+    , properties(propertyFile, pcflag_to_pflags_encoding (f))
     , flags (f)
 {
     init();

@@ -72,6 +72,7 @@
 #    define LOG4CPLUS_FSTREAM_ACCEPTS_WCHAR_T
 #  endif
 #  if defined (_MSC_VER) && _MSC_VER >= 1600
+#    define LOG4CPLUS_HAVE_CODECVT_UTF8_FACET
 #    define LOG4CPLUS_HAVE_CODECVT_UTF16_FACET
 #  endif
 #endif
