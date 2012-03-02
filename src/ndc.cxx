@@ -20,6 +20,8 @@
 
 #include <log4cplus/ndc.h>
 #include <log4cplus/internal/internal.h>
+#include <utility>
+#include <algorithm>
 
 
 namespace log4cplus
@@ -89,6 +91,30 @@ DiagnosticContext::DiagnosticContext(tchar const * message_)
 }
 
 
+#if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
+DiagnosticContext::DiagnosticContext (DiagnosticContext && other)
+    : message (std::move (other.message))
+    , fullMessage (std::move (other.fullMessage))
+{ }
+
+
+DiagnosticContext &
+DiagnosticContext::operator = (DiagnosticContext && other)
+{
+    DiagnosticContext (std::move (other)).swap (other);
+    return *this;
+}
+
+#endif
+
+
+void
+DiagnosticContext::swap (DiagnosticContext & other)
+{
+    using std::swap;
+    swap (message, other.message);
+    swap (fullMessage, other.fullMessage);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // log4cplus::NDC ctor and dtor
