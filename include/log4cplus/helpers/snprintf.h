@@ -1,4 +1,4 @@
-//   Copyright (C) 2010, Vaclav Haisman. All rights reserved.
+//   Copyright (C) 2010-2012, Vaclav Zeman. All rights reserved.
 //   
 //   Redistribution and use in source and binary forms, with or without modifica-
 //   tion, are permitted provided that the following conditions are met:
@@ -38,7 +38,7 @@ public:
     snprintf_buf ();
 
     tchar const * print (tchar const * fmt, ...);
-    tchar const * print (tchar const * fmt, std::va_list);
+    tchar const * print_va_list (tchar const * fmt, std::va_list);
 
 private:
     std::vector<tchar> buf;
@@ -49,6 +49,4 @@ private:
 
 
 
-#endif // LOG4CPLUS_THREAD_SYNCPRIMS_H
-
-
+#endif // LOG4CPLUS_HELPERS_SNPRINTF_H

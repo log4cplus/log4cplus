@@ -152,14 +152,14 @@ snprintf_buf::print (tchar const * fmt, ...)
 
     std::va_list args;
     va_start (args, fmt);
-    tchar const * ret = print (fmt, args);
+    tchar const * ret = print_va_list (fmt, args);
     va_end (args);
     return ret;
 }
 
 
 tchar const *
-snprintf_buf::print (tchar const * fmt, std::va_list args)
+snprintf_buf::print_va_list(tchar const * fmt, std::va_list args)
 {
     int printed;
     std::size_t const fmt_len = std::char_traits<tchar>::length (fmt);
