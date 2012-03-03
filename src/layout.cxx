@@ -24,6 +24,7 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/helpers/property.h>
 #include <ostream>
+#include <iomanip>
 
 
 namespace log4cplus
@@ -108,6 +109,24 @@ void
 TTCCLayout::formatAndAppend(log4cplus::tostream& output, 
                             const log4cplus::spi::InternalLoggingEvent& event)
 {
+     if (dateFormat.empty ())
+     {
+         helpers::Time const rel_time
+             = event.getTimestamp () - getTTCCLayoutTimeBase ();
+         tchar const old_fill = output.fill ();
+         helpers::time_t const sec = rel_time.sec ();
+ 
+         if (sec != 0)
+             output << sec << std::setfill (LOG4CPLUS_TEXT ('0'))
+                    << std::setw (3);
+ 
+         output << rel_time.usec () / 1000;
+         output.fill (old_fill);
+     }
+     else
+         output << event.getTimestamp().getFormattedTime(dateFormat,
+             use_gmtime);
+
     output << event.getTimestamp().getFormattedTime(dateFormat, use_gmtime) 
            << LOG4CPLUS_TEXT(" [")
            << event.getThread()

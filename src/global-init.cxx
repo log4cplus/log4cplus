@@ -58,6 +58,7 @@ struct DefaultContext
 {
     helpers::LogLog loglog;
     LogLevelManager log_level_manager;
+    helpers::Time TTCCLayout_time_base;
     NDC ndc;
     MDC mdc;
     Hierarchy hierarchy;
@@ -141,6 +142,13 @@ getLogLog ()
 
 
 } // namespace helpers
+
+
+helpers::Time const &
+getTTCCLayoutTimeBase ()
+{
+    return get_dc ()->TTCCLayout_time_base;
+}
 
 
 LogLevelManager &

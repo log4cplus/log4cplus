@@ -46,6 +46,7 @@ namespace log4cplus {
     {
 
         class Properties;
+        class Time;
 
     }
 
@@ -171,6 +172,7 @@ namespace log4cplus {
     };
 
 
+    LOG4CPLUS_EXPORT helpers::Time const & getTTCCLayoutTimeBase ();
 
 
     /**
