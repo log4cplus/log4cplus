@@ -22,9 +22,7 @@
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/thread/impl/syncprims-impl.h>
-#if defined (_WIN32)
 #include <log4cplus/config/windowsh-inc.h>
-#endif
 #include <cassert>
 #if defined (LOG4CPLUS_HAVE_INTRIN_H)
 #include <intrin.h>
