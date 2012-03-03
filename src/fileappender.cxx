@@ -213,6 +213,7 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 FileAppender::FileAppender(const tstring& filename_, 
     std::ios_base::openmode mode_, bool immediateFlush_)
     : immediateFlush(immediateFlush_)
+    , useLockFile (false)
     , reopenDelay(1)
     , bufferSize (0)
     , buffer (0)
@@ -225,6 +226,7 @@ FileAppender::FileAppender(const Properties& props,
                            std::ios_base::openmode mode_)
     : Appender(props)
     , immediateFlush(true)
+    , useLockFile (false)
     , reopenDelay(1)
     , bufferSize (0)
     , buffer (0)
@@ -241,6 +243,8 @@ FileAppender::FileAppender(const Properties& props,
     props.getBool (app, LOG4CPLUS_TEXT("Append"));
     props.getInt (reopenDelay, LOG4CPLUS_TEXT("ReopenDelay"));
     props.getULong (bufferSize, LOG4CPLUS_TEXT("BufferSize"));
+    props.getBool (useLockFile, LOG4CPLUS_TEXT("UseLockFile"));
+    lockFilename = props.getProperty (LOG4CPLUS_TEXT ("LockFile"));
 
     init(fn, (app ? std::ios::app : std::ios::trunc));
 }
