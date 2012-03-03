@@ -115,7 +115,7 @@ Properties::Properties()
 
 
 
-Properties::Properties(log4cplus::tistream& input)
+Properties::Properties(tistream& input)
 {
     init(input);
 }
@@ -166,6 +166,7 @@ Properties::Properties(const tstring& inputFile, unsigned flags)
         break;
 #endif
 
+    case fUnspecEncoding:;
     default:
         // Do nothing.
         ;
@@ -179,7 +180,7 @@ Properties::Properties(const tstring& inputFile, unsigned flags)
 
 
 void 
-Properties::init(log4cplus::tistream& input) 
+Properties::init(tistream& input) 
 {
     if (! input)
         return;

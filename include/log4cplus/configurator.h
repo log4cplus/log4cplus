@@ -72,7 +72,7 @@ namespace log4cplus
 #if defined (LOG4CPLUS_HAVE_CODECVT_UTF8_FACET) && defined (UNICODE)
             , fUTF8               = (1 << fEncodingShift)
 #endif
-#if (defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET) || defined (WIN32)) \
+#if (defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET) || defined (_WIN32)) \
     && defined (UNICODE)
             , fUTF16              = (2 << fEncodingShift)
 #endif
