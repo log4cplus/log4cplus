@@ -93,9 +93,9 @@ am__objects_2 = $(am__objects_1) appenderattachableimpl.lo appender.lo \
 	asyncappender.lo clogger.lo configurator.lo consoleappender.lo \
 	cygwin-win32.lo env.lo factory.lo fileappender.lo filter.lo \
 	global-init.lo hierarchy.lo hierarchylocker.lo layout.lo \
-	logger.lo loggerimpl.lo loggingevent.lo loggingmacros.lo \
-	loglevel.lo loglog.lo logloguser.lo mdc.lo ndc.lo \
-	nullappender.lo nteventlogappender.lo objectregistry.lo \
+	lockfile.lo logger.lo loggerimpl.lo loggingevent.lo \
+	loggingmacros.lo loglevel.lo loglog.lo logloguser.lo mdc.lo \
+	ndc.lo nullappender.lo nteventlogappender.lo objectregistry.lo \
 	patternlayout.lo pointer.lo property.lo queue.lo rootlogger.lo \
 	sleep.lo snprintf.lo socketappender.lo socketbuffer.lo \
 	socket.lo socket-unix.lo socket-win32.lo stringhelper.lo \
@@ -288,6 +288,7 @@ INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/fileappender.h \
 	$(INCLUDES_SRC_PATH)/fstreams.h \
 	$(INCLUDES_SRC_PATH)/helpers/appenderattachableimpl.h \
+	$(INCLUDES_SRC_PATH)/helpers/lockfile.h \
 	$(INCLUDES_SRC_PATH)/helpers/loglog.h \
 	$(INCLUDES_SRC_PATH)/helpers/logloguser.h \
 	$(INCLUDES_SRC_PATH)/helpers/pointer.h \
@@ -359,6 +360,7 @@ SINGLE_THREADED_SRC = \
 	hierarchy.cxx \
 	hierarchylocker.cxx \
 	layout.cxx \
+	lockfile.cxx \
 	logger.cxx \
 	loggerimpl.cxx \
 	loggingevent.cxx \
@@ -490,6 +492,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hierarchy.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hierarchylocker.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/layout.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lockfile.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logger.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loggerimpl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loggingevent.Plo@am__quote@

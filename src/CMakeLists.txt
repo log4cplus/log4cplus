@@ -13,6 +13,7 @@ set (log4cplus_sources
   hierarchy.cxx
   hierarchylocker.cxx
   layout.cxx
+  lockfile.cxx
   logger.cxx
   loggerimpl.cxx
   loggingevent.cxx
@@ -124,6 +125,7 @@ install(FILES ../include/log4cplus/boost/deviceappender.hxx
 
 
 install(FILES ../include/log4cplus/helpers/appenderattachableimpl.h
+              ../include/log4cplus/helpers/lockfile.h
               ../include/log4cplus/helpers/loglog.h
               ../include/log4cplus/helpers/logloguser.h
               ../include/log4cplus/helpers/pointer.h
