@@ -246,6 +246,12 @@ FileAppender::FileAppender(const Properties& props,
     props.getBool (useLockFile, LOG4CPLUS_TEXT("UseLockFile"));
     lockFilename = props.getProperty (LOG4CPLUS_TEXT ("LockFile"));
 
+    if (useLockFile && lockFilename.empty ())
+    {
+        lockFilename = fn;
+        lockFilename += LOG4CPLUS_TEXT(".lock");
+    }
+
     init(fn, (app ? std::ios::app : std::ios::trunc));
 }
 
