@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // Module:  Log4CPLUS
 // File:    thread-config.h
 // Created: 4/2003

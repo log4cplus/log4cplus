@@ -1,3 +1,4 @@
+// -*- C++ -*-
 /**
  * Module:  Log4CPLUS
  * File:    clogger.h

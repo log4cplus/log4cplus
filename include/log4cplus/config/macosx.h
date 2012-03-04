@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // Module:  Log4CPLUS
 // File:    config-macosx.h
 // Created: 7/2003

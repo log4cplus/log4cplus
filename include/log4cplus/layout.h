@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // Module:  Log4CPLUS
 // File:    Layout.h
 // Created: 6/2001

@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // Module:  Log4CPLUS
 // File:    configurator.h
 // Created: 3/2003
