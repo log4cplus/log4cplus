@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // Module:  LOG4CPLUS
 // File:    socketappender.h
 // Created: 5/2003

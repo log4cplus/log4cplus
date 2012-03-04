@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // Module:  Log4CPLUS
 // File:    appenderattachableimpl.h
 // Created: 6/2001

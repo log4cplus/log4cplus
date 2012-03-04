@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // Module:  Log4CPLUS
 // File:    cygwin-win32.h
 // Created: 7/2011

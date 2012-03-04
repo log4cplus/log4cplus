@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // Module:  Log4CPLUS
 // File:    windowsh-inc.h
 // Created: 4/2010
