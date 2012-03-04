@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // Module:  Log4cplus
 // File:    asyncappender.h
 // Created: 1/2009

@@ -1,3 +1,4 @@
+// -*- C++ -*-
 //   Copyright (C) 2010-2012, Vaclav Zeman. All rights reserved.
 //   
 //   Redistribution and use in source and binary forms, with or without modifica-

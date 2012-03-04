@@ -1,3 +1,4 @@
+// -*- C++ -*-
 // Module:  Log4CPLUS
 // File:    hierarchylocker.h
 // Created: 8/2003
