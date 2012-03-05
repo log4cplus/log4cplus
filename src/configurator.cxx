@@ -340,8 +340,8 @@ PropertyConfigurator::configure()
 {
     // Configure log4cplus internals.
     bool internal_debugging = false;
-    properties.getBool (internal_debugging, LOG4CPLUS_TEXT ("configDebug"));
-    helpers::getLogLog ().setInternalDebugging (internal_debugging);
+    if (properties.getBool (internal_debugging, LOG4CPLUS_TEXT ("configDebug")))
+        helpers::getLogLog ().setInternalDebugging (internal_debugging);
 
     initializeLog4cplus();
     configureAppenders();
