@@ -46,6 +46,7 @@
 
 #include <log4cplus/helpers/lockfile.h>
 #include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/helpers/loglog.h>
 
 #if defined (_WIN32)
 #else
@@ -130,14 +131,22 @@ LockFile::~LockFile ()
 void
 LockFile::open (int open_flags) const
 {
+    LogLog & loglog = getLogLog ();
+
 #if defined (LOG4CPLUS_USE_POSIX_LOCKING)
     data->fd = ::open (LOG4CPLUS_TSTRING_TO_STRING (lock_file_name).c_str (),
         open_flags, OPEN_MODE);
     if (data->fd == -1)
-    {
-        throw std::runtime_error (
-            std::string ("could not open or create file ") + lock_file_name);
-    }
+        loglog.error (std::string ("could not open or create file ")
+            + lock_file_name, true);
+
+#if ! defined (O_CLOEXEC) && defined (FD_CLOEXEC)
+    int ret = fcntl (data->fd, F_SETFD, FD_CLOEXEC);
+    if (ret == -1)
+        loglog.warn (std::string ("could not set FD_CLOEXEC on file ")
+            + lock_file_name);
+
+#endif
 
 #elif defined (_WIN32)
 #endif
@@ -158,12 +167,13 @@ LockFile::close () const
 void
 LockFile::lock () const
 {
+    LogLog & loglog = getLogLog ();
+    int ret = 0;
+
 #if defined (LOG4CPLUS_USE_O_EXLOCK)
     open (OPEN_FLAGS | O_EXLOCK);
 
 #elif defined (LOG4CPLUS_USE_SETLKW)
-    int ret = 0;
-
     do
     {
         struct flock fl;
@@ -173,32 +183,28 @@ LockFile::lock () const
         fl.l_len = 0;
         ret = fcntl (data->fd, F_SETLKW, &fl);
         if (ret == -1 && errno != EINTR)
-            throw std::runtime_error (std::string ("fcntl(F_SETLKW) failed: ")
-                + convertIntegerToString (errno));
+            loglog.error (std::string ("fcntl(F_SETLKW) failed: ")
+                + convertIntegerToString (errno), true);
     }
     while (ret == -1);
 
 #elif defined (LOG4CPLUS_USE_LOCKF)
-    int ret = 0;
-
     do
     {
         ret = lockf (data->fd, F_LOCK, 0);
         if (ret == -1 && errno != EINTR)
-            throw std::runtime_error (std::string ("lockf() failed: ")
-                + convertIntegerToString (errno));
+            loglog.error (std::string ("lockf() failed: ")
+                + convertIntegerToString (errno), true);
     }
     while (ret == -1);
 
 #elif defined (LOG4CPLUS_USE_FLOCK)
-    int ret = 0;
-
     do
     {
         ret = flock (data->fd, LOCK_EX);
         if (ret == -1 && errno != EINTR)
-            throw std::runtime_error (std::string ("fcntl(F_SETLKW) failed: ")
-                + convertIntegerToString (errno));
+            loglog.error (std::string ("flock() failed: ")
+                + convertIntegerToString (errno), true);
     }
     while (ret == -1);
 
@@ -209,6 +215,9 @@ LockFile::lock () const
 
 void LockFile::unlock () const
 {
+    LogLog & loglog = getLogLog ();
+    int ret = 0;
+
 #if defined (LOG4CPLUS_USE_O_EXLOCK)
     close ();
 
@@ -218,22 +227,22 @@ void LockFile::unlock () const
     fl.l_whence = SEEK_SET;
     fl.l_start = 0;
     fl.l_len = 0;
-    int ret = fcntl (data->fd, F_SETLKW, &fl);
+    ret = fcntl (data->fd, F_SETLKW, &fl);
     if (ret != 0)
-        throw std::runtime_error (std::string ("fcntl(F_SETLKW) failed: ")
-            + convertIntegerToString (errno));
+        loglog.error (std::string ("fcntl(F_SETLKW) failed: ")
+            + convertIntegerToString (errno), true);
 
 #elif defined (LOG4CPLUS_USE_LOCKF)
-    int ret = lockf (data->fd, F_ULOCK, 0);
+    ret = lockf (data->fd, F_ULOCK, 0);
     if (ret != 0)
-        throw std::runtime_error (std::string ("lockf() failed: ")
-            + convertIntegerToString (errno));
+        loglog.error (std::string ("lockf() failed: ")
+            + convertIntegerToString (errno), true);
 
 #elif defined (LOG4CPLUS_USE_FLOCK)
-    int ret = flock (data->fd, LOCK_UN);
+    ret = flock (data->fd, LOCK_UN);
     if (ret != 0)
-        throw std::runtime_error (std::string ("flock() failed: ")
-            + convertIntegerToString (errno));
+        loglog.error (std::string ("flock() failed: ")
+            + convertIntegerToString (errno), true);
 
 #endif
 
