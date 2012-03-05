@@ -35,12 +35,14 @@ template <typename SP>
 class SyncGuard
 {
 public:
+    SyncGuard ();
     SyncGuard (SP const &);
     ~SyncGuard ();
 
     void lock ();
     void unlock ();
     void attach (SP const &);
+    void attach_and_lock (SP const &);
     void detach ();
 
 private:
@@ -229,6 +231,13 @@ typedef SyncGuardFunc<SharedMutex, &SharedMutex::wrlock,
 
 template <typename SP>
 inline
+SyncGuard<SP>::SyncGuard ()
+    : sp (0)
+{ }
+
+
+template <typename SP>
+inline
 SyncGuard<SP>::SyncGuard (SP const & m)
     : sp (&m)
 {
@@ -269,6 +278,24 @@ void
 SyncGuard<SP>::attach (SP const & m)
 {
     sp = &m;
+}
+
+
+template <typename SP>
+inline
+void
+SyncGuard<SP>::attach_and_lock (SP const & m)
+{
+    attach (m);
+    try
+    {
+        lock();
+    }
+    catch (...)
+    {
+        detach ();
+        throw;
+    }
 }
 
 
