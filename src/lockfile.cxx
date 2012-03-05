@@ -158,9 +158,10 @@ LockFile::close () const
 {
 #if defined (LOG4CPLUS_USE_POSIX_LOCKING)
     ::close (data->fd);
+    data->fd = -1;
 
 #elif defined (_WIN32)
-#endif    
+#endif
 }
 
 

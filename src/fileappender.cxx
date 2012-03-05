@@ -30,6 +30,8 @@
 #include <algorithm>
 #include <sstream>
 #include <cstdio>
+#include <stdexcept>
+
 #if defined (__BORLANDC__)
 // For _wrename() and _wremove() on Windows.
 #  include <stdio.h>
@@ -244,12 +246,12 @@ FileAppender::FileAppender(const Properties& props,
     props.getInt (reopenDelay, LOG4CPLUS_TEXT("ReopenDelay"));
     props.getULong (bufferSize, LOG4CPLUS_TEXT("BufferSize"));
     props.getBool (useLockFile, LOG4CPLUS_TEXT("UseLockFile"));
-    lockFilename = props.getProperty (LOG4CPLUS_TEXT ("LockFile"));
+    lockFileName = props.getProperty (LOG4CPLUS_TEXT ("LockFile"));
 
-    if (useLockFile && lockFilename.empty ())
+    if (useLockFile && lockFileName.empty ())
     {
-        lockFilename = fn;
-        lockFilename += LOG4CPLUS_TEXT(".lock");
+        lockFileName = fn;
+        lockFileName += LOG4CPLUS_TEXT(".lock");
     }
 
     init(fn, (app ? std::ios::app : std::ios::trunc));
@@ -277,6 +279,18 @@ FileAppender::init(const tstring& filename_,
         return;
     }
     helpers::getLogLog().debug(LOG4CPLUS_TEXT("Just opened file: ") + filename);
+
+    if (useLockFile)
+    {
+        try
+        {
+            lockFile.reset (new helpers::LockFile (lockFileName));
+        }
+        catch (std::runtime_error const &)
+        {
+            return;
+        }
+    }
 }
 
 
@@ -339,10 +353,25 @@ FileAppender::append(const spi::InternalLoggingEvent& event)
             getErrorHandler()->reset();
     }
 
-    layout->formatAndAppend(out, event);
-    if(immediateFlush) {
-        out.flush();
+    helpers::LockFileGuard guard;
+
+    if (useLockFile)
+    {
+        try
+        {
+            helpers::getLogLog ().debug ("locking lock file");
+            guard.attach_and_lock (*lockFile);
+        }
+        catch (std::runtime_error const &)
+        {
+            return;
+        }
     }
+
+    layout->formatAndAppend(out, event);
+
+    if(immediateFlush || useLockFile)
+        out.flush();
 }
 
 void

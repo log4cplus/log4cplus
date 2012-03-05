@@ -28,8 +28,10 @@
 #include <log4cplus/appender.h>
 #include <log4cplus/fstreams.h>
 #include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/helpers/lockfile.h>
 #include <fstream>
 #include <locale>
+#include <memory>
 
 
 namespace log4cplus
@@ -37,7 +39,6 @@ namespace log4cplus
 
     /**
      * Appends log events to a file. 
-     * Appends log events to a file.
      * 
      * <h3>Properties</h3>
      * <dl>
@@ -126,7 +127,9 @@ namespace log4cplus
 
         log4cplus::tofstream out;
         log4cplus::tstring filename;
-        log4cplus::tstring lockFilename;
+
+        log4cplus::tstring lockFileName;
+        std::auto_ptr<log4cplus::helpers::LockFile> lockFile;
 
         log4cplus::helpers::Time reopen_time;
 
