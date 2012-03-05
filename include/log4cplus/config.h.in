@@ -17,6 +17,12 @@
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
+/* Define to 1 if you have the `fcntl' function. */
+#undef HAVE_FCNTL
+
+/* Define to 1 if you have the `flock' function. */
+#undef HAVE_FLOCK
+
 /* Define to 1 if you have the `ftime' function. */
 #undef HAVE_FTIME
 
@@ -73,6 +79,9 @@
 
 /* Define to 1 if you have the `localtime_r' function. */
 #undef HAVE_LOCALTIME_R
+
+/* Define to 1 if you have the `lockf' function. */
+#undef HAVE_LOCKF
 
 /* Define to 1 if you have the `lstat' function. */
 #undef HAVE_LSTAT
@@ -182,6 +191,15 @@
 #undef LOG4CPLUS_HAVE_ERRNO_H
 
 /* */
+#undef LOG4CPLUS_HAVE_FCNTL
+
+/* */
+#undef LOG4CPLUS_HAVE_FCNTL_H
+
+/* */
+#undef LOG4CPLUS_HAVE_FLOCK
+
+/* */
 #undef LOG4CPLUS_HAVE_FTIME
 
 /* */
@@ -233,6 +251,9 @@
 #undef LOG4CPLUS_HAVE_LOCALTIME_R
 
 /* */
+#undef LOG4CPLUS_HAVE_LOCKF
+
+/* */
 #undef LOG4CPLUS_HAVE_LSTAT
 
 /* */
@@ -270,6 +291,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_SYSLOG_H
+
+/* */
+#undef LOG4CPLUS_HAVE_SYS_FILE_H
 
 /* */
 #undef LOG4CPLUS_HAVE_SYS_SOCKET_H
