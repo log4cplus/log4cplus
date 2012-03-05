@@ -359,13 +359,14 @@ FileAppender::append(const spi::InternalLoggingEvent& event)
     {
         try
         {
-            helpers::getLogLog ().debug ("locking lock file");
             guard.attach_and_lock (*lockFile);
         }
         catch (std::runtime_error const &)
         {
             return;
         }
+
+        out.seekp (0, std::ios_base::end);
     }
 
     layout->formatAndAppend(out, event);
