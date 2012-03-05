@@ -145,8 +145,6 @@ namespace log4cplus
 
 
     /**
-     * RollingFileAppender extends FileAppender to backup the log files when 
-     * they reach a certain size. 
      * RollingFileAppender extends FileAppender to backup the log
      * files when they reach a certain size.
      *

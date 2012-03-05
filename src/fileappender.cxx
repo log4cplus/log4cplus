@@ -384,24 +384,24 @@ FileAppender::open(std::ios::openmode mode)
 bool
 FileAppender::reopen()
 {
-    // When append never failed and the file re-open attempt must 
+    // When append never failed and the file re-open attempt must
     // be delayed, set the time when reopen should take place.
     if (reopen_time == log4cplus::helpers::Time () && reopenDelay != 0)
         reopen_time = log4cplus::helpers::Time::gettimeofday()
-			+ log4cplus::helpers::Time(reopenDelay);
+            + log4cplus::helpers::Time(reopenDelay);
     else
-	{
+    {
         // Otherwise, check for end of the delay (or absence of delay) to re-open the file.
         if (reopen_time <= log4cplus::helpers::Time::gettimeofday()
-			|| reopenDelay == 0)
-		{
+            || reopenDelay == 0)
+        {
             // Close the current file
             out.close();
             out.clear(); // reset flags since the C++ standard specified that all the
                          // flags should remain unchanged on a close
 
             // Re-open the file.
-            open(std::ios::app);
+            open(std::ios_base::out | std::ios_base::ate);
 
             // Reset last fail time.
             reopen_time = log4cplus::helpers::Time ();
@@ -497,10 +497,30 @@ RollingFileAppender::append(const spi::InternalLoggingEvent& event)
 }
 
 
-void 
+void
 RollingFileAppender::rollover()
 {
     helpers::LogLog & loglog = helpers::getLogLog();
+
+    helpers::LockFileGuard guard;
+
+    if (useLockFile)
+    {
+        loglog.debug ("rollover(): getting lock file");
+
+        try
+        {
+            guard.attach_and_lock (*lockFile);
+        }
+        catch (std::runtime_error const &)
+        {
+            return;
+        }
+
+        // TODO: Recheck the condition as there is a window where
+        // another process can rollover the file before us.
+        // TODO: Need a stat() like call here.
+    }
 
     // Close the current file
     out.close();
@@ -690,6 +710,20 @@ DailyRollingFileAppender::append(const spi::InternalLoggingEvent& event)
 void
 DailyRollingFileAppender::rollover()
 {
+    helpers::LockFileGuard guard;
+
+    if (useLockFile)
+    {
+        try
+        {
+            guard.attach_and_lock (*lockFile);
+        }
+        catch (std::runtime_error const &)
+        {
+            return;
+        }
+    }
+
     // Close the current file
     out.close();
     out.clear(); // reset flags since the C++ standard specified that all the
