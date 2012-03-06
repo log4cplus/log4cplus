@@ -26,6 +26,7 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/helpers/fileinfo.h>
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/spi/factory.h>
@@ -68,64 +69,6 @@ namespace
     static tchar const DELIM_STOP[] = LOG4CPLUS_TEXT("}");
     static std::size_t const DELIM_START_LEN = 2;
     static std::size_t const DELIM_STOP_LEN = 1;
-
-
-    struct file_info
-    {
-        helpers::Time mtime;
-        bool is_link;
-    };
-
-
-    static
-    int
-    get_file_info (file_info * fi, tstring const & name)
-    {
-#if defined (_WIN32_WCE)
-        WIN32_FILE_ATTRIBUTE_DATA fad;
-        BOOL ret = GetFileAttributesEx (name.c_str (), GetFileExInfoStandard, &fad);
-        if (! ret)
-            return -1;
-
-        SYSTEMTIME systime;
-        ret = FileTimeToSystemTime (&fad.ftLastWriteTime, &systime);
-        if (! ret)
-            return -1;
-
-        helpers::tm tm;
-        tm.tm_isdst = 0;
-        tm.tm_yday = 0;
-        tm.tm_wday = systime.wDayOfWeek;
-        tm.tm_year = systime.wYear - 1900;
-        tm.tm_mon = systime.wMonth - 1;
-        tm.tm_mday = systime.wDay;
-        tm.tm_hour = systime.wHour;
-        tm.tm_min = systime.wMinute;
-        tm.tm_sec = systime.wSecond;
-
-        fi->mtime.setTime (&tm);
-        fi->is_link = false;
-
-#elif defined (_WIN32)
-        struct _stat fileStatus;
-        if (_tstat (name.c_str (), &fileStatus) == -1)
-            return -1;
-        
-        fi->mtime = helpers::Time (fileStatus.st_mtime);
-        fi->is_link = false;
-
-#else
-        struct stat fileStatus;
-        if (stat (LOG4CPLUS_TSTRING_TO_STRING (name).c_str (),
-                &fileStatus) == -1)
-            return -1;
-        fi->mtime = helpers::Time (fileStatus.st_mtime);
-        fi->is_link = S_ISLNK (fileStatus.st_mode);
-
-#endif
-
-        return 0;
-    }
 
 
     /**
@@ -720,9 +663,9 @@ ConfigurationWatchDogThread::addAppender(Logger& logger,
 bool
 ConfigurationWatchDogThread::checkForFileModification()
 {
-    file_info fi;
+    helpers::FileInfo fi;
 
-    if (get_file_info (&fi, propertyFilename) != 0)
+    if (helpers::getFileInfo (&fi, propertyFilename) != 0)
         return false;
 
     bool modified = (fi.mtime > lastModTime);
@@ -748,9 +691,9 @@ ConfigurationWatchDogThread::checkForFileModification()
 void
 ConfigurationWatchDogThread::updateLastModTime()
 {
-    file_info fi;
+    helpers::FileInfo fi;
 
-    if (get_file_info (&fi, propertyFilename))
+    if (helpers::getFileInfo (&fi, propertyFilename))
         lastModTime = fi.mtime;
 }
 
