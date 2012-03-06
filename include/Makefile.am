@@ -15,6 +15,8 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/fileappender.h \
 	log4cplus/fstreams.h \
 	log4cplus/helpers/appenderattachableimpl.h \
+	log4cplus/helpers/fileinfo.h \
+	log4cplus/helpers/lockfile.h \
 	log4cplus/helpers/loglog.h \
 	log4cplus/helpers/logloguser.h \
 	log4cplus/helpers/pointer.h \

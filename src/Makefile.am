@@ -24,6 +24,8 @@ INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/fileappender.h \
 	$(INCLUDES_SRC_PATH)/fstreams.h \
 	$(INCLUDES_SRC_PATH)/helpers/appenderattachableimpl.h \
+	$(INCLUDES_SRC_PATH)/helpers/fileinfo.h \
+	$(INCLUDES_SRC_PATH)/helpers/lockfile.h \
 	$(INCLUDES_SRC_PATH)/helpers/loglog.h \
 	$(INCLUDES_SRC_PATH)/helpers/logloguser.h \
 	$(INCLUDES_SRC_PATH)/helpers/pointer.h \
@@ -90,11 +92,13 @@ SINGLE_THREADED_SRC = \
 	env.cxx \
 	factory.cxx \
 	fileappender.cxx \
+	fileinfo.cxx \
 	filter.cxx \
 	global-init.cxx \
 	hierarchy.cxx \
 	hierarchylocker.cxx \
 	layout.cxx \
+	lockfile.cxx \
 	logger.cxx \
 	loggerimpl.cxx \
 	loggingevent.cxx \

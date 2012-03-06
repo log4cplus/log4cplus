@@ -26,6 +26,9 @@
 #undef LOG4CPLUS_HAVE_SYS_SYSCALL_H
 
 /* */
+#undef LOG4CPLUS_HAVE_SYS_FILE_H
+
+/* */
 #undef LOG4CPLUS_HAVE_TIME_H
 
 /* */
@@ -36,6 +39,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_UNISTD_H
+
+/* */
+#undef LOG4CPLUS_HAVE_FCNTL_H
 
 /* */
 #undef LOG4CPLUS_HAVE_STDARG_H
@@ -90,6 +96,15 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_LSTAT
+
+/* */
+#undef LOG4CPLUS_HAVE_FCNTL
+
+/* */
+#undef LOG4CPLUS_HAVE_LOCKF
+
+/* */
+#undef LOG4CPLUS_HAVE_FLOCK
 
 /* */
 #undef LOG4CPLUS_HAVE_NTOHL
