@@ -25,6 +25,7 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/helpers/fileinfo.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <algorithm>
@@ -506,8 +507,6 @@ RollingFileAppender::rollover()
 
     if (useLockFile)
     {
-        loglog.debug ("rollover(): getting lock file");
-
         try
         {
             guard.attach_and_lock (*lockFile);
@@ -517,15 +516,33 @@ RollingFileAppender::rollover()
             return;
         }
 
-        // TODO: Recheck the condition as there is a window where
-        // another process can rollover the file before us.
-        // TODO: Need a stat() like call here.
+        // Recheck the condition as there is a window where another
+        // process can rollover the file before us.
+
+        helpers::FileInfo fi;
+        if (getFileInfo (&fi, filename) == -1
+            || fi.size < maxFileSize)
+        {
+            // The file has already been rolled by another
+            // process. Just reopen with the new file.
+
+            // Close the current file.
+            out.close ();
+            out.clear ();
+
+            // Open it up again.
+            open (std::ios::out | std::ios::ate);
+            loglog_opening_result (loglog, out, filename);
+
+            return;
+        }
     }
 
     // Close the current file
     out.close();
-    out.clear(); // reset flags since the C++ standard specified that all the
-                 // flags should remain unchanged on a close
+    // Reset flags since the C++ standard specified that all the flags
+    // should remain unchanged on a close.
+    out.clear(); 
 
     // If maxBackups <= 0, then there is no file renaming to be done.
     if (maxBackupIndex > 0)
