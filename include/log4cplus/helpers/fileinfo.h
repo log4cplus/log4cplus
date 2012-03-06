@@ -23,8 +23,8 @@
 //  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if ! defined (LOG4CPLUS_HELPERS_LOCKFILE_H)
-#define LOG4CPLUS_HELPERS_LOCKFILE_H
+#if ! defined (LOG4CPLUS_HELPERS_FILEINFO_H)
+#define LOG4CPLUS_HELPERS_FILEINFO_H
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/helpers/timehelper.h>
@@ -48,4 +48,4 @@ LOG4CPLUS_EXPORT int getFileInfo (FileInfo * fi, tstring const & name);
 
 } } // namespace log4cplus { namespace helpers {
 
-#endif // LOG4CPLUS_HELPERS_LOCKFILE_H
+#endif // LOG4CPLUS_HELPERS_FILEINFO_H
