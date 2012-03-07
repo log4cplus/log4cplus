@@ -62,6 +62,23 @@ namespace log4cplus
      * <dd>Non-zero value of this property sets up buffering of output
      * stream using a buffer of given size.
      * </dd>
+     *
+     * <dt><tt>UseLockFile</tt></dt>
+     * <dd>Set this property to <tt>true</tt> if you want your output
+     * to go into a log file shared by multiple processes. When this
+     * property is set to true then log4cplus uses OS specific
+     * facilities (e.g., <code>lockf()</code>) to provide
+     * inter-process file locking.
+     * </dd>
+     *
+     * <dt><tt>LockFile</tt></dt>
+     * <dd>This property specifies lock file, file used for
+     * inter-process synchronization of log file access. When this
+     * property is not specified, the value is derived from
+     * <tt>File</tt> property by addition of ".lock" suffix. The
+     * property is only used when <tt>UseLockFile</tt> is set to true.
+     * </dd>
+     *
      * </dl>
      */
     class LOG4CPLUS_EXPORT FileAppender : public Appender {
