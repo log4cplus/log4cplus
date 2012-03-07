@@ -174,13 +174,15 @@ LockFile::open (int open_flags) const
     data->fd = ::open (LOG4CPLUS_TSTRING_TO_STRING (lock_file_name).c_str (),
         open_flags, OPEN_MODE);
     if (data->fd == -1)
-        loglog.error (std::string ("could not open or create file ")
+        loglog.error (
+            tstring (LOG4CPLUS_TEXT ("could not open or create file "))
             + lock_file_name, true);
 
 #if ! defined (O_CLOEXEC) && defined (FD_CLOEXEC)
     int ret = fcntl (data->fd, F_SETFD, FD_CLOEXEC);
     if (ret == -1)
-        loglog.warn (std::string ("could not set FD_CLOEXEC on file ")
+        loglog.warn (
+            tstring (LOG4CPLUS_TEXT("could not set FD_CLOEXEC on file "))
             + lock_file_name);
 
 #endif
@@ -246,7 +248,7 @@ LockFile::lock () const
         fl.l_len = 0;
         ret = fcntl (data->fd, F_SETLKW, &fl);
         if (ret == -1 && errno != EINTR)
-            loglog.error (std::string ("fcntl(F_SETLKW) failed: ")
+            loglog.error (tstring (LOG4CPLUS_TEXT("fcntl(F_SETLKW) failed: "))
                 + convertIntegerToString (errno), true);
     }
     while (ret == -1);
@@ -256,7 +258,7 @@ LockFile::lock () const
     {
         ret = lockf (data->fd, F_LOCK, 0);
         if (ret == -1 && errno != EINTR)
-            loglog.error (std::string ("lockf() failed: ")
+            loglog.error (tstring (LOG4CPLUS_TEXT("lockf() failed: "))
                 + convertIntegerToString (errno), true);
     }
     while (ret == -1);
@@ -266,7 +268,7 @@ LockFile::lock () const
     {
         ret = flock (data->fd, LOCK_EX);
         if (ret == -1 && errno != EINTR)
-            loglog.error (std::string ("flock() failed: ")
+            loglog.error (tstring (LOG4CPLUS_TEXT("flock() failed: "))
                 + convertIntegerToString (errno), true);
     }
     while (ret == -1);
@@ -306,19 +308,19 @@ void LockFile::unlock () const
     fl.l_len = 0;
     ret = fcntl (data->fd, F_SETLKW, &fl);
     if (ret != 0)
-        loglog.error (std::string ("fcntl(F_SETLKW) failed: ")
+        loglog.error (tstring (LOG4CPLUS_TEXT("fcntl(F_SETLKW) failed: "))
             + convertIntegerToString (errno), true);
 
 #elif defined (LOG4CPLUS_USE_LOCKF)
     ret = lockf (data->fd, F_ULOCK, 0);
     if (ret != 0)
-        loglog.error (std::string ("lockf() failed: ")
+        loglog.error (tstring (LOG4CPLUS_TEXT("lockf() failed: "))
             + convertIntegerToString (errno), true);
 
 #elif defined (LOG4CPLUS_USE_FLOCK)
     ret = flock (data->fd, LOCK_UN);
     if (ret != 0)
-        loglog.error (std::string ("flock() failed: ")
+        loglog.error (tstring (LOG4CPLUS_TEXT("flock() failed: "))
             + convertIntegerToString (errno), true);
 
 #endif
