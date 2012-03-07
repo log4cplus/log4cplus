@@ -33,6 +33,11 @@
 #include <sys/stat.h>
 #endif
 
+#if defined (_WIN32)
+#include <tchar.h>
+#include <log4cplus/config/windowsh-inc.h>
+#endif
+
 
 namespace log4cplus { namespace helpers {
 

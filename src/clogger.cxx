@@ -99,13 +99,13 @@ log4cplus_shutdown(void)
 }
 
 LOG4CPLUS_DECLSPEC_EXPORT bool
-log4cplus_logger_exists(const char *name)
+log4cplus_logger_exists(const log4cplus_char_t *name)
 {
     bool retval = false;
 
     try
     {
-	retval = Logger::exists(name);
+        retval = Logger::exists(name);
     }
     catch(std::exception &e)
     {
