@@ -75,8 +75,9 @@ SocketAppender::ConnectorThread::run ()
 
         // The socket is not open, try to reconnect.
 
-        helpers::Socket socket (sa.host, static_cast<unsigned short>(sa.port));
-        if (! socket.isOpen ())
+        helpers::Socket new_socket (sa.host,
+            static_cast<unsigned short>(sa.port));
+        if (! new_socket.isOpen ())
         {
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("SocketAppender::ConnectorThread::run()")
@@ -94,7 +95,7 @@ SocketAppender::ConnectorThread::run ()
 
         {
             thread::MutexGuard guard (sa.access_mutex);
-            sa.socket = socket;
+            sa.socket = new_socket;
             sa.connected = true;
         }
     }

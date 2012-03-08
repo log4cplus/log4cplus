@@ -62,7 +62,8 @@ sleep(unsigned long secs, unsigned long nanosecs)
                
     Sleep((secs % MAX_SLEEP_SECONDS) * SEC_TO_MILLIS + nano_millis);
 #else
-    timespec sleep_time = { secs, nanosecs };
+    timespec sleep_time = { static_cast<std::time_t>(secs),
+                            static_cast<long>(nanosecs) };
     timespec remain;
     while (nanosleep(&sleep_time, &remain)) {
         if (errno == EINTR) {
