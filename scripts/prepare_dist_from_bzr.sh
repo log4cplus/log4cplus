@@ -6,7 +6,6 @@ THIS_SCRIPT=`basename "$0"`
 
 function usage
 {
-    
     echo "$THIS_SCRIPT <BZR_URL>"
 }
 
@@ -33,22 +32,29 @@ export TMPDIR
 TMP_DIR=`mktemp -d`
 pushd "$TMP_DIR"
 
-bzr export --per-file-timestamps -v "$SRC_DIR" "$BZR_URL"
-bzr version-info "$BZR_URL" >"$SRC_DIR/REVISION"
+TAR=${TAR:-tar}
+XZ=${XZ:-xz}
+BZIP2=${BZIP2:-bzip2}
+GZIP=${GZIP:-gzip}
+SEVENZA=${SEVENZA:-7za}
+BZR=${BZR:-bzr}
+
+$BZR export --per-file-timestamps -v "$SRC_DIR" "$BZR_URL"
+$BZR version-info "$BZR_URL" >"$SRC_DIR/REVISION"
 
 pushd "$SRC_DIR"
 $SHELL ./scripts/fix-timestamps.sh
 popd
 
-7za a -t7z "$DEST_DIR/$SRC_DIR".7z "$SRC_DIR" >/dev/null \
-& 7za a -tzip "$DEST_DIR/$SRC_DIR".zip "$SRC_DIR" >/dev/null
+$SEVENZA a -t7z "$DEST_DIR/$SRC_DIR".7z "$SRC_DIR" >/dev/null \
+& $SEVENZA a -tzip "$DEST_DIR/$SRC_DIR".zip "$SRC_DIR" >/dev/null
 
 TAR_FILE="$SRC_DIR".tar
-tar -cvf "$TAR_FILE" "$SRC_DIR"
+$TAR -cvf "$TAR_FILE" "$SRC_DIR"
 
-xz -e -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".xz \
-& bzip2 -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".bz2 \
-& gzip -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".gz
+$XZ -e -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".xz \
+& $BZIP2 -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".bz2 \
+& $GZIP -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".gz
 
 echo waiting...
 wait
@@ -58,6 +64,3 @@ rm -rf "$SRC_DIR"
 rm -f "$TAR_FILE"
 popd
 rmdir "$TMP_DIR"
-
-
-
