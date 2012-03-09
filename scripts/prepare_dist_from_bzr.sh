@@ -34,6 +34,7 @@ TMP_DIR=`mktemp -d`
 pushd "$TMP_DIR"
 
 bzr export --per-file-timestamps -v "$SRC_DIR" "$BZR_URL"
+bzr version-info "$BZR_URL" >"$SRC_DIR/REVISION"
 
 pushd "$SRC_DIR"
 $SHELL ./scripts/fix-timestamps.sh
@@ -41,7 +42,6 @@ popd
 
 7za a -t7z "$DEST_DIR/$SRC_DIR".7z "$SRC_DIR" >/dev/null \
 & 7za a -tzip "$DEST_DIR/$SRC_DIR".zip "$SRC_DIR" >/dev/null
-
 
 TAR_FILE="$SRC_DIR".tar
 bsdtar -cvf "$TAR_FILE" "$SRC_DIR"
