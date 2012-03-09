@@ -44,7 +44,7 @@ popd
 & 7za a -tzip "$DEST_DIR/$SRC_DIR".zip "$SRC_DIR" >/dev/null
 
 TAR_FILE="$SRC_DIR".tar
-bsdtar -cvf "$TAR_FILE" "$SRC_DIR"
+tar -cvf "$TAR_FILE" "$SRC_DIR"
 
 xz -e -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".xz \
 & bzip2 -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".bz2 \
