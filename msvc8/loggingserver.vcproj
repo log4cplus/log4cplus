@@ -39,23 +39,22 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\$(OutDir)\loggingserver.tlb"
+				TypeLibraryName="$(OutDir)\loggingserver.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_CONSOLE"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\$(IntDir)\loggingserver.pch"
-				AssemblerListingLocation=".\$(IntDir)/"
-				ObjectFile=".\$(IntDir)/"
-				ProgramDataBaseFileName=".\$(OutDir)/"
-				WarningLevel="3"
+				PrecompiledHeaderFile="$(IntDir)\loggingserver.pch"
+				AssemblerListingLocation="$(IntDir)/"
+				ObjectFile="$(IntDir)/"
+				ProgramDataBaseFileName="$(OutDir)/"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -72,11 +71,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib log4cplus.lib"
-				OutputFile=".\$(OutDir)/loggingserver.exe"
+				OutputFile="$(OutDir)/loggingserver.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
-				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
+				ProgramDatabaseFile="$(OutDir)/loggingserver.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -92,7 +91,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/loggingserver.bsc"
+				OutputFile="$(IntDir)/loggingserver.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -130,23 +129,22 @@
 			<Tool
 				Name="VCMIDLTool"
 				TargetEnvironment="3"
-				TypeLibraryName=".\$(OutDir)\loggingserver.tlb"
+				TypeLibraryName="$(OutDir)\loggingserver.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_CONSOLE"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\$(IntDir)\loggingserver.pch"
-				AssemblerListingLocation=".\$(IntDir)/"
-				ObjectFile=".\$(IntDir)/"
-				ProgramDataBaseFileName=".\$(OutDir)/"
-				WarningLevel="3"
+				PrecompiledHeaderFile="$(IntDir)\loggingserver.pch"
+				AssemblerListingLocation="$(IntDir)/"
+				ObjectFile="$(IntDir)/"
+				ProgramDataBaseFileName="$(OutDir)/"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -163,11 +161,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib log4cplus.lib"
-				OutputFile=".\$(OutDir)/loggingserver.exe"
+				OutputFile="$(OutDir)/loggingserver.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
-				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
+				ProgramDatabaseFile="$(OutDir)/loggingserver.pdb"
 				SubSystem="1"
 				TargetMachine="17"
 			/>
@@ -183,7 +181,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/loggingserver.bsc"
+				OutputFile="$(IntDir)/loggingserver.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -220,22 +218,21 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\$(OutDir)/loggingserver.tlb"
+				TypeLibraryName="$(OutDir)/loggingserver.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_DEBUG;WIN32;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\$(IntDir)/loggingserver.pch"
-				AssemblerListingLocation=".\$(IntDir)/"
-				ObjectFile=".\$(IntDir)/"
-				ProgramDataBaseFileName=".\$(OutDir)/"
-				WarningLevel="3"
+				PrecompiledHeaderFile="$(IntDir)/loggingserver.pch"
+				AssemblerListingLocation="$(IntDir)/"
+				ObjectFile="$(IntDir)/"
+				ProgramDataBaseFileName="$(OutDir)/"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 			/>
@@ -253,12 +250,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib log4cplusD.lib"
-				OutputFile=".\$(OutDir)/loggingserver.exe"
+				OutputFile="$(OutDir)/loggingserver.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
+				ProgramDatabaseFile="$(OutDir)/loggingserver.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -274,7 +271,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/loggingserver.bsc"
+				OutputFile="$(IntDir)/loggingserver.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -312,22 +309,21 @@
 			<Tool
 				Name="VCMIDLTool"
 				TargetEnvironment="3"
-				TypeLibraryName=".\$(OutDir)/loggingserver.tlb"
+				TypeLibraryName="$(OutDir)/loggingserver.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_DEBUG;WIN32;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\$(IntDir)/loggingserver.pch"
-				AssemblerListingLocation=".\$(IntDir)/"
-				ObjectFile=".\$(IntDir)/"
-				ProgramDataBaseFileName=".\$(OutDir)/"
-				WarningLevel="3"
+				PrecompiledHeaderFile="$(IntDir)/loggingserver.pch"
+				AssemblerListingLocation="$(IntDir)/"
+				ObjectFile="$(IntDir)/"
+				ProgramDataBaseFileName="$(OutDir)/"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 			/>
@@ -345,12 +341,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib log4cplusD.lib"
-				OutputFile=".\$(OutDir)/loggingserver.exe"
+				OutputFile="$(OutDir)/loggingserver.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
+				ProgramDatabaseFile="$(OutDir)/loggingserver.pdb"
 				SubSystem="1"
 				TargetMachine="17"
 			/>
@@ -366,7 +362,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/loggingserver.bsc"
+				OutputFile="$(IntDir)/loggingserver.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -404,23 +400,22 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\$(OutDir)\loggingserver.tlb"
+				TypeLibraryName="$(OutDir)\loggingserver.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_CONSOLE"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\$(IntDir)\loggingserver.pch"
-				AssemblerListingLocation=".\$(IntDir)/"
-				ObjectFile=".\$(IntDir)/"
-				ProgramDataBaseFileName=".\$(OutDir)/"
-				WarningLevel="3"
+				PrecompiledHeaderFile="$(IntDir)\loggingserver.pch"
+				AssemblerListingLocation="$(IntDir)/"
+				ObjectFile="$(IntDir)/"
+				ProgramDataBaseFileName="$(OutDir)/"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -437,11 +432,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib log4cplusU.lib"
-				OutputFile=".\$(OutDir)/loggingserver.exe"
+				OutputFile="$(OutDir)/loggingserver.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
-				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
+				ProgramDatabaseFile="$(OutDir)/loggingserver.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -457,7 +452,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/loggingserver.bsc"
+				OutputFile="$(IntDir)/loggingserver.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -496,23 +491,22 @@
 			<Tool
 				Name="VCMIDLTool"
 				TargetEnvironment="3"
-				TypeLibraryName=".\$(OutDir)\loggingserver.tlb"
+				TypeLibraryName="$(OutDir)\loggingserver.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_CONSOLE"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\$(IntDir)\loggingserver.pch"
-				AssemblerListingLocation=".\$(IntDir)/"
-				ObjectFile=".\$(IntDir)/"
-				ProgramDataBaseFileName=".\$(OutDir)/"
-				WarningLevel="3"
+				PrecompiledHeaderFile="$(IntDir)\loggingserver.pch"
+				AssemblerListingLocation="$(IntDir)/"
+				ObjectFile="$(IntDir)/"
+				ProgramDataBaseFileName="$(OutDir)/"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -529,11 +523,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib log4cplusU.lib"
-				OutputFile=".\$(OutDir)/loggingserver.exe"
+				OutputFile="$(OutDir)/loggingserver.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
-				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
+				ProgramDatabaseFile="$(OutDir)/loggingserver.pdb"
 				SubSystem="1"
 				TargetMachine="17"
 			/>
@@ -549,7 +543,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/loggingserver.bsc"
+				OutputFile="$(IntDir)/loggingserver.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -586,22 +580,21 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TypeLibraryName=".\$(OutDir)/loggingserver.tlb"
+				TypeLibraryName="$(OutDir)/loggingserver.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_DEBUG;WIN32;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\$(IntDir)/loggingserver.pch"
-				AssemblerListingLocation=".\$(IntDir)/"
-				ObjectFile=".\$(IntDir)/"
-				ProgramDataBaseFileName=".\$(OutDir)/"
-				WarningLevel="3"
+				PrecompiledHeaderFile="$(IntDir)/loggingserver.pch"
+				AssemblerListingLocation="$(IntDir)/"
+				ObjectFile="$(IntDir)/"
+				ProgramDataBaseFileName="$(OutDir)/"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 			/>
@@ -619,12 +612,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib log4cplusUD.lib"
-				OutputFile=".\$(OutDir)/loggingserver.exe"
+				OutputFile="$(OutDir)/loggingserver.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
+				ProgramDatabaseFile="$(OutDir)/loggingserver.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -640,7 +633,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/loggingserver.bsc"
+				OutputFile="$(IntDir)/loggingserver.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -678,22 +671,21 @@
 			<Tool
 				Name="VCMIDLTool"
 				TargetEnvironment="3"
-				TypeLibraryName=".\$(OutDir)/loggingserver.tlb"
+				TypeLibraryName="$(OutDir)/loggingserver.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_DEBUG;WIN32;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\$(IntDir)/loggingserver.pch"
-				AssemblerListingLocation=".\$(IntDir)/"
-				ObjectFile=".\$(IntDir)/"
-				ProgramDataBaseFileName=".\$(OutDir)/"
-				WarningLevel="3"
+				PrecompiledHeaderFile="$(IntDir)/loggingserver.pch"
+				AssemblerListingLocation="$(IntDir)/"
+				ObjectFile="$(IntDir)/"
+				ProgramDataBaseFileName="$(OutDir)/"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 			/>
@@ -711,12 +703,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib log4cplusUD.lib"
-				OutputFile=".\$(OutDir)/loggingserver.exe"
+				OutputFile="$(OutDir)/loggingserver.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\$(OutDir)/loggingserver.pdb"
+				ProgramDatabaseFile="$(OutDir)/loggingserver.pdb"
 				SubSystem="1"
 				TargetMachine="17"
 			/>
@@ -732,7 +724,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/loggingserver.bsc"
+				OutputFile="$(IntDir)/loggingserver.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

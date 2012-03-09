@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/log4cplus_static.bsc"
+				OutputFile="$(IntDir)/log4cplus_static.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -145,7 +145,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/log4cplus_static.bsc"
+				OutputFile="$(IntDir)/log4cplus_static.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -213,7 +213,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/log4cplus_static.bsc"
+				OutputFile="$(IntDir)/log4cplus_static.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -282,7 +282,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/log4cplus_static.bsc"
+				OutputFile="$(IntDir)/log4cplus_static.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -348,7 +348,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/log4cplus_static.bsc"
+				OutputFile="$(IntDir)/log4cplus_static.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -415,7 +415,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/log4cplus_static.bsc"
+				OutputFile="$(IntDir)/log4cplus_static.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -481,7 +481,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/log4cplus_static.bsc"
+				OutputFile="$(IntDir)/log4cplus_static.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -548,7 +548,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\$(IntDir)/log4cplus_static.bsc"
+				OutputFile="$(IntDir)/log4cplus_static.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
