@@ -29,9 +29,21 @@
 
 namespace log4cplus {
     /**
-     * ConsoleAppender appends log events to <code>System.out</code> or
-     * <code>System.err</code> using a layout specified by the
-     * user. The default target is <code>System.out</code>.
+     * ConsoleAppender appends log events to <code>std::cout</code> or
+     * <code>std::cerr</code> using a layout specified by the
+     * user. The default target is <code>std::cout</code>.
+     *
+     * <h3>Properties</h3>
+     * <dl>
+     * <dt><tt>logToStdErr</tt></dt>
+     * <dd>When it is set true, the output stream will be
+     * <code>std::cerr</code> instead of <code>std::cout</code>.</dd>
+     *
+     * <dt><tt>ImmediateFlush</tt></dt>
+     * <dd>When it is set true, output stream will be flushed after
+     * each appended event.</dd>
+     * 
+     * </dl>
      */
     class LOG4CPLUS_EXPORT ConsoleAppender : public Appender {
     public:

@@ -79,6 +79,19 @@ namespace log4cplus
      *   is down, the client will not be blocked when making log requests
      *   but the log events will be lost due to server unavailability.
      * </ul>
+     *
+     * <h3>Properties</h3>
+     * <dl>
+     * <dt><tt>host</tt></dt>
+     * <dd>Remote host name to connect and send events to.</dd>
+     *
+     * <dt><tt>port</tt></dt>
+     * <dd>Port on remote host to send events to.</dd>
+     *
+     * <dt><tt>ServerName</tt></dt>
+     * <dd>Host name of event's origin prepended to each event.</dd>
+     *
+     * </dl>
      */
     class LOG4CPLUS_EXPORT SocketAppender : public Appender {
     public:
