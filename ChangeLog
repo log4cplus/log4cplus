@@ -22,3 +22,6 @@ Important changes relative to PRODUCTION_1_0_x branch:
 
 - Added LOG4CPLUS_*_FMT() macros to allow printf-like formatted output
   where it is possible.
+
+- Logging macros now accept both logger name as string and Logger
+  instance as their first parameter.
