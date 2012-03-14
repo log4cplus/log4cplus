@@ -5,6 +5,7 @@ set (log4cplus_sources
   clogger.cxx
   configurator.cxx
   consoleappender.cxx
+  cygwin-win32.cxx
   env.cxx
   factory.cxx
   fileappender.cxx
