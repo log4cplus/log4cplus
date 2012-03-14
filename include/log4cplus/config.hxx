@@ -24,8 +24,6 @@
 #ifndef LOG4CPLUS_CONFIG_HXX
 #define LOG4CPLUS_CONFIG_HXX
 
-#include <cstddef>
-
 #if defined (_WIN32)
 #  include <log4cplus/config/win32.h>
 #elif (defined(__MWERKS__) && defined(__MACOS__))
@@ -97,6 +95,7 @@
 
 #include <log4cplus/helpers/thread-config.h>
 
+#if defined(__cplusplus)
 namespace log4cplus
 {
 
@@ -109,5 +108,6 @@ LOG4CPLUS_EXPORT void threadCleanup ();
 
 } // namespace log4cplus
 
+#endif
 
 #endif // LOG4CPLUS_CONFIG_HXX

@@ -27,6 +27,8 @@
 #ifndef _LOG4CPLUS_CLOGGERHEADER_
 #define _LOG4CPLUS_CLOGGERHEADER_
 
+#include <log4cplus/config.hxx>
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -56,15 +58,15 @@ typedef char log4cplus_char_t;
 #endif // UNICODE
 #define LOG4CPLUS_TEXT(STRING) LOG4CPLUS_TEXT2(STRING)
 
-int log4cplus_file_configure(const log4cplus_char_t *pathname);
-int log4cplus_str_configure(const log4cplus_char_t *config);
-int log4cplus_basic_configure(void);
-void log4cplus_shutdown(void);
+LOG4CPLUS_EXPORT int log4cplus_file_configure(const log4cplus_char_t *pathname);
+LOG4CPLUS_EXPORT int log4cplus_str_configure(const log4cplus_char_t *config);
+LOG4CPLUS_EXPORT int log4cplus_basic_configure(void);
+LOG4CPLUS_EXPORT void log4cplus_shutdown(void);
 
-bool log4cplus_logger_exists(const log4cplus_char_t *name);
-bool log4cplus_logger_is_enabled_for(const log4cplus_char_t *name, loglevel_t ll);
-int log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll, const log4cplus_char_t *msgfmt, ...);
-int log4cplus_logger_force_log(const log4cplus_char_t *name, loglevel_t ll, const log4cplus_char_t *msgfmt, ...);
+LOG4CPLUS_EXPORT bool log4cplus_logger_exists(const log4cplus_char_t *name);
+LOG4CPLUS_EXPORT bool log4cplus_logger_is_enabled_for(const log4cplus_char_t *name, loglevel_t ll);
+LOG4CPLUS_EXPORT int log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll, const log4cplus_char_t *msgfmt, ...);
+LOG4CPLUS_EXPORT int log4cplus_logger_force_log(const log4cplus_char_t *name, loglevel_t ll, const log4cplus_char_t *msgfmt, ...);
 
 #ifdef __cplusplus
 }

@@ -38,7 +38,7 @@
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 
-LOG4CPLUS_DECLSPEC_EXPORT int
+LOG4CPLUS_EXPORT int
 log4cplus_file_configure(const log4cplus_char_t *pathname)
 {
     if( !pathname )
@@ -56,7 +56,7 @@ log4cplus_file_configure(const log4cplus_char_t *pathname)
     return 0;
 }
 
-LOG4CPLUS_DECLSPEC_EXPORT int
+LOG4CPLUS_EXPORT int
 log4cplus_str_configure(const log4cplus_char_t *config)
 {
     if( !config )
@@ -77,7 +77,7 @@ log4cplus_str_configure(const log4cplus_char_t *config)
     return 0;
 }
 
-LOG4CPLUS_DECLSPEC_EXPORT int
+LOG4CPLUS_EXPORT int
 log4cplus_basic_configure(void)
 {
     try
@@ -92,13 +92,13 @@ log4cplus_basic_configure(void)
     return 0;
 }
 
-LOG4CPLUS_DECLSPEC_EXPORT void
+LOG4CPLUS_EXPORT void
 log4cplus_shutdown(void)
 {
     Logger::shutdown();
 }
 
-LOG4CPLUS_DECLSPEC_EXPORT bool
+LOG4CPLUS_EXPORT bool
 log4cplus_logger_exists(const log4cplus_char_t *name)
 {
     bool retval = false;
@@ -114,7 +114,7 @@ log4cplus_logger_exists(const log4cplus_char_t *name)
     return retval;
 }
 
-LOG4CPLUS_DECLSPEC_EXPORT bool
+LOG4CPLUS_EXPORT bool
 log4cplus_logger_is_enabled_for(const log4cplus_char_t *name, loglevel_t ll)
 {
     bool retval = false;
@@ -139,7 +139,7 @@ log4cplus_logger_is_enabled_for(const log4cplus_char_t *name, loglevel_t ll)
     return retval;
 }
 
-LOG4CPLUS_DECLSPEC_EXPORT int
+LOG4CPLUS_EXPORT int
 log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll, const log4cplus_char_t *msgfmt, ...)
 {
     int retval = -1;
@@ -171,7 +171,7 @@ log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll, const log4cplu
     return retval;
 }
 
-LOG4CPLUS_DECLSPEC_EXPORT int
+LOG4CPLUS_EXPORT int
 log4cplus_logger_force_log(const log4cplus_char_t *name, loglevel_t ll, const log4cplus_char_t *msgfmt, ...)
 {
     int retval = -1;
