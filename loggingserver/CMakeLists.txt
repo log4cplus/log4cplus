@@ -1,3 +1,8 @@
+if (WIN32)
+  # Comment out the following lines if you want non-Unicode version.
+  add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS -Dlog4cplus_EXPORTS)
+endif (WIN32)
+
 message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
 
 set (loggingserver_sources loggingserver.cxx)

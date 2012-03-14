@@ -44,6 +44,8 @@ namespace log4cplus
 namespace helpers
 {
 
+void clear_mbstate (std::mbstate_t &);
+
 #ifdef UNICODE
 
 #ifdef LOG4CPLUS_WORKING_LOCALE
