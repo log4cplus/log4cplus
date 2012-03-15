@@ -127,8 +127,7 @@ TTCCLayout::formatAndAppend(log4cplus::tostream& output,
          output << event.getTimestamp().getFormattedTime(dateFormat,
              use_gmtime);
 
-    output << event.getTimestamp().getFormattedTime(dateFormat, use_gmtime) 
-           << LOG4CPLUS_TEXT(" [")
+    output << LOG4CPLUS_TEXT(" [")
            << event.getThread()
            << LOG4CPLUS_TEXT("] ")
            << llmCache.toString(event.getLogLevel()) 
