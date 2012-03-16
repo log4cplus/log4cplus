@@ -32,6 +32,12 @@ option(LOG4CPLUS_WORKING_C_LOCALE "Define for compilers/standard libraries that 
 
 option(UNICODE "Build with tchar = wchar_t" ${UNICODE_DEFAULT})
 
+if (UNICODE)
+  set (log4cplus_postfix "${log4cplus_postfix}U")
+endif (UNICODE)
+
+set (log4cplus "log4cplus${log4cplus_postfix}")
+
 include(ConfigureChecks.cmake)
 
 configure_file(include/log4cplus/config.h.cmake.in ${CMAKE_BINARY_DIR}/include/log4cplus/config.h @ONLY)

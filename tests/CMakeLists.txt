@@ -11,7 +11,7 @@ function(log4cplus_add_test _name)
   set(_srcs ${ARGN})
 #  message (STATUS "${_name} sources: ${_srcs}")
   add_executable (${_name} ${_srcs})
-  target_link_libraries (${_name} log4cplus)
+  target_link_libraries (${_name} ${log4cplus})
   add_test(${_name} ${_name})
 endfunction()
 

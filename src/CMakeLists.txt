@@ -60,34 +60,32 @@ elseif (WIN32)
     win32consoleappender.cxx
     win32debugappender.cxx)
 
-  if (UNICODE)
-    add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
-    set (log4cplus_postfix "${log4cplus_postfix}U")
-  endif (UNICODE)
-
   #add_definitions (-DLOG4CPLUS_STATIC)
   #set (log4cplus_postfix "${log4cplus_postfix}S")
 endif ()
 
+if (UNICODE)
+  add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
+endif (UNICODE)
 
-add_library (log4cplus ${log4cplus_sources})
-target_link_libraries (log4cplus ${CMAKE_THREAD_LIBS_INIT})
+add_library (${log4cplus} ${log4cplus_sources})
+target_link_libraries (${log4cplus} ${CMAKE_THREAD_LIBS_INIT})
 
-set_target_properties (log4cplus PROPERTIES
+set_target_properties (${log4cplus} PROPERTIES
   VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}"
   SOVERSION "${log4cplus_soversion}"
   COMPILE_FLAGS "-DINSIDE_LOG4CPLUS")
 
 if (WIN32)
-  set_target_properties (log4cplus PROPERTIES
+  set_target_properties (${log4cplus} PROPERTIES
     DEBUG_POSTFIX "${log4cplus_postfix}D"
     RELEASE_POSTFIX "${log4cplus_postfix}"
     MINSIZEREL_POSTFIX "${log4cplus_postfix}"
     RELWITHDEBINFO_POSTFIX "${log4cplus_postfix}")
-  target_link_libraries (log4cplus ws2_32 advapi32)
+  target_link_libraries (${log4cplus} ws2_32 advapi32)
 endif ()
 
-install(TARGETS log4cplus LIBRARY DESTINATION lib
+install(TARGETS ${log4cplus} LIBRARY DESTINATION lib
                           ARCHIVE DESTINATION lib
                           RUNTIME DESTINATION bin)
 
