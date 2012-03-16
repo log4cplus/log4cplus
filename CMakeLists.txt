@@ -1,5 +1,5 @@
 project (log4cplus)
-cmake_minimum_required (VERSION 2.6.4)
+cmake_minimum_required (VERSION 2.8.0)
 
 set (log4cplus_version_major 1)
 set (log4cplus_version_minor 1)
@@ -12,7 +12,25 @@ message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
 
 set(BUILD_SHARED_LIBS TRUE CACHE BOOL "If TRUE, log4cplus is built as a shared library, otherwise as a static library")
 
-option(LOG4CPLUS_WORKING_LOCALE "Define for compilers/standard libraries that support more than just the C locale." OFF)
+if (WIN32)
+  set (UNICODE_DEFAULT ON)
+else (WIN32)
+  set (UNICODE_DEFAULT OFF)
+endif (WIN32)
+
+if (MSVC)
+  set (LOG4CPLUS_WORKING_LOCALE_DEFAULT ON)
+else (MSVC)
+  set (LOG4CPLUS_WORKING_LOCALE_DEFAULT OFF)
+endif (MSVC)
+
+option(LOG4CPLUS_WORKING_LOCALE "Define for compilers/standard libraries that support more than just the C locale."
+  ${LOG4CPLUS_WORKING_LOCALE_DEFAULT})
+
+option(LOG4CPLUS_WORKING_C_LOCALE "Define for compilers/standard libraries that have working C locale."
+  OFF)
+
+option(UNICODE "Build with tchar = wchar_t" ${UNICODE_DEFAULT})
 
 include(ConfigureChecks.cmake)
 

@@ -50,9 +50,6 @@ set (log4cplus_sources
 
 #message (STATUS "Type: ${UNIX}|${CYGWIN}|${WIN32}")
 
-# Uncomment the following line to get locale aware string conversions.
-#add_definitions (-DLOG4CPLUS_WORKING_LOCALE)
-
 if ("${UNIX}" OR "${CYGWIN}")
   set (log4cplus_sources ${log4cplus_sources}
     socket-unix.cxx)
@@ -63,9 +60,10 @@ elseif (WIN32)
     win32consoleappender.cxx
     win32debugappender.cxx)
 
-  # Comment out the following lines if you want non-Unicode version.
-  add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
-  set (log4cplus_postfix "${log4cplus_postfix}U")
+  if (UNICODE)
+    add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
+    set (log4cplus_postfix "${log4cplus_postfix}U")
+  endif (UNICODE)
 
   #add_definitions (-DLOG4CPLUS_STATIC)
   #set (log4cplus_postfix "${log4cplus_postfix}S")

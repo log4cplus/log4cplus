@@ -1,8 +1,10 @@
-if (WIN32)
-  # Comment out the following lines if you want non-Unicode version.
-  add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS -Dlog4cplus_EXPORTS)
-endif (WIN32)
+if (UNICODE)
+  add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
+endif (UNICODE)
 
+if (${BUILD_SHARED_LIBS})
+  add_definitions (-Dlog4cplus_EXPORTS)
+endif ()
 
 # a function to set up a test, since it's the same for each one:
 function(log4cplus_add_test _name)
