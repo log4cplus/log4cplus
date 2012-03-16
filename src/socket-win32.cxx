@@ -203,7 +203,13 @@ connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
 
     init_winsock ();
 
-    SOCKET sock = ::socket(AF_INET, SOCK_STREAM, 0);
+    SOCKET sock = WSASocket (AF_INET, SOCK_STREAM, AF_UNSPEC, 0, 0
+#if defined (WSA_FLAG_NO_HANDLE_INHERIT)
+        , WSA_FLAG_NO_HANDLE_INHERIT
+#else
+        , 0
+#endif
+        );
     if (sock == INVALID_OS_SOCKET_VALUE)
         goto error;
 
