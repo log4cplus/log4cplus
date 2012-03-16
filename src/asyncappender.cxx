@@ -181,7 +181,7 @@ AsyncAppender::append (spi::InternalLoggingEvent const & ev)
             getErrorHandler ()->error (
                 LOG4CPLUS_TEXT ("Error in AsyncAppender::append,")
                 LOG4CPLUS_TEXT (" event queue has been lost."));
-            // Exit the queue consumer thread without drainging
+            // Exit the queue consumer thread without draining
             // the events queue.
             queue->signal_exit (false);
             queue_thread->join ();
