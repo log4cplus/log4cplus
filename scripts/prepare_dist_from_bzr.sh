@@ -6,7 +6,7 @@ THIS_SCRIPT=`basename "$0"`
 
 function usage
 {
-    echo "$THIS_SCRIPT <BZR_URL>"
+    echo "$THIS_SCRIPT <BZR_URL> <SRC_DIR>"
 }
 
 BZR_URL="$1"
@@ -28,8 +28,12 @@ fi
 DEST_DIR="$PWD"
 
 TMPDIR=${TMPDIR:-${TMP:-${TEMP}}}
-export TMPDIR
-TMP_DIR=`mktemp -d`
+if [[ -z "${TMPDIR}" ]] ; then
+    unset TMPDIR
+else
+    export TMPDIR
+fi
+TMP_DIR=`mktemp -d -t log4cplus`
 pushd "$TMP_DIR"
 
 TAR=${TAR:-tar}
