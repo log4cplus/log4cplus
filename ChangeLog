@@ -1,3 +1,10 @@
+log4cplus 1.1.0-RC2
+
+- CMake build system fixes.
+
+- Fixed TTCCLayout double time stamp issue.
+
+
 log4cplus 1.1.0-RC1
 
 Important changes relative to PRODUCTION_1_0_x branch:
