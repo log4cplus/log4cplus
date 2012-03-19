@@ -33,7 +33,7 @@ if [[ -z "${TMPDIR}" ]] ; then
 else
     export TMPDIR
 fi
-TMP_DIR=`mktemp -d -t log4cplus`
+TMP_DIR=`mktemp -d -t log4cplus.XXXXXXX`
 pushd "$TMP_DIR"
 
 TAR=${TAR:-tar}
