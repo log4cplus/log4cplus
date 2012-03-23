@@ -6,7 +6,15 @@ THIS_SCRIPT=`basename "$0"`
 
 function usage
 {
-    echo "$THIS_SCRIPT <BZR_URL> <SRC_DIR>"
+    echo "$THIS_SCRIPT <BZR_URL> <SRC_DIR> [<GPG_KEY>]"
+}
+
+function gpg_sign
+{
+    FILE="$1"
+    rm -f "$FILE".sig
+    $GPG --batch --use-agent --detach-sign --local-user "$GPG_KEY" \
+        "$FILE"
 }
 
 BZR_URL="$1"
@@ -23,6 +31,12 @@ if [[ -z "$2" ]] ; then
     SRC_DIR=$BZR_BRANCH_NAME
 else
     SRC_DIR="$2"
+fi
+
+if [[ ! -z "$3" ]] ; then
+    GPG_KEY="$3"
+else
+    GPG_KEY=
 fi
 
 DEST_DIR="$PWD"
@@ -42,6 +56,7 @@ BZIP2=${BZIP2:-bzip2}
 GZIP=${GZIP:-gzip}
 SEVENZA=${SEVENZA:-7za}
 BZR=${BZR:-bzr}
+GPG=${GPG:-gpg}
 
 $BZR export --per-file-timestamps -v "$SRC_DIR" "$BZR_URL"
 $BZR version-info "$BZR_URL" >"$SRC_DIR/REVISION"
@@ -60,9 +75,21 @@ $XZ -e -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".xz \
 & $BZIP2 -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".bz2 \
 & $GZIP -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".gz
 
-echo waiting...
+echo waiting for tarballs...
 wait
 echo done waiting
+
+if [[ ! -z "$GPG_KEY" ]] ; then
+    gpg_sign "$DEST_DIR/$SRC_DIR".7z
+    gpg_sign "$DEST_DIR/$SRC_DIR".zip
+    gpg_sign "$DEST_DIR/$TAR_FILE".xz
+    gpg_sign "$DEST_DIR/$TAR_FILE".bz2
+    gpg_sign "$DEST_DIR/$TAR_FILE".gz
+
+    echo waiting for signatures...
+    wait
+    echo done waiting
+fi
 
 rm -rf "$SRC_DIR"
 rm -f "$TAR_FILE"
