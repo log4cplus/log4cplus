@@ -17,6 +17,11 @@ function gpg_sign
         "$FILE"
 }
 
+function command_exists
+{
+    type "$1" &>/dev/null
+}
+
 BZR_URL="$1"
 if [[ -z "$BZR_URL" ]] ; then
     usage
@@ -57,6 +62,7 @@ GZIP=${GZIP:-gzip}
 SEVENZA=${SEVENZA:-7za}
 BZR=${BZR:-bzr}
 GPG=${GPG:-gpg}
+LRZIP=${LRZIP:-$(command_exists lrzip && echo lrzip || echo ':')}
 
 $BZR export --per-file-timestamps -v "$SRC_DIR" "$BZR_URL"
 $BZR version-info "$BZR_URL" >"$SRC_DIR/REVISION"
@@ -73,7 +79,8 @@ $TAR -cvf "$TAR_FILE" "$SRC_DIR"
 
 $XZ -e -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".xz \
 & $BZIP2 -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".bz2 \
-& $GZIP -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".gz
+& $GZIP -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".gz \
+& $LRZIP -q -o - "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".lrz
 
 echo waiting for tarballs...
 wait
@@ -85,10 +92,7 @@ if [[ ! -z "$GPG_KEY" ]] ; then
     gpg_sign "$DEST_DIR/$TAR_FILE".xz
     gpg_sign "$DEST_DIR/$TAR_FILE".bz2
     gpg_sign "$DEST_DIR/$TAR_FILE".gz
-
-    echo waiting for signatures...
-    wait
-    echo done waiting
+    [[ -e "$DEST_DIR/$TAR_FILE".lrz ]] && gpg_sign "$DEST_DIR/$TAR_FILE".lrz
 fi
 
 rm -rf "$SRC_DIR"
