@@ -75,12 +75,12 @@ $SEVENZA a -t7z "$DEST_DIR/$SRC_DIR".7z "$SRC_DIR" >/dev/null \
 & $SEVENZA a -tzip "$DEST_DIR/$SRC_DIR".zip "$SRC_DIR" >/dev/null
 
 TAR_FILE="$SRC_DIR".tar
-$TAR -cvf "$TAR_FILE" "$SRC_DIR"
+$TAR -cf "$TAR_FILE" "$SRC_DIR"
 
 $XZ -e -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".xz \
 & $BZIP2 -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".bz2 \
 & $GZIP -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".gz \
-& $LRZIP -q -o - "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".lrz
+& $LRZIP -q -o - "$TAR_FILE" |([[ "$LRZIP" = ":" ]] && cat >/dev/null || cat >"$DEST_DIR/$TAR_FILE".lrz)
 
 echo waiting for tarballs...
 wait
