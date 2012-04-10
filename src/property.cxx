@@ -40,6 +40,7 @@
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/internal/env.h>
+#include <log4cplus/helpers/loglog.h>
 
 
 namespace log4cplus { namespace helpers {
@@ -174,6 +175,10 @@ Properties::Properties(const tstring& inputFile, unsigned flags)
 
     file.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(inputFile).c_str(),
         std::ios::binary);
+    if (! file.good ())
+        helpers::getLogLog ().error (LOG4CPLUS_TEXT ("could not open file ")
+            + inputFile);
+
     init(file);
 }
 
