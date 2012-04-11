@@ -90,7 +90,7 @@ $TAR -cf "$TAR_FILE" "$SRC_DIR"
 $XZ -e -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".xz \
 & $BZIP2 -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".bz2 \
 & $GZIP -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".gz \
-& $LRZIP -q -o - "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".lrz
+& $LRZIP -q -o - "$TAR_FILE" |([[ "$LRZIP" = ":" ]] && cat >/dev/null || cat >"$DEST_DIR/$TAR_FILE".lrz)
 
 echo waiting for tarballs...
 wait

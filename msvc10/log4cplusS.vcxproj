@@ -389,6 +389,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="..\src\fileinfo.cxx" />
     <ClCompile Include="..\src\global-init.cxx">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -461,6 +462,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="..\src\lockfile.cxx" />
     <ClCompile Include="..\src\logger.cxx">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -987,6 +989,8 @@
     <ClInclude Include="..\include\log4cplus\config.hxx" />
     <ClInclude Include="..\include\log4cplus\configurator.h" />
     <ClInclude Include="..\include\log4cplus\fstreams.h" />
+    <ClInclude Include="..\include\log4cplus\helpers\fileinfo.h" />
+    <ClInclude Include="..\include\log4cplus\helpers\lockfile.h" />
     <ClInclude Include="..\include\log4cplus\hierarchy.h" />
     <ClInclude Include="..\include\log4cplus\hierarchylocker.h" />
     <ClInclude Include="..\include\log4cplus\layout.h" />
