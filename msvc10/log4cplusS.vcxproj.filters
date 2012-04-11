@@ -175,6 +175,12 @@
     <ClCompile Include="..\src\tls.cxx">
       <Filter>thread\impl</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\fileinfo.cxx">
+      <Filter>helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\lockfile.cxx">
+      <Filter>helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\log4cplus\appender.h">
@@ -359,6 +365,12 @@
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\thread\impl\tls.h">
       <Filter>thread\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\log4cplus\helpers\fileinfo.h">
+      <Filter>helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\log4cplus\helpers\lockfile.h">
+      <Filter>helpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
