@@ -17,9 +17,19 @@ function gpg_sign
         "$FILE"
 }
 
+function maybe_gpg_sign
+{
+    [[ -e "$1" ]] && gpg_sign "$1"
+}
+
 function command_exists
 {
     type "$1" &>/dev/null
+}
+
+function find_archiver
+{
+    command_exists "$1" && echo "$1" || echo ':'
 }
 
 BZR_URL="$1"
@@ -55,14 +65,14 @@ fi
 TMP_DIR=`mktemp -d -t log4cplus.XXXXXXX`
 pushd "$TMP_DIR"
 
-TAR=${TAR:-tar}
-XZ=${XZ:-xz}
-BZIP2=${BZIP2:-bzip2}
-GZIP=${GZIP:-gzip}
-SEVENZA=${SEVENZA:-7za}
+TAR=${TAR:-$(find_archiver tar)}
+XZ=${XZ:-$(find_archiver xz)}
+BZIP2=${BZIP2:-$(find_archiver bzip2)}
+GZIP=${GZIP:-$(find_archiver gzip)}
+SEVENZA=${SEVENZA:-$(find_archiver 7za)}
+LRZIP=${LRZIP:-$(find_archiver lrzip)}
 BZR=${BZR:-bzr}
 GPG=${GPG:-gpg}
-LRZIP=${LRZIP:-$(command_exists lrzip && echo lrzip || echo ':')}
 
 $BZR export --per-file-timestamps -v "$SRC_DIR" "$BZR_URL"
 $BZR version-info "$BZR_URL" >"$SRC_DIR/REVISION"
@@ -75,7 +85,7 @@ $SEVENZA a -t7z "$DEST_DIR/$SRC_DIR".7z "$SRC_DIR" >/dev/null \
 & $SEVENZA a -tzip "$DEST_DIR/$SRC_DIR".zip "$SRC_DIR" >/dev/null
 
 TAR_FILE="$SRC_DIR".tar
-$TAR -cvf "$TAR_FILE" "$SRC_DIR"
+$TAR -cf "$TAR_FILE" "$SRC_DIR"
 
 $XZ -e -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".xz \
 & $BZIP2 -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".bz2 \
@@ -87,12 +97,12 @@ wait
 echo done waiting
 
 if [[ ! -z "$GPG_KEY" ]] ; then
-    gpg_sign "$DEST_DIR/$SRC_DIR".7z
-    gpg_sign "$DEST_DIR/$SRC_DIR".zip
-    gpg_sign "$DEST_DIR/$TAR_FILE".xz
-    gpg_sign "$DEST_DIR/$TAR_FILE".bz2
-    gpg_sign "$DEST_DIR/$TAR_FILE".gz
-    [[ -e "$DEST_DIR/$TAR_FILE".lrz ]] && gpg_sign "$DEST_DIR/$TAR_FILE".lrz
+    maybe_gpg_sign "$DEST_DIR/$SRC_DIR".7z
+    maybe_gpg_sign "$DEST_DIR/$SRC_DIR".zip
+    maybe_gpg_sign "$DEST_DIR/$TAR_FILE".xz
+    maybe_gpg_sign "$DEST_DIR/$TAR_FILE".bz2
+    maybe_gpg_sign "$DEST_DIR/$TAR_FILE".gz
+    maybe_gpg_sign "$DEST_DIR/$TAR_FILE".lrz
 fi
 
 rm -rf "$SRC_DIR"
