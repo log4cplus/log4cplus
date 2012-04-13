@@ -1,3 +1,7 @@
+log4cplus 1.1.0-RC3
+
+- Fix log4cplusS.vcxproj - add missing source files to the project.
+
 log4cplus 1.1.0-RC2
 
 - CMake build system fixes.
