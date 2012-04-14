@@ -1,0 +1,17 @@
+This describes the release procedure:
+
+ 1. Update ChangeLog file with worthy changes.
+
+ 2. Tag revision on branch.
+
+ 3. Run scripts/prepare_dist_from_bzr.sh to prepare tarballs.
+
+ 4. Upload tarballs to SourceForge.
+
+ 5. Send announcement to <log4cplus-devel@lists.sourceforge.net>.
+
+ 5. Write News entry to SourceForge.
+
+ 6. Add news entry to log4cplus.sf.net web page.
+
+ 7. Add release entry to freecode.net.
