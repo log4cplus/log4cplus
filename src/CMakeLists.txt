@@ -170,6 +170,6 @@ install(FILES ../include/log4cplus/thread/syncprims-pub-impl.h
 install(FILES ../include/log4cplus/config/macosx.h
               ../include/log4cplus/config/win32.h
               ../include/log4cplus/config/windowsh-inc.h
-              ${CMAKE_BINARY_DIR}/include/log4cplus/config/defines.hxx
+              ${log4cplus_BINARY_DIR}/include/log4cplus/config/defines.hxx
         DESTINATION include/log4cplus/config )
 

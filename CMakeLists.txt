@@ -7,6 +7,8 @@ set (log4cplus_version_patch 0)
 set (log4cplus_soversion 0)
 set (log4cplus_postfix "")
 
+option(LOG4CPLUS_BUILD_TESTING "Build the test suite." ON)
+
 find_package (Threads)
 message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
 
@@ -40,17 +42,21 @@ set (log4cplus "log4cplus${log4cplus_postfix}")
 
 include(ConfigureChecks.cmake)
 
-configure_file(include/log4cplus/config.h.cmake.in ${CMAKE_BINARY_DIR}/include/log4cplus/config.h @ONLY)
-configure_file(include/log4cplus/config/defines.hxx.cmake.in ${CMAKE_BINARY_DIR}/include/log4cplus/config/defines.hxx @ONLY)
+configure_file(include/log4cplus/config.h.cmake.in ${log4cplus_BINARY_DIR}/include/log4cplus/config.h @ONLY)
+configure_file(include/log4cplus/config/defines.hxx.cmake.in ${log4cplus_BINARY_DIR}/include/log4cplus/config/defines.hxx @ONLY)
 
-include_directories (${CMAKE_SOURCE_DIR}/include
-                     ${CMAKE_BINARY_DIR}/include
+include_directories (${log4cplus_SOURCE_DIR}/include
+                     ${log4cplus_BINARY_DIR}/include
                     )
 
-enable_testing()
+if (LOG4CPLUS_BUILD_TESTING)
+  enable_testing()
+endif (LOG4CPLUS_BUILD_TESTING)
 
 add_subdirectory (src)
 add_subdirectory (loggingserver)
-add_subdirectory (tests)
+if (LOG4CPLUS_BUILD_TESTING)
+  add_subdirectory (tests)
+endif (LOG4CPLUS_BUILD_TESTING)
 
 include(Log4CPlusCPack.cmake)
