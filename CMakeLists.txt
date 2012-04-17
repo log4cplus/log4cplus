@@ -40,11 +40,11 @@ set (log4cplus "log4cplus${log4cplus_postfix}")
 
 include(ConfigureChecks.cmake)
 
-configure_file(include/log4cplus/config.h.cmake.in ${CMAKE_BINARY_DIR}/include/log4cplus/config.h @ONLY)
-configure_file(include/log4cplus/config/defines.hxx.cmake.in ${CMAKE_BINARY_DIR}/include/log4cplus/config/defines.hxx @ONLY)
+configure_file(include/log4cplus/config.h.cmake.in ${log4cplus_BINARY_DIR}/include/log4cplus/config.h @ONLY)
+configure_file(include/log4cplus/config/defines.hxx.cmake.in ${log4cplus_BINARY_DIR}/include/log4cplus/config/defines.hxx @ONLY)
 
-include_directories (${CMAKE_SOURCE_DIR}/include
-                     ${CMAKE_BINARY_DIR}/include
+include_directories (${log4cplus_SOURCE_DIR}/include
+                     ${log4cplus_BINARY_DIR}/include
                     )
 
 enable_testing()
