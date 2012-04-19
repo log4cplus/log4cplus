@@ -2306,7 +2306,7 @@ $as_echo "$as_me: loading site script $ac_site_file" >&6;}
       || { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
 as_fn_error $? "failed to load site script $ac_site_file
-See \`config.log' for more details" "$LINENO" 5 ; }
+See \`config.log' for more details" "$LINENO" 5; }
   fi
 done
 
@@ -2446,7 +2446,7 @@ fi
 $as_echo "$ac_cv_build" >&6; }
 case $ac_cv_build in
 *-*-*) ;;
-*) as_fn_error $? "invalid value of canonical build" "$LINENO" 5 ;;
+*) as_fn_error $? "invalid value of canonical build" "$LINENO" 5;;
 esac
 build=$ac_cv_build
 ac_save_IFS=$IFS; IFS='-'
@@ -2479,7 +2479,7 @@ fi
 $as_echo "$ac_cv_host" >&6; }
 case $ac_cv_host in
 *-*-*) ;;
-*) as_fn_error $? "invalid value of canonical host" "$LINENO" 5 ;;
+*) as_fn_error $? "invalid value of canonical host" "$LINENO" 5;;
 esac
 host=$ac_cv_host
 ac_save_IFS=$IFS; IFS='-'
@@ -2512,7 +2512,7 @@ fi
 $as_echo "$ac_cv_target" >&6; }
 case $ac_cv_target in
 *-*-*) ;;
-*) as_fn_error $? "invalid value of canonical target" "$LINENO" 5 ;;
+*) as_fn_error $? "invalid value of canonical target" "$LINENO" 5;;
 esac
 target=$ac_cv_target
 ac_save_IFS=$IFS; IFS='-'
@@ -2642,11 +2642,11 @@ am_lf='
 '
 case `pwd` in
   *[\\\"\#\$\&\'\`$am_lf]*)
-    as_fn_error $? "unsafe absolute working directory name" "$LINENO" 5 ;;
+    as_fn_error $? "unsafe absolute working directory name" "$LINENO" 5;;
 esac
 case $srcdir in
   *[\\\"\#\$\&\'\`$am_lf\ \	]*)
-    as_fn_error $? "unsafe srcdir value: \`$srcdir'" "$LINENO" 5 ;;
+    as_fn_error $? "unsafe srcdir value: \`$srcdir'" "$LINENO" 5;;
 esac
 
 # Do `set' in a subshell so we don't clobber the current shell's
@@ -3321,7 +3321,7 @@ sed 's/^/| /' conftest.$ac_ext >&5
 { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
 as_fn_error 77 "C++ compiler cannot create executables
-See \`config.log' for more details" "$LINENO" 5 ; }
+See \`config.log' for more details" "$LINENO" 5; }
 else
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
@@ -3364,7 +3364,7 @@ else
   { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
 as_fn_error $? "cannot compute suffix of executables: cannot compile and link
-See \`config.log' for more details" "$LINENO" 5 ; }
+See \`config.log' for more details" "$LINENO" 5; }
 fi
 rm -f conftest conftest$ac_cv_exeext
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_exeext" >&5
@@ -3423,7 +3423,7 @@ $as_echo "$ac_try_echo"; } >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
 as_fn_error $? "cannot run C++ compiled programs.
 If you meant to cross compile, use \`--host'.
-See \`config.log' for more details" "$LINENO" 5 ; }
+See \`config.log' for more details" "$LINENO" 5; }
     fi
   fi
 fi
@@ -3475,7 +3475,7 @@ sed 's/^/| /' conftest.$ac_ext >&5
 { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
 as_fn_error $? "cannot compute suffix of object files: cannot compile
-See \`config.log' for more details" "$LINENO" 5 ; }
+See \`config.log' for more details" "$LINENO" 5; }
 fi
 rm -f conftest.$ac_cv_objext conftest.$ac_ext
 fi
@@ -3919,7 +3919,7 @@ else
   { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
 as_fn_error $? "C++ preprocessor \"$CXXCPP\" fails sanity check
-See \`config.log' for more details" "$LINENO" 5 ; }
+See \`config.log' for more details" "$LINENO" 5; }
 fi
 
 ac_ext=c
@@ -5113,7 +5113,7 @@ return 0;
 }
 _ACEOF
 if ac_fn_cxx_try_compile "$LINENO"; then :
-  ax_cv_cxxflags_sun_option__v=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_sun_option__v=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 done
@@ -5128,22 +5128,23 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_cxxflags_sun_option__v" >&5
 $as_echo "$ax_cv_cxxflags_sun_option__v" >&6; }
-case ".$ax_cv_cxxflags_sun_option__v" in
+var=$ax_cv_cxxflags_sun_option__v
+case ".$var" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_sun_option__v " 2>&1 >/dev/null
-   then { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$ax_cv_cxxflags_sun_option__v"; } >&5
-  (: CXXFLAGS does contain $ax_cv_cxxflags_sun_option__v) 2>&5
+   if echo " $CXXFLAGS " | grep " $var " 2>&1 >/dev/null
+   then { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$var"; } >&5
+  (: CXXFLAGS does contain $var) 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-   else { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_sun_option__v\""; } >&5
-  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_sun_option__v") 2>&5
+   else { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$var\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS $var") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_sun_option__v"
+                      CXXFLAGS="$CXXFLAGS $var"
    fi
  ;;
 esac
@@ -5176,7 +5177,7 @@ return 0;
 }
 _ACEOF
 if ac_fn_cxx_try_compile "$LINENO"; then :
-  ax_cv_cxxflags_sun_option_pw=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_sun_option_pw=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 done
@@ -5191,22 +5192,23 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_cxxflags_sun_option_pw" >&5
 $as_echo "$ax_cv_cxxflags_sun_option_pw" >&6; }
-case ".$ax_cv_cxxflags_sun_option_pw" in
+var=$ax_cv_cxxflags_sun_option_pw
+case ".$var" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_sun_option_pw " 2>&1 >/dev/null
-   then { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$ax_cv_cxxflags_sun_option_pw"; } >&5
-  (: CXXFLAGS does contain $ax_cv_cxxflags_sun_option_pw) 2>&5
+   if echo " $CXXFLAGS " | grep " $var " 2>&1 >/dev/null
+   then { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$var"; } >&5
+  (: CXXFLAGS does contain $var) 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-   else { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_sun_option_pw\""; } >&5
-  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_sun_option_pw") 2>&5
+   else { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$var\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS $var") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_sun_option_pw"
+                      CXXFLAGS="$CXXFLAGS $var"
    fi
  ;;
 esac
@@ -5218,7 +5220,7 @@ $as_echo_n "checking CXXFLAGS for sun/cc -library=stlport4... " >&6; }
 if eval \${$as_VAR+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  $as_VAR="no, unknown"
+  eval "$as_VAR=\"no, unknown\""
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -5241,7 +5243,7 @@ return 0;
 }
 _ACEOF
 if ac_fn_cxx_try_compile "$LINENO"; then :
-  $as_VAR=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  eval "$as_VAR=\`echo \$ac_arg | sed -e 's,.*% *,,'\`"; break
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 done
@@ -5257,22 +5259,23 @@ fi
 eval ac_res=\$$as_VAR
 	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
 $as_echo "$ac_res" >&6; }
-case ".$$as_VAR" in
+eval var=\$$as_VAR
+case ".$var" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $$as_VAR " 2>&1 >/dev/null
-   then { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$$as_VAR"; } >&5
-  (: CXXFLAGS does contain $$as_VAR) 2>&5
+   if echo " $CXXFLAGS " | grep " $var " 2>&1 >/dev/null
+   then { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$var"; } >&5
+  (: CXXFLAGS does contain $var) 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-   else { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$$as_VAR\""; } >&5
-  (: CXXFLAGS="$CXXFLAGS $$as_VAR") 2>&5
+   else { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$var\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS $var") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-                      CXXFLAGS="$CXXFLAGS $$as_VAR"
+                      CXXFLAGS="$CXXFLAGS $var"
    fi
  ;;
 esac
@@ -5283,7 +5286,7 @@ $as_echo_n "checking CXXFLAGS for sun/cc -library=Crun... " >&6; }
 if eval \${$as_VAR+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  $as_VAR="no, unknown"
+  eval "$as_VAR=\"no, unknown\""
 
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -5306,7 +5309,7 @@ return 0;
 }
 _ACEOF
 if ac_fn_cxx_try_compile "$LINENO"; then :
-  $as_VAR=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  eval "$as_VAR=\`echo \$ac_arg | sed -e 's,.*% *,,'\`"; break
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 done
@@ -5322,22 +5325,23 @@ fi
 eval ac_res=\$$as_VAR
 	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
 $as_echo "$ac_res" >&6; }
-case ".$$as_VAR" in
+eval var=\$$as_VAR
+case ".$var" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $$as_VAR " 2>&1 >/dev/null
-   then { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$$as_VAR"; } >&5
-  (: CXXFLAGS does contain $$as_VAR) 2>&5
+   if echo " $CXXFLAGS " | grep " $var " 2>&1 >/dev/null
+   then { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$var"; } >&5
+  (: CXXFLAGS does contain $var) 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-   else { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$$as_VAR\""; } >&5
-  (: CXXFLAGS="$CXXFLAGS $$as_VAR") 2>&5
+   else { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$var\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS $var") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-                      CXXFLAGS="$CXXFLAGS $$as_VAR"
+                      CXXFLAGS="$CXXFLAGS $var"
    fi
  ;;
 esac
@@ -6304,7 +6308,7 @@ fi
 test -z "$CC" && { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
 as_fn_error $? "no acceptable C compiler found in \$PATH
-See \`config.log' for more details" "$LINENO" 5 ; }
+See \`config.log' for more details" "$LINENO" 5; }
 
 # Provide some information about the compiler.
 $as_echo "$as_me:${as_lineno-$LINENO}: checking for C compiler version" >&5
@@ -7854,7 +7858,7 @@ if test "${enable_threads+set}" = set; then :
   no) :
      ;; #(
   *) :
-    as_fn_error $? "bad value ${enableval} for --enable-threads" "$LINENO" 5  ;;
+    as_fn_error $? "bad value ${enableval} for --enable-threads" "$LINENO" 5 ;;
 esac
 else
   enable_threads=yes
@@ -8323,7 +8327,7 @@ return 0;
 }
 _ACEOF
 if ac_fn_cxx_try_compile "$LINENO"; then :
-  ax_cv_cxxflags_sun_option__xthreadvar=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ax_cv_cxxflags_sun_option__xthreadvar=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 done
@@ -8338,22 +8342,23 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_cxxflags_sun_option__xthreadvar" >&5
 $as_echo "$ax_cv_cxxflags_sun_option__xthreadvar" >&6; }
-case ".$ax_cv_cxxflags_sun_option__xthreadvar" in
+var=$ax_cv_cxxflags_sun_option__xthreadvar
+case ".$var" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
    *)
-   if echo " $CXXFLAGS " | grep " $ax_cv_cxxflags_sun_option__xthreadvar " 2>&1 >/dev/null
-   then { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$ax_cv_cxxflags_sun_option__xthreadvar"; } >&5
-  (: CXXFLAGS does contain $ax_cv_cxxflags_sun_option__xthreadvar) 2>&5
+   if echo " $CXXFLAGS " | grep " $var " 2>&1 >/dev/null
+   then { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$var"; } >&5
+  (: CXXFLAGS does contain $var) 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-   else { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$ax_cv_cxxflags_sun_option__xthreadvar\""; } >&5
-  (: CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_sun_option__xthreadvar") 2>&5
+   else { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$var\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS $var") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-                      CXXFLAGS="$CXXFLAGS $ax_cv_cxxflags_sun_option__xthreadvar"
+                      CXXFLAGS="$CXXFLAGS $var"
    fi
  ;;
 esac
@@ -8437,7 +8442,7 @@ else
   { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
 as_fn_error $? "cannot run test program while cross compiling
-See \`config.log' for more details" "$LINENO" 5 ; }
+See \`config.log' for more details" "$LINENO" 5; }
 else
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
@@ -8488,7 +8493,7 @@ else
   { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
 as_fn_error $? "cannot run test program while cross compiling
-See \`config.log' for more details" "$LINENO" 5 ; }
+See \`config.log' for more details" "$LINENO" 5; }
 else
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
@@ -16204,7 +16209,7 @@ else
   { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
 as_fn_error $? "C++ preprocessor \"$CXXCPP\" fails sanity check
-See \`config.log' for more details" "$LINENO" 5 ; }
+See \`config.log' for more details" "$LINENO" 5; }
 fi
 
 ac_ext=cpp
@@ -20445,7 +20450,7 @@ do
     "tests/timeformat_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/timeformat_test/Makefile" ;;
     "log4cplus.pc") CONFIG_FILES="$CONFIG_FILES log4cplus.pc" ;;
 
-  *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5 ;;
+  *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
 done
 
@@ -20763,7 +20768,7 @@ do
   esac
   case $ac_mode$ac_tag in
   :[FHL]*:*);;
-  :L* | :C*:*) as_fn_error $? "invalid tag \`$ac_tag'" "$LINENO" 5 ;;
+  :L* | :C*:*) as_fn_error $? "invalid tag \`$ac_tag'" "$LINENO" 5;;
   :[FH]-) ac_tag=-:-;;
   :[FH]*) ac_tag=$ac_tag:$ac_tag.in;;
   esac
@@ -20791,7 +20796,7 @@ do
 	   [\\/$]*) false;;
 	   *) test -f "$srcdir/$ac_f" && ac_f="$srcdir/$ac_f";;
 	   esac ||
-	   as_fn_error 1 "cannot find input file: \`$ac_f'" "$LINENO" 5 ;;
+	   as_fn_error 1 "cannot find input file: \`$ac_f'" "$LINENO" 5;;
       esac
       case $ac_f in *\'*) ac_f=`$as_echo "$ac_f" | sed "s/'/'\\\\\\\\''/g"`;; esac
       as_fn_append ac_file_inputs " '$ac_f'"
@@ -20818,7 +20823,7 @@ $as_echo "$as_me: creating $ac_file" >&6;}
 
     case $ac_tag in
     *:-:* | *:-) cat >"$ac_tmp/stdin" \
-      || as_fn_error $? "could not create $ac_file" "$LINENO" 5  ;;
+      || as_fn_error $? "could not create $ac_file" "$LINENO" 5 ;;
     esac
     ;;
   esac
