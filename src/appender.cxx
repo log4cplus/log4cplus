@@ -147,7 +147,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
     // Configure the filters
     helpers::Properties filterProps
         = properties.getPropertySubset( LOG4CPLUS_TEXT("filters.") );
-    int filterCount = 0;
+    unsigned filterCount = 0;
     spi::FilterPtr filterChain;
     tstring filterName;
     while (filterProps.exists(
