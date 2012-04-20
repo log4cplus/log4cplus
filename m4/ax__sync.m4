@@ -8,7 +8,7 @@ AH_TEMPLATE([HAVE___SYNC_ADD_AND_FETCH],
 
 AC_CACHE_CHECK([for __sync_add_and_fetch], [ac_cv___sync_add_and_fetch],
 [
-  AC_RUN_IFELSE(
+  AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM(
       [[
 #include <stdlib.h>
@@ -31,7 +31,7 @@ AH_TEMPLATE([HAVE___SYNC_SUB_AND_FETCH],
 
 AC_CACHE_CHECK([for __sync_sub_and_fetch], [ac_cv___sync_sub_and_fetch],
 [
-  AC_RUN_IFELSE(
+  AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM(
       [[
 #include <stdlib.h>
