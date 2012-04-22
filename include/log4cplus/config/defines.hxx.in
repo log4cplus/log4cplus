@@ -156,6 +156,10 @@
 /* Defined if the compiler provides __sync_sub_and_fetch(). */
 #undef LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH
 
+/* Defined if the compiler provides C++11 <atomic> header and increment,
+   decrement operations. */
+#undef LOG4CPLUS_HAVE_CXX11_ATOMICS
+
 /* */
 #undef LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
 

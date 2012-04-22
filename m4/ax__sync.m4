@@ -49,5 +49,34 @@ if (x != 1 || y != 1)
 AS_IF([test "x$ac_cv___sync_sub_and_fetch" = "xyes"],
   [AC_DEFINE([HAVE___SYNC_SUB_AND_FETCH], [1])])
 
+AH_TEMPLATE([HAVE_CXX11_ATOMICS], [Defined if the compiler provides
+  C++11 <atomic> header and increment, decrement operations.])
+
+AC_CACHE_CHECK([for C++11 atomics], [ac_cv_cxx11_atomics],
+[
+  AC_COMPILE_IFELSE(
+    [AC_LANG_PROGRAM(
+      [[
+#include <atomic>
+      ]],
+      [[
+#define TEST_ATOMIC(type) do { \
+std::atomic<type> x (0); \
+std::atomic_fetch_add_explicit (&x, static_cast<type>(1), std::memory_order_acquire); \
+std::atomic_fetch_sub_explicit (&x, static_cast<type>(1), std::memory_order_release); \
+} while (0)
+
+TEST_ATOMIC(int);
+TEST_ATOMIC(unsigned int);
+TEST_ATOMIC(long);
+TEST_ATOMIC(unsigned long);
+      ]])],
+    [ac_cv_cxx11_atomics=yes],
+    [ac_cv_cxx11_atomics=no])
+])
+
+AS_IF([test "x$ac_cv_cxx11_atomics" = "xyes"],
+  [AC_DEFINE([HAVE_CXX11_ATOMICS], [1])])
 
 ])
+
