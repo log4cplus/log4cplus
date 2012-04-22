@@ -50,27 +50,24 @@ SharedObject::~SharedObject()
 void
 SharedObject::addReference() const
 {
-#if defined (LOG4CPLUS_HAVE_CXX11_ATOMICS)
+#if defined (LOG4CPLUS_SINGLE_THREADED)
+    ++count;
+
+#elif defined (LOG4CPLUS_HAVE_CXX11_ATOMICS)
     std::atomic_fetch_add_explicit (&count, 1u,
         std::memory_order_relaxed);
 
-#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
-    && defined (LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH)
+#elif defined (LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH)
     __sync_add_and_fetch (&count, 1);
 
-#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
-    && defined (_WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
+#elif defined (_WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
     _InterlockedIncrement (&count);
 
-#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
-    && defined (_WIN32)
+#elif defined (_WIN32)
     InterlockedIncrement (&count);
 
-#elif ! defined(LOG4CPLUS_SINGLE_THREADED)
-    thread::MutexGuard guard (access_mutex);
-    ++count;
-
 #else
+    thread::MutexGuard guard (access_mutex);
     ++count;
 
 #endif
@@ -83,32 +80,29 @@ SharedObject::removeReference() const
     assert (count > 0);
     bool destroy;
 
-#if defined (LOG4CPLUS_HAVE_CXX11_ATOMICS)
+#if defined (LOG4CPLUS_SINGLE_THREADED)
+    destroy = --count == 0;
+
+#elif defined (LOG4CPLUS_HAVE_CXX11_ATOMICS)
     destroy = std::atomic_fetch_sub_explicit (&count, 1u,
         std::memory_order_release) == 1;
     if (destroy)
         std::atomic_thread_fence (std::memory_order_acquire);
 
-#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
-    && defined (LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH)
+#elif defined (LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH)
     destroy = __sync_sub_and_fetch (&count, 1) == 0;
 
-#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
-    && defined (_WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
+#elif defined (_WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
     destroy = _InterlockedDecrement (&count) == 0;
 
-#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
-    && defined (_WIN32)
+#elif defined (_WIN32)
     destroy = InterlockedDecrement (&count) == 0;
 
-#elif ! defined(LOG4CPLUS_SINGLE_THREADED)
+#else
     {
         thread::MutexGuard guard (access_mutex);
         destroy = --count == 0;
     }
-
-#else
-    destroy = --count == 0;
 
 #endif
     if (destroy)
