@@ -289,6 +289,8 @@ namespace log4cplus {
             DiagnosticContext const * parent);
         DiagnosticContext(const log4cplus::tstring& message);
         DiagnosticContext(tchar const * message);
+        DiagnosticContext(DiagnosticContext const &);
+        DiagnosticContext & operator = (DiagnosticContext const &);
 
 #if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
         DiagnosticContext(DiagnosticContext &&);
