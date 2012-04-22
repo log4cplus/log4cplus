@@ -70,6 +70,7 @@ TEST_ATOMIC(int);
 TEST_ATOMIC(unsigned int);
 TEST_ATOMIC(long);
 TEST_ATOMIC(unsigned long);
+std::atomic_thread_fence (boost::memory_order_acquire);
       ]])],
     [ac_cv_cxx11_atomics=yes],
     [ac_cv_cxx11_atomics=no])

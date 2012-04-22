@@ -33,6 +33,9 @@
 #include <log4cplus/thread/syncprims.h>
 #include <algorithm>
 #include <cassert>
+#ifdef LOG4CPLUS_HAVE_CXX11_ATOMICS
+#include <atomic>
+#endif
 
 
 namespace log4cplus {
@@ -70,7 +73,9 @@ namespace log4cplus {
             thread::Mutex access_mutex;
 
         private:
-#if defined (_WIN32) || defined (__CYGWIN__)
+#if defined (LOG4CPLUS_HAVE_CXX11_ATOMICS)
+            typedef std::atomic<unsigned> count_type;
+#elif defined (_WIN32) || defined (__CYGWIN__)
             typedef long count_type;
 #else
             typedef unsigned count_type;

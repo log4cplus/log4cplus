@@ -50,7 +50,11 @@ SharedObject::~SharedObject()
 void
 SharedObject::addReference() const
 {
-#if ! defined(LOG4CPLUS_SINGLE_THREADED) \
+#if defined (LOG4CPLUS_HAVE_CXX11_ATOMICS)
+    std::atomic_fetch_add_explicit (&count, 1u,
+        std::memory_order_relaxed);
+
+#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
     && defined (LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH)
     __sync_add_and_fetch (&count, 1);
 
@@ -79,7 +83,13 @@ SharedObject::removeReference() const
     assert (count > 0);
     bool destroy;
 
-#if ! defined(LOG4CPLUS_SINGLE_THREADED) \
+#if defined (LOG4CPLUS_HAVE_CXX11_ATOMICS)
+    destroy = std::atomic_fetch_sub_explicit (&count, 1u,
+        std::memory_order_release) == 1;
+    if (destroy)
+        std::atomic_thread_fence (std::memory_order_acquire);
+
+#elif ! defined(LOG4CPLUS_SINGLE_THREADED) \
     && defined (LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH)
     destroy = __sync_sub_and_fetch (&count, 1) == 0;
 
