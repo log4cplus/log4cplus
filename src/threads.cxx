@@ -49,13 +49,13 @@
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/tstring.h>
 #include <log4cplus/internal/cygwin-win32.h>
+#include <log4cplus/streams.h>
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/thread/impl/threads-impl.h>
 #include <log4cplus/thread/impl/tls.h>
-#include <log4cplus/streams.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
@@ -118,9 +118,9 @@ namespace
 
 static
 bool
-get_current_thread_name_alt (log4cplus::tostringstream * s)
+get_current_thread_name_alt (log4cplus::tostream * s)
 {
-    log4cplus::tostringstream & os = *s;
+    log4cplus::tostream & os = *s;
 
 #if defined (LOG4CPLUS_USE_PTHREADS) && defined (__linux__) \
     && defined (LOG4CPLUS_HAVE_GETTID)

@@ -222,7 +222,9 @@ SocketAppender::append(const spi::InternalLoggingEvent& event)
     if(!socket.isOpen()) {
         openSocket();
         if(!socket.isOpen()) {
-            getLogLog().error(LOG4CPLUS_TEXT("SocketAppender::append()- Cannot connect to server"));
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT(
+                    "SocketAppender::append()- Cannot connect to server"));
             return;
         }
     }
