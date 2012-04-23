@@ -91,6 +91,20 @@ DiagnosticContext::DiagnosticContext(tchar const * message_)
 }
 
 
+DiagnosticContext::DiagnosticContext (DiagnosticContext const & other)
+    : message (other.message)
+    , fullMessage (other.fullMessage)
+{ }
+
+
+DiagnosticContext & DiagnosticContext::operator = (
+    DiagnosticContext const & other)
+{
+    DiagnosticContext (other).swap (*this);
+    return *this;
+}
+
+
 #if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
 DiagnosticContext::DiagnosticContext (DiagnosticContext && other)
     : message (std::move (other.message))

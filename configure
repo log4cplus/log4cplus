@@ -8518,12 +8518,13 @@ if (x != 2 || y != 2)
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ac_cv___sync_add_and_fetch=yes
 else
   ac_cv___sync_add_and_fetch=no
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv___sync_add_and_fetch" >&5
@@ -8560,12 +8561,13 @@ if (x != 1 || y != 1)
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ac_cv___sync_sub_and_fetch=yes
 else
   ac_cv___sync_sub_and_fetch=no
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv___sync_sub_and_fetch" >&5
@@ -8578,6 +8580,55 @@ fi
 
 
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for C++11 atomics" >&5
+$as_echo_n "checking for C++11 atomics... " >&6; }
+if ${ac_cv_cxx11_atomics+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#include <atomic>
+
+int
+main ()
+{
+
+#define TEST_ATOMIC(type) do { \
+std::atomic<type> x (0); \
+std::atomic_fetch_add_explicit (&x, static_cast<type>(1), std::memory_order_acquire); \
+std::atomic_fetch_sub_explicit (&x, static_cast<type>(1), std::memory_order_release); \
+} while (0)
+
+TEST_ATOMIC(int);
+TEST_ATOMIC(unsigned int);
+TEST_ATOMIC(long);
+TEST_ATOMIC(unsigned long);
+std::atomic_thread_fence (std::memory_order_acquire);
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv_cxx11_atomics=yes
+else
+  ac_cv_cxx11_atomics=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_cxx11_atomics" >&5
+$as_echo "$ac_cv_cxx11_atomics" >&6; }
+
+if test "x$ac_cv_cxx11_atomics" = "xyes"; then :
+  $as_echo "#define HAVE_CXX11_ATOMICS 1" >>confdefs.h
+
+fi
+
+
 
    if test "x$ac_cv___sync_add_and_fetch" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH 1" >>confdefs.h
@@ -8586,6 +8637,11 @@ fi
 
    if test "x$ac_cv___sync_sub_and_fetch" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH 1" >>confdefs.h
+
+fi
+
+   if test "x$ac_cv_cxx11_atomics" = "xyes"; then :
+  $as_echo "#define LOG4CPLUS_HAVE_CXX11_ATOMICS 1" >>confdefs.h
 
 fi
 

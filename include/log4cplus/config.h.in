@@ -14,6 +14,10 @@
 /* Define to 1 if you have the `clock_gettime' function. */
 #undef HAVE_CLOCK_GETTIME
 
+/* Defined if the compiler provides C++11 <atomic> header and increment,
+   decrement operations. */
+#undef HAVE_CXX11_ATOMICS
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
@@ -186,6 +190,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_CLOCK_GETTIME
+
+/* */
+#undef LOG4CPLUS_HAVE_CXX11_ATOMICS
 
 /* */
 #undef LOG4CPLUS_HAVE_ENAMETOOLONG
