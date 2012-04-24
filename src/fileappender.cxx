@@ -260,7 +260,6 @@ FileAppender::init(const tstring& filename_,
                    LOG4CPLUS_OPEN_MODE_TYPE mode)
 {
     this->filename = filename_;
-    open(mode);
 
     if (bufferSize != 0)
     {
@@ -268,6 +267,8 @@ FileAppender::init(const tstring& filename_,
         buffer = new tchar[bufferSize];
         out.rdbuf ()->pubsetbuf (buffer, bufferSize);
     }
+
+    open(mode);
 
     if(!out.good()) {
         getErrorHandler()->error(  LOG4CPLUS_TEXT("Unable to open file: ") 
