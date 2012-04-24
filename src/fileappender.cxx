@@ -265,7 +265,6 @@ FileAppender::init(const tstring& filename_,
                    std::ios_base::openmode mode_)
 {
     filename = filename_;
-    open(mode_);
 
     if (bufferSize != 0)
     {
@@ -273,6 +272,8 @@ FileAppender::init(const tstring& filename_,
         buffer = new tchar[bufferSize];
         out.rdbuf ()->pubsetbuf (buffer, bufferSize);
     }
+
+    open(mode_);
 
     if(!out.good()) {
         getErrorHandler()->error(  LOG4CPLUS_TEXT("Unable to open file: ") 
