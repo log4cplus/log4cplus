@@ -1,14 +1,15 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl This version of log4cplus requires the follwing autotools versions:
-dnl autoconf-2.67
-dnl automake-1.11.1
-dnl libtool-2.2.10
+dnl autoconf-2.69
+dnl automake-1.12
+dnl libtool-2.4.2
 
 AC_INIT([log4cplus],[1.1.0])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.11.1 no-define nostdinc gnu -Wall])
+AM_INIT_AUTOMAKE([1.12 no-define nostdinc gnu -Wall])
+AM_PROG_AR
 
 #
 # +1 : ? : +1  == new interface that does not break old one
