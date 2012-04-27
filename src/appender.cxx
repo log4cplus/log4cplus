@@ -126,7 +126,7 @@ Appender::Appender(const log4cplus::helpers::Properties properties)
 
     // Configure the filters
     Properties filterProps = properties.getPropertySubset( LOG4CPLUS_TEXT("filters.") );
-    int filterCount = 0;
+    unsigned filterCount = 0;
     FilterPtr filterChain;
     tstring filterName, factoryName;
     while( filterProps.exists(filterName = convertIntegerToString(++filterCount)) ) {
