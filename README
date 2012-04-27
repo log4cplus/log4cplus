@@ -40,15 +40,15 @@ Some version of GCC (3.4.x and probably some of 4.x series too) on
 Windows (both Mingw and Cygwin) produces lots of warnings of the form
 "warning: inline function 'void foo()' is declared as dllimport:
 attribute ignored."  This can be worked around by adding
--Wno-attributes option to GCC command.  Unfortunatelly, not all
+-Wno-attributes option to GCC command.  Unfortunately, not all
 affected version of GCC have this option.
 
 
 Threads and signals
 -------------------
 
-log4cplus is not safe to be used from async signals' handlers.  This
-is a property of most threaded programmes in general.  If you are
+log4cplus is not safe to be used from asynchronous signals' handlers.
+This is a property of most threaded programmes in general.  If you are
 going to use log4cplus in threaded application and if you want to use
 log4cplus from signal handlers then your only option is to block
 signals in all threads but one that will handle all signals.  On POSIX
@@ -60,8 +60,8 @@ through its threads helpers.
 AIX
 ---
 
-There appears to be a reentracy problem with AIX 5.3 and xlC 8 which
-can result into a deadlock condition in some curcumstances. It is
+There appears to be a reentrancy problem with AIX 5.3 and xlC 8 which
+can result into a deadlock condition in some circumstances. It is
 unknown whether the problem manifests with other versions of either
 the OS or the compiler, too. The problem was initially reported in a
 bug report #3056687 ([1]).
@@ -71,7 +71,7 @@ implementation uses global non recursive lock to protect some of its
 state. The application in the bug report was trying to do logging
 using log4cplus from inside overflow() member function of a class
 derived from std::streambuf class. log4cplus itself uses
-std::ostringstream. This resulted into an attempt to recursivly lock
+std::ostringstream. This resulted into an attempt to recursively lock
 the global non recursive lock and a deadlock.
 
 [1] <https://sourceforge.net/tracker/?func=detail&aid=3056687&group_id=40830&atid=429073>
@@ -88,7 +88,7 @@ line.
 
 
 Solaris Studio on GNU/Linux
---------------------------------
+---------------------------
 
 The autotools and our configure.in combo does not handle Solaris
 Studio compiler on Linux well enough and needs a little help with
