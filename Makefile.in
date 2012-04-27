@@ -69,6 +69,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/m4/ax_cflags_gcc_option.m4 \
 	$(top_srcdir)/m4/ax_cflags_sun_option.m4 \
+	$(top_srcdir)/m4/ax_cflags_warn_all.m4 \
 	$(top_srcdir)/m4/ax_pthread.m4 $(top_srcdir)/m4/ax_declspec.m4 \
 	$(top_srcdir)/m4/ax_gethostbyname_r.m4 \
 	$(top_srcdir)/m4/ax_getaddrinfo.m4 \
