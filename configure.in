@@ -399,7 +399,7 @@ dnl Libtool setup.
 dnl Must be latest to catch rpath compiled in by changes made during
 dnl checks before.
 
-LT_PREREQ([2.2.10])
+LT_PREREQ([2.4.2])
 LT_INIT([win32-dll])
 
 AH_TOP([#ifndef LOG4CPLUS_CONFIG_H])
