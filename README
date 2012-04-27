@@ -77,6 +77,31 @@ the global non recursive lock and a deadlock.
 [1] <https://sourceforge.net/tracker/?func=detail&aid=3056687&group_id=40830&atid=429073>
 
 
+Solaris Studio
+--------------
+
+Solaris Studio compilers' default standard C++ library is very
+non-standard. log4cplus requires better conforming standard library
+than the default Cstd library. This means that log4cplus' configure
+script automatically adds '-library=stlport4' to compiler command
+line.
+
+
+Solaris Studio on GNU/Linux
+--------------------------------
+
+The autotools and our configure.in combo does not handle Solaris
+Studio compiler on Linux well enough and needs a little help with
+configuration of POSIX threads:
+
+$ COMMON_FLAGS="-L/lib/x86_64-linux-gnu/ -L/usr/lib/x86_64-linux-gnu/ \
+-mt=yes -O"
+
+$ ../configure --enable-threads=yes CC=/opt/solarisstudio12.3/bin/cc \
+CXX=/opt/solarisstudio12.3/bin/CC CFLAGS="$COMMON_FLAGS" \
+CXXFLAGS="$COMMON_FLAGS" LDFLAGS="-lpthread"
+
+
 Unsupported compilers
 ---------------------
 

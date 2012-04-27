@@ -1,14 +1,15 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl This version of log4cplus requires the follwing autotools versions:
-dnl autoconf-2.67
-dnl automake-1.11.1
-dnl libtool-2.2.10
+dnl autoconf-2.69
+dnl automake-1.12
+dnl libtool-2.4.2
 
-AC_INIT([log4cplus],[1.0.4])
+AC_INIT([log4cplus],[1.0.4.1])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.11.1 no-define nostdinc gnu -Wall])
+AM_INIT_AUTOMAKE([1.12 no-define nostdinc gnu -Wall])
+AM_PROG_AR
 
 #
 # +1 : ? : +1  == new interface that does not break old one
@@ -79,11 +80,6 @@ AS_CASE(["$target_os"],
 
 AM_CONDITIONAL([WINSOCK_SOCKETS], [test "x$use_winsock_sockets" = "xyes"])
 
-dnl Libtool setup.
-
-LT_PREREQ([2.2.6])
-LT_INIT([win32-dll])
-
 dnl Check for compiler specifics.
 
 AX_COMPILER_VENDOR
@@ -116,7 +112,9 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
   [AS_IF([test "x$enable_warnings" = "xyes"],
      [AX_CXXFLAGS_SUN_OPTION([+w])])
    AX_CXXFLAGS_SUN_OPTION([-library=stlport4])
-   AX_CXXFLAGS_SUN_OPTION([-library=Crun])])
+   AX_CXXFLAGS_SUN_OPTION([-library=Crun])
+  ]
+)
 
 AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
 AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"],
@@ -128,7 +126,7 @@ AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility"
 dnl Checks for libraries.
 
 AC_SEARCH_LIBS([strerror], [cposix])
-AC_SEARCH_LIBS([clock_gettime], [posix4])
+AC_SEARCH_LIBS([clock_gettime], [posix4 rt])
 AC_SEARCH_LIBS([nanosleep], [rt])
 AC_SEARCH_LIBS([gethostent], [nsl])
 AC_SEARCH_LIBS([setsockopt], [socket])
@@ -234,6 +232,11 @@ AM_CONDITIONAL([MULTI_THREADED], [test x$enable_threads = xyes])
 AH_TOP([#ifndef LOG4CPLUS_CONFIG_H])
 AH_TOP([#define LOG4CPLUS_CONFIG_H])
 AH_BOTTOM([#endif // LOG4CPLUS_CONFIG_H])
+
+dnl Libtool setup.
+
+LT_PREREQ([2.2.6])
+LT_INIT([win32-dll])
 
 AC_CONFIG_HEADERS([include/log4cplus/config.h])
 AC_CONFIG_HEADERS([include/log4cplus/config/defines.hxx])

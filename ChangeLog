@@ -1,9 +1,22 @@
+Version 1.0.4.1-RC2
+
+  - Fixed bug #3520891 - FileAppender buffer size override does not
+    work.
+  - Update to Autoconf 2.69, Automake 1.12 and Libtool 2.4.2.
+  - Improved Solaris Studio support.
+  - Fixed detection of clock_gettime() on Linux.
+
 Version 1.0.4.1-RC1
 
   - Fixed use of uninitialized member in ConfigurationWatchDogThread.
   - Updated libtool to 2.4; updated configure macros.
   - Improved resource and error handling in NTEventLogAppender and
     Win32 sockets code.
+  - Limit the logged text size to 31839 for NTEventLogAppender as per
+    MSDN recommendation.
+  - Use range checks instead of equality checks when converting
+    LogLevel value to NT EventLog category and event type to allow
+    user defined log levels to work.
   - Fixed issue with function-try-catch blocks in dtors.
 
 Version 1.0.4
