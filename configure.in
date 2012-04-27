@@ -122,7 +122,11 @@ dnl Checks for programs.
 AX_COMPILER_VENDOR
 
 AS_IF([test "x$enable_warnings" = "xyes"],
-  [AX_CXXFLAGS_WARN_ALL])
+  [AS_CASE([$ax_cv_cxx_compiler_vendor],
+    dnl Skip all warnings detection for Solaris Studio compilers. It
+    dnl adds the -v option and that breaks PIC support detection.
+    [sun], [],
+    [AX_CXXFLAGS_WARN_ALL])])
 
 AS_CASE([$ax_cv_cxx_compiler_vendor],
   [gnu|clang],
@@ -166,7 +170,9 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
 
   [sun],
   [AS_IF([test "x$enable_warnings" = "xyes"],
-     [AX_CXXFLAGS_SUN_OPTION([-v])
+     [dnl This test is disabled. See comment before
+      dnl AX_CXXFLAGS_WARN_ALL invocation.
+      dnl AX_CXXFLAGS_SUN_OPTION([-v])
       AX_CXXFLAGS_SUN_OPTION([+w])])
    AX_CXXFLAGS_SUN_OPTION([-library=stlport4])
    AX_CXXFLAGS_SUN_OPTION([-library=Crun])])
