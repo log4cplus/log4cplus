@@ -128,7 +128,7 @@ dnl Checks for libraries.
 AC_SEARCH_LIBS([strerror], [cposix])
 AC_SEARCH_LIBS([clock_gettime], [posix4 rt])
 AC_SEARCH_LIBS([nanosleep], [rt])
-AC_SEARCH_LIBS([gethostent], [nsl])
+AC_SEARCH_LIBS([gethostbyname], [nsl])
 AC_SEARCH_LIBS([setsockopt], [socket])
 
 dnl Windows/MinGW specific.
