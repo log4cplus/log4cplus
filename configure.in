@@ -118,7 +118,6 @@ LOG4CPLUS_PROFILING_LDFLAGS=
 LOG4CPLUS_PROFILING_CXXFLAGS=
 
 dnl Checks for programs.
-AC_SEARCH_LIBS([strerror], [cposix])
 
 AX_COMPILER_VENDOR
 
@@ -201,7 +200,9 @@ AS_IF([test "x$ac_cv_have___pretty_function___macro" = "xyes"],
 
 dnl Checks for libraries.
 
+AC_SEARCH_LIBS([strerror], [cposix])
 AC_SEARCH_LIBS([nanosleep], [rt])
+AC_SEARCH_LIBS([clock_gettime], [rt posix4])
 AC_SEARCH_LIBS([gethostent], [nsl])
 AC_SEARCH_LIBS([setsockopt], [socket])
 AC_SEARCH_LIBS([iconv_open], [iconv], [],
