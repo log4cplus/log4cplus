@@ -1,3 +1,42 @@
+log4cplus 1.1.0-RC4
+
+IMPORTANT: Compilation with Solaris Studio now depends on STLPort
+           (-library=stlport4 switch). The default Cstd library is not
+           conforming enough for use in log4cplus.
+
+- Improved behaviour of log4cplus as a component of larger CMake based
+  project (Andreas Bießmann).
+
+- Updated various Autoconf detection scripts in m4/ directory to newer
+  versions.
+
+- Fixed some signedness and overflow warnings.
+
+- Improved Autotools build system's behaviour for cross compilation.
+
+- Added detection of C++11 <atomic> header and related
+  functions. Implemented SharedObject reference counting using C++11
+  atomics where possible.
+
+- Fixed compilation with GCC 4.6 in C++11 mode.
+
+- Fixed some single-threaded compilation and run time issues.
+
+- Fixed bug #3520891 - FileAppender buffering issue.
+
+- Updated to Autoconf 2.69, Automake 1.12 and Libtool 2.4.2.
+
+- Documented build procedure for Solaris Studio.
+
+- Improved support for Solaris Studio in configure.in.
+
+
+log4cplus 1.1.0-RC3
+
+- Fixed log4cplusS.vcxproj - Added missing source files to the
+  project.
+
+
 log4cplus 1.1.0-RC2
 
 - CMake build system fixes.
