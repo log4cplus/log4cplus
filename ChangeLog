@@ -4,8 +4,8 @@ IMPORTANT: Compilation with Solaris Studio now depends on STLPort
            (-library=stlport4 switch). The default Cstd library is not
            conforming enough for use in log4cplus.
 
-- Improved behaviour for log4cplus as a component of larger CMake
-  based project (Andreas Bießmann).
+- Improved behaviour of log4cplus as a component of larger CMake based
+  project (Andreas Bießmann).
 
 - Updated various Autoconf detection scripts in m4/ directory to newer
   versions.
