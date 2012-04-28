@@ -306,6 +306,14 @@ ptd_cleanup_func (void * arg)
 }
 
 
+static
+void
+threadSetup ()
+{
+    internal::get_ptd (true);
+}
+
+
 void initializeLog4cplus()
 {
     static bool initialized = false;
@@ -313,6 +321,7 @@ void initializeLog4cplus()
         return;
 
     internal::tls_storage_key = thread::impl::tls_init (ptd_cleanup_func);
+    threadSetup ();
 
     DefaultContext * dc = get_dc (true);
     dc->TTCCLayout_time_base = helpers::Time::gettimeofday ();
@@ -320,14 +329,6 @@ void initializeLog4cplus()
     initializeFactoryRegistry();
 
     initialized = true;
-}
-
-
-static
-void
-threadSetup ()
-{
-    internal::get_ptd (true);
 }
 
 

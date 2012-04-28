@@ -130,14 +130,16 @@ tls_cleanup (tls_key_type k)
 
 
 #elif defined (LOG4CPLUS_SINGLE_THREADED)
-extern std::vector<tls_value_type> tls_single_threaded_values;
+extern std::vector<tls_value_type> * tls_single_threaded_values;
 
 
 tls_key_type
 tls_init (tls_init_cleanup_func_type)
 {
-    tls_key_type key = tls_single_threaded_values.size ();
-    tls_single_threaded_values.resize (key + 1);
+    if (! tls_single_threaded_values)
+        tls_single_threaded_values = new std::vector<tls_value_type>;
+    tls_key_type key = tls_single_threaded_values->size ();
+    tls_single_threaded_values->resize (key + 1);
     return key;
 }
 
@@ -145,24 +147,24 @@ tls_init (tls_init_cleanup_func_type)
 tls_value_type
 tls_get_value (tls_key_type k)
 {
-    assert (k < tls_single_threaded_values.size ());
-    return tls_single_threaded_values[k];
+    assert (k < tls_single_threaded_values->size ());
+    return (*tls_single_threaded_values)[k];
 }
 
 
 void
 tls_set_value (tls_key_type k, tls_value_type val)
 {
-    assert (k < tls_single_threaded_values.size ());
-    tls_single_threaded_values[k] = val;
+    assert (k < tls_single_threaded_values->size ());
+    (*tls_single_threaded_values)[k] = val;
 }
 
 
 void
 tls_cleanup (tls_key_type k)
 {
-    assert (k < tls_single_threaded_values.size ());
-    tls_single_threaded_values[k] = 0;
+    assert (k < tls_single_threaded_values->size ());
+    (*tls_single_threaded_values)[k] = 0;
 }
 
 #endif
