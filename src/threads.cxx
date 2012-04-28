@@ -21,6 +21,7 @@
 #include <log4cplus/config.hxx>
 
 #include <exception>
+#include <ostream>
 
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>

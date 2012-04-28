@@ -154,7 +154,7 @@ log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll, const log4cplu
 
 	if( logger.isEnabledFor(ll) )
 	{
-	    va_list ap;
+            std::va_list ap;
 	    va_start(ap, msgfmt);
             snprintf_buf buf;
 	    const tchar * msg = buf.print(msgfmt, ap);
@@ -186,7 +186,7 @@ log4cplus_logger_force_log(const log4cplus_char_t *name, loglevel_t ll, const lo
 
 	if( logger.isEnabledFor(ll) )
 	{
-	    va_list ap;
+            std::va_list ap;
 	    va_start(ap, msgfmt);
             snprintf_buf buf;
 	    const tchar * msg = buf.print(msgfmt, ap);
