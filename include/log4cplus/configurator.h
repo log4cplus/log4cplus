@@ -304,12 +304,14 @@ namespace log4cplus
      * configuration see PropertyConfigurator. BasicConfigurator
      * automatically attaches ConsoleAppender to
      * <code>rootLogger</code>, with output going to standard output,
-     * using DEBUG LogLevel value.
+     * using DEBUG LogLevel value. The additional parameter
+     * logToStdErr may redirect the output to standard error.
      */
     class LOG4CPLUS_EXPORT BasicConfigurator : public PropertyConfigurator {
     public:
       // ctor and dtor
-        BasicConfigurator(Hierarchy& h = Logger::getDefaultHierarchy());
+        BasicConfigurator(Hierarchy& h = Logger::getDefaultHierarchy(),
+            bool logToStdErr = false);
         virtual ~BasicConfigurator();
 
         /**
@@ -321,7 +323,8 @@ namespace log4cplus
          * config.configure();
          * </pre></code>
          */
-        static void doConfigure(Hierarchy& h = Logger::getDefaultHierarchy());
+        static void doConfigure(Hierarchy& h = Logger::getDefaultHierarchy(),
+            bool logToStdErr = false);
         
     private:
       // Disable copy
