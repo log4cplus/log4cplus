@@ -537,13 +537,16 @@ PropertyConfigurator::addAppender(Logger &logger, SharedAppenderPtr& appender)
 // BasicConfigurator ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-BasicConfigurator::BasicConfigurator(Hierarchy& hier)
+BasicConfigurator::BasicConfigurator(Hierarchy& hier, bool logToStdErr)
     : PropertyConfigurator( LOG4CPLUS_TEXT(""), hier )
 {
     properties.setProperty(LOG4CPLUS_TEXT("rootLogger"),
                            LOG4CPLUS_TEXT("DEBUG, STDOUT"));
     properties.setProperty(LOG4CPLUS_TEXT("appender.STDOUT"),
                            LOG4CPLUS_TEXT("log4cplus::ConsoleAppender"));
+    properties.setProperty(LOG4CPLUS_TEXT("appender.STDOUT.logToStdErr"),
+                           logToStdErr ? LOG4CPLUS_TEXT("1")
+                           : LOG4CPLUS_TEXT("0"));
 }
 
 
@@ -559,9 +562,9 @@ BasicConfigurator::~BasicConfigurator()
 //////////////////////////////////////////////////////////////////////////////
 
 void
-BasicConfigurator::doConfigure(Hierarchy& h)
+BasicConfigurator::doConfigure(Hierarchy& h, bool logToStdErr)
 {
-    BasicConfigurator tmp(h);
+    BasicConfigurator tmp(h, logToStdErr);
     tmp.configure();
 }
 
