@@ -6,8 +6,30 @@ THIS_SCRIPT=`basename "$0"`
 
 function usage
 {
-    
-    echo "$THIS_SCRIPT <BZR_URL>"
+    echo "$THIS_SCRIPT <BZR_URL> <SRC_DIR> [<GPG_KEY>]"
+}
+
+function gpg_sign
+{
+    FILE="$1"
+    rm -f "$FILE".sig
+    $GPG --batch --use-agent --detach-sign --local-user "$GPG_KEY" \
+        "$FILE"
+}
+
+function maybe_gpg_sign
+{
+    [[ -e "$1" ]] && gpg_sign "$1"
+}
+
+function command_exists
+{
+    type "$1" &>/dev/null
+}
+
+function find_archiver
+{
+    command_exists "$1" && echo "$1" || echo ':'
 }
 
 BZR_URL="$1"
@@ -26,38 +48,64 @@ else
     SRC_DIR="$2"
 fi
 
+if [[ ! -z "$3" ]] ; then
+    GPG_KEY="$3"
+else
+    GPG_KEY=
+fi
+
 DEST_DIR="$PWD"
 
 TMPDIR=${TMPDIR:-${TMP:-${TEMP}}}
-export TMPDIR
-TMP_DIR=`mktemp -d`
+if [[ -z "${TMPDIR}" ]] ; then
+    unset TMPDIR
+else
+    export TMPDIR
+fi
+TMP_DIR=`mktemp -d -t log4cplus.XXXXXXX`
 pushd "$TMP_DIR"
 
-bzr export --per-file-timestamps -v "$SRC_DIR" "$BZR_URL"
+TAR=${TAR:-$(find_archiver tar)}
+XZ=${XZ:-$(find_archiver xz)}
+BZIP2=${BZIP2:-$(find_archiver bzip2)}
+GZIP=${GZIP:-$(find_archiver gzip)}
+SEVENZA=${SEVENZA:-$(find_archiver 7za)}
+LRZIP=${LRZIP:-$(find_archiver lrzip)}
+BZR=${BZR:-bzr}
+GPG=${GPG:-gpg}
+
+$BZR export --per-file-timestamps -v "$SRC_DIR" "$BZR_URL"
+$BZR version-info "$BZR_URL" >"$SRC_DIR/REVISION"
 
 pushd "$SRC_DIR"
 $SHELL ./scripts/fix-timestamps.sh
 popd
 
-7za a -t7z "$DEST_DIR/$SRC_DIR".7z "$SRC_DIR" >/dev/null \
-& 7za a -tzip "$DEST_DIR/$SRC_DIR".zip "$SRC_DIR" >/dev/null
-
+$SEVENZA a -t7z "$DEST_DIR/$SRC_DIR".7z "$SRC_DIR" >/dev/null \
+& $SEVENZA a -tzip "$DEST_DIR/$SRC_DIR".zip "$SRC_DIR" >/dev/null
 
 TAR_FILE="$SRC_DIR".tar
-bsdtar -cvf "$TAR_FILE" "$SRC_DIR"
+$TAR -cf "$TAR_FILE" "$SRC_DIR"
 
-xz -e -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".xz \
-& bzip2 -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".bz2 \
-& gzip -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".gz
+$XZ -e -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".xz \
+& $BZIP2 -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".bz2 \
+& $GZIP -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".gz \
+& $LRZIP -q -o - "$TAR_FILE" |([[ "$LRZIP" = ":" ]] && cat >/dev/null || cat >"$DEST_DIR/$TAR_FILE".lrz)
 
-echo waiting...
+echo waiting for tarballs...
 wait
 echo done waiting
+
+if [[ ! -z "$GPG_KEY" ]] ; then
+    maybe_gpg_sign "$DEST_DIR/$SRC_DIR".7z
+    maybe_gpg_sign "$DEST_DIR/$SRC_DIR".zip
+    maybe_gpg_sign "$DEST_DIR/$TAR_FILE".xz
+    maybe_gpg_sign "$DEST_DIR/$TAR_FILE".bz2
+    maybe_gpg_sign "$DEST_DIR/$TAR_FILE".gz
+    maybe_gpg_sign "$DEST_DIR/$TAR_FILE".lrz
+fi
 
 rm -rf "$SRC_DIR"
 rm -f "$TAR_FILE"
 popd
 rmdir "$TMP_DIR"
-
-
-

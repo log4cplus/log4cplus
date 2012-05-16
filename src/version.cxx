@@ -28,7 +28,7 @@ namespace log4cplus
 {
 
 #if ! defined (LOG4CPLUS_VERSION_STR_SUFFIX)
-#define LOG4CPLUS_VERSION_STR_SUFFIX /* empty */
+#define LOG4CPLUS_VERSION_STR_SUFFIX "-RC2"
 #endif
 
 unsigned const version = LOG4CPLUS_VERSION;
