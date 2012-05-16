@@ -138,7 +138,7 @@ loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
     {
         tostringstream oss;
         oss << LOG4CPLUS_TEXT("Failed to rename file from ")
-            << target
+            << src
             << LOG4CPLUS_TEXT(" to ")
             << target
             << LOG4CPLUS_TEXT("; error ")
