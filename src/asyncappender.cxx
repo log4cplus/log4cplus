@@ -153,13 +153,6 @@ AsyncAppender::init_queue_thread (unsigned queue_len)
 
 
 void
-AsyncAppender::doAppend (spi::InternalLoggingEvent const & ev)
-{
-    append (ev);
-}
-
-
-void
 AsyncAppender::close ()
 {
     unsigned ret = queue->signal_exit ();
