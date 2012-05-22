@@ -46,7 +46,7 @@ ConsoleAppender::ConsoleAppender(bool logToStdErr_,
 
 
 
-ConsoleAppender::ConsoleAppender(const helpers::Properties properties)
+ConsoleAppender::ConsoleAppender(const helpers::Properties & properties)
 : Appender(properties),
   logToStdErr(false),
   immediateFlush(false)
