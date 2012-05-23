@@ -58,7 +58,6 @@ public:
     AsyncAppender (helpers::Properties const &);
     virtual ~AsyncAppender ();
 
-    virtual void doAppend (spi::InternalLoggingEvent const &);
     virtual void close ();
 
 protected:

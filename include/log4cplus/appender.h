@@ -105,7 +105,7 @@ namespace log4cplus {
          * delegating actual logging to the subclasses specific {@link
          * #append} method.
          */
-        virtual void doAppend(const log4cplus::spi::InternalLoggingEvent& event);
+        void doAppend(const log4cplus::spi::InternalLoggingEvent& event);
 
         /**
          * Get the name of this appender. The name uniquely identifies the
