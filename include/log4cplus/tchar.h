@@ -28,6 +28,9 @@
 #define LOG4CPLUS_TCHAR_HEADER_
 
 #include <log4cplus/config.hxx>
+#if defined (_WIN32)
+#include <wchar.h>
+#endif
 
 
 #ifdef UNICODE
