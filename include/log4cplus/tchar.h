@@ -29,7 +29,7 @@
 
 #include <log4cplus/config.hxx>
 #if defined (_WIN32)
-#include <wchar.h>
+#include <cstddef>
 #endif
 
 
