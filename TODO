@@ -18,4 +18,6 @@ order:
   format specifiers.
 
 - More flexible log file rotation, like keeping only last 31 days of
-  logs produced by DailyRollingFileAppender, etc.
+  logs produced by DailyRollingFileAppender, rotate at midnight, etc.
+
+- Installers for Debian, Ubuntu, Windows/Qt Creator.
