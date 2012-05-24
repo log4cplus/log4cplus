@@ -34,8 +34,9 @@ main(int argc, char **argv)
     test.setLogLevel(NOT_SET_LOG_LEVEL);
     LOG4CPLUS_DEBUG(test, "This is a bool: " << true);
     LOG4CPLUS_INFO(test, "This is a char: " << 'x');
-    LOG4CPLUS_INFO(test, "This is a short: " << (short)-100);
-    LOG4CPLUS_INFO(test, "This is a unsigned short: " << (unsigned short)100);
+    LOG4CPLUS_INFO(test, "This is a short: " << static_cast<short>(-100));
+    LOG4CPLUS_INFO(test, "This is a unsigned short: "
+        << static_cast<unsigned short>(100));
     log4cplus::helpers::sleep(0, 500000);
     LOG4CPLUS_INFO(test, "This is a int: " << 1000);
     LOG4CPLUS_INFO(test, "This is a unsigned int: " << 1000u);
