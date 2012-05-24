@@ -27,40 +27,69 @@
 #include <string>
 #include <log4cplus/tchar.h>
 
-#ifdef UNICODE
 namespace log4cplus
 {
 
-typedef std::wstring tstring;
+typedef std::basic_string<tchar> tstring;
+
 
 namespace helpers
 {
 
+inline
+std::string
+tostring (char const * str)
+{
+    return std::string (str);
+}
+
+
+inline
+std::string
+tostring (std::string const & str)
+{
+    return str;
+}
+
+
+
+inline
+std::wstring
+towstring (wchar_t const * str)
+{
+    return std::wstring (str);
+}
+
+inline
+std::wstring
+towstring (std::wstring const & str)
+{
+    return str;
+}
+
 LOG4CPLUS_EXPORT std::string tostring(const std::wstring&);
 LOG4CPLUS_EXPORT std::string tostring(wchar_t const *);
+
 LOG4CPLUS_EXPORT std::wstring towstring(const std::string&);
 LOG4CPLUS_EXPORT std::wstring towstring(char const *);
 
-}
+} // namespace helpers
 
-} // namespace log4cplus
+#ifdef UNICODE
 
 #define LOG4CPLUS_C_STR_TO_TSTRING(STRING) log4cplus::helpers::towstring(STRING)
 #define LOG4CPLUS_STRING_TO_TSTRING(STRING) log4cplus::helpers::towstring(STRING)
 #define LOG4CPLUS_TSTRING_TO_STRING(STRING) log4cplus::helpers::tostring(STRING)
 
 #else // UNICODE
-namespace log4cplus
-{
-
-typedef std::string tstring;
-
-} // namespace log4cplus
 
 #define LOG4CPLUS_C_STR_TO_TSTRING(STRING) std::string(STRING)
 #define LOG4CPLUS_STRING_TO_TSTRING(STRING) STRING
 #define LOG4CPLUS_TSTRING_TO_STRING(STRING) STRING
 
 #endif // UNICODE
+
+} // namespace log4cplus
+
 
 #endif // LOG4CPLUS_TSTRING_HEADER_

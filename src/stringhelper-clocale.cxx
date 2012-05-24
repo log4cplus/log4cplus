@@ -41,7 +41,6 @@ namespace helpers
 void clear_mbstate (std::mbstate_t & mbs);
 
 
-#if defined (UNICODE)
 #if defined (LOG4CPLUS_WORKING_C_LOCALE)
 
 static
@@ -148,8 +147,6 @@ towstring (char const * src)
 }
 
 #endif // LOG4CPLUS_WORKING_C_LOCALE
-
-#endif // UNICODE
 
 } // namespace helpers
 
