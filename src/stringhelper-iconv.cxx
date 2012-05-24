@@ -41,7 +41,6 @@ namespace log4cplus
 namespace helpers
 {
 
-#if defined (UNICODE)
 #if defined (LOG4CPLUS_WITH_ICONV)
 
 namespace
@@ -250,8 +249,6 @@ towstring (char const * src)
 }
 
 #endif // LOG4CPLUS_WITH_ICONV
-
-#endif // UNICODE
 
 } // namespace helpers
 

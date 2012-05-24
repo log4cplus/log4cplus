@@ -32,10 +32,8 @@
 #include <cwctype>
 #include <cctype>
 
-#ifdef UNICODE
-#  include <cassert>
-#  include <vector>
-#endif
+#include <cassert>
+#include <vector>
 
 
 namespace log4cplus
@@ -45,8 +43,6 @@ namespace helpers
 {
 
 void clear_mbstate (std::mbstate_t &);
-
-#ifdef UNICODE
 
 #ifdef LOG4CPLUS_WORKING_LOCALE
 
@@ -228,9 +224,6 @@ tostring(wchar_t const * src)
 
 
 #endif // LOG4CPLUS_WORKING_LOCALE
-
-#endif // UNICODE
-
 
 } // namespace helpers
 
