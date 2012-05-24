@@ -18,7 +18,7 @@ AM_PROG_AR
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=1:0:1
+LT_VERSION=2:0:0
 AC_SUBST([LT_VERSION])
 
 dnl Use C++ std::locale and std::codecvt facet for string conversion.
