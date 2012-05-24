@@ -176,8 +176,69 @@ namespace log4cplus {
         LOG4CPLUS_EXPORT FilterFactoryRegistry& getFilterFactoryRegistry();
 
     }
+
+        
+    namespace
+    {
+
+        template <typename ProductFactoryBase>
+        class LocalFactoryBase
+            : public ProductFactoryBase
+        {
+        public:
+            LocalFactoryBase (tchar const * n)
+                : name (n)
+            { }
+
+            virtual log4cplus::tstring const & getTypeName() const
+            {
+                return name;
+            }
+
+        private:
+            log4cplus::tstring name;
+        };
+
+
+        template <typename LocalProduct, typename ProductFactoryBase>
+        class FactoryTempl
+            : public LocalFactoryBase<ProductFactoryBase>
+        {
+        public:
+            typedef typename ProductFactoryBase::ProductPtr ProductPtr;
+
+            FactoryTempl (tchar const * n)
+                : LocalFactoryBase<ProductFactoryBase> (n)
+            { }
+
+            virtual ProductPtr createObject (helpers::Properties const & props)
+            {
+                return ProductPtr (new LocalProduct (props));
+            }
+        };
+
+
+        #define LOG4CPLUS_REG_PRODUCT(reg, productprefix, productname, productns, productfact) \
+        reg.put (																               \
+            std::auto_ptr<productfact> (                                                       \
+                new log4cplus::FactoryTempl<productns productname, productfact> (              \
+                    LOG4CPLUS_TEXT(productprefix)                                              \
+                    LOG4CPLUS_TEXT(#productname))))
+
+        #define LOG4CPLUS_REG_APPENDER(reg, appendername)                             \
+        LOG4CPLUS_REG_PRODUCT (reg, "log4cplus::", appendername, log4cplus::,         \
+            log4cplus::spi::AppenderFactory) 
+
+        #define LOG4CPLUS_REG_LAYOUT(reg, layoutname)                                 \
+        LOG4CPLUS_REG_PRODUCT (reg, "log4cplus::", layoutname, log4cplus::,           \
+            log4cplus::spi::LayoutFactory)
+
+        #define LOG4CPLUS_REG_FILTER(reg, filtername)                                 \
+        LOG4CPLUS_REG_PRODUCT (reg, "log4cplus::spi::", filtername, log4cplus::spi::, \
+            log4cplus::spi::FilterFactory)
+
+    } // namespace
 }
 
 
 #endif // LOG4CPLUS_SPI_FACTORY_HEADER_
-

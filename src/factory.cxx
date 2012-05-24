@@ -74,102 +74,40 @@ namespace spi {
 } // namespace spi
 
 
-namespace
-{
-
-
-template <typename ProductFactoryBase>
-class LocalFactoryBase
-    : public ProductFactoryBase
-{
-public:
-    LocalFactoryBase (tchar const * n)
-        : name (n)
-    { }
-
-    virtual log4cplus::tstring const & getTypeName() const
-    {
-        return name;
-    }
-
-private:
-    log4cplus::tstring name;
-};
-
-
-template <typename LocalProduct, typename ProductFactoryBase>
-class FactoryTempl
-    : public LocalFactoryBase<ProductFactoryBase>
-{
-public:
-    typedef typename ProductFactoryBase::ProductPtr ProductPtr;
-
-    FactoryTempl (tchar const * n)
-        : LocalFactoryBase<ProductFactoryBase> (n)
-    { }
-
-    virtual ProductPtr createObject (helpers::Properties const & props)
-    {
-        return ProductPtr (new LocalProduct (props));
-    }
-};
-
-
-} // namespace
-
-
-#define REG_PRODUCT(reg, productprefix, productname, productns, productfact) \
-reg.put (                                                               \
-    std::auto_ptr<productfact> (                                        \
-        new FactoryTempl<productns productname, productfact> (          \
-            LOG4CPLUS_TEXT(productprefix)                               \
-            LOG4CPLUS_TEXT(#productname))))
-
-
-#define REG_APPENDER(reg, appendername)                             \
-REG_PRODUCT (reg, "log4cplus::", appendername, log4cplus::, spi::AppenderFactory) 
-
-#define REG_LAYOUT(reg, layoutname)                                 \
-REG_PRODUCT (reg, "log4cplus::", layoutname, log4cplus::, spi::LayoutFactory)
-
-#define REG_FILTER(reg, filtername)                                 \
-REG_PRODUCT (reg, "log4cplus::spi::", filtername, spi::, spi::FilterFactory)
-
-
 void initializeFactoryRegistry()
 {
     spi::AppenderFactoryRegistry& reg = spi::getAppenderFactoryRegistry();
-    REG_APPENDER (reg, ConsoleAppender);
-    REG_APPENDER (reg, NullAppender);
-    REG_APPENDER (reg, FileAppender);
-    REG_APPENDER (reg, RollingFileAppender);
-    REG_APPENDER (reg, DailyRollingFileAppender);
-    REG_APPENDER (reg, SocketAppender);
+    LOG4CPLUS_REG_APPENDER (reg, ConsoleAppender);
+    LOG4CPLUS_REG_APPENDER (reg, NullAppender);
+    LOG4CPLUS_REG_APPENDER (reg, FileAppender);
+    LOG4CPLUS_REG_APPENDER (reg, RollingFileAppender);
+    LOG4CPLUS_REG_APPENDER (reg, DailyRollingFileAppender);
+    LOG4CPLUS_REG_APPENDER (reg, SocketAppender);
 #if defined(_WIN32)
 #  if defined(LOG4CPLUS_HAVE_NT_EVENT_LOG)
-    REG_APPENDER (reg, NTEventLogAppender);
+    LOG4CPLUS_REG_APPENDER (reg, NTEventLogAppender);
 #  endif
 #  if defined(LOG4CPLUS_HAVE_WIN32_CONSOLE)
-    REG_APPENDER (reg, Win32ConsoleAppender);
+    LOG4CPLUS_REG_APPENDER (reg, Win32ConsoleAppender);
 #  endif
-    REG_APPENDER (reg, Win32DebugAppender);
+    LOG4CPLUS_REG_APPENDER (reg, Win32DebugAppender);
 #elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
-    REG_APPENDER (reg, SysLogAppender);
+    LOG4CPLUS_REG_APPENDER (reg, SysLogAppender);
 #endif
 #ifndef LOG4CPLUS_SINGLE_THREADED
-    REG_APPENDER (reg, AsyncAppender);
+    LOG4CPLUS_REG_APPENDER (reg, AsyncAppender);
 #endif
 
     spi::LayoutFactoryRegistry& reg2 = spi::getLayoutFactoryRegistry();
-    REG_LAYOUT (reg2, SimpleLayout);
-    REG_LAYOUT (reg2, TTCCLayout);
-    REG_LAYOUT (reg2, PatternLayout);
+    LOG4CPLUS_REG_LAYOUT (reg2, SimpleLayout);
+    LOG4CPLUS_REG_LAYOUT (reg2, TTCCLayout);
+    LOG4CPLUS_REG_LAYOUT (reg2, PatternLayout);
 
     spi::FilterFactoryRegistry& reg3 = spi::getFilterFactoryRegistry();
-    REG_FILTER (reg3, DenyAllFilter);
-    REG_FILTER (reg3, LogLevelMatchFilter);
-    REG_FILTER (reg3, LogLevelRangeFilter);
-    REG_FILTER (reg3, StringMatchFilter);
+    LOG4CPLUS_REG_FILTER (reg3, DenyAllFilter);
+    LOG4CPLUS_REG_FILTER (reg3, LogLevelMatchFilter);
+    LOG4CPLUS_REG_FILTER (reg3, LogLevelRangeFilter);
+    LOG4CPLUS_REG_FILTER (reg3, StringMatchFilter);
 }
 
 
