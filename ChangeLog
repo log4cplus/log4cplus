@@ -1,5 +1,14 @@
 log4cplus 1.1.0-RC5
 
+- Fixed compilation for build with wchar_t being alias to unsigned
+  short (Windows).
+
+- Added new appender CLFSAppender (experimental), based on Microsoft
+  Common Log File System API.
+
+
+log4cplus 1.1.0-RC5
+
 - Fixed single threaded log4cplus build issues.
 
 - Added ability to log to std::cerr (Andreas Bießmann).
