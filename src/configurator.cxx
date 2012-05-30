@@ -54,6 +54,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <sstream>
+#include <functional>
 
 
 namespace log4cplus
