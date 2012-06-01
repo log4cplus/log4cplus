@@ -21,3 +21,5 @@ order:
   logs produced by DailyRollingFileAppender, rotate at midnight, etc.
 
 - Installers for Debian, Ubuntu, Windows/Qt Creator.
+
+- Allow specifying codecvt facet for FileAppender through properties.
