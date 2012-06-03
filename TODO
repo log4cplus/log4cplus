@@ -21,3 +21,6 @@ order:
   logs produced by DailyRollingFileAppender, rotate at midnight, etc.
 
 - Installers for Debian, Ubuntu, Windows/Qt Creator.
+
+- Custom codecvt facet for use FileAppender using log4cplus' internal
+  wchar_t <-> chart conversion routines.
