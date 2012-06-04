@@ -43,6 +43,7 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/ndc.h \
 	log4cplus/nteventlogappender.h \
 	log4cplus/nullappender.h \
+	log4cplus/qt4debugappender.h \
 	log4cplus/spi/appenderattachable.h \
 	log4cplus/spi/factory.h \
 	log4cplus/spi/filter.h \

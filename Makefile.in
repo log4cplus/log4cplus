@@ -52,6 +52,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
+@QT_TRUE@am__append_1 = qt4debugappender
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/log4cplus.pc.in \
@@ -79,7 +80,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ax_gethostbyname_r.m4 \
 	$(top_srcdir)/m4/ax_getaddrinfo.m4 \
 	$(top_srcdir)/m4/ax_log4cplus_wrappers.m4 \
-	$(top_srcdir)/configure.in
+	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
@@ -140,7 +141,7 @@ AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
 ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
-DIST_SUBDIRS = $(SUBDIRS)
+DIST_SUBDIRS = include src loggingserver tests qt4debugappender
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -228,6 +229,7 @@ LOG4CPLUS_NDEBUG = @LOG4CPLUS_NDEBUG@
 LOG4CPLUS_PROFILING_CXXFLAGS = @LOG4CPLUS_PROFILING_CXXFLAGS@
 LOG4CPLUS_PROFILING_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@
 LTLIBOBJS = @LTLIBOBJS@
+LT_RELEASE = @LT_RELEASE@
 LT_VERSION = @LT_VERSION@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
@@ -246,9 +248,14 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
+PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
+PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 PTHREAD_CC = @PTHREAD_CC@
 PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 PTHREAD_LIBS = @PTHREAD_LIBS@
+QT_CFLAGS = @QT_CFLAGS@
+QT_LIBS = @QT_LIBS@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -315,7 +322,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 EXTRA_DIST = ChangeLog log4cplus.pc.in
-SUBDIRS = include src loggingserver tests
+SUBDIRS = include src loggingserver tests $(am__append_1)
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = log4cplus.pc
 all: all-recursive
