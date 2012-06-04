@@ -23,3 +23,7 @@ order:
 - Installers for Debian, Ubuntu, Windows/Qt Creator.
 
 - Allow specifying codecvt facet for FileAppender through properties.
+
+- Custom codecvt facet for use FileAppender using log4cplus' internal
+  wchar_t <-> chart conversion routines.
+
