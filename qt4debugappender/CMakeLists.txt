@@ -22,10 +22,7 @@ set_target_properties (${qt4debugappender} PROPERTIES
 
 if (WIN32)
   set_target_properties (${qt4debugappender} PROPERTIES
-    DEBUG_POSTFIX "${log4cplus_postfix}D"
-    RELEASE_POSTFIX "${log4cplus_postfix}"
-    MINSIZEREL_POSTFIX "${log4cplus_postfix}"
-    RELWITHDEBINFO_POSTFIX "${log4cplus_postfix}")
+    DEBUG_POSTFIX "${log4cplus_postfix}D")
 endif ()
 
 install (TARGETS ${qt4debugappender}
