@@ -11,6 +11,7 @@ include (${QT_USE_FILE})
 set (qt4debugappender log4cplusqt4debugappender${log4cplus_postfix})
 add_library (${qt4debugappender} ${qt4debugappender_sources})
 target_link_libraries (${qt4debugappender}
+  ${log4cplus}
   ${QT_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT})
 
