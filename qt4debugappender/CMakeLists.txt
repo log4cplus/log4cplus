@@ -1,9 +1,9 @@
 set (qt4debugappender_sources
   qt4debugappender.cxx)
 
-# if (UNICODE)
-#   add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
-# endif (UNICODE)
+if (UNICODE)
+  add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
+endif (UNICODE)
 
 find_package (Qt4 REQUIRED)
 include (${QT_USE_FILE})
@@ -22,7 +22,7 @@ set_target_properties (${qt4debugappender} PROPERTIES
 
 if (WIN32)
   set_target_properties (${qt4debugappender} PROPERTIES
-    DEBUG_POSTFIX "${log4cplus_postfix}D")
+    DEBUG_POSTFIX "D")
 endif ()
 
 install (TARGETS ${qt4debugappender}
