@@ -653,6 +653,13 @@ LIBTOOL
 OBJDUMP
 DLLTOOL
 AS
+QT_FALSE
+QT_TRUE
+QT_LIBS
+QT_CFLAGS
+PKG_CONFIG_LIBDIR
+PKG_CONFIG_PATH
+PKG_CONFIG
 MULTI_THREADED_FALSE
 MULTI_THREADED_TRUE
 PTHREAD_CFLAGS
@@ -669,6 +676,7 @@ ac_ct_CXX
 CXXFLAGS
 CXX
 LOG4CPLUS_NDEBUG
+LT_RELEASE
 LT_VERSION
 am__fastdepCC_FALSE
 am__fastdepCC_TRUE
@@ -773,6 +781,7 @@ enable_debugging
 enable_warnings
 enable_profiling
 enable_threads
+with_qt
 enable_shared
 enable_static
 with_pic
@@ -792,7 +801,12 @@ CPPFLAGS
 CXX
 CXXFLAGS
 CCC
-CXXCPP'
+CXXCPP
+PKG_CONFIG
+PKG_CONFIG_PATH
+PKG_CONFIG_LIBDIR
+QT_CFLAGS
+QT_LIBS'
 
 
 # Initialize some variables set by options.
@@ -1436,6 +1450,7 @@ Optional Packages:
   --with-working-c-locale Use C99 locale facilities for char->wchar_t
                           conversion.
   --with-iconv            Use iconv() for char->wchar_t conversion.
+  --with-qt               Build liblog4cplusqt4debugappender.
   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
                           both]
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
@@ -1453,6 +1468,13 @@ Some influential environment variables:
   CXX         C++ compiler command
   CXXFLAGS    C++ compiler flags
   CXXCPP      C++ preprocessor
+  PKG_CONFIG  path to pkg-config utility
+  PKG_CONFIG_PATH
+              directories to add to pkg-config's search path
+  PKG_CONFIG_LIBDIR
+              path overriding pkg-config's built-in search path
+  QT_CFLAGS   C compiler flags for QT, overriding pkg-config
+  QT_LIBS     linker flags for QT, overriding pkg-config
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -4190,6 +4212,8 @@ esac
 #                 better
 # CURRENT : REVISION : AGE
 LT_VERSION=2:0:0
+LT_RELEASE=1.1
+
 
 
 
@@ -4198,7 +4222,14 @@ LT_VERSION=2:0:0
 
 # Check whether --with-working-locale was given.
 if test "${with_working_locale+set}" = set; then :
-  withval=$with_working_locale;
+  withval=$with_working_locale; case "${withval}" in #(
+  yes) :
+     ;; #(
+  no) :
+     ;; #(
+  *) :
+    as_fn_error $? "bad value ${withval} for --with-working-locale" "$LINENO" 5 ;;
+esac
 else
   with_working_locale=no
 fi
@@ -4215,7 +4246,14 @@ fi
 
 # Check whether --with-working-c-locale was given.
 if test "${with_working_c_locale+set}" = set; then :
-  withval=$with_working_c_locale;
+  withval=$with_working_c_locale; case "${withval}" in #(
+  yes) :
+     ;; #(
+  no) :
+     ;; #(
+  *) :
+    as_fn_error $? "bad value ${withval} for --with-working-c-locale" "$LINENO" 5 ;;
+esac
 else
   with_working_c_locale=no
 fi
@@ -4232,7 +4270,14 @@ fi
 
 # Check whether --with-iconv was given.
 if test "${with_iconv+set}" = set; then :
-  withval=$with_iconv;
+  withval=$with_iconv; case "${withval}" in #(
+  yes) :
+     ;; #(
+  no) :
+     ;; #(
+  *) :
+    as_fn_error $? "bad value ${withval} for --with-iconv" "$LINENO" 5 ;;
+esac
 else
   with_iconv=no
 fi
@@ -4246,7 +4291,14 @@ fi
 
 # Check whether --enable-debugging was given.
 if test "${enable_debugging+set}" = set; then :
-  enableval=$enable_debugging;
+  enableval=$enable_debugging; case "${enableval}" in #(
+  yes) :
+     ;; #(
+  no) :
+     ;; #(
+  *) :
+    as_fn_error $? "bad value ${enableval} for --enable-debugging" "$LINENO" 5 ;;
+esac
 else
   enable_debugging=no
 fi
@@ -4266,7 +4318,14 @@ fi
 
 # Check whether --enable-warnings was given.
 if test "${enable_warnings+set}" = set; then :
-  enableval=$enable_warnings;
+  enableval=$enable_warnings; case "${enableval}" in #(
+  yes) :
+     ;; #(
+  no) :
+     ;; #(
+  *) :
+    as_fn_error $? "bad value ${enableval} for --enable-warnings" "$LINENO" 5 ;;
+esac
 else
   enable_warnings=yes
 fi
@@ -4808,7 +4867,14 @@ esac
 
 # Check whether --enable-profiling was given.
 if test "${enable_profiling+set}" = set; then :
-  enableval=$enable_profiling;
+  enableval=$enable_profiling; case "${enableval}" in #(
+  yes) :
+     ;; #(
+  no) :
+     ;; #(
+  *) :
+    as_fn_error $? "bad value ${enableval} for --enable-profiling" "$LINENO" 5 ;;
+esac
 else
   enable_profiling=no
 fi
@@ -8970,6 +9036,251 @@ else
   MULTI_THREADED_TRUE='#'
   MULTI_THREADED_FALSE=
 fi
+
+
+
+
+
+
+
+
+
+
+if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
+	if test -n "$ac_tool_prefix"; then
+  # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
+set dummy ${ac_tool_prefix}pkg-config; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_PKG_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $PKG_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+PKG_CONFIG=$ac_cv_path_PKG_CONFIG
+if test -n "$PKG_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PKG_CONFIG" >&5
+$as_echo "$PKG_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+fi
+if test -z "$ac_cv_path_PKG_CONFIG"; then
+  ac_pt_PKG_CONFIG=$PKG_CONFIG
+  # Extract the first word of "pkg-config", so it can be a program name with args.
+set dummy pkg-config; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_ac_pt_PKG_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $ac_pt_PKG_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_ac_pt_PKG_CONFIG="$ac_pt_PKG_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_ac_pt_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+ac_pt_PKG_CONFIG=$ac_cv_path_ac_pt_PKG_CONFIG
+if test -n "$ac_pt_PKG_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_pt_PKG_CONFIG" >&5
+$as_echo "$ac_pt_PKG_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+  if test "x$ac_pt_PKG_CONFIG" = x; then
+    PKG_CONFIG=""
+  else
+    case $cross_compiling:$ac_tool_warned in
+yes:)
+{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: using cross tools not prefixed with host triplet" >&5
+$as_echo "$as_me: WARNING: using cross tools not prefixed with host triplet" >&2;}
+ac_tool_warned=yes ;;
+esac
+    PKG_CONFIG=$ac_pt_PKG_CONFIG
+  fi
+else
+  PKG_CONFIG="$ac_cv_path_PKG_CONFIG"
+fi
+
+fi
+if test -n "$PKG_CONFIG"; then
+	_pkg_min_version=0.9.0
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking pkg-config is at least version $_pkg_min_version" >&5
+$as_echo_n "checking pkg-config is at least version $_pkg_min_version... " >&6; }
+	if $PKG_CONFIG --atleast-pkgconfig-version $_pkg_min_version; then
+		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	else
+		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+		PKG_CONFIG=""
+	fi
+fi
+
+
+# Check whether --with-qt was given.
+if test "${with_qt+set}" = set; then :
+  withval=$with_qt; case "${withval}" in #(
+  yes) :
+     ;; #(
+  no) :
+     ;; #(
+  *) :
+    as_fn_error $? "bad value ${withval} for --with-qt" "$LINENO" 5 ;;
+esac
+else
+  with_qt=no
+fi
+
+
+if test "x$with_qt" = "xyes"; then :
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for QT" >&5
+$as_echo_n "checking for QT... " >&6; }
+
+if test -n "$QT_CFLAGS"; then
+    pkg_cv_QT_CFLAGS="$QT_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"QtCore >= 4.0.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "QtCore >= 4.0.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_QT_CFLAGS=`$PKG_CONFIG --cflags "QtCore >= 4.0.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$QT_LIBS"; then
+    pkg_cv_QT_LIBS="$QT_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"QtCore >= 4.0.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "QtCore >= 4.0.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_QT_LIBS=`$PKG_CONFIG --libs "QtCore >= 4.0.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        QT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "QtCore >= 4.0.0" 2>&1`
+        else
+	        QT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "QtCore >= 4.0.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$QT_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (QtCore >= 4.0.0) were not met:
+
+$QT_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables QT_CFLAGS
+and QT_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables QT_CFLAGS
+and QT_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }
+else
+	QT_CFLAGS=$pkg_cv_QT_CFLAGS
+	QT_LIBS=$pkg_cv_QT_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+fi
+else
+  QT_CFLAGS=
+   QT_LIBS=
+fi
+ if test "x$with_qt" = "xyes"; then
+  QT_TRUE=
+  QT_FALSE='#'
+else
+  QT_TRUE='#'
+  QT_FALSE=
+fi
+
+
 
 
 
@@ -19586,7 +19897,7 @@ ac_config_headers="$ac_config_headers include/log4cplus/config.h"
 
 ac_config_headers="$ac_config_headers include/log4cplus/config/defines.hxx"
 
-ac_config_files="$ac_config_files Makefile include/Makefile src/Makefile loggingserver/Makefile tests/Makefile tests/appender_test/Makefile tests/configandwatch_test/Makefile tests/customloglevel_test/Makefile tests/fileappender_test/Makefile tests/filter_test/Makefile tests/hierarchy_test/Makefile tests/loglog_test/Makefile tests/ndc_test/Makefile tests/ostream_test/Makefile tests/patternlayout_test/Makefile tests/performance_test/Makefile tests/priority_test/Makefile tests/propertyconfig_test/Makefile tests/socket_test/Makefile tests/thread_test/Makefile tests/timeformat_test/Makefile"
+ac_config_files="$ac_config_files Makefile include/Makefile src/Makefile loggingserver/Makefile qt4debugappender/Makefile tests/Makefile tests/appender_test/Makefile tests/configandwatch_test/Makefile tests/customloglevel_test/Makefile tests/fileappender_test/Makefile tests/filter_test/Makefile tests/hierarchy_test/Makefile tests/loglog_test/Makefile tests/ndc_test/Makefile tests/ostream_test/Makefile tests/patternlayout_test/Makefile tests/performance_test/Makefile tests/priority_test/Makefile tests/propertyconfig_test/Makefile tests/socket_test/Makefile tests/thread_test/Makefile tests/timeformat_test/Makefile"
 
 
 
@@ -19733,6 +20044,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${MULTI_THREADED_TRUE}" && test -z "${MULTI_THREADED_FALSE}"; then
   as_fn_error $? "conditional \"MULTI_THREADED\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${QT_TRUE}" && test -z "${QT_FALSE}"; then
+  as_fn_error $? "conditional \"QT\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 
@@ -20712,6 +21027,7 @@ do
     "include/Makefile") CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "loggingserver/Makefile") CONFIG_FILES="$CONFIG_FILES loggingserver/Makefile" ;;
+    "qt4debugappender/Makefile") CONFIG_FILES="$CONFIG_FILES qt4debugappender/Makefile" ;;
     "tests/Makefile") CONFIG_FILES="$CONFIG_FILES tests/Makefile" ;;
     "tests/appender_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/appender_test/Makefile" ;;
     "tests/configandwatch_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/configandwatch_test/Makefile" ;;

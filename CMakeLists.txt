@@ -29,8 +29,11 @@ endif (MSVC)
 option(LOG4CPLUS_WORKING_LOCALE "Define for compilers/standard libraries that support more than just the C locale."
   ${LOG4CPLUS_WORKING_LOCALE_DEFAULT})
 
-option(LOG4CPLUS_WORKING_C_LOCALE "Define for compilers/standard libraries that have working C locale."
+option(LOG4CPLUS_WORKING_C_LOCALE
+  "Define for compilers/standard libraries that have working C locale."
   OFF)
+
+option (LOG4CPLUS_QT4 "Build with Qt4DebugAppender" OFF)
 
 option(UNICODE "Build with tchar = wchar_t" ${UNICODE_DEFAULT})
 
@@ -42,8 +45,10 @@ set (log4cplus "log4cplus${log4cplus_postfix}")
 
 include(ConfigureChecks.cmake)
 
-configure_file(include/log4cplus/config.h.cmake.in ${log4cplus_BINARY_DIR}/include/log4cplus/config.h @ONLY)
-configure_file(include/log4cplus/config/defines.hxx.cmake.in ${log4cplus_BINARY_DIR}/include/log4cplus/config/defines.hxx @ONLY)
+configure_file(include/log4cplus/config.h.cmake.in
+  ${log4cplus_BINARY_DIR}/include/log4cplus/config.h @ONLY)
+configure_file(include/log4cplus/config/defines.hxx.cmake.in
+  ${log4cplus_BINARY_DIR}/include/log4cplus/config/defines.hxx @ONLY)
 
 include_directories (${log4cplus_SOURCE_DIR}/include
                      ${log4cplus_BINARY_DIR}/include
@@ -58,5 +63,8 @@ add_subdirectory (loggingserver)
 if (LOG4CPLUS_BUILD_TESTING)
   add_subdirectory (tests)
 endif (LOG4CPLUS_BUILD_TESTING)
+if (LOG4CPLUS_QT4)
+  add_subdirectory (qt4debugappender)
+endif (LOG4CPLUS_QT4)
 
 include(Log4CPlusCPack.cmake)

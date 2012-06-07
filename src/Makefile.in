@@ -74,7 +74,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ax_gethostbyname_r.m4 \
 	$(top_srcdir)/m4/ax_getaddrinfo.m4 \
 	$(top_srcdir)/m4/ax_log4cplus_wrappers.m4 \
-	$(top_srcdir)/configure.in
+	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -210,6 +210,7 @@ LOG4CPLUS_NDEBUG = @LOG4CPLUS_NDEBUG@
 LOG4CPLUS_PROFILING_CXXFLAGS = @LOG4CPLUS_PROFILING_CXXFLAGS@
 LOG4CPLUS_PROFILING_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@
 LTLIBOBJS = @LTLIBOBJS@
+LT_RELEASE = @LT_RELEASE@
 LT_VERSION = @LT_VERSION@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
@@ -228,9 +229,14 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
+PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
+PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 PTHREAD_CC = @PTHREAD_CC@
 PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 PTHREAD_LIBS = @PTHREAD_LIBS@
+QT_CFLAGS = @QT_CFLAGS@
+QT_LIBS = @QT_LIBS@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -433,7 +439,7 @@ LIB_SRC = $(SINGLE_THREADED_SRC)
 liblog4cplus_la_SOURCES = $(LIB_SRC)
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release 1.1
+liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release @LT_RELEASE@
 all: all-am
 
 .SUFFIXES:
