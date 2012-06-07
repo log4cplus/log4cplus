@@ -103,6 +103,40 @@ CXX=/opt/solarisstudio12.3/bin/CC CFLAGS="$COMMON_FLAGS" \
 CXXFLAGS="$COMMON_FLAGS" LDFLAGS="-lpthread"
 
 
+Qt / Win32 / MSVC
+-----------------
+
+In order to use log4cplus in Qt programs it is necessary to set
+following option:
+
+Treat WChar_t As Built in Type: No (/Zc:wchar_t-)
+
+Set this option for log4cplus project and Qt4DebugAppender project in
+MS Visual Studio. Remember to use Unicode versions of log4cplus
+libraries with Qt. It is also necessary to make clear distinction
+between debug and release builds of Qt project and log4cplus. Do not
+use log4cplus release library with debug version of Qt program or vice
+versa.
+
+For registering Qt4DebugAppender library at run-time call this method:
+
+log4cplus::Qt4DebugAppender::registerAppender() ;
+
+Add these lines to qmake project file for using log4cplus and
+Qt4DebugAppender:
+
+INCLUDEPATH += C:\log4cplus\include
+win32 {
+    CONFIG(debug, debug|release) {
+        LIBS += -LC:\log4cplus\msvc10\Win32\bin.Debug_Unicode -llog4cplusUD
+        LIBS += -LC:\log4cplus\msvc10\Win32\bin.Debug_Unicode -llog4cplus-Qt4DebugAppender
+    } else {
+        LIBS += -LC:\log4cplus\msvc10\Win32\bin.Release_Unicode -llog4cplusU
+        LIBS += -LC:\log4cplus\msvc10\Win32\bin.Release_Unicode -llog4cplus-Qt4DebugAppender
+    }
+}
+
+
 Unsupported compilers
 ---------------------
 

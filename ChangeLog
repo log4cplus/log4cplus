@@ -1,10 +1,13 @@
-log4cplus 1.1.0-RC5
+log4cplus 1.1.0-RC6
 
 - Fixed compilation for build with wchar_t being alias to unsigned
   short (Windows).
 
 - Added new appender CLFSAppender (experimental), based on Microsoft
   Common Log File System API.
+
+- Added new appender Qt4DebugAppender (experimenta), based on Qt4's
+  qDebug(), qWarning() and qCritical() functions.
 
 
 log4cplus 1.1.0-RC5
