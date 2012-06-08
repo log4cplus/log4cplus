@@ -39,10 +39,9 @@ public:
     snprintf_buf ();
 
     tchar const * print (tchar const * fmt, ...)
-        LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 2, 3)
-        LOG4CPLUS_FORMAT_ARG_ATTRIBUTE (2);
+        LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 2, 3);
     tchar const * print_va_list (tchar const * fmt, std::va_list)
-        LOG4CPLUS_FORMAT_ARG_ATTRIBUTE (2);
+        LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 2, 0);
 
 private:
     std::vector<tchar> buf;

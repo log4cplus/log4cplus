@@ -96,13 +96,8 @@
 #if ! defined (UNICODE) && defined (__GNUC__) && __GNUC__ >= 3
 #  define LOG4CPLUS_FORMAT_ATTRIBUTE(archetype, format_index, first_arg_index) \
     __attribute__ ((format (archetype, format_index, first_arg_index)))
-#  define LOG4CPLUS_FORMAT_ARG_ATTRIBUTE(format_index) \
-    __attribute__ ((format_arg (format_index)))
-
 #else
 #  define LOG4CPLUS_FORMAT_ATTRIBUTE(archetype, fmt_index, first_arg_index) \
-    /* empty */
-#  define LOG4CPLUS_FORMAT_ARG_ATTRIBUTE(format_index) \
     /* empty */
 #endif
 
