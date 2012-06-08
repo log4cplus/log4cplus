@@ -27,3 +27,6 @@ order:
 - Custom codecvt facet for use FileAppender using log4cplus' internal
   wchar_t <-> chart conversion routines.
 
+- Research possible use of Valgrind at compile time.
+
+- Research possible use of -fmudflap.
