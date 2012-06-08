@@ -64,9 +64,14 @@ LOG4CPLUS_EXPORT int log4cplus_basic_configure(void);
 LOG4CPLUS_EXPORT void log4cplus_shutdown(void);
 
 LOG4CPLUS_EXPORT bool log4cplus_logger_exists(const log4cplus_char_t *name);
-LOG4CPLUS_EXPORT bool log4cplus_logger_is_enabled_for(const log4cplus_char_t *name, loglevel_t ll);
-LOG4CPLUS_EXPORT int log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll, const log4cplus_char_t *msgfmt, ...);
-LOG4CPLUS_EXPORT int log4cplus_logger_force_log(const log4cplus_char_t *name, loglevel_t ll, const log4cplus_char_t *msgfmt, ...);
+LOG4CPLUS_EXPORT bool log4cplus_logger_is_enabled_for(
+    const log4cplus_char_t *name, loglevel_t ll);
+LOG4CPLUS_EXPORT int log4cplus_logger_log(const log4cplus_char_t *name,
+    loglevel_t ll, const log4cplus_char_t *msgfmt, ...)
+    LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 3, 4);
+LOG4CPLUS_EXPORT int log4cplus_logger_force_log(const log4cplus_char_t *name,
+    loglevel_t ll, const log4cplus_char_t *msgfmt, ...)
+    LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 3, 4);
 
 #ifdef __cplusplus
 }

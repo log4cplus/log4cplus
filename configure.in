@@ -148,6 +148,7 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
       dnl AX_CXXFLAGS_GCC_OPTION([-Wconversion])
       AX_CXXFLAGS_GCC_OPTION([-Wundef])
       AX_CXXFLAGS_GCC_OPTION([-Wshadow])
+      AX_CXXFLAGS_GCC_OPTION([-Wformat])
       AX_CXXFLAGS_GCC_OPTION([-Wno-variadic-macros])])
 
    AS_IF([test "x$enable_debugging" = "xyes"],

@@ -38,8 +38,11 @@ class LOG4CPLUS_EXPORT snprintf_buf
 public:
     snprintf_buf ();
 
-    tchar const * print (tchar const * fmt, ...);
-    tchar const * print_va_list (tchar const * fmt, std::va_list);
+    tchar const * print (tchar const * fmt, ...)
+        LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 2, 3)
+        LOG4CPLUS_FORMAT_ARG_ATTRIBUTE (2);
+    tchar const * print_va_list (tchar const * fmt, std::va_list)
+        LOG4CPLUS_FORMAT_ARG_ATTRIBUTE (2);
 
 private:
     std::vector<tchar> buf;

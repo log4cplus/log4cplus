@@ -39,7 +39,7 @@ public:
             log4cplus::thread::MutexGuard guard (mutex);
             LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("Actually doing something..."));
             sleep(0, 75 * MILLIS_TO_NANOS);
-            LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("Actually doing something...DONE"));
+            LOG4CPLUS_INFO_FMT(logger, ">%s<", LOG4CPLUS_TEXT("Actually doing something...DONE"));
         }
         log4cplus::thread::yield();
     }
