@@ -420,7 +420,7 @@
 /* Defined to the actual TLS support construct. */
 #undef TLS_SUPPORT_CONSTRUCT
 
-/* Define to int if undefined. */
+/* Substitute for socklen_t */
 #undef socklen_t
 
 #endif // LOG4CPLUS_CONFIG_H
