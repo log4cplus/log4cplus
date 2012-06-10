@@ -28,6 +28,9 @@
 
 #include <log4cplus/config.hxx>
 
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
 
 #define LOG4CPLUS_MAKE_VERSION(major, minor, point) \
     (major * 1000 * 1000u + minor * 1000u + point)

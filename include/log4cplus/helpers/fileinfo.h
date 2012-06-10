@@ -27,6 +27,11 @@
 #define LOG4CPLUS_HELPERS_FILEINFO_H
 
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #include <log4cplus/helpers/timehelper.h>
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>

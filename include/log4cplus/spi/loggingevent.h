@@ -24,8 +24,13 @@
 #ifndef _LOG4CPLUS_SPI_INTERNAL_LOGGING_EVENT_HEADER_
 #define _LOG4CPLUS_SPI_INTERNAL_LOGGING_EVENT_HEADER_
 
-#include <memory>
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
+#include <memory>
 #include <log4cplus/loglevel.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/mdc.h>

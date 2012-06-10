@@ -24,6 +24,11 @@
 #define _LOG4CPLUS_NT_EVENT_LOG_APPENDER_HEADER_
 
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #if defined (LOG4CPLUS_HAVE_NT_EVENT_LOG)
 
 #include <log4cplus/appender.h>

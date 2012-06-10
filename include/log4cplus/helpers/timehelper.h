@@ -25,6 +25,11 @@
 #define _LOG4CPLUS_HELPERS_TIME_HELPER_HEADER_
 
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #include <log4cplus/tstring.h>
 
 #if defined (LOG4CPLUS_HAVE_TIME_H)

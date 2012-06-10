@@ -104,7 +104,7 @@
 #if defined (_MSC_VER)                                             \
     || (defined (__COMO__) && __COMO_VERSION__ >= 400) /* ??? */   \
     || (defined (__DMC__) && __DMC__ >= 0x700) /* ??? */           \
-    || (defined (__clang__) && __clang__major >= 3)                \
+    || (defined (__clang__) && __clang_major__ >= 3)               \
     || (defined (__GNUC__) && (__GNUC__ >= 4                       \
             || (__GNUC__ == 3 && __GNUC_MINOR__ >= 4)))
 #  define LOG4CPLUS_HAVE_PRAGMA_ONCE

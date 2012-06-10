@@ -24,6 +24,12 @@
 #ifndef LOG4CPLUS_BOOST_DEVICEAPPENDER_HXX
 #define LOG4CPLUS_BOOST_DEVICEAPPENDER_HXX
 
+#include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/mpl/not.hpp>

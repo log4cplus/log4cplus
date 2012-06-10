@@ -27,6 +27,10 @@
 
 #include <log4cplus/config.hxx>
 
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #if defined (LOG4CPLUS_INLINES_ARE_EXPORTED) \
     || defined (LOG4CPLUS_ENABLE_SYNCPRIMS_PUB_IMPL)
 #include <log4cplus/thread/syncprims.h>

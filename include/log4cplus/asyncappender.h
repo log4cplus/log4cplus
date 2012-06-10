@@ -36,9 +36,14 @@
 #ifndef LOG4CPLUS_ASYNCAPPENDER_H
 #define LOG4CPLUS_ASYNCAPPENDER_H
 
+#include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
-#include <log4cplus/config.hxx>
 #include <log4cplus/helpers/queue.h>
 #include <log4cplus/appender.h>
 #include <log4cplus/thread/threads.h>
