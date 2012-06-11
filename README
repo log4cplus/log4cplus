@@ -137,6 +137,23 @@ win32 {
 }
 
 
+LOG4CPLUS_*_FMT() and UNICODE
+-----------------------------
+
+Beware, the %s specifier does not work the same way on *NIX as it does
+on Windows with Visual Studio. With Visual Studio the %s specifier
+changes its meaning conveniently by printing wchar_t string when used
+with wprintf() and char strings when used with wprintf(). On the other
+hand, *NIX keeps the meaning of printing char strings when used with
+both wprintf() and printf(). It is necessary to use %ls (C99)
+specifier or %S (SUSv2) specifier to print wchar_t strings on *NIX.
+
+The common ground for both platforms appears to be use of %ls and
+wchar_t string to print strings with unmodified formatting string
+argument on both *NIX and Windows. The conversion of wchar_t back to
+char then depends on C locale.
+
+
 Unsupported compilers
 ---------------------
 
