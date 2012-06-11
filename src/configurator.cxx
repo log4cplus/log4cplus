@@ -287,6 +287,10 @@ PropertyConfigurator::configure()
     if (properties.getBool (internal_debugging, LOG4CPLUS_TEXT ("configDebug")))
         helpers::getLogLog ().setInternalDebugging (internal_debugging);
 
+    bool quiet_mode = false;
+    if (properties.getBool (quiet_mode, LOG4CPLUS_TEXT ("quietMode")))
+        helpers::getLogLog ().setQuietMode (quiet_mode);
+
     initializeLog4cplus();
     configureAppenders();
     configureLoggers();
