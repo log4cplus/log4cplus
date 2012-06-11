@@ -41,8 +41,8 @@ public:
             sleep(0, 75 * MILLIS_TO_NANOS);
             LOG4CPLUS_INFO_FMT(logger,
                 LOG4CPLUS_TEXT (
-                    "Actually doing something...%d, %d, %d...DONE"),
-                1, 2, 3);
+                    "Actually doing something...%d, %d, %d, %ls...DONE"),
+                1, 2, 3, L"testing");
         }
         log4cplus::thread::yield();
     }
