@@ -37,6 +37,12 @@
 #ifndef LOG4CPLUS_INTERNAL_INTERNAL_HEADER_
 #define LOG4CPLUS_INTERNAL_INTERNAL_HEADER_
 
+#include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #if ! defined (INSIDE_LOG4CPLUS)
 #  error "This header must not be be used outside log4cplus' implementation files."
 #endif
@@ -45,7 +51,6 @@
 #include <vector>
 #include <sstream>
 #include <cstdio>
-#include <log4cplus/config.hxx>
 #include <log4cplus/tstring.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/ndc.h>

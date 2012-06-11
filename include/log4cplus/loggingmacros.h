@@ -26,6 +26,11 @@
 #define _LOG4CPLUS_LOGGING_MACROS_HEADER_
 
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #include <log4cplus/streams.h>
 #include <log4cplus/logger.h>
 #include <log4cplus/helpers/snprintf.h>

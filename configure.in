@@ -331,8 +331,8 @@ AS_IF([test "x$ax_cv_have_gettid" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_HAVE_GETTID])])
 
 dnl Check for the existance of type socklen_t.
-TYPE_SOCKLEN_T
 
+AX_TYPE_SOCKLEN_T
 
 dnl Check for single-threaded compilation
 

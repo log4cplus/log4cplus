@@ -30,6 +30,12 @@
 #if ! defined (LOG4CPLUS_CONFIG_CYGWIN_WIN32_H)
 #define LOG4CPLUS_CONFIG_CYGWIN_WIN32_H
 
+#include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #if defined (__CYGWIN__)
 
 #if ! defined (INSIDE_LOG4CPLUS)

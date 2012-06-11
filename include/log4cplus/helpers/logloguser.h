@@ -26,6 +26,10 @@
 
 #include <log4cplus/config.hxx>
 
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 
 namespace log4cplus {
     namespace helpers {

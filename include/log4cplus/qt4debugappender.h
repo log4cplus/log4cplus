@@ -36,6 +36,12 @@
 #ifndef LOG4CPLUS_QT4DEBUGAPPENDER_H
 #define LOG4CPLUS_QT4DEBUGAPPENDER_H
 
+#include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #include <log4cplus/appender.h>
 
 #if defined (_WIN32)

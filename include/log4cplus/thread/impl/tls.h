@@ -26,6 +26,11 @@
 #define LOG4CPLUS_THREAD_IMPL_TLS_H
 
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #include <new>
 #include <cassert>
 

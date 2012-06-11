@@ -25,6 +25,11 @@
 #define LOG4CPLUS_SPI_FACTORY_HEADER_
 
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #include <log4cplus/appender.h>
 #include <log4cplus/layout.h>
 #include <log4cplus/tstring.h>
