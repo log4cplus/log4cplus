@@ -101,6 +101,12 @@
     /* empty */
 #endif
 
+#if defined (__GNUC__) && __GNUC__ >= 3
+#  define LOG4CPLUS_ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
+#else
+#  define LOG4CPLUS_ATTRIBUTE_NORETURN /* empty */
+#endif
+
 #if defined (_MSC_VER)                                             \
     || (defined (__COMO__) && __COMO_VERSION__ >= 400) /* ??? */   \
     || (defined (__DMC__) && __DMC__ >= 0x700) /* ??? */           \
