@@ -103,8 +103,10 @@
 
 #if defined (__GNUC__) && __GNUC__ >= 3
 #  define LOG4CPLUS_ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
+#  define LOG4CPLUS_ATTRIBUTE_PURE __attribute__ ((__pure__))
 #else
 #  define LOG4CPLUS_ATTRIBUTE_NORETURN /* empty */
+#  define LOG4CPLUS_ATTRIBUTE_PURE /* empty */
 #endif
 
 #if defined (_MSC_VER)                                             \
