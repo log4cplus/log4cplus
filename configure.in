@@ -256,6 +256,80 @@ LOG4CPLUS_CHECK_HEADER([errno.h], [LOG4CPLUS_HAVE_ERRNO_H])
 LOG4CPLUS_CHECK_HEADER([limits.h], [LOG4CPLUS_HAVE_LIMITS_H])
 LOG4CPLUS_CHECK_HEADER([iconv.h], [LOG4CPLUS_HAVE_ICONV_H])
 
+dnl Check for the existance of type socklen_t.
+
+AX_TYPE_SOCKLEN_T
+
+dnl Check for single-threaded compilation
+
+AH_TEMPLATE([LOG4CPLUS_USE_PTHREADS])
+AC_ARG_ENABLE([threads],
+  [AS_HELP_STRING([--enable-threads=yes/no],
+    [Use this option to create a singled-threaded version of this library])],
+  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-threads])],
+  [enable_threads=yes])
+
+AS_IF([test "x$enable_threads" = "xyes"],
+dnl Multi threaded library.
+  [AC_MSG_NOTICE([Creating a multi-threaded library.])
+   AC_MSG_NOTICE([Threads support:])
+
+   CPPFLAGS="$CPPFLAGS -D_REENTRANT"
+
+   AS_CASE(["$target_os"],
+     [mingw*], [],
+     [ACX_PTHREAD([],
+       [AC_MSG_ERROR([Requested threads support but no threads were found.])])])
+
+   CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
+   CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
+   LIBS="$PTHREAD_LIBS $LIBS"
+
+   dnl required on HP-UX
+   AC_SEARCH_LIBS([sem_init], [rt])
+
+   AS_CASE([$ax_cv_cxx_compiler_vendor],
+     [gnu|clang],
+     [dnl GCC, empty case to avoid false positive for -qtls check.
+     ],
+     [sun],
+     [dnl Check for Sun's compiler's TLS option.
+      AX_CXXFLAGS_SUN_OPTION([-xthreadvar])],
+     [dnl Default case.
+      dnl Check for IBM's compiler's TLS option.
+      AX_CXXFLAGS_AIX_OPTION([-qtls])])
+
+   AX__SYNC
+   AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])
+   AS_IF([test "x$ac_cv___sync_add_and_fetch" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])])
+   AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])
+   AS_IF([test "x$ac_cv___sync_sub_and_fetch" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])])
+   AH_TEMPLATE([LOG4CPLUS_HAVE_CXX11_ATOMICS])
+   AS_IF([test "x$ac_cv_cxx11_atomics" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE_CXX11_ATOMICS])])
+
+   AX_TLS_SUPPORT
+   AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
+   AH_TEMPLATE([LOG4CPLUS_THREAD_LOCAL_VAR])
+   AS_IF([test "x$ac_cv_declspec_thread" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE_TLS_SUPPORT])
+      AC_DEFINE([LOG4CPLUS_THREAD_LOCAL_VAR], [__declspec(thread)])],
+     [AS_IF([test "x$ac_cv__thread_keyword" = "xyes"],
+       [AC_DEFINE([LOG4CPLUS_HAVE_TLS_SUPPORT])
+        AC_DEFINE([LOG4CPLUS_THREAD_LOCAL_VAR], [__thread])])])],
+
+dnl Single threaded library.
+  [AC_MSG_NOTICE([Creating a single-threaded library])
+   AC_DEFINE([LOG4CPLUS_SINGLE_THREADED], [1],
+     [Define if this is a single-threaded library.])])
+
+AM_CONDITIONAL([MULTI_THREADED], [test "x$enable_threads" = "xyes"])
+
+dnl Library functions checks are here because preprocessor symbols
+dnl like _REENTRANT can influence availability of some functions.
+
 dnl Checks for library functions.
 
 LOG4CPLUS_CHECK_FUNCS([gmtime_r], [LOG4CPLUS_HAVE_GMTIME_R])
@@ -334,77 +408,6 @@ AC_CACHE_CHECK([for gettid], [ax_cv_have_gettid],
     [ax_cv_have_gettid=no])])
 AS_IF([test "x$ax_cv_have_gettid" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_HAVE_GETTID])])
-
-dnl Check for the existance of type socklen_t.
-
-AX_TYPE_SOCKLEN_T
-
-dnl Check for single-threaded compilation
-
-AH_TEMPLATE([LOG4CPLUS_USE_PTHREADS])
-AC_ARG_ENABLE([threads],
-  [AS_HELP_STRING([--enable-threads=yes/no],
-    [Use this option to create a singled-threaded version of this library])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-threads])],
-  [enable_threads=yes])
-
-AS_IF([test "x$enable_threads" = "xyes"],
-dnl Multi threaded library.
-  [AC_MSG_NOTICE([Creating a multi-threaded library.])
-   AC_MSG_NOTICE([Threads support:])
-
-   CPPFLAGS="$CPPFLAGS -D_REENTRANT"
-
-   AS_CASE(["$target_os"],
-     [mingw*], [],
-     [ACX_PTHREAD([],
-       [AC_MSG_ERROR([Requested threads support but no threads were found.])])])
-
-   CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
-   CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
-   LIBS="$PTHREAD_LIBS $LIBS"
-
-   dnl required on HP-UX
-   AC_SEARCH_LIBS([sem_init], [rt])
-
-   AS_CASE([$ax_cv_cxx_compiler_vendor],
-     [gnu|clang],
-     [dnl GCC, empty case to avoid false positive for -qtls check.
-     ],
-     [sun],
-     [dnl Check for Sun's compiler's TLS option.
-      AX_CXXFLAGS_SUN_OPTION([-xthreadvar])],
-     [dnl Default case.
-      dnl Check for IBM's compiler's TLS option.
-      AX_CXXFLAGS_AIX_OPTION([-qtls])])
-
-   AX__SYNC
-   AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])
-   AS_IF([test "x$ac_cv___sync_add_and_fetch" = "xyes"],
-     [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])])
-   AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])
-   AS_IF([test "x$ac_cv___sync_sub_and_fetch" = "xyes"],
-     [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])])
-   AH_TEMPLATE([LOG4CPLUS_HAVE_CXX11_ATOMICS])
-   AS_IF([test "x$ac_cv_cxx11_atomics" = "xyes"],
-     [AC_DEFINE([LOG4CPLUS_HAVE_CXX11_ATOMICS])])
-
-   AX_TLS_SUPPORT
-   AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
-   AH_TEMPLATE([LOG4CPLUS_THREAD_LOCAL_VAR])
-   AS_IF([test "x$ac_cv_declspec_thread" = "xyes"],
-     [AC_DEFINE([LOG4CPLUS_HAVE_TLS_SUPPORT])
-      AC_DEFINE([LOG4CPLUS_THREAD_LOCAL_VAR], [__declspec(thread)])],
-     [AS_IF([test "x$ac_cv__thread_keyword" = "xyes"],
-       [AC_DEFINE([LOG4CPLUS_HAVE_TLS_SUPPORT])
-        AC_DEFINE([LOG4CPLUS_THREAD_LOCAL_VAR], [__thread])])])],
-
-dnl Single threaded library.
-  [AC_MSG_NOTICE([Creating a single-threaded library])
-   AC_DEFINE([LOG4CPLUS_SINGLE_THREADED], [1],
-     [Define if this is a single-threaded library.])])
-
-AM_CONDITIONAL([MULTI_THREADED], [test "x$enable_threads" = "xyes"])
 
 dnl Qt4 setup using pkg-config.
 
