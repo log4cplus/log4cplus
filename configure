@@ -4861,6 +4861,8 @@ case "$target_os" in #(
   mingw*) :
                 CPPFLAGS="$CPPFLAGS -U__STRICT_ANSI__"
    CPPFLAGS="$CPPFLAGS -DWIN32 -D_WIN32" ;; #(
+  cygwin*) :
+             CPPFLAGS="$CPPFLAGS -U__STRICT_ANSI__" ;; #(
   *) :
      ;;
 esac
