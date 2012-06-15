@@ -23,6 +23,10 @@
 #ifndef LOG4CPLUS_HELPERS_THREAD_CONFIG_HEADER_
 #define LOG4CPLUS_HELPERS_THREAD_CONFIG_HEADER_
 
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #if defined (LOG4CPLUS_USE_PTHREADS)
 // Nothing.
 

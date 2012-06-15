@@ -26,8 +26,13 @@
 #ifndef LOG4CPLUS_LOGLEVEL_HEADER_
 #define LOG4CPLUS_LOGLEVEL_HEADER_
 
-#include <vector>
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
+#include <vector>
 #include <log4cplus/tstring.h>
 
 

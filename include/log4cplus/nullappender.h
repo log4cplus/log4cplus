@@ -25,6 +25,11 @@
 #define _LOG4CPLUS_NULL_APPENDER_HEADER_
 
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #include <log4cplus/appender.h>
 
 

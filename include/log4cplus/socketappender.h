@@ -25,6 +25,11 @@
 #define _LOG4CPLUS_SOCKET_APPENDER_HEADER_
 
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #include <log4cplus/appender.h>
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/thread/syncprims.h>

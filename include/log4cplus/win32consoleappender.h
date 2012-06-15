@@ -25,8 +25,12 @@
 #ifndef LOG4CPLUS_WIN32CONSOLEAPPENDER_H
 #define LOG4CPLUS_WIN32CONSOLEAPPENDER_H
 
-
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #if defined(_WIN32) && defined (LOG4CPLUS_HAVE_WIN32_CONSOLE)
 
 #include <log4cplus/appender.h>

@@ -25,6 +25,11 @@
 #define _LOG4CPLUS_HELPERS_TIME_HELPER_HEADER_
 
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #include <log4cplus/tstring.h>
 
 #if defined (LOG4CPLUS_HAVE_TIME_H)
@@ -95,9 +100,9 @@ public:
     time_t setTime(tm* t);
 
     /**
-     * Returns this Time as a <code>time_t></code> value.
+     * Returns this Time as a <code>time_t</code> value.
      */
-    time_t getTime() const;
+    time_t getTime() const LOG4CPLUS_ATTRIBUTE_PURE;
 
     /**
      * Populates <code>tm</code> using the <code>gmtime()</code>
@@ -154,19 +159,25 @@ LOG4CPLUS_EXPORT const log4cplus::helpers::Time operator*
                                     long rhs);
 
 LOG4CPLUS_EXPORT bool operator<(const log4cplus::helpers::Time& lhs,
-                                const log4cplus::helpers::Time& rhs);
+                                const log4cplus::helpers::Time& rhs)
+    LOG4CPLUS_ATTRIBUTE_PURE;
 LOG4CPLUS_EXPORT bool operator<=(const log4cplus::helpers::Time& lhs,
-                                 const log4cplus::helpers::Time& rhs);
+                                 const log4cplus::helpers::Time& rhs)
+    LOG4CPLUS_ATTRIBUTE_PURE;
 
 LOG4CPLUS_EXPORT bool operator>(const log4cplus::helpers::Time& lhs,
-                                const log4cplus::helpers::Time& rhs);
+                                const log4cplus::helpers::Time& rhs)
+    LOG4CPLUS_ATTRIBUTE_PURE;
 LOG4CPLUS_EXPORT bool operator>=(const log4cplus::helpers::Time& lhs,
-                                 const log4cplus::helpers::Time& rhs);
+                                 const log4cplus::helpers::Time& rhs)
+    LOG4CPLUS_ATTRIBUTE_PURE;
 
 LOG4CPLUS_EXPORT bool operator==(const log4cplus::helpers::Time& lhs,
-                                 const log4cplus::helpers::Time& rhs);
+                                 const log4cplus::helpers::Time& rhs)
+    LOG4CPLUS_ATTRIBUTE_PURE;
 LOG4CPLUS_EXPORT bool operator!=(const log4cplus::helpers::Time& lhs,
-                                 const log4cplus::helpers::Time& rhs);
+                                 const log4cplus::helpers::Time& rhs)
+    LOG4CPLUS_ATTRIBUTE_PURE;
 
 } // namespace helpers
 

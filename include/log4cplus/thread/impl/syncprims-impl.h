@@ -25,12 +25,17 @@
 #ifndef LOG4CPLUS_THREAD_SYNCPRIMS_IMPL_H
 #define LOG4CPLUS_THREAD_SYNCPRIMS_IMPL_H
 
+#include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #if ! defined (INSIDE_LOG4CPLUS)
 #  error "This header must not be be used outside log4cplus' implementation files."
 #endif
 
 #include <stdexcept>
-#include <log4cplus/config.hxx>
 #include <log4cplus/thread/syncprims.h>
 #if defined (_WIN32)
 #  include <log4cplus/config/windowsh-inc.h>
@@ -48,7 +53,7 @@ namespace log4cplus { namespace thread { namespace impl {
 
 
 LOG4CPLUS_EXPORT void syncprims_throw_exception (char const * const msg,
-    char const * const file, int line);
+    char const * const file, int line) LOG4CPLUS_ATTRIBUTE_NORETURN;
 
 
 #define LOG4CPLUS_THROW_RTE(msg) \

@@ -25,6 +25,12 @@
 #ifndef LOG4CPLUS_HELPERS_SNPRINTF_H
 #define LOG4CPLUS_HELPERS_SNPRINTF_H
 
+#include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #include <log4cplus/tchar.h>
 #include <cstdarg>
 #include <vector>
@@ -38,8 +44,10 @@ class LOG4CPLUS_EXPORT snprintf_buf
 public:
     snprintf_buf ();
 
-    tchar const * print (tchar const * fmt, ...);
-    tchar const * print_va_list (tchar const * fmt, std::va_list);
+    tchar const * print (tchar const * fmt, ...)
+        LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 2, 3);
+    tchar const * print_va_list (tchar const * fmt, std::va_list)
+        LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 2, 0);
 
 private:
     std::vector<tchar> buf;

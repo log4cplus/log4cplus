@@ -24,6 +24,10 @@
 #ifndef LOG4CPLUS_CONFIG_WIN32_HEADER_
 #define LOG4CPLUS_CONFIG_WIN32_HEADER_
 
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #ifdef _WIN32
 
 #if (defined (_MSC_VER) && _MSC_VER >= 1400)

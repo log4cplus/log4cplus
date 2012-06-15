@@ -24,6 +24,10 @@
 #ifndef LOG4CPLUS_CONFIG_MACOSX_HEADER_
 #define LOG4CPLUS_CONFIG_MACOSX_HEADER_
 
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #if (defined(__APPLE__) || (defined(__MWERKS__) && defined(__MACOS__)))
 
 #define LOG4CPLUS_HAVE_GETTIMEOFDAY 1

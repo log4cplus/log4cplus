@@ -25,8 +25,12 @@
 #ifndef LOG4CPLUS_MDC_H_HEADER
 #define LOG4CPLUS_MDC_H_HEADER
 
-
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
+#pragma once
+#endif
+
 #include <log4cplus/tstring.h>
 
 #include <map>
