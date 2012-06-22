@@ -28,6 +28,7 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
+#include <stdexcept>
 
 
 namespace log4cplus
@@ -88,6 +89,7 @@ Appender::Appender()
    name( LOG4CPLUS_TEXT("") ),
    threshold(NOT_SET_LOG_LEVEL),
    errorHandler(new OnlyOnceErrorHandler),
+   useLockFile(false),
    closed(false)
 {
 }
@@ -99,6 +101,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
     , name()
     , threshold(NOT_SET_LOG_LEVEL)
     , errorHandler(new OnlyOnceErrorHandler)
+    , useLockFile(false)
     , closed(false)
 {
     if(properties.exists( LOG4CPLUS_TEXT("layout") ))
@@ -176,6 +179,30 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
             filterChain->appendFilter(tmpFilter);
     }
     setFilter(filterChain);
+
+    properties.getBool (useLockFile, LOG4CPLUS_TEXT("UseLockFile"));
+    if (useLockFile)
+    {
+        tstring const & lockFileName
+            = properties.getProperty (LOG4CPLUS_TEXT ("LockFile"));
+        if (! lockFileName.empty ())
+        {
+            try
+            {
+                lockFile.reset (new helpers::LockFile (lockFileName));
+            }
+            catch (std::runtime_error const &)
+            {
+                return;
+            }
+        }
+        else
+        {
+            helpers::getLogLog ().debug (
+                LOG4CPLUS_TEXT (
+                    "UseLockFile is true but LockFile is not specified"));
+        }
+    }
 }
 
 
@@ -219,11 +246,32 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
         return;
     }
 
+    // Check appender's threshold logging level.
+
     if (! isAsSevereAsThreshold(event.getLogLevel()))
         return;
 
+    // Evaluate filters attached to this appender.
+
     if (checkFilter(filter.get(), event) == spi::DENY)
         return;
+
+    // Lock system wide lock.
+
+    helpers::LockFileGuard lfguard;
+    if (useLockFile && lockFile.get ())
+    {
+        try
+        {
+            lfguard.attach_and_lock (*lockFile);
+        }
+        catch (std::runtime_error const &)
+        {
+            return;
+        }
+    }
+
+    // Finally append given event.
 
     append(event);
 }

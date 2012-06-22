@@ -57,6 +57,10 @@ namespace
 
 
 #if defined (LOG4CPLUS_USE_POOR_MANS_SNPRINTF)
+
+static inline int vftprintf (std::FILE * file, tchar const * fmt,
+    std::va_list args) LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 2, 0);
+
 static inline
 int
 vftprintf (std::FILE * file, tchar const * fmt, std::va_list args)
@@ -76,6 +80,10 @@ vftprintf (std::FILE * file, tchar const * fmt, std::va_list args)
 #endif
 }
 
+
+static inline int vstprintf (tchar * dest, std::size_t dest_size,
+    tchar const * fmt, std::va_list args)
+    LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 3, 0);
 
 static inline
 int
@@ -104,6 +112,10 @@ vstprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
 }
 
 #else /* ?defined (LOG4CPLUS_USE_POOR_MANS_SNPRINTF) */
+
+static inline int vsntprintf (tchar * dest, std::size_t dest_size,
+    tchar const * fmt, std::va_list args)
+    LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 3, 0);
 
 static inline
 int

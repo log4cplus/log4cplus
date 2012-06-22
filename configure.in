@@ -156,8 +156,8 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
       AX_CXXFLAGS_GCC_OPTION([-Wshadow])
       AX_CXXFLAGS_GCC_OPTION([-Wformat])
       AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=format])
-      AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=pure])
-      AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=const])
+      dnl AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=pure])
+      dnl AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=const])
       AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=noreturn])
       AX_CXXFLAGS_GCC_OPTION([-Wno-variadic-macros])])
 
