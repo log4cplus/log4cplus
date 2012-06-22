@@ -35,6 +35,7 @@
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/pointer.h>
 #include <log4cplus/spi/filter.h>
+#include <log4cplus/helpers/lockfile.h>
 
 #include <memory>
 
@@ -212,6 +213,13 @@ namespace log4cplus {
 
         /** It is assumed and enforced that errorHandler is never null. */
         std::auto_ptr<ErrorHandler> errorHandler;
+
+        //! Optional system wide synchronization lock.
+        std::auto_ptr<helpers::LockFile> lockFile;
+
+        //! Use lock file for inter-process synchronization of access
+        //! to log file.
+        bool useLockFile;
 
         /** Is this appender closed? */
         bool closed;

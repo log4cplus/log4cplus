@@ -28,6 +28,7 @@
 #include <log4cplus/helpers/fileinfo.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
+#include <log4cplus/internal/internal.h>
 #include <algorithm>
 #include <sstream>
 #include <cstdio>
@@ -216,12 +217,11 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 FileAppender::FileAppender(const tstring& filename_, 
     std::ios_base::openmode mode_, bool immediateFlush_)
     : immediateFlush(immediateFlush_)
-    , useLockFile (false)
     , reopenDelay(1)
     , bufferSize (0)
     , buffer (0)
 {
-    init(filename_, mode_);
+    init(filename_, mode_, internal::empty_str);
 }
 
 
@@ -229,7 +229,6 @@ FileAppender::FileAppender(const Properties& props,
                            std::ios_base::openmode mode_)
     : Appender(props)
     , immediateFlush(true)
-    , useLockFile (false)
     , reopenDelay(1)
     , bufferSize (0)
     , buffer (0)
@@ -246,23 +245,23 @@ FileAppender::FileAppender(const Properties& props,
     props.getBool (app, LOG4CPLUS_TEXT("Append"));
     props.getInt (reopenDelay, LOG4CPLUS_TEXT("ReopenDelay"));
     props.getULong (bufferSize, LOG4CPLUS_TEXT("BufferSize"));
-    props.getBool (useLockFile, LOG4CPLUS_TEXT("UseLockFile"));
-    lockFileName = props.getProperty (LOG4CPLUS_TEXT ("LockFile"));
 
+    tstring lockFileName = props.getProperty (LOG4CPLUS_TEXT ("LockFile"));
     if (useLockFile && lockFileName.empty ())
     {
         lockFileName = fn;
         lockFileName += LOG4CPLUS_TEXT(".lock");
     }
 
-    init(fn, (app ? std::ios::app : std::ios::trunc));
+    init(fn, (app ? std::ios::app : std::ios::trunc), lockFileName);
 }
 
 
 
 void
 FileAppender::init(const tstring& filename_, 
-                   std::ios_base::openmode mode_)
+                   std::ios_base::openmode mode_,
+                   const log4cplus::tstring& lockFileName_)
 {
     filename = filename_;
 
@@ -282,14 +281,16 @@ FileAppender::init(const tstring& filename_,
     }
     helpers::getLogLog().debug(LOG4CPLUS_TEXT("Just opened file: ") + filename);
 
-    if (useLockFile)
+    if (useLockFile && ! lockFile.get ())
     {
         try
         {
-            lockFile.reset (new helpers::LockFile (lockFileName));
+            lockFile.reset (new helpers::LockFile (lockFileName_));
         }
         catch (std::runtime_error const &)
         {
+            // We do not need to do any logging here as the internals
+            // or LockFile already use LogLog to report the failure.
             return;
         }
     }
@@ -355,21 +356,8 @@ FileAppender::append(const spi::InternalLoggingEvent& event)
             getErrorHandler()->reset();
     }
 
-    helpers::LockFileGuard guard;
-
     if (useLockFile)
-    {
-        try
-        {
-            guard.attach_and_lock (*lockFile);
-        }
-        catch (std::runtime_error const &)
-        {
-            return;
-        }
-
         out.seekp (0, std::ios_base::end);
-    }
 
     layout->formatAndAppend(out, event);
 
@@ -494,27 +482,35 @@ RollingFileAppender::append(const spi::InternalLoggingEvent& event)
     FileAppender::append(event);
 
     if(out.tellp() > maxFileSize) {
-        rollover();
+        rollover(true);
     }
 }
 
 
 void
-RollingFileAppender::rollover()
+RollingFileAppender::rollover(bool alreadyLocked)
 {
     helpers::LogLog & loglog = helpers::getLogLog();
-
     helpers::LockFileGuard guard;
+
+    // Close the current file
+    out.close();
+    // Reset flags since the C++ standard specified that all the flags
+    // should remain unchanged on a close.
+    out.clear(); 
 
     if (useLockFile)
     {
-        try
+        if (! alreadyLocked)
         {
-            guard.attach_and_lock (*lockFile);
-        }
-        catch (std::runtime_error const &)
-        {
-            return;
+            try
+            {
+                guard.attach_and_lock (*lockFile);
+            }
+            catch (std::runtime_error const &)
+            {
+                return;
+            }
         }
 
         // Recheck the condition as there is a window where another
@@ -527,10 +523,6 @@ RollingFileAppender::rollover()
             // The file has already been rolled by another
             // process. Just reopen with the new file.
 
-            // Close the current file.
-            out.close ();
-            out.clear ();
-
             // Open it up again.
             open (std::ios::out | std::ios::ate);
             loglog_opening_result (loglog, out, filename);
@@ -538,12 +530,6 @@ RollingFileAppender::rollover()
             return;
         }
     }
-
-    // Close the current file
-    out.close();
-    // Reset flags since the C++ standard specified that all the flags
-    // should remain unchanged on a close.
-    out.clear(); 
 
     // If maxBackups <= 0, then there is no file renaming to be done.
     if (maxBackupIndex > 0)
@@ -717,7 +703,7 @@ void
 DailyRollingFileAppender::append(const spi::InternalLoggingEvent& event)
 {
     if(event.getTimestamp() >= nextRolloverTime) {
-        rollover();
+        rollover(true);
     }
 
     FileAppender::append(event);
@@ -726,11 +712,11 @@ DailyRollingFileAppender::append(const spi::InternalLoggingEvent& event)
 
 
 void
-DailyRollingFileAppender::rollover()
+DailyRollingFileAppender::rollover(bool alreadyLocked)
 {
     helpers::LockFileGuard guard;
 
-    if (useLockFile)
+    if (useLockFile && ! alreadyLocked)
     {
         try
         {

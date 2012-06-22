@@ -130,12 +130,6 @@ namespace log4cplus
         bool immediateFlush;
 
         /**
-         * Use lock file for inter-process synchronization of access
-         * to log file.
-         */
-        bool useLockFile;
-
-        /**
          * When any append operation fails, <code>reopenDelay</code> says 
          * for how many seconds the next attempt to re-open the log file and 
          * resume logging will be delayed. If <code>reopenDelay</code> is zero, 
@@ -150,14 +144,12 @@ namespace log4cplus
         log4cplus::tofstream out;
         log4cplus::tstring filename;
 
-        log4cplus::tstring lockFileName;
-        std::auto_ptr<log4cplus::helpers::LockFile> lockFile;
-
         log4cplus::helpers::Time reopen_time;
 
     private:
         void init(const log4cplus::tstring& filename,
-                  std::ios_base::openmode mode);
+                  std::ios_base::openmode mode,
+                  const log4cplus::tstring& lockFileName);
 
       // Disallow copying of instances of this class
         FileAppender(const FileAppender&);
@@ -200,7 +192,7 @@ namespace log4cplus
 
     protected:
         virtual void append(const spi::InternalLoggingEvent& event);
-        void rollover();
+        void rollover(bool alreadyLocked = false);
 
       // Data
         long maxFileSize;
@@ -253,7 +245,7 @@ namespace log4cplus
 
     protected:
         virtual void append(const spi::InternalLoggingEvent& event);
-        void rollover();
+        void rollover(bool alreadyLocked = false);
         log4cplus::helpers::Time calculateNextRolloverTime(const log4cplus::helpers::Time& t) const;
         log4cplus::tstring getFilename(const log4cplus::helpers::Time& t) const;
 

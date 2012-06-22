@@ -89,7 +89,7 @@ namespace log4cplus { namespace helpers {
 
 
 #if defined (_WIN32)
-int const OPEN_FLAGS = _O_RDWR | _O_CREAT | _O_TEMPORARY | _O_NOINHERIT;
+int const OPEN_FLAGS = _O_RDWR | _O_CREAT /*| _O_TEMPORARY*/ | _O_NOINHERIT;
 int const OPEN_SHFLAGS = _SH_DENYNO;
 int const OPEN_MODE = _S_IREAD | _S_IWRITE;
 
