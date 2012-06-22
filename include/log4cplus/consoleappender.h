@@ -49,6 +49,7 @@ namespace log4cplus {
      * each appended event.</dd>
      * 
      * </dl>
+     * \sa Appender
      */
     class LOG4CPLUS_EXPORT ConsoleAppender : public Appender {
     public:
@@ -62,8 +63,8 @@ namespace log4cplus {
       // Methods
         virtual void close();
 
-        //! This mutex is used by ConsoleAppender and helpers::LogLog classes
-        //! synchronize output to console.
+        //! This mutex is used by ConsoleAppender and helpers::LogLog
+        //! classes to synchronize output to console.
         static log4cplus::thread::Mutex outputMutex;
 
     protected:

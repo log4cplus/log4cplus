@@ -74,6 +74,7 @@ namespace log4cplus
      * property is set to true then log4cplus uses OS specific
      * facilities (e.g., <code>lockf()</code>) to provide
      * inter-process file locking.
+     * \sa Appender
      * </dd>
      *
      * <dt><tt>LockFile</tt></dt>
@@ -82,6 +83,7 @@ namespace log4cplus
      * property is not specified, the value is derived from
      * <tt>File</tt> property by addition of ".lock" suffix. The
      * property is only used when <tt>UseLockFile</tt> is set to true.
+     * \sa Appender
      * </dd>
      *
      * </dl>
