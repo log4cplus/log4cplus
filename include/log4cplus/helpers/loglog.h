@@ -99,13 +99,9 @@ namespace log4cplus {
             void warn(const log4cplus::tstring& msg) const;
             void warn(tchar const * msg) const;
 
-          // Data
-            thread::Mutex mutex;
-
             // Public ctor and dtor to be used only by internal::DefaultContext.
             LogLog();
             virtual ~LogLog();
-
 
         private:
             enum TriState

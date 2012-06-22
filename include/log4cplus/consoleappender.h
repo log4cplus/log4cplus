@@ -62,6 +62,10 @@ namespace log4cplus {
       // Methods
         virtual void close();
 
+        //! This mutex is used by ConsoleAppender and helpers::LogLog classes
+        //! synchronize output to console.
+        static log4cplus::thread::Mutex outputMutex;
+
     protected:
         virtual void append(const spi::InternalLoggingEvent& event);
 

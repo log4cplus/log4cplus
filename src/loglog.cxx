@@ -18,7 +18,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <log4cplus/streams.h>
+#include <log4cplus/consoleappender.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/thread/threads.h>
@@ -59,6 +59,8 @@ LogLog::~LogLog()
 void
 LogLog::setInternalDebugging(bool enabled)
 {
+    thread::MutexGuard guard (ConsoleAppender::outputMutex);
+
     debugEnabled = enabled ? TriTrue : TriFalse;
 }
 
@@ -66,6 +68,8 @@ LogLog::setInternalDebugging(bool enabled)
 void
 LogLog::setQuietMode(bool quietModeVal)
 {
+    thread::MutexGuard guard (ConsoleAppender::outputMutex);
+
     quietMode = quietModeVal ? TriTrue : TriFalse;
 }
 
@@ -161,10 +165,12 @@ void
 LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
     tchar const * prefix, StringType const & msg, bool throw_flag) const
 {
-    thread::MutexGuard guard (mutex);
+    {
+        thread::MutexGuard guard (ConsoleAppender::outputMutex);
 
-    if ((this->*cond) ())
-        os << prefix << msg << std::endl;
+        if ((this->*cond) ())
+            os << prefix << msg << std::endl;
+    }
 
     if (throw_flag)
         throw std::runtime_error (LOG4CPLUS_TSTRING_TO_STRING (msg));
