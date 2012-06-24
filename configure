@@ -8362,8 +8362,8 @@ case ".$var" in
  ;;
 esac
  ;; #(
-  *) :
-                { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for aix/cc -qtls" >&5
+  ibm) :
+          { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for aix/cc -qtls" >&5
 $as_echo_n "checking CXXFLAGS for aix/cc -qtls... " >&6; }
 if ${ax_cv_cxxflags_aix_option__qtls+:} false; then :
   $as_echo_n "(cached) " >&6
@@ -8425,7 +8425,9 @@ case ".$ax_cv_cxxflags_aix_option__qtls" in
    fi
  ;;
 esac
- ;;
+ ;; #(
+  *) :
+     ;;
 esac
 
 

@@ -300,8 +300,8 @@ dnl Multi threaded library.
      [sun],
      [dnl Check for Sun's compiler's TLS option.
       AX_CXXFLAGS_SUN_OPTION([-xthreadvar])],
-     [dnl Default case.
-      dnl Check for IBM's compiler's TLS option.
+     [ibm],
+     [dnl Check for IBM's compiler's TLS option.
       AX_CXXFLAGS_AIX_OPTION([-qtls])])
 
    AX__SYNC
