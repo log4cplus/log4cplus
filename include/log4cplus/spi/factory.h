@@ -180,11 +180,6 @@ namespace log4cplus {
          */
         LOG4CPLUS_EXPORT FilterFactoryRegistry& getFilterFactoryRegistry();
 
-    }
-
-        
-    namespace
-    {
 
         template <typename ProductFactoryBase>
         class LocalFactoryBase
@@ -226,7 +221,7 @@ namespace log4cplus {
         #define LOG4CPLUS_REG_PRODUCT(reg, productprefix, productname, productns, productfact) \
         reg.put (																               \
             std::auto_ptr<productfact> (                                                       \
-                new log4cplus::FactoryTempl<productns productname, productfact> (              \
+                    new log4cplus::spi::FactoryTempl<productns productname, productfact> (     \
                     LOG4CPLUS_TEXT(productprefix)                                              \
                     LOG4CPLUS_TEXT(#productname))))
 
@@ -242,7 +237,7 @@ namespace log4cplus {
         LOG4CPLUS_REG_PRODUCT (reg, "log4cplus::spi::", filtername, log4cplus::spi::, \
             log4cplus::spi::FilterFactory)
 
-    } // namespace
+    } // namespace spi
 }
 
 
