@@ -1,9 +1,10 @@
 Name: log4cplus
-Version: 1.0.4
+Version: 1.0.4.1
 Release: 1
 
 Summary: log4cplus, C++ logging library
-Copyright: Apache
+#Copyright: Apache
+License: Apache
 Group: Development/Libraries
 Vendor: log4cplus project 
 Packager: Yusuke SATO <y-sato@y-sa.to>
@@ -44,6 +45,8 @@ rm -rf $RPM_BUILD_ROOT
 make prefix=$RPM_BUILD_ROOT%{prefix} install
 mkdir -p $RPM_BUILD_ROOT%{prefix}/include/
 cp -rp include/log4cplus $RPM_BUILD_ROOT%{prefix}/include/
+rm -rf $RPM_BUILD_ROOT%{prefix}/include/log4cplus/config*
+rm -rf $RPM_BUILD_ROOT%{prefix}/include/log4cplus/stamp-h1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
