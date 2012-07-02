@@ -45,6 +45,24 @@ attribute ignored."  This can be worked around by adding
 affected version of GCC have this option.
 
 
+Windows and TLS
+---------------
+
+log4cplus uses thread-local storage (TLS) for NDC, MDC and to optimize
+use of some temporary objects.  On Windows there are two ways to get
+TLS: (1) using TlsAlloc() etc. functions, and (2) using
+__declspec(thread).  While method (2) generates faster code, it has
+some limitations prior to Windows Vista.  If log4cplus.dll is loaded
+at run time using LoadLibrary() (or as a dependency of such loaded
+library), then accessing __declspec(thread) variables can cause
+general protection fault (GPF) errors.  This is because Windows prior
+to Windows Vista do not extend the TLS for libraries loaded at run
+time using LoadLibrary().  To allow using the best available method,
+log4cplus enables the method (2) by checking _WIN32_WINNT >= 0x0600
+condition, when compiling log4cplus targetted to Windows Vista or
+later.
+
+
 Threads and signals
 -------------------
 
@@ -62,17 +80,17 @@ AIX
 ---
 
 There appears to be a reentracy problem with AIX 5.3 and xlC 8 which
-can result into a deadlock condition in some curcumstances. It is
+can result into a deadlock condition in some curcumstances.  It is
 unknown whether the problem manifests with other versions of either
-the OS or the compiler, too. The problem was initially reported in a
+the OS or the compiler, too.  The problem was initially reported in a
 bug report #3056687 ([1]).
 
 The core of the problem is that IBM's/xlC's standard C++ IOStreams
 implementation uses global non recursive lock to protect some of its
-state. The application in the bug report was trying to do logging
+state.  The application in the bug report was trying to do logging
 using log4cplus from inside overflow() member function of a class
-derived from std::streambuf class. log4cplus itself uses
-std::ostringstream. This resulted into an attempt to recursivly lock
+derived from std::streambuf class.  log4cplus itself uses
+std::ostringstream.  This resulted into an attempt to recursivly lock
 the global non recursive lock and a deadlock.
 
 [1] <https://sourceforge.net/tracker/?func=detail&aid=3056687&group_id=40830&atid=429073>
@@ -82,8 +100,8 @@ Solaris Studio
 --------------
 
 Solaris Studio compilers' default standard C++ library is very
-non-standard. log4cplus requires better conforming standard library
-than the default Cstd library. This means that log4cplus' configure
+non-standard.  log4cplus requires better conforming standard library
+than the default Cstd library.  This means that log4cplus' configure
 script automatically adds '-library=stlport4' to compiler command
 line.
 
@@ -112,9 +130,9 @@ following option:
 Treat WChar_t As Built in Type: No (/Zc:wchar_t-)
 
 Set this option for log4cplus project and Qt4DebugAppender project in
-MS Visual Studio. Remember to use Unicode versions of log4cplus
-libraries with Qt. It is also necessary to make clear distinction
-between debug and release builds of Qt project and log4cplus. Do not
+MS Visual Studio.  Remember to use Unicode versions of log4cplus
+libraries with Qt.  It is also necessary to make clear distinction
+between debug and release builds of Qt project and log4cplus.  Do not
 use log4cplus release library with debug version of Qt program or vice
 versa.
 
@@ -141,16 +159,16 @@ LOG4CPLUS_*_FMT() and UNICODE
 -----------------------------
 
 Beware, the %s specifier does not work the same way on *NIX as it does
-on Windows with Visual Studio. With Visual Studio the %s specifier
+on Windows with Visual Studio.  With Visual Studio the %s specifier
 changes its meaning conveniently by printing wchar_t string when used
-with wprintf() and char strings when used with wprintf(). On the other
-hand, *NIX keeps the meaning of printing char strings when used with
-both wprintf() and printf(). It is necessary to use %ls (C99)
+with wprintf() and char strings when used with wprintf().  On the
+other hand, *NIX keeps the meaning of printing char strings when used
+with both wprintf() and printf().  It is necessary to use %ls (C99)
 specifier or %S (SUSv2) specifier to print wchar_t strings on *NIX.
 
 The common ground for both platforms appears to be use of %ls and
 wchar_t string to print strings with unmodified formatting string
-argument on both *NIX and Windows. The conversion of wchar_t back to
+argument on both *NIX and Windows.  The conversion of wchar_t back to
 char then depends on C locale.
 
 
