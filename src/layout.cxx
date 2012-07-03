@@ -23,6 +23,7 @@
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/internal/internal.h>
 #include <ostream>
 #include <iomanip>
 
@@ -99,7 +100,7 @@ SimpleLayout::formatAndAppend(log4cplus::tostream& output,
 ///////////////////////////////////////////////////////////////////////////////
 
 TTCCLayout::TTCCLayout(bool use_gmtime_)
-    : dateFormat( LOG4CPLUS_TEXT("%m-%d-%y %H:%M:%S,%q") )
+    : dateFormat()
     , use_gmtime(use_gmtime_)
 {
 }
@@ -107,8 +108,8 @@ TTCCLayout::TTCCLayout(bool use_gmtime_)
 
 TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
     : Layout(properties)
-    , dateFormat (properties.getProperty (LOG4CPLUS_TEXT("DateFormat"),
-        LOG4CPLUS_TEXT ("%m-%d-%y %H:%M:%S,%q")))
+    , dateFormat(properties.getProperty (LOG4CPLUS_TEXT("DateFormat"),
+            internal::empty_str))
     , use_gmtime(false)
 {
     properties.getBool (use_gmtime, LOG4CPLUS_TEXT("Use_gmtime"));
@@ -116,8 +117,7 @@ TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
 
 
 TTCCLayout::~TTCCLayout()
-{
-}
+{ }
 
 
 
