@@ -21,6 +21,8 @@ Tested on the following platforms
 - Linux/AMD64 with Sun C++ 5.12 Linux_i386 2011/11/16
 - Linux/AMD64 with Clang version 3.0-6ubuntu3 (tags/RELEASE_30/final)
   (based on LLVM 3.0)
+- Linux/AMD64 with Intel(R) C++ Intel(R) 64 Compiler XE for
+  applications running on Intel(R) 64, Version 12.1 Build 20120410
 - FreeBSD/AMD64 with GCC 3.4.6, 4.2.1 and 4.3.3
 - Windows 7 with MS Visual C++ 10.0
 - OpenSolaris 5.11 with Sun C++ 5.10 SunOS_i386 128229-02 2009/09/21,
