@@ -18,6 +18,8 @@ LIB_SRC = $(INCLUDES_SRC) \
 
 liblog4cplusqt4debugappender_la_SOURCES = $(LIB_SRC)
 
+liblog4cplusqt4debugappender_la_LIBADD = $(top_builddir)/src/liblog4cplus.la
+
 liblog4cplusqt4debugappender_la_LDFLAGS = -no-undefined \
 	-version-info @LT_VERSION@ -release @LT_RELEASE@ \
 	@QT_LIBS@

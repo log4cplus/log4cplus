@@ -112,7 +112,8 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-liblog4cplusqt4debugappender_la_LIBADD =
+liblog4cplusqt4debugappender_la_DEPENDENCIES =  \
+	$(top_builddir)/src/liblog4cplus.la
 am__objects_1 =
 am__objects_2 = $(am__objects_1) qt4debugappender.lo
 am_liblog4cplusqt4debugappender_la_OBJECTS = $(am__objects_2)
@@ -305,6 +306,7 @@ LIB_SRC = $(INCLUDES_SRC) \
 	qt4debugappender.cxx
 
 liblog4cplusqt4debugappender_la_SOURCES = $(LIB_SRC)
+liblog4cplusqt4debugappender_la_LIBADD = $(top_builddir)/src/liblog4cplus.la
 liblog4cplusqt4debugappender_la_LDFLAGS = -no-undefined \
 	-version-info @LT_VERSION@ -release @LT_RELEASE@ \
 	@QT_LIBS@
