@@ -1,13 +1,34 @@
 log4cplus 1.1.0-RC6
 
 - Fixed compilation for build with wchar_t being alias to unsigned
-  short (Windows).
+  short (/Zc:wchar_t-) (Windows).
 
 - Added new appender CLFSAppender (experimental), based on Microsoft
   Common Log File System API.
 
 - Added new appender Qt4DebugAppender (experimenta), based on Qt4's
   qDebug(), qWarning() and qCritical() functions.
+
+- Fixed bug #3530769 - compilation issues with Visual Studio 2011.
+
+- Added log4cplus.quietMode property handling to PropertyConfigurator.
+
+- Added #pragma once to all headers.
+
+- Implemented Time::gettimeofday() using Win32 API's
+  GetSystemTimeAsFileTime().
+
+- Moved file based locking from FileAppender to Appender to make it
+  available for all appenders.
+
+- Changed Windows configuration to use __declspec(thread) when
+  compiling for Windows Vista or later and TlsAlloc() otherwise.
+
+- Implemented %r PatternLayout format specifier - miliseconds since
+  process start.
+
+- Fixed bug #3101459 - TTCCLayout time is not in milliseconds since
+  process start by default.
 
 
 log4cplus 1.1.0-RC5

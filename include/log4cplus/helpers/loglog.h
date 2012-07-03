@@ -123,9 +123,11 @@ namespace log4cplus {
             bool get_not_quiet_mode () const;
             bool get_debug_mode () const;
 
-          // Data
+            // Data
             mutable TriState debugEnabled;
             mutable TriState quietMode;
+            thread::Mutex mutex;
+
 
             LogLog(const LogLog&);
             LogLog & operator = (LogLog const &);

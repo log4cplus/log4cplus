@@ -40,6 +40,8 @@
 
 namespace log4cplus { namespace helpers {
 
+//! FileInfo structure is OS independent abstraction of the
+//! <code>stat()</code> function.
 struct LOG4CPLUS_EXPORT FileInfo
 {
     helpers::Time mtime;
@@ -48,6 +50,7 @@ struct LOG4CPLUS_EXPORT FileInfo
 };
 
 
+//! OS independent abstraction of <code>stat()</code> function.
 LOG4CPLUS_EXPORT int getFileInfo (FileInfo * fi, tstring const & name);
 
 

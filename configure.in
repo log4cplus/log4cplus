@@ -163,7 +163,8 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
 
    AS_IF([test "x$enable_debugging" = "xyes"],
      [AX_CXXFLAGS_GCC_OPTION([-g3])
-      AX_CXXFLAGS_GCC_OPTION([-fkeep-inline-functions])],
+      AX_CXXFLAGS_GCC_OPTION([-fkeep-inline-functions])
+      AX_CXXFLAGS_GCC_OPTION([-fstack-check])],
      [AX_CXXFLAGS_GCC_OPTION([-O2])])
 
    dnl Try -pg profiling option.
@@ -300,8 +301,8 @@ dnl Multi threaded library.
      [sun],
      [dnl Check for Sun's compiler's TLS option.
       AX_CXXFLAGS_SUN_OPTION([-xthreadvar])],
-     [dnl Default case.
-      dnl Check for IBM's compiler's TLS option.
+     [ibm],
+     [dnl Check for IBM's compiler's TLS option.
       AX_CXXFLAGS_AIX_OPTION([-qtls])])
 
    AX__SYNC

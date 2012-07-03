@@ -36,13 +36,12 @@
 #   else
 #     define LOG4CPLUS_POOR_MANS_SHAREDMUTEX
 #   endif
-#   if defined (_MSC_VER)
-#     undef LOG4CPLUS_HAVE_TLS_SUPPORT
-#     undef LOG4CPLUS_THREAD_LOCAL_VAR
-// Comment out the following two lines if you do intend to use log4cplus.dll
-// for loading using LoadLibrary(). The __declspec(thread) functionality is not
-// compatible with such DLL use. For more information why is this necessary see
-// <http://msdn.microsoft.com/en-us/library/2s9wt68x(vs.80).aspx>.
+#   undef LOG4CPLUS_HAVE_TLS_SUPPORT
+#   undef LOG4CPLUS_THREAD_LOCAL_VAR
+#   if defined (_MSC_VER) && _WIN32_WINNT >= 0x0600
+// The __declspec(thread) functionality is not compatible with LoadLibrary().
+// For more information why see and "Windows and TLS" note in README.
+// <http://msdn.microsoft.com/en-us/library/2s9wt68x(v=vs.100).aspx>.
 #     define LOG4CPLUS_HAVE_TLS_SUPPORT 1
 #     define LOG4CPLUS_THREAD_LOCAL_VAR __declspec(thread)
 #   endif
