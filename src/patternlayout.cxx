@@ -94,6 +94,10 @@ namespace log4cplus
 
 static tchar const ESCAPE_CHAR = LOG4CPLUS_TEXT('%');
 
+extern void formatRelativeTimestamp (log4cplus::tostream & output,
+    log4cplus::spi::InternalLoggingEvent const & event);
+
+
 namespace pattern
 {
 
@@ -228,6 +232,14 @@ private:
     tstring format;
 };
 
+
+//! This pattern is used to format miliseconds since process start.
+class RelativeTimestampConverter: public PatternConverter {
+public:
+    RelativeTimestampConverter(const FormattingInfo& info);
+    virtual void convert(tstring & result,
+        const spi::InternalLoggingEvent& event);
+};
 
 
 /**
@@ -547,6 +559,24 @@ DatePatternConverter::convert(tstring & result,
 }
 
 
+//
+//
+//
+
+RelativeTimestampConverter::RelativeTimestampConverter (FormattingInfo const & info)
+    : PatternConverter (info)
+{ }
+
+
+void
+RelativeTimestampConverter::convert (tstring & result,
+    spi::InternalLoggingEvent const & event)
+{
+    tostringstream & oss = internal::get_ptd ()->layout_oss;
+    detail::clear_tostringstream (oss);
+    formatRelativeTimestamp (oss, event);
+    oss.str ().swap (result);
+}
 
 
 ////////////////////////////////////////////////
@@ -896,10 +926,11 @@ PatternParser::finalizeConverter(tchar c)
             //formattingInfo.dump(getLogLog());
             break;
 
-        // 'r' is RELATIVE time converter in log4j.
-        // Not implemented.
         case LOG4CPLUS_TEXT('r'):
-            goto not_implemented;
+            pc = new RelativeTimestampConverter (formattingInfo);
+            //getLogLog().debug("RELATIVE converter.");
+            //formattingInfo.dump(getLogLog());
+            break;
 
         case LOG4CPLUS_TEXT('t'):
             pc = new BasicPatternConverter
@@ -927,7 +958,6 @@ PatternParser::finalizeConverter(tchar c)
             //getLogLog().debug("MDC converter.");
             break;
 
-not_implemented:;
         default:
             tostringstream buf;
             buf << LOG4CPLUS_TEXT("Unexpected char [")
@@ -939,8 +969,8 @@ not_implemented:;
             pc = new LiteralPatternConverter(currentLiteral);
     }
 
-    currentLiteral.resize(0);
     list.push_back(pc);
+    currentLiteral.resize(0);
     state = LITERAL_STATE;
     formattingInfo.reset();
 }

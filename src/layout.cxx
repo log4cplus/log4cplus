@@ -30,6 +30,26 @@
 namespace log4cplus
 {
 
+void
+formatRelativeTimestamp (log4cplus::tostream & output,
+    log4cplus::spi::InternalLoggingEvent const & event)
+{
+    helpers::Time const rel_time
+        = event.getTimestamp () - getTTCCLayoutTimeBase ();
+    tchar const old_fill = output.fill ();
+    helpers::time_t const sec = rel_time.sec ();
+ 
+    if (sec != 0)
+        output << sec << std::setfill (LOG4CPLUS_TEXT ('0')) << std::setw (3);
+ 
+    output << rel_time.usec () / 1000;
+    output.fill (old_fill);
+}
+
+//
+//
+//
+
 
 Layout::Layout ()
     : llmCache(getLogLevelManager())
@@ -110,19 +130,7 @@ TTCCLayout::formatAndAppend(log4cplus::tostream& output,
                             const log4cplus::spi::InternalLoggingEvent& event)
 {
      if (dateFormat.empty ())
-     {
-         helpers::Time const rel_time
-             = event.getTimestamp () - getTTCCLayoutTimeBase ();
-         tchar const old_fill = output.fill ();
-         helpers::time_t const sec = rel_time.sec ();
- 
-         if (sec != 0)
-             output << sec << std::setfill (LOG4CPLUS_TEXT ('0'))
-                    << std::setw (3);
- 
-         output << rel_time.usec () / 1000;
-         output.fill (old_fill);
-     }
+         formatRelativeTimestamp (output, event);
      else
          output << event.getTimestamp().getFormattedTime(dateFormat,
              use_gmtime);
