@@ -161,6 +161,9 @@
 #  if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 4)
 #    define LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
 #  endif
+#  if defined (__MINGW32__)
+#    define LOG4CPLUS_WORKING_C_LOCALE
+#  endif
 #endif
 
 

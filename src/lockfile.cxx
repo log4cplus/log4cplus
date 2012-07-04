@@ -48,12 +48,14 @@
 #endif
 #if defined (_WIN32)
 #include <tchar.h>
+#include <share.h>
 #endif
 #include <log4cplus/config/windowsh-inc.h>
 
 #include <stdexcept>
 #include <cerrno>
 #include <limits>
+#include <cstring>
 
 #include <log4cplus/helpers/lockfile.h>
 #include <log4cplus/helpers/stringhelper.h>
