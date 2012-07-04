@@ -4860,7 +4860,8 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 case "$target_os" in #(
   mingw*) :
                 CPPFLAGS="$CPPFLAGS -U__STRICT_ANSI__"
-   CPPFLAGS="$CPPFLAGS -DWIN32 -D_WIN32" ;; #(
+   CPPFLAGS="$CPPFLAGS -DWIN32 -D_WIN32"
+   CPPFLAGS="$CPPFLAGS -DMINGW_HAS_SECURE_API=1" ;; #(
   cygwin*) :
              CPPFLAGS="$CPPFLAGS -U__STRICT_ANSI__" ;; #(
   *) :
