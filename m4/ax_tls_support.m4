@@ -12,7 +12,7 @@ ax_tls_support=no
 
 AC_CACHE_CHECK([for __thread], [ac_cv__thread_keyword],
 [
-  AC_RUN_IFELSE(
+  AC_LINK_IFELSE(
     [AC_LANG_PROGRAM(
       [[extern __thread int x;
         __thread int * ptr = 0;
@@ -35,7 +35,7 @@ AS_IF([test "x$ax_tls_support" = "xno"],
   [
   AC_CACHE_CHECK([for __declspec(thread)], [ac_cv_declspec_thread],
   [
-    AC_RUN_IFELSE(
+    AC_LINK_IFELSE(
       [AC_LANG_PROGRAM(
         [[
 #if defined (__GNUC__)
