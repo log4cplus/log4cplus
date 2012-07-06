@@ -38,9 +38,7 @@
 // For _wrename() and _wremove() on Windows.
 #  include <stdio.h>
 #endif
-#if ! defined (_WIN32_WCE)
 #include <cerrno>
-#endif
 #ifdef LOG4CPLUS_HAVE_ERRNO_H
 #include <errno.h>
 #endif
