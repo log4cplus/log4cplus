@@ -5,6 +5,9 @@
 #undef LOG4CPLUS_HAVE_SYSLOG_H
 
 /* */
+#undef LOG4CPLUS_HAVE_ARPA_INET_H
+
+/* */
 #undef LOG4CPLUS_HAVE_NETINET_IN_H
 
 /* */

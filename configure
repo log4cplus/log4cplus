@@ -7731,6 +7731,14 @@ fi
 
 
 
+   ac_fn_cxx_check_header_mongrel "$LINENO" "arpa/inet.h" "ac_cv_header_arpa_inet_h" "$ac_includes_default"
+if test "x$ac_cv_header_arpa_inet_h" = xyes; then :
+  $as_echo "#define LOG4CPLUS_HAVE_ARPA_INET_H 1" >>confdefs.h
+
+fi
+
+
+
    ac_fn_cxx_check_header_mongrel "$LINENO" "netinet/in.h" "ac_cv_header_netinet_in_h" "$ac_includes_default"
 if test "x$ac_cv_header_netinet_in_h" = xyes; then :
   $as_echo "#define LOG4CPLUS_HAVE_NETINET_IN_H 1" >>confdefs.h

@@ -25,12 +25,15 @@
 #include <cstring>
 #include <vector>
 #include <algorithm>
+#include <cerrno>
 #include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/spi/loggingevent.h>
 
+#ifdef LOG4CPLUS_HAVE_ARPA_INET_H
 #include <arpa/inet.h>
+#endif
  
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -48,13 +51,17 @@
 #include <netinet/tcp.h>
 #endif
 
+#if defined (LOG4CPLUS_HAVE_ERRNO_H)
 #include <errno.h>
+#endif
 
 #ifdef LOG4CPLUS_HAVE_NETDB_H
 #include <netdb.h>
 #endif
 
+#ifdef LOG4CPLUS_HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 
 namespace log4cplus { namespace helpers {
