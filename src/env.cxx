@@ -45,11 +45,7 @@ namespace log4cplus { namespace internal {
 bool
 get_env_var (tstring & value, tstring const & name)
 {
-#if defined (_WIN32_WCE)
-    // Nothing to do here. Windows CE does not have environment variables.
-    return false;
-
-#elif defined (_WIN32) && defined (UNICODE)
+#if defined (_WIN32) && defined (UNICODE)
     tchar const * val = _wgetenv (name.c_str ());
     if (val)
         value = val;

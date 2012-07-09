@@ -36,9 +36,7 @@
 #include <time.h>
 #endif
 
-#if ! defined (_WIN32_WCE)
 #include <ctime>
-#endif
 
 
 namespace log4cplus {
@@ -46,15 +44,8 @@ namespace log4cplus {
 namespace helpers {
 
 
-#if defined (_WIN32_WCE)
-using ::time_t;
-using ::tm;
-
-#else
 using std::time_t;
 using std::tm;
-
-#endif
 
 
 /**

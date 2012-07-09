@@ -46,9 +46,6 @@
 #if defined (_WIN32)
 #include <tchar.h>
 #endif
-#if defined (_WIN32_WCE)
-#include <log4cplus/config/windowsh-inc.h>
-#endif
 
 #include <algorithm>
 #include <cstdlib>

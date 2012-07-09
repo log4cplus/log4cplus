@@ -43,11 +43,6 @@
 #include <errno.h>
 #endif
 
-#if defined (_WIN32_WCE)
-#  include <log4cplus/config/windowsh-inc.h>
-#endif
-
-
 namespace log4cplus
 {
 
@@ -66,25 +61,14 @@ const long MINIMUM_ROLLING_LOG_SIZE = 200*1024L;
 namespace
 {
 
-
-#if defined (_WIN32_WCE)
-long const LOG4CPLUS_FILE_NOT_FOUND = ERROR_FILE_NOT_FOUND;
-#else
 long const LOG4CPLUS_FILE_NOT_FOUND = ENOENT;
-#endif
 
 
 static 
 long
 file_rename (tstring const & src, tstring const & target)
 {
-#if defined (_WIN32_WCE)
-    if (MoveFile (src.c_str (), target.c_str ()))
-        return 0;
-    else
-        return GetLastError ();
-
-#elif defined (UNICODE) && defined (_WIN32)
+#if defined (UNICODE) && defined (_WIN32)
     if (_wrename (src.c_str (), target.c_str ()) == 0)
         return 0;
     else
@@ -105,13 +89,7 @@ static
 long
 file_remove (tstring const & src)
 {
-#if defined (_WIN32_WCE)
-    if (DeleteFile (src.c_str ()))
-        return 0;
-    else
-        return GetLastError ();
-
-#elif defined (UNICODE) && defined (_WIN32)
+#if defined (UNICODE) && defined (_WIN32)
     if (_wremove (src.c_str ()) == 0)
         return 0;
     else

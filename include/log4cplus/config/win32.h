@@ -39,10 +39,8 @@
 
 // Time related functions and headers.
 #define LOG4CPLUS_HAVE_TIME_H
-#if ! defined (_WIN32_WCE)
 #define LOG4CPLUS_HAVE_SYS_TIMEB_H
 #define LOG4CPLUS_HAVE_FTIME
-#endif
 #if defined (_MSC_VER) || defined (__BORLANDC__) 
 #define LOG4CPLUS_HAVE_GMTIME_S
 #endif
@@ -64,11 +62,8 @@
 #define LOG4CPLUS_HAVE_WCHAR_H
 #define LOG4CPLUS_HAVE_STDARG_H
 #define LOG4CPLUS_HAVE_STDLIB_H
-#if ! defined (_WIN32_WCE)
-/* Define if you have the ftime function.  */
 #define LOG4CPLUS_HAVE_ERRNO_H
 #define LOG4CPLUS_HAVE_SYS_STAT_H
-#endif
 #define LOG4CPLUS_HAVE_TIME_H
 #define LOG4CPLUS_HAVE_STDLIB_H
 
@@ -91,13 +86,8 @@
 #  define LOG4CPLUS_HAVE__VSNWPRINTF_S
 #endif
 
-#if defined (_WIN32_WCE)
-#  define LOG4CPLUS_DLLMAIN_HINSTANCE HANDLE
-#  undef LOG4CPLUS_HAVE_NT_EVENT_LOG
-#else
-#  define LOG4CPLUS_DLLMAIN_HINSTANCE HINSTANCE
-#  define LOG4CPLUS_HAVE_NT_EVENT_LOG
-#endif
+#define LOG4CPLUS_DLLMAIN_HINSTANCE HINSTANCE
+#define LOG4CPLUS_HAVE_NT_EVENT_LOG
 
 // log4cplus_EXPORTS is used by the CMake build system.  DLL_EXPORT is
 // used by the autotools build system.
@@ -144,9 +134,7 @@
 #  define LOG4CPLUS_INLINES_ARE_EXPORTED
 
 #  if _MSC_VER >= 1400
-#    if ! defined (_WIN32_WCE)
 #    define LOG4CPLUS_WORKING_LOCALE
-#    endif
 #    define LOG4CPLUS_HAVE_FUNCTION_MACRO
 #    define LOG4CPLUS_HAVE_FUNCSIG_MACRO
 #    define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS

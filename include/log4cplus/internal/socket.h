@@ -52,9 +52,7 @@
 #endif
 #include <log4cplus/helpers/socket.h>
 
-#if ! defined (_WIN32_WCE)
 #include <cerrno>
-#endif
 #ifdef LOG4CPLUS_HAVE_ERRNO_H
 #include <errno.h>
 #endif
@@ -100,11 +98,7 @@ static inline
 void
 set_last_socket_error (int err)
 {
-#if defined (_WIN32_WCE)
-    WSASetLastError (err);
-#else
     errno = err;
-#endif
 }
 
 
@@ -112,11 +106,7 @@ static inline
 int
 get_last_socket_error ()
 {
-#if defined (_WIN32_WCE)
-    return WSAGetLastError (err);
-#else
     return errno;
-#endif
 }
 
 

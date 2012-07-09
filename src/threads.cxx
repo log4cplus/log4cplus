@@ -22,6 +22,7 @@
 
 #include <exception>
 #include <ostream>
+#include <cerrno>
 
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -43,7 +44,7 @@
 #  include <pthread.h>
 #  include <sched.h>
 #  include <signal.h>
-#elif defined (LOG4CPLUS_USE_WIN32_THREADS) && ! defined (_WIN32_WCE)
+#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
 #  include <process.h> 
 #endif
 #include <log4cplus/config/windowsh-inc.h>
@@ -180,8 +181,6 @@ namespace
 
 #  ifdef LOG4CPLUS_USE_PTHREADS
 extern "C" void* threadStartFunc(void * param)
-#  elif defined(LOG4CPLUS_USE_WIN32_THREADS) && defined (_WIN32_WCE)
-static DWORD threadStartFuncWorker(void * param)
 #  elif defined(LOG4CPLUS_USE_WIN32_THREADS)
 static unsigned WINAPI threadStartFunc(void * param)
 #  endif
@@ -197,9 +196,6 @@ namespace log4cplus { namespace thread { namespace impl {
 
 #if defined(LOG4CPLUS_USE_PTHREADS)
 void* 
-ThreadStart::threadStartFuncWorker(void * arg)
-#elif defined(LOG4CPLUS_USE_WIN32_THREADS) && defined (_WIN32_WCE)
-DWORD
 ThreadStart::threadStartFuncWorker(void * arg)
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
 unsigned
@@ -286,12 +282,8 @@ Thread::start()
     if (h != INVALID_HANDLE_VALUE)
         ::CloseHandle (h);
 
-#if defined (_WIN32_WCE)
-    h = ::CreateThread  (0, 0, threadStartFunc, this, 0, &thread_id);
-#else
     h = reinterpret_cast<HANDLE>(
         ::_beginthreadex (0, 0, threadStartFunc, this, 0, &thread_id));
-#endif
     if (! h)
     {
         removeReference ();
