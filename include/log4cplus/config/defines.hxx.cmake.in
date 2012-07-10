@@ -5,6 +5,9 @@
 #cmakedefine LOG4CPLUS_HAVE_SYSLOG_H 1
 
 /* */
+#cmakedefine LOG4CPLUS_HAVE_ARPA_INET_H 1
+
+/* */
 #cmakedefine LOG4CPLUS_HAVE_NETINET_IN_H 1
 
 /* */
