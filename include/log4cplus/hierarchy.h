@@ -108,12 +108,16 @@ namespace log4cplus {
          * <em>all</em> loggers in this hierarchy. Logging requests of
          * higher LogLevel then <code>p</code> remain unaffected.
          *
+         * Nevertheless, if the
+         * BasicConfigurator::DISABLE_OVERRIDE_KEY property is set to
+         * true, then logging requests are evaluated as usual.
+         *
          * The "disable" family of methods are there for speed. They
          * allow printing methods such as debug, info, etc. to return
          * immediately after an integer comparison without walking the
          * logger hierarchy. In most modern computers an integer
-         * comparison is measured in nanoseconds where as a logger
-         * walk is measured in units of microseconds.
+         * comparison is measured in nanoseconds where as a logger walk is
+         * measured in units of microseconds.
          */
         virtual void disable(LogLevel ll);
 

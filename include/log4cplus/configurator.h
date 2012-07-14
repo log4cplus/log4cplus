@@ -21,8 +21,8 @@
 
 /** @file */
 
-#ifndef _CONFIGURATOR_HEADER_
-#define _CONFIGURATOR_HEADER_
+#ifndef LOG4CPLUS_CONFIGURATOR_HEADER_
+#define LOG4CPLUS_CONFIGURATOR_HEADER_
 
 #include <log4cplus/config.hxx>
 
@@ -330,6 +330,9 @@ namespace log4cplus
          */
         static void doConfigure(Hierarchy& h = Logger::getDefaultHierarchy(),
             bool logToStdErr = false);
+
+        //! Property name for disable override.
+        static log4cplus::tstring const DISABLE_OVERRIDE_KEY;
         
     private:
       // Disable copy
@@ -362,5 +365,5 @@ namespace log4cplus
 
 } // end namespace log4cplus
 
-#endif // _CONFIGURATOR_HEADER_
+#endif // LOG4CPLUS_CONFIGURATOR_HEADER_
 

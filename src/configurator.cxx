@@ -288,10 +288,17 @@ PropertyConfigurator::configure()
     if (properties.getBool (quiet_mode, LOG4CPLUS_TEXT ("quietMode")))
         helpers::getLogLog ().setQuietMode (quiet_mode);
 
+    bool disable_override = false;
+    if (properties.getBool (disable_override,
+            LOG4CPLUS_TEXT ("disableOverride")))
+
     initializeLog4cplus();
     configureAppenders();
     configureLoggers();
     configureAdditivity();
+
+    if (disable_override)
+        h.disable (Hierarchy::DISABLE_OVERRIDE);
 
     // Erase the appenders so that we are not artificially keeping them "alive".
     appenders.clear ();
@@ -538,6 +545,9 @@ PropertyConfigurator::addAppender(Logger &logger, SharedAppenderPtr& appender)
 //////////////////////////////////////////////////////////////////////////////
 // BasicConfigurator ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
+
+log4cplus::tstring DISABLE_OVERRIDE_KEY (
+    LOG4CPLUS_TEXT ("log4cplus.disableOverride"));
 
 BasicConfigurator::BasicConfigurator(Hierarchy& hier, bool logToStdErr)
     : PropertyConfigurator( LOG4CPLUS_TEXT(""), hier )
