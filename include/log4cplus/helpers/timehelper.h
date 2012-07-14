@@ -21,8 +21,8 @@
 
 /** @file */
 
-#ifndef _LOG4CPLUS_HELPERS_TIME_HELPER_HEADER_
-#define _LOG4CPLUS_HELPERS_TIME_HELPER_HEADER_
+#ifndef LOG4CPLUS_HELPERS_TIME_HELPER_HEADER_
+#define LOG4CPLUS_HELPERS_TIME_HELPER_HEADER_
 
 #include <log4cplus/config.hxx>
 
@@ -175,5 +175,5 @@ LOG4CPLUS_EXPORT bool operator!=(const log4cplus::helpers::Time& lhs,
 } // namespace log4cplus
 
 
-#endif // _LOG4CPLUS_HELPERS_TIME_HELPER_HEADER_
+#endif // LOG4CPLUS_HELPERS_TIME_HELPER_HEADER_
 

@@ -21,8 +21,8 @@
 
 /** @file */
 
-#ifndef _LOG4CPLUS_HELPERS_SLEEP_HEADER_
-#define _LOG4CPLUS_HELPERS_SLEEP_HEADER_
+#ifndef LOG4CPLUS_HELPERS_SLEEP_HEADER_
+#define LOG4CPLUS_HELPERS_SLEEP_HEADER_
 
 #include <log4cplus/config.hxx>
 
@@ -39,5 +39,5 @@ namespace log4cplus {
     } // end namespace helpers
 } // end namespace log4cplus
 
-#endif // _LOG4CPLUS_HELPERS_SLEEP_HEADER_
+#endif // LOG4CPLUS_HELPERS_SLEEP_HEADER_
 

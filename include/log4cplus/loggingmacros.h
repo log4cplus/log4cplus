@@ -22,8 +22,8 @@
 /** @file 
  * This header defines the logging macros. */
 
-#ifndef _LOG4CPLUS_LOGGING_MACROS_HEADER_
-#define _LOG4CPLUS_LOGGING_MACROS_HEADER_
+#ifndef LOG4CPLUS_LOGGING_MACROS_HEADER_
+#define LOG4CPLUS_LOGGING_MACROS_HEADER_
 
 #include <log4cplus/config.hxx>
 
@@ -371,4 +371,4 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 
 #endif
 
-#endif /* _LOG4CPLUS_LOGGING_MACROS_HEADER_ */
+#endif /* LOG4CPLUS_LOGGING_MACROS_HEADER_ */
