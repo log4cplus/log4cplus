@@ -215,7 +215,7 @@ std::string
 tostring (const std::wstring & src)
 {
     std::string ret;
-    iconv_conv (ret, "char", src.c_str (), src.size (), "wchar_t");
+    iconv_conv (ret, "UTF-8", src.c_str (), src.size (), "WCHAR_T");
     return ret;
 }
 
@@ -225,7 +225,7 @@ tostring (wchar_t const * src)
 {
     assert (src);
     std::string ret;
-    iconv_conv (ret, "char", src, std::wcslen (src), "wchar_t");
+    iconv_conv (ret, "UTF-8", src, std::wcslen (src), "WCHAR_T");
     return ret;
 }
 
@@ -234,7 +234,7 @@ std::wstring
 towstring (const std::string& src)
 {
     std::wstring ret;
-    iconv_conv (ret, "wchar_t", src.c_str (), src.size (), "char");
+    iconv_conv (ret, "WCHAR_T", src.c_str (), src.size (), "UTF-8");
     return ret;
 }
 
@@ -244,7 +244,7 @@ towstring (char const * src)
 {
     assert (src);
     std::wstring ret;
-    iconv_conv (ret, "wchar_t", src, std::strlen (src), "char");
+    iconv_conv (ret, "WCHAR_T", src, std::strlen (src), "UTF-8");
     return ret;
 }
 
