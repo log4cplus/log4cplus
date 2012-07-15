@@ -33,6 +33,26 @@ Tested on the following platforms
 - OpenBSD 5.0/AMD64 with GCC 4.2.1 20070719
 
 
+Configure script options
+========================
+
+--enable-debugging
+------------------ 
+
+This option is disabled by default.  This option mainly affects GCC
+builds but it also has some limitted effect on non-GCC builds.  It
+turns on debugging information generation, undefines NDEBUG symbol,
+adds '-fkeep-inline-functions' and '-fstack-check' (GCC).
+
+
+--enable-profiling
+------------------
+
+This option is disabled by default.  This option adds profiling
+information generation compiler option -pg to GCC and Sun CC / Solaris
+Studio builds.
+
+
 Notes
 =====
 
