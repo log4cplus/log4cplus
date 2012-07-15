@@ -100,7 +100,10 @@ It is known to work well on most *NIX platforms, including recent Cygwin.
 This is third of wchar_t <-> char conversion related options.  It is
 disabled by default.
 
-It is known to work well on platforms with GNU iconv.
+The conversion using iconv() function always uses "UTF-8" and
+"WCHAR_T" as source/target encodings.  It is known to work well on
+platforms with GNU iconv.  Different implementations of iconv() might
+not support "WCHAR_T" encoding selector.
 
 
 Notes
