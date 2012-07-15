@@ -35,6 +35,23 @@
 #include <cstring>
 
 
+// This is here because some compilers (Sun CC) think that there is a
+// difference if the typedefs are not in an extern "C" block.
+extern "C"
+{
+
+    //! SUSv3 iconv() type.
+    typedef size_t (& iconv_func_type_1) (iconv_t cd, char * * inbuf,
+	size_t * inbytesleft, char * * outbuf, size_t * outbytesleft); 
+
+
+    //! GNU iconv() type.
+    typedef size_t (& iconv_func_type_2) (iconv_t cd, const char * * inbuf,
+	size_t * inbytesleft, char * * outbuf, size_t * outbytesleft);
+
+} // extern "C"
+
+
 namespace log4cplus
 {
 
@@ -79,20 +96,12 @@ struct iconv_handle
         }
     }
 
-    //! SUSv3 iconv() type.
-    typedef size_t (& iconv_func_type_1) (iconv_t cd, char * * inbuf,
-        size_t * inbytesleft, char * * outbuf, size_t * outbytesleft);
-
     size_t
     call_iconv (iconv_func_type_1 iconv_func, char * * inbuf,
         size_t * inbytesleft, char * * outbuf, size_t * outbytesleft)
     {
         return iconv_func (handle, inbuf, inbytesleft, outbuf, outbytesleft);
     }
-
-    //! GNU iconv() type.
-    typedef size_t (& iconv_func_type_2) (iconv_t cd, const char * * inbuf,
-        size_t * inbytesleft, char * * outbuf, size_t * outbytesleft);
 
     size_t
     call_iconv (iconv_func_type_2 iconv_func, char * * inbuf,
