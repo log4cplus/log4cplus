@@ -105,6 +105,18 @@ The conversion using iconv() function always uses "UTF-8" and
 platforms with GNU iconv.  Different implementations of iconv() might
 not support "WCHAR_T" encoding selector.
 
+Either system provided iconv() or library provided libiconv() are
+detected and accepted.  Also both SUSv3 and GNU iconv() function
+signatures are accepted.
+
+
+--with-qt
+---------
+
+This option is disabled by default.  It enables compilation of a
+separate shared library (liblog4cplusqt4debugappender) that implements
+Qt4DebugAppender.  It requires Qt4 and pkg-config to be installed.
+
 
 Notes
 =====
