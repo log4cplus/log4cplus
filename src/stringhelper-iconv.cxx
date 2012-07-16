@@ -21,7 +21,10 @@
 //  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+
 #include <log4cplus/helpers/stringhelper.h>
+
+#if defined (LOG4CPLUS_WITH_ICONV)
 
 #ifdef LOG4CPLUS_HAVE_ICONV_H
 #include <iconv.h>
@@ -57,8 +60,6 @@ namespace log4cplus
 
 namespace helpers
 {
-
-#if defined (LOG4CPLUS_WITH_ICONV)
 
 namespace
 {
@@ -257,8 +258,9 @@ towstring (char const * src)
     return ret;
 }
 
-#endif // LOG4CPLUS_WITH_ICONV
 
 } // namespace helpers
 
 } // namespace log4cplus
+
+#endif // LOG4CPLUS_WITH_ICONV
