@@ -1,4 +1,4 @@
-/* include/log4cplus/config.h.in.  Generated from configure.in by autoheader.  */
+/* include/log4cplus/config.h.in.  Generated from configure.ac by autoheader.  */
 
 #ifndef LOG4CPLUS_CONFIG_H
 

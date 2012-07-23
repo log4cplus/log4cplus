@@ -24,8 +24,8 @@
 /** @file 
  * This header defines the C API for log4cplus and the logging macros. */
 
-#ifndef _LOG4CPLUS_CLOGGERHEADER_
-#define _LOG4CPLUS_CLOGGERHEADER_
+#ifndef LOG4CPLUS_CLOGGERHEADER_
+#define LOG4CPLUS_CLOGGERHEADER_
 
 #include <log4cplus/config.hxx>
 
@@ -82,4 +82,4 @@ LOG4CPLUS_EXPORT int log4cplus_logger_force_log(const log4cplus_char_t *name,
 }
 #endif
 
-#endif /*?_LOG4CPLUS_CLOGGERHEADER_*/
+#endif /*?LOG4CPLUS_CLOGGERHEADER_*/

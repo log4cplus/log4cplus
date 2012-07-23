@@ -189,6 +189,18 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
       dnl AX_CXXFLAGS_WARN_ALL invocation.
       dnl AX_CXXFLAGS_SUN_OPTION([-v])
       AX_CXXFLAGS_SUN_OPTION([+w])])
+
+   dnl Sun CC does support -g flag.
+   AS_IF([test "x$enable_debugging" = "xyes"],
+     [AX_CXXFLAGS_SUN_OPTION([-g])])
+ 
+   dnl Try -pg profiling option.
+   AS_IF([test "x$enable_profiling" = "xyes"],
+     [AX_CXXFLAGS_SUN_OPTION([-pg],[],
+        [LOG4CPLUS_PROFILING_LDFLAGS="-pg"
+         LOG4CPLUS_PROFILING_CXXFLAGS="-pg"])
+      AX_CXXFLAGS_SUN_OPTION([-g])])
+
    AX_CXXFLAGS_SUN_OPTION([-library=stlport4])
    AX_CXXFLAGS_SUN_OPTION([-library=Crun])])
 
