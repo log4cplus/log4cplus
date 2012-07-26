@@ -27,6 +27,10 @@
 #include <errno.h>
 #endif
 
+#if defined (LOG4CPLUS_HAVE_TIME_H)
+#include <time.h>
+#endif
+
 
 namespace log4cplus { namespace helpers {
 

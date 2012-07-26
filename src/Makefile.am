@@ -1,6 +1,6 @@
 lib_LTLIBRARIES = liblog4cplus.la
 
-AM_CPPFLAGS = -DINSIDE_LOG4CPLUS \
+AM_CPPFLAGS = -DINSIDE_LOG4CPLUS -D_GNU_SOURCE=1 \
 		-I$(top_srcdir)/include -I$(top_builddir)/include \
 		@LOG4CPLUS_NDEBUG@
 

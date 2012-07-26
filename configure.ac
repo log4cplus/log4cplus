@@ -201,6 +201,13 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
          LOG4CPLUS_PROFILING_CXXFLAGS="-pg"])
       AX_CXXFLAGS_SUN_OPTION([-g])])
 
+   dnl This is here for compilation with _GNU_SOURCE=1 on Linux. Their
+   dnl headers then use zero length arrays which are not supported by
+   dnl C++ itself.
+   AX_CXXFLAGS_SUN_OPTION([-features=zla])
+   dnl log4cplus does not work with the default C++ library
+   dnl implementation from Sun, it needs better C++ support, thus we
+   dnl use the available STLport they also ship.
    AX_CXXFLAGS_SUN_OPTION([-library=stlport4])
    AX_CXXFLAGS_SUN_OPTION([-library=Crun])])
 
