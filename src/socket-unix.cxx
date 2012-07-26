@@ -31,10 +31,6 @@
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/spi/loggingevent.h>
 
-#ifdef LOG4CPLUS_HAVE_ARPA_INET_H
-#include <arpa/inet.h>
-#endif
- 
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
@@ -51,6 +47,10 @@
 #include <netinet/tcp.h>
 #endif
 
+#if defined (LOG4CPLUS_HAVE_ARPA_INET_H)
+#include <arpa/inet.h>
+#endif
+ 
 #if defined (LOG4CPLUS_HAVE_ERRNO_H)
 #include <errno.h>
 #endif

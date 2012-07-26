@@ -235,6 +235,7 @@ dnl Checks for libraries.
 
 AC_SEARCH_LIBS([strerror], [cposix])
 AC_SEARCH_LIBS([nanosleep], [rt])
+AC_SEARCH_LIBS([clock_nanosleep], [rt posix4])
 AC_SEARCH_LIBS([clock_gettime], [rt posix4])
 AC_SEARCH_LIBS([gethostbyname], [nsl])
 AC_SEARCH_LIBS([setsockopt], [socket])
@@ -355,6 +356,7 @@ dnl Checks for library functions.
 LOG4CPLUS_CHECK_FUNCS([gmtime_r], [LOG4CPLUS_HAVE_GMTIME_R])
 LOG4CPLUS_CHECK_FUNCS([localtime_r], [LOG4CPLUS_HAVE_LOCALTIME_R])
 LOG4CPLUS_CHECK_FUNCS([gettimeofday], [LOG4CPLUS_HAVE_GETTIMEOFDAY])
+LOG4CPLUS_CHECK_FUNCS([clock_nanosleep], [LOG4CPLUS_HAVE_CLOCK_NANOSLEEP])
 LOG4CPLUS_CHECK_FUNCS([clock_gettime], [LOG4CPLUS_HAVE_CLOCK_GETTIME])
 LOG4CPLUS_CHECK_FUNCS([getpid], [LOG4CPLUS_HAVE_GETPID])
 LOG4CPLUS_CHECK_FUNCS([ftime], [LOG4CPLUS_HAVE_FTIME])
