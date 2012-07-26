@@ -69,7 +69,24 @@ if (UNICODE)
 endif (UNICODE)
 
 add_library (${log4cplus} ${log4cplus_sources})
-target_link_libraries (${log4cplus} ${CMAKE_THREAD_LIBS_INIT})
+
+set (log4cplus_LIBS ${CMAKE_THREAD_LIBS_INIT})
+if (LIBRT)
+  list (APPEND log4cplus_LIBS ${LIBRT})
+endif ()
+if (LIBPOSIX4)
+  list (APPEND log4cplus_LIBS ${LIBPOSIX4})
+endif ()
+if (LIBCPOSIX)
+  list (APPEND log4cplus_LIBS ${LIBCPOSIX})
+endif ()
+if (LIBSOCKET)
+  list (APPEND log4cplus_LIBS ${LIBSOCKET})
+endif ()
+if (LIBNSL)
+  list (APPEND log4cplus_LIBS ${LIBNSL})
+endif ()
+target_link_libraries (${log4cplus} ${log4cplus_LIBS})
 
 set_target_properties (${log4cplus} PROPERTIES
   VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}"

@@ -20,8 +20,8 @@
 
 /** @file */
 
-#ifndef _LOG4CPLUS_NT_EVENT_LOG_APPENDER_HEADER_
-#define _LOG4CPLUS_NT_EVENT_LOG_APPENDER_HEADER_
+#ifndef LOG4CPLUS_NT_EVENT_LOG_APPENDER_HEADER_
+#define LOG4CPLUS_NT_EVENT_LOG_APPENDER_HEADER_
 
 #include <log4cplus/config.hxx>
 
@@ -81,4 +81,4 @@ namespace log4cplus {
 } // end namespace log4cplus
 
 #endif // LOG4CPLUS_HAVE_NT_EVENT_LOG
-#endif //_LOG4CPLUS_NT_EVENT_LOG_APPENDER_HEADER_
+#endif //LOG4CPLUS_NT_EVENT_LOG_APPENDER_HEADER_

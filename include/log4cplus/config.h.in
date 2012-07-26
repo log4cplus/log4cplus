@@ -1,4 +1,4 @@
-/* include/log4cplus/config.h.in.  Generated from configure.in by autoheader.  */
+/* include/log4cplus/config.h.in.  Generated from configure.ac by autoheader.  */
 
 #ifndef LOG4CPLUS_CONFIG_H
 
@@ -13,6 +13,9 @@
 
 /* Define to 1 if you have the `clock_gettime' function. */
 #undef HAVE_CLOCK_GETTIME
+
+/* Define to 1 if you have the `clock_nanosleep' function. */
+#undef HAVE_CLOCK_NANOSLEEP
 
 /* Defined if the compiler provides C++11 <atomic> header and increment,
    decrement operations. */
@@ -186,10 +189,16 @@
 #undef LOG4CPLUS_DECLSPEC_IMPORT
 
 /* */
+#undef LOG4CPLUS_HAVE_ARPA_INET_H
+
+/* */
 #undef LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
 
 /* */
 #undef LOG4CPLUS_HAVE_CLOCK_GETTIME
+
+/* */
+#undef LOG4CPLUS_HAVE_CLOCK_NANOSLEEP
 
 /* */
 #undef LOG4CPLUS_HAVE_CXX11_ATOMICS

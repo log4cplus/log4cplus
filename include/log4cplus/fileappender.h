@@ -21,8 +21,8 @@
 
 /** @file */
 
-#ifndef _LOG4CPLUS_FILE_APPENDER_HEADER_
-#define _LOG4CPLUS_FILE_APPENDER_HEADER_
+#ifndef LOG4CPLUS_FILE_APPENDER_HEADER_
+#define LOG4CPLUS_FILE_APPENDER_HEADER_
 
 #include <log4cplus/config.hxx>
 
@@ -107,7 +107,7 @@ namespace log4cplus
       //! provide UTF-8 locale in case UNICODE macro is defined.
         virtual std::locale imbue(std::locale const& loc);
 
-      //! \Return Locale imbued in fstream. 
+      //! \returns Locale imbued in fstream. 
         virtual std::locale getloc () const;
 
     protected:
@@ -263,5 +263,5 @@ namespace log4cplus
 
 } // end namespace log4cplus
 
-#endif // _LOG4CPLUS_FILE_APPENDER_HEADER_
+#endif // LOG4CPLUS_FILE_APPENDER_HEADER_
 

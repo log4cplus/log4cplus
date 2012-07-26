@@ -21,8 +21,8 @@
 
 /** @file */
 
-#ifndef _LOG4CPLUS_SPI_LOGGER_FACTORY_HEADER
-#define _LOG4CPLUS_SPI_LOGGER_FACTORY_HEADER
+#ifndef LOG4CPLUS_SPI_LOGGER_FACTORY_HEADER
+#define LOG4CPLUS_SPI_LOGGER_FACTORY_HEADER
 
 #include <log4cplus/config.hxx>
 
@@ -56,5 +56,5 @@ namespace log4cplus {
     } // end namespace spi
 } // end namespace log4cplus
 
-#endif // _LOG4CPLUS_SPI_LOGGER_FACTORY_HEADER
+#endif // LOG4CPLUS_SPI_LOGGER_FACTORY_HEADER
 

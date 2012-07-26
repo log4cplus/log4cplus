@@ -22,8 +22,8 @@
 /** @file 
  * This header defines the Logger class and the logging macros. */
 
-#ifndef _LOG4CPLUS_LOGGERHEADER_
-#define _LOG4CPLUS_LOGGERHEADER_
+#ifndef LOG4CPLUS_LOGGERHEADER_
+#define LOG4CPLUS_LOGGERHEADER_
 
 #include <log4cplus/config.hxx>
 
@@ -318,4 +318,4 @@ namespace log4cplus
 } // end namespace log4cplus
 
 
-#endif // _LOG4CPLUS_LOGGERHEADER_
+#endif // LOG4CPLUS_LOGGERHEADER_

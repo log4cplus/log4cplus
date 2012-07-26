@@ -21,8 +21,8 @@
 
 /** @file */
 
-#ifndef _LOG4CPLUS_HELPERS_LOGLOG_USER
-#define _LOG4CPLUS_HELPERS_LOGLOG_USER
+#ifndef LOG4CPLUS_HELPERS_LOGLOG_USER
+#define LOG4CPLUS_HELPERS_LOGLOG_USER
 
 #include <log4cplus/config.hxx>
 
@@ -60,5 +60,5 @@ namespace log4cplus {
 } // end namespace log4cplus
 
 
-#endif // _LOG4CPLUS_HELPERS_LOGLOG_USER
+#endif // LOG4CPLUS_HELPERS_LOGLOG_USER
 

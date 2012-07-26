@@ -21,8 +21,8 @@
 
 /** @file */
 
-#ifndef _LOG4CPLUS_THREADS_HEADER_
-#define _LOG4CPLUS_THREADS_HEADER_
+#ifndef LOG4CPLUS_THREADS_HEADER_
+#define LOG4CPLUS_THREADS_HEADER_
 
 #include <log4cplus/config.hxx>
 
@@ -90,5 +90,5 @@ typedef helpers::SharedObjectPtr<AbstractThread> AbstractThreadPtr;
 } } // namespace log4cplus { namespace thread {
 
 
-#endif // _LOG4CPLUS_THREADS_HEADER_
+#endif // LOG4CPLUS_THREADS_HEADER_
 

@@ -22,13 +22,14 @@
 #include <log4cplus/helpers/sleep.h>
 #include <log4cplus/helpers/timehelper.h>
 
-#if ! defined (_WIN32_WCE)
 #include <cerrno>
-#endif
 #if defined (LOG4CPLUS_HAVE_ERRNO_H)
 #include <errno.h>
 #endif
 
+#if defined (LOG4CPLUS_HAVE_TIME_H)
+#include <time.h>
+#endif
 
 
 namespace log4cplus { namespace helpers {
@@ -40,6 +41,25 @@ namespace log4cplus { namespace helpers {
 
 int const MILLIS_TO_NANOS = 1000000;
 int const SEC_TO_MILLIS = 1000;
+
+
+#if ! defined (_WIN32)
+static inline
+int
+unix_nanosleep (const struct timespec *req, struct timespec *rem)
+{
+#if defined (LOG4CPLUS_HAVE_CLOCK_NANOSLEEP)
+    return clock_nanosleep (CLOCK_REALTIME, 0, req, rem);
+
+#elif defined (LOG4CPLUS_HAVE_NANOSLEEP)
+    return nanosleep (&req, &rem);
+
+#else
+#  error no nanosleep() or clock_nanosleep()
+#endif
+}
+
+#endif
 
 
 void
@@ -65,7 +85,7 @@ sleep(unsigned long secs, unsigned long nanosecs)
     timespec sleep_time = { static_cast<std::time_t>(secs),
                             static_cast<long>(nanosecs) };
     timespec remain;
-    while (nanosleep(&sleep_time, &remain)) {
+    while (unix_nanosleep (&sleep_time, &remain)) {
         if (errno == EINTR) {
             sleep_time.tv_sec  = remain.tv_sec;
             sleep_time.tv_nsec = remain.tv_nsec;               

@@ -1,5 +1,6 @@
 include(CheckIncludeFiles)
 include(CheckFunctionExists)
+include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CheckCSourceCompiles)
@@ -17,6 +18,7 @@ check_include_files(sys/timeb.h   LOG4CPLUS_HAVE_SYS_TIMEB_H )
 check_include_files(sys/stat.h    LOG4CPLUS_HAVE_SYS_STAT_H )
 check_include_files(sys/file.h    LOG4CPLUS_HAVE_SYS_FILE_H )
 check_include_files(syslog.h      LOG4CPLUS_HAVE_SYSLOG_H )
+check_include_files(arpa/inet.h   LOG4CPLUS_HAVE_ARPA_INET_H )
 check_include_files(netinet/in.h  LOG4CPLUS_HAVE_NETINET_IN_H )
 check_include_files(netinet/tcp.h LOG4CPLUS_HAVE_NETINET_TCP_H )
 check_include_files(netdb.h       LOG4CPLUS_HAVE_NETDB_H )
@@ -37,6 +39,15 @@ check_include_files(string.h      HAVE_STRING_H )
 
 
 check_include_files("stdlib.h;stdio.h;stdarg.h;string.h;float.h" STDC_HEADERS )
+
+find_library(LIBADVAPI32 advapi32)
+find_library(LIBKERNEL32 kernel32)
+find_library(LIBNSL nsl)
+find_library(LIBRT rt)
+find_library(LIBPOSIX4 posix4)
+find_library(LIBCPOSIX cposix)
+find_library(LIBSOCKET socket)
+find_library(LIBWS2_32 ws2_32)
 
 check_function_exists(gmtime_r      LOG4CPLUS_HAVE_GMTIME_R )
 check_function_exists(localtime_r   LOG4CPLUS_HAVE_LOCALTIME_R )
@@ -87,7 +98,16 @@ check_c_source_compiles("#include <stdio.h>\n #define MACRO(buf, ...) (sprintf (
 
 
 # clock_gettime() needs -lrt here
-check_function_exists(clock_gettime LOG4CPLUS_HAVE_CLOCK_GETTIME ) # TODO AC says this exists
+# TODO AC says this exists
+if (LIBRT)
+  check_library_exists("${LIBRT}" clock_gettime ""
+    LOG4CPLUS_HAVE_CLOCK_GETTIME )
+  check_library_exists("${LIBRT}" clock_nanosleep ""
+    LOG4CPLUS_HAVE_CLOCK_NANOSLEEP )
+else ()
+  check_function_exists(clock_gettime LOG4CPLUS_HAVE_CLOCK_GETTIME )
+  check_function_exists(clock_nanosleep LOG4CPLUS_HAVE_CLOCK_NANOSLEEP )
+endif ()
 
 check_function_exists(gethostbyname_r LOG4CPLUS_HAVE_GETHOSTBYNAME_R) # TODO more complicated test in AC
 check_function_exists(getaddrinfo     LOG4CPLUS_HAVE_GETADDRINFO ) # TODO more complicated test in AC
@@ -108,14 +128,6 @@ else()
   set(socklen_t TRUE)
 endif()
 
-
-find_library(LIBADVAPI32 advapi32)
-find_library(LIBKERNEL32 kernel32)
-find_library(LIBNSL nsl)
-find_library(LIBRT rt)
-find_library(LIBSOCKET socket)
-find_library(LIBWS2_32 ws2_32)
-
 macro(PATH_TO_HAVE _pathVar )
   if (${_pathVar})
     set(HAVE_${_pathVar} TRUE)
@@ -129,6 +141,8 @@ path_to_have(LIBADVAPI32)
 path_to_have(LIBKERNEL32)
 path_to_have(LIBNSL)
 path_to_have(LIBRT)
+path_to_have(LIBPOSIX4)
+path_to_have(LIBCPOSIX)
 path_to_have(LIBSOCKET)
 path_to_have(LIBWS2_32)
 

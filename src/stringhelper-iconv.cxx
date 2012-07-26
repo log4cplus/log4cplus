@@ -21,7 +21,10 @@
 //  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+
 #include <log4cplus/helpers/stringhelper.h>
+
+#if defined (LOG4CPLUS_WITH_ICONV)
 
 #ifdef LOG4CPLUS_HAVE_ICONV_H
 #include <iconv.h>
@@ -35,13 +38,28 @@
 #include <cstring>
 
 
+// This is here because some compilers (Sun CC) think that there is a
+// difference if the typedefs are not in an extern "C" block.
+extern "C"
+{
+
+    //! SUSv3 iconv() type.
+    typedef size_t (& iconv_func_type_1) (iconv_t cd, char * * inbuf,
+	size_t * inbytesleft, char * * outbuf, size_t * outbytesleft); 
+
+
+    //! GNU iconv() type.
+    typedef size_t (& iconv_func_type_2) (iconv_t cd, const char * * inbuf,
+	size_t * inbytesleft, char * * outbuf, size_t * outbytesleft);
+
+} // extern "C"
+
+
 namespace log4cplus
 {
 
 namespace helpers
 {
-
-#if defined (LOG4CPLUS_WITH_ICONV)
 
 namespace
 {
@@ -79,20 +97,12 @@ struct iconv_handle
         }
     }
 
-    //! SUSv3 iconv() type.
-    typedef size_t (& iconv_func_type_1) (iconv_t cd, char * * inbuf,
-        size_t * inbytesleft, char * * outbuf, size_t * outbytesleft);
-
     size_t
     call_iconv (iconv_func_type_1 iconv_func, char * * inbuf,
         size_t * inbytesleft, char * * outbuf, size_t * outbytesleft)
     {
         return iconv_func (handle, inbuf, inbytesleft, outbuf, outbytesleft);
     }
-
-    //! GNU iconv() type.
-    typedef size_t (& iconv_func_type_2) (iconv_t cd, const char * * inbuf,
-        size_t * inbytesleft, char * * outbuf, size_t * outbytesleft);
 
     size_t
     call_iconv (iconv_func_type_2 iconv_func, char * * inbuf,
@@ -215,7 +225,7 @@ std::string
 tostring (const std::wstring & src)
 {
     std::string ret;
-    iconv_conv (ret, "char", src.c_str (), src.size (), "wchar_t");
+    iconv_conv (ret, "UTF-8", src.c_str (), src.size (), "WCHAR_T");
     return ret;
 }
 
@@ -225,7 +235,7 @@ tostring (wchar_t const * src)
 {
     assert (src);
     std::string ret;
-    iconv_conv (ret, "char", src, std::wcslen (src), "wchar_t");
+    iconv_conv (ret, "UTF-8", src, std::wcslen (src), "WCHAR_T");
     return ret;
 }
 
@@ -234,7 +244,7 @@ std::wstring
 towstring (const std::string& src)
 {
     std::wstring ret;
-    iconv_conv (ret, "wchar_t", src.c_str (), src.size (), "char");
+    iconv_conv (ret, "WCHAR_T", src.c_str (), src.size (), "UTF-8");
     return ret;
 }
 
@@ -244,12 +254,13 @@ towstring (char const * src)
 {
     assert (src);
     std::wstring ret;
-    iconv_conv (ret, "wchar_t", src, std::strlen (src), "char");
+    iconv_conv (ret, "WCHAR_T", src, std::strlen (src), "UTF-8");
     return ret;
 }
 
-#endif // LOG4CPLUS_WITH_ICONV
 
 } // namespace helpers
 
 } // namespace log4cplus
+
+#endif // LOG4CPLUS_WITH_ICONV
