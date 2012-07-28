@@ -177,7 +177,7 @@ openSocket(unsigned short port, SocketState& state)
 
 
 SOCKET_TYPE
-connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
+connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& state)
 {
     struct sockaddr_in server;
     int sock;
@@ -192,7 +192,7 @@ connectSocket(const tstring& hostn, unsigned short port, SocketState& state)
     server.sin_port = htons(port);
     server.sin_family = AF_INET;
 
-    sock = ::socket(AF_INET, SOCK_STREAM, 0);
+    sock = ::socket(AF_INET, (udp ? SOCK_DGRAM : SOCK_STREAM), 0);
     if(sock < 0) {
         return INVALID_SOCKET_VALUE;
     }

@@ -129,10 +129,10 @@ Socket::Socket()
 { }
 
 
-Socket::Socket(const tstring& address, unsigned short port)
+Socket::Socket(const tstring& address, unsigned short port, bool udp /*= false*/)
     : AbstractSocket()
 {
-    sock = connectSocket(address, port, state);
+    sock = connectSocket(address, port, udp, state);
     if (sock == INVALID_SOCKET_VALUE)
         goto error;
 

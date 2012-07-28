@@ -15,6 +15,7 @@ set (log4cplus_sources
   hierarchy.cxx
   hierarchylocker.cxx
   layout.cxx
+  log4judpappender.cxx
   lockfile.cxx
   logger.cxx
   loggerimpl.cxx
@@ -114,6 +115,7 @@ install(FILES ../include/log4cplus/appender.h
               ../include/log4cplus/hierarchy.h
               ../include/log4cplus/hierarchylocker.h
               ../include/log4cplus/layout.h
+              ../include/log4cplus/log4judpappender.h
               ../include/log4cplus/logger.h
               ../include/log4cplus/loggingmacros.h
               ../include/log4cplus/loglevel.h
