@@ -85,6 +85,9 @@
 /* Define to 1 if you have the `clock_gettime' function. */
 #undef LOG4CPLUS_HAVE_CLOCK_GETTIME
 
+/* Define to 1 if you have the `nanosleep' function. */
+#undef LOG4CPLUS_HAVE_NANOSLEEP
+
 /* Define to 1 if you have the `clock_nanosleep' function. */
 #undef LOG4CPLUS_HAVE_CLOCK_NANOSLEEP
 

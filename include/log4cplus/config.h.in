@@ -99,6 +99,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* Define to 1 if you have the `nanosleep' function. */
+#undef HAVE_NANOSLEEP
+
 /* Define to 1 if you have the `ntohl' function. */
 #undef HAVE_NTOHL
 
@@ -277,6 +280,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_MBSTOWCS
+
+/* */
+#undef LOG4CPLUS_HAVE_NANOSLEEP
 
 /* */
 #undef LOG4CPLUS_HAVE_NETDB_H
