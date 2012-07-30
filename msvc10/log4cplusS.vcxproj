@@ -463,6 +463,7 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ClCompile Include="..\src\lockfile.cxx" />
+    <ClCompile Include="..\src\log4judpappender.cxx" />
     <ClCompile Include="..\src\logger.cxx">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -994,6 +995,7 @@
     <ClInclude Include="..\include\log4cplus\hierarchy.h" />
     <ClInclude Include="..\include\log4cplus\hierarchylocker.h" />
     <ClInclude Include="..\include\log4cplus\layout.h" />
+    <ClInclude Include="..\include\log4cplus\log4judpappender.h" />
     <ClInclude Include="..\include\log4cplus\logger.h" />
     <ClInclude Include="..\include\log4cplus\spi\loggingevent.h" />
     <ClInclude Include="..\include\log4cplus\loggingmacros.h" />
