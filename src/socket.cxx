@@ -136,7 +136,7 @@ Socket::Socket(const tstring& address, unsigned short port, bool udp /*= false*/
     if (sock == INVALID_SOCKET_VALUE)
         goto error;
 
-    if (setTCPNoDelay (sock, true) != 0)
+    if (! udp && setTCPNoDelay (sock, true) != 0)
         goto error;
 
     return;

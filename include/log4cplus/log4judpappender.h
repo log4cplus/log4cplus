@@ -78,6 +78,8 @@ namespace log4cplus {
         int port;
 
     private:
+        std::string output_buf;
+
       // Disallow copying of instances of this class
         Log4jUdpAppender(const Log4jUdpAppender&);
         Log4jUdpAppender& operator=(const Log4jUdpAppender&);
