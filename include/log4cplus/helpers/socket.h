@@ -86,7 +86,7 @@ namespace log4cplus {
           // ctor and dtor
             Socket();
             Socket(SOCKET_TYPE sock, SocketState state, int err);
-            Socket(const tstring& address, unsigned short port);
+            Socket(const tstring& address, unsigned short port, bool udp = false);
             virtual ~Socket();
 
           // methods
@@ -114,7 +114,8 @@ namespace log4cplus {
 
         LOG4CPLUS_EXPORT SOCKET_TYPE openSocket(unsigned short port, SocketState& state);
         LOG4CPLUS_EXPORT SOCKET_TYPE connectSocket(const log4cplus::tstring& hostn,
-                                                   unsigned short port, SocketState& state);
+                                                   unsigned short port, bool udp,
+                                                   SocketState& state);
         LOG4CPLUS_EXPORT SOCKET_TYPE acceptSocket(SOCKET_TYPE sock, SocketState& state);
         LOG4CPLUS_EXPORT int closeSocket(SOCKET_TYPE sock);
 
