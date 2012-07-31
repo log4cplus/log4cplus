@@ -205,6 +205,8 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
    dnl headers then use zero length arrays which are not supported by
    dnl C++ itself.
    AX_CXXFLAGS_SUN_OPTION([-features=zla])
+   dnl This is for __func__ symbol.
+   AX_CXXFLAGS_SUN_OPTION([-features=extensions])
    dnl log4cplus does not work with the default C++ library
    dnl implementation from Sun, it needs better C++ support, thus we
    dnl use the available STLport they also ship.
