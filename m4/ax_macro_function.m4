@@ -40,3 +40,24 @@ AC_CACHE_CHECK([for __PRETTY_FUNCTION__ macro],
     [ac_cv_have___pretty_function___macro=no])
 ])
 ])
+
+
+AC_DEFUN([AX___FUNC___SYMBOL],
+[
+AH_TEMPLATE([HAVE___FUNC___SYMBOL],
+  [Defined if the compiler supports __func__ symbol.])
+
+AC_CACHE_CHECK([for __func__ symbol],
+[ac_cv_have___func___symbol],
+[
+  AC_LINK_IFELSE(
+    [AC_LANG_PROGRAM(
+      [[]],
+      [[
+        char const * func = __func__;
+      ]]
+    )],
+    [ac_cv_have___func___symbol=yes],
+    [ac_cv_have___func___symbol=no])
+])
+])

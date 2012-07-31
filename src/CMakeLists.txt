@@ -15,6 +15,7 @@ set (log4cplus_sources
   hierarchy.cxx
   hierarchylocker.cxx
   layout.cxx
+  log4judpappender.cxx
   lockfile.cxx
   logger.cxx
   loggerimpl.cxx
@@ -69,7 +70,24 @@ if (UNICODE)
 endif (UNICODE)
 
 add_library (${log4cplus} ${log4cplus_sources})
-target_link_libraries (${log4cplus} ${CMAKE_THREAD_LIBS_INIT})
+
+set (log4cplus_LIBS ${CMAKE_THREAD_LIBS_INIT})
+if (LIBRT)
+  list (APPEND log4cplus_LIBS ${LIBRT})
+endif ()
+if (LIBPOSIX4)
+  list (APPEND log4cplus_LIBS ${LIBPOSIX4})
+endif ()
+if (LIBCPOSIX)
+  list (APPEND log4cplus_LIBS ${LIBCPOSIX})
+endif ()
+if (LIBSOCKET)
+  list (APPEND log4cplus_LIBS ${LIBSOCKET})
+endif ()
+if (LIBNSL)
+  list (APPEND log4cplus_LIBS ${LIBNSL})
+endif ()
+target_link_libraries (${log4cplus} ${log4cplus_LIBS})
 
 set_target_properties (${log4cplus} PROPERTIES
   VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}"
@@ -97,6 +115,7 @@ install(FILES ../include/log4cplus/appender.h
               ../include/log4cplus/hierarchy.h
               ../include/log4cplus/hierarchylocker.h
               ../include/log4cplus/layout.h
+              ../include/log4cplus/log4judpappender.h
               ../include/log4cplus/logger.h
               ../include/log4cplus/loggingmacros.h
               ../include/log4cplus/loglevel.h

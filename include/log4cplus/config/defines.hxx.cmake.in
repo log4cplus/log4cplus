@@ -85,6 +85,9 @@
 /* Define to 1 if you have the `clock_gettime' function. */
 #cmakedefine LOG4CPLUS_HAVE_CLOCK_GETTIME 1
 
+/* Define to 1 if you have the `clock_nanosleep' function. */
+#cmakedefine LOG4CPLUS_HAVE_CLOCK_NANOSLEEP
+
 /* */
 #cmakedefine LOG4CPLUS_HAVE_GMTIME_R 1
 

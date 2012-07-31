@@ -181,6 +181,9 @@
     <ClCompile Include="..\src\lockfile.cxx">
       <Filter>helpers</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\log4judpappender.cxx">
+      <Filter>Appenders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\log4cplus\appender.h">
@@ -371,6 +374,9 @@
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\helpers\lockfile.h">
       <Filter>helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\log4cplus\log4judpappender.h">
+      <Filter>Appenders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
