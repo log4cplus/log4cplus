@@ -7129,6 +7129,48 @@ if test "x$ac_cv_have___pretty_function___macro" = "xyes"; then :
 fi
 
 
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __func__ symbol" >&5
+$as_echo_n "checking for __func__ symbol... " >&6; }
+if ${ac_cv_have___func___symbol+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+        char const * func = __func__;
+
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv_have___func___symbol=yes
+else
+  ac_cv_have___func___symbol=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_have___func___symbol" >&5
+$as_echo "$ac_cv_have___func___symbol" >&6; }
+
+
+if test "x$ac_cv_have___func___symbol" = "xyes"; then :
+  $as_echo "#define LOG4CPLUS_HAVE_FUNC_SYMBOL 1" >>confdefs.h
+
+fi
+
+
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for library containing strerror" >&5
 $as_echo_n "checking for library containing strerror... " >&6; }
 if ${ac_cv_search_strerror+:} false; then :

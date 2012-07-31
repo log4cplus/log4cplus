@@ -238,6 +238,12 @@ AH_TEMPLATE([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO])
 AS_IF([test "x$ac_cv_have___pretty_function___macro" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO])])
 
+AX___FUNC___SYMBOL
+AH_TEMPLATE([LOG4CPLUS_HAVE_FUNC_SYMBOL])
+AS_IF([test "x$ac_cv_have___func___symbol" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_HAVE_FUNC_SYMBOL])])
+
+
 dnl Checks for libraries.
 
 AC_SEARCH_LIBS([strerror], [cposix])

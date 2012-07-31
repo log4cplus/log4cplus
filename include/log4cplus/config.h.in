@@ -172,6 +172,9 @@
 /* Defined if the compiler supports __FUNCTION__ macro. */
 #undef HAVE___FUNCTION___MACRO
 
+/* Defined if the compiler supports __func__ symbol. */
+#undef HAVE___FUNC___SYMBOL
+
 /* Defined if the compiler supports __PRETTY_FUNCTION__ macro. */
 #undef HAVE___PRETTY_FUNCTION___MACRO
 
@@ -226,6 +229,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_FUNCTION_MACRO
+
+/* */
+#undef LOG4CPLUS_HAVE_FUNC_SYMBOL
 
 /* */
 #undef LOG4CPLUS_HAVE_GETADDRINFO

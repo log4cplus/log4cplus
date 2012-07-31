@@ -205,6 +205,9 @@
 /* Defined if the compiler supports __PRETTY_FUNCTION__ macro. */
 #undef LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
 
+/* Defined if the compiler supports __func__ symbol. */
+#undef LOG4CPLUS_HAVE_FUNC_SYMBOL
+
 /* Define to 1 if you have the `mbstowcs' function. */
 #undef LOG4CPLUS_HAVE_MBSTOWCS
 
