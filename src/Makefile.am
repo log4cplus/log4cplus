@@ -45,6 +45,7 @@ INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/internal/internal.h \
 	$(INCLUDES_SRC_PATH)/internal/socket.h \
 	$(INCLUDES_SRC_PATH)/layout.h \
+	$(INCLUDES_SRC_PATH)/log4judpappender.h \
 	$(INCLUDES_SRC_PATH)/logger.h \
 	$(INCLUDES_SRC_PATH)/loggingmacros.h \
 	$(INCLUDES_SRC_PATH)/loglevel.h \
@@ -98,6 +99,7 @@ SINGLE_THREADED_SRC = \
 	hierarchy.cxx \
 	hierarchylocker.cxx \
 	layout.cxx \
+	log4judpappender.cxx \
 	lockfile.cxx \
 	logger.cxx \
 	loggerimpl.cxx \

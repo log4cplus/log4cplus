@@ -117,12 +117,13 @@ am__objects_2 = $(am__objects_1) appenderattachableimpl.lo appender.lo \
 	asyncappender.lo clogger.lo configurator.lo consoleappender.lo \
 	cygwin-win32.lo env.lo factory.lo fileappender.lo fileinfo.lo \
 	filter.lo global-init.lo hierarchy.lo hierarchylocker.lo \
-	layout.lo lockfile.lo logger.lo loggerimpl.lo loggingevent.lo \
-	loggingmacros.lo loglevel.lo loglog.lo logloguser.lo mdc.lo \
-	ndc.lo nullappender.lo nteventlogappender.lo objectregistry.lo \
-	patternlayout.lo pointer.lo property.lo queue.lo rootlogger.lo \
-	sleep.lo snprintf.lo socketappender.lo socketbuffer.lo \
-	socket.lo socket-unix.lo socket-win32.lo stringhelper.lo \
+	layout.lo log4judpappender.lo lockfile.lo logger.lo \
+	loggerimpl.lo loggingevent.lo loggingmacros.lo loglevel.lo \
+	loglog.lo logloguser.lo mdc.lo ndc.lo nullappender.lo \
+	nteventlogappender.lo objectregistry.lo patternlayout.lo \
+	pointer.lo property.lo queue.lo rootlogger.lo sleep.lo \
+	snprintf.lo socketappender.lo socketbuffer.lo socket.lo \
+	socket-unix.lo socket-win32.lo stringhelper.lo \
 	stringhelper-clocale.lo stringhelper-cxxlocale.lo \
 	stringhelper-iconv.lo syncprims.lo syslogappender.lo \
 	threads.lo timehelper.lo tls.lo version.lo \
@@ -344,6 +345,7 @@ INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/internal/internal.h \
 	$(INCLUDES_SRC_PATH)/internal/socket.h \
 	$(INCLUDES_SRC_PATH)/layout.h \
+	$(INCLUDES_SRC_PATH)/log4judpappender.h \
 	$(INCLUDES_SRC_PATH)/logger.h \
 	$(INCLUDES_SRC_PATH)/loggingmacros.h \
 	$(INCLUDES_SRC_PATH)/loglevel.h \
@@ -397,6 +399,7 @@ SINGLE_THREADED_SRC = \
 	hierarchy.cxx \
 	hierarchylocker.cxx \
 	layout.cxx \
+	log4judpappender.cxx \
 	lockfile.cxx \
 	logger.cxx \
 	loggerimpl.cxx \
@@ -534,6 +537,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hierarchylocker.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/layout.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lockfile.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/log4judpappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logger.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loggerimpl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loggingevent.Plo@am__quote@

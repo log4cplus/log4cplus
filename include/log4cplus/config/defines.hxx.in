@@ -85,6 +85,9 @@
 /* Define to 1 if you have the `clock_gettime' function. */
 #undef LOG4CPLUS_HAVE_CLOCK_GETTIME
 
+/* Define to 1 if you have the `nanosleep' function. */
+#undef LOG4CPLUS_HAVE_NANOSLEEP
+
 /* Define to 1 if you have the `clock_nanosleep' function. */
 #undef LOG4CPLUS_HAVE_CLOCK_NANOSLEEP
 
@@ -201,6 +204,9 @@
 
 /* Defined if the compiler supports __PRETTY_FUNCTION__ macro. */
 #undef LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
+
+/* Defined if the compiler supports __func__ symbol. */
+#undef LOG4CPLUS_HAVE_FUNC_SYMBOL
 
 /* Define to 1 if you have the `mbstowcs' function. */
 #undef LOG4CPLUS_HAVE_MBSTOWCS

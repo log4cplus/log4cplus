@@ -32,6 +32,7 @@
 #include <log4cplus/syslogappender.h>
 #include <log4cplus/win32debugappender.h>
 #include <log4cplus/win32consoleappender.h>
+#include <log4cplus/log4judpappender.h>
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -97,6 +98,7 @@ void initializeFactoryRegistry()
 #ifndef LOG4CPLUS_SINGLE_THREADED
     LOG4CPLUS_REG_APPENDER (reg, AsyncAppender);
 #endif
+    LOG4CPLUS_REG_APPENDER (reg, Log4jUdpAppender);
 
     spi::LayoutFactoryRegistry& reg2 = spi::getLayoutFactoryRegistry();
     LOG4CPLUS_REG_LAYOUT (reg2, SimpleLayout);

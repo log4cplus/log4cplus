@@ -18,7 +18,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @file 
+/** @file
  * This file implements support function for loggingmacros.h file. */
 
 #include <log4cplus/internal/internal.h>
@@ -61,7 +61,6 @@ clear_tostringstream (tostringstream & os)
 log4cplus::tostringstream &
 get_macro_body_oss ()
 {
-    
     tostringstream & oss = internal::get_ptd ()->macros_oss;
     clear_tostringstream (oss);
     return oss;

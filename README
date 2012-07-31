@@ -192,6 +192,12 @@ than the default Cstd library.  This means that log4cplus' configure
 script automatically adds '-library=stlport4' to compiler command
 line.
 
+Solaris Studio supports the __func__ symbol which can be used by
+log4cplus to record function name in logged events.  To enable this
+feature, add '-features=extensions' switch to CXXFLAGS for configure
+script.  Subsequently, you will have to add this switch to your
+application's build flags as well.
+
 
 Solaris Studio on GNU/Linux
 ---------------------------

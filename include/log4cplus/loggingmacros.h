@@ -121,6 +121,9 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 #  elif defined (LOG4CPLUS_HAVE_FUNCTION_MACRO)
 #    undef LOG4CPLUS_MACRO_FUNCTION
 #    define LOG4CPLUS_MACRO_FUNCTION() __FUNCTION__
+#  elif defined (LOG4CPLUS_HAVE_FUNC_SYMBOL)
+#    undef LOG4CPLUS_MACRO_FUNCTION
+#    define LOG4CPLUS_MACRO_FUNCTION() __func__
 #  endif
 #endif
 

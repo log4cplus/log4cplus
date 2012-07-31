@@ -18,7 +18,7 @@ AM_PROG_AR
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=2:0:0
+LT_VERSION=3:0:0
 LT_RELEASE=1.1
 AC_SUBST([LT_VERSION])
 AC_SUBST([LT_RELEASE])
@@ -205,6 +205,11 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
    dnl headers then use zero length arrays which are not supported by
    dnl C++ itself.
    AX_CXXFLAGS_SUN_OPTION([-features=zla])
+
+   dnl This is for __func__ symbol. However it is disabled as it would
+   dnl force user code to use the switch as well.
+   dnl AX_CXXFLAGS_SUN_OPTION([-features=extensions])
+
    dnl log4cplus does not work with the default C++ library
    dnl implementation from Sun, it needs better C++ support, thus we
    dnl use the available STLport they also ship.
@@ -237,6 +242,12 @@ AX___PRETTY_FUNCTION___MACRO
 AH_TEMPLATE([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO])
 AS_IF([test "x$ac_cv_have___pretty_function___macro" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO])])
+
+AX___FUNC___SYMBOL
+AH_TEMPLATE([LOG4CPLUS_HAVE_FUNC_SYMBOL])
+AS_IF([test "x$ac_cv_have___func___symbol" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_HAVE_FUNC_SYMBOL])])
+
 
 dnl Checks for libraries.
 
@@ -363,6 +374,7 @@ dnl Checks for library functions.
 LOG4CPLUS_CHECK_FUNCS([gmtime_r], [LOG4CPLUS_HAVE_GMTIME_R])
 LOG4CPLUS_CHECK_FUNCS([localtime_r], [LOG4CPLUS_HAVE_LOCALTIME_R])
 LOG4CPLUS_CHECK_FUNCS([gettimeofday], [LOG4CPLUS_HAVE_GETTIMEOFDAY])
+LOG4CPLUS_CHECK_FUNCS([nanosleep], [LOG4CPLUS_HAVE_NANOSLEEP])
 LOG4CPLUS_CHECK_FUNCS([clock_nanosleep], [LOG4CPLUS_HAVE_CLOCK_NANOSLEEP])
 LOG4CPLUS_CHECK_FUNCS([clock_gettime], [LOG4CPLUS_HAVE_CLOCK_GETTIME])
 LOG4CPLUS_CHECK_FUNCS([getpid], [LOG4CPLUS_HAVE_GETPID])
