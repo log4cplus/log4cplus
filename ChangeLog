@@ -1,3 +1,34 @@
+log4cplus 1.1.0-RC7
+
+IMPORTANT: Builds with --with-iconv configure switch now assume UTF-8
+           for plain char strings.
+
+- Bumped up SO version for UDP sockets support related changes.
+
+- Removed Windows CE support.
+
+- Regenerated with Automake 1.12.2.
+
+- Fixed Fedora RPM builds spec file.
+
+- Implemented log4cplus.disableOverride similar to log4j's
+  log4j.disableOverride.
+
+- Improved support of profiling and debugging builds with Sun CC.
+
+- Added documentation for configure script options.
+
+- Added detection and use of clock_nanosleep().
+
+- Disabled __thread (TLS) detection for NetBSD. It is broken there.
+
+- New appender: Log4jUdpAppender. It allows logging using UDP with
+  log4j XML payload to Chainsaw or Log2Console. (Siva Chandran P)
+
+- Added support for __func__ as function name source for logging
+  events.
+
+
 log4cplus 1.1.0-RC6
 
 - Fixed compilation for build with wchar_t being alias to unsigned
