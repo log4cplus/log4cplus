@@ -4857,13 +4857,16 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
+as_fn_append CPPFLAGS -D_GNU_SOURCE=1
+
 case "$target_os" in #(
   mingw*) :
-                CPPFLAGS="$CPPFLAGS -U__STRICT_ANSI__"
-   CPPFLAGS="$CPPFLAGS -DWIN32 -D_WIN32"
-   CPPFLAGS="$CPPFLAGS -DMINGW_HAS_SECURE_API=1" ;; #(
+                as_fn_append CPPFLAGS -U__STRICT_ANSI__
+   as_fn_append CPPFLAGS -DWIN32
+   as_fn_append CPPFLAGS -D_WIN32
+   as_fn_append CPPFLAGS -DMINGW_HAS_SECURE_API=1 ;; #(
   cygwin*) :
-             CPPFLAGS="$CPPFLAGS -U__STRICT_ANSI__" ;; #(
+             as_fn_append CPPFLAGS -U__STRICT_ANSI__ ;; #(
   *) :
      ;;
 esac
@@ -7397,6 +7400,62 @@ if test "$ac_res" != no; then :
 
 fi
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for library containing ftime" >&5
+$as_echo_n "checking for library containing ftime... " >&6; }
+if ${ac_cv_search_ftime+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_func_search_save_LIBS=$LIBS
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char ftime ();
+int
+main ()
+{
+return ftime ();
+  ;
+  return 0;
+}
+_ACEOF
+for ac_lib in '' compat; do
+  if test -z "$ac_lib"; then
+    ac_res="none required"
+  else
+    ac_res=-l$ac_lib
+    LIBS="-l$ac_lib  $ac_func_search_save_LIBS"
+  fi
+  if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv_search_ftime=$ac_res
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext
+  if ${ac_cv_search_ftime+:} false; then :
+  break
+fi
+done
+if ${ac_cv_search_ftime+:} false; then :
+
+else
+  ac_cv_search_ftime=no
+fi
+rm conftest.$ac_ext
+LIBS=$ac_func_search_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_search_ftime" >&5
+$as_echo "$ac_cv_search_ftime" >&6; }
+ac_res=$ac_cv_search_ftime
+if test "$ac_res" != no; then :
+  test "$ac_res" = "none required" || LIBS="$ac_res $LIBS"
+
+fi
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for library containing gethostbyname" >&5
 $as_echo_n "checking for library containing gethostbyname... " >&6; }
 if ${ac_cv_search_gethostbyname+:} false; then :
@@ -8255,7 +8314,7 @@ $as_echo "$as_me: Creating a multi-threaded library." >&6;}
    { $as_echo "$as_me:${as_lineno-$LINENO}: Threads support:" >&5
 $as_echo "$as_me: Threads support:" >&6;}
 
-   CPPFLAGS="$CPPFLAGS -D_REENTRANT"
+   as_fn_append CPPFLAGS -D_REENTRANT
 
    case "$target_os" in #(
   mingw*) :
