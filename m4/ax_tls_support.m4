@@ -14,16 +14,20 @@ AC_CACHE_CHECK([for __thread], [ac_cv__thread_keyword],
 [
   AC_LINK_IFELSE(
     [AC_LANG_PROGRAM(
-      [[extern __thread int x;
+      [[#if defined (__NetBSD__)
+        #include <sys/param.h>
+        #if ! __NetBSD_Prereq__(5,1,0)
+        #error NetBSD __thread support does not work before 5.1.0. It is missing __tls_get_addr.
+        #endif
+        #endif
+
+        extern __thread int x;
         __thread int * ptr = 0;
         int foo () { ptr = &x; return x; }
         __thread int x = 1;
       ]],
       [[x = 2;
         foo ();
-#if defined __NetBSD__
-#error NetBSD __thread support does not work. It is missing __tls_get_addr.
-#endif
       ]])],
     [ac_cv__thread_keyword=yes
      ax_tls_support=yes],
