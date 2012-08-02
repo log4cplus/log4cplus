@@ -122,6 +122,7 @@ struct per_thread_data
     gft_scratch_pad gft_sp;
     appender_sratch_pad appender_sp;
     log4cplus::tstring faa_str;
+    log4cplus::tstring ll_str;
     spi::InternalLoggingEvent forced_log_ev;
     std::FILE * fnull;
     log4cplus::helpers::snprintf_buf snprintf_buf;
