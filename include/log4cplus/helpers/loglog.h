@@ -50,11 +50,13 @@ namespace log4cplus {
             : public virtual log4cplus::helpers::SharedObject 
         {
         public:
-          // Static methods
+            //! Return type of getLogLog().
+            typedef log4cplus::helpers::SharedObjectPtr<LogLog> Ptr;
+
             /**
              * Returns a reference to the <code>LogLog</code> singleton.
              */
-            static log4cplus::helpers::SharedObjectPtr<LogLog> getLogLog();
+            static Ptr getLogLog();
 
 
             /**
