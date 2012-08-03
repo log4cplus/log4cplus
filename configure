@@ -8281,10 +8281,11 @@ ax_pthread_ok=no
 # First of all, check if the user has set any of the PTHREAD_LIBS,
 # etcetera environment variables, and if threads linking works using
 # them:
-if test x"$PTHREAD_LIBS$PTHREAD_CFLAGS" != x; then
-        save_CFLAGS="$CFLAGS"
+if test ! -z "$PTHREAD_LIBS$PTHREAD_CFLAGS"; then :
+
+        save_CFLAGS=$CFLAGS
         CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
-        save_LIBS="$LIBS"
+        save_LIBS=$LIBS
         LIBS="$PTHREAD_LIBS $LIBS"
         { $as_echo "$as_me:${as_lineno-$LINENO}: checking for pthread_join in LIBS=$PTHREAD_LIBS with CFLAGS=$PTHREAD_CFLAGS" >&5
 $as_echo_n "checking for pthread_join in LIBS=$PTHREAD_LIBS with CFLAGS=$PTHREAD_CFLAGS... " >&6; }
@@ -8313,12 +8314,13 @@ rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
         { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_pthread_ok" >&5
 $as_echo "$ax_pthread_ok" >&6; }
-        if test x"$ax_pthread_ok" = xno; then
-                PTHREAD_LIBS=""
-                PTHREAD_CFLAGS=""
-        fi
-        LIBS="$save_LIBS"
-        CFLAGS="$save_CFLAGS"
+        if test x"$ax_pthread_ok" = xno; then :
+  { PTHREAD_LIBS=; unset PTHREAD_LIBS;}
+           { PTHREAD_CFLAGS=; unset PTHREAD_CFLAGS;}
+fi
+        LIBS=$save_LIBS
+        CFLAGS=$save_CFLAGS
+
 fi
 
 # We must check for the threads library under a number of different

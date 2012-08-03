@@ -97,21 +97,21 @@ ax_pthread_ok=no
 # First of all, check if the user has set any of the PTHREAD_LIBS,
 # etcetera environment variables, and if threads linking works using
 # them:
-if test x"$PTHREAD_LIBS$PTHREAD_CFLAGS" != x; then
-        save_CFLAGS="$CFLAGS"
-        CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
-        save_LIBS="$LIBS"
-        LIBS="$PTHREAD_LIBS $LIBS"
+AS_IF([test ! -z "$PTHREAD_LIBS$PTHREAD_CFLAGS"],
+  [
+        AS_VAR_COPY([save_CFLAGS], [CFLAGS])
+        AS_VAR_SET([CFLAGS], ["$CFLAGS $PTHREAD_CFLAGS"])
+        AS_VAR_COPY([save_LIBS], [LIBS])
+        AS_VAR_SET([LIBS], ["$PTHREAD_LIBS $LIBS"])
         AC_MSG_CHECKING([for pthread_join in LIBS=$PTHREAD_LIBS with CFLAGS=$PTHREAD_CFLAGS])
         AC_TRY_LINK_FUNC(pthread_join, ax_pthread_ok=yes)
         AC_MSG_RESULT($ax_pthread_ok)
-        if test x"$ax_pthread_ok" = xno; then
-                PTHREAD_LIBS=""
-                PTHREAD_CFLAGS=""
-        fi
-        LIBS="$save_LIBS"
-        CFLAGS="$save_CFLAGS"
-fi
+        AS_IF([test x"$ax_pthread_ok" = xno],
+          [AS_UNSET([PTHREAD_LIBS])
+           AS_UNSET([PTHREAD_CFLAGS])])
+        AS_VAR_COPY([LIBS], [save_LIBS])
+        AS_VAR_COPY([CFLAGS], [save_CFLAGS])
+  ])
 
 # We must check for the threads library under a number of different
 # names; the ordering is very important because some systems
