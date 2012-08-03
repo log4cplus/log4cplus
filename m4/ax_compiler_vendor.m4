@@ -44,10 +44,11 @@
 #   modified version of the Autoconf Macro, you may extend this special
 #   exception to the GPL to apply to your modified version as well.
 
-#serial 11
+#serial 12
 
 AC_DEFUN([AX_COMPILER_VENDOR],
-[AC_CACHE_CHECK([for _AC_LANG compiler vendor], ax_cv_[]_AC_LANG_ABBREV[]_compiler_vendor,
+[AC_REQUIRE([AC_PROG_SED])
+ AC_CACHE_CHECK([for _AC_LANG compiler vendor], ax_cv_[]_AC_LANG_ABBREV[]_compiler_vendor,
   [# note: don't check for gcc first since some other compilers define __GNUC__
   vendors="intel:     __ICC,__ECC,__INTEL_COMPILER
            ibm:       __xlc__,__xlC__,__IBMC__,__IBMCPP__
@@ -69,16 +70,20 @@ AC_DEFUN([AX_COMPILER_VENDOR],
            portland:  __PGI
            unknown:   UNKNOWN"
   for ventest in $vendors; do
-    case $ventest in
-      *:) vendor=$ventest; continue ;;
-      *)  vencpp="defined("`echo $ventest | sed 's/,/) || defined(/g'`")" ;;
-    esac
-    AC_COMPILE_IFELSE([AC_LANG_PROGRAM(,[
+    AS_CASE([$ventest],
+      [*:],
+      [AS_VAR_COPY([vendor], [ventest])
+       continue],
+
+      [AS_VAR_SET([vencpp],
+         ["defined("`AS_ECHO($ventest) | $SED 's/,/) || defined(/g'`")"])])
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM(,[[
       #if !($vencpp)
         thisisanerror;
       #endif
-    ])], [break])
+    ]])], [break])
   done
-  ax_cv_[]_AC_LANG_ABBREV[]_compiler_vendor=`echo $vendor | cut -d: -f1`
+  AS_VAR_SET([ax_cv_[]_AC_LANG_ABBREV[]_compiler_vendor],
+    ["`AS_ECHO($vendor) | cut -d: -f1`"])
  ])
 ])
