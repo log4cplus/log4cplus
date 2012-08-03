@@ -165,7 +165,7 @@ AS_IF([test x"$ax_pthread_ok" = xno], [
 
                 [-*],
                 [AC_MSG_CHECKING([whether pthreads work with $flag])
-                 PTHREAD_$3="$flag"],
+                 AS_VAR_COPY([PTHREAD_$3], [flag])],
                  
                 [pthread-config],
                 [AC_CHECK_PROG([ax_pthread_config], [pthread-config],

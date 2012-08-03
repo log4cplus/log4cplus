@@ -5068,23 +5068,21 @@ case ".$ac_cv_cxxflags_warn_all" in #(
      ;; #(
   *) :
     if ${CXXFLAGS+:} false; then :
-  case " $CXXFLAGS " in
-    *" $ac_cv_cxxflags_warn_all "*)
-      { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS already contains \$ac_cv_cxxflags_warn_all"; } >&5
+  case " $CXXFLAGS " in #(
+  *" $ac_cv_cxxflags_warn_all "*) :
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS already contains \$ac_cv_cxxflags_warn_all"; } >&5
   (: CXXFLAGS already contains $ac_cv_cxxflags_warn_all) 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }
-      ;;
-    *)
-      { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_warn_all\""; } >&5
+  test $ac_status = 0; } ;; #(
+  *) :
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_warn_all\""; } >&5
   (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all"
-      ;;
-   esac
+     as_fn_append CXXFLAGS " $ac_cv_cxxflags_warn_all" ;;
+esac
 else
   CXXFLAGS="$ac_cv_cxxflags_warn_all"
 fi
@@ -8458,7 +8456,7 @@ $as_echo_n "checking whether pthreads work without any flags... " >&6; } ;; #(
   -*) :
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether pthreads work with $flag" >&5
 $as_echo_n "checking whether pthreads work with $flag... " >&6; }
-                 PTHREAD_CXXFLAGS="$flag" ;; #(
+                 PTHREAD_CXXFLAGS=$flag ;; #(
   pthread-config) :
     # Extract the first word of "pthread-config", so it can be a program name with args.
 set dummy pthread-config; ac_word=$2
