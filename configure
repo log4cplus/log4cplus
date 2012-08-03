@@ -9043,6 +9043,51 @@ fi
 
 ax_tls_support=no
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for thread_local" >&5
+$as_echo_n "checking for thread_local... " >&6; }
+if ${ac_cv_thread_local+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+      extern thread_local int x;
+      thread_local int * ptr = 0;
+      int foo () { ptr = &x; return x; }
+      thread_local int x = 1;
+
+int
+main ()
+{
+x = 2;
+        foo ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv__thread_local=yes
+     ax_tls_support=yes
+else
+  ac_cv_thread_local=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_thread_local" >&5
+$as_echo "$ac_cv_thread_local" >&6; }
+if test "x$ac_cv_thread_local" = "xyes"; then :
+  $as_echo "#define HAVE_TLS_SUPPORT 1" >>confdefs.h
+
+   $as_echo "#define TLS_SUPPORT_CONSTRUCT thread_local" >>confdefs.h
+
+fi
+
+
+if test "x$ax_tls_support" = "xno"; then :
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for __thread" >&5
 $as_echo_n "checking for __thread... " >&6; }
 if ${ac_cv__thread_keyword+:} false; then :
@@ -9092,46 +9137,47 @@ if test "x$ac_cv__thread_keyword" = "xyes"; then :
    $as_echo "#define TLS_SUPPORT_CONSTRUCT __thread" >>confdefs.h
 
 fi
+fi
+
 
 if test "x$ax_tls_support" = "xno"; then :
 
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for __declspec(thread)" >&5
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __declspec(thread)" >&5
 $as_echo_n "checking for __declspec(thread)... " >&6; }
 if ${ac_cv_declspec_thread+:} false; then :
   $as_echo_n "(cached) " >&6
 else
 
-    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
 #if defined (__GNUC__)
 #  error Please fail.
 And extra please fail.
 #else
-        extern __declspec(thread) int x;
-        __declspec(thread) int * ptr = 0;
-        int foo () { ptr = &x; return x; }
-        __declspec(thread) int x = 1;
+       extern __declspec(thread) int x;
+       __declspec(thread) int * ptr = 0;
+       int foo () { ptr = &x; return x; }
+       __declspec(thread) int x = 1;
 #endif
 
 int
 main ()
 {
 x = 2;
-          foo ();
+         foo ();
   ;
   return 0;
 }
 _ACEOF
 if ac_fn_cxx_try_link "$LINENO"; then :
   ac_cv_declspec_thread=yes
-       ax_tls_support=yes
+     ax_tls_support=yes
 else
   ac_cv_declspec_thread=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
-
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_declspec_thread" >&5
 $as_echo "$ac_cv_declspec_thread" >&6; }

@@ -10,8 +10,30 @@ AH_TEMPLATE(TLS_SUPPORT_CONSTRUCT,
 
 ax_tls_support=no
 
-AC_CACHE_CHECK([for __thread], [ac_cv__thread_keyword],
+AC_CACHE_CHECK([for thread_local], [ac_cv_thread_local],
 [
+  AC_LINK_IFELSE(
+    [AC_LANG_PROGRAM(
+      [[
+      extern thread_local int x;
+      thread_local int * ptr = 0;
+      int foo () { ptr = &x; return x; }
+      thread_local int x = 1;
+      ]],
+      [[x = 2;
+        foo ();]])],
+    [ac_cv__thread_local=yes
+     ax_tls_support=yes],
+    [ac_cv_thread_local=no],
+    [ac_cv_thread_local=no])
+])
+AS_IF([test "x$ac_cv_thread_local" = "xyes"],
+  [AC_DEFINE(HAVE_TLS_SUPPORT, [1])
+   AC_DEFINE(TLS_SUPPORT_CONSTRUCT, [thread_local])])
+
+
+AS_IF([test "x$ax_tls_support" = "xno"], [
+AC_CACHE_CHECK([for __thread], [ac_cv__thread_keyword], [
   AC_LINK_IFELSE(
     [AC_LANG_PROGRAM(
       [[#if defined (__NetBSD__)
@@ -37,35 +59,33 @@ AC_CACHE_CHECK([for __thread], [ac_cv__thread_keyword],
 
 AS_IF([test "x$ac_cv__thread_keyword" = "xyes"],
   [AC_DEFINE(HAVE_TLS_SUPPORT, [1])
-   AC_DEFINE(TLS_SUPPORT_CONSTRUCT, [__thread])])
+   AC_DEFINE(TLS_SUPPORT_CONSTRUCT, [__thread])])])
 
-AS_IF([test "x$ax_tls_support" = "xno"],
-  [
-  AC_CACHE_CHECK([for __declspec(thread)], [ac_cv_declspec_thread],
-  [
-    AC_LINK_IFELSE(
-      [AC_LANG_PROGRAM(
-        [[
+
+AS_IF([test "x$ax_tls_support" = "xno"], [
+AC_CACHE_CHECK([for __declspec(thread)], [ac_cv_declspec_thread], [
+  AC_LINK_IFELSE(
+    [AC_LANG_PROGRAM(
+       [[
 #if defined (__GNUC__)
 #  error Please fail.
 And extra please fail.
 #else
-        extern __declspec(thread) int x;
-        __declspec(thread) int * ptr = 0;
-        int foo () { ptr = &x; return x; }
-        __declspec(thread) int x = 1;
+       extern __declspec(thread) int x;
+       __declspec(thread) int * ptr = 0;
+       int foo () { ptr = &x; return x; }
+       __declspec(thread) int x = 1;
 #endif
-        ]],
-        [[x = 2;
-          foo ();]])],
-      [ac_cv_declspec_thread=yes
-       ax_tls_support=yes],
-      [ac_cv_declspec_thread=no],
-      [ac_cv_declspec_thread=no])
-  ])
+       ]],
+       [[x = 2;
+         foo ();]])],
+    [ac_cv_declspec_thread=yes
+     ax_tls_support=yes],
+    [ac_cv_declspec_thread=no],
+    [ac_cv_declspec_thread=no])])
 
   AS_IF([test "x$ac_cv_declspec_thread" = "xyes"],
     [AC_DEFINE(HAVE_TLS_SUPPORT, [1])
      AC_DEFINE(TLS_SUPPORT_CONSTRUCT, [__declspec(thread)])])])
 
-])
+])dnl AX_TLS_SUPPORT
