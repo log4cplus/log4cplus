@@ -5036,9 +5036,9 @@ if ${ac_cv_cxxflags_warn_all+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_cv_cxxflags_warn_all="no, unknown"
-ac_save_CXXFLAGS="$CXXFLAGS"
+ac_save_CXXFLAGS=$CXXFLAGS
 for ac_arg in "-warn all  % -warn all"      "-pedantic  % -Wall"          "-xstrconst % -v"             "-std1      % -verbose -w0 -warnprotos"    "-qlanglvl=ansi % -qsrcmsg -qinfo=all:noppt:noppc:noobs:nocnd"    "-ansi -ansiE % -fullwarn"    "+ESlit     % +w1"            "-Xc        % -pvctl,fullmsg"    "-h conform % -h msglevel 2"    #
-do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+do CXXFLAGS="$ac_save_CXXFLAGS `$as_echo_n \"$ac_arg\" | $SED -e 's,%%.*,,' -e 's,%,,'`"
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -5051,19 +5051,23 @@ main ()
 }
 _ACEOF
 if ac_fn_cxx_try_compile "$LINENO"; then :
-  ac_cv_cxxflags_warn_all=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+  ac_cv_cxxflags_warn_all="`$as_echo_n \"$ac_arg\" | $SED -e 's,.*% *,,'`"
+                      break
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 done
-CXXFLAGS="$ac_save_CXXFLAGS"
+CXXFLAGS=$ac_save_CXXFLAGS
 
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_cxxflags_warn_all" >&5
 $as_echo "$ac_cv_cxxflags_warn_all" >&6; }
-case ".$ac_cv_cxxflags_warn_all" in
-     .ok|.ok,*)  ;;
-   .|.no|.no,*)  ;;
-   *) if ${CXXFLAGS+:} false; then :
+case ".$ac_cv_cxxflags_warn_all" in #(
+  .ok|.ok,*) :
+     ;; #(
+  .|.no|.no,*) :
+     ;; #(
+  *) :
+    if ${CXXFLAGS+:} false; then :
   case " $CXXFLAGS " in
     *" $ac_cv_cxxflags_warn_all "*)
       { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS already contains \$ac_cv_cxxflags_warn_all"; } >&5
