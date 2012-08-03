@@ -323,11 +323,10 @@ dnl Multi threaded library.
 
    AS_CASE(["$target_os"],
      [mingw*], [],
-     [ACX_PTHREAD([],
+     [AX_PTHREAD_CXX([],
        [AC_MSG_ERROR([Requested threads support but no threads were found.])])])
 
-   AS_VAR_APPEND([CFLAGS], [" $PTHREAD_CFLAGS"])
-   AS_VAR_APPEND([CXXFLAGS], [" $PTHREAD_CFLAGS"])
+   AS_VAR_APPEND([CXXFLAGS], [" $PTHREAD_CXXFLAGS"])
    AS_VAR_APPEND([LIBS], [" $PTHREAD_LIBS"])
 
    dnl required on HP-UX

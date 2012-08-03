@@ -58,14 +58,15 @@
 #   modified version of the Autoconf Macro, you may extend this special
 #   exception to the GPL to apply to your modified version as well.
 
-#serial 13
+#serial 14
 
 AC_DEFUN([AX_FLAGS_WARN_ALL],[dnl
+AC_REQUIRE([AC_PROG_SED])dnl
 AS_VAR_PUSHDEF([FLAGS],[_AC_LANG_PREFIX[]FLAGS])dnl
 AS_VAR_PUSHDEF([VAR],[ac_cv_[]_AC_LANG_ABBREV[]flags_warn_all])dnl
 AC_CACHE_CHECK([m4_ifval($1,$1,FLAGS) for maximum warnings],
-VAR,[VAR="no, unknown"
-ac_save_[]FLAGS="$[]FLAGS"
+VAR,[AS_VAR_SET([VAR], ["no, unknown"])
+AS_VAR_COPY([ac_save_[]FLAGS], [FLAGS])
 for ac_arg dnl
 in "-warn all  % -warn all"   dnl Intel
    "-pedantic  % -Wall"       dnl GCC
@@ -77,18 +78,20 @@ in "-warn all  % -warn all"   dnl Intel
    "-Xc        % -pvctl[,]fullmsg" dnl NEC SX-5 (Super-UX 10)
    "-h conform % -h msglevel 2" dnl Cray C (Unicos)
    #
-do FLAGS="$ac_save_[]FLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+do AS_VAR_SET([FLAGS],
+     ["$ac_save_[]FLAGS `AS_ECHO_N([\"$ac_arg\"]) | $SED -e 's,%%.*,,' -e 's,%,,'`"])
    AC_COMPILE_IFELSE([AC_LANG_PROGRAM],
-                     [VAR=`echo $ac_arg | sed -e 's,.*% *,,'` ; break])
+                     [AS_VAR_SET([VAR],
+                        ["`AS_ECHO_N([\"$ac_arg\"]) | $SED -e 's,.*% *,,'`"])
+                      break])
 done
-FLAGS="$ac_save_[]FLAGS"
+AS_VAR_COPY([FLAGS], [ac_save_[]FLAGS])
 ])
 AS_VAR_POPDEF([FLAGS])dnl
-case ".$VAR" in
-     .ok|.ok,*) m4_ifvaln($3,$3) ;;
-   .|.no|.no,*) m4_default($4,[m4_ifval($2,[AX_APPEND_FLAG([$2], [$1])])]) ;;
-   *) m4_default($3,[AX_APPEND_FLAG([$VAR], [$1])]) ;;
-esac
+AS_CASE([".$VAR"],
+    [.ok|.ok,*], [m4_ifvaln($3,$3)],
+  [.|.no|.no,*], [m4_default($4,[m4_ifval($2,[AX_APPEND_FLAG([$2], [$1])])])],
+                 [m4_default($3,[AX_APPEND_FLAG([$VAR], [$1])])])
 AS_VAR_POPDEF([VAR])dnl
 ])dnl AX_FLAGS_WARN_ALL
 dnl  implementation tactics:
