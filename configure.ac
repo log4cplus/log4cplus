@@ -102,20 +102,23 @@ AC_PROG_CXX
 AC_PROG_CXXCPP
 AC_LANG([C++])
 
+AS_VAR_APPEND([CPPFLAGS], [" -D_GNU_SOURCE=1"])
+
 AS_CASE(["$target_os"],
   [mingw*],
   [dnl Undefining __STRICT_ANSI__ is a workaround for MinGW
    dnl compilation problem.  C++ <cwchar> header does not compile in
    dnl GCC 4.4.0 because some functions like swprintf() are not
    dnl visible.
-   CPPFLAGS="$CPPFLAGS -U__STRICT_ANSI__"
-   CPPFLAGS="$CPPFLAGS -DWIN32 -D_WIN32"
-   CPPFLAGS="$CPPFLAGS -DMINGW_HAS_SECURE_API=1"],
+   AS_VAR_APPEND([CPPFLAGS], [" -U__STRICT_ANSI__"])
+   AS_VAR_APPEND([CPPFLAGS], [" -DWIN32"])
+   AS_VAR_APPEND([CPPFLAGS], [" -D_WIN32"])
+   AS_VAR_APPEND([CPPFLAGS], [" -DMINGW_HAS_SECURE_API=1"])],
   [cygwin*],
   [dnl Undefining __STRICT_ANSI__ is a workaround for compilation
    dnl problem.  C <stdio.h> header does not define vsnprintf() or
    dnl _vsnprintf().
-   CPPFLAGS="$CPPFLAGS -U__STRICT_ANSI__"])
+   AS_VAR_APPEND([CPPFLAGS], [" -U__STRICT_ANSI__"])])
 
 AC_ARG_ENABLE([profiling],
   [AS_HELP_STRING([--enable-profiling],
@@ -255,6 +258,9 @@ AC_SEARCH_LIBS([strerror], [cposix])
 AC_SEARCH_LIBS([nanosleep], [rt])
 AC_SEARCH_LIBS([clock_nanosleep], [rt posix4])
 AC_SEARCH_LIBS([clock_gettime], [rt posix4])
+dnl On some systems libcompat exists only as a static library which
+dnl breaks compilation of shared library log4cplus.
+dnl AC_SEARCH_LIBS([ftime], [compat])
 AC_SEARCH_LIBS([gethostbyname], [nsl])
 AC_SEARCH_LIBS([setsockopt], [socket])
 AC_SEARCH_LIBS([iconv_open], [iconv], [],
@@ -313,16 +319,15 @@ dnl Multi threaded library.
   [AC_MSG_NOTICE([Creating a multi-threaded library.])
    AC_MSG_NOTICE([Threads support:])
 
-   CPPFLAGS="$CPPFLAGS -D_REENTRANT"
+   AS_VAR_APPEND([CPPFLAGS], [" -D_REENTRANT"])
 
    AS_CASE(["$target_os"],
      [mingw*], [],
-     [ACX_PTHREAD([],
+     [AX_PTHREAD_CXX([],
        [AC_MSG_ERROR([Requested threads support but no threads were found.])])])
 
-   CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
-   CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
-   LIBS="$PTHREAD_LIBS $LIBS"
+   AS_VAR_APPEND([CXXFLAGS], [" $PTHREAD_CXXFLAGS"])
+   AS_VAR_APPEND([LIBS], [" $PTHREAD_LIBS"])
 
    dnl required on HP-UX
    AC_SEARCH_LIBS([sem_init], [rt])

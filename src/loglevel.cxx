@@ -114,7 +114,11 @@ defaultStringToLogLevelMethod(const tstring& s)
 
 LogLevelManager::LogLevelManager() 
 {
-    toStringMethods.push_back (defaultLogLevelToStringMethod);
+    LogLevelToStringMethodRec rec;
+    rec.func = defaultLogLevelToStringMethod;
+    rec.use_1_0 = false;
+    toStringMethods.push_back (rec);
+
     fromStringMethods.push_back (defaultStringToLogLevelMethod);
 }
 
@@ -131,12 +135,24 @@ LogLevelManager::~LogLevelManager()
 tstring const &
 LogLevelManager::toString(LogLevel ll) const
 {
+    tstring const * ret;
     for (LogLevelToStringMethodList::const_iterator it
         = toStringMethods.begin (); it != toStringMethods.end (); ++it)
     {
-        tstring const & ret = (*it) (ll);
-        if (! ret.empty ())
-            return ret;
+        LogLevelToStringMethodRec const & rec = *it;
+        if (rec.use_1_0)
+        {
+            // Use TLS to store the result to allow us to return
+            // a reference.
+            tstring & ll_str = internal::get_ptd ()->ll_str;
+            rec.func_1_0 (ll).swap (ll_str);
+            ret = &ll_str;
+        }
+        else
+            ret = &rec.func (ll);
+
+        if (! ret->empty ())
+            return *ret;
     }
 
     return UNKNOWN_STRING;
@@ -163,7 +179,20 @@ LogLevelManager::fromString(const tstring& arg) const
 void 
 LogLevelManager::pushToStringMethod(LogLevelToStringMethod newToString)
 {
-    toStringMethods.push_back (newToString);
+    LogLevelToStringMethodRec rec;
+    rec.func = newToString;
+    rec.use_1_0 = false;
+    toStringMethods.push_back (rec);
+}
+
+
+void 
+LogLevelManager::pushToStringMethod(LogLevelToStringMethod_1_0 newToString)
+{
+    LogLevelToStringMethodRec rec;
+    rec.func_1_0 = newToString;
+    rec.use_1_0 = true;
+    toStringMethods.push_back (rec);
 }
 
 

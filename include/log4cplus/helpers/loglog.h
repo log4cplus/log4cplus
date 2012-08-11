@@ -54,11 +54,13 @@ namespace log4cplus {
         class LOG4CPLUS_EXPORT LogLog
         {
         public:
-          // Static methods
+            //! Return type of getLogLog().
+            typedef LogLog * Ptr;
+
             /**
              * Returns a reference to the <code>LogLog</code> singleton.
              */
-            static LogLog * getLogLog();
+            static Ptr getLogLog();
 
 
             /**
