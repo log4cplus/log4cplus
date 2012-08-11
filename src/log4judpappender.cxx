@@ -87,11 +87,12 @@ output_xml_escaped (tostream & os, tstring const & str)
             {
                 tchar const prev_fill = os.fill ();
                 std::ios_base::fmtflags const prev_flags = os.flags ();
-                os.flags (std::ios_base::hex | std::ios_base::left);
+                os.flags (std::ios_base::hex | std::ios_base::right);
                 os.fill (LOG4CPLUS_TEXT ('0'));
 
                 os << std::setw (0) << LOG4CPLUS_TEXT ("&#x")
-                    << std::setw (2) << std::char_traits<tchar>::to_int_type (ch);
+                    << std::setw (2) << std::char_traits<tchar>::to_int_type (ch)
+                    << std::setw (0) << LOG4CPLUS_TEXT (";");
 
                 os.fill (prev_fill);
                 os.flags (prev_flags);
