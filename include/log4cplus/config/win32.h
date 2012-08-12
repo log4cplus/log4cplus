@@ -121,7 +121,7 @@
 #  define LOG4CPLUS_USE_WIN32_THREADS
 #endif
 
-#if _WIN32_WINNT + 0 < 0x0600
+#if defined (_WIN32_WINNT) && _WIN32_WINNT < 0x0600
 #  define LOG4CPLUS_POOR_MANS_SHAREDMUTEX
 #endif
 
