@@ -129,10 +129,6 @@ get_current_thread_name_alt (log4cplus::tostream * s)
     pid_t tid = syscall (SYS_gettid);
     os << tid;
 
-#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    DWORD tid = GetCurrentThreadId ();
-    os << tid;
-
 #elif defined (__CYGWIN__)
     unsigned long tid = cygwin::get_current_win32_thread_id ();
     os << tid;
