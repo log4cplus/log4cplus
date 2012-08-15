@@ -104,9 +104,11 @@
 #if defined (__GNUC__) && __GNUC__ >= 3
 #  define LOG4CPLUS_ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
 #  define LOG4CPLUS_ATTRIBUTE_PURE __attribute__ ((__pure__))
+#  define LOG4CPLUS_BUILTIN_EXPECT(exp, c) __builtin_expect ((exp), (c))
 #else
 #  define LOG4CPLUS_ATTRIBUTE_NORETURN /* empty */
 #  define LOG4CPLUS_ATTRIBUTE_PURE /* empty */
+#  define LOG4CPLUS_BUILTIN_EXPECT(exp, c) (exp)
 #endif
 
 #if defined (_MSC_VER)                                             \
