@@ -161,7 +161,7 @@ get_ptd (bool alloc
 #endif
          )
 {
-    if (! ptd && alloc)
+    if (LOG4CPLUS_UNLIKELY (! ptd && alloc))
         return alloc_ptd ();
 
     // The assert() does not belong here. get_ptd() might be called by
@@ -191,7 +191,7 @@ get_ptd (bool alloc = true)
         = reinterpret_cast<per_thread_data *>(
             thread::impl::tls_get_value (tls_storage_key));
 
-    if (! ptd && alloc)
+    if (LOG4CPLUS_UNLIKELY (! ptd && alloc))
         return alloc_ptd ();
 
     return ptd;
