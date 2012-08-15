@@ -172,7 +172,7 @@ LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
         output = (this->*cond) ();
     }
 
-    if (output)
+    if (LOG4CPLUS_BUILTIN_EXPECT(output, 0))
     {
         // XXX This is potential recursive lock of
         // ConsoleAppender::outputMutex.
