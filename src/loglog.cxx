@@ -172,7 +172,7 @@ LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
         output = (this->*cond) ();
     }
 
-    if (LOG4CPLUS_BUILTIN_EXPECT(output, 0))
+    if (LOG4CPLUS_BUILTIN_EXPECT (output, 0))
     {
         // XXX This is potential recursive lock of
         // ConsoleAppender::outputMutex.
@@ -180,7 +180,7 @@ LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
         os << prefix << msg << std::endl;
     }
 
-    if (throw_flag)
+    if (LOG4CPLUS_BUILTIN_EXPECT (throw_flag, 0))
         throw std::runtime_error (LOG4CPLUS_TSTRING_TO_STRING (msg));
 }
 
