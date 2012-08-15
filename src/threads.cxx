@@ -225,6 +225,8 @@ ThreadStart::threadStartFuncWorker(void * arg)
         {
             loglog->warn(LOG4CPLUS_TEXT("threadStartFunc()- run() terminated with an exception."));
         }
+
+        thread::MutexGuard guard (thread->access_mutex);
         thread->flags &= ~Thread::fRUNNING;
     }
 
@@ -297,6 +299,7 @@ Thread::start()
 bool
 Thread::isRunning() const
 {
+    thread::MutexGuard guard (access_mutex);
     return (flags & fRUNNING) != 0;
 }
 
