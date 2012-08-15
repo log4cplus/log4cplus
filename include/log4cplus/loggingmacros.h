@@ -131,17 +131,17 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 // Make TRACE and DEBUG log level unlikely and INFO, WARN, ERROR and
 // FATAL log level likely.
 #define LOG4CPLUS_MACRO_LOGLEVEL_TRACE(pred) \
-    LOG4CPLUS_BUILTIN_EXPECT (!!(pred), 0)
+    LOG4CPLUS_UNLIKELY (pred)
 #define LOG4CPLUS_MACRO_LOGLEVEL_DEBUG(pred) \
-    LOG4CPLUS_BUILTIN_EXPECT (!!(pred), 0)
+    LOG4CPLUS_UNLIKELY (pred)
 #define LOG4CPLUS_MACRO_LOGLEVEL_INFO(pred) \
-    LOG4CPLUS_BUILTIN_EXPECT (!!(pred), 1)
+    LOG4CPLUS_LIKELY (pred)
 #define LOG4CPLUS_MACRO_LOGLEVEL_WARN(pred) \
-    LOG4CPLUS_BUILTIN_EXPECT (!!(pred), 1)
+    LOG4CPLUS_LIKELY (pred)
 #define LOG4CPLUS_MACRO_LOGLEVEL_ERROR(pred) \
-    LOG4CPLUS_BUILTIN_EXPECT (!!(pred), 1)
+    LOG4CPLUS_LIKELY (pred)
 #define LOG4CPLUS_MACRO_LOGLEVEL_FATAL(pred) \
-    LOG4CPLUS_BUILTIN_EXPECT (!!(pred), 1)
+    LOG4CPLUS_LIKELY (pred)
 
 
 //! Dispatch to LOG4CPLUS_MACRO_LOGLEVEL_* depending on log level.

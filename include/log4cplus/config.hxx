@@ -111,6 +111,9 @@
 #  define LOG4CPLUS_BUILTIN_EXPECT(exp, c) (exp)
 #endif
 
+#define LOG4CPLUS_LIKELY(cond) LOG4CPLUS_BUILTIN_EXPECT(!! (cond), 1)
+#define LOG4CPLUS_UNLIKELY(cond) LOG4CPLUS_BUILTIN_EXPECT(!! (cond), 0)
+
 #if defined (_MSC_VER)                                             \
     || (defined (__COMO__) && __COMO_VERSION__ >= 400) /* ??? */   \
     || (defined (__DMC__) && __DMC__ >= 0x700) /* ??? */           \
