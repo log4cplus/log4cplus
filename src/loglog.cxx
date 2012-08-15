@@ -23,6 +23,7 @@
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/internal/env.h>
+#include <log4cplus/consoleappender.h>
 #include <ostream>
 #include <stdexcept>
 
@@ -165,11 +166,18 @@ void
 LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
     tchar const * prefix, StringType const & msg, bool throw_flag) const
 {
+    bool output;
     {
         thread::MutexGuard guard (mutex);
+        output = (this->*cond) ();
+    }
 
-        if ((this->*cond) ())
-            os << prefix << msg << std::endl;
+    if (output)
+    {
+        // XXX This is potential recursive lock of
+        // ConsoleAppender::outputMutex.
+        thread::MutexGuard outputGuard (ConsoleAppender::outputMutex);
+        os << prefix << msg << std::endl;
     }
 
     if (throw_flag)
