@@ -22,18 +22,13 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/internal/internal.h>
 
-#include <locale>
 #include <iterator>
 #include <algorithm>
 #include <cstring>
 #include <cwchar>
 #include <cwctype>
 #include <cctype>
-
-#ifdef UNICODE
-#  include <cassert>
-#  include <vector>
-#endif
+#include <cassert>
 
 
 namespace log4cplus
@@ -83,7 +78,6 @@ clear_mbstate (std::mbstate_t & mbs)
 }
 
 
-#if defined (UNICODE)
 #if defined (LOG4CPLUS_POOR_MANS_CHCONV)
 
 static
@@ -93,8 +87,11 @@ tostring_internal (std::string & ret, wchar_t const * src, std::size_t size)
     ret.resize(size);
     for (std::size_t i = 0; i < size; ++i)
     {
-        ret[i] = static_cast<unsigned> (static_cast<int> (src[i])) < 256
-            ? static_cast<char>(src[i]) : '?';
+        std::char_traits<wchar_t>::int_type src_int
+            = std::char_traits<wchar_t>::to_int_type (src[i]);
+        ret[i] = src_int <= 127
+            ? std::char_traits<char>::to_char_type (src_int)
+            : '?';
     }
 }
 
@@ -125,8 +122,11 @@ towstring_internal (std::wstring & ret, char const * src, std::size_t size)
     ret.resize(size);
     for (std::size_t i = 0; i < size; ++i)
     {
-        ret[i] = static_cast<wchar_t>
-            (static_cast<unsigned char> (src[i]));
+        std::char_traits<char>::int_type src_int
+            = std::char_traits<char>::to_int_type (src[i]);
+        ret[i] = src_int <= 127
+            ? std::char_traits<wchar_t>::to_char_type (src_int)
+            : L'?';
     }
 }
 
@@ -149,9 +149,7 @@ towstring(char const * src)
     return ret;
 }
 
-#endif // LOG4CPLUS_WORKING_LOCALE
-
-#endif // UNICODE
+#endif // LOG4CPLUS_POOR_MANS_CHCONV
 
 
 namespace
@@ -163,11 +161,13 @@ struct toupper_func
     tchar
     operator () (tchar ch) const
     {
+        return std::char_traits<tchar>::to_char_type (
 #ifdef UNICODE
-        return std::towupper (ch);
+            std::towupper
 #else
-        return std::toupper (static_cast<unsigned char>(ch));
+            std::toupper
 #endif
+            (std::char_traits<tchar>::to_int_type (ch)));
     }
 };
 
@@ -177,11 +177,13 @@ struct tolower_func
     tchar
     operator () (tchar ch) const
     {
+        return std::char_traits<tchar>::to_char_type (
 #ifdef UNICODE
-        return std::towlower (ch);
+            std::towlower
 #else
-        return std::tolower (static_cast<unsigned char>(ch));
+            std::tolower
 #endif
+            (std::char_traits<tchar>::to_int_type (ch)));
     }
 };
 
