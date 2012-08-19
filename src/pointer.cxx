@@ -86,7 +86,7 @@ SharedObject::removeReference() const
 #elif defined (LOG4CPLUS_HAVE_CXX11_ATOMICS)
     destroy = std::atomic_fetch_sub_explicit (&count, 1u,
         std::memory_order_release) == 1;
-    if (destroy)
+    if (LOG4CPLUS_UNLIKELY (destroy))
         std::atomic_thread_fence (std::memory_order_acquire);
 
 #elif defined (LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH)
@@ -105,7 +105,7 @@ SharedObject::removeReference() const
     }
 
 #endif
-    if (destroy)
+    if (LOG4CPLUS_UNLIKELY (destroy))
         delete this;
 }
 

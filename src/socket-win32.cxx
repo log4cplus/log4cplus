@@ -27,6 +27,7 @@
 #include <cstring>
 #include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/thread/threads.h>
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -93,7 +94,7 @@ init_winsock_worker ()
                 return;
 
             case WS_INITIALIZING:
-                ::Sleep (0);
+                log4cplus::thread::yield ();
                 continue;
         
             default:

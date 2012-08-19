@@ -128,11 +128,34 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 #endif
 
 
+// Make TRACE and DEBUG log level unlikely and INFO, WARN, ERROR and
+// FATAL log level likely.
+#define LOG4CPLUS_MACRO_LOGLEVEL_TRACE(pred) \
+    LOG4CPLUS_UNLIKELY (pred)
+#define LOG4CPLUS_MACRO_LOGLEVEL_DEBUG(pred) \
+    LOG4CPLUS_UNLIKELY (pred)
+#define LOG4CPLUS_MACRO_LOGLEVEL_INFO(pred) \
+    LOG4CPLUS_LIKELY (pred)
+#define LOG4CPLUS_MACRO_LOGLEVEL_WARN(pred) \
+    LOG4CPLUS_LIKELY (pred)
+#define LOG4CPLUS_MACRO_LOGLEVEL_ERROR(pred) \
+    LOG4CPLUS_LIKELY (pred)
+#define LOG4CPLUS_MACRO_LOGLEVEL_FATAL(pred) \
+    LOG4CPLUS_LIKELY (pred)
+
+
+//! Dispatch to LOG4CPLUS_MACRO_LOGLEVEL_* depending on log level.
+#define LOG4CPLUS_MACRO_LOGLEVEL_PRED(pred, logLevel)    \
+    LOG4CPLUS_MACRO_LOGLEVEL_ ## logLevel (pred)
+
+
 #define LOG4CPLUS_MACRO_BODY(logger, logEvent, logLevel)                \
     do {                                                                \
         log4cplus::Logger const & _l                                    \
             = log4cplus::detail::macros_get_logger (logger);            \
-        if (_l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL)) {        \
+        if (LOG4CPLUS_MACRO_LOGLEVEL_PRED (                             \
+                _l.isEnabledFor (log4cplus::logLevel##_LOG_LEVEL),      \
+                logLevel)) {                                            \
             log4cplus::tostringstream & _log4cplus_buf                  \
                 = log4cplus::detail::get_macro_body_oss ();             \
             _log4cplus_buf << logEvent;                                 \

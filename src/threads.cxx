@@ -89,7 +89,8 @@ yield()
 #if defined(LOG4CPLUS_USE_PTHREADS)
     sched_yield();
 #elif defined(_WIN32)
-    ::Sleep(0);
+    if (! SwitchToThread ())
+        Sleep (0);
 #endif
 }
 
@@ -127,10 +128,6 @@ get_current_thread_name_alt (log4cplus::tostream * s)
 #if defined (LOG4CPLUS_USE_PTHREADS) && defined (__linux__) \
     && defined (LOG4CPLUS_HAVE_GETTID)
     pid_t tid = syscall (SYS_gettid);
-    os << tid;
-
-#elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-    DWORD tid = GetCurrentThreadId ();
     os << tid;
 
 #elif defined (__CYGWIN__)
@@ -228,6 +225,8 @@ ThreadStart::threadStartFuncWorker(void * arg)
         {
             loglog->warn(LOG4CPLUS_TEXT("threadStartFunc()- run() terminated with an exception."));
         }
+
+        thread::MutexGuard guard (thread->access_mutex);
         thread->flags &= ~Thread::fRUNNING;
     }
 
@@ -300,6 +299,7 @@ Thread::start()
 bool
 Thread::isRunning() const
 {
+    thread::MutexGuard guard (access_mutex);
     return (flags & fRUNNING) != 0;
 }
 
