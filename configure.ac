@@ -168,7 +168,8 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
    AS_IF([test "x$enable_debugging" = "xyes"],
      [AX_CXXFLAGS_GCC_OPTION([-g3])
       AX_CXXFLAGS_GCC_OPTION([-fkeep-inline-functions])
-      AX_CXXFLAGS_GCC_OPTION([-fstack-check])],
+      AX_CXXFLAGS_GCC_OPTION([-fstack-check])
+      AX_CXXFLAGS_GCC_OPTION([-ftrapv])],
      [AX_CXXFLAGS_GCC_OPTION([-O2])])
 
    dnl Try -pg profiling option.
