@@ -4309,6 +4309,13 @@ if test "x$enable_debugging" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_DEBUGGING 1" >>confdefs.h
 
    LOG4CPLUS_NDEBUG=-UNDEBUG
+   case "$target_os" in #(
+  linux*) :
+                      as_fn_append CPPFLAGS " -U_FORTIFY_SOURCE"
+      as_fn_append CPPFLAGS " -D_FORTIFY_SOURCE=1" ;; #(
+  *) :
+     ;;
+esac
 else
   LOG4CPLUS_NDEBUG=-DNDEBUG
 fi
@@ -6173,6 +6180,134 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_cxxflags_gcc_option__fstack_check" >&5
 $as_echo "$ax_cv_cxxflags_gcc_option__fstack_check" >&6; }
 var=$ax_cv_cxxflags_gcc_option__fstack_check
+case ".$var" in
+     .ok|.ok,*)  ;;
+   .|.no|.no,*)  ;;
+   *)
+   if echo " $CXXFLAGS " | grep " $var " 2>&1 >/dev/null
+   then { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$var"; } >&5
+  (: CXXFLAGS does contain $var) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+   else { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$var\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS $var") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+                      CXXFLAGS="$CXXFLAGS $var"
+   fi
+ ;;
+esac
+
+      { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -fstack-protector" >&5
+$as_echo_n "checking CXXFLAGS for gcc -fstack-protector... " >&6; }
+if ${ax_cv_cxxflags_gcc_option__fstack_protector+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ax_cv_cxxflags_gcc_option__fstack_protector="no, unknown"
+
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ ac_save_CXXFLAGS="$CXXFLAGS"
+for ac_arg in "-pedantic -Werror % -fstack-protector"     "-pedantic % -fstack-protector %% no, obsolete"     #
+do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+return 0;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_compile "$LINENO"; then :
+  ax_cv_cxxflags_gcc_option__fstack_protector=`echo $ac_arg | sed -e 's,.*% *,,'`; break
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+done
+ CXXFLAGS="$ac_save_CXXFLAGS"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_cxxflags_gcc_option__fstack_protector" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__fstack_protector" >&6; }
+var=$ax_cv_cxxflags_gcc_option__fstack_protector
+case ".$var" in
+     .ok|.ok,*)  ;;
+   .|.no|.no,*)  ;;
+   *)
+   if echo " $CXXFLAGS " | grep " $var " 2>&1 >/dev/null
+   then { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$var"; } >&5
+  (: CXXFLAGS does contain $var) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+   else { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$var\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS $var") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+                      CXXFLAGS="$CXXFLAGS $var"
+   fi
+ ;;
+esac
+
+      { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -Wstack-protector" >&5
+$as_echo_n "checking CXXFLAGS for gcc -Wstack-protector... " >&6; }
+if ${ax_cv_cxxflags_gcc_option__Wstack_protector+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ax_cv_cxxflags_gcc_option__Wstack_protector="no, unknown"
+
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ ac_save_CXXFLAGS="$CXXFLAGS"
+for ac_arg in "-pedantic -Werror % -Wstack-protector"     "-pedantic % -Wstack-protector %% no, obsolete"     #
+do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+return 0;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_compile "$LINENO"; then :
+  ax_cv_cxxflags_gcc_option__Wstack_protector=`echo $ac_arg | sed -e 's,.*% *,,'`; break
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+done
+ CXXFLAGS="$ac_save_CXXFLAGS"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_cxxflags_gcc_option__Wstack_protector" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__Wstack_protector" >&6; }
+var=$ax_cv_cxxflags_gcc_option__Wstack_protector
 case ".$var" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
