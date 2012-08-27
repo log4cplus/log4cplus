@@ -148,9 +148,9 @@ log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll,
             std::va_list ap;
             va_start(ap, msgfmt);
             snprintf_buf buf;
-            const tchar * msg = buf.print(msgfmt, ap);
+            const tchar * msg = buf.print_va_list(msgfmt, ap);
             va_end(ap);
-            logger.log(ll, msg);
+            logger.forcedLog(ll, msg);
         }
 
         retval = 0;
@@ -175,7 +175,7 @@ log4cplus_logger_force_log(const log4cplus_char_t *name, loglevel_t ll, const lo
         std::va_list ap;
         va_start(ap, msgfmt);
         snprintf_buf buf;
-        const tchar * msg = buf.print(msgfmt, ap);
+        const tchar * msg = buf.print_va_list(msgfmt, ap);
         va_end(ap);
         logger.forcedLog(ll, msg);
 
