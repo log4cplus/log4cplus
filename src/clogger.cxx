@@ -42,15 +42,15 @@ LOG4CPLUS_EXPORT int
 log4cplus_file_configure(const log4cplus_char_t *pathname)
 {
     if( !pathname )
-	return EINVAL;
+        return EINVAL;
 
     try
     {
-	PropertyConfigurator::doConfigure( pathname );
+        PropertyConfigurator::doConfigure( pathname );
     }
-    catch(std::exception &e)
+    catch(std::exception const &e)
     {
-	return -1;
+        return -1;
     }
 
     return 0;
@@ -60,18 +60,18 @@ LOG4CPLUS_EXPORT int
 log4cplus_str_configure(const log4cplus_char_t *config)
 {
     if( !config )
-	return EINVAL;
+        return EINVAL;
 
     try
     {
-	tstring s(config);
-	tistringstream iss(s);
-	PropertyConfigurator pc(iss);
-	pc.configure();
+        tstring s(config);
+        tistringstream iss(s);
+        PropertyConfigurator pc(iss);
+        pc.configure();
     }
-    catch(std::exception &e)
+    catch(std::exception const &e)
     {
-	return -1;
+        return -1;
     }
 
     return 0;
@@ -82,11 +82,11 @@ log4cplus_basic_configure(void)
 {
     try
     {
-	BasicConfigurator::doConfigure();
+        BasicConfigurator::doConfigure();
     }
     catch(std::exception &e)
     {
-	return -1;
+        return -1;
     }
 
     return 0;
@@ -107,8 +107,9 @@ log4cplus_logger_exists(const log4cplus_char_t *name)
     {
         retval = Logger::exists(name);
     }
-    catch(std::exception &e)
+    catch(std::exception const &e)
     {
+        // Fall through.
     }
 
     return retval;
@@ -121,51 +122,54 @@ log4cplus_logger_is_enabled_for(const log4cplus_char_t *name, loglevel_t ll)
 
     try
     {
-	if( name )
-	{
-	    Logger logger = Logger::getInstance(name);
-	    retval = logger.isEnabledFor(ll);
-	}
-	else
-	{
-	    Logger logger = Logger::getRoot();
-	    retval = logger.isEnabledFor(ll);
-	}
+        if( name )
+        {
+            Logger logger = Logger::getInstance(name);
+            retval = logger.isEnabledFor(ll);
+        }
+        else
+        {
+            Logger logger = Logger::getRoot();
+            retval = logger.isEnabledFor(ll);
+        }
     }
-    catch(std::exception &e)
+    catch(std::exception const &e)
     {
+        // Fall through.
     }
 
     return retval;
 }
 
 LOG4CPLUS_EXPORT int
-log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll, const log4cplus_char_t *msgfmt, ...)
+log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll,
+    const log4cplus_char_t *msgfmt, ...)
 {
     int retval = -1;
 
     try
     {
-	Logger logger;
-	if( name )
-	    logger = Logger::getInstance(name);
-	else
-	    logger = Logger::getRoot();
+        Logger logger;
+        if( name )
+            logger = Logger::getInstance(name);
+        else
+            logger = Logger::getRoot();
 
-	if( logger.isEnabledFor(ll) )
-	{
+        if( logger.isEnabledFor(ll) )
+        {
             std::va_list ap;
-	    va_start(ap, msgfmt);
+            va_start(ap, msgfmt);
             snprintf_buf buf;
-	    const tchar * msg = buf.print(msgfmt, ap);
-	    va_end(ap);
-	    logger.log(ll, msg);
-	}
+            const tchar * msg = buf.print(msgfmt, ap);
+            va_end(ap);
+            logger.log(ll, msg);
+        }
 
-	retval = 0;
+        retval = 0;
     }
-    catch(std::exception &e)
+    catch(std::exception const &e)
     {
+        // Fall through.
     }
 
     return retval;
@@ -178,28 +182,28 @@ log4cplus_logger_force_log(const log4cplus_char_t *name, loglevel_t ll, const lo
 
     try
     {
-	Logger logger;
-	if( name )
-	    logger = Logger::getInstance(name);
-	else
-	    logger = Logger::getRoot();
+        Logger logger;
+        if( name )
+            logger = Logger::getInstance(name);
+        else
+            logger = Logger::getRoot();
 
-	if( logger.isEnabledFor(ll) )
-	{
+        if( logger.isEnabledFor(ll) )
+        {
             std::va_list ap;
-	    va_start(ap, msgfmt);
+            va_start(ap, msgfmt);
             snprintf_buf buf;
-	    const tchar * msg = buf.print(msgfmt, ap);
-	    va_end(ap);
-	    logger.forcedLog(ll, msg);
-	}
+            const tchar * msg = buf.print(msgfmt, ap);
+            va_end(ap);
+            logger.forcedLog(ll, msg);
+        }
 
-	retval = 0;
+        retval = 0;
     }
-    catch(std::exception &e)
+    catch(std::exception const &e)
     {
+        // Fall through.
     }
 
     return retval;
 }
-
