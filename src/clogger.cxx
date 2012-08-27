@@ -84,7 +84,7 @@ log4cplus_basic_configure(void)
     {
         BasicConfigurator::doConfigure();
     }
-    catch(std::exception &e)
+    catch(std::exception const &e)
     {
         return -1;
     }
@@ -98,10 +98,10 @@ log4cplus_shutdown(void)
     Logger::shutdown();
 }
 
-LOG4CPLUS_EXPORT bool
+LOG4CPLUS_EXPORT int
 log4cplus_logger_exists(const log4cplus_char_t *name)
 {
-    bool retval = false;
+    int retval = false;
 
     try
     {
@@ -115,23 +115,15 @@ log4cplus_logger_exists(const log4cplus_char_t *name)
     return retval;
 }
 
-LOG4CPLUS_EXPORT bool
+LOG4CPLUS_EXPORT int
 log4cplus_logger_is_enabled_for(const log4cplus_char_t *name, loglevel_t ll)
 {
-    bool retval = false;
+    int retval = false;
 
     try
     {
-        if( name )
-        {
-            Logger logger = Logger::getInstance(name);
-            retval = logger.isEnabledFor(ll);
-        }
-        else
-        {
-            Logger logger = Logger::getRoot();
-            retval = logger.isEnabledFor(ll);
-        }
+        Logger logger = name ? Logger::getInstance(name) : Logger::getRoot();
+        retval = logger.isEnabledFor(ll);
     }
     catch(std::exception const &e)
     {
@@ -149,11 +141,7 @@ log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll,
 
     try
     {
-        Logger logger;
-        if( name )
-            logger = Logger::getInstance(name);
-        else
-            logger = Logger::getRoot();
+        Logger logger = name ? Logger::getInstance(name) : Logger::getRoot();
 
         if( logger.isEnabledFor(ll) )
         {
@@ -182,21 +170,14 @@ log4cplus_logger_force_log(const log4cplus_char_t *name, loglevel_t ll, const lo
 
     try
     {
-        Logger logger;
-        if( name )
-            logger = Logger::getInstance(name);
-        else
-            logger = Logger::getRoot();
+        Logger logger = name ? Logger::getInstance(name) : Logger::getRoot();
 
-        if( logger.isEnabledFor(ll) )
-        {
-            std::va_list ap;
-            va_start(ap, msgfmt);
-            snprintf_buf buf;
-            const tchar * msg = buf.print(msgfmt, ap);
-            va_end(ap);
-            logger.forcedLog(ll, msg);
-        }
+        std::va_list ap;
+        va_start(ap, msgfmt);
+        snprintf_buf buf;
+        const tchar * msg = buf.print(msgfmt, ap);
+        va_end(ap);
+        logger.forcedLog(ll, msg);
 
         retval = 0;
     }
