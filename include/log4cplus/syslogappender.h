@@ -32,6 +32,7 @@
 
 #if defined(LOG4CPLUS_HAVE_SYSLOG_H) && !defined(_WIN32)
 #include <log4cplus/appender.h>
+#include <log4cplus/helpers/socket.h>
 
 
 namespace log4cplus
@@ -51,12 +52,23 @@ namespace log4cplus
      * argument to syslog(). It can be one of the supported facility
      * names (case insensitive), e.g. auth, cron, kern, mail, news
      * etc.</dd>
+     *
+     * <dt><tt>host</tt></dt>
+     * <dd>Destination syslog host. When this property is specified,
+     * messages are sent using UDP to destination host, otherwise
+     * messages are logged to local syslog.</dd>
+     *
+     * <dt><tt>port</tt></dt>
+     * <dd>Destination port of syslog service on host specified by the
+     * <tt>host</tt> property. The default value is port 514.</dd>
      * </dl>
      */
     class LOG4CPLUS_EXPORT SysLogAppender : public Appender {
     public:
       // Ctors
         SysLogAppender(const tstring& ident);
+        SysLogAppender(const tstring& ident, const tstring & host,
+            int port = 514);
         SysLogAppender(const log4cplus::helpers::Properties & properties);
 
       // Dtor
@@ -68,10 +80,22 @@ namespace log4cplus
     protected:
         virtual int getSysLogLevel(const LogLevel& ll) const;
         virtual void append(const spi::InternalLoggingEvent& event);
+        void appendLocal(const spi::InternalLoggingEvent& event);
+        void appendRemote(const spi::InternalLoggingEvent& event);
 
       // Data
         tstring ident;
         int facility;
+
+        typedef void (SysLogAppender:: * AppendFuncType) (
+            const spi::InternalLoggingEvent&);
+        AppendFuncType appendFunc;
+
+        tstring host;
+        int port;
+        helpers::Socket syslogSocket;
+
+        static tstring const remoteTimeFormat;
 
     private:
       // Disallow copying of instances of this class
