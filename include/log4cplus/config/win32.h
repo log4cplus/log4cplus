@@ -30,10 +30,7 @@
 
 #ifdef _WIN32
 
-#if (defined (_MSC_VER) && _MSC_VER >= 1400)
-// Newer versions of Win32 headers shipped with MinGW have this header, too.
-// But at this time it is not possible to recoginze such versions anyhow.
-//|| defined (__MINGW32__)
+#if (defined (_MSC_VER) && _MSC_VER >= 1400) || defined (__MINGW32__)
 #  define LOG4CPLUS_HAVE_INTRIN_H
 #endif
 
@@ -71,7 +68,7 @@
 #define LOG4CPLUS_HAVE_VSNPRINTF
 #define LOG4CPLUS_HAVE__VSNPRINTF
 
-#if defined (_MSC_VER)
+#if defined (_MSC_VER) || defined (__MINGW32__)
 // MS secure versions of vprintf().
 #  define LOG4CPLUS_HAVE_VSPRINTF_S
 #  define LOG4CPLUS_HAVE_VSWPRINTF_S
@@ -145,6 +142,8 @@
 #  undef LOG4CPLUS_INLINES_ARE_EXPORTED
 #  if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
 #    define LOG4CPLUS_INLINES_ARE_EXPORTED
+#    define LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH
+#    define LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH
 #  endif
 #  define LOG4CPLUS_HAVE_FUNCTION_MACRO
 #  define LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS
