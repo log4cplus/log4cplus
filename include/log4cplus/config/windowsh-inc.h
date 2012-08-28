@@ -151,6 +151,9 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <windows.h>
+#if defined (LOG4CPLUS_HAVE_INTRIN_H)
+#include <intrin.h>
+#endif
 #endif
 
 // NOTE: This file is a fragment intentionally left without include guards.
