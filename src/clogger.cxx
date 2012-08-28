@@ -48,7 +48,7 @@ log4cplus_file_configure(const log4cplus_char_t *pathname)
     {
         PropertyConfigurator::doConfigure( pathname );
     }
-    catch(std::exception const &e)
+    catch(std::exception const &)
     {
         return -1;
     }
@@ -69,7 +69,7 @@ log4cplus_str_configure(const log4cplus_char_t *config)
         PropertyConfigurator pc(iss);
         pc.configure();
     }
-    catch(std::exception const &e)
+    catch(std::exception const &)
     {
         return -1;
     }
@@ -84,7 +84,7 @@ log4cplus_basic_configure(void)
     {
         BasicConfigurator::doConfigure();
     }
-    catch(std::exception const &e)
+    catch(std::exception const &)
     {
         return -1;
     }
@@ -107,7 +107,7 @@ log4cplus_logger_exists(const log4cplus_char_t *name)
     {
         retval = Logger::exists(name);
     }
-    catch(std::exception const &e)
+    catch(std::exception const &)
     {
         // Fall through.
     }
@@ -125,7 +125,7 @@ log4cplus_logger_is_enabled_for(const log4cplus_char_t *name, loglevel_t ll)
         Logger logger = name ? Logger::getInstance(name) : Logger::getRoot();
         retval = logger.isEnabledFor(ll);
     }
-    catch(std::exception const &e)
+    catch(std::exception const &)
     {
         // Fall through.
     }
@@ -155,7 +155,7 @@ log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll,
 
         retval = 0;
     }
-    catch(std::exception const &e)
+    catch(std::exception const &)
     {
         // Fall through.
     }
@@ -181,7 +181,7 @@ log4cplus_logger_force_log(const log4cplus_char_t *name, loglevel_t ll, const lo
 
         retval = 0;
     }
-    catch(std::exception const &e)
+    catch(std::exception const &)
     {
         // Fall through.
     }
