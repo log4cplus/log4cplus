@@ -347,9 +347,10 @@ threadCleanup ()
 
 #if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL)
 
-BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL,  // handle to DLL module
-                    DWORD fdwReason,     // reason for calling function
-                    LPVOID lpReserved )  // reserved
+BOOL
+WINAPI
+DllMain (LOG4CPLUS_DLLMAIN_HINSTANCE /*hinstDLL*/, DWORD fdwReason,
+    LPVOID /*lpReserved*/)
 {
     // Perform actions based on the reason for calling.
     switch( fdwReason ) 
