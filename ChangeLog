@@ -1,3 +1,29 @@
+log4cplus 1.1.0-RC8
+
+- Turned on __thread (TLS) detection on NetBSD 5.1.0 and later that
+  has been previously disabled.
+
+- Improved compatibility with log4cplus 1.0.x: allow using log4cplus
+  1.0.x log level to string callbacks in 1.1.x.
+
+- Improved various M4 macros.
+
+- Added detection and use C++11 thread_local.
+
+- Fixed XML entities escaping in Log4jUdpAppender.
+
+- Re-added synchronization between ConsoleAppender and LogLog.
+
+- Changed C logger API to return int instead of bool.
+
+- Added C logger API to Visual Studio 2010 projects.
+
+- Implemented remote syslog logging using UDP in SysLogAppender.
+
+- Enabled SysLogAppender on Windows with only remote syslog logging
+  enabled.
+
+
 log4cplus 1.1.0-RC7
 
 IMPORTANT: Builds with --with-iconv configure switch now assume UTF-8

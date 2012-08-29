@@ -18,21 +18,65 @@
 // limitations under the License.
 
 #include <log4cplus/syslogappender.h>
-#if defined(LOG4CPLUS_HAVE_SYSLOG_H) && !defined(_WIN32)
-
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/internal/env.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
+#include <cstring>
 
+#if defined (LOG4CPLUS_HAVE_SYSLOG_H)
 #include <syslog.h>
 
-using namespace std;
-using namespace log4cplus::helpers;
+#else // LOG4CPLUS_HAVE_SYSLOG_H
 
+// The following bits were derived from SUSv4 documentation and
+// RFC5424 document.
+
+// priority codes
+#define LOG_EMERG   0
+#define LOG_ALERT   1
+#define LOG_CRIT    2
+#define LOG_ERR     3
+#define LOG_WARNING 4
+#define LOG_NOTICE  5
+#define LOG_INFO    6
+#define LOG_DEBUG   7
+
+// facility codes
+#define LOG_KERN      (0 << 3)
+#define LOG_USER      (1 << 3)
+#define LOG_MAIL      (2 << 3)
+#define LOG_DAEMON    (3 << 3)
+#define LOG_AUTH      (4 << 3)
+#define LOG_SYSLOG    (5 << 3)
+#define LOG_LPR       (6 << 3)
+#define LOG_NEWS      (7 << 3)
+#define LOG_UUCP      (8 << 3)
+#define LOG_CRON      (9 << 3)
+#define LOG_AUTHPRIV (10 << 3)
+#define LOG_FTP      (11 << 3)
+#define LOG_NTP      (12 << 3)
+#define LOG_SECURITY (13 << 3)
+#define LOG_CONSOLE  (14 << 3)
+// (15 << 3) is missing here
+#define LOG_LOCAL0   (16 << 3)
+#define LOG_LOCAL1   (17 << 3)
+#define LOG_LOCAL2   (18 << 3)
+#define LOG_LOCAL3   (19 << 3)
+#define LOG_LOCAL4   (20 << 3)
+#define LOG_LOCAL5   (21 << 3)
+#define LOG_LOCAL6   (22 << 3)
+#define LOG_LOCAL7   (23 << 3)
+
+#endif // LOG4CPLUS_HAVE_SYSLOG_H
+
+
+namespace log4cplus
+{
 
 namespace
 {
@@ -48,12 +92,21 @@ useIdent (const std::string& string)
 }
 
 
+#ifdef LOG_USER
+int const fallback_facility = LOG_USER;
+
+#else
+int const fallback_facility = 0;
+
+#endif
+
+
 static
 int
-parseFacility (const log4cplus::tstring& text)
+parseFacility (const tstring& text)
 {
     if (text.empty ())
-        return 0;
+        return fallback_facility;
 #ifdef LOG_AUTH
     else if (text == LOG4CPLUS_TEXT ("auth"))
         return LOG_AUTH;
@@ -61,6 +114,10 @@ parseFacility (const log4cplus::tstring& text)
 #ifdef LOG_AUTHPRIV
     else if (text == LOG4CPLUS_TEXT ("authpriv"))
         return LOG_AUTHPRIV;
+#endif
+#ifdef LOG_CONSOLE
+    else if (text == LOG4CPLUS_TEXT ("console"))
+        return LOG_CONSOLE;
 #endif
 #ifdef LOG_CRON
     else if (text == LOG4CPLUS_TEXT ("cron"))
@@ -122,6 +179,14 @@ parseFacility (const log4cplus::tstring& text)
     else if (text == LOG4CPLUS_TEXT ("news"))
         return LOG_NEWS;
 #endif
+#ifdef LOG_NTP
+    else if (text == LOG4CPLUS_TEXT ("ntp"))
+        return LOG_NTP;
+#endif
+#ifdef LOG_SECURITY
+    else if (text == LOG4CPLUS_TEXT ("security"))
+        return LOG_SECURITY;
+#endif
 #ifdef LOG_SYSLOG
     else if (text == LOG4CPLUS_TEXT ("syslog"))
         return LOG_SYSLOG;
@@ -137,24 +202,28 @@ parseFacility (const log4cplus::tstring& text)
     else
     {
         // Unknown facility.
-        log4cplus::tstring msg (LOG4CPLUS_TEXT ("Unknown syslog facility: "));
+        tstring msg (LOG4CPLUS_TEXT ("Unknown syslog facility: "));
         msg += text;
-        log4cplus::helpers::LogLog::getLogLog ()->error (msg);
+        helpers::getLogLog ().error (msg);
 
-        return 0;
+        return fallback_facility;
     }
 }
+
 
 } // namespace
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::SysLogAppender ctors and dtor
+// SysLogAppender ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-log4cplus::SysLogAppender::SysLogAppender(const tstring& id)
+#if defined (LOG4CPLUS_HAVE_SYSLOG_H)
+SysLogAppender::SysLogAppender(const tstring& id)
     : ident(id)
     , facility (0)
+    , appendFunc (&SysLogAppender::appendLocal)
+    , port (0)
     // Store std::string form of ident as member of SysLogAppender so
     // the address of the c_str() result remains stable for openlog &
     // co to use even if we use wstrings.
@@ -163,20 +232,62 @@ log4cplus::SysLogAppender::SysLogAppender(const tstring& id)
     ::openlog(useIdent(identStr), 0, 0);
 }
 
+#endif
 
-log4cplus::SysLogAppender::SysLogAppender(const Properties & properties)
+
+SysLogAppender::SysLogAppender(const helpers::Properties & properties)
     : Appender(properties)
     , facility (0)
+    , appendFunc (0)
+    , port (0)
 {
     ident = properties.getProperty( LOG4CPLUS_TEXT("ident") );
     facility = parseFacility (
-        toLower (properties.getProperty (LOG4CPLUS_TEXT ("facility"))));
+        helpers::toLower (
+            properties.getProperty (LOG4CPLUS_TEXT ("facility"))));
     identStr = LOG4CPLUS_TSTRING_TO_STRING (ident);
-    ::openlog(useIdent(identStr), 0, 0);
+
+    host = properties.getProperty (LOG4CPLUS_TEXT ("host"));
+    if (host.empty ())
+    {
+#if defined (LOG4CPLUS_HAVE_SYSLOG_H)
+        appendFunc = &SysLogAppender::appendLocal;
+        ::openlog(useIdent(identStr), 0, 0);
+
+#else
+        helpers::getLogLog ().error (
+            LOG4CPLUS_TEXT ("SysLogAppender")
+            LOG4CPLUS_TEXT ("- local syslog not available"), true);
+
+#endif
+    }
+    else
+    {
+        if (! properties.getInt (port, LOG4CPLUS_TEXT ("port")))
+            port = 514;
+
+        appendFunc = &SysLogAppender::appendRemote;
+        syslogSocket = helpers::Socket (host, port, true);
+    }
 }
 
 
-log4cplus::SysLogAppender::~SysLogAppender()
+SysLogAppender::SysLogAppender(const tstring& id, const tstring & h,
+    int p, const tstring & f)
+    : ident (id)
+    , facility (parseFacility (helpers::toLower (f)))
+    , appendFunc (&SysLogAppender::appendRemote)
+    , host (h)
+    , port (p)
+    , syslogSocket (host, port, true)
+    // Store std::string form of ident as member of SysLogAppender so
+    // the address of the c_str() result remains stable for openlog &
+    // co to use even if we use wstrings.
+    , identStr(LOG4CPLUS_TSTRING_TO_STRING (id) )
+{ }
+
+
+SysLogAppender::~SysLogAppender()
 {
     destructorImpl();
 }
@@ -184,32 +295,38 @@ log4cplus::SysLogAppender::~SysLogAppender()
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::SysLogAppender public methods
+// SysLogAppender public methods
 ///////////////////////////////////////////////////////////////////////////////
 
-void 
-log4cplus::SysLogAppender::close()
+void
+SysLogAppender::close()
 {
-    getLogLog().debug(LOG4CPLUS_TEXT("Entering SysLogAppender::close()..."));
+    helpers::getLogLog().debug(
+        LOG4CPLUS_TEXT("Entering SysLogAppender::close()..."));
     thread::MutexGuard guard (access_mutex);
 
-    ::closelog();
+    if (host.empty ())
+    {
+#if defined (LOG4CPLUS_HAVE_SYSLOG_H)
+        ::closelog();
+#endif
+    }
+    else
+        syslogSocket.close ();
+
     closed = true;
 }
 
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::SysLogAppender protected methods
+// SysLogAppender protected methods
 ///////////////////////////////////////////////////////////////////////////////
 
 int
-log4cplus::SysLogAppender::getSysLogLevel(const LogLevel& ll) const
+SysLogAppender::getSysLogLevel(const LogLevel& ll) const
 {
-    if(ll < DEBUG_LOG_LEVEL) {
-        return -1;
-    }
-    else if(ll < INFO_LOG_LEVEL) {
+    if(ll < INFO_LOG_LEVEL /* || ll < DEBUG_LOG_LEVEL*/) {
         return LOG_DEBUG;
     }
     else if(ll < WARN_LOG_LEVEL) {
@@ -232,20 +349,77 @@ log4cplus::SysLogAppender::getSysLogLevel(const LogLevel& ll) const
 // This method does not need to be locked since it is called by
 // doAppend() which performs the locking
 void
-log4cplus::SysLogAppender::append(const spi::InternalLoggingEvent& event)
+SysLogAppender::append(const spi::InternalLoggingEvent& event)
 {
-    int level = getSysLogLevel(event.getLogLevel());
-    if(level != -1)
+    (this->*appendFunc) (event);
+}
+
+
+#if defined (LOG4CPLUS_HAVE_SYSLOG_H)
+void
+SysLogAppender::appendLocal(const spi::InternalLoggingEvent& event)
+{
+    int const level = getSysLogLevel(event.getLogLevel());
+    internal::appender_sratch_pad & appender_sp = internal::get_appender_sp ();
+    detail::clear_tostringstream (appender_sp.oss);
+    layout->formatAndAppend(appender_sp.oss, event);
+    appender_sp.str = appender_sp.oss.str ();
+    ::syslog(facility | level, "%s",
+        LOG4CPLUS_TSTRING_TO_STRING(appender_sp.str).c_str());
+}
+
+#endif
+
+
+tstring const SysLogAppender::remoteTimeFormat (
+    LOG4CPLUS_TEXT ("%Y-%m-%dT%H:%M:%S.%qZ"));
+
+
+void
+SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
+{
+    int const level = getSysLogLevel(event.getLogLevel());
+    internal::appender_sratch_pad & appender_sp = internal::get_appender_sp ();
+    detail::clear_tostringstream (appender_sp.oss);
+
+    appender_sp.oss
+        // PRI
+        << LOG4CPLUS_TEXT ('<') << (level | facility) << LOG4CPLUS_TEXT ('>')
+        // VERSION
+        << 1
+        // TIMESTAMP
+        << LOG4CPLUS_TEXT (' ')
+        << event.getTimestamp ().getFormattedTime (remoteTimeFormat, true)
+        // HOSTNAME
+        << LOG4CPLUS_TEXT (' ') << helpers::getHostname (true)
+        // APP-NAME
+        << LOG4CPLUS_TEXT (' ') << ident
+        // PROCID
+        << LOG4CPLUS_TEXT (' ') << internal::get_process_id ()
+        // MSGID
+        << LOG4CPLUS_TEXT (' ') << event.getLoggerName ()
+        // STRUCTURED-DATA
+        // no structured data, it could be whole MDC
+        << LOG4CPLUS_TEXT (" - ");
+
+    // MSG
+    layout->formatAndAppend (appender_sp.oss, event);
+
+    std::string str (LOG4CPLUS_TSTRING_TO_STRING (appender_sp.oss.str ()));
+    std::size_t const str_size = str.size ();
+    helpers::SocketBuffer sbuf (str_size);
+    sbuf.setSize (str_size);
+    std::memcpy (sbuf.getBuffer (), str.c_str (), str_size);
+
+    bool ret = syslogSocket.write (sbuf);
+    if (! ret)
     {
-        internal::appender_sratch_pad & appender_sp
-            = internal::get_appender_sp ();
-        detail::clear_tostringstream (appender_sp.oss);
-        layout->formatAndAppend(appender_sp.oss, event);
-        appender_sp.str = appender_sp.oss.str ();
-        ::syslog(facility | level, "%s",
-            LOG4CPLUS_TSTRING_TO_STRING(appender_sp.str).c_str());
+        helpers::getLogLog ().warn (
+            LOG4CPLUS_TEXT ("SysLogAppender::appendRemote")
+            LOG4CPLUS_TEXT ("- socket write failed"));
+        syslogSocket = helpers::Socket (host, port, true);
     }
 }
 
-#endif // defined(LOG4CPLUS_HAVE_SYSLOG_H)
 
+} // namespace log4cplus

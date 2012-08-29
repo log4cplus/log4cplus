@@ -184,6 +184,9 @@
     <ClCompile Include="..\src\log4judpappender.cxx">
       <Filter>Appenders</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\clogger.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\log4cplus\appender.h">
@@ -377,6 +380,9 @@
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\log4judpappender.h">
       <Filter>Appenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\log4cplus\clogger.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

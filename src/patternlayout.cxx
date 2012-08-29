@@ -26,46 +26,12 @@
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/internal/internal.h>
-#if defined (_WIN32)
-#include <log4cplus/config/windowsh-inc.h>
-#endif
-
+#include <log4cplus/internal/env.h>
 #include <cstdlib>
-
-#ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef LOG4CPLUS_HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 
 
 namespace
 {
-
-static
-#if defined (_WIN32)
-DWORD
-get_process_id ()
-{
-    return GetCurrentProcessId ();
-}
-
-#elif defined (LOG4CPLUS_HAVE_GETPID)
-pid_t
-get_process_id ()
-{
-    return getpid ();
-}
-
-#else
-int
-get_process_id ()
-{
-    return 0; 
-}
-
-#endif
 
 
 static
@@ -433,7 +399,7 @@ BasicPatternConverter::convert(tstring & result,
         return;
 
     case PROCESS_CONVERTER:
-		helpers::convertIntegerToString(result, get_process_id ()); 
+        helpers::convertIntegerToString(result, internal::get_process_id ()); 
         return;
 
     case NDC_CONVERTER:

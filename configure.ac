@@ -18,7 +18,7 @@ AM_PROG_AR
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=3:0:0
+LT_VERSION=4:0:0
 LT_RELEASE=1.1
 AC_SUBST([LT_VERSION])
 AC_SUBST([LT_RELEASE])
@@ -84,7 +84,14 @@ AH_TEMPLATE([LOG4CPLUS_DEBUGGING],
 
 AS_IF([test "x$enable_debugging" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_DEBUGGING])
-   LOG4CPLUS_NDEBUG=-UNDEBUG],
+   LOG4CPLUS_NDEBUG=-UNDEBUG
+   AS_CASE(["$target_os"],
+     [linux*],
+     [dnl The -U_FORTIFY_SOURCE bit is here to avoid redefinition
+      dnl warning on Ubuntu where _FORTIFY_SOURCE is enabled by
+      dnl default.
+      AS_VAR_APPEND([CPPFLAGS], [" -U_FORTIFY_SOURCE"])
+      AS_VAR_APPEND([CPPFLAGS], [" -D_FORTIFY_SOURCE=1"])])],
   [LOG4CPLUS_NDEBUG=-DNDEBUG])
 AC_SUBST([LOG4CPLUS_NDEBUG])
 
@@ -168,7 +175,10 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
    AS_IF([test "x$enable_debugging" = "xyes"],
      [AX_CXXFLAGS_GCC_OPTION([-g3])
       AX_CXXFLAGS_GCC_OPTION([-fkeep-inline-functions])
-      AX_CXXFLAGS_GCC_OPTION([-fstack-check])],
+      AX_CXXFLAGS_GCC_OPTION([-fstack-check])
+      AX_CXXFLAGS_GCC_OPTION([-fstack-protector])
+      AX_CXXFLAGS_GCC_OPTION([-Wstack-protector])
+      AX_CXXFLAGS_GCC_OPTION([-ftrapv])],
      [AX_CXXFLAGS_GCC_OPTION([-O2])])
 
    dnl Try -pg profiling option.
