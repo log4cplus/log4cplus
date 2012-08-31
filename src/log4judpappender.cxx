@@ -229,9 +229,11 @@ Log4jUdpAppender::append(const spi::InternalLoggingEvent& event)
            << outputXMLEscaped (event.getNDC())
            << LOG4CPLUS_TEXT("</log4j:NDC>")
 
-           << LOG4CPLUS_TEXT("<log4j:locationInfo file=\"")
+           << LOG4CPLUS_TEXT("<log4j:locationInfo class=\"\" file=\"")
            // TODO: Some escaping of special characters is needed here.
            << outputXMLEscaped (event.getFile())
+           << LOG4CPLUS_TEXT("\" method=\"")
+           << outputXMLEscaped (event.getFunction())
            << LOG4CPLUS_TEXT("\" line=\"")
            << event.getLine()
            << LOG4CPLUS_TEXT("\"/>")
@@ -239,14 +241,13 @@ Log4jUdpAppender::append(const spi::InternalLoggingEvent& event)
     
     LOG4CPLUS_TSTRING_TO_STRING (buffer.str ()).swap (output_buf);
 
-    // including null char
-    std::size_t bufferSize = output_buf.size () + 1;
+    std::size_t bufferSize = output_buf.size ();
     helpers::SocketBuffer socketBuffer(bufferSize);
     socketBuffer.setSize(bufferSize);
     std::memcpy(socketBuffer.getBuffer(), output_buf.c_str(), bufferSize);
 
     bool ret = socket.write(socketBuffer);
-    if(!ret)
+    if (!ret)
     {
         helpers::getLogLog().error(
             LOG4CPLUS_TEXT(
