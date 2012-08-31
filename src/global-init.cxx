@@ -56,6 +56,7 @@ namespace
 //! Default context.
 struct DefaultContext
 {
+    log4cplus::thread::Mutex console_mutex;
     helpers::LogLog loglog;
     LogLevelManager log_level_manager;
     helpers::Time TTCCLayout_time_base;
@@ -132,6 +133,13 @@ get_dc (bool alloc = true)
 
 namespace helpers
 {
+
+
+log4cplus::thread::Mutex const &
+getConsoleOutputMutex ()
+{
+    return get_dc ()->console_mutex;
+}
 
 
 LogLog &
