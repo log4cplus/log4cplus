@@ -293,7 +293,7 @@ ptd_cleanup_func (void * arg)
     // Either it is a dummy value or it should be the per thread data
     // pointer we get from internal::get_ptd().
     assert (arg == reinterpret_cast<void *>(1)
-        || arg == internal::get_ptd ());
+        || arg == internal::get_ptd (false));
     (void)arg;
 
     threadCleanup ();
