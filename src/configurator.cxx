@@ -708,7 +708,7 @@ ConfigurationWatchDogThread::updateLastModTime()
 {
     helpers::FileInfo fi;
 
-    if (helpers::getFileInfo (&fi, propertyFilename))
+    if (helpers::getFileInfo (&fi, propertyFilename) == 0)
         lastModTime = fi.mtime;
 }
 

@@ -92,9 +92,8 @@ void initializeFactoryRegistry()
     LOG4CPLUS_REG_APPENDER (reg, Win32ConsoleAppender);
 #  endif
     LOG4CPLUS_REG_APPENDER (reg, Win32DebugAppender);
-#elif defined(LOG4CPLUS_HAVE_SYSLOG_H)
-    LOG4CPLUS_REG_APPENDER (reg, SysLogAppender);
 #endif
+    LOG4CPLUS_REG_APPENDER (reg, SysLogAppender);
 #ifndef LOG4CPLUS_SINGLE_THREADED
     LOG4CPLUS_REG_APPENDER (reg, AsyncAppender);
 #endif

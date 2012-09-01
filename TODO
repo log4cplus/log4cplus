@@ -1,8 +1,6 @@
 Possible enhancements and directions of development, in no particular
 order:
 
-- XML appender compatible with Chainsaw GUI.
-
 - EventLog library appender.
 
 - org.apache.log4j.net.ZeroConfSocketHubAppender.
@@ -11,8 +9,6 @@ order:
 
 - More flexible events format for transport over network. ASN.1? XML?
   YAML? JSON?.
-
-- Syslog appender capable of logging using UDP to another host.
 
 - Modular PatternLayout; public PatternConverter classes; user defined
   format specifiers.

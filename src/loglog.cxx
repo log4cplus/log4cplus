@@ -176,7 +176,7 @@ LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
     {
         // XXX This is potential recursive lock of
         // ConsoleAppender::outputMutex.
-        thread::MutexGuard outputGuard (ConsoleAppender::outputMutex);
+        thread::MutexGuard outputGuard (ConsoleAppender::getOutputMutex ());
         os << prefix << msg << std::endl;
     }
 

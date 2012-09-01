@@ -33,7 +33,19 @@ namespace log4cplus
 {
 
 
-log4cplus::thread::Mutex ConsoleAppender::outputMutex;
+namespace helpers
+{
+
+extern log4cplus::thread::Mutex const & getConsoleOutputMutex ();
+
+} // namespace helpers
+
+
+log4cplus::thread::Mutex const &
+ConsoleAppender::getOutputMutex ()
+{
+    return helpers::getConsoleOutputMutex ();
+}
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -88,7 +100,7 @@ ConsoleAppender::close()
 void
 ConsoleAppender::append(const spi::InternalLoggingEvent& event)
 {
-    thread::MutexGuard guard (outputMutex);
+    thread::MutexGuard guard (getOutputMutex ());
 
     tostream& output = (logToStdErr ? tcerr : tcout);
     layout->formatAndAppend(output, event);
