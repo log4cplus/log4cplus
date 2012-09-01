@@ -248,6 +248,22 @@ FileAppender::init(const tstring& filename_,
         out.rdbuf ()->pubsetbuf (buffer, bufferSize);
     }
 
+    helpers::LockFileGuard guard;
+    if (useLockFile && ! lockFile.get ())
+    {
+        try
+        {
+            lockFile.reset (new helpers::LockFile (lockFileName_));
+            guard.attach_and_lock (*lockFile);
+        }
+        catch (std::runtime_error const &)
+        {
+            // We do not need to do any logging here as the internals
+            // of LockFile already use LogLog to report the failure.
+            return;
+        }
+    }
+
     open(mode_);
 
     if(!out.good()) {
@@ -256,20 +272,6 @@ FileAppender::init(const tstring& filename_,
         return;
     }
     helpers::getLogLog().debug(LOG4CPLUS_TEXT("Just opened file: ") + filename);
-
-    if (useLockFile && ! lockFile.get ())
-    {
-        try
-        {
-            lockFile.reset (new helpers::LockFile (lockFileName_));
-        }
-        catch (std::runtime_error const &)
-        {
-            // We do not need to do any logging here as the internals
-            // or LockFile already use LogLog to report the failure.
-            return;
-        }
-    }
 }
 
 
@@ -357,7 +359,8 @@ FileAppender::reopen()
             + log4cplus::helpers::Time(reopenDelay);
     else
     {
-        // Otherwise, check for end of the delay (or absence of delay) to re-open the file.
+        // Otherwise, check for end of the delay (or absence of delay)
+        // to re-open the file.
         if (reopen_time <= log4cplus::helpers::Time::gettimeofday()
             || reopenDelay == 0)
         {
