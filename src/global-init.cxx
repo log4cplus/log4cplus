@@ -294,23 +294,48 @@ void initializeFactoryRegistry();
 
 
 //! Thread local storage clean up function for POSIX threads.
-static 
-void 
+static
+void
 ptd_cleanup_func (void * arg)
 {
+    internal::per_thread_data * const arg_ptd
+        = static_cast<internal::per_thread_data *>(arg);
+    internal::per_thread_data * const ptd = internal::get_ptd (false);
+
     // Either it is a dummy value or it should be the per thread data
     // pointer we get from internal::get_ptd().
     assert (arg == reinterpret_cast<void *>(1)
-        || arg == internal::get_ptd (false));
-    (void)arg;
+        || arg_ptd == ptd
+        || (! ptd && arg_ptd));
+
+    if (arg == reinterpret_cast<void *>(1))
+        // Setting the value through the key here is necessary in case
+        // we are using TLS using __thread or __declspec(thread) or
+        // similar constructs with POSIX threads.  Otherwise POSIX
+        // calls this cleanup routine more than once if the value
+        // stays non-NULL after it returns.
+        thread::impl::tls_set_value (internal::tls_storage_key, 0);
+    else if (arg)
+    {
+        // Instead of using internal::get_ptd(false) here we are using
+        // the value passed to this function directly.  This is
+        // necessary because of the following (from SUSv4):
+        //
+        // A call to pthread_getspecific() for the thread-specific
+        // data key being destroyed shall return the value NULL,
+        // unless the value is changed (after the destructor starts)
+        // by a call to pthread_setspecific().
+        delete arg_ptd;
+        thread::impl::tls_set_value (internal::tls_storage_key, 0);
+    }
+    else
+    {
+        // In this case we fall through to threadCleanup() and it does
+        // all the necessary work itself.
+        ;
+    }
 
     threadCleanup ();
-
-    // Setting the value through the key here is necessary in case we
-    // are using TLS using __thread or __declspec(thread) or similar
-    // constructs with POSIX threads. Otherwise POSIX calls this cleanup
-    // routine more than once if the value stays non-NULL after it returns.
-    thread::impl::tls_set_value (internal::tls_storage_key, 0);
 }
 
 
