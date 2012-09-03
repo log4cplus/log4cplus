@@ -177,7 +177,8 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
       AX_CXXFLAGS_GCC_OPTION([-fkeep-inline-functions])
       AX_CXXFLAGS_GCC_OPTION([-fstack-check])
       AX_CXXFLAGS_GCC_OPTION([-fstack-protector])
-      AX_CXXFLAGS_GCC_OPTION([-Wstack-protector])
+      dnl -Wstack-protector results into not too interesting warnings.
+      dnl AX_CXXFLAGS_GCC_OPTION([-Wstack-protector])
       AX_CXXFLAGS_GCC_OPTION([-ftrapv])],
      [AX_CXXFLAGS_GCC_OPTION([-O2])])
 
