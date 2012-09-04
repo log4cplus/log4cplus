@@ -1,0 +1,28 @@
+DESCRIPTION="C++ logging API library modelled after log4j API"
+HOMEPAGE="http://log4cplus.sourceforge.net/"
+SRC_URI="mirror://sourceforge/log4cplus/log4cplus-stable/${PV}/log4cplus-${PV}-rc8.tar.xz"
+SRC_DIR="${PN}-${PV}-rc8"
+
+PATCH_URI="configure.ac-relax-libtool-version.patch
+           configure.ac-disable-__thread-keyword.patch"
+
+PKG_NAMES="lib${PN}4 lib${PN}-qt4debugappender4 lib${PN}-devel"
+
+liblog4cplus4_CONTENTS="--exclude=*qt4* usr/bin/*.dll usr/share/"
+liblog4cplus4_CATEGORY="Devel"
+liblog4cplus4_SUMMARY="log4cplus logging library (runtime)"
+liblog4cplus4_DESCRIPTION="XXX"
+
+liblog4cplus_qt4debugappender4_CONTENTS="usr/bin/*log4cplusqt4*.dll"
+liblog4cplus_qt4debugappender4_CATEGORY="Devel"
+liblog4cplus_qt4debugappender4_SUMMARY="log4cplus Qt4DebugAppender (runtime)"
+liblog4cplus_qt4debugappender4_DESCRIPTION="XXX"
+
+liblog4cplus_devel_CONTENTS="usr/include/ usr/lib/"
+liblog4cplus_devel_CATEGORY="Devel"
+liblog4cplus_devel_SUMMARY="log4cplus logging library (development)"
+liblog4cplus_devel_DESCRIPTION="XXX"
+
+ACLOCAL_FLAGS="-I m4"
+CYGCONF_ARGS="--enable-threads=yes --with-working-c-locale --with-gnu-ld"
+CYGCONF_ARGS+=" --with-qt"
