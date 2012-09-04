@@ -115,8 +115,8 @@ namespace log4cplus {
 
 #if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
             SharedObjectPtr(SharedObjectPtr && rhs)
+                : pointee (std::move (rhs.pointee))
             {
-                pointee = rhs.pointee;
                 rhs.pointee = 0;
             }
 
