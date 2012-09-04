@@ -26,3 +26,6 @@ order:
 - Research possible use of Valgrind at compile time.
 
 - Research possible use of -fmudflap.
+
+- Improve CMake configuration checks (TLS) to be on par with
+  Autoconf's.
