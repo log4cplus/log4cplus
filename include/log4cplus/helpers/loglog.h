@@ -114,25 +114,25 @@ namespace log4cplus {
             };
 
             template <typename StringType>
+            LOG4CPLUS_PRIVATE
             void logging_worker (tostream & os,
                 bool (LogLog:: * cond) () const, tchar const *,
                 StringType const &, bool throw_flag = false) const;
 
-            static void set_tristate_from_env (TriState *,
+            LOG4CPLUS_PRIVATE static void set_tristate_from_env (TriState *,
                 tchar const * envvar);
 
-            bool get_quiet_mode () const;
-            bool get_not_quiet_mode () const;
-            bool get_debug_mode () const;
+            LOG4CPLUS_PRIVATE bool get_quiet_mode () const;
+            LOG4CPLUS_PRIVATE bool get_not_quiet_mode () const;
+            LOG4CPLUS_PRIVATE bool get_debug_mode () const;
 
             // Data
             mutable TriState debugEnabled;
             mutable TriState quietMode;
             thread::Mutex mutex;
 
-
-            LogLog(const LogLog&);
-            LogLog & operator = (LogLog const &);
+            LOG4CPLUS_PRIVATE LogLog(const LogLog&);
+            LOG4CPLUS_PRIVATE LogLog & operator = (LogLog const &);
         };
 
         LOG4CPLUS_EXPORT LogLog & getLogLog ();

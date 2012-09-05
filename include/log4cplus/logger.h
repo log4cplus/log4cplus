@@ -295,7 +295,7 @@ namespace log4cplus
          * @param ptr A pointer to the Logger implementation.  This value
          *            cannot be NULL.  
          */
-        Logger(spi::LoggerImpl * ptr);
+        LOG4CPLUS_PRIVATE Logger(spi::LoggerImpl * ptr);
 
       // Friends
         friend class log4cplus::spi::LoggerImpl;

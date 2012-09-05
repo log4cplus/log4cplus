@@ -245,13 +245,15 @@ namespace log4cplus {
          * This is the implementation of the <code>getInstance()</code> method.
          * NOTE: This method does not lock the <code>hashtable_mutex</code>.
          */
+        LOG4CPLUS_PRIVATE
         virtual Logger getInstanceImpl(const log4cplus::tstring& name, 
-                                       spi::LoggerFactory& factory);
+            spi::LoggerFactory& factory);
         
         /**
          * This is the implementation of the <code>getCurrentLoggers()</code>.
          * NOTE: This method does not lock the <code>hashtable_mutex</code>.
          */
+        LOG4CPLUS_PRIVATE
         virtual void initializeLoggerList(LoggerList& list) const;
         
         /**
@@ -274,7 +276,7 @@ namespace log4cplus {
          *
          *    We add 'logger' to the list of children for this potential parent.
          */
-        void updateParents(Logger const & logger);
+        LOG4CPLUS_PRIVATE void updateParents(Logger const & logger);
 
         /**
          * We update the links for all the children that placed themselves
@@ -290,7 +292,8 @@ namespace log4cplus {
          *   Otherwise, we set logger's parent field to c's parent and set
          *   c's parent field to logger.
          */
-        void updateChildren(ProvisionNode& pn, Logger const & logger);
+        LOG4CPLUS_PRIVATE void updateChildren(ProvisionNode& pn,
+            Logger const & logger);
 
      // Data
         thread::Mutex hashtable_mutex;

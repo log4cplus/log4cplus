@@ -188,7 +188,7 @@ namespace log4cplus {
 
         private:
           // Methods
-            void init();
+            LOG4CPLUS_PRIVATE void init();
 
           // Data
             /** Do we return ACCEPT when a match occurs. Default is <code>true</code>. */
@@ -236,7 +236,7 @@ namespace log4cplus {
 
         private:
           // Methods
-            void init();
+            LOG4CPLUS_PRIVATE void init();
 
           // Data
             /** Do we return ACCEPT when a match occurs. Default is <code>true</code>. */
@@ -271,7 +271,7 @@ namespace log4cplus {
 
         private:
           // Methods
-            void init();
+            LOG4CPLUS_PRIVATE void init();
 
           // Data
             /** Do we return ACCEPT when a match occurs. Default is <code>true</code>. */
