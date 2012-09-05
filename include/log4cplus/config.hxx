@@ -46,6 +46,18 @@
 # define LOG4CPLUS_POOR_MANS_CHCONV
 #endif
 
+#ifndef LOG4CPLUS_DECLSPEC_EXPORT
+#define LOG4CPLUS_DECLSPEC_EXPORT /* empty */
+#endif
+
+#ifndef LOG4CPLUS_DECLSPEC_IMPORT
+#define LOG4CPLUS_DECLSPEC_IMPORT /* empty */
+#endif
+
+#ifndef LOG4CPLUS_DECLSPEC_PRIVATE
+#define LOG4CPLUS_DECLSPEC_PRIVATE /* empty */
+#endif
+
 #if !defined(_WIN32)
 #  define LOG4CPLUS_USE_BSD_SOCKETS
 #  if !defined(LOG4CPLUS_SINGLE_THREADED)

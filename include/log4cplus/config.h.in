@@ -191,8 +191,13 @@
    __attribute__((visibility("default"))) construct. */
 #undef LOG4CPLUS_DECLSPEC_EXPORT
 
-/* Defined if the compiler understands __declspec(dllexport) or construct. */
+/* Defined if the compiler understands __declspec(dllexport) or or
+   __attribute__((visibility("default"))) construct. */
 #undef LOG4CPLUS_DECLSPEC_IMPORT
+
+/* Defined if the compiler understands __attribute__((visibility("hidden")))
+   construct. */
+#undef LOG4CPLUS_DECLSPEC_PRIVATE
 
 /* */
 #undef LOG4CPLUS_HAVE_ARPA_INET_H

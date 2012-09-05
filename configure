@@ -6981,6 +6981,7 @@ esac
 
 
 
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for __declspec(dllexport)" >&5
 $as_echo_n "checking for __declspec(dllexport)... " >&6; }
 if ${ac_cv_declspec+:} false; then :
@@ -7026,6 +7027,8 @@ if test "x$ac_cv_declspec" = "xyes"; then :
 
    $as_echo "#define LOG4CPLUS_DECLSPEC_EXPORT __declspec(dllexport)" >>confdefs.h
 
+   $as_echo "#define LOG4CPLUS_DECLSPEC_PRIVATE /* empty */" >>confdefs.h
+
 else
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for __attribute__((visibility(\"default\")))" >&5
@@ -7068,18 +7071,22 @@ fi
 $as_echo "$ac_cv__attribute__visibility" >&6; }
 
 if test "x$ac_cv__attribute__visibility" = "xyes"; then :
-  $as_echo "#define LOG4CPLUS_DECLSPEC_IMPORT /**/" >>confdefs.h
+  $as_echo "#define LOG4CPLUS_DECLSPEC_IMPORT __attribute__ ((visibility(\"default\")))" >>confdefs.h
 
    $as_echo "#define LOG4CPLUS_DECLSPEC_EXPORT __attribute__ ((visibility(\"default\")))" >>confdefs.h
+
+   $as_echo "#define LOG4CPLUS_DECLSPEC_PRIVATE __attribute__ ((visibility(\"hidden\")))" >>confdefs.h
 
 fi
 
 fi
 
 if test "x$ac_cv__attribute__visibility" = "xno" && test "x$ac_cv_declspec" = "xno"; then :
-  $as_echo "#define LOG4CPLUS_DECLSPEC_IMPORT /**/" >>confdefs.h
+  $as_echo "#define LOG4CPLUS_DECLSPEC_IMPORT /* empty */" >>confdefs.h
 
-   $as_echo "#define LOG4CPLUS_DECLSPEC_EXPORT /**/" >>confdefs.h
+   $as_echo "#define LOG4CPLUS_DECLSPEC_EXPORT /* empty */" >>confdefs.h
+
+   $as_echo "#define LOG4CPLUS_DECLSPEC_PRIVATE /* empty */" >>confdefs.h
 
 fi
 
