@@ -258,9 +258,11 @@ Logger
 Hierarchy::getInstanceImpl(const tstring& name, spi::LoggerFactory& factory)
 {
     Logger logger;
+    LoggerMap::iterator lm_it;
 
-    LoggerMap::iterator lm_it = loggerPtrs.find(name);
-    if (lm_it != loggerPtrs.end())
+    if (name.empty ())
+        logger = root;
+    else if ((lm_it = loggerPtrs.find(name)) != loggerPtrs.end())
         logger = lm_it->second;
     else
     {
