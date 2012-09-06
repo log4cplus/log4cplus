@@ -257,8 +257,10 @@ Hierarchy::shutdown()
 Logger 
 Hierarchy::getInstanceImpl(const tstring& name, spi::LoggerFactory& factory)
 {
-    Logger logger;
+    if (name.empty ())
+        return root;
 
+    Logger logger;
     LoggerMap::iterator lm_it = loggerPtrs.find(name);
     if (lm_it != loggerPtrs.end())
         logger = lm_it->second;
