@@ -36,6 +36,7 @@
 #include <log4cplus/helpers/snprintf.h>
 #include <log4cplus/tracelogger.h>
 #include <sstream>
+#include <utility>
 
 
 #if defined(LOG4CPLUS_DISABLE_FATAL) && !defined(LOG4CPLUS_DISABLE_ERROR)
@@ -76,6 +77,17 @@ macros_get_logger (Logger & logger)
 {
     return logger;
 }
+
+
+#if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
+inline
+Logger
+macros_get_logger (Logger && logger)
+{
+    return std::move (logger);
+}
+
+#endif
 
 
 inline
