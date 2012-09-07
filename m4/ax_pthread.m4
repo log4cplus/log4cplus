@@ -98,7 +98,8 @@ AS_IF([test ! -z "$PTHREAD_LIBS$PTHREAD_$3"],
         AS_VAR_SET([$3], ["$$3 $PTHREAD_$3"])
         AS_VAR_COPY([save_LIBS], [LIBS])
         AS_VAR_SET([LIBS], ["$PTHREAD_LIBS $LIBS"])
-        AC_MSG_CHECKING([for pthread_join in LIBS=$PTHREAD_LIBS with $3=$PTHREAD_$3])
+        AC_MSG_CHECKING(
+          [for pthread_join in LIBS=$PTHREAD_LIBS with $3=$PTHREAD_$3])
         AC_TRY_LINK_FUNC([pthread_join],
           [AS_VAR_SET([ax_pthread_ok], [yes])])
         AC_MSG_RESULT([$ax_pthread_ok])
@@ -119,27 +120,29 @@ AS_IF([test ! -z "$PTHREAD_LIBS$PTHREAD_$3"],
 # which indicates that we try without any flags at all, and "pthread-config"
 # which is a program returning the flags for the Pth emulation library.
 
-AS_VAR_SET([ax_pthread_flags], ["pthreads none -Kthread -kthread lthread -pthread -pthreads -mthreads pthread --thread-safe -mt pthread-config"])
+AS_VAR_SET([ax_pthread_flags], ["-Kthread -kthread lthread -pthread -pthreads -mt -mthreads --thread-safe pthread-config pthreads pthread"])
 
 # The ordering *is* (sometimes) important.  Some notes on the
 # individual items follow:
 
-# pthreads: AIX (must check this before -lpthread)
 # none: in case threads are in libc; should be tried before -Kthread and
-#       other compiler flags to prevent continual compiler warnings
+#       other compiler flags to prevent continual compiler warnings;
+#       none will prepended at OS modifications below
 # -Kthread: Sequent (threads in libc, but -Kthread needed for pthread.h)
 # -kthread: FreeBSD kernel threads (preferred to -pthread since SMP-able)
 # lthread: LinuxThreads port on FreeBSD (also preferred to -pthread)
 # -pthread: Linux/gcc (kernel threads), BSD/gcc (userland threads)
 # -pthreads: Solaris/gcc
-# -mthreads: Mingw32/gcc, Lynx/gcc
 # -mt: Sun Workshop C (may only link SunOS threads [-lthread], but it
 #      doesn't hurt to check since this sometimes defines pthreads too;
 #      also defines -D_REENTRANT)
 #      ... -mt is also the pthreads flag for HP/aCC
-# pthread: Linux, etcetera
+# -mthreads: Mingw32/gcc, Lynx/gcc
 # --thread-safe: KAI C++
 # pthread-config: use pthread-config program (for GNU Pth library)
+# pthread: Linux, etcetera
+# pthreads: AIX (very old gcc's on AIX must check this before -lpthread,
+#      handled below)
 
 AS_CASE([${host_os}],
         [solaris*],
@@ -152,7 +155,10 @@ AS_CASE([${host_os}],
          # whether they'll stub that too in a future libc.)  So, we'll
          # just look for -pthreads and -lpthread first:
          AS_VAR_SET([ax_pthread_flags],
-           ["-pthreads pthread -mt -pthread $ax_pthread_flags"])],
+           ["-mt -pthread $ax_pthread_flags"])
+         AS_IF([test "x$GCC" = "xyes"],
+           [AS_VAR_SET([ax_pthread_flags],
+              ["-pthreads pthread -pthread $ax_pthread_flags"])])],
 
         [darwin*],
         [AS_VAR_SET([ax_pthread_flags], ["-pthread $ax_pthread_flags"])],
@@ -162,6 +168,8 @@ AS_CASE([${host_os}],
          # '-mt' '-hreads' ..., the test succeeds but it fails to run.
          AS_IF([test x"$GCC" != xyes],
            [AS_VAR_SET([ax_pthread_flags], ["-mt $ax_pthread_flags"])])])
+
+AS_VAR_SET([ax_pthread_flags], ["none $ax_pthread_flags"])
 
 AS_IF([test x"$ax_pthread_ok" = xno], [
   for flag in $ax_pthread_flags; do
