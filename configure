@@ -7729,7 +7729,8 @@ if test "$ac_res" != no; then :
 
 fi
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for library containing iconv_open" >&5
+if test "x$with_iconv" = "xyes"; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for library containing iconv_open" >&5
 $as_echo_n "checking for library containing iconv_open... " >&6; }
 if ${ac_cv_search_iconv_open+:} false; then :
   $as_echo_n "(cached) " >&6
@@ -7842,6 +7843,7 @@ fi
 
 fi
 
+fi
 
 
 ac_ext=c
@@ -8407,6 +8409,7 @@ if test "x$ac_cv_header_limits_h" = xyes; then :
 fi
 
 
+if test "x$with_iconv" = "xyes"; then :
 
    ac_fn_cxx_check_header_mongrel "$LINENO" "iconv.h" "ac_cv_header_iconv_h" "$ac_includes_default"
 if test "x$ac_cv_header_iconv_h" = xyes; then :
@@ -8415,6 +8418,7 @@ if test "x$ac_cv_header_iconv_h" = xyes; then :
 fi
 
 
+fi
 
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for socklen_t" >&5
@@ -9621,6 +9625,7 @@ _ACEOF
 fi
 done
 
+if test "x$with_iconv" = "xyes"; then :
 
    for ac_func in iconv_open
 do :
@@ -9699,6 +9704,7 @@ _ACEOF
 fi
 done
 
+fi
 
 
 
