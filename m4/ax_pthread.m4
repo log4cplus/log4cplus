@@ -155,7 +155,13 @@ AS_CASE([${host_os}],
            ["-pthreads pthread -mt -pthread $ax_pthread_flags"])],
 
         [darwin*],
-        [AS_VAR_SET([ax_pthread_flags], ["-pthread $ax_pthread_flags"])])
+        [AS_VAR_SET([ax_pthread_flags], ["-pthread $ax_pthread_flags"])],
+
+        [hp-ux*],
+        [# On HP-UX compiling with aCC, cc understands -mthreads as
+         # '-mt' '-hreads' ..., the test succeeds but it fails to run.
+         AS_IF([test x"$GCC" != xyes],
+           [AS_VAR_SET([ax_pthread_flags], ["-mt $ax_pthread_flags"])])])
 
 AS_IF([test x"$ax_pthread_ok" = xno], [
   for flag in $ax_pthread_flags; do
@@ -166,7 +172,7 @@ AS_IF([test x"$ax_pthread_ok" = xno], [
                 [-*],
                 [AC_MSG_CHECKING([whether pthreads work with $flag])
                  AS_VAR_COPY([PTHREAD_$3], [flag])],
-                 
+
                 [pthread-config],
                 [AC_CHECK_PROG([ax_pthread_config], [pthread-config],
                    [yes], [no])

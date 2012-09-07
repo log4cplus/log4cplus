@@ -5057,11 +5057,12 @@ main ()
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ac_cv_cxxflags_warn_all="`$as_echo_n \"$ac_arg\" | $SED -e 's,.*% *,,'`"
                       break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
 CXXFLAGS=$ac_save_CXXFLAGS
 
@@ -8584,6 +8585,12 @@ case ${host_os} in #(
          ax_pthread_flags="-pthreads pthread -mt -pthread $ax_pthread_flags" ;; #(
   darwin*) :
     ax_pthread_flags="-pthread $ax_pthread_flags" ;; #(
+  hp-ux*) :
+    # On HP-UX compiling with aCC, cc understands -mthreads as
+         # '-mt' '-hreads' ..., the test succeeds but it fails to run.
+         if test x"$GCC" != xyes; then :
+  ax_pthread_flags="-mt $ax_pthread_flags"
+fi ;; #(
   *) :
      ;;
 esac
