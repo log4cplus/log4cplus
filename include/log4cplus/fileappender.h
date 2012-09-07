@@ -149,9 +149,9 @@ namespace log4cplus
         log4cplus::helpers::Time reopen_time;
 
     private:
-        void init(const log4cplus::tstring& filename,
-                  std::ios_base::openmode mode,
-                  const log4cplus::tstring& lockFileName);
+        LOG4CPLUS_PRIVATE void init(const log4cplus::tstring& filename,
+            std::ios_base::openmode mode,
+            const log4cplus::tstring& lockFileName);
 
       // Disallow copying of instances of this class
         FileAppender(const FileAppender&);
@@ -201,7 +201,7 @@ namespace log4cplus
         int maxBackupIndex;
 
     private:
-        void init(long maxFileSize, int maxBackupIndex);
+        LOG4CPLUS_PRIVATE void init(long maxFileSize, int maxBackupIndex);
     };
 
 
@@ -258,7 +258,7 @@ namespace log4cplus
         int maxBackupIndex;
 
     private:
-        void init(DailyRollingFileSchedule schedule);
+        LOG4CPLUS_PRIVATE void init(DailyRollingFileSchedule schedule);
     };
 
 } // end namespace log4cplus

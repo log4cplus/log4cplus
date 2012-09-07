@@ -1,0 +1,13 @@
+=== modified file 'configure.ac'
+--- configure.ac	2012-09-01 16:41:23 +0000
++++ configure.ac	2012-09-04 12:43:49 +0000
+@@ -365,7 +365,7 @@
+    AS_IF([test "x$ac_cv_cxx11_atomics" = "xyes"],
+      [AC_DEFINE([LOG4CPLUS_HAVE_CXX11_ATOMICS])])
+ 
+-   AX_TLS_SUPPORT
++   dnl AX_TLS_SUPPORT
+    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
+    AH_TEMPLATE([LOG4CPLUS_THREAD_LOCAL_VAR])
+    AS_IF([test "x$ac_cv_declspec_thread" = "xyes"],
+

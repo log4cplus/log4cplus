@@ -64,7 +64,7 @@ public:
     virtual ~MDC ();
 
 private:
-    static MappedDiagnosticContextMap * getPtr ();
+    LOG4CPLUS_PRIVATE static MappedDiagnosticContextMap * getPtr ();
 };
 
 

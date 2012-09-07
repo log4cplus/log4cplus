@@ -1,0 +1,13 @@
+=== modified file 'configure.ac'
+--- configure.ac	2012-09-01 16:41:23 +0000
++++ configure.ac	2012-09-04 12:31:56 +0000
+@@ -488,7 +488,7 @@
+ dnl Must be latest to catch rpath compiled in by changes made during
+ dnl checks before.
+ 
+-LT_PREREQ([2.4.2])
++LT_PREREQ([2.4])
+ LT_INIT([win32-dll])
+ 
+ AH_TOP([#ifndef LOG4CPLUS_CONFIG_H])
+

@@ -231,11 +231,15 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
    AX_CXXFLAGS_SUN_OPTION([-library=Crun])])
 
 AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
-AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"],
+AS_IF([test "x$ac_cv_declspec" = "xyes" dnl
+  || test "x$ac_cv__attribute__visibility" = "xyes" dnl
+  || test "x$ac_cv__global" = "xyes"],
   [AS_CASE([$ax_cv_cxx_compiler_vendor],
     [gnu|clang],
-    [AS_IF([test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"],
-       [AX_CXXFLAGS_GCC_OPTION([-fvisibility=hidden])])])])
+    [AX_CXXFLAGS_GCC_OPTION([-fvisibility=hidden])],
+    
+    [sun],
+    [AX_CXXFLAGS_SUN_OPTION([-xldscope=hidden])])])
 
 AX_C99_VARIADIC_MACROS
 AH_TEMPLATE([LOG4CPLUS_HAVE_C99_VARIADIC_MACROS])
@@ -274,8 +278,9 @@ dnl breaks compilation of shared library log4cplus.
 dnl AC_SEARCH_LIBS([ftime], [compat])
 AC_SEARCH_LIBS([gethostbyname], [nsl])
 AC_SEARCH_LIBS([setsockopt], [socket])
-AC_SEARCH_LIBS([iconv_open], [iconv], [],
-  [AC_SEARCH_LIBS([libiconv_open], [iconv])])
+AS_IF([test "x$with_iconv" = "xyes"],
+  [AC_SEARCH_LIBS([iconv_open], [iconv], [],
+     [AC_SEARCH_LIBS([libiconv_open], [iconv])])])
 
 dnl Windows/MinGW specific.
 
@@ -310,7 +315,8 @@ LOG4CPLUS_CHECK_HEADER([wchar.h], [LOG4CPLUS_HAVE_WCHAR_H])
 LOG4CPLUS_CHECK_HEADER([time.h], [LOG4CPLUS_HAVE_TIME_H])
 LOG4CPLUS_CHECK_HEADER([errno.h], [LOG4CPLUS_HAVE_ERRNO_H])
 LOG4CPLUS_CHECK_HEADER([limits.h], [LOG4CPLUS_HAVE_LIMITS_H])
-LOG4CPLUS_CHECK_HEADER([iconv.h], [LOG4CPLUS_HAVE_ICONV_H])
+AS_IF([test "x$with_iconv" = "xyes"],
+  [LOG4CPLUS_CHECK_HEADER([iconv.h], [LOG4CPLUS_HAVE_ICONV_H])])
 
 dnl Check for the existance of type socklen_t.
 
@@ -406,12 +412,13 @@ LOG4CPLUS_CHECK_FUNCS([htonl], [LOG4CPLUS_HAVE_HTONL])
 LOG4CPLUS_CHECK_FUNCS([ntohl], [LOG4CPLUS_HAVE_NTOHL])
 LOG4CPLUS_CHECK_FUNCS([mbstowcs], [LOG4CPLUS_HAVE_MBSTOWCS])
 LOG4CPLUS_CHECK_FUNCS([wcstombs], [LOG4CPLUS_HAVE_WCSTOMBS])
-LOG4CPLUS_CHECK_FUNCS([iconv_open], [LOG4CPLUS_HAVE_ICONV_OPEN])
-LOG4CPLUS_CHECK_FUNCS([iconv_close], [LOG4CPLUS_HAVE_ICONV_CLOSE])
-LOG4CPLUS_CHECK_FUNCS([iconv], [LOG4CPLUS_HAVE_ICONV])
-LOG4CPLUS_CHECK_FUNCS([libiconv_open], [LOG4CPLUS_HAVE_ICONV_OPEN])
-LOG4CPLUS_CHECK_FUNCS([libiconv_close], [LOG4CPLUS_HAVE_ICONV_CLOSE])
-LOG4CPLUS_CHECK_FUNCS([libiconv], [LOG4CPLUS_HAVE_ICONV])
+AS_IF([test "x$with_iconv" = "xyes"],
+  [LOG4CPLUS_CHECK_FUNCS([iconv_open], [LOG4CPLUS_HAVE_ICONV_OPEN])
+   LOG4CPLUS_CHECK_FUNCS([iconv_close], [LOG4CPLUS_HAVE_ICONV_CLOSE])
+   LOG4CPLUS_CHECK_FUNCS([iconv], [LOG4CPLUS_HAVE_ICONV])
+   LOG4CPLUS_CHECK_FUNCS([libiconv_open], [LOG4CPLUS_HAVE_ICONV_OPEN])
+   LOG4CPLUS_CHECK_FUNCS([libiconv_close], [LOG4CPLUS_HAVE_ICONV_CLOSE])
+   LOG4CPLUS_CHECK_FUNCS([libiconv], [LOG4CPLUS_HAVE_ICONV])])
 
 dnl Various functions used by snprintf.cxx.
 

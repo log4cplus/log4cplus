@@ -80,7 +80,7 @@ in "-warn all  % -warn all"   dnl Intel
    #
 do AS_VAR_SET([FLAGS],
      ["$ac_save_[]FLAGS `AS_ECHO_N([\"$ac_arg\"]) | $SED -e 's,%%.*,,' -e 's,%,,'`"])
-   AC_COMPILE_IFELSE([AC_LANG_PROGRAM],
+   AC_LINK_IFELSE([AC_LANG_PROGRAM],
                      [AS_VAR_SET([VAR],
                         ["`AS_ECHO_N([\"$ac_arg\"]) | $SED -e 's,.*% *,,'`"])
                       break])

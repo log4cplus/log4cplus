@@ -122,7 +122,7 @@ static
 DefaultContext *
 get_dc (bool alloc = true)
 {
-    if (! default_context && alloc)
+    if (LOG4CPLUS_UNLIKELY (! default_context && alloc))
         alloc_dc ();
     return default_context;
 }

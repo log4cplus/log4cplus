@@ -129,8 +129,9 @@ Logger::operator = (const Logger& rhs)
 
 #if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
 Logger::Logger (Logger && rhs)
+    : spi::AppenderAttachable (std::move (rhs))
+    , value (std::move (rhs.value))
 {
-    value = rhs.value;
     rhs.value = 0;
 }
 
