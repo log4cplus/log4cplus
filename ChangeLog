@@ -1,3 +1,23 @@
+log4cplus 1.1.0-RC9
+
+- Improved Log4jUdpAppender compatibility with Chainsaw.
+
+- Fixed crash, bugs #3467112 and #3563699, related to thread-local
+  storage destruction.
+
+- Fixed build with Visual Studio 2005, bug #3565529. (xg00)
+
+- Created Cygwin port's .cygport definition for log4cplus.
+
+- Improved hiding of private symbols using GCC's
+  __attribute__((visibility("hidden"))) and Solaris Studio's __hidden.
+
+- Fixed build in environments where DEBUG (and other log level names)
+  are macros. (Chernyshev Vyacheslav)
+
+- Improved configuration of threads support. (Jens Rehsack)
+
+
 log4cplus 1.1.0-RC8
 
 - Turned on __thread (TLS) detection on NetBSD 5.1.0 and later that
