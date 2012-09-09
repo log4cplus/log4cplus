@@ -34,7 +34,7 @@ configuration. It is modeled after the Java log4j API.
 rm -rf $RPM_BUILD_ROOT
 
 %setup
-CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix}
+./configure --prefix=%{prefix} --with-working-locale CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
 
 %build
 make
@@ -45,8 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 make prefix=$RPM_BUILD_ROOT%{prefix} install
 mkdir -p $RPM_BUILD_ROOT%{prefix}/include/
 cp -rp include/log4cplus $RPM_BUILD_ROOT%{prefix}/include/
-rm -rf $RPM_BUILD_ROOT%{prefix}/include/log4cplus/config*
-rm -rf $RPM_BUILD_ROOT%{prefix}/include/log4cplus/stamp-h1
+rm -f $RPM_BUILD_ROOT%{prefix}/include/log4cplus/config/stamp-*
+rm -f $RPM_BUILD_ROOT%{prefix}/include/log4cplus/config/*.in
+rm -f $RPM_BUILD_ROOT%{prefix}/include/log4cplus/stamp-*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -62,4 +63,3 @@ rm -rf $RPM_BUILD_ROOT
 %prefix/include/log4cplus/helpers/*.h
 %prefix/include/log4cplus/spi/*.h
 %attr(644,root,root) %prefix/lib/*.a
-
