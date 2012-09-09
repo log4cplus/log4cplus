@@ -2,7 +2,7 @@ Version 1.0.4.2-RC1
 
   - Fixed log4cplus.spec for Fedora builds.
   - Add compatibility typedef for return type of LogLog::getLogLog()
-    to hide differences betwee 1.0.4.x and 1.1.x releases.
+    to hide differences between 1.0.4.x and 1.1.x releases.
   - Improved compatibility with Solaris Studio builds without
     '-library=stlport4' option. The '-library=stlport4' option is now
     added only if CXXFLAGS is missing any of
