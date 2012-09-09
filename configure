@@ -6152,8 +6152,59 @@ esac
 
 
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __declspec(dllexport)" >&5
-$as_echo_n "checking for __declspec(dllexport)... " >&6; }
+
+continue_checks=1
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __global and __hidden" >&5
+$as_echo_n "checking for __global and __hidden... " >&6; }
+if ${ac_cv__global+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+        __global int x = 0;
+        __global int foo ();
+        int foo () { return 0; }
+        __global int bar () { return x; }
+        __hidden int baz () { return 1; }
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_compile "$LINENO"; then :
+  ac_cv__global=yes
+else
+  ac_cv__global=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv__global" >&5
+$as_echo "$ac_cv__global" >&6; }
+
+if test "x$ac_cv__global" = "xyes"; then :
+  $as_echo "#define LOG4CPLUS_DECLSPEC_IMPORT __global" >>confdefs.h
+
+   $as_echo "#define LOG4CPLUS_DECLSPEC_EXPORT __global" >>confdefs.h
+
+   $as_echo "#define LOG4CPLUS_DECLSPEC_PRIVATE __hidden" >>confdefs.h
+
+   { continue_checks=; unset continue_checks;}
+fi
+
+
+if ${continue_checks+:} false; then :
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __declspec(dllexport) and __declspec(dllimport)" >&5
+$as_echo_n "checking for __declspec(dllexport) and __declspec(dllimport)... " >&6; }
 if ${ac_cv_declspec+:} false; then :
   $as_echo_n "(cached) " >&6
 else
@@ -6197,10 +6248,20 @@ if test "x$ac_cv_declspec" = "xyes"; then :
 
    $as_echo "#define LOG4CPLUS_DECLSPEC_EXPORT __declspec(dllexport)" >>confdefs.h
 
-else
+   $as_echo "#define LOG4CPLUS_DECLSPEC_PRIVATE /* empty */" >>confdefs.h
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __attribute__((visibility(\"default\")))" >&5
-$as_echo_n "checking for __attribute__((visibility(\"default\")))... " >&6; }
+   { continue_checks=; unset continue_checks;}
+fi
+
+fi
+
+
+if ${continue_checks+:} false; then :
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __attribute__((visibility(\"default\")))
+  and __attribute__((visibility(\"hidden\")))" >&5
+$as_echo_n "checking for __attribute__((visibility(\"default\")))
+  and __attribute__((visibility(\"hidden\")))... " >&6; }
 if ${ac_cv__attribute__visibility+:} false; then :
   $as_echo_n "(cached) " >&6
 else
@@ -6239,20 +6300,28 @@ fi
 $as_echo "$ac_cv__attribute__visibility" >&6; }
 
 if test "x$ac_cv__attribute__visibility" = "xyes"; then :
-  $as_echo "#define LOG4CPLUS_DECLSPEC_IMPORT /**/" >>confdefs.h
+  $as_echo "#define LOG4CPLUS_DECLSPEC_IMPORT __attribute__ ((visibility(\"default\")))" >>confdefs.h
 
    $as_echo "#define LOG4CPLUS_DECLSPEC_EXPORT __attribute__ ((visibility(\"default\")))" >>confdefs.h
 
+   $as_echo "#define LOG4CPLUS_DECLSPEC_PRIVATE __attribute__ ((visibility(\"hidden\")))" >>confdefs.h
+
+   { continue_checks=; unset continue_checks;}
 fi
 
 fi
 
-if test "x$ac_cv__attribute__visibility" = "xno" && test "x$ac_cv_declspec" = "xno"; then :
-  $as_echo "#define LOG4CPLUS_DECLSPEC_IMPORT /**/" >>confdefs.h
 
-   $as_echo "#define LOG4CPLUS_DECLSPEC_EXPORT /**/" >>confdefs.h
+if test "x$ac_cv__attribute__visibility" = "xno"        && test "x$ac_cv_declspec" = "xno"        && test "x$ax_cv__global" = "xno"; then :
+  $as_echo "#define LOG4CPLUS_DECLSPEC_IMPORT /* empty */" >>confdefs.h
+
+   $as_echo "#define LOG4CPLUS_DECLSPEC_EXPORT /* empty */" >>confdefs.h
+
+   $as_echo "#define LOG4CPLUS_DECLSPEC_PRIVATE /* empty */" >>confdefs.h
 
 fi
+
+{ continue_checks=; unset continue_checks;}
 
 
 if test "x$ac_cv_declspec" = "xyes" || test "x$ac_cv__attribute__visibility" = "xyes"; then :

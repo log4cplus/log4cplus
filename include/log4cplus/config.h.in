@@ -95,11 +95,16 @@
 #undef LOG4CPLUS_DEBUGGING
 
 /* Defined if the compiler understands __declspec(dllimport) or
-   __attribute__((visibility("default"))) construct. */
+   __attribute__((visibility("default"))) or __global construct. */
 #undef LOG4CPLUS_DECLSPEC_EXPORT
 
-/* Defined if the compiler understands __declspec(dllexport) or construct. */
+/* Defined if the compiler understands __declspec(dllimport) or
+   __attribute__((visibility("default"))) or __global construct. */
 #undef LOG4CPLUS_DECLSPEC_IMPORT
+
+/* Defined if the compiler understands __attribute__((visibility("hidden")))
+   or __hidden construct. */
+#undef LOG4CPLUS_DECLSPEC_PRIVATE
 
 /* */
 #undef LOG4CPLUS_HAVE_CLOCK_GETTIME
