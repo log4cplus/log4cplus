@@ -225,9 +225,19 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
    dnl AX_CXXFLAGS_SUN_OPTION([-features=extensions])
 
    dnl log4cplus does not work with the default C++ library
-   dnl implementation from Sun, it needs better C++ support, thus we
-   dnl use the available STLport they also ship.
-   AX_CXXFLAGS_SUN_OPTION([-library=stlport4])
+   dnl implementation from Sun everywhere. E.g., on Linux it seems to
+   dnl be missing std::FILE, etc., in the std:: namespace but on
+   dnl Solaris it works. Thus we use the available STLport that they
+   dnl also ship unless the user specifies own
+   dnl -library=(stlport4|stdcxx4|Cstd) switch.
+
+   AC_REQUIRE([AC_PROG_GREP])
+   AS_IF([AS_ECHO_N(["$CXXFLAGS"]) dnl
+          | $GREP -e '-library=\(stlport4\|stdcxx4\|Cstd\)' >/dev/null],
+     [],
+     [AX_CXXFLAGS_SUN_OPTION([-library=stlport4])])
+
+   dnl Adding -library=Crun is always necessary.
    AX_CXXFLAGS_SUN_OPTION([-library=Crun])])
 
 AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
