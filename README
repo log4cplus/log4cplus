@@ -210,10 +210,13 @@ Solaris Studio
 --------------
 
 Solaris Studio compilers' default standard C++ library is very
-non-standard.  log4cplus requires better conforming standard library
-than the default Cstd library.  This means that log4cplus' configure
-script automatically adds '-library=stlport4' to compiler command
-line.
+non-standard.  It seems that it is not conforming enough in, e.g., Sun
+C++ 5.12 Linux_i386 2011/11/16 (missing std::time_t, etc.), but it
+works well enough on Solaris with Sun C++ 5.8 2005/10/13.  Thus
+log4cplus adds -library=stlport4 to the CXXFLAGS environment variable,
+unless a switch matching -library=(stlport4|stdcxx4|Cstd) is already
+present there.  If you want to override the default supplied by
+log4cplus, just set it into CXXFLAGS on configure script command line.
 
 Solaris Studio supports the __func__ symbol which can be used by
 log4cplus to record function name in logged events.  To enable this
