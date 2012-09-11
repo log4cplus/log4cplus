@@ -27,6 +27,7 @@
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
 #include <sstream>
 #include <cstdlib>
 

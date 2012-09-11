@@ -24,6 +24,7 @@
 #include <log4cplus/config/windowsh-inc.h>
 #include <log4cplus/win32debugappender.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
 
 
 namespace log4cplus

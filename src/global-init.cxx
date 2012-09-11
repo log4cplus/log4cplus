@@ -26,6 +26,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/thread/impl/tls.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/hierarchy.h>
