@@ -29,3 +29,6 @@ order:
 
 - Improve CMake configuration checks (TLS) to be on par with
   Autoconf's.
+
+- ConsoleAppender or specialized appender with colored output per log
+  level.
