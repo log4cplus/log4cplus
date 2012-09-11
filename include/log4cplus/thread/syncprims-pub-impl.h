@@ -31,7 +31,8 @@
 #pragma once
 #endif
 
-#if defined (LOG4CPLUS_INLINES_ARE_EXPORTED) \
+#if (defined (LOG4CPLUS_INLINES_ARE_EXPORTED)           \
+    && defined (LOG4CPLUS_BUILD_DLL))                   \
     || defined (LOG4CPLUS_ENABLE_SYNCPRIMS_PUB_IMPL)
 #include <log4cplus/thread/syncprims.h>
 

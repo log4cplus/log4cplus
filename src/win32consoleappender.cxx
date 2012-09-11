@@ -29,6 +29,7 @@
 #include <log4cplus/win32consoleappender.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/streams.h>
 #include <sstream>
 

@@ -73,7 +73,8 @@
 
 #endif // !_WIN32
 
-#if defined (LOG4CPLUS_INLINES_ARE_EXPORTED)
+#if defined (LOG4CPLUS_INLINES_ARE_EXPORTED) \
+    && defined (LOG4CPLUS_BUILD_DLL)
 #  define LOG4CPLUS_INLINE_EXPORT inline
 #else
 #  define LOG4CPLUS_INLINE_EXPORT
