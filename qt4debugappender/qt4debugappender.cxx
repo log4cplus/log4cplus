@@ -99,6 +99,7 @@ Qt4DebugAppender::registerAppender ()
 
 
 #if defined (_WIN32)
+extern "C"
 BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE,  // handle to DLL module
                     DWORD fdwReason,     // reason for calling function
                     LPVOID)  // reserved

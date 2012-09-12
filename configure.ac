@@ -158,7 +158,11 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
       AX_CXXFLAGS_GCC_OPTION([-Wstrict-overflow])
       dnl AX_CXXFLAGS_GCC_OPTION([-Weffc++])
       AX_CXXFLAGS_GCC_OPTION([-Woverloaded-virtual])
-      AX_CXXFLAGS_GCC_OPTION([-Wold-style-cast])
+      AS_CASE(["$target_os"],
+        dnl Disable -Wold-style-cast for MinGW as it generates too
+        dnl much noise there.
+        [mingw*], [],
+        [AX_CXXFLAGS_GCC_OPTION([-Wold-style-cast])])
       dnl AX_CXXFLAGS_GCC_OPTION([-Wabi])
       AX_CXXFLAGS_GCC_OPTION([-Wc++0x-compat])
       AX_CXXFLAGS_GCC_OPTION([-Wc++11-compat])
@@ -207,7 +211,7 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
    dnl Sun CC does support -g flag.
    AS_IF([test "x$enable_debugging" = "xyes"],
      [AX_CXXFLAGS_SUN_OPTION([-g])])
- 
+
    dnl Try -pg profiling option.
    AS_IF([test "x$enable_profiling" = "xyes"],
      [AX_CXXFLAGS_SUN_OPTION([-pg],[],
@@ -247,7 +251,7 @@ AS_IF([test "x$ac_cv_declspec" = "xyes" dnl
   [AS_CASE([$ax_cv_cxx_compiler_vendor],
     [gnu|clang],
     [AX_CXXFLAGS_GCC_OPTION([-fvisibility=hidden])],
-    
+
     [sun],
     [AX_CXXFLAGS_SUN_OPTION([-xldscope=hidden])])])
 
