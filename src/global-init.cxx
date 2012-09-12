@@ -381,6 +381,7 @@ threadCleanup ()
 
 #if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL)
 
+extern "C"
 BOOL
 WINAPI
 DllMain (LOG4CPLUS_DLLMAIN_HINSTANCE /*hinstDLL*/, DWORD fdwReason,
