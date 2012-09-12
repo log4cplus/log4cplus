@@ -5493,7 +5493,11 @@ case ".$var" in
  ;;
 esac
 
-      { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -Wold-style-cast" >&5
+      case "$target_os" in #(
+                  mingw*) :
+     ;; #(
+  *) :
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -Wold-style-cast" >&5
 $as_echo_n "checking CXXFLAGS for gcc -Wold-style-cast... " >&6; }
 if ${ax_cv_cxxflags_gcc_option__Wold_style_cast+:} false; then :
   $as_echo_n "(cached) " >&6
@@ -5556,7 +5560,8 @@ case ".$var" in
    fi
  ;;
 esac
-
+ ;;
+esac
             { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -Wc++0x-compat" >&5
 $as_echo_n "checking CXXFLAGS for gcc -Wc++0x-compat... " >&6; }
 if ${ax_cv_cxxflags_gcc_option__Wcpp0x_compat+:} false; then :
