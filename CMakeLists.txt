@@ -37,9 +37,16 @@ option (LOG4CPLUS_QT4 "Build with Qt4DebugAppender" OFF)
 
 option(UNICODE "Build with tchar = wchar_t" ${UNICODE_DEFAULT})
 
+option(WITH_ICONV "Use iconv() for char->wchar_t conversion."
+  OFF)
+
 if (UNICODE)
   set (log4cplus_postfix "${log4cplus_postfix}U")
 endif (UNICODE)
+
+if (WITH_ICONV)
+  set(LOG4CPLUS_WITH_ICONV 1)
+endif ()
 
 set (log4cplus "log4cplus${log4cplus_postfix}")
 
