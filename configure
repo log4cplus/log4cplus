@@ -6398,6 +6398,10 @@ case ".$var" in
 esac
 
 else
+
+      if $as_echo_n "$CXXFLAGS"              | $GREP -e '\(^\|[[:space:]]\)-O\([^[:space:]]*\([[:space:]]\|$\)\)' >/dev/null; then :
+
+else
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -O2" >&5
 $as_echo_n "checking CXXFLAGS for gcc -O2... " >&6; }
 if ${ax_cv_cxxflags_gcc_option__O2+:} false; then :
@@ -6462,6 +6466,7 @@ case ".$var" in
  ;;
 esac
 
+fi
 fi
 
       if test "x$enable_profiling" = "xyes"; then :
