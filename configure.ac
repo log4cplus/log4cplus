@@ -184,7 +184,11 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
       dnl -Wstack-protector results into not too interesting warnings.
       dnl AX_CXXFLAGS_GCC_OPTION([-Wstack-protector])
       AX_CXXFLAGS_GCC_OPTION([-ftrapv])],
-     [AX_CXXFLAGS_GCC_OPTION([-O2])])
+     [AC_REQUIRE([AC_PROG_GREP])
+      AS_IF([AS_ECHO_N(["$CXXFLAGS"]) dnl
+             | $GREP -e ['\(^\|[[:space:]]\)-O\([^[:space:]]*\([[:space:]]\|$\)\)'] >/dev/null],
+        [],
+        [AX_CXXFLAGS_GCC_OPTION([-O2])])])
 
    dnl Try -pg profiling option.
    AS_IF([test "x$enable_profiling" = "xyes"],
