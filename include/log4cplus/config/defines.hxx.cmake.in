@@ -85,8 +85,11 @@
 /* Define to 1 if you have the `clock_gettime' function. */
 #cmakedefine LOG4CPLUS_HAVE_CLOCK_GETTIME 1
 
+/* Define to 1 if you have the `nanosleep' function. */
+#cmakedefine LOG4CPLUS_HAVE_NANOSLEEP 1
+
 /* Define to 1 if you have the `clock_nanosleep' function. */
-#cmakedefine LOG4CPLUS_HAVE_CLOCK_NANOSLEEP
+#cmakedefine LOG4CPLUS_HAVE_CLOCK_NANOSLEEP 1
 
 /* */
 #cmakedefine LOG4CPLUS_HAVE_GMTIME_R 1
@@ -142,10 +145,20 @@
 /* this is not used anywhere #undef LOG4CPLUS_DEBUGGING */
 
 /* Defined if the compiler understands __declspec(export) or __attribute__((export)) construct. */
-#define LOG4CPLUS_DECLSPEC_EXPORT @LOG4CPLUS_DECLSPEC_EXPORT@
+#cmakedefine LOG4CPLUS_DECLSPEC_EXPORT @LOG4CPLUS_DECLSPEC_EXPORT@
 
 /* Defined if the compiler understands __declspec(import) or __attribute__((import)) construct. */
-#define LOG4CPLUS_DECLSPEC_IMPORT @LOG4CPLUS_DECLSPEC_IMPORT@ /**/
+#cmakedefine LOG4CPLUS_DECLSPEC_IMPORT @LOG4CPLUS_DECLSPEC_IMPORT@ /**/
+
+/* Defined if the compiler understands
+   __attribute__((visibility("hidden"))) construct. */
+#cmakedefine LOG4CPLUS_DECLSPEC_PRIVATE @LOG4CPLUS_DECLSPEC_PRIVATE@
+
+/* */
+#cmakedefine LOG4CPLUS_HAVE_TLS_SUPPORT 1
+
+/* */
+#cmakedefine LOG4CPLUS_THREAD_LOCAL_VAR @LOG4CPLUS_THREAD_LOCAL_VAR@
 
 /* Defined if the host OS provides ENAMETOOLONG errno value. */
 #cmakedefine LOG4CPLUS_HAVE_ENAMETOOLONG 1
@@ -155,6 +168,10 @@
 
 /* Defined if the compiler provides __sync_sub_and_fetch(). */
 #cmakedefine LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH 1
+
+/* Defined if the compiler provides C++11 <atomic> header and increment,
+   decrement operations. */
+#cmakedefine LOG4CPLUS_HAVE_CXX11_ATOMICS 1
 
 /* */
 #cmakedefine LOG4CPLUS_HAVE_C99_VARIADIC_MACROS 1
@@ -192,8 +209,20 @@
 /* Defined if the compiler supports __PRETTY_FUNCTION__ macro. */
 #cmakedefine LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO 1
 
+/* Defined if the compiler supports __func__ symbol. */
+#cmakedefine LOG4CPLUS_HAVE_FUNC_SYMBOL 1
+
+/* Define to 1 if you have the `mbstowcs' function. */
+#cmakedefine LOG4CPLUS_HAVE_MBSTOWCS 1
+
+/* Define to 1 if you have the `wcstombs' function. */
+#cmakedefine LOG4CPLUS_HAVE_WCSTOMBS 1
+
 /* Define to 1 if you have Linux style syscall(SYS_gettid). */
 #cmakedefine LOG4CPLUS_HAVE_GETTID 1
+
+/* Define when iconv() is available. */
+#cmakedefine LOG4CPLUS_WITH_ICONV 1
 
 /* Define to 1 if you have the `iconv' function. */
 #cmakedefine LOG4CPLUS_HAVE_ICONV 1

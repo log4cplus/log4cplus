@@ -87,6 +87,9 @@ endif ()
 if (LIBNSL)
   list (APPEND log4cplus_LIBS ${LIBNSL})
 endif ()
+if (LOG4CPLUS_WITH_ICONV AND LIBICONV)
+  list (APPEND log4cplus_LIBS ${LIBICONV})
+endif ()
 target_link_libraries (${log4cplus} ${log4cplus_LIBS})
 
 set_target_properties (${log4cplus} PROPERTIES
