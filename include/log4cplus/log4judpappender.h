@@ -40,11 +40,12 @@ namespace log4cplus {
      *   <li>Remote logging is non-intrusive as far as the log event
      *   is concerned. In other words, the event will be logged with
      *   the same time stamp, NDC, location info as if it were logged
-     *   locally by the client.
+     *   locally by the client.</li>
      *
-     *   <li>Log4jUdpAppender do not use a layout.
+     *   <li>Log4jUdpAppender do not use a layout.</li>
      *
-     *   <li>Remote logging uses the UDP protocol.
+     *   <li>Remote logging uses the UDP protocol.</li>
+     * </ul>
      *
      * <h3>Properties</h3>
      * <dl>
