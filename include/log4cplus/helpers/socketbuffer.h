@@ -34,47 +34,46 @@
 
 
 namespace log4cplus {
-    namespace helpers {
+namespace helpers {
 
-        /**
-         *
-         */
-        class LOG4CPLUS_EXPORT SocketBuffer
-        {
-        public:
-            explicit SocketBuffer(std::size_t max);
-            virtual ~SocketBuffer();
+/**
+ *
+ */
+class LOG4CPLUS_EXPORT SocketBuffer
+{
+public:
+    explicit SocketBuffer(std::size_t max);
+    virtual ~SocketBuffer();
 
-            char *getBuffer() const { return buffer; }
-            std::size_t getMaxSize() const { return maxsize; }
-            std::size_t getSize() const { return size; }
-            void setSize(std::size_t s) { size = s; }
-            std::size_t getPos() const { return pos; }
+    char *getBuffer() const { return buffer; }
+    std::size_t getMaxSize() const { return maxsize; }
+    std::size_t getSize() const { return size; }
+    void setSize(std::size_t s) { size = s; }
+    std::size_t getPos() const { return pos; }
 
-            unsigned char readByte();
-            unsigned short readShort();
-            unsigned int readInt();
-            tstring readString(unsigned char sizeOfChar);
+    unsigned char readByte();
+    unsigned short readShort();
+    unsigned int readInt();
+    tstring readString(unsigned char sizeOfChar);
 
-            void appendByte(unsigned char val);
-            void appendShort(unsigned short val);
-            void appendInt(unsigned int val);
-            void appendString(const tstring& str);
-            void appendBuffer(const SocketBuffer& buffer);
+    void appendByte(unsigned char val);
+    void appendShort(unsigned short val);
+    void appendInt(unsigned int val);
+    void appendString(const tstring& str);
+    void appendBuffer(const SocketBuffer& buffer);
 
-        private:
-          // Data
-            std::size_t maxsize;
-            std::size_t size;
-            std::size_t pos;
-            char *buffer;
+private:
+    // Data
+    std::size_t maxsize;
+    std::size_t size;
+    std::size_t pos;
+    char *buffer;
 
-            SocketBuffer(SocketBuffer const & rhs);
-            SocketBuffer& operator= (SocketBuffer const& rhs);
-        };
+    SocketBuffer(SocketBuffer const & rhs);
+    SocketBuffer& operator= (SocketBuffer const& rhs);
+};
 
-    } // end namespace helpers
+} // end namespace helpers
 } // end namespace log4cplus
 
 #endif // LOG4CPLUS_HELPERS_SOCKET_HEADER_
-
