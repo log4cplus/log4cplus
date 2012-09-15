@@ -86,6 +86,20 @@ namespace log4cplus
      * \sa Appender
      * </dd>
      *
+     * <dt><tt>Locale</tt></dt>
+     * <dd>This property specifies a locale name that will be imbued
+     * into output stream. Locale can be specified either by system
+     * specific locale name, e.g., <tt>en_US.UTF-8</tt>, or by one of
+     * four recognized keywords: <tt>GLOBAL</tt>, <tt>DEFAULT</tt>
+     * (which is an alias for <tt>GLOBAL</tt>), <tt>USER</tt> and
+     * <tt>CLASSIC</tt>. When specified locale is not available,
+     * <tt>GLOBAL</tt> is used instead. It is possible to register
+     * additional locale keywords by registering an instance of
+     * <code>spi::LocaleFactory</code> in
+     * <code>spi::LocaleFactoryRegistry</code>.
+     * \sa spi::getLocaleFactoryRegistry()
+     * </dd>
+     *
      * </dl>
      */
     class LOG4CPLUS_EXPORT FileAppender : public Appender {
@@ -145,6 +159,7 @@ namespace log4cplus
 
         log4cplus::tofstream out;
         log4cplus::tstring filename;
+        std::string localeName;
 
         log4cplus::helpers::Time reopen_time;
 
