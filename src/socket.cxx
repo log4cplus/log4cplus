@@ -188,6 +188,18 @@ Socket::write(const SocketBuffer& buffer)
 }
 
 
+bool
+Socket::write(const std::string & buffer)
+{
+    long retval = helpers::write (sock, buffer);
+    if (retval <= 0)
+        close();
+
+    return retval > 0;
+}
+
+
+
 
 
 //////////////////////////////////////////////////////////////////////////////

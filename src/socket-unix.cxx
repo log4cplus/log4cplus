@@ -322,6 +322,19 @@ write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 }
 
 
+long
+write(SOCKET_TYPE sock, const std::string & buffer)
+{
+#if defined(MSG_NOSIGNAL)
+    int flags = MSG_NOSIGNAL;
+#else
+    int flags = 0;
+#endif
+    return ::send (to_os_socket (sock), buffer.c_str (), buffer.size (),
+        flags);
+}
+
+
 tstring
 getHostname (bool fqdn)
 {
