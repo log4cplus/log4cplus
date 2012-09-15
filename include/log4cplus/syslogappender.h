@@ -109,6 +109,7 @@ namespace log4cplus
         SysLogAppender& operator=(const SysLogAppender&);
 
         std::string identStr;
+        tstring hostname;
     };
 
 } // end namespace log4cplus
