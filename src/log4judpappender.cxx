@@ -239,15 +239,10 @@ Log4jUdpAppender::append(const spi::InternalLoggingEvent& event)
            << event.getLine()
            << LOG4CPLUS_TEXT("\"/>")
            << LOG4CPLUS_TEXT("</log4j:event>");
-    
-    LOG4CPLUS_TSTRING_TO_STRING (buffer.str ()).swap (output_buf);
 
-    std::size_t bufferSize = output_buf.size ();
-    helpers::SocketBuffer socketBuffer(bufferSize);
-    socketBuffer.setSize(bufferSize);
-    std::memcpy(socketBuffer.getBuffer(), output_buf.c_str(), bufferSize);
+    LOG4CPLUS_TSTRING_TO_STRING (buffer.str ()).swap (appender_sp.chstr);
 
-    bool ret = socket.write(socketBuffer);
+    bool ret = socket.write(appender_sp.chstr);
     if (!ret)
     {
         helpers::getLogLog().error(

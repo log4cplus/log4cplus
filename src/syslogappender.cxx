@@ -228,6 +228,7 @@ SysLogAppender::SysLogAppender(const tstring& id)
     // the address of the c_str() result remains stable for openlog &
     // co to use even if we use wstrings.
     , identStr(LOG4CPLUS_TSTRING_TO_STRING (id) )
+    , hostname (helpers::getHostname (true))
 {
     ::openlog(useIdent(identStr), 0, 0);
 }
@@ -240,6 +241,7 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
     , facility (0)
     , appendFunc (0)
     , port (0)
+    , hostname (helpers::getHostname (true))
 {
     ident = properties.getProperty( LOG4CPLUS_TEXT("ident") );
     facility = parseFacility (
@@ -284,6 +286,7 @@ SysLogAppender::SysLogAppender(const tstring& id, const tstring & h,
     // the address of the c_str() result remains stable for openlog &
     // co to use even if we use wstrings.
     , identStr(LOG4CPLUS_TSTRING_TO_STRING (id) )
+    , hostname (helpers::getHostname (true))
 { }
 
 
@@ -391,7 +394,7 @@ SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
         << LOG4CPLUS_TEXT (' ')
         << event.getTimestamp ().getFormattedTime (remoteTimeFormat, true)
         // HOSTNAME
-        << LOG4CPLUS_TEXT (' ') << helpers::getHostname (true)
+        << LOG4CPLUS_TEXT (' ') << hostname
         // APP-NAME
         << LOG4CPLUS_TEXT (' ') << ident
         // PROCID
@@ -405,13 +408,10 @@ SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
     // MSG
     layout->formatAndAppend (appender_sp.oss, event);
 
-    std::string str (LOG4CPLUS_TSTRING_TO_STRING (appender_sp.oss.str ()));
-    std::size_t const str_size = str.size ();
-    helpers::SocketBuffer sbuf (str_size);
-    sbuf.setSize (str_size);
-    std::memcpy (sbuf.getBuffer (), str.c_str (), str_size);
-
-    bool ret = syslogSocket.write (sbuf);
+    LOG4CPLUS_TSTRING_TO_STRING (appender_sp.oss.str ())
+        .swap (appender_sp.chstr);
+    
+    bool ret = syslogSocket.write (appender_sp.chstr);
     if (! ret)
     {
         helpers::getLogLog ().warn (

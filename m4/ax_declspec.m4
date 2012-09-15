@@ -76,8 +76,8 @@ dnl This typically succeeds on *NIX platforms with GCC or Clang.
 
 AS_VAR_SET_IF([continue_checks],
 [
-AC_CACHE_CHECK([for __attribute__((visibility("default")))
-  and __attribute__((visibility("hidden")))], [ac_cv__attribute__visibility],
+AC_CACHE_CHECK([for __attribute__((visibility("default")))dnl
+ and __attribute__((visibility("hidden")))], [ac_cv__attribute__visibility],
 [
   AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM(

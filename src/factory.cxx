@@ -43,33 +43,99 @@ namespace log4cplus {
     
 namespace spi {
 
-    BaseFactory::~BaseFactory()
+BaseFactory::~BaseFactory()
+{ }
+
+
+AppenderFactory::AppenderFactory()
+{ }
+
+AppenderFactory::~AppenderFactory()
+{ }
+
+
+LayoutFactory::LayoutFactory()
+{ }
+
+LayoutFactory::~LayoutFactory()
+{ }
+
+
+FilterFactory::FilterFactory()
+{ }
+
+FilterFactory::~FilterFactory()
+{ }
+
+
+LocaleFactory::LocaleFactory()
+{ }
+
+LocaleFactory::~LocaleFactory()
+{ }
+
+
+LoggerFactory::~LoggerFactory()
+{ }
+
+
+namespace
+{
+
+class GlobalLocale
+    : public LocalFactoryBase<LocaleFactory>
+{
+public:
+    GlobalLocale (tchar const * n)
+        : LocalFactoryBase<LocaleFactory> (n)
     { }
 
+    virtual
+    ProductPtr
+    createObject (const log4cplus::helpers::Properties &)
+    {
+        return std::locale ();
+    }
+};
 
-    AppenderFactory::AppenderFactory()
+
+class UserLocale
+    : public LocalFactoryBase<LocaleFactory>
+{
+public:
+    UserLocale (tchar const * n)
+        : LocalFactoryBase<LocaleFactory> (n)
     { }
 
-    AppenderFactory::~AppenderFactory()
+    virtual
+    ProductPtr
+    createObject (const log4cplus::helpers::Properties &)
+    {
+        return std::locale ("");
+    }
+};
+
+
+class ClassicLocale
+    : public LocalFactoryBase<LocaleFactory>
+{
+public:
+    ClassicLocale (tchar const * n)
+        : LocalFactoryBase<LocaleFactory> (n)
     { }
 
-
-    LayoutFactory::LayoutFactory()
-    { }
-
-    LayoutFactory::~LayoutFactory()
-    { }
-
-    
-    FilterFactory::FilterFactory()
-    { }
-
-    FilterFactory::~FilterFactory()
-    { }
+    virtual
+    ProductPtr
+    createObject (const log4cplus::helpers::Properties &)
+    {
+        return std::locale::classic ();
+    }
+};
 
 
-    LoggerFactory::~LoggerFactory()
-    { }
+} // namespace
+
+
 
 
 } // namespace spi
@@ -109,6 +175,12 @@ void initializeFactoryRegistry()
     LOG4CPLUS_REG_FILTER (reg3, LogLevelMatchFilter);
     LOG4CPLUS_REG_FILTER (reg3, LogLevelRangeFilter);
     LOG4CPLUS_REG_FILTER (reg3, StringMatchFilter);
+
+    spi::LocaleFactoryRegistry& reg4 = spi::getLocaleFactoryRegistry();
+    LOG4CPLUS_REG_LOCALE (reg4, "GLOBAL", spi::GlobalLocale);
+    LOG4CPLUS_REG_LOCALE (reg4, "DEFAULT", spi::GlobalLocale);
+    LOG4CPLUS_REG_LOCALE (reg4, "USER", spi::UserLocale);
+    LOG4CPLUS_REG_LOCALE (reg4, "CLASSIC", spi::ClassicLocale);
 }
 
 

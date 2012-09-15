@@ -4210,7 +4210,7 @@ esac
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=4:0:0
+LT_VERSION=5:0:0
 LT_RELEASE=1.1
 
 
@@ -7168,10 +7168,8 @@ fi
 
 if ${continue_checks+:} false; then :
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __attribute__((visibility(\"default\")))
-  and __attribute__((visibility(\"hidden\")))" >&5
-$as_echo_n "checking for __attribute__((visibility(\"default\")))
-  and __attribute__((visibility(\"hidden\")))... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __attribute__((visibility(\"default\"))) and __attribute__((visibility(\"hidden\")))" >&5
+$as_echo_n "checking for __attribute__((visibility(\"default\"))) and __attribute__((visibility(\"hidden\")))... " >&6; }
 if ${ac_cv__attribute__visibility+:} false; then :
   $as_echo_n "(cached) " >&6
 else

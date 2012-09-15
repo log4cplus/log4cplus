@@ -27,6 +27,7 @@
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/fileinfo.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/spi/factory.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/internal/internal.h>
 #include <algorithm>
@@ -183,7 +184,30 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
     }
 } // end rolloverFiles()
 
+
+static
+std::locale
+get_locale_by_name (tstring const & locale_name) try
+{
+    spi::LocaleFactoryRegistry & reg = spi::getLocaleFactoryRegistry ();
+    spi::LocaleFactory * fact = reg.get (locale_name);
+    if (fact)
+    {
+        helpers::Properties props;
+        props.setProperty (LOG4CPLUS_TEXT ("Locale"), locale_name);
+        return fact->createObject (props);
+    }
+    else
+        return std::locale (LOG4CPLUS_TSTRING_TO_STRING (locale_name).c_str ());
 }
+catch (std::runtime_error const &)
+{
+    helpers::getLogLog ().error (
+        LOG4CPLUS_TEXT ("Failed to create locale " + locale_name));
+    return std::locale ();
+}
+
+} // namespace
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -196,6 +220,7 @@ FileAppender::FileAppender(const tstring& filename_,
     , reopenDelay(1)
     , bufferSize (0)
     , buffer (0)
+    , localeName (LOG4CPLUS_TEXT ("DEFAULT"))
 {
     init(filename_, mode_, internal::empty_str);
 }
@@ -228,6 +253,9 @@ FileAppender::FileAppender(const Properties& props,
         lockFileName = fn;
         lockFileName += LOG4CPLUS_TEXT(".lock");
     }
+
+    localeName = props.getProperty (LOG4CPLUS_TEXT ("Locale"),
+        LOG4CPLUS_TEXT ("DEFAULT"));
 
     init(fn, (app ? std::ios::app : std::ios::trunc), lockFileName);
 }
@@ -265,6 +293,7 @@ FileAppender::init(const tstring& filename_,
     }
 
     open(mode_);
+    imbue (get_locale_by_name (localeName));
 
     if(!out.good()) {
         getErrorHandler()->error(  LOG4CPLUS_TEXT("Unable to open file: ") 

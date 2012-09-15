@@ -315,6 +315,17 @@ write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 }
 
 
+long
+write(SOCKET_TYPE sock, const std::string & buffer)
+{
+    long ret = ::send (to_os_socket (sock), buffer.c_str (),
+        static_cast<int>(buffer.size ()), 0);
+    if (ret == SOCKET_ERROR)
+        set_last_socket_error (WSAGetLastError ());
+    return ret;
+}
+
+
 tstring
 getHostname (bool fqdn)
 {

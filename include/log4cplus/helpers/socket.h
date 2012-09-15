@@ -92,6 +92,7 @@ namespace log4cplus {
           // methods
             virtual bool read(SocketBuffer& buffer);
             virtual bool write(const SocketBuffer& buffer);
+            virtual bool write(const std::string & buffer);
         };
 
 
@@ -120,7 +121,10 @@ namespace log4cplus {
         LOG4CPLUS_EXPORT int closeSocket(SOCKET_TYPE sock);
 
         LOG4CPLUS_EXPORT long read(SOCKET_TYPE sock, SocketBuffer& buffer);
-        LOG4CPLUS_EXPORT long write(SOCKET_TYPE sock, const SocketBuffer& buffer);
+        LOG4CPLUS_EXPORT long write(SOCKET_TYPE sock,
+            const SocketBuffer& buffer);
+        LOG4CPLUS_EXPORT long write(SOCKET_TYPE sock,
+            const std::string & buffer);
 
         LOG4CPLUS_EXPORT tstring getHostname (bool fqdn);
         LOG4CPLUS_EXPORT int setTCPNoDelay (SOCKET_TYPE, bool);

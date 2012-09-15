@@ -115,6 +115,25 @@ namespace log4cplus {
         };
 
 
+        /**
+         * This abstract class defines the "Factory" interface to
+         * create std::locale instances.
+         */
+        class LOG4CPLUS_EXPORT LocaleFactory
+            : public BaseFactory
+        {
+        public:
+            typedef std::locale ProductType;
+            typedef std::locale ProductPtr;
+
+            LocaleFactory();
+            virtual ~LocaleFactory() = 0;
+
+            //! \returns std::locale instance
+            virtual ProductPtr createObject (
+                const log4cplus::helpers::Properties & props) = 0;
+        };
+
 
         /**
          * This template class is used as a "Factory Registry".  Objects are
@@ -163,6 +182,7 @@ namespace log4cplus {
         typedef FactoryRegistry<AppenderFactory> AppenderFactoryRegistry;
         typedef FactoryRegistry<LayoutFactory> LayoutFactoryRegistry;
         typedef FactoryRegistry<FilterFactory> FilterFactoryRegistry;
+        typedef FactoryRegistry<LocaleFactory> LocaleFactoryRegistry;
 
 
         /**
@@ -179,6 +199,11 @@ namespace log4cplus {
          * Returns the "singleton" <code>FilterFactoryRegistry</code>.
          */
         LOG4CPLUS_EXPORT FilterFactoryRegistry& getFilterFactoryRegistry();
+
+        /**
+         * Returns the "singleton" <code>LocaleFactoryRegistry</code>.
+         */
+        LOG4CPLUS_EXPORT LocaleFactoryRegistry& getLocaleFactoryRegistry();
 
 
         template <typename ProductFactoryBase>
@@ -237,6 +262,9 @@ namespace log4cplus {
         LOG4CPLUS_REG_PRODUCT (reg, "log4cplus::spi::", filtername, log4cplus::spi::, \
             log4cplus::spi::FilterFactory)
 
+        #define LOG4CPLUS_REG_LOCALE(reg, name, factory)            \
+            reg.put (std::auto_ptr<log4cplus::spi::LocaleFactory> ( \
+                    new factory (name)))
     } // namespace spi
 }
 

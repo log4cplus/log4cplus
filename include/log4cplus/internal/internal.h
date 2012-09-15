@@ -104,6 +104,7 @@ struct appender_sratch_pad
 
     tostringstream oss;
     tstring str;
+    std::string chstr;
 };
 
 
