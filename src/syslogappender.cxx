@@ -405,13 +405,10 @@ SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
     // MSG
     layout->formatAndAppend (appender_sp.oss, event);
 
-    std::string str (LOG4CPLUS_TSTRING_TO_STRING (appender_sp.oss.str ()));
-    std::size_t const str_size = str.size ();
-    helpers::SocketBuffer sbuf (str_size);
-    sbuf.setSize (str_size);
-    std::memcpy (sbuf.getBuffer (), str.c_str (), str_size);
-
-    bool ret = syslogSocket.write (sbuf);
+    LOG4CPLUS_TSTRING_TO_STRING (appender_sp.oss.str ())
+        .swap (appender_sp.chstr);
+    
+    bool ret = syslogSocket.write (appender_sp.chstr);
     if (! ret)
     {
         helpers::getLogLog ().warn (
