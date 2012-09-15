@@ -82,6 +82,7 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
 InternalLoggingEvent::InternalLoggingEvent ()
     : ll (NOT_SET_LOG_LEVEL)
     , function ()
+    , line (0)
     , threadCached(false)
     , thread2Cached(false)
     , ndcCached(false)

@@ -240,6 +240,7 @@ Thread::Thread()
     : flags (0)
 #if defined(LOG4CPLUS_USE_WIN32_THREADS)
     , handle (INVALID_HANDLE_VALUE)
+    , thread_id (0)
 #endif
 {
 }
