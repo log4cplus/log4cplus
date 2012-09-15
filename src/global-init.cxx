@@ -67,6 +67,7 @@ struct DefaultContext
     spi::AppenderFactoryRegistry appender_factory_registry;
     spi::LayoutFactoryRegistry layout_factory_registry;
     spi::FilterFactoryRegistry filter_factory_registry;
+    spi::LocaleFactoryRegistry locale_factory_registry;
 };
 
 
@@ -210,6 +211,13 @@ FilterFactoryRegistry &
 getFilterFactoryRegistry ()
 {
     return get_dc ()->filter_factory_registry;
+}
+
+
+LocaleFactoryRegistry &
+getLocaleFactoryRegistry()
+{
+    return get_dc ()->locale_factory_registry;
 }
 
 
