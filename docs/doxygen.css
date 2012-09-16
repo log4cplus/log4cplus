@@ -798,3 +798,20 @@ dl.bug
 	border-bottom: 1px solid #5373B4;
 }
 
+ul#top-links {
+	text-align: center;
+}
+
+ul#top-links li {
+	display: inline;
+	margin-left: 0.10em;
+	margin-right: 0.10em;
+}
+
+ul#top-links li:before {
+	content: "[ ";
+}
+
+ul#top-links li:after {
+	content: " ]";
+}
