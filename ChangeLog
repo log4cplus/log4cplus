@@ -1,3 +1,28 @@
+log4cplus 1.1.0-RC10
+
+- Fixed non-STLPort4 builds with Solaris Studio. Switch
+  '-library=stlport4' is only added if CXXFLAGS does not already
+  contain a switch matching -library=(stlport4|stdcxx4|Cstd).
+
+- Fixed --disable-shared MinGW builds.
+
+- Fixed non-working MinGW DLL binaries. DllMain() was not being called
+  because of missing extern "C" in its definition.
+
+- CMake build configuration checks have been improved. (Chernyshev
+  Vyacheslav)
+
+- GCC switch -O2 is only added if CXXFLAGS does not already contain
+  any other -O.
+
+- Improved logging speed using SysLogAppender and Log4jUdpAppender by
+  optimizations in both the loggers and in common sockets code.
+
+- FileAppender locale can now be specified in properties files using
+  Locale property. See FileAppender Doxygen documentation for more
+  details.
+
+
 log4cplus 1.1.0-RC9
 
 - Improved Log4jUdpAppender compatibility with Chainsaw.
