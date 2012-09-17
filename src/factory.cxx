@@ -177,10 +177,10 @@ void initializeFactoryRegistry()
     LOG4CPLUS_REG_FILTER (reg3, StringMatchFilter);
 
     spi::LocaleFactoryRegistry& reg4 = spi::getLocaleFactoryRegistry();
-    LOG4CPLUS_REG_LOCALE (reg4, "GLOBAL", spi::GlobalLocale);
-    LOG4CPLUS_REG_LOCALE (reg4, "DEFAULT", spi::GlobalLocale);
-    LOG4CPLUS_REG_LOCALE (reg4, "USER", spi::UserLocale);
-    LOG4CPLUS_REG_LOCALE (reg4, "CLASSIC", spi::ClassicLocale);
+    LOG4CPLUS_REG_LOCALE (reg4, LOG4CPLUS_TEXT("GLOBAL"), spi::GlobalLocale);
+    LOG4CPLUS_REG_LOCALE (reg4, LOG4CPLUS_TEXT("DEFAULT"), spi::GlobalLocale);
+    LOG4CPLUS_REG_LOCALE (reg4, LOG4CPLUS_TEXT("USER"), spi::UserLocale);
+    LOG4CPLUS_REG_LOCALE (reg4, LOG4CPLUS_TEXT("CLASSIC"), spi::ClassicLocale);
 }
 
 
