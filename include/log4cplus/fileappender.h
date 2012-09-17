@@ -159,7 +159,7 @@ namespace log4cplus
 
         log4cplus::tofstream out;
         log4cplus::tstring filename;
-        std::string localeName;
+        log4cplus::tstring localeName;
 
         log4cplus::helpers::Time reopen_time;
 
