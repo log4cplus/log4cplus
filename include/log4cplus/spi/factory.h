@@ -37,6 +37,7 @@
 #include <log4cplus/spi/objectregistry.h>
 #include <memory>
 #include <vector>
+#include <locale>
 
 
 namespace log4cplus {
