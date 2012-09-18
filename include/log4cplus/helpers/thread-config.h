@@ -28,7 +28,9 @@
 #endif
 
 #if defined (LOG4CPLUS_USE_PTHREADS)
-// Nothing.
+#   if defined (__APPLE__)
+#     define LOG4CPLUS_USE_NAMED_POSIX_SEMAPHORE
+#   endif
 
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
 #   if defined (_WIN32_WINNT) && _WIN32_WINNT >= 0x0600

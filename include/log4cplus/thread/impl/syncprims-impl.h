@@ -44,6 +44,19 @@
 #  include <errno.h>
 #  include <pthread.h>
 #  include <semaphore.h>
+#  if defined (LOG4CPLUS_USE_NAMED_POSIX_SEMAPHORE)
+#    include <sstream>
+#    include <string>
+#    if defined (LOG4CPLUS_HAVE_SYS_TYPES_H)
+#      include <sys/types.h>
+#    endif
+#    if defined (LOG4CPLUS_HAVE_UNISTD_H)
+#      include <unistd.h>
+#    endif
+#  endif
+#  if defined (LOG4CPLUS_HAVE_FCNTL_H)
+#    include <fcntl.h>
+#  endif
 #  include <log4cplus/helpers/timehelper.h>
 
 #endif
@@ -101,7 +114,11 @@ public:
 
 private:
 #if defined (LOG4CPLUS_USE_PTHREADS)
+#  if defined (LOG4CPLUS_USE_NAMED_POSIX_SEMAPHORE)
+    sem_t * sem;
+#  else
     mutable sem_t sem;
+#  endif
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS)
     HANDLE sem;
 #endif
