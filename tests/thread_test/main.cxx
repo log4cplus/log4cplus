@@ -55,20 +55,20 @@ private:
     Logger logger;
 };
 
-SlowObject *global;
-
 
 class TestThread : public AbstractThread {
 public:
-    TestThread(tstring n) 
-        : name(n), logger(Logger::getInstance(LOG4CPLUS_TEXT("test.TestThread"))) 
-     {
-     }
+    TestThread (tstring const & n, SlowObject * so) 
+        : name(n)
+        , slow(so)
+        , logger(Logger::getInstance(LOG4CPLUS_TEXT("test.TestThread"))) 
+     { }
 
     virtual void run();
 
 private:
     tstring name;
+    SlowObject * slow;
     Logger logger;
 };
 
@@ -76,10 +76,9 @@ private:
 int
 main() 
 {
-    auto_ptr<SlowObject> globalContainer(new SlowObject());
-    global = globalContainer.get();
-
-    try {
+    try
+    {    
+        auto_ptr<SlowObject> slowObject(new SlowObject());
         log4cplus::helpers::LogLog::getLogLog()->setInternalDebugging(true);
         Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("main"));
         Logger::getRoot().setLogLevel(INFO_LOG_LEVEL);
@@ -98,7 +97,7 @@ main()
         for(i=0; i<NUM_THREADS; ++i) {
             tostringstream s;
             s << "Thread-" << i;
-            threads[i] = new TestThread(s.str());
+            threads[i] = new TestThread(s.str(), slowObject.get());
         }
 
         for(i=0; i<NUM_THREADS; ++i) {
@@ -135,13 +134,13 @@ TestThread::run()
         LOG4CPLUS_DEBUG(logger, "Entering Run()...");
         for(int i=0; i<NUM_LOOPS; ++i) {
             NDCContextCreator _ndc(LOG4CPLUS_TEXT("loop"));
-            global->doSomething();
+            slow->doSomething();
         }
         LOG4CPLUS_DEBUG(logger, "Exiting run()...");
 
         ndc.remove();
     }
-    catch(exception& e) {
+    catch(std::exception const & e) {
         LOG4CPLUS_FATAL(logger, "TestThread.run()- Exception occurred: " << e.what());
     }
     catch(...) {
@@ -149,4 +148,3 @@ TestThread::run()
     }
     LOG4CPLUS_WARN(logger, name << " TestThread.run()- Finished");
 } // end "run"
-

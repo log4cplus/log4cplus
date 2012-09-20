@@ -310,6 +310,7 @@ ptd_cleanup_func (void * arg)
     internal::per_thread_data * const arg_ptd
         = static_cast<internal::per_thread_data *>(arg);
     internal::per_thread_data * const ptd = internal::get_ptd (false);
+    (void) ptd;
 
     // Either it is a dummy value or it should be the per thread data
     // pointer we get from internal::get_ptd().
