@@ -30,6 +30,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/helpers/stringhelper.h>
 
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -154,25 +155,34 @@ openSocket(unsigned short port, SocketState& state)
         return INVALID_SOCKET_VALUE;
     }
 
-    struct sockaddr_in server;
+    struct sockaddr_in server = { };
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = INADDR_ANY;
     server.sin_port = htons(port);
 
     int optval = 1;
     socklen_t optlen = sizeof (optval);
-    setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, optlen );
+    int ret = setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, optlen );
+    if (ret != 0)
+    {
+        helpers::getLogLog ().warn ("setsockopt() failed: "
+            + helpers::convertIntegerToString (errno));
+    }
 
     int retval = bind(sock, reinterpret_cast<struct sockaddr*>(&server),
         sizeof(server));
     if (retval < 0)
-        return INVALID_SOCKET_VALUE;
+        goto error;
 
     if (::listen(sock, 10))
-        return INVALID_SOCKET_VALUE;
+        goto error;
 
     state = ok;
     return to_log4cplus_socket (sock);
+
+error:
+    close (sock);
+    return INVALID_SOCKET_VALUE;
 }
 
 
