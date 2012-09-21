@@ -155,7 +155,7 @@ openSocket(unsigned short port, SocketState& state)
         return INVALID_SOCKET_VALUE;
     }
 
-    struct sockaddr_in server = { };
+    struct sockaddr_in server = sockaddr_in ();
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = INADDR_ANY;
     server.sin_port = htons(port);
