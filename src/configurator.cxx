@@ -698,7 +698,7 @@ ConfigurationWatchDogThread::checkForFileModification()
             return false;
 
         helpers::Time linkModTime(fileStatus.st_mtime);
-        modified = (linkModTime > lastModTime);
+        modified = (linkModTime > fi.mtime);
     }
 #endif
 
