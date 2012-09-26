@@ -91,13 +91,8 @@ HierarchyLocker::resetConfiguration()
     {
         Logger & logger = *it;
         
-        // We need to temporarilly unlock appender_list_mutex because
-        // closeNestedAppenders() and removeAllAppenders() lock it themselves.
-
-        logger.value->appender_list_mutex.unlock ();
         logger.closeNestedAppenders();
         logger.removeAllAppenders();
-        it->value->appender_list_mutex.lock ();
         
         logger.setLogLevel(NOT_SET_LOG_LEVEL);
         logger.setAdditivity(true);
