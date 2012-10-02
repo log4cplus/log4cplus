@@ -1,3 +1,14 @@
+log4cplus 1.1.0
+
+- Fixed MacOS X support - Reimplemented semaphores using named ones
+  for Apple builds.
+
+- Fixed resource leak on failure in openSocket().
+
+- Improved configuration file modification check to include file size,
+  in addition to file modification time.
+
+
 log4cplus 1.1.0-RC10
 
 - Fixed non-STLPort4 builds with Solaris Studio. Switch

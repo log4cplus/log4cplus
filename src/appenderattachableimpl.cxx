@@ -67,12 +67,12 @@ AppenderAttachableImpl::~AppenderAttachableImpl()
 void
 AppenderAttachableImpl::addAppender(SharedAppenderPtr newAppender)
 {
-    thread::MutexGuard guard (appender_list_mutex);
-
     if(newAppender == NULL) {
         getLogLog().warn( LOG4CPLUS_TEXT("Tried to add NULL appender") );
         return;
     }
+
+    thread::MutexGuard guard (appender_list_mutex);
 
     ListType::iterator it = 
         std::find(appenderList.begin(), appenderList.end(), newAppender);
