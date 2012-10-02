@@ -596,10 +596,13 @@ public:
         : PropertyConfigurator(file)
         , waitMillis(millis < 1000 ? 1000 : millis)
         , shouldTerminate(false)
-        , lastModTime(helpers::Time::gettimeofday())
         , lock(NULL)
     {
-        updateLastModTime();
+        lastFileInfo.mtime = helpers::Time::gettimeofday ();
+        lastFileInfo.size = 0;
+        lastFileInfo.is_link = false;
+
+        updateLastModInfo();
     }
 
     virtual ~ConfigurationWatchDogThread ()
@@ -617,7 +620,7 @@ protected:
     virtual void addAppender(Logger &logger, SharedAppenderPtr& appender);
     
     bool checkForFileModification();
-    void updateLastModTime();
+    void updateLastModInfo();
     
 private:
     ConfigurationWatchDogThread (ConfigurationWatchDogThread const &);
@@ -626,7 +629,7 @@ private:
 
     unsigned int const waitMillis;
     thread::ManualResetEvent shouldTerminate;
-    helpers::Time lastModTime;
+    helpers::FileInfo lastFileInfo;
     HierarchyLocker* lock;
 };
 
@@ -645,7 +648,7 @@ ConfigurationWatchDogThread::run()
             // reconfigure the Hierarchy
             theLock.resetConfiguration();
             reconfigure();
-            updateLastModTime();
+            updateLastModInfo();
 
             // release the lock
             lock = NULL;
@@ -683,7 +686,8 @@ ConfigurationWatchDogThread::checkForFileModification()
     if (helpers::getFileInfo (&fi, propertyFilename) != 0)
         return false;
 
-    bool modified = (fi.mtime > lastModTime);
+    bool modified = fi.mtime > lastFileInfo.mtime
+        || fi.size != lastFileInfo.size;
 
 #if defined(LOG4CPLUS_HAVE_LSTAT)
     if (!modified && fi.is_link)
@@ -694,7 +698,7 @@ ConfigurationWatchDogThread::checkForFileModification()
             return false;
 
         helpers::Time linkModTime(fileStatus.st_mtime);
-        modified = (linkModTime > lastModTime);
+        modified = (linkModTime > fi.mtime);
     }
 #endif
 
@@ -704,12 +708,12 @@ ConfigurationWatchDogThread::checkForFileModification()
 
 
 void
-ConfigurationWatchDogThread::updateLastModTime()
+ConfigurationWatchDogThread::updateLastModInfo()
 {
     helpers::FileInfo fi;
 
     if (helpers::getFileInfo (&fi, propertyFilename) == 0)
-        lastModTime = fi.mtime;
+        lastFileInfo = fi;
 }
 
 
