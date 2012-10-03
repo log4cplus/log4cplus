@@ -9,6 +9,7 @@ AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.12 no-define nostdinc gnu -Wall])
+AC_CONFIG_TESTDIR([tests])
 AM_PROG_AR
 
 #
@@ -527,6 +528,7 @@ AC_CONFIG_FILES([Makefile
            src/Makefile
            loggingserver/Makefile
            qt4debugappender/Makefile
+           tests/atlocal
            tests/Makefile
            tests/appender_test/Makefile
            tests/configandwatch_test/Makefile
@@ -544,6 +546,8 @@ AC_CONFIG_FILES([Makefile
            tests/socket_test/Makefile
            tests/thread_test/Makefile
            tests/timeformat_test/Makefile])
+
+AM_MISSING_PROG([AUTOM4TE], [autom4te])
 
 AC_SUBST([LOG4CPLUS_PROFILING_LDFLAGS])
 AC_SUBST([LOG4CPLUS_PROFILING_CXXFLAGS])

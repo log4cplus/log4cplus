@@ -14,6 +14,7 @@ export AUTORECONF="autoreconf${AUTOCONF_SUFFIX}"
 export AUTOSCAN="autoscan${AUTOCONF_SUFFIX}"
 export AUTOUPDATE="autoupdate${AUTOCONF_SUFFIX}"
 export IFNAMES="ifnames${AUTOCONF_SUFFIX}"
+export AUTOM4TE="autom4te${AUTOCONF_SUFFIX}"
 
 export LIBTOOLIZE="libtoolize${LIBTOOL_SUFFIX}"
 export LIBTOOL="libtool${LIBTOOL_SUFFIX}"
