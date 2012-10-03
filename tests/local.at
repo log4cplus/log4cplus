@@ -1,0 +1,10 @@
+m4_define([ATX_COMPILE_CXX], [
+  AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS -c "$1"])
+])
+
+
+m4_define([ATX_COMPILE_CXX_HEADER], [
+  AT_CHECK(
+    [AS_ECHO([["#include \"$1\""]])>test.cxx])
+  AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"])
+])

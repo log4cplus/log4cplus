@@ -1,0 +1,17 @@
+# Process with autom4te to create an -*- Autotest -*- test suite.
+
+m4_define([AT_PACKAGE_STRING],    [log4cplus])
+m4_define([AT_PACKAGE_BUGREPORT], [log4cplus-devel@lists.sourceforge.net])
+
+AT_INIT([log4cplus])
+AT_COLOR_TESTS
+
+m4_include([local.at])
+
+AT_SETUP([compiler])
+AT_CHECK([$CXX])
+AT_CLEANUP
+
+AT_SETUP([compilation])
+ATX_COMPILE_CXX_HEADER([test.h])
+AT_CLEANUP
