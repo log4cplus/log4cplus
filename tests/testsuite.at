@@ -8,6 +8,8 @@ AT_COLOR_TESTS
 
 m4_include([local.at])
 
+AT_BANNER([separate headers compilation])
+
 m4_foreach_w([HEADER], 
 [
   log4cplus/appender.h
@@ -71,6 +73,7 @@ m4_foreach_w([HEADER],
 ],
 [
   AT_SETUP([separate compilation of ]HEADER)
+  AT_KEYWORDS([headers-compilation])
   ATX_COMPILE_CXX_HEADER(HEADER)
   AT_CLEANUP
 ])
