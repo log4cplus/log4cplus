@@ -77,8 +77,9 @@ loglog_com_error (tchar const * msg, HRESULT hr)
 
 struct COMInitializer
 {
-    explicit COMInitializer (HRESULT hr = S_OK)
-        : uninit ((hr = CoInitializeEx (NULL, COINIT_MULTITHREADED)
+    explicit COMInitializer (DWORD apartment_model = COINIT_APARTMENTTHREADED,
+        HRESULT hr = S_OK)
+        : uninit ((hr = CoInitializeEx (NULL, apartment_model)
             , hr == S_OK || hr == S_FALSE))
     { }
     
@@ -125,7 +126,7 @@ public:
             CLSCTX_ALL, IID_ISpVoice, reinterpret_cast<void **>(&ispvoice));
         if (FAILED (hr))
             loglog_com_error (
-                LOG4CPLUS_TEXT ("ispvoice.CoCreateInstance(IID_ISpVoice)"),
+                LOG4CPLUS_TEXT ("CoCreateInstance(IID_ISpVoice)"),
                 hr);
 
         init_ev.signal ();
@@ -133,22 +134,15 @@ public:
         for (;;)
         {
             // wait for the event and for messages
-            DWORD dwReturn = ::MsgWaitForMultipleObjects (1, &terminate_ev,
-                FALSE, INFINITE, QS_ALLINPUT);
+            DWORD dwReturn = 0;
+            hr = ::CoWaitForMultipleHandles (0, INFINITE, 1, &terminate_ev,
+                &dwReturn);
 
             // this thread has been reawakened. Determine why
             // and handle appropriately.
-            if (dwReturn == WAIT_OBJECT_0)
+            if (hr == S_OK && dwReturn == WAIT_OBJECT_0)
                 // our event happened.
                 break;
-            else if (dwReturn == WAIT_OBJECT_0 + 1)
-            {
-                // handle windows messages to maintain
-                // client liveness
-                MSG msg;
-                while (::PeekMessage (&msg, NULL, 0, 0, PM_REMOVE))
-                    ::DispatchMessage (&msg) ;
-            }
         }
     };
 
