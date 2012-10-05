@@ -77,19 +77,18 @@ loglog_com_error (tchar const * msg, HRESULT hr)
 
 struct COMInitializer
 {
-    COMInitializer ()
-    {
-        HRESULT hr = CoInitializeEx (NULL, COINIT_MULTITHREADED);
-        uninit = hr == S_OK || hr == S_FALSE;
-    }
+    explicit COMInitializer (HRESULT hr = S_OK)
+        : uninit ((hr = CoInitializeEx (NULL, COINIT_MULTITHREADED)
+            , hr == S_OK || hr == S_FALSE))
+    { }
     
     ~COMInitializer ()
     {
         if (uninit)
-            CoUninitialize();
+            CoUninitialize ();
     }
 
-    bool uninit;
+    bool const uninit;
 };
 
 
