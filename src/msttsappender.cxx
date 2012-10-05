@@ -126,7 +126,7 @@ public:
             CLSCTX_ALL, IID_ISpVoice, reinterpret_cast<void **>(&ispvoice));
         if (FAILED (hr))
             loglog_com_error (
-                LOG4CPLUS_TEXT ("CoCreateInstance(IID_ISpVoice)"),
+                LOG4CPLUS_TEXT ("SpeachObjectThread: CoCreateInstance(IID_ISpVoice) failed"),
                 hr);
 
         init_ev.signal ();
@@ -143,6 +143,10 @@ public:
             if (hr == S_OK && dwReturn == WAIT_OBJECT_0)
                 // our event happened.
                 break;
+            else if (FAILED (hr))
+                loglog_com_error (
+                    LOG4CPLUS_TEXT ("SpeachObjectThread: CoWaitForMultipleHandles() failed"),
+                    hr);
         }
     };
 
@@ -156,7 +160,7 @@ public:
     terminate () const
     {
         if (! SetEvent (terminate_ev))
-            loglog_win32_error (LOG4CPLUS_TEXT ("SetEvent failed"), true);
+            loglog_win32_error (LOG4CPLUS_TEXT ("SpeachObjectThread: SetEvent failed"), true);
     }
 
 private:
