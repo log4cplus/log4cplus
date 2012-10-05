@@ -89,13 +89,13 @@ public:
 protected:
     virtual void append (spi::InternalLoggingEvent const &);
 
-    void init ();
-
     struct Data;
 
     Data * data;
 
 private:
+    LOG4CPLUS_PRIVATE void init ();
+
     MSTTSAppender (MSTTSAppender const &);
     MSTTSAppender & operator = (MSTTSAppender const &);
 };
