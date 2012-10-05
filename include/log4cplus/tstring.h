@@ -49,7 +49,6 @@ tostring (char const * str)
     return std::string (str);
 }
 
-
 inline
 std::string
 tostring (std::string const & str)
@@ -57,6 +56,12 @@ tostring (std::string const & str)
     return str;
 }
 
+inline
+std::string const &
+tostring (std::string & str)
+{
+    return str;
+}
 
 
 inline
@@ -69,6 +74,13 @@ towstring (wchar_t const * str)
 inline
 std::wstring
 towstring (std::wstring const & str)
+{
+    return str;
+}
+
+inline
+std::wstring const & 
+towstring (std::wstring & str)
 {
     return str;
 }
