@@ -29,6 +29,7 @@ m4_foreach_w([HEADER],
   log4cplus/loggingmacros.h
   log4cplus/loglevel.h
   log4cplus/mdc.h
+  log4cplus/msttsappender.h
   log4cplus/ndc.h
   log4cplus/nteventlogappender.h
   log4cplus/nullappender.h
