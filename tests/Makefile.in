@@ -298,6 +298,7 @@ TESTSUITE_AT = \
   hierarchy_test.at \
   loglog_test.at \
   ndc_test.at \
+  ostream_test.at \
   local.at \
   testsuite.at
 
