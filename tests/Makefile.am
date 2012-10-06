@@ -35,6 +35,7 @@ TESTSUITE_AT = \
   priority_test.at \
   propertyconfig_test.at \
   thread_test.at \
+  timeformat_test.at \
   local.at \
   testsuite.at
 

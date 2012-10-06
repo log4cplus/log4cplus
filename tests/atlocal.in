@@ -3,3 +3,4 @@ CPPFLAGS="-I$abs_top_builddir/include -I$abs_top_srcdir/include @CPPFLAGS@"
 : ${CC='@CC@'}
 : ${CXX='@CXX@'}
 : ${GREP='@GREP@'}
+: ${SED='@SED@'}
