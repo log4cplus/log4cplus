@@ -32,6 +32,7 @@ TESTSUITE_AT = \
   ndc_test.at \
   ostream_test.at \
   patternlayout_test.at \
+  priority_test.at \
   local.at \
   testsuite.at
 
