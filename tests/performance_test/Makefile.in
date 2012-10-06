@@ -52,7 +52,8 @@ build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
 DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(top_srcdir)/depcomp $(top_srcdir)/mkinstalldirs \
+	$(srcdir)/log4cplus.properties.in $(top_srcdir)/depcomp \
+	$(top_srcdir)/mkinstalldirs \
 	$(top_srcdir)/tests/Makefile.am.tests
 noinst_PROGRAMS = performance_test$(EXEEXT)
 subdir = tests/performance_test
@@ -83,7 +84,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h \
 	$(top_builddir)/include/log4cplus/config/defines.hxx
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = log4cplus.properties
 CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 am_performance_test_OBJECTS = main.$(OBJEXT)
@@ -288,6 +289,8 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
+log4cplus.properties: $(top_builddir)/config.status $(srcdir)/log4cplus.properties.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 clean-noinstPROGRAMS:
 	@list='$(noinst_PROGRAMS)'; test -n "$$list" || exit 0; \
