@@ -1,5 +1,5 @@
 m4_define([ATX_COMPILE_CXX], [
-  AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS -c "$1"])
+  AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS -c "$1"], [0], [stdout], [stderr])
 ])
 
 

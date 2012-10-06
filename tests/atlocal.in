@@ -2,5 +2,6 @@ CPPFLAGS="-I$abs_top_builddir/include -I$abs_top_srcdir/include @CPPFLAGS@"
 
 : ${CC='@CC@'}
 : ${CXX='@CXX@'}
+: ${CXXFLAGS='@CXXFLAGS@'}
 : ${GREP='@GREP@'}
 : ${SED='@SED@'}
