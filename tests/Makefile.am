@@ -19,7 +19,9 @@ else
 SUBDIRS = $(SINGLE_THREADED_TESTS)
 endif
 
-TESTSUITE = testsuite
+EXTRA_DIST = testsuite.at $(TESTSUITE) atlocal.in
+
+TESTSUITE = $(srcdir)/testsuite
 AUTOTEST = $(AUTOM4TE) --language=Autotest
 TESTSUITE_AT = \
   appender_test.at \
@@ -47,3 +49,6 @@ atconfig: $(top_builddir)/config.status
 
 check-local: atconfig atlocal $(TESTSUITE)
 	$(SHELL) $(TESTSUITE) $(TESTSUITEFLAGS)
+
+clean-local:
+	test ! -f '$(TESTSUITE)' || $(SHELL) '$(TESTSUITE)' --clean
