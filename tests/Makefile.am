@@ -33,6 +33,7 @@ TESTSUITE_AT = \
   ostream_test.at \
   patternlayout_test.at \
   priority_test.at \
+  propertyconfig_test.at \
   local.at \
   testsuite.at
 

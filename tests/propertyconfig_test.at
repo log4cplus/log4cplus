@@ -1,0 +1,7 @@
+AT_SETUP([propertyconfig_test])
+AT_KEYWORDS([appenders])
+
+AT_CHECK(["${abs_builddir}/propertyconfig_test/propertyconfig_test"], [0],
+  [ignore], [ignore])
+
+AT_CLEANUP
