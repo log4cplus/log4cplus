@@ -1,0 +1,16 @@
+List size: 2
+Loop Body: Appender name = First
+Loop Body: Appender name = Second
+List size: 1
+Loop Body: Appender name = First
+List size: 0
+Should be First: First
+Should be Second: Second
+
+DEBUG - This is a test...
+DEBUG - This is a test...
+log4cplus: Destroying appender named [First].
+log4cplus: Entering ConsoleAppender::close()..
+log4cplus: Destroying appender named [Second].
+log4cplus: Entering ConsoleAppender::close()..
+Exiting main()...
