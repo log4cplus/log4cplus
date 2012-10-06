@@ -23,6 +23,7 @@ TESTSUITE = testsuite
 AUTOTEST = $(AUTOM4TE) --language=Autotest
 TESTSUITE_AT = \
   appender_test.at \
+  configandwatch_test.at \
   local.at \
   testsuite.at
 

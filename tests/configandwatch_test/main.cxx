@@ -41,7 +41,7 @@ main()
 
         LOG4CPLUS_WARN(root, "Testing....");
 
-        for(int i=0; i<100; ++i) {
+        for(int i=0; i<4; ++i) {
             printMsgs(log_1);
             printMsgs(log_2);
             printMsgs(log_3);

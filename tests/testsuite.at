@@ -13,3 +13,4 @@ m4_include([headers.at])
 
 AT_BANNER([other tests])
 m4_include([appender_test.at])
+m4_include([configandwatch_test.at])

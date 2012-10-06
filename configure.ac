@@ -547,6 +547,8 @@ AC_CONFIG_FILES([Makefile
            tests/thread_test/Makefile
            tests/timeformat_test/Makefile])
 
+m4_include([tests/configure.m4])
+
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 
 AC_SUBST([LOG4CPLUS_PROFILING_LDFLAGS])

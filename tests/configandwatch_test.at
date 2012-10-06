@@ -1,0 +1,7 @@
+AT_SETUP([configandwatch_test])
+AT_KEYWORDS([appenders])
+
+AT_CHECK([cd "${abs_builddir}/configandwatch_test/" && ./configandwatch_test],
+  [0], [ignore], [ignore])
+
+AT_CLEANUP
