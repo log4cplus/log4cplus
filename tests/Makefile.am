@@ -29,6 +29,7 @@ TESTSUITE_AT = \
   filter_test.at \
   hierarchy_test.at \
   loglog_test.at \
+  ndc_test.at \
   local.at \
   testsuite.at
 

@@ -1,0 +1,21 @@
+AT_SETUP([ndc_test])
+AT_KEYWORDS([appenders])
+
+AT_DATA([expout],
+[[Entering main()...
+Logger: test
+DEBUG - This is a short test...
+DEBUG - This should have my password now
+DEBUG - This should NOT have my password now
+Just returned from pop...
+DEBUG - There should be no NDC...
+DEBUG - This should have my password now
+DEBUG - There should be no NDC...
+Exiting main()...
+log4cplus: Entering ConsoleAppender::close()..
+log4cplus: Destroying appender named [First].
+]])
+
+AT_CHECK(["${abs_builddir}/ndc_test/ndc_test"], [0], [expout])
+
+AT_CLEANUP
