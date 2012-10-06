@@ -28,6 +28,7 @@ TESTSUITE_AT = \
   fileappender_test.at \
   filter_test.at \
   hierarchy_test.at \
+  loglog_test.at \
   local.at \
   testsuite.at
 
