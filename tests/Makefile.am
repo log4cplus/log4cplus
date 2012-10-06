@@ -24,6 +24,7 @@ AUTOTEST = $(AUTOM4TE) --language=Autotest
 TESTSUITE_AT = \
   appender_test.at \
   configandwatch_test.at \
+  customloglevel_test.at \
   local.at \
   testsuite.at
 

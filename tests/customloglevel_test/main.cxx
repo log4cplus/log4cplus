@@ -20,7 +20,7 @@ main()
     {
     SharedAppenderPtr append_1(new ConsoleAppender());
     append_1->setName(LOG4CPLUS_TEXT("First"));
-//    append_1->setLayout( std::auto_ptr<Layout>(new TTCCLayout()) );
+    // append_1->setLayout( std::auto_ptr<Layout>(new TTCCLayout()) );
     cout << "Getting root logger...DONE" << endl;
     Logger::getRoot().addAppender(append_1);
 
@@ -33,23 +33,23 @@ main()
     LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()));
     LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()));
 
-    LOG4CPLUS_FATAL(root, "\nSetting test.subtest to WARN");
+    LOG4CPLUS_FATAL(root, "Setting test.subtest to WARN");
     subTest.setLogLevel(WARN_LOG_LEVEL);
     LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()));
     LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()));
     LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()));
 
-    LOG4CPLUS_FATAL(root, "\nSetting test to CRITICAL");
+    LOG4CPLUS_FATAL(root, "Setting test to CRITICAL");
     test.setLogLevel(CRITICAL_LOG_LEVEL);
     LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()));
     LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()));
     LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()));
 
-    LOG4CPLUS_FATAL(root, "\nSetting test.subtest to NOT_SET_LOG_LEVEL");
+    LOG4CPLUS_FATAL(root, "Setting test.subtest to NOT_SET_LOG_LEVEL");
     subTest.setLogLevel(NOT_SET_LOG_LEVEL);
     LOG4CPLUS_FATAL(root, "root: " << llm.toString(root.getChainedLogLevel()));
     LOG4CPLUS_FATAL(root, "test: " << llm.toString(test.getChainedLogLevel()));
-    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()) << '\n');
+    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()));
 
     writeLogMessage();
     cout << "Returned from writeLogMessage()..." << endl;
