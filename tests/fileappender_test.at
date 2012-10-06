@@ -1,0 +1,7 @@
+AT_SETUP([fileappender_test])
+AT_KEYWORDS([appenders])
+
+AT_CHECK(["${abs_builddir}/fileappender_test/fileappender_test"], [0],
+  [stdout], [stderr])
+
+AT_CLEANUP

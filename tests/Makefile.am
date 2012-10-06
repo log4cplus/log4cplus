@@ -25,6 +25,7 @@ TESTSUITE_AT = \
   appender_test.at \
   configandwatch_test.at \
   customloglevel_test.at \
+  fileappender_test.at \
   local.at \
   testsuite.at
 
