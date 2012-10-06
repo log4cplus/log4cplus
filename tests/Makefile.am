@@ -6,12 +6,12 @@ SINGLE_THREADED_TESTS = appender_test \
           loglog_test \
           ndc_test \
           ostream_test \
-	  patternlayout_test \
-	  performance_test \
+          patternlayout_test \
+          performance_test \
           priority_test \
-	  propertyconfig_test \
-	  socket_test \
-	  timeformat_test
+          propertyconfig_test \
+          socket_test \
+          timeformat_test
 
 if MULTI_THREADED
 SUBDIRS = $(SINGLE_THREADED_TESTS) thread_test configandwatch_test
@@ -21,7 +21,9 @@ endif
 
 TESTSUITE = testsuite
 AUTOTEST = $(AUTOM4TE) --language=Autotest
-TESTSUITE_AT = local.at \
+TESTSUITE_AT = \
+  appender_test.at \
+  local.at \
   testsuite.at
 
 $(TESTSUITE): $(TESTSUITE_AT) atconfig
