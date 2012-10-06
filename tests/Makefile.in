@@ -295,6 +295,7 @@ TESTSUITE_AT = \
   customloglevel_test.at \
   fileappender_test.at \
   filter_test.at \
+  hierarchy_test.at \
   local.at \
   testsuite.at
 
