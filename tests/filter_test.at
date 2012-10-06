@@ -1,0 +1,43 @@
+AT_SETUP([filter_test])
+AT_KEYWORDS([appenders])
+
+AT_DATA([expout],
+[[Entering main()...
+log4cplus: Just opened file: all_msgs.log
+log4cplus: Just opened file: debug_info_msgs.log
+log4cplus: Just opened file: fatal_msgs.log
+log4cplus: Just opened file: trace_msgs.log
+WARN - Testing....
+TRACE - ENTER: ::printDebug()
+DEBUG - This is a DEBUG message
+INFO - This is a INFO message
+WARN - This is a WARN message
+ERROR - This is a ERROR message
+FATAL - This is a FATAL message
+TRACE - EXIT:  ::printDebug()
+Exiting main()...
+log4cplus: Entering ConsoleAppender::close()..
+log4cplus: Destroying appender named [STDOUT].
+log4cplus: Destroying appender named [ALL_MSGS].
+log4cplus: Destroying appender named [ALL_MSGS].
+log4cplus: Destroying appender named [TRACE_MSGS].
+log4cplus: Destroying appender named [TRACE_MSGS].
+log4cplus: Destroying appender named [DEBUG_INFO_MSGS].
+log4cplus: Destroying appender named [DEBUG_INFO_MSGS].
+log4cplus: Destroying appender named [FATAL_MSGS].
+log4cplus: Destroying appender named [FATAL_MSGS].
+]])
+
+AT_CHECK([cp -f "${abs_builddir}/filter_test/log4cplus.properties" .])
+AT_CHECK(["${abs_builddir}/filter_test/filter_test"], [0], [expout], [stderr])
+
+AT_CHECK([test -s debug_info_msgs.log])
+AT_CHECK([! "$GREP" 'TRACE\|WARN\|ERROR\|FATAL' debug_info_msgs.log])
+
+AT_CHECK([test -s fatal_msgs.log])
+AT_CHECK([! "$GREP" 'TRACE\|DEBUG\|INFO\|WARN\|ERROR' fatal_msgs.log])
+
+AT_CHECK([test -s trace_msgs.log])
+AT_CHECK([! "$GREP" 'DEBUG\|INFO\|WARN\|ERROR\|FATAL' trace_msgs.log])
+
+AT_CLEANUP
