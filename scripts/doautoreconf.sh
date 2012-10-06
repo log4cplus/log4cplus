@@ -20,3 +20,4 @@ export LIBTOOLIZE="libtoolize${LIBTOOL_SUFFIX}"
 export LIBTOOL="libtool${LIBTOOL_SUFFIX}"
 
 $AUTORECONF -f
+$AUTOM4TE --language=Autotest -I tests tests/testsuite.at -o tests/testsuite
