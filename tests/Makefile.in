@@ -302,6 +302,7 @@ TESTSUITE_AT = \
   patternlayout_test.at \
   priority_test.at \
   propertyconfig_test.at \
+  thread_test.at \
   local.at \
   testsuite.at
 
