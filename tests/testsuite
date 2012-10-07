@@ -2083,9 +2083,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2129,9 +2129,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2175,9 +2175,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2221,9 +2221,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2267,9 +2267,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2313,9 +2313,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2359,9 +2359,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2405,9 +2405,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2451,9 +2451,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2497,9 +2497,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2543,9 +2543,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2589,9 +2589,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2635,9 +2635,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2681,9 +2681,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2727,9 +2727,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2773,9 +2773,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2819,9 +2819,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2865,9 +2865,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2911,9 +2911,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2957,9 +2957,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3003,9 +3003,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3049,9 +3049,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3095,9 +3095,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3141,9 +3141,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3187,9 +3187,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3233,9 +3233,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3279,9 +3279,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3325,9 +3325,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3371,9 +3371,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3417,9 +3417,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3463,9 +3463,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3509,9 +3509,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3555,9 +3555,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3601,9 +3601,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3647,9 +3647,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3693,9 +3693,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3739,9 +3739,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3785,9 +3785,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3831,9 +3831,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3877,9 +3877,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3923,9 +3923,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3969,9 +3969,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4015,9 +4015,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4061,9 +4061,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4107,9 +4107,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4153,9 +4153,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4199,9 +4199,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4245,9 +4245,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4291,9 +4291,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4337,9 +4337,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4383,9 +4383,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4429,9 +4429,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4475,9 +4475,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4521,9 +4521,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4567,9 +4567,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4613,9 +4613,9 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CXXFLAGS \$CPPFLAGS -c \"test.cxx\""
-at_fn_check_prepare_dynamic "$CXX $CXXFLAGS $CPPFLAGS -c \"test.cxx\"" "headers.at:1"
-( $at_check_trace; $CXX $CXXFLAGS $CPPFLAGS -c "test.cxx"
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter

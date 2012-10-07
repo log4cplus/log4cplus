@@ -41,8 +41,8 @@ TESTSUITE_AT = \
   local.at \
   testsuite.at
 
-$(TESTSUITE): $(TESTSUITE_AT) atconfig
-	$(AM_V_GEN) $(AUTOTEST) -I $(srcdir) $(srcdir)/testsuite.at -o $@
+$(TESTSUITE): $(TESTSUITE_AT)
+	$(AUTOTEST) -I $(srcdir) $(srcdir)/testsuite.at -o $@
 
 atconfig: $(top_builddir)/config.status
 	cd "$(top_builddir)" && ./config.status tests/$@
