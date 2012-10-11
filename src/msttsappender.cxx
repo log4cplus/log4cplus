@@ -1,6 +1,6 @@
 // Module:  Log4cplus
 // File:    msttsappender.cxx
-// Created: 5/2012
+// Created: 10/2012
 // Author:  Vaclav Zeman
 //
 //
@@ -93,26 +93,26 @@ struct COMInitializer
 };
 
 
-class SpeachObjectThread
+class SpeechObjectThread
     : public virtual log4cplus::thread::AbstractThread
 {
 public:
-    SpeachObjectThread (ISpVoice * & ispvoice_ref)
+    SpeechObjectThread (ISpVoice * & ispvoice_ref)
         : ispvoice (ispvoice_ref)
     {
         terminate_ev = CreateEvent (0, true, false, 0);
         if (! terminate_ev)
             loglog_win32_error (
-                LOG4CPLUS_TEXT ("SpeachObjectThread: CreateEvent failed"),
+                LOG4CPLUS_TEXT ("SpeechObjectThread: CreateEvent failed"),
                 true);
     }
 
 
-    ~SpeachObjectThread ()
+    ~SpeechObjectThread ()
     {
         if (! CloseHandle (terminate_ev))
             loglog_win32_error (
-                LOG4CPLUS_TEXT ("SpeachObjectThread: CloseHandle failed"));
+                LOG4CPLUS_TEXT ("SpeechObjectThread: CloseHandle failed"));
     }
 
 
@@ -126,7 +126,7 @@ public:
             CLSCTX_ALL, IID_ISpVoice, reinterpret_cast<void **>(&ispvoice));
         if (FAILED (hr))
             loglog_com_error (
-                LOG4CPLUS_TEXT ("SpeachObjectThread: CoCreateInstance(IID_ISpVoice) failed"),
+                LOG4CPLUS_TEXT ("SpeechObjectThread: CoCreateInstance(IID_ISpVoice) failed"),
                 hr);
 
         init_ev.signal ();
@@ -145,7 +145,7 @@ public:
                 break;
             else if (FAILED (hr))
                 loglog_com_error (
-                    LOG4CPLUS_TEXT ("SpeachObjectThread: CoWaitForMultipleHandles() failed"),
+                    LOG4CPLUS_TEXT ("SpeechObjectThread: CoWaitForMultipleHandles() failed"),
                     hr);
         }
     };
@@ -160,7 +160,7 @@ public:
     terminate () const
     {
         if (! SetEvent (terminate_ev))
-            loglog_win32_error (LOG4CPLUS_TEXT ("SpeachObjectThread: SetEvent failed"), true);
+            loglog_win32_error (LOG4CPLUS_TEXT ("SpeechObjectThread: SetEvent failed"), true);
     }
 
 private:
@@ -185,7 +185,7 @@ struct MSTTSAppender::Data
             ispvoice->Release ();
     }
 
-    helpers::SharedObjectPtr<SpeachObjectThread> speach_thread;
+    helpers::SharedObjectPtr<SpeechObjectThread> speech_thread;
     ISpVoice * ispvoice;
 };
 
@@ -224,19 +224,19 @@ MSTTSAppender::~MSTTSAppender ()
 void
 MSTTSAppender::init ()
 {
-    data->speach_thread = 
-        helpers::SharedObjectPtr<SpeachObjectThread> (
-            new SpeachObjectThread (data->ispvoice));
-    data->speach_thread->start ();
-    data->speach_thread->wait_init_done ();
+    data->speech_thread = 
+        helpers::SharedObjectPtr<SpeechObjectThread> (
+            new SpeechObjectThread (data->ispvoice));
+    data->speech_thread->start ();
+    data->speech_thread->wait_init_done ();
 }
 
 
 void
 MSTTSAppender::close ()
 {
-    data->speach_thread->terminate ();
-    data->speach_thread->join ();
+    data->speech_thread->terminate ();
+    data->speech_thread->join ();
 }
 
 

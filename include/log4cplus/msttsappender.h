@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // Module:  Log4cplus
-// File:    clfsappender.h
+// File:    msttsappender.h
 // Created: 10/2012
 // Author:  Vaclav Zeman
 //
