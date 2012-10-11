@@ -223,9 +223,8 @@ namespace log4cplus {
      * character. In the example above the conversion specifier
      * <b>"%-5p"</b> means the LogLevel of the logging event should be left
      * justified to a width of five characters.
-     * 
+     *
      * The recognized conversion characters are
-     * 
      * 
      * <table border="1" CELLPADDING="8">
      * <tr>
@@ -554,6 +553,18 @@ namespace log4cplus {
      * The above text is largely inspired from Peter A. Darnell and
      * Philip E. Margolis' highly recommended book "C -- a Software
      * Engineering Approach", ISBN 0-387-97389-3.
+     *
+     * <h3>Properties</h3>
+     *
+     * <dl>
+     * <dt><tt>NDCMaxDepth</tt></dt>
+     * <dd>This property limits how many deepest NDC components will
+     * be printed by <b>%%x</b> specifier.</dd>
+     *
+     * <dt><tt>ConversionPattern</tt></dt>
+     * <dd>This property specifies conversion pattern.</dd>
+     * </dl>
+     * 
      */
     class LOG4CPLUS_EXPORT PatternLayout
         : public Layout
