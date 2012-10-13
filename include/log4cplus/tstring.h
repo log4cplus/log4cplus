@@ -63,6 +63,17 @@ tostring (std::string & str)
     return str;
 }
 
+#ifdef LOG4CPLUS_HAVE_RVALUE_REFS
+inline
+std::string
+tostring (std::string && str)
+{
+    return std::move (str);
+}
+
+#endif
+
+
 
 inline
 std::wstring
@@ -84,6 +95,16 @@ towstring (std::wstring & str)
 {
     return str;
 }
+
+#ifdef LOG4CPLUS_HAVE_RVALUE_REFS
+inline
+std::wstring 
+towstring (std::wstring && str)
+{
+    return std::move (str);
+}
+
+#endif
 
 LOG4CPLUS_EXPORT std::string tostring(const std::wstring&);
 LOG4CPLUS_EXPORT std::string tostring(wchar_t const *);
