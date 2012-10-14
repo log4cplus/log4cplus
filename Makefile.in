@@ -147,7 +147,7 @@ AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
 ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
-DIST_SUBDIRS = include src loggingserver tests qt4debugappender swig
+DIST_SUBDIRS = include src loggingserver tests swig qt4debugappender
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -280,6 +280,7 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 SWIG = @SWIG@
+SWIG_FLAGS = @SWIG_FLAGS@
 SWIG_LIB = @SWIG_LIB@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@
@@ -346,7 +347,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 EXTRA_DIST = ChangeLog log4cplus.pc.in
-SUBDIRS = include src loggingserver tests $(am__append_1) swig
+SUBDIRS = include src loggingserver tests swig $(am__append_1)
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = log4cplus.pc
 all: all-recursive

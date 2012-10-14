@@ -242,6 +242,7 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 SWIG = @SWIG@
+SWIG_FLAGS = @SWIG_FLAGS@
 SWIG_LIB = @SWIG_LIB@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@
@@ -706,8 +707,9 @@ uninstall-am: uninstall-pkgpyexecLTLIBRARIES uninstall-pkgpythonPYTHON
 
 
 $(WRAPPER_CXX): $(SWIG_SOURCES)
-	$(SWIG) -c++ -python $(SWIG_PYTHON_OPT) -I$(top_srcdir)/include \
-	-I$(top_builddir)/include -I$(top_srcdir)/swig -o $(WRAPPER_CXX) \
+	$(SWIG) $(SWIG_FLAGS) -c++ -python $(SWIG_PYTHON_OPT) \
+	-I$(top_srcdir)/include -I$(top_builddir)/include \
+	-I$(top_srcdir)/swig -o $(WRAPPER_CXX) \
 	$(srcdir)/../log4cplus.swg
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

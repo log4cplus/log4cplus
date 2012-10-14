@@ -672,6 +672,7 @@ PYTHON_PREFIX
 PYTHON_VERSION
 PYTHON
 SWIG_LIB
+SWIG_FLAGS
 SWIG
 QT_FALSE
 QT_TRUE
@@ -828,6 +829,7 @@ PKG_CONFIG_PATH
 PKG_CONFIG_LIBDIR
 QT_CFLAGS
 QT_LIBS
+SWIG_FLAGS
 PYTHON
 PYTHON_VERSION'
 
@@ -1499,6 +1501,7 @@ Some influential environment variables:
               path overriding pkg-config's built-in search path
   QT_CFLAGS   C compiler flags for QT, overriding pkg-config
   QT_LIBS     linker flags for QT, overriding pkg-config
+  SWIG_FLAGS  SWIG flags
   PYTHON      the Python interpreter
   PYTHON_VERSION
               The installed Python version to use, for example '2.3'. This
@@ -10545,6 +10548,7 @@ $as_echo "$as_me: WARNING: cannot determine SWIG version" >&2;}
                         as_fn_error $? "SWIG is required to build." "$LINENO" 5
                 fi
         fi
+
 
 
 

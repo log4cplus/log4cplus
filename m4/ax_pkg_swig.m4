@@ -131,5 +131,6 @@ AC_DEFUN([AX_PKG_SWIG],[
                         m4_ifval([$3],[$3],[])
                 fi
         fi
+        AC_ARG_VAR([SWIG_FLAGS], [SWIG flags])
         AC_SUBST([SWIG_LIB])
 ])

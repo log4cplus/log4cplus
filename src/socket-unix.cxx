@@ -165,7 +165,7 @@ openSocket(unsigned short port, SocketState& state)
     int ret = setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, optlen );
     if (ret != 0)
     {
-        helpers::getLogLog ().warn ("setsockopt() failed: "
+        helpers::getLogLog ().warn (LOG4CPLUS_TEXT ("setsockopt() failed: ")
             + helpers::convertIntegerToString (errno));
     }
 

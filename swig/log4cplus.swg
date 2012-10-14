@@ -4,6 +4,12 @@
 %module log4cplus
 
 %include "std_basic_string.i"
+#ifdef SWIGPYTHON
+%include "std_string.i"
+#ifdef UNICODE
+%include "std_wstring.i"
+#endif
+#endif
 
 %{
 #include "log4cplus/tchar.h"
