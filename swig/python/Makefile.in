@@ -51,9 +51,11 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-subdir = src
-DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(top_srcdir)/depcomp $(top_srcdir)/mkinstalldirs
+DIST_COMMON = $(pkgpython_PYTHON) $(srcdir)/../Makefile.common.am \
+	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+	$(top_srcdir)/depcomp $(top_srcdir)/mkinstalldirs \
+	$(top_srcdir)/py-compile
+subdir = swig/python
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
@@ -114,31 +116,17 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)"
-LTLIBRARIES = $(lib_LTLIBRARIES)
-liblog4cplus_la_LIBADD =
-am__objects_1 =
-am__objects_2 = $(am__objects_1) appenderattachableimpl.lo appender.lo \
-	asyncappender.lo clogger.lo configurator.lo consoleappender.lo \
-	cygwin-win32.lo env.lo factory.lo fileappender.lo fileinfo.lo \
-	filter.lo global-init.lo hierarchy.lo hierarchylocker.lo \
-	layout.lo log4judpappender.lo lockfile.lo logger.lo \
-	loggerimpl.lo loggingevent.lo loggingmacros.lo loglevel.lo \
-	loglog.lo logloguser.lo mdc.lo ndc.lo nullappender.lo \
-	nteventlogappender.lo objectregistry.lo patternlayout.lo \
-	pointer.lo property.lo queue.lo rootlogger.lo sleep.lo \
-	snprintf.lo socketappender.lo socketbuffer.lo socket.lo \
-	socket-unix.lo socket-win32.lo stringhelper.lo \
-	stringhelper-clocale.lo stringhelper-cxxlocale.lo \
-	stringhelper-iconv.lo syncprims.lo syslogappender.lo \
-	threads.lo timehelper.lo tls.lo version.lo \
-	win32consoleappender.lo win32debugappender.lo
-am__objects_3 = $(am__objects_2)
-am_liblog4cplus_la_OBJECTS = $(am__objects_3)
-liblog4cplus_la_OBJECTS = $(am_liblog4cplus_la_OBJECTS)
-liblog4cplus_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
+am__installdirs = "$(DESTDIR)$(pkgpyexecdir)" \
+	"$(DESTDIR)$(pkgpythondir)"
+LTLIBRARIES = $(pkgpyexec_LTLIBRARIES)
+_log4cplus_la_DEPENDENCIES = $(top_builddir)/src/liblog4cplus.la
+am__objects_1 = _log4cplus_la-python_wrap.lo
+am__objects_2 =
+am__log4cplus_la_OBJECTS = $(am__objects_1) $(am__objects_2)
+_log4cplus_la_OBJECTS = $(am__log4cplus_la_OBJECTS)
+_log4cplus_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
-	$(CXXFLAGS) $(liblog4cplus_la_LDFLAGS) $(LDFLAGS) -o $@
+	$(CXXFLAGS) $(_log4cplus_la_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = 
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -152,22 +140,15 @@ CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
-	$(LDFLAGS) -o $@
-SOURCES = $(liblog4cplus_la_SOURCES)
-DIST_SOURCES = $(liblog4cplus_la_SOURCES)
+SOURCES = $(_log4cplus_la_SOURCES)
+DIST_SOURCES = $(_log4cplus_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+am__py_compile = PYTHON=$(PYTHON) $(SHELL) $(py_compile)
+py_compile = $(top_srcdir)/py-compile
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -325,152 +306,32 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-lib_LTLIBRARIES = liblog4cplus.la
-AM_CPPFLAGS = -DINSIDE_LOG4CPLUS \
-		-I$(top_srcdir)/include -I$(top_builddir)/include \
-		@LOG4CPLUS_NDEBUG@
+SWIG_SOURCES = \
+  $(srcdir)/../configurator.swg \
+  $(srcdir)/../hierarchy.swg \
+  $(srcdir)/../log4cplus.swg \
+  $(srcdir)/../logger.swg \
+  $(srcdir)/../loggingevent.swg
 
-AM_CXXFLAGS = -no-suppress @LOG4CPLUS_PROFILING_CXXFLAGS@
-AM_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@
-INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
-INCLUDES_SRC = \
-	$(INCLUDES_SRC_PATH)/appender.h \
-	$(INCLUDES_SRC_PATH)/asyncappender.h \
-	$(INCLUDES_SRC_PATH)/boost/deviceappender.hxx \
-	$(INCLUDES_SRC_PATH)/clogger.h \
-	$(INCLUDES_SRC_PATH)/config.hxx \
-	$(INCLUDES_SRC_PATH)/config/macosx.h \
-	$(INCLUDES_SRC_PATH)/config/win32.h \
-	$(INCLUDES_SRC_PATH)/config/windowsh-inc.h \
-	$(INCLUDES_SRC_PATH)/configurator.h \
-	$(INCLUDES_SRC_PATH)/consoleappender.h \
-	$(INCLUDES_SRC_PATH)/fileappender.h \
-	$(INCLUDES_SRC_PATH)/fstreams.h \
-	$(INCLUDES_SRC_PATH)/helpers/appenderattachableimpl.h \
-	$(INCLUDES_SRC_PATH)/helpers/fileinfo.h \
-	$(INCLUDES_SRC_PATH)/helpers/lockfile.h \
-	$(INCLUDES_SRC_PATH)/helpers/loglog.h \
-	$(INCLUDES_SRC_PATH)/helpers/logloguser.h \
-	$(INCLUDES_SRC_PATH)/helpers/pointer.h \
-	$(INCLUDES_SRC_PATH)/helpers/property.h \
-	$(INCLUDES_SRC_PATH)/helpers/queue.h \
-	$(INCLUDES_SRC_PATH)/helpers/sleep.h \
-	$(INCLUDES_SRC_PATH)/helpers/snprintf.h \
-	$(INCLUDES_SRC_PATH)/helpers/socketbuffer.h \
-	$(INCLUDES_SRC_PATH)/helpers/socket.h \
-	$(INCLUDES_SRC_PATH)/helpers/stringhelper.h \
-	$(INCLUDES_SRC_PATH)/helpers/thread-config.h \
-	$(INCLUDES_SRC_PATH)/helpers/timehelper.h \
-	$(INCLUDES_SRC_PATH)/hierarchy.h \
-	$(INCLUDES_SRC_PATH)/hierarchylocker.h \
-	$(INCLUDES_SRC_PATH)/internal/cygwin-win32.h \
-	$(INCLUDES_SRC_PATH)/internal/env.h \
-	$(INCLUDES_SRC_PATH)/internal/internal.h \
-	$(INCLUDES_SRC_PATH)/internal/socket.h \
-	$(INCLUDES_SRC_PATH)/layout.h \
-	$(INCLUDES_SRC_PATH)/log4judpappender.h \
-	$(INCLUDES_SRC_PATH)/logger.h \
-	$(INCLUDES_SRC_PATH)/loggingmacros.h \
-	$(INCLUDES_SRC_PATH)/loglevel.h \
-	$(INCLUDES_SRC_PATH)/mdc.h \
-	$(INCLUDES_SRC_PATH)/ndc.h \
-	$(INCLUDES_SRC_PATH)/nteventlogappender.h \
-	$(INCLUDES_SRC_PATH)/nullappender.h \
-	$(INCLUDES_SRC_PATH)/spi/appenderattachable.h \
-	$(INCLUDES_SRC_PATH)/spi/factory.h \
-	$(INCLUDES_SRC_PATH)/spi/filter.h \
-	$(INCLUDES_SRC_PATH)/spi/loggerfactory.h \
-	$(INCLUDES_SRC_PATH)/spi/loggerimpl.h \
-	$(INCLUDES_SRC_PATH)/spi/loggingevent.h \
-	$(INCLUDES_SRC_PATH)/spi/objectregistry.h \
-	$(INCLUDES_SRC_PATH)/spi/rootlogger.h \
-	$(INCLUDES_SRC_PATH)/socketappender.h \
-	$(INCLUDES_SRC_PATH)/streams.h \
-	$(INCLUDES_SRC_PATH)/syslogappender.h \
-	$(INCLUDES_SRC_PATH)/tchar.h \
-	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-impl.h \
-	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-pmsm.h \
-	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-pthreads.h \
-	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-win32.h \
-	$(INCLUDES_SRC_PATH)/thread/impl/threads-impl.h \
-	$(INCLUDES_SRC_PATH)/thread/impl/tls.h \
-	$(INCLUDES_SRC_PATH)/thread/syncprims.h \
-	$(INCLUDES_SRC_PATH)/thread/syncprims-pub-impl.h \
-	$(INCLUDES_SRC_PATH)/thread/threads.h \
-	$(INCLUDES_SRC_PATH)/tracelogger.h \
-	$(INCLUDES_SRC_PATH)/tstring.h \
-	$(INCLUDES_SRC_PATH)/version.h \
-	$(INCLUDES_SRC_PATH)/win32consoleappender.h \
-	$(INCLUDES_SRC_PATH)/win32debugappender.h \
-	$(top_builddir)/include/log4cplus/config/defines.hxx
+WRAPPER_CXX = $(builddir)/python_wrap.cxx
+BUILT_SOURCES = $(WRAPPER_CXX)
+pkgpython_PYTHON = log4cplus.py
+pkgpyexec_LTLIBRARIES = _log4cplus.la
+_log4cplus_la_SOURCES = $(WRAPPER_CXX) $(SWIG_SOURCES)
+_log4cplus_la_CPPFLAGS = $(SWIG_PYTHON_CPPFLAGS) $(PYTHON_CPPFLAGS) \
+  -I$(top_srcdir)/include -I$(top_builddir)/include \
+  -DSWIG_TYPE_TABLE=log4cplus
 
-SINGLE_THREADED_SRC = \
-	$(INCLUDES_SRC) \
-	appenderattachableimpl.cxx \
-	appender.cxx \
-	asyncappender.cxx \
-	clogger.cxx \
-	configurator.cxx \
-	consoleappender.cxx \
-	cygwin-win32.cxx \
-	env.cxx \
-	factory.cxx \
-	fileappender.cxx \
-	fileinfo.cxx \
-	filter.cxx \
-	global-init.cxx \
-	hierarchy.cxx \
-	hierarchylocker.cxx \
-	layout.cxx \
-	log4judpappender.cxx \
-	lockfile.cxx \
-	logger.cxx \
-	loggerimpl.cxx \
-	loggingevent.cxx \
-	loggingmacros.cxx \
-	loglevel.cxx \
-	loglog.cxx \
-	logloguser.cxx \
-	mdc.cxx \
-	ndc.cxx \
-	nullappender.cxx \
-	nteventlogappender.cxx \
-	objectregistry.cxx \
-	patternlayout.cxx \
-	pointer.cxx \
-	property.cxx \
-	queue.cxx \
-	rootlogger.cxx \
-	sleep.cxx \
-	snprintf.cxx \
-	socketappender.cxx \
-	socketbuffer.cxx \
-	socket.cxx \
-	socket-unix.cxx \
-	socket-win32.cxx \
-	stringhelper.cxx \
-	stringhelper-clocale.cxx \
-	stringhelper-cxxlocale.cxx \
-	stringhelper-iconv.cxx \
-	syncprims.cxx \
-	syslogappender.cxx \
-	threads.cxx \
-	timehelper.cxx \
-	tls.cxx \
-	version.cxx \
-	win32consoleappender.cxx \
-	win32debugappender.cxx
+_log4cplus_la_LDFLAGS = -no-undefined -shared -module -avoid-version \
+  $(PYTHON_LDFLAGS)
 
-LIB_SRC = $(SINGLE_THREADED_SRC)
-liblog4cplus_la_SOURCES = $(LIB_SRC)
-
-#liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release @LT_RELEASE@
-all: all-am
+_log4cplus_la_LIBADD = $(top_builddir)/src/liblog4cplus.la
+all: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
 .SUFFIXES: .cxx .lo .o .obj
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/../Makefile.common.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -479,9 +340,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu swig/python/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/Makefile
+	  $(AUTOMAKE) --gnu swig/python/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -491,6 +352,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe);; \
 	esac;
+$(srcdir)/../Makefile.common.am:
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
@@ -500,33 +362,33 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
-install-libLTLIBRARIES: $(lib_LTLIBRARIES)
+install-pkgpyexecLTLIBRARIES: $(pkgpyexec_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
-	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
+	@list='$(pkgpyexec_LTLIBRARIES)'; test -n "$(pkgpyexecdir)" || list=; \
 	list2=; for p in $$list; do \
 	  if test -f $$p; then \
 	    list2="$$list2 $$p"; \
 	  else :; fi; \
 	done; \
 	test -z "$$list2" || { \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(libdir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(libdir)" || exit 1; \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(libdir)'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(libdir)"; \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pkgpyexecdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pkgpyexecdir)" || exit 1; \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(pkgpyexecdir)'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(pkgpyexecdir)"; \
 	}
 
-uninstall-libLTLIBRARIES:
+uninstall-pkgpyexecLTLIBRARIES:
 	@$(NORMAL_UNINSTALL)
-	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
+	@list='$(pkgpyexec_LTLIBRARIES)'; test -n "$(pkgpyexecdir)" || list=; \
 	for p in $$list; do \
 	  $(am__strip_dir) \
-	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(libdir)/$$f'"; \
-	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(libdir)/$$f"; \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(pkgpyexecdir)/$$f'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(pkgpyexecdir)/$$f"; \
 	done
 
-clean-libLTLIBRARIES:
-	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
-	@list='$(lib_LTLIBRARIES)'; \
+clean-pkgpyexecLTLIBRARIES:
+	-test -z "$(pkgpyexec_LTLIBRARIES)" || rm -f $(pkgpyexec_LTLIBRARIES)
+	@list='$(pkgpyexec_LTLIBRARIES)'; \
 	locs=`for p in $$list; do echo $$p; done | \
 	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
 	      sort -u`; \
@@ -534,8 +396,8 @@ clean-libLTLIBRARIES:
 	  echo rm -f $${locs}; \
 	  rm -f $${locs}; \
 	}
-liblog4cplus.la: $(liblog4cplus_la_OBJECTS) $(liblog4cplus_la_DEPENDENCIES) $(EXTRA_liblog4cplus_la_DEPENDENCIES) 
-	$(liblog4cplus_la_LINK) -rpath $(libdir) $(liblog4cplus_la_OBJECTS) $(liblog4cplus_la_LIBADD) $(LIBS)
+_log4cplus.la: $(_log4cplus_la_OBJECTS) $(_log4cplus_la_DEPENDENCIES) $(EXTRA__log4cplus_la_DEPENDENCIES) 
+	$(_log4cplus_la_LINK) -rpath $(pkgpyexecdir) $(_log4cplus_la_OBJECTS) $(_log4cplus_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -543,60 +405,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/appender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/appenderattachableimpl.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/asyncappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/clogger.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/configurator.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/consoleappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cygwin-win32.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/env.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/factory.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileinfo.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filter.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/global-init.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hierarchy.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hierarchylocker.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/layout.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lockfile.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/log4judpappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logger.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loggerimpl.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loggingevent.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loggingmacros.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loglevel.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loglog.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logloguser.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mdc.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ndc.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nteventlogappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nullappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/objectregistry.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/patternlayout.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pointer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/property.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/queue.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rootlogger.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sleep.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/snprintf.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket-unix.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket-win32.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socket.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socketappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socketbuffer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stringhelper-clocale.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stringhelper-cxxlocale.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stringhelper-iconv.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stringhelper.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/syncprims.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/syslogappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/threads.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/timehelper.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tls.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/version.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/win32consoleappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/win32debugappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_log4cplus_la-python_wrap.Plo@am__quote@
 
 .cxx.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -619,11 +428,56 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ $<
 
+_log4cplus_la-python_wrap.lo: $(builddir)/python_wrap.cxx
+@am__fastdepCXX_TRUE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(_log4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT _log4cplus_la-python_wrap.lo -MD -MP -MF $(DEPDIR)/_log4cplus_la-python_wrap.Tpo -c -o _log4cplus_la-python_wrap.lo `test -f '$(builddir)/python_wrap.cxx' || echo '$(srcdir)/'`$(builddir)/python_wrap.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/_log4cplus_la-python_wrap.Tpo $(DEPDIR)/_log4cplus_la-python_wrap.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(builddir)/python_wrap.cxx' object='_log4cplus_la-python_wrap.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(_log4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o _log4cplus_la-python_wrap.lo `test -f '$(builddir)/python_wrap.cxx' || echo '$(srcdir)/'`$(builddir)/python_wrap.cxx
+
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-pkgpythonPYTHON: $(pkgpython_PYTHON)
+	@$(NORMAL_INSTALL)
+	@list='$(pkgpython_PYTHON)'; dlist=; list2=; test -n "$(pkgpythondir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pkgpythondir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pkgpythondir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then b=; else b="$(srcdir)/"; fi; \
+	  if test -f $$b$$p; then \
+	    $(am__strip_dir) \
+	    dlist="$$dlist $$f"; \
+	    list2="$$list2 $$b$$p"; \
+	  else :; fi; \
+	done; \
+	for file in $$list2; do echo $$file; done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(pkgpythondir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(pkgpythondir)" || exit $$?; \
+	done || exit $$?; \
+	if test -n "$$dlist"; then \
+	  $(am__py_compile) --destdir "$(DESTDIR)" \
+	                    --basedir "$(pkgpythondir)" $$dlist; \
+	else :; fi
+
+uninstall-pkgpythonPYTHON:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgpython_PYTHON)'; test -n "$(pkgpythondir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	dir='$(DESTDIR)$(pkgpythondir)'; \
+	filesc=`echo "$$files" | sed 's|$$|c|'`; \
+	fileso=`echo "$$files" | sed 's|$$|o|'`; \
+	st=0; \
+	for files in "$$files" "$$filesc" "$$fileso"; do \
+	  $(am__uninstall_files_from_dir) || st=$$?; \
+	done; \
+	exit $$st
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -722,13 +576,15 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 check-am: all-am
-check: check-am
+check: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) check-am
 all-am: Makefile $(LTLIBRARIES)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)"; do \
+	for dir in "$(DESTDIR)$(pkgpyexecdir)" "$(DESTDIR)$(pkgpythondir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
-install: install-am
+install: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) install-am
 install-exec: install-exec-am
 install-data: install-data-am
 uninstall: uninstall-am
@@ -758,9 +614,10 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-am
 
-clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
+clean-am: clean-generic clean-libtool clean-pkgpyexecLTLIBRARIES \
 	mostlyclean-am
 
 distclean: distclean-am
@@ -781,13 +638,13 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-pkgpythonPYTHON
 
 install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-libLTLIBRARIES
+install-exec-am: install-pkgpyexecLTLIBRARIES
 
 install-html: install-html-am
 
@@ -827,24 +684,31 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES
+uninstall-am: uninstall-pkgpyexecLTLIBRARIES uninstall-pkgpythonPYTHON
 
-.MAKE: install-am install-strip
+.MAKE: all check install install-am install-strip
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
-	clean-libLTLIBRARIES clean-libtool cscopelist ctags distclean \
-	distclean-compile distclean-generic distclean-libtool \
-	distclean-tags distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am \
-	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
+	clean-libtool clean-pkgpyexecLTLIBRARIES cscopelist ctags \
+	distclean distclean-compile distclean-generic \
+	distclean-libtool distclean-tags distdir dvi dvi-am html \
+	html-am info info-am install install-am install-data \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-pkgpyexecLTLIBRARIES install-pkgpythonPYTHON \
 	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-libLTLIBRARIES
+	tags uninstall uninstall-am uninstall-pkgpyexecLTLIBRARIES \
+	uninstall-pkgpythonPYTHON
 
+
+$(WRAPPER_CXX): $(SWIG_SOURCES)
+	$(SWIG) -c++ -python $(SWIG_PYTHON_OPT) -I$(top_srcdir)/include \
+	-I$(top_builddir)/include -I$(top_srcdir)/swig -o $(WRAPPER_CXX) \
+	$(srcdir)/../log4cplus.swg
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

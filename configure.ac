@@ -510,6 +510,27 @@ AM_CONDITIONAL([QT], [test "x$with_qt" = "xyes"])
 AC_SUBST([QT_CFLAGS])
 AC_SUBST([QT_LIBS])
 
+dnl SWIG generated bindings related configure machinery is here.
+
+AS_VAR_SET([with_swig], [no])
+
+AC_ARG_WITH([python],
+  [AS_HELP_STRING([--with-python], [Build Python/SWIG bindings.])],
+  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-python])
+   AS_IF([test "x$with_python" = "xyes"], [AS_VAR_SET([with_swig], [yes])])],
+  [AS_VAR_SET([with_python], [no])])
+
+AS_IF([test "x$with_swig" = "xyes"],
+  [AX_PKG_SWIG([2.0.0], [], [AC_MSG_ERROR([SWIG is required to build.])])
+   AX_SWIG_ENABLE_CXX
+   AX_SWIG_MULTI_MODULE_SUPPORT])
+
+AS_IF([test "x$with_python" = "xyes"],
+  [AM_PATH_PYTHON([2.3])
+   AX_SWIG_PYTHON])
+
+AM_CONDITIONAL([WITH_PYTHON], [test "x$with_python" = "xyes"])
+
 dnl Libtool setup.
 dnl Must be latest to catch rpath compiled in by changes made during
 dnl checks before.
@@ -526,6 +547,8 @@ AC_CONFIG_HEADERS([include/log4cplus/config/defines.hxx])
 AC_CONFIG_FILES([Makefile
            include/Makefile
            src/Makefile
+           swig/Makefile
+           swig/python/Makefile
            loggingserver/Makefile
            qt4debugappender/Makefile
            tests/atlocal
