@@ -287,9 +287,6 @@ MSTTSAppender::append (spi::InternalLoggingEvent const & ev)
     tostringstream oss;
     layout->formatAndAppend(oss, ev);
 
-    tstring str;
-    oss.str ().swap (str);
-
     DWORD flags = SPF_IS_NOT_XML;
 
     if (data->async)
@@ -299,8 +296,8 @@ MSTTSAppender::append (spi::InternalLoggingEvent const & ev)
         flags |= SPF_NLP_SPEAK_PUNC;
 
     COMInitializer com_init;
-    HRESULT hr = data->ispvoice->Speak (helpers::towstring (str).c_str (),
-        flags, NULL);
+    HRESULT hr = data->ispvoice->Speak (
+        helpers::towstring (oss.str ()).c_str (), flags, NULL);
     if (FAILED (hr))
         loglog_com_error (LOG4CPLUS_TEXT ("Speak failed"), hr);
 }
