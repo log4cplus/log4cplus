@@ -94,7 +94,9 @@ protected:
     Data * data;
 
 private:
-    LOG4CPLUS_PRIVATE void init ();
+    LOG4CPLUS_PRIVATE void init (long const * rate = 0,
+        unsigned long const * volume = 0, bool speak_punc = false,
+        bool async = false);
 
     MSTTSAppender (MSTTSAppender const &);
     MSTTSAppender & operator = (MSTTSAppender const &);

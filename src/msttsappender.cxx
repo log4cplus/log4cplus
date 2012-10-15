@@ -120,7 +120,7 @@ public:
     void
     run ()
     {
-        COMInitializer com_init;
+        COMInitializer com_init (COINIT_MULTITHREADED);
         
         HRESULT hr = CoCreateInstance (CLSID_SpVoice, NULL,
             CLSCTX_ALL, IID_ISpVoice, reinterpret_cast<void **>(&ispvoice));
@@ -177,6 +177,8 @@ struct MSTTSAppender::Data
 {
     Data ()
         : ispvoice (0)
+        , async (false)
+        , speak_punc (false)
     { }
 
     ~Data ()
@@ -187,6 +189,8 @@ struct MSTTSAppender::Data
 
     helpers::SharedObjectPtr<SpeechObjectThread> speech_thread;
     ISpVoice * ispvoice;
+    bool async;
+    bool speak_punc;
 };
 
 
@@ -202,15 +206,24 @@ MSTTSAppender::MSTTSAppender (helpers::Properties const & props)
     : Appender (props)
     , data (new Data)
 {
-    //tstring logname = props.getProperty (LOG4CPLUS_TEXT ("LogName"));
+    unsigned long volume = 0;
+    bool has_volume = props.getULong (volume, LOG4CPLUS_TEXT ("Volume"));
+    if (has_volume)
+        volume = (std::min) (volume, 100ul);
 
-    //unsigned long logsize = MSTTS_APPENDER_INITIAL_LOG_SIZE;
-    //props.getULong (logsize, LOG4CPLUS_TEXT ("LogSize"));
+    long rate = 0;
+    bool has_rate = props.getLong (rate, LOG4CPLUS_TEXT ("Rate"));
+    if (has_rate)
+        rate = (std::max) (-10l, (std::min) (rate, 10l));
 
-    //unsigned long buffersize = MSTTS_APPENDER_DEFAULT_BUFFER_SIZE;
-    //props.getULong (buffersize, LOG4CPLUS_TEXT ("BufferSize"));
+    bool async;
+    async = props.getBool (async, LOG4CPLUS_TEXT ("Async")) && async;
 
-    init ();
+    bool speak_punc;
+    speak_punc = props.getBool (speak_punc, LOG4CPLUS_TEXT ("SpeakPunc"))
+        && speak_punc;
+
+    init (has_rate ? &rate : 0, has_volume ? &volume : 0, speak_punc, async);
 }
 
 
@@ -222,13 +235,37 @@ MSTTSAppender::~MSTTSAppender ()
 
 
 void
-MSTTSAppender::init ()
+MSTTSAppender::init (long const * rate, unsigned long const * volume,
+    bool speak_punc, bool async)
 {
     data->speech_thread = 
         helpers::SharedObjectPtr<SpeechObjectThread> (
             new SpeechObjectThread (data->ispvoice));
     data->speech_thread->start ();
     data->speech_thread->wait_init_done ();
+
+    COMInitializer com_init;
+
+    HRESULT hr = S_OK;
+
+    if (rate)
+    {
+        hr = data->ispvoice->SetRate (*rate);
+        if (FAILED (hr))
+            loglog_com_error (
+                LOG4CPLUS_TEXT ("SpeechObjectThread: SetRate failed"), hr);
+    }
+
+    if (volume)
+    {
+        hr = data->ispvoice->SetVolume (static_cast<USHORT>(*volume));
+        if (FAILED (hr))
+            loglog_com_error (
+                LOG4CPLUS_TEXT ("SpeechObjectThread: SetVolume failed"), hr);
+    }
+
+    data->async = async;
+    data->speak_punc = speak_punc;
 }
 
 
@@ -253,9 +290,17 @@ MSTTSAppender::append (spi::InternalLoggingEvent const & ev)
     tstring str;
     oss.str ().swap (str);
 
+    DWORD flags = SPF_IS_NOT_XML;
+
+    if (data->async)
+        flags |= SPF_ASYNC;
+
+    if (data->speak_punc)
+        flags |= SPF_NLP_SPEAK_PUNC;
+
     COMInitializer com_init;
     HRESULT hr = data->ispvoice->Speak (helpers::towstring (str).c_str (),
-        SPF_IS_NOT_XML /*| SPF_ASYNC | SPF_NLP_SPEAK_PUNC*/, NULL);
+        flags, NULL);
     if (FAILED (hr))
         loglog_com_error (LOG4CPLUS_TEXT ("Speak failed"), hr);
 }
