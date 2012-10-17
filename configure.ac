@@ -520,16 +520,28 @@ AC_ARG_WITH([python],
    AS_IF([test "x$with_python" = "xyes"], [AS_VAR_SET([with_swig], [yes])])],
   [AS_VAR_SET([with_python], [no])])
 
-AS_IF([test "x$with_swig" = "xyes"],
-  [AX_PKG_SWIG([2.0.0], [], [AC_MSG_ERROR([SWIG is required to build.])])
-   AX_SWIG_ENABLE_CXX
-   AX_SWIG_MULTI_MODULE_SUPPORT])
+dnl AM_PATH_PYTHON looks for Python even when we are cross-compiling
+dnl which is problematic.  Disable this until we can figure out how to
+dnl build and install Python modules without AM_PATH_PYTHON.  This
+dnl might require building them manualy or through Python's own means
+dnl instead of simply through Automake's Python support.
 
-AS_IF([test "x$with_python" = "xyes"],
-  [AM_PATH_PYTHON([2.3])
-   AX_SWIG_PYTHON])
+dnl AS_IF([test "x$with_swig" = "xyes"],
+dnl   [AX_PKG_SWIG([2.0.0], [], [AC_MSG_ERROR([SWIG is required to build.])])
+dnl    AX_SWIG_ENABLE_CXX
+dnl    AX_SWIG_MULTI_MODULE_SUPPORT
+dnl    AC_CONFIG_FILES([swig/Makefile])])
 
-AM_CONDITIONAL([WITH_PYTHON], [test "x$with_python" = "xyes"])
+dnl AM_CONDITIONAL([WITH_SWIG], [test "x$with_swig" = "xyes"])
+AM_CONDITIONAL([WITH_SWIG], [false])
+
+dnl AS_IF([test "x$with_python" = "xyes"],
+dnl   [AM_PATH_PYTHON([2.3], [:], [:])
+dnl    AX_SWIG_PYTHON
+dnl    AC_CONFIG_FILES([swig/python/Makefile])])
+
+dnl AM_CONDITIONAL([WITH_PYTHON], [test "x$with_python" = "xyes"])
+AM_CONDITIONAL([WITH_PYTHON], [false])
 
 dnl Libtool setup.
 dnl Must be latest to catch rpath compiled in by changes made during
@@ -547,8 +559,6 @@ AC_CONFIG_HEADERS([include/log4cplus/config/defines.hxx])
 AC_CONFIG_FILES([Makefile
            include/Makefile
            src/Makefile
-           swig/Makefile
-           swig/python/Makefile
            loggingserver/Makefile
            qt4debugappender/Makefile
            tests/atlocal
