@@ -4,3 +4,8 @@ SWIG_SOURCES = \
   $(srcdir)/../log4cplus.swg \
   $(srcdir)/../logger.swg \
   $(srcdir)/../loggingevent.swg
+
+$(srcdir)/../log4cplus.swg: $(srcdir)/../configurator.swg \
+  $(srcdir)/../hierarchy.swg \
+  $(srcdir)/../logger.swg \
+  $(srcdir)/../loggingevent.swg

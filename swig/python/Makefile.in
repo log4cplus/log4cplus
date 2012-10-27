@@ -78,9 +78,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ax_log4cplus_wrappers.m4 \
 	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/m4/ax_pkg_swig.m4 \
 	$(top_srcdir)/m4/ax_python_devel.m4 \
-	$(top_srcdir)/m4/ax_swig_enable_cxx.m4 \
 	$(top_srcdir)/m4/ax_swig_multi_module_support.m4 \
-	$(top_srcdir)/m4/ax_swig_python.m4 \
 	$(top_srcdir)/tests/configure.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -705,6 +703,11 @@ uninstall-am: uninstall-pkgpyexecLTLIBRARIES uninstall-pkgpythonPYTHON
 	tags uninstall uninstall-am uninstall-pkgpyexecLTLIBRARIES \
 	uninstall-pkgpythonPYTHON
 
+
+$(srcdir)/../log4cplus.swg: $(srcdir)/../configurator.swg \
+  $(srcdir)/../hierarchy.swg \
+  $(srcdir)/../logger.swg \
+  $(srcdir)/../loggingevent.swg
 
 $(WRAPPER_CXX): $(SWIG_SOURCES)
 	$(SWIG) $(SWIG_FLAGS) -c++ -python $(SWIG_PYTHON_OPT) \
