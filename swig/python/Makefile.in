@@ -118,7 +118,8 @@ am__installdirs = "$(DESTDIR)$(pkgpyexecdir)" \
 	"$(DESTDIR)$(pkgpythondir)"
 LTLIBRARIES = $(pkgpyexec_LTLIBRARIES)
 _log4cplus_la_DEPENDENCIES = $(top_builddir)/src/liblog4cplus.la
-am__objects_1 = _log4cplus_la-python_wrap.lo
+am__dirstamp = $(am__leading_dot)dirstamp
+am__objects_1 = $(builddir)/_log4cplus_la-python_wrap.lo
 am__objects_2 =
 am__log4cplus_la_OBJECTS = $(am__objects_1) $(am__objects_2)
 _log4cplus_la_OBJECTS = $(am__log4cplus_la_OBJECTS)
@@ -395,49 +396,63 @@ clean-pkgpyexecLTLIBRARIES:
 	  echo rm -f $${locs}; \
 	  rm -f $${locs}; \
 	}
+$(builddir)/$(am__dirstamp):
+	@$(MKDIR_P) $(builddir)
+	@: > $(builddir)/$(am__dirstamp)
+$(builddir)/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) $(builddir)/$(DEPDIR)
+	@: > $(builddir)/$(DEPDIR)/$(am__dirstamp)
+$(builddir)/_log4cplus_la-python_wrap.lo: $(builddir)/$(am__dirstamp) \
+	$(builddir)/$(DEPDIR)/$(am__dirstamp)
 _log4cplus.la: $(_log4cplus_la_OBJECTS) $(_log4cplus_la_DEPENDENCIES) $(EXTRA__log4cplus_la_DEPENDENCIES) 
 	$(_log4cplus_la_LINK) -rpath $(pkgpyexecdir) $(_log4cplus_la_OBJECTS) $(_log4cplus_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f $(builddir)/*.$(OBJEXT)
+	-rm -f $(builddir)/*.lo
 
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_log4cplus_la-python_wrap.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(builddir)/$(DEPDIR)/_log4cplus_la-python_wrap.Plo@am__quote@
 
 .cxx.o:
-@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ $<
 
 .cxx.obj:
-@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 .cxx.lo:
-@am__fastdepCXX_TRUE@	$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.lo$$||'`;\
+@am__fastdepCXX_TRUE@	$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Plo
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ $<
 
-_log4cplus_la-python_wrap.lo: $(builddir)/python_wrap.cxx
-@am__fastdepCXX_TRUE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(_log4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT _log4cplus_la-python_wrap.lo -MD -MP -MF $(DEPDIR)/_log4cplus_la-python_wrap.Tpo -c -o _log4cplus_la-python_wrap.lo `test -f '$(builddir)/python_wrap.cxx' || echo '$(srcdir)/'`$(builddir)/python_wrap.cxx
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/_log4cplus_la-python_wrap.Tpo $(DEPDIR)/_log4cplus_la-python_wrap.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(builddir)/python_wrap.cxx' object='_log4cplus_la-python_wrap.lo' libtool=yes @AMDEPBACKSLASH@
+$(builddir)/_log4cplus_la-python_wrap.lo: $(builddir)/python_wrap.cxx
+@am__fastdepCXX_TRUE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(_log4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT $(builddir)/_log4cplus_la-python_wrap.lo -MD -MP -MF $(builddir)/$(DEPDIR)/_log4cplus_la-python_wrap.Tpo -c -o $(builddir)/_log4cplus_la-python_wrap.lo `test -f '$(builddir)/python_wrap.cxx' || echo '$(srcdir)/'`$(builddir)/python_wrap.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(builddir)/$(DEPDIR)/_log4cplus_la-python_wrap.Tpo $(builddir)/$(DEPDIR)/_log4cplus_la-python_wrap.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$(builddir)/python_wrap.cxx' object='$(builddir)/_log4cplus_la-python_wrap.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(_log4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o _log4cplus_la-python_wrap.lo `test -f '$(builddir)/python_wrap.cxx' || echo '$(srcdir)/'`$(builddir)/python_wrap.cxx
+@am__fastdepCXX_FALSE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(_log4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o $(builddir)/_log4cplus_la-python_wrap.lo `test -f '$(builddir)/python_wrap.cxx' || echo '$(srcdir)/'`$(builddir)/python_wrap.cxx
 
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
+	-rm -rf $(builddir)/.libs $(builddir)/_libs
 	-rm -rf .libs _libs
 install-pkgpythonPYTHON: $(pkgpython_PYTHON)
 	@$(NORMAL_INSTALL)
@@ -609,6 +624,8 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-test -z "$(builddir)/$(DEPDIR)/$(am__dirstamp)" || rm -f $(builddir)/$(DEPDIR)/$(am__dirstamp)
+	-test -z "$(builddir)/$(am__dirstamp)" || rm -f $(builddir)/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -620,7 +637,7 @@ clean-am: clean-generic clean-libtool clean-pkgpyexecLTLIBRARIES \
 	mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf $(builddir)/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -666,7 +683,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf $(builddir)/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
