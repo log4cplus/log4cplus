@@ -649,16 +649,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <ClCompile Include="..\src\syslogappender.cxx">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_Unicode|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_Unicode|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="..\src\syslogappender.cxx" />
     <ClCompile Include="..\src\win32consoleappender.cxx" />
     <ClCompile Include="..\src\win32debugappender.cxx" />
     <ClCompile Include="..\src\env.cxx" />
@@ -1016,16 +1007,7 @@
     <ClInclude Include="..\include\log4cplus\nteventlogappender.h" />
     <ClInclude Include="..\include\log4cplus\nullappender.h" />
     <ClInclude Include="..\include\log4cplus\socketappender.h" />
-    <CustomBuildStep Include="..\include\log4cplus\syslogappender.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_Unicode|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_Unicode|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </CustomBuildStep>
+    <CustomBuildStep Include="..\include\log4cplus\syslogappender.h" />
     <ClInclude Include="..\include\log4cplus\win32consoleappender.h" />
     <ClInclude Include="..\include\log4cplus\win32debugappender.h" />
     <ClInclude Include="..\include\log4cplus\internal\env.h" />
