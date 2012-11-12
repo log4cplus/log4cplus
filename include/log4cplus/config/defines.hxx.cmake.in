@@ -185,6 +185,9 @@
 /* Define to 1 if you have the `vsnwprintf' function. */
 #cmakedefine LOG4CPLUS_HAVE_VSNWPRINTF 1
 
+/* Define to 1 if you have the `_vsnwprintf' function. */
+#cmakedefine LOG4CPLUS_HAVE__VSNWPRINTF 1
+
 /* */
 #cmakedefine LOG4CPLUS_HAVE__VSNPRINTF 1
 

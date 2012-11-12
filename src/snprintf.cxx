@@ -129,6 +129,8 @@ vsntprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
     ret = _vsnwprintf_s (dest, dest_size, _TRUNCATE, fmt, args);
 #  elif defined (LOG4CPLUS_HAVE_VSNWPRINTF)
     ret = vsnwprintf (dest, dest_size, fmt, args);
+#  elif defined (LOG4CPLUS_HAVE__VSNWPRINTF)
+    ret = _vsnwprintf (dest, dest_size, fmt, args);
 #  else
     using namespace std;
     ret = vswprintf (dest, dest_size, fmt, args);
