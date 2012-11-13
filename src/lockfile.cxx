@@ -166,9 +166,17 @@ LockFile::open (int open_flags) const
     LogLog & loglog = getLogLog ();
 
 #if defined (_WIN32)
+#  if defined (LOG4CPLUS_HAVE__TSOPEN_S)
     errno_t eno = _tsopen_s (&data->fd, lock_file_name.c_str (), open_flags,
         OPEN_SHFLAGS, OPEN_MODE);
     if (eno != 0)
+#  elif defined (LOG4CPLUS_HAVE__TSOPEN)
+    data->fd = _tsopen (lock_file_name.c_str (), open_flags, OPEN_SHFLAGS,
+        OPEN_MODE);
+    if (data->fd == -1)
+#  else
+#    error "Neither _tsopen_s() nor _tsopen() is available."
+#  endif
         loglog.error (tstring (LOG4CPLUS_TEXT("could not open or create file "))
             + lock_file_name, true);
 
