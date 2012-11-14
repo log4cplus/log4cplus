@@ -130,7 +130,7 @@ Properties::Properties(const tstring& inputFile, unsigned flags)
 
     tifstream file;
 
-    switch (flags & fEncodingMask)
+    switch (flags & (fEncodingMask << fEncodingShift))
     {
 #if defined (LOG4CPLUS_HAVE_CODECVT_UTF8_FACET) && defined (UNICODE)
     case fUTF8:
