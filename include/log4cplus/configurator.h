@@ -46,18 +46,23 @@ namespace log4cplus
     /**
      * Provides configuration from an external file.  See configure() for
      * the expected format.
-     * 
+     *
      * <em>All option values admit variable substitution.</em> For
      * example, if <code>userhome</code> environment property is set to
      * <code>/home/xyz</code> and the File option is set to the string
      * <code>${userhome}/test.log</code>, then File option will be
      * interpreted as the string <code>/home/xyz/test.log</code>.
-     * 
+     *
      * The syntax of variable substitution is similar to that of UNIX
      * shells. The string between an opening <b>&quot;${&quot;</b> and
      * closing <b>&quot;}&quot;</b> is interpreted as a key. Its value is
      * searched in the environment properties.  The corresponding value replaces
      * the ${variableName} sequence.
+     *
+     * Configuration files also recognize <code>include
+     * <i>file.properties</i></code> directive that allow composing
+     * configuration from multiple files. There is no cyclic includes
+     * detection mechanism to stop unbound recursion.
      */
     class LOG4CPLUS_EXPORT PropertyConfigurator
     {

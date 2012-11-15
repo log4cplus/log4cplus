@@ -102,38 +102,13 @@ trim_ws (tstring & str)
 }
 
 
-} // namespace
-
-
-
-///////////////////////////////////////////////////////////////////////////////
-// Properties ctors and dtor
-///////////////////////////////////////////////////////////////////////////////
-
-Properties::Properties() 
+void
+imbue_file_from_flags (tistream & file, unsigned flags)
 {
-}
-
-
-
-Properties::Properties(tistream& input)
-{
-    init(input);
-}
-
-
-
-Properties::Properties(const tstring& inputFile, unsigned flags)
-{
-    if (inputFile.empty ())
-        return;
-
-    tifstream file;
-
-    switch (flags & (fEncodingMask << fEncodingShift))
+    switch (flags & (Properties::fEncodingMask << Properties::fEncodingShift))
     {
 #if defined (LOG4CPLUS_HAVE_CODECVT_UTF8_FACET) && defined (UNICODE)
-    case fUTF8:
+    case Properties::fUTF8:
         file.imbue (
             std::locale (file.getloc (),
                 new std::codecvt_utf8<tchar, 0x10FFFF,
@@ -142,7 +117,7 @@ Properties::Properties(const tstring& inputFile, unsigned flags)
 #endif
 
 #if defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET) && defined (UNICODE)
-    case fUTF16:
+    case Properties::fUTF16:
         file.imbue (
             std::locale (file.getloc (),
                 new std::codecvt_utf16<tchar, 0x10FFFF,
@@ -150,7 +125,7 @@ Properties::Properties(const tstring& inputFile, unsigned flags)
         break;
 
 #elif defined (UNICODE) && defined (WIN32)
-    case fUTF16:
+    case Properties::fUTF16:
         file.imbue (
             std::locale (file.getloc (),
                 // TODO: This should actually be a custom "null" facet
@@ -161,7 +136,7 @@ Properties::Properties(const tstring& inputFile, unsigned flags)
 #endif
 
 #if defined (LOG4CPLUS_HAVE_CODECVT_UTF32_FACET) && defined (UNICODE)
-    case fUTF32:
+    case Properties::fUTF32:
         file.imbue (
             std::locale (file.getloc (),
                 new std::codecvt_utf32<tchar, 0x10FFFF,
@@ -169,11 +144,45 @@ Properties::Properties(const tstring& inputFile, unsigned flags)
         break;
 #endif
 
-    case fUnspecEncoding:;
+    case Properties::fUnspecEncoding:;
     default:
         // Do nothing.
         ;
     }
+}
+
+
+} // namespace
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Properties ctors and dtor
+///////////////////////////////////////////////////////////////////////////////
+
+Properties::Properties()
+    : flags (0)
+{
+}
+
+
+
+Properties::Properties(tistream& input)
+    : flags (0)
+{
+    init(input);
+}
+
+
+
+Properties::Properties(const tstring& inputFile, unsigned f)
+    : flags (f)
+{
+    if (inputFile.empty ())
+        return;
+
+    tifstream file;
+    imbue_file_from_flags (file, flags);
 
     file.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(inputFile).c_str(),
         std::ios::binary);
@@ -215,6 +224,24 @@ Properties::init(tistream& input)
             trim_trailing_ws (key);
             trim_ws (value);
             setProperty(key, value);
+        }
+        else if (buffer.compare (0, 7, LOG4CPLUS_TEXT ("include")) == 0
+            && buffer.size () >= 7 + 1 + 1
+            && is_space (buffer[7]))
+        {
+            tstring included (buffer, 8) ;
+            trim_ws (included);
+
+            tifstream file;
+            imbue_file_from_flags (file, flags);
+
+            file.open (LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(included).c_str(),
+                std::ios::binary);
+            if (! file.good ())
+                helpers::getLogLog ().error (
+                    LOG4CPLUS_TEXT ("could not open file ") + included);
+
+            init (file);
         }
     }
 }
