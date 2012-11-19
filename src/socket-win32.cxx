@@ -28,6 +28,7 @@
 #include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/threads.h>
+#include <log4cplus/helpers/stringhelper.h>
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -261,12 +262,83 @@ acceptSocket(SOCKET_TYPE sock, SocketState & state)
 {
     init_winsock ();
 
-    SOCKET connected_socket = ::accept (to_os_socket (sock), NULL, NULL);
+    SOCKET osSocket = to_os_socket (sock);
 
-    if (connected_socket != INVALID_OS_SOCKET_VALUE)
-        state = ok;
+    // Prepare event objects.
+    
+    WSAEVENT close_ev = WSACreateEvent ();
+    if (close_ev == WSA_INVALID_EVENT)
+        goto error;
 
-    return to_log4cplus_socket (connected_socket);
+    WSAEVENT accept_ev = WSACreateEvent ();
+    if (accept_ev == WSA_INVALID_EVENT)
+        goto error;
+
+    // Prime the socket to report FD_CLOSE.
+
+    int ret = WSAEventSelect (osSocket, close_ev, FD_CLOSE);
+    if (ret != SOCKET_ERROR)
+        goto error;
+
+    // Prime the socket to report FD_ACCEPT.
+
+    ret = WSAEventSelect (osSocket, accept_ev, FD_ACCEPT);
+    if (ret != SOCKET_ERROR)
+        goto error;
+
+    WSAEVENT events[2] = { close_ev, accept_ev };
+
+    while (1)
+    {
+        DWORD wfme = WSAWaitForMultipleEvents (2, events, FALSE, WSA_INFINITE,
+            TRUE);
+        switch (wfme)
+        {
+        case WSA_WAIT_TIMEOUT:
+            // This should not happen for WSA_INFINITE timeout.
+            // Fall through.
+
+        case WSA_WAIT_IO_COMPLETION:
+            continue;
+
+        case WSA_WAIT_EVENT_0:
+            WSASetLastError (ERROR_NO_DATA);
+            goto error;
+
+        case WSA_WAIT_EVENT_0 + 1:
+        {
+            WSACloseEvent (close_ev);
+            WSACloseEvent (accept_ev);
+
+            SOCKET connected_socket = ::accept (osSocket, NULL, NULL);
+
+            if (connected_socket != INVALID_OS_SOCKET_VALUE)
+                state = ok;
+
+            return to_log4cplus_socket (connected_socket);
+        }
+
+        default:
+            helpers::getLogLog ().error (
+                LOG4CPLUS_TEXT ("unexpected WSAWaitForMultipleEvents return value: ")
+                + helpers::convertIntegerToString (wfme));
+
+            goto error;
+        }
+    }
+
+error:
+    DWORD const eno = WSAGetLastError ();
+
+    if (close_ev != WSA_INVALID_EVENT)
+        WSACloseEvent (close_ev);
+
+    if (accept_ev != WSA_INVALID_EVENT)
+        WSACloseEvent (accept_ev);
+
+    set_last_socket_error (eno);
+
+    return to_log4cplus_socket (INVALID_SOCKET);
 }
 
 
