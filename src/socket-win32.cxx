@@ -277,13 +277,13 @@ acceptSocket(SOCKET_TYPE sock, SocketState & state)
     // Prime the socket to report FD_CLOSE.
 
     int ret = WSAEventSelect (osSocket, close_ev, FD_CLOSE);
-    if (ret != SOCKET_ERROR)
+    if (ret == SOCKET_ERROR)
         goto error;
 
     // Prime the socket to report FD_ACCEPT.
 
     ret = WSAEventSelect (osSocket, accept_ev, FD_ACCEPT);
-    if (ret != SOCKET_ERROR)
+    if (ret == SOCKET_ERROR)
         goto error;
 
     WSAEVENT events[2] = { close_ev, accept_ev };
