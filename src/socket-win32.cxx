@@ -264,78 +264,63 @@ acceptSocket(SOCKET_TYPE sock, SocketState & state)
 
     SOCKET osSocket = to_os_socket (sock);
 
-    // Prepare event objects.
-    
-    WSAEVENT close_ev = WSACreateEvent ();
-    if (close_ev == WSA_INVALID_EVENT)
-        goto error;
+    // Check that the socket is ok.
 
-    WSAEVENT accept_ev = WSACreateEvent ();
-    if (accept_ev == WSA_INVALID_EVENT)
-        goto error;
-
-    // Prime the socket to report FD_CLOSE.
-
-    int ret = WSAEventSelect (osSocket, close_ev, FD_CLOSE);
+    int val = 0;
+    int optlen = sizeof (val);
+    int ret = getsockopt (osSocket, SOL_SOCKET, SO_TYPE,
+        reinterpret_cast<char *>(&val), &optlen);
     if (ret == SOCKET_ERROR)
         goto error;
 
-    // Prime the socket to report FD_ACCEPT.
-
-    ret = WSAEventSelect (osSocket, accept_ev, FD_ACCEPT);
-    if (ret == SOCKET_ERROR)
-        goto error;
-
-    WSAEVENT events[2] = { close_ev, accept_ev };
+    // Now that we know the socket is working ok we can wait for
+    // either a new connection or for a transition to bad state.
 
     while (1)
     {
-        DWORD wfme = WSAWaitForMultipleEvents (2, events, FALSE, WSA_INFINITE,
-            TRUE);
-        switch (wfme)
+        fd_set readSet;
+        timeval timeout;
+
+        FD_ZERO (&readSet);
+        FD_SET (osSocket, &readSet);
+        timeout.tv_sec = 0;
+        timeout.tv_usec = 200 * 1000;
+
+        int selectResponse = ::select (1, &readSet, NULL, NULL, &timeout);
+        if (selectResponse < 0)
         {
-        case WSA_WAIT_TIMEOUT:
-            // This should not happen for WSA_INFINITE timeout.
-            // Fall through.
+            DWORD const eno = WSAGetLastError ();
+            if (eno == WSAENOTSOCK || eno == WSAEINVAL)
+                WSASetLastError (ERROR_NO_DATA);
 
-        case WSA_WAIT_IO_COMPLETION:
-            continue;
-
-        case WSA_WAIT_EVENT_0:
-            WSASetLastError (ERROR_NO_DATA);
             goto error;
-
-        case WSA_WAIT_EVENT_0 + 1:
+        }
+        else if (selectResponse == 0)
+            // Timeout.
+            continue;
+        else if (selectResponse == 1)
         {
-            WSACloseEvent (close_ev);
-            WSACloseEvent (accept_ev);
-
             SOCKET connected_socket = ::accept (osSocket, NULL, NULL);
 
             if (connected_socket != INVALID_OS_SOCKET_VALUE)
                 state = ok;
+            else
+                goto error;
 
             return to_log4cplus_socket (connected_socket);
         }
-
-        default:
+        else
+        {
             helpers::getLogLog ().error (
-                LOG4CPLUS_TEXT ("unexpected WSAWaitForMultipleEvents return value: ")
-                + helpers::convertIntegerToString (wfme));
-
+                LOG4CPLUS_TEXT ("unexpected select() return value: ")
+                + helpers::convertIntegerToString (selectResponse));
+            WSASetLastError (ERROR_UNSUPPORTED_TYPE);
             goto error;
         }
     }
 
 error:
-    DWORD const eno = WSAGetLastError ();
-
-    if (close_ev != WSA_INVALID_EVENT)
-        WSACloseEvent (close_ev);
-
-    if (accept_ev != WSA_INVALID_EVENT)
-        WSACloseEvent (accept_ev);
-
+    DWORD eno = WSAGetLastError ();
     set_last_socket_error (eno);
 
     return to_log4cplus_socket (INVALID_SOCKET);
