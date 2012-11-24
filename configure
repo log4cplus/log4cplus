@@ -10583,8 +10583,6 @@ $as_echo "$as_me: WARNING: cannot determine SWIG version" >&2;}
 
         SWIG="$SWIG -noruntime"
 
-   ac_config_files="$ac_config_files swig/Makefile"
-
 fi
 
  if test "x$with_swig" = "xyes"; then
@@ -11175,8 +11173,6 @@ See \`config.log' for more details" "$LINENO" 5; }
    AX_SWIG_PYTHON_OPT=-python$swig_shadow
 
    AX_SWIG_PYTHON_CPPFLAGS=$PYTHON_CPPFLAGS
-
-   ac_config_files="$ac_config_files swig/python/Makefile"
 
 fi
 
@@ -22944,8 +22940,6 @@ do
   case $ac_config_target in
     "tests/atconfig") CONFIG_COMMANDS="$CONFIG_COMMANDS tests/atconfig" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
-    "swig/Makefile") CONFIG_FILES="$CONFIG_FILES swig/Makefile" ;;
-    "swig/python/Makefile") CONFIG_FILES="$CONFIG_FILES swig/python/Makefile" ;;
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "include/log4cplus/config.h") CONFIG_HEADERS="$CONFIG_HEADERS include/log4cplus/config.h" ;;
     "include/log4cplus/config/defines.hxx") CONFIG_HEADERS="$CONFIG_HEADERS include/log4cplus/config/defines.hxx" ;;

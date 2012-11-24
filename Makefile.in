@@ -53,11 +53,13 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-@WITH_SWIG_TRUE@am__append_1 = swig
-DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
+DIST_COMMON = README $(am__configure_deps) \
+	$(am__pkgpython_PYTHON_DIST) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/log4cplus.pc.in \
 	$(srcdir)/qt4debugappender/Makefile.am \
 	$(srcdir)/simpleserver/Makefile.am $(srcdir)/src/Makefile.am \
+	$(srcdir)/swig/Makefile.common.am \
+	$(srcdir)/swig/python/Makefile.am \
 	$(srcdir)/tests/appender_test/Makefile.am \
 	$(srcdir)/tests/configandwatch_test/Makefile.am \
 	$(srcdir)/tests/customloglevel_test/Makefile.am \
@@ -93,9 +95,9 @@ noinst_PROGRAMS = appender_test$(EXEEXT) $(am__EXEEXT_1) \
 	patternlayout_test$(EXEEXT) performance_test$(EXEEXT) \
 	priority_test$(EXEEXT) propertyconfig_test$(EXEEXT) \
 	socket_test$(EXEEXT) timeformat_test$(EXEEXT) $(am__EXEEXT_2)
-@MULTI_THREADED_TRUE@am__append_2 = configandwatch_test
-@MULTI_THREADED_TRUE@am__append_3 = thread_test loggingserver
-@QT_TRUE@am__append_4 = liblog4cplusqt4debugappender.la
+@MULTI_THREADED_TRUE@am__append_1 = configandwatch_test
+@MULTI_THREADED_TRUE@am__append_2 = thread_test loggingserver
+@QT_TRUE@am__append_3 = liblog4cplusqt4debugappender.la
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -161,12 +163,29 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)"
-LTLIBRARIES = $(lib_LTLIBRARIES)
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgpyexecdir)" \
+	"$(DESTDIR)$(pkgpythondir)" "$(DESTDIR)$(pkgconfigdir)"
+LTLIBRARIES = $(lib_LTLIBRARIES) $(pkgpyexec_LTLIBRARIES)
+@WITH_PYTHON_TRUE@_log4cplus_la_DEPENDENCIES =  \
+@WITH_PYTHON_TRUE@	$(liblog4cplus_la_file)
+am___log4cplus_la_SOURCES_DIST = python_wrap.cxx \
+	$(top_builddir)/swig/configurator.swg \
+	$(top_builddir)/swig/hierarchy.swg \
+	$(top_builddir)/swig/log4cplus.swg \
+	$(top_builddir)/swig/logger.swg \
+	$(top_builddir)/swig/loggingevent.swg
+@WITH_PYTHON_TRUE@am__objects_1 = _log4cplus_la-python_wrap.lo
+am__objects_2 =
+@WITH_PYTHON_TRUE@am__log4cplus_la_OBJECTS = $(am__objects_1) \
+@WITH_PYTHON_TRUE@	$(am__objects_2)
+_log4cplus_la_OBJECTS = $(am__log4cplus_la_OBJECTS)
+_log4cplus_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(_log4cplus_la_LDFLAGS) $(LDFLAGS) -o $@
+@WITH_PYTHON_TRUE@am__log4cplus_la_rpath = -rpath $(pkgpyexecdir)
 liblog4cplus_la_LIBADD =
-am__objects_1 =
 am__dirstamp = $(am__leading_dot)dirstamp
-am__objects_2 = $(am__objects_1) \
+am__objects_3 = $(am__objects_2) \
 	src/liblog4cplus_la-appenderattachableimpl.lo \
 	src/liblog4cplus_la-appender.lo \
 	src/liblog4cplus_la-asyncappender.lo \
@@ -211,8 +230,8 @@ am__objects_2 = $(am__objects_1) \
 	src/liblog4cplus_la-version.lo \
 	src/liblog4cplus_la-win32consoleappender.lo \
 	src/liblog4cplus_la-win32debugappender.lo
-am__objects_3 = $(am__objects_2)
-am_liblog4cplus_la_OBJECTS = $(am__objects_3)
+am__objects_4 = $(am__objects_3)
+am_liblog4cplus_la_OBJECTS = $(am__objects_4)
 liblog4cplus_la_OBJECTS = $(am_liblog4cplus_la_OBJECTS)
 liblog4cplus_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
@@ -322,7 +341,7 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(liblog4cplus_la_SOURCES) \
+SOURCES = $(_log4cplus_la_SOURCES) $(liblog4cplus_la_SOURCES) \
 	$(liblog4cplusqt4debugappender_la_SOURCES) \
 	$(appender_test_SOURCES) $(configandwatch_test_SOURCES) \
 	$(customloglevel_test_SOURCES) $(fileappender_test_SOURCES) \
@@ -333,7 +352,8 @@ SOURCES = $(liblog4cplus_la_SOURCES) \
 	$(priority_test_SOURCES) $(propertyconfig_test_SOURCES) \
 	$(socket_test_SOURCES) $(thread_test_SOURCES) \
 	$(timeformat_test_SOURCES)
-DIST_SOURCES = $(liblog4cplus_la_SOURCES) \
+DIST_SOURCES = $(am___log4cplus_la_SOURCES_DIST) \
+	$(liblog4cplus_la_SOURCES) \
 	$(am__liblog4cplusqt4debugappender_la_SOURCES_DIST) \
 	$(appender_test_SOURCES) \
 	$(am__configandwatch_test_SOURCES_DIST) \
@@ -357,6 +377,9 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+am__pkgpython_PYTHON_DIST = log4cplus.py
+am__py_compile = PYTHON=$(PYTHON) $(SHELL) $(py_compile)
+py_compile = $(top_srcdir)/py-compile
 DATA = $(pkgconfig_DATA)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
@@ -366,7 +389,7 @@ AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
 ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
-DIST_SUBDIRS = include swig
+DIST_SUBDIRS = $(SUBDIRS)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -572,12 +595,12 @@ AM_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@
 ACLOCAL_AMFLAGS = -I m4
 EXTRA_DIST = ChangeLog log4cplus.pc.in tests/testsuite.at $(TESTSUITE) \
 	tests/atlocal.in
-SUBDIRS = include $(am__append_1)
+SUBDIRS = include
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = log4cplus.pc
 INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
 liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
-lib_LTLIBRARIES = liblog4cplus.la $(am__append_4)
+lib_LTLIBRARIES = liblog4cplus.la $(am__append_3)
 INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/appender.h \
 	$(INCLUDES_SRC_PATH)/asyncappender.h \
@@ -777,6 +800,26 @@ timeformat_test_LDADD = $(liblog4cplus_la_file)
 @QT_TRUE@	-version-info @LT_VERSION@ -release @LT_RELEASE@ \
 @QT_TRUE@	@QT_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
 
+@WITH_SWIG_TRUE@SWIG_SOURCES = \
+@WITH_SWIG_TRUE@  $(top_builddir)/swig/configurator.swg \
+@WITH_SWIG_TRUE@  $(top_builddir)/swig/hierarchy.swg \
+@WITH_SWIG_TRUE@  $(top_builddir)/swig/log4cplus.swg \
+@WITH_SWIG_TRUE@  $(top_builddir)/swig/logger.swg \
+@WITH_SWIG_TRUE@  $(top_builddir)/swig/loggingevent.swg
+
+@WITH_PYTHON_TRUE@PYTHON_WRAP_CXX = python_wrap.cxx
+@WITH_PYTHON_TRUE@BUILT_SOURCES = $(PYTHON_WRAP_CXX)
+@WITH_PYTHON_TRUE@pkgpython_PYTHON = log4cplus.py
+@WITH_PYTHON_TRUE@pkgpyexec_LTLIBRARIES = _log4cplus.la
+@WITH_PYTHON_TRUE@_log4cplus_la_SOURCES = $(PYTHON_WRAP_CXX) $(SWIG_SOURCES)
+@WITH_PYTHON_TRUE@_log4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) $(SWIG_PYTHON_CPPFLAGS) \
+@WITH_PYTHON_TRUE@  $(PYTHON_CPPFLAGS) -I$(top_srcdir)/include -I$(top_builddir)/include \
+@WITH_PYTHON_TRUE@  -DSWIG_TYPE_TABLE=log4cplus
+
+@WITH_PYTHON_TRUE@_log4cplus_la_LDFLAGS = -no-undefined -shared -module -avoid-version \
+@WITH_PYTHON_TRUE@  $(PYTHON_LDFLAGS) $(AM_LDFLAGS)
+
+@WITH_PYTHON_TRUE@_log4cplus_la_LIBADD = $(liblog4cplus_la_file)
 TESTSUITE = tests/testsuite
 AUTOTEST = $(AUTOM4TE) --language=Autotest
 TESTSUITE_AT = \
@@ -797,13 +840,14 @@ TESTSUITE_AT = \
   tests/local.at \
   tests/testsuite.at
 
-all: all-recursive
+all: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
 .SUFFIXES: .cxx .lo .o .obj
 am--refresh: Makefile
 	@:
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(am__configure_deps)
+$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -826,7 +870,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
 	esac;
-$(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am:
+$(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am:
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -905,6 +949,42 @@ clean-libLTLIBRARIES:
 	  echo rm -f $${locs}; \
 	  rm -f $${locs}; \
 	}
+install-pkgpyexecLTLIBRARIES: $(pkgpyexec_LTLIBRARIES)
+	@$(NORMAL_INSTALL)
+	@list='$(pkgpyexec_LTLIBRARIES)'; test -n "$(pkgpyexecdir)" || list=; \
+	list2=; for p in $$list; do \
+	  if test -f $$p; then \
+	    list2="$$list2 $$p"; \
+	  else :; fi; \
+	done; \
+	test -z "$$list2" || { \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pkgpyexecdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pkgpyexecdir)" || exit 1; \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(pkgpyexecdir)'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(pkgpyexecdir)"; \
+	}
+
+uninstall-pkgpyexecLTLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgpyexec_LTLIBRARIES)'; test -n "$(pkgpyexecdir)" || list=; \
+	for p in $$list; do \
+	  $(am__strip_dir) \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(pkgpyexecdir)/$$f'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(pkgpyexecdir)/$$f"; \
+	done
+
+clean-pkgpyexecLTLIBRARIES:
+	-test -z "$(pkgpyexec_LTLIBRARIES)" || rm -f $(pkgpyexec_LTLIBRARIES)
+	@list='$(pkgpyexec_LTLIBRARIES)'; \
+	locs=`for p in $$list; do echo $$p; done | \
+	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
+	      sort -u`; \
+	test -z "$$locs" || { \
+	  echo rm -f $${locs}; \
+	  rm -f $${locs}; \
+	}
+_log4cplus.la: $(_log4cplus_la_OBJECTS) $(_log4cplus_la_DEPENDENCIES) $(EXTRA__log4cplus_la_DEPENDENCIES) 
+	$(_log4cplus_la_LINK) $(am__log4cplus_la_rpath) $(_log4cplus_la_OBJECTS) $(_log4cplus_la_LIBADD) $(LIBS)
 src/$(am__dirstamp):
 	@$(MKDIR_P) src
 	@: > src/$(am__dirstamp)
@@ -1276,6 +1356,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_log4cplus_la-python_wrap.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappender_la-qt4debugappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@simpleserver/$(DEPDIR)/loggingserver-loggingserver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-appender.Plo@am__quote@
@@ -1375,6 +1456,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ $<
+
+_log4cplus_la-python_wrap.lo: python_wrap.cxx
+@am__fastdepCXX_TRUE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(_log4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT _log4cplus_la-python_wrap.lo -MD -MP -MF $(DEPDIR)/_log4cplus_la-python_wrap.Tpo -c -o _log4cplus_la-python_wrap.lo `test -f 'python_wrap.cxx' || echo '$(srcdir)/'`python_wrap.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/_log4cplus_la-python_wrap.Tpo $(DEPDIR)/_log4cplus_la-python_wrap.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='python_wrap.cxx' object='_log4cplus_la-python_wrap.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(_log4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o _log4cplus_la-python_wrap.lo `test -f 'python_wrap.cxx' || echo '$(srcdir)/'`python_wrap.cxx
 
 src/liblog4cplus_la-appenderattachableimpl.lo: src/appenderattachableimpl.cxx
 @am__fastdepCXX_TRUE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-appenderattachableimpl.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-appenderattachableimpl.Tpo -c -o src/liblog4cplus_la-appenderattachableimpl.lo `test -f 'src/appenderattachableimpl.cxx' || echo '$(srcdir)/'`src/appenderattachableimpl.cxx
@@ -1785,6 +1873,44 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool config.lt
+install-pkgpythonPYTHON: $(pkgpython_PYTHON)
+	@$(NORMAL_INSTALL)
+	@list='$(pkgpython_PYTHON)'; dlist=; list2=; test -n "$(pkgpythondir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pkgpythondir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pkgpythondir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then b=; else b="$(srcdir)/"; fi; \
+	  if test -f $$b$$p; then \
+	    $(am__strip_dir) \
+	    dlist="$$dlist $$f"; \
+	    list2="$$list2 $$b$$p"; \
+	  else :; fi; \
+	done; \
+	for file in $$list2; do echo $$file; done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(pkgpythondir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(pkgpythondir)" || exit $$?; \
+	done || exit $$?; \
+	if test -n "$$dlist"; then \
+	  $(am__py_compile) --destdir "$(DESTDIR)" \
+	                    --basedir "$(pkgpythondir)" $$dlist; \
+	else :; fi
+
+uninstall-pkgpythonPYTHON:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgpython_PYTHON)'; test -n "$(pkgpythondir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	dir='$(DESTDIR)$(pkgpythondir)'; \
+	filesc=`echo "$$files" | sed 's|$$|c|'`; \
+	fileso=`echo "$$files" | sed 's|$$|o|'`; \
+	st=0; \
+	for files in "$$files" "$$filesc" "$$fileso"; do \
+	  $(am__uninstall_files_from_dir) || st=$$?; \
+	done; \
+	exit $$st
 install-pkgconfigDATA: $(pkgconfig_DATA)
 	@$(NORMAL_INSTALL)
 	@list='$(pkgconfig_DATA)'; test -n "$(pkgconfigdir)" || list=; \
@@ -2126,14 +2252,16 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) check-local
-check: check-recursive
+check: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) check-recursive
 all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(DATA)
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgpyexecdir)" "$(DESTDIR)$(pkgpythondir)" "$(DESTDIR)$(pkgconfigdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
-install: install-recursive
+install: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) install-recursive
 install-exec: install-exec-recursive
 install-data: install-data-recursive
 uninstall: uninstall-recursive
@@ -2201,14 +2329,15 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-recursive
 
 clean-am: clean-generic clean-libLTLIBRARIES clean-libtool clean-local \
-	clean-noinstPROGRAMS mostlyclean-am
+	clean-noinstPROGRAMS clean-pkgpyexecLTLIBRARIES mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf qt4debugappender/$(DEPDIR) simpleserver/$(DEPDIR) src/$(DEPDIR) tests/appender_test/$(DEPDIR) tests/configandwatch_test/$(DEPDIR) tests/customloglevel_test/$(DEPDIR) tests/fileappender_test/$(DEPDIR) tests/filter_test/$(DEPDIR) tests/hierarchy_test/$(DEPDIR) tests/loglog_test/$(DEPDIR) tests/ndc_test/$(DEPDIR) tests/ostream_test/$(DEPDIR) tests/patternlayout_test/$(DEPDIR) tests/performance_test/$(DEPDIR) tests/priority_test/$(DEPDIR) tests/propertyconfig_test/$(DEPDIR) tests/socket_test/$(DEPDIR) tests/thread_test/$(DEPDIR) tests/timeformat_test/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) qt4debugappender/$(DEPDIR) simpleserver/$(DEPDIR) src/$(DEPDIR) tests/appender_test/$(DEPDIR) tests/configandwatch_test/$(DEPDIR) tests/customloglevel_test/$(DEPDIR) tests/fileappender_test/$(DEPDIR) tests/filter_test/$(DEPDIR) tests/hierarchy_test/$(DEPDIR) tests/loglog_test/$(DEPDIR) tests/ndc_test/$(DEPDIR) tests/ostream_test/$(DEPDIR) tests/patternlayout_test/$(DEPDIR) tests/performance_test/$(DEPDIR) tests/priority_test/$(DEPDIR) tests/propertyconfig_test/$(DEPDIR) tests/socket_test/$(DEPDIR) tests/thread_test/$(DEPDIR) tests/timeformat_test/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-tags
@@ -2225,13 +2354,13 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-pkgconfigDATA
+install-data-am: install-pkgconfigDATA install-pkgpythonPYTHON
 
 install-dvi: install-dvi-recursive
 
 install-dvi-am:
 
-install-exec-am: install-libLTLIBRARIES
+install-exec-am: install-libLTLIBRARIES install-pkgpyexecLTLIBRARIES
 
 install-html: install-html-recursive
 
@@ -2256,7 +2385,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf qt4debugappender/$(DEPDIR) simpleserver/$(DEPDIR) src/$(DEPDIR) tests/appender_test/$(DEPDIR) tests/configandwatch_test/$(DEPDIR) tests/customloglevel_test/$(DEPDIR) tests/fileappender_test/$(DEPDIR) tests/filter_test/$(DEPDIR) tests/hierarchy_test/$(DEPDIR) tests/loglog_test/$(DEPDIR) tests/ndc_test/$(DEPDIR) tests/ostream_test/$(DEPDIR) tests/patternlayout_test/$(DEPDIR) tests/performance_test/$(DEPDIR) tests/priority_test/$(DEPDIR) tests/propertyconfig_test/$(DEPDIR) tests/socket_test/$(DEPDIR) tests/thread_test/$(DEPDIR) tests/timeformat_test/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) qt4debugappender/$(DEPDIR) simpleserver/$(DEPDIR) src/$(DEPDIR) tests/appender_test/$(DEPDIR) tests/configandwatch_test/$(DEPDIR) tests/customloglevel_test/$(DEPDIR) tests/fileappender_test/$(DEPDIR) tests/filter_test/$(DEPDIR) tests/hierarchy_test/$(DEPDIR) tests/loglog_test/$(DEPDIR) tests/ndc_test/$(DEPDIR) tests/ostream_test/$(DEPDIR) tests/patternlayout_test/$(DEPDIR) tests/performance_test/$(DEPDIR) tests/priority_test/$(DEPDIR) tests/propertyconfig_test/$(DEPDIR) tests/socket_test/$(DEPDIR) tests/thread_test/$(DEPDIR) tests/timeformat_test/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -2273,32 +2402,35 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgconfigDATA
+uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgconfigDATA \
+	uninstall-pkgpyexecLTLIBRARIES uninstall-pkgpythonPYTHON
 
-.MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) check-am \
-	cscopelist-recursive ctags-recursive install-am install-strip \
-	tags-recursive
+.MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) all check \
+	check-am cscopelist-recursive ctags-recursive install \
+	install-am install-strip tags-recursive
 
 .PHONY: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) CTAGS GTAGS \
 	all all-am am--refresh check check-am check-local clean \
 	clean-cscope clean-generic clean-libLTLIBRARIES clean-libtool \
-	clean-local clean-noinstPROGRAMS cscope cscopelist \
-	cscopelist-recursive ctags ctags-recursive dist dist-all \
-	dist-bzip2 dist-gzip dist-lzip dist-shar dist-tarZ dist-xz \
-	dist-zip distcheck distclean distclean-compile \
-	distclean-generic distclean-hdr distclean-libtool \
-	distclean-tags distcleancheck distdir distuninstallcheck dvi \
-	dvi-am html html-am info info-am install install-am \
-	install-data install-data-am install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-libLTLIBRARIES \
-	install-man install-pdf install-pdf-am install-pkgconfigDATA \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-recursive uninstall uninstall-am \
-	uninstall-libLTLIBRARIES uninstall-pkgconfigDATA
+	clean-local clean-noinstPROGRAMS clean-pkgpyexecLTLIBRARIES \
+	cscope cscopelist cscopelist-recursive ctags ctags-recursive \
+	dist dist-all dist-bzip2 dist-gzip dist-lzip dist-shar \
+	dist-tarZ dist-xz dist-zip distcheck distclean \
+	distclean-compile distclean-generic distclean-hdr \
+	distclean-libtool distclean-tags distcleancheck distdir \
+	distuninstallcheck dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am \
+	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
+	install-pkgconfigDATA install-pkgpyexecLTLIBRARIES \
+	install-pkgpythonPYTHON install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs installdirs-am \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags tags-recursive uninstall uninstall-am \
+	uninstall-libLTLIBRARIES uninstall-pkgconfigDATA \
+	uninstall-pkgpyexecLTLIBRARIES uninstall-pkgpythonPYTHON
 
 
 # Empty after transformation to non-recursive make style.
@@ -2332,6 +2464,17 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgconfigDATA
 # Empty after transformation to non-recursive make style.
 
 # Empty after transformation to non-recursive make style.
+
+@WITH_SWIG_TRUE@swig/log4cplus.swg: swig/configurator.swg \
+@WITH_SWIG_TRUE@  swig/hierarchy.swg \
+@WITH_SWIG_TRUE@  swig/logger.swg \
+@WITH_SWIG_TRUE@  swig/loggingevent.swg
+
+@WITH_PYTHON_TRUE@$(PYTHON_WRAP_CXX): $(SWIG_SOURCES)
+@WITH_PYTHON_TRUE@	$(SWIG) $(SWIG_FLAGS) -c++ -python $(SWIG_PYTHON_OPT) \
+@WITH_PYTHON_TRUE@	-I$(top_srcdir)/include -I$(top_builddir)/include \
+@WITH_PYTHON_TRUE@	-I$(top_srcdir)/swig -o $(PYTHON_WRAP_CXX) \
+@WITH_PYTHON_TRUE@	$(top_srcdir)/swig/log4cplus.swg
 
 $(TESTSUITE): $(TESTSUITE_AT)
 	$(AUTOTEST) -I $(srcdir) $(srcdir)/tests/testsuite.at -o $@

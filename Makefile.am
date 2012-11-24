@@ -6,9 +6,6 @@ AM_LDFLAGS=@LOG4CPLUS_PROFILING_LDFLAGS@
 ACLOCAL_AMFLAGS = -I m4
 EXTRA_DIST = ChangeLog log4cplus.pc.in
 SUBDIRS = include
-if WITH_SWIG
-SUBDIRS += swig
-endif
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = log4cplus.pc
 
@@ -35,6 +32,8 @@ include tests/thread_test/Makefile.am
 
 include simpleserver/Makefile.am
 include qt4debugappender/Makefile.am
+include swig/Makefile.common.am
+include swig/python/Makefile.am
 
 TESTSUITE = tests/testsuite
 AUTOTEST = $(AUTOM4TE) --language=Autotest
