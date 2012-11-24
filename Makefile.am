@@ -17,6 +17,7 @@ liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
 include src/Makefile.am
 
 include tests/appender_test/Makefile.am
+include tests/configandwatch_test/Makefile.am
 include tests/customloglevel_test/Makefile.am
 include tests/fileappender_test/Makefile.am
 include tests/filter_test/Makefile.am
@@ -30,11 +31,7 @@ include tests/priority_test/Makefile.am
 include tests/propertyconfig_test/Makefile.am
 include tests/socket_test/Makefile.am
 include tests/timeformat_test/Makefile.am
-
-if MULTI_THREADED
 include tests/thread_test/Makefile.am
-include tests/configandwatch_test/Makefile.am
-endif
 
 include simpleserver/Makefile.am
 include qt4debugappender/Makefile.am

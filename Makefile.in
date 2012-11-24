@@ -86,16 +86,16 @@ DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	AUTHORS COPYING ChangeLog INSTALL NEWS TODO ar-lib \
 	config.guess config.sub depcomp install-sh ltmain.sh missing \
 	mkinstalldirs py-compile
-noinst_PROGRAMS = appender_test$(EXEEXT) customloglevel_test$(EXEEXT) \
-	fileappender_test$(EXEEXT) filter_test$(EXEEXT) \
-	hierarchy_test$(EXEEXT) loglog_test$(EXEEXT) ndc_test$(EXEEXT) \
-	ostream_test$(EXEEXT) patternlayout_test$(EXEEXT) \
-	performance_test$(EXEEXT) priority_test$(EXEEXT) \
-	propertyconfig_test$(EXEEXT) socket_test$(EXEEXT) \
-	timeformat_test$(EXEEXT) $(am__EXEEXT_1)
-@MULTI_THREADED_TRUE@am__append_2 = thread_test configandwatch_test \
-@MULTI_THREADED_TRUE@	loggingserver
-@QT_TRUE@am__append_3 = liblog4cplusqt4debugappender.la
+noinst_PROGRAMS = appender_test$(EXEEXT) $(am__EXEEXT_1) \
+	customloglevel_test$(EXEEXT) fileappender_test$(EXEEXT) \
+	filter_test$(EXEEXT) hierarchy_test$(EXEEXT) \
+	loglog_test$(EXEEXT) ndc_test$(EXEEXT) ostream_test$(EXEEXT) \
+	patternlayout_test$(EXEEXT) performance_test$(EXEEXT) \
+	priority_test$(EXEEXT) propertyconfig_test$(EXEEXT) \
+	socket_test$(EXEEXT) timeformat_test$(EXEEXT) $(am__EXEEXT_2)
+@MULTI_THREADED_TRUE@am__append_2 = configandwatch_test
+@MULTI_THREADED_TRUE@am__append_3 = thread_test loggingserver
+@QT_TRUE@am__append_4 = liblog4cplusqt4debugappender.la
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -230,8 +230,8 @@ liblog4cplusqt4debugappender_la_LINK = $(LIBTOOL) --tag=CXX \
 	$(AM_CXXFLAGS) $(CXXFLAGS) \
 	$(liblog4cplusqt4debugappender_la_LDFLAGS) $(LDFLAGS) -o $@
 @QT_TRUE@am_liblog4cplusqt4debugappender_la_rpath = -rpath $(libdir)
-@MULTI_THREADED_TRUE@am__EXEEXT_1 = thread_test$(EXEEXT) \
-@MULTI_THREADED_TRUE@	configandwatch_test$(EXEEXT) \
+@MULTI_THREADED_TRUE@am__EXEEXT_1 = configandwatch_test$(EXEEXT)
+@MULTI_THREADED_TRUE@am__EXEEXT_2 = thread_test$(EXEEXT) \
 @MULTI_THREADED_TRUE@	loggingserver$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am_appender_test_OBJECTS = tests/appender_test/main.$(OBJEXT)
@@ -577,7 +577,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = log4cplus.pc
 INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
 liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
-lib_LTLIBRARIES = liblog4cplus.la $(am__append_3)
+lib_LTLIBRARIES = liblog4cplus.la $(am__append_4)
 INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/appender.h \
 	$(INCLUDES_SRC_PATH)/asyncappender.h \
@@ -718,6 +718,8 @@ liblog4cplus_la_SOURCES = $(LIB_SRC)
 liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release @LT_RELEASE@ @LOG4CPLUS_PROFILING_LDFLAGS@
 appender_test_SOURCES = tests/appender_test/main.cxx
 appender_test_LDADD = $(liblog4cplus_la_file)
+@MULTI_THREADED_TRUE@configandwatch_test_SOURCES = tests/configandwatch_test/main.cxx
+@MULTI_THREADED_TRUE@configandwatch_test_LDADD = $(liblog4cplus_la_file) 
 customloglevel_test_SOURCES = \
 	tests/customloglevel_test/main.cxx \
 	tests/customloglevel_test/func.cxx \
@@ -753,8 +755,6 @@ timeformat_test_SOURCES = tests/timeformat_test/main.cxx
 timeformat_test_LDADD = $(liblog4cplus_la_file)
 @MULTI_THREADED_TRUE@thread_test_SOURCES = tests/thread_test/main.cxx
 @MULTI_THREADED_TRUE@thread_test_LDADD = $(liblog4cplus_la_file)
-@MULTI_THREADED_TRUE@configandwatch_test_SOURCES = tests/configandwatch_test/main.cxx
-@MULTI_THREADED_TRUE@configandwatch_test_LDADD = $(liblog4cplus_la_file) 
 @MULTI_THREADED_TRUE@loggingserver_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include \
 @MULTI_THREADED_TRUE@	@LOG4CPLUS_NDEBUG@
 
@@ -803,7 +803,7 @@ all: all-recursive
 .SUFFIXES: .cxx .lo .o .obj
 am--refresh: Makefile
 	@:
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(am__configure_deps)
+$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -826,7 +826,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
 	esac;
-$(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am:
+$(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am:
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
