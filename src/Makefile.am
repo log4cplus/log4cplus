@@ -1,15 +1,5 @@
 lib_LTLIBRARIES = liblog4cplus.la
 
-AM_CPPFLAGS = -DINSIDE_LOG4CPLUS \
-		-I$(top_srcdir)/include -I$(top_builddir)/include \
-		@LOG4CPLUS_NDEBUG@
-
-AM_CXXFLAGS=@LOG4CPLUS_PROFILING_CXXFLAGS@
-
-AM_LDFLAGS=@LOG4CPLUS_PROFILING_LDFLAGS@
-
-INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
-
 INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/appender.h \
 	$(INCLUDES_SRC_PATH)/asyncappender.h \
@@ -140,7 +130,13 @@ SINGLE_THREADED_SRC = \
 
 LIB_SRC = $(SINGLE_THREADED_SRC)
 
+liblog4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
+
+#liblog4cplus_la_CXXFLAGS=@LOG4CPLUS_PROFILING_CXXFLAGS@
+
+#liblog4cplus_la_LDFLAGS=@LOG4CPLUS_PROFILING_LDFLAGS@
+
 liblog4cplus_la_SOURCES = $(LIB_SRC)
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release @LT_RELEASE@
+liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release @LT_RELEASE@ @LOG4CPLUS_PROFILING_LDFLAGS@

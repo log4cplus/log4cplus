@@ -553,7 +553,6 @@ AC_CONFIG_HEADERS([include/log4cplus/config.h])
 AC_CONFIG_HEADERS([include/log4cplus/config/defines.hxx])
 AC_CONFIG_FILES([Makefile
            include/Makefile
-           qt4debugappender/Makefile
            tests/atlocal])
 
 m4_include([tests/configure.m4])

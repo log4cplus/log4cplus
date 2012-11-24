@@ -1,15 +1,18 @@
+AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include \
+	@LOG4CPLUS_NDEBUG@
+AM_CXXFLAGS=@LOG4CPLUS_PROFILING_CXXFLAGS@
+AM_LDFLAGS=@LOG4CPLUS_PROFILING_LDFLAGS@
+
 ACLOCAL_AMFLAGS = -I m4
 EXTRA_DIST = ChangeLog log4cplus.pc.in
 SUBDIRS = include
 if WITH_SWIG
 SUBDIRS += swig
 endif
-if QT
-SUBDIRS += qt4debugappender
-endif
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = log4cplus.pc
 
+INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
 liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
 include src/Makefile.am
 
@@ -34,6 +37,7 @@ include tests/configandwatch_test/Makefile.am
 endif
 
 include simpleserver/Makefile.am
+include qt4debugappender/Makefile.am
 
 TESTSUITE = tests/testsuite
 AUTOTEST = $(AUTOM4TE) --language=Autotest
