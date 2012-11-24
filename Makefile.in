@@ -14,6 +14,8 @@
 
 @SET_MAKE@
 
+
+
 VPATH = @srcdir@
 am__make_dryrun = \
   { \
@@ -53,15 +55,47 @@ host_triplet = @host@
 target_triplet = @target@
 @WITH_SWIG_TRUE@am__append_1 = swig
 @QT_TRUE@am__append_2 = qt4debugappender
-subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/log4cplus.pc.in \
+	$(srcdir)/simpleserver/Makefile.am $(srcdir)/src/Makefile.am \
+	$(srcdir)/tests/appender_test/Makefile.am \
+	$(srcdir)/tests/configandwatch_test/Makefile.am \
+	$(srcdir)/tests/customloglevel_test/Makefile.am \
+	$(srcdir)/tests/fileappender_test/Makefile.am \
+	$(srcdir)/tests/filter_test/Makefile.am \
+	$(srcdir)/tests/hierarchy_test/Makefile.am \
+	$(srcdir)/tests/loglog_test/Makefile.am \
+	$(srcdir)/tests/ndc_test/Makefile.am \
+	$(srcdir)/tests/ostream_test/Makefile.am \
+	$(srcdir)/tests/patternlayout_test/Makefile.am \
+	$(srcdir)/tests/performance_test/Makefile.am \
+	$(srcdir)/tests/priority_test/Makefile.am \
+	$(srcdir)/tests/propertyconfig_test/Makefile.am \
+	$(srcdir)/tests/socket_test/Makefile.am \
+	$(srcdir)/tests/thread_test/Makefile.am \
+	$(srcdir)/tests/timeformat_test/Makefile.am \
 	$(top_srcdir)/configure \
 	$(top_srcdir)/include/log4cplus/config.h.in \
-	$(top_srcdir)/include/log4cplus/config/defines.hxx.in AUTHORS \
-	COPYING ChangeLog INSTALL NEWS TODO ar-lib config.guess \
-	config.sub depcomp install-sh ltmain.sh missing mkinstalldirs \
-	py-compile
+	$(top_srcdir)/include/log4cplus/config/defines.hxx.in \
+	$(top_srcdir)/tests/Makefile.am.tests \
+	$(top_srcdir)/tests/atlocal.in \
+	$(top_srcdir)/tests/configandwatch_test/log4cplus.properties.in \
+	$(top_srcdir)/tests/filter_test/log4cplus.properties.in \
+	$(top_srcdir)/tests/performance_test/log4cplus.properties.in \
+	$(top_srcdir)/tests/propertyconfig_test/log4cplus.properties.in \
+	AUTHORS COPYING ChangeLog INSTALL NEWS TODO ar-lib \
+	config.guess config.sub depcomp install-sh ltmain.sh missing \
+	mkinstalldirs py-compile
+noinst_PROGRAMS = appender_test$(EXEEXT) customloglevel_test$(EXEEXT) \
+	fileappender_test$(EXEEXT) filter_test$(EXEEXT) \
+	hierarchy_test$(EXEEXT) loglog_test$(EXEEXT) ndc_test$(EXEEXT) \
+	ostream_test$(EXEEXT) patternlayout_test$(EXEEXT) \
+	performance_test$(EXEEXT) priority_test$(EXEEXT) \
+	propertyconfig_test$(EXEEXT) socket_test$(EXEEXT) \
+	timeformat_test$(EXEEXT) $(am__EXEEXT_1)
+@MULTI_THREADED_TRUE@am__append_3 = thread_test configandwatch_test \
+@MULTI_THREADED_TRUE@	loggingserver
+subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
@@ -93,22 +127,12 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h \
 	$(top_builddir)/include/log4cplus/config/defines.hxx
-CONFIG_CLEAN_FILES = log4cplus.pc
+CONFIG_CLEAN_FILES = tests/atlocal \
+	tests/configandwatch_test/log4cplus.properties \
+	tests/filter_test/log4cplus.properties \
+	tests/performance_test/log4cplus.properties \
+	tests/propertyconfig_test/log4cplus.properties log4cplus.pc
 CONFIG_CLEAN_VPATH_FILES =
-SOURCES =
-DIST_SOURCES =
-RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
-	html-recursive info-recursive install-data-recursive \
-	install-dvi-recursive install-exec-recursive \
-	install-html-recursive install-info-recursive \
-	install-pdf-recursive install-ps-recursive install-recursive \
-	installcheck-recursive installdirs-recursive pdf-recursive \
-	ps-recursive uninstall-recursive
-am__can_run_installinfo = \
-  case $$AM_UPDATE_INFO_DIR in \
-    n|no|NO) false;; \
-    *) (install-info --version) >/dev/null 2>&1;; \
-  esac
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -136,7 +160,159 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(pkgconfigdir)"
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)"
+LTLIBRARIES = $(lib_LTLIBRARIES)
+liblog4cplus_la_LIBADD =
+am__objects_1 =
+am__dirstamp = $(am__leading_dot)dirstamp
+am__objects_2 = $(am__objects_1) src/appenderattachableimpl.lo \
+	src/appender.lo src/asyncappender.lo src/clogger.lo \
+	src/configurator.lo src/consoleappender.lo src/cygwin-win32.lo \
+	src/env.lo src/factory.lo src/fileappender.lo src/fileinfo.lo \
+	src/filter.lo src/global-init.lo src/hierarchy.lo \
+	src/hierarchylocker.lo src/layout.lo src/log4judpappender.lo \
+	src/lockfile.lo src/logger.lo src/loggerimpl.lo \
+	src/loggingevent.lo src/loggingmacros.lo src/loglevel.lo \
+	src/loglog.lo src/logloguser.lo src/mdc.lo src/ndc.lo \
+	src/nullappender.lo src/nteventlogappender.lo \
+	src/objectregistry.lo src/patternlayout.lo src/pointer.lo \
+	src/property.lo src/queue.lo src/rootlogger.lo src/sleep.lo \
+	src/snprintf.lo src/socketappender.lo src/socketbuffer.lo \
+	src/socket.lo src/socket-unix.lo src/socket-win32.lo \
+	src/stringhelper.lo src/stringhelper-clocale.lo \
+	src/stringhelper-cxxlocale.lo src/stringhelper-iconv.lo \
+	src/syncprims.lo src/syslogappender.lo src/threads.lo \
+	src/timehelper.lo src/tls.lo src/version.lo \
+	src/win32consoleappender.lo src/win32debugappender.lo
+am__objects_3 = $(am__objects_2)
+am_liblog4cplus_la_OBJECTS = $(am__objects_3)
+liblog4cplus_la_OBJECTS = $(am_liblog4cplus_la_OBJECTS)
+liblog4cplus_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(liblog4cplus_la_LDFLAGS) $(LDFLAGS) -o $@
+@MULTI_THREADED_TRUE@am__EXEEXT_1 = thread_test$(EXEEXT) \
+@MULTI_THREADED_TRUE@	configandwatch_test$(EXEEXT) \
+@MULTI_THREADED_TRUE@	loggingserver$(EXEEXT)
+PROGRAMS = $(noinst_PROGRAMS)
+am_appender_test_OBJECTS = tests/appender_test/main.$(OBJEXT)
+appender_test_OBJECTS = $(am_appender_test_OBJECTS)
+appender_test_DEPENDENCIES = $(liblog4cplus_la_file)
+am__configandwatch_test_SOURCES_DIST =  \
+	tests/configandwatch_test/main.cxx
+@MULTI_THREADED_TRUE@am_configandwatch_test_OBJECTS =  \
+@MULTI_THREADED_TRUE@	tests/configandwatch_test/main.$(OBJEXT)
+configandwatch_test_OBJECTS = $(am_configandwatch_test_OBJECTS)
+@MULTI_THREADED_TRUE@configandwatch_test_DEPENDENCIES =  \
+@MULTI_THREADED_TRUE@	$(liblog4cplus_la_file)
+am_customloglevel_test_OBJECTS =  \
+	tests/customloglevel_test/main.$(OBJEXT) \
+	tests/customloglevel_test/func.$(OBJEXT) \
+	tests/customloglevel_test/customloglevel.$(OBJEXT)
+customloglevel_test_OBJECTS = $(am_customloglevel_test_OBJECTS)
+customloglevel_test_DEPENDENCIES = $(liblog4cplus_la_file)
+am_fileappender_test_OBJECTS = tests/fileappender_test/main.$(OBJEXT)
+fileappender_test_OBJECTS = $(am_fileappender_test_OBJECTS)
+fileappender_test_DEPENDENCIES = $(liblog4cplus_la_file)
+am_filter_test_OBJECTS = tests/filter_test/main.$(OBJEXT)
+filter_test_OBJECTS = $(am_filter_test_OBJECTS)
+filter_test_DEPENDENCIES = $(liblog4cplus_la_file)
+am_hierarchy_test_OBJECTS = tests/hierarchy_test/main.$(OBJEXT)
+hierarchy_test_OBJECTS = $(am_hierarchy_test_OBJECTS)
+hierarchy_test_DEPENDENCIES = $(liblog4cplus_la_file)
+am__loggingserver_SOURCES_DIST = simpleserver/loggingserver.cxx
+@MULTI_THREADED_TRUE@am_loggingserver_OBJECTS = simpleserver/loggingserver-loggingserver.$(OBJEXT)
+loggingserver_OBJECTS = $(am_loggingserver_OBJECTS)
+@MULTI_THREADED_TRUE@loggingserver_DEPENDENCIES =  \
+@MULTI_THREADED_TRUE@	$(liblog4cplus_la_file)
+am_loglog_test_OBJECTS = tests/loglog_test/main.$(OBJEXT)
+loglog_test_OBJECTS = $(am_loglog_test_OBJECTS)
+loglog_test_DEPENDENCIES = $(liblog4cplus_la_file)
+am_ndc_test_OBJECTS = tests/ndc_test/main.$(OBJEXT)
+ndc_test_OBJECTS = $(am_ndc_test_OBJECTS)
+ndc_test_DEPENDENCIES = $(liblog4cplus_la_file)
+am_ostream_test_OBJECTS = tests/ostream_test/main.$(OBJEXT)
+ostream_test_OBJECTS = $(am_ostream_test_OBJECTS)
+ostream_test_DEPENDENCIES = $(liblog4cplus_la_file)
+am_patternlayout_test_OBJECTS =  \
+	tests/patternlayout_test/main.$(OBJEXT)
+patternlayout_test_OBJECTS = $(am_patternlayout_test_OBJECTS)
+patternlayout_test_DEPENDENCIES = $(liblog4cplus_la_file)
+am_performance_test_OBJECTS = tests/performance_test/main.$(OBJEXT)
+performance_test_OBJECTS = $(am_performance_test_OBJECTS)
+performance_test_DEPENDENCIES = $(liblog4cplus_la_file)
+am_priority_test_OBJECTS = tests/priority_test/main.$(OBJEXT) \
+	tests/priority_test/func.$(OBJEXT)
+priority_test_OBJECTS = $(am_priority_test_OBJECTS)
+priority_test_DEPENDENCIES = $(liblog4cplus_la_file)
+am_propertyconfig_test_OBJECTS =  \
+	tests/propertyconfig_test/main.$(OBJEXT)
+propertyconfig_test_OBJECTS = $(am_propertyconfig_test_OBJECTS)
+propertyconfig_test_DEPENDENCIES = $(liblog4cplus_la_file)
+am_socket_test_OBJECTS = tests/socket_test/main.$(OBJEXT)
+socket_test_OBJECTS = $(am_socket_test_OBJECTS)
+socket_test_DEPENDENCIES = $(liblog4cplus_la_file)
+am__thread_test_SOURCES_DIST = tests/thread_test/main.cxx
+@MULTI_THREADED_TRUE@am_thread_test_OBJECTS =  \
+@MULTI_THREADED_TRUE@	tests/thread_test/main.$(OBJEXT)
+thread_test_OBJECTS = $(am_thread_test_OBJECTS)
+@MULTI_THREADED_TRUE@thread_test_DEPENDENCIES =  \
+@MULTI_THREADED_TRUE@	$(liblog4cplus_la_file)
+am_timeformat_test_OBJECTS = tests/timeformat_test/main.$(OBJEXT)
+timeformat_test_OBJECTS = $(am_timeformat_test_OBJECTS)
+timeformat_test_DEPENDENCIES = $(liblog4cplus_la_file)
+DEFAULT_INCLUDES = 
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+am__depfiles_maybe = depfiles
+am__mv = mv -f
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CXXLD = $(CXX)
+CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
+	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+SOURCES = $(liblog4cplus_la_SOURCES) $(appender_test_SOURCES) \
+	$(configandwatch_test_SOURCES) $(customloglevel_test_SOURCES) \
+	$(fileappender_test_SOURCES) $(filter_test_SOURCES) \
+	$(hierarchy_test_SOURCES) $(loggingserver_SOURCES) \
+	$(loglog_test_SOURCES) $(ndc_test_SOURCES) \
+	$(ostream_test_SOURCES) $(patternlayout_test_SOURCES) \
+	$(performance_test_SOURCES) $(priority_test_SOURCES) \
+	$(propertyconfig_test_SOURCES) $(socket_test_SOURCES) \
+	$(thread_test_SOURCES) $(timeformat_test_SOURCES)
+DIST_SOURCES = $(liblog4cplus_la_SOURCES) $(appender_test_SOURCES) \
+	$(am__configandwatch_test_SOURCES_DIST) \
+	$(customloglevel_test_SOURCES) $(fileappender_test_SOURCES) \
+	$(filter_test_SOURCES) $(hierarchy_test_SOURCES) \
+	$(am__loggingserver_SOURCES_DIST) $(loglog_test_SOURCES) \
+	$(ndc_test_SOURCES) $(ostream_test_SOURCES) \
+	$(patternlayout_test_SOURCES) $(performance_test_SOURCES) \
+	$(priority_test_SOURCES) $(propertyconfig_test_SOURCES) \
+	$(socket_test_SOURCES) $(am__thread_test_SOURCES_DIST) \
+	$(timeformat_test_SOURCES)
+RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
+	html-recursive info-recursive install-data-recursive \
+	install-dvi-recursive install-exec-recursive \
+	install-html-recursive install-info-recursive \
+	install-pdf-recursive install-ps-recursive install-recursive \
+	installcheck-recursive installdirs-recursive pdf-recursive \
+	ps-recursive uninstall-recursive
+am__can_run_installinfo = \
+  case $$AM_UPDATE_INFO_DIR in \
+    n|no|NO) false;; \
+    *) (install-info --version) >/dev/null 2>&1;; \
+  esac
 DATA = $(pkgconfig_DATA)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
@@ -146,7 +322,7 @@ AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
 ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
-DIST_SUBDIRS = include src loggingserver tests swig qt4debugappender
+DIST_SUBDIRS = include swig qt4debugappender
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -345,17 +521,224 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
-EXTRA_DIST = ChangeLog log4cplus.pc.in
-SUBDIRS = include src loggingserver tests $(am__append_1) \
-	$(am__append_2)
+EXTRA_DIST = ChangeLog log4cplus.pc.in tests/testsuite.at $(TESTSUITE) \
+	tests/atlocal.in
+SUBDIRS = include $(am__append_1) $(am__append_2)
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = log4cplus.pc
+liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
+lib_LTLIBRARIES = liblog4cplus.la
+AM_CPPFLAGS = -DINSIDE_LOG4CPLUS \
+		-I$(top_srcdir)/include -I$(top_builddir)/include \
+		@LOG4CPLUS_NDEBUG@
+
+AM_CXXFLAGS = @LOG4CPLUS_PROFILING_CXXFLAGS@
+AM_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@
+INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
+INCLUDES_SRC = \
+	$(INCLUDES_SRC_PATH)/appender.h \
+	$(INCLUDES_SRC_PATH)/asyncappender.h \
+	$(INCLUDES_SRC_PATH)/boost/deviceappender.hxx \
+	$(INCLUDES_SRC_PATH)/clogger.h \
+	$(INCLUDES_SRC_PATH)/config.hxx \
+	$(INCLUDES_SRC_PATH)/config/macosx.h \
+	$(INCLUDES_SRC_PATH)/config/win32.h \
+	$(INCLUDES_SRC_PATH)/config/windowsh-inc.h \
+	$(INCLUDES_SRC_PATH)/configurator.h \
+	$(INCLUDES_SRC_PATH)/consoleappender.h \
+	$(INCLUDES_SRC_PATH)/fileappender.h \
+	$(INCLUDES_SRC_PATH)/fstreams.h \
+	$(INCLUDES_SRC_PATH)/helpers/appenderattachableimpl.h \
+	$(INCLUDES_SRC_PATH)/helpers/fileinfo.h \
+	$(INCLUDES_SRC_PATH)/helpers/lockfile.h \
+	$(INCLUDES_SRC_PATH)/helpers/loglog.h \
+	$(INCLUDES_SRC_PATH)/helpers/logloguser.h \
+	$(INCLUDES_SRC_PATH)/helpers/pointer.h \
+	$(INCLUDES_SRC_PATH)/helpers/property.h \
+	$(INCLUDES_SRC_PATH)/helpers/queue.h \
+	$(INCLUDES_SRC_PATH)/helpers/sleep.h \
+	$(INCLUDES_SRC_PATH)/helpers/snprintf.h \
+	$(INCLUDES_SRC_PATH)/helpers/socketbuffer.h \
+	$(INCLUDES_SRC_PATH)/helpers/socket.h \
+	$(INCLUDES_SRC_PATH)/helpers/stringhelper.h \
+	$(INCLUDES_SRC_PATH)/helpers/thread-config.h \
+	$(INCLUDES_SRC_PATH)/helpers/timehelper.h \
+	$(INCLUDES_SRC_PATH)/hierarchy.h \
+	$(INCLUDES_SRC_PATH)/hierarchylocker.h \
+	$(INCLUDES_SRC_PATH)/internal/cygwin-win32.h \
+	$(INCLUDES_SRC_PATH)/internal/env.h \
+	$(INCLUDES_SRC_PATH)/internal/internal.h \
+	$(INCLUDES_SRC_PATH)/internal/socket.h \
+	$(INCLUDES_SRC_PATH)/layout.h \
+	$(INCLUDES_SRC_PATH)/log4judpappender.h \
+	$(INCLUDES_SRC_PATH)/logger.h \
+	$(INCLUDES_SRC_PATH)/loggingmacros.h \
+	$(INCLUDES_SRC_PATH)/loglevel.h \
+	$(INCLUDES_SRC_PATH)/mdc.h \
+	$(INCLUDES_SRC_PATH)/ndc.h \
+	$(INCLUDES_SRC_PATH)/nteventlogappender.h \
+	$(INCLUDES_SRC_PATH)/nullappender.h \
+	$(INCLUDES_SRC_PATH)/spi/appenderattachable.h \
+	$(INCLUDES_SRC_PATH)/spi/factory.h \
+	$(INCLUDES_SRC_PATH)/spi/filter.h \
+	$(INCLUDES_SRC_PATH)/spi/loggerfactory.h \
+	$(INCLUDES_SRC_PATH)/spi/loggerimpl.h \
+	$(INCLUDES_SRC_PATH)/spi/loggingevent.h \
+	$(INCLUDES_SRC_PATH)/spi/objectregistry.h \
+	$(INCLUDES_SRC_PATH)/spi/rootlogger.h \
+	$(INCLUDES_SRC_PATH)/socketappender.h \
+	$(INCLUDES_SRC_PATH)/streams.h \
+	$(INCLUDES_SRC_PATH)/syslogappender.h \
+	$(INCLUDES_SRC_PATH)/tchar.h \
+	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-impl.h \
+	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-pmsm.h \
+	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-pthreads.h \
+	$(INCLUDES_SRC_PATH)/thread/impl/syncprims-win32.h \
+	$(INCLUDES_SRC_PATH)/thread/impl/threads-impl.h \
+	$(INCLUDES_SRC_PATH)/thread/impl/tls.h \
+	$(INCLUDES_SRC_PATH)/thread/syncprims.h \
+	$(INCLUDES_SRC_PATH)/thread/syncprims-pub-impl.h \
+	$(INCLUDES_SRC_PATH)/thread/threads.h \
+	$(INCLUDES_SRC_PATH)/tracelogger.h \
+	$(INCLUDES_SRC_PATH)/tstring.h \
+	$(INCLUDES_SRC_PATH)/version.h \
+	$(INCLUDES_SRC_PATH)/win32consoleappender.h \
+	$(INCLUDES_SRC_PATH)/win32debugappender.h \
+	$(top_builddir)/include/log4cplus/config/defines.hxx
+
+SINGLE_THREADED_SRC = \
+	$(INCLUDES_SRC) \
+	src/appenderattachableimpl.cxx \
+	src/appender.cxx \
+	src/asyncappender.cxx \
+	src/clogger.cxx \
+	src/configurator.cxx \
+	src/consoleappender.cxx \
+	src/cygwin-win32.cxx \
+	src/env.cxx \
+	src/factory.cxx \
+	src/fileappender.cxx \
+	src/fileinfo.cxx \
+	src/filter.cxx \
+	src/global-init.cxx \
+	src/hierarchy.cxx \
+	src/hierarchylocker.cxx \
+	src/layout.cxx \
+	src/log4judpappender.cxx \
+	src/lockfile.cxx \
+	src/logger.cxx \
+	src/loggerimpl.cxx \
+	src/loggingevent.cxx \
+	src/loggingmacros.cxx \
+	src/loglevel.cxx \
+	src/loglog.cxx \
+	src/logloguser.cxx \
+	src/mdc.cxx \
+	src/ndc.cxx \
+	src/nullappender.cxx \
+	src/nteventlogappender.cxx \
+	src/objectregistry.cxx \
+	src/patternlayout.cxx \
+	src/pointer.cxx \
+	src/property.cxx \
+	src/queue.cxx \
+	src/rootlogger.cxx \
+	src/sleep.cxx \
+	src/snprintf.cxx \
+	src/socketappender.cxx \
+	src/socketbuffer.cxx \
+	src/socket.cxx \
+	src/socket-unix.cxx \
+	src/socket-win32.cxx \
+	src/stringhelper.cxx \
+	src/stringhelper-clocale.cxx \
+	src/stringhelper-cxxlocale.cxx \
+	src/stringhelper-iconv.cxx \
+	src/syncprims.cxx \
+	src/syslogappender.cxx \
+	src/threads.cxx \
+	src/timehelper.cxx \
+	src/tls.cxx \
+	src/version.cxx \
+	src/win32consoleappender.cxx \
+	src/win32debugappender.cxx
+
+LIB_SRC = $(SINGLE_THREADED_SRC)
+liblog4cplus_la_SOURCES = $(LIB_SRC)
+
+#liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
+liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release @LT_RELEASE@
+appender_test_SOURCES = tests/appender_test/main.cxx
+appender_test_LDADD = $(liblog4cplus_la_file)
+customloglevel_test_SOURCES = \
+	tests/customloglevel_test/main.cxx \
+	tests/customloglevel_test/func.cxx \
+	tests/customloglevel_test/customloglevel.cxx
+
+customloglevel_test_LDADD = $(liblog4cplus_la_file) 
+fileappender_test_SOURCES = tests/fileappender_test/main.cxx
+fileappender_test_LDADD = $(liblog4cplus_la_file) 
+filter_test_SOURCES = tests/filter_test/main.cxx
+filter_test_LDADD = $(liblog4cplus_la_file) 
+hierarchy_test_SOURCES = tests/hierarchy_test/main.cxx
+hierarchy_test_LDADD = $(liblog4cplus_la_file) 
+loglog_test_SOURCES = tests/loglog_test/main.cxx
+loglog_test_LDADD = $(liblog4cplus_la_file) 
+ndc_test_SOURCES = tests/ndc_test/main.cxx
+ndc_test_LDADD = $(liblog4cplus_la_file) 
+ostream_test_SOURCES = tests/ostream_test/main.cxx
+ostream_test_LDADD = $(liblog4cplus_la_file) 
+patternlayout_test_SOURCES = tests/patternlayout_test/main.cxx
+patternlayout_test_LDADD = $(liblog4cplus_la_file) 
+performance_test_SOURCES = tests/performance_test/main.cxx
+performance_test_LDADD = $(liblog4cplus_la_file) 
+priority_test_SOURCES = \
+	tests/priority_test/main.cxx \
+	tests/priority_test/func.cxx
+
+priority_test_LDADD = $(liblog4cplus_la_file) 
+propertyconfig_test_SOURCES = tests/propertyconfig_test/main.cxx
+propertyconfig_test_LDADD = $(liblog4cplus_la_file) 
+socket_test_SOURCES = tests/socket_test/main.cxx
+socket_test_LDADD = $(liblog4cplus_la_file) 
+timeformat_test_SOURCES = tests/timeformat_test/main.cxx
+timeformat_test_LDADD = $(liblog4cplus_la_file)
+@MULTI_THREADED_TRUE@thread_test_SOURCES = tests/thread_test/main.cxx
+@MULTI_THREADED_TRUE@thread_test_LDADD = $(liblog4cplus_la_file)
+@MULTI_THREADED_TRUE@configandwatch_test_SOURCES = tests/configandwatch_test/main.cxx
+@MULTI_THREADED_TRUE@configandwatch_test_LDADD = $(liblog4cplus_la_file) 
+@MULTI_THREADED_TRUE@loggingserver_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include \
+@MULTI_THREADED_TRUE@	@LOG4CPLUS_NDEBUG@
+
+@MULTI_THREADED_TRUE@loggingserver_SOURCES = simpleserver/loggingserver.cxx
+@MULTI_THREADED_TRUE@loggingserver_LDADD = $(liblog4cplus_la_file)
+TESTSUITE = tests/testsuite
+AUTOTEST = $(AUTOM4TE) --language=Autotest
+TESTSUITE_AT = \
+  tests/appender_test.at \
+  tests/configandwatch_test.at \
+  tests/customloglevel_test.at \
+  tests/fileappender_test.at \
+  tests/filter_test.at \
+  tests/hierarchy_test.at \
+  tests/loglog_test.at \
+  tests/ndc_test.at \
+  tests/ostream_test.at \
+  tests/patternlayout_test.at \
+  tests/priority_test.at \
+  tests/propertyconfig_test.at \
+  tests/thread_test.at \
+  tests/timeformat_test.at \
+  tests/local.at \
+  tests/testsuite.at
+
 all: all-recursive
 
 .SUFFIXES:
+.SUFFIXES: .cxx .lo .o .obj
 am--refresh: Makefile
 	@:
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -378,6 +761,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
 	esac;
+$(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am:
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -410,14 +794,491 @@ include/log4cplus/config/stamp-h2: $(top_srcdir)/include/log4cplus/config/define
 
 distclean-hdr:
 	-rm -f include/log4cplus/config.h include/log4cplus/stamp-h1 include/log4cplus/config/defines.hxx include/log4cplus/config/stamp-h2
+tests/atlocal: $(top_builddir)/config.status $(top_srcdir)/tests/atlocal.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+tests/configandwatch_test/log4cplus.properties: $(top_builddir)/config.status $(top_srcdir)/tests/configandwatch_test/log4cplus.properties.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+tests/filter_test/log4cplus.properties: $(top_builddir)/config.status $(top_srcdir)/tests/filter_test/log4cplus.properties.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+tests/performance_test/log4cplus.properties: $(top_builddir)/config.status $(top_srcdir)/tests/performance_test/log4cplus.properties.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+tests/propertyconfig_test/log4cplus.properties: $(top_builddir)/config.status $(top_srcdir)/tests/propertyconfig_test/log4cplus.properties.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 log4cplus.pc: $(top_builddir)/config.status $(srcdir)/log4cplus.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
+install-libLTLIBRARIES: $(lib_LTLIBRARIES)
+	@$(NORMAL_INSTALL)
+	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
+	list2=; for p in $$list; do \
+	  if test -f $$p; then \
+	    list2="$$list2 $$p"; \
+	  else :; fi; \
+	done; \
+	test -z "$$list2" || { \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(libdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(libdir)" || exit 1; \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(libdir)'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(libdir)"; \
+	}
+
+uninstall-libLTLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
+	for p in $$list; do \
+	  $(am__strip_dir) \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(libdir)/$$f'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(libdir)/$$f"; \
+	done
+
+clean-libLTLIBRARIES:
+	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
+	@list='$(lib_LTLIBRARIES)'; \
+	locs=`for p in $$list; do echo $$p; done | \
+	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
+	      sort -u`; \
+	test -z "$$locs" || { \
+	  echo rm -f $${locs}; \
+	  rm -f $${locs}; \
+	}
+src/$(am__dirstamp):
+	@$(MKDIR_P) src
+	@: > src/$(am__dirstamp)
+src/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/$(DEPDIR)
+	@: > src/$(DEPDIR)/$(am__dirstamp)
+src/appenderattachableimpl.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/appender.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/asyncappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/clogger.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/configurator.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/consoleappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/cygwin-win32.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/env.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/factory.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/fileappender.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/fileinfo.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/filter.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/global-init.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/hierarchy.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/hierarchylocker.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/layout.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/log4judpappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/lockfile.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/logger.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/loggerimpl.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/loggingevent.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/loggingmacros.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/loglevel.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/loglog.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/logloguser.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/mdc.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/ndc.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/nullappender.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/nteventlogappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/objectregistry.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/patternlayout.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/pointer.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/property.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/queue.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/rootlogger.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/sleep.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/snprintf.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/socketappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/socketbuffer.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/socket.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/socket-unix.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/socket-win32.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/stringhelper.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/stringhelper-clocale.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/stringhelper-cxxlocale.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/stringhelper-iconv.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/syncprims.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/syslogappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/threads.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/timehelper.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/tls.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/version.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/win32consoleappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/win32debugappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+liblog4cplus.la: $(liblog4cplus_la_OBJECTS) $(liblog4cplus_la_DEPENDENCIES) $(EXTRA_liblog4cplus_la_DEPENDENCIES) 
+	$(liblog4cplus_la_LINK) -rpath $(libdir) $(liblog4cplus_la_OBJECTS) $(liblog4cplus_la_LIBADD) $(LIBS)
+
+clean-noinstPROGRAMS:
+	@list='$(noinst_PROGRAMS)'; test -n "$$list" || exit 0; \
+	echo " rm -f" $$list; \
+	rm -f $$list || exit $$?; \
+	test -n "$(EXEEXT)" || exit 0; \
+	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
+	echo " rm -f" $$list; \
+	rm -f $$list
+tests/appender_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/appender_test
+	@: > tests/appender_test/$(am__dirstamp)
+tests/appender_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/appender_test/$(DEPDIR)
+	@: > tests/appender_test/$(DEPDIR)/$(am__dirstamp)
+tests/appender_test/main.$(OBJEXT):  \
+	tests/appender_test/$(am__dirstamp) \
+	tests/appender_test/$(DEPDIR)/$(am__dirstamp)
+appender_test$(EXEEXT): $(appender_test_OBJECTS) $(appender_test_DEPENDENCIES) $(EXTRA_appender_test_DEPENDENCIES) 
+	@rm -f appender_test$(EXEEXT)
+	$(CXXLINK) $(appender_test_OBJECTS) $(appender_test_LDADD) $(LIBS)
+tests/configandwatch_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/configandwatch_test
+	@: > tests/configandwatch_test/$(am__dirstamp)
+tests/configandwatch_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/configandwatch_test/$(DEPDIR)
+	@: > tests/configandwatch_test/$(DEPDIR)/$(am__dirstamp)
+tests/configandwatch_test/main.$(OBJEXT):  \
+	tests/configandwatch_test/$(am__dirstamp) \
+	tests/configandwatch_test/$(DEPDIR)/$(am__dirstamp)
+configandwatch_test$(EXEEXT): $(configandwatch_test_OBJECTS) $(configandwatch_test_DEPENDENCIES) $(EXTRA_configandwatch_test_DEPENDENCIES) 
+	@rm -f configandwatch_test$(EXEEXT)
+	$(CXXLINK) $(configandwatch_test_OBJECTS) $(configandwatch_test_LDADD) $(LIBS)
+tests/customloglevel_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/customloglevel_test
+	@: > tests/customloglevel_test/$(am__dirstamp)
+tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/customloglevel_test/$(DEPDIR)
+	@: > tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
+tests/customloglevel_test/main.$(OBJEXT):  \
+	tests/customloglevel_test/$(am__dirstamp) \
+	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
+tests/customloglevel_test/func.$(OBJEXT):  \
+	tests/customloglevel_test/$(am__dirstamp) \
+	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
+tests/customloglevel_test/customloglevel.$(OBJEXT):  \
+	tests/customloglevel_test/$(am__dirstamp) \
+	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
+customloglevel_test$(EXEEXT): $(customloglevel_test_OBJECTS) $(customloglevel_test_DEPENDENCIES) $(EXTRA_customloglevel_test_DEPENDENCIES) 
+	@rm -f customloglevel_test$(EXEEXT)
+	$(CXXLINK) $(customloglevel_test_OBJECTS) $(customloglevel_test_LDADD) $(LIBS)
+tests/fileappender_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/fileappender_test
+	@: > tests/fileappender_test/$(am__dirstamp)
+tests/fileappender_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/fileappender_test/$(DEPDIR)
+	@: > tests/fileappender_test/$(DEPDIR)/$(am__dirstamp)
+tests/fileappender_test/main.$(OBJEXT):  \
+	tests/fileappender_test/$(am__dirstamp) \
+	tests/fileappender_test/$(DEPDIR)/$(am__dirstamp)
+fileappender_test$(EXEEXT): $(fileappender_test_OBJECTS) $(fileappender_test_DEPENDENCIES) $(EXTRA_fileappender_test_DEPENDENCIES) 
+	@rm -f fileappender_test$(EXEEXT)
+	$(CXXLINK) $(fileappender_test_OBJECTS) $(fileappender_test_LDADD) $(LIBS)
+tests/filter_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/filter_test
+	@: > tests/filter_test/$(am__dirstamp)
+tests/filter_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/filter_test/$(DEPDIR)
+	@: > tests/filter_test/$(DEPDIR)/$(am__dirstamp)
+tests/filter_test/main.$(OBJEXT): tests/filter_test/$(am__dirstamp) \
+	tests/filter_test/$(DEPDIR)/$(am__dirstamp)
+filter_test$(EXEEXT): $(filter_test_OBJECTS) $(filter_test_DEPENDENCIES) $(EXTRA_filter_test_DEPENDENCIES) 
+	@rm -f filter_test$(EXEEXT)
+	$(CXXLINK) $(filter_test_OBJECTS) $(filter_test_LDADD) $(LIBS)
+tests/hierarchy_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/hierarchy_test
+	@: > tests/hierarchy_test/$(am__dirstamp)
+tests/hierarchy_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/hierarchy_test/$(DEPDIR)
+	@: > tests/hierarchy_test/$(DEPDIR)/$(am__dirstamp)
+tests/hierarchy_test/main.$(OBJEXT):  \
+	tests/hierarchy_test/$(am__dirstamp) \
+	tests/hierarchy_test/$(DEPDIR)/$(am__dirstamp)
+hierarchy_test$(EXEEXT): $(hierarchy_test_OBJECTS) $(hierarchy_test_DEPENDENCIES) $(EXTRA_hierarchy_test_DEPENDENCIES) 
+	@rm -f hierarchy_test$(EXEEXT)
+	$(CXXLINK) $(hierarchy_test_OBJECTS) $(hierarchy_test_LDADD) $(LIBS)
+simpleserver/$(am__dirstamp):
+	@$(MKDIR_P) simpleserver
+	@: > simpleserver/$(am__dirstamp)
+simpleserver/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) simpleserver/$(DEPDIR)
+	@: > simpleserver/$(DEPDIR)/$(am__dirstamp)
+simpleserver/loggingserver-loggingserver.$(OBJEXT):  \
+	simpleserver/$(am__dirstamp) \
+	simpleserver/$(DEPDIR)/$(am__dirstamp)
+loggingserver$(EXEEXT): $(loggingserver_OBJECTS) $(loggingserver_DEPENDENCIES) $(EXTRA_loggingserver_DEPENDENCIES) 
+	@rm -f loggingserver$(EXEEXT)
+	$(CXXLINK) $(loggingserver_OBJECTS) $(loggingserver_LDADD) $(LIBS)
+tests/loglog_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/loglog_test
+	@: > tests/loglog_test/$(am__dirstamp)
+tests/loglog_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/loglog_test/$(DEPDIR)
+	@: > tests/loglog_test/$(DEPDIR)/$(am__dirstamp)
+tests/loglog_test/main.$(OBJEXT): tests/loglog_test/$(am__dirstamp) \
+	tests/loglog_test/$(DEPDIR)/$(am__dirstamp)
+loglog_test$(EXEEXT): $(loglog_test_OBJECTS) $(loglog_test_DEPENDENCIES) $(EXTRA_loglog_test_DEPENDENCIES) 
+	@rm -f loglog_test$(EXEEXT)
+	$(CXXLINK) $(loglog_test_OBJECTS) $(loglog_test_LDADD) $(LIBS)
+tests/ndc_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/ndc_test
+	@: > tests/ndc_test/$(am__dirstamp)
+tests/ndc_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/ndc_test/$(DEPDIR)
+	@: > tests/ndc_test/$(DEPDIR)/$(am__dirstamp)
+tests/ndc_test/main.$(OBJEXT): tests/ndc_test/$(am__dirstamp) \
+	tests/ndc_test/$(DEPDIR)/$(am__dirstamp)
+ndc_test$(EXEEXT): $(ndc_test_OBJECTS) $(ndc_test_DEPENDENCIES) $(EXTRA_ndc_test_DEPENDENCIES) 
+	@rm -f ndc_test$(EXEEXT)
+	$(CXXLINK) $(ndc_test_OBJECTS) $(ndc_test_LDADD) $(LIBS)
+tests/ostream_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/ostream_test
+	@: > tests/ostream_test/$(am__dirstamp)
+tests/ostream_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/ostream_test/$(DEPDIR)
+	@: > tests/ostream_test/$(DEPDIR)/$(am__dirstamp)
+tests/ostream_test/main.$(OBJEXT): tests/ostream_test/$(am__dirstamp) \
+	tests/ostream_test/$(DEPDIR)/$(am__dirstamp)
+ostream_test$(EXEEXT): $(ostream_test_OBJECTS) $(ostream_test_DEPENDENCIES) $(EXTRA_ostream_test_DEPENDENCIES) 
+	@rm -f ostream_test$(EXEEXT)
+	$(CXXLINK) $(ostream_test_OBJECTS) $(ostream_test_LDADD) $(LIBS)
+tests/patternlayout_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/patternlayout_test
+	@: > tests/patternlayout_test/$(am__dirstamp)
+tests/patternlayout_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/patternlayout_test/$(DEPDIR)
+	@: > tests/patternlayout_test/$(DEPDIR)/$(am__dirstamp)
+tests/patternlayout_test/main.$(OBJEXT):  \
+	tests/patternlayout_test/$(am__dirstamp) \
+	tests/patternlayout_test/$(DEPDIR)/$(am__dirstamp)
+patternlayout_test$(EXEEXT): $(patternlayout_test_OBJECTS) $(patternlayout_test_DEPENDENCIES) $(EXTRA_patternlayout_test_DEPENDENCIES) 
+	@rm -f patternlayout_test$(EXEEXT)
+	$(CXXLINK) $(patternlayout_test_OBJECTS) $(patternlayout_test_LDADD) $(LIBS)
+tests/performance_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/performance_test
+	@: > tests/performance_test/$(am__dirstamp)
+tests/performance_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/performance_test/$(DEPDIR)
+	@: > tests/performance_test/$(DEPDIR)/$(am__dirstamp)
+tests/performance_test/main.$(OBJEXT):  \
+	tests/performance_test/$(am__dirstamp) \
+	tests/performance_test/$(DEPDIR)/$(am__dirstamp)
+performance_test$(EXEEXT): $(performance_test_OBJECTS) $(performance_test_DEPENDENCIES) $(EXTRA_performance_test_DEPENDENCIES) 
+	@rm -f performance_test$(EXEEXT)
+	$(CXXLINK) $(performance_test_OBJECTS) $(performance_test_LDADD) $(LIBS)
+tests/priority_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/priority_test
+	@: > tests/priority_test/$(am__dirstamp)
+tests/priority_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/priority_test/$(DEPDIR)
+	@: > tests/priority_test/$(DEPDIR)/$(am__dirstamp)
+tests/priority_test/main.$(OBJEXT):  \
+	tests/priority_test/$(am__dirstamp) \
+	tests/priority_test/$(DEPDIR)/$(am__dirstamp)
+tests/priority_test/func.$(OBJEXT):  \
+	tests/priority_test/$(am__dirstamp) \
+	tests/priority_test/$(DEPDIR)/$(am__dirstamp)
+priority_test$(EXEEXT): $(priority_test_OBJECTS) $(priority_test_DEPENDENCIES) $(EXTRA_priority_test_DEPENDENCIES) 
+	@rm -f priority_test$(EXEEXT)
+	$(CXXLINK) $(priority_test_OBJECTS) $(priority_test_LDADD) $(LIBS)
+tests/propertyconfig_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/propertyconfig_test
+	@: > tests/propertyconfig_test/$(am__dirstamp)
+tests/propertyconfig_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/propertyconfig_test/$(DEPDIR)
+	@: > tests/propertyconfig_test/$(DEPDIR)/$(am__dirstamp)
+tests/propertyconfig_test/main.$(OBJEXT):  \
+	tests/propertyconfig_test/$(am__dirstamp) \
+	tests/propertyconfig_test/$(DEPDIR)/$(am__dirstamp)
+propertyconfig_test$(EXEEXT): $(propertyconfig_test_OBJECTS) $(propertyconfig_test_DEPENDENCIES) $(EXTRA_propertyconfig_test_DEPENDENCIES) 
+	@rm -f propertyconfig_test$(EXEEXT)
+	$(CXXLINK) $(propertyconfig_test_OBJECTS) $(propertyconfig_test_LDADD) $(LIBS)
+tests/socket_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/socket_test
+	@: > tests/socket_test/$(am__dirstamp)
+tests/socket_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/socket_test/$(DEPDIR)
+	@: > tests/socket_test/$(DEPDIR)/$(am__dirstamp)
+tests/socket_test/main.$(OBJEXT): tests/socket_test/$(am__dirstamp) \
+	tests/socket_test/$(DEPDIR)/$(am__dirstamp)
+socket_test$(EXEEXT): $(socket_test_OBJECTS) $(socket_test_DEPENDENCIES) $(EXTRA_socket_test_DEPENDENCIES) 
+	@rm -f socket_test$(EXEEXT)
+	$(CXXLINK) $(socket_test_OBJECTS) $(socket_test_LDADD) $(LIBS)
+tests/thread_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/thread_test
+	@: > tests/thread_test/$(am__dirstamp)
+tests/thread_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/thread_test/$(DEPDIR)
+	@: > tests/thread_test/$(DEPDIR)/$(am__dirstamp)
+tests/thread_test/main.$(OBJEXT): tests/thread_test/$(am__dirstamp) \
+	tests/thread_test/$(DEPDIR)/$(am__dirstamp)
+thread_test$(EXEEXT): $(thread_test_OBJECTS) $(thread_test_DEPENDENCIES) $(EXTRA_thread_test_DEPENDENCIES) 
+	@rm -f thread_test$(EXEEXT)
+	$(CXXLINK) $(thread_test_OBJECTS) $(thread_test_LDADD) $(LIBS)
+tests/timeformat_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/timeformat_test
+	@: > tests/timeformat_test/$(am__dirstamp)
+tests/timeformat_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/timeformat_test/$(DEPDIR)
+	@: > tests/timeformat_test/$(DEPDIR)/$(am__dirstamp)
+tests/timeformat_test/main.$(OBJEXT):  \
+	tests/timeformat_test/$(am__dirstamp) \
+	tests/timeformat_test/$(DEPDIR)/$(am__dirstamp)
+timeformat_test$(EXEEXT): $(timeformat_test_OBJECTS) $(timeformat_test_DEPENDENCIES) $(EXTRA_timeformat_test_DEPENDENCIES) 
+	@rm -f timeformat_test$(EXEEXT)
+	$(CXXLINK) $(timeformat_test_OBJECTS) $(timeformat_test_LDADD) $(LIBS)
+
+mostlyclean-compile:
+	-rm -f *.$(OBJEXT)
+	-rm -f simpleserver/*.$(OBJEXT)
+	-rm -f src/*.$(OBJEXT)
+	-rm -f src/*.lo
+	-rm -f tests/appender_test/*.$(OBJEXT)
+	-rm -f tests/configandwatch_test/*.$(OBJEXT)
+	-rm -f tests/customloglevel_test/*.$(OBJEXT)
+	-rm -f tests/fileappender_test/*.$(OBJEXT)
+	-rm -f tests/filter_test/*.$(OBJEXT)
+	-rm -f tests/hierarchy_test/*.$(OBJEXT)
+	-rm -f tests/loglog_test/*.$(OBJEXT)
+	-rm -f tests/ndc_test/*.$(OBJEXT)
+	-rm -f tests/ostream_test/*.$(OBJEXT)
+	-rm -f tests/patternlayout_test/*.$(OBJEXT)
+	-rm -f tests/performance_test/*.$(OBJEXT)
+	-rm -f tests/priority_test/*.$(OBJEXT)
+	-rm -f tests/propertyconfig_test/*.$(OBJEXT)
+	-rm -f tests/socket_test/*.$(OBJEXT)
+	-rm -f tests/thread_test/*.$(OBJEXT)
+	-rm -f tests/timeformat_test/*.$(OBJEXT)
+
+distclean-compile:
+	-rm -f *.tab.c
+
+@AMDEP_TRUE@@am__include@ @am__quote@simpleserver/$(DEPDIR)/loggingserver-loggingserver.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/appender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/appenderattachableimpl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/asyncappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/clogger.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/configurator.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/consoleappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/cygwin-win32.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/env.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/factory.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/fileappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/fileinfo.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/filter.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/global-init.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/hierarchy.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/hierarchylocker.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/layout.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/lockfile.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/log4judpappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/logger.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/loggerimpl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/loggingevent.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/loggingmacros.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/loglevel.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/loglog.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/logloguser.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/mdc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/ndc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/nteventlogappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/nullappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/objectregistry.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/patternlayout.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/pointer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/property.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/queue.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/rootlogger.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/sleep.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/snprintf.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/socket-unix.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/socket-win32.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/socket.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/socketappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/socketbuffer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/stringhelper-clocale.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/stringhelper-cxxlocale.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/stringhelper-iconv.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/stringhelper.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/syncprims.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/syslogappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/threads.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/timehelper.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/tls.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/version.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/win32consoleappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/win32debugappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/appender_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/configandwatch_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/customloglevel_test/$(DEPDIR)/customloglevel.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/customloglevel_test/$(DEPDIR)/func.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/customloglevel_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/fileappender_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/filter_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/hierarchy_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/loglog_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/ndc_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/ostream_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/patternlayout_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/performance_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/priority_test/$(DEPDIR)/func.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/priority_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/propertyconfig_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/socket_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/thread_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/timeformat_test/$(DEPDIR)/main.Po@am__quote@
+
+.cxx.o:
+@am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ $<
+
+.cxx.obj:
+@am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.cxx.lo:
+@am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.lo$$||'`;\
+@am__fastdepCXX_TRUE@	$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ $<
+
+simpleserver/loggingserver-loggingserver.o: simpleserver/loggingserver.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loggingserver_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT simpleserver/loggingserver-loggingserver.o -MD -MP -MF simpleserver/$(DEPDIR)/loggingserver-loggingserver.Tpo -c -o simpleserver/loggingserver-loggingserver.o `test -f 'simpleserver/loggingserver.cxx' || echo '$(srcdir)/'`simpleserver/loggingserver.cxx
+@am__fastdepCXX_TRUE@	$(am__mv) simpleserver/$(DEPDIR)/loggingserver-loggingserver.Tpo simpleserver/$(DEPDIR)/loggingserver-loggingserver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='simpleserver/loggingserver.cxx' object='simpleserver/loggingserver-loggingserver.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loggingserver_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o simpleserver/loggingserver-loggingserver.o `test -f 'simpleserver/loggingserver.cxx' || echo '$(srcdir)/'`simpleserver/loggingserver.cxx
+
+simpleserver/loggingserver-loggingserver.obj: simpleserver/loggingserver.cxx
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loggingserver_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT simpleserver/loggingserver-loggingserver.obj -MD -MP -MF simpleserver/$(DEPDIR)/loggingserver-loggingserver.Tpo -c -o simpleserver/loggingserver-loggingserver.obj `if test -f 'simpleserver/loggingserver.cxx'; then $(CYGPATH_W) 'simpleserver/loggingserver.cxx'; else $(CYGPATH_W) '$(srcdir)/simpleserver/loggingserver.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) simpleserver/$(DEPDIR)/loggingserver-loggingserver.Tpo simpleserver/$(DEPDIR)/loggingserver-loggingserver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='simpleserver/loggingserver.cxx' object='simpleserver/loggingserver-loggingserver.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loggingserver_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o simpleserver/loggingserver-loggingserver.obj `if test -f 'simpleserver/loggingserver.cxx'; then $(CYGPATH_W) 'simpleserver/loggingserver.cxx'; else $(CYGPATH_W) '$(srcdir)/simpleserver/loggingserver.cxx'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
 	-rm -rf .libs _libs
+	-rm -rf src/.libs src/_libs
 
 distclean-libtool:
 	-rm -f libtool config.lt
@@ -761,11 +1622,12 @@ distcleancheck: distclean
 	       $(distcleancheck_listfiles) ; \
 	       exit 1; } >&2
 check-am: all-am
+	$(MAKE) $(AM_MAKEFLAGS) check-local
 check: check-recursive
-all-am: Makefile $(DATA)
+all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(DATA)
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(pkgconfigdir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-recursive
@@ -794,19 +1656,57 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f simpleserver/$(DEPDIR)/$(am__dirstamp)
+	-rm -f simpleserver/$(am__dirstamp)
+	-rm -f src/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/$(am__dirstamp)
+	-rm -f tests/appender_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/appender_test/$(am__dirstamp)
+	-rm -f tests/configandwatch_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/configandwatch_test/$(am__dirstamp)
+	-rm -f tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/customloglevel_test/$(am__dirstamp)
+	-rm -f tests/fileappender_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/fileappender_test/$(am__dirstamp)
+	-rm -f tests/filter_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/filter_test/$(am__dirstamp)
+	-rm -f tests/hierarchy_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/hierarchy_test/$(am__dirstamp)
+	-rm -f tests/loglog_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/loglog_test/$(am__dirstamp)
+	-rm -f tests/ndc_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/ndc_test/$(am__dirstamp)
+	-rm -f tests/ostream_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/ostream_test/$(am__dirstamp)
+	-rm -f tests/patternlayout_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/patternlayout_test/$(am__dirstamp)
+	-rm -f tests/performance_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/performance_test/$(am__dirstamp)
+	-rm -f tests/priority_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/priority_test/$(am__dirstamp)
+	-rm -f tests/propertyconfig_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/propertyconfig_test/$(am__dirstamp)
+	-rm -f tests/socket_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/socket_test/$(am__dirstamp)
+	-rm -f tests/thread_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/thread_test/$(am__dirstamp)
+	-rm -f tests/timeformat_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/timeformat_test/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-recursive
 
-clean-am: clean-generic clean-libtool mostlyclean-am
+clean-am: clean-generic clean-libLTLIBRARIES clean-libtool clean-local \
+	clean-noinstPROGRAMS mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
+	-rm -rf simpleserver/$(DEPDIR) src/$(DEPDIR) tests/appender_test/$(DEPDIR) tests/configandwatch_test/$(DEPDIR) tests/customloglevel_test/$(DEPDIR) tests/fileappender_test/$(DEPDIR) tests/filter_test/$(DEPDIR) tests/hierarchy_test/$(DEPDIR) tests/loglog_test/$(DEPDIR) tests/ndc_test/$(DEPDIR) tests/ostream_test/$(DEPDIR) tests/patternlayout_test/$(DEPDIR) tests/performance_test/$(DEPDIR) tests/priority_test/$(DEPDIR) tests/propertyconfig_test/$(DEPDIR) tests/socket_test/$(DEPDIR) tests/thread_test/$(DEPDIR) tests/timeformat_test/$(DEPDIR)
 	-rm -f Makefile
-distclean-am: clean-am distclean-generic distclean-hdr \
-	distclean-libtool distclean-tags
+distclean-am: clean-am distclean-compile distclean-generic \
+	distclean-hdr distclean-libtool distclean-tags
 
 dvi: dvi-recursive
 
@@ -826,7 +1726,7 @@ install-dvi: install-dvi-recursive
 
 install-dvi-am:
 
-install-exec-am:
+install-exec-am: install-libLTLIBRARIES
 
 install-html: install-html-recursive
 
@@ -851,12 +1751,14 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
+	-rm -rf simpleserver/$(DEPDIR) src/$(DEPDIR) tests/appender_test/$(DEPDIR) tests/configandwatch_test/$(DEPDIR) tests/customloglevel_test/$(DEPDIR) tests/fileappender_test/$(DEPDIR) tests/filter_test/$(DEPDIR) tests/hierarchy_test/$(DEPDIR) tests/loglog_test/$(DEPDIR) tests/ndc_test/$(DEPDIR) tests/ostream_test/$(DEPDIR) tests/patternlayout_test/$(DEPDIR) tests/performance_test/$(DEPDIR) tests/priority_test/$(DEPDIR) tests/propertyconfig_test/$(DEPDIR) tests/socket_test/$(DEPDIR) tests/thread_test/$(DEPDIR) tests/timeformat_test/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-recursive
 
-mostlyclean-am: mostlyclean-generic mostlyclean-libtool
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool
 
 pdf: pdf-recursive
 
@@ -866,30 +1768,77 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-pkgconfigDATA
+uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgconfigDATA
 
-.MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) \
+.MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) check-am \
 	cscopelist-recursive ctags-recursive install-am install-strip \
 	tags-recursive
 
 .PHONY: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) CTAGS GTAGS \
-	all all-am am--refresh check check-am clean clean-cscope \
-	clean-generic clean-libtool cscope cscopelist \
+	all all-am am--refresh check check-am check-local clean \
+	clean-cscope clean-generic clean-libLTLIBRARIES clean-libtool \
+	clean-local clean-noinstPROGRAMS cscope cscopelist \
 	cscopelist-recursive ctags ctags-recursive dist dist-all \
 	dist-bzip2 dist-gzip dist-lzip dist-shar dist-tarZ dist-xz \
-	dist-zip distcheck distclean distclean-generic distclean-hdr \
-	distclean-libtool distclean-tags distcleancheck distdir \
-	distuninstallcheck dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-pkgconfigDATA install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-recursive \
-	uninstall uninstall-am uninstall-pkgconfigDATA
+	dist-zip distcheck distclean distclean-compile \
+	distclean-generic distclean-hdr distclean-libtool \
+	distclean-tags distcleancheck distdir distuninstallcheck dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-libLTLIBRARIES \
+	install-man install-pdf install-pdf-am install-pkgconfigDATA \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs installdirs-am maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-recursive uninstall uninstall-am \
+	uninstall-libLTLIBRARIES uninstall-pkgconfigDATA
 
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+# Empty after transformation to non-recursive make style.
+
+$(TESTSUITE): $(TESTSUITE_AT)
+	$(AUTOTEST) -I $(srcdir) $(srcdir)/tests/testsuite.at -o $@
+
+tests/atconfig: $(top_builddir)/config.status
+	cd "$(top_builddir)" && ./config.status tests/$@
+
+check-local: tests/atconfig tests/atlocal $(TESTSUITE)
+	cd "$(top_builddir)/tests" && $(SHELL) $(abs_top_srcdir)/$(TESTSUITE) $(TESTSUITEFLAGS)
+
+clean-local:
+	cd "$(top_builddir)/tests" && (test ! -f '$(abs_top_srcdir)/$(TESTSUITE)' || $(SHELL) '$(abs_top_srcdir)/$(TESTSUITE)' --clean)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

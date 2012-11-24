@@ -1,8 +1,8 @@
 include $(top_srcdir)/tests/Makefile.am.tests
 
-noinst_PROGRAMS = hierarchy_test
+noinst_PROGRAMS += hierarchy_test
 
-hierarchy_test_SOURCES = main.cxx
+hierarchy_test_SOURCES = tests/hierarchy_test/main.cxx
 
-hierarchy_test_LDADD = $(top_builddir)/src/liblog4cplus.la 
+hierarchy_test_LDADD = $(liblog4cplus_la_file) 
 

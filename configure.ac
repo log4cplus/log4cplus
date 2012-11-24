@@ -553,27 +553,8 @@ AC_CONFIG_HEADERS([include/log4cplus/config.h])
 AC_CONFIG_HEADERS([include/log4cplus/config/defines.hxx])
 AC_CONFIG_FILES([Makefile
            include/Makefile
-           src/Makefile
-           loggingserver/Makefile
            qt4debugappender/Makefile
-           tests/atlocal
-           tests/Makefile
-           tests/appender_test/Makefile
-           tests/configandwatch_test/Makefile
-           tests/customloglevel_test/Makefile
-           tests/fileappender_test/Makefile
-           tests/filter_test/Makefile
-           tests/hierarchy_test/Makefile
-           tests/loglog_test/Makefile
-           tests/ndc_test/Makefile
-           tests/ostream_test/Makefile
-           tests/patternlayout_test/Makefile
-           tests/performance_test/Makefile
-           tests/priority_test/Makefile
-           tests/propertyconfig_test/Makefile
-           tests/socket_test/Makefile
-           tests/thread_test/Makefile
-           tests/timeformat_test/Makefile])
+           tests/atlocal])
 
 m4_include([tests/configure.m4])
 
