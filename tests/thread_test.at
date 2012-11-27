@@ -1,6 +1,6 @@
 AT_SETUP([thread_test])
 AT_KEYWORDS([appenders])
 
-AT_CHECK(["${abs_builddir}/thread_test/thread_test"], [0], [stdout], [stderr])
+AT_CHECK(["${abs_top_builddir}/thread_test"], [0], [stdout], [stderr])
 
 AT_CLEANUP

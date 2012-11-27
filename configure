@@ -10583,8 +10583,6 @@ $as_echo "$as_me: WARNING: cannot determine SWIG version" >&2;}
 
         SWIG="$SWIG -noruntime"
 
-   ac_config_files="$ac_config_files swig/Makefile"
-
 fi
 
  if test "x$with_swig" = "xyes"; then
@@ -11175,8 +11173,6 @@ See \`config.log' for more details" "$LINENO" 5; }
    AX_SWIG_PYTHON_OPT=-python$swig_shadow
 
    AX_SWIG_PYTHON_CPPFLAGS=$PYTHON_CPPFLAGS
-
-   ac_config_files="$ac_config_files swig/python/Makefile"
 
 fi
 
@@ -21803,7 +21799,7 @@ ac_config_headers="$ac_config_headers include/log4cplus/config.h"
 
 ac_config_headers="$ac_config_headers include/log4cplus/config/defines.hxx"
 
-ac_config_files="$ac_config_files Makefile include/Makefile src/Makefile loggingserver/Makefile qt4debugappender/Makefile tests/atlocal tests/Makefile tests/appender_test/Makefile tests/configandwatch_test/Makefile tests/customloglevel_test/Makefile tests/fileappender_test/Makefile tests/filter_test/Makefile tests/hierarchy_test/Makefile tests/loglog_test/Makefile tests/ndc_test/Makefile tests/ostream_test/Makefile tests/patternlayout_test/Makefile tests/performance_test/Makefile tests/priority_test/Makefile tests/propertyconfig_test/Makefile tests/socket_test/Makefile tests/thread_test/Makefile tests/timeformat_test/Makefile"
+ac_config_files="$ac_config_files Makefile include/Makefile tests/atlocal"
 
 
 ac_config_files="$ac_config_files tests/configandwatch_test/log4cplus.properties tests/filter_test/log4cplus.properties tests/performance_test/log4cplus.properties tests/propertyconfig_test/log4cplus.properties"
@@ -22944,34 +22940,12 @@ do
   case $ac_config_target in
     "tests/atconfig") CONFIG_COMMANDS="$CONFIG_COMMANDS tests/atconfig" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
-    "swig/Makefile") CONFIG_FILES="$CONFIG_FILES swig/Makefile" ;;
-    "swig/python/Makefile") CONFIG_FILES="$CONFIG_FILES swig/python/Makefile" ;;
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "include/log4cplus/config.h") CONFIG_HEADERS="$CONFIG_HEADERS include/log4cplus/config.h" ;;
     "include/log4cplus/config/defines.hxx") CONFIG_HEADERS="$CONFIG_HEADERS include/log4cplus/config/defines.hxx" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "include/Makefile") CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
-    "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
-    "loggingserver/Makefile") CONFIG_FILES="$CONFIG_FILES loggingserver/Makefile" ;;
-    "qt4debugappender/Makefile") CONFIG_FILES="$CONFIG_FILES qt4debugappender/Makefile" ;;
     "tests/atlocal") CONFIG_FILES="$CONFIG_FILES tests/atlocal" ;;
-    "tests/Makefile") CONFIG_FILES="$CONFIG_FILES tests/Makefile" ;;
-    "tests/appender_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/appender_test/Makefile" ;;
-    "tests/configandwatch_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/configandwatch_test/Makefile" ;;
-    "tests/customloglevel_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/customloglevel_test/Makefile" ;;
-    "tests/fileappender_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/fileappender_test/Makefile" ;;
-    "tests/filter_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/filter_test/Makefile" ;;
-    "tests/hierarchy_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/hierarchy_test/Makefile" ;;
-    "tests/loglog_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/loglog_test/Makefile" ;;
-    "tests/ndc_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/ndc_test/Makefile" ;;
-    "tests/ostream_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/ostream_test/Makefile" ;;
-    "tests/patternlayout_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/patternlayout_test/Makefile" ;;
-    "tests/performance_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/performance_test/Makefile" ;;
-    "tests/priority_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/priority_test/Makefile" ;;
-    "tests/propertyconfig_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/propertyconfig_test/Makefile" ;;
-    "tests/socket_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/socket_test/Makefile" ;;
-    "tests/thread_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/thread_test/Makefile" ;;
-    "tests/timeformat_test/Makefile") CONFIG_FILES="$CONFIG_FILES tests/timeformat_test/Makefile" ;;
     "tests/configandwatch_test/log4cplus.properties") CONFIG_FILES="$CONFIG_FILES tests/configandwatch_test/log4cplus.properties" ;;
     "tests/filter_test/log4cplus.properties") CONFIG_FILES="$CONFIG_FILES tests/filter_test/log4cplus.properties" ;;
     "tests/performance_test/log4cplus.properties") CONFIG_FILES="$CONFIG_FILES tests/performance_test/log4cplus.properties" ;;

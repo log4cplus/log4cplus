@@ -1,8 +1,7 @@
 AT_SETUP([timeformat_test])
 AT_KEYWORDS([appenders])
 
-AT_CHECK(["${abs_builddir}/timeformat_test/timeformat_test"], [0], [stdout],
-  [stderr])
+AT_CHECK(["${abs_top_builddir}/timeformat_test"], [0], [stdout], [stderr])
 AT_CHECK([cp -f "${abs_srcdir}/timeformat_test/expout" .])
 AT_CHECK([$SED -e '2d' <stdout], [0], [expout], [ignore])
 

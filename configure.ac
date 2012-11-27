@@ -524,8 +524,7 @@ AC_ARG_WITH([python],
 
 AS_IF([test "x$with_swig" = "xyes"],
   [AX_PKG_SWIG([2.0.0], [:], [AC_MSG_ERROR([SWIG is required to build.])])
-   AX_SWIG_MULTI_MODULE_SUPPORT
-   AC_CONFIG_FILES([swig/Makefile])])
+   AX_SWIG_MULTI_MODULE_SUPPORT])
 
 AM_CONDITIONAL([WITH_SWIG], [test "x$with_swig" = "xyes"])
 
@@ -533,8 +532,7 @@ AS_IF([test "x$with_python" = "xyes"],
   [AM_PATH_PYTHON([2.3])
    AX_PYTHON_DEVEL
    AC_SUBST([AX_SWIG_PYTHON_OPT],[-python$swig_shadow])
-   AC_SUBST([AX_SWIG_PYTHON_CPPFLAGS],[$PYTHON_CPPFLAGS])
-   AC_CONFIG_FILES([swig/python/Makefile])])
+   AC_SUBST([AX_SWIG_PYTHON_CPPFLAGS],[$PYTHON_CPPFLAGS])])
 
 AM_CONDITIONAL([WITH_PYTHON], [test "x$with_python" = "xyes"])
 
@@ -553,27 +551,7 @@ AC_CONFIG_HEADERS([include/log4cplus/config.h])
 AC_CONFIG_HEADERS([include/log4cplus/config/defines.hxx])
 AC_CONFIG_FILES([Makefile
            include/Makefile
-           src/Makefile
-           loggingserver/Makefile
-           qt4debugappender/Makefile
-           tests/atlocal
-           tests/Makefile
-           tests/appender_test/Makefile
-           tests/configandwatch_test/Makefile
-           tests/customloglevel_test/Makefile
-           tests/fileappender_test/Makefile
-           tests/filter_test/Makefile
-           tests/hierarchy_test/Makefile
-           tests/loglog_test/Makefile
-           tests/ndc_test/Makefile
-           tests/ostream_test/Makefile
-           tests/patternlayout_test/Makefile
-           tests/performance_test/Makefile
-           tests/priority_test/Makefile
-           tests/propertyconfig_test/Makefile
-           tests/socket_test/Makefile
-           tests/thread_test/Makefile
-           tests/timeformat_test/Makefile])
+           tests/atlocal])
 
 m4_include([tests/configure.m4])
 

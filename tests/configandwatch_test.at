@@ -2,7 +2,6 @@ AT_SETUP([configandwatch_test])
 AT_KEYWORDS([appenders])
 
 AT_CHECK([cp -f "${abs_builddir}/configandwatch_test/log4cplus.properties" .])
-AT_CHECK(["${abs_builddir}/configandwatch_test/configandwatch_test"], [0],
-  [ignore], [ignore])
+AT_CHECK(["${abs_top_builddir}/configandwatch_test"], [0], [ignore], [ignore])
 
 AT_CLEANUP

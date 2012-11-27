@@ -4657,9 +4657,9 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/appender_test.at:5: \"\${abs_builddir}/appender_test/appender_test\""
+$as_echo "$at_srcdir/appender_test.at:5: \"\${abs_top_builddir}/appender_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "appender_test.at:5"
-( $at_check_trace; "${abs_builddir}/appender_test/appender_test"
+( $at_check_trace; "${abs_top_builddir}/appender_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4699,9 +4699,9 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/configandwatch_test.at:5: \"\${abs_builddir}/configandwatch_test/configandwatch_test\""
+$as_echo "$at_srcdir/configandwatch_test.at:5: \"\${abs_top_builddir}/configandwatch_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "configandwatch_test.at:5"
-( $at_check_trace; "${abs_builddir}/configandwatch_test/configandwatch_test"
+( $at_check_trace; "${abs_top_builddir}/configandwatch_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4741,9 +4741,9 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/customloglevel_test.at:5: \"\${abs_builddir}/customloglevel_test/customloglevel_test\""
+$as_echo "$at_srcdir/customloglevel_test.at:5: \"\${abs_top_builddir}/customloglevel_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "customloglevel_test.at:5"
-( $at_check_trace; "${abs_builddir}/customloglevel_test/customloglevel_test"
+( $at_check_trace; "${abs_top_builddir}/customloglevel_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4770,9 +4770,9 @@ at_xfail=no
 
 
 { set +x
-$as_echo "$at_srcdir/fileappender_test.at:4: \"\${abs_builddir}/fileappender_test/fileappender_test\""
+$as_echo "$at_srcdir/fileappender_test.at:4: \"\${abs_top_builddir}/fileappender_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "fileappender_test.at:4"
-( $at_check_trace; "${abs_builddir}/fileappender_test/fileappender_test"
+( $at_check_trace; "${abs_top_builddir}/fileappender_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4826,9 +4826,9 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/filter_test.at:7: \"\${abs_builddir}/filter_test/filter_test\""
+$as_echo "$at_srcdir/filter_test.at:7: \"\${abs_top_builddir}/filter_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "filter_test.at:7"
-( $at_check_trace; "${abs_builddir}/filter_test/filter_test"
+( $at_check_trace; "${abs_top_builddir}/filter_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4949,9 +4949,9 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/hierarchy_test.at:5: \"\${abs_builddir}/hierarchy_test/hierarchy_test\""
+$as_echo "$at_srcdir/hierarchy_test.at:5: \"\${abs_top_builddir}/hierarchy_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "hierarchy_test.at:5"
-( $at_check_trace; "${abs_builddir}/hierarchy_test/hierarchy_test"
+( $at_check_trace; "${abs_top_builddir}/hierarchy_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5004,9 +5004,9 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/loglog_test.at:6: \"\${abs_builddir}/loglog_test/loglog_test\""
+$as_echo "$at_srcdir/loglog_test.at:6: \"\${abs_top_builddir}/loglog_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "loglog_test.at:6"
-( $at_check_trace; "${abs_builddir}/loglog_test/loglog_test"
+( $at_check_trace; "${abs_top_builddir}/loglog_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5046,9 +5046,9 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/ndc_test.at:5: \"\${abs_builddir}/ndc_test/ndc_test\""
+$as_echo "$at_srcdir/ndc_test.at:5: \"\${abs_top_builddir}/ndc_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "ndc_test.at:5"
-( $at_check_trace; "${abs_builddir}/ndc_test/ndc_test"
+( $at_check_trace; "${abs_top_builddir}/ndc_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5088,9 +5088,9 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/ostream_test.at:5: \"\${abs_builddir}/ostream_test/ostream_test\""
+$as_echo "$at_srcdir/ostream_test.at:5: \"\${abs_top_builddir}/ostream_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "ostream_test.at:5"
-( $at_check_trace; "${abs_builddir}/ostream_test/ostream_test"
+( $at_check_trace; "${abs_top_builddir}/ostream_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5117,9 +5117,9 @@ at_xfail=no
 
 
 { set +x
-$as_echo "$at_srcdir/patternlayout_test.at:4: \"\${abs_builddir}/patternlayout_test/patternlayout_test\""
+$as_echo "$at_srcdir/patternlayout_test.at:4: \"\${abs_top_builddir}/patternlayout_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "patternlayout_test.at:4"
-( $at_check_trace; "${abs_builddir}/patternlayout_test/patternlayout_test"
+( $at_check_trace; "${abs_top_builddir}/patternlayout_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5159,9 +5159,9 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/priority_test.at:5: \"\${abs_builddir}/priority_test/priority_test\""
+$as_echo "$at_srcdir/priority_test.at:5: \"\${abs_top_builddir}/priority_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "priority_test.at:5"
-( $at_check_trace; "${abs_builddir}/priority_test/priority_test"
+( $at_check_trace; "${abs_top_builddir}/priority_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5188,9 +5188,9 @@ at_xfail=no
 
 
 { set +x
-$as_echo "$at_srcdir/propertyconfig_test.at:4: \"\${abs_builddir}/propertyconfig_test/propertyconfig_test\""
+$as_echo "$at_srcdir/propertyconfig_test.at:4: \"\${abs_top_builddir}/propertyconfig_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "propertyconfig_test.at:4"
-( $at_check_trace; "${abs_builddir}/propertyconfig_test/propertyconfig_test"
+( $at_check_trace; "${abs_top_builddir}/propertyconfig_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5217,9 +5217,9 @@ at_xfail=no
 
 
 { set +x
-$as_echo "$at_srcdir/thread_test.at:4: \"\${abs_builddir}/thread_test/thread_test\""
+$as_echo "$at_srcdir/thread_test.at:4: \"\${abs_top_builddir}/thread_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "thread_test.at:4"
-( $at_check_trace; "${abs_builddir}/thread_test/thread_test"
+( $at_check_trace; "${abs_top_builddir}/thread_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5246,9 +5246,9 @@ at_xfail=no
 
 
 { set +x
-$as_echo "$at_srcdir/timeformat_test.at:4: \"\${abs_builddir}/timeformat_test/timeformat_test\""
+$as_echo "$at_srcdir/timeformat_test.at:4: \"\${abs_top_builddir}/timeformat_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "timeformat_test.at:4"
-( $at_check_trace; "${abs_builddir}/timeformat_test/timeformat_test"
+( $at_check_trace; "${abs_top_builddir}/timeformat_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5259,28 +5259,28 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/timeformat_test.at:6: cp -f \"\${abs_srcdir}/timeformat_test/expout\" ."
-at_fn_check_prepare_notrace 'a ${...} parameter expansion' "timeformat_test.at:6"
+$as_echo "$at_srcdir/timeformat_test.at:5: cp -f \"\${abs_srcdir}/timeformat_test/expout\" ."
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "timeformat_test.at:5"
 ( $at_check_trace; cp -f "${abs_srcdir}/timeformat_test/expout" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/timeformat_test.at:6"
+at_fn_check_status 0 $at_status "$at_srcdir/timeformat_test.at:5"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/timeformat_test.at:7: \$SED -e '2d' <stdout"
-at_fn_check_prepare_dynamic "$SED -e '2d' <stdout" "timeformat_test.at:7"
+$as_echo "$at_srcdir/timeformat_test.at:6: \$SED -e '2d' <stdout"
+at_fn_check_prepare_dynamic "$SED -e '2d' <stdout" "timeformat_test.at:6"
 ( $at_check_trace; $SED -e '2d' <stdout
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 echo stderr:; cat "$at_stderr"
 $at_diff expout "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/timeformat_test.at:7"
+at_fn_check_status 0 $at_status "$at_srcdir/timeformat_test.at:6"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
