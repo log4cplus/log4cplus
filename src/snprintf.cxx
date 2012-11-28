@@ -125,7 +125,9 @@ vsntprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
     int ret;
 
 #if defined (UNICODE)
-#  if defined (LOG4CPLUS_HAVE__VSNWPRINTF_S) && defined (_TRUNCATE)
+#  if defined (LOG4CPLUS_HAVE__VSWPRINTF_P)
+    ret = _vswprintf_p (dest, dest_size, fmt, args);
+#  elif defined (LOG4CPLUS_HAVE__VSNWPRINTF_S) && defined (_TRUNCATE)
     ret = _vsnwprintf_s (dest, dest_size, _TRUNCATE, fmt, args);
 #  elif defined (LOG4CPLUS_HAVE_VSNWPRINTF)
     ret = vsnwprintf (dest, dest_size, fmt, args);
@@ -136,7 +138,9 @@ vsntprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
     ret = vswprintf (dest, dest_size, fmt, args);
 #  endif
 #else
-#  if defined (LOG4CPLUS_HAVE_VSNPRINTF_S) && defined (_TRUNCATE)
+#  if defined (LOG4CPLUS_HAVE__VSPRINTF_P)
+    ret = _vsprintf_p (dest, dest_size, fmt, args);
+#  elif defined (LOG4CPLUS_HAVE_VSNPRINTF_S) && defined (_TRUNCATE)
     ret = vsnprintf_s (dest, dest_size, _TRUNCATE, fmt, args);
 #  elif defined (LOG4CPLUS_HAVE__VSNPRINTF_S) && defined (_TRUNCATE)
     ret = _vsnprintf_s (dest, dest_size, _TRUNCATE, fmt, args);

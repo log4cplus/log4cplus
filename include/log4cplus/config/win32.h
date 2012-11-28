@@ -28,9 +28,14 @@
 #pragma once
 #endif
 
+#if defined (__MINGW32__)  || defined (__MINGW64__)
+#  include <_mingw.h>
+#endif
+
 #ifdef _WIN32
 
-#if defined (_MSC_VER) && _MSC_VER >= 1400
+#if (defined (_MSC_VER) && _MSC_VER >= 1400) \
+    || (defined (__MINGW64_VERSION_MAJOR) && __MINGW64_VERSION_MAJOR >= 3)
 #  define LOG4CPLUS_HAVE_INTRIN_H
 #endif
 
@@ -69,7 +74,8 @@
 #define LOG4CPLUS_HAVE__VSNPRINTF
 #define LOG4CPLUS_HAVE__VSNWPRINTF
 
-#if defined (_MSC_VER)
+#if defined (_MSC_VER) \
+    || (defined (__MINGW64_VERSION_MAJOR) && __MINGW64_VERSION_MAJOR >= 3)
 // MS secure versions of vprintf().
 #  define LOG4CPLUS_HAVE_VSPRINTF_S
 #  define LOG4CPLUS_HAVE_VSWPRINTF_S
@@ -82,6 +88,10 @@
 #  define LOG4CPLUS_HAVE_VSNPRINTF_S
 #  define LOG4CPLUS_HAVE__VSNPRINTF_S
 #  define LOG4CPLUS_HAVE__VSNWPRINTF_S
+
+// MS printf-like functions supporting positional parameters.
+#  define LOG4CPLUS_HAVE__VSPRINTF_P
+#  define LOG4CPLUS_HAVE__VSWPRINTF_P
 
 // MS secure version of _tsopen().
 #  define LOG4CPLUS_HAVE__TSOPEN_S
