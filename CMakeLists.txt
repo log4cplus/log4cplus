@@ -66,7 +66,7 @@ if (LOG4CPLUS_BUILD_TESTING)
 endif (LOG4CPLUS_BUILD_TESTING)
 
 add_subdirectory (src)
-add_subdirectory (loggingserver)
+add_subdirectory (simpleserver)
 if (LOG4CPLUS_BUILD_TESTING)
   add_subdirectory (tests)
 endif (LOG4CPLUS_BUILD_TESTING)
