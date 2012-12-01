@@ -32,3 +32,9 @@ order:
 
 - ConsoleAppender or specialized appender with colored output per log
   level.
+
+- Make ServerSocket::accept() interruptible.
+
+- Graylog2/GELF appender. See
+  <https://github.com/Graylog2/graylog2-docs/wiki/GELF>.
+
