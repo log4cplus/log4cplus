@@ -7,7 +7,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\loggingserver\loggingserver.cxx">
+    <ClCompile Include="..\simpleserver\loggingserver.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
