@@ -441,7 +441,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\loggingserver\loggingserver.cxx" />
+    <ClCompile Include="..\simpleserver\loggingserver.cxx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="loggingserver.props" />
