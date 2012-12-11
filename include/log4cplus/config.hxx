@@ -121,7 +121,9 @@
 #  define LOG4CPLUS_ATTRIBUTE_PURE __attribute__ ((__pure__))
 #  define LOG4CPLUS_BUILTIN_EXPECT(exp, c) __builtin_expect ((exp), (c))
 #else
-#  define LOG4CPLUS_ATTRIBUTE_NORETURN /* empty */
+#  if ! defined (LOG4CPLUS_ATTRIBUTE_NORETURN)
+#    define LOG4CPLUS_ATTRIBUTE_NORETURN /* empty */
+#  endif
 #  define LOG4CPLUS_ATTRIBUTE_PURE /* empty */
 #  define LOG4CPLUS_BUILTIN_EXPECT(exp, c) (exp)
 #endif

@@ -151,6 +151,7 @@
 #    define LOG4CPLUS_HAVE_FUNCTION_MACRO
 #    define LOG4CPLUS_HAVE_FUNCSIG_MACRO
 #    define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
+#    define LOG4CPLUS_ATTRIBUTE_NORETURN __declspec(noreturn)
 #  endif
 #endif
 
