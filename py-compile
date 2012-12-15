@@ -116,7 +116,7 @@ else
 fi
 
 $PYTHON -c "
-import sys, os, py_compile
+import sys, os, py_compile, imp
 
 files = '''$files'''
 
@@ -129,12 +129,19 @@ for file in files.split():
 	    continue
     sys.stdout.write(file)
     sys.stdout.flush()
-    py_compile.compile(filepath, filepath + 'c', path)
+    if hasattr(imp, 'get_tag'):
+        py_compile.compile(filepath, imp.cache_from_source(filepath), path)
+    else:
+        py_compile.compile(filepath, filepath + 'c', path)
 sys.stdout.write('\n')" || exit $?
 
 # this will fail for python < 1.5, but that doesn't matter ...
 $PYTHON -O -c "
-import sys, os, py_compile
+import sys, os, py_compile, imp
+
+# pypy does not use .pyo optimization
+if hasattr(sys, 'pypy_translation_info'):
+    sys.exit(0)
 
 files = '''$files'''
 sys.stdout.write('Byte-compiling python modules (optimized versions) ...\n')
@@ -146,7 +153,10 @@ for file in files.split():
 	    continue
     sys.stdout.write(file)
     sys.stdout.flush()
-    py_compile.compile(filepath, filepath + 'o', path)
+    if hasattr(imp, 'get_tag'):
+        py_compile.compile(filepath, imp.cache_from_source(filepath, False), path)
+    else:
+        py_compile.compile(filepath, filepath + 'o', path)
 sys.stdout.write('\n')" 2>/dev/null || :
 
 # Local Variables:
