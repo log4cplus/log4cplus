@@ -132,6 +132,7 @@
 #define LOG4CPLUS_UNLIKELY(cond) LOG4CPLUS_BUILTIN_EXPECT(!! (cond), 0)
 
 #if defined (_MSC_VER)                                             \
+    || (defined (__BORLANDC__) && __BORLANDC__ >= 0x0650)          \
     || (defined (__COMO__) && __COMO_VERSION__ >= 400) /* ??? */   \
     || (defined (__DMC__) && __DMC__ >= 0x700) /* ??? */           \
     || (defined (__clang__) && __clang_major__ >= 3)               \

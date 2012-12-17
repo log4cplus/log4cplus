@@ -173,6 +173,11 @@
 #  endif
 #endif
 
+#if defined (__BORLANDC__) && __BORLANDC__ >= 0x0650
+#  define LOG4CPLUS_HAVE_FUNCTION_MACRO
+#  define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
+#endif // __BORLANDC__
+
 
 #endif // _WIN32
 #endif // LOG4CPLUS_CONFIG_WIN32_HEADER_
