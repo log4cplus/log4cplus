@@ -540,7 +540,7 @@ RelativeTimestampConverter::convert (tstring & result,
 {
     tostringstream & oss = internal::get_ptd ()->layout_oss;
     detail::clear_tostringstream (oss);
-    formatRelativeTimestamp (oss, event);
+    log4cplus::formatRelativeTimestamp (oss, event);
     oss.str ().swap (result);
 }
 
