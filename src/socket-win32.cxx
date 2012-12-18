@@ -28,6 +28,7 @@
 #include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/threads.h>
+#include <log4cplus/helpers/stringhelper.h>
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -261,12 +262,68 @@ acceptSocket(SOCKET_TYPE sock, SocketState & state)
 {
     init_winsock ();
 
-    SOCKET connected_socket = ::accept (to_os_socket (sock), NULL, NULL);
+    SOCKET osSocket = to_os_socket (sock);
 
-    if (connected_socket != INVALID_OS_SOCKET_VALUE)
-        state = ok;
+    // Check that the socket is ok.
 
-    return to_log4cplus_socket (connected_socket);
+    int val = 0;
+    int optlen = sizeof (val);
+    int ret = getsockopt (osSocket, SOL_SOCKET, SO_TYPE,
+        reinterpret_cast<char *>(&val), &optlen);
+    if (ret == SOCKET_ERROR)
+        goto error;
+
+    // Now that we know the socket is working ok we can wait for
+    // either a new connection or for a transition to bad state.
+
+    while (1)
+    {
+        fd_set readSet;
+        timeval timeout;
+
+        FD_ZERO (&readSet);
+        FD_SET (osSocket, &readSet);
+        timeout.tv_sec = 0;
+        timeout.tv_usec = 200 * 1000;
+
+        int selectResponse = ::select (1, &readSet, NULL, NULL, &timeout);
+        if (selectResponse < 0)
+        {
+            DWORD const eno = WSAGetLastError ();
+            if (eno == WSAENOTSOCK || eno == WSAEINVAL)
+                WSASetLastError (ERROR_NO_DATA);
+
+            goto error;
+        }
+        else if (selectResponse == 0)
+            // Timeout.
+            continue;
+        else if (selectResponse == 1)
+        {
+            SOCKET connected_socket = ::accept (osSocket, NULL, NULL);
+
+            if (connected_socket != INVALID_OS_SOCKET_VALUE)
+                state = ok;
+            else
+                goto error;
+
+            return to_log4cplus_socket (connected_socket);
+        }
+        else
+        {
+            helpers::getLogLog ().error (
+                LOG4CPLUS_TEXT ("unexpected select() return value: ")
+                + helpers::convertIntegerToString (selectResponse));
+            WSASetLastError (ERROR_UNSUPPORTED_TYPE);
+            goto error;
+        }
+    }
+
+error:
+    DWORD eno = WSAGetLastError ();
+    set_last_socket_error (eno);
+
+    return to_log4cplus_socket (INVALID_SOCKET);
 }
 
 
