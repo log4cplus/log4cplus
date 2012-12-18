@@ -38,7 +38,6 @@
 #include <sstream>
 #include <utility>
 
-#define LOG4CPLUS_DISABLE_FATAL
 
 #if defined(_MSC_VER)
 #define LOG4CPLUS_SUPPRESS_DOWHILE_WARNING()  \
