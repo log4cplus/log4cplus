@@ -30,7 +30,7 @@
 
 #ifdef _WIN32
 
-#if (defined (_MSC_VER) && _MSC_VER >= 1400) || defined (__MINGW32__)
+#if defined (_MSC_VER) && _MSC_VER >= 1400
 #  define LOG4CPLUS_HAVE_INTRIN_H
 #endif
 
