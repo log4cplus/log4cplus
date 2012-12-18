@@ -67,6 +67,7 @@
 // MSVC has both and so does MinGW.
 #define LOG4CPLUS_HAVE_VSNPRINTF
 #define LOG4CPLUS_HAVE__VSNPRINTF
+#define LOG4CPLUS_HAVE__VSNWPRINTF
 
 #if defined (_MSC_VER)
 // MS secure versions of vprintf().
