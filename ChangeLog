@@ -1,3 +1,29 @@
+log4cplus 1.1.1-rc1
+
+- Improved documentation for various classes.
+
+- Cherry-picked various small improvements from trunk.
+
+- Fixed Unicode builds on *NIX.
+
+- Fixed static library builds from Visual Studio project.
+
+- Suppressed warning C4127 from MSVC. (Chris Steenwyk)
+
+- Improved MinGW32 and MinGW64 toolchains compatiblity.
+
+- Fixed encoding handling in Properties class.
+
+- Added include directive for properties files. (Jukka Lantto)
+
+- Added colored output for Win32ConsoleAppender. (Konstantin Baumann)
+
+- (Re)Introduced support for C++Builder (XE3)
+
+- Reimplemented acceptSocket() using select() on Windows to allow
+  interrupting the accept() call from different thread.
+
+
 log4cplus 1.1.0
 
 - Fixed MacOS X support - Reimplemented semaphores using named ones
