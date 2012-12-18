@@ -174,6 +174,7 @@
 #endif
 
 #if defined (__BORLANDC__) && __BORLANDC__ >= 0x0650
+#  define LOG4CPLUS_HAVE_FUNCTION_MACRO
 #  define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
 #endif // __BORLANDC__
 
