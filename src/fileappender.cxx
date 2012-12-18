@@ -187,7 +187,8 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 
 static
 std::locale
-get_locale_by_name (tstring const & locale_name) try
+get_locale_by_name (tstring const & locale_name)
+{try
 {
     spi::LocaleFactoryRegistry & reg = spi::getLocaleFactoryRegistry ();
     spi::LocaleFactory * fact = reg.get (locale_name);
@@ -205,7 +206,7 @@ catch (std::runtime_error const &)
     helpers::getLogLog ().error (
         LOG4CPLUS_TEXT ("Failed to create locale " + locale_name));
     return std::locale ();
-}
+}}
 
 } // namespace
 

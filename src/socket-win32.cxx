@@ -223,7 +223,7 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& 
         INT ret = WSAStringToAddress (const_cast<LPTSTR>(hostn.c_str ()),
             AF_INET, 0, reinterpret_cast<struct sockaddr *>(&insock),
             &insock_size);
-        if (ret == SOCKET_ERROR || insock_size != sizeof (insock)) 
+        if (ret == SOCKET_ERROR || insock_size != static_cast<INT>(sizeof (insock))) 
         {
             state = bad_address;
             goto error;
