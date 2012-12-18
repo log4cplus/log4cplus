@@ -39,6 +39,7 @@
 namespace log4cplus {
     namespace helpers {
 
+        //! \sa log4cplus::PropertyConfigurator
         class LOG4CPLUS_EXPORT Properties {
         public:
             enum PFlags
@@ -141,6 +142,7 @@ namespace log4cplus {
 
           // Data
             StringMap data;
+            unsigned flags;
 
         private:
             template <typename StringType>
