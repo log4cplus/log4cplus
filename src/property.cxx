@@ -153,7 +153,9 @@ Properties::Properties(const tstring& inputFile, unsigned flags)
     case fUTF16:
         file.imbue (
             std::locale (file.getloc (),
-                new std::codecvt<wchar_t, wchar_t, std::mbstate_t>));
+                // TODO: This should actually be a custom "null" facet
+                // that just copies the chars to wchar_t buffer.
+                new std::codecvt<wchar_t, char, std::mbstate_t>));
     break;
 
 #endif
