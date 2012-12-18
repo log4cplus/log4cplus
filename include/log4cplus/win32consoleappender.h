@@ -54,7 +54,7 @@ namespace log4cplus
     * <code>STD_ERROR_HANDLE</code> instead of <code>STD_OUTPUT_HANDLE</code>.
     * </dd>
     *
-    * <dt><tt>logToStdErr</tt></dt>
+    * <dt><tt>TextColor</tt></dt>
     * <dd>See MSDN documentation for
     * <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms682088(v=vs.85).aspx#_win32_character_attributes">
     * Character Attributes</a>.
