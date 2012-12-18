@@ -169,6 +169,9 @@
 /* Define to 1 if you have the `_vsnprintf_s' function. */
 #undef HAVE__VSNPRINTF_S
 
+/* Define to 1 if you have the `_vsnwprintf' function. */
+#undef HAVE__VSNWPRINTF
+
 /* Define to 1 if you have the `_vsnwprintf_s' function. */
 #undef HAVE__VSNWPRINTF_S
 
@@ -390,6 +393,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE__VSNPRINTF_S
+
+/* */
+#undef LOG4CPLUS_HAVE__VSNWPRINTF
 
 /* */
 #undef LOG4CPLUS_HAVE__VSNWPRINTF_S

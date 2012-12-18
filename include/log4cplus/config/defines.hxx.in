@@ -187,6 +187,9 @@
 /* Define to 1 if you have the `vsnwprintf' function. */
 #undef LOG4CPLUS_HAVE_VSNWPRINTF
 
+/* Define to 1 if you have the `_vsnwprintf' function. */
+#undef LOG4CPLUS_HAVE__VSNWPRINTF
+
 /* */
 #undef LOG4CPLUS_HAVE__VSNPRINTF
 
