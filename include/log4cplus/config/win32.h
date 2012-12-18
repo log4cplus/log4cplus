@@ -68,7 +68,7 @@
 #define LOG4CPLUS_HAVE_VSNPRINTF
 #define LOG4CPLUS_HAVE__VSNPRINTF
 
-#if defined (_MSC_VER) || defined (__MINGW32__)
+#if defined (_MSC_VER)
 // MS secure versions of vprintf().
 #  define LOG4CPLUS_HAVE_VSPRINTF_S
 #  define LOG4CPLUS_HAVE_VSWPRINTF_S
@@ -81,7 +81,12 @@
 #  define LOG4CPLUS_HAVE_VSNPRINTF_S
 #  define LOG4CPLUS_HAVE__VSNPRINTF_S
 #  define LOG4CPLUS_HAVE__VSNWPRINTF_S
+
+// MS secure version of _tsopen().
+#  define LOG4CPLUS_HAVE__TSOPEN_S
 #endif
+
+#define LOG4CPLUS_HAVE__TSOPEN
 
 #define LOG4CPLUS_DLLMAIN_HINSTANCE HINSTANCE
 #define LOG4CPLUS_HAVE_NT_EVENT_LOG
