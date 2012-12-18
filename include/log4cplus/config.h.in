@@ -163,9 +163,6 @@
 /* Define to 1 if you have the `wcstombs' function. */
 #undef HAVE_WCSTOMBS
 
-/* Define to 1 if you have the `_vsnprintf' function. */
-#undef HAVE__VSNPRINTF
-
 /* Define to 1 if you have the `_vsnprintf_s' function. */
 #undef HAVE__VSNPRINTF_S
 
@@ -387,9 +384,6 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_WCSTOMBS
-
-/* */
-#undef LOG4CPLUS_HAVE__VSNPRINTF
 
 /* */
 #undef LOG4CPLUS_HAVE__VSNPRINTF_S
