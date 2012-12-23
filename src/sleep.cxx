@@ -57,7 +57,10 @@ log4cplus::helpers::sleep(unsigned long secs, unsigned long nanosecs)
                
     Sleep((secs % MAX_SLEEP_SECONDS) * SEC_TO_MILLIS + nano_millis);
 #else
-    timespec sleep_time = { secs, nanosecs };
+    timespec sleep_time;
+    sleep_time.tv_sec = secs;
+    sleep_time.tv_nsec = nanosecs;
+
     timespec remain;
     while (nanosleep(&sleep_time, &remain)) {
         if (errno == EINTR) {
