@@ -1,3 +1,8 @@
+Version 1.0.4.2
+
+  - Update with Automake 1.12.6.
+  - Fixed DllMain() issue with MinGW.
+
 Version 1.0.4.2-RC1
 
   - Fixed log4cplus.spec for Fedora builds.
