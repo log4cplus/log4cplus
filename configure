@@ -9223,6 +9223,8 @@ esac
 
 
 
+
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for __sync_add_and_fetch" >&5
 $as_echo_n "checking for __sync_add_and_fetch... " >&6; }
 if ${ac_cv___sync_add_and_fetch+:} false; then :
@@ -9266,6 +9268,7 @@ fi
 
 
 
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for __sync_sub_and_fetch" >&5
 $as_echo_n "checking for __sync_sub_and_fetch... " >&6; }
 if ${ac_cv___sync_sub_and_fetch+:} false; then :
@@ -9306,6 +9309,7 @@ if test "x$ac_cv___sync_sub_and_fetch" = "xyes"; then :
   $as_echo "#define HAVE___SYNC_SUB_AND_FETCH 1" >>confdefs.h
 
 fi
+
 
 
 
@@ -9359,18 +9363,121 @@ fi
 
 
 
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __atomic_add_fetch" >&5
+$as_echo_n "checking for __atomic_add_fetch... " >&6; }
+if ${ac_cv___atomic_add_fetch+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#include <stdlib.h>
+
+int
+main ()
+{
+
+volatile int x = 1;
+volatile int y = __atomic_add_fetch (&x, 1, __ATOMIC_RELAXED);
+if (x != 2 || y != 2)
+  abort ();
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv___atomic_add_fetch=yes
+else
+  ac_cv___atomic_add_fetch=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv___atomic_add_fetch" >&5
+$as_echo "$ac_cv___atomic_add_fetch" >&6; }
+
+if test "x$ac_cv___atomic_add_fetch" = "xyes"; then :
+  $as_echo "#define HAVE___ATOMIC_ADD_FETCH 1" >>confdefs.h
+
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __atomic_sub_fetch" >&5
+$as_echo_n "checking for __atomic_sub_fetch... " >&6; }
+if ${ac_cv___atomic_sub_fetch+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#include <stdlib.h>
+
+int
+main ()
+{
+
+volatile int x = 2;
+volatile int y = __atomic_sub_fetch (&x, 1, __ATOMIC_RELEASE);
+__atomic_thread_fence (__ATOMIC_ACQUIRE);
+if (x != 1 || y != 1)
+  abort ();
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv___atomic_sub_fetch=yes
+else
+  ac_cv___atomic_sub_fetch=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv___atomic_sub_fetch" >&5
+$as_echo "$ac_cv___atomic_sub_fetch" >&6; }
+
+if test "x$ac_cv___atomic_sub_fetch" = "xyes"; then :
+  $as_echo "#define HAVE___ATOMIC_SUB_FETCH 1" >>confdefs.h
+
+fi
+
+
+
    if test "x$ac_cv___sync_add_and_fetch" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH 1" >>confdefs.h
 
 fi
+
 
    if test "x$ac_cv___sync_sub_and_fetch" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH 1" >>confdefs.h
 
 fi
 
+
    if test "x$ac_cv_cxx11_atomics" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_CXX11_ATOMICS 1" >>confdefs.h
+
+fi
+
+
+   if test "x$ac_cv___atomic_add_fetch" = "xyes"; then :
+  $as_echo "#define LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH 1" >>confdefs.h
+
+fi
+
+
+   if test "x$ac_cv___atomic_sub_fetch" = "xyes"; then :
+  $as_echo "#define LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH 1" >>confdefs.h
 
 fi
 

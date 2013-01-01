@@ -3,6 +3,11 @@ dnl compiler built-ins.
 
 AC_DEFUN([AX__SYNC],
 [
+
+dnl
+dnl Check for __sync_add_and_fetch().
+dnl
+
 AH_TEMPLATE([HAVE___SYNC_ADD_AND_FETCH],
   [Defined if the compiler provides __sync_add_and_fetch().])
 
@@ -26,6 +31,10 @@ if (x != 2 || y != 2)
 AS_IF([test "x$ac_cv___sync_add_and_fetch" = "xyes"],
   [AC_DEFINE([HAVE___SYNC_ADD_AND_FETCH], [1])])
 
+dnl
+dnl Check for __sync_sub_and_fetch().
+dnl
+
 AH_TEMPLATE([HAVE___SYNC_SUB_AND_FETCH], 
   [Defined if the compiler provides __sync_sub_and_fetch().])
 
@@ -48,6 +57,10 @@ if (x != 1 || y != 1)
 
 AS_IF([test "x$ac_cv___sync_sub_and_fetch" = "xyes"],
   [AC_DEFINE([HAVE___SYNC_SUB_AND_FETCH], [1])])
+
+dnl
+dnl Check for C++11 atomics.
+dnl
 
 AH_TEMPLATE([HAVE_CXX11_ATOMICS], [Defined if the compiler provides
   C++11 <atomic> header and increment, decrement operations.])
@@ -79,5 +92,59 @@ std::atomic_thread_fence (std::memory_order_acquire);
 AS_IF([test "x$ac_cv_cxx11_atomics" = "xyes"],
   [AC_DEFINE([HAVE_CXX11_ATOMICS], [1])])
 
+dnl
+dnl Check for __atomic_add_fetch().
+dnl
+
+AH_TEMPLATE([HAVE___ATOMIC_ADD_FETCH],
+  [Defined if the compiler provides __atomic_add_fetch().])
+
+AC_CACHE_CHECK([for __atomic_add_fetch], [ac_cv___atomic_add_fetch],
+[
+  AC_LINK_IFELSE(
+    [AC_LANG_PROGRAM(
+      [[
+#include <stdlib.h>
+      ]], 
+      [[
+volatile int x = 1;
+volatile int y = __atomic_add_fetch (&x, 1, __ATOMIC_RELAXED);
+if (x != 2 || y != 2)
+  abort ();
+      ]])],
+    [ac_cv___atomic_add_fetch=yes],
+    [ac_cv___atomic_add_fetch=no])
 ])
 
+AS_IF([test "x$ac_cv___atomic_add_fetch" = "xyes"],
+  [AC_DEFINE([HAVE___ATOMIC_ADD_FETCH], [1])])
+
+dnl
+dnl Check for __atomic_sub_fetch().
+dnl
+
+AH_TEMPLATE([HAVE___ATOMIC_SUB_FETCH], 
+  [Defined if the compiler provides __atomic_sub_fetch().])
+
+AC_CACHE_CHECK([for __atomic_sub_fetch], [ac_cv___atomic_sub_fetch],
+[
+  AC_LINK_IFELSE(
+    [AC_LANG_PROGRAM(
+      [[
+#include <stdlib.h>
+      ]], 
+      [[
+volatile int x = 2;
+volatile int y = __atomic_sub_fetch (&x, 1, __ATOMIC_RELEASE);
+__atomic_thread_fence (__ATOMIC_ACQUIRE);
+if (x != 1 || y != 1)
+  abort ();
+      ]])],
+    [ac_cv___atomic_sub_fetch=yes],
+    [ac_cv___atomic_sub_fetch=no])
+])
+
+AS_IF([test "x$ac_cv___atomic_sub_fetch" = "xyes"],
+  [AC_DEFINE([HAVE___ATOMIC_SUB_FETCH], [1])])
+
+])

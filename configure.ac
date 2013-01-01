@@ -383,12 +383,22 @@ dnl Multi threaded library.
    AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])
    AS_IF([test "x$ac_cv___sync_add_and_fetch" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])])
+     
    AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])
    AS_IF([test "x$ac_cv___sync_sub_and_fetch" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])])
+     
    AH_TEMPLATE([LOG4CPLUS_HAVE_CXX11_ATOMICS])
    AS_IF([test "x$ac_cv_cxx11_atomics" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE_CXX11_ATOMICS])])
+
+   AH_TEMPLATE([LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH])
+   AS_IF([test "x$ac_cv___atomic_add_fetch" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH])])
+     
+   AH_TEMPLATE([LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH])
+   AS_IF([test "x$ac_cv___atomic_sub_fetch" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH])])
 
    AX_TLS_SUPPORT
    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])

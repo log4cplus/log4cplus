@@ -57,6 +57,9 @@ SharedObject::addReference() const
     std::atomic_fetch_add_explicit (&count, 1u,
         std::memory_order_relaxed);
 
+#elif defined (LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH)
+    __atomic_add_fetch (&count, 1u, __ATOMIC_RELAXED);
+
 #elif defined (LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH)
     __sync_add_and_fetch (&count, 1);
 
@@ -88,6 +91,12 @@ SharedObject::removeReference() const
         std::memory_order_release) == 1;
     if (LOG4CPLUS_UNLIKELY (destroy))
         std::atomic_thread_fence (std::memory_order_acquire);
+
+#elif defined (LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH)
+    destroy = __atomic_sub_fetch (&count, 1u,
+        __ATOMIC_RELEASE) == 0;
+    if (LOG4CPLUS_UNLIKELY (destroy))
+        __atomic_thread_fence (__ATOMIC_ACQUIRE);
 
 #elif defined (LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH)
     destroy = __sync_sub_and_fetch (&count, 1) == 0;
