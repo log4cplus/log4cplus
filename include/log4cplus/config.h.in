@@ -178,6 +178,12 @@
 /* Define to 1 if you have the `_vsnwprintf_s' function. */
 #undef HAVE__VSNWPRINTF_S
 
+/* Defined if the compiler provides __atomic_add_fetch(). */
+#undef HAVE___ATOMIC_ADD_FETCH
+
+/* Defined if the compiler provides __atomic_sub_fetch(). */
+#undef HAVE___ATOMIC_SUB_FETCH
+
 /* Defined if the compiler supports __FUNCTION__ macro. */
 #undef HAVE___FUNCTION___MACRO
 
@@ -402,6 +408,12 @@
 
 /* */
 #undef LOG4CPLUS_HAVE__VSNWPRINTF_S
+
+/* */
+#undef LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH
+
+/* */
+#undef LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH
 
 /* */
 #undef LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH
