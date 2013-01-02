@@ -27,6 +27,12 @@
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #if defined (__CYGWIN__)
+
+// Work around missing _X86_ symbol with Clang on Cygwin.
+#if ! defined (_X86_) && defined (__i386__)
+#  define _X86_ 1
+#endif
+
 #include <log4cplus/internal/cygwin-win32.h>
 
 // This is intentionally included directly instead of through
