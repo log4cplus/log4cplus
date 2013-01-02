@@ -19,8 +19,8 @@ AM_PROG_AR
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=5:0:0
-LT_RELEASE=1.1
+LT_VERSION=0:0:0
+LT_RELEASE=1.2
 AC_SUBST([LT_VERSION])
 AC_SUBST([LT_RELEASE])
 
