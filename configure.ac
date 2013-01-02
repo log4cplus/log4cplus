@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl This version of log4cplus requires the follwing autotools versions:
 dnl autoconf-2.69
-dnl automake-1.12
+dnl automake-1.13.1
 dnl libtool-2.4.2
 
 AC_INIT([log4cplus],[1.1.0])
@@ -383,12 +383,22 @@ dnl Multi threaded library.
    AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])
    AS_IF([test "x$ac_cv___sync_add_and_fetch" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])])
+     
    AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])
    AS_IF([test "x$ac_cv___sync_sub_and_fetch" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])])
+     
    AH_TEMPLATE([LOG4CPLUS_HAVE_CXX11_ATOMICS])
    AS_IF([test "x$ac_cv_cxx11_atomics" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE_CXX11_ATOMICS])])
+
+   AH_TEMPLATE([LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH])
+   AS_IF([test "x$ac_cv___atomic_add_fetch" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH])])
+     
+   AH_TEMPLATE([LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH])
+   AS_IF([test "x$ac_cv___atomic_sub_fetch" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH])])
 
    AX_TLS_SUPPORT
    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
