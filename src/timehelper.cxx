@@ -269,10 +269,11 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
     gft_sp.reset ();
 
     gft_sp.fmt.assign (fmt_orig);
-    gft_sp.ret.reserve (static_cast<std::size_t>(gft_sp.fmt.size () * 1.35));
+    std::size_t const fmt_orig_size = gft_sp.fmt.size ();
+    gft_sp.ret.reserve (fmt_orig_size + fmt_orig_size / 3);
     State state = TEXT;
 
-    // Walk the format string and process all occurences of %q and %Q.
+    // Walk the format string and process all occurences of %q, %Q and %s.
     
     for (log4cplus::tstring::const_iterator fmt_it = gft_sp.fmt.begin ();
          fmt_it != gft_sp.fmt.end (); ++fmt_it)
