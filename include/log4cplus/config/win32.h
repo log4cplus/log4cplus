@@ -159,8 +159,10 @@
 #  undef LOG4CPLUS_INLINES_ARE_EXPORTED
 #  if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
 #    define LOG4CPLUS_INLINES_ARE_EXPORTED
-#    define LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH
-#    define LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH
+#    if defined (__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4)
+#      define LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH
+#      define LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH
+#    endif
 #  endif
 #  if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7)
 #    define LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH
