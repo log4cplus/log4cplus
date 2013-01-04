@@ -180,8 +180,12 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
    AS_IF([test "x$enable_debugging" = "xyes"],
      [AX_CXXFLAGS_GCC_OPTION([-g3])
       AX_CXXFLAGS_GCC_OPTION([-fkeep-inline-functions])
-      AX_CXXFLAGS_GCC_OPTION([-fstack-check])
-      AX_CXXFLAGS_GCC_OPTION([-fstack-protector])
+      AS_CASE(["$target_os"],
+        dnl Disable these for MinGW32 as it seems to generate DLLs that
+        dnl segfault in DllMain().
+        [mingw32], [],
+        [AX_CXXFLAGS_GCC_OPTION([-fstack-check])
+         AX_CXXFLAGS_GCC_OPTION([-fstack-protector])])
       dnl -Wstack-protector results into not too interesting warnings.
       dnl AX_CXXFLAGS_GCC_OPTION([-Wstack-protector])
       AX_CXXFLAGS_GCC_OPTION([-ftrapv])],
