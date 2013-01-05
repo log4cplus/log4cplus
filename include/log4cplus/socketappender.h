@@ -38,6 +38,50 @@
 
 namespace log4cplus
 {
+
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+
+namespace helpers
+{
+
+class LOG4CPLUS_EXPORT ConnectorThread;
+
+class LOG4CPLUS_EXPORT IConnectorThreadClient
+{
+protected:
+    virtual ~IConnectorThreadClient ();
+
+    virtual thread::Mutex const & ctcGetAccessMutex () const = 0;
+    virtual helpers::Socket & ctcGetSocket () = 0;
+    virtual helpers::Socket ctcConnect () = 0;
+    virtual void ctcSetConnected () = 0;
+
+    friend class LOG4CPLUS_EXPORT ConnectorThread;
+};
+
+
+class LOG4CPLUS_EXPORT ConnectorThread
+    : public thread::AbstractThread
+{
+public:
+    ConnectorThread (IConnectorThreadClient &);
+    virtual ~ConnectorThread ();
+    
+    virtual void run();
+    
+    void terminate ();
+    void trigger ();
+    
+protected:
+    IConnectorThreadClient & ctc;
+    thread::ManualResetEvent trigger_ev;
+    bool exit_flag;
+};
+
+} // namespace helpers
+
+#endif
  
 
 #ifndef UNICODE
@@ -98,7 +142,10 @@ namespace log4cplus
      *
      * </dl>
      */
-    class LOG4CPLUS_EXPORT SocketAppender : public Appender {
+    class LOG4CPLUS_EXPORT SocketAppender
+        : public Appender 
+        , protected virtual helpers::IConnectorThreadClient
+    {
     public:
       // Ctors
         SocketAppender(const log4cplus::tstring& host, unsigned short port, 
@@ -123,29 +170,13 @@ namespace log4cplus
         log4cplus::tstring serverName;
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-        class LOG4CPLUS_EXPORT ConnectorThread;
-        friend class ConnectorThread;
-
-        class LOG4CPLUS_EXPORT ConnectorThread
-            : public thread::AbstractThread
-        {
-        public:
-            ConnectorThread (SocketAppender &);
-            virtual ~ConnectorThread ();
-
-            virtual void run();
-
-            void terminate ();
-            void trigger ();
-
-        protected:
-            SocketAppender & sa;
-            thread::ManualResetEvent trigger_ev;
-            bool exit_flag;
-        };
+        virtual thread::Mutex const & ctcGetAccessMutex () const;
+        virtual helpers::Socket & ctcGetSocket ();
+        virtual helpers::Socket ctcConnect ();
+        virtual void ctcSetConnected ();
 
         volatile bool connected;
-        helpers::SharedObjectPtr<ConnectorThread> connector;
+        helpers::SharedObjectPtr<helpers::ConnectorThread> connector;
 #endif
 
     private:

@@ -34,27 +34,37 @@ int const LOG4CPLUS_MESSAGE_VERSION = 3;
 
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-SocketAppender::ConnectorThread::ConnectorThread (
-    SocketAppender & socket_appender)
-    : sa (socket_appender)
+
+namespace helpers
+{
+
+IConnectorThreadClient::~IConnectorThreadClient ()
+{ }
+
+//
+//
+//
+
+ConnectorThread::ConnectorThread (
+    IConnectorThreadClient & client)
+    : ctc (client)
     , exit_flag (false)
 { }
 
 
-SocketAppender::ConnectorThread::~ConnectorThread ()
+ConnectorThread::~ConnectorThread ()
 { }
 
 
 void
-SocketAppender::ConnectorThread::run ()
+ConnectorThread::run ()
 {
     while (true)
     {
         trigger_ev.timed_wait (30 * 1000);
 
         helpers::getLogLog().debug (
-            LOG4CPLUS_TEXT("SocketAppender::ConnectorThread::run()")
-            LOG4CPLUS_TEXT("- running..."));
+            LOG4CPLUS_TEXT("ConnectorThread::run()- running..."));
 
         // Check exit condition as the very first thing.
 
@@ -67,16 +77,17 @@ SocketAppender::ConnectorThread::run ()
 
         // Do not try to re-open already open socket.
 
+        helpers::Socket & client_socket = ctc.ctcGetSocket ();
+        thread::Mutex const & client_access_mutex = ctc.ctcGetAccessMutex ();
         {
-            thread::MutexGuard guard (sa.access_mutex);
-            if (sa.socket.isOpen ())
+            thread::MutexGuard guard (client_access_mutex);
+            if (client_socket.isOpen ())
                 continue;
         }
 
         // The socket is not open, try to reconnect.
 
-        helpers::Socket new_socket (sa.host,
-            static_cast<unsigned short>(sa.port));
+        helpers::Socket new_socket (ctc.ctcConnect ());
         if (! new_socket.isOpen ())
         {
             helpers::getLogLog().error(
@@ -91,19 +102,19 @@ SocketAppender::ConnectorThread::run ()
             continue;
         }
 
-        // Connection was successful, move the socket into SocketAppender.
+        // Connection was successful, move the socket into client.
 
         {
-            thread::MutexGuard guard (sa.access_mutex);
-            sa.socket = new_socket;
-            sa.connected = true;
+            thread::MutexGuard guard (client_access_mutex);
+            client_socket = new_socket;
+            ctc.ctcSetConnected ();
         }
     }
 }
 
 
 void
-SocketAppender::ConnectorThread::terminate ()
+ConnectorThread::terminate ()
 {
     {
         thread::MutexGuard guard (access_mutex);
@@ -115,10 +126,12 @@ SocketAppender::ConnectorThread::terminate ()
 
 
 void
-SocketAppender::ConnectorThread::trigger ()
+ConnectorThread::trigger ()
 {
     trigger_ev.signal ();
 }
+
+} // namespace helpers
 
 #endif
 
@@ -155,10 +168,6 @@ SocketAppender::SocketAppender(const helpers::Properties & properties)
 
 SocketAppender::~SocketAppender()
 {
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
-    connector->terminate ();
-#endif
-
     destructorImpl();
 }
 
@@ -202,7 +211,7 @@ SocketAppender::initConnector ()
 {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     connected = true;
-    connector = new ConnectorThread (*this);
+    connector = new helpers::ConnectorThread (*this);
     connector->start ();
 #endif
 }
@@ -246,6 +255,34 @@ SocketAppender::append(const spi::InternalLoggingEvent& event)
 #endif
     }
 }
+
+
+thread::Mutex const &
+SocketAppender::ctcGetAccessMutex () const
+{
+    return access_mutex;
+}
+
+
+helpers::Socket &
+SocketAppender::ctcGetSocket ()
+{
+    return socket;
+}
+
+
+helpers::Socket
+SocketAppender::ctcConnect ()
+{
+    return helpers::Socket (host, static_cast<unsigned short>(port));
+}
+
+void
+SocketAppender::ctcSetConnected ()
+{
+    connected = true;
+}
+
 
 
 /////////////////////////////////////////////////////////////////////////////
