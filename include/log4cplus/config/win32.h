@@ -171,8 +171,9 @@
 #  define LOG4CPLUS_HAVE_FUNCTION_MACRO
 #  define LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS
 #  define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
-#  if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 4)
+#  if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1)
 #    define LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
+#    define LOG4CPLUS_HAVE_FUNC_SYMBOL
 #  endif
 #  if defined (__MINGW32__)
 #    define LOG4CPLUS_WORKING_C_LOCALE
