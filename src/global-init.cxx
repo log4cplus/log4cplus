@@ -385,16 +385,10 @@ threadCleanup ()
 }
 
 
-} // namespace log4cplus
-
-
-#if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL)
-
-extern "C"
-BOOL
-WINAPI
-DllMain (LOG4CPLUS_DLLMAIN_HINSTANCE /*hinstDLL*/, DWORD fdwReason,
-    LPVOID /*lpReserved*/)
+#if defined (_WIN32)
+static
+void NTAPI
+thread_callback (LPVOID /*hinstDLL*/, DWORD fdwReason, LPVOID /*lpReserved*/)
 {
     // Perform actions based on the reason for calling.
     switch( fdwReason ) 
@@ -438,11 +432,58 @@ DllMain (LOG4CPLUS_DLLMAIN_HINSTANCE /*hinstDLL*/, DWORD fdwReason,
         break;
     }
 
-    }
+    } // switch
+}
+
+#endif
+
+
+} // namespace log4cplus
+
+
+#if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL)
+
+extern "C"
+BOOL
+WINAPI
+DllMain (LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL, DWORD fdwReason,
+    LPVOID lpReserved)
+{
+    log4cplus::thread_callback (hinstDLL, fdwReason, lpReserved);
 
     return TRUE;  // Successful DLL_PROCESS_ATTACH.
 }
  
+#else
+
+#if defined (_MSC_VER) && _MSC_VER >= 1400
+
+extern "C"
+{
+
+// This magic has been pieced together from several sources:
+// - <http://www.nynaeve.net/?p=183>
+// - <http://lists.cs.uiuc.edu/pipermail/cfe-dev/2011-November/018818.html>
+
+#pragma data_seg (push, old_seg)
+#ifdef _WIN64
+#pragma const_seg (".CRT$XLX")
+extern const
+#else
+#pragma data_seg (".CRT$XLX")
+#endif
+PIMAGE_TLS_CALLBACK p_thread_callback = log4cplus::thread_callback;
+#pragma data_seg (pop, old_seg)
+#ifdef _WIN64
+#pragma comment (linker, "/INCLUDE:_tls_used")
+#pragma comment (linker, "/INCLUDE:p_thread_callback")
+#else
+#pragma comment (linker, "/INCLUDE:__tls_used")
+#pragma comment (linker, "/INCLUDE:_p_thread_callback")
+#endif
+
+} // extern "C"
+
 #else
 
 namespace {
@@ -462,5 +503,6 @@ namespace {
     } static initializer;
 }
 
+#endif
 
 #endif
