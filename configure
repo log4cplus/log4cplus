@@ -9695,6 +9695,7 @@ else
 /* end confdefs.h.  */
 
 #include <stdlib.h>
+#include <atomic.h>
 
 int
 main ()

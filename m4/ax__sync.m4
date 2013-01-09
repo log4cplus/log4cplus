@@ -188,6 +188,7 @@ AC_CACHE_CHECK([for atomic_dec_uint_nv], [ac_cv_atomic_dec_uint_nv],
     [AC_LANG_PROGRAM(
       [[
 #include <stdlib.h>
+#include <atomic.h>
       ]], 
       [[
 volatile unsigned int x = 2;
