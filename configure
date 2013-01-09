@@ -8765,6 +8765,14 @@ if test "x$ac_cv_header_limits_h" = xyes; then :
 fi
 
 
+
+   ac_fn_cxx_check_header_mongrel "$LINENO" "atomic.h" "ac_cv_header_atomic_h" "$ac_includes_default"
+if test "x$ac_cv_header_atomic_h" = xyes; then :
+  $as_echo "#define LOG4CPLUS_HAVE_ATOMIC_H 1" >>confdefs.h
+
+fi
+
+
 if test "x$with_iconv" = "xyes"; then :
 
    ac_fn_cxx_check_header_mongrel "$LINENO" "iconv.h" "ac_cv_header_iconv_h" "$ac_includes_default"
@@ -9631,6 +9639,96 @@ fi
 
 
 
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for atomic_inc_uint" >&5
+$as_echo_n "checking for atomic_inc_uint... " >&6; }
+if ${ac_cv_atomic_inc_uint+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#include <stdlib.h>
+#include <atomic.h>
+
+int
+main ()
+{
+
+volatile unsigned int x = 1;
+atomic_inc_uint (&x);
+if (x != 2)
+  abort ();
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv_atomic_inc_uint=yes
+else
+  ac_cv_atomic_inc_uint=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_atomic_inc_uint" >&5
+$as_echo "$ac_cv_atomic_inc_uint" >&6; }
+
+if test "x$ac_cv_atomic_inc_uint" = "xyes"; then :
+  $as_echo "#define HAVE_ATOMIC_INC_UINT 1" >>confdefs.h
+
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for atomic_dec_uint_nv" >&5
+$as_echo_n "checking for atomic_dec_uint_nv... " >&6; }
+if ${ac_cv_atomic_dec_uint_nv+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#include <stdlib.h>
+
+int
+main ()
+{
+
+volatile unsigned int x = 2;
+volatile unsigned int y = atomic_dec_uint_nv (&x);
+membar_exit();
+if (x != 1 || y != 1)
+  abort ();
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv_atomic_dec_uint_nv=yes
+else
+  ac_cv_atomic_dec_uint_nv=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_atomic_dec_uint_nv" >&5
+$as_echo "$ac_cv_atomic_dec_uint_nv" >&6; }
+
+if test "x$ac_cv_atomic_dec_uint_nv" = "xyes"; then :
+  $as_echo "#define HAVE_ATOMIC_DEC_UINT_NV 1" >>confdefs.h
+
+fi
+
+
+
    if test "x$ac_cv___sync_add_and_fetch" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH 1" >>confdefs.h
 
@@ -9657,6 +9755,18 @@ fi
 
    if test "x$ac_cv___atomic_sub_fetch" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH 1" >>confdefs.h
+
+fi
+
+
+   if test "x$ax_cv_atomic_inc_uint"; then :
+  $as_echo "#define LOG4CPLUS_HAVE_ATOMIC_INC_UINT 1" >>confdefs.h
+
+fi
+
+
+   if test "x$ax_cv_atomic_dec_uint_nv"; then :
+  $as_echo "#define LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV 1" >>confdefs.h
 
 fi
 

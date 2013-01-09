@@ -27,6 +27,9 @@
 #if defined (LOG4CPLUS_HAVE_INTRIN_H)
 #include <intrin.h>
 #endif
+#if defined (LOG4CPLUS_HAVE_ATOMIC_H)
+#include <atomic.h>
+#endif
 
 
 namespace log4cplus { namespace helpers {
@@ -62,6 +65,9 @@ SharedObject::addReference() const
 
 #elif defined (LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH)
     __sync_add_and_fetch (&count, 1);
+
+#elif defined (LOG4CPLUS_HAVE_ATOMIC_INC_UINT)
+    atomic_inc_uint (&count);
 
 #elif defined (_WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
     _InterlockedIncrement (&count);
@@ -100,6 +106,11 @@ SharedObject::removeReference() const
 
 #elif defined (LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH)
     destroy = __sync_sub_and_fetch (&count, 1) == 0;
+
+#elif defined (LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV)
+    destroy = atomic_dec_uint_nv (&count) == 0;
+    if (destroy)
+        membar_exit ();
 
 #elif defined (_WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
     destroy = _InterlockedDecrement (&count) == 0;
