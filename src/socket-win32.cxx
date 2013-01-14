@@ -393,6 +393,8 @@ write(SOCKET_TYPE sock, const std::string & buffer)
 tstring
 getHostname (bool fqdn)
 {
+    init_winsock ();
+
     char const * hostname = "unknown";
     int ret;
     std::vector<char> hn (1024, 0);
