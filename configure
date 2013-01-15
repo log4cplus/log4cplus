@@ -9372,7 +9372,7 @@ x = 2;
 }
 _ACEOF
 if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv__thread_local=yes
+  ac_cv_thread_local=yes
      ax_tls_support=yes
 else
   ac_cv_thread_local=no
@@ -9498,17 +9498,24 @@ fi
 
 
 
-   if test "x$ac_cv_declspec_thread" = "xyes"; then :
+   if test "x$ac_cv_thread_local" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_TLS_SUPPORT 1" >>confdefs.h
 
-      $as_echo "#define LOG4CPLUS_THREAD_LOCAL_VAR __declspec(thread)" >>confdefs.h
+      $as_echo "#define LOG4CPLUS_THREAD_LOCAL_VAR thread_local" >>confdefs.h
+
+else
+  if test "x$ac_cv_declspec_thread" = "xyes"; then :
+  $as_echo "#define LOG4CPLUS_HAVE_TLS_SUPPORT 1" >>confdefs.h
+
+         $as_echo "#define LOG4CPLUS_THREAD_LOCAL_VAR __declspec(thread)" >>confdefs.h
 
 else
   if test "x$ac_cv__thread_keyword" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_TLS_SUPPORT 1" >>confdefs.h
 
-        $as_echo "#define LOG4CPLUS_THREAD_LOCAL_VAR __thread" >>confdefs.h
+            $as_echo "#define LOG4CPLUS_THREAD_LOCAL_VAR __thread" >>confdefs.h
 
+fi
 fi
 fi
 else
