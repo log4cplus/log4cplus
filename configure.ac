@@ -148,7 +148,8 @@ AS_IF([test "x$enable_warnings" = "xyes"],
 
 AS_CASE([$ax_cv_cxx_compiler_vendor],
   [gnu|clang],
-  [AS_IF([test "x$enable_warnings" = "xyes"],
+  [AX_CXXFLAGS_GCC_OPTION([-fdiagnostics-show-caret])
+   AS_IF([test "x$enable_warnings" = "xyes"],
      [AX_CXXFLAGS_GCC_OPTION([-Wextra])
       dnl The -ansi switch sets __STRICT_ANSI__ which disables some
       dnl useful function declarations in MinGW and Cygwin headers.
@@ -187,7 +188,8 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
          AX_CXXFLAGS_GCC_OPTION([-fstack-protector])])
       dnl -Wstack-protector results into not too interesting warnings.
       dnl AX_CXXFLAGS_GCC_OPTION([-Wstack-protector])
-      AX_CXXFLAGS_GCC_OPTION([-ftrapv])],
+      AX_CXXFLAGS_GCC_OPTION([-ftrapv])
+      AX_CXXFLAGS_GCC_OPTION([-ftrack-macro-expansion])],
      [AC_REQUIRE([AC_PROG_GREP])
       AS_IF([AS_ECHO_N(["$CXXFLAGS"]) dnl
              | $GREP -e ['\(^\|[[:space:]]\)-O\([^[:space:]]*\([[:space:]]\|$\)\)'] >/dev/null],
