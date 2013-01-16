@@ -1,4 +1,26 @@
-log4cplus 1.1.1-rc1
+log4cplus 1.1.1-RC2
+
+- Allow to disable TLS usage in macros through
+  LOG4CPLUS_MACRO_DISABLE_TLS preprocessor symbol.
+
+- Fixed compilation with Clang on Cygwin.
+
+- Fixed SIGSEGV when built with some MinGW distributions.
+
+- Fixed build failure when using -march=i386.
+
+- Implemented thread callback to initialize log4cplus for Visual
+  Studio builds of static library.
+
+- Fixed bug #154 - getHostname() failure because of uninitialized
+  WinSock.
+
+- Fixed detection of C++11 thread_local keyword.
+
+- Fixed builds using DevKit-tdm-32-4.5.2-20111229-1559.
+
+
+log4cplus 1.1.1-RC1
 
 - Improved documentation for various classes.
 
