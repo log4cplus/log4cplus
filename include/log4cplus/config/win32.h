@@ -74,8 +74,6 @@
 #define LOG4CPLUS_HAVE__VSNPRINTF
 #define LOG4CPLUS_HAVE__VSNWPRINTF
 
-#if defined (_MSC_VER) \
-    || (defined (__MINGW64_VERSION_MAJOR) && __MINGW64_VERSION_MAJOR >= 3)
 // MS secure versions of vprintf().
 #  define LOG4CPLUS_HAVE_VSPRINTF_S
 #  define LOG4CPLUS_HAVE_VSWPRINTF_S
@@ -157,21 +155,24 @@
 
 #if defined (__GNUC__)
 #  undef LOG4CPLUS_INLINES_ARE_EXPORTED
+#  if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1)
+#    define LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
+#    define LOG4CPLUS_HAVE_FUNC_SYMBOL
+#  endif
 #  if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
-#    define LOG4CPLUS_INLINES_ARE_EXPORTED
 #    if defined (__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4)
 #      define LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH
 #      define LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH
 #    endif
 #  endif
+#  if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7)
+#    define LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH
+#    define LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH
+#    define LOG4CPLUS_INLINES_ARE_EXPORTED
 #  endif
 #  define LOG4CPLUS_HAVE_FUNCTION_MACRO
 #  define LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS
 #  define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
-#  if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1)
-#    define LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
-#    define LOG4CPLUS_HAVE_FUNC_SYMBOL
-#  endif
 #  if defined (__MINGW32__)
 #    define LOG4CPLUS_WORKING_C_LOCALE
 #  endif
