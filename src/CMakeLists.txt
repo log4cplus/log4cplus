@@ -68,6 +68,9 @@ endif ()
 if (UNICODE)
   add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
 endif (UNICODE)
+if (WIN32)
+  add_definitions (-DMINGW_HAS_SECURE_API=1)
+endif (WIN32)
 
 add_library (${log4cplus} ${log4cplus_sources})
 

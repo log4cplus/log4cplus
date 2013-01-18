@@ -172,11 +172,11 @@ LockFile::open (int open_flags) const
     LogLog & loglog = getLogLog ();
 
 #if defined (_WIN32)
-#  if defined (LOG4CPLUS_HAVE__TSOPEN_S)
+#  if defined (LOG4CPLUS_HAVE__TSOPEN_S) && defined (_tsopen_s)
     errno_t eno = _tsopen_s (&data->fd, lock_file_name.c_str (), open_flags,
         OPEN_SHFLAGS, OPEN_MODE);
     if (eno != 0)
-#  elif defined (LOG4CPLUS_HAVE__TSOPEN)
+#  elif defined (LOG4CPLUS_HAVE__TSOPEN) && defined (_tsopen)
     data->fd = _tsopen (lock_file_name.c_str (), open_flags, OPEN_SHFLAGS,
         OPEN_MODE);
     if (data->fd == -1)
