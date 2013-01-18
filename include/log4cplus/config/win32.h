@@ -153,6 +153,9 @@
 #    define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
 #    define LOG4CPLUS_ATTRIBUTE_NORETURN __declspec(noreturn)
 #  endif
+#  if _MSC_VER >= 1700
+#    define LOG4CPLUS_HAVE_CXX11_ATOMICS
+#  endif
 #endif
 
 #if defined (__GNUC__)
