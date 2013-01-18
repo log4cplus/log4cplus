@@ -22,7 +22,7 @@ AC_CACHE_CHECK([for thread_local], [ac_cv_thread_local],
       ]],
       [[x = 2;
         foo ();]])],
-    [ac_cv__thread_local=yes
+    [ac_cv_thread_local=yes
      ax_tls_support=yes],
     [ac_cv_thread_local=no],
     [ac_cv_thread_local=no])

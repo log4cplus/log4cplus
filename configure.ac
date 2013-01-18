@@ -418,12 +418,15 @@ dnl Multi threaded library.
    AX_TLS_SUPPORT
    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
    AH_TEMPLATE([LOG4CPLUS_THREAD_LOCAL_VAR])
-   AS_IF([test "x$ac_cv_declspec_thread" = "xyes"],
+   AS_IF([test "x$ac_cv_thread_local" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE_TLS_SUPPORT])
-      AC_DEFINE([LOG4CPLUS_THREAD_LOCAL_VAR], [__declspec(thread)])],
-     [AS_IF([test "x$ac_cv__thread_keyword" = "xyes"],
-       [AC_DEFINE([LOG4CPLUS_HAVE_TLS_SUPPORT])
-        AC_DEFINE([LOG4CPLUS_THREAD_LOCAL_VAR], [__thread])])])],
+      AC_DEFINE([LOG4CPLUS_THREAD_LOCAL_VAR], [thread_local])],
+     [AS_IF([test "x$ac_cv_declspec_thread" = "xyes"],
+        [AC_DEFINE([LOG4CPLUS_HAVE_TLS_SUPPORT])
+         AC_DEFINE([LOG4CPLUS_THREAD_LOCAL_VAR], [__declspec(thread)])],
+        [AS_IF([test "x$ac_cv__thread_keyword" = "xyes"],
+           [AC_DEFINE([LOG4CPLUS_HAVE_TLS_SUPPORT])
+            AC_DEFINE([LOG4CPLUS_THREAD_LOCAL_VAR], [__thread])])])])],
 
 dnl Single threaded library.
   [AC_MSG_NOTICE([Creating a single-threaded library])
