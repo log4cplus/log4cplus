@@ -171,8 +171,10 @@
 #    endif
 #  endif
 #  if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7)
-#    define LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH
-#    define LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH
+#    if defined (__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4)
+#      define LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH
+#      define LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH
+#    endif
 #    define LOG4CPLUS_INLINES_ARE_EXPORTED
 #  endif
 #  define LOG4CPLUS_HAVE_FUNCTION_MACRO
