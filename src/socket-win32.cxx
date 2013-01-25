@@ -121,7 +121,7 @@ init_winsock ()
 {
     // Quick check first to avoid the expensive interlocked compare
     // and exchange.
-    if (winsock_state == WS_INITIALIZED)
+    if (LOG4CPLUS_LIKELY (winsock_state == WS_INITIALIZED))
         return;
     else
         init_winsock_worker ();
