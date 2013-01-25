@@ -9760,13 +9760,13 @@ fi
 fi
 
 
-   if test "x$ax_cv_atomic_inc_uint"; then :
+   if test "x$ac_cv_atomic_inc_uint" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_ATOMIC_INC_UINT 1" >>confdefs.h
 
 fi
 
 
-   if test "x$ax_cv_atomic_dec_uint_nv"; then :
+   if test "x$ac_cv_atomic_dec_uint_nv" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV 1" >>confdefs.h
 
 fi

@@ -408,11 +408,11 @@ dnl Multi threaded library.
      [AC_DEFINE([LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH])])
 
    AH_TEMPLATE([LOG4CPLUS_HAVE_ATOMIC_INC_UINT])
-   AS_IF([test "x$ax_cv_atomic_inc_uint"],
+   AS_IF([test "x$ac_cv_atomic_inc_uint" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE_ATOMIC_INC_UINT])])
 
    AH_TEMPLATE([LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV])
-   AS_IF([test "x$ax_cv_atomic_dec_uint_nv"],
+   AS_IF([test "x$ac_cv_atomic_dec_uint_nv" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV])])
 
    AX_TLS_SUPPORT
