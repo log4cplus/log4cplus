@@ -109,7 +109,8 @@ namespace log4cplus {
                 // does not have positive counterpart; the range is
                 // asymetric.  That's why we handle the case of value
                 // == min() specially here.
-                if (value == (std::numeric_limits<intType>::min) ())
+                if (LOG4CPLUS_UNLIKELY (
+                    value == (std::numeric_limits<intType>::min) ()))
                 {
                     intType const r = value / 10;
                     intType const a = (-r) * 10;
@@ -164,29 +165,31 @@ namespace log4cplus {
                 = intTypeLimits::digits10 + 2;
             tchar buffer[buffer_size];
             tchar * it = &buffer[buffer_size];
-            tchar const * const buf_end = it;
+            tchar const * const buf_end = &buffer[buffer_size];
 
-            if (value == 0)
+            if (LOG4CPLUS_UNLIKELY (value == 0))
             {
                 --it;
                 *it = LOG4CPLUS_TEXT('0');
             }
-
-            bool const negative = HelperType::is_negative (value);
-            if (negative)
-                HelperType::step1 (it, value);
-
-            for (; value != 0; --it)
+            else
             {
-                intType mod = value % 10;
-                value = value / 10;
-                *(it - 1) = LOG4CPLUS_TEXT('0') + static_cast<tchar>(mod);
-            }
+                bool const negative = HelperType::is_negative (value);
+                if (negative)
+                    HelperType::step1 (it, value);
 
-            if (negative)
-            {
-                --it;
-                *it = LOG4CPLUS_TEXT('-');
+                for (; value != 0; --it)
+                {
+                    intType mod = value % 10;
+                    value = value / 10;
+                    *(it - 1) = LOG4CPLUS_TEXT('0') + static_cast<tchar>(mod);
+                }
+
+                if (negative)
+                {
+                    --it;
+                    *it = LOG4CPLUS_TEXT('-');
+                }
             }
 
             str.assign (static_cast<tchar const *>(it), buf_end);
