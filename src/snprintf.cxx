@@ -196,7 +196,7 @@ snprintf_buf::print_va_list (tchar const * & str, tchar const * fmt,
     std::size_t buf_size = buf.size ();
     std::size_t const output_estimate = fmt_len + fmt_len / 2 + 1;
     if (output_estimate > buf_size)
-        buf.resize (output_estimate);
+        buf.resize (buf_size = output_estimate);
 
 #if defined (LOG4CPLUS_USE_POOR_MANS_SNPRINTF)
     std::FILE * & fnull = internal::get_ptd ()->fnull;
@@ -230,9 +230,9 @@ snprintf_buf::print_va_list (tchar const * & str, tchar const * fmt,
         buf_size *= 2;
         buf.resize (buf_size);
     }
-    else if (printed >= static_cast<int>(buf_size))
+    else if (printed >= static_cast<int>(buf_size - 1))
     {
-        buf_size = printed + 1;
+        buf_size = printed + 2;
         buf.resize (buf_size);
         printed = -1;
     }
