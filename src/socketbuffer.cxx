@@ -23,6 +23,10 @@
 #include <log4cplus/helpers/socketbuffer.h>
 #include <log4cplus/helpers/loglog.h>
 
+#if defined (LOG4CPLUS_HAVE_SYS_TYPES_H)
+#include <sys/types.h>
+#endif
+
 #if !defined(_WIN32)
 #  include <netdb.h>
 #else
