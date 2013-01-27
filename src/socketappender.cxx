@@ -257,6 +257,7 @@ SocketAppender::append(const spi::InternalLoggingEvent& event)
 }
 
 
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
 thread::Mutex const &
 SocketAppender::ctcGetAccessMutex () const
 {
@@ -283,6 +284,7 @@ SocketAppender::ctcSetConnected ()
     connected = true;
 }
 
+#endif
 
 
 /////////////////////////////////////////////////////////////////////////////

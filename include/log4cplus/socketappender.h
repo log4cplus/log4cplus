@@ -144,7 +144,9 @@ protected:
      */
     class LOG4CPLUS_EXPORT SocketAppender
         : public Appender 
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
         , protected virtual helpers::IConnectorThreadClient
+#endif
     {
     public:
       // Ctors
