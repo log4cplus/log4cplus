@@ -141,6 +141,10 @@
    "C" locale. */
 #undef LOG4CPLUS_WORKING_C_LOCALE
 
+/* Define so that log4cplus will use C++11 threads and synchronization
+   primitives. */
+#undef LOG4CPLUS_WITH_CXX11_THREADS
+
 /* Define to int if undefined. */
 #undef socklen_t
 

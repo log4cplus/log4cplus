@@ -79,7 +79,10 @@ ObjectRegistryBase::putVal(const tstring& name, void* object)
     std::pair<ObjectMap::iterator, bool> ret;
 
     {
-        thread::MutexGuard guard (mutex);
+        thread::MutexGuard guard;
+        if (locking)
+            guard.attach_and_lock (mutex);
+
         ret = data.insert(value);
     }
 
@@ -111,6 +114,13 @@ ObjectRegistryBase::clear()
 
     for(ObjectMap::iterator it=data.begin(); it!=data.end(); ++it)
         deleteObject( it->second );
+}
+
+
+void
+ObjectRegistryBase::_enableLocking (bool enable)
+{
+    locking = enable;
 }
 
 

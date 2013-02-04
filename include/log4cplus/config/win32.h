@@ -155,6 +155,7 @@
 #  endif
 #  if _MSC_VER >= 1700
 #    define LOG4CPLUS_HAVE_CXX11_ATOMICS
+#    define LOG4CPLUS_WITH_CXX11_THREADS
 #  endif
 #endif
 

@@ -445,6 +445,10 @@
 /* */
 #undef LOG4CPLUS_USE_PTHREADS
 
+/* Define so that log4cplus will use C++11 threads and synchronization
+   primitives. */
+#undef LOG4CPLUS_WITH_CXX11_THREADS
+
 /* Define when iconv() is available. */
 #undef LOG4CPLUS_WITH_ICONV
 
