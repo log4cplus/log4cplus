@@ -71,6 +71,22 @@ AS_IF([test "x$with_iconv" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_WITH_ICONV], [1])],
   [])
 
+dnl With C++11 threads and synchronization primitives.
+
+AH_TEMPLATE([LOG4CPLUS_WITH_CXX11_THREADS],
+  [Define so that log4cplus will use C++11 threads and synchronization
+   primitives.])
+
+AC_ARG_WITH([c++11-threads],
+  [AS_HELP_STRING([--with-c++11-threads],
+    [Use C++11 threads and synchronization primitives.])],
+  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-c++11-threads])],
+  [with_c__11_threads=no])
+
+AS_IF([test "x$with_c__11_threads" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_WITH_CXX11_THREADS], [1])],
+  [])
+
 dnl Debugging or release build?
 
 AC_ARG_ENABLE([debugging],

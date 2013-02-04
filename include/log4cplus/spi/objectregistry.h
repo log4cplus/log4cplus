@@ -58,6 +58,11 @@ namespace log4cplus {
              */
             std::vector<log4cplus::tstring> getAllNames() const;
 
+            //! This function is internal implementation detail.
+            //! It is related to work-around needed for initialization when
+            //! using C++11 threads and mutexes.
+            void _enableLocking (bool);
+
         protected:
           // Ctor and Dtor
             ObjectRegistryBase();
@@ -96,6 +101,8 @@ namespace log4cplus {
         private:
             ObjectRegistryBase (ObjectRegistryBase const &);
             ObjectRegistryBase & operator = (ObjectRegistryBase const &);
+
+            bool volatile locking;
         };
 
     }

@@ -472,14 +472,14 @@ extern const
 #else
 #pragma data_seg (".CRT$XLX")
 #endif
-PIMAGE_TLS_CALLBACK p_thread_callback = log4cplus::thread_callback;
+PIMAGE_TLS_CALLBACK log4cplus_p_thread_callback = log4cplus::thread_callback;
 #pragma data_seg (pop, old_seg)
 #ifdef _WIN64
 #pragma comment (linker, "/INCLUDE:_tls_used")
-#pragma comment (linker, "/INCLUDE:p_thread_callback")
+#pragma comment (linker, "/INCLUDE:log4cplus_p_thread_callback")
 #else
 #pragma comment (linker, "/INCLUDE:__tls_used")
-#pragma comment (linker, "/INCLUDE:_p_thread_callback")
+#pragma comment (linker, "/INCLUDE:_log4cplus_p_thread_callback")
 #endif
 
 } // extern "C"

@@ -805,6 +805,7 @@ enable_dependency_tracking
 with_working_locale
 with_working_c_locale
 with_iconv
+with_c__11_threads
 enable_debugging
 enable_warnings
 enable_profiling
@@ -1484,6 +1485,7 @@ Optional Packages:
   --with-working-c-locale Use C99 locale facilities for char->wchar_t
                           conversion.
   --with-iconv            Use iconv() for char->wchar_t conversion.
+  --with-c++11-threads    Use C++11 threads and synchronization primitives.
   --with-qt               Build liblog4cplusqt4debugappender.
   --with-python           Build Python/SWIG bindings.
   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
@@ -4367,6 +4369,30 @@ fi
 
 if test "x$with_iconv" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_WITH_ICONV 1" >>confdefs.h
+
+fi
+
+
+
+
+
+# Check whether --with-c++11-threads was given.
+if test "${with_c__11_threads+set}" = set; then :
+  withval=$with_c__11_threads; case "${withval}" in #(
+  yes) :
+     ;; #(
+  no) :
+     ;; #(
+  *) :
+    as_fn_error $? "bad value ${withval} for --with-c++11-threads" "$LINENO" 5 ;;
+esac
+else
+  with_c__11_threads=no
+fi
+
+
+if test "x$with_c__11_threads" = "xyes"; then :
+  $as_echo "#define LOG4CPLUS_WITH_CXX11_THREADS 1" >>confdefs.h
 
 fi
 

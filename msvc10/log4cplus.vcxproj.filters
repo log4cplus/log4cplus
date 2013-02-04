@@ -384,6 +384,9 @@
     <ClInclude Include="..\include\log4cplus\clogger.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-cxx11.h">
+      <Filter>thread\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="log4cplus.props" />
