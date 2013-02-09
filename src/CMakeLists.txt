@@ -176,7 +176,8 @@ install(FILES ../include/log4cplus/spi/appenderattachable.h
               ../include/log4cplus/spi/rootlogger.h
         DESTINATION include/log4cplus/spi )
 
-install(FILES ../include/log4cplus/thread/impl/syncprims-impl.h
+install(FILES ../include/log4cplus/thread/impl/syncprims-cxx11.h
+              ../include/log4cplus/thread/impl/syncprims-impl.h
 #              ../include/log4cplus/thread/impl/syncprims-pmsm.h
               ../include/log4cplus/thread/impl/syncprims-pthreads.h
               ../include/log4cplus/thread/impl/syncprims-win32.h
