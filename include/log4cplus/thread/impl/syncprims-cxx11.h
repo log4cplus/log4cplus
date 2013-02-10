@@ -29,6 +29,7 @@
 //! syncprims.h.
 
 #include <stdexcept>
+#include <chrono>
 
 
 namespace log4cplus { namespace thread { namespace impl {
@@ -198,10 +199,15 @@ ManualResetEvent::timed_wait (unsigned long msec) const
     if (! signaled)
     {
         unsigned prev_count = sigcount;
+
+        std::chrono::time_point<std::chrono::steady_clock> const wait_until_time
+            = std::chrono::steady_clock::now ()
+            + std::chrono::milliseconds (msec);
+
         do
         {
             int ret = static_cast<int>(
-                cv.wait_for (guard, std::chrono::milliseconds (msec)));
+                cv.wait_until (guard, wait_until_time));
             switch (ret)
             {
             case static_cast<int>(std::cv_status::no_timeout):
