@@ -99,8 +99,6 @@ namespace log4cplus
      * </dl>
      */
     class LOG4CPLUS_EXPORT SocketAppender : public Appender {
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
-#endif
     public:
       // Ctors
         SocketAppender(const log4cplus::tstring& host, unsigned short port, 
