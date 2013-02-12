@@ -14,6 +14,7 @@ using namespace log4cplus;
 int
 main(int argc, char **argv)
 {
+    log4cplus::initialize ();
     log4cplus::helpers::sleep(1);
     tstring serverName = (argc > 1 ? LOG4CPLUS_C_STR_TO_TSTRING(argv[1]) : tstring());
 //    tstring host = LOG4CPLUS_TEXT("192.168.2.10");

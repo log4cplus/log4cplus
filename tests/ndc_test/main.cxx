@@ -15,6 +15,7 @@ int
 main()
 {
     cout << "Entering main()..." << endl;
+    log4cplus::initialize ();
     LogLog::getLogLog()->setInternalDebugging(true);
     try {
         SharedObjectPtr<Appender> append_1(new ConsoleAppender());

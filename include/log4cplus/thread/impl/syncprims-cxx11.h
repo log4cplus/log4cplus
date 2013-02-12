@@ -200,7 +200,7 @@ ManualResetEvent::timed_wait (unsigned long msec) const
     {
         unsigned prev_count = sigcount;
 
-        std::chrono::time_point<std::chrono::steady_clock> const wait_until_time
+        std::chrono::steady_clock::time_point const wait_until_time
             = std::chrono::steady_clock::now ()
             + std::chrono::milliseconds (msec);
 

@@ -156,6 +156,9 @@ namespace log4cplus
 //! automatically by other means.
 LOG4CPLUS_EXPORT void threadCleanup ();
 
+//! Initializes log4cplus.
+LOG4CPLUS_EXPORT void initialize ();
+
 } // namespace log4cplus
 
 #endif

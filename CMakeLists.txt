@@ -39,6 +39,8 @@ option(UNICODE "Build with tchar = wchar_t" ${UNICODE_DEFAULT})
 
 option(WITH_ICONV "Use iconv() for char->wchar_t conversion."
   OFF)
+  
+set(_WIN32_WINNT 0x0500 CACHE STRING "Define Windows API version to use.")
 
 if (UNICODE)
   set (log4cplus_postfix "${log4cplus_postfix}U")

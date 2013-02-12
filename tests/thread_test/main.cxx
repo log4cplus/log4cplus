@@ -76,6 +76,7 @@ private:
 int
 main() 
 {
+    log4cplus::initialize();
     try
     {    
         auto_ptr<SlowObject> slowObject(new SlowObject());
