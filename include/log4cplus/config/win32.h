@@ -191,6 +191,13 @@
 #  define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
 #endif // __BORLANDC__
 
+#if ! defined (LOG4CPLUS_DISABLE_DLL_RUNTIME_WARNING)
+#  if defined (LOG4CPLUS_STATIC) && defined (_MSC_VER) && ! defined (_DLL)
+#    pragma message("You are not using DLL C run time library. " \
+    "You must call log4cplus::initialize() once before " \
+    "you use any other log4cplus API.")
+#  endif
+#endif
 
 #endif // _WIN32
 #endif // LOG4CPLUS_CONFIG_WIN32_HEADER_

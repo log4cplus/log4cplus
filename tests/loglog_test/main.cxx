@@ -16,6 +16,7 @@ void printMsgs() {
 
 int
 main() {
+    log4cplus::initialize ();
     printMsgs();
 
     cout << "Turning on debug..." << endl;

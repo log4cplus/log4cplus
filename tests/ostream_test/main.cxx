@@ -11,6 +11,7 @@ using namespace log4cplus;
 int
 main()
 {
+    log4cplus::initialize ();
     SharedAppenderPtr append_1(new ConsoleAppender());
     append_1->setName(LOG4CPLUS_TEXT("First"));
     Logger::getRoot().addAppender(append_1);

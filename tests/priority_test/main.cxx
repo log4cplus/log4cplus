@@ -18,6 +18,7 @@ int
 main()
 {
     cout << "Entering main()..." << endl;
+    log4cplus::initialize ();
     {
     SharedAppenderPtr append_1(new ConsoleAppender());
     append_1->setName(LOG4CPLUS_TEXT("First"));
