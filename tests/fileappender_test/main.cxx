@@ -14,6 +14,7 @@ const int LOOP_COUNT = 20000;
 int
 main()
 {
+    log4cplus::initialize ();
     helpers::LogLog::getLogLog()->setInternalDebugging(true);
     SharedAppenderPtr append_1(
         new RollingFileAppender(LOG4CPLUS_TEXT("Test.log"), 5*1024, 5));

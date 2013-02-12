@@ -26,6 +26,7 @@ int
 main()
 {
     tcout << LOG4CPLUS_TEXT("Entering main()...") << endl;
+    log4cplus::initialize ();
     PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
     Logger root = Logger::getRoot();
     try {

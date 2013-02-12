@@ -14,6 +14,7 @@ int
 main()
 {
     std::cout << "Entering main()..." << std::endl;
+    log4cplus::initialize ();
     try
     {
         Time time;

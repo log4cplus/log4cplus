@@ -11,6 +11,7 @@ using namespace log4cplus::helpers;
 int
 main()
 {
+    log4cplus::initialize ();
     {
 
         Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("test"));
