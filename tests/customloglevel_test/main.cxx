@@ -18,11 +18,6 @@ main()
 {
     cout << "Entering main()..." << endl;
     {
-//    append_1->setLayout( std::auto_ptr<Layout>(new TTCCLayout()) );
-    LOG4CPLUS_FATAL(root, "\nSetting test.subtest to WARN");
-    LOG4CPLUS_FATAL(root, "\nSetting test to CRITICAL");
-    LOG4CPLUS_FATAL(root, "\nSetting test.subtest to NOT_SET_LOG_LEVEL");
-    LOG4CPLUS_FATAL(root, "test.subtest: " << llm.toString(subTest.getChainedLogLevel()) << '\n');
         log4cplus::initialize ();
         SharedAppenderPtr append_1(new ConsoleAppender());
         append_1->setName(LOG4CPLUS_TEXT("First"));
