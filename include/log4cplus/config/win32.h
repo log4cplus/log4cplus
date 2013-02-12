@@ -34,7 +34,6 @@
 
 #ifdef _WIN32
 
-// See windowsh-inc.h for more details.
 #if (defined (_MSC_VER) && _MSC_VER > 1400) \
     || (defined (__MINGW64_VERSION_MAJOR) && __MINGW64_VERSION_MAJOR >= 3)
 #  define LOG4CPLUS_HAVE_INTRIN_H
