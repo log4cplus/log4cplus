@@ -5,7 +5,7 @@
 // Author:  Vaclav Zeman
 //
 //
-//  Copyright (C) 2010-2012, Vaclav Zeman. All rights reserved.
+//  Copyright (C) 2010-2013, Vaclav Zeman. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
