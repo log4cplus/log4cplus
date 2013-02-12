@@ -70,6 +70,7 @@ if (UNICODE)
 endif (UNICODE)
 if (WIN32)
   add_definitions (-DMINGW_HAS_SECURE_API=1)
+  add_definitions (-D_WIN32_WINNT=${_WIN32_WINNT})
 endif (WIN32)
 
 add_library (${log4cplus} ${log4cplus_sources})
