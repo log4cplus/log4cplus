@@ -29,6 +29,13 @@
 #include <cwctype>
 #include <cctype>
 
+#ifdef LOG4CPLUS_HAVE_CTYPE_H
+#  include <ctype.h>
+#endif
+#ifdef LOG4CPLUS_HAVE_WCTYPE_H
+#  include <wctype.h>
+#endif
+
 #ifdef UNICODE
 #  include <cassert>
 #  include <vector>

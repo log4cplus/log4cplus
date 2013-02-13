@@ -41,7 +41,13 @@
 #undef LOG4CPLUS_HAVE_STDIO_H
 
 /* */
+#undef LOG4CPLUS_HAVE_CTYPE_H
+
+/* */
 #undef LOG4CPLUS_HAVE_WCHAR_H
+
+/* */
+#undef LOG4CPLUS_HAVE_WCTYPE_H
 
 /* */
 #undef LOG4CPLUS_HAVE_FTIME

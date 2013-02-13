@@ -110,6 +110,9 @@
 #undef LOG4CPLUS_HAVE_CLOCK_GETTIME
 
 /* */
+#undef LOG4CPLUS_HAVE_CTYPE_H
+
+/* */
 #undef LOG4CPLUS_HAVE_ENAMETOOLONG
 
 /* */
@@ -192,6 +195,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_WCHAR_H
+
+/* */
+#undef LOG4CPLUS_HAVE_WCTYPE_H
 
 /* Define if this is a single-threaded library. */
 #undef LOG4CPLUS_SINGLE_THREADED

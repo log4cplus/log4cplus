@@ -7180,6 +7180,22 @@ fi
 
 
 
+   ac_fn_cxx_check_header_mongrel "$LINENO" "ctype.h" "ac_cv_header_ctype_h" "$ac_includes_default"
+if test "x$ac_cv_header_ctype_h" = xyes; then :
+  $as_echo "#define LOG4CPLUS_HAVE_CTYPE_H 1" >>confdefs.h
+
+fi
+
+
+
+   ac_fn_cxx_check_header_mongrel "$LINENO" "wctype.h" "ac_cv_header_wctype_h" "$ac_includes_default"
+if test "x$ac_cv_header_wctype_h" = xyes; then :
+  $as_echo "#define LOG4CPLUS_HAVE_WCTYPE_H 1" >>confdefs.h
+
+fi
+
+
+
    ac_fn_cxx_check_header_mongrel "$LINENO" "stdarg.h" "ac_cv_header_stdarg_h" "$ac_includes_default"
 if test "x$ac_cv_header_stdarg_h" = xyes; then :
   $as_echo "#define LOG4CPLUS_HAVE_STDARG_H 1" >>confdefs.h
