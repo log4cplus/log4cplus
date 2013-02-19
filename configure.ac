@@ -585,7 +585,7 @@ dnl Must be latest to catch rpath compiled in by changes made during
 dnl checks before.
 
 LT_PREREQ([2.4.2])
-LT_INIT([win32-dll])
+LT_INIT([win32-dll disable-static pic-only])
 
 AH_TOP([#ifndef LOG4CPLUS_CONFIG_H])
 AH_TOP([#define LOG4CPLUS_CONFIG_H])

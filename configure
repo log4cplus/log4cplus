@@ -812,9 +812,9 @@ enable_profiling
 enable_threads
 with_qt
 with_python
-enable_shared
 enable_static
 with_pic
+enable_shared
 enable_fast_install
 with_gnu_ld
 with_sysroot
@@ -1472,8 +1472,8 @@ Optional Features:
   --enable-profiling      Compile with profiling compiler options.
   --enable-threads=yes/no Use this option to create a singled-threaded version
                           of this library
+  --enable-static[=PKGS]  build static libraries [default=no]
   --enable-shared[=PKGS]  build shared libraries [default=yes]
-  --enable-static[=PKGS]  build static libraries [default=yes]
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
@@ -15064,6 +15064,65 @@ test -z "$OBJDUMP" && OBJDUMP=objdump
 
 
 
+# Check whether --enable-static was given.
+if test "${enable_static+set}" = set; then :
+  enableval=$enable_static; p=${PACKAGE-default}
+    case $enableval in
+    yes) enable_static=yes ;;
+    no) enable_static=no ;;
+    *)
+     enable_static=no
+      # Look at the argument we got.  We use all the common list separators.
+      lt_save_ifs="$IFS"; IFS="${IFS}$PATH_SEPARATOR,"
+      for pkg in $enableval; do
+	IFS="$lt_save_ifs"
+	if test "X$pkg" = "X$p"; then
+	  enable_static=yes
+	fi
+      done
+      IFS="$lt_save_ifs"
+      ;;
+    esac
+else
+  enable_static=no
+fi
+
+
+
+
+
+
+
+
+# Check whether --with-pic was given.
+if test "${with_pic+set}" = set; then :
+  withval=$with_pic; lt_p=${PACKAGE-default}
+    case $withval in
+    yes|no) pic_mode=$withval ;;
+    *)
+      pic_mode=default
+      # Look at the argument we got.  We use all the common list separators.
+      lt_save_ifs="$IFS"; IFS="${IFS}$PATH_SEPARATOR,"
+      for lt_pkg in $withval; do
+	IFS="$lt_save_ifs"
+	if test "X$lt_pkg" = "X$lt_p"; then
+	  pic_mode=yes
+	fi
+      done
+      IFS="$lt_save_ifs"
+      ;;
+    esac
+else
+  pic_mode=default
+fi
+
+
+test -z "$pic_mode" && pic_mode=yes
+
+
+
+
+
 
 
 
@@ -15097,67 +15156,6 @@ fi
 
 
 
-
-
-
-
-
-  # Check whether --enable-static was given.
-if test "${enable_static+set}" = set; then :
-  enableval=$enable_static; p=${PACKAGE-default}
-    case $enableval in
-    yes) enable_static=yes ;;
-    no) enable_static=no ;;
-    *)
-     enable_static=no
-      # Look at the argument we got.  We use all the common list separators.
-      lt_save_ifs="$IFS"; IFS="${IFS}$PATH_SEPARATOR,"
-      for pkg in $enableval; do
-	IFS="$lt_save_ifs"
-	if test "X$pkg" = "X$p"; then
-	  enable_static=yes
-	fi
-      done
-      IFS="$lt_save_ifs"
-      ;;
-    esac
-else
-  enable_static=yes
-fi
-
-
-
-
-
-
-
-
-
-
-# Check whether --with-pic was given.
-if test "${with_pic+set}" = set; then :
-  withval=$with_pic; lt_p=${PACKAGE-default}
-    case $withval in
-    yes|no) pic_mode=$withval ;;
-    *)
-      pic_mode=default
-      # Look at the argument we got.  We use all the common list separators.
-      lt_save_ifs="$IFS"; IFS="${IFS}$PATH_SEPARATOR,"
-      for lt_pkg in $withval; do
-	IFS="$lt_save_ifs"
-	if test "X$lt_pkg" = "X$lt_p"; then
-	  pic_mode=yes
-	fi
-      done
-      IFS="$lt_save_ifs"
-      ;;
-    esac
-else
-  pic_mode=default
-fi
-
-
-test -z "$pic_mode" && pic_mode=default
 
 
 
@@ -23029,9 +23027,9 @@ macro_revision='`$ECHO "$macro_revision" | $SED "$delay_single_quote_subst"`'
 AS='`$ECHO "$AS" | $SED "$delay_single_quote_subst"`'
 DLLTOOL='`$ECHO "$DLLTOOL" | $SED "$delay_single_quote_subst"`'
 OBJDUMP='`$ECHO "$OBJDUMP" | $SED "$delay_single_quote_subst"`'
-enable_shared='`$ECHO "$enable_shared" | $SED "$delay_single_quote_subst"`'
 enable_static='`$ECHO "$enable_static" | $SED "$delay_single_quote_subst"`'
 pic_mode='`$ECHO "$pic_mode" | $SED "$delay_single_quote_subst"`'
+enable_shared='`$ECHO "$enable_shared" | $SED "$delay_single_quote_subst"`'
 enable_fast_install='`$ECHO "$enable_fast_install" | $SED "$delay_single_quote_subst"`'
 SHELL='`$ECHO "$SHELL" | $SED "$delay_single_quote_subst"`'
 ECHO='`$ECHO "$ECHO" | $SED "$delay_single_quote_subst"`'
@@ -24192,14 +24190,14 @@ DLLTOOL=$lt_DLLTOOL
 # Object dumper program.
 OBJDUMP=$lt_OBJDUMP
 
-# Whether or not to build shared libraries.
-build_libtool_libs=$enable_shared
-
 # Whether or not to build static libraries.
 build_old_libs=$enable_static
 
 # What type of objects to build.
 pic_mode=$pic_mode
+
+# Whether or not to build shared libraries.
+build_libtool_libs=$enable_shared
 
 # Whether or not to optimize for fast installation.
 fast_install=$enable_fast_install
