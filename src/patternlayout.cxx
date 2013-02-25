@@ -580,26 +580,30 @@ void
 log4cplus::pattern::MDCPatternConverter::convert (tstring & result,
     const spi::InternalLoggingEvent& event)
 {
-    if(!key.empty())
-	{
-		result = event.getMDC (key);
-	}
-	else
-	{
-		result = LOG4CPLUS_TEXT("");
+    if (!key.empty())
+    {
+        result = event.getMDC (key);
+    }
+    else
+    {
+        result.clear ();
 
-		MappedDiagnosticContextMap mdcMap = event.getMDCCopy();
-				
-		for ( MappedDiagnosticContextMap::const_iterator it = mdcMap.begin(); it != mdcMap.end(); it ++)
-		{			
-			tstring name(it->first);
+        MappedDiagnosticContextMap const & mdcMap = event.getMDCCopy();
+                
+        for (MappedDiagnosticContextMap::const_iterator it = mdcMap.begin(); 
+             it != mdcMap.end(); ++it)
+        {           
+            tstring const & name(it->first);
+            tstring const & value(it->second);
 
-			tstring value(it->second);
-
-			result += LOG4CPLUS_TEXT("{") + name + LOG4CPLUS_TEXT(", ") + value + LOG4CPLUS_TEXT("}"); 
-			
-		}
-	}
+            result += LOG4CPLUS_TEXT("{");
+            result += name;
+            result += LOG4CPLUS_TEXT(", ");
+            result += value;
+            result += LOG4CPLUS_TEXT("}"); 
+            
+        }
+    }
 }
 
 
