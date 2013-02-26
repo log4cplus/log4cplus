@@ -1,3 +1,10 @@
+Version 1.0.4.3
+
+  - Fixed bug #125 - Build failure with Solaris Studio on Solaris,
+    threading detection problem.
+  - Fixed bug #161 - Compilation problem due to missing towupper() and
+    towlower() in global namespace.
+
 Version 1.0.4.2
 
   - Update with Automake 1.12.6.
