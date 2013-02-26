@@ -257,11 +257,10 @@ AS_IF([test x$enable_threads = xyes],
 
    AS_CASE(["$target_os"],
      [mingw*], [],
-     [ACX_PTHREAD([],
+     [AX_PTHREAD_CXX([],
        [AC_MSG_ERROR([Requested threads support but no threads were found.])])])
 
-   CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
-   CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
+   CXXFLAGS="$CXXFLAGS $PTHREAD_CXXFLAGS"
    LIBS="$PTHREAD_LIBS $LIBS"],
 
   [AC_MSG_NOTICE([Creating a single-threaded library])
