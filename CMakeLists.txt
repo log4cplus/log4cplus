@@ -42,6 +42,11 @@ option(WITH_ICONV "Use iconv() for char->wchar_t conversion."
   
 set(_WIN32_WINNT 0x0500 CACHE STRING "Define Windows API version to use.")
 
+if (NOT ${BUILD_SHARED_LIBS})
+  # set S-prefix for static build 
+  set (log4cplus_postfix "${log4cplus_postfix}S")
+endif()    
+
 if (UNICODE)
   set (log4cplus_postfix "${log4cplus_postfix}U")
 endif (UNICODE)
@@ -62,6 +67,8 @@ configure_file(include/log4cplus/config/defines.hxx.cmake.in
 include_directories (${log4cplus_SOURCE_DIR}/include
                      ${log4cplus_BINARY_DIR}/include
                     )
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
 if (LOG4CPLUS_BUILD_TESTING)
   enable_testing()
