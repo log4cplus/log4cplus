@@ -2,6 +2,10 @@ project (log4cplus CXX C)
 cmake_minimum_required (VERSION 2.6)
 set (CMAKE_VERBOSE_MAKEFILE on)
 
+option(LOG4CPLUS_BUILD_STATIC "Build Static Library" ON)
+option(LOG4CPLUS_BUILD_UNICODE "Build with Unicode support" ON)
+# shared build will be enabled unconditionally
+
 set (log4cplus_version_major 1)
 set (log4cplus_version_minor 0)
 set (log4cplus_version_patch 4)
@@ -115,21 +119,33 @@ elseif (WIN32)
   set (log4cplus_headers ${log4cplus_headers}
     include/log4cplus/helpers/syncprims-win32.h)
 
-  # Comment out the following lines if you want non-Unicode version.
-  add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
-  set (log4cplus_postfix "${log4cplus_postfix}U")
-  
-  #add_definitions (-DLOG4CPLUS_STATIC)
-  #set (log4cplus_postfix "${log4cplus_postfix}S")
+  # Windows only???
+  if (LOG4CPLUS_BUILD_UNICODE)
+      add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
+      set (log4cplus_postfix "${log4cplus_postfix}U")
+  endif()
+  # make compiler quiet
+  add_definitions (-D_SCL_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS)
 endif ()
 
-message (STATUS "Headers: ${log4cplus_headers}")
-message (STATUS "Sources: ${log4cplus_sources}")
+#message (STATUS "Headers: ${log4cplus_headers}")
+#message (STATUS "Sources: ${log4cplus_sources}")
 
 include_directories ("include")
 set (log4cplus_all_sources ${log4cplus_sources} ${log4cplus_headers})
 
-#add_library (log4cplus STATIC ${log4cplus_all_sources})
+if (LOG4CPLUS_BUILD_STATIC)
+    message ("Configured to also build static library...")
+    add_library (log4cplusS STATIC ${log4cplus_all_sources})
+    set_target_properties (log4cplusS PROPERTIES
+        DEFINE_SYMBOL "LOG4CPLUS_STATIC"
+        DEBUG_POSTFIX "${log4cplus_postfix}D"
+        RELEASE_POSTFIX "${log4cplus_postfix}"
+        MINSIZEREL_POSTFIX "${log4cplus_postfix}"
+        RELWITHDEBINFO_POSTFIX "${log4cplus_postfix}")
+    list (APPEND TO_INSTALL log4cplusS)
+endif ()
+
 add_library (log4cplus SHARED ${log4cplus_all_sources})
 target_link_libraries (log4cplus ${CMAKE_THREAD_LIBS_INIT})
 
@@ -145,6 +161,14 @@ if (WIN32)
     RELWITHDEBINFO_POSTFIX "${log4cplus_postfix}")
   target_link_libraries (log4cplus ws2_32 advapi32)
 endif ()
+list (APPEND TO_INSTALL log4cplus)
 
 add_subdirectory (loggingserver)
 add_subdirectory (tests)
+
+install (TARGETS ${TO_INSTALL}
+  RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin"
+  ARCHIVE DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
+  LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
+install (DIRECTORY include
+  DESTINATION "${CMAKE_INSTALL_PREFIX}")

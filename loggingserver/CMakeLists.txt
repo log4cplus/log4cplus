@@ -13,3 +13,9 @@ include_directories ("../include")
 
 add_executable (loggingserver ${loggingserver_sources})
 target_link_libraries (loggingserver log4cplus)
+
+install (TARGETS loggingserver
+  RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin"
+  ARCHIVE DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
+  LIBRARY DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
+
