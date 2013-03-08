@@ -1,6 +1,12 @@
 project (log4cplus)
 cmake_minimum_required (VERSION 2.8.0)
 
+if (CMAKE_TOOLCHAIN_FILE)
+  # Android: set output folder to ${CMAKE_BINARY_DIR}
+  set (LIBRARY_OUTPUT_PATH_ROOT ${CMAKE_BINARY_DIR} CACHE PATH
+    "root for library output, set this to change where android libs are compiled to")
+endif ()
+
 set (log4cplus_version_major 1)
 set (log4cplus_version_minor 1)
 set (log4cplus_version_patch 0)
