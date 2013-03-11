@@ -1,6 +1,10 @@
 Possible enhancements and directions of development, in no particular
 order:
 
+- Improve error handling
+  - allow not to throw exceptions
+  - create hooks to allow users to override behaviour
+
 - EventLog library appender.
 
 - org.apache.log4j.net.ZeroConfSocketHubAppender.
