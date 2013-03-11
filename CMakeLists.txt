@@ -67,10 +67,17 @@ set (log4cplus "log4cplus${log4cplus_postfix}")
 
 include(ConfigureChecks.cmake)
 
-configure_file(include/log4cplus/config.h.cmake.in
-  ${log4cplus_BINARY_DIR}/include/log4cplus/config.h @ONLY)
-configure_file(include/log4cplus/config/defines.hxx.cmake.in
-  ${log4cplus_BINARY_DIR}/include/log4cplus/config/defines.hxx @ONLY)
+# Prepare defines.hxx.cmake from defines.hxx.in by doing a bit of
+# string manipulation.
+file(READ include/log4cplus/config/defines.hxx.in FILE_BUFFER)
+string(REGEX REPLACE "#undef[^a-zA-Z0-9_]+([a-zA-Z0-9_]+)"
+  "#cmakedefine \\1 @\\1@" FILE_BUFFER "${FILE_BUFFER}")
+set(DEFINES_HXX_CMAKE
+  ${log4cplus_BINARY_DIR}/include/log4cplus/config/defines.hxx.cmake) 
+set(DEFINES_HXX ${log4cplus_BINARY_DIR}/include/log4cplus/config/defines.hxx)
+file(WRITE ${DEFINES_HXX_CMAKE} ${FILE_BUFFER})
+
+configure_file(${DEFINES_HXX_CMAKE} ${DEFINES_HXX} @ONLY)
 
 include_directories (${log4cplus_SOURCE_DIR}/include
                      ${log4cplus_BINARY_DIR}/include
