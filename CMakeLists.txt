@@ -11,8 +11,8 @@ cmake_minimum_required (VERSION 2.8.0)
 
 set (log4cplus_version_major 1)
 set (log4cplus_version_minor 1)
-set (log4cplus_version_patch 0)
-set (log4cplus_soversion 0)
+set (log4cplus_version_patch 1)
+set (log4cplus_soversion 6)
 set (log4cplus_postfix "")
 
 option(LOG4CPLUS_BUILD_TESTING "Build the test suite." ON)
