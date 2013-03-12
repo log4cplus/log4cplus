@@ -1,3 +1,11 @@
+# This block needs to stay before the project (log4cplus) line so that
+#  the output files placed into Android's libs directory.
+if (CMAKE_TOOLCHAIN_FILE)
+  # Android: set output folder to ${CMAKE_BINARY_DIR}
+  set (LIBRARY_OUTPUT_PATH_ROOT ${CMAKE_BINARY_DIR} CACHE PATH
+    "root for library output, set this to change where android libs are compiled to")
+endif ()
+
 project (log4cplus)
 cmake_minimum_required (VERSION 2.8.0)
 
