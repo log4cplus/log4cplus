@@ -48,7 +48,10 @@ static inline
 int
 unix_nanosleep (const struct timespec *req, struct timespec *rem)
 {
-#if defined (LOG4CPLUS_HAVE_CLOCK_NANOSLEEP)
+#if defined (LOG4CPLUS_HAVE_CLOCK_NANOSLEEP) \
+    && ! defined (__BIONIC__)
+    // We do not allow Android with Bionic C library to use
+    // clock_nanosleep() as it is missing declaration in headers.
     return clock_nanosleep (CLOCK_REALTIME, 0, req, rem);
 
 #elif defined (LOG4CPLUS_HAVE_NANOSLEEP)
