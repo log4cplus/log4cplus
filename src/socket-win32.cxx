@@ -502,7 +502,7 @@ ServerSocket::accept ()
         {
         case WSA_WAIT_TIMEOUT:
         case WSA_WAIT_IO_COMPLETION:
-            // Retry after APC.
+            // Retry after timeout or APC.
             continue;
 
         // This is interrupt signal/event.
@@ -510,13 +510,13 @@ ServerSocket::accept ()
         {
             // Reset the event back.
 
-            WSAResetEvent (reinterpret_cast<HANDLE>(interruptHandles[0]));
+            ret = WSAResetEvent (reinterpret_cast<HANDLE>(interruptHandles[0]));
 
             // Clean up socket events handling.
 
-            (void) removeSocketEvents (sock, accept_ev);
-            (void) setSocketBlocking (sock);
-            (void) WSACloseEvent (accept_ev);
+            ret = removeSocketEvents (sock, accept_ev);
+            ret = setSocketBlocking (sock);
+            ret = WSACloseEvent (accept_ev);
 
             // Return Socket with state set to accept_interrupted.
 
