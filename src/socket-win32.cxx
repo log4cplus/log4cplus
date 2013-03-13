@@ -486,7 +486,6 @@ ServerSocket::accept ()
     HANDLE events[N_EVENTS] = {
         reinterpret_cast<HANDLE>(interruptHandles[0]) };
     HANDLE & accept_ev = events[1];
-    SOCKET osSocket = to_os_socket (sock);
     int ret;
 
     // Create event and prime socket to set the event on FD_ACCEPT.
@@ -498,7 +497,7 @@ ServerSocket::accept ()
         goto error;
     }
 
-    ret = WSAEventSelect (osSocket, accept_ev, FD_ACCEPT);
+    ret = WSAEventSelect (to_os_socket (sock), accept_ev, FD_ACCEPT);
     if (ret == SOCKET_ERROR)
     {
         set_last_socket_error (WSAGetLastError ());
