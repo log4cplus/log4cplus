@@ -225,7 +225,7 @@ void
 Logger::assertion (bool assertionVal, const log4cplus::tstring& msg) const
 {
     if (! assertionVal)
-        log (FATAL_LOG_LEVEL, msg);
+        log (FATAL_LOG_LEVEL, msg, 0, -1);
 }
 
 

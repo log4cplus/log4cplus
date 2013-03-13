@@ -117,6 +117,17 @@
     /* empty */
 #endif
 
+#if defined (__GNUC__) \
+    && (__GNUC__ >= 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8))
+#  define LOG4CPLUS_CALLER_FILE() __builtin_FILE ()
+#  define LOG4CPLUS_CALLER_LINE() __builtin_LINE ()
+#  define LOG4CPLUS_CALLER_FUNCTION() __builtin_FUNCTION ()
+#else
+#  define LOG4CPLUS_CALLER_FILE() (NULL)
+#  define LOG4CPLUS_CALLER_LINE() (-1)
+#  define LOG4CPLUS_CALLER_FUNCTION() (NULL)
+#endif
+
 #if defined (__GNUC__) && __GNUC__ >= 3
 #  define LOG4CPLUS_ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
 #  define LOG4CPLUS_ATTRIBUTE_PURE __attribute__ ((__pure__))
