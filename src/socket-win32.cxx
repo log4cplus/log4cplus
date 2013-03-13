@@ -444,6 +444,18 @@ removeSocketEvents (SOCKET_TYPE s, HANDLE ev)
         return true;
 }
 
+
+static
+bool
+socketEventHandlingCleanup (SOCKET_TYPE s, HANDLE ev)
+{
+    bool ret = removeSocketEvents (s, ev);
+    ret = setSocketBlocking (s) && ret;
+    ret = WSACloseEvent (ev) && ret;
+    return ret;
+}
+
+
 } // namespace
 
 
@@ -509,15 +521,13 @@ ServerSocket::accept ()
         // This is interrupt signal/event.
         case WSA_WAIT_EVENT_0:
         {
-            // Reset the event back to non-signalled state.
+            // Reset the interrupt event back to non-signalled state.
 
             ret = WSAResetEvent (reinterpret_cast<HANDLE>(interruptHandles[0]));
 
             // Clean up socket events handling.
 
-            ret = removeSocketEvents (sock, accept_ev);
-            ret = setSocketBlocking (sock);
-            ret = WSACloseEvent (accept_ev);
+            ret = socketEventHandlingCleanup (sock, accept_ev);
 
             // Return Socket with state set to accept_interrupted.
 
@@ -529,9 +539,7 @@ ServerSocket::accept ()
         {
             // Clean up socket events handling.
 
-            ret = removeSocketEvents (sock, accept_ev);
-            ret = setSocketBlocking (sock);
-            ret = WSACloseEvent (accept_ev);
+            ret = socketEventHandlingCleanup (sock, accept_ev);
 
             // Finally, call accept().
 
