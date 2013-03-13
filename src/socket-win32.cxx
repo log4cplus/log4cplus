@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2010 Tad E. Smith
+// Copyright 2003-2013 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -121,7 +121,7 @@ init_winsock ()
 {
     // Quick check first to avoid the expensive interlocked compare
     // and exchange.
-    if (winsock_state == WS_INITIALIZED)
+    if (LOG4CPLUS_LIKELY (winsock_state == WS_INITIALIZED))
         return;
     else
         init_winsock_worker ();
@@ -224,7 +224,7 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& 
         INT ret = WSAStringToAddress (const_cast<LPTSTR>(hostn.c_str ()),
             AF_INET, 0, reinterpret_cast<struct sockaddr *>(&insock),
             &insock_size);
-        if (ret == SOCKET_ERROR || insock_size != sizeof (insock)) 
+        if (ret == SOCKET_ERROR || insock_size != static_cast<INT>(sizeof (insock))) 
         {
             state = bad_address;
             goto error;
@@ -340,10 +340,11 @@ long
 read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
     long res, read = 0;
- 
+    os_socket_type const osSocket = to_os_socket (sock);
+
     do
     { 
-        res = ::recv(to_os_socket (sock), 
+        res = ::recv(osSocket, 
                      buffer.getBuffer() + read, 
                      static_cast<int>(buffer.getMaxSize() - read),
                      0);
@@ -352,6 +353,12 @@ read(SOCKET_TYPE sock, SocketBuffer& buffer)
             set_last_socket_error (WSAGetLastError ());
             return res;
         }
+
+        // A return of 0 indicates the socket is closed,
+        // return to prevent an infinite loop.
+        if (res == 0)
+            return read;
+
         read += res;
     }
     while (read < static_cast<long>(buffer.getMaxSize()));
@@ -386,6 +393,8 @@ write(SOCKET_TYPE sock, const std::string & buffer)
 tstring
 getHostname (bool fqdn)
 {
+    init_winsock ();
+
     char const * hostname = "unknown";
     int ret;
     std::vector<char> hn (1024, 0);

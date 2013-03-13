@@ -1,5 +1,5 @@
 // -*- C++ -*-
-//  Copyright (C) 2010-2012, Vaclav Zeman. All rights reserved.
+//  Copyright (C) 2010-2013, Vaclav Zeman. All rights reserved.
 //  
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -46,8 +46,9 @@ public:
 
     tchar const * print (tchar const * fmt, ...)
         LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 2, 3);
-    tchar const * print_va_list (tchar const * fmt, std::va_list)
-        LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 2, 0);
+
+    int print_va_list (tchar const * & str, tchar const * fmt, std::va_list)
+        LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 3, 0);
 
 private:
     std::vector<tchar> buf;

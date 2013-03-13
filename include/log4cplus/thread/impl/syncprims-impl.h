@@ -1,5 +1,5 @@
 // -*- C++ -*-
-//  Copyright (C) 2009-2010, Vaclav Haisman. All rights reserved.
+//  Copyright (C) 2009-2013, Vaclav Haisman. All rights reserved.
 //  
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -37,7 +37,12 @@
 
 #include <stdexcept>
 #include <log4cplus/thread/syncprims.h>
-#if defined (_WIN32)
+#if defined (LOG4CPLUS_WITH_CXX11_THREADS)
+#  include <mutex>
+#  include <thread>
+#  include <condition_variable>
+
+#elif defined (_WIN32)
 #  include <log4cplus/config/windowsh-inc.h>
 
 #elif defined (LOG4CPLUS_USE_PTHREADS)
@@ -65,8 +70,9 @@
 namespace log4cplus { namespace thread { namespace impl {
 
 
-LOG4CPLUS_EXPORT void syncprims_throw_exception (char const * const msg,
-    char const * const file, int line) LOG4CPLUS_ATTRIBUTE_NORETURN;
+LOG4CPLUS_EXPORT void LOG4CPLUS_ATTRIBUTE_NORETURN
+    syncprims_throw_exception (char const * const msg,
+    char const * const file, int line);
 
 
 #define LOG4CPLUS_THROW_RTE(msg) \
@@ -87,7 +93,9 @@ public:
     void unlock () const;
 
 private:
-#if defined (LOG4CPLUS_USE_PTHREADS)
+#if defined (LOG4CPLUS_WITH_CXX11_THREADS)
+    mutable std::recursive_mutex mtx;
+#elif defined (LOG4CPLUS_USE_PTHREADS)
     mutable pthread_mutex_t mtx;
     friend class ManualResetEvent;
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS)
@@ -113,7 +121,13 @@ public:
     void unlock () const;
 
 private:
-#if defined (LOG4CPLUS_USE_PTHREADS)
+#if defined (LOG4CPLUS_WITH_CXX11_THREADS)
+    mutable std::mutex mtx;
+    mutable std::condition_variable cv;
+    mutable unsigned max;
+    mutable unsigned val;
+
+#elif defined (LOG4CPLUS_USE_PTHREADS)
 #  if defined (LOG4CPLUS_USE_NAMED_POSIX_SEMAPHORE)
     sem_t * sem;
 #  else
@@ -142,7 +156,8 @@ public:
     void unlock () const;
 
 private:
-#if defined (LOG4CPLUS_USE_PTHREADS)
+#if defined (LOG4CPLUS_USE_PTHREADS) \
+    || defined (LOG4CPLUS_WITH_CXX11_THREADS)
     Semaphore sem;
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS)
     HANDLE mtx;
@@ -169,7 +184,12 @@ public:
     void reset () const;
 
 private:
-#if defined (LOG4CPLUS_USE_PTHREADS)
+#if defined (LOG4CPLUS_WITH_CXX11_THREADS)
+    mutable std::mutex mtx;
+    mutable std::condition_variable cv;
+    mutable unsigned sigcount;
+    mutable bool signaled;
+#elif defined (LOG4CPLUS_USE_PTHREADS)
     mutable pthread_cond_t cv;
     mutable Mutex mtx;
     mutable volatile unsigned sigcount;
@@ -196,7 +216,8 @@ public:
     void wrunlock () const;
 
 private:
-#if defined (LOG4CPLUS_POOR_MANS_SHAREDMUTEX)
+#if defined (LOG4CPLUS_POOR_MANS_SHAREDMUTEX) \
+    || defined (LOG4CPLUS_WITH_CXX11_THREADS)
     Mutex m1;
     Mutex m2;
     Mutex m3;
@@ -226,7 +247,9 @@ private:
 // Include the appropriate implementations of the classes declared
 // above.
 
-#if defined (LOG4CPLUS_USE_PTHREADS)
+#if defined (LOG4CPLUS_WITH_CXX11_THREADS)
+#  include <log4cplus/thread/impl/syncprims-cxx11.h>
+#elif defined (LOG4CPLUS_USE_PTHREADS)
 #  include <log4cplus/thread/impl/syncprims-pthreads.h>
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS)
 #  include <log4cplus/thread/impl/syncprims-win32.h>

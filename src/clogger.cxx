@@ -4,7 +4,7 @@
 // Author:  Jens Rehsack
 //
 //
-// Copyright 2011 Jens Rehsack & Tad E. Smith
+// Copyright 2011-2013 Jens Rehsack & Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -145,11 +145,18 @@ log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll,
 
         if( logger.isEnabledFor(ll) )
         {
-            std::va_list ap;
-            va_start(ap, msgfmt);
+            const tchar * msg = 0;
             snprintf_buf buf;
-            const tchar * msg = buf.print_va_list(msgfmt, ap);
-            va_end(ap);
+            std::va_list ap;
+
+            do
+            {
+                va_start(ap, msgfmt);
+                retval = buf.print_va_list(msg, msgfmt, ap);
+                va_end(ap);
+            }
+            while (retval == -1);
+
             logger.forcedLog(ll, msg);
         }
 
@@ -164,19 +171,26 @@ log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll,
 }
 
 LOG4CPLUS_EXPORT int
-log4cplus_logger_force_log(const log4cplus_char_t *name, loglevel_t ll, const log4cplus_char_t *msgfmt, ...)
+log4cplus_logger_force_log(const log4cplus_char_t *name, loglevel_t ll,
+    const log4cplus_char_t *msgfmt, ...)
 {
     int retval = -1;
 
     try
     {
         Logger logger = name ? Logger::getInstance(name) : Logger::getRoot();
-
-        std::va_list ap;
-        va_start(ap, msgfmt);
+        const tchar * msg = 0;
         snprintf_buf buf;
-        const tchar * msg = buf.print_va_list(msgfmt, ap);
-        va_end(ap);
+        std::va_list ap;
+            
+        do
+        {
+            va_start(ap, msgfmt);
+            retval = buf.print_va_list(msg, msgfmt, ap);
+            va_end(ap);
+        }
+        while (retval == -1);
+
         logger.forcedLog(ll, msg);
 
         retval = 0;

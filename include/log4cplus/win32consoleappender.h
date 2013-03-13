@@ -1,5 +1,5 @@
 // -*- C++ -*-
-//  Copyright (C) 2009-2010, Vaclav Haisman. All rights reserved.
+//  Copyright (C) 2009-2013, Vaclav Haisman. All rights reserved.
 //  
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -49,13 +49,23 @@ namespace log4cplus
     * will try to allocate new console using the
     * <code>AllocConsole()</code> Win32 function.</dd>
     *
+    * <dt><tt>logToStdErr</tt></dt>
+    * <dd>When it is set true, the output will be into
+    * <code>STD_ERROR_HANDLE</code> instead of <code>STD_OUTPUT_HANDLE</code>.
+    * </dd>
+    *
+    * <dt><tt>TextColor</tt></dt>
+    * <dd>See MSDN documentation for
+    * <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms682088(v=vs.85).aspx#_win32_character_attributes">
+    * Character Attributes</a>.
     * </dl>
     */
     class LOG4CPLUS_EXPORT Win32ConsoleAppender
         : public Appender
     {
     public:
-        explicit Win32ConsoleAppender (bool allocConsole = true);
+        explicit Win32ConsoleAppender (bool allocConsole = true,
+            bool logToStdErr = false, unsigned int textColor = 0);
         Win32ConsoleAppender (helpers::Properties const & properties);
         virtual ~Win32ConsoleAppender ();
 
@@ -68,6 +78,8 @@ namespace log4cplus
         void write_console (void *, tchar const *, std::size_t);
 
         bool alloc_console;
+        bool log_to_std_err;
+        unsigned int text_color;
 
     private:
         Win32ConsoleAppender (Win32ConsoleAppender const &);

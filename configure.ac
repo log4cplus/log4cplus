@@ -1,14 +1,14 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl This version of log4cplus requires the follwing autotools versions:
 dnl autoconf-2.69
-dnl automake-1.12
+dnl automake-1.13.1
 dnl libtool-2.4.2
 
-AC_INIT([log4cplus],[1.1.0])
+AC_INIT([log4cplus],[1.2.0])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.12 no-define nostdinc gnu subdir-objects -Wall])
+AM_INIT_AUTOMAKE([1.12 no-define no-dist nostdinc gnu subdir-objects -Wall])
 AC_CONFIG_TESTDIR([tests])
 AM_PROG_AR
 
@@ -19,8 +19,8 @@ AM_PROG_AR
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=5:0:0
-LT_RELEASE=1.1
+LT_VERSION=0:0:0
+LT_RELEASE=1.2
 AC_SUBST([LT_VERSION])
 AC_SUBST([LT_RELEASE])
 
@@ -69,6 +69,22 @@ AC_ARG_WITH([iconv],
 
 AS_IF([test "x$with_iconv" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_WITH_ICONV], [1])],
+  [])
+
+dnl With C++11 threads and synchronization primitives.
+
+AH_TEMPLATE([LOG4CPLUS_WITH_CXX11_THREADS],
+  [Define so that log4cplus will use C++11 threads and synchronization
+   primitives.])
+
+AC_ARG_WITH([c++11-threads],
+  [AS_HELP_STRING([--with-c++11-threads],
+    [Use C++11 threads and synchronization primitives.])],
+  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-c++11-threads])],
+  [with_c__11_threads=no])
+
+AS_IF([test "x$with_c__11_threads" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_WITH_CXX11_THREADS], [1])],
   [])
 
 dnl Debugging or release build?
@@ -149,7 +165,8 @@ AS_IF([test "x$enable_warnings" = "xyes"],
 
 AS_CASE([$ax_cv_cxx_compiler_vendor],
   [gnu|clang],
-  [AS_IF([test "x$enable_warnings" = "xyes"],
+  [AX_CXXFLAGS_GCC_OPTION([-fdiagnostics-show-caret])
+   AS_IF([test "x$enable_warnings" = "xyes"],
      [AX_CXXFLAGS_GCC_OPTION([-Wextra])
       dnl The -ansi switch sets __STRICT_ANSI__ which disables some
       dnl useful function declarations in MinGW and Cygwin headers.
@@ -180,11 +197,16 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
    AS_IF([test "x$enable_debugging" = "xyes"],
      [AX_CXXFLAGS_GCC_OPTION([-g3])
       AX_CXXFLAGS_GCC_OPTION([-fkeep-inline-functions])
-      AX_CXXFLAGS_GCC_OPTION([-fstack-check])
-      AX_CXXFLAGS_GCC_OPTION([-fstack-protector])
+      AS_CASE(["$target_os"],
+        dnl Disable these for MinGW32 as it seems to generate DLLs that
+        dnl segfault in DllMain().
+        [mingw32], [],
+        [AX_CXXFLAGS_GCC_OPTION([-fstack-check])
+         AX_CXXFLAGS_GCC_OPTION([-fstack-protector])])
       dnl -Wstack-protector results into not too interesting warnings.
       dnl AX_CXXFLAGS_GCC_OPTION([-Wstack-protector])
-      AX_CXXFLAGS_GCC_OPTION([-ftrapv])],
+      AX_CXXFLAGS_GCC_OPTION([-ftrapv])
+      AX_CXXFLAGS_GCC_OPTION([-ftrack-macro-expansion])],
      [AC_REQUIRE([AC_PROG_GREP])
       AS_IF([AS_ECHO_N(["$CXXFLAGS"]) dnl
              | $GREP -e ['\(^\|[[:space:]]\)-O\([^[:space:]]*\([[:space:]]\|$\)\)'] >/dev/null],
@@ -334,6 +356,7 @@ LOG4CPLUS_CHECK_HEADER([wchar.h], [LOG4CPLUS_HAVE_WCHAR_H])
 LOG4CPLUS_CHECK_HEADER([time.h], [LOG4CPLUS_HAVE_TIME_H])
 LOG4CPLUS_CHECK_HEADER([errno.h], [LOG4CPLUS_HAVE_ERRNO_H])
 LOG4CPLUS_CHECK_HEADER([limits.h], [LOG4CPLUS_HAVE_LIMITS_H])
+LOG4CPLUS_CHECK_HEADER([atomic.h], [LOG4CPLUS_HAVE_ATOMIC_H])
 AS_IF([test "x$with_iconv" = "xyes"],
   [LOG4CPLUS_CHECK_HEADER([iconv.h], [LOG4CPLUS_HAVE_ICONV_H])])
 
@@ -383,22 +406,43 @@ dnl Multi threaded library.
    AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])
    AS_IF([test "x$ac_cv___sync_add_and_fetch" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])])
+     
    AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])
    AS_IF([test "x$ac_cv___sync_sub_and_fetch" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])])
+     
    AH_TEMPLATE([LOG4CPLUS_HAVE_CXX11_ATOMICS])
    AS_IF([test "x$ac_cv_cxx11_atomics" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE_CXX11_ATOMICS])])
 
+   AH_TEMPLATE([LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH])
+   AS_IF([test "x$ac_cv___atomic_add_fetch" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH])])
+     
+   AH_TEMPLATE([LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH])
+   AS_IF([test "x$ac_cv___atomic_sub_fetch" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH])])
+
+   AH_TEMPLATE([LOG4CPLUS_HAVE_ATOMIC_INC_UINT])
+   AS_IF([test "x$ac_cv_atomic_inc_uint" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE_ATOMIC_INC_UINT])])
+
+   AH_TEMPLATE([LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV])
+   AS_IF([test "x$ac_cv_atomic_dec_uint_nv" = "xyes"],
+     [AC_DEFINE([LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV])])
+
    AX_TLS_SUPPORT
    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
    AH_TEMPLATE([LOG4CPLUS_THREAD_LOCAL_VAR])
-   AS_IF([test "x$ac_cv_declspec_thread" = "xyes"],
+   AS_IF([test "x$ac_cv_thread_local" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE_TLS_SUPPORT])
-      AC_DEFINE([LOG4CPLUS_THREAD_LOCAL_VAR], [__declspec(thread)])],
-     [AS_IF([test "x$ac_cv__thread_keyword" = "xyes"],
-       [AC_DEFINE([LOG4CPLUS_HAVE_TLS_SUPPORT])
-        AC_DEFINE([LOG4CPLUS_THREAD_LOCAL_VAR], [__thread])])])],
+      AC_DEFINE([LOG4CPLUS_THREAD_LOCAL_VAR], [thread_local])],
+     [AS_IF([test "x$ac_cv_declspec_thread" = "xyes"],
+        [AC_DEFINE([LOG4CPLUS_HAVE_TLS_SUPPORT])
+         AC_DEFINE([LOG4CPLUS_THREAD_LOCAL_VAR], [__declspec(thread)])],
+        [AS_IF([test "x$ac_cv__thread_keyword" = "xyes"],
+           [AC_DEFINE([LOG4CPLUS_HAVE_TLS_SUPPORT])
+            AC_DEFINE([LOG4CPLUS_THREAD_LOCAL_VAR], [__thread])])])])],
 
 dnl Single threaded library.
   [AC_MSG_NOTICE([Creating a single-threaded library])
@@ -524,8 +568,7 @@ AC_ARG_WITH([python],
 
 AS_IF([test "x$with_swig" = "xyes"],
   [AX_PKG_SWIG([2.0.0], [:], [AC_MSG_ERROR([SWIG is required to build.])])
-   AX_SWIG_MULTI_MODULE_SUPPORT
-   AC_CONFIG_FILES([swig/Makefile])])
+   AX_SWIG_MULTI_MODULE_SUPPORT])
 
 AM_CONDITIONAL([WITH_SWIG], [test "x$with_swig" = "xyes"])
 
@@ -533,8 +576,7 @@ AS_IF([test "x$with_python" = "xyes"],
   [AM_PATH_PYTHON([2.3])
    AX_PYTHON_DEVEL
    AC_SUBST([AX_SWIG_PYTHON_OPT],[-python$swig_shadow])
-   AC_SUBST([AX_SWIG_PYTHON_CPPFLAGS],[$PYTHON_CPPFLAGS])
-   AC_CONFIG_FILES([swig/python/Makefile])])
+   AC_SUBST([AX_SWIG_PYTHON_CPPFLAGS],[$PYTHON_CPPFLAGS])])
 
 AM_CONDITIONAL([WITH_PYTHON], [test "x$with_python" = "xyes"])
 
@@ -543,7 +585,7 @@ dnl Must be latest to catch rpath compiled in by changes made during
 dnl checks before.
 
 LT_PREREQ([2.4.2])
-LT_INIT([win32-dll])
+LT_INIT([win32-dll disable-static pic-only])
 
 AH_TOP([#ifndef LOG4CPLUS_CONFIG_H])
 AH_TOP([#define LOG4CPLUS_CONFIG_H])
@@ -553,27 +595,7 @@ AC_CONFIG_HEADERS([include/log4cplus/config.h])
 AC_CONFIG_HEADERS([include/log4cplus/config/defines.hxx])
 AC_CONFIG_FILES([Makefile
            include/Makefile
-           src/Makefile
-           loggingserver/Makefile
-           qt4debugappender/Makefile
-           tests/atlocal
-           tests/Makefile
-           tests/appender_test/Makefile
-           tests/configandwatch_test/Makefile
-           tests/customloglevel_test/Makefile
-           tests/fileappender_test/Makefile
-           tests/filter_test/Makefile
-           tests/hierarchy_test/Makefile
-           tests/loglog_test/Makefile
-           tests/ndc_test/Makefile
-           tests/ostream_test/Makefile
-           tests/patternlayout_test/Makefile
-           tests/performance_test/Makefile
-           tests/priority_test/Makefile
-           tests/propertyconfig_test/Makefile
-           tests/socket_test/Makefile
-           tests/thread_test/Makefile
-           tests/timeformat_test/Makefile])
+           tests/atlocal])
 
 m4_include([tests/configure.m4])
 

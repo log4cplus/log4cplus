@@ -1,15 +1,15 @@
-//  Copyright (C) 2010, Vaclav Haisman. All rights reserved.
-//  
+//  Copyright (C) 2010-2013, Vaclav Haisman. All rights reserved.
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -107,7 +107,7 @@ vstprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
 
     if (ret >= 0)
         assert (static_cast<std::size_t>(ret) <= dest_size);
-    
+
     return ret;
 }
 
@@ -125,7 +125,9 @@ vsntprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
     int ret;
 
 #if defined (UNICODE)
-#  if defined (LOG4CPLUS_HAVE__VSNWPRINTF_S) && defined (_TRUNCATE)
+#  if defined (LOG4CPLUS_HAVE__VSWPRINTF_P)
+    ret = _vswprintf_p (dest, dest_size, fmt, args);
+#  elif defined (LOG4CPLUS_HAVE__VSNWPRINTF_S) && defined (_TRUNCATE)
     ret = _vsnwprintf_s (dest, dest_size, _TRUNCATE, fmt, args);
 #  elif defined (LOG4CPLUS_HAVE_VSNWPRINTF)
     ret = vsnwprintf (dest, dest_size, fmt, args);
@@ -136,7 +138,9 @@ vsntprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
     ret = vswprintf (dest, dest_size, fmt, args);
 #  endif
 #else
-#  if defined (LOG4CPLUS_HAVE_VSNPRINTF_S) && defined (_TRUNCATE)
+#  if defined (LOG4CPLUS_HAVE__VSPRINTF_P)
+    ret = _vsprintf_p (dest, dest_size, fmt, args);
+#  elif defined (LOG4CPLUS_HAVE_VSNPRINTF_S) && defined (_TRUNCATE)
     ret = vsnprintf_s (dest, dest_size, _TRUNCATE, fmt, args);
 #  elif defined (LOG4CPLUS_HAVE__VSNPRINTF_S) && defined (_TRUNCATE)
     ret = _vsnprintf_s (dest, dest_size, _TRUNCATE, fmt, args);
@@ -148,7 +152,7 @@ vsntprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
 #    error "None of vsnprintf_s, _vsnprintf_s, vsnprintf or _vsnprintf is available."
 #  endif
 #endif
-    
+
     return ret;
 }
 #endif
@@ -167,23 +171,32 @@ snprintf_buf::print (tchar const * fmt, ...)
 {
     assert (fmt);
 
+    tchar const * str = 0;
+    int ret = 0;
     std::va_list args;
-    va_start (args, fmt);
-    tchar const * ret = print_va_list (fmt, args);
-    va_end (args);
-    return ret;
+
+    do
+    {
+        va_start (args, fmt);
+        ret = print_va_list (str, fmt, args);
+        va_end (args);
+    }
+    while (ret == -1);
+
+    return str;
 }
 
 
-tchar const *
-snprintf_buf::print_va_list(tchar const * fmt, std::va_list args)
+int
+snprintf_buf::print_va_list (tchar const * & str, tchar const * fmt,
+    std::va_list args)
 {
     int printed;
     std::size_t const fmt_len = std::char_traits<tchar>::length (fmt);
     std::size_t buf_size = buf.size ();
     std::size_t const output_estimate = fmt_len + fmt_len / 2 + 1;
     if (output_estimate > buf_size)
-        buf.resize (output_estimate);
+        buf.resize (buf_size = output_estimate);
 
 #if defined (LOG4CPLUS_USE_POOR_MANS_SNPRINTF)
     std::FILE * & fnull = internal::get_ptd ()->fnull;
@@ -191,56 +204,45 @@ snprintf_buf::print_va_list(tchar const * fmt, std::va_list args)
     {
         fnull = std::fopen (NULL_FILE, "wb");
         if (! fnull)
-        {
             LogLog::getLogLog ()->error (
-                LOG4CPLUS_TEXT ("Could not open NULL_FILE."));
-            buf.clear ();
-            buf.push_back (0);
-            return &buf[0];
-        }
+                LOG4CPLUS_TEXT ("Could not open NULL_FILE."), true);
     }
-   
+
     printed = vftprintf (fnull, fmt, args);
     if (printed == -1)
-    {
         LogLog::getLogLog ()->error (
-            LOG4CPLUS_TEXT ("Error printing into NULL_FILE."));
-        buf.clear ();
-        buf.push_back (0);
-        return &buf[0];
-    }
+            LOG4CPLUS_TEXT ("Error printing into NULL_FILE."), true);
 
     buf.resize (printed + 1);
     int sprinted = vstprintf (&buf[0], buf.size (), fmt, args);
-    if (sprinted == -1)
-    {
+    if (sprinted == -1 || sprinted >= buf.size ())
         LogLog::getLogLog ()->error (
-            LOG4CPLUS_TEXT ("Error printing into string."));
-        buf.clear ();
-        buf.push_back (0);
-        return &buf[0];
-    }
+            LOG4CPLUS_TEXT ("Error printing into string."), true);
+
     assert (printed == sprinted);
-    
+
     buf[sprinted] = 0;
 
 #else
-    do
+    printed = vsntprintf (&buf[0], buf_size - 1, fmt, args);
+    if (printed == -1)
     {
-        printed = vsntprintf (&buf[0], buf_size - 1, fmt, args);
-        if (printed == -1)
-        {
-            buf_size *= 2;
-            buf.resize (buf_size);
-        }
-        else
-            buf[printed] = 0;
+        buf_size *= 2;
+        buf.resize (buf_size);
     }
-    while (printed == -1);
+    else if (printed >= static_cast<int>(buf_size - 1))
+    {
+        buf_size = printed + 2;
+        buf.resize (buf_size);
+        printed = -1;
+    }
+    else
+        buf[printed] = 0;
 
 #endif
 
-    return &buf[0];
+    str = &buf[0];
+    return printed;
 }
 
 

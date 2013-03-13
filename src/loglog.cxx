@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2010 Tad E. Smith
+// Copyright 2001-2013 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -122,7 +122,7 @@ LogLog::error(tchar const * msg, bool throw_flag) const
 bool
 LogLog::get_quiet_mode () const
 {
-    if (quietMode == TriUndef)
+    if (LOG4CPLUS_UNLIKELY (quietMode == TriUndef))
         set_tristate_from_env (&quietMode,
             LOG4CPLUS_TEXT ("LOG4CPLUS_LOGLOG_QUIETMODE"));
 
@@ -140,7 +140,7 @@ LogLog::get_not_quiet_mode () const
 bool
 LogLog::get_debug_mode () const
 {
-    if (debugEnabled == TriUndef)
+    if (LOG4CPLUS_UNLIKELY (debugEnabled == TriUndef))
         set_tristate_from_env (&debugEnabled,
             LOG4CPLUS_TEXT ("LOG4CPLUS_LOGLOG_DEBUGENABLED"));
 

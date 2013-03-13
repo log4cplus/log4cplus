@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2010 Tad E. Smith
+// Copyright 2001-2013 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -101,7 +101,7 @@ getCurrentThreadName()
 {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     log4cplus::tstring & name = log4cplus::internal::get_thread_name_str ();
-    if (name.empty ())
+    if (LOG4CPLUS_UNLIKELY (name.empty ()))
     {
         log4cplus::tostringstream tmp;
         tmp << impl::getCurrentThreadId ();
@@ -152,7 +152,7 @@ getCurrentThreadName2()
 {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     log4cplus::tstring & name = log4cplus::internal::get_thread_name2_str ();
-    if (name.empty ())
+    if (LOG4CPLUS_UNLIKELY (name.empty ()))
     {
         log4cplus::tostringstream tmp;
         get_current_thread_name_alt (&tmp);

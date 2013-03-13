@@ -1,6 +1,10 @@
 Possible enhancements and directions of development, in no particular
 order:
 
+- Improve error handling
+  - allow not to throw exceptions
+  - create hooks to allow users to override behaviour
+
 - EventLog library appender.
 
 - org.apache.log4j.net.ZeroConfSocketHubAppender.
@@ -32,3 +36,9 @@ order:
 
 - ConsoleAppender or specialized appender with colored output per log
   level.
+
+- Make ServerSocket::accept() interruptible.
+
+- Graylog2/GELF appender. See
+  <https://github.com/Graylog2/graylog2-docs/wiki/GELF>.
+

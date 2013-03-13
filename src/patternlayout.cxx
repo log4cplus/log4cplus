@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2010 Tad E. Smith
+// Copyright 2001-2013 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -540,7 +540,7 @@ RelativeTimestampConverter::convert (tstring & result,
 {
     tostringstream & oss = internal::get_ptd ()->layout_oss;
     detail::clear_tostringstream (oss);
-    formatRelativeTimestamp (oss, event);
+    log4cplus::formatRelativeTimestamp (oss, event);
     oss.str ().swap (result);
 }
 
@@ -580,7 +580,30 @@ void
 log4cplus::pattern::MDCPatternConverter::convert (tstring & result,
     const spi::InternalLoggingEvent& event)
 {
-    result = event.getMDC (key);
+    if (!key.empty())
+    {
+        result = event.getMDC (key);
+    }
+    else
+    {
+        result.clear ();
+
+        MappedDiagnosticContextMap const & mdcMap = event.getMDCCopy();
+                
+        for (MappedDiagnosticContextMap::const_iterator it = mdcMap.begin(); 
+             it != mdcMap.end(); ++it)
+        {           
+            tstring const & name(it->first);
+            tstring const & value(it->second);
+
+            result += LOG4CPLUS_TEXT("{");
+            result += name;
+            result += LOG4CPLUS_TEXT(", ");
+            result += value;
+            result += LOG4CPLUS_TEXT("}"); 
+            
+        }
+    }
 }
 
 

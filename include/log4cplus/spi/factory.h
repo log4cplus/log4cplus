@@ -5,7 +5,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2002-2010 Tad E. Smith
+// Copyright 2002-2013 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -146,7 +146,9 @@ namespace log4cplus {
          * <b>Note:</b>  This class is Thread-safe.
          */
         template<class T>
-        class LOG4CPLUS_EXPORT FactoryRegistry : ObjectRegistryBase {
+        class LOG4CPLUS_EXPORT FactoryRegistry
+            : public ObjectRegistryBase
+        {
         public:
             typedef T product_type;
 

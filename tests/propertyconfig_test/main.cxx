@@ -15,6 +15,7 @@ int
 main()
 {
     tcout << LOG4CPLUS_TEXT("Entering main()...") << endl;
+    log4cplus::initialize ();
     LogLog::getLogLog()->setInternalDebugging(true);
     Logger root = Logger::getRoot();
     try {

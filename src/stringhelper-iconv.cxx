@@ -1,4 +1,4 @@
-//  Copyright (C) 2010, Vaclav Haisman. All rights reserved.
+//  Copyright (C) 2010-2013, Vaclav Haisman. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ struct iconv_handle
         if (handle == iconv_error_handle)
         {
             std::ostringstream oss;
-            oss << "iconv_open failed: " << errno;
+            oss << "iconv_open(" << to << ", " << from << ") failed: " << errno;
             std::cerr << oss.str () << std::endl;
             throw std::runtime_error (oss.str ().c_str ());
         }
@@ -84,17 +84,22 @@ struct iconv_handle
 
     ~iconv_handle ()
     {
-        if (handle != iconv_error_handle)
+        try
         {
-            int ret = iconv_close (handle);
-            if (ret == -1)
+            if (handle != iconv_error_handle)
             {
-                std::ostringstream oss;
-                oss << "iconv_close failed: " << errno;
-                std::cerr << oss.str () << std::endl;
-                throw std::runtime_error (oss.str ().c_str ());
+                int ret = iconv_close (handle);
+                if (ret == -1)
+                {
+                    std::ostringstream oss;
+                    oss << "iconv_close failed: " << errno;
+                    std::cerr << oss.str () << std::endl;
+                    throw std::runtime_error (oss.str ().c_str ());
+                }
             }
         }
+        catch (std::runtime_error const &)
+        { }
     }
 
     size_t

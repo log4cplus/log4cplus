@@ -1,4 +1,4 @@
-//  Copyright (C) 2009-2010, Vaclav Haisman. All rights reserved.
+//  Copyright (C) 2009-2013, Vaclav Haisman. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -99,7 +99,8 @@
 #endif
 
 #if (defined (_MSC_VER) && _MSC_VER >= 1600) \
-    || defined (__GXX_EXPERIMENTAL_CXX0X__)
+    || defined (__GXX_EXPERIMENTAL_CXX0X__) \
+    || __cplusplus >= 201103L
 #  define LOG4CPLUS_HAVE_CXX11_SUPPORT
 #endif
 
@@ -121,7 +122,9 @@
 #  define LOG4CPLUS_ATTRIBUTE_PURE __attribute__ ((__pure__))
 #  define LOG4CPLUS_BUILTIN_EXPECT(exp, c) __builtin_expect ((exp), (c))
 #else
-#  define LOG4CPLUS_ATTRIBUTE_NORETURN /* empty */
+#  if ! defined (LOG4CPLUS_ATTRIBUTE_NORETURN)
+#    define LOG4CPLUS_ATTRIBUTE_NORETURN /* empty */
+#  endif
 #  define LOG4CPLUS_ATTRIBUTE_PURE /* empty */
 #  define LOG4CPLUS_BUILTIN_EXPECT(exp, c) (exp)
 #endif
@@ -130,6 +133,7 @@
 #define LOG4CPLUS_UNLIKELY(cond) LOG4CPLUS_BUILTIN_EXPECT(!! (cond), 0)
 
 #if defined (_MSC_VER)                                             \
+    || (defined (__BORLANDC__) && __BORLANDC__ >= 0x0650)          \
     || (defined (__COMO__) && __COMO_VERSION__ >= 400) /* ??? */   \
     || (defined (__DMC__) && __DMC__ >= 0x700) /* ??? */           \
     || (defined (__clang__) && __clang_major__ >= 3)               \
@@ -151,6 +155,9 @@ namespace log4cplus
 //! of log4cplus and user threads. In all other cases the clean up is provided
 //! automatically by other means.
 LOG4CPLUS_EXPORT void threadCleanup ();
+
+//! Initializes log4cplus.
+LOG4CPLUS_EXPORT void initialize ();
 
 } // namespace log4cplus
 

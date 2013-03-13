@@ -12,7 +12,7 @@ function(log4cplus_add_test _name)
 #  message (STATUS "${_name} sources: ${_srcs}")
   add_executable (${_name} ${_srcs})
   target_link_libraries (${_name} ${log4cplus})
-  add_test(${_name} ${_name})
+  add_test(NAME ${_name} WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND ${_name})
 endfunction()
 
 

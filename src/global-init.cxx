@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2010 Tad E. Smith
+// Copyright 2003-2013 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -357,7 +357,8 @@ threadSetup ()
 }
 
 
-void initializeLog4cplus()
+void
+initializeLog4cplus()
 {
     static bool initialized = false;
     if (initialized)
@@ -376,6 +377,13 @@ void initializeLog4cplus()
 
 
 void
+initialize ()
+{
+    initializeLog4cplus ();
+}
+
+
+void
 threadCleanup ()
 {
     // Do thread-specific cleanup.
@@ -385,35 +393,48 @@ threadCleanup ()
 }
 
 
-} // namespace log4cplus
+#if defined (_WIN32)
+static
+VOID CALLBACK
+initializeLog4cplusApcProc (ULONG_PTR /*dwParam*/)
+{
+    initializeLog4cplus ();
+    threadSetup ();
+}
 
 
-#if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL)
+static
+void
+queueLog4cplusInitializationThroughAPC ()
+{
+    if (! QueueUserAPC (initializeLog4cplusApcProc, GetCurrentThread (),
+        0))
+        throw std::runtime_error ("QueueUserAPC() has failed");
+}
 
-extern "C"
-BOOL
-WINAPI
-DllMain (LOG4CPLUS_DLLMAIN_HINSTANCE /*hinstDLL*/, DWORD fdwReason,
-    LPVOID /*lpReserved*/)
+
+static
+void NTAPI
+thread_callback (LPVOID /*hinstDLL*/, DWORD fdwReason, LPVOID /*lpReserved*/)
 {
     // Perform actions based on the reason for calling.
-    switch( fdwReason ) 
+    switch (fdwReason)
     { 
     case DLL_PROCESS_ATTACH:
     {
-        log4cplus::initializeLog4cplus();
-
-        // Do thread-specific initialization for the main thread.
-        log4cplus::threadSetup ();
-
+        // We cannot initialize log4cplus directly here. This is because
+        // DllMain() is called under loader lock. When we are using C++11
+        // threads and synchronization primitives then there is a deadlock
+        // somewhere in internals of std::mutex::lock().
+        queueLog4cplusInitializationThroughAPC ();
         break;
     }
 
     case DLL_THREAD_ATTACH:
     {
-        // Do thread-specific initialization.
-        log4cplus::threadSetup ();
-
+        // We could call threadSetup() here but that imposes overhead
+        // on threads that do not use log4cplus. Thread local data will
+        // be initialized lazily instead.
         break;
     }
 
@@ -438,29 +459,101 @@ DllMain (LOG4CPLUS_DLLMAIN_HINSTANCE /*hinstDLL*/, DWORD fdwReason,
         break;
     }
 
-    }
+    } // switch
+}
+
+#endif
+
+
+} // namespace log4cplus
+
+
+#if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL) && defined (_DLL)
+extern "C"
+BOOL
+WINAPI
+DllMain (LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL, DWORD fdwReason,
+    LPVOID lpReserved)
+{
+    log4cplus::thread_callback (hinstDLL, fdwReason, lpReserved);
 
     return TRUE;  // Successful DLL_PROCESS_ATTACH.
 }
- 
-#else
 
+#elif defined (_WIN32) \
+    && defined (_MSC_VER) && _MSC_VER >= 1400 && defined (_DLL)
+extern "C"
+{
+
+// This magic has been pieced together from several sources:
+// - <http://www.nynaeve.net/?p=183>
+// - <http://lists.cs.uiuc.edu/pipermail/cfe-dev/2011-November/018818.html>
+
+#pragma data_seg (push, old_seg)
+#ifdef _WIN64
+#pragma const_seg (".CRT$XLX")
+extern const
+#else
+#pragma data_seg (".CRT$XLX")
+#endif
+PIMAGE_TLS_CALLBACK log4cplus_p_thread_callback = log4cplus::thread_callback;
+#pragma data_seg (pop, old_seg)
+#ifdef _WIN64
+#pragma comment (linker, "/INCLUDE:_tls_used")
+#pragma comment (linker, "/INCLUDE:log4cplus_p_thread_callback")
+#else
+#pragma comment (linker, "/INCLUDE:__tls_used")
+#pragma comment (linker, "/INCLUDE:_log4cplus_p_thread_callback")
+#endif
+
+} // extern "C"
+
+#elif defined (_WIN32)
 namespace {
 
-    struct _static_log4cplus_initializer
+struct _static_log4cplus_initializer
+{
+    _static_log4cplus_initializer ()
     {
-        _static_log4cplus_initializer ()
-        {
-            log4cplus::initializeLog4cplus();
-        }
+        // It is not possible to reliably call initializeLog4cplus() here
+        // when we are using Visual Studio and C++11 threads
+        // and synchronization primitives. It would result into a deadlock
+        // on loader lock.
+#if ! (defined (LOG4CPLUS_WITH_CXX11_THREADS) && defined (_MSC_VER))
+        log4cplus::initializeLog4cplus ();
+#endif
+    }
 
-        ~_static_log4cplus_initializer ()
-        {
-            // Last thread cleanup.
-            log4cplus::threadCleanup ();
-        }
-    } static initializer;
-}
+    ~_static_log4cplus_initializer ()
+    {
+        // Last thread cleanup.
+        log4cplus::threadCleanup ();
+#if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
+    log4cplus::thread::impl::tls_cleanup (
+        log4cplus::internal::tls_storage_key);
+#endif
+    }
+} static initializer;
 
+} // namespace
+
+#else
+namespace {
+
+struct _static_log4cplus_initializer
+{
+    _static_log4cplus_initializer ()
+    {
+        log4cplus::initializeLog4cplus();
+    }
+
+    ~_static_log4cplus_initializer ()
+    {
+        // Last thread cleanup.
+        log4cplus::threadCleanup ();
+    }
+} static initializer;
+
+} // namespace
 
 #endif

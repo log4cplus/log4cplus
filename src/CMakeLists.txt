@@ -68,6 +68,10 @@ endif ()
 if (UNICODE)
   add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
 endif (UNICODE)
+if (WIN32)
+  add_definitions (-DMINGW_HAS_SECURE_API=1)
+  add_definitions (-D_WIN32_WINNT=${_WIN32_WINNT})
+endif (WIN32)
 
 add_library (${log4cplus} ${log4cplus_sources})
 
@@ -173,7 +177,8 @@ install(FILES ../include/log4cplus/spi/appenderattachable.h
               ../include/log4cplus/spi/rootlogger.h
         DESTINATION include/log4cplus/spi )
 
-install(FILES ../include/log4cplus/thread/impl/syncprims-impl.h
+install(FILES ../include/log4cplus/thread/impl/syncprims-cxx11.h
+              ../include/log4cplus/thread/impl/syncprims-impl.h
 #              ../include/log4cplus/thread/impl/syncprims-pmsm.h
               ../include/log4cplus/thread/impl/syncprims-pthreads.h
               ../include/log4cplus/thread/impl/syncprims-win32.h

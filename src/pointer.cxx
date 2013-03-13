@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2010 Tad E. Smith
+// Copyright 2001-2013 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,6 +26,9 @@
 #include <cassert>
 #if defined (LOG4CPLUS_HAVE_INTRIN_H)
 #include <intrin.h>
+#endif
+#if defined (LOG4CPLUS_HAVE_ATOMIC_H)
+#include <atomic.h>
 #endif
 
 
@@ -57,8 +60,14 @@ SharedObject::addReference() const
     std::atomic_fetch_add_explicit (&count, 1u,
         std::memory_order_relaxed);
 
+#elif defined (LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH)
+    __atomic_add_fetch (&count, 1u, __ATOMIC_RELAXED);
+
 #elif defined (LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH)
     __sync_add_and_fetch (&count, 1);
+
+#elif defined (LOG4CPLUS_HAVE_ATOMIC_INC_UINT)
+    atomic_inc_uint (&count);
 
 #elif defined (_WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
     _InterlockedIncrement (&count);
@@ -89,8 +98,19 @@ SharedObject::removeReference() const
     if (LOG4CPLUS_UNLIKELY (destroy))
         std::atomic_thread_fence (std::memory_order_acquire);
 
+#elif defined (LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH)
+    destroy = __atomic_sub_fetch (&count, 1u,
+        __ATOMIC_RELEASE) == 0;
+    if (LOG4CPLUS_UNLIKELY (destroy))
+        __atomic_thread_fence (__ATOMIC_ACQUIRE);
+
 #elif defined (LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH)
     destroy = __sync_sub_and_fetch (&count, 1) == 0;
+
+#elif defined (LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV)
+    destroy = atomic_dec_uint_nv (&count) == 0;
+    if (destroy)
+        membar_exit ();
 
 #elif defined (_WIN32) && defined (LOG4CPLUS_HAVE_INTRIN_H)
     destroy = _InterlockedDecrement (&count) == 0;

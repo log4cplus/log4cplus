@@ -1,6 +1,6 @@
 // -*- C++ -*-
 //
-//  Copyright (C) 2012, Vaclav Zeman. All rights reserved.
+//  Copyright (C) 2012-2013, Vaclav Zeman. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -91,9 +91,15 @@ namespace log4cplus { namespace helpers {
 
 
 #if defined (_WIN32)
+#if defined (__BORLANDC__)
+int const OPEN_FLAGS = O_RDWR | O_CREAT | O_NOINHERIT;
+int const OPEN_SHFLAGS = SH_DENYNO;
+int const OPEN_MODE = S_IREAD | S_IWRITE;
+#else
 int const OPEN_FLAGS = _O_RDWR | _O_CREAT /*| _O_TEMPORARY*/ | _O_NOINHERIT;
 int const OPEN_SHFLAGS = _SH_DENYNO;
 int const OPEN_MODE = _S_IREAD | _S_IWRITE;
+#endif
 
 namespace
 {
@@ -166,11 +172,11 @@ LockFile::open (int open_flags) const
     LogLog & loglog = getLogLog ();
 
 #if defined (_WIN32)
-#  if defined (LOG4CPLUS_HAVE__TSOPEN_S)
+#  if defined (LOG4CPLUS_HAVE__TSOPEN_S) && defined (_tsopen_s)
     errno_t eno = _tsopen_s (&data->fd, lock_file_name.c_str (), open_flags,
         OPEN_SHFLAGS, OPEN_MODE);
     if (eno != 0)
-#  elif defined (LOG4CPLUS_HAVE__TSOPEN)
+#  elif defined (LOG4CPLUS_HAVE__TSOPEN) && defined (_tsopen)
     data->fd = _tsopen (lock_file_name.c_str (), open_flags, OPEN_SHFLAGS,
         OPEN_MODE);
     if (data->fd == -1)

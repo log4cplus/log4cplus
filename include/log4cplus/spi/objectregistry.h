@@ -5,7 +5,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2010 Tad E. Smith
+// Copyright 2003-2013 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -58,6 +58,11 @@ namespace log4cplus {
              */
             std::vector<log4cplus::tstring> getAllNames() const;
 
+            //! This function is internal implementation detail.
+            //! It is related to work-around needed for initialization when
+            //! using C++11 threads and mutexes.
+            void _enableLocking (bool);
+
         protected:
           // Ctor and Dtor
             ObjectRegistryBase();
@@ -96,6 +101,8 @@ namespace log4cplus {
         private:
             ObjectRegistryBase (ObjectRegistryBase const &);
             ObjectRegistryBase & operator = (ObjectRegistryBase const &);
+
+            bool volatile locking;
         };
 
     }

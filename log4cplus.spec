@@ -47,6 +47,13 @@ cp -rp include/log4cplus $RPM_BUILD_ROOT%{prefix}/include/
 rm -f $RPM_BUILD_ROOT%{prefix}/include/log4cplus/config/stamp-*
 rm -f $RPM_BUILD_ROOT%{prefix}/include/log4cplus/config/*.in
 rm -f $RPM_BUILD_ROOT%{prefix}/include/log4cplus/stamp-*
+rm -f $RPM_BUILD_ROOT%{prefix}/include/log4cplus/config/macosx.h
+rm -f $RPM_BUILD_ROOT%{prefix}/include/log4cplus/config/win32.h
+rm -f $RPM_BUILD_ROOT%{prefix}/include/log4cplus/config/windowsh-inc.h
+rm -f $RPM_BUILD_ROOT%{prefix}/include/log4cplus/internal/cygwin-win32.h
+rm -f $RPM_BUILD_ROOT%{prefix}/include/log4cplus/thread/impl/syncprims-win32.h
+find %{buildroot} -name .svn -type d -exec find '{}' -delete \;
+find %{buildroot} -name "*.in" -delete
 
 
 %clean
@@ -62,4 +69,12 @@ rm -rf $RPM_BUILD_ROOT
 %prefix/include/log4cplus/*.h
 %prefix/include/log4cplus/helpers/*.h
 %prefix/include/log4cplus/spi/*.h
-%attr(644,root,root) %prefix/lib/*.a
+%prefix/include/log4cplus/boost/*.hxx
+%prefix/include/log4cplus/config.hxx
+%prefix/include/log4cplus/config/defines.hxx
+%prefix/include/log4cplus/internal/*.h
+%prefix/include/log4cplus/thread/impl/*.h
+%prefix/include/log4cplus/thread/*.h
+%attr(644,root,root) 
+%prefix/lib/*.a
+%prefix/lib/pkgconfig/log4cplus.pc

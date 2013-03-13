@@ -1088,6 +1088,7 @@
     <ClInclude Include="..\include\log4cplus\ndc.h" />
     <ClInclude Include="..\include\log4cplus\streams.h" />
     <ClInclude Include="..\include\log4cplus\tchar.h" />
+    <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-cxx11.h" />
     <ClInclude Include="..\include\log4cplus\tracelogger.h" />
     <ClInclude Include="..\include\log4cplus\tstring.h" />
     <ClInclude Include="..\include\log4cplus\version.h" />

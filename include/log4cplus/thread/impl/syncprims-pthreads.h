@@ -1,5 +1,5 @@
 // -*- C++ -*-
-//  Copyright (C) 2009-2010, Vaclav Haisman. All rights reserved.
+//  Copyright (C) 2009-2013, Vaclav Haisman. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -41,7 +41,7 @@ struct PthreadMutexAttr
     PthreadMutexAttr ()
     {
         int ret = pthread_mutexattr_init (&attr);
-        if (ret != 0)
+        if (LOG4CPLUS_UNLIKELY (ret != 0))
             LOG4CPLUS_THROW_RTE ("PthreadMutexAttr::PthreadMutexAttr");
     }
 
@@ -51,7 +51,7 @@ struct PthreadMutexAttr
         try
         {
             int ret = pthread_mutexattr_destroy (&attr);
-            if (ret != 0)
+            if (LOG4CPLUS_UNLIKELY (ret != 0))
                 LOG4CPLUS_THROW_RTE ("PthreadMutexAttr::~PthreadMutexAttr");
         }
         catch (...)
@@ -74,7 +74,7 @@ struct PthreadMutexAttr
         }
 
         int ret = pthread_mutexattr_settype (&attr, mutex_type);
-        if (ret != 0)
+        if (LOG4CPLUS_UNLIKELY (ret != 0))
             LOG4CPLUS_THROW_RTE ("PthreadMutexAttr::set_type");
     }
 
@@ -94,7 +94,7 @@ Mutex::Mutex (log4cplus::thread::Mutex::Type t)
     attr.set_type (t);
 
     int ret = pthread_mutex_init (&mtx, &attr.attr);
-    if (ret != 0)
+    if (LOG4CPLUS_UNLIKELY (ret != 0))
         LOG4CPLUS_THROW_RTE ("Mutex::Mutex");
 }
 
@@ -105,7 +105,7 @@ Mutex::~Mutex ()
     try
     {
         int ret = pthread_mutex_destroy (&mtx);
-        if (ret != 0)
+        if (LOG4CPLUS_UNLIKELY (ret != 0))
             LOG4CPLUS_THROW_RTE ("Mutex::~Mutex");
     }
     catch (...)
@@ -118,7 +118,7 @@ void
 Mutex::lock () const
 {
     int ret = pthread_mutex_lock (&mtx);
-    if (ret != 0)
+    if (LOG4CPLUS_UNLIKELY (ret != 0))
         LOG4CPLUS_THROW_RTE ("Mutex::lock");
 }
 
@@ -128,7 +128,7 @@ void
 Mutex::unlock () const
 {
     int ret = pthread_mutex_unlock (&mtx);
-    if (ret != 0)
+    if (LOG4CPLUS_UNLIKELY (ret != 0))
         LOG4CPLUS_THROW_RTE ("Mutex::unlock");
 }
 
@@ -162,20 +162,20 @@ Semaphore::Semaphore (unsigned max, unsigned initial)
 
     sem = sem_open (name.c_str (), O_CREAT, S_IRWXU | S_IRWXG, limited_max);
     ret = sem == SEM_FAILED;
-    if (ret != 0)
+    if (LOG4CPLUS_UNLIKELY (ret != 0))
         LOG4CPLUS_THROW_RTE ("Semaphore::Semaphore");
 
     try
     {
         // Unlink the semaphore early to simulate anonymous semaphore.
         ret = sem_unlink (name.c_str ());
-        if (ret != 0)
+        if (LOG4CPLUS_UNLIKELY (ret != 0))
             LOG4CPLUS_THROW_RTE ("Semaphore::Semaphore");
     }
     catch (std::runtime_error const &)
     {
         ret = sem_close (sem);
-        if (ret != 0)
+        if (LOG4CPLUS_UNLIKELY (ret != 0))
             LOG4CPLUS_THROW_RTE ("Semaphore::~Semaphore");
 
         throw;
@@ -183,7 +183,7 @@ Semaphore::Semaphore (unsigned max, unsigned initial)
 
 #else
     ret = sem_init (&sem, 0, limited_max);
-    if (ret != 0)
+    if (LOG4CPLUS_UNLIKELY (ret != 0))
         LOG4CPLUS_THROW_RTE ("Semaphore::Semaphore");
 
 #endif
@@ -200,7 +200,7 @@ Semaphore::Semaphore (unsigned max, unsigned initial)
 #else
         ret = sem_destroy (&sem);
 #endif
-        if (ret != 0)
+        if (LOG4CPLUS_UNLIKELY (ret != 0))
             LOG4CPLUS_THROW_RTE ("Semaphore::~Semaphore");
 
         throw;
@@ -219,7 +219,7 @@ Semaphore::~Semaphore ()
 #else
         ret = sem_destroy (&sem);
 #endif
-        if (ret != 0)
+        if (LOG4CPLUS_UNLIKELY (ret != 0))
             LOG4CPLUS_THROW_RTE ("Semaphore::~Semaphore");
     }
     catch (...)
@@ -236,7 +236,7 @@ Semaphore::unlock () const
 #else
     int ret = sem_post (&sem);
 #endif
-    if (ret != 0)
+    if (LOG4CPLUS_UNLIKELY (ret != 0))
         LOG4CPLUS_THROW_RTE ("Semaphore::unlock");
 }
 
@@ -250,7 +250,7 @@ Semaphore::lock () const
 #else
     int ret = sem_wait (&sem);
 #endif
-    if (ret != 0)
+    if (LOG4CPLUS_UNLIKELY (ret != 0))
         LOG4CPLUS_THROW_RTE ("Semaphore::lock");
 }
 
@@ -298,7 +298,7 @@ ManualResetEvent::ManualResetEvent (bool sig)
     , signaled (sig)
 {
     int ret = pthread_cond_init (&cv, 0);
-    if (ret != 0)
+    if (LOG4CPLUS_UNLIKELY (ret != 0))
         LOG4CPLUS_THROW_RTE ("ManualResetEvent::ManualResetEvent");
 }
 
@@ -309,7 +309,7 @@ ManualResetEvent::~ManualResetEvent ()
     try
     {
         int ret = pthread_cond_destroy (&cv);
-        if (ret != 0)
+        if (LOG4CPLUS_UNLIKELY (ret != 0))
             LOG4CPLUS_THROW_RTE ("ManualResetEvent::~ManualResetEvent");
     }
     catch (...)
@@ -326,8 +326,8 @@ ManualResetEvent::signal () const
     signaled = true;
     sigcount += 1;
     int ret = pthread_cond_broadcast (&cv);
-    if (ret != 0)
-        LOG4CPLUS_THROW_RTE ("ManualResetEVent::signal");
+    if (LOG4CPLUS_UNLIKELY (ret != 0))
+        LOG4CPLUS_THROW_RTE ("ManualResetEvent::signal");
 
 }
 
@@ -344,7 +344,7 @@ ManualResetEvent::wait () const
         do
         {
             int ret = pthread_cond_wait (&cv, &mtx.mtx);
-            if (ret != 0)
+            if (LOG4CPLUS_UNLIKELY (ret != 0))
             {
                 mguard.unlock ();
                 mguard.detach ();
@@ -415,7 +415,7 @@ inline
 SharedMutex::SharedMutex ()
 {
     int ret = pthread_rwlock_init (&rwl, 0);
-    if (ret != 0)
+    if (LOG4CPLUS_UNLIKELY (ret != 0))
         LOG4CPLUS_THROW_RTE ("SharedMutex::SharedMutex");
 }
 
@@ -426,7 +426,7 @@ SharedMutex::~SharedMutex ()
     try
     {
         int ret = pthread_rwlock_destroy (&rwl);
-        if (ret != 0)
+        if (LOG4CPLUS_UNLIKELY (ret != 0))
             LOG4CPLUS_THROW_RTE ("SharedMutex::~SharedMutex");
     }
     catch (...)
@@ -460,7 +460,7 @@ SharedMutex::rdlock () const
 
         }
     }
-    while (ret != 0);
+    while (LOG4CPLUS_UNLIKELY (ret != 0));
 }
 
 
@@ -477,7 +477,7 @@ void
 SharedMutex::wrlock () const
 {
     int ret = pthread_rwlock_wrlock (&rwl);
-    if (ret != 0)
+    if (LOG4CPLUS_UNLIKELY (ret != 0))
         LOG4CPLUS_THROW_RTE ("SharedMutex::wrlock");
 }
 
@@ -495,7 +495,7 @@ void
 SharedMutex::unlock () const
 {
     int ret = pthread_rwlock_unlock (&rwl);
-    if (ret != 0)
+    if (LOG4CPLUS_UNLIKELY (ret != 0))
         LOG4CPLUS_THROW_RTE ("SharedMutex::unlock");
 
 }

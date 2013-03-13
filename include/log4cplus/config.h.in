@@ -11,6 +11,12 @@
 /* Defined if the compiler supports GNU style variadic macros. */
 #undef HAS_GNU_VARIADIC_MACROS
 
+/* Defined if the compiler provides atomic_dec_uint_nv(). */
+#undef HAVE_ATOMIC_DEC_UINT_NV
+
+/* Defined if the compiler provides atomic_inc_uint(). */
+#undef HAVE_ATOMIC_INC_UINT
+
 /* Define to 1 if you have the `clock_gettime' function. */
 #undef HAVE_CLOCK_GETTIME
 
@@ -178,6 +184,12 @@
 /* Define to 1 if you have the `_vsnwprintf_s' function. */
 #undef HAVE__VSNWPRINTF_S
 
+/* Defined if the compiler provides __atomic_add_fetch(). */
+#undef HAVE___ATOMIC_ADD_FETCH
+
+/* Defined if the compiler provides __atomic_sub_fetch(). */
+#undef HAVE___ATOMIC_SUB_FETCH
+
 /* Defined if the compiler supports __FUNCTION__ macro. */
 #undef HAVE___FUNCTION___MACRO
 
@@ -210,6 +222,15 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_ARPA_INET_H
+
+/* */
+#undef LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV
+
+/* */
+#undef LOG4CPLUS_HAVE_ATOMIC_H
+
+/* */
+#undef LOG4CPLUS_HAVE_ATOMIC_INC_UINT
 
 /* */
 #undef LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
@@ -404,6 +425,12 @@
 #undef LOG4CPLUS_HAVE__VSNWPRINTF_S
 
 /* */
+#undef LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH
+
+/* */
+#undef LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH
+
+/* */
 #undef LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH
 
 /* */
@@ -417,6 +444,10 @@
 
 /* */
 #undef LOG4CPLUS_USE_PTHREADS
+
+/* Define so that log4cplus will use C++11 threads and synchronization
+   primitives. */
+#undef LOG4CPLUS_WITH_CXX11_THREADS
 
 /* Define when iconv() is available. */
 #undef LOG4CPLUS_WITH_ICONV
