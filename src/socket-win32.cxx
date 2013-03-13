@@ -424,7 +424,8 @@ setSocketBlocking (SOCKET_TYPE s)
         set_last_socket_error (WSAGetLastError ());
         return false;
     }
-    return true;
+    else
+        return true;
 }
 
 static
@@ -508,7 +509,7 @@ ServerSocket::accept ()
         // This is interrupt signal/event.
         case WSA_WAIT_EVENT_0:
         {
-            // Reset the event back.
+            // Reset the event back to non-signalled state.
 
             ret = WSAResetEvent (reinterpret_cast<HANDLE>(interruptHandles[0]));
 
@@ -526,6 +527,14 @@ ServerSocket::accept ()
         // This is accept_ev.
         case WSA_WAIT_EVENT_0 + 1:
         {
+            // Clean up socket events handling.
+
+            ret = removeSocketEvents (sock, accept_ev);
+            ret = setSocketBlocking (sock);
+            ret = WSACloseEvent (accept_ev);
+
+            // Finally, call accept().
+
             SocketState st = not_opened;
             SOCKET_TYPE clientSock = acceptSocket(sock, st);
             DWORD eno = 0;
@@ -537,6 +546,7 @@ ServerSocket::accept ()
 
         case WSA_WAIT_FAILED:
         default:
+            set_last_socket_error (WSAGetLastError ());
             goto error;
         }
     }
