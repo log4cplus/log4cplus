@@ -21,19 +21,6 @@
 #include <log4cplus/config.hxx>
 #if defined (LOG4CPLUS_USE_WINSOCK)
 
-#if defined (LOG4CPLUS_HAVE_SYS_TYPES_H)
-#include <sys/types.h>
-#endif
-#if defined (LOG4CPLUS_HAVE_SYS_STAT_H)
-#include <sys/stat.h>
-#endif
-#if defined (LOG4CPLUS_HAVE_IO_H)
-#include <io.h>
-#endif
-#if defined (LOG4CPLUS_HAVE_FCNTL_H)
-#include <fcntl.h>
-#endif
-
 #include <cassert>
 #include <cerrno>
 #include <vector>
@@ -42,12 +29,6 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/helpers/stringhelper.h>
-
-#if defined (__BORLANDC__)
-int const PIPE_OPEN_FLAGS = O_BINARY | O_NOINHERIT;
-#else
-int const PIPE_OPEN_FLAGS = _O_BINARY | _O_NOINHERIT;
-#endif
 
 
 /////////////////////////////////////////////////////////////////////////////
