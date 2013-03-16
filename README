@@ -31,7 +31,7 @@ Tested on the following platforms
   `-library=stlport4` and with `-library=Cstd`.
 - Solaris 5.10/Sparc with GCC 3.4.3 (csl-sol210-3_4-branch+sol_rpath)
 - NetBSD 6.0/AMD64 with GCC 4.5.3 (NetBSD nb2 20110806)
-- OpenBSD 5.0/AMD64 with GCC 4.2.1 20070719
+- OpenBSD 5.2/AMD64 with GCC 4.2.1 20070719
 
 
 Configure script options
