@@ -262,68 +262,14 @@ acceptSocket(SOCKET_TYPE sock, SocketState & state)
 {
     init_winsock ();
 
-    SOCKET osSocket = to_os_socket (sock);
+    SOCKET connected_socket = ::accept (to_os_socket (sock), NULL, NULL);
 
-    // Check that the socket is ok.
+    if (connected_socket != INVALID_OS_SOCKET_VALUE)
+        state = ok;
+    else
+        set_last_socket_error (WSAGetLastError ());
 
-    int val = 0;
-    int optlen = sizeof (val);
-    int ret = getsockopt (osSocket, SOL_SOCKET, SO_TYPE,
-        reinterpret_cast<char *>(&val), &optlen);
-    if (ret == SOCKET_ERROR)
-        goto error;
-
-    // Now that we know the socket is working ok we can wait for
-    // either a new connection or for a transition to bad state.
-
-    while (1)
-    {
-        fd_set readSet;
-        timeval timeout;
-
-        FD_ZERO (&readSet);
-        FD_SET (osSocket, &readSet);
-        timeout.tv_sec = 0;
-        timeout.tv_usec = 200 * 1000;
-
-        int selectResponse = ::select (1, &readSet, NULL, NULL, &timeout);
-        if (selectResponse < 0)
-        {
-            DWORD const eno = WSAGetLastError ();
-            if (eno == WSAENOTSOCK || eno == WSAEINVAL)
-                WSASetLastError (ERROR_NO_DATA);
-
-            goto error;
-        }
-        else if (selectResponse == 0)
-            // Timeout.
-            continue;
-        else if (selectResponse == 1)
-        {
-            SOCKET connected_socket = ::accept (osSocket, NULL, NULL);
-
-            if (connected_socket != INVALID_OS_SOCKET_VALUE)
-                state = ok;
-            else
-                goto error;
-
-            return to_log4cplus_socket (connected_socket);
-        }
-        else
-        {
-            helpers::getLogLog ().error (
-                LOG4CPLUS_TEXT ("unexpected select() return value: ")
-                + helpers::convertIntegerToString (selectResponse));
-            WSASetLastError (ERROR_UNSUPPORTED_TYPE);
-            goto error;
-        }
-    }
-
-error:
-    DWORD eno = WSAGetLastError ();
-    set_last_socket_error (eno);
-
-    return to_log4cplus_socket (INVALID_SOCKET);
+    return to_log4cplus_socket (connected_socket);
 }
 
 
@@ -439,6 +385,193 @@ setTCPNoDelay (SOCKET_TYPE sock, bool val)
 
     return result;
 }
+
+
+//
+// ServerSocket OS dependent stuff
+//
+
+namespace
+{
+
+static
+bool
+setSocketBlocking (SOCKET_TYPE s)
+{
+    u_long val = 0;
+    int ret = ioctlsocket (to_os_socket (s), FIONBIO, &val);
+    if (ret == SOCKET_ERROR)
+    {
+        set_last_socket_error (WSAGetLastError ());
+        return false;
+    }
+    else
+        return true;
+}
+
+static
+bool
+removeSocketEvents (SOCKET_TYPE s, HANDLE ev)
+{
+    // Clean up socket events handling.
+
+    int ret = WSAEventSelect (to_os_socket (s), ev, 0);
+    if (ret == SOCKET_ERROR)
+    {
+        set_last_socket_error (WSAGetLastError ());
+        return false;
+    }
+    else
+        return true;
+}
+
+
+static
+bool
+socketEventHandlingCleanup (SOCKET_TYPE s, HANDLE ev)
+{
+    bool ret = removeSocketEvents (s, ev);
+    ret = setSocketBlocking (s) && ret;
+    ret = WSACloseEvent (ev) && ret;
+    return ret;
+}
+
+
+} // namespace
+
+
+ServerSocket::ServerSocket(unsigned short port)
+{
+    sock = openSocket (port, state);
+    if (sock == INVALID_SOCKET_VALUE)
+    {
+        err = get_last_socket_error ();
+        return;
+    }
+
+    HANDLE ev = WSACreateEvent ();
+    if (ev == WSA_INVALID_EVENT)
+    {
+        err = WSAGetLastError ();
+        closeSocket (sock);
+        sock = INVALID_SOCKET_VALUE;
+    }
+    else
+        interruptHandles[0] = reinterpret_cast<std::ptrdiff_t>(ev);
+}
+
+Socket
+ServerSocket::accept ()
+{
+    int const N_EVENTS = 2;
+    HANDLE events[N_EVENTS] = {
+        reinterpret_cast<HANDLE>(interruptHandles[0]) };
+    HANDLE & accept_ev = events[1];
+    int ret;
+
+    // Create event and prime socket to set the event on FD_ACCEPT.
+
+    accept_ev = WSACreateEvent ();
+    if (accept_ev == WSA_INVALID_EVENT)
+    {
+        set_last_socket_error (WSAGetLastError ());
+        goto error;
+    }
+
+    ret = WSAEventSelect (to_os_socket (sock), accept_ev, FD_ACCEPT);
+    if (ret == SOCKET_ERROR)
+    {
+        set_last_socket_error (WSAGetLastError ());
+        goto error;
+    }
+
+    do
+    {
+        // Wait either for interrupt event or actual connection coming in.
+
+        DWORD wsawfme = WSAWaitForMultipleEvents (N_EVENTS, events, FALSE,
+            WSA_INFINITE, TRUE);
+        switch (wsawfme)
+        {
+        case WSA_WAIT_TIMEOUT:
+        case WSA_WAIT_IO_COMPLETION:
+            // Retry after timeout or APC.
+            continue;
+
+        // This is interrupt signal/event.
+        case WSA_WAIT_EVENT_0:
+        {
+            // Reset the interrupt event back to non-signalled state.
+
+            ret = WSAResetEvent (reinterpret_cast<HANDLE>(interruptHandles[0]));
+
+            // Clean up socket events handling.
+
+            ret = socketEventHandlingCleanup (sock, accept_ev);
+
+            // Return Socket with state set to accept_interrupted.
+
+            return Socket (INVALID_SOCKET_VALUE, accept_interrupted, 0);
+        }
+
+        // This is accept_ev.
+        case WSA_WAIT_EVENT_0 + 1:
+        {
+            // Clean up socket events handling.
+
+            ret = socketEventHandlingCleanup (sock, accept_ev);
+
+            // Finally, call accept().
+
+            SocketState st = not_opened;
+            SOCKET_TYPE clientSock = acceptSocket(sock, st);
+            DWORD eno = 0;
+            if (clientSock == INVALID_SOCKET_VALUE)
+                eno = get_last_socket_error ();
+
+            return Socket(clientSock, st, eno);
+        }
+
+        case WSA_WAIT_FAILED:
+        default:
+            set_last_socket_error (WSAGetLastError ());
+            goto error;
+        }
+    }
+    while (true);
+
+
+error:;
+    DWORD eno = get_last_socket_error ();
+
+    // Clean up socket events handling.
+
+    if (sock != INVALID_SOCKET_VALUE)
+    {
+        (void) removeSocketEvents (sock, accept_ev);
+        (void) setSocketBlocking (sock);
+    }
+
+    if (accept_ev != WSA_INVALID_EVENT)
+        WSACloseEvent (accept_ev);
+
+    set_last_socket_error (eno);
+    return Socket (INVALID_SOCKET_VALUE, not_opened, eno);
+}
+
+
+void
+ServerSocket::interruptAccept ()
+{
+    (void) WSASetEvent (reinterpret_cast<HANDLE>(interruptHandles[0]));
+}
+
+
+ServerSocket::~ServerSocket()
+{
+    (void) WSACloseEvent (reinterpret_cast<HANDLE>(interruptHandles[0]));
+}
+
 
 
 } } // namespace log4cplus { namespace helpers {

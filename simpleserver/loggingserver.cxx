@@ -24,6 +24,7 @@
 #include <log4cplus/socketappender.h>
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/thread/threads.h>
+#include <log4cplus/helpers/sleep.h>
 #include <log4cplus/spi/loggingevent.h>
 
 
@@ -48,6 +49,31 @@ public:
 
 private:
     log4cplus::helpers::Socket clientsock;
+};
+
+class InterruptAcceptThread
+    : public log4cplus::thread::AbstractThread
+{
+public:
+    InterruptAcceptThread(log4cplus::helpers::ServerSocket & s)
+        : acceptSock (s) 
+    {
+        std::cout << "Interrupt accept thread created." << std::endl;
+    }
+
+    ~InterruptAcceptThread()
+    {
+        std::cout << "InterruptAcceptThread closing." << std::endl;
+    }
+
+    virtual void run()
+    {
+        log4cplus::helpers::sleep (2);
+        acceptSock.interruptAccept();
+    }
+
+private:
+    log4cplus::helpers::ServerSocket & acceptSock;
 };
 
 }
@@ -76,8 +102,12 @@ main(int argc, char** argv)
     }
 
     while(1) {
-        loggingserver::ClientThread *thr = 
-            new loggingserver::ClientThread(serverSocket.accept());
+        log4cplus::thread::AbstractThread *thr;
+
+        thr = new loggingserver::InterruptAcceptThread (serverSocket);
+        thr->start ();
+
+        thr = new loggingserver::ClientThread(serverSocket.accept());
         thr->start();
     }
 

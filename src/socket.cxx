@@ -199,40 +199,4 @@ Socket::write(const std::string & buffer)
 }
 
 
-
-
-
-//////////////////////////////////////////////////////////////////////////////
-// ServerSocket ctor and dtor
-//////////////////////////////////////////////////////////////////////////////
-
-ServerSocket::ServerSocket(unsigned short port)
-{
-    sock = openSocket(port, state);
-    if(sock == INVALID_SOCKET_VALUE) {
-        err = get_last_socket_error ();
-    }
-}
-
-
-
-ServerSocket::~ServerSocket()
-{
-}
-
-
-
-//////////////////////////////////////////////////////////////////////////////
-// ServerSocket methods
-//////////////////////////////////////////////////////////////////////////////
-
-Socket
-ServerSocket::accept()
-{
-    SocketState st = not_opened;
-    SOCKET_TYPE clientSock = acceptSocket(sock, st);
-    return Socket(clientSock, st, 0);
-}
-
-
 } } // namespace log4cplus { namespace helpers {
