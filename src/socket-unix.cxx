@@ -60,12 +60,24 @@
 #include <netdb.h>
 #endif
 
+#ifdef LOG4CPLUS_HAVE_FCNTL_H
+#include <fcntl.h>
+#endif
+
 #ifdef LOG4CPLUS_HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 
+#ifdef LOG4CPLUS_HAVE_POLL_H
+#include <poll.h>
+#endif
+
 
 namespace log4cplus { namespace helpers {
+
+// from lockfile.cxx
+LOG4CPLUS_PRIVATE bool trySetCloseOnExec (int fd, 
+    helpers::LogLog & loglog = helpers::getLogLog ());
 
 
 namespace
@@ -165,8 +177,9 @@ openSocket(unsigned short port, SocketState& state)
     int ret = setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, optlen );
     if (ret != 0)
     {
+        int const eno = errno;
         helpers::getLogLog ().warn (LOG4CPLUS_TEXT ("setsockopt() failed: ")
-            + helpers::convertIntegerToString (errno));
+            + helpers::convertIntegerToString (eno));
     }
 
     int retval = bind(sock, reinterpret_cast<struct sockaddr*>(&server),
@@ -408,6 +421,170 @@ setTCPNoDelay (SOCKET_TYPE sock, bool val)
 #endif
 }
 
+
+//
+// ServerSocket OS dependent stuff
+//
+
+ServerSocket::ServerSocket(unsigned short port)
+{
+    int fds[2] = {-1, -1};
+    int ret;
+
+    sock = openSocket (port, state);
+    if (sock == INVALID_SOCKET_VALUE)
+        goto error;
+
+#if defined (LOG4CPLUS_HAVE_PIPE2) && defined (O_CLOEXEC)
+    ret = pipe2 (fds, O_CLOEXEC);
+    if (ret != 0)
+        goto error;
+
+#elif defined (LOG4CPLUS_HAVE_PIPE)
+    ret = pipe (fds);
+    if (ret != 0)
+        goto error;
+
+    trySetCloseOnExec (fds[0]);
+    trySetCloseOnExec (fds[1]);
+
+#else
+#  error You are missing both pipe() or pipe2().
+#endif
+
+    interruptHandles[0] = fds[0];
+    interruptHandles[1] = fds[1];
+    return;
+
+error:;
+    err = get_last_socket_error ();
+    state = not_opened;
+
+    if (sock != INVALID_SOCKET_VALUE)
+        closeSocket (sock);
+
+    if (fds[0] != -1)
+        ::close (fds[0]);
+
+    if (fds[1] != -1)
+        ::close (fds[1]);
+}
+
+Socket
+ServerSocket::accept ()
+{
+    struct pollfd pollfds[2];
+
+    struct pollfd & interrupt_pipe = pollfds[0];
+    interrupt_pipe.fd = interruptHandles[0];
+    interrupt_pipe.events = POLLIN;
+    interrupt_pipe.revents = 0;
+
+    struct pollfd & accept_fd = pollfds[1];
+    accept_fd.fd = to_os_socket (sock);
+    accept_fd.events = POLLIN;
+    accept_fd.revents = 0;
+
+    do
+    {
+        interrupt_pipe.revents = 0;
+        accept_fd.revents = 0;
+        
+        int ret = poll (pollfds, 2, -1);
+        switch (ret)
+        {
+        // Error.
+        case -1:
+            if (errno == EINTR)
+                // Signal has interrupted the call. Just re-run it.
+                continue;
+            
+            set_last_socket_error (errno);
+            return Socket (INVALID_SOCKET_VALUE, not_opened, errno);
+
+        // Timeout. This should not happen though.
+        case 0:
+            continue;
+
+        default:
+            // Some descriptor is ready.
+
+            if ((interrupt_pipe.revents & POLLIN) == POLLIN)
+            {
+                // Read byte from interruption pipe.
+
+                helpers::getLogLog ().debug (
+                    LOG4CPLUS_TEXT ("ServerSocket::accept- ")
+                    LOG4CPLUS_TEXT ("accept() interrupted by other thread"));
+
+                char ch;
+                ret = ::read (interrupt_pipe.fd, &ch, 1);
+                if (ret == -1)
+                {
+                    int const eno = errno;
+                    helpers::getLogLog ().warn (
+                        LOG4CPLUS_TEXT ("ServerSocket::accept- read() failed: ")
+                        + helpers::convertIntegerToString (eno));
+                    set_last_socket_error (eno);
+                    return Socket (INVALID_SOCKET_VALUE, not_opened, eno);
+                }
+
+                // Return Socket with state set to accept_interrupted.
+                
+                return Socket (INVALID_SOCKET_VALUE, accept_interrupted, 0);
+            }
+            else if ((accept_fd.revents & POLLIN) == POLLIN)
+            {
+                helpers::getLogLog ().debug (
+                    LOG4CPLUS_TEXT ("ServerSocket::accept- ")
+                    LOG4CPLUS_TEXT ("accepting connection"));
+
+                SocketState st = not_opened;
+                SOCKET_TYPE clientSock = acceptSocket (sock, st);
+                int eno = 0;
+                if (clientSock == INVALID_SOCKET_VALUE)
+                    eno = get_last_socket_error ();
+                
+                return Socket (clientSock, st, eno);
+            }
+            else
+                return Socket (INVALID_SOCKET_VALUE, not_opened, 0);
+        }
+    }
+    while (true);
+}
+
+
+void
+ServerSocket::interruptAccept ()
+{
+    char ch = 'I';
+    int ret;
+
+    do
+    {
+        ret = ::write (interruptHandles[1], &ch, 1);
+    }
+    while (ret == -1 && errno == EINTR);
+
+    if (ret == -1)
+    {
+        int const eno = errno;
+        helpers::getLogLog ().warn (
+            LOG4CPLUS_TEXT ("ServerSocket::interruptAccept- write() failed: ")
+            + helpers::convertIntegerToString (eno));
+    }
+}
+
+
+ServerSocket::~ServerSocket()
+{
+    if (interruptHandles[0] != -1)
+        ::close (interruptHandles[0]);
+
+    if (interruptHandles[1] != -1)
+        ::close (interruptHandles[1]);
+}
 
 } } // namespace log4cplus
 

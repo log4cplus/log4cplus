@@ -114,6 +114,15 @@
 /* Define to 1 if you have the `ntohs' function. */
 #undef HAVE_NTOHS
 
+/* Define to 1 if you have the `pipe' function. */
+#undef HAVE_PIPE
+
+/* Define to 1 if you have the `pipe2' function. */
+#undef HAVE_PIPE2
+
+/* Define to 1 if you have the `poll' function. */
+#undef HAVE_POLL
+
 /* Define if you have POSIX threads libraries and header files. */
 #undef HAVE_PTHREAD
 
@@ -339,6 +348,18 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_NTOHS
+
+/* */
+#undef LOG4CPLUS_HAVE_PIPE
+
+/* */
+#undef LOG4CPLUS_HAVE_PIPE2
+
+/* */
+#undef LOG4CPLUS_HAVE_POLL
+
+/* */
+#undef LOG4CPLUS_HAVE_POLL_H
 
 /* */
 #undef LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
