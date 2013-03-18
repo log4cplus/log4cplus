@@ -457,7 +457,10 @@ ServerSocket::ServerSocket(unsigned short port)
         sock = INVALID_SOCKET_VALUE;
     }
     else
+    {
+        assert (sizeof (std::ptrdiff_t) >= sizeof (HANDLE));
         interruptHandles[0] = reinterpret_cast<std::ptrdiff_t>(ev);
+    }
 }
 
 Socket
@@ -524,12 +527,12 @@ ServerSocket::accept ()
             // Finally, call accept().
 
             SocketState st = not_opened;
-            SOCKET_TYPE clientSock = acceptSocket(sock, st);
-            DWORD eno = 0;
+            SOCKET_TYPE clientSock = acceptSocket (sock, st);
+            int eno = 0;
             if (clientSock == INVALID_SOCKET_VALUE)
                 eno = get_last_socket_error ();
 
-            return Socket(clientSock, st, eno);
+            return Socket (clientSock, st, eno);
         }
 
         case WSA_WAIT_FAILED:
