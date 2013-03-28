@@ -122,6 +122,18 @@
 #undef LOG4CPLUS_HAVE_NTOHS
 
 /* */
+#undef LOG4CPLUS_HAVE_PIPE
+
+/* */
+#undef LOG4CPLUS_HAVE_PIPE2
+
+/* */
+#undef LOG4CPLUS_HAVE_POLL
+
+/* */
+#undef LOG4CPLUS_HAVE_POLL_H
+
+/* */
 #undef LOG4CPLUS_HAVE_STAT
 
 /* Define if this is a single-threaded library. */
