@@ -43,7 +43,8 @@ namespace log4cplus {
                            connection_failed,
                            broken_pipe, 
                            invalid_access_mode,
-                           message_truncated
+                           message_truncated,
+                           accept_interrupted
                          };
 
         typedef std::ptrdiff_t SOCKET_TYPE;
@@ -110,6 +111,10 @@ namespace log4cplus {
             virtual ~ServerSocket();
 
             Socket accept();
+            void interruptAccept ();
+
+        protected:
+            std::ptrdiff_t interruptHandles[2];
         };
 
 
