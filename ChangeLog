@@ -1,3 +1,47 @@
+log4cplus 1.1.1-RC4
+
+- Fixed bug #156 - Messages are truncated when produced using the
+  LOG4CPLUS_*_FMT() macros.
+
+- Fixed bug #157 - Fedora package build failure.
+
+- Improved log4cplus initialization:
+
+  - Use APC to initialize log4cplus outside loader lock.
+
+  - Use Microsoft C runtime library TLS callbacks to initialize
+    log4cplus as static library.
+
+  - Warn during compilation that automatic initialization is not
+    possible when log4cplus is being compiled with static Microsoft C
+    runtime library.
+
+  - Provide log4cplus::initialize() function to allow users to
+    initialize log4cplus in situations where automatic initialization
+    is not possible.
+
+- Several improvements to CMake build:
+
+  - Fixed OpenBSD + CMake builds.
+
+  - Fixed issues with Visual Studio 2005 CMake builds.
+
+  - Added support for CMake builds on Android with NDK. (Sergey
+    Nikulov)
+
+  - The defines.hxx.cmake file is now generated out of defines.hxx.in.
+
+  - Library version is parsed out of version.h. (Sergey Nikulov)
+
+- MDC formatter for PatternLayout ("%X") now expands into list of key
+  value pairs if no specific key is given. (Yaqian Shen)
+
+- Avoid clock_nanosleep() on Android.
+
+- ServerSocket::accept() can now be interrupted from another thread
+  using new function ServerSocket::interruptAccept().
+
+
 log4cplus 1.1.1-RC3
 
 - Fixed another MinGW related build failure.
