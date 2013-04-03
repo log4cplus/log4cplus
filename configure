@@ -8291,13 +8291,16 @@ fi
 fi
 
 
-ac_ext=c
+case "$target_os" in #(
+  mingw*) :
+
+    ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lkernel32" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lkernel32" >&5
 $as_echo_n "checking for main in -lkernel32... " >&6; }
 if ${ac_cv_lib_kernel32_main+:} false; then :
   $as_echo_n "(cached) " >&6
@@ -8337,7 +8340,7 @@ _ACEOF
 fi
 ac_cv_lib_kernel32=ac_cv_lib_kernel32_main
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -ladvapi32" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -ladvapi32" >&5
 $as_echo_n "checking for main in -ladvapi32... " >&6; }
 if ${ac_cv_lib_advapi32_main+:} false; then :
   $as_echo_n "(cached) " >&6
@@ -8377,7 +8380,7 @@ _ACEOF
 fi
 ac_cv_lib_advapi32=ac_cv_lib_advapi32_main
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lws2_32" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lws2_32" >&5
 $as_echo_n "checking for main in -lws2_32... " >&6; }
 if ${ac_cv_lib_ws2_32_main+:} false; then :
   $as_echo_n "(cached) " >&6
@@ -8417,12 +8420,149 @@ _ACEOF
 fi
 ac_cv_lib_ws2_32=ac_cv_lib_ws2_32_main
 
-ac_ext=cpp
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -loleaut32" >&5
+$as_echo_n "checking for main in -loleaut32... " >&6; }
+if ${ac_cv_lib_oleaut32_main+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-loleaut32  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+
+int
+main ()
+{
+return main ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_oleaut32_main=yes
+else
+  ac_cv_lib_oleaut32_main=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_oleaut32_main" >&5
+$as_echo "$ac_cv_lib_oleaut32_main" >&6; }
+if test "x$ac_cv_lib_oleaut32_main" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBOLEAUT32 1
+_ACEOF
+
+  LIBS="-loleaut32 $LIBS"
+
+fi
+ac_cv_lib_oleaut32=ac_cv_lib_oleaut32_main
+
+    ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ ;; #(
+  cygwin*) :
 
+    ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lkernel32" >&5
+$as_echo_n "checking for main in -lkernel32... " >&6; }
+if ${ac_cv_lib_kernel32_main+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lkernel32  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+
+int
+main ()
+{
+return main ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_kernel32_main=yes
+else
+  ac_cv_lib_kernel32_main=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_kernel32_main" >&5
+$as_echo "$ac_cv_lib_kernel32_main" >&6; }
+if test "x$ac_cv_lib_kernel32_main" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBKERNEL32 1
+_ACEOF
+
+  LIBS="-lkernel32 $LIBS"
+
+fi
+ac_cv_lib_kernel32=ac_cv_lib_kernel32_main
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -loleaut32" >&5
+$as_echo_n "checking for main in -loleaut32... " >&6; }
+if ${ac_cv_lib_oleaut32_main+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-loleaut32  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+
+int
+main ()
+{
+return main ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_oleaut32_main=yes
+else
+  ac_cv_lib_oleaut32_main=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_oleaut32_main" >&5
+$as_echo "$ac_cv_lib_oleaut32_main" >&6; }
+if test "x$ac_cv_lib_oleaut32_main" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBOLEAUT32 1
+_ACEOF
+
+  LIBS="-loleaut32 $LIBS"
+
+fi
+ac_cv_lib_oleaut32=ac_cv_lib_oleaut32_main
+
+    ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ ;; #(
+  *) :
+     ;;
+esac
 
 
 
