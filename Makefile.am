@@ -32,6 +32,7 @@ include tests/thread_test/Makefile.am
 
 include simpleserver/Makefile.am
 include qt4debugappender/Makefile.am
+include qt5debugappender/Makefile.am
 include swig/Makefile.common.am
 include swig/python/Makefile.am
 

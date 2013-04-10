@@ -88,6 +88,7 @@ DIST_COMMON = $(srcdir)/src/Makefile.am \
 	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/simpleserver/Makefile.am \
 	$(srcdir)/qt4debugappender/Makefile.am \
+	$(srcdir)/qt5debugappender/Makefile.am \
 	$(srcdir)/swig/Makefile.common.am \
 	$(srcdir)/swig/python/Makefile.am INSTALL NEWS README AUTHORS \
 	ChangeLog $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
@@ -111,6 +112,7 @@ noinst_PROGRAMS = appender_test$(EXEEXT) $(am__EXEEXT_1) \
 @MULTI_THREADED_TRUE@am__append_1 = configandwatch_test
 @MULTI_THREADED_TRUE@am__append_2 = thread_test loggingserver
 @QT_TRUE@am__append_3 = liblog4cplusqt4debugappender.la
+@QT5_TRUE@am__append_4 = liblog4cplusqt5debugappender.la
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -259,6 +261,16 @@ liblog4cplusqt4debugappender_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_CXXFLAGS) $(CXXFLAGS) \
 	$(liblog4cplusqt4debugappender_la_LDFLAGS) $(LDFLAGS) -o $@
 @QT_TRUE@am_liblog4cplusqt4debugappender_la_rpath = -rpath $(libdir)
+@QT5_TRUE@liblog4cplusqt5debugappender_la_DEPENDENCIES =  \
+@QT5_TRUE@	$(liblog4cplus_la_file)
+@QT5_TRUE@am_liblog4cplusqt5debugappender_la_OBJECTS = qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo
+liblog4cplusqt5debugappender_la_OBJECTS =  \
+	$(am_liblog4cplusqt5debugappender_la_OBJECTS)
+liblog4cplusqt5debugappender_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(AM_CXXFLAGS) $(CXXFLAGS) \
+	$(liblog4cplusqt5debugappender_la_LDFLAGS) $(LDFLAGS) -o $@
+@QT5_TRUE@am_liblog4cplusqt5debugappender_la_rpath = -rpath $(libdir)
 @MULTI_THREADED_TRUE@am__EXEEXT_1 = configandwatch_test$(EXEEXT)
 @MULTI_THREADED_TRUE@am__EXEEXT_2 = thread_test$(EXEEXT) \
 @MULTI_THREADED_TRUE@	loggingserver$(EXEEXT)
@@ -379,6 +391,7 @@ am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(_log4cplus_la_SOURCES) $(liblog4cplus_la_SOURCES) \
 	$(liblog4cplusqt4debugappender_la_SOURCES) \
+	$(liblog4cplusqt5debugappender_la_SOURCES) \
 	$(appender_test_SOURCES) $(configandwatch_test_SOURCES) \
 	$(customloglevel_test_SOURCES) $(fileappender_test_SOURCES) \
 	$(filter_test_SOURCES) $(hierarchy_test_SOURCES) \
@@ -519,6 +532,8 @@ PYTHON_PLATFORM = @PYTHON_PLATFORM@
 PYTHON_PREFIX = @PYTHON_PREFIX@
 PYTHON_SITE_PKG = @PYTHON_SITE_PKG@
 PYTHON_VERSION = @PYTHON_VERSION@
+QT5_CFLAGS = @QT5_CFLAGS@
+QT5_LIBS = @QT5_LIBS@
 QT_CFLAGS = @QT_CFLAGS@
 QT_LIBS = @QT_LIBS@
 RANLIB = @RANLIB@
@@ -605,7 +620,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = log4cplus.pc
 INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
 liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
-lib_LTLIBRARIES = liblog4cplus.la $(am__append_3)
+lib_LTLIBRARIES = liblog4cplus.la $(am__append_3) $(am__append_4)
 INCLUDES_SRC = \
 	$(INCLUDES_SRC_PATH)/appender.h \
 	$(INCLUDES_SRC_PATH)/asyncappender.h \
@@ -805,6 +820,23 @@ timeformat_test_LDADD = $(liblog4cplus_la_file)
 @QT_TRUE@	-version-info @LT_VERSION@ -release @LT_RELEASE@ \
 @QT_TRUE@	@QT_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
 
+@QT5_TRUE@liblog4cplusqt5debugappender_la_CPPFLAGS = \
+@QT5_TRUE@	$(AM_CPPFLAGS) \
+@QT5_TRUE@	-DINSIDE_LOG4CPLUS_QT5DEBUGAPPENDER \
+@QT5_TRUE@	@QT5_CFLAGS@
+
+
+#liblog4cplusqt5debugappender_la_CXXFLAGS=-no-suppress \
+#	 @LOG4CPLUS_PROFILING_CXXFLAGS@
+@QT5_TRUE@liblog4cplusqt5debugappender_la_SOURCES = \
+@QT5_TRUE@	$(INCLUDES_SRC_PATH)/qt5debugappender.h \
+@QT5_TRUE@	qt5debugappender/qt5debugappender.cxx
+
+@QT5_TRUE@liblog4cplusqt5debugappender_la_LIBADD = $(liblog4cplus_la_file)
+@QT5_TRUE@liblog4cplusqt5debugappender_la_LDFLAGS = -no-undefined \
+@QT5_TRUE@	-version-info @LT_VERSION@ -release @LT_RELEASE@ \
+@QT5_TRUE@	@QT5_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
+
 @WITH_SWIG_TRUE@SWIG_SOURCES = \
 @WITH_SWIG_TRUE@  $(top_builddir)/swig/configurator.swg \
 @WITH_SWIG_TRUE@  $(top_builddir)/swig/hierarchy.swg \
@@ -852,7 +884,7 @@ all: $(BUILT_SOURCES)
 .SUFFIXES: .cxx .lo .o .obj
 am--refresh: Makefile
 	@:
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(am__configure_deps)
+$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -875,7 +907,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
 	esac;
-$(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am:
+$(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am:
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -1119,6 +1151,17 @@ qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo:  \
 	qt4debugappender/$(DEPDIR)/$(am__dirstamp)
 liblog4cplusqt4debugappender.la: $(liblog4cplusqt4debugappender_la_OBJECTS) $(liblog4cplusqt4debugappender_la_DEPENDENCIES) $(EXTRA_liblog4cplusqt4debugappender_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(liblog4cplusqt4debugappender_la_LINK) $(am_liblog4cplusqt4debugappender_la_rpath) $(liblog4cplusqt4debugappender_la_OBJECTS) $(liblog4cplusqt4debugappender_la_LIBADD) $(LIBS)
+qt5debugappender/$(am__dirstamp):
+	@$(MKDIR_P) qt5debugappender
+	@: > qt5debugappender/$(am__dirstamp)
+qt5debugappender/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) qt5debugappender/$(DEPDIR)
+	@: > qt5debugappender/$(DEPDIR)/$(am__dirstamp)
+qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo:  \
+	qt5debugappender/$(am__dirstamp) \
+	qt5debugappender/$(DEPDIR)/$(am__dirstamp)
+liblog4cplusqt5debugappender.la: $(liblog4cplusqt5debugappender_la_OBJECTS) $(liblog4cplusqt5debugappender_la_DEPENDENCIES) $(EXTRA_liblog4cplusqt5debugappender_la_DEPENDENCIES) 
+	$(AM_V_CXXLD)$(liblog4cplusqt5debugappender_la_LINK) $(am_liblog4cplusqt5debugappender_la_rpath) $(liblog4cplusqt5debugappender_la_OBJECTS) $(liblog4cplusqt5debugappender_la_LIBADD) $(LIBS)
 
 clean-noinstPROGRAMS:
 	@list='$(noinst_PROGRAMS)'; test -n "$$list" || exit 0; \
@@ -1340,6 +1383,8 @@ mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f qt4debugappender/*.$(OBJEXT)
 	-rm -f qt4debugappender/*.lo
+	-rm -f qt5debugappender/*.$(OBJEXT)
+	-rm -f qt5debugappender/*.lo
 	-rm -f simpleserver/*.$(OBJEXT)
 	-rm -f src/*.$(OBJEXT)
 	-rm -f src/*.lo
@@ -1365,6 +1410,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_log4cplus_la-python_wrap.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappender_la-qt4debugappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappender_la-qt5debugappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@simpleserver/$(DEPDIR)/loggingserver-loggingserver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-appender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-appenderattachableimpl.Plo@am__quote@
@@ -1856,6 +1902,13 @@ qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo: qt4debugap
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusqt4debugappender_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo `test -f 'qt4debugappender/qt4debugappender.cxx' || echo '$(srcdir)/'`qt4debugappender/qt4debugappender.cxx
 
+qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo: qt5debugappender/qt5debugappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusqt5debugappender_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo -MD -MP -MF qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappender_la-qt5debugappender.Tpo -c -o qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo `test -f 'qt5debugappender/qt5debugappender.cxx' || echo '$(srcdir)/'`qt5debugappender/qt5debugappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappender_la-qt5debugappender.Tpo qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappender_la-qt5debugappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt5debugappender/qt5debugappender.cxx' object='qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusqt5debugappender_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo `test -f 'qt5debugappender/qt5debugappender.cxx' || echo '$(srcdir)/'`qt5debugappender/qt5debugappender.cxx
+
 simpleserver/loggingserver-loggingserver.o: simpleserver/loggingserver.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loggingserver_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT simpleserver/loggingserver-loggingserver.o -MD -MP -MF simpleserver/$(DEPDIR)/loggingserver-loggingserver.Tpo -c -o simpleserver/loggingserver-loggingserver.o `test -f 'simpleserver/loggingserver.cxx' || echo '$(srcdir)/'`simpleserver/loggingserver.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) simpleserver/$(DEPDIR)/loggingserver-loggingserver.Tpo simpleserver/$(DEPDIR)/loggingserver-loggingserver.Po
@@ -1876,6 +1929,7 @@ mostlyclean-libtool:
 clean-libtool:
 	-rm -rf .libs _libs
 	-rm -rf qt4debugappender/.libs qt4debugappender/_libs
+	-rm -rf qt5debugappender/.libs qt5debugappender/_libs
 	-rm -rf src/.libs src/_libs
 
 distclean-libtool:
@@ -2095,6 +2149,8 @@ distclean-generic:
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
 	-rm -f qt4debugappender/$(DEPDIR)/$(am__dirstamp)
 	-rm -f qt4debugappender/$(am__dirstamp)
+	-rm -f qt5debugappender/$(DEPDIR)/$(am__dirstamp)
+	-rm -f qt5debugappender/$(am__dirstamp)
 	-rm -f simpleserver/$(DEPDIR)/$(am__dirstamp)
 	-rm -f simpleserver/$(am__dirstamp)
 	-rm -f src/$(DEPDIR)/$(am__dirstamp)
@@ -2143,7 +2199,7 @@ clean-am: clean-generic clean-libLTLIBRARIES clean-libtool clean-local \
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf ./$(DEPDIR) qt4debugappender/$(DEPDIR) simpleserver/$(DEPDIR) src/$(DEPDIR) tests/appender_test/$(DEPDIR) tests/configandwatch_test/$(DEPDIR) tests/customloglevel_test/$(DEPDIR) tests/fileappender_test/$(DEPDIR) tests/filter_test/$(DEPDIR) tests/hierarchy_test/$(DEPDIR) tests/loglog_test/$(DEPDIR) tests/ndc_test/$(DEPDIR) tests/ostream_test/$(DEPDIR) tests/patternlayout_test/$(DEPDIR) tests/performance_test/$(DEPDIR) tests/priority_test/$(DEPDIR) tests/propertyconfig_test/$(DEPDIR) tests/socket_test/$(DEPDIR) tests/thread_test/$(DEPDIR) tests/timeformat_test/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) qt4debugappender/$(DEPDIR) qt5debugappender/$(DEPDIR) simpleserver/$(DEPDIR) src/$(DEPDIR) tests/appender_test/$(DEPDIR) tests/configandwatch_test/$(DEPDIR) tests/customloglevel_test/$(DEPDIR) tests/fileappender_test/$(DEPDIR) tests/filter_test/$(DEPDIR) tests/hierarchy_test/$(DEPDIR) tests/loglog_test/$(DEPDIR) tests/ndc_test/$(DEPDIR) tests/ostream_test/$(DEPDIR) tests/patternlayout_test/$(DEPDIR) tests/performance_test/$(DEPDIR) tests/priority_test/$(DEPDIR) tests/propertyconfig_test/$(DEPDIR) tests/socket_test/$(DEPDIR) tests/thread_test/$(DEPDIR) tests/timeformat_test/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-tags
@@ -2191,7 +2247,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf ./$(DEPDIR) qt4debugappender/$(DEPDIR) simpleserver/$(DEPDIR) src/$(DEPDIR) tests/appender_test/$(DEPDIR) tests/configandwatch_test/$(DEPDIR) tests/customloglevel_test/$(DEPDIR) tests/fileappender_test/$(DEPDIR) tests/filter_test/$(DEPDIR) tests/hierarchy_test/$(DEPDIR) tests/loglog_test/$(DEPDIR) tests/ndc_test/$(DEPDIR) tests/ostream_test/$(DEPDIR) tests/patternlayout_test/$(DEPDIR) tests/performance_test/$(DEPDIR) tests/priority_test/$(DEPDIR) tests/propertyconfig_test/$(DEPDIR) tests/socket_test/$(DEPDIR) tests/thread_test/$(DEPDIR) tests/timeformat_test/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) qt4debugappender/$(DEPDIR) qt5debugappender/$(DEPDIR) simpleserver/$(DEPDIR) src/$(DEPDIR) tests/appender_test/$(DEPDIR) tests/configandwatch_test/$(DEPDIR) tests/customloglevel_test/$(DEPDIR) tests/fileappender_test/$(DEPDIR) tests/filter_test/$(DEPDIR) tests/hierarchy_test/$(DEPDIR) tests/loglog_test/$(DEPDIR) tests/ndc_test/$(DEPDIR) tests/ostream_test/$(DEPDIR) tests/patternlayout_test/$(DEPDIR) tests/performance_test/$(DEPDIR) tests/priority_test/$(DEPDIR) tests/propertyconfig_test/$(DEPDIR) tests/socket_test/$(DEPDIR) tests/thread_test/$(DEPDIR) tests/timeformat_test/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

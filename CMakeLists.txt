@@ -43,6 +43,7 @@ option(LOG4CPLUS_WORKING_C_LOCALE
   OFF)
 
 option (LOG4CPLUS_QT4 "Build with Qt4DebugAppender" OFF)
+option (LOG4CPLUS_QT5 "Build with Qt5DebugAppender" OFF)
 
 option(UNICODE "Build with tchar = wchar_t" ${UNICODE_DEFAULT})
 
@@ -98,5 +99,8 @@ endif (LOG4CPLUS_BUILD_TESTING)
 if (LOG4CPLUS_QT4)
   add_subdirectory (qt4debugappender)
 endif (LOG4CPLUS_QT4)
+if (LOG4CPLUS_QT5)
+  add_subdirectory (qt5debugappender)
+endif (LOG4CPLUS_QT5)
 
 include(Log4CPlusCPack.cmake)

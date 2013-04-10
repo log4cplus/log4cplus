@@ -568,6 +568,22 @@ AM_CONDITIONAL([QT], [test "x$with_qt" = "xyes"])
 AC_SUBST([QT_CFLAGS])
 AC_SUBST([QT_LIBS])
 
+dnl Qt5 setup using pkg-config.
+
+AC_ARG_WITH([qt5],
+  [AS_HELP_STRING([--with-qt5],
+    [Build liblog4cplusqt5debugappender.])],
+  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-qt5])],
+  [with_qt5=no])
+
+AS_IF([test "x$with_qt5" = "xyes"],
+  [PKG_CHECK_MODULES([QT5], [Qt5Core >= 5.0.0])],
+  [QT5_CFLAGS=
+   QT5_LIBS=])
+AM_CONDITIONAL([QT5], [test "x$with_qt5" = "xyes"])
+AC_SUBST([QT5_CFLAGS])
+AC_SUBST([QT5_LIBS])
+
 dnl SWIG generated bindings related configure machinery is here.
 
 AS_VAR_SET([with_swig], [no])

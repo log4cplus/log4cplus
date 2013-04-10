@@ -676,6 +676,10 @@ WITH_SWIG_TRUE
 SWIG_LIB
 SWIG_FLAGS
 SWIG
+QT5_FALSE
+QT5_TRUE
+QT5_LIBS
+QT5_CFLAGS
 QT_FALSE
 QT_TRUE
 QT_LIBS
@@ -811,6 +815,7 @@ enable_warnings
 enable_profiling
 enable_threads
 with_qt
+with_qt5
 with_python
 enable_static
 with_pic
@@ -837,6 +842,8 @@ PKG_CONFIG_PATH
 PKG_CONFIG_LIBDIR
 QT_CFLAGS
 QT_LIBS
+QT5_CFLAGS
+QT5_LIBS
 SWIG_FLAGS
 PYTHON
 PYTHON_VERSION'
@@ -1487,6 +1494,7 @@ Optional Packages:
   --with-iconv            Use iconv() for char->wchar_t conversion.
   --with-c++11-threads    Use C++11 threads and synchronization primitives.
   --with-qt               Build liblog4cplusqt4debugappender.
+  --with-qt5              Build liblog4cplusqt5debugappender.
   --with-python           Build Python/SWIG bindings.
   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
                           both]
@@ -1512,6 +1520,8 @@ Some influential environment variables:
               path overriding pkg-config's built-in search path
   QT_CFLAGS   C compiler flags for QT, overriding pkg-config
   QT_LIBS     linker flags for QT, overriding pkg-config
+  QT5_CFLAGS  C compiler flags for QT5, overriding pkg-config
+  QT5_LIBS    linker flags for QT5, overriding pkg-config
   SWIG_FLAGS  SWIG flags
   PYTHON      the Python interpreter
   PYTHON_VERSION
@@ -11049,6 +11059,130 @@ fi
 else
   QT_TRUE='#'
   QT_FALSE=
+fi
+
+
+
+
+
+
+# Check whether --with-qt5 was given.
+if test "${with_qt5+set}" = set; then :
+  withval=$with_qt5; case "${withval}" in #(
+  yes) :
+     ;; #(
+  no) :
+     ;; #(
+  *) :
+    as_fn_error $? "bad value ${withval} for --with-qt5" "$LINENO" 5 ;;
+esac
+else
+  with_qt5=no
+fi
+
+
+if test "x$with_qt5" = "xyes"; then :
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for QT5" >&5
+$as_echo_n "checking for QT5... " >&6; }
+
+if test -n "$QT5_CFLAGS"; then
+    pkg_cv_QT5_CFLAGS="$QT5_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"Qt5Core >= 5.0.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "Qt5Core >= 5.0.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_QT5_CFLAGS=`$PKG_CONFIG --cflags "Qt5Core >= 5.0.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$QT5_LIBS"; then
+    pkg_cv_QT5_LIBS="$QT5_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"Qt5Core >= 5.0.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "Qt5Core >= 5.0.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_QT5_LIBS=`$PKG_CONFIG --libs "Qt5Core >= 5.0.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        QT5_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "Qt5Core >= 5.0.0" 2>&1`
+        else
+	        QT5_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "Qt5Core >= 5.0.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$QT5_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (Qt5Core >= 5.0.0) were not met:
+
+$QT5_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables QT5_CFLAGS
+and QT5_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables QT5_CFLAGS
+and QT5_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }
+else
+	QT5_CFLAGS=$pkg_cv_QT5_CFLAGS
+	QT5_LIBS=$pkg_cv_QT5_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+fi
+else
+  QT5_CFLAGS=
+   QT5_LIBS=
+fi
+ if test "x$with_qt5" = "xyes"; then
+  QT5_TRUE=
+  QT5_FALSE='#'
+else
+  QT5_TRUE='#'
+  QT5_FALSE=
 fi
 
 
@@ -22606,6 +22740,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${QT_TRUE}" && test -z "${QT_FALSE}"; then
   as_fn_error $? "conditional \"QT\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${QT5_TRUE}" && test -z "${QT5_FALSE}"; then
+  as_fn_error $? "conditional \"QT5\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${WITH_SWIG_TRUE}" && test -z "${WITH_SWIG_FALSE}"; then
