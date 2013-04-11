@@ -1,6 +1,9 @@
 set (qt5debugappender_sources
   qt5debugappender.cxx)
 
+if (${BUILD_SHARED_LIBS})
+  add_definitions (-D${log4cplus}_EXPORTS)
+endif ()
 if (UNICODE)
   add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
 endif (UNICODE)
