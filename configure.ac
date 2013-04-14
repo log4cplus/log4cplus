@@ -205,6 +205,8 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
          AX_CXXFLAGS_GCC_OPTION([-fstack-protector])])
       dnl -Wstack-protector results into not too interesting warnings.
       dnl AX_CXXFLAGS_GCC_OPTION([-Wstack-protector])
+      AX_CXXFLAGS_GCC_OPTION([-fsanitize=address])
+      AX_CXXFLAGS_GCC_OPTION([-fsanitize=thread])
       AX_CXXFLAGS_GCC_OPTION([-ftrapv])
       AX_CXXFLAGS_GCC_OPTION([-ftrack-macro-expansion])],
      [AC_REQUIRE([AC_PROG_GREP])
