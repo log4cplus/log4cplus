@@ -5318,10 +5318,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__fdiagnostics_show_caret=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -5383,10 +5384,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__Wextra=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -5447,10 +5449,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__pedantic=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -5511,10 +5514,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__Wstrict_aliasing=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -5575,10 +5579,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__Wstrict_overflow=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -5639,10 +5644,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__Woverloaded_virtual=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -5707,10 +5713,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__Wold_style_cast=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -5772,10 +5779,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__Wcpp0x_compat=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -5836,10 +5844,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__Wcpp11_compat=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -5900,10 +5909,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__Wundef=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -5964,10 +5974,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__Wshadow=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -6028,10 +6039,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__Wformat=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -6092,10 +6104,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__Wsuggest_attribute_format=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -6156,10 +6169,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__Wsuggest_attribute_noreturn=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -6220,10 +6234,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__Wno_variadic_macros=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -6287,10 +6302,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__g3=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -6355,10 +6371,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__fstack_check=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -6419,10 +6436,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__fstack_protector=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -6484,10 +6502,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__fsanitize_address=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -6548,10 +6567,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__ftrapv=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -6612,10 +6632,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__ftrack_macro_expansion=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -6681,10 +6702,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__O2=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -6749,10 +6771,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__pg=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -6803,10 +6826,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__g3=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -7514,10 +7538,11 @@ return 0;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_gcc_option__fvisibility_hidden=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
