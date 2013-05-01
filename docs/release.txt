@@ -14,4 +14,6 @@ This describes the release procedure:
 
  6. Add news entry to log4cplus.sf.net web page.
 
- 7. Add release entry to freecode.net.
+ 7. Post release information to G+ log4cplus group.
+
+ 8. Add release entry to freecode.net.
