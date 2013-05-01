@@ -1,3 +1,9 @@
+log4cplus 1.1.1
+
+- FileAppender - Accept also std::ios_base::ate as "append to a log
+  file" specification.
+
+
 log4cplus 1.1.1-RC4
 
 - Fixed bug #156 - Messages are truncated when produced using the
