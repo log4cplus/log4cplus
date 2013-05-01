@@ -235,7 +235,7 @@ FileAppender::FileAppender(const Properties& props,
     , bufferSize (0)
     , buffer (0)
 {
-    bool app = (mode_ == std::ios::app);
+    bool app = (mode_ & (std::ios_base::app | std::ios_base::ate)) != 0;
     tstring const & fn = props.getProperty( LOG4CPLUS_TEXT("File") );
     if (fn.empty())
     {
