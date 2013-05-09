@@ -46,8 +46,8 @@ namespace log4cplus {
     /**
      * The NDC class implements <i>nested diagnostic contexts</i> as
      * defined by Neil Harrison in the article "Patterns for Logging
-     * Diagnostic Messages" part of the book "<i>Pattern Languages of
-     * Program Design 3</i>" edited by Martin et al.
+     * Diagnostic Messages" part of the book <i>"Pattern Languages of
+     * Program Design 3"</i> edited by Martin et al.
      *
      * A Nested Diagnostic Context, or NDC in short, is an instrument
      * to distinguish interleaved log output from different sources. Log
@@ -70,24 +70,18 @@ namespace log4cplus {
      * information. To build an NDC one uses the {@link #push}
      * operation. Simply put,
      *
-     * <ul>
-     *   <li>Contexts can be nested.
-     *
-     *   <li>When entering a context, call <code>getNDC().push()</code>. As a
-     *   side effect, if there is no nested diagnostic context for the
-     *   current thread, this method will create it.
-     *
-     *   <li>When leaving a context, call <code>getNDC().pop()</code>.
-     *
-     *   <li><b>When exiting a thread make sure to call {@link #remove
-     *   NDC.remove()}</b>.  
-     * </ul>
+     * - Contexts can be nested.
+     * - When entering a context, call `push()`. As a side effect, if
+     *   there is no nested diagnostic context for the current thread,
+     *   this method will create it.
+     * - When leaving a context, call `pop()`.
+     * - When exiting a thread make sure to call `remove()`.
      *                                          
-     * There is no penalty for forgetting to match each
-     * <code>push</code> operation with a corresponding <code>pop</code>,
-     * except the obvious mismatch between the real application context
-     * and the context set in the NDC.  Use of the {@link NDCContextCreator}
-     * class can automate this process and make your code exception-safe.
+     * There is no penalty for forgetting to match each push()
+     * operation with a corresponding pop(), except the obvious
+     * mismatch between the real application context and the context
+     * set in the NDC.  Use of the NDCContextCreator class can
+     * automate this process and make your code exception-safe.
      *
      * If configured to do so, {@link log4cplus::PatternLayout} and
      * {@link log4cplus::TTCCLayout} instances automatically retrieve
@@ -169,11 +163,11 @@ namespace log4cplus {
          * context.
          *
          * The returned value is the value that was pushed last. If no
-         * context is available, then the empty string "" is
-         * returned. If each call to push() is paired with a call to
-         * pop() (even in presence of thrown exceptions), the last
-         * pop() call frees the memory used by NDC for this
-         * thread. Otherwise, remove() must be called at the end of
+         * context is available, then the empty string is returned. If
+         * each call to `push()` is paired with a call to `pop()`
+         * (even in presence of thrown exceptions), the last `pop()`
+         * call frees the memory used by NDC for this
+         * thread. Otherwise, `remove()` must be called at the end of
          * the thread to free the memory used by NDC for the thread.
          *
          * @return String The innermost diagnostic context.
@@ -192,7 +186,7 @@ namespace log4cplus {
          * without removing it.
          *
          * The returned value is the value that was pushed last. If no
-         * context is available, then the empty string "" is returned.
+         * context is available, then the empty string is returned.
          *                          
          * @return String The innermost diagnostic context.
          */
@@ -227,34 +221,34 @@ namespace log4cplus {
         void remove();
 
         /**
-         * Set maximum depth of this diagnostic context. If the current
-         * depth is smaller or equal to <code>maxDepth</code>, then no
+         * Set maximum depth of this diagnostic context. If the
+         * current depth is smaller or equal to `maxDepth`, then no
          * action is taken.
          *
-         * This method is a convenient alternative to multiple {@link
-         * #pop} calls. Moreover, it is often the case that at the end of
+         * This method is a convenient alternative to multiple `pop()`
+         * calls. Moreover, it is often the case that at the end of
          * complex call sequences, the depth of the NDC is
-         * unpredictable. The <code>setMaxDepth</code> method circumvents
-         * this problem.
+         * unpredictable. The `setMaxDepth()` method circumvents this
+         * problem.
          *
          * For example, the combination
-         * <pre>
-         *    void foo() {
-         *    &nbsp;  std::size_t depth = NDC.getDepth();
          *
-         *    &nbsp;  ... complex sequence of calls
-         *
-         *    &nbsp;  NDC.setMaxDepth(depth);
-         *    }
-         * </pre>
+         * ~~~~{.c}
+         * void foo() {
+         *     NDC & ndc = getNDC();
+         *     std::size_t depth = ndc.getDepth();
+         *     //... complex sequence of calls
+         *     ndc.setMaxDepth(depth);
+         * }
+         * ~~~~
          *
          * ensures that between the entry and exit of foo the depth of the
          * diagnostic stack is conserved.
          * 
-         * <b>Note:</b>  Use of the {@link NDCContextCreator} class will solve
-         * this particular problem.
+         * \note Use of the NDCContextCreator class will solve this
+         * particular problem.
          *
-         * @see #getDepth
+         * \see NDC::getDepth()
          */
         void setMaxDepth(std::size_t maxDepth);
 
@@ -313,8 +307,8 @@ namespace log4cplus {
 
 
     /**
-     * This class ensures that a {@link NDC#push} call is always matched with
-     * a {@link NDC#pop} call even in the face of exceptions.
+     * This class ensures that a `NDC::push()` call is always matched
+     * with a `NDC::pop()` call even in the face of exceptions.
      */
     class LOG4CPLUS_EXPORT NDCContextCreator {
     public:
