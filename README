@@ -32,6 +32,7 @@ Tested on the following platforms
 - Solaris 5.10/Sparc with GCC 3.4.3 (csl-sol210-3_4-branch+sol_rpath)
 - NetBSD 6.0/AMD64 with GCC 4.5.3 (NetBSD nb2 20110806)
 - OpenBSD 5.2/AMD64 with GCC 4.2.1 20070719
+- MacOS X 10.8 with GCC 4.2.1 (Apple Inc. build 5664)
 
 
 Configure script options
@@ -126,11 +127,14 @@ Cygwin/MinGW
 ------------
 
 Some version of GCC (3.4.x and probably some of 4.x series too) on
-Windows (both Mingw and Cygwin) produces lots of warnings of the form
-"warning: inline function 'void foo()' is declared as dllimport:
-attribute ignored."  This can be worked around by adding
-`-Wno-attributes` option to GCC command.  Unfortunatelly, not all
-affected version of GCC have this option.
+Windows (both Mingw and Cygwin) produces lots of warnings of the form:
+
+`warning: inline function 'void foo()' is declared as dllimport:
+attribute ignored`
+
+This can be worked around by adding `-Wno-attributes` option to GCC
+command.  Unfortunatelly, not all affected version of GCC have this
+option.
 
 
 Windows and TLS
@@ -138,17 +142,20 @@ Windows and TLS
 
 log4cplus uses thread-local storage (TLS) for NDC, MDC and to optimize
 use of some temporary objects.  On Windows there are two ways to get
-TLS: (1) using `TlsAlloc()` etc. functions, and (2) using
-`__declspec(thread)`.  While method (2) generates faster code, it has
-some limitations prior to Windows Vista.  If log4cplus.dll is loaded
-at run time using `LoadLibrary()` (or as a dependency of such loaded
-library), then accessing `__declspec(thread)` variables can cause
-general protection fault (GPF) errors.  This is because Windows prior
-to Windows Vista do not extend the TLS for libraries loaded at run
-time using LoadLibrary().  To allow using the best available method,
-log4cplus enables the method (2) by checking `_WIN32_WINNT >= 0x0600`
-condition, when compiling log4cplus targetted to Windows Vista or
-later.
+TLS:
+
+(1) using `TlsAlloc()`, etc., functions
+(2) using `__declspec(thread)`
+
+While method (2) generates faster code, it has some limitations prior
+to Windows Vista.  If log4cplus.dll is loaded at run time using
+`LoadLibrary()` (or as a dependency of such loaded library), then
+accessing `__declspec(thread)` variables can cause general protection
+fault (GPF) errors.  This is because Windows prior to Windows Vista do
+not extend the TLS for libraries loaded at run time using
+LoadLibrary().  To allow using the best available method, log4cplus
+enables the method (2) by checking `_WIN32_WINNT >= 0x0600` condition,
+when compiling log4cplus targetted to Windows Vista or later.
 
 
 Threads and signals
@@ -245,10 +252,10 @@ configuration of POSIX threads:
     LDFLAGS="-lpthread"
 
 
-Qt / Win32 / MSVC
------------------
+Qt4 / Win32 / MSVC
+------------------
 
-In order to use log4cplus in Qt programs it is necessary to set
+In order to use log4cplus in Qt4 programs it is necessary to set
 following option: `Treat WChar_t As Built in Type: No (/Zc:wchar_t-)`
 
 Set this option for log4cplus project and `Qt4DebugAppender` project
@@ -276,8 +283,21 @@ Add these lines to qmake project file for using log4cplus and
     }
 
 
+Qt / GCC 
+--------
+
+You might encounter the following error during compilation with
+`--with-qt` option:
+
+`qglobal.h:943: error: ISO C++ does not support 'long long'`
+
+This is caused by `-pedantic` option that log4cplus adds to `CXXFLAGS`
+when compiling with GCC.  To work around this issue, add
+`-Wno-long-long` GCC option to `CXXFLAGS`.
+
+
 `LOG4CPLUS_*_FMT()` and UNICODE
------------------------------
+-------------------------------
 
 Beware, the `%s` specifier does not work the same way on *NIX as it
 does on Windows with Visual Studio.  With Visual Studio the `%s`
