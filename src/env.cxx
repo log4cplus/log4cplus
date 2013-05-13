@@ -69,26 +69,46 @@ parse_bool (bool & val, tstring const & str)
 {
     log4cplus::tistringstream iss (str);
     log4cplus::tstring word;
+
+    // Read a single "word".
+
     if (! (iss >> word))
         return false;
+
+    // Following extraction of a character should fail
+    // because there should only be a single "word".
+
     tchar ch;
     if (iss >> ch)
         return false;
-    word = helpers::toLower (word);
 
+    // Compare with "true" and "false".
+
+    word = helpers::toLower (word);
     bool result = true;
     if (word == LOG4CPLUS_TEXT ("true"))
         val = true;
     else if (word == LOG4CPLUS_TEXT ("false"))
         val = false;
+
+    // Try to interpret the "word" as a number.
+
     else
     {
+        // Seek back to the start of stream.
+
         iss.clear ();
         iss.seekg (0);
         assert (iss);
 
+        // Extract value.
+
         long lval;
         iss >> lval;
+
+        // The extraction should be successful and
+        // following extraction of a characters should fail.
+
         result = !! iss && ! (iss >> ch);
         if (result)
             val = !! lval;
