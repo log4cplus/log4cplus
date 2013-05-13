@@ -209,12 +209,10 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
       dnl The -fsanitize=thread option requires -pie or -shared flags.
       dnl AX_CXXFLAGS_GCC_OPTION([-fsanitize=thread])
       AX_CXXFLAGS_GCC_OPTION([-ftrapv])
-      AX_CXXFLAGS_GCC_OPTION([-ftrack-macro-expansion])],
-     [AC_REQUIRE([AC_PROG_GREP])
-      AS_IF([AS_ECHO_N(["$CXXFLAGS"]) dnl
-             | $GREP -e ['\(^\|[[:space:]]\)-O\([^[:space:]]*\([[:space:]]\|$\)\)'] >/dev/null],
-        [],
-        [AX_CXXFLAGS_GCC_OPTION([-O2])])])
+      AX_CXXFLAGS_GCC_OPTION([-ftrack-macro-expansion])
+      LOG4CPLUS_CXXFLAGS_ADD_IF_NO_OPTIMIZATION([-Og])
+      LOG4CPLUS_CXXFLAGS_ADD_IF_NO_OPTIMIZATION([-O1])],
+     [LOG4CPLUS_CXXFLAGS_ADD_IF_NO_OPTIMIZATION([-O2])])
 
    dnl Try -pg profiling option.
    AS_IF([test "x$enable_profiling" = "xyes"],

@@ -14,3 +14,19 @@ AC_DEFUN([LOG4CPLUS_CHECK_YESNO],
     [yes], [],
     [no], [],
     [AC_MSG_ERROR([bad value $1 for $2])])])
+
+dnl Define log4cplus_grep_cxxflags_for_optimization() shell function.
+AC_DEFUN([LOG4CPLUS_GREP_CXXFLAGS_FOR_OPTIMIZATION],
+  [AC_REQUIRE([AC_PROG_GREP])
+   log4cplus_grep_cxxflags_for_optimization() {
+     AS_ECHO_N(["$CXXFLAGS"]) dnl
+       | $GREP -e ['\(^\|[[:space:]]\)-O\([^[:space:]]*\([[:space:]]\|$\)\)']dnl
+       >/dev/null
+   }])
+
+dnl Add switch to CXXFLAGS if it does not contain any -Oxyz option.
+AC_DEFUN([LOG4CPLUS_CXXFLAGS_ADD_IF_NO_OPTIMIZATION],
+  [AC_REQUIRE([LOG4CPLUS_GREP_CXXFLAGS_FOR_OPTIMIZATION])
+   AS_IF([log4cplus_grep_cxxflags_for_optimization],
+     [],
+     [AX_CXXFLAGS_GCC_OPTION([$1])])])
