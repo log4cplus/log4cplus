@@ -4313,17 +4313,21 @@ LT_RELEASE=1.2
 
 
 
-
-# Check whether --with-working-locale was given.
-if test "${with_working_locale+set}" = set; then :
-  withval=$with_working_locale; case "${withval}" in #(
+log4cplus_check_yesno_func() {
+   case "$1" in #(
   yes) :
      ;; #(
   no) :
      ;; #(
   *) :
-    as_fn_error $? "bad value ${withval} for --with-working-locale" "$LINENO" 5 ;;
+    as_fn_error $? "bad value \"$1\" for \"$2\"" "$LINENO" 5 ;;
 esac
+   }
+
+# Check whether --with-working-locale was given.
+if test "${with_working_locale+set}" = set; then :
+  withval=$with_working_locale;
+   log4cplus_check_yesno_func "${withval}" "--with-working-locale"
 else
   with_working_locale=no
 fi
@@ -4340,14 +4344,8 @@ fi
 
 # Check whether --with-working-c-locale was given.
 if test "${with_working_c_locale+set}" = set; then :
-  withval=$with_working_c_locale; case "${withval}" in #(
-  yes) :
-     ;; #(
-  no) :
-     ;; #(
-  *) :
-    as_fn_error $? "bad value ${withval} for --with-working-c-locale" "$LINENO" 5 ;;
-esac
+  withval=$with_working_c_locale;
+   log4cplus_check_yesno_func "${withval}" "--with-working-c-locale"
 else
   with_working_c_locale=no
 fi
@@ -4364,14 +4362,8 @@ fi
 
 # Check whether --with-iconv was given.
 if test "${with_iconv+set}" = set; then :
-  withval=$with_iconv; case "${withval}" in #(
-  yes) :
-     ;; #(
-  no) :
-     ;; #(
-  *) :
-    as_fn_error $? "bad value ${withval} for --with-iconv" "$LINENO" 5 ;;
-esac
+  withval=$with_iconv;
+   log4cplus_check_yesno_func "${withval}" "--with-iconv"
 else
   with_iconv=no
 fi
@@ -4388,14 +4380,8 @@ fi
 
 # Check whether --with-c++11-threads was given.
 if test "${with_c__11_threads+set}" = set; then :
-  withval=$with_c__11_threads; case "${withval}" in #(
-  yes) :
-     ;; #(
-  no) :
-     ;; #(
-  *) :
-    as_fn_error $? "bad value ${withval} for --with-c++11-threads" "$LINENO" 5 ;;
-esac
+  withval=$with_c__11_threads;
+   log4cplus_check_yesno_func "${withval}" "--with-c++11-threads"
 else
   with_c__11_threads=no
 fi
@@ -4409,14 +4395,8 @@ fi
 
 # Check whether --enable-debugging was given.
 if test "${enable_debugging+set}" = set; then :
-  enableval=$enable_debugging; case "${enableval}" in #(
-  yes) :
-     ;; #(
-  no) :
-     ;; #(
-  *) :
-    as_fn_error $? "bad value ${enableval} for --enable-debugging" "$LINENO" 5 ;;
-esac
+  enableval=$enable_debugging;
+   log4cplus_check_yesno_func "${enableval}" "--enable-debugging"
 else
   enable_debugging=no
 fi
@@ -4443,14 +4423,8 @@ fi
 
 # Check whether --enable-warnings was given.
 if test "${enable_warnings+set}" = set; then :
-  enableval=$enable_warnings; case "${enableval}" in #(
-  yes) :
-     ;; #(
-  no) :
-     ;; #(
-  *) :
-    as_fn_error $? "bad value ${enableval} for --enable-warnings" "$LINENO" 5 ;;
-esac
+  enableval=$enable_warnings;
+   log4cplus_check_yesno_func "${enableval}" "--enable-warnings"
 else
   enable_warnings=yes
 fi
@@ -4998,14 +4972,8 @@ esac
 
 # Check whether --enable-profiling was given.
 if test "${enable_profiling+set}" = set; then :
-  enableval=$enable_profiling; case "${enableval}" in #(
-  yes) :
-     ;; #(
-  no) :
-     ;; #(
-  *) :
-    as_fn_error $? "bad value ${enableval} for --enable-profiling" "$LINENO" 5 ;;
-esac
+  enableval=$enable_profiling;
+   log4cplus_check_yesno_func "${enableval}" "--enable-profiling"
 else
   enable_profiling=no
 fi
@@ -9177,14 +9145,8 @@ $as_echo "#define socklen_t int" >>confdefs.h
 
 # Check whether --enable-threads was given.
 if test "${enable_threads+set}" = set; then :
-  enableval=$enable_threads; case "${enableval}" in #(
-  yes) :
-     ;; #(
-  no) :
-     ;; #(
-  *) :
-    as_fn_error $? "bad value ${enableval} for --enable-threads" "$LINENO" 5 ;;
-esac
+  enableval=$enable_threads;
+   log4cplus_check_yesno_func "${enableval}" "--enable-threads"
 else
   enable_threads=yes
 fi
@@ -11113,14 +11075,8 @@ fi
 
 # Check whether --with-qt was given.
 if test "${with_qt+set}" = set; then :
-  withval=$with_qt; case "${withval}" in #(
-  yes) :
-     ;; #(
-  no) :
-     ;; #(
-  *) :
-    as_fn_error $? "bad value ${withval} for --with-qt" "$LINENO" 5 ;;
-esac
+  withval=$with_qt;
+   log4cplus_check_yesno_func "${withval}" "--with-qt"
 else
   with_qt=no
 fi
@@ -11237,14 +11193,8 @@ fi
 
 # Check whether --with-qt5 was given.
 if test "${with_qt5+set}" = set; then :
-  withval=$with_qt5; case "${withval}" in #(
-  yes) :
-     ;; #(
-  no) :
-     ;; #(
-  *) :
-    as_fn_error $? "bad value ${withval} for --with-qt5" "$LINENO" 5 ;;
-esac
+  withval=$with_qt5;
+   log4cplus_check_yesno_func "${withval}" "--with-qt5"
 else
   with_qt5=no
 fi
@@ -11363,14 +11313,8 @@ with_swig=no
 
 # Check whether --with-python was given.
 if test "${with_python+set}" = set; then :
-  withval=$with_python; case "${withval}" in #(
-  yes) :
-     ;; #(
-  no) :
-     ;; #(
-  *) :
-    as_fn_error $? "bad value ${withval} for --with-python" "$LINENO" 5 ;;
-esac
+  withval=$with_python;
+   log4cplus_check_yesno_func "${withval}" "--with-python"
    if test "x$with_python" = "xyes"; then :
   with_swig=yes
 fi
