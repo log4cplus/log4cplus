@@ -37,6 +37,7 @@
 #pragma once
 #endif
 
+#include <vector>
 #include <log4cplus/tstring.h>
 
 #if defined (_WIN32)
@@ -58,6 +59,10 @@ bool get_env_var (tstring & value, tstring const & name);
 
 //! Parse a string as a boolean value.
 bool parse_bool (bool & val, tstring const & str);
+
+//! Parse a path into path components.
+bool split_path (std::vector<tstring> & components, std::size_t & special,
+    tstring const & path);
 
 inline
 #if defined (_WIN32)

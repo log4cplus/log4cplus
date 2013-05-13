@@ -374,7 +374,7 @@ FileAppender::append(const spi::InternalLoggingEvent& event)
 }
 
 void
-FileAppender::open(std::ios::openmode mode)
+FileAppender::open(std::ios_base::openmode mode)
 {
     out.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(filename).c_str(), mode);
 }
@@ -400,7 +400,7 @@ FileAppender::reopen()
                          // flags should remain unchanged on a close
 
             // Re-open the file.
-            open(std::ios_base::out | std::ios_base::ate);
+            open(std::ios_base::out | std::ios_base::ate | std::ios_base::app);
 
             // Reset last fail time.
             reopen_time = log4cplus::helpers::Time ();
@@ -419,14 +419,14 @@ FileAppender::reopen()
 
 RollingFileAppender::RollingFileAppender(const tstring& filename_,
     long maxFileSize_, int maxBackupIndex_, bool immediateFlush_)
-    : FileAppender(filename_, std::ios::app, immediateFlush_)
+    : FileAppender(filename_, std::ios_base::app, immediateFlush_)
 {
     init(maxFileSize_, maxBackupIndex_);
 }
 
 
 RollingFileAppender::RollingFileAppender(const Properties& properties)
-    : FileAppender(properties, std::ios::app)
+    : FileAppender(properties, std::ios_base::app)
 {
     long tmpMaxFileSize = DEFAULT_ROLLING_LOG_SIZE;
     int tmpMaxBackupIndex = 1;
@@ -533,7 +533,7 @@ RollingFileAppender::rollover(bool alreadyLocked)
             // process. Just reopen with the new file.
 
             // Open it up again.
-            open (std::ios::out | std::ios::ate);
+            open (std::ios_base::out | std::ios_base::ate | std::ios_base::app);
             loglog_opening_result (loglog, out, filename);
 
             return;
@@ -582,7 +582,7 @@ RollingFileAppender::rollover(bool alreadyLocked)
 DailyRollingFileAppender::DailyRollingFileAppender(
     const tstring& filename_, DailyRollingFileSchedule schedule_,
     bool immediateFlush_, int maxBackupIndex_)
-    : FileAppender(filename_, std::ios::app, immediateFlush_)
+    : FileAppender(filename_, std::ios_base::app, immediateFlush_)
     , maxBackupIndex(maxBackupIndex_)
 {
     init(schedule_);
@@ -592,7 +592,7 @@ DailyRollingFileAppender::DailyRollingFileAppender(
 
 DailyRollingFileAppender::DailyRollingFileAppender(
     const Properties& properties)
-    : FileAppender(properties, std::ios::app)
+    : FileAppender(properties, std::ios_base::app)
     , maxBackupIndex(10)
 {
     DailyRollingFileSchedule theSchedule = DAILY;

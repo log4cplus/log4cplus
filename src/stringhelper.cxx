@@ -191,6 +191,13 @@ struct tolower_func
 } // namespace
 
 
+tchar
+toUpper (tchar ch)
+{
+    return toupper_func () (ch);
+}
+
+
 tstring
 toUpper(const tstring& s)
 {
@@ -198,6 +205,13 @@ toUpper(const tstring& s)
     std::transform(s.begin(), s.end(), std::back_inserter (ret),
         toupper_func ());
     return ret;
+}
+
+
+tchar
+toLower (tchar ch)
+{
+    return tolower_func () (ch);
 }
 
 
