@@ -53,7 +53,10 @@
 namespace log4cplus { namespace internal {
 
 
+//! Get environment variable value.
 bool get_env_var (tstring & value, tstring const & name);
+
+//! Parse a string as a boolean value.
 bool parse_bool (bool & val, tstring const & str);
 
 inline
