@@ -64,6 +64,9 @@ bool parse_bool (bool & val, tstring const & str);
 bool split_path (std::vector<tstring> & components, std::size_t & special,
     tstring const & path);
 
+//! Makes directories leading to file.
+void make_dirs (tstring const & file_path);
+
 inline
 #if defined (_WIN32)
 DWORD

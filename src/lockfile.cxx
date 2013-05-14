@@ -60,6 +60,7 @@
 #include <log4cplus/helpers/lockfile.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/internal/env.h>
 
 #if defined (_WIN32)
 #  if _WIN32_WINNT < 0x0501
@@ -191,9 +192,10 @@ struct LockFile::Impl
 //
 //
 
-LockFile::LockFile (tstring const & lf)
+LockFile::LockFile (tstring const & lf, bool create_dirs_)
     : lock_file_name (lf)
     , data (new LockFile::Impl)
+    , create_dirs (create_dirs_)
 {
 #if defined (LOG4CPLUS_USE_O_EXLOCK)
     data->fd = -1;
@@ -216,6 +218,9 @@ void
 LockFile::open (int open_flags) const
 {
     LogLog & loglog = getLogLog ();
+
+    if (create_dirs)
+        internal::make_dirs (lock_file_name);
 
 #if defined (_WIN32)
 #  if defined (LOG4CPLUS_HAVE__TSOPEN_S) && defined (_tsopen_s)

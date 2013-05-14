@@ -41,18 +41,10 @@
 #  include <stdio.h>
 #endif
 #include <cerrno>
-#ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef LOG4CPLUS_HAVE_SYS_STAT_H
-#include <sys/stat.h>
-#endif
 #ifdef LOG4CPLUS_HAVE_ERRNO_H
 #include <errno.h>
 #endif
-#ifdef LOG4CPLUS_HAVE_DIRECT_H
-#include <direct.h>
-#endif
+
 
 namespace log4cplus
 {
@@ -63,12 +55,6 @@ using helpers::Time;
 
 const long DEFAULT_ROLLING_LOG_SIZE = 10 * 1024 * 1024L;
 const long MINIMUM_ROLLING_LOG_SIZE = 200*1024L;
-
-#if defined(_WIN32)
-tstring const dir_sep(LOG4CPLUS_TEXT("\\"));
-#else
-tstring const dir_sep(LOG4CPLUS_TEXT("/"));
-#endif
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -119,95 +105,6 @@ file_remove (tstring const & src)
         return errno;
 
 #endif
-}
-
-
-static
-long
-make_directory (tstring const & dir)
-{
-#if defined (_WIN32)
-#  if defined (UNICODE)
-    if (_wmkdir (dir.c_str ()) == 0)
-#  else
-    if (_mkdir (dir.c_str ()) == 0)
-#  endif
-
-#else
-    if (mkdir (LOG4CPLUS_TSTRING_TO_STRING (dir).c_str (), 0777) == 0)
-
-#endif
-        return 0;
-    else
-        return errno;
-}
-
-
-static
-void
-loglog_make_directory_result (helpers::LogLog & loglog, tstring const & path,
-    long ret)
-{
-    if (ret == 0)
-    {
-        loglog.debug (
-            LOG4CPLUS_TEXT("Created directory ") 
-            + path);
-    }
-    else
-    {
-        tostringstream oss;
-        oss << LOG4CPLUS_TEXT("Failed to create directory ")
-            << path
-            << LOG4CPLUS_TEXT("; error ")
-            << ret;
-        loglog.error (oss.str ());
-    }
-}
-
-
-//! Creates missing directories in file path.
-static
-void
-make_dirs (tstring const & file_path)
-{
-    std::vector<tstring> components;
-    std::size_t special = 0;
-    helpers::LogLog & loglog = helpers::getLogLog();
-
-    // Split file path into components.
-
-    if (! internal::split_path (components, special, file_path))
-        return;
-
-    // Remove file name from path components list.
-
-    components.pop_back ();
-
-    // Loop over path components, starting first non-special path component.
-
-    tstring path;
-    helpers::join (path, components.begin (), components.begin () + special,
-        dir_sep);
-
-    for (std::size_t i = special, components_size = components.size ();
-        i != components_size; ++i)
-    {
-        path += dir_sep;
-        path += components[i];
-
-        // Check whether path exists.
-
-        helpers::FileInfo fi;
-        if (helpers::getFileInfo (&fi, path) == 0)
-            // This directory exists. Move forward onto another path component.
-            continue;
-
-        // Make new directory.
-
-        long const eno = make_directory (path);
-        loglog_make_directory_result (loglog, path, eno);
-    }
 }
 
 
@@ -320,9 +217,10 @@ catch (std::runtime_error const &)
 // FileAppender ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-FileAppender::FileAppender(const tstring& filename_, 
-    std::ios_base::openmode mode_, bool immediateFlush_)
+FileAppender::FileAppender(const tstring& filename_,
+    std::ios_base::openmode mode_, bool immediateFlush_, bool createDirs_)
     : immediateFlush(immediateFlush_)
+    , createDirs (createDirs_)
     , reopenDelay(1)
     , bufferSize (0)
     , buffer (0)
@@ -336,6 +234,7 @@ FileAppender::FileAppender(const Properties& props,
                            std::ios_base::openmode mode_)
     : Appender(props)
     , immediateFlush(true)
+    , createDirs (false)
     , reopenDelay(1)
     , bufferSize (0)
     , buffer (0)
@@ -349,6 +248,7 @@ FileAppender::FileAppender(const Properties& props,
     }
 
     props.getBool (immediateFlush, LOG4CPLUS_TEXT("ImmediateFlush"));
+    props.getBool (createDirs, LOG4CPLUS_TEXT("CreateDirs"));
     props.getBool (app, LOG4CPLUS_TEXT("Append"));
     props.getInt (reopenDelay, LOG4CPLUS_TEXT("ReopenDelay"));
     props.getULong (bufferSize, LOG4CPLUS_TEXT("BufferSize"));
@@ -481,7 +381,9 @@ FileAppender::append(const spi::InternalLoggingEvent& event)
 void
 FileAppender::open(std::ios_base::openmode mode)
 {
-    make_dirs (filename);
+    if (createDirs)
+        internal::make_dirs (filename);
+
     out.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(filename).c_str(), mode);
 }
 
@@ -524,8 +426,9 @@ FileAppender::reopen()
 ///////////////////////////////////////////////////////////////////////////////
 
 RollingFileAppender::RollingFileAppender(const tstring& filename_,
-    long maxFileSize_, int maxBackupIndex_, bool immediateFlush_)
-    : FileAppender(filename_, std::ios_base::app, immediateFlush_)
+    long maxFileSize_, int maxBackupIndex_, bool immediateFlush_,
+    bool createDirs_)
+    : FileAppender(filename_, std::ios_base::app, immediateFlush_, createDirs_)
 {
     init(maxFileSize_, maxBackupIndex_);
 }
@@ -687,8 +590,8 @@ RollingFileAppender::rollover(bool alreadyLocked)
 
 DailyRollingFileAppender::DailyRollingFileAppender(
     const tstring& filename_, DailyRollingFileSchedule schedule_,
-    bool immediateFlush_, int maxBackupIndex_)
-    : FileAppender(filename_, std::ios_base::app, immediateFlush_)
+    bool immediateFlush_, int maxBackupIndex_, bool createDirs_)
+    : FileAppender(filename_, std::ios_base::app, immediateFlush_, createDirs_)
     , maxBackupIndex(maxBackupIndex_)
 {
     init(schedule_);

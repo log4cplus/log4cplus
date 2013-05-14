@@ -100,6 +100,10 @@ namespace log4cplus
      * \sa spi::getLocaleFactoryRegistry()
      * </dd>
      *
+     * <dt><tt>CreateDirs</tt></dt>
+     * <dd>Set this property to <tt>true</tt> if you want to create
+     * missing directories in path leading to log file and lock file.
+     * </dd>
      * </dl>
      */
     class LOG4CPLUS_EXPORT FileAppender : public Appender {
@@ -107,7 +111,7 @@ namespace log4cplus
       // Ctors
         FileAppender(const log4cplus::tstring& filename, 
                      std::ios_base::openmode mode = std::ios_base::trunc,
-                     bool immediateFlush = true);
+                     bool immediateFlush = true, bool createDirs = false);
         FileAppender(const log4cplus::helpers::Properties& properties,
                      std::ios_base::openmode mode = std::ios_base::trunc);
 
@@ -144,6 +148,14 @@ namespace log4cplus
          * <code>true</code> by default.
          */
         bool immediateFlush;
+
+        /**
+         * When this variable is true, FileAppender will try to create
+         * missing directories in path leading to log file.
+         *
+         * The `createDirs` variable is set to `false` by default.
+         */
+        bool createDirs;
 
         /**
          * When any append operation fails, <code>reopenDelay</code> says 
@@ -201,7 +213,8 @@ namespace log4cplus
         RollingFileAppender(const log4cplus::tstring& filename,
                             long maxFileSize = 10*1024*1024, // 10 MB
                             int maxBackupIndex = 1,
-                            bool immediateFlush = true);
+                            bool immediateFlush = true,
+                            bool createDirs = false);
         RollingFileAppender(const log4cplus::helpers::Properties& properties);
 
       // Dtor
@@ -251,7 +264,8 @@ namespace log4cplus
         DailyRollingFileAppender(const log4cplus::tstring& filename,
                                  DailyRollingFileSchedule schedule = DAILY,
                                  bool immediateFlush = true,
-                                 int maxBackupIndex = 10);
+                                 int maxBackupIndex = 10,
+                                 bool createDirs = false);
         DailyRollingFileAppender(const log4cplus::helpers::Properties& properties);
 
       // Dtor

@@ -42,7 +42,7 @@ namespace log4cplus { namespace helpers {
 class LOG4CPLUS_EXPORT LockFile
 {
 public:
-    LockFile (tstring const & lock_file);
+    LockFile (tstring const & lock_file, bool create_dirs = false);
     ~LockFile ();
 
     void lock () const;
@@ -56,6 +56,7 @@ private:
 
     tstring lock_file_name;
     Impl * data;
+    bool create_dirs;
 };
 
 
