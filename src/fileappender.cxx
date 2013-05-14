@@ -30,6 +30,7 @@
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/internal/env.h>
 #include <algorithm>
 #include <sstream>
 #include <cstdio>
@@ -40,8 +41,17 @@
 #  include <stdio.h>
 #endif
 #include <cerrno>
+#ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef LOG4CPLUS_HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#endif
 #ifdef LOG4CPLUS_HAVE_ERRNO_H
 #include <errno.h>
+#endif
+#ifdef LOG4CPLUS_HAVE_DIRECT_H
+#include <direct.h>
 #endif
 
 namespace log4cplus
@@ -53,6 +63,12 @@ using helpers::Time;
 
 const long DEFAULT_ROLLING_LOG_SIZE = 10 * 1024 * 1024L;
 const long MINIMUM_ROLLING_LOG_SIZE = 200*1024L;
+
+#if defined(_WIN32)
+tstring const dir_sep(LOG4CPLUS_TEXT("\\"));
+#else
+tstring const dir_sep(LOG4CPLUS_TEXT("/"));
+#endif
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -103,6 +119,95 @@ file_remove (tstring const & src)
         return errno;
 
 #endif
+}
+
+
+static
+long
+make_directory (tstring const & dir)
+{
+#if defined (_WIN32)
+#  if defined (UNICODE)
+    if (_wmkdir (dir.c_str ()) == 0)
+#  else
+    if (_mkdir (dir.c_str ()) == 0)
+#  endif
+
+#else
+    if (mkdir (LOG4CPLUS_TSTRING_TO_STRING (dir).c_str (), 0777) == 0)
+
+#endif
+        return 0;
+    else
+        return errno;
+}
+
+
+static
+void
+loglog_make_directory_result (helpers::LogLog & loglog, tstring const & path,
+    long ret)
+{
+    if (ret == 0)
+    {
+        loglog.debug (
+            LOG4CPLUS_TEXT("Created directory ") 
+            + path);
+    }
+    else
+    {
+        tostringstream oss;
+        oss << LOG4CPLUS_TEXT("Failed to create directory ")
+            << path
+            << LOG4CPLUS_TEXT("; error ")
+            << ret;
+        loglog.error (oss.str ());
+    }
+}
+
+
+//! Creates missing directories in file path.
+static
+void
+make_dirs (tstring const & file_path)
+{
+    std::vector<tstring> components;
+    std::size_t special = 0;
+    helpers::LogLog & loglog = helpers::getLogLog();
+
+    // Split file path into components.
+
+    if (! internal::split_path (components, special, file_path))
+        return;
+
+    // Remove file name from path components list.
+
+    components.pop_back ();
+
+    // Loop over path components, starting first non-special path component.
+
+    tstring path;
+    helpers::join (path, components.begin (), components.begin () + special,
+        dir_sep);
+
+    for (std::size_t i = special, components_size = components.size ();
+        i != components_size; ++i)
+    {
+        path += dir_sep;
+        path += components[i];
+
+        // Check whether path exists.
+
+        helpers::FileInfo fi;
+        if (helpers::getFileInfo (&fi, path) == 0)
+            // This directory exists. Move forward onto another path component.
+            continue;
+
+        // Make new directory.
+
+        long const eno = make_directory (path);
+        loglog_make_directory_result (loglog, path, eno);
+    }
 }
 
 
@@ -376,6 +481,7 @@ FileAppender::append(const spi::InternalLoggingEvent& event)
 void
 FileAppender::open(std::ios_base::openmode mode)
 {
+    make_dirs (filename);
     out.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(filename).c_str(), mode);
 }
 

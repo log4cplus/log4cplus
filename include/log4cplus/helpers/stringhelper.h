@@ -208,6 +208,24 @@ namespace log4cplus {
             return result;
         }
 
+
+        //! Join a list of items into a string.
+        template <typename Iterator>
+        inline
+        void
+        join (tstring & result, Iterator start, Iterator last, tstring const & sep)
+        {
+            if (start != last)
+                result = *start++;
+
+            for (; start != last; ++start)
+            {
+                result += sep;
+                result += *start;
+            }
+        }
+
+
     } // namespace helpers
 
 } // namespace log4cplus
