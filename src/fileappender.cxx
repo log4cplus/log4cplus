@@ -30,6 +30,7 @@
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/internal/env.h>
 #include <algorithm>
 #include <sstream>
 #include <cstdio>
@@ -43,6 +44,7 @@
 #ifdef LOG4CPLUS_HAVE_ERRNO_H
 #include <errno.h>
 #endif
+
 
 namespace log4cplus
 {
@@ -215,9 +217,10 @@ catch (std::runtime_error const &)
 // FileAppender ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-FileAppender::FileAppender(const tstring& filename_, 
-    std::ios_base::openmode mode_, bool immediateFlush_)
+FileAppender::FileAppender(const tstring& filename_,
+    std::ios_base::openmode mode_, bool immediateFlush_, bool createDirs_)
     : immediateFlush(immediateFlush_)
+    , createDirs (createDirs_)
     , reopenDelay(1)
     , bufferSize (0)
     , buffer (0)
@@ -231,6 +234,7 @@ FileAppender::FileAppender(const Properties& props,
                            std::ios_base::openmode mode_)
     : Appender(props)
     , immediateFlush(true)
+    , createDirs (false)
     , reopenDelay(1)
     , bufferSize (0)
     , buffer (0)
@@ -244,6 +248,7 @@ FileAppender::FileAppender(const Properties& props,
     }
 
     props.getBool (immediateFlush, LOG4CPLUS_TEXT("ImmediateFlush"));
+    props.getBool (createDirs, LOG4CPLUS_TEXT("CreateDirs"));
     props.getBool (app, LOG4CPLUS_TEXT("Append"));
     props.getInt (reopenDelay, LOG4CPLUS_TEXT("ReopenDelay"));
     props.getULong (bufferSize, LOG4CPLUS_TEXT("BufferSize"));
@@ -374,8 +379,11 @@ FileAppender::append(const spi::InternalLoggingEvent& event)
 }
 
 void
-FileAppender::open(std::ios::openmode mode)
+FileAppender::open(std::ios_base::openmode mode)
 {
+    if (createDirs)
+        internal::make_dirs (filename);
+
     out.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(filename).c_str(), mode);
 }
 
@@ -400,7 +408,7 @@ FileAppender::reopen()
                          // flags should remain unchanged on a close
 
             // Re-open the file.
-            open(std::ios_base::out | std::ios_base::ate);
+            open(std::ios_base::out | std::ios_base::ate | std::ios_base::app);
 
             // Reset last fail time.
             reopen_time = log4cplus::helpers::Time ();
@@ -418,15 +426,16 @@ FileAppender::reopen()
 ///////////////////////////////////////////////////////////////////////////////
 
 RollingFileAppender::RollingFileAppender(const tstring& filename_,
-    long maxFileSize_, int maxBackupIndex_, bool immediateFlush_)
-    : FileAppender(filename_, std::ios::app, immediateFlush_)
+    long maxFileSize_, int maxBackupIndex_, bool immediateFlush_,
+    bool createDirs_)
+    : FileAppender(filename_, std::ios_base::app, immediateFlush_, createDirs_)
 {
     init(maxFileSize_, maxBackupIndex_);
 }
 
 
 RollingFileAppender::RollingFileAppender(const Properties& properties)
-    : FileAppender(properties, std::ios::app)
+    : FileAppender(properties, std::ios_base::app)
 {
     long tmpMaxFileSize = DEFAULT_ROLLING_LOG_SIZE;
     int tmpMaxBackupIndex = 1;
@@ -533,7 +542,7 @@ RollingFileAppender::rollover(bool alreadyLocked)
             // process. Just reopen with the new file.
 
             // Open it up again.
-            open (std::ios::out | std::ios::ate);
+            open (std::ios_base::out | std::ios_base::ate | std::ios_base::app);
             loglog_opening_result (loglog, out, filename);
 
             return;
@@ -581,8 +590,8 @@ RollingFileAppender::rollover(bool alreadyLocked)
 
 DailyRollingFileAppender::DailyRollingFileAppender(
     const tstring& filename_, DailyRollingFileSchedule schedule_,
-    bool immediateFlush_, int maxBackupIndex_)
-    : FileAppender(filename_, std::ios::app, immediateFlush_)
+    bool immediateFlush_, int maxBackupIndex_, bool createDirs_)
+    : FileAppender(filename_, std::ios_base::app, immediateFlush_, createDirs_)
     , maxBackupIndex(maxBackupIndex_)
 {
     init(schedule_);
@@ -592,7 +601,7 @@ DailyRollingFileAppender::DailyRollingFileAppender(
 
 DailyRollingFileAppender::DailyRollingFileAppender(
     const Properties& properties)
-    : FileAppender(properties, std::ios::app)
+    : FileAppender(properties, std::ios_base::app)
     , maxBackupIndex(10)
 {
     DailyRollingFileSchedule theSchedule = DAILY;

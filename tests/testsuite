@@ -4782,6 +4782,19 @@ at_fn_check_status 0 $at_status "$at_srcdir/fileappender_test.at:4"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
+{ set +x
+$as_echo "$at_srcdir/fileappender_test.at:5: test -f \"a/b/c/d/Test.log\""
+at_fn_check_prepare_trace "fileappender_test.at:5"
+( $at_check_trace; test -f "a/b/c/d/Test.log"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/fileappender_test.at:5"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
 
   set +x
   $at_times_p && times >"$at_times_file"

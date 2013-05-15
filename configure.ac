@@ -8,7 +8,7 @@ AC_INIT([log4cplus],[1.2.0])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.12 no-define no-dist nostdinc gnu subdir-objects -Wall])
+AM_INIT_AUTOMAKE([1.13 no-define no-dist nostdinc gnu subdir-objects -Wall])
 AC_CONFIG_TESTDIR([tests])
 AM_PROG_AR
 
@@ -19,7 +19,7 @@ AM_PROG_AR
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=0:0:0
+LT_VERSION=1:0:0
 LT_RELEASE=1.2
 AC_SUBST([LT_VERSION])
 AC_SUBST([LT_RELEASE])
