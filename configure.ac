@@ -166,6 +166,16 @@ AS_IF([test "x$enable_warnings" = "xyes"],
 AS_CASE([$ax_cv_cxx_compiler_vendor],
   [gnu|clang],
   [AX_CXXFLAGS_GCC_OPTION([-fdiagnostics-show-caret])
+   AX_CXXFLAGS_GCC_OPTION([-ftrack-macro-expansion])
+
+   dnl This is Clang flavour. It defaults to on, so we do not have to
+   dnl check for it here.
+   dnl AX_CXXFLAGS_GCC_OPTION([-fcolor-diagnostics])
+
+   dnl This is GCC flavour.  It defaults to off, so we have to enable
+   dnl it here.
+   AX_CXXFLAGS_GCC_OPTION([-fdiagnostics-color=auto])
+
    AS_IF([test "x$enable_warnings" = "xyes"],
      [AX_CXXFLAGS_GCC_OPTION([-Wextra])
       dnl The -ansi switch sets __STRICT_ANSI__ which disables some
@@ -209,7 +219,6 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
       dnl The -fsanitize=thread option requires -pie or -shared flags.
       dnl AX_CXXFLAGS_GCC_OPTION([-fsanitize=thread])
       AX_CXXFLAGS_GCC_OPTION([-ftrapv])
-      AX_CXXFLAGS_GCC_OPTION([-ftrack-macro-expansion])
       LOG4CPLUS_CXXFLAGS_ADD_IF_NO_OPTIMIZATION([-Og])
       LOG4CPLUS_CXXFLAGS_ADD_IF_NO_OPTIMIZATION([-O1])],
      [LOG4CPLUS_CXXFLAGS_ADD_IF_NO_OPTIMIZATION([-O2])])
