@@ -48,6 +48,13 @@ get_current_win32_thread_id ()
     return GetCurrentThreadId ();
 }
 
+
+void
+output_debug_stringW (wchar_t const * str)
+{
+    OutputDebugStringW (str);
+}
+
 } } // namespace log4cplus { namespace cygwin {
 
 #endif // defined (__CYGWIN__)

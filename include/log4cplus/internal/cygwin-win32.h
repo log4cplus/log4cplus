@@ -46,6 +46,7 @@
 namespace log4cplus { namespace cygwin {
 
 unsigned long get_current_win32_thread_id ();
+void output_debug_stringW (wchar_t const *);
 
 } } // namespace log4cplus { namespace cygwin {
 

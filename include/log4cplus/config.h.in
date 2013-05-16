@@ -117,6 +117,9 @@
 /* Define to 1 if you have the `ntohs' function. */
 #undef HAVE_NTOHS
 
+/* Define to 1 if you have the `OutputDebugStringW' function. */
+#undef HAVE_OUTPUTDEBUGSTRINGW
+
 /* Define to 1 if you have the `pipe' function. */
 #undef HAVE_PIPE
 
@@ -351,6 +354,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_NTOHS
+
+/* */
+#undef LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING
 
 /* */
 #undef LOG4CPLUS_HAVE_PIPE

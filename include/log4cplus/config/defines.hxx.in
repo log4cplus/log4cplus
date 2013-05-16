@@ -272,4 +272,7 @@
 /* Define to 1 if you have the `iconv_open' function. */
 #undef LOG4CPLUS_HAVE_ICONV_OPEN
 
+/* Define to 1 if you have the `OutputDebugString' function. */
+#undef LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING
+
 #endif // LOG4CPLUS_CONFIG_DEFINES_HXX

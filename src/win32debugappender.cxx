@@ -24,6 +24,7 @@
 #include <log4cplus/config/windowsh-inc.h>
 #include <log4cplus/win32debugappender.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/internal/cygwin-win32.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 
 
@@ -76,8 +77,13 @@ Win32DebugAppender::close()
 void
 Win32DebugAppender::append(const spi::InternalLoggingEvent& event)
 {
+#if defined (__CYGWIN__)
+    cygwin::output_debug_stringW (
+        helpers::towstring (formatEvent (event)).c_str ());
+#else
     const tchar * s = formatEvent (event).c_str();
     ::OutputDebugString(s);
+#endif
 }
 
 
