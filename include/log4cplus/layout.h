@@ -129,7 +129,7 @@ namespace log4cplus {
      * 
      * Here is an example TTCCLayout output:
      * 
-     * <pre>
+     * ~~~~
      * 1 [0x60004dca0] WARN test.TestThread <> - Thread-3 TestThread.run()- Starting...
      * 1 [0x60004dca0] TRACE SlowObject <Thread-3 loop> - ENTER: SlowObject::doSomething()
      * 2 [0x60004b030] INFO SlowObject <Thread-0 loop> - Actually doing something...1, 2, 3, testing...DONE
@@ -138,7 +138,7 @@ namespace log4cplus {
      * 2 [0x60004b030] TRACE SlowObject <Thread-0 loop> - ENTER: SlowObject::doSomething()
      * 3 [0x60004b130] INFO SlowObject <Thread-1 loop> - Actually doing something...1, 2, 3, testing...DONE
      * 3 [0x60004cad0] INFO SlowObject <Thread-2 loop> - Actually doing something...
-     * </pre>
+     * ~~~~
      * 
      *  The first field is the number of milliseconds elapsed since
      *  the start of the program.
@@ -206,19 +206,22 @@ namespace log4cplus {
      * modifiers control such things as field width, padding, left and
      * right justification. The following is a simple example.
      * 
-     * Let the conversion pattern be <b>"%-5p [%t]: %m%n"</b> and assume
+     * Let the conversion pattern be `"%-5p [%t]: %m%n"` and assume
      * that the log4cplus environment was set to use a PatternLayout. Then the
      * statements
-     * <code><pre>
+     *
+     * ~~~~{.c}
      * Logger root = Logger.getRoot();
      * LOG4CPLUS_DEBUG(root, "Message 1");
      * LOG4CPLUS_WARN(root, "Message 2");
-     * </pre></code>
+     * ~~~~
+     *
      * would yield the output
-     * <tt><pre>
+     *
+     * ~~~~
      * DEBUG [main]: Message 1
      * WARN  [main]: Message 2  
-     * </pre></tt>
+     * ~~~~
      * 
      * Note that there is no explicit separator between text and
      * conversion specifiers. The pattern parser knows when it has reached
