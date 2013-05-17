@@ -130,28 +130,31 @@ namespace log4cplus {
      * Here is an example TTCCLayout output:
      * 
      * <pre>
-     * 176 [main] INFO  org.apache.log4j.examples.Sort - Populating an array of 2 elements in reverse order.
-     * 225 [main] INFO  org.apache.log4j.examples.SortAlgo - Entered the sort method.
-     * 262 [main] DEBUG org.apache.log4j.examples.SortAlgo.OUTER i=1 - Outer loop.
-     * 276 [main] DEBUG org.apache.log4j.examples.SortAlgo.SWAP i=1 j=0 - Swapping intArray[0] = 1 and intArray[1] = 0
-     * 290 [main] DEBUG org.apache.log4j.examples.SortAlgo.OUTER i=0 - Outer loop.
-     * 304 [main] INFO  org.apache.log4j.examples.SortAlgo.DUMP - Dump of interger array:
-     * 317 [main] INFO  org.apache.log4j.examples.SortAlgo.DUMP - Element [0] = 0
-     * 331 [main] INFO  org.apache.log4j.examples.SortAlgo.DUMP - Element [1] = 1
-     * 343 [main] INFO  org.apache.log4j.examples.Sort - The next log statement should be an error message.
-     * 346 [main] ERROR org.apache.log4j.examples.SortAlgo.DUMP - Tried to dump an uninitialized array.
-     * 467 [main] INFO  org.apache.log4j.examples.Sort - Exiting main method.
+     * 1 [0x60004dca0] WARN test.TestThread <> - Thread-3 TestThread.run()- Starting...
+     * 1 [0x60004dca0] TRACE SlowObject <Thread-3 loop> - ENTER: SlowObject::doSomething()
+     * 2 [0x60004b030] INFO SlowObject <Thread-0 loop> - Actually doing something...1, 2, 3, testing...DONE
+     * 2 [0x60004b130] INFO SlowObject <Thread-1 loop> - Actually doing something...
+     * 2 [0x60004b030] TRACE SlowObject <Thread-0 loop> - EXIT:  SlowObject::doSomething()
+     * 2 [0x60004b030] TRACE SlowObject <Thread-0 loop> - ENTER: SlowObject::doSomething()
+     * 3 [0x60004b130] INFO SlowObject <Thread-1 loop> - Actually doing something...1, 2, 3, testing...DONE
+     * 3 [0x60004cad0] INFO SlowObject <Thread-2 loop> - Actually doing something...
      * </pre>
      * 
-     *  The first field is the number of milliseconds elapsed since the
-     *  start of the program. The second field is the thread outputting the
-     *  log statement. The third field is the LogLevel, the fourth field is
-     *  the logger to which the statement belongs.
+     *  The first field is the number of milliseconds elapsed since
+     *  the start of the program.
+     *
+     *  The second field is the thread outputting the log
+     *  statement. (The value is the same as that of the `t` formatter
+     *  for PatternLayout.)
+     *
+     *  The third field is the LogLevel.
+     *
+     *  The fourth field is the logger to which the statement belongs.
      * 
-     *  The fifth field (just before the '-') is the nested diagnostic
-     *  context.  Note the nested diagnostic context may be empty as in the
-     *  first two statements. The text after the '-' is the message of the
-     *  statement.
+     *  The fifth field (just before the '-') is the nested
+     *  diagnostic context.  Note the nested diagnostic context may be
+     *  empty as in the first two statements. The text after the '-'
+     *  is the message of the statement.
      * 
      *  PatternLayout offers a much more flexible alternative.
      */
@@ -408,8 +411,10 @@ namespace log4cplus {
      * <tr>
      *   <td align=center><b>t</b></td>
      * 
-     *   <td>Used to output the name of the thread that generated the
-     *   logging event.</td>
+     *   <td>Used to output the thread ID of the thread that generated
+     *   the logging event. (This is either `pthread_t` value returned
+     *   by `pthread_self()` on POSIX platforms or thread ID returned
+     *   by `GetCurrentThreadId()` on Windows.)</td>
      * </tr>
      *
      * <tr>
