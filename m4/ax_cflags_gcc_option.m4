@@ -87,7 +87,7 @@ in "-pedantic -Werror % m4_ifval($2,$2,-option)"  dnl   GCC
    "-pedantic % m4_ifval($2,$2,-option) %% no, obsolete"  dnl new GCC
    #
 do FLAGS="$ac_save_[]FLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   AC_TRY_LINK([],[return 0;],
+   AC_TRY_LINK([int zero;],[zero = 0; return zero;],
    [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break])
 done
  FLAGS="$ac_save_[]FLAGS"
@@ -124,7 +124,7 @@ in "-pedantic -Werror % m4_ifval($2,$2,-option)"  dnl   GCC
    "-pedantic % m4_ifval($2,$2,-option) %% no, obsolete"  dnl new GCC
    #
 do FLAGS="$ac_save_[]FLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   AC_TRY_LINK([],[return 0;],
+   AC_TRY_LINK([int zero;],[zero = 0; return zero;],
    [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break])
 done
  FLAGS="$ac_save_[]FLAGS"
@@ -160,7 +160,7 @@ in "-pedantic -Werror % m4_ifval($1,$1,-option)"  dnl   GCC
    "-pedantic % m4_ifval($1,$1,-option) %% no, obsolete"  dnl new GCC
    #
 do FLAGS="$ac_save_[]FLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   AC_TRY_LINK([],[return 0;],
+   AC_TRY_LINK([int zero;],[zero = 0; return zero;],
    [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break])
 done
  FLAGS="$ac_save_[]FLAGS"
@@ -197,7 +197,7 @@ in "-pedantic -Werror % m4_ifval($1,$1,-option)"  dnl   GCC
    "-pedantic % m4_ifval($1,$1,-option) %% no, obsolete"  dnl new GCC
    #
 do FLAGS="$ac_save_[]FLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   AC_TRY_LINK([],[return 0;],
+   AC_TRY_LINK([int zero;],[zero = 0; return zero;],
    [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break])
 done
  FLAGS="$ac_save_[]FLAGS"
