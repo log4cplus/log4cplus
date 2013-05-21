@@ -5286,11 +5286,11 @@ for ac_arg in "-pedantic -Werror % -fdiagnostics-show-caret"     "-pedantic % -f
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -5351,11 +5351,11 @@ for ac_arg in "-pedantic -Werror % -ftrack-macro-expansion"     "-pedantic % -ft
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -5418,11 +5418,11 @@ for ac_arg in "-pedantic -Werror % -fdiagnostics-color=auto"     "-pedantic % -f
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -5485,11 +5485,11 @@ for ac_arg in "-pedantic -Werror % -Wextra"     "-pedantic % -Wextra %% no, obso
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -5550,11 +5550,11 @@ for ac_arg in "-pedantic -Werror % -pedantic"     "-pedantic % -pedantic %% no, 
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -5615,11 +5615,11 @@ for ac_arg in "-pedantic -Werror % -Wstrict-aliasing"     "-pedantic % -Wstrict-
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -5680,11 +5680,11 @@ for ac_arg in "-pedantic -Werror % -Wstrict-overflow"     "-pedantic % -Wstrict-
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -5745,11 +5745,11 @@ for ac_arg in "-pedantic -Werror % -Woverloaded-virtual"     "-pedantic % -Wover
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -5814,11 +5814,11 @@ for ac_arg in "-pedantic -Werror % -Wold-style-cast"     "-pedantic % -Wold-styl
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -5880,11 +5880,11 @@ for ac_arg in "-pedantic -Werror % -Wc++0x-compat"     "-pedantic % -Wc++0x-comp
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -5945,11 +5945,11 @@ for ac_arg in "-pedantic -Werror % -Wc++11-compat"     "-pedantic % -Wc++11-comp
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6010,11 +6010,11 @@ for ac_arg in "-pedantic -Werror % -Wundef"     "-pedantic % -Wundef %% no, obso
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6075,11 +6075,11 @@ for ac_arg in "-pedantic -Werror % -Wshadow"     "-pedantic % -Wshadow %% no, ob
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6140,11 +6140,11 @@ for ac_arg in "-pedantic -Werror % -Wformat"     "-pedantic % -Wformat %% no, ob
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6205,11 +6205,11 @@ for ac_arg in "-pedantic -Werror % -Wsuggest-attribute=format"     "-pedantic % 
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6270,11 +6270,11 @@ for ac_arg in "-pedantic -Werror % -Wsuggest-attribute=noreturn"     "-pedantic 
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6335,11 +6335,11 @@ for ac_arg in "-pedantic -Werror % -Wno-variadic-macros"     "-pedantic % -Wno-v
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6403,11 +6403,11 @@ for ac_arg in "-pedantic -Werror % -g3"     "-pedantic % -g3 %% no, obsolete"   
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6472,11 +6472,11 @@ for ac_arg in "-pedantic -Werror % -fstack-check"     "-pedantic % -fstack-check
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6537,11 +6537,11 @@ for ac_arg in "-pedantic -Werror % -fstack-protector"     "-pedantic % -fstack-p
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6603,11 +6603,11 @@ for ac_arg in "-pedantic -Werror % -fsanitize=address"     "-pedantic % -fsaniti
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6668,11 +6668,11 @@ for ac_arg in "-pedantic -Werror % -ftrapv"     "-pedantic % -ftrapv %% no, obso
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6737,11 +6737,11 @@ for ac_arg in "-pedantic -Werror % -Og"     "-pedantic % -Og %% no, obsolete"   
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6807,11 +6807,11 @@ for ac_arg in "-pedantic -Werror % -O1"     "-pedantic % -O1 %% no, obsolete"   
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6878,11 +6878,11 @@ for ac_arg in "-pedantic -Werror % -O2"     "-pedantic % -O2 %% no, obsolete"   
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -6947,11 +6947,11 @@ for ac_arg in "-pedantic -Werror % -pg"     "-pedantic % -pg %% no, obsolete"   
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -7002,11 +7002,11 @@ for ac_arg in "-pedantic -Werror % -g3"     "-pedantic % -g3 %% no, obsolete"   
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
@@ -7714,11 +7714,11 @@ for ac_arg in "-pedantic -Werror % -fvisibility=hidden"     "-pedantic % -fvisib
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
