@@ -184,6 +184,24 @@ namespace log4cplus {
             T* pointee;
         };
 
+
+        //! Boost `intrusive_ptr` helpers.
+        //! @{
+        inline
+        void
+        intrusive_ptr_add_ref (SharedObject const * so)
+        {
+            so->addReference();
+        }
+
+        inline
+        void
+        intrusive_ptr_release (SharedObject const * so)
+        {
+            so->removeReference();
+        }
+        //! @}
+
     } // end namespace helpers
 } // end namespace log4cplus
 
