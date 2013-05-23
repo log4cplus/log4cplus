@@ -16,10 +16,24 @@ INCLUDES_SRC = \
 LIB_SRC = $(INCLUDES_SRC) \
 	qt4debugappender.cxx
 
+if ENABLE_VERSION_INFO_OPTION
+VERSION_INFO_OPTION=-version-info @LT_VERSION@
+else
+VERSION_INFO_OPTION=-avoid-version
+endif
+
+if ENABLE_RELEASE_OPTION
+RELEASE_OPTION=-release @LT_RELEASE@
+else
+RELEASE_OPTION=
+endif
+
+LOG4CPLUS_VERSION_LT_FLAGS=$(VERSION_INFO_OPTION) $(RELEASE_OPTION)
+
 liblog4cplusqt4debugappender_la_SOURCES = $(LIB_SRC)
 
 liblog4cplusqt4debugappender_la_LIBADD = $(top_builddir)/src/liblog4cplus.la
 
 liblog4cplusqt4debugappender_la_LDFLAGS = -no-undefined \
-	-version-info @LT_VERSION@ -release @LT_RELEASE@ \
+	$(LOG4CPLUS_VERSION_LT_FLAGS) \
 	@QT_LIBS@

@@ -103,6 +103,24 @@ AC_ARG_ENABLE([warnings],
   [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-warnings])],
   [enable_warnings=yes])
 
+dnl Enable SO version.
+
+AC_ARG_ENABLE([so-version],
+  [AC_HELP_STRING([--enable-so-version], [Use libtool -version-info option.])],
+  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-so-version])],
+  [enable_so_version=yes])
+AM_CONDITIONAL([ENABLE_VERSION_INFO_OPTION],
+  [test "x$enable_so_version" = "xyes"])
+
+dnl Enable release version.
+
+AC_ARG_ENABLE([release-version],
+  [AC_HELP_STRING([--enable-release-version], [Use libtool -release option.])],
+  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-release-version])],
+  [enable_release_version=yes])
+AM_CONDITIONAL([ENABLE_RELEASE_OPTION],
+  [test "x$enable_release_version" = "xyes"])
+
 dnl Check for c/c++ compilers.
 
 AC_PROG_CXX
