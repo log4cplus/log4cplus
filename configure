@@ -702,6 +702,10 @@ CXXDEPMODE
 ac_ct_CXX
 CXXFLAGS
 CXX
+ENABLE_RELEASE_OPTION_FALSE
+ENABLE_RELEASE_OPTION_TRUE
+ENABLE_VERSION_INFO_OPTION_FALSE
+ENABLE_VERSION_INFO_OPTION_TRUE
 LOG4CPLUS_NDEBUG
 LT_RELEASE
 LT_VERSION
@@ -812,6 +816,8 @@ with_iconv
 with_c__11_threads
 enable_debugging
 enable_warnings
+enable_so_version
+enable_release_version
 enable_profiling
 enable_threads
 with_qt
@@ -1476,6 +1482,9 @@ Optional Features:
                           generate debugging information.
   --enable-warnings       Use compiler warnings option, e.g. -Wall. Enabled by
                           default.
+  --enable-so-version     Use libtool -version-info option.
+  --enable-release-version
+                          Use libtool -release option.
   --enable-profiling      Compile with profiling compiler options.
   --enable-threads=yes/no Use this option to create a singled-threaded version
                           of this library
@@ -4432,6 +4441,42 @@ if test "${enable_warnings+set}" = set; then :
    log4cplus_check_yesno_func "${enableval}" "--enable-warnings"
 else
   enable_warnings=yes
+fi
+
+
+
+# Check whether --enable-so-version was given.
+if test "${enable_so_version+set}" = set; then :
+  enableval=$enable_so_version;
+   log4cplus_check_yesno_func "${enableval}" "--enable-so-version"
+else
+  enable_so_version=yes
+fi
+
+ if test "x$enable_so_version" = "xyes"; then
+  ENABLE_VERSION_INFO_OPTION_TRUE=
+  ENABLE_VERSION_INFO_OPTION_FALSE='#'
+else
+  ENABLE_VERSION_INFO_OPTION_TRUE='#'
+  ENABLE_VERSION_INFO_OPTION_FALSE=
+fi
+
+
+
+# Check whether --enable-release-version was given.
+if test "${enable_release_version+set}" = set; then :
+  enableval=$enable_release_version;
+   log4cplus_check_yesno_func "${enableval}" "--enable-release-version"
+else
+  enable_release_version=yes
+fi
+
+ if test "x$enable_release_version" = "xyes"; then
+  ENABLE_RELEASE_OPTION_TRUE=
+  ENABLE_RELEASE_OPTION_FALSE='#'
+else
+  ENABLE_RELEASE_OPTION_TRUE='#'
+  ENABLE_RELEASE_OPTION_FALSE=
 fi
 
 
@@ -22934,6 +22979,14 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCC\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${ENABLE_VERSION_INFO_OPTION_TRUE}" && test -z "${ENABLE_VERSION_INFO_OPTION_FALSE}"; then
+  as_fn_error $? "conditional \"ENABLE_VERSION_INFO_OPTION\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${ENABLE_RELEASE_OPTION_TRUE}" && test -z "${ENABLE_RELEASE_OPTION_FALSE}"; then
+  as_fn_error $? "conditional \"ENABLE_RELEASE_OPTION\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then

@@ -16,6 +16,6 @@ liblog4cplusqt4debugappender_la_SOURCES = \
 liblog4cplusqt4debugappender_la_LIBADD = $(liblog4cplus_la_file)
 
 liblog4cplusqt4debugappender_la_LDFLAGS = -no-undefined \
-	-version-info @LT_VERSION@ -release @LT_RELEASE@ \
+	$(LOG4CPLUS_VERSION_LT_FLAGS) \
 	@QT_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
 endif

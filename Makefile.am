@@ -9,6 +9,20 @@ SUBDIRS = include
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = log4cplus.pc
 
+if ENABLE_VERSION_INFO_OPTION
+VERSION_INFO_OPTION=-version-info @LT_VERSION@
+else
+VERSION_INFO_OPTION=-avoid-version
+endif
+
+if ENABLE_RELEASE_OPTION
+RELEASE_OPTION=-release @LT_RELEASE@
+else
+RELEASE_OPTION=
+endif
+
+LOG4CPLUS_VERSION_LT_FLAGS=$(VERSION_INFO_OPTION) $(RELEASE_OPTION)
+
 INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
 liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
 include src/Makefile.am

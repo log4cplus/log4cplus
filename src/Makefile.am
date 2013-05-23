@@ -139,4 +139,4 @@ liblog4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
 liblog4cplus_la_SOURCES = $(LIB_SRC)
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release @LT_RELEASE@ @LOG4CPLUS_PROFILING_LDFLAGS@
+liblog4cplus_la_LDFLAGS = -no-undefined $(LOG4CPLUS_VERSION_LT_FLAGS) @LOG4CPLUS_PROFILING_LDFLAGS@

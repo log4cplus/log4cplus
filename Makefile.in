@@ -646,6 +646,11 @@ EXTRA_DIST = ChangeLog log4cplus.pc.in tests/testsuite.at $(TESTSUITE) \
 SUBDIRS = include
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = log4cplus.pc
+@ENABLE_VERSION_INFO_OPTION_FALSE@VERSION_INFO_OPTION = -avoid-version
+@ENABLE_VERSION_INFO_OPTION_TRUE@VERSION_INFO_OPTION = -version-info @LT_VERSION@
+@ENABLE_RELEASE_OPTION_FALSE@RELEASE_OPTION = 
+@ENABLE_RELEASE_OPTION_TRUE@RELEASE_OPTION = -release @LT_RELEASE@
+LOG4CPLUS_VERSION_LT_FLAGS = $(VERSION_INFO_OPTION) $(RELEASE_OPTION)
 INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
 liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
 lib_LTLIBRARIES = liblog4cplus.la $(am__append_3) $(am__append_4)
@@ -786,7 +791,7 @@ liblog4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
 liblog4cplus_la_SOURCES = $(LIB_SRC)
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -no-undefined -version-info @LT_VERSION@ -release @LT_RELEASE@ @LOG4CPLUS_PROFILING_LDFLAGS@
+liblog4cplus_la_LDFLAGS = -no-undefined $(LOG4CPLUS_VERSION_LT_FLAGS) @LOG4CPLUS_PROFILING_LDFLAGS@
 appender_test_SOURCES = tests/appender_test/main.cxx
 appender_test_LDADD = $(liblog4cplus_la_file)
 @MULTI_THREADED_TRUE@configandwatch_test_SOURCES = tests/configandwatch_test/main.cxx
@@ -845,7 +850,7 @@ timeformat_test_LDADD = $(liblog4cplus_la_file)
 
 @QT_TRUE@liblog4cplusqt4debugappender_la_LIBADD = $(liblog4cplus_la_file)
 @QT_TRUE@liblog4cplusqt4debugappender_la_LDFLAGS = -no-undefined \
-@QT_TRUE@	-version-info @LT_VERSION@ -release @LT_RELEASE@ \
+@QT_TRUE@	$(LOG4CPLUS_VERSION_LT_FLAGS) \
 @QT_TRUE@	@QT_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
 
 @QT5_TRUE@liblog4cplusqt5debugappender_la_CPPFLAGS = \
@@ -862,7 +867,7 @@ timeformat_test_LDADD = $(liblog4cplus_la_file)
 
 @QT5_TRUE@liblog4cplusqt5debugappender_la_LIBADD = $(liblog4cplus_la_file)
 @QT5_TRUE@liblog4cplusqt5debugappender_la_LDFLAGS = -no-undefined \
-@QT5_TRUE@	-version-info @LT_VERSION@ -release @LT_RELEASE@ \
+@QT5_TRUE@	$(LOG4CPLUS_VERSION_LT_FLAGS) \
 @QT5_TRUE@	@QT5_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
 
 @WITH_SWIG_TRUE@SWIG_SOURCES = \
