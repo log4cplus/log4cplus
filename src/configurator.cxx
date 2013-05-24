@@ -289,8 +289,7 @@ PropertyConfigurator::configure()
         helpers::getLogLog ().setQuietMode (quiet_mode);
 
     bool disable_override = false;
-    if (properties.getBool (disable_override,
-            LOG4CPLUS_TEXT ("disableOverride")))
+    properties.getBool (disable_override, LOG4CPLUS_TEXT ("disableOverride"));
 
     initializeLog4cplus();
     configureAppenders();
