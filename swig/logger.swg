@@ -31,10 +31,12 @@ public:
   void assertion (bool assertionVal, log4cplus::tstring const & message) const;
   bool isEnabledFor (LogLevel ll) const;
   void log (LogLevel ll, log4cplus::tstring const & message,
-    char const * file = NULL, int line = -1) const;
+    char const * file = NULL, int line = -1, char const * function = NULL)
+    const;
   void log (spi::InternalLoggingEvent const & event) const;
   void forcedLog (LogLevel ll, log4cplus::tstring const & message,
-    char const * file = NULL, int line = -1) const;
+    char const * file = NULL, int line = -1, char const * function = NULL)
+    const;
   void forcedLog (spi::InternalLoggingEvent const & event) const;
   LogLevel getChainedLogLevel () const;
   LogLevel getLogLevel () const;

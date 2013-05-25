@@ -280,7 +280,7 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 #if !defined(LOG4CPLUS_DISABLE_TRACE)
 #define LOG4CPLUS_TRACE_METHOD(logger, logEvent)                        \
     log4cplus::TraceLogger _log4cplus_trace_logger(logger, logEvent,    \
-                                                   __FILE__, __LINE__);
+        __FILE__, __LINE__, LOG4CPLUS_MACRO_FUNCTION ());
 #define LOG4CPLUS_TRACE(logger, logEvent)                               \
     LOG4CPLUS_MACRO_BODY (logger, logEvent, TRACE_LOG_LEVEL)
 #define LOG4CPLUS_TRACE_STR(logger, logEvent)                           \

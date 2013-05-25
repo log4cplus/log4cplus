@@ -51,15 +51,21 @@ class TraceLogger
 {
 public:
     TraceLogger(const Logger& l, const log4cplus::tstring& _msg,
-                const char* _file=NULL, int _line=-1) 
-      : logger(l), msg(_msg), file(_file), line(_line)
-    { if(logger.isEnabledFor(TRACE_LOG_LEVEL))
-          logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg, file, line); 
+        const char* _file = LOG4CPLUS_CALLER_FILE (),
+        int _line = LOG4CPLUS_CALLER_LINE (),
+        char const * _function = LOG4CPLUS_CALLER_FUNCTION ()) 
+        : logger(l), msg(_msg), file(_file), function(_function), line(_line)
+    {
+        if(logger.isEnabledFor(TRACE_LOG_LEVEL))
+            logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg,
+                file, line, function); 
     }
 
     ~TraceLogger()
-    { if(logger.isEnabledFor(TRACE_LOG_LEVEL))
-          logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("EXIT:  ") + msg, file, line); 
+    {
+        if(logger.isEnabledFor(TRACE_LOG_LEVEL))
+            logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("EXIT:  ") + msg,
+                file, line, function); 
     }
 
 private:
@@ -69,6 +75,7 @@ private:
     Logger logger;
     log4cplus::tstring msg;
     const char* file;
+    const char* function;
     int line;
 };
 

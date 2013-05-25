@@ -91,7 +91,8 @@ namespace log4cplus {
              * This generic form is intended to be used by wrappers. 
              */
             virtual void log(LogLevel ll, const log4cplus::tstring& message,
-                             const char* file=NULL, int line=-1);
+                             const char* file=NULL, int line=-1,
+                             const char* function=NULL);
 
             virtual void log(spi::InternalLoggingEvent const &);
 
@@ -162,8 +163,9 @@ namespace log4cplus {
              */
             virtual void forcedLog(LogLevel ll,
                                    const log4cplus::tstring& message,
-                                   const char* file=NULL, 
-                                   int line=-1);
+                                   const char* file, 
+                                   int line,
+                                   const char* function);
 
             virtual void forcedLog(spi::InternalLoggingEvent const & ev);
 

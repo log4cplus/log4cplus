@@ -101,10 +101,11 @@ void
 LoggerImpl::log(LogLevel loglevel, 
                 const log4cplus::tstring& message,
                 const char* file, 
-                int line)
+                int line,
+                const char* function)
 {
     if(isEnabledFor(loglevel)) {
-        forcedLog(loglevel, message, file, line);
+        forcedLog(loglevel, message, file, line, function ? function : "");
     }
 }
 
@@ -158,10 +159,13 @@ void
 LoggerImpl::forcedLog(LogLevel loglevel,
                       const log4cplus::tstring& message,
                       const char* file, 
-                      int line)
+                      int line,
+                      const char* function)
 {
     spi::InternalLoggingEvent & ev = internal::get_ptd ()->forced_log_ev;
-    ev.setLoggingEvent (this->getName(), loglevel, message, file, line);
+    assert (function);
+    ev.setLoggingEvent (this->getName(), loglevel, message, file, line,
+        function);
     callAppenders(ev);
 }
 

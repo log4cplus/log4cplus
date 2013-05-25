@@ -42,7 +42,8 @@ main()
 
             InternalLoggingEvent event(
                 Logger::getInstance(LOG4CPLUS_TEXT("test")).getName(),
-                DEBUG_LOG_LEVEL, LOG4CPLUS_TEXT("This is a test..."), NULL, 0);
+                DEBUG_LOG_LEVEL, LOG4CPLUS_TEXT("This is a test..."), __FILE__,
+                __LINE__, "main");
 
             aai.addAppender(append_1);
             aai.addAppender(append_2);

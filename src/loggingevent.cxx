@@ -35,7 +35,7 @@ static const int LOG4CPLUS_DEFAULT_TYPE = 1;
 
 InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     LogLevel loglevel, const log4cplus::tstring& message_, const char* filename,
-    int line_)
+    int line_, const char * function_)
     : message(message_)
     , loggerName(logger)
     , ll(loglevel)
@@ -46,7 +46,9 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , file(filename
         ? LOG4CPLUS_C_STR_TO_TSTRING(filename) 
         : log4cplus::tstring())
-    , function ()
+    , function (function_
+        ? LOG4CPLUS_C_STR_TO_TSTRING(function_)
+        : log4cplus::tstring())
     , line(line_)
     , threadCached(false)
     , thread2Cached(false)
@@ -60,7 +62,8 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     LogLevel loglevel, const log4cplus::tstring& ndc_,
     MappedDiagnosticContextMap const & mdc_, const log4cplus::tstring& message_,
     const log4cplus::tstring& thread_, log4cplus::helpers::Time time,
-    const log4cplus::tstring& file_, int line_)
+    const log4cplus::tstring& file_, int line_,
+    const log4cplus::tstring & function_)
     : message(message_)
     , loggerName(logger)
     , ll(loglevel)
@@ -69,7 +72,7 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , thread(thread_)
     , timestamp(time)
     , file(file_)
-    , function ()
+    , function (function_)
     , line(line_)
     , threadCached(true)
     , thread2Cached(true)
@@ -135,7 +138,7 @@ InternalLoggingEvent::getDefaultType()
 void
 InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring & logger,
     LogLevel loglevel, const log4cplus::tstring & msg, const char * filename,
-    int fline)
+    int fline, const char * function_)
 {
     // This could be imlemented using the swap idiom:
     //
@@ -148,10 +151,17 @@ InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring & logger,
     ll = loglevel;
     message = msg;
     timestamp = helpers::Time::gettimeofday();
+
     if (filename)
         file = LOG4CPLUS_C_STR_TO_TSTRING (filename);
     else
         file.clear ();
+
+    if (function_)
+        function = LOG4CPLUS_C_STR_TO_TSTRING (function_);
+    else
+        function.clear ();
+
     line = fline;
     threadCached = false;
     thread2Cached = false;
@@ -163,7 +173,10 @@ InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring & logger,
 void
 InternalLoggingEvent::setFunction (char const * func)
 {
-    function = LOG4CPLUS_C_STR_TO_TSTRING (func);
+    if (func)
+        function = LOG4CPLUS_C_STR_TO_TSTRING (func);
+    else
+        function.clear ();
 }
 
 

@@ -355,8 +355,7 @@ readFromBuffer(SocketBuffer& buffer)
     // TODO: Pass MDC through.
     spi::InternalLoggingEvent ev (loggerName, ll, ndc,
         MappedDiagnosticContextMap (), message, thread, Time(sec, usec), file,
-        line);
-    ev.setFunction (function);
+        line, function);
     return ev;
 }
 

@@ -245,9 +245,9 @@ Logger::isEnabledFor (LogLevel ll) const
 
 void
 Logger::log (LogLevel ll, const log4cplus::tstring& message, const char* file,
-    int line) const
+    int line, const char* function) const
 {
-    value->log (ll, message, file, line);
+    value->log (ll, message, file, line, function ? function : "");
 }
 
 
@@ -260,9 +260,9 @@ Logger::log (spi::InternalLoggingEvent const & ev) const
 
 void
 Logger::forcedLog (LogLevel ll, const log4cplus::tstring& message,
-    const char* file, int line) const
+    const char* file, int line, const char* function) const
 {
-    value->forcedLog (ll, message, file, line);
+    value->forcedLog (ll, message, file, line, function ? function : "");
 }
 
 

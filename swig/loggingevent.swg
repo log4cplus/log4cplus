@@ -17,7 +17,7 @@ public:
   InternalLoggingEvent ();
   InternalLoggingEvent (log4cplus::tstring const & logger,
     log4cplus::LogLevel ll, log4cplus::tstring const & message,
-    char const * filename, int line);
+    char const * filename, int line, char const * function);
   InternalLoggingEvent (InternalLoggingEvent const & other);
   virtual ~InternalLoggingEvent ();
   
@@ -27,7 +27,7 @@ public:
   
   void setLoggingEvent (log4cplus::tstring const & logger,
     log4cplus::LogLevel ll, log4cplus::tstring const & message,
-    char const * filename, int line);
+    char const * filename, int line, char const * function);
   
   void setFunction (char const * func);
   void setFunction (log4cplus::tstring const & func);

@@ -79,9 +79,10 @@ macro_forced_log (log4cplus::Logger const & logger,
     log4cplus::LogLevel log_level, log4cplus::tstring const & msg,
     char const * filename, int line, char const * func)
 {
-    log4cplus::spi::InternalLoggingEvent & ev = internal::get_ptd ()->forced_log_ev;
-    ev.setLoggingEvent (logger.getName (), log_level, msg, filename, line);
-    ev.setFunction (func ? func : "");
+    log4cplus::spi::InternalLoggingEvent & ev
+        = internal::get_ptd ()->forced_log_ev;
+    ev.setLoggingEvent (logger.getName (), log_level, msg, filename, line,
+        func);
     logger.forcedLog (ev);
 }
 

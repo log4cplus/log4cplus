@@ -181,7 +181,8 @@ namespace log4cplus
          */
         void log(LogLevel ll, const log4cplus::tstring& message,
             const char* file = LOG4CPLUS_CALLER_FILE (),
-            int line = LOG4CPLUS_CALLER_LINE ()) const;
+            int line = LOG4CPLUS_CALLER_LINE (),
+            const char* function = LOG4CPLUS_CALLER_FUNCTION ()) const;
 
         void log(spi::InternalLoggingEvent const &) const;
 
@@ -191,7 +192,8 @@ namespace log4cplus
          */
         void forcedLog(LogLevel ll, const log4cplus::tstring& message,
             const char* file = LOG4CPLUS_CALLER_FILE (),
-            int line = LOG4CPLUS_CALLER_LINE ()) const;
+            int line = LOG4CPLUS_CALLER_LINE (),
+            const char* function = LOG4CPLUS_CALLER_FUNCTION ()) const;
 
         void forcedLog(spi::InternalLoggingEvent const &) const;
 
