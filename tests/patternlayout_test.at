@@ -1,6 +1,6 @@
 AT_SETUP([patternlayout_test])
 AT_KEYWORDS([appenders])
 
-AT_CHECK(["${abs_top_builddir}/patternlayout_test"], [0], [ignore], [ignore])
+AT_CHECK(["${abs_top_builddir}/patternlayout_test"], [0], [ignore], [stderr])
 
 AT_CLEANUP

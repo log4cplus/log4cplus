@@ -5,6 +5,7 @@ AT_CHECK([cp -f "${abs_srcdir}/filter_test/expout" .])
 
 AT_CHECK([cp -f "${abs_builddir}/filter_test/log4cplus.properties" .])
 AT_CHECK(["${abs_top_builddir}/filter_test"], [0], [expout], [stderr])
+AT_CHECK([! $GREP "Please initialize the log4cplus system properly"< stderr])
 
 AT_CHECK([test -s debug_info_msgs.log])
 AT_CHECK([! $GREP 'TRACE\|WARN\|ERROR\|FATAL' debug_info_msgs.log])

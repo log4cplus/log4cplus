@@ -2388,7 +2388,7 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgconfigDATA \
 @WITH_PYTHON_TRUE@	$(top_srcdir)/swig/log4cplus.swg
 
 $(TESTSUITE): $(TESTSUITE_AT)
-	$(AUTOTEST) -I $(srcdir) $(srcdir)/tests/testsuite.at -o $@
+	cd "$(abs_top_srcdir)" && $(AUTOTEST) -I tests tests/testsuite.at -o $@
 
 tests/atconfig: $(top_builddir)/config.status
 	cd "$(top_builddir)" && ./config.status tests/$@

@@ -656,10 +656,11 @@ at_help_all="1;headers.at:1;separate compilation of log4cplus/appender.h;headers
 64;ndc_test.at:1;ndc_test;appenders;
 65;ostream_test.at:1;ostream_test;appenders;
 66;patternlayout_test.at:1;patternlayout_test;appenders;
-67;priority_test.at:1;priority_test;appenders;
-68;propertyconfig_test.at:1;propertyconfig_test;appenders;
-69;thread_test.at:1;thread_test;appenders;
-70;timeformat_test.at:1;timeformat_test;appenders;
+67;performance_test.at:1;performance_test;appenders;
+68;priority_test.at:1;priority_test;appenders;
+69;propertyconfig_test.at:1;propertyconfig_test;appenders;
+70;thread_test.at:1;thread_test;appenders;
+71;timeformat_test.at:1;timeformat_test;appenders;
 "
 # List of the all the test groups.
 at_groups_all=`$as_echo "$at_help_all" | sed 's/;.*//'`
@@ -673,7 +674,7 @@ at_fn_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 70; then
+    if test $at_value -lt 1 || test $at_value -gt 71; then
       $as_echo "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -4705,9 +4706,22 @@ at_fn_check_prepare_notrace 'a ${...} parameter expansion' "configandwatch_test.
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
-echo stderr:; cat "$at_stderr"
+echo stderr:; tee stderr <"$at_stderr"
 echo stdout:; cat "$at_stdout"
 at_fn_check_status 0 $at_status "$at_srcdir/configandwatch_test.at:5"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/configandwatch_test.at:6: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "configandwatch_test.at:6"
+( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/configandwatch_test.at:6"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
@@ -4851,24 +4865,24 @@ at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:7"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
-
 { set +x
-$as_echo "$at_srcdir/filter_test.at:9: test -s debug_info_msgs.log"
-at_fn_check_prepare_trace "filter_test.at:9"
-( $at_check_trace; test -s debug_info_msgs.log
+$as_echo "$at_srcdir/filter_test.at:8: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "filter_test.at:8"
+( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:9"
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:8"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
+
 { set +x
-$as_echo "$at_srcdir/filter_test.at:10: ! \$GREP 'TRACE\\|WARN\\|ERROR\\|FATAL' debug_info_msgs.log"
-at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:10"
-( $at_check_trace; ! $GREP 'TRACE\|WARN\|ERROR\|FATAL' debug_info_msgs.log
+$as_echo "$at_srcdir/filter_test.at:10: test -s debug_info_msgs.log"
+at_fn_check_prepare_trace "filter_test.at:10"
+( $at_check_trace; test -s debug_info_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4878,24 +4892,24 @@ at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:10"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
-
 { set +x
-$as_echo "$at_srcdir/filter_test.at:12: test -s fatal_msgs.log"
-at_fn_check_prepare_trace "filter_test.at:12"
-( $at_check_trace; test -s fatal_msgs.log
+$as_echo "$at_srcdir/filter_test.at:11: ! \$GREP 'TRACE\\|WARN\\|ERROR\\|FATAL' debug_info_msgs.log"
+at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:11"
+( $at_check_trace; ! $GREP 'TRACE\|WARN\|ERROR\|FATAL' debug_info_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:12"
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:11"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
+
 { set +x
-$as_echo "$at_srcdir/filter_test.at:13: ! \$GREP 'TRACE\\|DEBUG\\|INFO\\|WARN\\|ERROR' fatal_msgs.log"
-at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:13"
-( $at_check_trace; ! $GREP 'TRACE\|DEBUG\|INFO\|WARN\|ERROR' fatal_msgs.log
+$as_echo "$at_srcdir/filter_test.at:13: test -s fatal_msgs.log"
+at_fn_check_prepare_trace "filter_test.at:13"
+( $at_check_trace; test -s fatal_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4905,30 +4919,43 @@ at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:13"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
+{ set +x
+$as_echo "$at_srcdir/filter_test.at:14: ! \$GREP 'TRACE\\|DEBUG\\|INFO\\|WARN\\|ERROR' fatal_msgs.log"
+at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:14"
+( $at_check_trace; ! $GREP 'TRACE\|DEBUG\|INFO\|WARN\|ERROR' fatal_msgs.log
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:14"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
 
 { set +x
-$as_echo "$at_srcdir/filter_test.at:15: test -s trace_msgs.log"
-at_fn_check_prepare_trace "filter_test.at:15"
+$as_echo "$at_srcdir/filter_test.at:16: test -s trace_msgs.log"
+at_fn_check_prepare_trace "filter_test.at:16"
 ( $at_check_trace; test -s trace_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:15"
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:16"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/filter_test.at:16: ! \$GREP 'DEBUG\\|INFO\\|WARN\\|ERROR\\|FATAL' trace_msgs.log"
-at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:16"
+$as_echo "$at_srcdir/filter_test.at:17: ! \$GREP 'DEBUG\\|INFO\\|WARN\\|ERROR\\|FATAL' trace_msgs.log"
+at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:17"
 ( $at_check_trace; ! $GREP 'DEBUG\|INFO\|WARN\|ERROR\|FATAL' trace_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:16"
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:17"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
@@ -5136,7 +5163,7 @@ at_fn_check_prepare_notrace 'a ${...} parameter expansion' "patternlayout_test.a
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
-echo stderr:; cat "$at_stderr"
+echo stderr:; tee stderr <"$at_stderr"
 echo stdout:; cat "$at_stdout"
 at_fn_check_status 0 $at_status "$at_srcdir/patternlayout_test.at:4"
 $at_failed && at_fn_log_failure
@@ -5149,11 +5176,66 @@ $at_traceon; }
 read at_status <"$at_status_file"
 #AT_STOP_66
 #AT_START_67
-at_fn_group_banner 67 'priority_test.at:1' \
-  "priority_test" "                                  " 2
+at_fn_group_banner 67 'performance_test.at:1' \
+  "performance_test" "                               " 2
 at_xfail=no
 (
   $as_echo "67. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+
+{ set +x
+$as_echo "$at_srcdir/performance_test.at:4: cp -f \"\${abs_builddir}/performance_test/log4cplus.properties\" ."
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "performance_test.at:4"
+( $at_check_trace; cp -f "${abs_builddir}/performance_test/log4cplus.properties" .
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/performance_test.at:4"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/performance_test.at:5: \"\${abs_top_builddir}/performance_test\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "performance_test.at:5"
+( $at_check_trace; "${abs_top_builddir}/performance_test"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/performance_test.at:5"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/performance_test.at:6: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "performance_test.at:6"
+( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/performance_test.at:6"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_67
+#AT_START_68
+at_fn_group_banner 68 'priority_test.at:1' \
+  "priority_test" "                                  " 2
+at_xfail=no
+(
+  $as_echo "68. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5189,27 +5271,53 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_67
-#AT_START_68
-at_fn_group_banner 68 'propertyconfig_test.at:1' \
+#AT_STOP_68
+#AT_START_69
+at_fn_group_banner 69 'propertyconfig_test.at:1' \
   "propertyconfig_test" "                            " 2
 at_xfail=no
 (
-  $as_echo "68. $at_setup_line: testing $at_desc ..."
+  $as_echo "69. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
 { set +x
-$as_echo "$at_srcdir/propertyconfig_test.at:4: \"\${abs_top_builddir}/propertyconfig_test\""
+$as_echo "$at_srcdir/propertyconfig_test.at:4: cp -f \"\${abs_builddir}/propertyconfig_test/log4cplus.properties\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "propertyconfig_test.at:4"
+( $at_check_trace; cp -f "${abs_builddir}/propertyconfig_test/log4cplus.properties" .
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/propertyconfig_test.at:4"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/propertyconfig_test.at:5: \"\${abs_top_builddir}/propertyconfig_test\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "propertyconfig_test.at:5"
 ( $at_check_trace; "${abs_top_builddir}/propertyconfig_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
-echo stderr:; cat "$at_stderr"
-echo stdout:; cat "$at_stdout"
-at_fn_check_status 0 $at_status "$at_srcdir/propertyconfig_test.at:4"
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/propertyconfig_test.at:5"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/propertyconfig_test.at:6: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "propertyconfig_test.at:6"
+( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/propertyconfig_test.at:6"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
@@ -5218,13 +5326,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_68
-#AT_START_69
-at_fn_group_banner 69 'thread_test.at:1' \
+#AT_STOP_69
+#AT_START_70
+at_fn_group_banner 70 'thread_test.at:1' \
   "thread_test" "                                    " 2
 at_xfail=no
 (
-  $as_echo "69. $at_setup_line: testing $at_desc ..."
+  $as_echo "70. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5247,13 +5355,13 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_69
-#AT_START_70
-at_fn_group_banner 70 'timeformat_test.at:1' \
+#AT_STOP_70
+#AT_START_71
+at_fn_group_banner 71 'timeformat_test.at:1' \
   "timeformat_test" "                                " 2
 at_xfail=no
 (
-  $as_echo "70. $at_setup_line: testing $at_desc ..."
+  $as_echo "71. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -5302,4 +5410,4 @@ $at_traceon; }
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
-#AT_STOP_70
+#AT_STOP_71

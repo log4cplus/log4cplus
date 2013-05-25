@@ -71,7 +71,7 @@ TESTSUITE_AT = \
   tests/testsuite.at
 
 $(TESTSUITE): $(TESTSUITE_AT)
-	$(AUTOTEST) -I $(srcdir) $(srcdir)/tests/testsuite.at -o $@
+	cd "$(abs_top_srcdir)" && $(AUTOTEST) -I tests tests/testsuite.at -o $@
 
 tests/atconfig: $(top_builddir)/config.status
 	cd "$(top_builddir)" && ./config.status tests/$@
