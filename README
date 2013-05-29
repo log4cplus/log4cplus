@@ -52,6 +52,22 @@ This option is enabled by default.  It adds platform / compiler
 dependent warning options to compiler command line.
 
 
+`--enable-so-version`
+---------------------
+
+This option is enabled by default.  It enables SO version decoration
+on resulting library file, e.g., the `.2.0.0` in
+`liblog4cplus-1.2.so.2.0.0`.
+
+
+`--enable-release-version`
+--------------------------
+
+This option is enabled by default.  It enables release version
+decoration on the resulting library file, e.g., the `-1.2` in
+`liblog4cplus-1.2.so.2.0.0`.
+
+
 --enable-profiling
 ------------------
 
