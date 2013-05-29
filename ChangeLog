@@ -1,3 +1,11 @@
+log4cplus 1.1.2-RC1
+
+- Fixed bug #163 - Initialization issue.
+
+- Added --enable-so-version and --enable-release-version configure
+  script options to allow production of undecorated binaries.
+
+
 log4cplus 1.1.1
 
 - FileAppender - Accept also std::ios_base::ate as "append to a log
