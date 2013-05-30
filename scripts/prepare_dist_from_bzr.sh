@@ -85,7 +85,7 @@ $SEVENZA a -t7z "$DEST_DIR/$SRC_DIR".7z "$SRC_DIR" >/dev/null \
 & $SEVENZA a -tzip "$DEST_DIR/$SRC_DIR".zip "$SRC_DIR" >/dev/null
 
 TAR_FILE="$SRC_DIR".tar
-$TAR -cf "$TAR_FILE" "$SRC_DIR"
+$TAR -c --format=posix -f "$TAR_FILE" "$SRC_DIR"
 
 $XZ -e -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".xz \
 & $BZIP2 -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".bz2 \
