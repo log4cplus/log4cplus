@@ -28,6 +28,28 @@ while (my $line = <$fh>)
     }
 }
 
+close $fh;
+
+# parse SO version from configure.ac
+
+open (my $fh2, "<", "configure.ac")
+    or die $!;
+
+my ($so_current, $so_revision, $so_age);
+while (my $line = <$fh2>)
+{
+    if ($line =~ m/\s* LT_VERSION= \s*
+          (\d+) \s* : \s* (\d+) \s* : \s* (\d+) \s*/x)
+    {
+        ($so_current, $so_revision, $so_age) = ($1, $2, $3);
+        print +("SO version: ", $so_current, ".", $so_revision, ".", $so_age,
+                "\n");
+        last;
+    }
+}
+
+close $fh2;
+
 # edit configure.ac
 
 {
@@ -63,15 +85,13 @@ while (my $line = <$fh>)
         $line =~ s/(Release: \s*)(.*)/${1}1/x;
         print $line;
     }
-}
 
-my @cygport = <cygport/*.cygport>;
-die "cannot cope with multiple Cygport files" if (@cygport > 1);
-my $cygport = @cygport[0];
-my $new_cygport = "cygport/log4cplus-$version-1.cygport";
-if ($cygport ne $new_cygport)
-{
-    system("bzr mv \"$cygport\" \"$new_cygport\"") == 0
-        or die "bzr mv on $cygport has failed: $?";
+    local @ARGV = ("cygport/log4cplus.cygport");
+    while (my $line = <>)
+    {
+        $line =~ s/(\s* VERSION \s* = \s*)(\d+\.\d+\.\d+)(-.+)?/$1$version$3/x
+            || $line =~ s/\d+ ([._\-]) \d+ ([._\-]) \d+
+                         /$major$1$minor$2$so_current/gx;
+        print $line;
+    }    
 }
-
