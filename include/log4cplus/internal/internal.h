@@ -150,17 +150,9 @@ set_ptd (per_thread_data * p)
 }
 
 
-//! The default value of the \param alloc is false for Win32 DLL builds
-//! since per thread data are already initialized by DllMain().
 inline
 per_thread_data *
-get_ptd (bool alloc
-#if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL)
-         = false
-#else
-         = true
-#endif
-         )
+get_ptd (bool alloc = true)
 {
     if (LOG4CPLUS_UNLIKELY (! ptd && alloc))
         return alloc_ptd ();
