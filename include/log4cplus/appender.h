@@ -149,6 +149,14 @@ namespace log4cplus {
         virtual void close() = 0;
 
         /**
+         * Check the `closed` member value.
+         */
+        bool isClosed() const
+        {
+          return closed;
+        }
+
+        /**
          * This method performs threshold checks and invokes filters before
          * delegating actual logging to the subclasses specific {@link
          * #append} method.
