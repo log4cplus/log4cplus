@@ -488,11 +488,20 @@ RollingFileAppender::~RollingFileAppender()
 void
 RollingFileAppender::append(const spi::InternalLoggingEvent& event)
 {
+    // Seek to the end of log file so that tellp() below returns the
+    // right size.
+    if (useLockFile)
+        out.seekp (0, std::ios_base::end);
+
+    // Rotate log file if needed before appending to it.
+    if (out.tellp() > maxFileSize)
+        rollover(true);
+
     FileAppender::append(event);
 
-    if(out.tellp() > maxFileSize) {
+    // Rotate log file if needed after appending to it.
+    if (out.tellp() > maxFileSize)
         rollover(true);
-    }
 }
 
 
