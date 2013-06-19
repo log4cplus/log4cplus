@@ -483,9 +483,7 @@ RollingFileAppender::init(long maxFileSize_, int maxBackupIndex_)
 
 
 RollingFileAppender::~RollingFileAppender()
-{
-    destructorImpl();
-}
+{ }
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -700,9 +698,7 @@ DailyRollingFileAppender::init(DailyRollingFileSchedule sch)
 
 
 DailyRollingFileAppender::~DailyRollingFileAppender()
-{
-    destructorImpl();
-}
+{ }
 
 
 

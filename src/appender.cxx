@@ -218,14 +218,14 @@ Appender::~Appender()
 void
 Appender::destructorImpl()
 {
-    helpers::getLogLog().debug(  LOG4CPLUS_TEXT("Destroying appender named [")
-        + name
-        + LOG4CPLUS_TEXT("]."));
-
     // An appender might be closed then destroyed. There is no
     // point in closing twice.
     if(closed)
         return;
+
+    helpers::getLogLog().debug(  LOG4CPLUS_TEXT("Destroying appender named [")
+        + name
+        + LOG4CPLUS_TEXT("]."));
 
     close();
     closed = true;
