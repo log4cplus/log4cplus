@@ -207,7 +207,16 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
 
 
 Appender::~Appender()
-{ }
+{
+    helpers::LogLog & loglog = helpers::getLogLog ();
+
+    loglog.debug(LOG4CPLUS_TEXT("Destroying appender named [") + name
+        + LOG4CPLUS_TEXT("]."));
+
+    if (! closed)
+        loglog.error (
+            LOG4CPLUS_TEXT ("Derived Appender did not call destructorImpl()."));
+}
 
 
 
@@ -218,19 +227,21 @@ Appender::~Appender()
 void
 Appender::destructorImpl()
 {
-    helpers::getLogLog().debug(  LOG4CPLUS_TEXT("Destroying appender named [")
-        + name
-        + LOG4CPLUS_TEXT("]."));
-
-    // An appender might be closed then destroyed. There is no
-    // point in closing twice.
-    if(closed)
+    // An appender might be closed then destroyed. There is no point
+    // in closing twice. It can actually be a wrong thing to do, e.g.,
+    // files get rolled more than once.
+    if (closed)
         return;
 
     close();
     closed = true;
 }
 
+
+bool Appender::isClosed() const
+{
+    return closed;
+}
 
 
 void

@@ -137,6 +137,14 @@ namespace log4cplus {
       // Dtor
         virtual ~Appender();
 
+        /**
+         * This function is for derived appenders to call from their
+         * destructors. All classes derived from `Appender` class
+         * _must_ call this function from their destructors. It
+         * ensures that appenders will get properly closed during
+         * shutdown by call to `close()` function before they are
+         * destroyed.
+         */
         void destructorImpl();
 
       // Methods
@@ -149,12 +157,9 @@ namespace log4cplus {
         virtual void close() = 0;
 
         /**
-         * Check the `closed` member value.
+         * Check if this appender is in closed state.
          */
-        bool isClosed() const
-        {
-          return closed;
-        }
+        bool isClosed() const;
 
         /**
          * This method performs threshold checks and invokes filters before
