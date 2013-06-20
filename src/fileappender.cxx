@@ -404,8 +404,9 @@ FileAppender::reopen()
         {
             // Close the current file
             out.close();
-            out.clear(); // reset flags since the C++ standard specified that all the
-                         // flags should remain unchanged on a close
+            // reset flags since the C++ standard specified that all
+            // the flags should remain unchanged on a close
+            out.clear();
 
             // Re-open the file.
             open(std::ios_base::out | std::ios_base::ate | std::ios_base::app);
@@ -757,8 +758,9 @@ DailyRollingFileAppender::rollover(bool alreadyLocked)
 
     // Close the current file
     out.close();
-    out.clear(); // reset flags since the C++ standard specified that all the
-                 // flags should remain unchanged on a close
+    // reset flags since the C++ standard specified that all the flags
+    // should remain unchanged on a close
+    out.clear();
 
     // If we've already rolled over this time period, we'll make sure that we
     // don't overwrite any of those previous files.
