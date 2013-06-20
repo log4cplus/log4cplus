@@ -15,10 +15,6 @@ Exiting main()...
 log4cplus: Entering ConsoleAppender::close()..
 log4cplus: Destroying appender named [STDOUT].
 log4cplus: Destroying appender named [ALL_MSGS].
-log4cplus: Destroying appender named [ALL_MSGS].
-log4cplus: Destroying appender named [TRACE_MSGS].
 log4cplus: Destroying appender named [TRACE_MSGS].
 log4cplus: Destroying appender named [DEBUG_INFO_MSGS].
-log4cplus: Destroying appender named [DEBUG_INFO_MSGS].
-log4cplus: Destroying appender named [FATAL_MSGS].
 log4cplus: Destroying appender named [FATAL_MSGS].
