@@ -1,13 +1,13 @@
-
-
 #include <exception>
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "log4cplus/logger.h"
 #include "log4cplus/consoleappender.h"
 #include "log4cplus/helpers/appenderattachableimpl.h"
 #include "log4cplus/helpers/loglog.h"
 #include "log4cplus/helpers/pointer.h"
+#include "log4cplus/helpers/property.h"
 #include "log4cplus/spi/loggingevent.h"
 
 using namespace std;
@@ -26,6 +26,19 @@ printAppenderList(SharedAppenderPtrList list)
 }
 
 
+// This appender does not call destructorImpl(), which is wrong.
+class BadDerivedAppender
+    : public Appender
+{
+public:
+    virtual void close ()
+    { }
+
+    virtual void append (const log4cplus::spi::InternalLoggingEvent&)
+    { }
+};
+
+
 int
 main()
 {
@@ -39,6 +52,30 @@ main()
 
             SharedObjectPtr<Appender> append_2(new ConsoleAppender());
             append_2->setName(LOG4CPLUS_TEXT("Second"));
+
+            // Test that we get back the same layout as we set.
+
+            Layout * layout_2;
+            append_2->setLayout(
+                std::auto_ptr<Layout>(layout_2 = new log4cplus::SimpleLayout));
+            if (append_2->getLayout () != layout_2)
+                return 1;
+
+            // Default error handler should be set.
+
+            if (! append_2->getErrorHandler ())
+                return 2;
+
+            // Test warning on NULL handler.
+
+            append_2->setErrorHandler (std::auto_ptr<ErrorHandler>());
+
+            // Set working error handler.
+
+            std::auto_ptr<ErrorHandler> errorHandler (new OnlyOnceErrorHandler);
+            append_2->setErrorHandler (errorHandler);
+
+            // Test logging through instantiated appenders.
 
             InternalLoggingEvent event(
                 Logger::getInstance(LOG4CPLUS_TEXT("test")).getName(),
@@ -68,17 +105,63 @@ main()
                              << endl;
             append_1->doAppend(event);
             append_2->doAppend(event);
+
+            // Test appender's error handling for wrong layout.
+
+            {
+                std::istringstream propsStream (
+                    "layout=log4cplus::WrongLayout");
+                Properties props (propsStream);
+                SharedObjectPtr<Appender> append (
+                    new ConsoleAppender (props));
+                append->setName (LOG4CPLUS_TEXT ("Third"));
+            }
+
+            // Test threshold parsing.
+
+            {
+                std::istringstream propsStream (
+                    "Threshold=ERROR");
+                Properties props (propsStream);
+                SharedObjectPtr<Appender> append (
+                    new ConsoleAppender (props));
+                append->setName (LOG4CPLUS_TEXT ("Fourth"));
+            }
+
+            // Test threshold parsing of wrong log level.
+
+            {
+                std::istringstream propsStream (
+                    "Threshold=WRONG");
+                Properties props (propsStream);
+                SharedObjectPtr<Appender> append (
+                    new ConsoleAppender (props));
+                append->setName (LOG4CPLUS_TEXT ("Fifth"));
+            }
+
+            // Test wrong filter parsing.
+
+            {
+                std::istringstream propsStream (
+                    "filters.1=log4cplus::spi::WrongFilter");
+                Properties props (propsStream);
+                SharedObjectPtr<Appender> append (
+                    new ConsoleAppender (props));
+                append->setName (LOG4CPLUS_TEXT ("Sixth"));
+            }
+
+            // Test error reporting of badly coded appender.
+
+            {
+                BadDerivedAppender appender;
+                appender.setName (LOG4CPLUS_TEXT ("Seventh"));
+            }
         }
         catch(std::exception const & e) {
             log4cplus::tcout << "**** Exception occured: " << e.what() << endl;
         }
-
-//      log4cplus::tcout << "*** Calling close()..." << endl;
-//      append_2->close();
-//      log4cplus::tcout << "*** Done calling close()..." << endl;
     }
 
     log4cplus::tcout << "Exiting main()..." << endl;
     return 0;
 }
-

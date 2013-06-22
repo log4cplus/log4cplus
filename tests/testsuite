@@ -4658,9 +4658,9 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/appender_test.at:5: \"\${abs_top_builddir}/appender_test\""
+$as_echo "$at_srcdir/appender_test.at:5: \"\${abs_top_builddir}/appender_test\" 2>&1"
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "appender_test.at:5"
-( $at_check_trace; "${abs_top_builddir}/appender_test"
+( $at_check_trace; "${abs_top_builddir}/appender_test" 2>&1
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter

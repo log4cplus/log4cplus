@@ -172,6 +172,10 @@ LogLevelManager::fromString(const tstring& arg) const
             return ret;
     }
     
+    helpers::getLogLog ().error (
+        LOG4CPLUS_TEXT ("Unrecognized log level: ")
+        + arg);
+
     return NOT_SET_LOG_LEVEL;
 }
 
