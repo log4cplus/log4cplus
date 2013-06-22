@@ -186,6 +186,9 @@ namespace log4cplus
     };
 
 
+    typedef helpers::SharedObjectPtr<FileAppender> SharedFileAppenderPtr;
+
+
 
     /**
      * RollingFileAppender extends FileAppender to backup the log
@@ -232,6 +235,9 @@ namespace log4cplus
         LOG4CPLUS_PRIVATE void init(long maxFileSize, int maxBackupIndex);
     };
 
+
+    typedef helpers::SharedObjectPtr<RollingFileAppender>
+        SharedRollingFileAppenderPtr;
 
 
     enum DailyRollingFileSchedule { MONTHLY, WEEKLY, DAILY,
@@ -289,6 +295,9 @@ namespace log4cplus
     private:
         LOG4CPLUS_PRIVATE void init(DailyRollingFileSchedule schedule);
     };
+
+    typedef helpers::SharedObjectPtr<DailyRollingFileAppender>
+        SharedDailyRollingFileAppenderPtr;
 
 } // end namespace log4cplus
 
