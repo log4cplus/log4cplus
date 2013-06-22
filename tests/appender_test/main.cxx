@@ -86,12 +86,14 @@ main()
             aai.addAppender(append_2);
             aai.addAppender(append_1);
             aai.addAppender(append_2);
+            aai.addAppender(SharedAppenderPtr());
             printAppenderList(aai.getAllAppenders());
 
             aai.removeAppender(append_2);
             printAppenderList(aai.getAllAppenders());
 
             aai.removeAppender(LOG4CPLUS_TEXT("First"));
+            aai.removeAppender(SharedAppenderPtr());
             printAppenderList(aai.getAllAppenders());
 
             aai.addAppender(append_1);

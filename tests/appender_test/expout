@@ -1,9 +1,11 @@
 log4cplus:WARN You have tried to set a null error-handler.
+log4cplus:WARN Tried to add NULL appender
 List size: 2
 Loop Body: Appender name = First
 Loop Body: Appender name = Second
 List size: 1
 Loop Body: Appender name = First
+log4cplus:WARN Tried to remove NULL appender
 List size: 0
 Should be First: First
 Should be Second: Second
