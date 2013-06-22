@@ -106,6 +106,11 @@ main()
             append_1->doAppend(event);
             append_2->doAppend(event);
 
+            // Test appending to closed appender error handling.
+
+            append_2->close ();
+            append_2->doAppend (event);
+
             // Test appender's error handling for wrong layout.
 
             {

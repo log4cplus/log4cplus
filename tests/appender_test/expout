@@ -10,6 +10,8 @@ Should be Second: Second
 
 DEBUG - This is a test...
 DEBUG - This is a test...
+log4cplus: Entering ConsoleAppender::close()..
+log4cplus:ERROR Attempted to append to closed appender named [Second].
 log4cplus:ERROR Cannot find LayoutFactory: "log4cplus::WrongLayout"
 log4cplus: Entering ConsoleAppender::close()..
 log4cplus: Destroying appender named [Third].
@@ -25,6 +27,5 @@ log4cplus: Destroying appender named [Seventh].
 log4cplus:ERROR Derived Appender did not call destructorImpl().
 log4cplus: Entering ConsoleAppender::close()..
 log4cplus: Destroying appender named [First].
-log4cplus: Entering ConsoleAppender::close()..
 log4cplus: Destroying appender named [Second].
 Exiting main()...
