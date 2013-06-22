@@ -4784,28 +4784,41 @@ at_xfail=no
 
 
 { set +x
-$as_echo "$at_srcdir/fileappender_test.at:4: \"\${abs_top_builddir}/fileappender_test\""
+$as_echo "$at_srcdir/fileappender_test.at:4: cp -f \"\${abs_srcdir}/fileappender_test/experr\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "fileappender_test.at:4"
-( $at_check_trace; "${abs_top_builddir}/fileappender_test"
+( $at_check_trace; cp -f "${abs_srcdir}/fileappender_test/experr" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
-echo stderr:; tee stderr <"$at_stderr"
-echo stdout:; tee stdout <"$at_stdout"
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
 at_fn_check_status 0 $at_status "$at_srcdir/fileappender_test.at:4"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/fileappender_test.at:5: test -f \"a/b/c/d/Test.log\""
-at_fn_check_prepare_trace "fileappender_test.at:5"
+$as_echo "$at_srcdir/fileappender_test.at:5: \"\${abs_top_builddir}/fileappender_test\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "fileappender_test.at:5"
+( $at_check_trace; "${abs_top_builddir}/fileappender_test"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+$at_diff experr "$at_stderr" || at_failed=:
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/fileappender_test.at:5"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/fileappender_test.at:6: test -f \"a/b/c/d/Test.log\""
+at_fn_check_prepare_trace "fileappender_test.at:6"
 ( $at_check_trace; test -f "a/b/c/d/Test.log"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/fileappender_test.at:5"
+at_fn_check_status 0 $at_status "$at_srcdir/fileappender_test.at:6"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 

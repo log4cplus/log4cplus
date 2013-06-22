@@ -1,7 +1,8 @@
 AT_SETUP([fileappender_test])
 AT_KEYWORDS([appenders])
 
-AT_CHECK(["${abs_top_builddir}/fileappender_test"], [0], [stdout], [stderr])
+AT_CHECK([cp -f "${abs_srcdir}/fileappender_test/experr" .])
+AT_CHECK(["${abs_top_builddir}/fileappender_test"], [0], [stdout], [experr])
 AT_CHECK([test -f "a/b/c/d/Test.log"], [0])
 
 AT_CLEANUP

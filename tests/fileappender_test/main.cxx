@@ -3,6 +3,7 @@
 #include <log4cplus/layout.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/property.h>
 #include <log4cplus/loggingmacros.h>
 
 
@@ -16,12 +17,13 @@ main()
 {
     log4cplus::initialize ();
     helpers::LogLog::getLogLog()->setInternalDebugging(true);
-    SharedAppenderPtr append_1(
+    SharedFileAppenderPtr append_1(
         new RollingFileAppender(LOG4CPLUS_TEXT("a/b/c/d/Test.log"), 5*1024, 5,
             false, true));
     append_1->setName(LOG4CPLUS_TEXT("First"));
     append_1->setLayout( std::auto_ptr<Layout>(new TTCCLayout()) );
-    Logger::getRoot().addAppender(append_1);
+    append_1->getloc();
+    Logger::getRoot().addAppender(SharedAppenderPtr(append_1.get ()));
 
     Logger root = Logger::getRoot();
     Logger test = Logger::getInstance(LOG4CPLUS_TEXT("test"));
@@ -32,6 +34,19 @@ main()
         LOG4CPLUS_DEBUG(subTest, "Entering loop #" << i);
     }
 
+    {
+        std::istringstream propsStream ("File=");
+        helpers::Properties props (propsStream);
+        FileAppender appender (props);
+        appender.setName (LOG4CPLUS_TEXT ("Second"));
+    }
+
+    {
+        std::istringstream propsStream ("File=nonexistent/Test.log");
+        helpers::Properties props (propsStream);
+        FileAppender appender (props);
+        appender.setName (LOG4CPLUS_TEXT ("Third"));
+    }
 
     return 0;
 }
