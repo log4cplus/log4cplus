@@ -128,6 +128,7 @@ DIST_COMMON = $(srcdir)/src/Makefile.am \
 	$(top_srcdir)/tests/filter_test/log4cplus.properties.in \
 	$(top_srcdir)/tests/performance_test/log4cplus.properties.in \
 	$(top_srcdir)/tests/propertyconfig_test/log4cplus.properties.in \
+	$(top_srcdir)/tests/propertyconfig_test/log4cplus.tail.properties.in \
 	$(srcdir)/log4cplus.pc.in depcomp $(am__pkgpython_PYTHON_DIST) \
 	py-compile
 noinst_PROGRAMS = appender_test$(EXEEXT) $(am__EXEEXT_1) \
@@ -177,7 +178,9 @@ CONFIG_CLEAN_FILES = tests/atlocal \
 	tests/configandwatch_test/log4cplus.properties \
 	tests/filter_test/log4cplus.properties \
 	tests/performance_test/log4cplus.properties \
-	tests/propertyconfig_test/log4cplus.properties log4cplus.pc
+	tests/propertyconfig_test/log4cplus.properties \
+	tests/propertyconfig_test/log4cplus.tail.properties \
+	log4cplus.pc
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -982,6 +985,8 @@ tests/filter_test/log4cplus.properties: $(top_builddir)/config.status $(top_srcd
 tests/performance_test/log4cplus.properties: $(top_builddir)/config.status $(top_srcdir)/tests/performance_test/log4cplus.properties.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 tests/propertyconfig_test/log4cplus.properties: $(top_builddir)/config.status $(top_srcdir)/tests/propertyconfig_test/log4cplus.properties.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+tests/propertyconfig_test/log4cplus.tail.properties: $(top_builddir)/config.status $(top_srcdir)/tests/propertyconfig_test/log4cplus.tail.properties.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 log4cplus.pc: $(top_builddir)/config.status $(srcdir)/log4cplus.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@

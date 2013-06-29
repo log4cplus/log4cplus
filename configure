@@ -22946,7 +22946,7 @@ ac_config_headers="$ac_config_headers include/log4cplus/config/defines.hxx"
 ac_config_files="$ac_config_files Makefile include/Makefile tests/atlocal"
 
 
-ac_config_files="$ac_config_files tests/configandwatch_test/log4cplus.properties tests/filter_test/log4cplus.properties tests/performance_test/log4cplus.properties tests/propertyconfig_test/log4cplus.properties"
+ac_config_files="$ac_config_files tests/configandwatch_test/log4cplus.properties tests/filter_test/log4cplus.properties tests/performance_test/log4cplus.properties tests/propertyconfig_test/log4cplus.properties tests/propertyconfig_test/log4cplus.tail.properties"
 
 
 
@@ -24106,6 +24106,7 @@ do
     "tests/filter_test/log4cplus.properties") CONFIG_FILES="$CONFIG_FILES tests/filter_test/log4cplus.properties" ;;
     "tests/performance_test/log4cplus.properties") CONFIG_FILES="$CONFIG_FILES tests/performance_test/log4cplus.properties" ;;
     "tests/propertyconfig_test/log4cplus.properties") CONFIG_FILES="$CONFIG_FILES tests/propertyconfig_test/log4cplus.properties" ;;
+    "tests/propertyconfig_test/log4cplus.tail.properties") CONFIG_FILES="$CONFIG_FILES tests/propertyconfig_test/log4cplus.tail.properties" ;;
     "log4cplus.pc") CONFIG_FILES="$CONFIG_FILES log4cplus.pc" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
