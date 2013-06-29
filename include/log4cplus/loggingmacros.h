@@ -456,10 +456,21 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 
 #endif
 
+//! Helper macro for LOG4CPLUS_ASSERT() macro.
 #define LOG4CPLUS_ASSERT_STRINGIFY(X) #X
+
+//! If the condition given in second parameter evaluates false, this
+//! macro logs it using FATAL log level, including the condition's
+//! source text.
 #define LOG4CPLUS_ASSERT(logger, condition)                             \
-    (logger).assertion (!! (condition),                                 \
-        LOG4CPLUS_TEXT ("failed condition: ")                           \
-        LOG4CPLUS_TEXT (LOG4CPLUS_ASSERT_STRINGIFY (condition)));
+    LOG4CPLUS_SUPPRESS_DOWHILE_WARNING()                                \
+    do {                                                                \
+        if (LOG4CPLUS_UNLIKELY(! (condition)))                          \
+            LOG4CPLUS_FATAL ((logger),                                  \
+                LOG4CPLUS_TEXT ("failed condition: ")                   \
+                LOG4CPLUS_TEXT (LOG4CPLUS_ASSERT_STRINGIFY (condition))); \
+    } while (0)                                                         \
+    LOG4CPLUS_RESTORE_DOWHILE_WARNING()
+
 
 #endif /* LOG4CPLUS_LOGGING_MACROS_HEADER_ */
