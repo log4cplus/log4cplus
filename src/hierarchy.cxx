@@ -24,6 +24,7 @@
 #include <log4cplus/spi/rootlogger.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <utility>
+#include <limits>
 
 
 namespace log4cplus
@@ -99,6 +100,10 @@ Hierarchy::clear()
 bool
 Hierarchy::exists(const tstring& name)
 {
+    // Root logger always does exist.
+    if (name.empty ())
+        return true;
+
     thread::MutexGuard guard (hashtable_mutex);
 
     LoggerMap::iterator it = loggerPtrs.find(name);
@@ -127,7 +132,7 @@ Hierarchy::disable(LogLevel ll)
 void 
 Hierarchy::disableAll() 
 { 
-    disable(FATAL_LOG_LEVEL);
+    disable((std::numeric_limits<LogLevel>::max) ());
 }
 
 
