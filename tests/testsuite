@@ -5309,9 +5309,9 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/propertyconfig_test.at:5: \"\${abs_top_builddir}/propertyconfig_test\""
+$as_echo "$at_srcdir/propertyconfig_test.at:5: ENV_VAR=test \"\${abs_top_builddir}/propertyconfig_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "propertyconfig_test.at:5"
-( $at_check_trace; "${abs_top_builddir}/propertyconfig_test"
+( $at_check_trace; ENV_VAR=test "${abs_top_builddir}/propertyconfig_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5331,6 +5331,19 @@ $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
 at_fn_check_status 0 $at_status "$at_srcdir/propertyconfig_test.at:6"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/propertyconfig_test.at:7: test -f \"output_test.log\""
+at_fn_check_prepare_trace "propertyconfig_test.at:7"
+( $at_check_trace; test -f "output_test.log"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/propertyconfig_test.at:7"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
