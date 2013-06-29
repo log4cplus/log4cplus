@@ -70,6 +70,8 @@ TESTSUITE_AT = \
   tests/local.at \
   tests/testsuite.at
 
+all: $(TESTSUITE)
+
 $(TESTSUITE): $(TESTSUITE_AT)
 	cd "$(abs_top_srcdir)" && $(AUTOTEST) -I tests tests/testsuite.at -o $@
 
