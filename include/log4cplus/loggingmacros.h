@@ -456,4 +456,10 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 
 #endif
 
+#define LOG4CPLUS_ASSERT_STRINGIFY(X) #X
+#define LOG4CPLUS_ASSERT(logger, condition)                             \
+    (logger).assertion (!! (condition),                                 \
+        LOG4CPLUS_TEXT ("failed condition: ")                           \
+        LOG4CPLUS_TEXT (LOG4CPLUS_ASSERT_STRINGIFY (condition)));
+
 #endif /* LOG4CPLUS_LOGGING_MACROS_HEADER_ */
