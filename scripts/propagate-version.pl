@@ -35,7 +35,7 @@ close $fh;
 open (my $fh2, "<", "configure.ac")
     or die $!;
 
-my ($so_current, $so_revision, $so_age);
+my ($so_current, $so_revision, $so_age, $so_current_adjusted);
 while (my $line = <$fh2>)
 {
     if ($line =~ m/\s* LT_VERSION= \s*
@@ -44,6 +44,9 @@ while (my $line = <$fh2>)
         ($so_current, $so_revision, $so_age) = ($1, $2, $3);
         print +("SO version: ", $so_current, ".", $so_revision, ".", $so_age,
                 "\n");
+        $so_current_adjusted = $so_current - $so_age;
+        print +("MingGW/Cygwin version: ", $major, "-", $minor, "-",
+                $so_current_adjusted, "\n");
         last;
     }
 }
@@ -91,7 +94,7 @@ close $fh2;
     {
         $line =~ s/(\s* VERSION \s* = \s*)(\d+\.\d+\.\d+)(-.+)?/$1$version$3/x
             || $line =~ s/\d+ ([._\-]) \d+ ([._\-]) \d+
-                         /$major$1$minor$2$so_current/gx;
+                         /$major$1$minor$2$so_current_adjusted/gx;
         print $line;
     }    
 }
