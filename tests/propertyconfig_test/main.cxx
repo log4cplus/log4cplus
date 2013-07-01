@@ -33,7 +33,7 @@ main()
 
 #define TEST_TEXT LOG4CPLUS_TEXT ("this is a test with DOS EOL-->")
         tistringstream propsStream (
-            "text=" TEST_TEXT "\r\n");
+            LOG4CPLUS_TEXT ("text=") TEST_TEXT LOG4CPLUS_TEXT ("\r\n"));
         Properties props (propsStream);
         if (props.getProperty (LOG4CPLUS_TEXT ("text")) != TEST_TEXT)
             LOG4CPLUS_ERROR (root, LOG4CPLUS_TEXT ("DOS EOLs test has failed"));

@@ -116,8 +116,8 @@ main()
             // Test appender's error handling for wrong layout.
 
             {
-                std::istringstream propsStream (
-                    "layout=log4cplus::WrongLayout");
+                tistringstream propsStream (
+                    LOG4CPLUS_TEXT ("layout=log4cplus::WrongLayout"));
                 Properties props (propsStream);
                 SharedObjectPtr<Appender> append (
                     new ConsoleAppender (props));
@@ -127,8 +127,8 @@ main()
             // Test threshold parsing.
 
             {
-                std::istringstream propsStream (
-                    "Threshold=ERROR");
+                tistringstream propsStream (
+                    LOG4CPLUS_TEXT ("Threshold=ERROR"));
                 Properties props (propsStream);
                 SharedObjectPtr<Appender> append (
                     new ConsoleAppender (props));
@@ -138,8 +138,8 @@ main()
             // Test threshold parsing of wrong log level.
 
             {
-                std::istringstream propsStream (
-                    "Threshold=WRONG");
+                tistringstream propsStream (
+                    LOG4CPLUS_TEXT ("Threshold=WRONG"));
                 Properties props (propsStream);
                 SharedObjectPtr<Appender> append (
                     new ConsoleAppender (props));
@@ -149,8 +149,8 @@ main()
             // Test wrong filter parsing.
 
             {
-                std::istringstream propsStream (
-                    "filters.1=log4cplus::spi::WrongFilter");
+                tistringstream propsStream (
+                    LOG4CPLUS_TEXT ("filters.1=log4cplus::spi::WrongFilter"));
                 Properties props (propsStream);
                 SharedObjectPtr<Appender> append (
                     new ConsoleAppender (props));
