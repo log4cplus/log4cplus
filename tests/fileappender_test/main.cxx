@@ -35,14 +35,15 @@ main()
     }
 
     {
-        std::istringstream propsStream ("File=");
+        tistringstream propsStream (LOG4CPLUS_TEXT ("File="));
         helpers::Properties props (propsStream);
         FileAppender appender (props);
         appender.setName (LOG4CPLUS_TEXT ("Second"));
     }
 
     {
-        std::istringstream propsStream ("File=nonexistent/Test.log");
+        tistringstream propsStream (
+            LOG4CPLUS_TEXT("File=nonexistent/Test.log"));
         helpers::Properties props (propsStream);
         FileAppender appender (props);
         appender.setName (LOG4CPLUS_TEXT ("Third"));

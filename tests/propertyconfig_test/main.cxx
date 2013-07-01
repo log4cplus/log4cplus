@@ -31,7 +31,8 @@ main()
 
         // Test that DOS EOLs in property files get removed.
 #define TEST_TEXT LOG4CPLUS_TEXT ("this is a test with DOS EOL-->")
-        tistringstream propsStream ("text=" TEST_TEXT "\r\n");
+        tistringstream propsStream (
+            LOG4CPLUS_TEXT ("text=") TEST_TEXT LOG4CPLUS_TEXT ("\r\n"));
         Properties props (propsStream);
         LOG4CPLUS_ASSERT (root,
             props.getProperty (LOG4CPLUS_TEXT ("text")) == TEST_TEXT);
