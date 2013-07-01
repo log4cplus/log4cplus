@@ -47,7 +47,8 @@ main()
     {
         AppenderAttachableImpl aai;
         try {
-            SharedObjectPtr<Appender> append_1(new ConsoleAppender());
+            SharedObjectPtr<Appender> append_1(
+                new ConsoleAppender(false, true));
             append_1->setName(LOG4CPLUS_TEXT("First"));
 
             SharedObjectPtr<Appender> append_2(new ConsoleAppender());
