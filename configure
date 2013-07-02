@@ -693,6 +693,8 @@ PTHREAD_CXXFLAGS
 PTHREAD_LIBS
 ax_pthread_config
 EGREP
+USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX_FALSE
+USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX_TRUE
 GREP
 SED
 CXXCPP
@@ -7985,7 +7987,18 @@ esac
   *) :
      ;;
 esac
+   use_export_symbols_regex=no
+else
+  use_export_symbols_regex=yes
 fi
+ if test "x$use_export_symbols_regex" = "xyes"; then
+  USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX_TRUE=
+  USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX_FALSE='#'
+else
+  USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX_TRUE='#'
+  USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX_FALSE=
+fi
+
 
 
 
@@ -23102,6 +23115,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCXX\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX_TRUE}" && test -z "${USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX_FALSE}"; then
+  as_fn_error $? "conditional \"USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${MULTI_THREADED_TRUE}" && test -z "${MULTI_THREADED_FALSE}"; then
