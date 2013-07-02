@@ -1,6 +1,10 @@
 Possible enhancements and directions of development, in no particular
 order:
 
+- Rewrite FileAppender to use OS specific file handling to allow
+  RollingFileAppender to roll log files shared between multiple
+  processes even on Windows.
+
 - Improve error handling
   - allow not to throw exceptions
   - create hooks to allow users to override behaviour
