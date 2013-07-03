@@ -308,7 +308,11 @@ AS_IF([test "x$ac_cv_declspec" = "xyes" dnl
     [AX_CXXFLAGS_GCC_OPTION([-fvisibility=hidden])],
 
     [sun],
-    [AX_CXXFLAGS_SUN_OPTION([-xldscope=hidden])])])
+    [AX_CXXFLAGS_SUN_OPTION([-xldscope=hidden])])
+   use_export_symbols_regex=no],
+  [use_export_symbols_regex=yes])
+AM_CONDITIONAL([USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX],
+  [test "x$use_export_symbols_regex" = "xyes"])
 
 AX_C99_VARIADIC_MACROS
 AH_TEMPLATE([LOG4CPLUS_HAVE_C99_VARIADIC_MACROS])

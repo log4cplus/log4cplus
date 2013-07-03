@@ -138,5 +138,16 @@ liblog4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
 
 liblog4cplus_la_SOURCES = $(LIB_SRC)
 
+if USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX
+# Export symbols in log4cplus namespace but try to avoid symbols in
+# the log4cplus::internal namespace.
+LOG4CPLUS_EXPORT_SYMBOLS_REGEX = -export-symbols-regex '9log4cplus[^8][^i][^n]|log4cplus_'
+else
+LOG4CPLUS_EXPORT_SYMBOLS_REGEX =
+endif
+
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -no-undefined $(LOG4CPLUS_VERSION_LT_FLAGS) @LOG4CPLUS_PROFILING_LDFLAGS@
+liblog4cplus_la_LDFLAGS = -no-undefined \
+	$(LOG4CPLUS_VERSION_LT_FLAGS) \
+	@LOG4CPLUS_PROFILING_LDFLAGS@ \
+	$(LOG4CPLUS_EXPORT_SYMBOLS_REGEX)

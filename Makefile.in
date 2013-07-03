@@ -792,9 +792,18 @@ liblog4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
 
 #liblog4cplus_la_LDFLAGS=@LOG4CPLUS_PROFILING_LDFLAGS@
 liblog4cplus_la_SOURCES = $(LIB_SRC)
+@USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX_FALSE@LOG4CPLUS_EXPORT_SYMBOLS_REGEX = 
+
+# Export symbols in log4cplus namespace but try to avoid symbols in
+# the log4cplus::internal namespace.
+@USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX_TRUE@LOG4CPLUS_EXPORT_SYMBOLS_REGEX = -export-symbols-regex '9log4cplus[^8][^i][^n]|log4cplus_'
 
 #liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -no-undefined $(LOG4CPLUS_VERSION_LT_FLAGS) @LOG4CPLUS_PROFILING_LDFLAGS@
+liblog4cplus_la_LDFLAGS = -no-undefined \
+	$(LOG4CPLUS_VERSION_LT_FLAGS) \
+	@LOG4CPLUS_PROFILING_LDFLAGS@ \
+	$(LOG4CPLUS_EXPORT_SYMBOLS_REGEX)
+
 appender_test_SOURCES = tests/appender_test/main.cxx
 appender_test_LDADD = $(liblog4cplus_la_file)
 @MULTI_THREADED_TRUE@configandwatch_test_SOURCES = tests/configandwatch_test/main.cxx

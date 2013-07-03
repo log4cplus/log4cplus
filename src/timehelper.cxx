@@ -115,7 +115,11 @@ Time::gettimeofday()
 
 #elif defined (_WIN32)
     FILETIME ft;
+#if _WIN32_WINNT >= 0x602
+    GetSystemTimePreciseAsFileTime (&ft);
+#else
     GetSystemTimeAsFileTime (&ft);
+#endif
 
     typedef unsigned __int64 uint64_type;
     uint64_type st100ns
