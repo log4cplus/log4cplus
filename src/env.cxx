@@ -367,7 +367,9 @@ expand_relative_path (Container & components,
     // Split the CWD.
 
     std::vector<tstring> cwd_components;
-    split_into_components (cwd_components, cwd, is_sep);
+
+    // Use qualified call to appease IBM xlC.
+    internal::split_into_components (cwd_components, cwd, is_sep);
 
     // Insert the CWD components at the beginning of components.
 
