@@ -33,6 +33,8 @@ Tested on the following platforms
 - NetBSD 6.0/AMD64 with GCC 4.5.3 (NetBSD nb2 20110806)
 - OpenBSD 5.2/AMD64 with GCC 4.2.1 20070719
 - MacOS X 10.8 with GCC 4.2.1 (Apple Inc. build 5664)
+- HP-UX B.11.11 with HP ANSI C++ B3910B A.03.80
+  (hppa2.0w-hp-hpux11.11)
 
 
 Configure script options
