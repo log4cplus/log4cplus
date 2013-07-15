@@ -162,10 +162,12 @@ namespace log4cplus {
             typedef std::numeric_limits<intType> intTypeLimits;
             typedef ConvertIntegerToStringHelper<intType, intTypeLimits::is_signed>
                 HelperType;
+            
+            tchar buffer[intTypeLimits::digits10 + 2];
+            // We define buffer_size from buffer using sizeof operator
+            // to apease HP aCC compiler.
+            const std::size_t buffer_size = sizeof (buffer) / sizeof (tchar);
 
-            const std::size_t buffer_size
-                = intTypeLimits::digits10 + 2;
-            tchar buffer[buffer_size];
             tchar * it = &buffer[buffer_size];
             tchar const * const buf_end = &buffer[buffer_size];
 
