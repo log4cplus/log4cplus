@@ -268,6 +268,14 @@ configuration of POSIX threads:
     LDFLAGS="-lpthread"
 
 
+HP-UX with aCC
+--------------
+
+It is necessary to turn on C++98 mode of aCC by providing the `-AA` flag:
+
+    $ ../configure --enable-threds=yes CXXFLAGS="-AA"
+
+
 Qt4 / Win32 / MSVC
 ------------------
 
