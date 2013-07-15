@@ -7851,6 +7851,7 @@ fi
 { continue_checks=; unset continue_checks;}
 
 
+use_export_symbols_regex=no
 if test "x$ac_cv_declspec" = "xyes"   || test "x$ac_cv__attribute__visibility" = "xyes"   || test "x$ac_cv__global" = "xyes"; then :
   case $ax_cv_cxx_compiler_vendor in #(
   gnu|clang) :
@@ -7919,6 +7920,8 @@ case ".$var" in
  ;;
 esac
  ;; #(
+  hp) :
+    as_fn_append CXXFLAGS " -Bhidden_def" ;; #(
   sun) :
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for sun/cc -xldscope=hidden" >&5
 $as_echo_n "checking CXXFLAGS for sun/cc -xldscope=hidden... " >&6; }
@@ -7985,9 +7988,8 @@ case ".$var" in
 esac
  ;; #(
   *) :
-     ;;
+    use_export_symbols_regex=yes ;;
 esac
-   use_export_symbols_regex=no
 else
   use_export_symbols_regex=yes
 fi

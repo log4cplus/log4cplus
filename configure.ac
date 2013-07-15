@@ -300,6 +300,7 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
    AX_CXXFLAGS_SUN_OPTION([-library=Crun])])
 
 AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
+use_export_symbols_regex=no
 AS_IF([test "x$ac_cv_declspec" = "xyes" dnl
   || test "x$ac_cv__attribute__visibility" = "xyes" dnl
   || test "x$ac_cv__global" = "xyes"],
@@ -307,9 +308,13 @@ AS_IF([test "x$ac_cv_declspec" = "xyes" dnl
     [gnu|clang],
     [AX_CXXFLAGS_GCC_OPTION([-fvisibility=hidden])],
 
+    [hp],
+    [AS_VAR_APPEND([CXXFLAGS], [" -Bhidden_def"])],
+
     [sun],
-    [AX_CXXFLAGS_SUN_OPTION([-xldscope=hidden])])
-   use_export_symbols_regex=no],
+    [AX_CXXFLAGS_SUN_OPTION([-xldscope=hidden])],
+
+    [use_export_symbols_regex=yes])],
   [use_export_symbols_regex=yes])
 AM_CONDITIONAL([USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX],
   [test "x$use_export_symbols_regex" = "xyes"])
