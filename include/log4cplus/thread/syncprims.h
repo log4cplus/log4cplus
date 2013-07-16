@@ -35,22 +35,22 @@
 namespace log4cplus { namespace thread {
 
 
-template <typename SP>
+template <typename SyncPrim>
 class SyncGuard
 {
 public:
     SyncGuard ();
-    SyncGuard (SP const &);
+    SyncGuard (SyncPrim const &);
     ~SyncGuard ();
 
     void lock ();
     void unlock ();
-    void attach (SP const &);
-    void attach_and_lock (SP const &);
+    void attach (SyncPrim const &);
+    void attach_and_lock (SyncPrim const &);
     void detach ();
 
 private:
-    SP const * sp;
+    SyncPrim const * sp;
 
     SyncGuard (SyncGuard const &);
     SyncGuard & operator = (SyncGuard const &);
@@ -180,21 +180,21 @@ protected:
 };
 
 
-template <typename SP, void (SP:: * lock_func) () const,
-    void (SP:: * unlock_func) () const>
+template <typename SyncPrim, void (SyncPrim:: * lock_func) () const,
+    void (SyncPrim:: * unlock_func) () const>
 class SyncGuardFunc
 {
 public:
-    SyncGuardFunc (SP const &);
+    SyncGuardFunc (SyncPrim const &);
     ~SyncGuardFunc ();
 
     void lock ();
     void unlock ();
-    void attach (SP const &);
+    void attach (SyncPrim const &);
     void detach ();
 
 private:
-    SP const * sp;
+    SyncPrim const * sp;
 
     SyncGuardFunc (SyncGuardFunc const &);
     SyncGuardFunc & operator = (SyncGuardFunc const &);
@@ -233,62 +233,62 @@ typedef SyncGuardFunc<SharedMutex, &SharedMutex::wrlock,
 //
 //
 
-template <typename SP>
+template <typename SyncPrim>
 inline
-SyncGuard<SP>::SyncGuard ()
+SyncGuard<SyncPrim>::SyncGuard ()
     : sp (0)
 { }
 
 
-template <typename SP>
+template <typename SyncPrim>
 inline
-SyncGuard<SP>::SyncGuard (SP const & m)
+SyncGuard<SyncPrim>::SyncGuard (SyncPrim const & m)
     : sp (&m)
 {
     sp->lock ();
 }
 
 
-template <typename SP>
+template <typename SyncPrim>
 inline
-SyncGuard<SP>::~SyncGuard ()
+SyncGuard<SyncPrim>::~SyncGuard ()
 {
     if (sp)
         sp->unlock ();
 }
 
 
-template <typename SP>
+template <typename SyncPrim>
 inline
 void
-SyncGuard<SP>::lock ()
+SyncGuard<SyncPrim>::lock ()
 {
     sp->lock ();
 }
 
 
-template <typename SP>
+template <typename SyncPrim>
 inline
 void
-SyncGuard<SP>::unlock ()
+SyncGuard<SyncPrim>::unlock ()
 {
     sp->unlock ();
 }
 
 
-template <typename SP>
+template <typename SyncPrim>
 inline
 void
-SyncGuard<SP>::attach (SP const & m)
+SyncGuard<SyncPrim>::attach (SyncPrim const & m)
 {
     sp = &m;
 }
 
 
-template <typename SP>
+template <typename SyncPrim>
 inline
 void
-SyncGuard<SP>::attach_and_lock (SP const & m)
+SyncGuard<SyncPrim>::attach_and_lock (SyncPrim const & m)
 {
     attach (m);
     try
@@ -303,10 +303,10 @@ SyncGuard<SP>::attach_and_lock (SP const & m)
 }
 
 
-template <typename SP>
+template <typename SyncPrim>
 inline
 void
-SyncGuard<SP>::detach ()
+SyncGuard<SyncPrim>::detach ()
 {
     sp = 0;
 }
@@ -316,61 +316,61 @@ SyncGuard<SP>::detach ()
 //
 //
 
-template <typename SP, void (SP:: * lock_func) () const,
-    void (SP:: * unlock_func) () const>
+template <typename SyncPrim, void (SyncPrim:: * lock_func) () const,
+    void (SyncPrim:: * unlock_func) () const>
 inline
-SyncGuardFunc<SP, lock_func, unlock_func>::SyncGuardFunc (SP const & m)
+SyncGuardFunc<SyncPrim, lock_func, unlock_func>::SyncGuardFunc (SyncPrim const & m)
     : sp (&m)
 {
     (sp->*lock_func) ();
 }
 
 
-template <typename SP, void (SP:: * lock_func) () const,
-    void (SP:: * unlock_func) () const>
+template <typename SyncPrim, void (SyncPrim:: * lock_func) () const,
+    void (SyncPrim:: * unlock_func) () const>
 inline
-SyncGuardFunc<SP, lock_func, unlock_func>::~SyncGuardFunc ()
+SyncGuardFunc<SyncPrim, lock_func, unlock_func>::~SyncGuardFunc ()
 {
     if (sp)
         (sp->*unlock_func) ();
 }
 
 
-template <typename SP, void (SP:: * lock_func) () const,
-    void (SP:: * unlock_func) () const>
+template <typename SyncPrim, void (SyncPrim:: * lock_func) () const,
+    void (SyncPrim:: * unlock_func) () const>
 inline
 void
-SyncGuardFunc<SP, lock_func, unlock_func>::lock ()
+SyncGuardFunc<SyncPrim, lock_func, unlock_func>::lock ()
 {
     (sp->*lock_func) ();
 }
 
 
-template <typename SP, void (SP:: * lock_func) () const,
-    void (SP:: * unlock_func) () const>
+template <typename SyncPrim, void (SyncPrim:: * lock_func) () const,
+    void (SyncPrim:: * unlock_func) () const>
 inline
 void
-SyncGuardFunc<SP, lock_func, unlock_func>::unlock ()
+SyncGuardFunc<SyncPrim, lock_func, unlock_func>::unlock ()
 {
     (sp->*unlock_func) ();
 }
 
 
-template <typename SP, void (SP:: * lock_func) () const,
-    void (SP:: * unlock_func) () const>
+template <typename SyncPrim, void (SyncPrim:: * lock_func) () const,
+    void (SyncPrim:: * unlock_func) () const>
 inline
 void
-SyncGuardFunc<SP, lock_func, unlock_func>::attach (SP const & m)
+SyncGuardFunc<SyncPrim, lock_func, unlock_func>::attach (SyncPrim const & m)
 {
     sp = &m;
 }
 
 
-template <typename SP, void (SP:: * lock_func) () const,
-    void (SP:: * unlock_func) () const>
+template <typename SyncPrim, void (SyncPrim:: * lock_func) () const,
+    void (SyncPrim:: * unlock_func) () const>
 inline
 void
-SyncGuardFunc<SP, lock_func, unlock_func>::detach ()
+SyncGuardFunc<SyncPrim, lock_func, unlock_func>::detach ()
 {
     sp = 0;
 }
