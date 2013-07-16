@@ -8,6 +8,7 @@ env:
   - PARAM_THREADS="--disable-threads" PARAM_CXXFLAGS=""
   - PARAM_THREADS="--disable-threads" PARAM_CXXFLAGS="CXXFLAGS='-DUNICODE'"
 before_script:
+  - sh ./scripts/fix-timestamps.sh
   - mkdir objdir
   - cd objdir
 script: ../configure $PARAM_THREADS $PARAM_CXXFLAGS && make && make check
