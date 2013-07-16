@@ -1,0 +1,22 @@
+language: cpp
+compiler:
+  - gcc
+  - clang
+env:
+  - PARAM_THREADS="--enable-threads" PARAM_CXXFLAGS=""
+  - PARAM_THREADS="--enable-threads" PARAM_CXXFLAGS="CXXFLAGS='-DUNICODE'"
+  - PARAM_THREADS="--disable-threads" PARAM_CXXFLAGS=""
+  - PARAM_THREADS="--disable-threads" PARAM_CXXFLAGS="CXXFLAGS='-DUNICODE'"
+before_script:
+  - mkdir objdir
+  - cd objdir
+script: ../configure $PARAM_THREADS $PARAM_CXXFLAGS && make && make check
+branches:
+  only:
+    - master
+notifications:
+  recipients:
+    - vhaisman@gmail.com
+  email:
+    on_success: always
+    on_failure: always
