@@ -5,3 +5,4 @@ CPPFLAGS="-I$abs_top_builddir/include -I$abs_top_srcdir/include @CPPFLAGS@"
 : ${CXXFLAGS='@CXXFLAGS@'}
 : ${GREP='@GREP@'}
 : ${SED='@SED@'}
+: ${ENABLE_THREADS='@ENABLE_THREADS@'}

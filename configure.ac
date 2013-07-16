@@ -418,6 +418,8 @@ AC_ARG_ENABLE([threads],
     [Use this option to create a singled-threaded version of this library])],
   [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-threads])],
   [enable_threads=yes])
+AS_VAR_SET([ENABLE_THREADS], [$enable_threads])
+AC_SUBST([ENABLE_THREADS])
 
 AS_IF([test "x$enable_threads" = "xyes"],
 dnl Multi threaded library.

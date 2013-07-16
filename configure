@@ -692,6 +692,7 @@ MULTI_THREADED_TRUE
 PTHREAD_CXXFLAGS
 PTHREAD_LIBS
 ax_pthread_config
+ENABLE_THREADS
 EGREP
 USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX_FALSE
 USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX_TRUE
@@ -9394,6 +9395,8 @@ if test "${enable_threads+set}" = set; then :
 else
   enable_threads=yes
 fi
+
+ENABLE_THREADS=$enable_threads
 
 
 if test "x$enable_threads" = "xyes"; then :

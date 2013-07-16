@@ -4686,42 +4686,45 @@ at_xfail=no
 
 
 
+$as_echo "configandwatch_test.at:4" >"$at_check_line_file"
+(test "x$ENABLE_THREADS" != "xyes") \
+  && at_fn_check_skip 77 "$at_srcdir/configandwatch_test.at:4"
 { set +x
-$as_echo "$at_srcdir/configandwatch_test.at:4: cp -f \"\${abs_builddir}/configandwatch_test/log4cplus.properties\" ."
-at_fn_check_prepare_notrace 'a ${...} parameter expansion' "configandwatch_test.at:4"
+$as_echo "$at_srcdir/configandwatch_test.at:5: cp -f \"\${abs_builddir}/configandwatch_test/log4cplus.properties\" ."
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "configandwatch_test.at:5"
 ( $at_check_trace; cp -f "${abs_builddir}/configandwatch_test/log4cplus.properties" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/configandwatch_test.at:4"
+at_fn_check_status 0 $at_status "$at_srcdir/configandwatch_test.at:5"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/configandwatch_test.at:5: \"\${abs_top_builddir}/configandwatch_test\""
-at_fn_check_prepare_notrace 'a ${...} parameter expansion' "configandwatch_test.at:5"
+$as_echo "$at_srcdir/configandwatch_test.at:6: \"\${abs_top_builddir}/configandwatch_test\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "configandwatch_test.at:6"
 ( $at_check_trace; "${abs_top_builddir}/configandwatch_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 echo stderr:; tee stderr <"$at_stderr"
 echo stdout:; cat "$at_stdout"
-at_fn_check_status 0 $at_status "$at_srcdir/configandwatch_test.at:5"
+at_fn_check_status 0 $at_status "$at_srcdir/configandwatch_test.at:6"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/configandwatch_test.at:6: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
-at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "configandwatch_test.at:6"
+$as_echo "$at_srcdir/configandwatch_test.at:7: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "configandwatch_test.at:7"
 ( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/configandwatch_test.at:6"
+at_fn_check_status 0 $at_status "$at_srcdir/configandwatch_test.at:7"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
@@ -5376,16 +5379,19 @@ at_xfail=no
 
 
 
+$as_echo "thread_test.at:4" >"$at_check_line_file"
+(test "x$ENABLE_THREADS" != "xyes") \
+  && at_fn_check_skip 77 "$at_srcdir/thread_test.at:4"
 { set +x
-$as_echo "$at_srcdir/thread_test.at:4: \"\${abs_top_builddir}/thread_test\""
-at_fn_check_prepare_notrace 'a ${...} parameter expansion' "thread_test.at:4"
+$as_echo "$at_srcdir/thread_test.at:5: \"\${abs_top_builddir}/thread_test\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "thread_test.at:5"
 ( $at_check_trace; "${abs_top_builddir}/thread_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 echo stderr:; tee stderr <"$at_stderr"
 echo stdout:; tee stdout <"$at_stdout"
-at_fn_check_status 0 $at_status "$at_srcdir/thread_test.at:4"
+at_fn_check_status 0 $at_status "$at_srcdir/thread_test.at:5"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
