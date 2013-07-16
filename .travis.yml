@@ -12,6 +12,8 @@ before_script:
   - mkdir objdir
   - cd objdir
 script: ../configure $PARAM_THREADS $PARAM_CXXFLAGS && make && make check
+after_failure:
+  - cat config.log
 branches:
   only:
     - master
