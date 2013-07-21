@@ -456,7 +456,7 @@ SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
         // see (RFC6587, 3.4.1 Octet
         // Counting)[http://tools.ietf.org/html/rfc6587#section-3.4.1]
         std::string syslogFrameHeader (
-            helpers::convertIntegerToString (appender_sp.chstr.size ()));
+            helpers::convertIntegerToNarrowString (appender_sp.chstr.size ()));
         syslogFrameHeader += ' ';
         appender_sp.chstr.insert (appender_sp.chstr.begin (),
             syslogFrameHeader.begin (), syslogFrameHeader.end ());

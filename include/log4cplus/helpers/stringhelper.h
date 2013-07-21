@@ -93,16 +93,16 @@ namespace log4cplus {
         }
 
 
-        template <typename intType, bool isSigned>
+        template <typename intType, typename stringType, bool isSigned>
         struct ConvertIntegerToStringHelper;
 
 
-        template <typename intType>
-        struct ConvertIntegerToStringHelper<intType, true>
+        template <typename intType, typename charType>
+        struct ConvertIntegerToStringHelper<intType, charType, true>
         {
             static inline
             void
-            step1 (tchar * & it, intType & value)
+            step1 (charType * & it, intType & value)
             {
                 // The sign of the result of the modulo operator is
                 // implementation defined. That's why we work with
@@ -119,7 +119,8 @@ namespace log4cplus {
                     intType const mod = -(a + value);
                     value = -r;
 
-                    *(it - 1) = static_cast<tchar>(LOG4CPLUS_TEXT('0') + mod);
+                    *(it - 1)
+                        = static_cast<charType>(LOG4CPLUS_TEXT('0') + mod);
                     --it;
                 }
                 else
@@ -135,12 +136,12 @@ namespace log4cplus {
         };
 
 
-        template <typename intType>
-        struct ConvertIntegerToStringHelper<intType, false>
+        template <typename intType, typename charType>
+        struct ConvertIntegerToStringHelper<intType, charType, false>
         {
             static inline
             void
-            step1 (tchar * &, intType &)
+            step1 (charType * &, intType &)
             {
                 // This will never be called for unsigned types.
             }
@@ -154,22 +155,24 @@ namespace log4cplus {
         };
 
 
-        template<class intType>
+        template <class stringType, class intType>
         inline
         void
-        convertIntegerToString (tstring & str, intType value)
+        convertIntegerToString (stringType & str, intType value)
         {
             typedef std::numeric_limits<intType> intTypeLimits;
-            typedef ConvertIntegerToStringHelper<intType, intTypeLimits::is_signed>
-                HelperType;
+            typedef typename stringType::value_type charType;
+            typedef ConvertIntegerToStringHelper<intType, charType,
+                intTypeLimits::is_signed> HelperType;
             
-            tchar buffer[intTypeLimits::digits10 + 2];
+            charType buffer[intTypeLimits::digits10 + 2];
             // We define buffer_size from buffer using sizeof operator
             // to apease HP aCC compiler.
-            const std::size_t buffer_size = sizeof (buffer) / sizeof (tchar);
+            const std::size_t buffer_size
+                = sizeof (buffer) / sizeof (charType);
 
-            tchar * it = &buffer[buffer_size];
-            tchar const * const buf_end = &buffer[buffer_size];
+            charType * it = &buffer[buffer_size];
+            charType const * const buf_end = &buffer[buffer_size];
 
             if (LOG4CPLUS_UNLIKELY (value == 0))
             {
@@ -186,7 +189,8 @@ namespace log4cplus {
                 {
                     intType mod = value % 10;
                     value = value / 10;
-                    *(it - 1) = static_cast<tchar>(LOG4CPLUS_TEXT('0') + mod);
+                    *(it - 1) = static_cast<charType>(LOG4CPLUS_TEXT('0')
+                        + mod);
                 }
 
                 if (negative)
@@ -196,7 +200,7 @@ namespace log4cplus {
                 }
             }
 
-            str.assign (static_cast<tchar const *>(it), buf_end);
+            str.assign (static_cast<charType const *>(it), buf_end);
         }
 
 
@@ -206,6 +210,17 @@ namespace log4cplus {
         convertIntegerToString (intType value)
         {
             tstring result;
+            convertIntegerToString (result, value);
+            return result;
+        }
+
+
+        template<class intType>
+        inline
+        std::string
+        convertIntegerToNarrowString (intType value)
+        {
+            std::string result;
             convertIntegerToString (result, value);
             return result;
         }
