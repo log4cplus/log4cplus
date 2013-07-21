@@ -397,18 +397,16 @@ tstring const SysLogAppender::remoteTimeFormat (
 void
 SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
 {
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+
     if (! connected)
     {
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
         connector->trigger ();
         return;
-    }
 
 #else
-    if (! syslogSocket.isOpen ())
-    {
         openSocket ();
-        if (! socket.isOpen ())
+        if (! connected)
         {
             helpers::getLogLog ().error (
                 LOG4CPLUS_TEXT ("SysLogAppender")
@@ -417,9 +415,8 @@ SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
                 + helpers::convertIntegerToString (port));
             return;
         }
-    }
-
 #endif
+    }
 
     int const level = getSysLogLevel(event.getLogLevel());
     internal::appender_sratch_pad & appender_sp = internal::get_appender_sp ();
@@ -469,9 +466,10 @@ SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
             LOG4CPLUS_TEXT ("SysLogAppender::appendRemote")
             LOG4CPLUS_TEXT ("- socket write failed"));
 
+        connected = false;
+
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-            connected = false;
-            connector->trigger ();
+        connector->trigger ();
 #endif
     }
 }

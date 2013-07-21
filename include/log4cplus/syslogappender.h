@@ -120,6 +120,7 @@ namespace log4cplus
         int port;
         RemoteSyslogType remoteSyslogType;
         helpers::Socket syslogSocket;
+        bool connected;
 
         static tstring const remoteTimeFormat;
 
@@ -132,7 +133,6 @@ namespace log4cplus
         virtual helpers::Socket ctcConnect ();
         virtual void ctcSetConnected ();
 
-        bool connected;
         helpers::SharedObjectPtr<helpers::ConnectorThread> connector;
 #endif
 
