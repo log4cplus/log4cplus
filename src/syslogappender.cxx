@@ -224,6 +224,7 @@ SysLogAppender::SysLogAppender(const tstring& id)
     , facility (0)
     , appendFunc (&SysLogAppender::appendLocal)
     , port (0)
+    , connected (false)
     // Store std::string form of ident as member of SysLogAppender so
     // the address of the c_str() result remains stable for openlog &
     // co to use even if we use wstrings.
@@ -241,6 +242,7 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
     , facility (0)
     , appendFunc (0)
     , port (0)
+    , connected (false)
     , hostname (helpers::getHostname (true))
 {
     ident = properties.getProperty( LOG4CPLUS_TEXT("ident") );
@@ -248,6 +250,10 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
         helpers::toLower (
             properties.getProperty (LOG4CPLUS_TEXT ("facility"))));
     identStr = LOG4CPLUS_TSTRING_TO_STRING (ident);
+
+    bool udp = true;
+    properties.getBool (udp, LOG4CPLUS_TEXT ("udp"));
+    remoteSyslogType = udp ? RSTUdp : RSTTcp;
 
     host = properties.getProperty (LOG4CPLUS_TEXT ("host"));
     if (host.empty ())
@@ -269,25 +275,30 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
             port = 514;
 
         appendFunc = &SysLogAppender::appendRemote;
-        syslogSocket = helpers::Socket (host, port, true);
+        openSocket ();
+        initConnector ();
     }
 }
 
 
 SysLogAppender::SysLogAppender(const tstring& id, const tstring & h,
-    int p, const tstring & f)
+    int p, const tstring & f, SysLogAppender::RemoteSyslogType rst)
     : ident (id)
     , facility (parseFacility (helpers::toLower (f)))
     , appendFunc (&SysLogAppender::appendRemote)
     , host (h)
     , port (p)
-    , syslogSocket (host, port, true)
+    , remoteSyslogType (rst)
+    , connected (false)
     // Store std::string form of ident as member of SysLogAppender so
     // the address of the c_str() result remains stable for openlog &
     // co to use even if we use wstrings.
     , identStr(LOG4CPLUS_TSTRING_TO_STRING (id) )
     , hostname (helpers::getHostname (true))
-{ }
+{
+    openSocket ();
+    initConnector ();
+}
 
 
 SysLogAppender::~SysLogAppender()
@@ -316,6 +327,11 @@ SysLogAppender::close()
     }
     else
         syslogSocket.close ();
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    if (connector)
+        connector->terminate ();
+#endif
 
     closed = true;
 }
@@ -381,6 +397,30 @@ tstring const SysLogAppender::remoteTimeFormat (
 void
 SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
 {
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    if (! connected)
+    {
+        connector->trigger ();
+        return;
+    }
+
+#else
+    if (! syslogSocket.isOpen ())
+    {
+        openSocket ();
+        if (! socket.isOpen ())
+        {
+            helpers::getLogLog ().error (
+                LOG4CPLUS_TEXT ("SysLogAppender")
+                LOG4CPLUS_TEXT ("- failed to connect to ")
+                + host + LOG4CPLUS_TEXT (":")
+                + helpers::convertIntegerToString (port));
+            return;
+        }
+    }
+
+#endif
+
     int const level = getSysLogLevel(event.getLogLevel());
     internal::appender_sratch_pad & appender_sp = internal::get_appender_sp ();
     detail::clear_tostringstream (appender_sp.oss);
@@ -410,6 +450,17 @@ SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
 
     LOG4CPLUS_TSTRING_TO_STRING (appender_sp.oss.str ())
         .swap (appender_sp.chstr);
+
+    if (remoteSyslogType != RSTUdp)
+    {
+        // see (RFC6587, 3.4.1 Octet
+        // Counting)[http://tools.ietf.org/html/rfc6587#section-3.4.1]
+        std::string syslogFrameHeader (
+            helpers::convertIntegerToString (appender_sp.chstr.size ()));
+        syslogFrameHeader += ' ';
+        appender_sp.chstr.insert (appender_sp.chstr.begin (),
+            syslogFrameHeader.begin (), syslogFrameHeader.end ());
+    }
     
     bool ret = syslogSocket.write (appender_sp.chstr);
     if (! ret)
@@ -417,9 +468,72 @@ SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
         helpers::getLogLog ().warn (
             LOG4CPLUS_TEXT ("SysLogAppender::appendRemote")
             LOG4CPLUS_TEXT ("- socket write failed"));
-        syslogSocket = helpers::Socket (host, port, true);
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+            connected = false;
+            connector->trigger ();
+#endif
     }
 }
 
 
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+thread::Mutex const &
+SysLogAppender::ctcGetAccessMutex () const
+{
+    return access_mutex;
+}
+
+
+helpers::Socket &
+SysLogAppender::ctcGetSocket ()
+{
+    return syslogSocket;
+}
+
+
+helpers::Socket
+SysLogAppender::ctcConnect ()
+{
+    return helpers::Socket (host, static_cast<unsigned short>(port),
+        remoteSyslogType == RSTUdp);
+}
+
+
+void
+SysLogAppender::ctcSetConnected ()
+{
+    connected = true;
+}
+
+#endif
+
+
+void
+SysLogAppender::initConnector ()
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    connected = true;
+    connector = new helpers::ConnectorThread (*this);
+    connector->start ();
+#endif
+}
+
+
+void
+SysLogAppender::openSocket ()
+{
+    syslogSocket = helpers::Socket (host, static_cast<unsigned short>(port),
+        remoteSyslogType == RSTUdp);
+    connected = syslogSocket.isOpen ();
+    if (! connected)
+        helpers::getLogLog ().error (
+            LOG4CPLUS_TEXT ("SysLogAppender")
+            LOG4CPLUS_TEXT ("- failed to connect to ")
+            + host
+            + LOG4CPLUS_TEXT (":") + helpers::convertIntegerToString (port));
+}
+
+
 } // namespace log4cplus
+
