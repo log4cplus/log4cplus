@@ -6,6 +6,7 @@ SINGLE_THREADED_SRC = \
 	src/asyncappender.cxx \
 	src/clogger.cxx \
 	src/configurator.cxx \
+	src/connectorthread.cxx \
 	src/consoleappender.cxx \
 	src/cygwin-win32.cxx \
 	src/env.cxx \

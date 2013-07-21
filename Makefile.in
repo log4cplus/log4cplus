@@ -235,6 +235,7 @@ am__objects_3 = src/liblog4cplus_la-appenderattachableimpl.lo \
 	src/liblog4cplus_la-asyncappender.lo \
 	src/liblog4cplus_la-clogger.lo \
 	src/liblog4cplus_la-configurator.lo \
+	src/liblog4cplus_la-connectorthread.lo \
 	src/liblog4cplus_la-consoleappender.lo \
 	src/liblog4cplus_la-cygwin-win32.lo src/liblog4cplus_la-env.lo \
 	src/liblog4cplus_la-factory.lo \
@@ -663,6 +664,7 @@ SINGLE_THREADED_SRC = \
 	src/asyncappender.cxx \
 	src/clogger.cxx \
 	src/configurator.cxx \
+	src/connectorthread.cxx \
 	src/consoleappender.cxx \
 	src/cygwin-win32.cxx \
 	src/env.cxx \
@@ -1012,6 +1014,8 @@ src/liblog4cplus_la-asyncappender.lo: src/$(am__dirstamp) \
 src/liblog4cplus_la-clogger.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-configurator.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplus_la-connectorthread.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-consoleappender.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
@@ -1410,6 +1414,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-asyncappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-clogger.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-configurator.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-connectorthread.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-consoleappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-cygwin-win32.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-env.Plo@am__quote@
@@ -1544,6 +1549,13 @@ src/liblog4cplus_la-configurator.lo: src/configurator.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/configurator.cxx' object='src/liblog4cplus_la-configurator.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-configurator.lo `test -f 'src/configurator.cxx' || echo '$(srcdir)/'`src/configurator.cxx
+
+src/liblog4cplus_la-connectorthread.lo: src/connectorthread.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-connectorthread.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-connectorthread.Tpo -c -o src/liblog4cplus_la-connectorthread.lo `test -f 'src/connectorthread.cxx' || echo '$(srcdir)/'`src/connectorthread.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplus_la-connectorthread.Tpo src/$(DEPDIR)/liblog4cplus_la-connectorthread.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/connectorthread.cxx' object='src/liblog4cplus_la-connectorthread.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-connectorthread.lo `test -f 'src/connectorthread.cxx' || echo '$(srcdir)/'`src/connectorthread.cxx
 
 src/liblog4cplus_la-consoleappender.lo: src/consoleappender.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-consoleappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-consoleappender.Tpo -c -o src/liblog4cplus_la-consoleappender.lo `test -f 'src/consoleappender.cxx' || echo '$(srcdir)/'`src/consoleappender.cxx

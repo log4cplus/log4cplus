@@ -33,6 +33,7 @@ m4_foreach_w([HEADER],
   log4cplus/win32debugappender.h
 
   log4cplus/helpers/appenderattachableimpl.h
+  log4cplus/helpers/connectorthread.h
   log4cplus/helpers/fileinfo.h
   log4cplus/helpers/lockfile.h
   log4cplus/helpers/loglog.h

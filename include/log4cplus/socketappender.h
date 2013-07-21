@@ -34,55 +34,11 @@
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/thread/syncprims.h>
 #include <log4cplus/thread/threads.h>
+#include <log4cplus/helpers/connectorthread.h>
 
 
 namespace log4cplus
 {
-
-
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
-
-namespace helpers
-{
-
-class LOG4CPLUS_EXPORT ConnectorThread;
-
-class LOG4CPLUS_EXPORT IConnectorThreadClient
-{
-protected:
-    virtual ~IConnectorThreadClient ();
-
-    virtual thread::Mutex const & ctcGetAccessMutex () const = 0;
-    virtual helpers::Socket & ctcGetSocket () = 0;
-    virtual helpers::Socket ctcConnect () = 0;
-    virtual void ctcSetConnected () = 0;
-
-    friend class LOG4CPLUS_EXPORT ConnectorThread;
-};
-
-
-class LOG4CPLUS_EXPORT ConnectorThread
-    : public thread::AbstractThread
-{
-public:
-    ConnectorThread (IConnectorThreadClient &);
-    virtual ~ConnectorThread ();
-    
-    virtual void run();
-    
-    void terminate ();
-    void trigger ();
-    
-protected:
-    IConnectorThreadClient & ctc;
-    thread::ManualResetEvent trigger_ev;
-    bool exit_flag;
-};
-
-} // namespace helpers
-
-#endif
- 
 
 #ifndef UNICODE
     std::size_t const LOG4CPLUS_MAX_MESSAGE_SIZE = 8*1024;
