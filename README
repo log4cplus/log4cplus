@@ -46,7 +46,7 @@ Configure script options
 --------------------
 
 This option is disabled by default.  This option mainly affects GCC
-builds but it also has some limitted effect on non-GCC builds.  It
+builds but it also has some limited effect on non-GCC builds.  It
 turns on debugging information generation, undefines `NDEBUG` symbol,
 adds `-fkeep-inline-functions` and `-fstack-check` (GCC).
 
@@ -123,7 +123,7 @@ This is third of `wchar_t` <-> `char` conversion related options.  It is
 disabled by default.
 
 The conversion using iconv() function always uses `"UTF-8"` and
-`"WCHAR_T"` as source/target encodings.  It is known to work well on
+`"WCHAR_T"` as source/target encoding.  It is known to work well on
 platforms with GNU iconv.  Different implementations of `iconv()`
 might not support `"WCHAR_T"` encoding selector.
 
@@ -153,7 +153,7 @@ Windows (both Mingw and Cygwin) produces lots of warnings of the form:
 attribute ignored`
 
 This can be worked around by adding `-Wno-attributes` option to GCC
-command.  Unfortunatelly, not all affected version of GCC have this
+command.  Unfortunately, not all affected version of GCC have this
 option.
 
 
@@ -175,14 +175,14 @@ fault (GPF) errors.  This is because Windows prior to Windows Vista do
 not extend the TLS for libraries loaded at run time using
 LoadLibrary().  To allow using the best available method, log4cplus
 enables the method (2) by checking `_WIN32_WINNT >= 0x0600` condition,
-when compiling log4cplus targetted to Windows Vista or later.
+when compiling log4cplus targeted to Windows Vista or later.
 
 
 Threads and signals
 -------------------
 
-log4cplus is not safe to be used from async signals' handlers.  This
-is a property of most threaded programmes in general.  If you are
+log4cplus is not safe to be used from asynchronous signals' handlers.
+This is a property of most threaded programmes in general.  If you are
 going to use log4cplus in threaded application and if you want to use
 log4cplus from signal handlers then your only option is to block
 signals in all threads but one that will handle all signals.  On POSIX
@@ -208,7 +208,7 @@ AIX reentrancy problem
 ----------------------
 
 There appears to be a reentracy problem with AIX 5.3 and xlC 8 which
-can result into a deadlock condition in some curcumstances.  It is
+can result into a deadlock condition in some circumstances.  It is
 unknown whether the problem manifests with other versions of either
 the OS or the compiler, too.  The problem was initially reported in a
 bug report [#103][2].
@@ -218,7 +218,7 @@ implementation uses global non recursive lock to protect some of its
 state.  The application in the bug report was trying to do logging
 using log4cplus from inside `overflow()` member function of a class
 derived from `std::streambuf` class.  log4cplus itself uses
-`std::ostringstream`.  This resulted into an attempt to recursivly
+`std::ostringstream`.  This resulted into an attempt to recursively
 lock the global non recursive lock and a deadlock.
 
 [2]: http://sourceforge.net/p/log4cplus/bugs/103/
