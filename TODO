@@ -39,9 +39,8 @@ order:
   Autoconf's.
 
 - ConsoleAppender or specialized appender with colored output per log
-  level.
-
-- Make ServerSocket::accept() interruptible.
+  level for *NIX platforms. Win32ConsoleAppender already has some
+  support for this.
 
 - Graylog2/GELF appender. See
   <https://github.com/Graylog2/graylog2-docs/wiki/GELF>.
