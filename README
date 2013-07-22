@@ -47,8 +47,8 @@ Configure script options
 
 This option is disabled by default.  This option mainly affects GCC
 builds but it also has some limited effect on non-GCC builds.  It
-turns on debugging information generation, undefines `NDEBUG` symbol,
-adds `-fkeep-inline-functions` and `-fstack-check` (GCC).
+turns on debugging information generation, undefines `NDEBUG` symbol
+and adds `-fstack-check` (GCC).
 
 
 `--enable-warnings`
