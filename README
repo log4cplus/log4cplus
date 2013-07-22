@@ -17,10 +17,10 @@ submit bugs, patches, feature requests, etc., there.
 Tested on the following platforms
 =================================
 
-- Linux/AMD64 with GCC 4.7.2 (Ubuntu/Linaro 4.7.2-2ubuntu1)
+- Linux/AMD64 with GCC 4.7.3 (Ubuntu/Linaro 4.7.3-1ubuntu1)
 - Linux/AMD64 with Sun C++ 5.12 Linux_i386 2011/11/16
-- Linux/AMD64 with Clang version 3.0-6ubuntu3 (tags/RELEASE_30/final)
-  (based on LLVM 3.0)
+- Linux/AMD64 with Clang version 3.2-1~exp9ubuntu1
+  (tags/RELEASE_32/final) (based on LLVM 3.2)
 - Linux/AMD64 with Intel(R) C++ Intel(R) 64 Compiler XE for
   applications running on Intel(R) 64, Version 12.1 Build 20120410
 - FreeBSD/AMD64 with GCC 3.4.6, 4.2.1 and 4.3.3
