@@ -79,6 +79,7 @@ namespace log4cplus
 #endif
     {
     public:
+        //! Remote syslog IP protocol type.
         enum RemoteSyslogType
         {
             RSTUdp,
@@ -104,8 +105,10 @@ namespace log4cplus
         virtual int getSysLogLevel(const LogLevel& ll) const;
         virtual void append(const spi::InternalLoggingEvent& event);
 #if defined (LOG4CPLUS_HAVE_SYSLOG_H)
+        //! Local syslog (served by `syslog()`) worker function.
         void appendLocal(const spi::InternalLoggingEvent& event);
 #endif
+        //! Remote syslog worker function.
         void appendRemote(const spi::InternalLoggingEvent& event);
 
       // Data
