@@ -318,8 +318,8 @@ AC_SEARCH_LIBS([clock_gettime], [rt posix4])
 dnl On some systems libcompat exists only as a static library which
 dnl breaks compilation of shared library log4cplus.
 dnl AC_SEARCH_LIBS([ftime], [compat])
-AC_SEARCH_LIBS([gethostbyname], [nsl])
-AC_SEARCH_LIBS([setsockopt], [socket])
+AC_SEARCH_LIBS([gethostbyname], [nsl network net])
+AC_SEARCH_LIBS([setsockopt], [socket network net])
 AS_IF([test "x$with_iconv" = "xyes"],
   [AC_SEARCH_LIBS([iconv_open], [iconv], [],
      [AC_SEARCH_LIBS([libiconv_open], [iconv])])])
