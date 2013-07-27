@@ -7742,9 +7742,10 @@ else
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
-#if defined (__clang__)
+#if defined (__clang__) || defined (__HAIKU__)
 // Here the problem is that Clang only warns that it does not support
-// __declspec(dllexport) but still compiles the executable.
+// __declspec(dllexport) but still compiles the executable. GCC on Haiku OS
+// suffers from the same problem.
 #  error Please fail.
 And extra please fail.
 #else

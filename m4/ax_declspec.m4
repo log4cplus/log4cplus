@@ -48,9 +48,10 @@ AC_CACHE_CHECK([for __declspec(dllexport) and __declspec(dllimport)],
   AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM(
       [[
-#if defined (__clang__)
+#if defined (__clang__) || defined (__HAIKU__)
 // Here the problem is that Clang only warns that it does not support
-// __declspec(dllexport) but still compiles the executable.
+// __declspec(dllexport) but still compiles the executable. GCC on Haiku OS
+// suffers from the same problem.
 #  error Please fail.
 And extra please fail.
 #else
