@@ -37,6 +37,7 @@ Tested on the following platforms
   build 2336.11.00)
 - HP-UX B.11.11 with HP ANSI C++ B3910B A.03.80
   (hppa2.0w-hp-hpux11.11)
+- Haiku OS R1 Alpha 4.1 with GCC 4.6.3
 
 
 Configure script options
@@ -280,6 +281,23 @@ It is necessary to turn on C++98 mode of aCC by providing the `-AA` flag:
     $ ../configure --enable-threds=yes CXXFLAGS="-AA"
 
 
+Haiku OS
+--------
+
+Haiku OS is supported with GCC 4+. The default GCC version in Haiku is
+set to version 2 (based on GCC 2.95.x). To change the default GCC
+version to version 4, please run `setgcc gcc4` command. This is to
+avoid linking errors like this:
+
+~~~~
+main.cpp:(.text.startup+0x54a): undefined reference to `_Unwind_Resume'
+~~~~
+
+Running the command switches the _current_ GCC version to version 4.
+This change is permanent and global. See also Haiku OS ticket
+[#8368](http://dev.haiku-os.org/ticket/8368).
+
+
 Qt4 / Win32 / MSVC
 ------------------
 
@@ -311,7 +329,7 @@ Add these lines to qmake project file for using log4cplus and
     }
 
 
-Qt / GCC 
+Qt / GCC
 --------
 
 You might encounter the following error during compilation with
