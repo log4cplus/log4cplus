@@ -8479,7 +8479,7 @@ return gethostbyname ();
   return 0;
 }
 _ACEOF
-for ac_lib in '' nsl; do
+for ac_lib in '' nsl network net; do
   if test -z "$ac_lib"; then
     ac_res="none required"
   else
@@ -8535,7 +8535,7 @@ return setsockopt ();
   return 0;
 }
 _ACEOF
-for ac_lib in '' socket; do
+for ac_lib in '' socket network net; do
   if test -z "$ac_lib"; then
     ac_res="none required"
   else
