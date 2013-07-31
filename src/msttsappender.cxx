@@ -289,11 +289,8 @@ MSTTSAppender::append (spi::InternalLoggingEvent const & ev)
 
     DWORD flags = SPF_IS_NOT_XML;
 
-    if (data->async)
-        flags |= SPF_ASYNC;
-
-    if (data->speak_punc)
-        flags |= SPF_NLP_SPEAK_PUNC;
+    flags |= SPF_ASYNC * +data->async;
+    flags |= SPF_NLP_SPEAK_PUNC * +data->speak_punc;
 
     COMInitializer com_init;
     HRESULT hr = data->ispvoice->Speak (
