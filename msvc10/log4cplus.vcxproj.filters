@@ -187,6 +187,9 @@
     <ClCompile Include="..\src\clogger.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\connectorthread.cxx">
+      <Filter>helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\log4cplus\appender.h">
@@ -386,6 +389,9 @@
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-cxx11.h">
       <Filter>thread\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\log4cplus\helpers\connectorthread.h">
+      <Filter>helpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
