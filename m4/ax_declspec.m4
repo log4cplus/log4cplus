@@ -26,6 +26,7 @@ AC_CACHE_CHECK([for __global and __hidden], [ac_cv__global],
         int foo () { return 0; }
         __global int bar () { return x; }
         __hidden int baz () { return 1; }
+        class __global Class { public: Class () { } };
       ]],
       [[]])],
     [ac_cv__global=yes],
@@ -59,6 +60,7 @@ And extra please fail.
         __declspec(dllexport) int foo ();
         int foo () { return 0; }
         __declspec(dllexport) int bar () { return x; }
+        class __declspec(dllexport) Class { public: Class () { } };
 #endif
       ]],
       [[]])],
@@ -92,6 +94,7 @@ And extra please fail.
         int foo () { return 0; }
         __attribute__((visibility("default"))) int bar () { return x; }
         __attribute__((visibility("hidden"))) int baz () { return 1; }
+        class __attribute__((visibility("default"))) Class { public: Class () { } };
 #endif
       ]],
       [[]])],
