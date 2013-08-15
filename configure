@@ -7248,9 +7248,10 @@ else
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
-#if defined (__clang__)
+#if defined (__clang__) || defined (__HAIKU__)
 // Here the problem is that Clang only warns that it does not support
-// __declspec(dllexport) but still compiles the executable.
+// __declspec(dllexport) but still compiles the executable. GCC on Haiku OS
+// suffers from the same problem.
 #  error Please fail.
 And extra please fail.
 #else
@@ -7970,7 +7971,7 @@ return gethostbyname ();
   return 0;
 }
 _ACEOF
-for ac_lib in '' nsl; do
+for ac_lib in '' nsl network net; do
   if test -z "$ac_lib"; then
     ac_res="none required"
   else
@@ -8026,7 +8027,7 @@ return setsockopt ();
   return 0;
 }
 _ACEOF
-for ac_lib in '' socket; do
+for ac_lib in '' socket network net; do
   if test -z "$ac_lib"; then
     ac_res="none required"
   else
@@ -9486,6 +9487,11 @@ else
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
+      // check that pointers to classes work as well
+      struct S { S () { } void foo () { } int member; };
+      extern thread_local S * p_s;
+      thread_local S * p_s = 0;
+
       extern thread_local int x;
       thread_local int * ptr = 0;
       int foo () { ptr = &x; return x; }
@@ -9496,6 +9502,7 @@ main ()
 {
 x = 2;
         foo ();
+        p_s = new S;
   ;
   return 0;
 }
@@ -9537,6 +9544,11 @@ else
         #endif
         #endif
 
+        // check that pointers to classes work as well
+        struct S { S () { } void foo () { } int member; };
+        extern __thread S * p_s;
+        __thread S * p_s = 0;
+
         extern __thread int x;
         __thread int * ptr = 0;
         int foo () { ptr = &x; return x; }
@@ -9547,6 +9559,7 @@ main ()
 {
 x = 2;
         foo ();
+        p_s = new S;
 
   ;
   return 0;
@@ -9589,6 +9602,11 @@ else
 #  error Please fail.
 And extra please fail.
 #else
+        // check that pointers to classes work as well
+        struct S { S () { } void foo () { } int member; };
+        extern __declspec(thread) S * p_s;
+        __declspec(thread) S * p_s = 0;
+
        extern __declspec(thread) int x;
        __declspec(thread) int * ptr = 0;
        int foo () { ptr = &x; return x; }
@@ -9600,6 +9618,7 @@ main ()
 {
 x = 2;
          foo ();
+         p_s = new S;
   ;
   return 0;
 }

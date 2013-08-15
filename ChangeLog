@@ -1,3 +1,19 @@
+log4cplus 1.1.2-RC2
+
+- Fixed crash of DLL builds on Windows when _WIN32_WINNT>=0x0600.
+
+- Roll log file both before and after append to avoid logging into
+  stale file when the log file has already been rolled by another
+  logging process.
+
+- Known issue: Logging into a single log file from multiple processes
+  on Windows breaks the rolling of the log files because open files
+  cannot be renamed.
+
+- Fixed bug #166 - Close appender only once even when it is used by
+  multiple loggers.
+
+
 log4cplus 1.1.2-RC1
 
 - Fixed bug #163 - Initialization issue.

@@ -15,13 +15,19 @@ AC_CACHE_CHECK([for thread_local], [ac_cv_thread_local],
   AC_LINK_IFELSE(
     [AC_LANG_PROGRAM(
       [[
+      // check that pointers to classes work as well
+      struct S { S () { } void foo () { } int member; };
+      extern thread_local S * p_s;
+      thread_local S * p_s = 0;
+
       extern thread_local int x;
       thread_local int * ptr = 0;
       int foo () { ptr = &x; return x; }
       thread_local int x = 1;
       ]],
       [[x = 2;
-        foo ();]])],
+        foo ();
+        p_s = new S;]])],
     [ac_cv_thread_local=yes
      ax_tls_support=yes],
     [ac_cv_thread_local=no],
@@ -43,6 +49,11 @@ AC_CACHE_CHECK([for __thread], [ac_cv__thread_keyword], [
         #endif
         #endif
 
+        // check that pointers to classes work as well
+        struct S { S () { } void foo () { } int member; };
+        extern __thread S * p_s;
+        __thread S * p_s = 0;
+
         extern __thread int x;
         __thread int * ptr = 0;
         int foo () { ptr = &x; return x; }
@@ -50,6 +61,7 @@ AC_CACHE_CHECK([for __thread], [ac_cv__thread_keyword], [
       ]],
       [[x = 2;
         foo ();
+        p_s = new S;
       ]])],
     [ac_cv__thread_keyword=yes
      ax_tls_support=yes],
@@ -71,6 +83,11 @@ AC_CACHE_CHECK([for __declspec(thread)], [ac_cv_declspec_thread], [
 #  error Please fail.
 And extra please fail.
 #else
+        // check that pointers to classes work as well
+        struct S { S () { } void foo () { } int member; };
+        extern __declspec(thread) S * p_s;
+        __declspec(thread) S * p_s = 0;
+
        extern __declspec(thread) int x;
        __declspec(thread) int * ptr = 0;
        int foo () { ptr = &x; return x; }
@@ -78,7 +95,8 @@ And extra please fail.
 #endif
        ]],
        [[x = 2;
-         foo ();]])],
+         foo ();
+         p_s = new S;]])],
     [ac_cv_declspec_thread=yes
      ax_tls_support=yes],
     [ac_cv_declspec_thread=no],
