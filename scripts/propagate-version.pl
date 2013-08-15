@@ -81,11 +81,14 @@ close $fh2;
         print $line;
     }
 
-    local @ARGV = ("log4cplus.spec");
+    local @ARGV = ("log4cplus.spec", "mingw-log4cplus.spec");
     while (my $line = <>)
     {
         $line =~ s/(Version: \s*)(.*)/$1$version/x;
-        $line =~ s/(Release: \s*)(.*)/${1}1/x;
+        if ($line =~ /Source\d*:/x)
+        {
+            $line =~ s/(\d+\.\d+\.\d+)/$version/gx;
+        }
         print $line;
     }
 
