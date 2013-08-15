@@ -116,5 +116,5 @@ find $RPM_BUILD_ROOT -name .svn -type d -exec find '{}' -delete \;
 %{mingw64_libdir}/pkgconfig/log4cplus.pc
 
 %changelog
-* Wed Aug 14 2013 John Smits <john.smits@meyn.com> - 1.1.1-1
+* Wed Aug 14 2013 John Smits <japsmits@gmail.com> - 1.1.1-1
 - Initial release
