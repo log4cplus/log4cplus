@@ -38,6 +38,7 @@ Tested on the following platforms
 - HP-UX B.11.11 with HP ANSI C++ B3910B A.03.80
   (hppa2.0w-hp-hpux11.11)
 - Haiku R1 Alpha 4.1 with GCC 4.6.3
+- AIX 5.3 with IBM XL C/C++ for AIX, V11.1 (5724-X13)
 
 
 Configure script options

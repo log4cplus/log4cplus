@@ -181,7 +181,11 @@ AS_IF([test "x$enable_warnings" = "xyes"],
     [sun], [],
     [AX_CXXFLAGS_WARN_ALL])])
 
+LOG4CPLUS_AIX_XLC_LDFLAGS=
 AS_CASE([$ax_cv_cxx_compiler_vendor],
+  [ibm],
+  [AS_VAR_APPEND([CXXFLAGS], [" -qroconst"])
+   AS_VAR_APPEND([LOG4CPLUS_AIX_XLC_LDFLAGS], [" -qmkshrobj=-300"])],
   [gnu|clang],
   [AX_CXXFLAGS_GCC_OPTION([-fdiagnostics-show-caret])
    AX_CXXFLAGS_GCC_OPTION([-ftrack-macro-expansion])
@@ -298,6 +302,7 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
 
    dnl Adding -library=Crun is always necessary.
    AX_CXXFLAGS_SUN_OPTION([-library=Crun])])
+AC_SUBST([LOG4CPLUS_AIX_XLC_LDFLAGS])
 
 AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
 use_export_symbols_regex=no
