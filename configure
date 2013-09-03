@@ -665,6 +665,7 @@ PTHREAD_CXXFLAGS
 PTHREAD_LIBS
 ax_pthread_config
 EGREP
+LOG4CPLUS_AIX_XLC_LDFLAGS
 GREP
 SED
 CXXCPP
@@ -5164,6 +5165,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 esac
 fi
 
+LOG4CPLUS_AIX_XLC_LDFLAGS=
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for grep that handles long lines and -e" >&5
 $as_echo_n "checking for grep that handles long lines and -e... " >&6; }
 if ${ac_cv_path_GREP+:} false; then :
@@ -5228,6 +5230,9 @@ $as_echo "$ac_cv_path_GREP" >&6; }
 
 
 case $ax_cv_cxx_compiler_vendor in #(
+  ibm) :
+    as_fn_append CXXFLAGS " -qroconst"
+   as_fn_append LOG4CPLUS_AIX_XLC_LDFLAGS " -qmkshrobj=-300" ;; #(
   gnu|clang) :
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -fdiagnostics-show-caret" >&5
 $as_echo_n "checking CXXFLAGS for gcc -fdiagnostics-show-caret... " >&6; }
@@ -7183,6 +7188,7 @@ esac
   *) :
      ;;
 esac
+
 
 
 
