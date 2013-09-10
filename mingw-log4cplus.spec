@@ -29,6 +29,9 @@ log4cplus is a simple to use C++ logging API providing thread-safe,
 flexible, and arbitrarily granular control over log management and 
 configuration. It is modeled after the Java log4j API.
 
+# Strip removes essential information from the .dll.a file, so disable it
+%define __strip /bin/true
+
 # Win32
 %package -n mingw32-log4cplus
 Summary:    MinGW compiled log4cplus library for the Win32 target
@@ -59,7 +62,7 @@ Headers for the MinGW compiled log4cplus library for the Win64 target
 %setup -q -n log4cplus-%{version}
 
 %build
-%mingw_configure --enable-shared
+%mingw_configure
 %mingw_make %{?_smp_mflags}
 
 %install
@@ -72,7 +75,7 @@ find $RPM_BUILD_ROOT -name macosx.h -delete
 find $RPM_BUILD_ROOT -name windowsh-inc.h -delete
 find $RPM_BUILD_ROOT -name cygwin-win32.h -delete
 find $RPM_BUILD_ROOT -name syncprims-win32.h -delete
-find $RPM_BUILD_ROOT -name liblog4cplus.a -delete
+# find $RPM_BUILD_ROOT -name liblog4cplus.a -delete
 find $RPM_BUILD_ROOT -name .svn -type d -exec find '{}' -delete \;
 
 # Win32
@@ -93,6 +96,7 @@ find $RPM_BUILD_ROOT -name .svn -type d -exec find '{}' -delete \;
 %{mingw32_includedir}/log4cplus/thread/*.h
 %attr(644,root,root) 
 %{mingw32_libdir}/*.dll.a
+%{mingw32_libdir}/liblog4cplus.a
 %{mingw32_libdir}/pkgconfig/log4cplus.pc
 
 # Win64
@@ -113,6 +117,7 @@ find $RPM_BUILD_ROOT -name .svn -type d -exec find '{}' -delete \;
 %{mingw64_includedir}/log4cplus/thread/*.h
 %attr(644,root,root) 
 %{mingw64_libdir}/*.dll.a
+%{mingw64_libdir}/liblog4cplus.a
 %{mingw64_libdir}/pkgconfig/log4cplus.pc
 
 %changelog
