@@ -170,7 +170,7 @@ log4cplus with MinGW tool--chains but _without_ using the Microsoft's
 secure functions by defining `__MSVCRT_VERSION__` to value less than
 `0x900` and vice versa.
 
-    $ ../configure CXXFLAGS="-D__MSVCRT_VERSION__=0x700"
+    $ ../configure CPPFLAGS="-D__MSVCRT_VERSION__=0x700"
 
 
 Windows and TLS
