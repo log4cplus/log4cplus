@@ -74,8 +74,12 @@
 #define LOG4CPLUS_HAVE__VSNPRINTF
 #define LOG4CPLUS_HAVE__VSNWPRINTF
 
-#if defined (_MSC_VER) \
-    || (defined (__MINGW64_VERSION_MAJOR) && __MINGW64_VERSION_MAJOR >= 3)
+// Limit the use of foo_s() functions to builds using Visual Studio
+// 2005 and its run time library. In MinGW land, limit the foo_s()
+// functions to MinGw-w64 toolchain and __MSVCRT_VERSION__ >= 0x0900.
+#if (defined (_MSC_VER) && _MSC_VER >= 1400)                         \
+    || (defined (__MSVCRT_VERSION__) && __MSVCRT_VERSION__ >= 0x0900 \
+        && defined (__MINGW64_VERSION_MAJOR) && __MINGW64_VERSION_MAJOR >= 2)
 // MS secure versions of vprintf().
 #  define LOG4CPLUS_HAVE_VSPRINTF_S
 #  define LOG4CPLUS_HAVE_VSWPRINTF_S

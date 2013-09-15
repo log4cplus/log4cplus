@@ -149,6 +149,20 @@ attribute ignored."  This can be worked around by adding
 affected version of GCC have this option.
 
 
+MinGW and MSVCRT version
+------------------------
+
+log4cplus can use functions like `_vsnprintf_s()` (Microsoft's secure
+version of `vsnprintf()`). MinGW tool--chains (by default) link to the
+system MSVCRT.DLL. Unfortunately, older systems, like Windows XP, ship
+with MSVCRT.DLL that lacks these functions. It is possible to compile
+log4cplus with MinGW tool--chains but _without_ using the Microsoft's
+secure functions by defining `__MSVCRT_VERSION__` to value less than
+`0x900` and vice versa.
+
+    $ ../configure CPPFLAGS="-D__MSVCRT_VERSION__=0x700"
+
+
 Windows and TLS
 ---------------
 
