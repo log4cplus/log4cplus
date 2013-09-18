@@ -29,7 +29,8 @@ systems and standard C++ libraries. Some standard C++ libraries do not
 support other than the "C" and "POSIX" locales. This usually means
 that `wchar_t` <-> `char` conversion using `std::codecvt<>` facet is
 impossible. On such deficient platforms, log4cplus can use either
-standard C locale support or `iconv()` (through libiconv or built-in).
+standard C locale support or `iconv()` (through libiconv or
+built--in).
 
 
 Unicode and file appenders
@@ -39,29 +40,31 @@ Another limitation related to Unicode support is then inability to
 write `wchar_t` messages that contain national characters that do not
 map to any code point in single byte code page to log files using
 `FileAppender`. This is a problem mainly on Windows. Linux and other
-*NIX systems can avoid it because they do not need to use `wchar_t`
-interfaces to have Unicode aware applications. They usually (as of
-year 2012) use UTF-8 based locales. With proper C++ locale setup in
-client applications, national characters can come through into log
-files unharmed. But if they choose to use `wchar_t` strings, they face
-the problem as well.
+Unix--like systems can avoid it because they do not need to use
+`wchar_t` interfaces to have Unicode aware applications. They usually
+(as of year 2012) use UTF-8 based locales. With proper C++ locale
+setup in client applications, national characters can come through
+into log files unharmed. But if they choose to use `wchar_t` strings,
+they face the problem as well.
 
 
-*NIX
-----
+Unix--like platforms
+--------------------
 
-To support output of non-ASCII characters in `wchar_t` message on *NIX
-platforms, it is necessary to use UTF-8 based locale (e.g.,
+To support output of non-ASCII characters in `wchar_t` message on
+Unix--like platforms, it is necessary to use UTF-8 based locale (e.g.,
 `en_US.UTF-8`) and to set up global locale with `std::codecvt<>` facet
 or imbue individual `FileAppender`s with that facet. The following
 code can be used to get such `std::locale` instance and to set it into
 global locale:
 
+~~~~{.cpp}
     std::locale::global (     // set global locale
         std::locale (         // using std::locale constructed from
             std::locale (),   // global locale
                               // and codecvt facet from user locale
             new std::codecvt_byname<wchar_t, char, std::mbstate_t>("")));
+~~~~
 
 
 Windows
@@ -75,6 +78,7 @@ the `std::codecvt` facet implemented in Visual Studio 2010. Instead,
 with Visual Studio 2010 and later, it is possible to use
 `std::codecvt_utf8` facet:
 
+~~~~{.cpp}
     std::locale::global (     // set global locale
         std::locale (         // using std::locale constructed from
             std::locale (),   // global locale
@@ -82,3 +86,4 @@ with Visual Studio 2010 and later, it is possible to use
             new std::codecvt_utf8<tchar, 0x10FFFF,
                 static_cast<std::codecvt_mode>(std::consume_header
                     | std::little_endian)>));
+~~~~

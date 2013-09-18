@@ -1,3 +1,5 @@
+% log4cplus README
+
 Short Description
 =================
 
@@ -104,7 +106,7 @@ related options.  It is disabled by default.
 
 It is know to work well with GCC on Linux.  Other platforms generally
 have lesser locale support in their implementations of the C++
-standard library.  It is known not to work well on any *BSD.
+standard library.  It is known not to work well on any BSDs.
 
 See also docs/unicode.txt.
 
@@ -115,7 +117,8 @@ See also docs/unicode.txt.
 This is second of `wchar_t` <-> `char` conversion related options.  It
 is disabled by default.
 
-It is known to work well on most *NIX platforms, including recent Cygwin.
+It is known to work well on most Unix--like platforms, including
+recent Cygwin.
 
 
 `--with-iconv`
@@ -151,8 +154,8 @@ Cygwin/MinGW
 Some version of GCC (3.4.x and probably some of 4.x series too) on
 Windows (both Mingw and Cygwin) produces lots of warnings of the form:
 
-`warning: inline function 'void foo()' is declared as dllimport:
-attribute ignored`
+> warning: inline function 'void foo()' is declared as dllimport:
+  attribute ignored
 
 This can be worked around by adding `-Wno-attributes` option to GCC
 command.  Unfortunately, not all affected version of GCC have this
@@ -326,7 +329,7 @@ between debug and release builds of Qt project and log4cplus.  Do not
 use log4cplus release library with debug version of Qt program or vice
 versa.
 
-For registering Qt4DebugAppender library at run-time call this
+For registering Qt4DebugAppender library at runtime, call this
 function: `log4cplus::Qt4DebugAppender::registerAppender()`
 
 Add these lines to qmake project file for using log4cplus and
@@ -360,19 +363,19 @@ when compiling with GCC.  To work around this issue, add
 `LOG4CPLUS_*_FMT()` and UNICODE
 -------------------------------
 
-Beware, the `%s` specifier does not work the same way on *NIX as it
-does on Windows with Visual Studio.  With Visual Studio the `%s`
-specifier changes its meaning conveniently by printing `wchar_t`
-string when used with `wprintf()` and `char` strings when used with
-`printf()`.  On the other hand, *NIX keeps the meaning of printing
-`char` strings when used with both `wprintf()` and `printf()`.  It is
-necessary to use `%ls` (C99) specifier or `%S` (SUSv2) specifier to
-print `wchar_t` strings on *NIX.
+Beware, the `%s` specifier does not work the same way on Unix--like
+platforms as it does on Windows with Visual Studio. With Visual Studio
+the `%s` specifier changes its meaning conveniently by printing
+`wchar_t` string when used with `wprintf()` and `char` strings when
+used with `printf()`.  On the other hand, Unix--like platforms keeps
+the meaning of printing `char` strings when used with both `wprintf()`
+and `printf()`.  It is necessary to use `%ls` (C99) specifier or `%S`
+(SUSv2) specifier to print `wchar_t` strings on Unix--like platforms.
 
 The common ground for both platforms appears to be use of `%ls` and
 `wchar_t` string to print strings with unmodified formatting string
-argument on both *NIX and Windows.  The conversion of `wchar_t` back
-to `char` then depends on C locale.
+argument on both Unix--like platforms and Windows. The conversion of
+`wchar_t` back to `char` then depends on C locale.
 
 
 C++11 support
