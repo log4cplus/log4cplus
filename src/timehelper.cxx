@@ -268,15 +268,14 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
     internal::gft_scratch_pad & gft_sp = internal::get_gft_scratch_pad ();
     gft_sp.reset ();
 
-    gft_sp.fmt.assign (fmt_orig);
     std::size_t const fmt_orig_size = gft_sp.fmt.size ();
-    gft_sp.ret.reserve (fmt_orig_size + fmt_orig_size / 3);
+    gft_sp.ret.reserve (fmt_orig_size + fmt_orig_size / 2);
     State state = TEXT;
 
     // Walk the format string and process all occurences of %q, %Q and %s.
     
-    for (log4cplus::tstring::const_iterator fmt_it = gft_sp.fmt.begin ();
-         fmt_it != gft_sp.fmt.end (); ++fmt_it)
+    for (log4cplus::tstring::const_iterator fmt_it = fmt_orig.begin ();
+         fmt_it != fmt_orig.end (); ++fmt_it)
     {
         switch (state)
         {
@@ -345,7 +344,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
 
     // Finally call strftime/wcsftime to format the rest of the string.
 
-    gft_sp.ret.swap (gft_sp.fmt);
+    gft_sp.fmt.swap (gft_sp.ret);
     std::size_t buffer_size = gft_sp.fmt.size () + 1;
     std::size_t len;
 
