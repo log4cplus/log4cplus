@@ -4,7 +4,8 @@ log4cplus 1.1.2-RC3
 
 - Fixed build issues on Haiku.
 
-- Added mingw-log4cplus.spec to allow cross-compilation from Fedora.
+- Added mingw-log4cplus.spec to allow cross-compilation from
+  Fedora. (John Smits)
 
 - Fixed build issues on AIX with XLC.
 
