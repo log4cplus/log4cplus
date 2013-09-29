@@ -9,7 +9,7 @@ log4cplus 1.1.2-RC3
 - Fixed build issues on AIX with XLC.
 
 - Fixed build issues related to Microsoft's foo_s() functions with
-  some version of MinGw tool-chain.
+  some version of MinGW tool-chain.
 
 - Tiny speedup of getFormattedTime().
 
