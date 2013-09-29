@@ -1,3 +1,19 @@
+log4cplus 1.1.2-RC3
+
+- Fixed build issues on HP-UX with aCC.
+
+- Fixed build issues on Haiku.
+
+- Added mingw-log4cplus.spec to allow cross-compilation from Fedora.
+
+- Fixed build issues on AIX with XLC.
+
+- Fixed build issues related to Microsoft's foo_s() functions with
+  some version of MinGw tool-chain.
+
+- Tiny speedup of getFormattedTime().
+
+
 log4cplus 1.1.2-RC2
 
 - Fixed crash of DLL builds on Windows when _WIN32_WINNT>=0x0600.
