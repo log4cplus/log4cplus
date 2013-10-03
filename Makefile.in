@@ -797,11 +797,11 @@ timeformat_test_LDADD = $(liblog4cplus_la_file)
 @QT5_TRUE@	@QT5_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
 
 @WITH_SWIG_TRUE@SWIG_SOURCES = \
-@WITH_SWIG_TRUE@  $(top_builddir)/swig/configurator.swg \
-@WITH_SWIG_TRUE@  $(top_builddir)/swig/hierarchy.swg \
-@WITH_SWIG_TRUE@  $(top_builddir)/swig/log4cplus.swg \
-@WITH_SWIG_TRUE@  $(top_builddir)/swig/logger.swg \
-@WITH_SWIG_TRUE@  $(top_builddir)/swig/loggingevent.swg
+@WITH_SWIG_TRUE@  swig/configurator.swg \
+@WITH_SWIG_TRUE@  swig/hierarchy.swg \
+@WITH_SWIG_TRUE@  swig/log4cplus.swg \
+@WITH_SWIG_TRUE@  swig/logger.swg \
+@WITH_SWIG_TRUE@  swig/loggingevent.swg
 
 @WITH_PYTHON_TRUE@PYTHON_WRAP_CXX = python_wrap.cxx
 @WITH_PYTHON_TRUE@BUILT_SOURCES = $(PYTHON_WRAP_CXX)

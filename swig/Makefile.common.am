@@ -1,14 +1,14 @@
 if WITH_SWIG
 SWIG_SOURCES = \
-  $(top_builddir)/swig/configurator.swg \
-  $(top_builddir)/swig/hierarchy.swg \
-  $(top_builddir)/swig/log4cplus.swg \
-  $(top_builddir)/swig/logger.swg \
-  $(top_builddir)/swig/loggingevent.swg
+  %D%/configurator.swg \
+  %D%/hierarchy.swg \
+  %D%/log4cplus.swg \
+  %D%/logger.swg \
+  %D%/loggingevent.swg
 
-swig/log4cplus.swg: swig/configurator.swg \
-  swig/hierarchy.swg \
-  swig/logger.swg \
-  swig/loggingevent.swg
+%D%/log4cplus.swg: %D%/configurator.swg \
+  %D%/hierarchy.swg \
+  %D%/logger.swg \
+  %D%/loggingevent.swg
 
 endif
