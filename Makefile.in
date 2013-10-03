@@ -83,44 +83,29 @@ host_triplet = @host@
 target_triplet = @target@
 DIST_COMMON = $(srcdir)/src/Makefile.am \
 	$(srcdir)/tests/appender_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/configandwatch_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/customloglevel_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/fileappender_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/filter_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/hierarchy_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/loglog_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/ndc_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/ostream_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/patternlayout_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/performance_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/priority_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/propertyconfig_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/socket_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/timeformat_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/tests/thread_test/Makefile.am \
-	$(top_srcdir)/tests/Makefile.am.tests \
 	$(srcdir)/simpleserver/Makefile.am \
 	$(srcdir)/qt4debugappender/Makefile.am \
 	$(srcdir)/qt5debugappender/Makefile.am \
 	$(srcdir)/swig/Makefile.common.am \
-	$(srcdir)/swig/python/Makefile.am INSTALL NEWS README AUTHORS \
-	ChangeLog $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/configure $(am__configure_deps) \
+	$(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am \
+	INSTALL NEWS README AUTHORS ChangeLog $(srcdir)/Makefile.in \
+	$(srcdir)/Makefile.am $(top_srcdir)/configure \
+	$(am__configure_deps) \
 	$(top_srcdir)/include/log4cplus/config.h.in \
 	$(top_srcdir)/include/log4cplus/config/defines.hxx.in \
 	mkinstalldirs $(top_srcdir)/tests/atlocal.in \
@@ -858,7 +843,7 @@ all: $(BUILT_SOURCES)
 .SUFFIXES: .cxx .lo .o .obj
 am--refresh: Makefile
 	@:
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(am__configure_deps)
+$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -881,7 +866,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
 	esac;
-$(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/configandwatch_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/customloglevel_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/fileappender_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/filter_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/hierarchy_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/loglog_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ndc_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/ostream_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/patternlayout_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/performance_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/priority_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/propertyconfig_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/socket_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/timeformat_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/tests/thread_test/Makefile.am $(top_srcdir)/tests/Makefile.am.tests $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am:
+$(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am:
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -2296,38 +2281,6 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgconfigDATA \
 	uninstall-libLTLIBRARIES uninstall-pkgconfigDATA \
 	uninstall-pkgpyexecLTLIBRARIES uninstall-pkgpythonPYTHON
 
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
-
-# Empty after transformation to non-recursive make style.
 
 @WITH_SWIG_TRUE@swig/log4cplus.swg: swig/configurator.swg \
 @WITH_SWIG_TRUE@  swig/hierarchy.swg \

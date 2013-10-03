@@ -1,0 +1,36 @@
+TESTSUITE = %D%/testsuite
+AUTOTEST = $(AUTOM4TE) --language=Autotest
+TESTSUITE_AT = \
+  %D%/appender_test.at \
+  %D%/configandwatch_test.at \
+  %D%/customloglevel_test.at \
+  %D%/fileappender_test.at \
+  %D%/filter_test.at \
+  %D%/hierarchy_test.at \
+  %D%/loglog_test.at \
+  %D%/ndc_test.at \
+  %D%/ostream_test.at \
+  %D%/patternlayout_test.at \
+  %D%/priority_test.at \
+  %D%/propertyconfig_test.at \
+  %D%/thread_test.at \
+  %D%/timeformat_test.at \
+  %D%/local.at \
+  %D%/testsuite.at
+
+all: $(TESTSUITE)
+
+$(TESTSUITE): $(TESTSUITE_AT)
+	cd "$(abs_top_srcdir)" && $(AUTOTEST) -I tests %D%/testsuite.at -o $@
+
+%D%/atconfig: $(top_builddir)/config.status
+	cd "$(top_builddir)" && ./config.status %D%/$@
+
+check-local: %D%/atconfig %D%/atlocal $(TESTSUITE)
+	cd "$(top_builddir)/tests" && $(SHELL) $(abs_top_srcdir)/$(TESTSUITE) $(TESTSUITEFLAGS)
+
+clean-local:
+	cd "$(top_builddir)/tests" && (test ! -f '$(abs_top_srcdir)/$(TESTSUITE)' || $(SHELL) '$(abs_top_srcdir)/$(TESTSUITE)' --clean)
+
+EXTRA_DIST += %D%/testsuite.at $(TESTSUITE) %D%/atlocal.in
+
