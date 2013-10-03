@@ -3,10 +3,13 @@ compiler:
   - gcc
   - clang
 env:
-  - PARAM_THREADS="--enable-threads" CXXFLAGS=""
-  - PARAM_THREADS="--enable-threads" CXXFLAGS="-DUNICODE"
-  - PARAM_THREADS="--disable-threads" CXXFLAGS=""
-  - PARAM_THREADS="--disable-threads" CXXFLAGS="-DUNICODE"
+  - PARAM_THREADS="--enable-threads --with-python" CXXFLAGS=""
+  - PARAM_THREADS="--enable-threads --with-python" CXXFLAGS="-DUNICODE"
+  - PARAM_THREADS="--disable-threads --with-python" CXXFLAGS=""
+  - PARAM_THREADS="--disable-threads --with-python" CXXFLAGS="-DUNICODE"
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq swig python
 before_script:
   - sh ./scripts/fix-timestamps.sh
   - mkdir objdir
