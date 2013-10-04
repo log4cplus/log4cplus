@@ -3,10 +3,14 @@ compiler:
   - gcc
   - clang
 env:
-  - PARAM_THREADS="--enable-threads --with-python" CXXFLAGS="" SWIG_FLAGS=""
-  - PARAM_THREADS="--enable-threads --with-python" CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE"
-  - PARAM_THREADS="--disable-threads --with-python" CXXFLAGS="" SWIG_FLAGS=""
-  - PARAM_THREADS="--disable-threads --with-python" CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE"
+  - PARAM_THREADS="--enable-threads --with-python"
+    CXXFLAGS="" SWIG_FLAGS=""
+  - PARAM_THREADS="--enable-threads --with-python"
+    CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE"
+  - PARAM_THREADS="--disable-threads --with-python"
+    CXXFLAGS="" SWIG_FLAGS=""
+  - PARAM_THREADS="--disable-threads --with-python"
+    CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE"
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq swig python
@@ -14,7 +18,10 @@ before_script:
   - sh ./scripts/fix-timestamps.sh
   - mkdir objdir
   - cd objdir
-script: ../configure $PARAM_THREADS CXXFLAGS="$CXXFLAGS" SWIG_FLAGS="$SWIG_FLAGS" && make && make check
+script: ../configure $PARAM_THREADS CXXFLAGS="$CXXFLAGS"
+  SWIG_FLAGS="$SWIG_FLAGS"
+  && make
+  && make check
 after_failure:
   - cat config.log
   - cat tests/testsuite.log
