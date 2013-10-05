@@ -12,8 +12,9 @@ env:
   - PARAM_THREADS="--disable-threads --with-python --with-qt --with-qt5"
     CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE"
 before_install:
+  - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
   - sudo apt-get update -qq
-  - sudo apt-get install -q swig python libqt4-dev qtbase5-dev
+  - sudo apt-get install -q swig python libqt4-dev qt5-default
 before_script:
   - sh ./scripts/fix-timestamps.sh
   - mkdir objdir
