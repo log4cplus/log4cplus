@@ -3,17 +3,17 @@ compiler:
   - gcc
   - clang
 env:
-  - PARAM_THREADS="--enable-threads --with-python"
+  - PARAM_THREADS="--enable-threads --with-python --with-qt --with-qt5"
     CXXFLAGS="" SWIG_FLAGS=""
-  - PARAM_THREADS="--enable-threads --with-python"
+  - PARAM_THREADS="--enable-threads --with-python --with-qt --with-qt5"
     CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE"
-  - PARAM_THREADS="--disable-threads --with-python"
+  - PARAM_THREADS="--disable-threads --with-python --with-qt --with-qt5"
     CXXFLAGS="" SWIG_FLAGS=""
-  - PARAM_THREADS="--disable-threads --with-python"
+  - PARAM_THREADS="--disable-threads --with-python --with-qt --with-qt5"
     CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE"
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq swig python
+  - sudo apt-get install -q swig python libqt4-dev qt5-default
 before_script:
   - sh ./scripts/fix-timestamps.sh
   - mkdir objdir
