@@ -1,3 +1,5 @@
+% log4cplus README
+
 Short Description
 =================
 
@@ -10,17 +12,17 @@ Latest Project Information
 ==========================
 
 The latest up-to-date information for this project can be found at
-http://log4cplus.sourceforge.net.  Please submit bugs, patches,
-feature requests, etc. there.
+[log4cplus.sourceforge.net](http://log4cplus.sourceforge.net).  Please
+submit bugs, patches, feature requests, etc., there.
 
 
 Tested on the following platforms
 =================================
 
-- Linux/AMD64 with GCC 4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5)
+- Linux/AMD64 with GCC 4.7.3 (Ubuntu/Linaro 4.7.3-1ubuntu1)
 - Linux/AMD64 with Sun C++ 5.12 Linux_i386 2011/11/16
-- Linux/AMD64 with Clang version 3.0-6ubuntu3 (tags/RELEASE_30/final)
-  (based on LLVM 3.0)
+- Linux/AMD64 with Clang version 3.2-1~exp9ubuntu1
+  (tags/RELEASE_32/final) (based on LLVM 3.2)
 - Linux/AMD64 with Intel(R) C++ Intel(R) 64 Compiler XE for
   applications running on Intel(R) 64, Version 12.1 Build 20120410
 - FreeBSD/AMD64 with GCC 3.4.6, 4.2.1 and 4.3.3
@@ -37,17 +39,17 @@ Tested on the following platforms
 Configure script options
 ========================
 
---enable-debugging
------------------- 
+`--enable-debugging`
+--------------------
 
 This option is disabled by default.  This option mainly affects GCC
-builds but it also has some limitted effect on non-GCC builds.  It
-turns on debugging information generation, undefines NDEBUG symbol,
-adds '-fkeep-inline-functions' and '-fstack-check' (GCC).
+builds but it also has some limited effect on non-GCC builds.  It
+turns on debugging information generation, undefines `NDEBUG` symbol
+and adds `-fstack-check` (GCC).
 
 
---enable-warnings
------------------
+`--enable-warnings`
+-------------------
 
 This option is enabled by default.  It adds platform / compiler
 dependent warning options to compiler command line.
@@ -69,16 +71,16 @@ decoration on the resulting library file, e.g., the `-1.2` in
 `liblog4cplus-1.2.so.2.0.0`.
 
 
---enable-profiling
-------------------
+`--enable-profiling`
+--------------------
 
 This option is disabled by default.  This option adds profiling
-information generation compiler option -pg to GCC and Sun CC / Solaris
-Studio builds.
+information generation compiler option `-pg` to GCC and Sun CC /
+Solaris Studio builds.
 
 
---enable-threads
-----------------
+`--enable-threads`
+------------------
 
 This option is enabled by default.  It turns on detection of necessary
 compiler and linker flags that enable POSIX threading support.
@@ -89,50 +91,51 @@ script.  One of the know deficiencies is Solaris Studio on Linux.  See
 one of the later note for details.
 
 
---with-working-locale
----------------------
+`--with-working-locale`
+-----------------------
 
-This is one of three locale and wchar_t <-> char conversion related
-options.  It is disabled by default.
+This is one of three locale and `wchar_t` <-> `char` conversion
+related options.  It is disabled by default.
 
 It is know to work well with GCC on Linux.  Other platforms generally
 have lesser locale support in their implementations of the C++
-standard library.  It is known not to work well on any *BSD.
+standard library.  It is known not to work well on any BSDs.
 
 See also docs/unicode.txt.
 
 
---with-working-c-locale
------------------------
+`--with-working-c-locale`
+-------------------------
 
-This is second of wchar_t <-> char conversion related options.  It is
+This is second of `wchar_t` <-> `char` conversion related options.  It
+is disabled by default.
+
+It is known to work well on most Unix--like platforms, including
+recent Cygwin.
+
+
+`--with-iconv`
+--------------
+
+This is third of `wchar_t` <-> `char` conversion related options.  It is
 disabled by default.
 
-It is known to work well on most *NIX platforms, including recent Cygwin.
+The conversion using iconv() function always uses `"UTF-8"` and
+`"WCHAR_T"` as source/target encoding.  It is known to work well on
+platforms with GNU iconv.  Different implementations of `iconv()`
+might not support `"WCHAR_T"` encoding selector.
 
-
---with-iconv
-------------
-
-This is third of wchar_t <-> char conversion related options.  It is
-disabled by default.
-
-The conversion using iconv() function always uses "UTF-8" and
-"WCHAR_T" as source/target encodings.  It is known to work well on
-platforms with GNU iconv.  Different implementations of iconv() might
-not support "WCHAR_T" encoding selector.
-
-Either system provided iconv() or library provided libiconv() are
-detected and accepted.  Also both SUSv3 and GNU iconv() function
+Either system provided `iconv()` or library provided `libiconv()` are
+detected and accepted.  Also both SUSv3 and GNU `iconv()` function
 signatures are accepted.
 
 
---with-qt
----------
+`--with-qt`
+-----------
 
 This option is disabled by default.  It enables compilation of a
 separate shared library (liblog4cplusqt4debugappender) that implements
-Qt4DebugAppender.  It requires Qt4 and pkg-config to be installed.
+`Qt4DebugAppender`.  It requires Qt4 and pkg-config to be installed.
 
 
 Notes
@@ -142,11 +145,14 @@ Cygwin/MinGW
 ------------
 
 Some version of GCC (3.4.x and probably some of 4.x series too) on
-Windows (both Mingw and Cygwin) produces lots of warnings of the form
-"warning: inline function 'void foo()' is declared as dllimport:
-attribute ignored."  This can be worked around by adding
--Wno-attributes option to GCC command.  Unfortunatelly, not all
-affected version of GCC have this option.
+Windows (both Mingw and Cygwin) produces lots of warnings of the form:
+
+> warning: inline function 'void foo()' is declared as dllimport:
+  attribute ignored
+
+This can be worked around by adding `-Wno-attributes` option to GCC
+command.  Unfortunately, not all affected version of GCC have this
+option.
 
 
 MinGW and MSVCRT version
@@ -168,28 +174,31 @@ Windows and TLS
 
 log4cplus uses thread-local storage (TLS) for NDC, MDC and to optimize
 use of some temporary objects.  On Windows there are two ways to get
-TLS: (1) using TlsAlloc() etc. functions, and (2) using
-__declspec(thread).  While method (2) generates faster code, it has
-some limitations prior to Windows Vista.  If log4cplus.dll is loaded
-at run time using LoadLibrary() (or as a dependency of such loaded
-library), then accessing __declspec(thread) variables can cause
-general protection fault (GPF) errors.  This is because Windows prior
-to Windows Vista do not extend the TLS for libraries loaded at run
-time using LoadLibrary().  To allow using the best available method,
-log4cplus enables the method (2) by checking _WIN32_WINNT >= 0x0600
-condition, when compiling log4cplus targetted to Windows Vista or
-later.
+TLS:
+
+(1) using `TlsAlloc()`, etc., functions
+(2) using `__declspec(thread)`
+
+While method (2) generates faster code, it has some limitations prior
+to Windows Vista.  If log4cplus.dll is loaded at run time using
+`LoadLibrary()` (or as a dependency of such loaded library), then
+accessing `__declspec(thread)` variables can cause general protection
+fault (GPF) errors.  This is because Windows prior to Windows Vista do
+not extend the TLS for libraries loaded at run time using
+LoadLibrary().  To allow using the best available method, log4cplus
+enables the method (2) by checking `_WIN32_WINNT >= 0x0600` condition,
+when compiling log4cplus targeted to Windows Vista or later.
 
 
 Threads and signals
 -------------------
 
-log4cplus is not safe to be used from async signals' handlers.  This
-is a property of most threaded programmes in general.  If you are
+log4cplus is not safe to be used from asynchronous signals' handlers.
+This is a property of most threaded programmes in general.  If you are
 going to use log4cplus in threaded application and if you want to use
 log4cplus from signal handlers then your only option is to block
 signals in all threads but one that will handle all signals.  On POSIX
-platforms, this is possible using the sigwait() call.  log4cplus
+platforms, this is possible using the `sigwait()` call.  log4cplus
 enables this approach by blocking all signals in any threads created
 through its threads helpers.
 
@@ -197,44 +206,44 @@ through its threads helpers.
 IBM's XL C/C++ compiler
 -----------------------
 
-IBM's XL C/C++ compiler executable has many variants ([1]).  To
-compile log4cplus with threading support specify one of the compiler
-variants that support threading using the CXX variable on configure
-script command line.  E.g.:
+IBM's XL C/C++ compiler executable has [many variants][1].  To compile
+log4cplus with threading support specify one of the compiler variants
+that support threading using the `CXX` variable on configure script
+command line.  E.g.:
 
-$ ../configure --enable-threads CXX=xlC_r
+    $ ../configure --enable-threads CXX=xlC_r
 
-[1] <http://pic.dhe.ibm.com/infocenter/comphelp/v121v141/index.jsp?topic=%2Fcom.ibm.xlcpp121.aix.doc%2Fcompiler_ref%2Ftucmpinv.html>
+[1]: http://pic.dhe.ibm.com/infocenter/comphelp/v121v141/index.jsp?topic=%2Fcom.ibm.xlcpp121.aix.doc%2Fcompiler_ref%2Ftucmpinv.html
 
 
 AIX reentrancy problem
 ----------------------
 
 There appears to be a reentracy problem with AIX 5.3 and xlC 8 which
-can result into a deadlock condition in some curcumstances.  It is
+can result into a deadlock condition in some circumstances.  It is
 unknown whether the problem manifests with other versions of either
 the OS or the compiler, too.  The problem was initially reported in a
-bug report #3056687 ([1]).
+bug report [#103][2].
 
 The core of the problem is that IBM's/xlC's standard C++ IOStreams
 implementation uses global non recursive lock to protect some of its
 state.  The application in the bug report was trying to do logging
-using log4cplus from inside overflow() member function of a class
-derived from std::streambuf class.  log4cplus itself uses
-std::ostringstream.  This resulted into an attempt to recursivly lock
-the global non recursive lock and a deadlock.
+using log4cplus from inside `overflow()` member function of a class
+derived from `std::streambuf` class.  log4cplus itself uses
+`std::ostringstream`.  This resulted into an attempt to recursively
+lock the global non recursive lock and a deadlock.
 
-[1] <https://sourceforge.net/tracker/?func=detail&aid=3056687&group_id=40830&atid=429073>
+[2]: http://sourceforge.net/p/log4cplus/bugs/103/
 
 
 Solaris / SunOS
 ---------------
 
 Some older version of this operating system might have problems
-linking log4cplus due to missing __tls_get_addr ([1]) in their
+linking log4cplus due to [missing `__tls_get_addr`][3] in their
 unpatched state.
 
-[1] <https://groups.google.com/d/msg/comp.unix.solaris/AAMqkK0QZ6U/zlkVKA1L_QcJ>
+[3]: https://groups.google.com/d/msg/comp.unix.solaris/AAMqkK0QZ6U/zlkVKA1L_QcJ
 
 
 Solaris Studio
@@ -242,16 +251,17 @@ Solaris Studio
 
 Solaris Studio compilers' default standard C++ library is very
 non-standard.  It seems that it is not conforming enough in, e.g., Sun
-C++ 5.12 Linux_i386 2011/11/16 (missing std::time_t, etc.), but it
+C++ 5.12 Linux_i386 2011/11/16 (missing `std::time_t`, etc.), but it
 works well enough on Solaris with Sun C++ 5.8 2005/10/13.  Thus
-log4cplus adds -library=stlport4 to the CXXFLAGS environment variable,
-unless a switch matching -library=(stlport4|stdcxx4|Cstd) is already
-present there.  If you want to override the default supplied by
-log4cplus, just set it into CXXFLAGS on configure script command line.
+log4cplus adds `-library=stlport4` to the `CXXFLAGS` environment
+variable, unless a switch matching `-library=(stlport4|stdcxx4|Cstd)`
+is already present there.  If you want to override the default
+supplied by log4cplus, just set it into `CXXFLAGS` on configure script
+command line.
 
-Solaris Studio supports the __func__ symbol which can be used by
+Solaris Studio supports the `__func__` symbol which can be used by
 log4cplus to record function name in logged events.  To enable this
-feature, add '-features=extensions' switch to CXXFLAGS for configure
+feature, add `-features=extensions` switch to `CXXFLAGS` for configure
 script.  Subsequently, you will have to add this switch to your
 application's build flags as well.
 
@@ -259,16 +269,19 @@ application's build flags as well.
 Solaris Studio on GNU/Linux
 ---------------------------
 
-The autotools and our configure.in combo does not handle Solaris
+The autotools and our configure.ac combo does not handle Solaris
 Studio compiler on Linux well enough and needs a little help with
 configuration of POSIX threads:
 
-$ COMMON_FLAGS="-L/lib/x86_64-linux-gnu/ -L/usr/lib/x86_64-linux-gnu/ \
--mt=yes -O"
+    $ COMMON_FLAGS="-L/lib/x86_64-linux-gnu/ \
+    -L/usr/lib/x86_64-linux-gnu/ -mt=yes -O"
 
-$ ../configure --enable-threads=yes CC=/opt/solarisstudio12.3/bin/cc \
-CXX=/opt/solarisstudio12.3/bin/CC CFLAGS="$COMMON_FLAGS" \
-CXXFLAGS="$COMMON_FLAGS" LDFLAGS="-lpthread"
+    $ ../configure --enable-threads=yes \
+    CC=/opt/solarisstudio12.3/bin/cc \
+    CXX=/opt/solarisstudio12.3/bin/CC \
+    CFLAGS="$COMMON_FLAGS" \
+    CXXFLAGS="$COMMON_FLAGS" \
+    LDFLAGS="-lpthread"
 
 
 HP-UX with aCC
@@ -296,55 +309,53 @@ This change is permanent and global. See also Haiku ticket
 [#8368](http://dev.haiku-os.org/ticket/8368).
 
 
-Qt / Win32 / MSVC
------------------
+Qt4 / Win32 / MSVC
+------------------
 
-In order to use log4cplus in Qt programs it is necessary to set
-following option:
+In order to use log4cplus in Qt4 programs it is necessary to set
+following option: `Treat WChar_t As Built in Type: No (/Zc:wchar_t-)`
 
-Treat WChar_t As Built in Type: No (/Zc:wchar_t-)
-
-Set this option for log4cplus project and Qt4DebugAppender project in
-MS Visual Studio.  Remember to use Unicode versions of log4cplus
+Set this option for log4cplus project and `Qt4DebugAppender` project
+in MS Visual Studio.  Remember to use Unicode versions of log4cplus
 libraries with Qt.  It is also necessary to make clear distinction
 between debug and release builds of Qt project and log4cplus.  Do not
 use log4cplus release library with debug version of Qt program or vice
 versa.
 
-For registering Qt4DebugAppender library at run-time call this method:
-
-log4cplus::Qt4DebugAppender::registerAppender() ;
+For registering Qt4DebugAppender library at runtime, call this
+function: `log4cplus::Qt4DebugAppender::registerAppender()`
 
 Add these lines to qmake project file for using log4cplus and
-Qt4DebugAppender:
+`Qt4DebugAppender`:
 
-INCLUDEPATH += C:\log4cplus\include
-win32 {
-    CONFIG(debug, debug|release) {
-        LIBS += -LC:\log4cplus\msvc10\Win32\bin.Debug_Unicode -llog4cplusUD
-        LIBS += -LC:\log4cplus\msvc10\Win32\bin.Debug_Unicode -llog4cplus-Qt4DebugAppender
-    } else {
-        LIBS += -LC:\log4cplus\msvc10\Win32\bin.Release_Unicode -llog4cplusU
-        LIBS += -LC:\log4cplus\msvc10\Win32\bin.Release_Unicode -llog4cplus-Qt4DebugAppender
+    INCLUDEPATH += C:\log4cplus\include
+    win32 {
+        CONFIG(debug, debug|release) {
+            LIBS += -LC:\log4cplus\msvc10\Win32\bin.Debug_Unicode -llog4cplusUD
+            LIBS += -LC:\log4cplus\msvc10\Win32\bin.Debug_Unicode -llog4cplus-Qt4DebugAppender
+        } else {
+            LIBS += -LC:\log4cplus\msvc10\Win32\bin.Release_Unicode -llog4cplusU
+            LIBS += -LC:\log4cplus\msvc10\Win32\bin.Release_Unicode -llog4cplus-Qt4DebugAppender
+        }
     }
-}
 
 
-LOG4CPLUS_*_FMT() and UNICODE
------------------------------
+`LOG4CPLUS_*_FMT()` and UNICODE
+-------------------------------
 
-Beware, the %s specifier does not work the same way on *NIX as it does
-on Windows with Visual Studio.  With Visual Studio the %s specifier
-changes its meaning conveniently by printing wchar_t string when used
-with wprintf() and char strings when used with wprintf().  On the
-other hand, *NIX keeps the meaning of printing char strings when used
-with both wprintf() and printf().  It is necessary to use %ls (C99)
-specifier or %S (SUSv2) specifier to print wchar_t strings on *NIX.
+Beware, the `%s` specifier does not work the same way on Unix--like
+platforms as it does on Windows with Visual Studio. With Visual Studio
+the `%s` specifier changes its meaning conveniently by printing
+`wchar_t` string when used with `wprintf()` and `char` strings when
+used with `printf()`.  On the other hand, Unix--like platforms keeps
+the meaning of printing `char` strings when used with both `wprintf()`
+and `printf()`.  It is necessary to use `%ls` (C99) specifier or `%S`
+(SUSv2) specifier to print `wchar_t` strings on Unix--like platforms.
 
-The common ground for both platforms appears to be use of %ls and
-wchar_t string to print strings with unmodified formatting string
-argument on both *NIX and Windows.  The conversion of wchar_t back to
-char then depends on C locale.
+The common ground for both platforms appears to be use of `%ls` and
+`wchar_t` string to print strings with unmodified formatting string
+argument on both Unix--like platforms and Windows. The conversion of
+`wchar_t` back to `char` then depends on C locale.
 
 
 C++11 support
@@ -364,7 +375,7 @@ log4cplus does not support too old or broken C++ compilers:
 
 - Visual C++ prior to 7.1
 - GCC prior to 3.2
-- All Borland/CodeGear/Embarcadero C++ compilers
+- Older versions of Borland/CodeGear/Embarcadero C++ compilers
 
 
 Unsupported platforms
@@ -374,7 +385,7 @@ log4cplus requires some minimal set of C and/or C++ library
 functions. Some systems/platforms fail to provide these functions and
 thus log4cplus cannot be supported there:
 
-- Windows CE - missing implementations of <time.h> functions
+- Windows CE - missing implementations of `<time.h>` functions
 
 
 License
