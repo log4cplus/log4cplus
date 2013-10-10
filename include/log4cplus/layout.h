@@ -435,6 +435,17 @@ namespace log4cplus {
      * </tr>
      *
      * <tr>
+     *   <td align=center><b>X</b></td>
+     * 
+     *   <td>Used to output the MDC (mapped diagnostic context)
+     *   associated with the thread that generated the logging
+     *   event. It takes optional key parameter. Without the key
+     *   paramter (%%X), it outputs the whole MDC map. With the key
+     *   (%%X{key}), it outputs just the key's value.
+     *   </td>     
+     * </tr>
+     *
+     * <tr>
      *   <td align=center><b>"%%"</b></td>
      *   <td>The sequence "%%" outputs a single percent sign.
      *   </td>     
