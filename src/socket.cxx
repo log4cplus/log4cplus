@@ -83,13 +83,20 @@ AbstractSocket::close()
 }
 
 
+void
+AbstractSocket::shutdown()
+{
+    if(sock != INVALID_SOCKET_VALUE) {
+        shutdownSocket(sock);
+    }    
+}
+
 
 bool
 AbstractSocket::isOpen() const
 {
     return sock != INVALID_SOCKET_VALUE;
 }
-
 
 
 

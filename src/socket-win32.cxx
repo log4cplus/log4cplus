@@ -97,7 +97,7 @@ init_winsock_worker ()
             case WS_INITIALIZING:
                 log4cplus::thread::yield ();
                 continue;
-        
+
             default:
                 assert (0);
                 loglog->error (LOG4CPLUS_TEXT ("Unknown WinSock state."), true);
@@ -224,7 +224,7 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& 
         INT ret = WSAStringToAddress (const_cast<LPTSTR>(hostn.c_str ()),
             AF_INET, 0, reinterpret_cast<struct sockaddr *>(&insock),
             &insock_size);
-        if (ret == SOCKET_ERROR || insock_size != static_cast<INT>(sizeof (insock))) 
+        if (ret == SOCKET_ERROR || insock_size != static_cast<INT>(sizeof (insock)))
         {
             state = bad_address;
             goto error;
@@ -281,6 +281,12 @@ closeSocket(SOCKET_TYPE sock)
 }
 
 
+int
+shutdownSocket(SOCKET_TYPE sock)
+{
+    return ::shutdown (to_os_socket (sock), SD_BOTH);
+}
+
 
 long
 read(SOCKET_TYPE sock, SocketBuffer& buffer)
@@ -289,9 +295,9 @@ read(SOCKET_TYPE sock, SocketBuffer& buffer)
     os_socket_type const osSocket = to_os_socket (sock);
 
     do
-    { 
-        res = ::recv(osSocket, 
-                     buffer.getBuffer() + read, 
+    {
+        res = ::recv(osSocket,
+                     buffer.getBuffer() + read,
                      static_cast<int>(buffer.getMaxSize() - read),
                      0);
         if (res == SOCKET_ERROR)
@@ -308,7 +314,7 @@ read(SOCKET_TYPE sock, SocketBuffer& buffer)
         read += res;
     }
     while (read < static_cast<long>(buffer.getMaxSize()));
- 
+
     return read;
 }
 

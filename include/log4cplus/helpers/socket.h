@@ -63,7 +63,7 @@ namespace log4cplus {
             /// Close socket
             virtual void close();
             virtual bool isOpen() const;
-
+            virtual void shutdown(); 
             AbstractSocket& operator=(const AbstractSocket& rhs);
 
         protected:
@@ -124,6 +124,7 @@ namespace log4cplus {
                                                    SocketState& state);
         LOG4CPLUS_EXPORT SOCKET_TYPE acceptSocket(SOCKET_TYPE sock, SocketState& state);
         LOG4CPLUS_EXPORT int closeSocket(SOCKET_TYPE sock);
+        LOG4CPLUS_EXPORT int shutdownSocket(SOCKET_TYPE sock);
 
         LOG4CPLUS_EXPORT long read(SOCKET_TYPE sock, SocketBuffer& buffer);
         LOG4CPLUS_EXPORT long write(SOCKET_TYPE sock,

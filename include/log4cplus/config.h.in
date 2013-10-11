@@ -138,6 +138,9 @@
 /* If available, contains the Python version number currently in use. */
 #undef HAVE_PYTHON
 
+/* Define to 1 if you have the `shutdown' function. */
+#undef HAVE_SHUTDOWN
+
 /* Define to 1 if you have the `stat' function. */
 #undef HAVE_STAT
 
@@ -372,6 +375,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
+
+/* */
+#undef LOG4CPLUS_HAVE_SHUTDOWN
 
 /* */
 #undef LOG4CPLUS_HAVE_STAT
