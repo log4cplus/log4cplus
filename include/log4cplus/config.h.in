@@ -123,6 +123,9 @@
 /* Have PTHREAD_PRIO_INHERIT. */
 #undef HAVE_PTHREAD_PRIO_INHERIT
 
+/* Define to 1 if you have the `shutdown' function. */
+#undef HAVE_SHUTDOWN
+
 /* Define to 1 if you have the `stat' function. */
 #undef HAVE_STAT
 
@@ -336,6 +339,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
+
+/* */
+#undef LOG4CPLUS_HAVE_SHUTDOWN
 
 /* */
 #undef LOG4CPLUS_HAVE_STAT

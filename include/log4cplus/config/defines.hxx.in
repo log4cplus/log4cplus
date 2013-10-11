@@ -121,6 +121,9 @@
 /* */
 #undef LOG4CPLUS_HAVE_NTOHS
 
+/* Define to 1 if you have the `shutdown' function. */
+#undef LOG4CPLUS_HAVE_SHUTDOWN
+
 /* */
 #undef LOG4CPLUS_HAVE_PIPE
 

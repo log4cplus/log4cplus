@@ -311,6 +311,12 @@ closeSocket(SOCKET_TYPE sock)
 }
 
 
+int
+shutdownSocket(SOCKET_TYPE sock)
+{
+    return ::shutdown(to_os_socket (sock), SHUT_RDWR);
+}
+
 
 long
 read(SOCKET_TYPE sock, SocketBuffer& buffer)
