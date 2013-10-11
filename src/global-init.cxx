@@ -551,6 +551,9 @@ struct _static_log4cplus_initializer
     {
         // Last thread cleanup.
         log4cplus::threadCleanup ();
+
+        log4cplus::thread::impl::tls_cleanup (
+            log4cplus::internal::tls_storage_key);
     }
 } static initializer;
 
