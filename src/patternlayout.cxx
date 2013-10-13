@@ -199,6 +199,21 @@ private:
 };
 
 
+/**
+ * This PatternConverter is used to format an environment variable
+ */
+class EnvPatternConverter : public PatternConverter {
+public:
+    EnvPatternConverter(const FormattingInfo& info, 
+                        const log4cplus::tstring& env);
+    virtual void convert(tstring & result,
+        const spi::InternalLoggingEvent& event);
+
+private:
+    log4cplus::tstring envKey;
+};
+
+
 //! This pattern is used to format miliseconds since process start.
 class RelativeTimestampConverter: public PatternConverter {
 public:
@@ -525,6 +540,30 @@ DatePatternConverter::convert(tstring & result,
 }
 
 
+////////////////////////////////////////////////
+// EnvPatternConverter methods:
+////////////////////////////////////////////////
+
+
+EnvPatternConverter::EnvPatternConverter(
+    const FormattingInfo& info, const tstring& env)
+    : PatternConverter(info)
+    , envKey(env)
+{ }
+
+
+void
+EnvPatternConverter::convert(tstring & result,
+    const spi::InternalLoggingEvent&)
+{
+    if (! internal::get_env_var (result, envKey))
+    {
+        // Variable doesn't exist, return empty string.
+        result.clear ();
+    }
+}
+
+
 //
 //
 //
@@ -840,6 +879,12 @@ PatternParser::finalizeConverter(tchar c)
                 //}
                 //formattingInfo.dump(getLogLog());      
             }
+            break;
+
+        case LOG4CPLUS_TEXT('E'):
+            pc = new EnvPatternConverter(formattingInfo, extractOption());
+            //getLogLog().debug("Environment converter.");
+            //formattingInfo.dump(getLogLog());      
             break;
 
         case LOG4CPLUS_TEXT('F'):
