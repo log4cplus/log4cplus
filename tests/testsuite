@@ -5227,8 +5227,31 @@ at_fn_check_prepare_notrace 'a ${...} parameter expansion' "patternlayout_test.a
 at_status=$? at_failed=false
 $at_check_filter
 echo stderr:; tee stderr <"$at_stderr"
-echo stdout:; cat "$at_stdout"
+echo stdout:; tee stdout <"$at_stdout"
 at_fn_check_status 0 $at_status "$at_srcdir/patternlayout_test.at:4"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+{ set +x
+$as_echo "$at_srcdir/patternlayout_test.at:5: \$AWK '
+BEGIN {count = 0}
+/^Entering main/ && ++count;
+/(DEBUG|INFO|WARN|ERROR|FATAL)[ ]+c\\.logger %[^%]*% - MDC value - This is the (FIRST|SECOND|THIRD|FOURTH|FIFTH) log message\\.\\.\\. \\[.*main\\.cxx:[0-9]+\\]/ && ++count;
+/^Exiting main/ && ++count;
+END {exit count}' <stdout >/dev/null"
+at_fn_check_prepare_notrace 'an embedded newline' "patternlayout_test.at:5"
+( $at_check_trace; $AWK '
+BEGIN {count = 0}
+/^Entering main/ && ++count;
+/(DEBUG|INFO|WARN|ERROR|FATAL)[ ]+c\.logger %[^%]*% - MDC value - This is the (FIRST|SECOND|THIRD|FOURTH|FIFTH) log message\.\.\. \[.*main\.cxx:[0-9]+\]/ && ++count;
+/^Exiting main/ && ++count;
+END {exit count}' <stdout >/dev/null
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 7 $at_status "$at_srcdir/patternlayout_test.at:5"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 

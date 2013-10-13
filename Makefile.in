@@ -2295,11 +2295,11 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgconfigDATA \
 
 all: $(TESTSUITE)
 
-$(TESTSUITE): $(TESTSUITE_AT)
+$(TESTSUITE): $(TESTSUITE_AT) tests/atlocal tests/atconfig
 	cd "$(abs_top_srcdir)" && $(AUTOTEST) -I tests tests/testsuite.at -o $@
 
 tests/atconfig: $(top_builddir)/config.status
-	cd "$(top_builddir)" && ./config.status tests/$@
+	cd "$(top_builddir)" && ./config.status $@
 
 check-local: tests/atconfig tests/atlocal $(TESTSUITE)
 	cd "$(top_builddir)/tests" && $(SHELL) $(abs_top_srcdir)/$(TESTSUITE) $(TESTSUITEFLAGS)

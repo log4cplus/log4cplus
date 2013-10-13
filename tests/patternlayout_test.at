@@ -1,6 +1,12 @@
 AT_SETUP([patternlayout_test])
 AT_KEYWORDS([appenders])
 
-AT_CHECK(["${abs_top_builddir}/patternlayout_test"], [0], [ignore], [stderr])
+AT_CHECK(["${abs_top_builddir}/patternlayout_test"], [0], [stdout], [stderr])
+AT_CHECK([[$AWK '
+BEGIN {count = 0}
+/^Entering main/ && ++count;
+/(DEBUG|INFO|WARN|ERROR|FATAL)[ ]+c\.logger %[^%]*% - MDC value - This is the (FIRST|SECOND|THIRD|FOURTH|FIFTH) log message\.\.\. \[.*main\.cxx:[0-9]+\]/ && ++count;
+/^Exiting main/ && ++count;
+END {exit count}' <stdout >/dev/null]], [7])
 
 AT_CLEANUP
