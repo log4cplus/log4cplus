@@ -3,6 +3,7 @@
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/layout.h>
 #include <log4cplus/ndc.h>
+#include <log4cplus/mdc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/helpers/sleep.h>
@@ -24,7 +25,9 @@ main()
         SharedObjectPtr<Appender> append_1(new ConsoleAppender());
         append_1->setName(LOG4CPLUS_TEXT("First"));
 
-        log4cplus::tstring pattern = LOG4CPLUS_TEXT("%d{%m/%d/%y %H:%M:%S,%Q} [%t] %-5p %c{2} %%%x%% - %m [%l]%n");
+        log4cplus::getMDC ().put (LOG4CPLUS_TEXT ("key"),
+            LOG4CPLUS_TEXT ("MDC value"));
+        log4cplus::tstring pattern = LOG4CPLUS_TEXT("%d{%m/%d/%y %H:%M:%S,%Q} [%t] %-5p %c{2} %%%x%% - %X{key} - %m [%l]%n");
         //	std::tstring pattern = LOG4CPLUS_TEXT("%d{%c} [%t] %-5p [%.15c{3}] %%%x%% - %m [%l]%n");
         append_1->setLayout( std::auto_ptr<Layout>(new PatternLayout(pattern)) );
         Logger::getRoot().addAppender(append_1);
@@ -45,7 +48,7 @@ main()
         LOG4CPLUS_ERROR(logger, "This is the FOURTH log message...");
 
         sleep(1, 0);
-        LOG4CPLUS_FATAL(logger, "This is the FOURTH log message...");
+        LOG4CPLUS_FATAL(logger, "This is the FIFTH log message...");
     }
     catch(...) {
         cout << "Exception..." << endl;
