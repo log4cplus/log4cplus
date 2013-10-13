@@ -317,6 +317,18 @@ namespace log4cplus {
      * </tr>
      *
      * <tr>
+     *   <td align=center><b>E</b></td>
+     * 
+     *   <td>Used to output the value of a given environment variable.  The 
+     *   name of is supplied as an argument in brackets.  If the variable does
+     *   exist then empty string will be used.
+     * 
+     *   For example, the pattern <b>%E{HOME}</b> will output the contents
+     *   of the HOME environment variable.
+     * </td>
+     * </tr>
+     *
+     * <tr>
      *   <td align=center><b>F</b></td>
      * 
      *   <td>Used to output the file name where the logging request was
