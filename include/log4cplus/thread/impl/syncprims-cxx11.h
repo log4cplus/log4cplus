@@ -30,6 +30,7 @@
 
 #include <stdexcept>
 #include <chrono>
+#include <algorithm>
 
 
 namespace log4cplus { namespace thread { namespace impl {
@@ -73,7 +74,7 @@ Mutex::unlock () const
 inline
 Semaphore::Semaphore (unsigned max_, unsigned initial)
     : max (max_)
-    , val (std::min (max, initial))
+    , val ((std::min) (max, initial))
 { }
 
 
