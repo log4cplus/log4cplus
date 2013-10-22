@@ -1,3 +1,14 @@
+log4cplus 1.1.2
+
+- Added AbstractSocket::shutdown().
+
+- Added missing documentation of MDC pattern layout converter.
+
+- Fixed bug #278 - TLS key leak.
+
+- Implemented %E{ENVVAR} pattern layout formatter for expansion of environment
+  variables.
+
 log4cplus 1.1.2-RC3
 
 - Fixed build issues on HP-UX with aCC.
