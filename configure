@@ -4503,6 +4503,15 @@ if test "x$with_iconv" = "xyes"; then :
 
 fi
 
+if test "x$with_working_locale" = "xno" \
+  -a "x$with_working_c_locale" = "xno" \
+  -a "x$with_iconv" = "xno"; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Neither C++ locale support nor C locale support \
+nor iconv() support requested, using poor man's locale conversion." >&5
+$as_echo "$as_me: WARNING: Neither C++ locale support nor C locale support \
+nor iconv() support requested, using poor man's locale conversion." >&2;}
+fi
+
 
 
 

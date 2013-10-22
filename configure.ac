@@ -71,6 +71,12 @@ AS_IF([test "x$with_iconv" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_WITH_ICONV], [1])],
   [])
 
+AS_IF([test "x$with_working_locale" = "xno" \
+  -a "x$with_working_c_locale" = "xno" \
+  -a "x$with_iconv" = "xno"],
+  [AC_MSG_WARN([Neither C++ locale support nor C locale support \
+nor iconv() support requested, using poor man's locale conversion.])])
+
 dnl With C++11 threads and synchronization primitives.
 
 AH_TEMPLATE([LOG4CPLUS_WITH_CXX11_THREADS],
