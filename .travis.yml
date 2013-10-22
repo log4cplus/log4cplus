@@ -3,13 +3,13 @@ compiler:
   - gcc
   - clang
 env:
-  - PARAM_THREADS="--enable-threads --with-python --with-qt --with-qt5"
+  - PARAM_THREADS="--enable-threads --with-python --with-qt --with-qt5 --with-working-locale"
     CXXFLAGS="" SWIG_FLAGS=""
-  - PARAM_THREADS="--enable-threads --with-python --with-qt --with-qt5"
+  - PARAM_THREADS="--enable-threads --with-python --with-qt --with-qt5 --with-working-locale"
     CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE"
-  - PARAM_THREADS="--disable-threads --with-python --with-qt --with-qt5"
+  - PARAM_THREADS="--disable-threads --with-python --with-qt --with-qt5 --with-working-locale"
     CXXFLAGS="" SWIG_FLAGS=""
-  - PARAM_THREADS="--disable-threads --with-python --with-qt --with-qt5"
+  - PARAM_THREADS="--disable-threads --with-python --with-qt --with-qt5 --with-working-locale"
     CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE"
   - PARAM_THREADS="--enable-threads --with-python --with-qt --with-qt5 --with-iconv"
     CXXFLAGS="" SWIG_FLAGS=""
