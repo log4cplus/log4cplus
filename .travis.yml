@@ -20,9 +20,9 @@ env:
   - PARAM_THREADS="--disable-threads --with-python --with-qt --with-qt5 --with-iconv"
     CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE"
   - PARAM_THREADS="--enable-threads --with-python --with-qt --with-qt5 --with-iconv"
-    CXXFLAGS="-std=c++98" SWIG_FLAGS="-std=c++98"
+    CXXFLAGS="-std=c++98" SWIG_FLAGS=""
   - PARAM_THREADS="--enable-threads --with-python --with-qt --with-qt5 --with-iconv"
-    CXXFLAGS="-std=c++11" SWIG_FLAGS="-std=c++11"
+    CXXFLAGS="-std=c++11" SWIG_FLAGS=""
 before_install:
   - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
   - sudo apt-get update -qq
