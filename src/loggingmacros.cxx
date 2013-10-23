@@ -76,6 +76,16 @@ get_macro_body_snprintf_buf ()
 
 void
 macro_forced_log (log4cplus::Logger const & logger,
+    log4cplus::LogLevel log_level, log4cplus::tchar const * msg,
+    char const * filename, int line, char const * func)
+{
+    macro_forced_log (logger, log_level,
+        internal::get_ptd ()->macros_str = msg, filename, line, func);
+}
+
+
+void
+macro_forced_log (log4cplus::Logger const & logger,
     log4cplus::LogLevel log_level, log4cplus::tstring const & msg,
     char const * filename, int line, char const * func)
 {

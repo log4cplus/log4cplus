@@ -133,6 +133,10 @@ LOG4CPLUS_EXPORT log4cplus::helpers::snprintf_buf & get_macro_body_snprintf_buf 
 LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     log4cplus::LogLevel, log4cplus::tstring const &, char const *, int,
     char const *);
+LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
+    log4cplus::LogLevel, log4cplus::tchar const *, char const *, int,
+    char const *);
+
 
 
 } // namespace detail

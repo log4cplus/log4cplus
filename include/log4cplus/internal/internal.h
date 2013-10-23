@@ -114,6 +114,7 @@ struct per_thread_data
     per_thread_data ();
     ~per_thread_data ();
 
+    tstring macros_str;
     tostringstream macros_oss;
     tostringstream layout_oss;
     DiagnosticContextStack ndc_dcs;
