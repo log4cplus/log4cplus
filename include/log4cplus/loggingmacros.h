@@ -466,7 +466,7 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     LOG4CPLUS_SUPPRESS_DOWHILE_WARNING()                                \
     do {                                                                \
         if (LOG4CPLUS_UNLIKELY(! (condition)))                          \
-            LOG4CPLUS_FATAL ((logger),                                  \
+            LOG4CPLUS_FATAL_STR ((logger),                              \
                 LOG4CPLUS_TEXT ("failed condition: ")                   \
                 LOG4CPLUS_TEXT (LOG4CPLUS_ASSERT_STRINGIFY (condition))); \
     } while (0)                                                         \
