@@ -20,7 +20,7 @@ TESTSUITE_AT = \
 
 all: $(TESTSUITE)
 
-$(TESTSUITE): $(TESTSUITE_AT) %D%/atlocal %D%/atconfig
+$(TESTSUITE): $(TESTSUITE_AT) %D%/atlocal.in
 	cd "$(abs_top_srcdir)" && $(AUTOTEST) -I tests %D%/testsuite.at -o $@
 
 %D%/atconfig: $(top_builddir)/config.status
