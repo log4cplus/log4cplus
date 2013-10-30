@@ -10,6 +10,7 @@ AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.14 no-define no-dist nostdinc gnu subdir-objects -Wall])
 AC_CONFIG_TESTDIR([tests])
+AM_MAINTAINER_MODE([enable])
 AM_PROG_AR
 
 #
