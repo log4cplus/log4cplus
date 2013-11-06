@@ -16,6 +16,7 @@ AC_CACHE_CHECK([for C99 variadic macros], [ac_cv_c99_variadic_macros],
       [[
 #include <cstdio>
 #include <cstdlib>
+#include <cstddef>
       ]],
       [[
         using namespace std;
@@ -48,6 +49,7 @@ AC_CACHE_CHECK([for GNU style variadic macros], [ac_cv_gnu_variadic_macros],
       [[
 #include <cstdio>
 #include <cstdlib>
+#include <cstddef>
       ]],
       [[
         using namespace std;
