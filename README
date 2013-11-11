@@ -78,6 +78,14 @@ decoration on the resulting library file, e.g., the `-1.2` in
 `liblog4cplus-1.2.so.2.0.0`.
 
 
+`--enable-symbols-visibility-options`
+-------------------------------------
+
+This option is enabled by default.  It enables use of compiler and
+platform specific option for symbols visibility.  See also the
+[Visibility](http://gcc.gnu.org/wiki/Visibility) page on GCC Wiki.
+
+
 `--enable-profiling`
 --------------------
 
