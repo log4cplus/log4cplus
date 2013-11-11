@@ -785,6 +785,7 @@ enable_debugging
 enable_warnings
 enable_so_version
 enable_release_version
+enable_symbols_visibility_options
 enable_profiling
 enable_threads
 with_qt
@@ -1437,12 +1438,16 @@ Optional Features:
   --disable-dependency-tracking
                           speeds up one-time build
   --enable-debugging      Turns off optimization and adds switches that
-                          generate debugging information.
-  --enable-warnings       Use compiler warnings option, e.g. -Wall. Enabled by
-                          default.
-  --enable-so-version     Use libtool -version-info option.
+                          generate debugging information. [default=no]
+  --enable-warnings       Use compiler warnings option, e.g. -Wall.
+                          [default=yes]
+  --enable-so-version     Use libtool -version-info option. [default=yes]
   --enable-release-version
-                          Use libtool -release option.
+                          Use libtool -release option. [default=yes]
+  --enable-symbols-visibility-options
+                          Use platform and compiler specific symbols
+                          visibility options, where they are available.
+                          [default=yes]
   --enable-profiling      Compile with profiling compiler options.
   --enable-threads=yes/no Use this option to create a singled-threaded version
                           of this library
@@ -4396,6 +4401,22 @@ fi
 
 
 
+# Check whether --enable-symbols-visibility-options was given.
+if test "${enable_symbols_visibility_options+set}" = set; then :
+  enableval=$enable_symbols_visibility_options; case "${enableval}" in #(
+  yes) :
+     ;; #(
+  no) :
+     ;; #(
+  *) :
+    as_fn_error $? "bad value ${enableval} for --enable-symbols-visibility-options" "$LINENO" 5 ;;
+esac
+else
+  enable_symbols_visibility_options=yes
+fi
+
+
+
 ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7190,6 +7211,7 @@ esac
 esac
 
 
+if test "x$enable_symbols_visibility_options" = "xyes"; then :
 
 
 
@@ -7365,7 +7387,7 @@ fi
 { continue_checks=; unset continue_checks;}
 
 
-if test "x$ac_cv_declspec" = "xyes"   || test "x$ac_cv__attribute__visibility" = "xyes"   || test "x$ac_cv__global" = "xyes"; then :
+   if test "x$ac_cv_declspec" = "xyes"     || test "x$ac_cv__attribute__visibility" = "xyes"     || test "x$ac_cv__global" = "xyes"; then :
   case $ax_cv_cxx_compiler_vendor in #(
   gnu|clang) :
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -fvisibility=hidden" >&5
@@ -7432,7 +7454,8 @@ case ".$var" in
  ;;
 esac
  ;; #(
-  sun) :
+
+      sun) :
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for sun/cc -xldscope=hidden" >&5
 $as_echo_n "checking CXXFLAGS for sun/cc -xldscope=hidden... " >&6; }
 if ${ax_cv_cxxflags_sun_option__xldscope_hidden+:} false; then :
@@ -7500,6 +7523,7 @@ esac
   *) :
      ;;
 esac
+fi
 fi
 
 

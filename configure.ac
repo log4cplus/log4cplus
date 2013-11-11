@@ -75,7 +75,7 @@ dnl Debugging or release build?
 AC_ARG_ENABLE([debugging],
   [AS_HELP_STRING([--enable-debugging],
     [Turns off optimization and adds switches that generate debugging
-    information.])],
+    information. [default=no]])],
   [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-debugging])],
   [enable_debugging=no])
 
@@ -99,14 +99,15 @@ dnl Turn warnings on/off?
 
 AC_ARG_ENABLE([warnings],
   [AC_HELP_STRING([--enable-warnings],
-    [Use compiler warnings option, e.g. -Wall. Enabled by default.])],
+    [Use compiler warnings option, e.g. -Wall. [default=yes]])],
   [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-warnings])],
   [enable_warnings=yes])
 
 dnl Enable SO version.
 
 AC_ARG_ENABLE([so-version],
-  [AC_HELP_STRING([--enable-so-version], [Use libtool -version-info option.])],
+  [AC_HELP_STRING([--enable-so-version],
+    [Use libtool -version-info option. [default=yes]])],
   [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-so-version])],
   [enable_so_version=yes])
 AM_CONDITIONAL([ENABLE_VERSION_INFO_OPTION],
@@ -115,11 +116,22 @@ AM_CONDITIONAL([ENABLE_VERSION_INFO_OPTION],
 dnl Enable release version.
 
 AC_ARG_ENABLE([release-version],
-  [AC_HELP_STRING([--enable-release-version], [Use libtool -release option.])],
+  [AC_HELP_STRING([--enable-release-version],
+    [Use libtool -release option. [default=yes]])],
   [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-release-version])],
   [enable_release_version=yes])
 AM_CONDITIONAL([ENABLE_RELEASE_OPTION],
   [test "x$enable_release_version" = "xyes"])
+
+dnl Enable use of symbol visibility options.
+
+AC_ARG_ENABLE([symbols-visibility-options],
+  [AC_HELP_STRING([--enable-symbols-visibility-options],
+    [Use platform and compiler specific symbols visibility options,
+     where they are available. [default=yes]])],
+  [LOG4CPLUS_CHECK_YESNO([${enableval}],
+    [--enable-symbols-visibility-options])],
+  [enable_symbols_visibility_options=yes])
 
 dnl Check for c/c++ compilers.
 
@@ -277,16 +289,22 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
    AX_CXXFLAGS_SUN_OPTION([-library=Crun])])
 AC_SUBST([LOG4CPLUS_AIX_XLC_LDFLAGS])
 
-AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
-AS_IF([test "x$ac_cv_declspec" = "xyes" dnl
-  || test "x$ac_cv__attribute__visibility" = "xyes" dnl
-  || test "x$ac_cv__global" = "xyes"],
-  [AS_CASE([$ax_cv_cxx_compiler_vendor],
-    [gnu|clang],
-    [AX_CXXFLAGS_GCC_OPTION([-fvisibility=hidden])],
+AS_IF([test "x$enable_symbols_visibility_options" = "xyes"],
+  [AX_DECLSPEC([LOG4CPLUS_DECLSPEC])
+   AS_IF([test "x$ac_cv_declspec" = "xyes" dnl
+    || test "x$ac_cv__attribute__visibility" = "xyes" dnl
+    || test "x$ac_cv__global" = "xyes"],
+    [AS_CASE([$ax_cv_cxx_compiler_vendor],
+      [gnu|clang],
+      [AX_CXXFLAGS_GCC_OPTION([-fvisibility=hidden])],
 
-    [sun],
-    [AX_CXXFLAGS_SUN_OPTION([-xldscope=hidden])])])
+      dnl Adding -Bhidden or -Bhidden_def to CXXFLAGS causes configure
+      dnl tests to fail because main() becomes hidden.
+      dnl[hp],
+      dnl[AS_VAR_APPEND([CXXFLAGS], [" -Bhidden -Wl,-a"])],
+
+      [sun],
+      [AX_CXXFLAGS_SUN_OPTION([-xldscope=hidden])])])])
 
 AX_C99_VARIADIC_MACROS
 AH_TEMPLATE([LOG4CPLUS_HAVE_C99_VARIADIC_MACROS])
