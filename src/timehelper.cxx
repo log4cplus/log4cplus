@@ -100,14 +100,13 @@ Time::gettimeofday()
 #if defined (LOG4CPLUS_HAVE_CLOCK_GETTIME)
     struct timespec ts;
     int res = clock_gettime (CLOCK_REALTIME, &ts);
-    assert (res == 0);
-    if (res != 0)
-        LogLog::getLogLog ()->error (
-            LOG4CPLUS_TEXT("clock_gettime() has failed"), true);
+    if (LOG4CPLUS_LIKELY (res == 0))
+        return Time (ts.tv_sec, ts.tv_nsec / 1000);
 
-    return Time (ts.tv_sec, ts.tv_nsec / 1000);
+    // Fall through down to a different method of obtaining time.
+#endif
 
-#elif defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
+#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
     struct timeval tp;
     ::gettimeofday(&tp, 0);
 
