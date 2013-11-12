@@ -297,7 +297,27 @@ HP-UX with aCC
 
 It is necessary to turn on C++98 mode of aCC by providing the `-AA` flag:
 
-    $ ../configure --enable-threds=yes CXXFLAGS="-AA"
+    $ ../configure --enable-threads=yes CXXFLAGS="-AA"
+
+
+HP-UX with `aCC` on IA64
+------------------------
+
+There is a problem on I64 HP-UX with `aCC` (HP C/aC++ B3910B
+A.06.20). The problem manifests as
+[unsatisfied symbols during linking of `loggingserver`][9]:
+
+    ld: Unsatisfied symbol "virtual table of loggingserver::ClientThread" in file loggingserver.o
+
+The problem appears to be a deficiency in `aCC` and its support of
+`__declspec(dllexport)`. To work around this issue, add
+`--disable-symbols-visibility-options` to `configure` script command
+line:
+
+    $ ../configure --disable-symbols-visibility-options \
+    --enable-threads=yes CXXFLAGS="-AA"
+
+[9]: http://h30499.www3.hp.com/t5/Languages-and-Scripting/Building-Log4cplus-fails-with-quot-ld-Unsatisfied-symbol-virtual/td-p/6261411#.UoHtgPmet8G
 
 
 Haiku
