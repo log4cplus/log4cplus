@@ -5,9 +5,11 @@ if (CMAKE_TOOLCHAIN_FILE)
   set (LIBRARY_OUTPUT_PATH_ROOT ${CMAKE_BINARY_DIR} CACHE PATH
     "root for library output, set this to change where android libs are compiled to")
 endif ()
+# Remove when CMake >= 2.8.4 is required
+set (CMAKE_LEGACY_CYGWIN_WIN32 0)
 
 project (log4cplus)
-cmake_minimum_required (VERSION 2.8.0)
+cmake_minimum_required (VERSION 2.8.4)
 
 include (Log4CPlusUtils.cmake)
 log4cplus_get_version ("${PROJECT_SOURCE_DIR}/include"
@@ -49,6 +51,10 @@ option(UNICODE "Build with tchar = wchar_t" ${UNICODE_DEFAULT})
 
 option(WITH_ICONV "Use iconv() for char->wchar_t conversion."
   OFF)
+
+option(ENABLE_SYMBOLS_VISIBILITY
+  "Enable compiler and platform specific options for symbols visibility"
+  ON)
   
 set(_WIN32_WINNT 0x0500 CACHE STRING "Define Windows API version to use.")
 
