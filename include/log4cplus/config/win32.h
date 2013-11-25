@@ -179,7 +179,11 @@
 #      define LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH
 #      define LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH
 #    endif
-#    define LOG4CPLUS_INLINES_ARE_EXPORTED
+// This has worked for some versions of MinGW with GCC 4.7+ but it
+// appears to be broken again in 4.8.x. Thus, we disable this for GCC
+// completely forever.
+//
+//#    define LOG4CPLUS_INLINES_ARE_EXPORTED
 #  endif
 #  define LOG4CPLUS_HAVE_FUNCTION_MACRO
 #  define LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS
