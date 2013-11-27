@@ -140,24 +140,22 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 } // namespace log4cplus
 
 
-#undef LOG4CPLUS_MACRO_FUNCTION
-#define LOG4CPLUS_MACRO_FUNCTION() 0
-#if ! defined (LOG4CPLUS_DISABLE_FUNCTION_MACRO)
+#if ! defined (LOG4CPLUS_DISABLE_FUNCTION_MACRO) \
+    && ! defined (LOG4CPLUS_MACRO_FUNCTION)
 #  if defined (LOG4CPLUS_HAVE_FUNCSIG_MACRO)
-#    undef LOG4CPLUS_MACRO_FUNCTION
 #    define LOG4CPLUS_MACRO_FUNCTION() __FUNCSIG__
 #  elif defined (LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO)
-#    undef LOG4CPLUS_MACRO_FUNCTION
 #    define LOG4CPLUS_MACRO_FUNCTION() __PRETTY_FUNCTION__
 #  elif defined (LOG4CPLUS_HAVE_FUNCTION_MACRO)
-#    undef LOG4CPLUS_MACRO_FUNCTION
 #    define LOG4CPLUS_MACRO_FUNCTION() __FUNCTION__
 #  elif defined (LOG4CPLUS_HAVE_FUNC_SYMBOL)
-#    undef LOG4CPLUS_MACRO_FUNCTION
 #    define LOG4CPLUS_MACRO_FUNCTION() __func__
 #  endif
 #endif
 
+#if ! defined (LOG4CPLUS_MACRO_FUNCTION)
+#  define LOG4CPLUS_MACRO_FUNCTION() 0
+#endif
 
 // Make TRACE and DEBUG log level unlikely and INFO, WARN, ERROR and
 // FATAL log level likely.
