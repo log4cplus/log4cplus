@@ -20,6 +20,8 @@ set (log4cplus_postfix "")
 
 option(LOG4CPLUS_BUILD_TESTING "Build the test suite." ON)
 
+option(LOG4CPLUS_BUILD_LOGGINGSERVER "Build the logging server." ON)
+
 find_package (Threads)
 message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
 
@@ -97,7 +99,11 @@ if (LOG4CPLUS_BUILD_TESTING)
 endif (LOG4CPLUS_BUILD_TESTING)
 
 add_subdirectory (src)
-add_subdirectory (loggingserver)
+
+if (LOG4CPLUS_BUILD_LOGGINGSERVER)
+  add_subdirectory (loggingserver)
+endif (LOG4CPLUS_BUILD_LOGGINGSERVER)
+
 if (LOG4CPLUS_BUILD_TESTING)
   add_subdirectory (tests)
 endif (LOG4CPLUS_BUILD_TESTING)
