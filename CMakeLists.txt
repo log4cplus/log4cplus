@@ -80,6 +80,10 @@ endif ()
 
 set (log4cplus "log4cplus${log4cplus_postfix}")
 
+if(LOG4CPLUS_CONFIGURE_CHECKS_PATH)
+  get_filename_component(LOG4CPLUS_CONFIGURE_CHECKS_PATH "${LOG4CPLUS_CONFIGURE_CHECKS_PATH}" ABSOLUTE)
+endif()
+
 if(LOG4CPLUS_CONFIGURE_CHECKS_PATH AND EXISTS ${LOG4CPLUS_CONFIGURE_CHECKS_PATH})
   message(STATUS "Custom ConfigureChecks script found: ${LOG4CPLUS_CONFIGURE_CHECKS_PATH}")
 else()
