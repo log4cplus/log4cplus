@@ -25,8 +25,10 @@ option(LOG4CPLUS_BUILD_TESTING "Build the test suite." ON)
 
 option(LOG4CPLUS_BUILD_LOGGINGSERVER "Build the logging server." ON)
 
-find_package (Threads)
-message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
+if(NOT LOG4CPLUS_SINGLE_THREADED)
+  find_package (Threads)
+  message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
+endif(NOT LOG4CPLUS_SINGLE_THREADED)
 
 set(BUILD_SHARED_LIBS TRUE CACHE BOOL "If TRUE, log4cplus is built as a shared library, otherwise as a static library")
 
