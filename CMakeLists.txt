@@ -1,9 +1,12 @@
 # This block needs to stay before the project (log4cplus) line so that
 #  the output files placed into Android's libs directory.
 if (CMAKE_TOOLCHAIN_FILE)
-  # Android: set output folder to ${CMAKE_BINARY_DIR}
-  set (LIBRARY_OUTPUT_PATH_ROOT ${CMAKE_BINARY_DIR} CACHE PATH
-    "root for library output, set this to change where android libs are compiled to")
+  get_filename_component(TOOL_CHAIN_FILE_NAME "${CMAKE_TOOLCHAIN_FILE}" NAME_WE)
+  if("${TOOL_CHAIN_FILE_NAME}" MATCHES "android.toolchain")
+    # Android: set output folder to ${CMAKE_BINARY_DIR}
+    set (LIBRARY_OUTPUT_PATH_ROOT ${CMAKE_BINARY_DIR} CACHE PATH
+      "root for library output, set this to change where Android libs are compiled to")
+  endif()
 endif ()
 # Remove when CMake >= 2.8.4 is required
 set (CMAKE_LEGACY_CYGWIN_WIN32 0)
