@@ -78,7 +78,13 @@ endif ()
 
 set (log4cplus "log4cplus${log4cplus_postfix}")
 
-include(ConfigureChecks.cmake)
+if(LOG4CPLUS_CONFIGURE_CHECKS_PATH AND EXISTS ${LOG4CPLUS_CONFIGURE_CHECKS_PATH})
+  message(STATUS "Custom ConfigureChecks script found: ${LOG4CPLUS_CONFIGURE_CHECKS_PATH}")
+else()
+  set(LOG4CPLUS_CONFIGURE_CHECKS_PATH "ConfigureChecks.cmake")
+endif()
+
+include(${LOG4CPLUS_CONFIGURE_CHECKS_PATH})
 
 # Prepare defines.hxx.cmake from defines.hxx.in by doing a bit of
 # string manipulation.
