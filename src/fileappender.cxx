@@ -456,7 +456,6 @@ RollingFileAppender::RollingFileAppender(const Properties& properties)
                 && tmp.compare (len - 2, 2, LOG4CPLUS_TEXT("KB")) == 0)
                 tmpMaxFileSize *= 1024; // convert to kilobytes
         }
-        tmpMaxFileSize = (std::max)(tmpMaxFileSize, MINIMUM_ROLLING_LOG_SIZE);
     }
 
     properties.getInt (tmpMaxBackupIndex, LOG4CPLUS_TEXT("MaxBackupIndex"));
