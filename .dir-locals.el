@@ -3,6 +3,11 @@
 
 ((nil
   (fill-column . 79)
-  (indent-tabs-mode))
+  (indent-tabs-mode)
+  (show-trailing-whitespace . t)
+  (whitespace-style . (face trailing lines-tail space-before-tab
+                    indentation empty))
+  (whitespace-newline . t))
  (c++-mode
-  (show-trailing-whitespace . t)))
+  (tab-width . 4)
+  (whitespace-action . (warn-read-only auto-cleanup))))
