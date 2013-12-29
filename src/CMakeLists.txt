@@ -108,9 +108,9 @@ if (WIN32)
   target_link_libraries (${log4cplus} ws2_32 advapi32)
 endif ()
 
-install(TARGETS ${log4cplus} LIBRARY DESTINATION lib
-                          ARCHIVE DESTINATION lib
-                          RUNTIME DESTINATION bin)
+install(TARGETS ${log4cplus} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+                          ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+                          RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 install(FILES ../include/log4cplus/appender.h
               ../include/log4cplus/asyncappender.h
@@ -140,10 +140,10 @@ install(FILES ../include/log4cplus/appender.h
               ../include/log4cplus/version.h
               ../include/log4cplus/win32debugappender.h
               ../include/log4cplus/win32consoleappender.h
-        DESTINATION include/log4cplus )
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4cplus )
 
 install(FILES ../include/log4cplus/boost/deviceappender.hxx
-        DESTINATION include/log4cplus/boost )
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4cplus/boost )
 
 
 install(FILES ../include/log4cplus/helpers/appenderattachableimpl.h
@@ -162,12 +162,12 @@ install(FILES ../include/log4cplus/helpers/appenderattachableimpl.h
               ../include/log4cplus/helpers/stringhelper.h
               ../include/log4cplus/helpers/thread-config.h
               ../include/log4cplus/helpers/timehelper.h
-        DESTINATION include/log4cplus/helpers )
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4cplus/helpers )
 
 install(FILES ../include/log4cplus/internal/env.h
               ../include/log4cplus/internal/internal.h
               ../include/log4cplus/internal/socket.h
-        DESTINATION include/log4cplus/internal )
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4cplus/internal )
 
 install(FILES ../include/log4cplus/spi/appenderattachable.h
               ../include/log4cplus/spi/factory.h
@@ -177,7 +177,7 @@ install(FILES ../include/log4cplus/spi/appenderattachable.h
               ../include/log4cplus/spi/loggingevent.h
               ../include/log4cplus/spi/objectregistry.h
               ../include/log4cplus/spi/rootlogger.h
-        DESTINATION include/log4cplus/spi )
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4cplus/spi )
 
 install(FILES ../include/log4cplus/thread/impl/syncprims-cxx11.h
               ../include/log4cplus/thread/impl/syncprims-impl.h
@@ -186,16 +186,15 @@ install(FILES ../include/log4cplus/thread/impl/syncprims-cxx11.h
               ../include/log4cplus/thread/impl/syncprims-win32.h
               ../include/log4cplus/thread/impl/threads-impl.h
               ../include/log4cplus/thread/impl/tls.h
-        DESTINATION include/log4cplus/thread/impl )
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4cplus/thread/impl )
 
 install(FILES ../include/log4cplus/thread/syncprims-pub-impl.h
               ../include/log4cplus/thread/syncprims.h
               ../include/log4cplus/thread/threads.h
-        DESTINATION include/log4cplus/thread )
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4cplus/thread )
 
 install(FILES ../include/log4cplus/config/macosx.h
               ../include/log4cplus/config/win32.h
               ../include/log4cplus/config/windowsh-inc.h
               ${log4cplus_BINARY_DIR}/include/log4cplus/config/defines.hxx
-        DESTINATION include/log4cplus/config )
-
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4cplus/config )
