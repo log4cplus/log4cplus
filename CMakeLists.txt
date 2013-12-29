@@ -14,6 +14,9 @@ set (CMAKE_LEGACY_CYGWIN_WIN32 0)
 project (log4cplus)
 cmake_minimum_required (VERSION 2.8.4)
 
+enable_language (CXX)
+include(GNUInstallDirs)
+
 include (Log4CPlusUtils.cmake)
 log4cplus_get_version ("${PROJECT_SOURCE_DIR}/include"
   log4cplus_version_major log4cplus_version_minor log4cplus_version_patch)
@@ -61,13 +64,13 @@ option(WITH_ICONV "Use iconv() for char->wchar_t conversion."
 option(ENABLE_SYMBOLS_VISIBILITY
   "Enable compiler and platform specific options for symbols visibility"
   ON)
-  
+
 set(_WIN32_WINNT 0x0500 CACHE STRING "Define Windows API version to use.")
 
 if (NOT ${BUILD_SHARED_LIBS})
-  # set S-prefix for static build 
+  # set S-prefix for static build
   set (log4cplus_postfix "${log4cplus_postfix}S")
-endif()    
+endif()
 
 if (UNICODE)
   set (log4cplus_postfix "${log4cplus_postfix}U")
@@ -97,7 +100,7 @@ file(READ include/log4cplus/config/defines.hxx.in FILE_BUFFER)
 string(REGEX REPLACE "#undef[^a-zA-Z0-9_]+([a-zA-Z0-9_]+)"
   "#cmakedefine \\1 @\\1@" FILE_BUFFER "${FILE_BUFFER}")
 set(DEFINES_HXX_CMAKE
-  ${log4cplus_BINARY_DIR}/include/log4cplus/config/defines.hxx.cmake) 
+  ${log4cplus_BINARY_DIR}/include/log4cplus/config/defines.hxx.cmake)
 set(DEFINES_HXX ${log4cplus_BINARY_DIR}/include/log4cplus/config/defines.hxx)
 file(WRITE ${DEFINES_HXX_CMAKE} ${FILE_BUFFER})
 
