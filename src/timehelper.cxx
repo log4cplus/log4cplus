@@ -53,6 +53,8 @@
 #define LOG4CPLUS_NEED_LOCALTIME_R
 #endif
 
+#include <log4cplus/config/windowsh-inc.h>
+
 
 namespace log4cplus { namespace helpers {
 
