@@ -1,16 +1,16 @@
 // -*- C++ -*-
 //  Copyright (C) 2010-2013, Vaclav Haisman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -38,8 +38,8 @@
 #define LOG4CPLUS_MAKE_VERSION_STR(major, minor, point) \
     #major "." #minor "." #point
 
-#define LOG4CPLUS_VERSION LOG4CPLUS_MAKE_VERSION(1, 1, 2)
-#define LOG4CPLUS_VERSION_STR LOG4CPLUS_MAKE_VERSION_STR(1, 1, 2)
+#define LOG4CPLUS_VERSION LOG4CPLUS_MAKE_VERSION(1, 1, 3)
+#define LOG4CPLUS_VERSION_STR LOG4CPLUS_MAKE_VERSION_STR(1, 1, 3)
 
 
 namespace log4cplus
