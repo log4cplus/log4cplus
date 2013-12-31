@@ -99,5 +99,12 @@ close $fh2;
             || $line =~ s/\d+ ([._\-]) \d+ ([._\-]) \d+
                          /$major$1$minor$2$so_current_adjusted/gx;
         print $line;
-    }    
+    }
+
+    local @ARGV = ("CMakeLists.txt");
+    while (my $line = <>)
+    {
+        $line =~ s/(set\s*\(log4cplus_soversion\s*)\d+(\))/$1$so_current$2/x;
+        print $line;
+    }
 }
