@@ -1,3 +1,35 @@
+log4cplus 1.1.3-RC1
+
+- Added --enable-symbols-visibility-options to configure script to allow
+  turning off use of compiler and platform specific symbols visibility
+  options.
+
+- Added ENABLE_SYMBOLS_VISIBILITY setting for CMake build system to the same
+  effect as above.
+
+- Disabled LOG4CPLUS_INLINES_ARE_EXPORTED to fix linking issues on MinGW GCC
+  4.8.x.
+
+- Added LOG4CPLUS_BUILD_LOGGINGSERVER setting for CMake build system to allow
+  disabling loggingserver. (Maxym)
+
+- Allow users overriding LOG4CPLUS_MACRO_FUNCTION.
+
+- Improved Android platform detection in CMake build system. (Maxym)
+
+- Allow overriding ConfigureChecks.cmake with user supplied file to help with
+  issues on iOS platform.
+
+- Updated android.toolchain.cmake from OpenCV project.
+
+- Added iOS support to CMake build system. (Maxym)
+
+- Fixed compilation issue of single-threaded builds on Windows.
+
+- Improved CMake build system's default installation directories for GNU
+  platforms by using GNUInstallDirs module.
+
+
 log4cplus 1.1.2
 
 - Added AbstractSocket::shutdown().
@@ -7,7 +39,8 @@ log4cplus 1.1.2
 - Fixed bug #278 - TLS key leak.
 
 - Implemented %E{ENVVAR} pattern layout formatter for expansion of environment
-  variables.
+  variables. (Ray Logel)
+
 
 log4cplus 1.1.2-RC3
 
