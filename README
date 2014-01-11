@@ -497,7 +497,12 @@ except for [log4cplus source][5], which is hosted on Launchpad. This
 unfortunate situation is because Bazaar VCS, which [log4cplus] uses,
 has become a second class citizen on SourceForge.
 
+There is also a mirror of [trunk on Github][10]. It is used to
+leverage Travis CI.
+
 [5]: https://launchpad.net/log4cplus
+[10]: https://github.com/wilx/log4cplus-trunk
+
 
 Patches
 -------
@@ -511,6 +516,7 @@ patch based upon.
 
 [6]: https://sourceforge.net/p/log4cplus/bugs/
 [7]: mailto:log4cplus-devel@lists.sourceforge.net
+
 
 Formatting
 ----------
