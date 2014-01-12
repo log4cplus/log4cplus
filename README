@@ -492,9 +492,10 @@ details.
 Contributions
 =============
 
-[log4cplus] (bug tracker, files, wiki) is hosted on SourceForge, except for
-[log4cplus source][5], which is hosted on Github. This allows the project to
-integrate with [Travis CI][11] service offered by Github.
+[log4cplus] (bug tracker, files, wiki) is hosted on SourceForge,
+except for [log4cplus source][5], which is hosted on Github. This
+allows the project to integrate with [Travis CI][11] service offered
+by Github.
 
 [5]: https://sourceforge.net/p/log4cplus/source-code-link/
 [11]: https://sourceforge.net/p/log4cplus/travis-ci/
