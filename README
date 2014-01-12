@@ -505,7 +505,7 @@ Patches
 
 Anybody can contribute to log4cplus development. If you are
 contributing a source code change, use a reasonable form: a merge
-request of a Bazaar branch or a patch file attached to a ticket in
+request of a Git branch or a patch file attached to a ticket in
 [Bugs tracker][6] or sent to [log4cplus-devel mailing list][7]. Unless
 it is obvious, always state what branch or release tarball is your
 patch based upon.
