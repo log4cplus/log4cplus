@@ -492,16 +492,12 @@ details.
 Contributions
 =============
 
-[log4cplus] (bug tracker, files, wiki) is hosted on SourceForge,
-except for [log4cplus source][5], which is hosted on Launchpad. This
-unfortunate situation is because Bazaar VCS, which [log4cplus] uses,
-has become a second class citizen on SourceForge.
+[log4cplus] (bug tracker, files, wiki) is hosted on SourceForge, except for
+[log4cplus source][5], which is hosted on Github. This allows the project to
+integrate with [Travis CI][11] service offered by Github.
 
-There is also a mirror of [trunk on Github][10]. It is used to
-leverage Travis CI.
-
-[5]: https://launchpad.net/log4cplus
-[10]: https://github.com/wilx/log4cplus-trunk
+[5]: https://sourceforge.net/p/log4cplus/source-code-link/
+[11]: https://sourceforge.net/p/log4cplus/travis-ci/
 
 
 Patches
