@@ -1,9 +1,0 @@
-*.user
-*.ncb
-*.suo
-ipch
-*.sdf
-autom4te.cache
-objdir*
-Win32
-x64

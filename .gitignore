@@ -1,0 +1,35 @@
+*.user
+*.ncb
+*.suo
+*.sdf
+ipch/
+autom4te.cache/
+objdir*/
+Win32/
+x64/
+
+#
+# From Github's C++.gitignore:
+#
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
