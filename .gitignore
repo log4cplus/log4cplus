@@ -2,6 +2,8 @@
 *.ncb
 *.suo
 *.sdf
+.#*
+*~
 ipch/
 autom4te.cache/
 objdir*/
