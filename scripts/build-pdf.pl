@@ -32,6 +32,7 @@ my @PANDOC_2ND_STEP_SWITCHES =
       , '-t', 'latex',
       , '--latex-engine=lualatex',
       , '--include-in-header=docs/latex-header.tex'
+      , '--include-before-body=docs/latex-body.tex'
       , '-V', 'lang=english');
 
 # pre-compute  various source information strings

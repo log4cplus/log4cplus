@@ -1,5 +1,5 @@
 ﻿%%
-%% in-header.tex begin
+%% latex-header.tex begin
 %%
 
 \usepackage{a4wide}
@@ -29,10 +29,12 @@
 %\author[The author]{Václav Zeman}
 %\institute{}
 %\date{\today}
-%\logo{\includegraphics[width=1.5cm,height=1.5cm,keepaspectratio]{./docs/log4cplus}}
+
+\defaultfontfeatures{Ligatures={NoCommon, NoDiscretionary, NoHistoric,
+  NoRequired, NoContextual}}
+\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
 \defaultfontfeatures{Ligatures=TeX}
 \setromanfont{Georgia}
-\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
 \setsansfont{DejaVu Sans}
 \setmainfont{DejaVu Sans}
 \urlstyle{same}
@@ -59,12 +61,12 @@
 
 \lstdefinelanguage{diff}{
   morecomment=[f][\color{blue}]{@@},     % group identifier
-  morecomment=[f][\color{red}]-,         % deleted lines 
+  morecomment=[f][\color{red}]-,         % deleted lines
   morecomment=[f][\color{green}]+,       % added lines
   morecomment=[f][\color{magenta}]{---}, % Diff header lines (must appear after +,-)
   morecomment=[f][\color{magenta}]{+++},
 }
 
 %%
-%% in-header.tex end
+%% latex-header.tex end
 %%
