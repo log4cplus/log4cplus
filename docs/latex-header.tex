@@ -1,0 +1,70 @@
+﻿%%
+%% in-header.tex begin
+%%
+
+\usepackage{a4wide}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{fontspec}
+\usepackage{anyfontsize}
+\usepackage[printwatermark]{xwatermark}
+\usepackage{amssymb}
+\usepackage{newunicodechar}
+\usepackage{fancyhdr}
+\usepackage{footnote}
+\usepackage{listings}
+\usepackage{accsupp}
+\usepackage{MnSymbol}
+\usepackage{textcomp}
+\usepackage{upquote}
+\usepackage{etoolbox}
+
+\pagestyle{fancy}
+\chead{\includegraphics[width=1.5cm,height=1.5cm,keepaspectratio]{./docs/log4cplus}}
+\setlength{\headheight}{41.7pt}
+\addtolength{\topmargin}{-4\baselineskip}
+
+%\title{}
+%\author[The author]{Václav Zeman}
+%\institute{}
+%\date{\today}
+%\logo{\includegraphics[width=1.5cm,height=1.5cm,keepaspectratio]{./docs/log4cplus}}
+\defaultfontfeatures{Ligatures=TeX}
+\setromanfont{Georgia}
+\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
+\setsansfont{DejaVu Sans}
+\setmainfont{DejaVu Sans}
+\urlstyle{same}
+
+\AtBeginEnvironment{quote}{\slshape}
+
+\newunicodechar{⊆}{$\subseteq$}
+
+\newcommand{\noncopy}[1]{%
+    \BeginAccSupp{method=escape,ActualText={}}%
+    #1%
+    \EndAccSupp{}%
+}
+
+\lstset{breaklines=true,
+  basicstyle=\ttfamily,
+  upquote=true,
+  literate={`}{{\BeginAccSupp{method=plain,ActualText=`}‵\EndAccSupp{}}}1
+  {"}{{\BeginAccSupp{method=plain,ActualText="}"\EndAccSupp{}}}1
+  {'}{{\BeginAccSupp{method=plain,ActualText='}'\EndAccSupp{}}}1,
+  showstringspaces=false,
+  numbers=left, numberstyle=\scriptsize\noncopy,
+  prebreak={\raisebox{0ex}[0ex][0ex]{\ensuremath{\noncopy{\rhookswarrow}}}}}
+
+\lstdefinelanguage{diff}{
+  morecomment=[f][\color{blue}]{@@},     % group identifier
+  morecomment=[f][\color{red}]-,         % deleted lines 
+  morecomment=[f][\color{green}]+,       % added lines
+  morecomment=[f][\color{magenta}]{---}, % Diff header lines (must appear after +,-)
+  morecomment=[f][\color{magenta}]{+++},
+}
+
+%%
+%% in-header.tex end
+%%
