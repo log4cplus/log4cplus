@@ -6,7 +6,6 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{epstopdf}
-\usepackage{fontspec}
 \usepackage{anyfontsize}
 \usepackage[printwatermark]{xwatermark}
 \usepackage{amssymb}
@@ -30,13 +29,13 @@
 %\institute{}
 %\date{\today}
 
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{TeX Gyre Pagella}
 \defaultfontfeatures{Ligatures={NoCommon, NoDiscretionary, NoHistoric,
   NoRequired, NoContextual}}
-\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
-\defaultfontfeatures{Ligatures=TeX}
-\setromanfont{Georgia}
-\setsansfont{DejaVu Sans}
-\setmainfont{DejaVu Sans}
+\setmonofont[Scale=MatchLowercase]{Consolas}
+%\setromanfont{Georgia}
+%\setsansfont{DejaVu Sans}
 \urlstyle{same}
 
 \AtBeginEnvironment{quote}{\slshape}
