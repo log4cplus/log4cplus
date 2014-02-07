@@ -227,18 +227,18 @@ to get TLS:
 1. using `TlsAlloc()`, etc., functions
 2. using `__declspec(thread)`
 
-While method (2) generates faster code, it has some limitations prior
-to Windows Vista[^1].  If `log4cplus.dll` is loaded at run time using
-`LoadLibrary()` (or as a dependency of such loaded library), then
-accessing `__declspec(thread)` variables can cause general protection
-fault (GPF) errors.  This is because Windows prior to Windows Vista do
-not extend the TLS for libraries loaded at run time using
-`LoadLibrary()`.  To allow using the best available method,
-[log4cplus] enables the method (2) by checking `_WIN32_WINNT >=
-0x0600` condition, when compiling [log4cplus] targeted to Windows
-Vista or later.
+While method (2) generates faster code, it has
+[some limitations prior to Windows Vista][tlsvista].  If
+`log4cplus.dll` is loaded at run time using `LoadLibrary()` (or as a
+dependency of such loaded library), then accessing
+`__declspec(thread)` variables can cause general protection fault
+(GPF) errors.  This is because Windows prior to Windows Vista do not
+extend the TLS for libraries loaded at run time using `LoadLibrary()`.
+To allow using the best available method, [log4cplus] enables the
+method (2) by checking `_WIN32_WINNT >= 0x0600` condition, when
+compiling [log4cplus] targeted to Windows Vista or later.
 
-[^1]: http://support.microsoft.com/kb/118816/en-us
+[tlsvista]: http://support.microsoft.com/kb/118816/en-us
 
 
 Threads and signals
@@ -347,7 +347,7 @@ flag:
 HP-UX with `aCC` on IA64
 ------------------------
 
-There is a problem on I64 HP-UX with `aCC` (HP C/aC++ B3910B
+There is a problem on IA64 HP-UX with `aCC` (HP C/aC++ B3910B
 A.06.20). The problem manifests as
 [unsatisfied symbols during linking of `loggingserver`][9]:
 
