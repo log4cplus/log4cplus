@@ -11,6 +11,7 @@ my @FILES =
     ( 'README.md'
       , 'docs/unicode.txt'
       , 'docs/release.txt'
+      , 'AUTHORS'
       , 'LICENSE' );
 
 my @PANDOC_1ST_STEP_SWITCHES =
