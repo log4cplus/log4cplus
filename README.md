@@ -183,11 +183,17 @@ autotools based build system is considered to be primary for
 Unix--like platforms.
 
 On Windows, the primary build system is Visual Studio 2010 solution
-and projects (`msvc10/log4cplus.sln`). MinGW is supported by autotools
-based build system. CMake build system is supported as well and it
-should be used to compile [log4cplus] with older versions of Visual
-Studio or with less common compiler suites (e.g., Embarcadero,
-Code::Blocks, etc.).
+and projects (`msvc10/log4cplus.sln`). This solution and associated
+project files should update just fine to Visual Studio 2012 out of the
+box. See also `scripts/msvc10_to_msvc11.cmd` and
+`scripts/msvc10_to_msvc12.cmd` helper scripts that create
+`msvc11/log4cplus.sln` and `msvc12/log4cplus.sln` respectively when
+invoked on `msvc10/log4cplus.sln` from source root directory.
+
+MinGW is supported by autotools based build system. CMake build system
+is supported as well and it should be used to compile [log4cplus] with
+older versions of Visual Studio or with less common compiler suites
+(e.g., Embarcadero, Code::Blocks, etc.).
 
 
 Cygwin/MinGW
