@@ -32,8 +32,10 @@ inspiration from other logging libraries, beside from log4j (e.g.,
 from log4net, log4cxx, log4cpp).
 
 
-Tested on the following platforms
-=================================
+Platform support
+================
+
+Log4cplus has been ported to and tested on the following platforms:
 
 - Linux/AMD64 with 4.8.1 (Ubuntu/Linaro 4.8.1-10ubuntu8)
 - Linux/AMD64 with Sun C++ 5.12 Linux_i386 2011/11/16
@@ -57,6 +59,10 @@ Tested on the following platforms
   (hppa2.0w-hp-hpux11.11)
 - Haiku R1 Alpha 4.1 with GCC 4.6.3
 - AIX 5.3 with IBM XL C/C++ for AIX, V11.1 (5724-X13)
+
+The testing on the above listed platforms has been done at some point
+in time with some version of source. Continuous testing is done only
+on Linux platform offered by [Travis CI][11] service.
 
 
 Configure script options
