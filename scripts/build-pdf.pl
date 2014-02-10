@@ -27,8 +27,9 @@ my @PANDOC_2ND_STEP_SWITCHES =
       , '--self-contained'
       , '--toc'
       , '--number-sections'
-      # Qt4 / Win32 / MSVC has example that breaks listings.
-      #, '--listings'
+      # Qt4 / Win32 / MSVC has example that breaks listings on some versions of
+      # LiveTex
+      , '--listings'
       , '-f', 'markdown'
       , '-t', 'latex',
       , '--latex-engine=lualatex',

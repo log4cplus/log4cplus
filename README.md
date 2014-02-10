@@ -32,8 +32,10 @@ inspiration from other logging libraries, beside from log4j (e.g.,
 from log4net, log4cxx, log4cpp).
 
 
-Tested on the following platforms
-=================================
+Platform support
+================
+
+Log4cplus has been ported to and tested on the following platforms:
 
 - Linux/AMD64 with 4.8.1 (Ubuntu/Linaro 4.8.1-10ubuntu8)
 - Linux/AMD64 with Sun C++ 5.12 Linux_i386 2011/11/16
@@ -57,6 +59,10 @@ Tested on the following platforms
   (hppa2.0w-hp-hpux11.11)
 - Haiku R1 Alpha 4.1 with GCC 4.6.3
 - AIX 5.3 with IBM XL C/C++ for AIX, V11.1 (5724-X13)
+
+The testing on the above listed platforms has been done at some point
+in time with some version of source. Continuous testing is done only
+on Linux platform offered by [Travis CI][11] service.
 
 
 Configure script options
@@ -183,11 +189,17 @@ autotools based build system is considered to be primary for
 Unix--like platforms.
 
 On Windows, the primary build system is Visual Studio 2010 solution
-and projects (`msvc10/log4cplus.sln`). MinGW is supported by autotools
-based build system. CMake build system is supported as well and it
-should be used to compile [log4cplus] with older versions of Visual
-Studio or with less common compiler suites (e.g., Embarcadero,
-Code::Blocks, etc.).
+and projects (`msvc10/log4cplus.sln`). This solution and associated
+project files should update just fine to Visual Studio 2012 out of the
+box. See also `scripts/msvc10_to_msvc11.cmd` and
+`scripts/msvc10_to_msvc12.cmd` helper scripts that create
+`msvc11/log4cplus.sln` and `msvc12/log4cplus.sln` respectively when
+invoked on `msvc10/log4cplus.sln` from source root directory.
+
+MinGW is supported by autotools based build system. CMake build system
+is supported as well and it should be used to compile [log4cplus] with
+older versions of Visual Studio or with less common compiler suites
+(e.g., Embarcadero, Code::Blocks, etc.).
 
 
 Cygwin/MinGW
@@ -227,18 +239,18 @@ to get TLS:
 1. using `TlsAlloc()`, etc., functions
 2. using `__declspec(thread)`
 
-While method (2) generates faster code, it has some limitations prior
-to Windows Vista[^1].  If `log4cplus.dll` is loaded at run time using
-`LoadLibrary()` (or as a dependency of such loaded library), then
-accessing `__declspec(thread)` variables can cause general protection
-fault (GPF) errors.  This is because Windows prior to Windows Vista do
-not extend the TLS for libraries loaded at run time using
-`LoadLibrary()`.  To allow using the best available method,
-[log4cplus] enables the method (2) by checking `_WIN32_WINNT >=
-0x0600` condition, when compiling [log4cplus] targeted to Windows
-Vista or later.
+While method (2) generates faster code, it has
+[some limitations prior to Windows Vista][tlsvista].  If
+`log4cplus.dll` is loaded at run time using `LoadLibrary()` (or as a
+dependency of such loaded library), then accessing
+`__declspec(thread)` variables can cause general protection fault
+(GPF) errors.  This is because Windows prior to Windows Vista do not
+extend the TLS for libraries loaded at run time using `LoadLibrary()`.
+To allow using the best available method, [log4cplus] enables the
+method (2) by checking `_WIN32_WINNT >= 0x0600` condition, when
+compiling [log4cplus] targeted to Windows Vista or later.
 
-[^1]: http://support.microsoft.com/kb/118816/en-us
+[tlsvista]: http://support.microsoft.com/kb/118816/en-us
 
 
 Threads and signals
@@ -347,7 +359,7 @@ flag:
 HP-UX with `aCC` on IA64
 ------------------------
 
-There is a problem on I64 HP-UX with `aCC` (HP C/aC++ B3910B
+There is a problem on IA64 HP-UX with `aCC` (HP C/aC++ B3910B
 A.06.20). The problem manifests as
 [unsatisfied symbols during linking of `loggingserver`][9]:
 
