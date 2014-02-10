@@ -18,10 +18,11 @@
 \usepackage{textcomp}
 \usepackage{upquote}
 \usepackage{etoolbox}
+\usepackage{selnolig}
 
 \pagestyle{fancy}
 \chead{\includegraphics[width=1.5cm,height=1.5cm,keepaspectratio]{./docs/log4cplus}}
-\setlength{\headheight}{41.7pt}
+\setlength{\headheight}{47.0pt}
 \addtolength{\topmargin}{-4\baselineskip}
 
 %\title{}
@@ -29,15 +30,9 @@
 %\institute{}
 %\date{\today}
 
-\defaultfontfeatures{Ligatures=TeX}
+\defaultfontfeatures{Ligatures={TeX, Common}}
 \setmainfont{TeX Gyre Pagella}
-\defaultfontfeatures{Ligatures={NoCommon, NoDiscretionary, NoHistoric,
-  NoRequired, NoContextual}}
-%\setmonofont[Scale=MatchLowercase]{Consolas}
-%\setmonofont[Scale=MatchLowercase]{Inconsolata}
-%\setmonofont[Scale=MatchLowercase]{Liberation Mono}
-%\setmonofont[Scale=MatchLowercase]{TeX Gyre Cursor}
-\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
+\setmonofont[Scale=MatchLowercase,Ligatures={NoCommon}]{DejaVu Sans Mono}
 %\setromanfont{Georgia}
 %\setsansfont{DejaVu Sans}
 \urlstyle{same}
