@@ -336,15 +336,17 @@ The autotools and our `configure.ac` combo does not handle Solaris
 Studio compiler on Linux well enough and needs a little help with
 configuration of POSIX threads:
 
-    $ COMMON_FLAGS="-L/lib/x86_64-linux-gnu/ \
-    -L/usr/lib/x86_64-linux-gnu/ -mt=yes -O"
+~~~~{.bash}
+$ COMMON_FLAGS="-L/lib/x86_64-linux-gnu/ \
+-L/usr/lib/x86_64-linux-gnu/ -mt=yes -O"
 
-    $ ../configure --enable-threads=yes \
-    CC=/opt/solarisstudio12.3/bin/cc \
-    CXX=/opt/solarisstudio12.3/bin/CC \
-    CFLAGS="$COMMON_FLAGS" \
-    CXXFLAGS="$COMMON_FLAGS" \
-    LDFLAGS="-lpthread"
+$ ../configure --enable-threads=yes \
+CC=/opt/solarisstudio12.3/bin/cc \
+CXX=/opt/solarisstudio12.3/bin/CC \
+CFLAGS="$COMMON_FLAGS" \
+CXXFLAGS="$COMMON_FLAGS" \
+LDFLAGS="-lpthread"
+~~~~
 
 
 HP-UX with `aCC`
@@ -534,7 +536,7 @@ Please use common sense. Follow the style of surrounding code. You can
 use the following Emacs style that is based on Microsoft's style as a
 guide line:
 
-~~~~{.lisp}
+~~~~{.commonlisp}
 ;; Custom MS like indentation style.
 (c-add-style "microsoft"
              '("stroustrup"
