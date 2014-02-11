@@ -35,3 +35,4 @@ x64/
 *.exe
 *.out
 *.app
+/msvc10/log4cplus.opensdf

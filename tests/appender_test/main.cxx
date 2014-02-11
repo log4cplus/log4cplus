@@ -15,11 +15,11 @@ using namespace log4cplus;
 using namespace log4cplus::helpers;
 using namespace log4cplus::spi;
 
-void
-printAppenderList(SharedAppenderPtrList list)
+static void
+printAppenderList(const SharedAppenderPtrList& list)
 {
    cout << "List size: " << list.size() << endl;
-   for(SharedAppenderPtrList::iterator it=list.begin(); it!=list.end(); ++it) {
+   for(SharedAppenderPtrList::const_iterator it=list.begin(); it!=list.end(); ++it) {
        log4cplus::tcout << "Loop Body: Appender name = " << (*it)->getName()
                         << endl;
    }
