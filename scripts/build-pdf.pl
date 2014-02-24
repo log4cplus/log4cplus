@@ -11,6 +11,7 @@ my @FILES =
     ( 'README.md'
       , 'docs/unicode.txt'
       , 'docs/release.txt'
+      , 'AUTHORS'
       , 'LICENSE' );
 
 my @PANDOC_1ST_STEP_SWITCHES =
@@ -26,8 +27,9 @@ my @PANDOC_2ND_STEP_SWITCHES =
       , '--self-contained'
       , '--toc'
       , '--number-sections'
-      # Qt4 / Win32 / MSVC has example that breaks listings.
-      #, '--listings'
+      # Qt4 / Win32 / MSVC has example that breaks listings on some versions of
+      # TeXLive
+      , '--listings'
       , '-f', 'markdown'
       , '-t', 'latex',
       , '--latex-engine=lualatex',

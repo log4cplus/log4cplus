@@ -227,6 +227,17 @@ snprintf_buf::print_va_list (tchar const * & str, tchar const * fmt,
     printed = vsntprintf (&buf[0], buf_size - 1, fmt, args);
     if (printed == -1)
     {
+#if defined (EILSEQ)
+        if (errno == EILSEQ)
+        {
+            LogLog::getLogLog ()->error (
+                LOG4CPLUS_TEXT ("Character conversion error when printing"));
+            // Return zero to terminate the outer loop in
+            // snprintf_buf::print().
+            return 0;
+        }
+#endif
+
         buf_size *= 2;
         buf.resize (buf_size);
     }

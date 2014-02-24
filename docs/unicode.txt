@@ -27,7 +27,7 @@ This approach to portability has some limitations. One of the
 limitations is lacking support for C++ locales in various operating
 systems and standard C++ libraries. Some standard C++ libraries do not
 support other than the "C" and "POSIX" locales. This usually means
-that `wchar_t` <-> `char` conversion using `std::codecvt<>` facet is
+that `wchar_t`↔`char` conversion using `std::codecvt<>` facet is
 impossible. On such deficient platforms, log4cplus can use either
 standard C locale support or `iconv()` (through libiconv or
 built--in).
@@ -59,11 +59,11 @@ code can be used to get such `std::locale` instance and to set it into
 global locale:
 
 ~~~~{.cpp}
-    std::locale::global (     // set global locale
-        std::locale (         // using std::locale constructed from
-            std::locale (),   // global locale
-                              // and codecvt facet from user locale
-            new std::codecvt_byname<wchar_t, char, std::mbstate_t>("")));
+std::locale::global (     // set global locale
+    std::locale (         // using std::locale constructed from
+        std::locale (),   // global locale
+                          // and codecvt facet from user locale
+        new std::codecvt_byname<wchar_t, char, std::mbstate_t>("")));
 ~~~~
 
 
@@ -79,11 +79,11 @@ with Visual Studio 2010 and later, it is possible to use
 `std::codecvt_utf8` facet:
 
 ~~~~{.cpp}
-    std::locale::global (     // set global locale
-        std::locale (         // using std::locale constructed from
-            std::locale (),   // global locale
-                              // and codecvt_utf8 facet
-            new std::codecvt_utf8<tchar, 0x10FFFF,
-                static_cast<std::codecvt_mode>(std::consume_header
-                    | std::little_endian)>));
+std::locale::global (     // set global locale
+    std::locale (         // using std::locale constructed from
+        std::locale (),   // global locale
+                          // and codecvt_utf8 facet
+        new std::codecvt_utf8<tchar, 0x10FFFF,
+            static_cast<std::codecvt_mode>(std::consume_header
+                | std::little_endian)>));
 ~~~~
