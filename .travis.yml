@@ -24,7 +24,6 @@ env:
   - PARAM_THREADS="--enable-threads --with-python --with-qt --with-qt5 --with-working-locale"
     CXXFLAGS="-std=c++0x" SWIG_FLAGS=""
 before_install:
-  - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
   - sudo apt-get update -qq
   - sudo apt-get install -q swig python libqt4-dev qt5-default
 before_script:
