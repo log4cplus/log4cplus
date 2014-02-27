@@ -179,7 +179,23 @@ AS_CASE(["$target_os"],
   [dnl Undefining __STRICT_ANSI__ is a workaround for compilation
    dnl problem.  C <stdio.h> header does not define vsnprintf() or
    dnl _vsnprintf().
-   AS_VAR_APPEND([CPPFLAGS], [" -U__STRICT_ANSI__"])])
+   AS_VAR_APPEND([CPPFLAGS], [" -U__STRICT_ANSI__"])],
+  [hpux*],
+  [dnl We need vsnprintf() to return required buffer size instead of -1 when
+   dnl buffer is too small. For this to happen we have to compile for Unix 2003
+   dnl standard. The man page standards(5) for HP-UX says have to define
+   dnl _XOPEN_SOURCE=600 preprocessor symbol and UNIX_STD=2003 environment
+   dnl variable.
+   AS_IF([AS_ECHO_N(["$CPPFLAGS"]) dnl
+          | $GREP -e '_XOPEN_SOURCE=' >/dev/null],
+     [],
+     [AS_VAR_APPEND([CPPFLAGS], [" -D_XOPEN_SOURCE=600"])])
+
+   AS_IF([test -z "$UNIX_STD"],
+     [UNIX_STD=2003])
+   AS_IF([test "$UNIX_STD" -lt 2003],
+     [UNIX_STD=2003])
+   export UNIX_STD])
 
 AC_ARG_ENABLE([profiling],
   [AS_HELP_STRING([--enable-profiling],

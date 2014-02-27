@@ -5186,6 +5186,20 @@ case "$target_os" in #(
    as_fn_append CPPFLAGS " -DMINGW_HAS_SECURE_API=1" ;; #(
   cygwin*) :
              as_fn_append CPPFLAGS " -U__STRICT_ANSI__" ;; #(
+  hpux*) :
+                   if $as_echo_n "$CPPFLAGS"           | $GREP -e '_XOPEN_SOURCE=' >/dev/null; then :
+
+else
+  as_fn_append CPPFLAGS " -D_XOPEN_SOURCE=600"
+fi
+
+   if test -z "$UNIX_STD"; then :
+  UNIX_STD=2003
+fi
+   if test "$UNIX_STD" -lt 2003; then :
+  UNIX_STD=2003
+fi
+   export UNIX_STD ;; #(
   *) :
      ;;
 esac
