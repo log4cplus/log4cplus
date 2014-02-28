@@ -48,7 +48,7 @@ env:
   - PARAM_THREADS="--enable-threads --with-python --with-qt --with-working-locale"
     CXXFLAGS="-std=c++0x" SWIG_FLAGS=""
 before_install:
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - if [ ! -z "$QT" ] ; then
       sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa ;
     fi
