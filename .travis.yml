@@ -48,14 +48,18 @@ env:
   - PARAM_THREADS="--enable-threads --with-python --with-qt --with-working-locale"
     CXXFLAGS="-std=c++0x" SWIG_FLAGS=""
 before_install:
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test
   - if [ ! -z "$QT" ] ; then
       sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa ;
     fi
   - sudo apt-get update -qq
-  - sudo apt-get install -q swig python
+  - sudo apt-get install -q gcc-4.8 g++-4.8 swig python
   - if [ ! -z "$QT" ] ; then
       sudo apt-get install -q $QT ;
     fi
+  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 40
+    --slave /usr/bin/g++ g++ /usr/bin/g++-4.8
+  - sudo update-alternatives --config gcc
 before_script:
   - sh ./scripts/fix-timestamps.sh
   - mkdir objdir
