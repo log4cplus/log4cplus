@@ -53,7 +53,7 @@ before_install:
       sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa ;
     fi
   - sudo apt-get update -qq
-  - sudo apt-get install -q gcc-4.8 g++-4.8 swig python
+  - sudo apt-get install -q gcc-4.8 g++-4.8 libstdc++-4.8-dev swig python
   - if [ ! -z "$QT" ] ; then
       sudo apt-get install -q $QT ;
     fi
@@ -64,7 +64,9 @@ before_script:
   - sh ./scripts/fix-timestamps.sh
   - mkdir objdir
   - cd objdir
-script: ../configure $PARAM_THREADS CXXFLAGS="$CXXFLAGS"
+script: ../configure $PARAM_THREADS
+  CPPFLAGS="-U_GLIBCXX_USE_FLOAT128"
+  CXXFLAGS="$CXXFLAGS"
   SWIG_FLAGS="$SWIG_FLAGS"
   && make
   && make check
