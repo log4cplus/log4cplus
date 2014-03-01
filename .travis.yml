@@ -50,7 +50,7 @@ env:
 before_install:
   - wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key|sudo apt-key add -
   - sudo add-apt-repository --yes
-    'deb http://llvm.org/apt/precise/ llvm-toolchain-precise main'
+    'deb http://ppa.launchpad.net/canonical-x/x-staging/ubuntu precise main'
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - if [ ! -z "$QT" ] ; then
       sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa ;
@@ -60,9 +60,7 @@ before_install:
     gcc-4.8
     g++-4.8
     libstdc++-4.8-dev
-    clang-3.4
-    llvm-3.4
-    llvm-3.4-runtime
+    llvm-toolchain-3.4
     swig
     python
   - if [ ! -z "$QT" ] ; then
