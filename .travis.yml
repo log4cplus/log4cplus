@@ -48,11 +48,11 @@ env:
   - PARAM_THREADS="--enable-threads --with-python --with-qt --with-working-locale"
     CXXFLAGS="-std=c++0x" SWIG_FLAGS=""
 before_install:
-  - deb http://llvm.org/apt/precise/ llvm-toolchain-precise main
-  - deb-src http://llvm.org/apt/precise/ llvm-toolchain-precise main
   - wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key|sudo apt-key add -
   - sudo add-apt-repository --yes
     'deb http://llvm.org/apt/precise/ llvm-toolchain-precise main'
+  - sudo add-apt-repository --yes
+    'deb-src http://llvm.org/apt/precise/ llvm-toolchain-precise main'
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - if [ ! -z "$QT" ] ; then
       sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa ;
