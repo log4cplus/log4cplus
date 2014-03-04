@@ -69,11 +69,14 @@ namespace log4cplus {
                 , count(0)
             { }
 
+            SharedObject(SharedObject &&) = default;
+
           // Dtor
             virtual ~SharedObject();
 
           // Operators
             SharedObject& operator=(const SharedObject&) { return *this; }
+            SharedObject& operator=(SharedObject &&) = default;
 
         public:
             thread::Mutex access_mutex;
@@ -81,12 +84,8 @@ namespace log4cplus {
         private:
 #if defined (LOG4CPLUS_SINGLE_THREADED)
             typedef unsigned count_type;
-#elif defined (LOG4CPLUS_HAVE_CXX11_ATOMICS)
-            typedef std::atomic<unsigned> count_type;
-#elif defined (_WIN32) || defined (__CYGWIN__)
-            typedef long count_type;
 #else
-            typedef unsigned count_type;
+            typedef std::atomic<unsigned> count_type;
 #endif
             mutable count_type count;
         };
@@ -113,7 +112,6 @@ namespace log4cplus {
                 addref ();
             }
 
-#if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
             SharedObjectPtr(SharedObjectPtr && rhs)
                 : pointee (std::move (rhs.pointee))
             {
@@ -125,7 +123,6 @@ namespace log4cplus {
                 rhs.swap (*this);
                 return *this;
             }
-#endif
 
             // Dtor
             ~SharedObjectPtr()
@@ -135,8 +132,10 @@ namespace log4cplus {
             }
 
             // Operators
-            bool operator==(const SharedObjectPtr& rhs) const { return (pointee == rhs.pointee); }
-            bool operator!=(const SharedObjectPtr& rhs) const { return (pointee != rhs.pointee); }
+            bool operator==(const SharedObjectPtr& rhs) const
+            { return (pointee == rhs.pointee); }
+            bool operator!=(const SharedObjectPtr& rhs) const
+            { return (pointee != rhs.pointee); }
             bool operator==(const T* rhs) const { return (pointee == rhs); }
             bool operator!=(const T* rhs) const { return (pointee != rhs); }
             T* operator->() const {assert (pointee); return pointee; }
