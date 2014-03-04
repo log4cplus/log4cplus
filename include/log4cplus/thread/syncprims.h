@@ -87,7 +87,7 @@ public:
     void unlock () const;
 
 private:
-    LOG4CPLUS_THREADED (mutable std::recursive_mutex mtx);
+    LOG4CPLUS_THREADED (mutable std::recursive_mutex mtx;)
 };
 
 
