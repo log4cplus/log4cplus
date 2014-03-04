@@ -1,16 +1,16 @@
 // -*- C++ -*-
 //  Copyright (C) 2009-2013, Vaclav Haisman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -37,34 +37,9 @@
 
 #include <stdexcept>
 #include <log4cplus/thread/syncprims.h>
-#if defined (LOG4CPLUS_WITH_CXX11_THREADS)
-#  include <mutex>
-#  include <thread>
-#  include <condition_variable>
-
-#elif defined (_WIN32)
-#  include <log4cplus/config/windowsh-inc.h>
-
-#elif defined (LOG4CPLUS_USE_PTHREADS)
-#  include <errno.h>
-#  include <pthread.h>
-#  include <semaphore.h>
-#  if defined (LOG4CPLUS_USE_NAMED_POSIX_SEMAPHORE)
-#    include <sstream>
-#    include <string>
-#    if defined (LOG4CPLUS_HAVE_SYS_TYPES_H)
-#      include <sys/types.h>
-#    endif
-#    if defined (LOG4CPLUS_HAVE_UNISTD_H)
-#      include <unistd.h>
-#    endif
-#  endif
-#  if defined (LOG4CPLUS_HAVE_FCNTL_H)
-#    include <fcntl.h>
-#  endif
-#  include <log4cplus/helpers/timehelper.h>
-
-#endif
+#include <mutex>
+#include <thread>
+#include <condition_variable>
 
 
 namespace log4cplus { namespace thread { namespace impl {
@@ -79,37 +54,6 @@ LOG4CPLUS_EXPORT void LOG4CPLUS_ATTRIBUTE_NORETURN
     do { syncprims_throw_exception (msg, __FILE__, __LINE__); } while (0)
 
 
-class ManualResetEvent;
-
-
-class Mutex
-    : public MutexImplBase
-{
-public:
-    explicit Mutex (log4cplus::thread::Mutex::Type);
-    ~Mutex ();
-
-    void lock () const;
-    void unlock () const;
-
-private:
-#if defined (LOG4CPLUS_WITH_CXX11_THREADS)
-    mutable std::recursive_mutex mtx;
-#elif defined (LOG4CPLUS_USE_PTHREADS)
-    mutable pthread_mutex_t mtx;
-    friend class ManualResetEvent;
-#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
-    mutable CRITICAL_SECTION cs;
-#endif
-    
-    Mutex (Mutex const &);
-    Mutex & operator = (Mutex &);
-};
-
-
-typedef SyncGuard<Mutex> MutexGuard;
-
-
 class Semaphore
     : public SemaphoreImplBase
 {
@@ -121,21 +65,10 @@ public:
     void unlock () const;
 
 private:
-#if defined (LOG4CPLUS_WITH_CXX11_THREADS)
     mutable std::mutex mtx;
     mutable std::condition_variable cv;
     mutable unsigned max;
     mutable unsigned val;
-
-#elif defined (LOG4CPLUS_USE_PTHREADS)
-#  if defined (LOG4CPLUS_USE_NAMED_POSIX_SEMAPHORE)
-    sem_t * sem;
-#  else
-    mutable sem_t sem;
-#  endif
-#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
-    HANDLE sem;
-#endif
 
     Semaphore (Semaphore const &);
     Semaphore & operator = (Semaphore const &);
@@ -143,32 +76,6 @@ private:
 
 
 typedef SyncGuard<Semaphore> SemaphoreGuard;
-
-
-class FairMutex
-    : public FairMutexImplBase
-{
-public:
-    FairMutex ();
-    ~FairMutex ();
-
-    void lock () const;
-    void unlock () const;
-
-private:
-#if defined (LOG4CPLUS_USE_PTHREADS) \
-    || defined (LOG4CPLUS_WITH_CXX11_THREADS)
-    Semaphore sem;
-#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
-    HANDLE mtx;
-#endif
-
-    FairMutex (FairMutex const &);
-    FairMutex & operator = (FairMutex &);
-};
-
-
-typedef SyncGuard<FairMutex> FairMutexGuard;
 
 
 class ManualResetEvent
@@ -184,19 +91,10 @@ public:
     void reset () const;
 
 private:
-#if defined (LOG4CPLUS_WITH_CXX11_THREADS)
     mutable std::mutex mtx;
     mutable std::condition_variable cv;
     mutable unsigned sigcount;
     mutable bool signaled;
-#elif defined (LOG4CPLUS_USE_PTHREADS)
-    mutable pthread_cond_t cv;
-    mutable Mutex mtx;
-    mutable volatile unsigned sigcount;
-    mutable volatile bool signaled;
-#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
-    HANDLE ev;
-#endif
 
     ManualResetEvent (ManualResetEvent const &);
     ManualResetEvent & operator = (ManualResetEvent const &);
@@ -216,8 +114,6 @@ public:
     void wrunlock () const;
 
 private:
-#if defined (LOG4CPLUS_POOR_MANS_SHAREDMUTEX) \
-    || defined (LOG4CPLUS_WITH_CXX11_THREADS)
     Mutex m1;
     Mutex m2;
     Mutex m3;
@@ -225,16 +121,6 @@ private:
     mutable unsigned writer_count;
     Semaphore r;
     mutable unsigned reader_count;
-
-#elif defined (LOG4CPLUS_USE_PTHREADS)
-    void unlock () const;
-
-    mutable pthread_rwlock_t rwl;
-
-#elif defined (LOG4CPLUS_USE_SRW_LOCK)
-    mutable SRWLOCK srwl;
-
-#endif
 
     SharedMutex (SharedMutex const &);
     SharedMutex & operator = (SharedMutex const &);
@@ -247,14 +133,7 @@ private:
 // Include the appropriate implementations of the classes declared
 // above.
 
-#if defined (LOG4CPLUS_WITH_CXX11_THREADS)
-#  include <log4cplus/thread/impl/syncprims-cxx11.h>
-#elif defined (LOG4CPLUS_USE_PTHREADS)
-#  include <log4cplus/thread/impl/syncprims-pthreads.h>
-#elif defined (LOG4CPLUS_USE_WIN32_THREADS)
-#  include <log4cplus/thread/impl/syncprims-win32.h>
-#endif
-
+#include <log4cplus/thread/impl/syncprims-cxx11.h>
 
 #undef LOG4CPLUS_THROW_RTE
 

@@ -1,16 +1,16 @@
 // -*- C++ -*-
 //  Copyright (C) 2010-2013, Vaclav Haisman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -36,11 +36,8 @@
     || defined (LOG4CPLUS_ENABLE_SYNCPRIMS_PUB_IMPL)
 #include <log4cplus/thread/syncprims.h>
 
-#if defined (LOG4CPLUS_SINGLE_THREADED)
-#  define LOG4CPLUS_THREADED(x)
-#else
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
 #  include <log4cplus/thread/impl/syncprims-impl.h>
-#  define LOG4CPLUS_THREADED(x) (x)
 #endif
 
 
@@ -61,23 +58,21 @@ MutexImplBase::~MutexImplBase ()
 //
 
 LOG4CPLUS_INLINE_EXPORT
-Mutex::Mutex (Mutex::Type t)
-    : mtx (LOG4CPLUS_THREADED (new impl::Mutex (t)) + 0)
+Mutex::Mutex ()
+    : LOG4CPLUS_THREADED (mtx ())
 { }
 
 
 LOG4CPLUS_INLINE_EXPORT
 Mutex::~Mutex ()
-{
-    LOG4CPLUS_THREADED (delete static_cast<impl::Mutex *>(mtx));
-}
+{ }
 
 
 LOG4CPLUS_INLINE_EXPORT
 void
 Mutex::lock () const
 {
-    LOG4CPLUS_THREADED (static_cast<impl::Mutex *>(mtx)->lock ());
+    LOG4CPLUS_THREADED (mtx.lock ());
 }
 
 
@@ -85,7 +80,7 @@ LOG4CPLUS_INLINE_EXPORT
 void
 Mutex::unlock () const
 {
-    LOG4CPLUS_THREADED (static_cast<impl::Mutex *>(mtx)->unlock ());
+    LOG4CPLUS_THREADED (mtx.unlock ());
 }
 
 
@@ -129,48 +124,6 @@ void
 Semaphore::unlock () const
 {
     LOG4CPLUS_THREADED (static_cast<impl::Semaphore *>(sem)->unlock ());
-}
-
-
-//
-//
-//
-
-LOG4CPLUS_INLINE_EXPORT
-FairMutexImplBase::~FairMutexImplBase ()
-{ }
-
-
-//
-//
-//
-
-LOG4CPLUS_INLINE_EXPORT
-FairMutex::FairMutex ()
-    : mtx (LOG4CPLUS_THREADED (new impl::FairMutex) + 0)
-{ }
-
-
-LOG4CPLUS_INLINE_EXPORT
-FairMutex::~FairMutex ()
-{
-    LOG4CPLUS_THREADED (delete static_cast<impl::FairMutex *>(mtx));
-}
-
-
-LOG4CPLUS_INLINE_EXPORT
-void
-FairMutex::lock () const
-{
-    LOG4CPLUS_THREADED (static_cast<impl::FairMutex *>(mtx)->lock ());
-}
-
-
-LOG4CPLUS_INLINE_EXPORT
-void
-FairMutex::unlock () const
-{
-    LOG4CPLUS_THREADED (static_cast<impl::FairMutex *>(mtx)->unlock ());
 }
 
 
@@ -292,7 +245,7 @@ SharedMutex::wrunlock () const
 }
 
 
-} } // namespace log4cplus { namespace thread { 
+} } // namespace log4cplus { namespace thread {
 
 #endif // LOG4CPLUS_ENABLE_SYNCPRIMS_PUB_IMPL
 

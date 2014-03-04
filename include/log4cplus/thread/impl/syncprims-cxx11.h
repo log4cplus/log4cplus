@@ -1,16 +1,16 @@
 // -*- C++ -*-
 //  Copyright (C) 2013, Vaclav Zeman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -34,37 +34,6 @@
 
 
 namespace log4cplus { namespace thread { namespace impl {
-
-
-//
-//
-//
-
-
-inline
-Mutex::Mutex (log4cplus::thread::Mutex::Type)
-{ }
-
-
-inline
-Mutex::~Mutex ()
-{ }
-
-
-inline
-void
-Mutex::lock () const
-{
-    mtx.lock ();
-}
-
-
-inline
-void
-Mutex::unlock () const
-{
-    mtx.unlock ();
-}
 
 
 //
@@ -103,45 +72,13 @@ Semaphore::lock () const
 {
     std::unique_lock<std::mutex> guard (mtx);
 
-    while (val == 0)        
+    while (val == 0)
         cv.wait (guard);
 
     --val;
 
     if (LOG4CPLUS_UNLIKELY(val >= max))
         LOG4CPLUS_THROW_RTE ("Semaphore::unlock(): val >= max");
-}
-
-
-//
-//
-//
-
-
-inline
-FairMutex::FairMutex ()
-    : sem (1, 1)
-{ }
-
-
-inline
-FairMutex::~FairMutex ()
-{ }
-
-
-inline
-void
-FairMutex::lock () const
-{
-    sem.lock ();
-}
-
-
-inline
-void
-FairMutex::unlock () const
-{
-    sem.unlock ();
 }
 
 

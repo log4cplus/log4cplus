@@ -38,8 +38,7 @@
 #include <log4cplus/thread/syncprims.h>
 #include <algorithm>
 #include <cassert>
-#if ! defined (LOG4CPLUS_SINGLE_THREADED) \
-    && defined (LOG4CPLUS_HAVE_CXX11_ATOMICS)
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
 #include <atomic>
 #endif
 

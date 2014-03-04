@@ -1,16 +1,16 @@
 // -*- C++ -*-
 //  Copyright (C) 2010-2013, Vaclav Haisman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -30,6 +30,14 @@
 #if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
 #pragma once
 #endif
+
+#if defined (LOG4CPLUS_SINGLE_THREADED)
+#define LOG4CPLUS_THREADED(x)
+#else
+#include <mutex>
+#define LOG4CPLUS_THREADED(x) x
+#endif
+
 
 
 namespace log4cplus { namespace thread {
@@ -70,23 +78,16 @@ protected:
 class LOG4CPLUS_EXPORT Mutex
 {
 public:
-    enum Type
-    {
-        DEFAULT,
-        RECURSIVE
-    };
-
-    explicit Mutex (Type = RECURSIVE);
+    Mutex ();
     ~Mutex ();
+    Mutex (Mutex const &) = delete;
+    Mutex & operator = (Mutex const &) = delete;
 
     void lock () const;
     void unlock () const;
 
 private:
-    MutexImplBase * mtx;
-
-    Mutex (Mutex const &);
-    Mutex & operator = (Mutex &);
+    LOG4CPLUS_THREADED (mutable std::recursive_mutex mtx);
 };
 
 
@@ -118,33 +119,6 @@ private:
 
 
 typedef SyncGuard<Semaphore> SemaphoreGuard;
-
-
-class FairMutexImplBase
-{
-protected:
-    ~FairMutexImplBase ();
-};
-
-
-class LOG4CPLUS_EXPORT FairMutex
-{
-public:
-    FairMutex ();
-    ~FairMutex ();
-
-    void lock () const;
-    void unlock () const;
-
-private:
-    FairMutexImplBase * mtx;
-
-    FairMutex (FairMutex const &);
-    FairMutex & operator = (FairMutex &);
-};
-
-
-typedef SyncGuard<FairMutex> FairMutexGuard;
 
 
 class ManualResetEventImplBase
@@ -376,7 +350,7 @@ SyncGuardFunc<SyncPrim, lock_func, unlock_func>::detach ()
 }
 
 
-} } // namespace log4cplus { namespace thread { 
+} } // namespace log4cplus { namespace thread {
 
 
 #endif // LOG4CPLUS_THREAD_SYNCPRIMS_H
