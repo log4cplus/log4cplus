@@ -105,8 +105,7 @@ namespace log4cplus {
            /** Returns a copy of this object.  Derived classes
              *  should override this method.
              */
-            virtual std::auto_ptr<InternalLoggingEvent> clone() const;
-
+            virtual std::unique_ptr<InternalLoggingEvent> clone() const;
 
 
           // public methods

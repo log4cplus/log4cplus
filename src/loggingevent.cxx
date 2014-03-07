@@ -44,7 +44,7 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , thread()
     , timestamp(log4cplus::helpers::Time::gettimeofday())
     , file(filename
-        ? LOG4CPLUS_C_STR_TO_TSTRING(filename) 
+        ? LOG4CPLUS_C_STR_TO_TSTRING(filename)
         : log4cplus::tstring())
     , function (function_
         ? LOG4CPLUS_C_STR_TO_TSTRING(function_)
@@ -187,7 +187,7 @@ InternalLoggingEvent::setFunction (log4cplus::tstring const & func)
 }
 
 
-const log4cplus::tstring& 
+const log4cplus::tstring&
 InternalLoggingEvent::getMessage() const
 {
     return message;
@@ -202,10 +202,10 @@ InternalLoggingEvent::getType() const
 
 
 
-std::auto_ptr<InternalLoggingEvent>
+std::unique_ptr<InternalLoggingEvent>
 InternalLoggingEvent::clone() const
 {
-    std::auto_ptr<InternalLoggingEvent> tmp(new InternalLoggingEvent(*this));
+    std::unique_ptr<InternalLoggingEvent> tmp(new InternalLoggingEvent(*this));
     return tmp;
 }
 

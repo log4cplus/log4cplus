@@ -87,8 +87,8 @@ Hierarchy::~Hierarchy()
 // Hierarchy public methods
 //////////////////////////////////////////////////////////////////////////////
 
-void 
-Hierarchy::clear() 
+void
+Hierarchy::clear()
 {
     thread::MutexGuard guard (hashtable_mutex);
 
@@ -111,7 +111,7 @@ Hierarchy::exists(const tstring& name)
 }
 
 
-void 
+void
 Hierarchy::disable(const tstring& loglevelStr)
 {
     if(disableValue != DISABLE_OVERRIDE) {
@@ -120,8 +120,8 @@ Hierarchy::disable(const tstring& loglevelStr)
 }
 
 
-void 
-Hierarchy::disable(LogLevel ll) 
+void
+Hierarchy::disable(LogLevel ll)
 {
     if(disableValue != DISABLE_OVERRIDE) {
         disableValue = ll;
@@ -129,42 +129,42 @@ Hierarchy::disable(LogLevel ll)
 }
 
 
-void 
-Hierarchy::disableAll() 
-{ 
+void
+Hierarchy::disableAll()
+{
     disable((std::numeric_limits<LogLevel>::max) ());
 }
 
 
-void 
-Hierarchy::disableDebug() 
-{ 
+void
+Hierarchy::disableDebug()
+{
     disable(DEBUG_LOG_LEVEL);
 }
 
 
-void 
-Hierarchy::disableInfo() 
-{ 
+void
+Hierarchy::disableInfo()
+{
     disable(INFO_LOG_LEVEL);
 }
 
 
-void 
-Hierarchy::enableAll() 
-{ 
-    disableValue = DISABLE_OFF; 
+void
+Hierarchy::enableAll()
+{
+    disableValue = DISABLE_OFF;
 }
 
 
-Logger 
-Hierarchy::getInstance(const tstring& name) 
-{ 
-    return getInstance(name, *defaultFactory); 
+Logger
+Hierarchy::getInstance(const tstring& name)
+{
+    return getInstance(name, *defaultFactory);
 }
 
 
-Logger 
+Logger
 Hierarchy::getInstance(const tstring& name, spi::LoggerFactory& factory)
 {
     thread::MutexGuard guard (hashtable_mutex);
@@ -173,11 +173,11 @@ Hierarchy::getInstance(const tstring& name, spi::LoggerFactory& factory)
 }
 
 
-LoggerList 
+LoggerList
 Hierarchy::getCurrentLoggers()
 {
     LoggerList ret;
-    
+
     {
         thread::MutexGuard guard (hashtable_mutex);
         initializeLoggerList(ret);
@@ -187,21 +187,21 @@ Hierarchy::getCurrentLoggers()
 }
 
 
-bool 
-Hierarchy::isDisabled(LogLevel level) 
-{ 
-    return disableValue >= level; 
+bool
+Hierarchy::isDisabled(LogLevel level)
+{
+    return disableValue >= level;
 }
 
 
-Logger 
+Logger
 Hierarchy::getRoot() const
-{ 
-    return root; 
+{
+    return root;
 }
 
 
-void 
+void
 Hierarchy::resetConfiguration()
 {
     getRoot().setLogLevel(DEBUG_LOG_LEVEL);
@@ -220,10 +220,10 @@ Hierarchy::resetConfiguration()
 }
 
 
-void 
-Hierarchy::setLoggerFactory(std::auto_ptr<spi::LoggerFactory> factory) 
-{ 
-    defaultFactory = factory; 
+void
+Hierarchy::setLoggerFactory(std::unique_ptr<spi::LoggerFactory> factory)
+{
+    defaultFactory = std::move(factory);
 }
 
 
@@ -234,7 +234,7 @@ Hierarchy::getLoggerFactory()
 }
 
 
-void 
+void
 Hierarchy::shutdown()
 {
     LoggerList loggers = getCurrentLoggers();
@@ -259,7 +259,7 @@ Hierarchy::shutdown()
 // Hierarchy private methods
 //////////////////////////////////////////////////////////////////////////////
 
-Logger 
+Logger
 Hierarchy::getInstanceImpl(const tstring& name, spi::LoggerFactory& factory)
 {
     Logger logger;
@@ -300,19 +300,19 @@ Hierarchy::getInstanceImpl(const tstring& name, spi::LoggerFactory& factory)
 }
 
 
-void 
+void
 Hierarchy::initializeLoggerList(LoggerList& list) const
 {
-    for(LoggerMap::const_iterator it=loggerPtrs.begin(); 
-        it!= loggerPtrs.end(); 
-        ++it) 
+    for(LoggerMap::const_iterator it=loggerPtrs.begin();
+        it!= loggerPtrs.end();
+        ++it)
     {
         list.push_back((*it).second);
     }
 }
 
 
-void 
+void
 Hierarchy::updateParents(Logger const & logger)
 {
     tstring const & name = logger.getName();
@@ -322,8 +322,8 @@ Hierarchy::updateParents(Logger const & logger)
 
     // if name = "w.x.y.z", loop thourgh "w.x.y", "w.x" and "w", but not "w.x.y.z"
     for(std::size_t i=name.find_last_of(LOG4CPLUS_TEXT('.'), length-1);
-        i != tstring::npos && i > 0; 
-        i = name.find_last_of(LOG4CPLUS_TEXT('.'), i-1)) 
+        i != tstring::npos && i > 0;
+        i = name.find_last_of(LOG4CPLUS_TEXT('.'), i-1))
     {
         substr.assign (name, 0, i);
 
@@ -341,7 +341,7 @@ Hierarchy::updateParents(Logger const & logger)
             else {
                 ProvisionNode node;
                 node.push_back(logger);
-                std::pair<ProvisionNodeMap::iterator, bool> tmp = 
+                std::pair<ProvisionNodeMap::iterator, bool> tmp =
                     provisionNodes.insert(std::make_pair(substr, node));
                 //bool inserted = provisionNodes.insert(std::make_pair(substr, node)).second;
                 if(!tmp.second) {
@@ -359,7 +359,7 @@ Hierarchy::updateParents(Logger const & logger)
 }
 
 
-void 
+void
 Hierarchy::updateChildren(ProvisionNode& pn, Logger const & logger)
 {
 
