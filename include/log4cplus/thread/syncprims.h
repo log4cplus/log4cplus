@@ -31,13 +31,14 @@
 #pragma once
 #endif
 
+#include <mutex>
+#include <condition_variable>
+
 #if defined (LOG4CPLUS_SINGLE_THREADED)
 #define LOG4CPLUS_THREADED(x)
 #else
-#include <mutex>
 #define LOG4CPLUS_THREADED(x) x
 #endif
-
 
 
 namespace log4cplus { namespace thread {
@@ -50,6 +51,9 @@ public:
     SyncGuard ();
     SyncGuard (SyncPrim const &);
     ~SyncGuard ();
+    SyncGuard (SyncGuard const &) = delete;
+    SyncGuard & operator = (SyncGuard const &) = delete;
+
 
     void lock ();
     void unlock ();
@@ -59,19 +63,6 @@ public:
 
 private:
     SyncPrim const * sp;
-
-    SyncGuard (SyncGuard const &);
-    SyncGuard & operator = (SyncGuard const &);
-};
-
-
-class ManualResetEvent;
-
-
-class MutexImplBase
-{
-protected:
-    ~MutexImplBase ();
 };
 
 
@@ -94,45 +85,37 @@ private:
 typedef SyncGuard<Mutex> MutexGuard;
 
 
-class SemaphoreImplBase
-{
-protected:
-    ~SemaphoreImplBase ();
-};
-
-
 class LOG4CPLUS_EXPORT Semaphore
 {
 public:
     Semaphore (unsigned max, unsigned initial);
     ~Semaphore ();
+    Semaphore (Semaphore const &) = delete;
+    Semaphore & operator = (Semaphore const &) = delete;
 
     void lock () const;
     void unlock () const;
 
 private:
-    SemaphoreImplBase * sem;
-
-    Semaphore (Semaphore const &);
-    Semaphore & operator = (Semaphore const &);
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    mutable std::mutex mtx;
+    mutable std::condition_variable cv;
+    mutable unsigned max;
+    mutable unsigned val;
+#endif
 };
 
 
 typedef SyncGuard<Semaphore> SemaphoreGuard;
 
 
-class ManualResetEventImplBase
-{
-protected:
-    ~ManualResetEventImplBase ();
-};
-
-
 class LOG4CPLUS_EXPORT ManualResetEvent
 {
 public:
-    ManualResetEvent (bool = false);
+    explicit ManualResetEvent (bool = false);
     ~ManualResetEvent ();
+    ManualResetEvent (ManualResetEvent const &) = delete;
+    ManualResetEvent & operator = (ManualResetEvent const &) = delete;
 
     void signal () const;
     void wait () const;
@@ -140,10 +123,12 @@ public:
     void reset () const;
 
 private:
-    ManualResetEventImplBase * ev;
-
-    ManualResetEvent (ManualResetEvent const &);
-    ManualResetEvent & operator = (ManualResetEvent const &);
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    mutable std::mutex mtx;
+    mutable std::condition_variable cv;
+    mutable bool signaled;
+    mutable unsigned sigcount;
+#endif
 };
 
 

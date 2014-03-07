@@ -41,6 +41,8 @@
 #include <thread>
 #include <condition_variable>
 
+#include <log4cplus/thread/syncprims-pub-impl.h>
+
 
 namespace log4cplus { namespace thread { namespace impl {
 
@@ -48,57 +50,6 @@ namespace log4cplus { namespace thread { namespace impl {
 LOG4CPLUS_EXPORT void LOG4CPLUS_ATTRIBUTE_NORETURN
     syncprims_throw_exception (char const * const msg,
     char const * const file, int line);
-
-
-#define LOG4CPLUS_THROW_RTE(msg) \
-    do { syncprims_throw_exception (msg, __FILE__, __LINE__); } while (0)
-
-
-class Semaphore
-    : public SemaphoreImplBase
-{
-public:
-    Semaphore (unsigned max, unsigned initial);
-    ~Semaphore ();
-
-    void lock () const;
-    void unlock () const;
-
-private:
-    mutable std::mutex mtx;
-    mutable std::condition_variable cv;
-    mutable unsigned max;
-    mutable unsigned val;
-
-    Semaphore (Semaphore const &);
-    Semaphore & operator = (Semaphore const &);
-};
-
-
-typedef SyncGuard<Semaphore> SemaphoreGuard;
-
-
-class ManualResetEvent
-    : public ManualResetEventImplBase
-{
-public:
-    ManualResetEvent (bool = false);
-    ~ManualResetEvent ();
-
-    void signal () const;
-    void wait () const;
-    bool timed_wait (unsigned long msec) const;
-    void reset () const;
-
-private:
-    mutable std::mutex mtx;
-    mutable std::condition_variable cv;
-    mutable unsigned sigcount;
-    mutable bool signaled;
-
-    ManualResetEvent (ManualResetEvent const &);
-    ManualResetEvent & operator = (ManualResetEvent const &);
-};
 
 
 class SharedMutex
