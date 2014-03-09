@@ -115,8 +115,6 @@ class Thread
 public:
     Thread();
     bool isRunning() const;
-    os_id_type getThreadId() const;
-    os_handle_type getThreadHandle () const;
     void start();
     void join ();
 
