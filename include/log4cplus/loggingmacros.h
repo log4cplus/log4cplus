@@ -5,7 +5,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2013 Tad E. Smith
+// Copyright 2003-2014 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@
 #if defined(_MSC_VER)
 #define LOG4CPLUS_SUPPRESS_DOWHILE_WARNING()  \
     __pragma (warning (push))                 \
-    __pragma (warning (disable:4127))           
+    __pragma (warning (disable:4127))
 
 #define LOG4CPLUS_RESTORE_DOWHILE_WARNING()   \
     __pragma (warning (pop))
@@ -98,16 +98,12 @@ macros_get_logger (Logger & logger)
 }
 
 
-#if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
 inline
 Logger
 macros_get_logger (Logger && logger)
 {
     return std::move (logger);
 }
-
-#endif
-
 
 inline
 Logger

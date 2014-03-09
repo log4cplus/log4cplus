@@ -1,12 +1,13 @@
 language: cpp
 compiler:
   - gcc
-  - clang
 env:
   - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-c-locale"
     CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
   - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-locale"
     CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
+  - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-c-locale"
+    CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE" QT=qtbase5-dev
   - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-locale"
     CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE" QT=qtbase5-dev
   - PARAM_THREADS="--disable-threads --with-python --with-qt5 --with-working-locale"
@@ -21,14 +22,12 @@ env:
     CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
   - PARAM_THREADS="--disable-threads --with-python --with-qt5 --with-iconv"
     CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE" QT=qtbase5-dev
-  - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-locale"
-    CXXFLAGS="-std=c++98" SWIG_FLAGS="" QT=qtbase5-dev
-  - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-locale"
-    CXXFLAGS="-std=c++0x" SWIG_FLAGS="" QT=qtbase5-dev
   - PARAM_THREADS="--enable-threads --with-python --with-qt --with-working-c-locale"
-    CXXFLAGS="" SWIG_FLAGS=""
+    CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE"
   - PARAM_THREADS="--enable-threads --with-python --with-qt --with-working-locale"
     CXXFLAGS="" SWIG_FLAGS=""
+  - PARAM_THREADS="--enable-threads --with-python --with-qt --with-working-c-locale"
+    CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE"
   - PARAM_THREADS="--enable-threads --with-python --with-qt --with-working-locale"
     CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE"
   - PARAM_THREADS="--disable-threads --with-python --with-qt --with-working-locale"
@@ -43,24 +42,36 @@ env:
     CXXFLAGS="" SWIG_FLAGS=""
   - PARAM_THREADS="--disable-threads --with-python --with-qt --with-iconv"
     CXXFLAGS="-DUNICODE" SWIG_FLAGS="-DUNICODE"
-  - PARAM_THREADS="--enable-threads --with-python --with-qt --with-working-locale"
-    CXXFLAGS="-std=c++98" SWIG_FLAGS=""
-  - PARAM_THREADS="--enable-threads --with-python --with-qt --with-working-locale"
-    CXXFLAGS="-std=c++0x" SWIG_FLAGS=""
 before_install:
+  - wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key|sudo apt-key add -
+  - sudo add-apt-repository --yes
+    'deb http://ppa.launchpad.net/canonical-x/x-staging/ubuntu precise main'
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - if [ ! -z "$QT" ] ; then
       sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa ;
     fi
   - sudo apt-get update -qq
-  - sudo apt-get install -q swig python
+  - sudo apt-get install -q
+    gcc-4.8
+    g++-4.8
+    libstdc++-4.8-dev
+    llvm-3.4
+    clang-3.4
+    swig
+    python
   - if [ ! -z "$QT" ] ; then
       sudo apt-get install -q $QT ;
     fi
+  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 40
+    --slave /usr/bin/g++ g++ /usr/bin/g++-4.8
+  - sudo update-alternatives --config gcc
 before_script:
   - sh ./scripts/fix-timestamps.sh
   - mkdir objdir
   - cd objdir
-script: ../configure $PARAM_THREADS CXXFLAGS="$CXXFLAGS"
+script: ../configure $PARAM_THREADS
+  CPPFLAGS="-U_GLIBCXX_USE_FLOAT128"
+  CXXFLAGS="$CXXFLAGS"
   SWIG_FLAGS="$SWIG_FLAGS"
   && make
   && make check

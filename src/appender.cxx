@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2013 Tad E. Smith
+// Copyright 2003-2014 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ ErrorHandler::~ErrorHandler()
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// log4cplus::OnlyOnceErrorHandler 
+// log4cplus::OnlyOnceErrorHandler
 ///////////////////////////////////////////////////////////////////////////////
 
 OnlyOnceErrorHandler::OnlyOnceErrorHandler()
@@ -121,18 +121,18 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
         helpers::Properties layoutProperties =
                 properties.getPropertySubset( LOG4CPLUS_TEXT("layout.") );
         try {
-            std::auto_ptr<Layout> newLayout(factory->createObject(layoutProperties));
+            std::unique_ptr<Layout> newLayout(factory->createObject(layoutProperties));
             if(newLayout.get() == 0) {
                 helpers::getLogLog().error(
                     LOG4CPLUS_TEXT("Failed to create appender: ")
                     + factoryName);
             }
             else {
-                layout = newLayout;
+                layout = std::move(newLayout);
             }
         }
         catch(std::exception const & e) {
-            helpers::getLogLog().error( 
+            helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("Error while creating Layout: ")
                 + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
             return;
@@ -323,7 +323,7 @@ Appender::getErrorHandler()
 
 
 void
-Appender::setErrorHandler(std::auto_ptr<ErrorHandler> eh)
+Appender::setErrorHandler(std::unique_ptr<ErrorHandler> eh)
 {
     if (! eh.get())
     {
@@ -336,17 +336,17 @@ Appender::setErrorHandler(std::auto_ptr<ErrorHandler> eh)
 
     thread::MutexGuard guard (access_mutex);
 
-    this->errorHandler = eh;
+    this->errorHandler = std::move(eh);
 }
 
 
 
 void
-Appender::setLayout(std::auto_ptr<Layout> lo)
+Appender::setLayout(std::unique_ptr<Layout> lo)
 {
     thread::MutexGuard guard (access_mutex);
 
-    this->layout = lo;
+    this->layout = std::move(lo);
 }
 
 

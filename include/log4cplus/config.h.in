@@ -23,6 +23,9 @@
 /* Define to 1 if you have the `clock_nanosleep' function. */
 #undef HAVE_CLOCK_NANOSLEEP
 
+/* define if the compiler supports basic C++11 syntax */
+#undef HAVE_CXX11
+
 /* Defined if the compiler provides C++11 <atomic> header and increment,
    decrement operations. */
 #undef HAVE_CXX11_ATOMICS

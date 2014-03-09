@@ -60,8 +60,6 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/tchar.h \
 	log4cplus/thread/impl/syncprims-cxx11.h \
 	log4cplus/thread/impl/syncprims-impl.h \
-	log4cplus/thread/impl/syncprims-pthreads.h \
-	log4cplus/thread/impl/syncprims-win32.h \
 	log4cplus/thread/impl/threads-impl.h \
 	log4cplus/thread/impl/tls.h \
 	log4cplus/thread/syncprims.h \

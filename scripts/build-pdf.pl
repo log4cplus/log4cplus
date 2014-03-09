@@ -1,3 +1,6 @@
+# This is a helper script for building log4cplus documentation PDF from several
+# Markdown formatted files.
+
 use strict;
 use autodie qw(:all);
 use File::Basename;
@@ -99,7 +102,7 @@ for my $f (@FILES)
 print Dumper(\@parts), "\n";
 
 my @args = (
-    'pandoc', @PANDOC_2ND_STEP_SWITCHES, 
+    'pandoc', @PANDOC_2ND_STEP_SWITCHES,
     '-o', 'README.md.tex',
     @parts);
 

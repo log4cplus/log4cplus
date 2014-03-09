@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2013 Tad E. Smith
+// Copyright 2001-2014 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -105,7 +105,6 @@ DiagnosticContext & DiagnosticContext::operator = (
 }
 
 
-#if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
 DiagnosticContext::DiagnosticContext (DiagnosticContext && other)
     : message (std::move (other.message))
     , fullMessage (std::move (other.fullMessage))
@@ -118,8 +117,6 @@ DiagnosticContext::operator = (DiagnosticContext && other)
     DiagnosticContext (std::move (other)).swap (*this);
     return *this;
 }
-
-#endif
 
 
 void
@@ -134,11 +131,11 @@ DiagnosticContext::swap (DiagnosticContext & other)
 // log4cplus::NDC ctor and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-NDC::NDC() 
+NDC::NDC()
 { }
 
 
-NDC::~NDC() 
+NDC::~NDC()
 { }
 
 
@@ -163,7 +160,7 @@ NDC::cloneStack() const
 }
 
 
-void 
+void
 NDC::inherit(const DiagnosticContextStack& stack)
 {
     DiagnosticContextStack* ptr = getPtr();
@@ -182,7 +179,7 @@ NDC::get() const
 }
 
 
-std::size_t 
+std::size_t
 NDC::getDepth() const
 {
     DiagnosticContextStack* ptr = getPtr();
@@ -190,7 +187,7 @@ NDC::getDepth() const
 }
 
 
-log4cplus::tstring 
+log4cplus::tstring
 NDC::pop()
 {
     DiagnosticContextStack* ptr = getPtr();
@@ -226,14 +223,14 @@ NDC::peek() const
 }
 
 
-void 
+void
 NDC::push(const log4cplus::tstring& message)
 {
     push_worker (message);
 }
 
 
-void 
+void
 NDC::push(tchar const * message)
 {
     push_worker (message);
@@ -255,7 +252,7 @@ NDC::push_worker (StringType const & message)
 }
 
 
-void 
+void
 NDC::remove()
 {
     DiagnosticContextStack* ptr = getPtr();
@@ -263,7 +260,7 @@ NDC::remove()
 }
 
 
-void 
+void
 NDC::setMaxDepth(std::size_t maxDepth)
 {
     DiagnosticContextStack* ptr = getPtr();
@@ -283,9 +280,9 @@ DiagnosticContextStack* NDC::getPtr()
 //
 //
 
-NDCContextCreator::NDCContextCreator(const log4cplus::tstring& msg) 
-{ 
-    getNDC().push(msg); 
+NDCContextCreator::NDCContextCreator(const log4cplus::tstring& msg)
+{
+    getNDC().push(msg);
 }
 
 
@@ -295,9 +292,9 @@ NDCContextCreator::NDCContextCreator(tchar const * msg)
 }
 
 
-NDCContextCreator::~NDCContextCreator() 
-{ 
-    getNDC().pop_void(); 
+NDCContextCreator::~NDCContextCreator()
+{
+    getNDC().pop_void();
 }
 
 

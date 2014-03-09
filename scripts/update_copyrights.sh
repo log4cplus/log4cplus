@@ -4,7 +4,7 @@ FILES=`find . \( \( -not -path './objdir*' \) -and \( -name '*.h' -o -name '*.hx
 perl -wn -i.bak -e '
 use strict;
 
-my $YEAR = 2013;
+my $YEAR = 2014;
 
 my $sep = qr/[\s,;]/;
 if (/copyright/i)

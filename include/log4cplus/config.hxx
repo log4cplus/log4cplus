@@ -1,4 +1,4 @@
-//  Copyright (C) 2009-2013, Vaclav Haisman. All rights reserved.
+//  Copyright (C) 2009-2014, Vaclav Haisman. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -30,14 +30,6 @@
 #  include <log4cplus/config/macosx.h>
 #else
 #  include <log4cplus/config/defines.hxx>
-#endif
-
-#if ! defined (UNICODE) && ! defined (LOG4CPLUS_HAVE_VSNPRINTF_S) \
-    && ! defined (LOG4CPLUS_HAVE__VSNPRINTF_S) \
-    && ! defined (LOG4CPLUS_HAVE_VSNPRINTF) \
-    && ! defined (LOG4CPLUS_HAVE__VSNPRINTF)
-#  undef LOG4CPLUS_USE_POOR_MANS_SNPRINTF
-#  define LOG4CPLUS_USE_POOR_MANS_SNPRINTF
 #endif
 
 # if ! defined (LOG4CPLUS_WORKING_LOCALE) \
@@ -96,17 +88,6 @@
 //! __has_feature(X) is Clangs way for testing features.
 //! Define it to 0 if it does not exist.
 #  define __has_feature(X) 0
-#endif
-
-#if (defined (_MSC_VER) && _MSC_VER >= 1600) \
-    || defined (__GXX_EXPERIMENTAL_CXX0X__) \
-    || __cplusplus >= 201103L
-#  define LOG4CPLUS_HAVE_CXX11_SUPPORT
-#endif
-
-#if defined (LOG4CPLUS_HAVE_CXX11_SUPPORT) \
-    || __has_feature (cxx_rvalue_references)
-#  define LOG4CPLUS_HAVE_RVALUE_REFS
 #endif
 
 #if ! defined (UNICODE) && defined (__GNUC__) && __GNUC__ >= 3

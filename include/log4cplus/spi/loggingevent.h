@@ -5,7 +5,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2013 Tad E. Smith
+// Copyright 2001-2014 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -105,8 +105,7 @@ namespace log4cplus {
            /** Returns a copy of this object.  Derived classes
              *  should override this method.
              */
-            virtual std::auto_ptr<InternalLoggingEvent> clone() const;
-
+            virtual std::unique_ptr<InternalLoggingEvent> clone() const;
 
 
           // public methods

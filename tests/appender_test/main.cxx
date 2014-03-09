@@ -58,7 +58,7 @@ main()
 
             Layout * layout_2;
             append_2->setLayout(
-                std::auto_ptr<Layout>(layout_2 = new log4cplus::SimpleLayout));
+                std::unique_ptr<Layout>(layout_2 = new log4cplus::SimpleLayout));
             if (append_2->getLayout () != layout_2)
                 return 1;
 
@@ -69,12 +69,12 @@ main()
 
             // Test warning on NULL handler.
 
-            append_2->setErrorHandler (std::auto_ptr<ErrorHandler>());
+            append_2->setErrorHandler (std::unique_ptr<ErrorHandler>());
 
             // Set working error handler.
 
-            std::auto_ptr<ErrorHandler> errorHandler (new OnlyOnceErrorHandler);
-            append_2->setErrorHandler (errorHandler);
+            std::unique_ptr<ErrorHandler> errorHandler (new OnlyOnceErrorHandler);
+            append_2->setErrorHandler (std::move(errorHandler));
 
             // Test logging through instantiated appenders.
 
