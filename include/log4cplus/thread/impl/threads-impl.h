@@ -90,68 +90,6 @@ getCurrentThreadId ()
 #endif
 
 
-#ifndef LOG4CPLUS_SINGLE_THREADED
-
-
-struct ThreadStart
-{
-#  ifdef LOG4CPLUS_USE_PTHREADS
-static void* threadStartFuncWorker(void *);
-#  elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-static unsigned threadStartFuncWorker(void *);
-#  endif
-};
-
-
-/**
- * There are many cross-platform C++ Threading libraries.  The goal of
- * this class is not to replace (or match in functionality) those
- * libraries.  The goal of this class is to provide a simple Threading
- * class with basic functionality.
- */
-class Thread
-    : public ThreadImplBase
-{
-public:
-    Thread();
-    bool isRunning() const;
-    void start();
-    void join ();
-
-protected:
-    // Force objects to be constructed on the heap
-    virtual ~Thread();
-    virtual void run() = 0;
-
-private:
-    // Friends.
-    friend struct ThreadStart;
-
-    enum Flags
-    {
-        fRUNNING  = 0x01,
-        fJOINED   = 0x02
-    };
-
-    unsigned flags;
-
-    os_handle_type handle;
-
-#  if defined(LOG4CPLUS_USE_WIN32_THREADS)
-    unsigned thread_id;
-#  endif
-
-    // Disallow copying of instances of this class.
-    Thread(const Thread&);
-    Thread& operator=(const Thread&);
-};
-
-typedef helpers::SharedObjectPtr<Thread> ThreadPtr;
-
-
-#endif // LOG4CPLUS_SINGLE_THREADED
-
-
 } } } // namespace log4cplus { namespace thread { namespace impl {
 
 
