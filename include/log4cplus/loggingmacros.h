@@ -42,7 +42,7 @@
 #if defined(_MSC_VER)
 #define LOG4CPLUS_SUPPRESS_DOWHILE_WARNING()  \
     __pragma (warning (push))                 \
-    __pragma (warning (disable:4127))           
+    __pragma (warning (disable:4127))
 
 #define LOG4CPLUS_RESTORE_DOWHILE_WARNING()   \
     __pragma (warning (pop))
@@ -98,16 +98,12 @@ macros_get_logger (Logger & logger)
 }
 
 
-#if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
 inline
 Logger
 macros_get_logger (Logger && logger)
 {
     return std::move (logger);
 }
-
-#endif
-
 
 inline
 Logger

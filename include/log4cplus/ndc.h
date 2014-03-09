@@ -19,7 +19,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/** @file 
+/** @file
  * This header defined the NDC class.
  */
 
@@ -76,7 +76,7 @@ namespace log4cplus {
      *   this method will create it.
      * - When leaving a context, call `pop()`.
      * - When exiting a thread make sure to call `remove()`.
-     *                                          
+     *
      * There is no penalty for forgetting to match each push()
      * operation with a corresponding pop(), except the obvious
      * mismatch between the real application context and the context
@@ -125,7 +125,7 @@ namespace log4cplus {
          *
          * The child thread uses the {@link #inherit inherit} method to
          * inherit the parent's diagnostic context.
-         *                                        
+         *
          * @return Stack A clone of the current thread's  diagnostic context.
          */
         DiagnosticContextStack cloneStack() const;
@@ -187,7 +187,7 @@ namespace log4cplus {
          *
          * The returned value is the value that was pushed last. If no
          * context is available, then the empty string is returned.
-         *                          
+         *
          * @return String The innermost diagnostic context.
          */
         log4cplus::tstring const & peek() const;
@@ -244,7 +244,7 @@ namespace log4cplus {
          *
          * ensures that between the entry and exit of foo the depth of the
          * diagnostic stack is conserved.
-         * 
+         *
          * \note Use of the NDCContextCreator class will solve this
          * particular problem.
          *
@@ -292,11 +292,8 @@ namespace log4cplus {
         DiagnosticContext(tchar const * message);
         DiagnosticContext(DiagnosticContext const &);
         DiagnosticContext & operator = (DiagnosticContext const &);
-
-#if defined (LOG4CPLUS_HAVE_RVALUE_REFS)
         DiagnosticContext(DiagnosticContext &&);
         DiagnosticContext & operator = (DiagnosticContext &&);
-#endif
 
         void swap (DiagnosticContext &);
 
