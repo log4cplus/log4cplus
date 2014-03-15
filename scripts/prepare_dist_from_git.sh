@@ -6,7 +6,7 @@ THIS_SCRIPT=`basename "$0"`
 
 function usage
 {
-    echo "$THIS_SCRIPT <BZR_URL> <SRC_DIR> [<GPG_KEY>]"
+    echo "$THIS_SCRIPT <GIT_URL> <GIT_BRANCH> [<SRC_DIR>] [<GPG_KEY>]"
 }
 
 function gpg_sign
@@ -32,24 +32,26 @@ function find_archiver
     command_exists "$1" && echo "$1" || echo ':'
 }
 
-BZR_URL="$1"
-if [[ -z "$BZR_URL" ]] ; then
+GIT_URL="$1"
+if [[ -z "$GIT_URL" ]] ; then
     usage
     exit 1
 fi
 
-if [[ -z "$2" ]] ; then
-    BZR_URL=${BZR_URL%/}
-    BZR_BASE_URL=${BZR_URL%/*}
-    BZR_BRANCH_NAME=${BZR_URL#$BZR_BASE_URL}
-    BZR_BRANCH_NAME=${BZR_BRANCH_NAME#/}
-    SRC_DIR=$BZR_BRANCH_NAME
-else
-    SRC_DIR="$2"
+GIT_BRANCH="$2"
+if [[ -z "$GIT_BRANCH" ]] ; then
+    usage
+    exit 1
 fi
 
-if [[ ! -z "$3" ]] ; then
-    GPG_KEY="$3"
+if [[ -z "$3" ]] ; then
+    SRC_DIR=$GIT_BRANCH
+else
+    SRC_DIR="$3"
+fi
+
+if [[ ! -z "$4" ]] ; then
+    GPG_KEY="$4"
 else
     GPG_KEY=
 fi
@@ -71,11 +73,12 @@ BZIP2=${BZIP2:-$(find_archiver bzip2)}
 GZIP=${GZIP:-$(find_archiver gzip)}
 SEVENZA=${SEVENZA:-$(find_archiver 7za)}
 LRZIP=${LRZIP:-$(find_archiver lrzip)}
-BZR=${BZR:-bzr}
+GIT=${GIT:-git}
 GPG=${GPG:-gpg}
 
-$BZR export --per-file-timestamps -v "$SRC_DIR" "$BZR_URL"
-$BZR version-info "$BZR_URL" >"$SRC_DIR/REVISION"
+$GIT clone -v --depth=1 "$GIT_URL" "$SRC_DIR"
+(cd "$SRC_DIR" && $GIT rev-parse >REVISION)
+rm -rf "$SRC_DIR/.git"
 
 pushd "$SRC_DIR"
 $SHELL ./scripts/fix-timestamps.sh
