@@ -35,30 +35,29 @@ from log4net, log4cxx, log4cpp).
 Platform support
 ================
 
-Log4cplus has been ported to and tested on the following platforms:
+Log4cplus version 2.0 and beyond require C++11. Log4cplus has been ported to
+and tested on the following platforms:
 
-- Linux/AMD64 with 4.8.1 (Ubuntu/Linaro 4.8.1-10ubuntu8)
-- Linux/AMD64 with Sun C++ 5.12 Linux_i386 2011/11/16
-- Linux/AMD64 with Clang version 3.2-1~exp9ubuntu1
-  (tags/RELEASE_32/final) (based on LLVM 3.2)
-- Linux/AMD64 with Intel(R) C++ Intel(R) 64 Compiler XE for
-  applications running on Intel(R) 64, Version 12.1 Build 20120410
-- FreeBSD/AMD64 with GCC 3.4.6, 4.2.1 and 4.3.3
-- Windows 7 with MS Visual Studio 2010 and 2012
-- OpenSolaris 5.11/i386 with Sun C++ 5.10 SunOS_i386 128229-02
-  2009/09/21, with `-library=stlport4`
-- Solaris 5.10/Sparc with Sun C++ 5.8 2005/10/13, with
-  `-library=stlport4` and with `-library=Cstd`.
-- Solaris 5.10/Sparc with GCC 3.4.3 (csl-sol210-3_4-branch+sol_rpath)
-- NetBSD 6.0/AMD64 with GCC 4.5.3 (NetBSD nb2 20110806)
-- OpenBSD 5.2/AMD64 with GCC 4.2.1 20070719
-- MacOS X 10.8 with GCC 4.2.1 (Apple Inc. build 5664)
-- MacOS X 11.4.2 with GCC 4.2.1 (Based on Apple Inc. build 5658) (LLVM
-  build 2336.11.00)
-- HP-UX B.11.11 with HP ANSI C++ B3910B A.03.80
-  (hppa2.0w-hp-hpux11.11)
-- Haiku R1 Alpha 4.1 with GCC 4.6.3
-- AIX 5.3 with IBM XL C/C++ for AIX, V11.1 (5724-X13)
+  - Linux/AMD64 with 4.8.1 (Ubuntu/Linaro 4.8.1-10ubuntu8)
+  - [^1] Linux/AMD64 with Clang version 3.2-1~exp9ubuntu1
+    (tags/RELEASE_32/final) (based on LLVM 3.2)
+  - [^1] Linux/AMD64 with Intel(R) C++ Intel(R) 64 Compiler XE for
+    applications running on Intel(R) 64, Version 12.1 Build 20120410
+  - [^1] FreeBSD/AMD64
+  - [^1] Windows 7 with MS Visual 2013
+  - [^1] OpenSolaris with `-library=stlport4`
+  - [^1] Solaris with `-library=stlport4` and with `-library=Cstd`.
+  - [^1] Solaris 5.10/Sparc
+  - [^1] NetBSD 6.0/AMD64
+  - [^1] OpenBSD 5.2/AMD64
+  - [^1] MacOS X 10.8
+  - [^1] MacOS X 11.4.2
+  - [^1] HP-UX (hppa2.0w-hp-hpux11.11)
+  - [^1] Haiku R1 Alpha 4.1
+  - [^1] AIX 5.3 with IBM XL C/C++ for AIX
+
+[^1]: The compiler/platform needs to be recheck after log4cplus has been
+changed to use C++11.
 
 The testing on the above listed platforms has been done at some point
 in time with some version of source. Continuous testing is done only
