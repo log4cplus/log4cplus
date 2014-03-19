@@ -1,3 +1,12 @@
+log4cplus 1.1.3-RC2
+
+- Fixed bug #295 - infinite loop when underlying *printf() function returned
+  EILSEQ.
+
+- Use PROJECT_SOURCE_DIR variable instead of CMAKE_SOURCE_DIR to allow using
+  log4cplus as sub-project of another CMake project.
+
+
 log4cplus 1.1.3-RC1
 
 - Added --enable-symbols-visibility-options to configure script to allow
