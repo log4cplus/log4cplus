@@ -39,6 +39,15 @@ Log4cplus version 2.0 and beyond require C++11. Log4cplus has been ported to
 and tested on the following platforms:
 
   - Linux/AMD64 with 4.8.1 (Ubuntu/Linaro 4.8.1-10ubuntu8)
+
+The testing on the above listed platforms has been done at some point
+in time with some version of source. Continuous testing is done only
+on Linux platform offered by [Travis CI][11] service.
+
+The following platforms were supported by the 1.x series of log4cplus. But
+since many of the platforms do not have a reasonable C++11 capable compiler,
+they are currently unsupported by the 2.x series of log4cplus:
+
   - [^1] Linux/AMD64 with Clang version 3.2-1~exp9ubuntu1
     (tags/RELEASE_32/final) (based on LLVM 3.2)
   - [^1] Linux/AMD64 with Intel(R) C++ Intel(R) 64 Compiler XE for
@@ -58,10 +67,6 @@ and tested on the following platforms:
 
 [^1]: The compiler/platform needs to be recheck after log4cplus has been
 changed to use C++11.
-
-The testing on the above listed platforms has been done at some point
-in time with some version of source. Continuous testing is done only
-on Linux platform offered by [Travis CI][11] service.
 
 
 Configure script options
