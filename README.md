@@ -35,38 +35,35 @@ from log4net, log4cxx, log4cpp).
 Platform support
 ================
 
-Log4cplus version 2.0 and beyond require C++11. Log4cplus has been ported to
-and tested on the following platforms:
+[log4cplus] version 2.0 and beyond require C++11. [log4cplus] has been
+ported to and tested on the following platforms:
 
-  - Linux/AMD64 with 4.8.1 (Ubuntu/Linaro 4.8.1-10ubuntu8)
+  - Linux/AMD64 with 4.8.1 (Ubuntu/Linaro 4.8.1-10ubuntu9)
+  - Windows 7 with MS Visual Studio 2013
 
 The testing on the above listed platforms has been done at some point
 in time with some version of source. Continuous testing is done only
 on Linux platform offered by [Travis CI][11] service.
 
-The following platforms were supported by the 1.x series of log4cplus. But
-since many of the platforms do not have a reasonable C++11 capable compiler,
-they are currently unsupported by the 2.x series of log4cplus:
+The following platforms were supported by the 1.x series of
+[log4cplus]. They either do not have a reasonable C++11 capable
+compiler or have not been checked with [log4cplus] 2.x, yet:
 
-  - [^1] Linux/AMD64 with Clang version 3.2-1~exp9ubuntu1
+  - Linux/AMD64 with Clang version 3.2-1~exp9ubuntu1
     (tags/RELEASE_32/final) (based on LLVM 3.2)
-  - [^1] Linux/AMD64 with Intel(R) C++ Intel(R) 64 Compiler XE for
+  - Linux/AMD64 with Intel(R) C++ Intel(R) 64 Compiler XE for
     applications running on Intel(R) 64, Version 12.1 Build 20120410
-  - [^1] FreeBSD/AMD64
-  - [^1] Windows 7 with MS Visual 2013
-  - [^1] OpenSolaris with `-library=stlport4`
-  - [^1] Solaris with `-library=stlport4` and with `-library=Cstd`.
-  - [^1] Solaris 5.10/Sparc
-  - [^1] NetBSD 6.0/AMD64
-  - [^1] OpenBSD 5.2/AMD64
-  - [^1] MacOS X 10.8
-  - [^1] MacOS X 11.4.2
-  - [^1] HP-UX (hppa2.0w-hp-hpux11.11)
-  - [^1] Haiku R1 Alpha 4.1
-  - [^1] AIX 5.3 with IBM XL C/C++ for AIX
-
-[^1]: The compiler/platform needs to be recheck after log4cplus has been
-changed to use C++11.
+  - FreeBSD/AMD64
+  - OpenSolaris with `-library=stlport4`
+  - Solaris with `-library=stlport4` and with `-library=Cstd`.
+  - Solaris 5.10/Sparc
+  - NetBSD 6.0/AMD64
+  - OpenBSD 5.2/AMD64
+  - MacOS X 10.8
+  - MacOS X 11.4.2
+  - HP-UX (hppa2.0w-hp-hpux11.11)
+  - Haiku R1 Alpha 4.1
+  - AIX 5.3 with IBM XL C/C++ for AIX
 
 
 Configure script options
