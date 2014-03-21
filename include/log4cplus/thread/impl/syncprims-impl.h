@@ -41,8 +41,6 @@
 #include <thread>
 #include <condition_variable>
 
-#include <log4cplus/thread/syncprims-pub-impl.h>
-
 
 namespace log4cplus { namespace thread { namespace impl {
 
