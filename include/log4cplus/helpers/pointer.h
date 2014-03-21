@@ -68,7 +68,7 @@ namespace log4cplus {
                 , count(0)
             { }
 
-            SharedObject(SharedObject && other)
+            SharedObject(SharedObject &&)
                 : access_mutex()
                 , count(0)
             { }
