@@ -68,14 +68,17 @@ namespace log4cplus {
                 , count(0)
             { }
 
-            SharedObject(SharedObject &&) = default;
+            SharedObject(SharedObject && other)
+                : access_mutex()
+                , count(0)
+            { }
 
           // Dtor
             virtual ~SharedObject();
 
           // Operators
             SharedObject& operator=(const SharedObject&) { return *this; }
-            SharedObject& operator=(SharedObject &&) = default;
+            SharedObject& operator=(SharedObject &&) { return *this; }
 
         public:
             thread::Mutex access_mutex;
