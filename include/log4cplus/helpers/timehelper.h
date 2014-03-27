@@ -37,6 +37,7 @@
 #endif
 
 #include <ctime>
+#include <chrono>
 
 
 namespace log4cplus {
@@ -53,37 +54,32 @@ using std::tm;
  */
 class LOG4CPLUS_EXPORT Time {
 public:
+    typedef std::chrono::system_clock clock_type;
+    typedef std::chrono::time_point<clock_type, std::chrono::nanoseconds>
+        time_point_type;
+
     Time();
     Time(time_t tv_sec, long tv_usec);
     explicit Time(time_t time);
+    Time(time_point_type);
 
-    /**
-     * Returns the current time using the <code>gettimeofday()</code>
-     * method if it is available on the current platform.  (Not on 
-     * WIN32.)
-     */
     static Time gettimeofday();
+
+    time_point_type getTimePoint () const
+    {
+        return the_time;
+    }
 
   // Methods
     /**
      * Returns <i>seconds</i> value.
      */
-    time_t sec() const { return tv_sec; }
+    time_t sec() const;
 
     /**
      * Returns <i>microseconds</i> value.
      */
-    long usec() const { return tv_usec; }
-
-    /**
-     * Sets the <i>seconds</i> value.
-     */
-    void sec(time_t s) { tv_sec = s; }
-
-    /**
-     * Sets the <i>microseconds</i> value.
-     */
-    void usec(long us) { tv_usec = us; }
+    long usec() const;
 
     /**
      * Sets this Time using the <code>mktime</code> function.
@@ -110,44 +106,23 @@ public:
     /**
      * Returns a string with a "formatted time" specified by
      * <code>fmt</code>.  It used the <code>strftime()</code>
-     * function to do this.  
-     * 
+     * function to do this.
+     *
      * Look at your platform's <code>strftime()</code> documentation
      * for the formatting options available.
-     * 
+     *
      * The following additional options are provided:<br>
      * <code>%q</code> - 3 character field that provides milliseconds
-     * <code>%Q</code> - 7 character field that provides fractional 
+     * <code>%Q</code> - 7 character field that provides fractional
      * milliseconds.
      */
     log4cplus::tstring getFormattedTime(const log4cplus::tstring& fmt,
                                         bool use_gmtime = false) const;
 
-  // Operators
-    Time& operator+=(const Time& rhs);
-    Time& operator-=(const Time& rhs);
-    Time& operator/=(long rhs);
-    Time& operator*=(long rhs);
-
 private:
-  // Data
-    time_t tv_sec;  /* seconds */
-    long tv_usec;  /* microseconds */
+    time_point_type the_time;
 };
 
-
-LOG4CPLUS_EXPORT const log4cplus::helpers::Time operator+
-                                   (const log4cplus::helpers::Time& lhs,
-                                    const log4cplus::helpers::Time& rhs);
-LOG4CPLUS_EXPORT const log4cplus::helpers::Time operator-
-                                   (const log4cplus::helpers::Time& lhs,
-                                    const log4cplus::helpers::Time& rhs);
-LOG4CPLUS_EXPORT const log4cplus::helpers::Time operator/
-                                   (const log4cplus::helpers::Time& lhs,
-                                    long rhs);
-LOG4CPLUS_EXPORT const log4cplus::helpers::Time operator*
-                                   (const log4cplus::helpers::Time& lhs,
-                                    long rhs);
 
 LOG4CPLUS_EXPORT bool operator<(const log4cplus::helpers::Time& lhs,
                                 const log4cplus::helpers::Time& rhs)
@@ -176,4 +151,3 @@ LOG4CPLUS_EXPORT bool operator!=(const log4cplus::helpers::Time& lhs,
 
 
 #endif // LOG4CPLUS_HELPERS_TIME_HELPER_HEADER_
-
