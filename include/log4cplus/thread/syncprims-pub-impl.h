@@ -31,6 +31,8 @@
 #pragma once
 #endif
 
+#include <algorithm>
+
 #if (defined (LOG4CPLUS_INLINES_ARE_EXPORTED)           \
     && defined (LOG4CPLUS_BUILD_DLL))                   \
     || defined (LOG4CPLUS_ENABLE_SYNCPRIMS_PUB_IMPL)
@@ -46,6 +48,14 @@
 
 namespace log4cplus { namespace thread {
 
+namespace impl
+{
+
+LOG4CPLUS_EXPORT void LOG4CPLUS_ATTRIBUTE_NORETURN
+    syncprims_throw_exception(char const * const msg,
+    char const * const file, int line);
+
+}
 
 //
 //
