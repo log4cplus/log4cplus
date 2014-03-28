@@ -36,8 +36,7 @@ formatRelativeTimestamp (log4cplus::tostream & output,
     log4cplus::spi::InternalLoggingEvent const & event)
 {
     auto const duration
-        = event.getTimestamp ().getTimePoint ()
-        - getTTCCLayoutTimeBase ().getTimePoint ();
+        = event.getTimestamp () - getTTCCLayoutTimeBase ();
     output << std::chrono::duration_cast<
                   std::chrono::duration<long long, std::milli>>(
                       duration).count ();
@@ -128,7 +127,7 @@ TTCCLayout::formatAndAppend(log4cplus::tostream& output,
      if (dateFormat.empty ())
          formatRelativeTimestamp (output, event);
      else
-         output << event.getTimestamp().getFormattedTime(dateFormat,
+         output << helpers::getFormattedTime(dateFormat, event.getTimestamp(),
              use_gmtime);
 
     output << LOG4CPLUS_TEXT(" [")

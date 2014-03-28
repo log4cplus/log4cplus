@@ -393,13 +393,13 @@ FileAppender::reopen()
     // When append never failed and the file re-open attempt must
     // be delayed, set the time when reopen should take place.
     if (reopen_time == log4cplus::helpers::Time () && reopenDelay != 0)
-        reopen_time = log4cplus::helpers::Time::gettimeofday().getTimePoint ()
-            + std::chrono::seconds (reopenDelay);
+        reopen_time = log4cplus::helpers::now ()
+            + helpers::chrono::seconds (reopenDelay);
     else
     {
         // Otherwise, check for end of the delay (or absence of delay)
         // to re-open the file.
-        if (reopen_time <= log4cplus::helpers::Time::gettimeofday()
+        if (reopen_time <= log4cplus::helpers::now ()
             || reopenDelay == 0)
         {
             // Close the current file
@@ -649,9 +649,9 @@ DailyRollingFileAppender::init(DailyRollingFileSchedule sch)
 {
     this->schedule = sch;
 
-    Time now (Time::gettimeofday ().sec (), 0);
+    Time now = helpers::truncate_fractions (helpers::now ());
     struct tm time;
-    now.localtime(&time);
+    helpers::localTime(&time, now);
 
     time.tm_sec = 0;
     switch (schedule)
@@ -690,7 +690,7 @@ DailyRollingFileAppender::init(DailyRollingFileSchedule sch)
     case MINUTELY:
         break;
     };
-    now.setTime(&time);
+    now = helpers::from_struct_tm (&time);
 
     scheduledFilename = getFilename(now);
     nextRolloverTime = calculateNextRolloverTime(now);
@@ -806,7 +806,7 @@ DailyRollingFileAppender::rollover(bool alreadyLocked)
     loglog_opening_result (loglog, out, filename);
 
     // Calculate the next rollover time
-    log4cplus::helpers::Time now = Time::gettimeofday();
+    log4cplus::helpers::Time now = helpers::now ();
     if (now >= nextRolloverTime)
     {
         scheduledFilename = getFilename(now);
@@ -819,29 +819,37 @@ DailyRollingFileAppender::rollover(bool alreadyLocked)
 Time
 DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
 {
+    namespace chrono = helpers::chrono;
+
     switch(schedule)
     {
     case MONTHLY:
     {
         struct tm nextMonthTime;
-        t.localtime(&nextMonthTime);
+        helpers::localTime(&nextMonthTime, t);
         nextMonthTime.tm_mon += 1;
         nextMonthTime.tm_isdst = 0;
 
         Time ret;
-        if(ret.setTime(&nextMonthTime) == -1) {
+        try
+        {
+            ret = helpers::from_struct_tm (&nextMonthTime);
+        }
+        catch (std::runtime_error const & e)
+        {
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()-")
-                LOG4CPLUS_TEXT(" setTime() returned error"));
+                LOG4CPLUS_TEXT(" setTime() returned error: ")
+                + LOG4CPLUS_C_STR_TO_TSTRING (e.what ()));
             // Set next rollover to 31 days in future.
-            ret = (t.getTimePoint () + std::chrono::seconds (2678400));
+            ret = t + chrono::seconds (2678400);
         }
 
         return ret;
     }
 
     case WEEKLY:
-        return (t.getTimePoint () + std::chrono::seconds (7 * 24 * 60 * 60));
+        return t + chrono::seconds (7 * 24 * 60 * 60);
 
     default:
         helpers::getLogLog ().error (
@@ -850,16 +858,16 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
         // Fall through.
 
     case DAILY:
-        return (t.getTimePoint () + std::chrono::seconds (24 * 60 * 60));
+        return t + chrono::seconds (24 * 60 * 60);
 
     case TWICE_DAILY:
-        return (t.getTimePoint () + std::chrono::seconds (12 * 60 * 60));
+        return t + chrono::seconds (12 * 60 * 60);
 
     case HOURLY:
-        return (t.getTimePoint () + std::chrono::seconds (60 * 60));
+        return t + chrono::seconds (60 * 60);
 
     case MINUTELY:
-        return (t.getTimePoint () + std::chrono::seconds (60));
+        return t + chrono::seconds (60);
     };
 }
 
@@ -904,7 +912,7 @@ DailyRollingFileAppender::getFilename(const Time& t) const
 
     tstring result (filename);
     result += LOG4CPLUS_TEXT(".");
-    result += t.getFormattedTime(pattern, false);
+    result += helpers::getFormattedTime(pattern, t, false);
     return result;
 }
 

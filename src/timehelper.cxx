@@ -70,98 +70,20 @@ using std::strftime;
 #endif
 
 
-//////////////////////////////////////////////////////////////////////////////
-// Time ctors
-//////////////////////////////////////////////////////////////////////////////
-
-Time::Time()
-    : the_time (time_point_type::duration::zero ())
-{ }
-
-
-Time::Time(time_t tv_sec_, long tv_usec_)
-    : the_time (clock_type::from_time_t (tv_sec_)
-        + std::chrono::microseconds (tv_usec_))
-{
-    assert (tv_usec_ < ONE_SEC_IN_USEC);
-}
-
-
-Time::Time(time_t time)
-    : the_time (clock_type::from_time_t (time))
-{ }
-
-
-Time::Time (time_point_type t)
-    : the_time (t)
-{ }
-
-
-time_t
-Time::sec() const
-{
-    // This is based on <http://stackoverflow.com/a/17395137/341065>
-
-    time_t time = clock_type::to_time_t (the_time);
-    auto const rounded_time = clock_type::from_time_t (time);
-    if (rounded_time > the_time)
-        --time;
-
-    return time;
-}
-
-
-long
-Time::usec () const
-{
-    // This is based on <http://stackoverflow.com/a/17395137/341065>
-
-    auto rounded_time = clock_type::from_time_t (
-        clock_type::to_time_t (the_time));
-    if (rounded_time > the_time)
-        rounded_time -= std::chrono::seconds (1);
-
-    long const microseconds
-        = std::chrono::duration_cast<std::chrono::duration<long, std::micro>> (
-            the_time - rounded_time).count ();
-
-    return microseconds;
-}
-
-
 Time
-Time::gettimeofday()
-{
-    return Time (clock_type::now ());
-}
-
-
-//////////////////////////////////////////////////////////////////////////////
-// Time methods
-//////////////////////////////////////////////////////////////////////////////
-
-time_t
-Time::setTime(tm* t)
+from_struct_tm (tm * t)
 {
     time_t time = helpers::mktime(t);
     if (time != -1)
-        the_time = clock_type::from_time_t (time);
-
-    return time;
+        return from_time_t (time);
+    else
+        throw std::runtime_error ("from_struct_tm(): mktime() failed");
 }
-
-
-time_t
-Time::getTime() const
-{
-    return sec ();
-}
-
 
 void
-Time::gmtime(tm* t) const
+gmTime (tm* t, Time const & the_time)
 {
-    time_t clock = sec ();
+    time_t clock = to_time_t (the_time);
 #if defined (LOG4CPLUS_HAVE_GMTIME_S) && defined (_MSC_VER)
     gmtime_s (t, &clock);
 #elif defined (LOG4CPLUS_HAVE_GMTIME_S) && defined (__BORLANDC__)
@@ -176,9 +98,9 @@ Time::gmtime(tm* t) const
 
 
 void
-Time::localtime(tm* t) const
+localTime (tm* t, Time const & the_time)
 {
-    time_t clock = sec ();
+    time_t clock = to_time_t (the_time);
 #ifdef LOG4CPLUS_NEED_LOCALTIME_R
     ::localtime_r(&clock, t);
 #else
@@ -240,7 +162,8 @@ build_uc_q_value (log4cplus::tstring & uc_q_str, long tv_usec,
 
 
 log4cplus::tstring
-Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) const
+getFormattedTime(const log4cplus::tstring& fmt_orig,
+    Time const & the_time, bool use_gmtime)
 {
     if (fmt_orig.empty () || fmt_orig[0] == 0)
         return log4cplus::tstring ();
@@ -248,9 +171,9 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
     tm time;
 
     if (use_gmtime)
-        gmtime(&time);
+        gmTime (&time, the_time);
     else
-        localtime(&time);
+        localTime (&time, the_time);
 
     enum State
     {
@@ -267,8 +190,8 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
 
     // Walk the format string and process all occurences of %q, %Q and %s.
 
-    long const tv_usec = usec ();
-    time_t const tv_sec = sec ();
+    long const tv_usec = microseconds_part (the_time);
+    time_t const tv_sec = to_time_t (the_time);
     for (log4cplus::tstring::const_iterator fmt_it = fmt_orig.begin ();
          fmt_it != fmt_orig.end (); ++fmt_it)
     {
@@ -376,139 +299,6 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
     while (len == 0);
 
     return tstring (gft_sp.buffer.begin (), gft_sp.buffer.begin () + len);
-}
-
-
-/*
-Time&
-Time::operator+=(const Time& rhs)
-{
-    tv_sec += rhs.tv_sec;
-    tv_usec += rhs.tv_usec;
-
-    if(tv_usec > ONE_SEC_IN_USEC) {
-        ++tv_sec;
-        tv_usec -= ONE_SEC_IN_USEC;
-    }
-
-    return *this;
-}
-
-
-Time&
-Time::operator-=(const Time& rhs)
-{
-    tv_sec -= rhs.tv_sec;
-    tv_usec -= rhs.tv_usec;
-
-    if(tv_usec < 0) {
-        --tv_sec;
-        tv_usec += ONE_SEC_IN_USEC;
-    }
-
-    return *this;
-}
-
-
-Time&
-Time::operator/=(long rhs)
-{
-    long rem_secs = static_cast<long>(tv_sec % rhs);
-    tv_sec /= rhs;
-
-    tv_usec /= rhs;
-    tv_usec += static_cast<long>((rem_secs * ONE_SEC_IN_USEC) / rhs);
-
-    return *this;
-}
-
-
-Time&
-Time::operator*=(long rhs)
-{
-    long new_usec = tv_usec * rhs;
-    long overflow_sec = new_usec / ONE_SEC_IN_USEC;
-    tv_usec = new_usec % ONE_SEC_IN_USEC;
-
-    tv_sec *= rhs;
-    tv_sec += overflow_sec;
-
-    return *this;
-}
-*/
-
-//////////////////////////////////////////////////////////////////////////////
-// Time globals
-//////////////////////////////////////////////////////////////////////////////
-
-/*
-const Time
-operator+(const Time& lhs, const Time& rhs)
-{
-    return Time(lhs) += rhs;
-}
-
-
-const Time
-operator-(const Time& lhs, const Time& rhs)
-{
-    return Time(lhs) -= rhs;
-}
-
-
-const Time
-operator/(const Time& lhs, long rhs)
-{
-    return Time(lhs) /= rhs;
-}
-
-
-const Time
-operator*(const Time& lhs, long rhs)
-{
-    return Time(lhs) *= rhs;
-}
-*/
-
-bool
-operator<(const Time& lhs, const Time& rhs)
-{
-    return lhs.getTimePoint () < rhs.getTimePoint ();
-}
-
-
-bool
-operator<=(const Time& lhs, const Time& rhs)
-{
-    return ((lhs < rhs) || (lhs == rhs));
-}
-
-
-bool
-operator>(const Time& lhs, const Time& rhs)
-{
-    return lhs.getTimePoint () > rhs.getTimePoint ();
-}
-
-
-bool
-operator>=(const Time& lhs, const Time& rhs)
-{
-    return ((lhs > rhs) || (lhs == rhs));
-}
-
-
-bool
-operator==(const Time& lhs, const Time& rhs)
-{
-    return lhs.getTimePoint () == rhs.getTimePoint ();
-}
-
-
-bool
-operator!=(const Time& lhs, const Time& rhs)
-{
-    return !(lhs == rhs);
 }
 
 

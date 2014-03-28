@@ -11,10 +11,13 @@ using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 
+typedef std::chrono::high_resolution_clock hr_clock;
+typedef std::chrono::duration<double, std::ratio<1>> sec_dur_type;
 
 log4cplus::tostream& operator <<(log4cplus::tostream& s, const Time& t)
 {
-    return s << t.sec() << "sec " << t.usec() << "usec";
+    return s << to_time_t (t) << "sec "
+             << microseconds_part (t) << "usec";
 }
 
 
@@ -32,9 +35,6 @@ main()
         Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("testlogger"));
 
         LOG4CPLUS_WARN(Logger::getRoot (), "Starting test loop....");
-
-        typedef std::chrono::high_resolution_clock hr_clock;
-        typedef std::chrono::duration<double, std::ratio<1>> sec_dur_type;
 
         hr_clock::time_point start = hr_clock::now ();
         tstring msg(LOG4CPLUS_TEXT("This is a WARNING..."));

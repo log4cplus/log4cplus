@@ -47,103 +47,119 @@ namespace helpers {
 
 using std::time_t;
 using std::tm;
+namespace chrono = std::chrono;
+
+typedef chrono::system_clock Clock;
+typedef chrono::duration<long long, std::micro> Duration;
+typedef chrono::time_point<Clock, Duration> Time;
+
+
+
+template <typename FromDuration>
+inline
+Time
+time_cast (chrono::time_point<Clock, FromDuration> const & tp)
+{
+    return chrono::time_point_cast<Duration, Clock> (tp);
+}
+
+
+inline
+Time
+now ()
+{
+    return time_cast (Clock::now ());
+}
+
+
+inline
+Time
+from_time_t (time_t t_time)
+{
+    return time_cast (Clock::from_time_t (t_time));
+}
+
+
+inline
+time_t
+to_time_t (Time const & the_time)
+{
+    // This is based on <http://stackoverflow.com/a/17395137/341065> It is
+    // possible that to_time_t() returns rounded time and we want truncation.
+
+    time_t time = Clock::to_time_t (the_time);
+    auto const rounded_time = from_time_t (time);
+    if (rounded_time > the_time)
+        --time;
+
+    return time;
+}
+
+
+LOG4CPLUS_EXPORT Time from_struct_tm (tm * t);
+
+
+inline
+Time
+truncate_fractions (Time const & the_time)
+{
+    return from_time_t (to_time_t (the_time));
+}
+
+
+inline
+long
+microseconds_part (Time const & the_time)
+{
+    static_assert (std::ratio_equal<Duration::period, std::micro>::value,
+        "microseconds");
+
+    // This is based on <http://stackoverflow.com/a/17395137/341065>
+    return (the_time - from_time_t (to_time_t (the_time))).count ();
+}
+
+
+inline
+Time
+time_from_parts (time_t tv_sec, long tv_usec)
+{
+    return from_time_t (tv_sec) + chrono::microseconds (tv_usec);
+}
 
 
 /**
- * This class represents a Epoch time with microsecond accuracy.
+ * Populates <code>tm</code> using the <code>gmtime()</code>
+ * function.
  */
-class LOG4CPLUS_EXPORT Time {
-public:
-    typedef std::chrono::system_clock clock_type;
-    typedef std::chrono::time_point<clock_type, std::chrono::nanoseconds>
-        time_point_type;
 
-    Time();
-    Time(time_t tv_sec, long tv_usec);
-    explicit Time(time_t time);
-    Time(time_point_type);
+LOG4CPLUS_EXPORT
+void gmTime (tm* t, Time const &);
 
-    static Time gettimeofday();
+/**
+ * Populates <code>tm</code> using the <code>localtime()</code>
+ * function.
+ */
 
-    time_point_type getTimePoint () const
-    {
-        return the_time;
-    }
+LOG4CPLUS_EXPORT
+void localTime (tm* t, Time const &);
 
-  // Methods
-    /**
-     * Returns <i>seconds</i> value.
-     */
-    time_t sec() const;
+/**
+ * Returns a string with a "formatted time" specified by
+ * <code>fmt</code>.  It used the <code>strftime()</code>
+ * function to do this.
+ *
+ * Look at your platform's <code>strftime()</code> documentation
+ * for the formatting options available.
+ *
+ * The following additional options are provided:<br>
+ * <code>%q</code> - 3 character field that provides milliseconds
+ * <code>%Q</code> - 7 character field that provides fractional
+ * milliseconds.
+ */
+LOG4CPLUS_EXPORT
+log4cplus::tstring getFormattedTime (log4cplus::tstring const & fmt,
+    Time const & the_time, bool use_gmtime = false);
 
-    /**
-     * Returns <i>microseconds</i> value.
-     */
-    long usec() const;
-
-    /**
-     * Sets this Time using the <code>mktime</code> function.
-     */
-    time_t setTime(tm* t);
-
-    /**
-     * Returns this Time as a <code>time_t</code> value.
-     */
-    time_t getTime() const LOG4CPLUS_ATTRIBUTE_PURE;
-
-    /**
-     * Populates <code>tm</code> using the <code>gmtime()</code>
-     * function.
-     */
-    void gmtime(tm* t) const;
-
-    /**
-     * Populates <code>tm</code> using the <code>localtime()</code>
-     * function.
-     */
-    void localtime(tm* t) const;
-
-    /**
-     * Returns a string with a "formatted time" specified by
-     * <code>fmt</code>.  It used the <code>strftime()</code>
-     * function to do this.
-     *
-     * Look at your platform's <code>strftime()</code> documentation
-     * for the formatting options available.
-     *
-     * The following additional options are provided:<br>
-     * <code>%q</code> - 3 character field that provides milliseconds
-     * <code>%Q</code> - 7 character field that provides fractional
-     * milliseconds.
-     */
-    log4cplus::tstring getFormattedTime(const log4cplus::tstring& fmt,
-                                        bool use_gmtime = false) const;
-
-private:
-    time_point_type the_time;
-};
-
-
-LOG4CPLUS_EXPORT bool operator<(const log4cplus::helpers::Time& lhs,
-                                const log4cplus::helpers::Time& rhs)
-    LOG4CPLUS_ATTRIBUTE_PURE;
-LOG4CPLUS_EXPORT bool operator<=(const log4cplus::helpers::Time& lhs,
-                                 const log4cplus::helpers::Time& rhs)
-    LOG4CPLUS_ATTRIBUTE_PURE;
-
-LOG4CPLUS_EXPORT bool operator>(const log4cplus::helpers::Time& lhs,
-                                const log4cplus::helpers::Time& rhs)
-    LOG4CPLUS_ATTRIBUTE_PURE;
-LOG4CPLUS_EXPORT bool operator>=(const log4cplus::helpers::Time& lhs,
-                                 const log4cplus::helpers::Time& rhs)
-    LOG4CPLUS_ATTRIBUTE_PURE;
-
-LOG4CPLUS_EXPORT bool operator==(const log4cplus::helpers::Time& lhs,
-                                 const log4cplus::helpers::Time& rhs)
-    LOG4CPLUS_ATTRIBUTE_PURE;
-LOG4CPLUS_EXPORT bool operator!=(const log4cplus::helpers::Time& lhs,
-                                 const log4cplus::helpers::Time& rhs)
-    LOG4CPLUS_ATTRIBUTE_PURE;
 
 } // namespace helpers
 

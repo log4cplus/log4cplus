@@ -74,7 +74,7 @@ SocketAppender::~SocketAppender()
 // SocketAppender public methods
 //////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 SocketAppender::close()
 {
     helpers::getLogLog().debug(
@@ -210,8 +210,10 @@ convertToBuffer(SocketBuffer & buffer,
     buffer.appendString(event.getNDC());
     buffer.appendString(event.getMessage());
     buffer.appendString(event.getThread());
-    buffer.appendInt( static_cast<unsigned int>(event.getTimestamp().sec()) );
-    buffer.appendInt( static_cast<unsigned int>(event.getTimestamp().usec()) );
+    buffer.appendInt(
+        static_cast<unsigned int>(to_time_t (event.getTimestamp())));
+    buffer.appendInt(
+        static_cast<unsigned int>(microseconds_part(event.getTimestamp())));
     buffer.appendString(event.getFile());
     buffer.appendInt(event.getLine());
     buffer.appendString(event.getFunction());
@@ -251,7 +253,8 @@ readFromBuffer(SocketBuffer& buffer)
 
     // TODO: Pass MDC through.
     spi::InternalLoggingEvent ev (loggerName, ll, ndc,
-        MappedDiagnosticContextMap (), message, thread, Time(sec, usec), file,
+        MappedDiagnosticContextMap (), message, thread,
+        from_time_t (sec) + std::chrono::microseconds (usec), file,
         line, function);
     return ev;
 }

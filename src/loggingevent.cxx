@@ -42,7 +42,7 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , ndc()
     , mdc()
     , thread()
-    , timestamp(log4cplus::helpers::Time::gettimeofday())
+    , timestamp(log4cplus::helpers::now ())
     , file(filename
         ? LOG4CPLUS_C_STR_TO_TSTRING(filename)
         : log4cplus::tstring())
@@ -150,7 +150,7 @@ InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring & logger,
     loggerName = logger;
     ll = loglevel;
     message = msg;
-    timestamp = helpers::Time::gettimeofday();
+    timestamp = helpers::now ();
 
     if (filename)
         file = LOG4CPLUS_C_STR_TO_TSTRING (filename);

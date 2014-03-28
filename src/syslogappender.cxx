@@ -429,7 +429,8 @@ SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
         << 1
         // TIMESTAMP
         << LOG4CPLUS_TEXT (' ')
-        << event.getTimestamp ().getFormattedTime (remoteTimeFormat, true)
+        << helpers::getFormattedTime (remoteTimeFormat, event.getTimestamp (),
+            true)
         // HOSTNAME
         << LOG4CPLUS_TEXT (' ') << hostname
         // APP-NAME
@@ -458,7 +459,7 @@ SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
         appender_sp.chstr.insert (appender_sp.chstr.begin (),
             syslogFrameHeader.begin (), syslogFrameHeader.end ());
     }
-    
+
     bool ret = syslogSocket.write (appender_sp.chstr);
     if (! ret)
     {
@@ -534,4 +535,3 @@ SysLogAppender::openSocket ()
 
 
 } // namespace log4cplus
-
