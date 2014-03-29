@@ -11,8 +11,8 @@ using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 
-typedef std::chrono::high_resolution_clock hr_clock;
-typedef std::chrono::duration<double, std::ratio<1>> sec_dur_type;
+typedef helpers::chrono::high_resolution_clock hr_clock;
+typedef helpers::chrono::duration<double, std::ratio<1>> sec_dur_type;
 
 log4cplus::tostream& operator <<(log4cplus::tostream& s, const Time& t)
 {

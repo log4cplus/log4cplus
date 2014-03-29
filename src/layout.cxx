@@ -37,8 +37,8 @@ formatRelativeTimestamp (log4cplus::tostream & output,
 {
     auto const duration
         = event.getTimestamp () - getTTCCLayoutTimeBase ();
-    output << std::chrono::duration_cast<
-                  std::chrono::duration<long long, std::milli>>(
+    output << helpers::chrono::duration_cast<
+                  helpers::chrono::duration<long long, std::milli>>(
                       duration).count ();
 }
 

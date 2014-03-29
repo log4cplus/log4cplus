@@ -74,7 +74,7 @@ Time
 from_struct_tm (tm * t)
 {
     time_t time = helpers::mktime(t);
-    if (time != -1)
+    if (LOG4CPLUS_LIKELY (time != -1))
         return from_time_t (time);
     else
         throw std::runtime_error ("from_struct_tm(): mktime() failed");

@@ -254,7 +254,7 @@ readFromBuffer(SocketBuffer& buffer)
     // TODO: Pass MDC through.
     spi::InternalLoggingEvent ev (loggerName, ll, ndc,
         MappedDiagnosticContextMap (), message, thread,
-        from_time_t (sec) + std::chrono::microseconds (usec), file,
+        from_time_t (sec) + chrono::microseconds (usec), file,
         line, function);
     return ev;
 }
