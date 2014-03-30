@@ -37,7 +37,6 @@ SINGLE_THREADED_SRC = \
 	%D%/property.cxx \
 	%D%/queue.cxx \
 	%D%/rootlogger.cxx \
-	%D%/sleep.cxx \
 	%D%/snprintf.cxx \
 	%D%/socketappender.cxx \
 	%D%/socketbuffer.cxx \

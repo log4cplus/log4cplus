@@ -5,7 +5,6 @@
 #include <log4cplus/mdc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/threads.h>
-#include <log4cplus/helpers/sleep.h>
 #include <log4cplus/loggingmacros.h>
 #include <iostream>
 #include <string>

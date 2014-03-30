@@ -22,7 +22,6 @@
 #include <log4cplus/hierarchylocker.h>
 #include <log4cplus/hierarchy.h>
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/helpers/sleep.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/timehelper.h>

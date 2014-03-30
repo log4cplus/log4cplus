@@ -23,7 +23,6 @@
 
 #include <log4cplus/helpers/connectorthread.h>
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/helpers/sleep.h>
 
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)

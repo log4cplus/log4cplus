@@ -34,7 +34,6 @@ set (log4cplus_sources
   property.cxx
   queue.cxx
   rootlogger.cxx
-  sleep.cxx
   snprintf.cxx
   socketappender.cxx
   socketbuffer.cxx
@@ -155,7 +154,6 @@ install(FILES ../include/log4cplus/helpers/appenderattachableimpl.h
               ../include/log4cplus/helpers/pointer.h
               ../include/log4cplus/helpers/property.h
               ../include/log4cplus/helpers/queue.h
-              ../include/log4cplus/helpers/sleep.h
               ../include/log4cplus/helpers/snprintf.h
               ../include/log4cplus/helpers/socket.h
               ../include/log4cplus/helpers/socketbuffer.h

@@ -366,7 +366,6 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/helpers/pointer.h \
 	log4cplus/helpers/property.h \
 	log4cplus/helpers/queue.h \
-	log4cplus/helpers/sleep.h \
 	log4cplus/helpers/snprintf.h \
 	log4cplus/helpers/socketbuffer.h \
 	log4cplus/helpers/socket.h \

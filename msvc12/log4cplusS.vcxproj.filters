@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -113,9 +113,6 @@
       <Filter>helpers</Filter>
     </ClCompile>
     <ClCompile Include="..\src\queue.cxx">
-      <Filter>helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\sleep.cxx">
       <Filter>helpers</Filter>
     </ClCompile>
     <ClCompile Include="..\src\snprintf.cxx">
@@ -301,9 +298,6 @@
       <Filter>helpers</Filter>
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\helpers\queue.h">
-      <Filter>helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\log4cplus\helpers\sleep.h">
       <Filter>helpers</Filter>
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\helpers\snprintf.h">

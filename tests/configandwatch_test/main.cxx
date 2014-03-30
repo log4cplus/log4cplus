@@ -2,8 +2,8 @@
 #include <log4cplus/configurator.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
-#include <log4cplus/helpers/sleep.h>
 #include <log4cplus/loggingmacros.h>
+#include <thread>
 
 using namespace std;
 using namespace log4cplus;

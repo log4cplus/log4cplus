@@ -41,7 +41,6 @@ m4_foreach_w([HEADER],
   log4cplus/helpers/pointer.h
   log4cplus/helpers/property.h
   log4cplus/helpers/queue.h
-  log4cplus/helpers/sleep.h
   log4cplus/helpers/snprintf.h
   log4cplus/helpers/socket.h
   log4cplus/helpers/socketbuffer.h

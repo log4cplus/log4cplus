@@ -23,7 +23,6 @@
 #include <log4cplus/layout.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/helpers/sleep.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 
