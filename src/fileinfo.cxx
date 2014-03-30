@@ -49,23 +49,23 @@ getFileInfo (FileInfo * fi, tstring const & name)
     struct _stat fileStatus;
     if (_tstat (name.c_str (), &fileStatus) == -1)
         return -1;
-    
+
     fi->mtime = helpers::Time (fileStatus.st_mtime);
     fi->is_link = false;
     fi->size = fileStatus.st_size;
-    
+
 #else
     struct stat fileStatus;
     if (stat (LOG4CPLUS_TSTRING_TO_STRING (name).c_str (),
             &fileStatus) == -1)
         return -1;
 
-    fi->mtime = helpers::Time (fileStatus.st_mtime);
+    fi->mtime = helpers::from_time_t (fileStatus.st_mtime);
     fi->is_link = S_ISLNK (fileStatus.st_mode);
     fi->size = fileStatus.st_size;
-    
+
 #endif
-    
+
     return 0;
 }
 

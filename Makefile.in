@@ -243,7 +243,7 @@ am__objects_3 = src/liblog4cplus_la-appenderattachableimpl.lo \
 	src/liblog4cplus_la-patternlayout.lo \
 	src/liblog4cplus_la-pointer.lo src/liblog4cplus_la-property.lo \
 	src/liblog4cplus_la-queue.lo src/liblog4cplus_la-rootlogger.lo \
-	src/liblog4cplus_la-sleep.lo src/liblog4cplus_la-snprintf.lo \
+	src/liblog4cplus_la-snprintf.lo \
 	src/liblog4cplus_la-socketappender.lo \
 	src/liblog4cplus_la-socketbuffer.lo \
 	src/liblog4cplus_la-socket.lo \
@@ -683,7 +683,6 @@ SINGLE_THREADED_SRC = \
 	src/property.cxx \
 	src/queue.cxx \
 	src/rootlogger.cxx \
-	src/sleep.cxx \
 	src/snprintf.cxx \
 	src/socketappender.cxx \
 	src/socketbuffer.cxx \
@@ -1066,8 +1065,6 @@ src/liblog4cplus_la-queue.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-rootlogger.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
-src/liblog4cplus_la-sleep.lo: src/$(am__dirstamp) \
-	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-snprintf.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-socketappender.lo: src/$(am__dirstamp) \
@@ -1434,7 +1431,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-property.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-queue.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-rootlogger.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-sleep.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-snprintf.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-socket-unix.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-socket-win32.Plo@am__quote@
@@ -1755,13 +1751,6 @@ src/liblog4cplus_la-rootlogger.lo: src/rootlogger.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/rootlogger.cxx' object='src/liblog4cplus_la-rootlogger.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-rootlogger.lo `test -f 'src/rootlogger.cxx' || echo '$(srcdir)/'`src/rootlogger.cxx
-
-src/liblog4cplus_la-sleep.lo: src/sleep.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-sleep.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-sleep.Tpo -c -o src/liblog4cplus_la-sleep.lo `test -f 'src/sleep.cxx' || echo '$(srcdir)/'`src/sleep.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplus_la-sleep.Tpo src/$(DEPDIR)/liblog4cplus_la-sleep.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/sleep.cxx' object='src/liblog4cplus_la-sleep.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-sleep.lo `test -f 'src/sleep.cxx' || echo '$(srcdir)/'`src/sleep.cxx
 
 src/liblog4cplus_la-snprintf.lo: src/snprintf.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-snprintf.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-snprintf.Tpo -c -o src/liblog4cplus_la-snprintf.lo `test -f 'src/snprintf.cxx' || echo '$(srcdir)/'`src/snprintf.cxx

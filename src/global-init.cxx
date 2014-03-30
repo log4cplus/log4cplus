@@ -50,7 +50,7 @@ LOG4CPLUS_EXPORT tostream & tcerr = std::cerr;
 #endif // UNICODE
 
 
-namespace 
+namespace
 {
 
 
@@ -72,7 +72,7 @@ struct DefaultContext
 
 
 enum DCState
-{ 
+{
     DC_UNINITIALIZED,
     DC_INITIALIZED,
     DC_DESTROYED
@@ -82,7 +82,7 @@ enum DCState
 static DCState default_context_state;
 static DefaultContext * default_context;
 
-   
+
 struct destroy_default_context
 {
     ~destroy_default_context ()
@@ -109,7 +109,7 @@ alloc_dc ()
         throw std::logic_error ("alloc_dc() called in DC_INITIALIZED state.");
 
     default_context = new DefaultContext;
-    
+
     if (default_context_state == DC_DESTROYED)
         default_context->loglog.error (
             LOG4CPLUS_TEXT ("Re-initializing default context after it has")
@@ -162,7 +162,7 @@ getTTCCLayoutTimeBase ()
 
 
 LogLevelManager &
-getLogLevelManager () 
+getLogLevelManager ()
 {
     return get_dc ()->log_level_manager;
 }
@@ -175,7 +175,7 @@ getDefaultHierarchy ()
 }
 
 
-NDC & 
+NDC &
 getNDC ()
 {
     return get_dc ()->ndc;
@@ -368,7 +368,7 @@ initializeLog4cplus()
     threadSetup ();
 
     DefaultContext * dc = get_dc (true);
-    dc->TTCCLayout_time_base = helpers::Time::gettimeofday ();
+    dc->TTCCLayout_time_base = helpers::now ();
     Logger::getRoot();
     initializeFactoryRegistry();
 
@@ -419,7 +419,7 @@ thread_callback (LPVOID /*hinstDLL*/, DWORD fdwReason, LPVOID /*lpReserved*/)
 {
     // Perform actions based on the reason for calling.
     switch (fdwReason)
-    { 
+    {
     case DLL_PROCESS_ATTACH:
     {
         // We cannot initialize log4cplus directly here. This is because

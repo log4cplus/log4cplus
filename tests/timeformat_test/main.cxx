@@ -20,36 +20,36 @@ main()
         Time time;
         log4cplus::tstring str;
 
-        time = Time::gettimeofday ();
-        str = time.getFormattedTime (fmtstr);
+        time = now ();
+        str = getFormattedTime (fmtstr, time);
         log4cplus::tcout << LOG4CPLUS_TEXT ("now: ") << str << std::endl;
 
-        time = Time (0, 7);
-        str = time.getFormattedTime (fmtstr);
+        time = time_from_parts (0, 7);
+        str = getFormattedTime (fmtstr, time);
         log4cplus::tcout << str << std::endl;
 
-        time = Time (0, 17);
-        str = time.getFormattedTime (fmtstr);
+        time = time_from_parts (0, 17);
+        str = getFormattedTime (fmtstr, time);
         log4cplus::tcout << str << std::endl;
 
-        time = Time (0, 123);
-        str = time.getFormattedTime (fmtstr);
+        time = time_from_parts (0, 123);
+        str = getFormattedTime (fmtstr, time);
         log4cplus::tcout << str << std::endl;
 
-        time = Time (0, 1234);
-        str = time.getFormattedTime (fmtstr);
+        time = time_from_parts (0, 1234);
+        str = getFormattedTime (fmtstr, time);
         log4cplus::tcout << str << std::endl;
 
-        time = Time (0, 12345);
-        str = time.getFormattedTime (fmtstr);
+        time = time_from_parts (0, 12345);
+        str = getFormattedTime (fmtstr, time);
         log4cplus::tcout << str << std::endl;
 
-        time = Time (0, 123456);
-        str = time.getFormattedTime (fmtstr);
+        time = time_from_parts (0, 123456);
+        str = getFormattedTime (fmtstr, time);
         log4cplus::tcout << str << std::endl;
 
-        time = Time (0, 0);
-        str = time.getFormattedTime (fmtstr);
+        time = time_from_parts (0, 0);
+        str = getFormattedTime (fmtstr, time);
         log4cplus::tcout << str << std::endl;
     }
     catch(std::exception const & e)

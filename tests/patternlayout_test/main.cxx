@@ -5,7 +5,6 @@
 #include <log4cplus/mdc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/threads.h>
-#include <log4cplus/helpers/sleep.h>
 #include <log4cplus/loggingmacros.h>
 #include <iostream>
 #include <string>
@@ -34,19 +33,19 @@ main()
         Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("test.a.long_logger_name.c.logger"));
         LOG4CPLUS_DEBUG(logger, "This is the FIRST log message...");
 
-        sleep(1, 0);
+        std::this_thread::sleep_for (std::chrono::seconds (1));
         {
             NDCContextCreator ndc(LOG4CPLUS_TEXT("second"));
             LOG4CPLUS_INFO(logger, "This is the SECOND log message...");
         }
 
-        sleep(1, 0);
+        std::this_thread::sleep_for (std::chrono::seconds (1));
         LOG4CPLUS_WARN(logger, "This is the THIRD log message...");
 
-        sleep(1, 0);
+        std::this_thread::sleep_for (std::chrono::seconds (1));
         LOG4CPLUS_ERROR(logger, "This is the FOURTH log message...");
 
-        sleep(1, 0);
+        std::this_thread::sleep_for (std::chrono::seconds (1));
         LOG4CPLUS_FATAL(logger, "This is the FIFTH log message...");
     }
     catch(...) {

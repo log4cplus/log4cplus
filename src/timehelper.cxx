@@ -70,110 +70,20 @@ using std::strftime;
 #endif
 
 
-//////////////////////////////////////////////////////////////////////////////
-// Time ctors
-//////////////////////////////////////////////////////////////////////////////
-
-Time::Time()
-    : tv_sec(0)
-    , tv_usec(0)
-{
-}
-
-
-Time::Time(time_t tv_sec_, long tv_usec_)
-    : tv_sec(tv_sec_)
-    , tv_usec(tv_usec_)
-{
-    assert (tv_usec < ONE_SEC_IN_USEC);
-}
-
-
-Time::Time(time_t time)
-    : tv_sec(time)
-    , tv_usec(0)
-{
-}
-
-
 Time
-Time::gettimeofday()
-{
-#if defined (LOG4CPLUS_HAVE_CLOCK_GETTIME)
-    struct timespec ts;
-    int res = clock_gettime (CLOCK_REALTIME, &ts);
-    if (LOG4CPLUS_LIKELY (res == 0))
-        return Time (ts.tv_sec, ts.tv_nsec / 1000);
-
-    // Fall through down to a different method of obtaining time.
-#endif
-
-#if defined(LOG4CPLUS_HAVE_GETTIMEOFDAY)
-    struct timeval tp;
-    ::gettimeofday(&tp, 0);
-
-    return Time(tp.tv_sec, tp.tv_usec);
-
-#elif defined (_WIN32)
-    FILETIME ft;
-#if _WIN32_WINNT >= 0x602
-    GetSystemTimePreciseAsFileTime (&ft);
-#else
-    GetSystemTimeAsFileTime (&ft);
-#endif
-
-    typedef unsigned __int64 uint64_type;
-    uint64_type st100ns
-        = uint64_type (ft.dwHighDateTime) << 32
-        | ft.dwLowDateTime;
-
-    // Number of 100-ns intervals between UNIX epoch and Windows system time
-    // is 116444736000000000.
-    uint64_type const offset = uint64_type (116444736) * 1000 * 1000 * 1000;
-    uint64_type fixed_time = st100ns - offset;
-
-    return Time (fixed_time / (10 * 1000 * 1000),
-        fixed_time % (10 * 1000 * 1000) / 10);
-
-#elif defined(LOG4CPLUS_HAVE_FTIME)
-    struct timeb tp;
-    ftime(&tp);
-
-    return Time(tp.time, tp.millitm * 1000);
-
-#else
-#warning "Time::gettimeofday()- low resolution timer: gettimeofday and ftime unavailable"
-    return Time(::time(0), 0);
-#endif
-}
-
-
-//////////////////////////////////////////////////////////////////////////////
-// Time methods
-//////////////////////////////////////////////////////////////////////////////
-
-time_t
-Time::setTime(tm* t)
+from_struct_tm (tm * t)
 {
     time_t time = helpers::mktime(t);
-    if (time != -1)
-        tv_sec = time;
-
-    return time;
+    if (LOG4CPLUS_LIKELY (time != -1))
+        return from_time_t (time);
+    else
+        throw std::runtime_error ("from_struct_tm(): mktime() failed");
 }
-
-
-time_t
-Time::getTime() const
-{
-    return tv_sec;
-}
-
 
 void
-Time::gmtime(tm* t) const
+gmTime (tm* t, Time const & the_time)
 {
-    time_t clock = tv_sec;
+    time_t clock = to_time_t (the_time);
 #if defined (LOG4CPLUS_HAVE_GMTIME_S) && defined (_MSC_VER)
     gmtime_s (t, &clock);
 #elif defined (LOG4CPLUS_HAVE_GMTIME_S) && defined (__BORLANDC__)
@@ -188,9 +98,9 @@ Time::gmtime(tm* t) const
 
 
 void
-Time::localtime(tm* t) const
+localTime (tm* t, Time const & the_time)
 {
-    time_t clock = tv_sec;
+    time_t clock = to_time_t (the_time);
 #ifdef LOG4CPLUS_NEED_LOCALTIME_R
     ::localtime_r(&clock, t);
 #else
@@ -200,7 +110,7 @@ Time::localtime(tm* t) const
 }
 
 
-namespace 
+namespace
 {
 
 
@@ -234,7 +144,7 @@ build_q_value (log4cplus::tstring & q_str, long tv_usec)
 
 
 static
-void 
+void
 build_uc_q_value (log4cplus::tstring & uc_q_str, long tv_usec,
     log4cplus::tstring & tmp)
 {
@@ -252,24 +162,25 @@ build_uc_q_value (log4cplus::tstring & uc_q_str, long tv_usec,
 
 
 log4cplus::tstring
-Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) const
+getFormattedTime(const log4cplus::tstring& fmt_orig,
+    Time const & the_time, bool use_gmtime)
 {
     if (fmt_orig.empty () || fmt_orig[0] == 0)
         return log4cplus::tstring ();
 
     tm time;
-    
+
     if (use_gmtime)
-        gmtime(&time);
-    else 
-        localtime(&time);
-    
+        gmTime (&time, the_time);
+    else
+        localTime (&time, the_time);
+
     enum State
     {
         TEXT,
         PERCENT_SIGN
     };
-    
+
     internal::gft_scratch_pad & gft_sp = internal::get_gft_scratch_pad ();
     gft_sp.reset ();
 
@@ -278,7 +189,9 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
     State state = TEXT;
 
     // Walk the format string and process all occurences of %q, %Q and %s.
-    
+
+    long const tv_usec = microseconds_part (the_time);
+    time_t const tv_sec = to_time_t (the_time);
     for (log4cplus::tstring::const_iterator fmt_it = fmt_orig.begin ();
          fmt_it != fmt_orig.end (); ++fmt_it)
     {
@@ -292,7 +205,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
                 gft_sp.ret.push_back (*fmt_it);
         }
         break;
-            
+
         case PERCENT_SIGN:
         {
             switch (*fmt_it)
@@ -308,7 +221,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
                 state = TEXT;
             }
             break;
-            
+
             case LOG4CPLUS_TEXT ('Q'):
             {
                 if (! gft_sp.uc_q_str_valid)
@@ -356,7 +269,7 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
     // Limit how far can the buffer grow. This is necessary so that we
     // catch bad format string. Some implementations of strftime() signal
     // both too small buffer and invalid format string by returning 0
-    // without changing errno. 
+    // without changing errno.
     std::size_t const buffer_size_max
         = (std::max) (static_cast<std::size_t>(1024), buffer_size * 16);
 
@@ -382,147 +295,10 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
                     + convertIntegerToString (eno), true);
             }
         }
-    } 
+    }
     while (len == 0);
 
     return tstring (gft_sp.buffer.begin (), gft_sp.buffer.begin () + len);
-}
-
-
-Time&
-Time::operator+=(const Time& rhs)
-{
-    tv_sec += rhs.tv_sec;
-    tv_usec += rhs.tv_usec;
-
-    if(tv_usec > ONE_SEC_IN_USEC) {
-        ++tv_sec;
-        tv_usec -= ONE_SEC_IN_USEC;
-    }
-
-    return *this;
-}
-
-
-Time&
-Time::operator-=(const Time& rhs)
-{
-    tv_sec -= rhs.tv_sec;
-    tv_usec -= rhs.tv_usec;
-
-    if(tv_usec < 0) {
-        --tv_sec;
-        tv_usec += ONE_SEC_IN_USEC;
-    }
-
-    return *this;
-}
-
-
-Time&
-Time::operator/=(long rhs)
-{
-    long rem_secs = static_cast<long>(tv_sec % rhs);
-    tv_sec /= rhs;
-    
-    tv_usec /= rhs;
-    tv_usec += static_cast<long>((rem_secs * ONE_SEC_IN_USEC) / rhs);
-
-    return *this;
-}
-
-
-Time&
-Time::operator*=(long rhs)
-{
-    long new_usec = tv_usec * rhs;
-    long overflow_sec = new_usec / ONE_SEC_IN_USEC;
-    tv_usec = new_usec % ONE_SEC_IN_USEC;
-
-    tv_sec *= rhs;
-    tv_sec += overflow_sec;
-
-    return *this;
-}
-
-
-//////////////////////////////////////////////////////////////////////////////
-// Time globals
-//////////////////////////////////////////////////////////////////////////////
-
-
-const Time
-operator+(const Time& lhs, const Time& rhs)
-{
-    return Time(lhs) += rhs;
-}
-
-
-const Time
-operator-(const Time& lhs, const Time& rhs)
-{
-    return Time(lhs) -= rhs;
-}
-
-
-const Time
-operator/(const Time& lhs, long rhs)
-{
-    return Time(lhs) /= rhs;
-}
-
-
-const Time
-operator*(const Time& lhs, long rhs)
-{
-    return Time(lhs) *= rhs;
-}
-
-
-bool
-operator<(const Time& lhs, const Time& rhs)
-{
-    return (   (lhs.sec() < rhs.sec())
-            || (   (lhs.sec() == rhs.sec()) 
-                && (lhs.usec() < rhs.usec())) );
-}
-
-
-bool
-operator<=(const Time& lhs, const Time& rhs)
-{
-    return ((lhs < rhs) || (lhs == rhs));
-}
-
-
-bool
-operator>(const Time& lhs, const Time& rhs)
-{
-    return (   (lhs.sec() > rhs.sec())
-            || (   (lhs.sec() == rhs.sec()) 
-                && (lhs.usec() > rhs.usec())) );
-}
-
-
-bool
-operator>=(const Time& lhs, const Time& rhs)
-{
-    return ((lhs > rhs) || (lhs == rhs));
-}
-
-
-bool
-operator==(const Time& lhs, const Time& rhs)
-{
-    return (   lhs.sec() == rhs.sec()
-            && lhs.usec() == rhs.usec());
-}
-
-
-bool
-operator!=(const Time& lhs, const Time& rhs)
-{
-    return !(lhs == rhs);
 }
 
 

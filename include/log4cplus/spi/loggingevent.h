@@ -170,8 +170,7 @@ namespace log4cplus {
             }
 
 
-            /** The number of milliseconds elapsed from 1/1/1970 until
-             *  logging event was created. */
+            /** Time stamp when the event was created. */
             const log4cplus::helpers::Time& getTimestamp() const
             {
                 return timestamp;

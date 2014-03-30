@@ -35,16 +35,11 @@ void
 formatRelativeTimestamp (log4cplus::tostream & output,
     log4cplus::spi::InternalLoggingEvent const & event)
 {
-    helpers::Time const rel_time
+    auto const duration
         = event.getTimestamp () - getTTCCLayoutTimeBase ();
-    tchar const old_fill = output.fill ();
-    helpers::time_t const sec = rel_time.sec ();
- 
-    if (sec != 0)
-        output << sec << std::setfill (LOG4CPLUS_TEXT ('0')) << std::setw (3);
- 
-    output << rel_time.usec () / 1000;
-    output.fill (old_fill);
+    output << helpers::chrono::duration_cast<
+                  helpers::chrono::duration<long long, std::milli>>(
+                      duration).count ();
 }
 
 //
@@ -84,12 +79,12 @@ SimpleLayout::~SimpleLayout()
 
 
 void
-SimpleLayout::formatAndAppend(log4cplus::tostream& output, 
+SimpleLayout::formatAndAppend(log4cplus::tostream& output,
                               const log4cplus::spi::InternalLoggingEvent& event)
 {
-    output << llmCache.toString(event.getLogLevel()) 
+    output << llmCache.toString(event.getLogLevel())
            << LOG4CPLUS_TEXT(" - ")
-           << event.getMessage() 
+           << event.getMessage()
            << LOG4CPLUS_TEXT("\n");
 }
 
@@ -126,23 +121,23 @@ TTCCLayout::~TTCCLayout()
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-TTCCLayout::formatAndAppend(log4cplus::tostream& output, 
+TTCCLayout::formatAndAppend(log4cplus::tostream& output,
                             const log4cplus::spi::InternalLoggingEvent& event)
 {
      if (dateFormat.empty ())
          formatRelativeTimestamp (output, event);
      else
-         output << event.getTimestamp().getFormattedTime(dateFormat,
+         output << helpers::getFormattedTime(dateFormat, event.getTimestamp(),
              use_gmtime);
 
     output << LOG4CPLUS_TEXT(" [")
            << event.getThread()
            << LOG4CPLUS_TEXT("] ")
-           << llmCache.toString(event.getLogLevel()) 
+           << llmCache.toString(event.getLogLevel())
            << LOG4CPLUS_TEXT(" ")
            << event.getLoggerName()
            << LOG4CPLUS_TEXT(" <")
-           << event.getNDC() 
+           << event.getNDC()
            << LOG4CPLUS_TEXT("> - ")
            << event.getMessage()
            << LOG4CPLUS_TEXT("\n");

@@ -167,7 +167,7 @@ Log4jUdpAppender::~Log4jUdpAppender()
 // Log4jUdpAppender public methods
 //////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 Log4jUdpAppender::close()
 {
     helpers::getLogLog().debug(
@@ -214,9 +214,11 @@ Log4jUdpAppender::append(const spi::InternalLoggingEvent& event)
            << outputXMLEscaped (event.getLoggerName())
            << LOG4CPLUS_TEXT("\" level=\"")
            // TODO: Some escaping of special characters is needed here.
-           << outputXMLEscaped (getLogLevelManager().toString(event.getLogLevel()))
+           << outputXMLEscaped (getLogLevelManager()
+               .toString(event.getLogLevel()))
            << LOG4CPLUS_TEXT("\" timestamp=\"")
-           << event.getTimestamp().getFormattedTime(LOG4CPLUS_TEXT("%s%q"))
+           << helpers::getFormattedTime(LOG4CPLUS_TEXT("%s%q"),
+               event.getTimestamp())
            << LOG4CPLUS_TEXT("\" thread=\"") << event.getThread()
            << LOG4CPLUS_TEXT("\">")
 
