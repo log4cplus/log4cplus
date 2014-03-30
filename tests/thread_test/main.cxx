@@ -19,7 +19,6 @@ using namespace log4cplus::helpers;
 using namespace log4cplus::thread;
 
 
-#define MILLIS_TO_NANOS 1000
 #define NUM_THREADS 4
 #define NUM_LOOPS 10
 
@@ -37,7 +36,7 @@ public:
         {
             log4cplus::thread::MutexGuard guard (mutex);
             LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("Actually doing something..."));
-            sleep(0, 75 * MILLIS_TO_NANOS);
+            std::this_thread::sleep_for (std::chrono::milliseconds (75));
             LOG4CPLUS_INFO_FMT(logger,
                 LOG4CPLUS_TEXT (
                     "Actually doing something...%d, %d, %d, %ls...DONE"),
@@ -107,7 +106,7 @@ main()
 
         for(i=0; i<NUM_THREADS; ++i) {
             while(threads[i]->isRunning()) {
-                sleep(0, 200 * MILLIS_TO_NANOS);
+                std::this_thread::sleep_for (std::chrono::milliseconds (200));
             }
         }
         LOG4CPLUS_INFO(logger, "Exiting main()...");

@@ -54,7 +54,6 @@ typedef chrono::duration<long long, std::micro> Duration;
 typedef chrono::time_point<Clock, Duration> Time;
 
 
-
 template <typename FromDuration>
 inline
 Time

@@ -1,4 +1,3 @@
-
 #include <log4cplus/logger.h>
 #include <log4cplus/configurator.h>
 #include <log4cplus/helpers/loglog.h>
@@ -35,7 +34,7 @@ main()
     log4cplus::initialize ();
     LogLog::getLogLog()->setInternalDebugging(true);
     Logger root = Logger::getRoot();
-    try 
+    try
     {
         ConfigureAndWatchThread configureThread(
             LOG4CPLUS_TEXT("log4cplus.properties"), 5 * 1000);
@@ -46,7 +45,7 @@ main()
             printMsgs(log_1);
             printMsgs(log_2);
             printMsgs(log_3);
-	        log4cplus::helpers::sleep(1);
+            std::this_thread::sleep_for (std::chrono::seconds (1));
         }
     }
     catch(...) {
@@ -57,4 +56,3 @@ main()
     tcout << LOG4CPLUS_TEXT("Exiting main()...") << endl;
     return 0;
 }
-
