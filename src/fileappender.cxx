@@ -36,10 +36,8 @@
 #include <cstdio>
 #include <stdexcept>
 
-#if defined (__BORLANDC__)
 // For _wrename() and _wremove() on Windows.
-#  include <stdio.h>
-#endif
+#include <stdio.h>
 #include <cerrno>
 #ifdef LOG4CPLUS_HAVE_ERRNO_H
 #include <errno.h>

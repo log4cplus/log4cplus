@@ -39,7 +39,8 @@ Platform support
 ported to and tested on the following platforms:
 
   - Linux/AMD64 with 4.8.1 (Ubuntu/Linaro 4.8.1-10ubuntu9)
-  - Windows 7 with MS Visual Studio 2013
+  - Windows/AMD64 with GCC version 4.8.2 (x86_64-posix-seh-rev3, Built by
+    MinGW-W64 project) using CMake build system
 
 The testing on the above listed platforms has been done at some point
 in time with some version of source. Continuous testing is done only
@@ -49,6 +50,7 @@ The following platforms were supported by the 1.x series of
 [log4cplus]. They either do not have a reasonable C++11 capable
 compiler or have not been checked with [log4cplus] 2.x, yet:
 
+  - Windows 7 with MS Visual Studio 2013
   - Linux/AMD64 with Clang version 3.2-1~exp9ubuntu1
     (tags/RELEASE_32/final) (based on LLVM 3.2)
   - Linux/AMD64 with Intel(R) C++ Intel(R) 64 Compiler XE for

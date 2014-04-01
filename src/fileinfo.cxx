@@ -50,7 +50,7 @@ getFileInfo (FileInfo * fi, tstring const & name)
     if (_tstat (name.c_str (), &fileStatus) == -1)
         return -1;
 
-    fi->mtime = helpers::Time (fileStatus.st_mtime);
+    fi->mtime = helpers::from_time_t (fileStatus.st_mtime);
     fi->is_link = false;
     fi->size = fileStatus.st_size;
 
