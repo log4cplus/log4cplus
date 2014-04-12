@@ -294,7 +294,7 @@ Appender::formatEvent (const spi::InternalLoggingEvent& event) const
     internal::appender_sratch_pad & appender_sp = internal::get_appender_sp ();
     detail::clear_tostringstream (appender_sp.oss);
     layout->formatAndAppend(appender_sp.oss, event);
-    appender_sp.oss.str().swap (appender_sp.str);
+    appender_sp.str = appender_sp.oss.str();
     return appender_sp.str;
 }
 

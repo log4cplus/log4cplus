@@ -242,7 +242,7 @@ Log4jUdpAppender::append(const spi::InternalLoggingEvent& event)
            << LOG4CPLUS_TEXT("\"/>")
            << LOG4CPLUS_TEXT("</log4j:event>");
 
-    LOG4CPLUS_TSTRING_TO_STRING (buffer.str ()).swap (appender_sp.chstr);
+    appender_sp.chstr = LOG4CPLUS_TSTRING_TO_STRING (buffer.str ());
 
     bool ret = socket.write(appender_sp.chstr);
     if (!ret)

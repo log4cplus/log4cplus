@@ -1,15 +1,15 @@
 //  Copyright (C) 2010-2014, Vaclav Haisman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -142,7 +142,7 @@ parse_bool (bool & val, tstring const & str)
 }
 
 
-namespace 
+namespace
 {
 
 struct path_sep_comp
@@ -202,7 +202,7 @@ get_drive_cwd (tchar drive)
     tstring path;
 
     drive = helpers::toUpper (drive);
-    
+
 #ifdef UNICODE
     wchar_t * cstr = _wgetdcwd (drive - LOG4CPLUS_TEXT ('A') + 1, 0, 0x7FFF);
     if (! cstr)
@@ -213,7 +213,7 @@ get_drive_cwd (tchar drive)
             + helpers::convertIntegerToString (eno),
             true);
     }
-   
+
 #else
     char * cstr = _getdcwd (drive - LOG4CPLUS_TEXT ('A') + 1, 0, 0x7FFF);
     if (! cstr)
@@ -344,7 +344,7 @@ expand_drive_relative_path (Container & components, std::size_t rel_path_index,
 
     // Move the saved relative path into place.
 
-    components[rel_path_index].swap (relative_path_first_component);
+    components[rel_path_index] = std::move (relative_path_first_component);
 
     // Insert the current working directory for a drive.
 
@@ -570,7 +570,7 @@ loglog_make_directory_result (helpers::LogLog & loglog, tstring const & path,
     if (ret == 0)
     {
         loglog.debug (
-            LOG4CPLUS_TEXT("Created directory ") 
+            LOG4CPLUS_TEXT("Created directory ")
             + path);
     }
     else

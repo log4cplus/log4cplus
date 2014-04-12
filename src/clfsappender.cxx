@@ -5,17 +5,17 @@
 //
 //
 //  Copyright (C) 2012-2014, Vaclav Zeman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -242,11 +242,10 @@ CLFSAppender::append (spi::InternalLoggingEvent const & ev)
         return;
 
     // TODO: Expose log4cplus' internal TLS to use here.
-    tostringstream oss;    
+    tostringstream oss;
     layout->formatAndAppend(oss, ev);
 
-    tstring str;
-    oss.str ().swap (str);
+    tstring str (oss.str ());
     if ((str.size () + 1) * sizeof (tchar) > data->buffer_size)
         str.resize (data->buffer_size / sizeof (tchar));
 
@@ -279,8 +278,8 @@ BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE,  // handle to DLL module
                     LPVOID)  // reserved
 {
     // Perform actions based on the reason for calling.
-    switch( fdwReason ) 
-    { 
+    switch( fdwReason )
+    {
     case DLL_PROCESS_ATTACH:
     {
         log4cplus::CLFSAppender::registerAppender ();

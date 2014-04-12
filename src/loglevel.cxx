@@ -82,7 +82,7 @@ defaultLogLevelToStringMethod(LogLevel ll)
         //case ALL_LOG_LEVEL:     return ALL_STRING;
         case NOT_SET_LOG_LEVEL: return NOTSET_STRING;
     };
-    
+
     return internal::empty_str;
 }
 
@@ -100,7 +100,7 @@ defaultStringToLogLevelMethod(const tstring& s)
         if (*it->str == s)
             return it->ll;
     }
-    
+
     return NOT_SET_LOG_LEVEL;
 }
 
@@ -112,7 +112,7 @@ defaultStringToLogLevelMethod(const tstring& s)
 // LogLevelManager ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-LogLevelManager::LogLevelManager() 
+LogLevelManager::LogLevelManager()
 {
     LogLevelToStringMethodRec rec;
     rec.func = defaultLogLevelToStringMethod;
@@ -123,7 +123,7 @@ LogLevelManager::LogLevelManager()
 }
 
 
-LogLevelManager::~LogLevelManager() 
+LogLevelManager::~LogLevelManager()
 { }
 
 
@@ -145,7 +145,7 @@ LogLevelManager::toString(LogLevel ll) const
             // Use TLS to store the result to allow us to return
             // a reference.
             tstring & ll_str = internal::get_ptd ()->ll_str;
-            rec.func_1_0 (ll).swap (ll_str);
+            ll_str = rec.func_1_0 (ll);
             ret = &ll_str;
         }
         else
@@ -159,7 +159,7 @@ LogLevelManager::toString(LogLevel ll) const
 }
 
 
-LogLevel 
+LogLevel
 LogLevelManager::fromString(const tstring& arg) const
 {
     tstring s = helpers::toUpper(arg);
@@ -171,7 +171,7 @@ LogLevelManager::fromString(const tstring& arg) const
         if (ret != NOT_SET_LOG_LEVEL)
             return ret;
     }
-    
+
     helpers::getLogLog ().error (
         LOG4CPLUS_TEXT ("Unrecognized log level: ")
         + arg);
@@ -180,7 +180,7 @@ LogLevelManager::fromString(const tstring& arg) const
 }
 
 
-void 
+void
 LogLevelManager::pushToStringMethod(LogLevelToStringMethod newToString)
 {
     LogLevelToStringMethodRec rec;
@@ -190,7 +190,7 @@ LogLevelManager::pushToStringMethod(LogLevelToStringMethod newToString)
 }
 
 
-void 
+void
 LogLevelManager::pushToStringMethod(LogLevelToStringMethod_1_0 newToString)
 {
     LogLevelToStringMethodRec rec;
@@ -200,11 +200,11 @@ LogLevelManager::pushToStringMethod(LogLevelToStringMethod_1_0 newToString)
 }
 
 
-void 
+void
 LogLevelManager::pushFromStringMethod(StringToLogLevelMethod newFromString)
 {
     fromStringMethods.push_back (newFromString);
 }
 
-        
+
 } // namespace log4cplus
