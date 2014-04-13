@@ -273,7 +273,7 @@ Hierarchy::getInstanceImpl(const tstring& name, spi::LoggerFactory& factory)
     {
         // Need to create a new logger
         logger = factory.makeNewLoggerInstance(name, *this);
-        bool inserted = loggerPtrs.insert(std::make_pair(name, logger)).second;
+        bool inserted = loggerPtrs.emplace (name, logger).second;
         if (! inserted)
         {
             helpers::getLogLog().error(
@@ -342,8 +342,7 @@ Hierarchy::updateParents(Logger const & logger)
                 ProvisionNode node;
                 node.push_back(logger);
                 std::pair<ProvisionNodeMap::iterator, bool> tmp =
-                    provisionNodes.insert(std::make_pair(substr, node));
-                //bool inserted = provisionNodes.insert(std::make_pair(substr, node)).second;
+                    provisionNodes.emplace (substr, node);
                 if(!tmp.second) {
                     helpers::getLogLog().error(
                         LOG4CPLUS_TEXT("Hierarchy::updateParents()- Insert failed"),
