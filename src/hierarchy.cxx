@@ -67,7 +67,7 @@ const LogLevel Hierarchy::DISABLE_OVERRIDE = -2;
 
 Hierarchy::Hierarchy()
   : defaultFactory(new DefaultLoggerFactory())
-  , root(NULL)
+  , root(nullptr)
   // Don't disable any LogLevel level by default.
   , disableValue(DISABLE_OFF)
   , emittedNoAppenderWarning(false)

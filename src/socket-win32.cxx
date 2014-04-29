@@ -217,7 +217,7 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& 
         goto error;
 
     hp = ::gethostbyname( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
-    if (hp == 0 || hp->h_addrtype != AF_INET)
+    if (hp == nullptr || hp->h_addrtype != AF_INET)
     {
         insock.sin_family = AF_INET;
         INT insock_size = sizeof (insock);
@@ -262,7 +262,7 @@ acceptSocket(SOCKET_TYPE sock, SocketState & state)
 {
     init_winsock ();
 
-    SOCKET connected_socket = ::accept (to_os_socket (sock), NULL, NULL);
+    SOCKET connected_socket = ::accept (to_os_socket (sock), nullptr, nullptr);
 
     if (connected_socket != INVALID_OS_SOCKET_VALUE)
         state = ok;

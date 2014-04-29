@@ -88,7 +88,7 @@ struct destroy_default_context
     ~destroy_default_context ()
     {
         delete default_context;
-        default_context = 0;
+        default_context = nullptr;
         default_context_state = DC_DESTROYED;
     }
 } static destroy_default_context_;
@@ -265,7 +265,7 @@ log4cplus::thread::impl::tls_key_type tls_storage_key;
 #if ! defined (LOG4CPLUS_SINGLE_THREADED) \
     && defined (LOG4CPLUS_THREAD_LOCAL_VAR)
 
-LOG4CPLUS_THREAD_LOCAL_VAR per_thread_data * ptd = 0;
+LOG4CPLUS_THREAD_LOCAL_VAR per_thread_data * ptd = nullptr;
 
 
 per_thread_data *

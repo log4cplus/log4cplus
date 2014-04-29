@@ -846,7 +846,7 @@ PatternParser::parse()
 void
 PatternParser::finalizeConverter(tchar c)
 {
-    PatternConverter* pc = 0;
+    PatternConverter* pc = nullptr;
     switch (c) {
         case LOG4CPLUS_TEXT('b'):
             pc = new BasicPatternConverter

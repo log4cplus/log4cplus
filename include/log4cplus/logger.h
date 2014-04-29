@@ -282,7 +282,7 @@ namespace log4cplus
     protected:
       // Data
         /** This is a pointer to the implementation class. */
-        spi::LoggerImpl * value;
+        spi::LoggerImpl * value = nullptr;
 
     private:
       // Ctors

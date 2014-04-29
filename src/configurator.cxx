@@ -594,7 +594,7 @@ public:
         : PropertyConfigurator(file)
         , waitMillis(millis < 1000 ? 1000 : millis)
         , shouldTerminate(false)
-        , lock(NULL)
+        , lock(nullptr)
     {
         lastFileInfo.mtime = helpers::now ();
         lastFileInfo.size = 0;
@@ -649,7 +649,7 @@ ConfigurationWatchDogThread::run()
             updateLastModInfo();
 
             // release the lock
-            lock = NULL;
+            lock = nullptr;
         }
     }
 }

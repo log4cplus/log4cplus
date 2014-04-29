@@ -243,7 +243,7 @@ NDC::push_worker (StringType const & message)
 {
     DiagnosticContextStack* ptr = getPtr();
     if (ptr->empty())
-        ptr->push_back( DiagnosticContext(message, NULL) );
+        ptr->push_back( DiagnosticContext(message, nullptr) );
     else
     {
         DiagnosticContext const & dc = ptr->back();

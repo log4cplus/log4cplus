@@ -171,7 +171,7 @@ snprintf_buf::print (tchar const * fmt, ...)
 {
     assert (fmt);
 
-    tchar const * str = 0;
+    tchar const * str = nullptr;
     int ret = 0;
     std::va_list args;
 

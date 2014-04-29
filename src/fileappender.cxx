@@ -874,7 +874,7 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
 tstring
 DailyRollingFileAppender::getFilename(const Time& t) const
 {
-    tchar const * pattern = 0;
+    tchar const * pattern = nullptr;
     switch (schedule)
     {
     case MONTHLY:

@@ -98,7 +98,6 @@ Logger::shutdown ()
 //////////////////////////////////////////////////////////////////////////////
 
 Logger::Logger ()
-    : value (0)
 { }
 
 
@@ -131,7 +130,7 @@ Logger::Logger (Logger && rhs)
     : spi::AppenderAttachable (std::move (rhs))
     , value (std::move (rhs.value))
 {
-    rhs.value = 0;
+    rhs.value = nullptr;
 }
 
 
