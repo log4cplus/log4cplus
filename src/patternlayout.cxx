@@ -581,7 +581,7 @@ RelativeTimestampConverter::convert (tstring & result,
     tostringstream & oss = internal::get_ptd ()->layout_oss;
     detail::clear_tostringstream (oss);
     log4cplus::formatRelativeTimestamp (oss, event);
-    oss.str ().swap (result);
+    result = oss.str ();
 }
 
 
@@ -846,7 +846,7 @@ PatternParser::parse()
 void
 PatternParser::finalizeConverter(tchar c)
 {
-    PatternConverter* pc = 0;
+    PatternConverter* pc = nullptr;
     switch (c) {
         case LOG4CPLUS_TEXT('b'):
             pc = new BasicPatternConverter

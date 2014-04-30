@@ -342,7 +342,7 @@ PropertyConfigurator::replaceEnvironVariables()
     do
     {
         changed = false;
-        properties.propertyNames().swap (keys);
+        keys = properties.propertyNames();
         for (std::vector<tstring>::const_iterator it = keys.begin();
             it != keys.end(); ++it)
         {
@@ -594,7 +594,7 @@ public:
         : PropertyConfigurator(file)
         , waitMillis(millis < 1000 ? 1000 : millis)
         , shouldTerminate(false)
-        , lock(NULL)
+        , lock(nullptr)
     {
         lastFileInfo.mtime = helpers::now ();
         lastFileInfo.size = 0;
@@ -649,7 +649,7 @@ ConfigurationWatchDogThread::run()
             updateLastModInfo();
 
             // release the lock
-            lock = NULL;
+            lock = nullptr;
         }
     }
 }

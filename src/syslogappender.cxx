@@ -446,8 +446,7 @@ SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
     // MSG
     layout->formatAndAppend (appender_sp.oss, event);
 
-    LOG4CPLUS_TSTRING_TO_STRING (appender_sp.oss.str ())
-        .swap (appender_sp.chstr);
+    appender_sp.chstr = LOG4CPLUS_TSTRING_TO_STRING (appender_sp.oss.str ());
 
     if (remoteSyslogType != RSTUdp)
     {

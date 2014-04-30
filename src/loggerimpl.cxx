@@ -36,15 +36,15 @@ namespace log4cplus { namespace spi {
 LoggerImpl::LoggerImpl(const log4cplus::tstring& name_, Hierarchy& h)
   : name(name_),
     ll(NOT_SET_LOG_LEVEL),
-    parent(NULL),
-    additive(true), 
+    parent(nullptr),
+    additive(true),
     hierarchy(h)
 {
 }
 
 
-LoggerImpl::~LoggerImpl() 
-{ 
+LoggerImpl::~LoggerImpl()
+{
 }
 
 
@@ -52,11 +52,11 @@ LoggerImpl::~LoggerImpl()
 // Logger Methods
 //////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 LoggerImpl::callAppenders(const InternalLoggingEvent& event)
 {
     int writes = 0;
-    for(const LoggerImpl* c = this; c != NULL; c=c->parent.get()) {
+    for(const LoggerImpl* c = this; c != nullptr; c=c->parent.get()) {
         writes += c->appendLoopOnAppenders(event);
         if(!c->additive) {
             break;
@@ -66,8 +66,8 @@ LoggerImpl::callAppenders(const InternalLoggingEvent& event)
     // No appenders in hierarchy, warn user only once.
     if(!hierarchy.emittedNoAppenderWarning && writes == 0) {
         helpers::getLogLog().error(
-            LOG4CPLUS_TEXT("No appenders could be found for logger (") 
-            + getName() 
+            LOG4CPLUS_TEXT("No appenders could be found for logger (")
+            + getName()
             + LOG4CPLUS_TEXT(")."));
         helpers::getLogLog().error(
             LOG4CPLUS_TEXT("Please initialize the log4cplus system properly."));
@@ -76,7 +76,7 @@ LoggerImpl::callAppenders(const InternalLoggingEvent& event)
 }
 
 
-void 
+void
 LoggerImpl::closeNestedAppenders()
 {
     SharedAppenderPtrList appenders = getAllAppenders();
@@ -90,7 +90,7 @@ LoggerImpl::closeNestedAppenders()
 }
 
 
-bool 
+bool
 LoggerImpl::isEnabledFor(LogLevel loglevel) const
 {
     if(hierarchy.disableValue >= loglevel) {
@@ -100,10 +100,10 @@ LoggerImpl::isEnabledFor(LogLevel loglevel) const
 }
 
 
-void 
-LoggerImpl::log(LogLevel loglevel, 
+void
+LoggerImpl::log(LogLevel loglevel,
                 const log4cplus::tstring& message,
-                const char* file, 
+                const char* file,
                 int line,
                 const char* function)
 {
@@ -113,7 +113,7 @@ LoggerImpl::log(LogLevel loglevel,
 }
 
 
-void 
+void
 LoggerImpl::log(spi::InternalLoggingEvent const & ev)
 {
     if (isEnabledFor(ev.getLogLevel ()))
@@ -121,10 +121,10 @@ LoggerImpl::log(spi::InternalLoggingEvent const & ev)
 }
 
 
-LogLevel 
+LogLevel
 LoggerImpl::getChainedLogLevel() const
 {
-    for(const LoggerImpl *c=this; c != NULL; c=c->parent.get()) {
+    for(const LoggerImpl *c=this; c != nullptr; c=c->parent.get()) {
         if(c->ll != NOT_SET_LOG_LEVEL) {
             return c->ll;
         }
@@ -137,31 +137,31 @@ LoggerImpl::getChainedLogLevel() const
 }
 
 
-Hierarchy& 
+Hierarchy&
 LoggerImpl::getHierarchy() const
-{ 
-    return hierarchy; 
+{
+    return hierarchy;
 }
 
 
-bool 
+bool
 LoggerImpl::getAdditivity() const
-{ 
-    return additive; 
+{
+    return additive;
 }
 
 
-void 
-LoggerImpl::setAdditivity(bool additive_) 
-{ 
-    additive = additive_; 
+void
+LoggerImpl::setAdditivity(bool additive_)
+{
+    additive = additive_;
 }
 
 
-void 
+void
 LoggerImpl::forcedLog(LogLevel loglevel,
                       const log4cplus::tstring& message,
-                      const char* file, 
+                      const char* file,
                       int line,
                       const char* function)
 {
@@ -173,7 +173,7 @@ LoggerImpl::forcedLog(LogLevel loglevel,
 }
 
 
-void 
+void
 LoggerImpl::forcedLog(spi::InternalLoggingEvent const & ev)
 {
     callAppenders(ev);

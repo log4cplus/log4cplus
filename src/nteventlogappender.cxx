@@ -44,7 +44,7 @@ namespace {
 
     static
     bool
-    copySID(SID** ppDstSid, SID* pSrcSid) 
+    copySID(SID** ppDstSid, SID* pSrcSid)
     {
         DWORD dwLength = ::GetLengthSid(pSrcSid);
 
@@ -66,11 +66,11 @@ namespace {
 
 
     static
-    bool 
-    GetCurrentUserSID(SID** ppSid) 
+    bool
+    GetCurrentUserSID(SID** ppSid)
     {
         bool bSuccess = false;
-        TOKEN_USER * ptu = 0;
+        TOKEN_USER * ptu = nullptr;
         DWORD tusize = 0;
         HANDLE hProcess = ::GetCurrentProcess();
         HANDLE hToken = 0;
@@ -79,7 +79,7 @@ namespace {
             goto finish;
 
         // Get the required size
-        if (! GetTokenInformation(hToken, TokenUser, NULL, 0, &tusize))
+        if (! GetTokenInformation(hToken, TokenUser, nullptr, 0, &tusize))
             goto finish;
 
         ptu = (TOKEN_USER*) std::calloc (1, tusize);
@@ -100,45 +100,45 @@ namespace {
 
 
     static
-    HKEY 
+    HKEY
     regGetKey(const tstring& subkey, DWORD* disposition)
     {
         HKEY hkey = 0;
-        RegCreateKeyEx(HKEY_LOCAL_MACHINE, 
-                       subkey.c_str(), 
-                       0, 
-                       NULL, 
-                       REG_OPTION_NON_VOLATILE, 
-                       KEY_SET_VALUE, 
-                       NULL, 
-                       &hkey, 
+        RegCreateKeyEx(HKEY_LOCAL_MACHINE,
+                       subkey.c_str(),
+                       0,
+                       nullptr,
+                       REG_OPTION_NON_VOLATILE,
+                       KEY_SET_VALUE,
+                       nullptr,
+                       &hkey,
                        disposition);
         return hkey;
     }
 
 
     static
-    void 
+    void
     regSetString(HKEY hkey, const tstring& name, const tstring& value)
     {
-        RegSetValueEx(hkey, 
-                      name.c_str(), 
-                      0, 
-                      REG_SZ, 
+        RegSetValueEx(hkey,
+                      name.c_str(),
+                      0,
+                      REG_SZ,
                       reinterpret_cast<BYTE const *>(value.c_str()),
                       static_cast<DWORD>(value.length() * sizeof(tchar)));
     }
 
 
     static
-    void 
+    void
     regSetDword(HKEY hkey, const tstring& name, DWORD value)
     {
-        RegSetValueEx(hkey, 
-                      name.c_str(), 
-                      0, 
-                      REG_DWORD, 
-                      reinterpret_cast<LPBYTE>(&value), 
+        RegSetValueEx(hkey,
+                      name.c_str(),
+                      0,
+                      REG_DWORD,
+                      reinterpret_cast<LPBYTE>(&value),
                       sizeof(DWORD));
     }
 
@@ -150,14 +150,14 @@ namespace {
 // NTEventLogAppender ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-NTEventLogAppender::NTEventLogAppender(const tstring& server, 
-                                       const tstring& log, 
+NTEventLogAppender::NTEventLogAppender(const tstring& server,
+                                       const tstring& log,
                                        const tstring& source)
-: server(server), 
-  log(log), 
-  source(source), 
-  hEventLog(NULL), 
-  pCurrentUserSID(NULL)
+: server(server),
+  log(log),
+  source(source),
+  hEventLog(NULL),
+  pCurrentUserSID(nullptr)
 {
     init();
 }
@@ -166,8 +166,8 @@ NTEventLogAppender::NTEventLogAppender(const tstring& server,
 
 NTEventLogAppender::NTEventLogAppender(const helpers::Properties & properties)
 : Appender(properties),
-  hEventLog(NULL), 
-  pCurrentUserSID(NULL)
+  hEventLog(NULL),
+  pCurrentUserSID(nullptr)
 {
     server = properties.getProperty( LOG4CPLUS_TEXT("server") );
     log = properties.getProperty( LOG4CPLUS_TEXT("log") );
@@ -178,13 +178,13 @@ NTEventLogAppender::NTEventLogAppender(const helpers::Properties & properties)
 
 
 
-void 
+void
 NTEventLogAppender::init()
 {
     if(source.empty()) {
         helpers::getLogLog().warn(
             LOG4CPLUS_TEXT("Source option not set for appender [")
-            + name 
+            + name
             + LOG4CPLUS_TEXT("]."));
         return;
     }
@@ -211,9 +211,9 @@ NTEventLogAppender::~NTEventLogAppender()
 {
     destructorImpl();
 
-    if(pCurrentUserSID != NULL) {
+    if(pCurrentUserSID != nullptr) {
         std::free (pCurrentUserSID);
-        pCurrentUserSID = NULL;
+        pCurrentUserSID = nullptr;
     }
 }
 
@@ -223,7 +223,7 @@ NTEventLogAppender::~NTEventLogAppender()
 // NTEventLogAppender public methods
 //////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 NTEventLogAppender::close()
 {
     if(hEventLog != NULL) {
@@ -239,7 +239,7 @@ NTEventLogAppender::close()
 // NTEventLogAppender protected methods
 //////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 NTEventLogAppender::append(const spi::InternalLoggingEvent& event)
 {
     if(hEventLog == NULL) {
@@ -274,7 +274,7 @@ NTEventLogAppender::append(const spi::InternalLoggingEvent& event)
 
 
 
-WORD 
+WORD
 NTEventLogAppender::getEventType(const spi::InternalLoggingEvent& event)
 {
     WORD ret_val;
@@ -292,7 +292,7 @@ NTEventLogAppender::getEventType(const spi::InternalLoggingEvent& event)
 
 
 
-WORD 
+WORD
 NTEventLogAppender::getEventCategory(const spi::InternalLoggingEvent& event)
 {
     WORD ret_val;
@@ -316,28 +316,28 @@ NTEventLogAppender::getEventCategory(const spi::InternalLoggingEvent& event)
 
 
 // Add this source with appropriate configuration keys to the registry.
-void 
+void
 NTEventLogAppender::addRegistryInfo()
 {
     DWORD disposition;
     HKEY hkey = 0;
     tstring subkey =   LOG4CPLUS_TEXT("SYSTEM\\CurrentControlSet\\Services\\EventLog\\")
-                     + log 
-                     + LOG4CPLUS_TEXT("\\") 
+                     + log
+                     + LOG4CPLUS_TEXT("\\")
                      + source;
-    
+
     hkey = regGetKey(subkey, &disposition);
     if(disposition == REG_CREATED_NEW_KEY) {
-        regSetString(hkey, 
-                     LOG4CPLUS_TEXT("EventMessageFile"), 
+        regSetString(hkey,
+                     LOG4CPLUS_TEXT("EventMessageFile"),
                      LOG4CPLUS_TEXT("NTEventLogAppender.dll"));
-        regSetString(hkey, 
-                     LOG4CPLUS_TEXT("CategoryMessageFile"), 
+        regSetString(hkey,
+                     LOG4CPLUS_TEXT("CategoryMessageFile"),
                      LOG4CPLUS_TEXT("NTEventLogAppender.dll"));
         regSetDword(hkey, LOG4CPLUS_TEXT("TypesSupported"), (DWORD)7);
         regSetDword(hkey, LOG4CPLUS_TEXT("CategoryCount"), (DWORD)5);
     }
-    
+
     RegCloseKey(hkey);
     return;
 }

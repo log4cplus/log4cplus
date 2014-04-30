@@ -127,7 +127,7 @@ namespace log4cplus {
                     value = -value;
             }
 
-            static inline
+            static constexpr
             bool
             is_negative (intType val)
             {
@@ -146,7 +146,7 @@ namespace log4cplus {
                 // This will never be called for unsigned types.
             }
 
-            static inline
+            static constexpr
             bool
             is_negative (intType)
             {
@@ -164,7 +164,7 @@ namespace log4cplus {
             typedef typename stringType::value_type charType;
             typedef ConvertIntegerToStringHelper<intType, charType,
                 intTypeLimits::is_signed> HelperType;
-            
+
             charType buffer[intTypeLimits::digits10 + 2];
             // We define buffer_size from buffer using sizeof operator
             // to apease HP aCC compiler.
