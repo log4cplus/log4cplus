@@ -256,6 +256,21 @@ compiling [log4cplus] targeted to Windows Vista or later.
 [tlsvista]: http://support.microsoft.com/kb/118816/en-us
 
 
+Android, TLS and CMake
+----------------------
+
+[log4cplus] uses thread--local storage (TLS, see "Windows and TLS" for
+details). On the Android platform, when [log4cplus] is being compiled using
+the `android/android.toolchain.cmake`, you might get errors featuring the
+`__emutls` symbol:
+
+
+    global-init.cxx:268:46: error: log4cplus::internal::__emutls_t._ZN9log4cplus8internal3ptdE causes a section type conflict with log4cplus::internal::ptd
+
+To work around this issue, invoke CMake with
+`-DANDROID_FUNCTION_LEVEL_LINKING:BOOL=OFF` option.
+
+
 Threads and signals
 -------------------
 
