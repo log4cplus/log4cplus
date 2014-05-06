@@ -38,7 +38,7 @@ Platform support
 [log4cplus] version 2.0 and beyond require C++11. [log4cplus] has been
 ported to and tested on the following platforms:
 
-  - Linux/AMD64 with 4.8.1 (Ubuntu/Linaro 4.8.1-10ubuntu9)
+  - Linux/AMD64 with GCC 4.8.1 (Ubuntu/Linaro 4.8.1-10ubuntu9)
   - Windows/AMD64 with GCC version 4.8.2 (x86_64-posix-seh-rev3, Built by
     MinGW-W64 project) using CMake build system
 
@@ -481,16 +481,6 @@ The common ground for both platforms appears to be use of `%ls` and
 `wchar_t` string to print strings with unmodified formatting string
 argument on both Unix--like platforms and Windows. The conversion of
 `wchar_t` back to `char` then depends on C locale.
-
-
-C++11 support
--------------
-
-[log4cplus] contains small amount of code that uses C++11 (ISO/IEC
-14882:2011 standard) language features.  C++11 features are used only
-if C++11 support is detected during compile time.  Compiling
-[log4cplus] with C++11 compiler and standard library and using it with
-C++03 (ISO/IEC 14882:2003 standard) application is not supported.
 
 
 Unsupported compilers
