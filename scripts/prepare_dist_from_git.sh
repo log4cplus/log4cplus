@@ -77,7 +77,7 @@ GIT=${GIT:-git}
 GPG=${GPG:-gpg}
 
 $GIT clone -v --depth=1 "$GIT_URL" -b "$GIT_BRANCH" "$SRC_DIR"
-(cd "$SRC_DIR" && $GIT rev-parse >REVISION)
+(cd "$SRC_DIR" && $GIT rev-parse @ >REVISION)
 rm -rf "$SRC_DIR/.git"
 
 pushd "$SRC_DIR"
