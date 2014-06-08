@@ -151,7 +151,6 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
     helpers::Properties filterProps
         = properties.getPropertySubset( LOG4CPLUS_TEXT("filters.") );
     unsigned filterCount = 0;
-    spi::FilterPtr filterChain;
     tstring filterName;
     while (filterProps.exists(
         filterName = helpers::convertIntegerToString (++filterCount)))
@@ -172,14 +171,12 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
         {
             tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Failed to create filter: ");
             helpers::getLogLog().error(err + filterName);
+            continue;
         }
-        if (! filterChain)
-            filterChain = tmpFilter;
-        else
-            filterChain->appendFilter(tmpFilter);
+        addFilter (std::move (tmpFilter));
     }
-    setFilter(filterChain);
 
+    // Deal with file locking settings.
     properties.getBool (useLockFile, LOG4CPLUS_TEXT("UseLockFile"));
     if (useLockFile)
     {
@@ -354,7 +351,42 @@ Appender::setLayout(std::unique_ptr<Layout> lo)
 Layout*
 Appender::getLayout()
 {
+    thread::MutexGuard guard (access_mutex);
+
     return layout.get();
+}
+
+
+void
+Appender::setFilter(log4cplus::spi::FilterPtr f)
+{
+    thread::MutexGuard guard (access_mutex);
+
+    filter = std::move (f);
+}
+
+
+log4cplus::spi::FilterPtr
+Appender::getFilter() const
+{
+    thread::MutexGuard guard (access_mutex);
+
+    return filter;
+}
+
+
+void
+Appender::addFilter (log4cplus::spi::FilterPtr f)
+{
+    thread::MutexGuard guard (access_mutex);
+
+    log4cplus::spi::FilterPtr filterChain = getFilter ();
+    if (filterChain)
+        filterChain->appendFilter (std::move (f));
+    else
+        filterChain = std::move (f);
+
+    setFilter (filterChain);
 }
 
 

@@ -208,12 +208,17 @@ namespace log4cplus {
         /**
          * Set the filter chain on this Appender.
          */
-        void setFilter(log4cplus::spi::FilterPtr f) { filter = f; }
+        void setFilter(log4cplus::spi::FilterPtr f);
 
         /**
          * Get the filter chain on this Appender.
          */
-        log4cplus::spi::FilterPtr getFilter() const { return filter; }
+        log4cplus::spi::FilterPtr getFilter() const;
+
+        /**
+         * Add filter at the end of the filters chain.
+         */
+        void addFilter (log4cplus::spi::FilterPtr f);
 
         /**
          * Returns this appenders threshold LogLevel. See the {@link

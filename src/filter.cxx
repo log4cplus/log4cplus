@@ -135,7 +135,7 @@ LogLevelMatchFilter::decide(const InternalLoggingEvent& event) const
     }
 
     bool matchOccured = (logLevelToMatch == event.getLogLevel());
-       
+
     if(matchOccured) {
         return (acceptOnMatch ? ACCEPT : DENY);
     }
@@ -252,6 +252,22 @@ StringMatchFilter::decide(const InternalLoggingEvent& event) const
     else {  // we've got a match
         return (acceptOnMatch ? ACCEPT : DENY);
     }
+}
+
+
+//
+//
+//
+
+FunctionFilter::FunctionFilter (FunctionFilter::Function f)
+    : function (std::move (f))
+{ }
+
+
+FilterResult
+FunctionFilter::decide(const InternalLoggingEvent& event) const
+{
+    return function (event);
 }
 
 
