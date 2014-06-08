@@ -99,16 +99,13 @@ AppenderAttachableImpl::getAppender(const log4cplus::tstring& name)
 {
     thread::MutexGuard guard (appender_list_mutex);
 
-    for(ListType::iterator it=appenderList.begin();
-        it!=appenderList.end();
-        ++it)
+    for (SharedAppenderPtr & ptr : appenderList)
     {
-        if((*it)->getName() == name) {
-            return *it;
-        }
+        if (ptr->getName() == name)
+            return ptr;
     }
 
-    return SharedAppenderPtr(nullptr);
+    return SharedAppenderPtr ();
 }
 
 
@@ -158,12 +155,10 @@ AppenderAttachableImpl::appendLoopOnAppenders(const spi::InternalLoggingEvent& e
 
     thread::MutexGuard guard (appender_list_mutex);
 
-    for(ListType::const_iterator it=appenderList.begin();
-        it!=appenderList.end();
-        ++it)
+    for (auto & appender : appenderList)
     {
         ++count;
-        (*it)->doAppend(event);
+        appender->doAppend(event);
     }
 
     return count;

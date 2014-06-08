@@ -383,11 +383,10 @@ PropertyConfigurator::configureLoggers()
     helpers::Properties loggerProperties
         = properties.getPropertySubset(LOG4CPLUS_TEXT("logger."));
     std::vector<tstring> loggers = loggerProperties.propertyNames();
-    for(std::vector<tstring>::iterator it=loggers.begin(); it!=loggers.end();
-        ++it)
+    for (tstring const & loggerName : loggers)
     {
-        Logger log = getLogger(*it);
-        configureLogger(log, loggerProperties.getProperty(*it));
+        Logger log = getLogger(loggerName);
+        configureLogger(log, loggerProperties.getProperty(loggerName));
     }
 }
 
@@ -454,12 +453,11 @@ PropertyConfigurator::configureAppenders()
         properties.getPropertySubset(LOG4CPLUS_TEXT("appender."));
     std::vector<tstring> appendersProps = appenderProperties.propertyNames();
     tstring factoryName;
-    for(std::vector<tstring>::iterator it=appendersProps.begin();
-        it != appendersProps.end(); ++it)
+    for (tstring & appenderName : appendersProps)
     {
-        if( it->find( LOG4CPLUS_TEXT('.') ) == tstring::npos )
+        if (appenderName.find (LOG4CPLUS_TEXT('.')) == tstring::npos)
         {
-            factoryName = appenderProperties.getProperty(*it);
+            factoryName = appenderProperties.getProperty(appenderName);
             spi::AppenderFactory* factory
                 = spi::getAppenderFactoryRegistry().get(factoryName);
             if (! factory)
@@ -472,7 +470,7 @@ PropertyConfigurator::configureAppenders()
             }
 
             helpers::Properties props_subset
-                = appenderProperties.getPropertySubset((*it)
+                = appenderProperties.getPropertySubset(appenderName
                 + LOG4CPLUS_TEXT("."));
             try
             {
@@ -484,12 +482,12 @@ PropertyConfigurator::configureAppenders()
                         LOG4CPLUS_TEXT("PropertyConfigurator::")
                         LOG4CPLUS_TEXT("configureAppenders()")
                         LOG4CPLUS_TEXT("- Failed to create appender: ");
-                    helpers::getLogLog().error(err + *it);
+                    helpers::getLogLog().error(err + appenderName);
                 }
                 else
                 {
-                    appender->setName(*it);
-                    appenders[*it] = appender;
+                    appender->setName(appenderName);
+                    appenders[std::move (appenderName)] = appender;
                 }
             }
             catch(std::exception const & e)
@@ -513,12 +511,11 @@ PropertyConfigurator::configureAdditivity()
     std::vector<tstring> additivitysProps
         = additivityProperties.propertyNames();
 
-    for(std::vector<tstring>::const_iterator it = additivitysProps.begin();
-        it != additivitysProps.end(); ++it)
+    for (tstring const & loggerName : additivitysProps)
     {
-        Logger logger = getLogger(*it);
+        Logger logger = getLogger(loggerName);
         bool additivity;
-        if (additivityProperties.getBool (additivity, *it))
+        if (additivityProperties.getBool (additivity, loggerName))
             logger.setAdditivity (additivity);
     }
 }

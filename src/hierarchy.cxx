@@ -210,9 +210,8 @@ Hierarchy::resetConfiguration()
     shutdown();
 
     LoggerList loggers = getCurrentLoggers();
-    for (LoggerList::iterator it = loggers.begin (); it != loggers.end(); ++it)
+    for (auto & logger : loggers)
     {
-        Logger & logger = *it;
         logger.setLogLevel(NOT_SET_LOG_LEVEL);
         logger.setAdditivity(true);
     }
@@ -245,9 +244,8 @@ Hierarchy::shutdown()
     root.removeAllAppenders();
 
     // repeat
-    for (LoggerList::iterator it = loggers.begin(); it != loggers.end(); ++it)
+    for (auto & logger : loggers)
     {
-        Logger & logger = *it;
         logger.closeNestedAppenders();
         logger.removeAllAppenders();
     }
@@ -303,12 +301,9 @@ Hierarchy::getInstanceImpl(const tstring& name, spi::LoggerFactory& factory)
 void
 Hierarchy::initializeLoggerList(LoggerList& list) const
 {
-    for(LoggerMap::const_iterator it=loggerPtrs.begin();
-        it!= loggerPtrs.end();
-        ++it)
-    {
-        list.push_back((*it).second);
-    }
+    list.reserve (list.size () + loggerPtrs.size ());
+    for (auto & kv : loggerPtrs)
+        list.push_back(kv.second);
 }
 
 
@@ -361,9 +356,8 @@ Hierarchy::updateParents(Logger const & logger)
 void
 Hierarchy::updateChildren(ProvisionNode& pn, Logger const & logger)
 {
-
-    for(ProvisionNode::iterator it=pn.begin(); it!=pn.end(); ++it) {
-        Logger& c = *it;
+    for (Logger & c : pn)
+    {
         // Unless this child already points to a correct (lower) parent,
         // make logger.parent point to c.parent and c.parent to logger.
         if( !startsWith(c.value->parent->getName(), logger.getName()) ) {

@@ -10,11 +10,29 @@ INFO - This is a INFO message
 WARN - This is a WARN message
 ERROR - This is a ERROR message
 FATAL - This is a FATAL message
+INFO - visible
+INFO - invisible
 TRACE - EXIT:  ::printDebug()
-Exiting main()...
+WARN - Testing std::function<> filter....
 log4cplus: Entering ConsoleAppender::close()..
 log4cplus: Destroying appender named [STDOUT].
 log4cplus: Destroying appender named [ALL_MSGS].
 log4cplus: Destroying appender named [TRACE_MSGS].
 log4cplus: Destroying appender named [DEBUG_INFO_MSGS].
 log4cplus: Destroying appender named [FATAL_MSGS].
+log4cplus: function filter: denying event: ENTER: ::printDebug()
+log4cplus: function filter: denying event: This is a DEBUG message
+log4cplus: function filter: denying event: This is a INFO message
+log4cplus: function filter: going neutral on event: This is a WARN message
+WARN - This is a WARN message
+log4cplus: function filter: going neutral on event: This is a ERROR message
+ERROR - This is a ERROR message
+log4cplus: function filter: going neutral on event: This is a FATAL message
+FATAL - This is a FATAL message
+log4cplus: function filter: accepting event: visible
+INFO - visible
+log4cplus: function filter: denying event: invisible
+log4cplus: function filter: denying event: EXIT:  ::printDebug()
+Exiting main()...
+log4cplus: Entering ConsoleAppender::close()..
+log4cplus: Destroying appender named [].

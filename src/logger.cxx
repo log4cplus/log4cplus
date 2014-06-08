@@ -168,8 +168,8 @@ Logger::getParent () const
     else
     {
         helpers::getLogLog().error(
-            LOG4CPLUS_TEXT("********* This logger has no parent: "
-            + getName()));
+            LOG4CPLUS_TEXT("********* This logger has no parent: ")
+            + getName());
         return *this;
     }
 }
