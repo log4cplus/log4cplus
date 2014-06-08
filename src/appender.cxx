@@ -390,4 +390,13 @@ Appender::addFilter (log4cplus::spi::FilterPtr f)
 }
 
 
+void
+Appender::addFilter (std::function<
+    spi::FilterResult (const spi::InternalLoggingEvent &)> filterFunction)
+{
+    addFilter (
+        spi::FilterPtr (new spi::FunctionFilter (std::move (filterFunction))));
+}
+
+
 } // namespace log4cplus

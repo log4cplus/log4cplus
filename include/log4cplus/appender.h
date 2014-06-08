@@ -221,6 +221,12 @@ namespace log4cplus {
         void addFilter (log4cplus::spi::FilterPtr f);
 
         /**
+         * Add filter at the end of the filters chain.
+         */
+        void addFilter (std::function<
+            spi::FilterResult (const log4cplus::spi::InternalLoggingEvent &)>);
+
+        /**
          * Returns this appenders threshold LogLevel. See the {@link
          * #setThreshold} method for the meaning of this option.
          */
