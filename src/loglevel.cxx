@@ -136,10 +136,8 @@ tstring const &
 LogLevelManager::toString(LogLevel ll) const
 {
     tstring const * ret;
-    for (LogLevelToStringMethodList::const_iterator it
-        = toStringMethods.begin (); it != toStringMethods.end (); ++it)
+    for (LogLevelToStringMethodRec const & rec : toStringMethods)
     {
-        LogLevelToStringMethodRec const & rec = *it;
         if (rec.use_1_0)
         {
             // Use TLS to store the result to allow us to return
@@ -164,10 +162,9 @@ LogLevelManager::fromString(const tstring& arg) const
 {
     tstring s = helpers::toUpper(arg);
 
-    for (StringToLogLevelMethodList::const_iterator it
-        = fromStringMethods.begin (); it != fromStringMethods.end (); ++it)
+    for (auto func : fromStringMethods)
     {
-        LogLevel ret = (*it) (s);
+        LogLevel ret = func (s);
         if (ret != NOT_SET_LOG_LEVEL)
             return ret;
     }

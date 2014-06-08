@@ -59,14 +59,13 @@ HierarchyLocker::HierarchyLocker(Hierarchy& _h)
         throw;
     }
 }
- 
+
 
 HierarchyLocker::~HierarchyLocker()
 {
     try {
-        for(LoggerList::iterator it=loggerList.begin(); it!=loggerList.end(); ++it) {
-            it->value->appender_list_mutex.unlock ();
-        }
+        for (auto & logger : loggerList)
+            logger.value->appender_list_mutex.unlock ();
     }
     catch(...) {
         helpers::getLogLog().error(LOG4CPLUS_TEXT("HierarchyLocker::dtor()- An error occurred while unlocking"));
@@ -74,7 +73,7 @@ HierarchyLocker::~HierarchyLocker()
     }
 }
 
-void 
+void
 HierarchyLocker::resetConfiguration()
 {
     Logger root = h.getRoot();
@@ -87,45 +86,45 @@ HierarchyLocker::resetConfiguration()
     root.removeAllAppenders();
 
     // repeat
-    for(LoggerList::iterator it=loggerList.begin(); it!=loggerList.end(); ++it)
+    for (auto & logger : loggerList)
     {
-        Logger & logger = *it;
-        
         logger.closeNestedAppenders();
         logger.removeAllAppenders();
-        
+
         logger.setLogLevel(NOT_SET_LOG_LEVEL);
         logger.setAdditivity(true);
     }
 }
 
 
-Logger 
+Logger
 HierarchyLocker::getInstance(const tstring& name)
 {
     return h.getInstanceImpl(name, *h.getLoggerFactory());
 }
 
 
-Logger 
+Logger
 HierarchyLocker::getInstance(const tstring& name, spi::LoggerFactory& factory)
 {
     return h.getInstanceImpl(name, factory);
 }
 
 
-void 
+void
 HierarchyLocker::addAppender(Logger& logger, SharedAppenderPtr& appender)
 {
-    for(LoggerList::iterator it=loggerList.begin(); it!=loggerList.end(); ++it) {
-        if((*it).value == logger.value) {
+    for (auto & l : loggerList)
+    {
+        if (l.value == logger.value)
+        {
             logger.value->appender_list_mutex.unlock ();
             logger.addAppender(appender);
             logger.value->appender_list_mutex.lock ();
             return;
         }
     }
-    
+
     // I don't have this Logger locked
     logger.addAppender(appender);
 }
