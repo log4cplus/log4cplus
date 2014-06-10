@@ -36,6 +36,7 @@
 #include <log4cplus/helpers/timehelper.h>
 
 #include <vector>
+#include <memory>
 
 
 namespace log4cplus {
@@ -614,7 +615,7 @@ namespace log4cplus {
 
       // Data
         log4cplus::tstring pattern;
-        std::vector<pattern::PatternConverter*> parsedPattern;
+        std::vector<std::unique_ptr<pattern::PatternConverter> > parsedPattern;
 
     private:
       // Disallow copying of instances of this class
