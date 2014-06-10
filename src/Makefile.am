@@ -26,7 +26,6 @@ SINGLE_THREADED_SRC = \
 	%D%/loggingmacros.cxx \
 	%D%/loglevel.cxx \
 	%D%/loglog.cxx \
-	%D%/logloguser.cxx \
 	%D%/mdc.cxx \
 	%D%/ndc.cxx \
 	%D%/nullappender.cxx \

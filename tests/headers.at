@@ -37,7 +37,6 @@ m4_foreach_w([HEADER],
   log4cplus/helpers/fileinfo.h
   log4cplus/helpers/lockfile.h
   log4cplus/helpers/loglog.h
-  log4cplus/helpers/logloguser.h
   log4cplus/helpers/pointer.h
   log4cplus/helpers/property.h
   log4cplus/helpers/queue.h

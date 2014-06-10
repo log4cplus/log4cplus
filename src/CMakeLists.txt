@@ -24,7 +24,6 @@ set (log4cplus_sources
   loggingmacros.cxx
   loglevel.cxx
   loglog.cxx
-  logloguser.cxx
   mdc.cxx
   ndc.cxx
   nullappender.cxx
@@ -156,7 +155,6 @@ install(FILES ../include/log4cplus/helpers/appenderattachableimpl.h
               ../include/log4cplus/helpers/fileinfo.h
               ../include/log4cplus/helpers/lockfile.h
               ../include/log4cplus/helpers/loglog.h
-              ../include/log4cplus/helpers/logloguser.h
               ../include/log4cplus/helpers/pointer.h
               ../include/log4cplus/helpers/property.h
               ../include/log4cplus/helpers/queue.h
