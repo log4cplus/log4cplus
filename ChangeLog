@@ -1,28 +1,41 @@
+log4cplus 1.2.0-RC2
+-------------------
+
+  - Fixed bug #298. -- int to pointer cast error on Xcode 5.1.
+
+  - Updated `android/android.toolchain.cmake`.
+
+  - Documented issue and work-around for Android's emutls issue.
+
+  - Do not set SOVERSION and VERSION properties for CMake based Android
+builds.
+
+
 log4cplus 1.2.0-RC1
 -------------------
         
   - TraceLogger and associated `LOG4CPLUS_TRACE_*()` macros now record
-    function name in generated event.
+function name in generated event.
 
   - Added Qt5 based `Qt5DebugAppender`.
 
   - Added prototype of Python bindings using Swig 2.0+.
 
   - Autotools based build system has been converted from `Makefile` per
-    directory to single `Makefile` for the whole project mode.
+directory to single `Makefile` for the whole project mode.
 
   - Plain text documentation files have been converted to Markdown (with
-    Pandoc's extensions).
+Pandoc's extensions).
 
   - `FileAppender` can now create missing directories in log file path, if
-    this is enabled by `CreateDirs` property.
+this is enabled by `CreateDirs` property.
 
   - Added `MSTTSAppender` that uses Windows' text-to-speech engine.
 
   - `SysLogAppender` can now log into remote `syslog` instance using TCP in
-    addition to previously supported UDP.
+addition to previously supported UDP.
 
   - Added Autotest based testsuite running and verifying output of existing
-    `tests/` directory tests. Improved tests coverage.
+`tests/` directory tests. Improved tests coverage.
 
   - Many other small and bigger improvements.
