@@ -98,7 +98,7 @@ ConnectorThread::run ()
 
         {
             thread::MutexGuard guard (client_access_mutex);
-            client_socket = new_socket;
+            client_socket = std::move (new_socket);
             ctc.ctcSetConnected ();
         }
     }

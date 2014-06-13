@@ -34,7 +34,7 @@ class ClientThread : public log4cplus::thread::AbstractThread
 {
 public:
     ClientThread(log4cplus::helpers::Socket clientsock)
-    : clientsock(clientsock) 
+        : clientsock(std::move (clientsock))
     {
         std::cout << "Received a client connection!!!!" << std::endl;
     }
@@ -76,7 +76,7 @@ main(int argc, char** argv)
     }
 
     while(1) {
-        loggingserver::ClientThread *thr = 
+        loggingserver::ClientThread *thr =
             new loggingserver::ClientThread(serverSocket.accept());
         thr->start();
     }
@@ -108,11 +108,11 @@ loggingserver::ClientThread::run()
         if(!clientsock.read(buffer)) {
             return;
         }
-        
+
         log4cplus::spi::InternalLoggingEvent event
             = log4cplus::helpers::readFromBuffer(buffer);
         log4cplus::Logger logger
             = log4cplus::Logger::getInstance(event.getLoggerName());
-        logger.callAppenders(event);   
+        logger.callAppenders(event);
     }
 }
