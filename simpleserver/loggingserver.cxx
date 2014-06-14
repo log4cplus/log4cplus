@@ -33,8 +33,8 @@ namespace loggingserver
 class ClientThread : public log4cplus::thread::AbstractThread
 {
 public:
-    ClientThread(log4cplus::helpers::Socket clientsock)
-        : clientsock(std::move (clientsock))
+    ClientThread(log4cplus::helpers::Socket clientsock_)
+        : clientsock(std::move (clientsock_))
     {
         std::cout << "Received a client connection!!!!" << std::endl;
     }
