@@ -50,6 +50,8 @@ before_install:
   - if [ ! -z "$QT" ] ; then
       sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa ;
     fi
+  - sudo add-apt-repository --yes
+    'deb http://llvm.org/apt/precise/ llvm-toolchain-precise main'
   - sudo apt-get update -qq
   - sudo apt-get install -q
     gcc-4.8
