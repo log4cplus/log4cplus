@@ -108,7 +108,8 @@ private:
 };
 
 
-typedef std::vector<pattern::PatternConverter*> PatternConverterList;
+typedef std::vector<std::unique_ptr<pattern::PatternConverter> >
+PatternConverterList;
 
 
 /**
@@ -282,7 +283,7 @@ class PatternParser
 {
 public:
     PatternParser(const tstring& pattern, unsigned ndcMaxDepth);
-    std::vector<PatternConverter*> parse();
+    PatternConverterList parse();
 
 private:
   // Types
@@ -300,7 +301,7 @@ private:
   // Data
     tstring pattern;
     FormattingInfo formattingInfo;
-    std::vector<PatternConverter*> list;
+    PatternConverterList list;
     ParserState state;
     tstring::size_type pos;
     tstring currentLiteral;
@@ -496,12 +497,12 @@ LoggerPatternConverter::convert(tstring & result,
         result = name;
     }
     else {
-        std::size_t len = name.length();
+        auto len = name.length();
 
         // We substract 1 from 'len' when assigning to 'end' to avoid out of
         // bounds exception in return r.substring(end+1, len). This can happen
         // if precision is 1 and the logger name ends with a dot.
-        tstring::size_type end = len - 1;
+        auto end = len - 1;
         for (int i = precision; i > 0; --i)
         {
             end = name.rfind(LOG4CPLUS_TEXT('.'), end - 1);
@@ -510,7 +511,7 @@ LoggerPatternConverter::convert(tstring & result,
                 return;
             }
         }
-        result = name.substr(end + 1);
+        result.assign (name, end + 1, tstring::npos);
     }
 }
 
@@ -629,12 +630,10 @@ log4cplus::pattern::MDCPatternConverter::convert (tstring & result,
         result.clear ();
 
         MappedDiagnosticContextMap const & mdcMap = event.getMDCCopy();
-
-        for (MappedDiagnosticContextMap::const_iterator it = mdcMap.begin();
-             it != mdcMap.end(); ++it)
+        for (auto const & kv : mdcMap)
         {
-            tstring const & name(it->first);
-            tstring const & value(it->second);
+            tstring const & name = kv.first;
+            tstring const & value = kv.second;
 
             result += LOG4CPLUS_TEXT("{");
             result += name;
@@ -671,7 +670,7 @@ log4cplus::pattern::NDCPatternConverter::convert (tstring & result,
         for (int i = 1; i < precision && p != tstring::npos; ++i)
             p = text.find(LOG4CPLUS_TEXT(' '), p + 1);
 
-        result = text.substr(0, p);
+        result.assign (text, 0, p);
     }
 }
 
@@ -695,12 +694,14 @@ PatternParser::PatternParser(
 tstring
 PatternParser::extractOption()
 {
+    tstring r;
+
     if (   (pos < pattern.length())
         && (pattern[pos] == LOG4CPLUS_TEXT('{')))
     {
         tstring::size_type end = pattern.find_first_of(LOG4CPLUS_TEXT('}'), pos);
         if (end != tstring::npos) {
-            tstring r = pattern.substr(pos + 1, end - pos - 1);
+            r.assign (pattern, pos + 1, end - pos - 1);
             pos = end + 1;
             return r;
         }
@@ -714,7 +715,7 @@ PatternParser::extractOption()
         }
     }
 
-    return LOG4CPLUS_TEXT("");
+    return r;
 }
 
 
@@ -755,7 +756,8 @@ PatternParser::parse()
                 default:
                     if(! currentLiteral.empty ()) {
                         list.push_back
-                             (new LiteralPatternConverter(currentLiteral));
+                            (std::unique_ptr<PatternConverter>(
+                                new LiteralPatternConverter(currentLiteral)));
                         //getLogLog().debug("Parsed LITERAL converter: \""
                         //                  +currentLiteral+"\".");
                     }
@@ -834,11 +836,13 @@ PatternParser::parse()
     } // end while
 
     if(! currentLiteral.empty ()) {
-        list.push_back(new LiteralPatternConverter(currentLiteral));
+        list.push_back(
+            std::unique_ptr<PatternConverter>(
+                new LiteralPatternConverter(currentLiteral)));
       //getLogLog().debug("Parsed LITERAL converter: \""+currentLiteral+"\".");
     }
 
-    return list;
+    return std::move (list);
 }
 
 
@@ -1004,7 +1008,7 @@ PatternParser::finalizeConverter(tchar c)
             pc = new LiteralPatternConverter(currentLiteral);
     }
 
-    list.push_back(pc);
+    list.push_back(std::unique_ptr<PatternConverter>(pc));
     currentLiteral.resize(0);
     state = LITERAL_STATE;
     formattingInfo.reset();
@@ -1061,41 +1065,37 @@ void
 PatternLayout::init(const tstring& pattern_, unsigned ndcMaxDepth)
 {
     pattern = pattern_;
-    parsedPattern = pattern::PatternParser(pattern, ndcMaxDepth).parse();
+    parsedPattern
+        = std::move (pattern::PatternParser(pattern, ndcMaxDepth).parse());
 
     // Let's validate that our parser didn't give us any NULLs.  If it did,
     // we will convert them to a valid PatternConverter that does nothing so
     // at least we don't core.
-    for(PatternConverterList::iterator it=parsedPattern.begin();
-        it!=parsedPattern.end();
-        ++it)
+    for (auto & pc : parsedPattern)
     {
-        if( (*it) == 0 ) {
+        if (! pc)
+        {
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("Parsed Pattern created a NULL PatternConverter"));
-            (*it) = new pattern::LiteralPatternConverter( LOG4CPLUS_TEXT("") );
+            pc.reset (new pattern::LiteralPatternConverter( LOG4CPLUS_TEXT("") ));
         }
     }
-    if(parsedPattern.empty ()) {
+
+    if(parsedPattern.empty ())
+    {
         helpers::getLogLog().warn(
             LOG4CPLUS_TEXT("PatternLayout pattern is empty.  Using default..."));
         parsedPattern.push_back (
-            new pattern::BasicPatternConverter(pattern::FormattingInfo(),
-            pattern::BasicPatternConverter::MESSAGE_CONVERTER));
+            std::unique_ptr<pattern::PatternConverter>(
+                new pattern::BasicPatternConverter(pattern::FormattingInfo(),
+                    pattern::BasicPatternConverter::MESSAGE_CONVERTER)));
     }
 }
 
 
 
 PatternLayout::~PatternLayout()
-{
-    for(PatternConverterList::iterator it=parsedPattern.begin();
-        it!=parsedPattern.end();
-        ++it)
-    {
-        delete (*it);
-    }
-}
+{ }
 
 
 
@@ -1103,11 +1103,9 @@ void
 PatternLayout::formatAndAppend(tostream& output,
                                const spi::InternalLoggingEvent& event)
 {
-    for(PatternConverterList::iterator it=parsedPattern.begin();
-        it!=parsedPattern.end();
-        ++it)
+    for (auto const & pc : parsedPattern)
     {
-        (*it)->formatAndAppend(output, event);
+        pc->formatAndAppend(output, event);
     }
 }
 

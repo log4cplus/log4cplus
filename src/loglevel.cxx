@@ -47,11 +47,11 @@ static tstring const UNKNOWN_STRING (LOG4CPLUS_TEXT("UNKNOWN"));
 struct log_levels_table_rec
 {
     LogLevel const ll;
-    tstring const * const str;
+    tstring const & str;
 };
 
 
-#define DEF_LLTAB_REC(x) { x ## _LOG_LEVEL, &(x ## _STRING) }
+#define DEF_LLTAB_REC(x) { x ## _LOG_LEVEL, x ## _STRING }
 
 static log_levels_table_rec const log_levels_table[8] = {
     DEF_LLTAB_REC (OFF),
@@ -91,14 +91,10 @@ static
 LogLevel
 defaultStringToLogLevelMethod(const tstring& s)
 {
-    std::size_t const tbl_size
-        = sizeof (log_levels_table) / sizeof (log_levels_table[0]);
-
-    for (log_levels_table_rec const * it = log_levels_table;
-        it != log_levels_table + tbl_size; ++it)
+    for (log_levels_table_rec const & entry : log_levels_table)
     {
-        if (*it->str == s)
-            return it->ll;
+        if (entry.str == s)
+            return entry.ll;
     }
 
     return NOT_SET_LOG_LEVEL;
@@ -114,10 +110,7 @@ defaultStringToLogLevelMethod(const tstring& s)
 
 LogLevelManager::LogLevelManager()
 {
-    LogLevelToStringMethodRec rec;
-    rec.func = defaultLogLevelToStringMethod;
-    rec.use_1_0 = false;
-    toStringMethods.push_back (rec);
+    toStringMethods.emplace_back (defaultLogLevelToStringMethod);
 
     fromStringMethods.push_back (defaultStringToLogLevelMethod);
 }
@@ -160,7 +153,7 @@ LogLevelManager::toString(LogLevel ll) const
 LogLevel
 LogLevelManager::fromString(const tstring& arg) const
 {
-    tstring s = helpers::toUpper(arg);
+    tstring const s = helpers::toUpper(arg);
 
     for (auto func : fromStringMethods)
     {
@@ -180,20 +173,14 @@ LogLevelManager::fromString(const tstring& arg) const
 void
 LogLevelManager::pushToStringMethod(LogLevelToStringMethod newToString)
 {
-    LogLevelToStringMethodRec rec;
-    rec.func = newToString;
-    rec.use_1_0 = false;
-    toStringMethods.push_back (rec);
+    toStringMethods.emplace_back (newToString);
 }
 
 
 void
 LogLevelManager::pushToStringMethod(LogLevelToStringMethod_1_0 newToString)
 {
-    LogLevelToStringMethodRec rec;
-    rec.func_1_0 = newToString;
-    rec.use_1_0 = true;
-    toStringMethods.push_back (rec);
+    toStringMethods.emplace_back (newToString);
 }
 
 
@@ -203,5 +190,26 @@ LogLevelManager::pushFromStringMethod(StringToLogLevelMethod newFromString)
     fromStringMethods.push_back (newFromString);
 }
 
+
+//
+//
+//
+
+LogLevelManager::LogLevelToStringMethodRec::LogLevelToStringMethodRec ()
+{ }
+
+
+LogLevelManager::LogLevelToStringMethodRec::LogLevelToStringMethodRec (
+    LogLevelToStringMethod f)
+    : func {f}
+    , use_1_0 {false}
+{ }
+
+
+LogLevelManager::LogLevelToStringMethodRec::LogLevelToStringMethodRec (
+    LogLevelToStringMethod_1_0 f)
+    : func_1_0 {f}
+    , use_1_0 {true}
+{ }
 
 } // namespace log4cplus

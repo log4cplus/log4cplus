@@ -195,8 +195,8 @@ Properties::Properties(const tstring& inputFile, unsigned f)
 
 
 
-void 
-Properties::init(tistream& input) 
+void
+Properties::init(tistream& input)
 {
     if (! input)
         return;
@@ -209,8 +209,8 @@ Properties::init(tistream& input)
         tstring::size_type const buffLen = buffer.size ();
         if (buffLen == 0 || buffer[0] == PROPERTIES_COMMENT_CHAR)
             continue;
-        
-        // Check if we have a trailing \r because we are 
+
+        // Check if we have a trailing \r because we are
         // reading a properties file produced on Windows.
         if (buffer[buffLen-1] == LOG4CPLUS_TEXT('\r'))
             // Remove trailing 'Windows' \r.
@@ -248,7 +248,7 @@ Properties::init(tistream& input)
 
 
 
-Properties::~Properties() 
+Properties::~Properties()
 {
 }
 
@@ -274,7 +274,7 @@ Properties::exists(tchar const * key) const
 
 
 tstring const &
-Properties::getProperty(const tstring& key) const 
+Properties::getProperty(const tstring& key) const
 {
     return get_property_worker (key);
 }
@@ -299,11 +299,12 @@ Properties::getProperty(const tstring& key, const tstring& defaultVal) const
 
 
 std::vector<tstring>
-Properties::propertyNames() const 
+Properties::propertyNames() const
 {
     std::vector<tstring> tmp;
-    for (StringMap::const_iterator it=data.begin(); it!=data.end(); ++it)
-        tmp.push_back(it->first);
+    tmp.reserve (data.size ());
+    for (auto const & kv : data)
+        tmp.push_back(kv.first);
 
     return tmp;
 }
@@ -325,17 +326,17 @@ Properties::removeProperty(const log4cplus::tstring& key)
 }
 
 
-Properties 
+Properties
 Properties::getPropertySubset(const log4cplus::tstring& prefix) const
 {
     Properties ret;
-    std::size_t const prefix_len = prefix.size ();
+    auto const prefix_len = prefix.size ();
     std::vector<tstring> keys = propertyNames();
-    for (std::vector<tstring>::iterator it=keys.begin(); it!=keys.end(); ++it)
+    for (tstring const & key : keys)
     {
-        int result = it->compare (0, prefix_len, prefix);
+        int result = key.compare (0, prefix_len, prefix);
         if (result == 0)
-            ret.setProperty (it->substr (prefix_len), getProperty(*it));
+            ret.setProperty (key.substr (prefix_len), getProperty(key));
     }
 
     return ret;

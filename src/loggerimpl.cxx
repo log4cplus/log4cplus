@@ -80,10 +80,9 @@ void
 LoggerImpl::closeNestedAppenders()
 {
     SharedAppenderPtrList appenders = getAllAppenders();
-    for(SharedAppenderPtrList::iterator it=appenders.begin();
-        it!=appenders.end(); ++it)
+    for (auto & appenderPtr : appenders)
     {
-        Appender & appender = **it;
+        Appender & appender = *appenderPtr;
         if (! appender.isClosed())
             appender.close();
     }

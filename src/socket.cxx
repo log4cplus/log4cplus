@@ -38,27 +38,27 @@ extern LOG4CPLUS_EXPORT SOCKET_TYPE const INVALID_SOCKET_VALUE
 //////////////////////////////////////////////////////////////////////////////
 
 AbstractSocket::AbstractSocket()
-: sock(INVALID_SOCKET_VALUE),
-  state(not_opened),
-  err(0)
+    : sock(INVALID_SOCKET_VALUE),
+      state(not_opened),
+      err(0)
 {
 }
 
 
 
-AbstractSocket::AbstractSocket(SOCKET_TYPE sock_,
-    SocketState state_, int err_)
-: sock(sock_),
-  state(state_),
-  err(err_)
+AbstractSocket::AbstractSocket(SOCKET_TYPE sock_, SocketState state_, int err_)
+    : sock(sock_),
+      state(state_),
+      err(err_)
 {
 }
 
 
 
-AbstractSocket::AbstractSocket(const AbstractSocket& rhs)
+AbstractSocket::AbstractSocket(AbstractSocket && rhs)
+    : AbstractSocket ()
 {
-    copy(rhs);
+    swap (rhs);
 }
 
 
@@ -76,9 +76,11 @@ AbstractSocket::~AbstractSocket()
 void
 AbstractSocket::close()
 {
-    if(sock != INVALID_SOCKET_VALUE) {
+    if (sock != INVALID_SOCKET_VALUE)
+    {
         closeSocket(sock);
         sock = INVALID_SOCKET_VALUE;
+        state = not_opened;
     }
 }
 
@@ -86,9 +88,8 @@ AbstractSocket::close()
 void
 AbstractSocket::shutdown()
 {
-    if(sock != INVALID_SOCKET_VALUE) {
+    if (sock != INVALID_SOCKET_VALUE)
         shutdownSocket(sock);
-    }    
 }
 
 
@@ -99,32 +100,23 @@ AbstractSocket::isOpen() const
 }
 
 
-
-AbstractSocket&
-AbstractSocket::operator=(const AbstractSocket& rhs)
+AbstractSocket &
+AbstractSocket::operator = (AbstractSocket && rhs)
 {
-    if(&rhs != this) {
-        close();
-        copy(rhs);
-    }
-
+    swap (rhs);
     return *this;
 }
 
 
-
 void
-AbstractSocket::copy(const AbstractSocket& r)
+AbstractSocket::swap (AbstractSocket & rhs)
 {
-    AbstractSocket& rhs = const_cast<AbstractSocket&>(r);
-    sock = rhs.sock;
-    state = rhs.state;
-    err = rhs.err;
-    rhs.sock = INVALID_SOCKET_VALUE;
-    rhs.state = not_opened;
-    rhs.err = 0;
-}
+    using std::swap;
 
+    swap (sock, rhs.sock);
+    swap (state, rhs.state);
+    swap (err, rhs.err);
+}
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -158,9 +150,21 @@ Socket::Socket(SOCKET_TYPE sock_, SocketState state_, int err_)
 { }
 
 
+Socket::Socket (Socket && other)
+    : AbstractSocket (std::move (other))
+{ }
+
+
 Socket::~Socket()
 { }
 
+
+Socket &
+Socket::operator = (Socket && other)
+{
+    swap (other);
+    return *this;
+}
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -203,6 +207,34 @@ Socket::write(const std::string & buffer)
         close();
 
     return retval > 0;
+}
+
+
+//
+//
+//
+
+ServerSocket::ServerSocket (ServerSocket && other)
+    : AbstractSocket (std::move (other))
+    , interruptHandles { -1, -1 }
+{
+    interruptHandles.swap (other.interruptHandles);
+}
+
+
+ServerSocket &
+ServerSocket::operator = (ServerSocket && other)
+{
+    swap (other);
+    return *this;
+}
+
+
+void
+ServerSocket::swap (ServerSocket & other)
+{
+    AbstractSocket::swap (other);
+    interruptHandles.swap (other.interruptHandles);
 }
 
 

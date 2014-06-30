@@ -30,6 +30,8 @@
 #pragma once
 #endif
 
+#include <array>
+
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/socketbuffer.h>
 
@@ -41,7 +43,7 @@ namespace log4cplus {
                            not_opened,
                            bad_address,
                            connection_failed,
-                           broken_pipe, 
+                           broken_pipe,
                            invalid_access_mode,
                            message_truncated,
                            accept_interrupted
@@ -53,24 +55,21 @@ namespace log4cplus {
 
         class LOG4CPLUS_EXPORT AbstractSocket {
         public:
-          // ctor and dtor
             AbstractSocket();
             AbstractSocket(SOCKET_TYPE sock, SocketState state, int err);
-            AbstractSocket(const AbstractSocket&);
+            AbstractSocket(AbstractSocket const &) = delete;
+            AbstractSocket(AbstractSocket &&);
             virtual ~AbstractSocket() = 0;
 
-          // methods
             /// Close socket
             virtual void close();
             virtual bool isOpen() const;
-            virtual void shutdown(); 
-            AbstractSocket& operator=(const AbstractSocket& rhs);
+            virtual void shutdown();
+            AbstractSocket & operator = (AbstractSocket && rhs);
+
+            void swap (AbstractSocket &);
 
         protected:
-          // Methods
-            virtual void copy(const AbstractSocket& rhs);
-
-          // Data
             SOCKET_TYPE sock;
             SocketState state;
             int err;
@@ -88,7 +87,10 @@ namespace log4cplus {
             Socket();
             Socket(SOCKET_TYPE sock, SocketState state, int err);
             Socket(const tstring& address, unsigned short port, bool udp = false);
+            Socket(Socket &&);
             virtual ~Socket();
+
+            Socket & operator = (Socket &&);
 
           // methods
             virtual bool read(SocketBuffer& buffer);
@@ -106,15 +108,18 @@ namespace log4cplus {
          */
         class LOG4CPLUS_EXPORT ServerSocket : public AbstractSocket {
         public:
-          // ctor and dtor
             ServerSocket(unsigned short port);
+            ServerSocket(ServerSocket &&);
             virtual ~ServerSocket();
+
+            ServerSocket & operator = (ServerSocket &&);
 
             Socket accept();
             void interruptAccept ();
+            void swap (ServerSocket &);
 
         protected:
-            std::ptrdiff_t interruptHandles[2];
+            std::array<std::ptrdiff_t, 2> interruptHandles;
         };
 
 

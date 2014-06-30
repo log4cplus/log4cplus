@@ -50,7 +50,6 @@
 #include <cstdlib>
 #include <iterator>
 #include <sstream>
-#include <functional>
 
 
 namespace log4cplus
@@ -399,7 +398,7 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
     tstring configString;
     std::remove_copy_if(config.begin(), config.end(),
         std::back_inserter (configString),
-        std::bind1st(std::equal_to<tchar>(), LOG4CPLUS_TEXT(' ')));
+        [](tchar const ch) -> bool { return ch == LOG4CPLUS_TEXT(' '); });
 
     // "Tokenize" configString
     std::vector<tstring> tokens;

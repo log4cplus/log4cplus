@@ -59,8 +59,8 @@ ObjectRegistryBase::getAllNames() const
 
     {
         thread::MutexGuard guard (mutex);
-        for(ObjectMap::const_iterator it=data.begin(); it!=data.end(); ++it)
-            tmp.push_back( (*it).first );
+        for (auto const & kv : data)
+            tmp.emplace_back(kv.first);
     }
 
     return tmp;
@@ -112,8 +112,8 @@ ObjectRegistryBase::clear()
 {
     thread::MutexGuard guard (mutex);
 
-    for(ObjectMap::iterator it=data.begin(); it!=data.end(); ++it)
-        deleteObject( it->second );
+    for (auto const & kv : data)
+        deleteObject (kv.second);
 }
 
 

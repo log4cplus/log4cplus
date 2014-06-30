@@ -311,7 +311,7 @@ void
 Hierarchy::updateParents(Logger const & logger)
 {
     tstring const & name = logger.getName();
-    std::size_t const length = name.length();
+    auto const length = name.length();
     bool parentFound = false;
     tstring substr;
 

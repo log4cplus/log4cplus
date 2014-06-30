@@ -236,8 +236,8 @@ am__objects_3 = src/liblog4cplus_la-appenderattachableimpl.lo \
 	src/liblog4cplus_la-loggingevent.lo \
 	src/liblog4cplus_la-loggingmacros.lo \
 	src/liblog4cplus_la-loglevel.lo src/liblog4cplus_la-loglog.lo \
-	src/liblog4cplus_la-logloguser.lo src/liblog4cplus_la-mdc.lo \
-	src/liblog4cplus_la-ndc.lo src/liblog4cplus_la-nullappender.lo \
+	src/liblog4cplus_la-mdc.lo src/liblog4cplus_la-ndc.lo \
+	src/liblog4cplus_la-nullappender.lo \
 	src/liblog4cplus_la-nteventlogappender.lo \
 	src/liblog4cplus_la-objectregistry.lo \
 	src/liblog4cplus_la-patternlayout.lo \
@@ -672,7 +672,6 @@ SINGLE_THREADED_SRC = \
 	src/loggingmacros.cxx \
 	src/loglevel.cxx \
 	src/loglog.cxx \
-	src/logloguser.cxx \
 	src/mdc.cxx \
 	src/ndc.cxx \
 	src/nullappender.cxx \
@@ -1042,8 +1041,6 @@ src/liblog4cplus_la-loggingmacros.lo: src/$(am__dirstamp) \
 src/liblog4cplus_la-loglevel.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-loglog.lo: src/$(am__dirstamp) \
-	src/$(DEPDIR)/$(am__dirstamp)
-src/liblog4cplus_la-logloguser.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-mdc.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
@@ -1420,7 +1417,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-loggingmacros.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-loglevel.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-loglog.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-logloguser.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-mdc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-ndc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-nteventlogappender.Plo@am__quote@
@@ -1674,13 +1670,6 @@ src/liblog4cplus_la-loglog.lo: src/loglog.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/loglog.cxx' object='src/liblog4cplus_la-loglog.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-loglog.lo `test -f 'src/loglog.cxx' || echo '$(srcdir)/'`src/loglog.cxx
-
-src/liblog4cplus_la-logloguser.lo: src/logloguser.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-logloguser.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-logloguser.Tpo -c -o src/liblog4cplus_la-logloguser.lo `test -f 'src/logloguser.cxx' || echo '$(srcdir)/'`src/logloguser.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplus_la-logloguser.Tpo src/$(DEPDIR)/liblog4cplus_la-logloguser.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/logloguser.cxx' object='src/liblog4cplus_la-logloguser.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-logloguser.lo `test -f 'src/logloguser.cxx' || echo '$(srcdir)/'`src/logloguser.cxx
 
 src/liblog4cplus_la-mdc.lo: src/mdc.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-mdc.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-mdc.Tpo -c -o src/liblog4cplus_la-mdc.lo `test -f 'src/mdc.cxx' || echo '$(srcdir)/'`src/mdc.cxx

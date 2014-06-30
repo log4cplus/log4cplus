@@ -29,6 +29,74 @@ printDebug()
 }
 
 
+void
+test_1 (Logger & root)
+{
+    PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
+    LOG4CPLUS_WARN(root, "Testing....");
+}
+
+
+void
+test_2 (Logger & root)
+{
+    LOG4CPLUS_WARN(root, "Testing std::function<> filter....");
+    root.removeAllAppenders ();
+    auto filterFunction = [=](const InternalLoggingEvent& event)
+        -> FilterResult {
+        log4cplus::tstring const & msg = event.getMessage ();
+        if (event.getLogLevel () >= WARN_LOG_LEVEL)
+        {
+            getLogLog ().debug (
+                LOG4CPLUS_TEXT ("function filter: going neutral on event: ")
+                + msg);
+
+            return NEUTRAL;
+        }
+        else if (msg == LOG4CPLUS_TEXT ("visible"))
+        {
+            getLogLog ().debug (
+                LOG4CPLUS_TEXT ("function filter: accepting event: ")
+                + msg);
+            return ACCEPT;
+        }
+        else
+        {
+            getLogLog ().debug (
+                LOG4CPLUS_TEXT ("function filter: denying event: ")
+                + msg);
+            return DENY;
+        }
+    };
+
+    SharedAppenderPtr appender (new ConsoleAppender);
+    appender->setName (LOG4CPLUS_TEXT ("SECOND"));
+    appender->addFilter (FilterPtr (new FunctionFilter (filterFunction)));
+    root.addAppender (std::move (appender));
+}
+
+
+void
+test_3 (Logger & root)
+{
+    LOG4CPLUS_WARN(root,
+        LOG4CPLUS_TEXT("Testing std::function<> filter,")
+        LOG4CPLUS_TEXT(" 2nd overload of addFilter()...."));
+    root.removeAllAppenders ();
+    SharedAppenderPtr appender (new ConsoleAppender);
+    appender->setName (LOG4CPLUS_TEXT ("THIRD"));
+    appender->addFilter (
+        [=](const InternalLoggingEvent & event)
+        -> FilterResult {
+            getLogLog ().debug (
+                LOG4CPLUS_TEXT ("function filter: accepting event: ")
+                + event.getMessage ());
+            return ACCEPT;
+        });
+    root.addAppender (std::move (appender));
+}
+
+
 int
 main()
 {
@@ -39,43 +107,18 @@ main()
     try {
         // Test filters set up through properties file.
 
-        PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
-        LOG4CPLUS_WARN(root, "Testing....");
+        test_1 (root);
         printDebug();
 
         // Test custom function filter.
-        LOG4CPLUS_WARN(root, "Testing std::function<> filter....");
-        root.removeAllAppenders ();
-        auto filterFunction = [=](const InternalLoggingEvent& event)
-            -> FilterResult {
-            log4cplus::tstring const & msg = event.getMessage ();
-            if (event.getLogLevel () >= WARN_LOG_LEVEL)
-            {
-                getLogLog ().debug (
-                    LOG4CPLUS_TEXT ("function filter: going neutral on event: ")
-                    + msg);
 
-                return NEUTRAL;
-            }
-            else if (msg == LOG4CPLUS_TEXT ("visible"))
-            {
-                getLogLog ().debug (
-                    LOG4CPLUS_TEXT ("function filter: accepting event: ")
-                    + msg);
-                return ACCEPT;
-            }
-            else
-            {
-                getLogLog ().debug (
-                    LOG4CPLUS_TEXT ("function filter: denying event: ")
-                    + msg);
-                return DENY;
-            }
-        };
+        test_2 (root);
+        printDebug();
 
-        SharedAppenderPtr appender (new ConsoleAppender);
-        appender->addFilter (FilterPtr (new FunctionFilter (filterFunction)));
-        root.addAppender (std::move (appender));
+        // Test custom function filter added using second overload of
+        // `addFilter()`.
+
+        test_3 (root);
         printDebug();
     }
     catch(...) {
