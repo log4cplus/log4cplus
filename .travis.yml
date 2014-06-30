@@ -1,7 +1,6 @@
 language: cpp
 compiler:
   - gcc
-  - clang
 env:
   - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-c-locale"
     CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
