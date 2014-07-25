@@ -161,11 +161,10 @@ dnl Build wchar_t aware alternative.
 
 AC_ARG_WITH([wchar_t-support],
   [AS_HELP_STRING([--with-wchar_t-support],
-    [Compile with log4cplus::tchar as wchar_t.
-     This also changes the output library name by adding 'w' suffix.])],
+    [Additionally, produce binaries with log4cplus::tchar as wchar_t.
+     The additional produced binaries will have 'U' suffix. [default=yes]])],
   [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-wchar_t-support])],
-  [with_wchar_t_support=no])
-
+  [with_wchar_t_support=yes])
 AM_CONDITIONAL([BUILD_WITH_WCHAR_T_SUPPORT],
   [test "x$with_wchar_t_support" = "xyes"])
 

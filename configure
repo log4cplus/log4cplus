@@ -1523,9 +1523,9 @@ Optional Packages:
                           conversion.
   --with-iconv            Use iconv() for char->wchar_t conversion.
   --with-c++11-threads    Use C++11 threads and synchronization primitives.
-  --with-wchar_t-support  Compile with log4cplus::tchar as wchar_t. This also
-                          changes the output library name by adding 'w'
-                          suffix.
+  --with-wchar_t-support  Additionally, produce binaries with log4cplus::tchar
+                          as wchar_t. The additional produced binaries will
+                          have 'U' suffix. [default=yes]
   --with-qt               Build liblog4cplusqt4debugappender.
   --with-qt5              Build liblog4cplusqt5debugappender.
   --with-python           Build Python/SWIG bindings.
@@ -4664,9 +4664,8 @@ if test "${with_wchar_t_support+set}" = set; then :
   withval=$with_wchar_t_support;
    log4cplus_check_yesno_func "${withval}" "--with-wchar_t-support"
 else
-  with_wchar_t_support=no
+  with_wchar_t_support=yes
 fi
-
 
  if test "x$with_wchar_t_support" = "xyes"; then
   BUILD_WITH_WCHAR_T_SUPPORT_TRUE=
