@@ -157,6 +157,18 @@ AC_ARG_ENABLE([symbols-visibility-options],
     [--enable-symbols-visibility-options])],
   [enable_symbols_visibility_options=yes])
 
+dnl Build wchar_t aware alternative.
+
+AC_ARG_WITH([wchar_t-support],
+  [AS_HELP_STRING([--with-wchar_t-support],
+    [Compile with log4cplus::tchar as wchar_t.
+     This also changes the output library name by adding 'w' suffix.])],
+  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-wchar_t-support])],
+  [with_wchar_t_support=no])
+
+AM_CONDITIONAL([BUILD_WITH_WCHAR_T_SUPPORT],
+  [test "x$with_wchar_t_support" = "xyes"])
+
 dnl Check for c/c++ compilers.
 
 AC_PROG_CXX

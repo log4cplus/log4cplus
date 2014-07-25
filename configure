@@ -707,6 +707,8 @@ CXXDEPMODE
 ac_ct_CXX
 CXXFLAGS
 CXX
+BUILD_WITH_WCHAR_T_SUPPORT_FALSE
+BUILD_WITH_WCHAR_T_SUPPORT_TRUE
 ENABLE_RELEASE_OPTION_FALSE
 ENABLE_RELEASE_OPTION_TRUE
 ENABLE_VERSION_INFO_OPTION_FALSE
@@ -828,6 +830,7 @@ enable_warnings
 enable_so_version
 enable_release_version
 enable_symbols_visibility_options
+with_wchar_t_support
 enable_profiling
 enable_threads
 with_qt
@@ -1520,6 +1523,9 @@ Optional Packages:
                           conversion.
   --with-iconv            Use iconv() for char->wchar_t conversion.
   --with-c++11-threads    Use C++11 threads and synchronization primitives.
+  --with-wchar_t-support  Compile with log4cplus::tchar as wchar_t. This also
+                          changes the output library name by adding 'w'
+                          suffix.
   --with-qt               Build liblog4cplusqt4debugappender.
   --with-qt5              Build liblog4cplusqt5debugappender.
   --with-python           Build Python/SWIG bindings.
@@ -4648,6 +4654,26 @@ if test "${enable_symbols_visibility_options+set}" = set; then :
    log4cplus_check_yesno_func "${enableval}" "--enable-symbols-visibility-options"
 else
   enable_symbols_visibility_options=yes
+fi
+
+
+
+
+# Check whether --with-wchar_t-support was given.
+if test "${with_wchar_t_support+set}" = set; then :
+  withval=$with_wchar_t_support;
+   log4cplus_check_yesno_func "${withval}" "--with-wchar_t-support"
+else
+  with_wchar_t_support=no
+fi
+
+
+ if test "x$with_wchar_t_support" = "xyes"; then
+  BUILD_WITH_WCHAR_T_SUPPORT_TRUE=
+  BUILD_WITH_WCHAR_T_SUPPORT_FALSE='#'
+else
+  BUILD_WITH_WCHAR_T_SUPPORT_TRUE='#'
+  BUILD_WITH_WCHAR_T_SUPPORT_FALSE=
 fi
 
 
@@ -23427,6 +23453,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${ENABLE_RELEASE_OPTION_TRUE}" && test -z "${ENABLE_RELEASE_OPTION_FALSE}"; then
   as_fn_error $? "conditional \"ENABLE_RELEASE_OPTION\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${BUILD_WITH_WCHAR_T_SUPPORT_TRUE}" && test -z "${BUILD_WITH_WCHAR_T_SUPPORT_FALSE}"; then
+  as_fn_error $? "conditional \"BUILD_WITH_WCHAR_T_SUPPORT\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then

@@ -57,13 +57,11 @@ SINGLE_THREADED_SRC = \
 
 LIB_SRC = $(SINGLE_THREADED_SRC)
 
-liblog4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
+common_liblog4cplus_la_cppflags = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
+liblog4cplus_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags)
 
-#liblog4cplus_la_CXXFLAGS=@LOG4CPLUS_PROFILING_CXXFLAGS@
-
-#liblog4cplus_la_LDFLAGS=@LOG4CPLUS_PROFILING_LDFLAGS@
-
-liblog4cplus_la_SOURCES = $(LIB_SRC)
+common_liblog4cplus_la_sources = $(LIB_SRC)
+liblog4cplus_la_SOURCES = $(common_liblog4cplus_la_sources)
 
 if USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX
 LOG4CPLUS_EXPORT_SYMBOLS_REGEX = -export-symbols-regex 'log4cplus'
@@ -71,9 +69,19 @@ else
 LOG4CPLUS_EXPORT_SYMBOLS_REGEX =
 endif
 
-#liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -no-undefined \
+common_liblog4cplus_la_ldflags = -no-undefined \
 	$(LOG4CPLUS_VERSION_LT_FLAGS) \
 	$(LOG4CPLUS_PROFILING_LDFLAGS) \
 	$(LOG4CPLUS_AIX_XLC_LDFLAGS) \
 	$(LOG4CPLUS_EXPORT_SYMBOLS_REGEX)
+liblog4cplus_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
+
+if BUILD_WITH_WCHAR_T_SUPPORT
+lib_LTLIBRARIES += liblog4cplusU.la
+
+liblog4cplusU_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags) -DUNICODE=1
+
+liblog4cplusU_la_SOURCES = $(common_liblog4cplus_la_sources)
+
+liblog4cplusU_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
+endif

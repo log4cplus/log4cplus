@@ -1,5 +1,11 @@
 AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include \
 	@LOG4CPLUS_NDEBUG@
+
+if BUILD_WITH_WCHAR_T_SUPPORT
+# We do not want to propagate this flag to log4cplus.pc.
+#AM_CPPFLAGS += -DUNICODE=1
+endif
+
 AM_CXXFLAGS=@LOG4CPLUS_PROFILING_CXXFLAGS@
 AM_LDFLAGS=@LOG4CPLUS_PROFILING_LDFLAGS@
 

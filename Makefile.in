@@ -115,6 +115,7 @@ DIST_COMMON = $(srcdir)/src/Makefile.am \
 	$(top_srcdir)/tests/propertyconfig_test/log4cplus.tail.properties.in \
 	$(srcdir)/log4cplus.pc.in depcomp $(am__pkgpython_PYTHON_DIST) \
 	py-compile
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_1 = liblog4cplusU.la
 noinst_PROGRAMS = appender_test$(EXEEXT) $(am__EXEEXT_1) \
 	customloglevel_test$(EXEEXT) fileappender_test$(EXEEXT) \
 	filter_test$(EXEEXT) hierarchy_test$(EXEEXT) \
@@ -122,10 +123,10 @@ noinst_PROGRAMS = appender_test$(EXEEXT) $(am__EXEEXT_1) \
 	patternlayout_test$(EXEEXT) performance_test$(EXEEXT) \
 	priority_test$(EXEEXT) propertyconfig_test$(EXEEXT) \
 	socket_test$(EXEEXT) timeformat_test$(EXEEXT) $(am__EXEEXT_2)
-@MULTI_THREADED_TRUE@am__append_1 = configandwatch_test
-@MULTI_THREADED_TRUE@am__append_2 = thread_test loggingserver
-@QT_TRUE@am__append_3 = liblog4cplusqt4debugappender.la
-@QT5_TRUE@am__append_4 = liblog4cplusqt5debugappender.la
+@MULTI_THREADED_TRUE@am__append_2 = configandwatch_test
+@MULTI_THREADED_TRUE@am__append_3 = thread_test loggingserver
+@QT_TRUE@am__append_4 = liblog4cplusqt4debugappender.la
+@QT5_TRUE@am__append_5 = liblog4cplusqt5debugappender.la
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -261,12 +262,74 @@ am__objects_3 = src/liblog4cplus_la-appenderattachableimpl.lo \
 	src/liblog4cplus_la-win32consoleappender.lo \
 	src/liblog4cplus_la-win32debugappender.lo
 am__objects_4 = $(am__objects_3)
-am_liblog4cplus_la_OBJECTS = $(am__objects_4)
+am__objects_5 = $(am__objects_4)
+am_liblog4cplus_la_OBJECTS = $(am__objects_5)
 liblog4cplus_la_OBJECTS = $(am_liblog4cplus_la_OBJECTS)
 liblog4cplus_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(liblog4cplus_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
+liblog4cplusU_la_LIBADD =
+am__objects_6 = src/liblog4cplusU_la-appenderattachableimpl.lo \
+	src/liblog4cplusU_la-appender.lo \
+	src/liblog4cplusU_la-asyncappender.lo \
+	src/liblog4cplusU_la-clogger.lo \
+	src/liblog4cplusU_la-configurator.lo \
+	src/liblog4cplusU_la-connectorthread.lo \
+	src/liblog4cplusU_la-consoleappender.lo \
+	src/liblog4cplusU_la-cygwin-win32.lo \
+	src/liblog4cplusU_la-env.lo src/liblog4cplusU_la-factory.lo \
+	src/liblog4cplusU_la-fileappender.lo \
+	src/liblog4cplusU_la-fileinfo.lo \
+	src/liblog4cplusU_la-filter.lo \
+	src/liblog4cplusU_la-global-init.lo \
+	src/liblog4cplusU_la-hierarchy.lo \
+	src/liblog4cplusU_la-hierarchylocker.lo \
+	src/liblog4cplusU_la-layout.lo \
+	src/liblog4cplusU_la-log4judpappender.lo \
+	src/liblog4cplusU_la-lockfile.lo \
+	src/liblog4cplusU_la-logger.lo \
+	src/liblog4cplusU_la-loggerimpl.lo \
+	src/liblog4cplusU_la-loggingevent.lo \
+	src/liblog4cplusU_la-loggingmacros.lo \
+	src/liblog4cplusU_la-loglevel.lo \
+	src/liblog4cplusU_la-loglog.lo src/liblog4cplusU_la-mdc.lo \
+	src/liblog4cplusU_la-ndc.lo \
+	src/liblog4cplusU_la-nullappender.lo \
+	src/liblog4cplusU_la-nteventlogappender.lo \
+	src/liblog4cplusU_la-objectregistry.lo \
+	src/liblog4cplusU_la-patternlayout.lo \
+	src/liblog4cplusU_la-pointer.lo \
+	src/liblog4cplusU_la-property.lo src/liblog4cplusU_la-queue.lo \
+	src/liblog4cplusU_la-rootlogger.lo \
+	src/liblog4cplusU_la-snprintf.lo \
+	src/liblog4cplusU_la-socketappender.lo \
+	src/liblog4cplusU_la-socketbuffer.lo \
+	src/liblog4cplusU_la-socket.lo \
+	src/liblog4cplusU_la-socket-unix.lo \
+	src/liblog4cplusU_la-socket-win32.lo \
+	src/liblog4cplusU_la-stringhelper.lo \
+	src/liblog4cplusU_la-stringhelper-clocale.lo \
+	src/liblog4cplusU_la-stringhelper-cxxlocale.lo \
+	src/liblog4cplusU_la-stringhelper-iconv.lo \
+	src/liblog4cplusU_la-syncprims.lo \
+	src/liblog4cplusU_la-syslogappender.lo \
+	src/liblog4cplusU_la-threads.lo \
+	src/liblog4cplusU_la-timehelper.lo src/liblog4cplusU_la-tls.lo \
+	src/liblog4cplusU_la-version.lo \
+	src/liblog4cplusU_la-win32consoleappender.lo \
+	src/liblog4cplusU_la-win32debugappender.lo
+am__objects_7 = $(am__objects_6)
+am__objects_8 = $(am__objects_7)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_liblog4cplusU_la_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_8)
+liblog4cplusU_la_OBJECTS = $(am_liblog4cplusU_la_OBJECTS)
+liblog4cplusU_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(AM_CXXFLAGS) $(CXXFLAGS) $(liblog4cplusU_la_LDFLAGS) \
+	$(LDFLAGS) -o $@
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_liblog4cplusU_la_rpath = -rpath \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(libdir)
 @QT_TRUE@liblog4cplusqt4debugappender_la_DEPENDENCIES =  \
 @QT_TRUE@	$(liblog4cplus_la_file)
 @QT_TRUE@am_liblog4cplusqt4debugappender_la_OBJECTS = qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo
@@ -406,6 +469,7 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(_log4cplus_la_SOURCES) $(liblog4cplus_la_SOURCES) \
+	$(liblog4cplusU_la_SOURCES) \
 	$(liblog4cplusqt4debugappender_la_SOURCES) \
 	$(liblog4cplusqt5debugappender_la_SOURCES) \
 	$(appender_test_SOURCES) $(configandwatch_test_SOURCES) \
@@ -630,6 +694,9 @@ top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include \
 	@LOG4CPLUS_NDEBUG@
 
+
+# We do not want to propagate this flag to log4cplus.pc.
+#AM_CPPFLAGS += -DUNICODE=1
 AM_CXXFLAGS = @LOG4CPLUS_PROFILING_CXXFLAGS@
 AM_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@
 ACLOCAL_AMFLAGS = -I m4
@@ -645,7 +712,8 @@ pkgconfig_DATA = log4cplus.pc
 LOG4CPLUS_VERSION_LT_FLAGS = $(VERSION_INFO_OPTION) $(RELEASE_OPTION)
 INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
 liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
-lib_LTLIBRARIES = liblog4cplus.la $(am__append_3) $(am__append_4)
+lib_LTLIBRARIES = liblog4cplus.la $(am__append_1) $(am__append_4) \
+	$(am__append_5)
 SINGLE_THREADED_SRC = \
 	src/appenderattachableimpl.cxx \
 	src/appender.cxx \
@@ -702,22 +770,22 @@ SINGLE_THREADED_SRC = \
 	src/win32debugappender.cxx
 
 LIB_SRC = $(SINGLE_THREADED_SRC)
-liblog4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
-
-#liblog4cplus_la_CXXFLAGS=@LOG4CPLUS_PROFILING_CXXFLAGS@
-
-#liblog4cplus_la_LDFLAGS=@LOG4CPLUS_PROFILING_LDFLAGS@
-liblog4cplus_la_SOURCES = $(LIB_SRC)
+common_liblog4cplus_la_cppflags = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
+liblog4cplus_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags)
+common_liblog4cplus_la_sources = $(LIB_SRC)
+liblog4cplus_la_SOURCES = $(common_liblog4cplus_la_sources)
 @USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX_FALSE@LOG4CPLUS_EXPORT_SYMBOLS_REGEX = 
 @USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX_TRUE@LOG4CPLUS_EXPORT_SYMBOLS_REGEX = -export-symbols-regex 'log4cplus'
-
-#liblog4cplus_a_LIBADD = @LIBOBJS@ @ALLOCA@
-liblog4cplus_la_LDFLAGS = -no-undefined \
+common_liblog4cplus_la_ldflags = -no-undefined \
 	$(LOG4CPLUS_VERSION_LT_FLAGS) \
 	$(LOG4CPLUS_PROFILING_LDFLAGS) \
 	$(LOG4CPLUS_AIX_XLC_LDFLAGS) \
 	$(LOG4CPLUS_EXPORT_SYMBOLS_REGEX)
 
+liblog4cplus_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_SOURCES = $(common_liblog4cplus_la_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
 appender_test_SOURCES = tests/appender_test/main.cxx
 appender_test_LDADD = $(liblog4cplus_la_file)
 @MULTI_THREADED_TRUE@configandwatch_test_SOURCES = tests/configandwatch_test/main.cxx
@@ -1101,6 +1169,115 @@ src/liblog4cplus_la-win32debugappender.lo: src/$(am__dirstamp) \
 
 liblog4cplus.la: $(liblog4cplus_la_OBJECTS) $(liblog4cplus_la_DEPENDENCIES) $(EXTRA_liblog4cplus_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(liblog4cplus_la_LINK) -rpath $(libdir) $(liblog4cplus_la_OBJECTS) $(liblog4cplus_la_LIBADD) $(LIBS)
+src/liblog4cplusU_la-appenderattachableimpl.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-appender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-asyncappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-clogger.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-configurator.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-connectorthread.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-consoleappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-cygwin-win32.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-env.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-factory.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-fileappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-fileinfo.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-filter.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-global-init.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-hierarchy.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-hierarchylocker.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-layout.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-log4judpappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-lockfile.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-logger.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-loggerimpl.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-loggingevent.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-loggingmacros.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-loglevel.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-loglog.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-mdc.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-ndc.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-nullappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-nteventlogappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-objectregistry.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-patternlayout.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-pointer.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-property.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-queue.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-rootlogger.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-snprintf.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-socketappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-socketbuffer.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-socket.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-socket-unix.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-socket-win32.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-stringhelper.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-stringhelper-clocale.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-stringhelper-cxxlocale.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-stringhelper-iconv.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-syncprims.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-syslogappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-threads.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-timehelper.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-tls.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-version.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-win32consoleappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-win32debugappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+
+liblog4cplusU.la: $(liblog4cplusU_la_OBJECTS) $(liblog4cplusU_la_DEPENDENCIES) $(EXTRA_liblog4cplusU_la_DEPENDENCIES) 
+	$(AM_V_CXXLD)$(liblog4cplusU_la_LINK) $(am_liblog4cplusU_la_rpath) $(liblog4cplusU_la_OBJECTS) $(liblog4cplusU_la_LIBADD) $(LIBS)
 qt4debugappender/$(am__dirstamp):
 	@$(MKDIR_P) qt4debugappender
 	@: > qt4debugappender/$(am__dirstamp)
@@ -1392,6 +1569,59 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappender_la-qt4debugappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappender_la-qt5debugappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@simpleserver/$(DEPDIR)/loggingserver-loggingserver.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-appender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-asyncappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-clogger.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-configurator.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-connectorthread.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-consoleappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-cygwin-win32.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-env.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-factory.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-fileappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-fileinfo.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-filter.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-global-init.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-hierarchy.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-hierarchylocker.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-layout.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-lockfile.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-log4judpappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-logger.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-loggerimpl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-loggingevent.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-loggingmacros.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-loglevel.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-loglog.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-mdc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-ndc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-nteventlogappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-nullappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-objectregistry.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-patternlayout.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-pointer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-property.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-queue.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-rootlogger.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-snprintf.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-socket-unix.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-socket-win32.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-socket.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-socketappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-socketbuffer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-stringhelper-clocale.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-stringhelper-cxxlocale.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-stringhelper-iconv.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-stringhelper.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-syncprims.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-syslogappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-threads.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-timehelper.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-tls.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-version.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-win32consoleappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-win32debugappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-appender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-appenderattachableimpl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-asyncappender.Plo@am__quote@
@@ -1866,6 +2096,377 @@ src/liblog4cplus_la-win32debugappender.lo: src/win32debugappender.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/win32debugappender.cxx' object='src/liblog4cplus_la-win32debugappender.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-win32debugappender.lo `test -f 'src/win32debugappender.cxx' || echo '$(srcdir)/'`src/win32debugappender.cxx
+
+src/liblog4cplusU_la-appenderattachableimpl.lo: src/appenderattachableimpl.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-appenderattachableimpl.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Tpo -c -o src/liblog4cplusU_la-appenderattachableimpl.lo `test -f 'src/appenderattachableimpl.cxx' || echo '$(srcdir)/'`src/appenderattachableimpl.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Tpo src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/appenderattachableimpl.cxx' object='src/liblog4cplusU_la-appenderattachableimpl.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-appenderattachableimpl.lo `test -f 'src/appenderattachableimpl.cxx' || echo '$(srcdir)/'`src/appenderattachableimpl.cxx
+
+src/liblog4cplusU_la-appender.lo: src/appender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-appender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-appender.Tpo -c -o src/liblog4cplusU_la-appender.lo `test -f 'src/appender.cxx' || echo '$(srcdir)/'`src/appender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-appender.Tpo src/$(DEPDIR)/liblog4cplusU_la-appender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/appender.cxx' object='src/liblog4cplusU_la-appender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-appender.lo `test -f 'src/appender.cxx' || echo '$(srcdir)/'`src/appender.cxx
+
+src/liblog4cplusU_la-asyncappender.lo: src/asyncappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-asyncappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-asyncappender.Tpo -c -o src/liblog4cplusU_la-asyncappender.lo `test -f 'src/asyncappender.cxx' || echo '$(srcdir)/'`src/asyncappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-asyncappender.Tpo src/$(DEPDIR)/liblog4cplusU_la-asyncappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/asyncappender.cxx' object='src/liblog4cplusU_la-asyncappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-asyncappender.lo `test -f 'src/asyncappender.cxx' || echo '$(srcdir)/'`src/asyncappender.cxx
+
+src/liblog4cplusU_la-clogger.lo: src/clogger.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-clogger.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-clogger.Tpo -c -o src/liblog4cplusU_la-clogger.lo `test -f 'src/clogger.cxx' || echo '$(srcdir)/'`src/clogger.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-clogger.Tpo src/$(DEPDIR)/liblog4cplusU_la-clogger.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/clogger.cxx' object='src/liblog4cplusU_la-clogger.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-clogger.lo `test -f 'src/clogger.cxx' || echo '$(srcdir)/'`src/clogger.cxx
+
+src/liblog4cplusU_la-configurator.lo: src/configurator.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-configurator.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-configurator.Tpo -c -o src/liblog4cplusU_la-configurator.lo `test -f 'src/configurator.cxx' || echo '$(srcdir)/'`src/configurator.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-configurator.Tpo src/$(DEPDIR)/liblog4cplusU_la-configurator.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/configurator.cxx' object='src/liblog4cplusU_la-configurator.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-configurator.lo `test -f 'src/configurator.cxx' || echo '$(srcdir)/'`src/configurator.cxx
+
+src/liblog4cplusU_la-connectorthread.lo: src/connectorthread.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-connectorthread.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-connectorthread.Tpo -c -o src/liblog4cplusU_la-connectorthread.lo `test -f 'src/connectorthread.cxx' || echo '$(srcdir)/'`src/connectorthread.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-connectorthread.Tpo src/$(DEPDIR)/liblog4cplusU_la-connectorthread.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/connectorthread.cxx' object='src/liblog4cplusU_la-connectorthread.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-connectorthread.lo `test -f 'src/connectorthread.cxx' || echo '$(srcdir)/'`src/connectorthread.cxx
+
+src/liblog4cplusU_la-consoleappender.lo: src/consoleappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-consoleappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-consoleappender.Tpo -c -o src/liblog4cplusU_la-consoleappender.lo `test -f 'src/consoleappender.cxx' || echo '$(srcdir)/'`src/consoleappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-consoleappender.Tpo src/$(DEPDIR)/liblog4cplusU_la-consoleappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/consoleappender.cxx' object='src/liblog4cplusU_la-consoleappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-consoleappender.lo `test -f 'src/consoleappender.cxx' || echo '$(srcdir)/'`src/consoleappender.cxx
+
+src/liblog4cplusU_la-cygwin-win32.lo: src/cygwin-win32.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-cygwin-win32.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-cygwin-win32.Tpo -c -o src/liblog4cplusU_la-cygwin-win32.lo `test -f 'src/cygwin-win32.cxx' || echo '$(srcdir)/'`src/cygwin-win32.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-cygwin-win32.Tpo src/$(DEPDIR)/liblog4cplusU_la-cygwin-win32.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/cygwin-win32.cxx' object='src/liblog4cplusU_la-cygwin-win32.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-cygwin-win32.lo `test -f 'src/cygwin-win32.cxx' || echo '$(srcdir)/'`src/cygwin-win32.cxx
+
+src/liblog4cplusU_la-env.lo: src/env.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-env.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-env.Tpo -c -o src/liblog4cplusU_la-env.lo `test -f 'src/env.cxx' || echo '$(srcdir)/'`src/env.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-env.Tpo src/$(DEPDIR)/liblog4cplusU_la-env.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/env.cxx' object='src/liblog4cplusU_la-env.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-env.lo `test -f 'src/env.cxx' || echo '$(srcdir)/'`src/env.cxx
+
+src/liblog4cplusU_la-factory.lo: src/factory.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-factory.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-factory.Tpo -c -o src/liblog4cplusU_la-factory.lo `test -f 'src/factory.cxx' || echo '$(srcdir)/'`src/factory.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-factory.Tpo src/$(DEPDIR)/liblog4cplusU_la-factory.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/factory.cxx' object='src/liblog4cplusU_la-factory.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-factory.lo `test -f 'src/factory.cxx' || echo '$(srcdir)/'`src/factory.cxx
+
+src/liblog4cplusU_la-fileappender.lo: src/fileappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-fileappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-fileappender.Tpo -c -o src/liblog4cplusU_la-fileappender.lo `test -f 'src/fileappender.cxx' || echo '$(srcdir)/'`src/fileappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-fileappender.Tpo src/$(DEPDIR)/liblog4cplusU_la-fileappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/fileappender.cxx' object='src/liblog4cplusU_la-fileappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-fileappender.lo `test -f 'src/fileappender.cxx' || echo '$(srcdir)/'`src/fileappender.cxx
+
+src/liblog4cplusU_la-fileinfo.lo: src/fileinfo.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-fileinfo.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-fileinfo.Tpo -c -o src/liblog4cplusU_la-fileinfo.lo `test -f 'src/fileinfo.cxx' || echo '$(srcdir)/'`src/fileinfo.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-fileinfo.Tpo src/$(DEPDIR)/liblog4cplusU_la-fileinfo.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/fileinfo.cxx' object='src/liblog4cplusU_la-fileinfo.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-fileinfo.lo `test -f 'src/fileinfo.cxx' || echo '$(srcdir)/'`src/fileinfo.cxx
+
+src/liblog4cplusU_la-filter.lo: src/filter.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-filter.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-filter.Tpo -c -o src/liblog4cplusU_la-filter.lo `test -f 'src/filter.cxx' || echo '$(srcdir)/'`src/filter.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-filter.Tpo src/$(DEPDIR)/liblog4cplusU_la-filter.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/filter.cxx' object='src/liblog4cplusU_la-filter.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-filter.lo `test -f 'src/filter.cxx' || echo '$(srcdir)/'`src/filter.cxx
+
+src/liblog4cplusU_la-global-init.lo: src/global-init.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-global-init.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-global-init.Tpo -c -o src/liblog4cplusU_la-global-init.lo `test -f 'src/global-init.cxx' || echo '$(srcdir)/'`src/global-init.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-global-init.Tpo src/$(DEPDIR)/liblog4cplusU_la-global-init.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/global-init.cxx' object='src/liblog4cplusU_la-global-init.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-global-init.lo `test -f 'src/global-init.cxx' || echo '$(srcdir)/'`src/global-init.cxx
+
+src/liblog4cplusU_la-hierarchy.lo: src/hierarchy.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-hierarchy.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-hierarchy.Tpo -c -o src/liblog4cplusU_la-hierarchy.lo `test -f 'src/hierarchy.cxx' || echo '$(srcdir)/'`src/hierarchy.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-hierarchy.Tpo src/$(DEPDIR)/liblog4cplusU_la-hierarchy.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/hierarchy.cxx' object='src/liblog4cplusU_la-hierarchy.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-hierarchy.lo `test -f 'src/hierarchy.cxx' || echo '$(srcdir)/'`src/hierarchy.cxx
+
+src/liblog4cplusU_la-hierarchylocker.lo: src/hierarchylocker.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-hierarchylocker.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-hierarchylocker.Tpo -c -o src/liblog4cplusU_la-hierarchylocker.lo `test -f 'src/hierarchylocker.cxx' || echo '$(srcdir)/'`src/hierarchylocker.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-hierarchylocker.Tpo src/$(DEPDIR)/liblog4cplusU_la-hierarchylocker.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/hierarchylocker.cxx' object='src/liblog4cplusU_la-hierarchylocker.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-hierarchylocker.lo `test -f 'src/hierarchylocker.cxx' || echo '$(srcdir)/'`src/hierarchylocker.cxx
+
+src/liblog4cplusU_la-layout.lo: src/layout.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-layout.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-layout.Tpo -c -o src/liblog4cplusU_la-layout.lo `test -f 'src/layout.cxx' || echo '$(srcdir)/'`src/layout.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-layout.Tpo src/$(DEPDIR)/liblog4cplusU_la-layout.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/layout.cxx' object='src/liblog4cplusU_la-layout.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-layout.lo `test -f 'src/layout.cxx' || echo '$(srcdir)/'`src/layout.cxx
+
+src/liblog4cplusU_la-log4judpappender.lo: src/log4judpappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-log4judpappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-log4judpappender.Tpo -c -o src/liblog4cplusU_la-log4judpappender.lo `test -f 'src/log4judpappender.cxx' || echo '$(srcdir)/'`src/log4judpappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-log4judpappender.Tpo src/$(DEPDIR)/liblog4cplusU_la-log4judpappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/log4judpappender.cxx' object='src/liblog4cplusU_la-log4judpappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-log4judpappender.lo `test -f 'src/log4judpappender.cxx' || echo '$(srcdir)/'`src/log4judpappender.cxx
+
+src/liblog4cplusU_la-lockfile.lo: src/lockfile.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-lockfile.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-lockfile.Tpo -c -o src/liblog4cplusU_la-lockfile.lo `test -f 'src/lockfile.cxx' || echo '$(srcdir)/'`src/lockfile.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-lockfile.Tpo src/$(DEPDIR)/liblog4cplusU_la-lockfile.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lockfile.cxx' object='src/liblog4cplusU_la-lockfile.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-lockfile.lo `test -f 'src/lockfile.cxx' || echo '$(srcdir)/'`src/lockfile.cxx
+
+src/liblog4cplusU_la-logger.lo: src/logger.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-logger.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-logger.Tpo -c -o src/liblog4cplusU_la-logger.lo `test -f 'src/logger.cxx' || echo '$(srcdir)/'`src/logger.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-logger.Tpo src/$(DEPDIR)/liblog4cplusU_la-logger.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/logger.cxx' object='src/liblog4cplusU_la-logger.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-logger.lo `test -f 'src/logger.cxx' || echo '$(srcdir)/'`src/logger.cxx
+
+src/liblog4cplusU_la-loggerimpl.lo: src/loggerimpl.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-loggerimpl.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-loggerimpl.Tpo -c -o src/liblog4cplusU_la-loggerimpl.lo `test -f 'src/loggerimpl.cxx' || echo '$(srcdir)/'`src/loggerimpl.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-loggerimpl.Tpo src/$(DEPDIR)/liblog4cplusU_la-loggerimpl.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/loggerimpl.cxx' object='src/liblog4cplusU_la-loggerimpl.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-loggerimpl.lo `test -f 'src/loggerimpl.cxx' || echo '$(srcdir)/'`src/loggerimpl.cxx
+
+src/liblog4cplusU_la-loggingevent.lo: src/loggingevent.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-loggingevent.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-loggingevent.Tpo -c -o src/liblog4cplusU_la-loggingevent.lo `test -f 'src/loggingevent.cxx' || echo '$(srcdir)/'`src/loggingevent.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-loggingevent.Tpo src/$(DEPDIR)/liblog4cplusU_la-loggingevent.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/loggingevent.cxx' object='src/liblog4cplusU_la-loggingevent.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-loggingevent.lo `test -f 'src/loggingevent.cxx' || echo '$(srcdir)/'`src/loggingevent.cxx
+
+src/liblog4cplusU_la-loggingmacros.lo: src/loggingmacros.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-loggingmacros.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-loggingmacros.Tpo -c -o src/liblog4cplusU_la-loggingmacros.lo `test -f 'src/loggingmacros.cxx' || echo '$(srcdir)/'`src/loggingmacros.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-loggingmacros.Tpo src/$(DEPDIR)/liblog4cplusU_la-loggingmacros.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/loggingmacros.cxx' object='src/liblog4cplusU_la-loggingmacros.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-loggingmacros.lo `test -f 'src/loggingmacros.cxx' || echo '$(srcdir)/'`src/loggingmacros.cxx
+
+src/liblog4cplusU_la-loglevel.lo: src/loglevel.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-loglevel.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-loglevel.Tpo -c -o src/liblog4cplusU_la-loglevel.lo `test -f 'src/loglevel.cxx' || echo '$(srcdir)/'`src/loglevel.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-loglevel.Tpo src/$(DEPDIR)/liblog4cplusU_la-loglevel.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/loglevel.cxx' object='src/liblog4cplusU_la-loglevel.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-loglevel.lo `test -f 'src/loglevel.cxx' || echo '$(srcdir)/'`src/loglevel.cxx
+
+src/liblog4cplusU_la-loglog.lo: src/loglog.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-loglog.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-loglog.Tpo -c -o src/liblog4cplusU_la-loglog.lo `test -f 'src/loglog.cxx' || echo '$(srcdir)/'`src/loglog.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-loglog.Tpo src/$(DEPDIR)/liblog4cplusU_la-loglog.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/loglog.cxx' object='src/liblog4cplusU_la-loglog.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-loglog.lo `test -f 'src/loglog.cxx' || echo '$(srcdir)/'`src/loglog.cxx
+
+src/liblog4cplusU_la-mdc.lo: src/mdc.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-mdc.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-mdc.Tpo -c -o src/liblog4cplusU_la-mdc.lo `test -f 'src/mdc.cxx' || echo '$(srcdir)/'`src/mdc.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-mdc.Tpo src/$(DEPDIR)/liblog4cplusU_la-mdc.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/mdc.cxx' object='src/liblog4cplusU_la-mdc.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-mdc.lo `test -f 'src/mdc.cxx' || echo '$(srcdir)/'`src/mdc.cxx
+
+src/liblog4cplusU_la-ndc.lo: src/ndc.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-ndc.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-ndc.Tpo -c -o src/liblog4cplusU_la-ndc.lo `test -f 'src/ndc.cxx' || echo '$(srcdir)/'`src/ndc.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-ndc.Tpo src/$(DEPDIR)/liblog4cplusU_la-ndc.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/ndc.cxx' object='src/liblog4cplusU_la-ndc.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-ndc.lo `test -f 'src/ndc.cxx' || echo '$(srcdir)/'`src/ndc.cxx
+
+src/liblog4cplusU_la-nullappender.lo: src/nullappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-nullappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-nullappender.Tpo -c -o src/liblog4cplusU_la-nullappender.lo `test -f 'src/nullappender.cxx' || echo '$(srcdir)/'`src/nullappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-nullappender.Tpo src/$(DEPDIR)/liblog4cplusU_la-nullappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/nullappender.cxx' object='src/liblog4cplusU_la-nullappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-nullappender.lo `test -f 'src/nullappender.cxx' || echo '$(srcdir)/'`src/nullappender.cxx
+
+src/liblog4cplusU_la-nteventlogappender.lo: src/nteventlogappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-nteventlogappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-nteventlogappender.Tpo -c -o src/liblog4cplusU_la-nteventlogappender.lo `test -f 'src/nteventlogappender.cxx' || echo '$(srcdir)/'`src/nteventlogappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-nteventlogappender.Tpo src/$(DEPDIR)/liblog4cplusU_la-nteventlogappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/nteventlogappender.cxx' object='src/liblog4cplusU_la-nteventlogappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-nteventlogappender.lo `test -f 'src/nteventlogappender.cxx' || echo '$(srcdir)/'`src/nteventlogappender.cxx
+
+src/liblog4cplusU_la-objectregistry.lo: src/objectregistry.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-objectregistry.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-objectregistry.Tpo -c -o src/liblog4cplusU_la-objectregistry.lo `test -f 'src/objectregistry.cxx' || echo '$(srcdir)/'`src/objectregistry.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-objectregistry.Tpo src/$(DEPDIR)/liblog4cplusU_la-objectregistry.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/objectregistry.cxx' object='src/liblog4cplusU_la-objectregistry.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-objectregistry.lo `test -f 'src/objectregistry.cxx' || echo '$(srcdir)/'`src/objectregistry.cxx
+
+src/liblog4cplusU_la-patternlayout.lo: src/patternlayout.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-patternlayout.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-patternlayout.Tpo -c -o src/liblog4cplusU_la-patternlayout.lo `test -f 'src/patternlayout.cxx' || echo '$(srcdir)/'`src/patternlayout.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-patternlayout.Tpo src/$(DEPDIR)/liblog4cplusU_la-patternlayout.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/patternlayout.cxx' object='src/liblog4cplusU_la-patternlayout.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-patternlayout.lo `test -f 'src/patternlayout.cxx' || echo '$(srcdir)/'`src/patternlayout.cxx
+
+src/liblog4cplusU_la-pointer.lo: src/pointer.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-pointer.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-pointer.Tpo -c -o src/liblog4cplusU_la-pointer.lo `test -f 'src/pointer.cxx' || echo '$(srcdir)/'`src/pointer.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-pointer.Tpo src/$(DEPDIR)/liblog4cplusU_la-pointer.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/pointer.cxx' object='src/liblog4cplusU_la-pointer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-pointer.lo `test -f 'src/pointer.cxx' || echo '$(srcdir)/'`src/pointer.cxx
+
+src/liblog4cplusU_la-property.lo: src/property.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-property.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-property.Tpo -c -o src/liblog4cplusU_la-property.lo `test -f 'src/property.cxx' || echo '$(srcdir)/'`src/property.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-property.Tpo src/$(DEPDIR)/liblog4cplusU_la-property.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/property.cxx' object='src/liblog4cplusU_la-property.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-property.lo `test -f 'src/property.cxx' || echo '$(srcdir)/'`src/property.cxx
+
+src/liblog4cplusU_la-queue.lo: src/queue.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-queue.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-queue.Tpo -c -o src/liblog4cplusU_la-queue.lo `test -f 'src/queue.cxx' || echo '$(srcdir)/'`src/queue.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-queue.Tpo src/$(DEPDIR)/liblog4cplusU_la-queue.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/queue.cxx' object='src/liblog4cplusU_la-queue.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-queue.lo `test -f 'src/queue.cxx' || echo '$(srcdir)/'`src/queue.cxx
+
+src/liblog4cplusU_la-rootlogger.lo: src/rootlogger.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-rootlogger.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-rootlogger.Tpo -c -o src/liblog4cplusU_la-rootlogger.lo `test -f 'src/rootlogger.cxx' || echo '$(srcdir)/'`src/rootlogger.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-rootlogger.Tpo src/$(DEPDIR)/liblog4cplusU_la-rootlogger.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/rootlogger.cxx' object='src/liblog4cplusU_la-rootlogger.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-rootlogger.lo `test -f 'src/rootlogger.cxx' || echo '$(srcdir)/'`src/rootlogger.cxx
+
+src/liblog4cplusU_la-snprintf.lo: src/snprintf.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-snprintf.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-snprintf.Tpo -c -o src/liblog4cplusU_la-snprintf.lo `test -f 'src/snprintf.cxx' || echo '$(srcdir)/'`src/snprintf.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-snprintf.Tpo src/$(DEPDIR)/liblog4cplusU_la-snprintf.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/snprintf.cxx' object='src/liblog4cplusU_la-snprintf.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-snprintf.lo `test -f 'src/snprintf.cxx' || echo '$(srcdir)/'`src/snprintf.cxx
+
+src/liblog4cplusU_la-socketappender.lo: src/socketappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-socketappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-socketappender.Tpo -c -o src/liblog4cplusU_la-socketappender.lo `test -f 'src/socketappender.cxx' || echo '$(srcdir)/'`src/socketappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-socketappender.Tpo src/$(DEPDIR)/liblog4cplusU_la-socketappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/socketappender.cxx' object='src/liblog4cplusU_la-socketappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-socketappender.lo `test -f 'src/socketappender.cxx' || echo '$(srcdir)/'`src/socketappender.cxx
+
+src/liblog4cplusU_la-socketbuffer.lo: src/socketbuffer.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-socketbuffer.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-socketbuffer.Tpo -c -o src/liblog4cplusU_la-socketbuffer.lo `test -f 'src/socketbuffer.cxx' || echo '$(srcdir)/'`src/socketbuffer.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-socketbuffer.Tpo src/$(DEPDIR)/liblog4cplusU_la-socketbuffer.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/socketbuffer.cxx' object='src/liblog4cplusU_la-socketbuffer.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-socketbuffer.lo `test -f 'src/socketbuffer.cxx' || echo '$(srcdir)/'`src/socketbuffer.cxx
+
+src/liblog4cplusU_la-socket.lo: src/socket.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-socket.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-socket.Tpo -c -o src/liblog4cplusU_la-socket.lo `test -f 'src/socket.cxx' || echo '$(srcdir)/'`src/socket.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-socket.Tpo src/$(DEPDIR)/liblog4cplusU_la-socket.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/socket.cxx' object='src/liblog4cplusU_la-socket.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-socket.lo `test -f 'src/socket.cxx' || echo '$(srcdir)/'`src/socket.cxx
+
+src/liblog4cplusU_la-socket-unix.lo: src/socket-unix.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-socket-unix.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-socket-unix.Tpo -c -o src/liblog4cplusU_la-socket-unix.lo `test -f 'src/socket-unix.cxx' || echo '$(srcdir)/'`src/socket-unix.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-socket-unix.Tpo src/$(DEPDIR)/liblog4cplusU_la-socket-unix.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/socket-unix.cxx' object='src/liblog4cplusU_la-socket-unix.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-socket-unix.lo `test -f 'src/socket-unix.cxx' || echo '$(srcdir)/'`src/socket-unix.cxx
+
+src/liblog4cplusU_la-socket-win32.lo: src/socket-win32.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-socket-win32.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-socket-win32.Tpo -c -o src/liblog4cplusU_la-socket-win32.lo `test -f 'src/socket-win32.cxx' || echo '$(srcdir)/'`src/socket-win32.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-socket-win32.Tpo src/$(DEPDIR)/liblog4cplusU_la-socket-win32.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/socket-win32.cxx' object='src/liblog4cplusU_la-socket-win32.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-socket-win32.lo `test -f 'src/socket-win32.cxx' || echo '$(srcdir)/'`src/socket-win32.cxx
+
+src/liblog4cplusU_la-stringhelper.lo: src/stringhelper.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-stringhelper.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-stringhelper.Tpo -c -o src/liblog4cplusU_la-stringhelper.lo `test -f 'src/stringhelper.cxx' || echo '$(srcdir)/'`src/stringhelper.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-stringhelper.Tpo src/$(DEPDIR)/liblog4cplusU_la-stringhelper.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/stringhelper.cxx' object='src/liblog4cplusU_la-stringhelper.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-stringhelper.lo `test -f 'src/stringhelper.cxx' || echo '$(srcdir)/'`src/stringhelper.cxx
+
+src/liblog4cplusU_la-stringhelper-clocale.lo: src/stringhelper-clocale.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-stringhelper-clocale.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-stringhelper-clocale.Tpo -c -o src/liblog4cplusU_la-stringhelper-clocale.lo `test -f 'src/stringhelper-clocale.cxx' || echo '$(srcdir)/'`src/stringhelper-clocale.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-stringhelper-clocale.Tpo src/$(DEPDIR)/liblog4cplusU_la-stringhelper-clocale.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/stringhelper-clocale.cxx' object='src/liblog4cplusU_la-stringhelper-clocale.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-stringhelper-clocale.lo `test -f 'src/stringhelper-clocale.cxx' || echo '$(srcdir)/'`src/stringhelper-clocale.cxx
+
+src/liblog4cplusU_la-stringhelper-cxxlocale.lo: src/stringhelper-cxxlocale.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-stringhelper-cxxlocale.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-stringhelper-cxxlocale.Tpo -c -o src/liblog4cplusU_la-stringhelper-cxxlocale.lo `test -f 'src/stringhelper-cxxlocale.cxx' || echo '$(srcdir)/'`src/stringhelper-cxxlocale.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-stringhelper-cxxlocale.Tpo src/$(DEPDIR)/liblog4cplusU_la-stringhelper-cxxlocale.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/stringhelper-cxxlocale.cxx' object='src/liblog4cplusU_la-stringhelper-cxxlocale.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-stringhelper-cxxlocale.lo `test -f 'src/stringhelper-cxxlocale.cxx' || echo '$(srcdir)/'`src/stringhelper-cxxlocale.cxx
+
+src/liblog4cplusU_la-stringhelper-iconv.lo: src/stringhelper-iconv.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-stringhelper-iconv.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-stringhelper-iconv.Tpo -c -o src/liblog4cplusU_la-stringhelper-iconv.lo `test -f 'src/stringhelper-iconv.cxx' || echo '$(srcdir)/'`src/stringhelper-iconv.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-stringhelper-iconv.Tpo src/$(DEPDIR)/liblog4cplusU_la-stringhelper-iconv.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/stringhelper-iconv.cxx' object='src/liblog4cplusU_la-stringhelper-iconv.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-stringhelper-iconv.lo `test -f 'src/stringhelper-iconv.cxx' || echo '$(srcdir)/'`src/stringhelper-iconv.cxx
+
+src/liblog4cplusU_la-syncprims.lo: src/syncprims.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-syncprims.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-syncprims.Tpo -c -o src/liblog4cplusU_la-syncprims.lo `test -f 'src/syncprims.cxx' || echo '$(srcdir)/'`src/syncprims.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-syncprims.Tpo src/$(DEPDIR)/liblog4cplusU_la-syncprims.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/syncprims.cxx' object='src/liblog4cplusU_la-syncprims.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-syncprims.lo `test -f 'src/syncprims.cxx' || echo '$(srcdir)/'`src/syncprims.cxx
+
+src/liblog4cplusU_la-syslogappender.lo: src/syslogappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-syslogappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-syslogappender.Tpo -c -o src/liblog4cplusU_la-syslogappender.lo `test -f 'src/syslogappender.cxx' || echo '$(srcdir)/'`src/syslogappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-syslogappender.Tpo src/$(DEPDIR)/liblog4cplusU_la-syslogappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/syslogappender.cxx' object='src/liblog4cplusU_la-syslogappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-syslogappender.lo `test -f 'src/syslogappender.cxx' || echo '$(srcdir)/'`src/syslogappender.cxx
+
+src/liblog4cplusU_la-threads.lo: src/threads.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-threads.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-threads.Tpo -c -o src/liblog4cplusU_la-threads.lo `test -f 'src/threads.cxx' || echo '$(srcdir)/'`src/threads.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-threads.Tpo src/$(DEPDIR)/liblog4cplusU_la-threads.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/threads.cxx' object='src/liblog4cplusU_la-threads.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-threads.lo `test -f 'src/threads.cxx' || echo '$(srcdir)/'`src/threads.cxx
+
+src/liblog4cplusU_la-timehelper.lo: src/timehelper.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-timehelper.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-timehelper.Tpo -c -o src/liblog4cplusU_la-timehelper.lo `test -f 'src/timehelper.cxx' || echo '$(srcdir)/'`src/timehelper.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-timehelper.Tpo src/$(DEPDIR)/liblog4cplusU_la-timehelper.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/timehelper.cxx' object='src/liblog4cplusU_la-timehelper.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-timehelper.lo `test -f 'src/timehelper.cxx' || echo '$(srcdir)/'`src/timehelper.cxx
+
+src/liblog4cplusU_la-tls.lo: src/tls.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-tls.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-tls.Tpo -c -o src/liblog4cplusU_la-tls.lo `test -f 'src/tls.cxx' || echo '$(srcdir)/'`src/tls.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-tls.Tpo src/$(DEPDIR)/liblog4cplusU_la-tls.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/tls.cxx' object='src/liblog4cplusU_la-tls.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-tls.lo `test -f 'src/tls.cxx' || echo '$(srcdir)/'`src/tls.cxx
+
+src/liblog4cplusU_la-version.lo: src/version.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-version.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-version.Tpo -c -o src/liblog4cplusU_la-version.lo `test -f 'src/version.cxx' || echo '$(srcdir)/'`src/version.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-version.Tpo src/$(DEPDIR)/liblog4cplusU_la-version.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/version.cxx' object='src/liblog4cplusU_la-version.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-version.lo `test -f 'src/version.cxx' || echo '$(srcdir)/'`src/version.cxx
+
+src/liblog4cplusU_la-win32consoleappender.lo: src/win32consoleappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-win32consoleappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-win32consoleappender.Tpo -c -o src/liblog4cplusU_la-win32consoleappender.lo `test -f 'src/win32consoleappender.cxx' || echo '$(srcdir)/'`src/win32consoleappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-win32consoleappender.Tpo src/$(DEPDIR)/liblog4cplusU_la-win32consoleappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/win32consoleappender.cxx' object='src/liblog4cplusU_la-win32consoleappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-win32consoleappender.lo `test -f 'src/win32consoleappender.cxx' || echo '$(srcdir)/'`src/win32consoleappender.cxx
+
+src/liblog4cplusU_la-win32debugappender.lo: src/win32debugappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-win32debugappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-win32debugappender.Tpo -c -o src/liblog4cplusU_la-win32debugappender.lo `test -f 'src/win32debugappender.cxx' || echo '$(srcdir)/'`src/win32debugappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-win32debugappender.Tpo src/$(DEPDIR)/liblog4cplusU_la-win32debugappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/win32debugappender.cxx' object='src/liblog4cplusU_la-win32debugappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-win32debugappender.lo `test -f 'src/win32debugappender.cxx' || echo '$(srcdir)/'`src/win32debugappender.cxx
 
 qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo: qt4debugappender/qt4debugappender.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusqt4debugappender_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo -MD -MP -MF qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappender_la-qt4debugappender.Tpo -c -o qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo `test -f 'qt4debugappender/qt4debugappender.cxx' || echo '$(srcdir)/'`qt4debugappender/qt4debugappender.cxx
