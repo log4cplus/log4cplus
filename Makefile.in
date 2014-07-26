@@ -117,16 +117,42 @@ DIST_COMMON = $(srcdir)/src/Makefile.am \
 	py-compile
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_1 = liblog4cplusU.la
 noinst_PROGRAMS = appender_test$(EXEEXT) $(am__EXEEXT_1) \
-	customloglevel_test$(EXEEXT) fileappender_test$(EXEEXT) \
-	filter_test$(EXEEXT) hierarchy_test$(EXEEXT) \
-	loglog_test$(EXEEXT) ndc_test$(EXEEXT) ostream_test$(EXEEXT) \
-	patternlayout_test$(EXEEXT) performance_test$(EXEEXT) \
-	priority_test$(EXEEXT) propertyconfig_test$(EXEEXT) \
-	socket_test$(EXEEXT) timeformat_test$(EXEEXT) $(am__EXEEXT_2)
-@MULTI_THREADED_TRUE@am__append_2 = configandwatch_test
-@MULTI_THREADED_TRUE@am__append_3 = thread_test loggingserver
-@QT_TRUE@am__append_4 = liblog4cplusqt4debugappender.la
-@QT5_TRUE@am__append_5 = liblog4cplusqt5debugappender.la
+	$(am__EXEEXT_2) $(am__EXEEXT_3) customloglevel_test$(EXEEXT) \
+	$(am__EXEEXT_4) fileappender_test$(EXEEXT) $(am__EXEEXT_5) \
+	filter_test$(EXEEXT) $(am__EXEEXT_6) hierarchy_test$(EXEEXT) \
+	$(am__EXEEXT_7) loglog_test$(EXEEXT) $(am__EXEEXT_8) \
+	ndc_test$(EXEEXT) $(am__EXEEXT_9) ostream_test$(EXEEXT) \
+	$(am__EXEEXT_10) patternlayout_test$(EXEEXT) $(am__EXEEXT_11) \
+	performance_test$(EXEEXT) $(am__EXEEXT_12) \
+	priority_test$(EXEEXT) $(am__EXEEXT_13) \
+	propertyconfig_test$(EXEEXT) $(am__EXEEXT_14) \
+	socket_test$(EXEEXT) $(am__EXEEXT_15) timeformat_test$(EXEEXT) \
+	$(am__EXEEXT_16) $(am__EXEEXT_17) $(am__EXEEXT_18) \
+	$(am__EXEEXT_19) $(am__EXEEXT_20)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_2 = appender_testU
+@MULTI_THREADED_TRUE@am__append_3 = configandwatch_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_4 = configandwatch_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_5 = customloglevel_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_6 = fileappender_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_7 = filter_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_8 = hierarchy_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_9 = loglog_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_10 = ndc_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_11 = ostream_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_12 = patternlayout_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_13 = performance_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_14 = priority_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_15 = propertyconfig_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_16 = socket_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_17 = timeformat_testU
+@MULTI_THREADED_TRUE@am__append_18 = thread_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_19 = thread_testU
+@MULTI_THREADED_TRUE@am__append_20 = loggingserver
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_21 = loggingserverU
+@QT_TRUE@am__append_22 = liblog4cplusqt4debugappender.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@am__append_23 = liblog4cplusqt4debugappenderU.la
+@QT5_TRUE@am__append_24 = liblog4cplusqt5debugappender.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@am__append_25 = liblog4cplusqt5debugappenderU.la
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -332,7 +358,9 @@ liblog4cplusU_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(libdir)
 @QT_TRUE@liblog4cplusqt4debugappender_la_DEPENDENCIES =  \
 @QT_TRUE@	$(liblog4cplus_la_file)
-@QT_TRUE@am_liblog4cplusqt4debugappender_la_OBJECTS = qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo
+@QT_TRUE@am__objects_9 = qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo
+@QT_TRUE@am_liblog4cplusqt4debugappender_la_OBJECTS =  \
+@QT_TRUE@	$(am__objects_9)
 liblog4cplusqt4debugappender_la_OBJECTS =  \
 	$(am_liblog4cplusqt4debugappender_la_OBJECTS)
 liblog4cplusqt4debugappender_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
@@ -340,9 +368,23 @@ liblog4cplusqt4debugappender_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_CXXFLAGS) $(CXXFLAGS) \
 	$(liblog4cplusqt4debugappender_la_LDFLAGS) $(LDFLAGS) -o $@
 @QT_TRUE@am_liblog4cplusqt4debugappender_la_rpath = -rpath $(libdir)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@liblog4cplusqt4debugappenderU_la_DEPENDENCIES = $(liblog4cplusU_la_file)
+@QT_TRUE@am__objects_10 = qt4debugappender/liblog4cplusqt4debugappenderU_la-qt4debugappender.lo
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@am_liblog4cplusqt4debugappenderU_la_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@	$(am__objects_10)
+liblog4cplusqt4debugappenderU_la_OBJECTS =  \
+	$(am_liblog4cplusqt4debugappenderU_la_OBJECTS)
+liblog4cplusqt4debugappenderU_la_LINK = $(LIBTOOL) $(AM_V_lt) \
+	--tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
+	$(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
+	$(liblog4cplusqt4debugappenderU_la_LDFLAGS) $(LDFLAGS) -o $@
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@am_liblog4cplusqt4debugappenderU_la_rpath =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@	-rpath $(libdir)
 @QT5_TRUE@liblog4cplusqt5debugappender_la_DEPENDENCIES =  \
 @QT5_TRUE@	$(liblog4cplus_la_file)
-@QT5_TRUE@am_liblog4cplusqt5debugappender_la_OBJECTS = qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo
+@QT5_TRUE@am__objects_11 = qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo
+@QT5_TRUE@am_liblog4cplusqt5debugappender_la_OBJECTS =  \
+@QT5_TRUE@	$(am__objects_11)
 liblog4cplusqt5debugappender_la_OBJECTS =  \
 	$(am_liblog4cplusqt5debugappender_la_OBJECTS)
 liblog4cplusqt5debugappender_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
@@ -350,72 +392,231 @@ liblog4cplusqt5debugappender_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_CXXFLAGS) $(CXXFLAGS) \
 	$(liblog4cplusqt5debugappender_la_LDFLAGS) $(LDFLAGS) -o $@
 @QT5_TRUE@am_liblog4cplusqt5debugappender_la_rpath = -rpath $(libdir)
-@MULTI_THREADED_TRUE@am__EXEEXT_1 = configandwatch_test$(EXEEXT)
-@MULTI_THREADED_TRUE@am__EXEEXT_2 = thread_test$(EXEEXT) \
-@MULTI_THREADED_TRUE@	loggingserver$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@liblog4cplusqt5debugappenderU_la_DEPENDENCIES = $(liblog4cplusU_la_file)
+@QT5_TRUE@am__objects_12 = qt5debugappender/liblog4cplusqt5debugappenderU_la-qt5debugappender.lo
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@am_liblog4cplusqt5debugappenderU_la_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@	$(am__objects_12)
+liblog4cplusqt5debugappenderU_la_OBJECTS =  \
+	$(am_liblog4cplusqt5debugappenderU_la_OBJECTS)
+liblog4cplusqt5debugappenderU_la_LINK = $(LIBTOOL) $(AM_V_lt) \
+	--tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
+	$(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
+	$(liblog4cplusqt5debugappenderU_la_LDFLAGS) $(LDFLAGS) -o $@
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@am_liblog4cplusqt5debugappenderU_la_rpath =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@	-rpath $(libdir)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_1 =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	appender_testU$(EXEEXT)
+@MULTI_THREADED_TRUE@am__EXEEXT_2 = configandwatch_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_3 = configandwatch_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_4 = customloglevel_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_5 =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	fileappender_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_6 = filter_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_7 =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	hierarchy_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_8 = loglog_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_9 = ndc_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_10 =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	ostream_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_11 =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	patternlayout_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_12 =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	performance_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_13 =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	priority_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_14 = propertyconfig_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_15 =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	socket_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_16 =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	timeformat_testU$(EXEEXT)
+@MULTI_THREADED_TRUE@am__EXEEXT_17 = thread_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_18 = thread_testU$(EXEEXT)
+@MULTI_THREADED_TRUE@am__EXEEXT_19 = loggingserver$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_20 = loggingserverU$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
-am_appender_test_OBJECTS = tests/appender_test/main.$(OBJEXT)
+am__objects_13 = tests/appender_test/main.$(OBJEXT)
+am_appender_test_OBJECTS = $(am__objects_13)
 appender_test_OBJECTS = $(am_appender_test_OBJECTS)
 appender_test_DEPENDENCIES = $(liblog4cplus_la_file)
-@MULTI_THREADED_TRUE@am_configandwatch_test_OBJECTS =  \
+am__objects_14 = tests/appender_test/appender_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_appender_testU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_14)
+appender_testU_OBJECTS = $(am_appender_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@appender_testU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
+@MULTI_THREADED_TRUE@am__objects_15 =  \
 @MULTI_THREADED_TRUE@	tests/configandwatch_test/main.$(OBJEXT)
+@MULTI_THREADED_TRUE@am_configandwatch_test_OBJECTS =  \
+@MULTI_THREADED_TRUE@	$(am__objects_15)
 configandwatch_test_OBJECTS = $(am_configandwatch_test_OBJECTS)
 @MULTI_THREADED_TRUE@configandwatch_test_DEPENDENCIES =  \
 @MULTI_THREADED_TRUE@	$(liblog4cplus_la_file)
-am_customloglevel_test_OBJECTS =  \
-	tests/customloglevel_test/main.$(OBJEXT) \
+@MULTI_THREADED_TRUE@am__objects_16 = tests/configandwatch_test/configandwatch_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am_configandwatch_testU_OBJECTS = $(am__objects_16)
+configandwatch_testU_OBJECTS = $(am_configandwatch_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@configandwatch_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
+am__objects_17 = tests/customloglevel_test/main.$(OBJEXT) \
 	tests/customloglevel_test/func.$(OBJEXT) \
 	tests/customloglevel_test/customloglevel.$(OBJEXT)
+am_customloglevel_test_OBJECTS = $(am__objects_17)
 customloglevel_test_OBJECTS = $(am_customloglevel_test_OBJECTS)
 customloglevel_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am_fileappender_test_OBJECTS = tests/fileappender_test/main.$(OBJEXT)
+am__objects_18 =  \
+	tests/customloglevel_test/customloglevel_testU-main.$(OBJEXT) \
+	tests/customloglevel_test/customloglevel_testU-func.$(OBJEXT) \
+	tests/customloglevel_test/customloglevel_testU-customloglevel.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_customloglevel_testU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_18)
+customloglevel_testU_OBJECTS = $(am_customloglevel_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@customloglevel_testU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
+am__objects_19 = tests/fileappender_test/main.$(OBJEXT)
+am_fileappender_test_OBJECTS = $(am__objects_19)
 fileappender_test_OBJECTS = $(am_fileappender_test_OBJECTS)
 fileappender_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am_filter_test_OBJECTS = tests/filter_test/main.$(OBJEXT)
+am__objects_20 =  \
+	tests/fileappender_test/fileappender_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_fileappender_testU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_20)
+fileappender_testU_OBJECTS = $(am_fileappender_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@fileappender_testU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
+am__objects_21 = tests/filter_test/main.$(OBJEXT)
+am_filter_test_OBJECTS = $(am__objects_21)
 filter_test_OBJECTS = $(am_filter_test_OBJECTS)
 filter_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am_hierarchy_test_OBJECTS = tests/hierarchy_test/main.$(OBJEXT)
+am__objects_22 = tests/filter_test/filter_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_filter_testU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_22)
+filter_testU_OBJECTS = $(am_filter_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@filter_testU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
+am__objects_23 = tests/hierarchy_test/main.$(OBJEXT)
+am_hierarchy_test_OBJECTS = $(am__objects_23)
 hierarchy_test_OBJECTS = $(am_hierarchy_test_OBJECTS)
 hierarchy_test_DEPENDENCIES = $(liblog4cplus_la_file)
-@MULTI_THREADED_TRUE@am_loggingserver_OBJECTS = simpleserver/loggingserver-loggingserver.$(OBJEXT)
+am__objects_24 = tests/hierarchy_test/hierarchy_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_hierarchy_testU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_24)
+hierarchy_testU_OBJECTS = $(am_hierarchy_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@hierarchy_testU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
+@MULTI_THREADED_TRUE@am__objects_25 =  \
+@MULTI_THREADED_TRUE@	simpleserver/loggingserver.$(OBJEXT)
+@MULTI_THREADED_TRUE@am_loggingserver_OBJECTS = $(am__objects_25)
 loggingserver_OBJECTS = $(am_loggingserver_OBJECTS)
 @MULTI_THREADED_TRUE@loggingserver_DEPENDENCIES =  \
 @MULTI_THREADED_TRUE@	$(liblog4cplus_la_file)
-am_loglog_test_OBJECTS = tests/loglog_test/main.$(OBJEXT)
+@MULTI_THREADED_TRUE@am__objects_26 = simpleserver/loggingserverU-loggingserver.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am_loggingserverU_OBJECTS = $(am__objects_26)
+loggingserverU_OBJECTS = $(am_loggingserverU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@loggingserverU_DEPENDENCIES = $(liblog4cplusU_la_file)
+am__objects_27 = tests/loglog_test/main.$(OBJEXT)
+am_loglog_test_OBJECTS = $(am__objects_27)
 loglog_test_OBJECTS = $(am_loglog_test_OBJECTS)
 loglog_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am_ndc_test_OBJECTS = tests/ndc_test/main.$(OBJEXT)
+am__objects_28 = tests/loglog_test/loglog_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_loglog_testU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_28)
+loglog_testU_OBJECTS = $(am_loglog_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@loglog_testU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
+am__objects_29 = tests/ndc_test/main.$(OBJEXT)
+am_ndc_test_OBJECTS = $(am__objects_29)
 ndc_test_OBJECTS = $(am_ndc_test_OBJECTS)
 ndc_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am_ostream_test_OBJECTS = tests/ostream_test/main.$(OBJEXT)
+am__objects_30 = tests/ndc_test/ndc_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_ndc_testU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_30)
+ndc_testU_OBJECTS = $(am_ndc_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ndc_testU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
+am__objects_31 = tests/ostream_test/main.$(OBJEXT)
+am_ostream_test_OBJECTS = $(am__objects_31)
 ostream_test_OBJECTS = $(am_ostream_test_OBJECTS)
 ostream_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am_patternlayout_test_OBJECTS =  \
-	tests/patternlayout_test/main.$(OBJEXT)
+am__objects_32 = tests/ostream_test/ostream_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_ostream_testU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_32)
+ostream_testU_OBJECTS = $(am_ostream_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ostream_testU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
+am__objects_33 = tests/patternlayout_test/main.$(OBJEXT)
+am_patternlayout_test_OBJECTS = $(am__objects_33)
 patternlayout_test_OBJECTS = $(am_patternlayout_test_OBJECTS)
 patternlayout_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am_performance_test_OBJECTS = tests/performance_test/main.$(OBJEXT)
+am__objects_34 =  \
+	tests/patternlayout_test/patternlayout_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_patternlayout_testU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_34)
+patternlayout_testU_OBJECTS = $(am_patternlayout_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@patternlayout_testU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
+am__objects_35 = tests/performance_test/main.$(OBJEXT)
+am_performance_test_OBJECTS = $(am__objects_35)
 performance_test_OBJECTS = $(am_performance_test_OBJECTS)
 performance_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am_priority_test_OBJECTS = tests/priority_test/main.$(OBJEXT) \
+am__objects_36 =  \
+	tests/performance_test/performance_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_performance_testU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_36)
+performance_testU_OBJECTS = $(am_performance_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@performance_testU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
+am__objects_37 = tests/priority_test/main.$(OBJEXT) \
 	tests/priority_test/func.$(OBJEXT)
+am_priority_test_OBJECTS = $(am__objects_37)
 priority_test_OBJECTS = $(am_priority_test_OBJECTS)
 priority_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am_propertyconfig_test_OBJECTS =  \
-	tests/propertyconfig_test/main.$(OBJEXT)
+am__objects_38 = tests/priority_test/priority_testU-main.$(OBJEXT) \
+	tests/priority_test/priority_testU-func.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_priority_testU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_38)
+priority_testU_OBJECTS = $(am_priority_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@priority_testU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
+am__objects_39 = tests/propertyconfig_test/main.$(OBJEXT)
+am_propertyconfig_test_OBJECTS = $(am__objects_39)
 propertyconfig_test_OBJECTS = $(am_propertyconfig_test_OBJECTS)
 propertyconfig_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am_socket_test_OBJECTS = tests/socket_test/main.$(OBJEXT)
+am__objects_40 =  \
+	tests/propertyconfig_test/propertyconfig_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_propertyconfig_testU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_40)
+propertyconfig_testU_OBJECTS = $(am_propertyconfig_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@propertyconfig_testU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
+am__objects_41 = tests/socket_test/main.$(OBJEXT)
+am_socket_test_OBJECTS = $(am__objects_41)
 socket_test_OBJECTS = $(am_socket_test_OBJECTS)
 socket_test_DEPENDENCIES = $(liblog4cplus_la_file)
-@MULTI_THREADED_TRUE@am_thread_test_OBJECTS =  \
+am__objects_42 = tests/socket_test/socket_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_socket_testU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_42)
+socket_testU_OBJECTS = $(am_socket_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@socket_testU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
+@MULTI_THREADED_TRUE@am__objects_43 =  \
 @MULTI_THREADED_TRUE@	tests/thread_test/main.$(OBJEXT)
+@MULTI_THREADED_TRUE@am_thread_test_OBJECTS = $(am__objects_43)
 thread_test_OBJECTS = $(am_thread_test_OBJECTS)
 @MULTI_THREADED_TRUE@thread_test_DEPENDENCIES =  \
 @MULTI_THREADED_TRUE@	$(liblog4cplus_la_file)
-am_timeformat_test_OBJECTS = tests/timeformat_test/main.$(OBJEXT)
+@MULTI_THREADED_TRUE@am__objects_44 = tests/thread_test/thread_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am_thread_testU_OBJECTS = $(am__objects_44)
+thread_testU_OBJECTS = $(am_thread_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@thread_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
+am__objects_45 = tests/timeformat_test/main.$(OBJEXT)
+am_timeformat_test_OBJECTS = $(am__objects_45)
 timeformat_test_OBJECTS = $(am_timeformat_test_OBJECTS)
 timeformat_test_DEPENDENCIES = $(liblog4cplus_la_file)
+am__objects_46 =  \
+	tests/timeformat_test/timeformat_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_timeformat_testU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_46)
+timeformat_testU_OBJECTS = $(am_timeformat_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -471,16 +672,26 @@ am__v_CCLD_1 =
 SOURCES = $(_log4cplus_la_SOURCES) $(liblog4cplus_la_SOURCES) \
 	$(liblog4cplusU_la_SOURCES) \
 	$(liblog4cplusqt4debugappender_la_SOURCES) \
+	$(liblog4cplusqt4debugappenderU_la_SOURCES) \
 	$(liblog4cplusqt5debugappender_la_SOURCES) \
-	$(appender_test_SOURCES) $(configandwatch_test_SOURCES) \
-	$(customloglevel_test_SOURCES) $(fileappender_test_SOURCES) \
-	$(filter_test_SOURCES) $(hierarchy_test_SOURCES) \
-	$(loggingserver_SOURCES) $(loglog_test_SOURCES) \
-	$(ndc_test_SOURCES) $(ostream_test_SOURCES) \
-	$(patternlayout_test_SOURCES) $(performance_test_SOURCES) \
-	$(priority_test_SOURCES) $(propertyconfig_test_SOURCES) \
-	$(socket_test_SOURCES) $(thread_test_SOURCES) \
-	$(timeformat_test_SOURCES)
+	$(liblog4cplusqt5debugappenderU_la_SOURCES) \
+	$(appender_test_SOURCES) $(appender_testU_SOURCES) \
+	$(configandwatch_test_SOURCES) $(configandwatch_testU_SOURCES) \
+	$(customloglevel_test_SOURCES) $(customloglevel_testU_SOURCES) \
+	$(fileappender_test_SOURCES) $(fileappender_testU_SOURCES) \
+	$(filter_test_SOURCES) $(filter_testU_SOURCES) \
+	$(hierarchy_test_SOURCES) $(hierarchy_testU_SOURCES) \
+	$(loggingserver_SOURCES) $(loggingserverU_SOURCES) \
+	$(loglog_test_SOURCES) $(loglog_testU_SOURCES) \
+	$(ndc_test_SOURCES) $(ndc_testU_SOURCES) \
+	$(ostream_test_SOURCES) $(ostream_testU_SOURCES) \
+	$(patternlayout_test_SOURCES) $(patternlayout_testU_SOURCES) \
+	$(performance_test_SOURCES) $(performance_testU_SOURCES) \
+	$(priority_test_SOURCES) $(priority_testU_SOURCES) \
+	$(propertyconfig_test_SOURCES) $(propertyconfig_testU_SOURCES) \
+	$(socket_test_SOURCES) $(socket_testU_SOURCES) \
+	$(thread_test_SOURCES) $(thread_testU_SOURCES) \
+	$(timeformat_test_SOURCES) $(timeformat_testU_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -694,9 +905,6 @@ top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include \
 	@LOG4CPLUS_NDEBUG@
 
-
-# We do not want to propagate this flag to log4cplus.pc.
-#AM_CPPFLAGS += -DUNICODE=1
 AM_CXXFLAGS = @LOG4CPLUS_PROFILING_CXXFLAGS@
 AM_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@
 ACLOCAL_AMFLAGS = -I m4
@@ -712,8 +920,9 @@ pkgconfig_DATA = log4cplus.pc
 LOG4CPLUS_VERSION_LT_FLAGS = $(VERSION_INFO_OPTION) $(RELEASE_OPTION)
 INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
 liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
-lib_LTLIBRARIES = liblog4cplus.la $(am__append_1) $(am__append_4) \
-	$(am__append_5)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_file = $(top_builddir)/liblog4cplusU.la
+lib_LTLIBRARIES = liblog4cplus.la $(am__append_1) $(am__append_22) \
+	$(am__append_23) $(am__append_24) $(am__append_25)
 SINGLE_THREADED_SRC = \
 	src/appenderattachableimpl.cxx \
 	src/appender.cxx \
@@ -786,83 +995,178 @@ liblog4cplus_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags) -DUNICODE=1
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_SOURCES = $(common_liblog4cplus_la_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
-appender_test_SOURCES = tests/appender_test/main.cxx
+appender_test_sources = tests/appender_test/main.cxx
+appender_test_SOURCES = $(appender_test_sources)
 appender_test_LDADD = $(liblog4cplus_la_file)
-@MULTI_THREADED_TRUE@configandwatch_test_SOURCES = tests/configandwatch_test/main.cxx
-@MULTI_THREADED_TRUE@configandwatch_test_LDADD = $(liblog4cplus_la_file) 
-customloglevel_test_SOURCES = \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@appender_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@appender_testU_SOURCES = $(appender_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@appender_testU_LDADD = $(liblog4cplusU_la_file)
+@MULTI_THREADED_TRUE@configandwatch_test_sources = tests/configandwatch_test/main.cxx
+@MULTI_THREADED_TRUE@configandwatch_test_SOURCES = $(configandwatch_test_sources)
+@MULTI_THREADED_TRUE@configandwatch_test_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@configandwatch_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@configandwatch_testU_SOURCES = $(configandwatch_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@configandwatch_testU_LDADD = $(liblog4cplusU_la_file)
+customloglevel_test_sources = \
 	tests/customloglevel_test/main.cxx \
 	tests/customloglevel_test/func.cxx \
 	tests/customloglevel_test/customloglevel.cxx
 
-customloglevel_test_LDADD = $(liblog4cplus_la_file) 
-fileappender_test_SOURCES = tests/fileappender_test/main.cxx
-fileappender_test_LDADD = $(liblog4cplus_la_file) 
-filter_test_SOURCES = tests/filter_test/main.cxx
-filter_test_LDADD = $(liblog4cplus_la_file) 
-hierarchy_test_SOURCES = tests/hierarchy_test/main.cxx
-hierarchy_test_LDADD = $(liblog4cplus_la_file) 
-loglog_test_SOURCES = tests/loglog_test/main.cxx
-loglog_test_LDADD = $(liblog4cplus_la_file) 
-ndc_test_SOURCES = tests/ndc_test/main.cxx
-ndc_test_LDADD = $(liblog4cplus_la_file) 
-ostream_test_SOURCES = tests/ostream_test/main.cxx
-ostream_test_LDADD = $(liblog4cplus_la_file) 
-patternlayout_test_SOURCES = tests/patternlayout_test/main.cxx
-patternlayout_test_LDADD = $(liblog4cplus_la_file) 
-performance_test_SOURCES = tests/performance_test/main.cxx
-performance_test_LDADD = $(liblog4cplus_la_file) 
-priority_test_SOURCES = \
+customloglevel_test_SOURCES = $(customloglevel_test_sources)
+customloglevel_test_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@customloglevel_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@customloglevel_testU_SOURCES = $(customloglevel_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@customloglevel_testU_LDADD = $(liblog4cplusU_la_file)
+fileappender_test_sources = tests/fileappender_test/main.cxx
+fileappender_test_SOURCES = $(fileappender_test_sources)
+fileappender_test_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@fileappender_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@fileappender_testU_SOURCES = $(fileappender_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@fileappender_testU_LDADD = $(liblog4cplusU_la_file)
+filter_test_sources = tests/filter_test/main.cxx
+filter_test_SOURCES = $(filter_test_sources)
+filter_test_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@filter_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@filter_testU_SOURCES = $(filter_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@filter_testU_LDADD = $(liblog4cplusU_la_file)
+hierarchy_test_sources = tests/hierarchy_test/main.cxx
+hierarchy_test_SOURCES = $(hierarchy_test_sources)
+hierarchy_test_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@hierarchy_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@hierarchy_testU_SOURCES = $(hierarchy_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@hierarchy_testU_LDADD = $(liblog4cplusU_la_file)
+loglog_test_sources = tests/loglog_test/main.cxx
+loglog_test_SOURCES = $(loglog_test_sources)
+loglog_test_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@loglog_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@loglog_testU_SOURCES = $(loglog_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@loglog_testU_LDADD = $(liblog4cplusU_la_file)
+ndc_test_sources = tests/ndc_test/main.cxx
+ndc_test_SOURCES = $(ndc_test_sources)
+ndc_test_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ndc_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ndc_testU_SOURCES = $(ndc_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ndc_testU_LDADD = $(liblog4cplusU_la_file)
+ostream_test_sources = tests/ostream_test/main.cxx
+ostream_test_SOURCES = $(ostream_test_sources)
+ostream_test_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ostream_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ostream_testU_SOURCES = $(ostream_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ostream_testU_LDADD = $(liblog4cplusU_la_file)
+patternlayout_test_sources = tests/patternlayout_test/main.cxx
+patternlayout_test_SOURCES = $(patternlayout_test_sources)
+patternlayout_test_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@patternlayout_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@patternlayout_testU_SOURCES = $(patternlayout_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@patternlayout_testU_LDADD = $(liblog4cplusU_la_file)
+performance_test_sources = tests/performance_test/main.cxx
+performance_test_SOURCES = $(performance_test_sources)
+performance_test_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@performance_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@performance_testU_SOURCES = $(performance_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@performance_testU_LDADD = $(liblog4cplusU_la_file)
+priority_test_sources = \
 	tests/priority_test/main.cxx \
 	tests/priority_test/func.cxx
 
-priority_test_LDADD = $(liblog4cplus_la_file) 
-propertyconfig_test_SOURCES = tests/propertyconfig_test/main.cxx
-propertyconfig_test_LDADD = $(liblog4cplus_la_file) 
-socket_test_SOURCES = tests/socket_test/main.cxx
-socket_test_LDADD = $(liblog4cplus_la_file) 
-timeformat_test_SOURCES = tests/timeformat_test/main.cxx
+priority_test_SOURCES = $(priority_test_sources)
+priority_test_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@priority_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@priority_testU_SOURCES = $(priority_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@priority_testU_LDADD = $(liblog4cplusU_la_file)
+propertyconfig_test_sources = tests/propertyconfig_test/main.cxx
+propertyconfig_test_SOURCES = $(propertyconfig_test_sources)
+propertyconfig_test_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@propertyconfig_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@propertyconfig_testU_SOURCES = $(propertyconfig_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@propertyconfig_testU_LDADD = $(liblog4cplusU_la_file)
+socket_test_sources = tests/socket_test/main.cxx
+socket_test_SOURCES = $(socket_test_sources)
+socket_test_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@socket_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@socket_testU_SOURCES = $(socket_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@socket_testU_LDADD = $(liblog4cplusU_la_file)
+timeformat_test_sources = tests/timeformat_test/main.cxx
+timeformat_test_SOURCES = $(timeformat_test_sources)
 timeformat_test_LDADD = $(liblog4cplus_la_file)
-@MULTI_THREADED_TRUE@thread_test_SOURCES = tests/thread_test/main.cxx
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_SOURCES = $(timeformat_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_LDADD = $(liblog4cplusU_la_file)
+@MULTI_THREADED_TRUE@thread_test_sources = tests/thread_test/main.cxx
+@MULTI_THREADED_TRUE@thread_test_SOURCES = $(thread_test_sources)
 @MULTI_THREADED_TRUE@thread_test_LDADD = $(liblog4cplus_la_file)
-@MULTI_THREADED_TRUE@loggingserver_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include \
-@MULTI_THREADED_TRUE@	@LOG4CPLUS_NDEBUG@
-
-@MULTI_THREADED_TRUE@loggingserver_SOURCES = simpleserver/loggingserver.cxx
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@thread_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@thread_testU_SOURCES = $(thread_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@thread_testU_LDADD = $(liblog4cplusU_la_file)
+@MULTI_THREADED_TRUE@loggingserver_sources = simpleserver/loggingserver.cxx
+@MULTI_THREADED_TRUE@loggingserver_SOURCES = $(loggingserver_sources)
 @MULTI_THREADED_TRUE@loggingserver_LDADD = $(liblog4cplus_la_file)
-@QT_TRUE@liblog4cplusqt4debugappender_la_CPPFLAGS = \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@loggingserverU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@loggingserverU_SOURCES = $(loggingserver_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@loggingserverU_LDADD = $(liblog4cplusU_la_file)
+@QT_TRUE@liblog4cplusqt4debugappender_la_cppflags = \
 @QT_TRUE@	$(AM_CPPFLAGS) \
 @QT_TRUE@	-DINSIDE_LOG4CPLUS_QT4DEBUGAPPENDER \
 @QT_TRUE@	@QT_CFLAGS@
 
+@QT_TRUE@liblog4cplusqt4debugappender_la_CPPFLAGS = \
+@QT_TRUE@	$(liblog4cplusqt4debugappender_la_cppflags)
 
-#liblog4cplusqt4debugappender_la_CXXFLAGS=-no-suppress \
-#	 @LOG4CPLUS_PROFILING_CXXFLAGS@
-@QT_TRUE@liblog4cplusqt4debugappender_la_SOURCES = \
+@QT_TRUE@liblog4cplusqt4debugappender_la_sources = \
 @QT_TRUE@	$(INCLUDES_SRC_PATH)/qt4debugappender.h \
 @QT_TRUE@	qt4debugappender/qt4debugappender.cxx
 
+@QT_TRUE@liblog4cplusqt4debugappender_la_SOURCES = $(liblog4cplusqt4debugappender_la_sources)
 @QT_TRUE@liblog4cplusqt4debugappender_la_LIBADD = $(liblog4cplus_la_file)
-@QT_TRUE@liblog4cplusqt4debugappender_la_LDFLAGS = -no-undefined \
+@QT_TRUE@liblog4cplusqt4debugappender_la_ldflags = -no-undefined \
 @QT_TRUE@	$(LOG4CPLUS_VERSION_LT_FLAGS) \
 @QT_TRUE@	@QT_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
 
-@QT5_TRUE@liblog4cplusqt5debugappender_la_CPPFLAGS = \
+@QT_TRUE@liblog4cplusqt4debugappender_la_LDFLAGS = \
+@QT_TRUE@	$(liblog4cplusqt4debugappender_la_ldflags)
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@liblog4cplusqt4debugappenderU_la_CPPFLAGS = \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@	$(liblog4cplusqt4debugappender_la_cppflags) -DUNICODE=1
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@liblog4cplusqt4debugappenderU_la_SOURCES = \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@	$(liblog4cplusqt4debugappender_la_sources)
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@liblog4cplusqt4debugappenderU_la_LIBADD = $(liblog4cplusU_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@liblog4cplusqt4debugappenderU_la_LDFLAGS = \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@	$(liblog4cplusqt4debugappender_la_ldflags)
+
+@QT5_TRUE@liblog4cplusqt5debugappender_la_cppflags = \
 @QT5_TRUE@	$(AM_CPPFLAGS) \
 @QT5_TRUE@	-DINSIDE_LOG4CPLUS_QT5DEBUGAPPENDER \
 @QT5_TRUE@	@QT5_CFLAGS@
 
+@QT5_TRUE@liblog4cplusqt5debugappender_la_CPPFLAGS = \
+@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_cppflags)
 
-#liblog4cplusqt5debugappender_la_CXXFLAGS=-no-suppress \
-#	 @LOG4CPLUS_PROFILING_CXXFLAGS@
-@QT5_TRUE@liblog4cplusqt5debugappender_la_SOURCES = \
+@QT5_TRUE@liblog4cplusqt5debugappender_la_sources = \
 @QT5_TRUE@	$(INCLUDES_SRC_PATH)/qt5debugappender.h \
 @QT5_TRUE@	qt5debugappender/qt5debugappender.cxx
 
+@QT5_TRUE@liblog4cplusqt5debugappender_la_SOURCES = \
+@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_sources)
+
 @QT5_TRUE@liblog4cplusqt5debugappender_la_LIBADD = $(liblog4cplus_la_file)
-@QT5_TRUE@liblog4cplusqt5debugappender_la_LDFLAGS = -no-undefined \
+@QT5_TRUE@liblog4cplusqt5debugappender_la_ldflags = -no-undefined \
 @QT5_TRUE@	$(LOG4CPLUS_VERSION_LT_FLAGS) \
 @QT5_TRUE@	@QT5_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
+
+@QT5_TRUE@liblog4cplusqt5debugappender_la_LDFLAGS = \
+@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_ldflags)
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@liblog4cplusqt5debugappenderU_la_CPPFLAGS = \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_cppflags) -DUNICODE=1
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@liblog4cplusqt5debugappenderU_la_SOURCES = \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_sources)
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@liblog4cplusqt5debugappenderU_la_LIBADD = $(liblog4cplusU_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@liblog4cplusqt5debugappenderU_la_LDFLAGS = \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_ldflags)
 
 @WITH_SWIG_TRUE@SWIG_SOURCES = \
 @WITH_SWIG_TRUE@  swig/configurator.swg \
@@ -1290,6 +1594,12 @@ qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo:  \
 
 liblog4cplusqt4debugappender.la: $(liblog4cplusqt4debugappender_la_OBJECTS) $(liblog4cplusqt4debugappender_la_DEPENDENCIES) $(EXTRA_liblog4cplusqt4debugappender_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(liblog4cplusqt4debugappender_la_LINK) $(am_liblog4cplusqt4debugappender_la_rpath) $(liblog4cplusqt4debugappender_la_OBJECTS) $(liblog4cplusqt4debugappender_la_LIBADD) $(LIBS)
+qt4debugappender/liblog4cplusqt4debugappenderU_la-qt4debugappender.lo:  \
+	qt4debugappender/$(am__dirstamp) \
+	qt4debugappender/$(DEPDIR)/$(am__dirstamp)
+
+liblog4cplusqt4debugappenderU.la: $(liblog4cplusqt4debugappenderU_la_OBJECTS) $(liblog4cplusqt4debugappenderU_la_DEPENDENCIES) $(EXTRA_liblog4cplusqt4debugappenderU_la_DEPENDENCIES) 
+	$(AM_V_CXXLD)$(liblog4cplusqt4debugappenderU_la_LINK) $(am_liblog4cplusqt4debugappenderU_la_rpath) $(liblog4cplusqt4debugappenderU_la_OBJECTS) $(liblog4cplusqt4debugappenderU_la_LIBADD) $(LIBS)
 qt5debugappender/$(am__dirstamp):
 	@$(MKDIR_P) qt5debugappender
 	@: > qt5debugappender/$(am__dirstamp)
@@ -1302,6 +1612,12 @@ qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo:  \
 
 liblog4cplusqt5debugappender.la: $(liblog4cplusqt5debugappender_la_OBJECTS) $(liblog4cplusqt5debugappender_la_DEPENDENCIES) $(EXTRA_liblog4cplusqt5debugappender_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(liblog4cplusqt5debugappender_la_LINK) $(am_liblog4cplusqt5debugappender_la_rpath) $(liblog4cplusqt5debugappender_la_OBJECTS) $(liblog4cplusqt5debugappender_la_LIBADD) $(LIBS)
+qt5debugappender/liblog4cplusqt5debugappenderU_la-qt5debugappender.lo:  \
+	qt5debugappender/$(am__dirstamp) \
+	qt5debugappender/$(DEPDIR)/$(am__dirstamp)
+
+liblog4cplusqt5debugappenderU.la: $(liblog4cplusqt5debugappenderU_la_OBJECTS) $(liblog4cplusqt5debugappenderU_la_DEPENDENCIES) $(EXTRA_liblog4cplusqt5debugappenderU_la_DEPENDENCIES) 
+	$(AM_V_CXXLD)$(liblog4cplusqt5debugappenderU_la_LINK) $(am_liblog4cplusqt5debugappenderU_la_rpath) $(liblog4cplusqt5debugappenderU_la_OBJECTS) $(liblog4cplusqt5debugappenderU_la_LIBADD) $(LIBS)
 
 clean-noinstPROGRAMS:
 	@list='$(noinst_PROGRAMS)'; test -n "$$list" || exit 0; \
@@ -1324,6 +1640,13 @@ tests/appender_test/main.$(OBJEXT):  \
 appender_test$(EXEEXT): $(appender_test_OBJECTS) $(appender_test_DEPENDENCIES) $(EXTRA_appender_test_DEPENDENCIES) 
 	@rm -f appender_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(appender_test_OBJECTS) $(appender_test_LDADD) $(LIBS)
+tests/appender_test/appender_testU-main.$(OBJEXT):  \
+	tests/appender_test/$(am__dirstamp) \
+	tests/appender_test/$(DEPDIR)/$(am__dirstamp)
+
+appender_testU$(EXEEXT): $(appender_testU_OBJECTS) $(appender_testU_DEPENDENCIES) $(EXTRA_appender_testU_DEPENDENCIES) 
+	@rm -f appender_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(appender_testU_OBJECTS) $(appender_testU_LDADD) $(LIBS)
 tests/configandwatch_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/configandwatch_test
 	@: > tests/configandwatch_test/$(am__dirstamp)
@@ -1337,6 +1660,13 @@ tests/configandwatch_test/main.$(OBJEXT):  \
 configandwatch_test$(EXEEXT): $(configandwatch_test_OBJECTS) $(configandwatch_test_DEPENDENCIES) $(EXTRA_configandwatch_test_DEPENDENCIES) 
 	@rm -f configandwatch_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(configandwatch_test_OBJECTS) $(configandwatch_test_LDADD) $(LIBS)
+tests/configandwatch_test/configandwatch_testU-main.$(OBJEXT):  \
+	tests/configandwatch_test/$(am__dirstamp) \
+	tests/configandwatch_test/$(DEPDIR)/$(am__dirstamp)
+
+configandwatch_testU$(EXEEXT): $(configandwatch_testU_OBJECTS) $(configandwatch_testU_DEPENDENCIES) $(EXTRA_configandwatch_testU_DEPENDENCIES) 
+	@rm -f configandwatch_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(configandwatch_testU_OBJECTS) $(configandwatch_testU_LDADD) $(LIBS)
 tests/customloglevel_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/customloglevel_test
 	@: > tests/customloglevel_test/$(am__dirstamp)
@@ -1356,6 +1686,19 @@ tests/customloglevel_test/customloglevel.$(OBJEXT):  \
 customloglevel_test$(EXEEXT): $(customloglevel_test_OBJECTS) $(customloglevel_test_DEPENDENCIES) $(EXTRA_customloglevel_test_DEPENDENCIES) 
 	@rm -f customloglevel_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(customloglevel_test_OBJECTS) $(customloglevel_test_LDADD) $(LIBS)
+tests/customloglevel_test/customloglevel_testU-main.$(OBJEXT):  \
+	tests/customloglevel_test/$(am__dirstamp) \
+	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
+tests/customloglevel_test/customloglevel_testU-func.$(OBJEXT):  \
+	tests/customloglevel_test/$(am__dirstamp) \
+	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
+tests/customloglevel_test/customloglevel_testU-customloglevel.$(OBJEXT):  \
+	tests/customloglevel_test/$(am__dirstamp) \
+	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
+
+customloglevel_testU$(EXEEXT): $(customloglevel_testU_OBJECTS) $(customloglevel_testU_DEPENDENCIES) $(EXTRA_customloglevel_testU_DEPENDENCIES) 
+	@rm -f customloglevel_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(customloglevel_testU_OBJECTS) $(customloglevel_testU_LDADD) $(LIBS)
 tests/fileappender_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/fileappender_test
 	@: > tests/fileappender_test/$(am__dirstamp)
@@ -1369,6 +1712,13 @@ tests/fileappender_test/main.$(OBJEXT):  \
 fileappender_test$(EXEEXT): $(fileappender_test_OBJECTS) $(fileappender_test_DEPENDENCIES) $(EXTRA_fileappender_test_DEPENDENCIES) 
 	@rm -f fileappender_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(fileappender_test_OBJECTS) $(fileappender_test_LDADD) $(LIBS)
+tests/fileappender_test/fileappender_testU-main.$(OBJEXT):  \
+	tests/fileappender_test/$(am__dirstamp) \
+	tests/fileappender_test/$(DEPDIR)/$(am__dirstamp)
+
+fileappender_testU$(EXEEXT): $(fileappender_testU_OBJECTS) $(fileappender_testU_DEPENDENCIES) $(EXTRA_fileappender_testU_DEPENDENCIES) 
+	@rm -f fileappender_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(fileappender_testU_OBJECTS) $(fileappender_testU_LDADD) $(LIBS)
 tests/filter_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/filter_test
 	@: > tests/filter_test/$(am__dirstamp)
@@ -1381,6 +1731,13 @@ tests/filter_test/main.$(OBJEXT): tests/filter_test/$(am__dirstamp) \
 filter_test$(EXEEXT): $(filter_test_OBJECTS) $(filter_test_DEPENDENCIES) $(EXTRA_filter_test_DEPENDENCIES) 
 	@rm -f filter_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(filter_test_OBJECTS) $(filter_test_LDADD) $(LIBS)
+tests/filter_test/filter_testU-main.$(OBJEXT):  \
+	tests/filter_test/$(am__dirstamp) \
+	tests/filter_test/$(DEPDIR)/$(am__dirstamp)
+
+filter_testU$(EXEEXT): $(filter_testU_OBJECTS) $(filter_testU_DEPENDENCIES) $(EXTRA_filter_testU_DEPENDENCIES) 
+	@rm -f filter_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(filter_testU_OBJECTS) $(filter_testU_LDADD) $(LIBS)
 tests/hierarchy_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/hierarchy_test
 	@: > tests/hierarchy_test/$(am__dirstamp)
@@ -1394,19 +1751,32 @@ tests/hierarchy_test/main.$(OBJEXT):  \
 hierarchy_test$(EXEEXT): $(hierarchy_test_OBJECTS) $(hierarchy_test_DEPENDENCIES) $(EXTRA_hierarchy_test_DEPENDENCIES) 
 	@rm -f hierarchy_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(hierarchy_test_OBJECTS) $(hierarchy_test_LDADD) $(LIBS)
+tests/hierarchy_test/hierarchy_testU-main.$(OBJEXT):  \
+	tests/hierarchy_test/$(am__dirstamp) \
+	tests/hierarchy_test/$(DEPDIR)/$(am__dirstamp)
+
+hierarchy_testU$(EXEEXT): $(hierarchy_testU_OBJECTS) $(hierarchy_testU_DEPENDENCIES) $(EXTRA_hierarchy_testU_DEPENDENCIES) 
+	@rm -f hierarchy_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(hierarchy_testU_OBJECTS) $(hierarchy_testU_LDADD) $(LIBS)
 simpleserver/$(am__dirstamp):
 	@$(MKDIR_P) simpleserver
 	@: > simpleserver/$(am__dirstamp)
 simpleserver/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) simpleserver/$(DEPDIR)
 	@: > simpleserver/$(DEPDIR)/$(am__dirstamp)
-simpleserver/loggingserver-loggingserver.$(OBJEXT):  \
-	simpleserver/$(am__dirstamp) \
+simpleserver/loggingserver.$(OBJEXT): simpleserver/$(am__dirstamp) \
 	simpleserver/$(DEPDIR)/$(am__dirstamp)
 
 loggingserver$(EXEEXT): $(loggingserver_OBJECTS) $(loggingserver_DEPENDENCIES) $(EXTRA_loggingserver_DEPENDENCIES) 
 	@rm -f loggingserver$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(loggingserver_OBJECTS) $(loggingserver_LDADD) $(LIBS)
+simpleserver/loggingserverU-loggingserver.$(OBJEXT):  \
+	simpleserver/$(am__dirstamp) \
+	simpleserver/$(DEPDIR)/$(am__dirstamp)
+
+loggingserverU$(EXEEXT): $(loggingserverU_OBJECTS) $(loggingserverU_DEPENDENCIES) $(EXTRA_loggingserverU_DEPENDENCIES) 
+	@rm -f loggingserverU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(loggingserverU_OBJECTS) $(loggingserverU_LDADD) $(LIBS)
 tests/loglog_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/loglog_test
 	@: > tests/loglog_test/$(am__dirstamp)
@@ -1419,6 +1789,13 @@ tests/loglog_test/main.$(OBJEXT): tests/loglog_test/$(am__dirstamp) \
 loglog_test$(EXEEXT): $(loglog_test_OBJECTS) $(loglog_test_DEPENDENCIES) $(EXTRA_loglog_test_DEPENDENCIES) 
 	@rm -f loglog_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(loglog_test_OBJECTS) $(loglog_test_LDADD) $(LIBS)
+tests/loglog_test/loglog_testU-main.$(OBJEXT):  \
+	tests/loglog_test/$(am__dirstamp) \
+	tests/loglog_test/$(DEPDIR)/$(am__dirstamp)
+
+loglog_testU$(EXEEXT): $(loglog_testU_OBJECTS) $(loglog_testU_DEPENDENCIES) $(EXTRA_loglog_testU_DEPENDENCIES) 
+	@rm -f loglog_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(loglog_testU_OBJECTS) $(loglog_testU_LDADD) $(LIBS)
 tests/ndc_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/ndc_test
 	@: > tests/ndc_test/$(am__dirstamp)
@@ -1431,6 +1808,13 @@ tests/ndc_test/main.$(OBJEXT): tests/ndc_test/$(am__dirstamp) \
 ndc_test$(EXEEXT): $(ndc_test_OBJECTS) $(ndc_test_DEPENDENCIES) $(EXTRA_ndc_test_DEPENDENCIES) 
 	@rm -f ndc_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(ndc_test_OBJECTS) $(ndc_test_LDADD) $(LIBS)
+tests/ndc_test/ndc_testU-main.$(OBJEXT):  \
+	tests/ndc_test/$(am__dirstamp) \
+	tests/ndc_test/$(DEPDIR)/$(am__dirstamp)
+
+ndc_testU$(EXEEXT): $(ndc_testU_OBJECTS) $(ndc_testU_DEPENDENCIES) $(EXTRA_ndc_testU_DEPENDENCIES) 
+	@rm -f ndc_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(ndc_testU_OBJECTS) $(ndc_testU_LDADD) $(LIBS)
 tests/ostream_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/ostream_test
 	@: > tests/ostream_test/$(am__dirstamp)
@@ -1443,6 +1827,13 @@ tests/ostream_test/main.$(OBJEXT): tests/ostream_test/$(am__dirstamp) \
 ostream_test$(EXEEXT): $(ostream_test_OBJECTS) $(ostream_test_DEPENDENCIES) $(EXTRA_ostream_test_DEPENDENCIES) 
 	@rm -f ostream_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(ostream_test_OBJECTS) $(ostream_test_LDADD) $(LIBS)
+tests/ostream_test/ostream_testU-main.$(OBJEXT):  \
+	tests/ostream_test/$(am__dirstamp) \
+	tests/ostream_test/$(DEPDIR)/$(am__dirstamp)
+
+ostream_testU$(EXEEXT): $(ostream_testU_OBJECTS) $(ostream_testU_DEPENDENCIES) $(EXTRA_ostream_testU_DEPENDENCIES) 
+	@rm -f ostream_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(ostream_testU_OBJECTS) $(ostream_testU_LDADD) $(LIBS)
 tests/patternlayout_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/patternlayout_test
 	@: > tests/patternlayout_test/$(am__dirstamp)
@@ -1456,6 +1847,13 @@ tests/patternlayout_test/main.$(OBJEXT):  \
 patternlayout_test$(EXEEXT): $(patternlayout_test_OBJECTS) $(patternlayout_test_DEPENDENCIES) $(EXTRA_patternlayout_test_DEPENDENCIES) 
 	@rm -f patternlayout_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(patternlayout_test_OBJECTS) $(patternlayout_test_LDADD) $(LIBS)
+tests/patternlayout_test/patternlayout_testU-main.$(OBJEXT):  \
+	tests/patternlayout_test/$(am__dirstamp) \
+	tests/patternlayout_test/$(DEPDIR)/$(am__dirstamp)
+
+patternlayout_testU$(EXEEXT): $(patternlayout_testU_OBJECTS) $(patternlayout_testU_DEPENDENCIES) $(EXTRA_patternlayout_testU_DEPENDENCIES) 
+	@rm -f patternlayout_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(patternlayout_testU_OBJECTS) $(patternlayout_testU_LDADD) $(LIBS)
 tests/performance_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/performance_test
 	@: > tests/performance_test/$(am__dirstamp)
@@ -1469,6 +1867,13 @@ tests/performance_test/main.$(OBJEXT):  \
 performance_test$(EXEEXT): $(performance_test_OBJECTS) $(performance_test_DEPENDENCIES) $(EXTRA_performance_test_DEPENDENCIES) 
 	@rm -f performance_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(performance_test_OBJECTS) $(performance_test_LDADD) $(LIBS)
+tests/performance_test/performance_testU-main.$(OBJEXT):  \
+	tests/performance_test/$(am__dirstamp) \
+	tests/performance_test/$(DEPDIR)/$(am__dirstamp)
+
+performance_testU$(EXEEXT): $(performance_testU_OBJECTS) $(performance_testU_DEPENDENCIES) $(EXTRA_performance_testU_DEPENDENCIES) 
+	@rm -f performance_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(performance_testU_OBJECTS) $(performance_testU_LDADD) $(LIBS)
 tests/priority_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/priority_test
 	@: > tests/priority_test/$(am__dirstamp)
@@ -1485,6 +1890,16 @@ tests/priority_test/func.$(OBJEXT):  \
 priority_test$(EXEEXT): $(priority_test_OBJECTS) $(priority_test_DEPENDENCIES) $(EXTRA_priority_test_DEPENDENCIES) 
 	@rm -f priority_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(priority_test_OBJECTS) $(priority_test_LDADD) $(LIBS)
+tests/priority_test/priority_testU-main.$(OBJEXT):  \
+	tests/priority_test/$(am__dirstamp) \
+	tests/priority_test/$(DEPDIR)/$(am__dirstamp)
+tests/priority_test/priority_testU-func.$(OBJEXT):  \
+	tests/priority_test/$(am__dirstamp) \
+	tests/priority_test/$(DEPDIR)/$(am__dirstamp)
+
+priority_testU$(EXEEXT): $(priority_testU_OBJECTS) $(priority_testU_DEPENDENCIES) $(EXTRA_priority_testU_DEPENDENCIES) 
+	@rm -f priority_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(priority_testU_OBJECTS) $(priority_testU_LDADD) $(LIBS)
 tests/propertyconfig_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/propertyconfig_test
 	@: > tests/propertyconfig_test/$(am__dirstamp)
@@ -1498,6 +1913,13 @@ tests/propertyconfig_test/main.$(OBJEXT):  \
 propertyconfig_test$(EXEEXT): $(propertyconfig_test_OBJECTS) $(propertyconfig_test_DEPENDENCIES) $(EXTRA_propertyconfig_test_DEPENDENCIES) 
 	@rm -f propertyconfig_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(propertyconfig_test_OBJECTS) $(propertyconfig_test_LDADD) $(LIBS)
+tests/propertyconfig_test/propertyconfig_testU-main.$(OBJEXT):  \
+	tests/propertyconfig_test/$(am__dirstamp) \
+	tests/propertyconfig_test/$(DEPDIR)/$(am__dirstamp)
+
+propertyconfig_testU$(EXEEXT): $(propertyconfig_testU_OBJECTS) $(propertyconfig_testU_DEPENDENCIES) $(EXTRA_propertyconfig_testU_DEPENDENCIES) 
+	@rm -f propertyconfig_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(propertyconfig_testU_OBJECTS) $(propertyconfig_testU_LDADD) $(LIBS)
 tests/socket_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/socket_test
 	@: > tests/socket_test/$(am__dirstamp)
@@ -1510,6 +1932,13 @@ tests/socket_test/main.$(OBJEXT): tests/socket_test/$(am__dirstamp) \
 socket_test$(EXEEXT): $(socket_test_OBJECTS) $(socket_test_DEPENDENCIES) $(EXTRA_socket_test_DEPENDENCIES) 
 	@rm -f socket_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(socket_test_OBJECTS) $(socket_test_LDADD) $(LIBS)
+tests/socket_test/socket_testU-main.$(OBJEXT):  \
+	tests/socket_test/$(am__dirstamp) \
+	tests/socket_test/$(DEPDIR)/$(am__dirstamp)
+
+socket_testU$(EXEEXT): $(socket_testU_OBJECTS) $(socket_testU_DEPENDENCIES) $(EXTRA_socket_testU_DEPENDENCIES) 
+	@rm -f socket_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(socket_testU_OBJECTS) $(socket_testU_LDADD) $(LIBS)
 tests/thread_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/thread_test
 	@: > tests/thread_test/$(am__dirstamp)
@@ -1522,6 +1951,13 @@ tests/thread_test/main.$(OBJEXT): tests/thread_test/$(am__dirstamp) \
 thread_test$(EXEEXT): $(thread_test_OBJECTS) $(thread_test_DEPENDENCIES) $(EXTRA_thread_test_DEPENDENCIES) 
 	@rm -f thread_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(thread_test_OBJECTS) $(thread_test_LDADD) $(LIBS)
+tests/thread_test/thread_testU-main.$(OBJEXT):  \
+	tests/thread_test/$(am__dirstamp) \
+	tests/thread_test/$(DEPDIR)/$(am__dirstamp)
+
+thread_testU$(EXEEXT): $(thread_testU_OBJECTS) $(thread_testU_DEPENDENCIES) $(EXTRA_thread_testU_DEPENDENCIES) 
+	@rm -f thread_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(thread_testU_OBJECTS) $(thread_testU_LDADD) $(LIBS)
 tests/timeformat_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/timeformat_test
 	@: > tests/timeformat_test/$(am__dirstamp)
@@ -1535,6 +1971,13 @@ tests/timeformat_test/main.$(OBJEXT):  \
 timeformat_test$(EXEEXT): $(timeformat_test_OBJECTS) $(timeformat_test_DEPENDENCIES) $(EXTRA_timeformat_test_DEPENDENCIES) 
 	@rm -f timeformat_test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(timeformat_test_OBJECTS) $(timeformat_test_LDADD) $(LIBS)
+tests/timeformat_test/timeformat_testU-main.$(OBJEXT):  \
+	tests/timeformat_test/$(am__dirstamp) \
+	tests/timeformat_test/$(DEPDIR)/$(am__dirstamp)
+
+timeformat_testU$(EXEEXT): $(timeformat_testU_OBJECTS) $(timeformat_testU_DEPENDENCIES) $(EXTRA_timeformat_testU_DEPENDENCIES) 
+	@rm -f timeformat_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(timeformat_testU_OBJECTS) $(timeformat_testU_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -1566,9 +2009,12 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_log4cplus_la-python_wrap.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappenderU_la-qt4debugappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappender_la-qt4debugappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappenderU_la-qt5debugappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappender_la-qt5debugappender.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@simpleserver/$(DEPDIR)/loggingserver-loggingserver.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@simpleserver/$(DEPDIR)/loggingserver.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@simpleserver/$(DEPDIR)/loggingserverU-loggingserver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-appender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-asyncappender.Plo@am__quote@
@@ -1675,25 +2121,44 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-version.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-win32consoleappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-win32debugappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/appender_test/$(DEPDIR)/appender_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/appender_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/configandwatch_test/$(DEPDIR)/configandwatch_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/configandwatch_test/$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/customloglevel_test/$(DEPDIR)/customloglevel.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/customloglevel_test/$(DEPDIR)/func.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/customloglevel_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/fileappender_test/$(DEPDIR)/fileappender_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/fileappender_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/filter_test/$(DEPDIR)/filter_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/filter_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/hierarchy_test/$(DEPDIR)/hierarchy_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/hierarchy_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/loglog_test/$(DEPDIR)/loglog_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/loglog_test/$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/ndc_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/ndc_test/$(DEPDIR)/ndc_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/ostream_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/ostream_test/$(DEPDIR)/ostream_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/patternlayout_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/patternlayout_test/$(DEPDIR)/patternlayout_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/performance_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/performance_test/$(DEPDIR)/performance_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/priority_test/$(DEPDIR)/func.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/priority_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/priority_test/$(DEPDIR)/priority_testU-func.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/priority_test/$(DEPDIR)/priority_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/propertyconfig_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/propertyconfig_test/$(DEPDIR)/propertyconfig_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/socket_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/socket_test/$(DEPDIR)/socket_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/thread_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/thread_test/$(DEPDIR)/thread_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/timeformat_test/$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/timeformat_test/$(DEPDIR)/timeformat_testU-main.Po@am__quote@
 
 .cxx.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -2475,6 +2940,13 @@ qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo: qt4debugap
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusqt4debugappender_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo `test -f 'qt4debugappender/qt4debugappender.cxx' || echo '$(srcdir)/'`qt4debugappender/qt4debugappender.cxx
 
+qt4debugappender/liblog4cplusqt4debugappenderU_la-qt4debugappender.lo: qt4debugappender/qt4debugappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusqt4debugappenderU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT qt4debugappender/liblog4cplusqt4debugappenderU_la-qt4debugappender.lo -MD -MP -MF qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappenderU_la-qt4debugappender.Tpo -c -o qt4debugappender/liblog4cplusqt4debugappenderU_la-qt4debugappender.lo `test -f 'qt4debugappender/qt4debugappender.cxx' || echo '$(srcdir)/'`qt4debugappender/qt4debugappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappenderU_la-qt4debugappender.Tpo qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappenderU_la-qt4debugappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt4debugappender/qt4debugappender.cxx' object='qt4debugappender/liblog4cplusqt4debugappenderU_la-qt4debugappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusqt4debugappenderU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o qt4debugappender/liblog4cplusqt4debugappenderU_la-qt4debugappender.lo `test -f 'qt4debugappender/qt4debugappender.cxx' || echo '$(srcdir)/'`qt4debugappender/qt4debugappender.cxx
+
 qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo: qt5debugappender/qt5debugappender.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusqt5debugappender_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo -MD -MP -MF qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappender_la-qt5debugappender.Tpo -c -o qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo `test -f 'qt5debugappender/qt5debugappender.cxx' || echo '$(srcdir)/'`qt5debugappender/qt5debugappender.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappender_la-qt5debugappender.Tpo qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappender_la-qt5debugappender.Plo
@@ -2482,19 +2954,292 @@ qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo: qt5debugap
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusqt5debugappender_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo `test -f 'qt5debugappender/qt5debugappender.cxx' || echo '$(srcdir)/'`qt5debugappender/qt5debugappender.cxx
 
-simpleserver/loggingserver-loggingserver.o: simpleserver/loggingserver.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loggingserver_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT simpleserver/loggingserver-loggingserver.o -MD -MP -MF simpleserver/$(DEPDIR)/loggingserver-loggingserver.Tpo -c -o simpleserver/loggingserver-loggingserver.o `test -f 'simpleserver/loggingserver.cxx' || echo '$(srcdir)/'`simpleserver/loggingserver.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) simpleserver/$(DEPDIR)/loggingserver-loggingserver.Tpo simpleserver/$(DEPDIR)/loggingserver-loggingserver.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='simpleserver/loggingserver.cxx' object='simpleserver/loggingserver-loggingserver.o' libtool=no @AMDEPBACKSLASH@
+qt5debugappender/liblog4cplusqt5debugappenderU_la-qt5debugappender.lo: qt5debugappender/qt5debugappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusqt5debugappenderU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT qt5debugappender/liblog4cplusqt5debugappenderU_la-qt5debugappender.lo -MD -MP -MF qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappenderU_la-qt5debugappender.Tpo -c -o qt5debugappender/liblog4cplusqt5debugappenderU_la-qt5debugappender.lo `test -f 'qt5debugappender/qt5debugappender.cxx' || echo '$(srcdir)/'`qt5debugappender/qt5debugappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappenderU_la-qt5debugappender.Tpo qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappenderU_la-qt5debugappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='qt5debugappender/qt5debugappender.cxx' object='qt5debugappender/liblog4cplusqt5debugappenderU_la-qt5debugappender.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loggingserver_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o simpleserver/loggingserver-loggingserver.o `test -f 'simpleserver/loggingserver.cxx' || echo '$(srcdir)/'`simpleserver/loggingserver.cxx
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusqt5debugappenderU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o qt5debugappender/liblog4cplusqt5debugappenderU_la-qt5debugappender.lo `test -f 'qt5debugappender/qt5debugappender.cxx' || echo '$(srcdir)/'`qt5debugappender/qt5debugappender.cxx
 
-simpleserver/loggingserver-loggingserver.obj: simpleserver/loggingserver.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loggingserver_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT simpleserver/loggingserver-loggingserver.obj -MD -MP -MF simpleserver/$(DEPDIR)/loggingserver-loggingserver.Tpo -c -o simpleserver/loggingserver-loggingserver.obj `if test -f 'simpleserver/loggingserver.cxx'; then $(CYGPATH_W) 'simpleserver/loggingserver.cxx'; else $(CYGPATH_W) '$(srcdir)/simpleserver/loggingserver.cxx'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) simpleserver/$(DEPDIR)/loggingserver-loggingserver.Tpo simpleserver/$(DEPDIR)/loggingserver-loggingserver.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='simpleserver/loggingserver.cxx' object='simpleserver/loggingserver-loggingserver.obj' libtool=no @AMDEPBACKSLASH@
+tests/appender_test/appender_testU-main.o: tests/appender_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(appender_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/appender_test/appender_testU-main.o -MD -MP -MF tests/appender_test/$(DEPDIR)/appender_testU-main.Tpo -c -o tests/appender_test/appender_testU-main.o `test -f 'tests/appender_test/main.cxx' || echo '$(srcdir)/'`tests/appender_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/appender_test/$(DEPDIR)/appender_testU-main.Tpo tests/appender_test/$(DEPDIR)/appender_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/appender_test/main.cxx' object='tests/appender_test/appender_testU-main.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loggingserver_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o simpleserver/loggingserver-loggingserver.obj `if test -f 'simpleserver/loggingserver.cxx'; then $(CYGPATH_W) 'simpleserver/loggingserver.cxx'; else $(CYGPATH_W) '$(srcdir)/simpleserver/loggingserver.cxx'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(appender_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/appender_test/appender_testU-main.o `test -f 'tests/appender_test/main.cxx' || echo '$(srcdir)/'`tests/appender_test/main.cxx
+
+tests/appender_test/appender_testU-main.obj: tests/appender_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(appender_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/appender_test/appender_testU-main.obj -MD -MP -MF tests/appender_test/$(DEPDIR)/appender_testU-main.Tpo -c -o tests/appender_test/appender_testU-main.obj `if test -f 'tests/appender_test/main.cxx'; then $(CYGPATH_W) 'tests/appender_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/appender_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/appender_test/$(DEPDIR)/appender_testU-main.Tpo tests/appender_test/$(DEPDIR)/appender_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/appender_test/main.cxx' object='tests/appender_test/appender_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(appender_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/appender_test/appender_testU-main.obj `if test -f 'tests/appender_test/main.cxx'; then $(CYGPATH_W) 'tests/appender_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/appender_test/main.cxx'; fi`
+
+tests/configandwatch_test/configandwatch_testU-main.o: tests/configandwatch_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(configandwatch_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/configandwatch_test/configandwatch_testU-main.o -MD -MP -MF tests/configandwatch_test/$(DEPDIR)/configandwatch_testU-main.Tpo -c -o tests/configandwatch_test/configandwatch_testU-main.o `test -f 'tests/configandwatch_test/main.cxx' || echo '$(srcdir)/'`tests/configandwatch_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/configandwatch_test/$(DEPDIR)/configandwatch_testU-main.Tpo tests/configandwatch_test/$(DEPDIR)/configandwatch_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/configandwatch_test/main.cxx' object='tests/configandwatch_test/configandwatch_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(configandwatch_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/configandwatch_test/configandwatch_testU-main.o `test -f 'tests/configandwatch_test/main.cxx' || echo '$(srcdir)/'`tests/configandwatch_test/main.cxx
+
+tests/configandwatch_test/configandwatch_testU-main.obj: tests/configandwatch_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(configandwatch_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/configandwatch_test/configandwatch_testU-main.obj -MD -MP -MF tests/configandwatch_test/$(DEPDIR)/configandwatch_testU-main.Tpo -c -o tests/configandwatch_test/configandwatch_testU-main.obj `if test -f 'tests/configandwatch_test/main.cxx'; then $(CYGPATH_W) 'tests/configandwatch_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/configandwatch_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/configandwatch_test/$(DEPDIR)/configandwatch_testU-main.Tpo tests/configandwatch_test/$(DEPDIR)/configandwatch_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/configandwatch_test/main.cxx' object='tests/configandwatch_test/configandwatch_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(configandwatch_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/configandwatch_test/configandwatch_testU-main.obj `if test -f 'tests/configandwatch_test/main.cxx'; then $(CYGPATH_W) 'tests/configandwatch_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/configandwatch_test/main.cxx'; fi`
+
+tests/customloglevel_test/customloglevel_testU-main.o: tests/customloglevel_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-main.o -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Tpo -c -o tests/customloglevel_test/customloglevel_testU-main.o `test -f 'tests/customloglevel_test/main.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/main.cxx' object='tests/customloglevel_test/customloglevel_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-main.o `test -f 'tests/customloglevel_test/main.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/main.cxx
+
+tests/customloglevel_test/customloglevel_testU-main.obj: tests/customloglevel_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-main.obj -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Tpo -c -o tests/customloglevel_test/customloglevel_testU-main.obj `if test -f 'tests/customloglevel_test/main.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/main.cxx' object='tests/customloglevel_test/customloglevel_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-main.obj `if test -f 'tests/customloglevel_test/main.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/main.cxx'; fi`
+
+tests/customloglevel_test/customloglevel_testU-func.o: tests/customloglevel_test/func.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-func.o -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Tpo -c -o tests/customloglevel_test/customloglevel_testU-func.o `test -f 'tests/customloglevel_test/func.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/func.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/func.cxx' object='tests/customloglevel_test/customloglevel_testU-func.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-func.o `test -f 'tests/customloglevel_test/func.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/func.cxx
+
+tests/customloglevel_test/customloglevel_testU-func.obj: tests/customloglevel_test/func.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-func.obj -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Tpo -c -o tests/customloglevel_test/customloglevel_testU-func.obj `if test -f 'tests/customloglevel_test/func.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/func.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/func.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/func.cxx' object='tests/customloglevel_test/customloglevel_testU-func.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-func.obj `if test -f 'tests/customloglevel_test/func.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/func.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/func.cxx'; fi`
+
+tests/customloglevel_test/customloglevel_testU-customloglevel.o: tests/customloglevel_test/customloglevel.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-customloglevel.o -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.o `test -f 'tests/customloglevel_test/customloglevel.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/customloglevel.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/customloglevel.cxx' object='tests/customloglevel_test/customloglevel_testU-customloglevel.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.o `test -f 'tests/customloglevel_test/customloglevel.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/customloglevel.cxx
+
+tests/customloglevel_test/customloglevel_testU-customloglevel.obj: tests/customloglevel_test/customloglevel.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-customloglevel.obj -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.obj `if test -f 'tests/customloglevel_test/customloglevel.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/customloglevel.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/customloglevel.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/customloglevel.cxx' object='tests/customloglevel_test/customloglevel_testU-customloglevel.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.obj `if test -f 'tests/customloglevel_test/customloglevel.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/customloglevel.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/customloglevel.cxx'; fi`
+
+tests/fileappender_test/fileappender_testU-main.o: tests/fileappender_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fileappender_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/fileappender_test/fileappender_testU-main.o -MD -MP -MF tests/fileappender_test/$(DEPDIR)/fileappender_testU-main.Tpo -c -o tests/fileappender_test/fileappender_testU-main.o `test -f 'tests/fileappender_test/main.cxx' || echo '$(srcdir)/'`tests/fileappender_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/fileappender_test/$(DEPDIR)/fileappender_testU-main.Tpo tests/fileappender_test/$(DEPDIR)/fileappender_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/fileappender_test/main.cxx' object='tests/fileappender_test/fileappender_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fileappender_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/fileappender_test/fileappender_testU-main.o `test -f 'tests/fileappender_test/main.cxx' || echo '$(srcdir)/'`tests/fileappender_test/main.cxx
+
+tests/fileappender_test/fileappender_testU-main.obj: tests/fileappender_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fileappender_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/fileappender_test/fileappender_testU-main.obj -MD -MP -MF tests/fileappender_test/$(DEPDIR)/fileappender_testU-main.Tpo -c -o tests/fileappender_test/fileappender_testU-main.obj `if test -f 'tests/fileappender_test/main.cxx'; then $(CYGPATH_W) 'tests/fileappender_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/fileappender_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/fileappender_test/$(DEPDIR)/fileappender_testU-main.Tpo tests/fileappender_test/$(DEPDIR)/fileappender_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/fileappender_test/main.cxx' object='tests/fileappender_test/fileappender_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fileappender_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/fileappender_test/fileappender_testU-main.obj `if test -f 'tests/fileappender_test/main.cxx'; then $(CYGPATH_W) 'tests/fileappender_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/fileappender_test/main.cxx'; fi`
+
+tests/filter_test/filter_testU-main.o: tests/filter_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(filter_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/filter_test/filter_testU-main.o -MD -MP -MF tests/filter_test/$(DEPDIR)/filter_testU-main.Tpo -c -o tests/filter_test/filter_testU-main.o `test -f 'tests/filter_test/main.cxx' || echo '$(srcdir)/'`tests/filter_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/filter_test/$(DEPDIR)/filter_testU-main.Tpo tests/filter_test/$(DEPDIR)/filter_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/filter_test/main.cxx' object='tests/filter_test/filter_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(filter_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/filter_test/filter_testU-main.o `test -f 'tests/filter_test/main.cxx' || echo '$(srcdir)/'`tests/filter_test/main.cxx
+
+tests/filter_test/filter_testU-main.obj: tests/filter_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(filter_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/filter_test/filter_testU-main.obj -MD -MP -MF tests/filter_test/$(DEPDIR)/filter_testU-main.Tpo -c -o tests/filter_test/filter_testU-main.obj `if test -f 'tests/filter_test/main.cxx'; then $(CYGPATH_W) 'tests/filter_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/filter_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/filter_test/$(DEPDIR)/filter_testU-main.Tpo tests/filter_test/$(DEPDIR)/filter_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/filter_test/main.cxx' object='tests/filter_test/filter_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(filter_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/filter_test/filter_testU-main.obj `if test -f 'tests/filter_test/main.cxx'; then $(CYGPATH_W) 'tests/filter_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/filter_test/main.cxx'; fi`
+
+tests/hierarchy_test/hierarchy_testU-main.o: tests/hierarchy_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(hierarchy_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/hierarchy_test/hierarchy_testU-main.o -MD -MP -MF tests/hierarchy_test/$(DEPDIR)/hierarchy_testU-main.Tpo -c -o tests/hierarchy_test/hierarchy_testU-main.o `test -f 'tests/hierarchy_test/main.cxx' || echo '$(srcdir)/'`tests/hierarchy_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/hierarchy_test/$(DEPDIR)/hierarchy_testU-main.Tpo tests/hierarchy_test/$(DEPDIR)/hierarchy_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/hierarchy_test/main.cxx' object='tests/hierarchy_test/hierarchy_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(hierarchy_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/hierarchy_test/hierarchy_testU-main.o `test -f 'tests/hierarchy_test/main.cxx' || echo '$(srcdir)/'`tests/hierarchy_test/main.cxx
+
+tests/hierarchy_test/hierarchy_testU-main.obj: tests/hierarchy_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(hierarchy_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/hierarchy_test/hierarchy_testU-main.obj -MD -MP -MF tests/hierarchy_test/$(DEPDIR)/hierarchy_testU-main.Tpo -c -o tests/hierarchy_test/hierarchy_testU-main.obj `if test -f 'tests/hierarchy_test/main.cxx'; then $(CYGPATH_W) 'tests/hierarchy_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/hierarchy_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/hierarchy_test/$(DEPDIR)/hierarchy_testU-main.Tpo tests/hierarchy_test/$(DEPDIR)/hierarchy_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/hierarchy_test/main.cxx' object='tests/hierarchy_test/hierarchy_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(hierarchy_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/hierarchy_test/hierarchy_testU-main.obj `if test -f 'tests/hierarchy_test/main.cxx'; then $(CYGPATH_W) 'tests/hierarchy_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/hierarchy_test/main.cxx'; fi`
+
+simpleserver/loggingserverU-loggingserver.o: simpleserver/loggingserver.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loggingserverU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT simpleserver/loggingserverU-loggingserver.o -MD -MP -MF simpleserver/$(DEPDIR)/loggingserverU-loggingserver.Tpo -c -o simpleserver/loggingserverU-loggingserver.o `test -f 'simpleserver/loggingserver.cxx' || echo '$(srcdir)/'`simpleserver/loggingserver.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) simpleserver/$(DEPDIR)/loggingserverU-loggingserver.Tpo simpleserver/$(DEPDIR)/loggingserverU-loggingserver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='simpleserver/loggingserver.cxx' object='simpleserver/loggingserverU-loggingserver.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loggingserverU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o simpleserver/loggingserverU-loggingserver.o `test -f 'simpleserver/loggingserver.cxx' || echo '$(srcdir)/'`simpleserver/loggingserver.cxx
+
+simpleserver/loggingserverU-loggingserver.obj: simpleserver/loggingserver.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loggingserverU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT simpleserver/loggingserverU-loggingserver.obj -MD -MP -MF simpleserver/$(DEPDIR)/loggingserverU-loggingserver.Tpo -c -o simpleserver/loggingserverU-loggingserver.obj `if test -f 'simpleserver/loggingserver.cxx'; then $(CYGPATH_W) 'simpleserver/loggingserver.cxx'; else $(CYGPATH_W) '$(srcdir)/simpleserver/loggingserver.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) simpleserver/$(DEPDIR)/loggingserverU-loggingserver.Tpo simpleserver/$(DEPDIR)/loggingserverU-loggingserver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='simpleserver/loggingserver.cxx' object='simpleserver/loggingserverU-loggingserver.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loggingserverU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o simpleserver/loggingserverU-loggingserver.obj `if test -f 'simpleserver/loggingserver.cxx'; then $(CYGPATH_W) 'simpleserver/loggingserver.cxx'; else $(CYGPATH_W) '$(srcdir)/simpleserver/loggingserver.cxx'; fi`
+
+tests/loglog_test/loglog_testU-main.o: tests/loglog_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loglog_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/loglog_test/loglog_testU-main.o -MD -MP -MF tests/loglog_test/$(DEPDIR)/loglog_testU-main.Tpo -c -o tests/loglog_test/loglog_testU-main.o `test -f 'tests/loglog_test/main.cxx' || echo '$(srcdir)/'`tests/loglog_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/loglog_test/$(DEPDIR)/loglog_testU-main.Tpo tests/loglog_test/$(DEPDIR)/loglog_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/loglog_test/main.cxx' object='tests/loglog_test/loglog_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loglog_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/loglog_test/loglog_testU-main.o `test -f 'tests/loglog_test/main.cxx' || echo '$(srcdir)/'`tests/loglog_test/main.cxx
+
+tests/loglog_test/loglog_testU-main.obj: tests/loglog_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loglog_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/loglog_test/loglog_testU-main.obj -MD -MP -MF tests/loglog_test/$(DEPDIR)/loglog_testU-main.Tpo -c -o tests/loglog_test/loglog_testU-main.obj `if test -f 'tests/loglog_test/main.cxx'; then $(CYGPATH_W) 'tests/loglog_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/loglog_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/loglog_test/$(DEPDIR)/loglog_testU-main.Tpo tests/loglog_test/$(DEPDIR)/loglog_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/loglog_test/main.cxx' object='tests/loglog_test/loglog_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loglog_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/loglog_test/loglog_testU-main.obj `if test -f 'tests/loglog_test/main.cxx'; then $(CYGPATH_W) 'tests/loglog_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/loglog_test/main.cxx'; fi`
+
+tests/ndc_test/ndc_testU-main.o: tests/ndc_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ndc_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/ndc_test/ndc_testU-main.o -MD -MP -MF tests/ndc_test/$(DEPDIR)/ndc_testU-main.Tpo -c -o tests/ndc_test/ndc_testU-main.o `test -f 'tests/ndc_test/main.cxx' || echo '$(srcdir)/'`tests/ndc_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/ndc_test/$(DEPDIR)/ndc_testU-main.Tpo tests/ndc_test/$(DEPDIR)/ndc_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/ndc_test/main.cxx' object='tests/ndc_test/ndc_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ndc_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/ndc_test/ndc_testU-main.o `test -f 'tests/ndc_test/main.cxx' || echo '$(srcdir)/'`tests/ndc_test/main.cxx
+
+tests/ndc_test/ndc_testU-main.obj: tests/ndc_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ndc_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/ndc_test/ndc_testU-main.obj -MD -MP -MF tests/ndc_test/$(DEPDIR)/ndc_testU-main.Tpo -c -o tests/ndc_test/ndc_testU-main.obj `if test -f 'tests/ndc_test/main.cxx'; then $(CYGPATH_W) 'tests/ndc_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/ndc_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/ndc_test/$(DEPDIR)/ndc_testU-main.Tpo tests/ndc_test/$(DEPDIR)/ndc_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/ndc_test/main.cxx' object='tests/ndc_test/ndc_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ndc_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/ndc_test/ndc_testU-main.obj `if test -f 'tests/ndc_test/main.cxx'; then $(CYGPATH_W) 'tests/ndc_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/ndc_test/main.cxx'; fi`
+
+tests/ostream_test/ostream_testU-main.o: tests/ostream_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ostream_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/ostream_test/ostream_testU-main.o -MD -MP -MF tests/ostream_test/$(DEPDIR)/ostream_testU-main.Tpo -c -o tests/ostream_test/ostream_testU-main.o `test -f 'tests/ostream_test/main.cxx' || echo '$(srcdir)/'`tests/ostream_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/ostream_test/$(DEPDIR)/ostream_testU-main.Tpo tests/ostream_test/$(DEPDIR)/ostream_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/ostream_test/main.cxx' object='tests/ostream_test/ostream_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ostream_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/ostream_test/ostream_testU-main.o `test -f 'tests/ostream_test/main.cxx' || echo '$(srcdir)/'`tests/ostream_test/main.cxx
+
+tests/ostream_test/ostream_testU-main.obj: tests/ostream_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ostream_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/ostream_test/ostream_testU-main.obj -MD -MP -MF tests/ostream_test/$(DEPDIR)/ostream_testU-main.Tpo -c -o tests/ostream_test/ostream_testU-main.obj `if test -f 'tests/ostream_test/main.cxx'; then $(CYGPATH_W) 'tests/ostream_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/ostream_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/ostream_test/$(DEPDIR)/ostream_testU-main.Tpo tests/ostream_test/$(DEPDIR)/ostream_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/ostream_test/main.cxx' object='tests/ostream_test/ostream_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ostream_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/ostream_test/ostream_testU-main.obj `if test -f 'tests/ostream_test/main.cxx'; then $(CYGPATH_W) 'tests/ostream_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/ostream_test/main.cxx'; fi`
+
+tests/patternlayout_test/patternlayout_testU-main.o: tests/patternlayout_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(patternlayout_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/patternlayout_test/patternlayout_testU-main.o -MD -MP -MF tests/patternlayout_test/$(DEPDIR)/patternlayout_testU-main.Tpo -c -o tests/patternlayout_test/patternlayout_testU-main.o `test -f 'tests/patternlayout_test/main.cxx' || echo '$(srcdir)/'`tests/patternlayout_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/patternlayout_test/$(DEPDIR)/patternlayout_testU-main.Tpo tests/patternlayout_test/$(DEPDIR)/patternlayout_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/patternlayout_test/main.cxx' object='tests/patternlayout_test/patternlayout_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(patternlayout_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/patternlayout_test/patternlayout_testU-main.o `test -f 'tests/patternlayout_test/main.cxx' || echo '$(srcdir)/'`tests/patternlayout_test/main.cxx
+
+tests/patternlayout_test/patternlayout_testU-main.obj: tests/patternlayout_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(patternlayout_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/patternlayout_test/patternlayout_testU-main.obj -MD -MP -MF tests/patternlayout_test/$(DEPDIR)/patternlayout_testU-main.Tpo -c -o tests/patternlayout_test/patternlayout_testU-main.obj `if test -f 'tests/patternlayout_test/main.cxx'; then $(CYGPATH_W) 'tests/patternlayout_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/patternlayout_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/patternlayout_test/$(DEPDIR)/patternlayout_testU-main.Tpo tests/patternlayout_test/$(DEPDIR)/patternlayout_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/patternlayout_test/main.cxx' object='tests/patternlayout_test/patternlayout_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(patternlayout_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/patternlayout_test/patternlayout_testU-main.obj `if test -f 'tests/patternlayout_test/main.cxx'; then $(CYGPATH_W) 'tests/patternlayout_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/patternlayout_test/main.cxx'; fi`
+
+tests/performance_test/performance_testU-main.o: tests/performance_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(performance_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/performance_test/performance_testU-main.o -MD -MP -MF tests/performance_test/$(DEPDIR)/performance_testU-main.Tpo -c -o tests/performance_test/performance_testU-main.o `test -f 'tests/performance_test/main.cxx' || echo '$(srcdir)/'`tests/performance_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/performance_test/$(DEPDIR)/performance_testU-main.Tpo tests/performance_test/$(DEPDIR)/performance_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/performance_test/main.cxx' object='tests/performance_test/performance_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(performance_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/performance_test/performance_testU-main.o `test -f 'tests/performance_test/main.cxx' || echo '$(srcdir)/'`tests/performance_test/main.cxx
+
+tests/performance_test/performance_testU-main.obj: tests/performance_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(performance_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/performance_test/performance_testU-main.obj -MD -MP -MF tests/performance_test/$(DEPDIR)/performance_testU-main.Tpo -c -o tests/performance_test/performance_testU-main.obj `if test -f 'tests/performance_test/main.cxx'; then $(CYGPATH_W) 'tests/performance_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/performance_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/performance_test/$(DEPDIR)/performance_testU-main.Tpo tests/performance_test/$(DEPDIR)/performance_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/performance_test/main.cxx' object='tests/performance_test/performance_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(performance_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/performance_test/performance_testU-main.obj `if test -f 'tests/performance_test/main.cxx'; then $(CYGPATH_W) 'tests/performance_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/performance_test/main.cxx'; fi`
+
+tests/priority_test/priority_testU-main.o: tests/priority_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/priority_test/priority_testU-main.o -MD -MP -MF tests/priority_test/$(DEPDIR)/priority_testU-main.Tpo -c -o tests/priority_test/priority_testU-main.o `test -f 'tests/priority_test/main.cxx' || echo '$(srcdir)/'`tests/priority_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/priority_test/$(DEPDIR)/priority_testU-main.Tpo tests/priority_test/$(DEPDIR)/priority_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/priority_test/main.cxx' object='tests/priority_test/priority_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/priority_test/priority_testU-main.o `test -f 'tests/priority_test/main.cxx' || echo '$(srcdir)/'`tests/priority_test/main.cxx
+
+tests/priority_test/priority_testU-main.obj: tests/priority_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/priority_test/priority_testU-main.obj -MD -MP -MF tests/priority_test/$(DEPDIR)/priority_testU-main.Tpo -c -o tests/priority_test/priority_testU-main.obj `if test -f 'tests/priority_test/main.cxx'; then $(CYGPATH_W) 'tests/priority_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/priority_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/priority_test/$(DEPDIR)/priority_testU-main.Tpo tests/priority_test/$(DEPDIR)/priority_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/priority_test/main.cxx' object='tests/priority_test/priority_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/priority_test/priority_testU-main.obj `if test -f 'tests/priority_test/main.cxx'; then $(CYGPATH_W) 'tests/priority_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/priority_test/main.cxx'; fi`
+
+tests/priority_test/priority_testU-func.o: tests/priority_test/func.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/priority_test/priority_testU-func.o -MD -MP -MF tests/priority_test/$(DEPDIR)/priority_testU-func.Tpo -c -o tests/priority_test/priority_testU-func.o `test -f 'tests/priority_test/func.cxx' || echo '$(srcdir)/'`tests/priority_test/func.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/priority_test/$(DEPDIR)/priority_testU-func.Tpo tests/priority_test/$(DEPDIR)/priority_testU-func.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/priority_test/func.cxx' object='tests/priority_test/priority_testU-func.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/priority_test/priority_testU-func.o `test -f 'tests/priority_test/func.cxx' || echo '$(srcdir)/'`tests/priority_test/func.cxx
+
+tests/priority_test/priority_testU-func.obj: tests/priority_test/func.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/priority_test/priority_testU-func.obj -MD -MP -MF tests/priority_test/$(DEPDIR)/priority_testU-func.Tpo -c -o tests/priority_test/priority_testU-func.obj `if test -f 'tests/priority_test/func.cxx'; then $(CYGPATH_W) 'tests/priority_test/func.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/priority_test/func.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/priority_test/$(DEPDIR)/priority_testU-func.Tpo tests/priority_test/$(DEPDIR)/priority_testU-func.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/priority_test/func.cxx' object='tests/priority_test/priority_testU-func.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/priority_test/priority_testU-func.obj `if test -f 'tests/priority_test/func.cxx'; then $(CYGPATH_W) 'tests/priority_test/func.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/priority_test/func.cxx'; fi`
+
+tests/propertyconfig_test/propertyconfig_testU-main.o: tests/propertyconfig_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(propertyconfig_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/propertyconfig_test/propertyconfig_testU-main.o -MD -MP -MF tests/propertyconfig_test/$(DEPDIR)/propertyconfig_testU-main.Tpo -c -o tests/propertyconfig_test/propertyconfig_testU-main.o `test -f 'tests/propertyconfig_test/main.cxx' || echo '$(srcdir)/'`tests/propertyconfig_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/propertyconfig_test/$(DEPDIR)/propertyconfig_testU-main.Tpo tests/propertyconfig_test/$(DEPDIR)/propertyconfig_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/propertyconfig_test/main.cxx' object='tests/propertyconfig_test/propertyconfig_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(propertyconfig_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/propertyconfig_test/propertyconfig_testU-main.o `test -f 'tests/propertyconfig_test/main.cxx' || echo '$(srcdir)/'`tests/propertyconfig_test/main.cxx
+
+tests/propertyconfig_test/propertyconfig_testU-main.obj: tests/propertyconfig_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(propertyconfig_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/propertyconfig_test/propertyconfig_testU-main.obj -MD -MP -MF tests/propertyconfig_test/$(DEPDIR)/propertyconfig_testU-main.Tpo -c -o tests/propertyconfig_test/propertyconfig_testU-main.obj `if test -f 'tests/propertyconfig_test/main.cxx'; then $(CYGPATH_W) 'tests/propertyconfig_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/propertyconfig_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/propertyconfig_test/$(DEPDIR)/propertyconfig_testU-main.Tpo tests/propertyconfig_test/$(DEPDIR)/propertyconfig_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/propertyconfig_test/main.cxx' object='tests/propertyconfig_test/propertyconfig_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(propertyconfig_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/propertyconfig_test/propertyconfig_testU-main.obj `if test -f 'tests/propertyconfig_test/main.cxx'; then $(CYGPATH_W) 'tests/propertyconfig_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/propertyconfig_test/main.cxx'; fi`
+
+tests/socket_test/socket_testU-main.o: tests/socket_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(socket_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/socket_test/socket_testU-main.o -MD -MP -MF tests/socket_test/$(DEPDIR)/socket_testU-main.Tpo -c -o tests/socket_test/socket_testU-main.o `test -f 'tests/socket_test/main.cxx' || echo '$(srcdir)/'`tests/socket_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/socket_test/$(DEPDIR)/socket_testU-main.Tpo tests/socket_test/$(DEPDIR)/socket_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/socket_test/main.cxx' object='tests/socket_test/socket_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(socket_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/socket_test/socket_testU-main.o `test -f 'tests/socket_test/main.cxx' || echo '$(srcdir)/'`tests/socket_test/main.cxx
+
+tests/socket_test/socket_testU-main.obj: tests/socket_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(socket_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/socket_test/socket_testU-main.obj -MD -MP -MF tests/socket_test/$(DEPDIR)/socket_testU-main.Tpo -c -o tests/socket_test/socket_testU-main.obj `if test -f 'tests/socket_test/main.cxx'; then $(CYGPATH_W) 'tests/socket_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/socket_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/socket_test/$(DEPDIR)/socket_testU-main.Tpo tests/socket_test/$(DEPDIR)/socket_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/socket_test/main.cxx' object='tests/socket_test/socket_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(socket_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/socket_test/socket_testU-main.obj `if test -f 'tests/socket_test/main.cxx'; then $(CYGPATH_W) 'tests/socket_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/socket_test/main.cxx'; fi`
+
+tests/thread_test/thread_testU-main.o: tests/thread_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thread_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/thread_test/thread_testU-main.o -MD -MP -MF tests/thread_test/$(DEPDIR)/thread_testU-main.Tpo -c -o tests/thread_test/thread_testU-main.o `test -f 'tests/thread_test/main.cxx' || echo '$(srcdir)/'`tests/thread_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/thread_test/$(DEPDIR)/thread_testU-main.Tpo tests/thread_test/$(DEPDIR)/thread_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/thread_test/main.cxx' object='tests/thread_test/thread_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thread_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/thread_test/thread_testU-main.o `test -f 'tests/thread_test/main.cxx' || echo '$(srcdir)/'`tests/thread_test/main.cxx
+
+tests/thread_test/thread_testU-main.obj: tests/thread_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thread_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/thread_test/thread_testU-main.obj -MD -MP -MF tests/thread_test/$(DEPDIR)/thread_testU-main.Tpo -c -o tests/thread_test/thread_testU-main.obj `if test -f 'tests/thread_test/main.cxx'; then $(CYGPATH_W) 'tests/thread_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/thread_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/thread_test/$(DEPDIR)/thread_testU-main.Tpo tests/thread_test/$(DEPDIR)/thread_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/thread_test/main.cxx' object='tests/thread_test/thread_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thread_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/thread_test/thread_testU-main.obj `if test -f 'tests/thread_test/main.cxx'; then $(CYGPATH_W) 'tests/thread_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/thread_test/main.cxx'; fi`
+
+tests/timeformat_test/timeformat_testU-main.o: tests/timeformat_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(timeformat_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/timeformat_test/timeformat_testU-main.o -MD -MP -MF tests/timeformat_test/$(DEPDIR)/timeformat_testU-main.Tpo -c -o tests/timeformat_test/timeformat_testU-main.o `test -f 'tests/timeformat_test/main.cxx' || echo '$(srcdir)/'`tests/timeformat_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/timeformat_test/$(DEPDIR)/timeformat_testU-main.Tpo tests/timeformat_test/$(DEPDIR)/timeformat_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/timeformat_test/main.cxx' object='tests/timeformat_test/timeformat_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(timeformat_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/timeformat_test/timeformat_testU-main.o `test -f 'tests/timeformat_test/main.cxx' || echo '$(srcdir)/'`tests/timeformat_test/main.cxx
+
+tests/timeformat_test/timeformat_testU-main.obj: tests/timeformat_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(timeformat_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/timeformat_test/timeformat_testU-main.obj -MD -MP -MF tests/timeformat_test/$(DEPDIR)/timeformat_testU-main.Tpo -c -o tests/timeformat_test/timeformat_testU-main.obj `if test -f 'tests/timeformat_test/main.cxx'; then $(CYGPATH_W) 'tests/timeformat_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/timeformat_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/timeformat_test/$(DEPDIR)/timeformat_testU-main.Tpo tests/timeformat_test/$(DEPDIR)/timeformat_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/timeformat_test/main.cxx' object='tests/timeformat_test/timeformat_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(timeformat_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/timeformat_test/timeformat_testU-main.obj `if test -f 'tests/timeformat_test/main.cxx'; then $(CYGPATH_W) 'tests/timeformat_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/timeformat_test/main.cxx'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
