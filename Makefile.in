@@ -153,6 +153,9 @@ noinst_PROGRAMS = appender_test$(EXEEXT) $(am__EXEEXT_1) \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@am__append_23 = liblog4cplusqt4debugappenderU.la
 @QT5_TRUE@am__append_24 = liblog4cplusqt5debugappender.la
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@am__append_25 = liblog4cplusqt5debugappenderU.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_26 = $(PYTHON_WRAPU_CXX)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_27 = log4cplusU.py
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_28 = _log4cplusU.la
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -240,9 +243,21 @@ _log4cplus_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(_log4cplus_la_LDFLAGS) $(LDFLAGS) \
 	-o $@
 @WITH_PYTHON_TRUE@am__log4cplus_la_rpath = -rpath $(pkgpyexecdir)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@_log4cplusU_la_DEPENDENCIES = $(liblog4cplusU_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__objects_3 = _log4cplusU_la-python_wrapU.lo
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__log4cplusU_la_OBJECTS = $(am__objects_3) \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@	$(am__objects_2)
+_log4cplusU_la_OBJECTS = $(am__log4cplusU_la_OBJECTS)
+_log4cplusU_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(AM_CXXFLAGS) $(CXXFLAGS) $(_log4cplusU_la_LDFLAGS) \
+	$(LDFLAGS) -o $@
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__log4cplusU_la_rpath =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@	-rpath \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@	$(pkgpyexecdir)
 liblog4cplus_la_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
-am__objects_3 = src/liblog4cplus_la-appenderattachableimpl.lo \
+am__objects_4 = src/liblog4cplus_la-appenderattachableimpl.lo \
 	src/liblog4cplus_la-appender.lo \
 	src/liblog4cplus_la-asyncappender.lo \
 	src/liblog4cplus_la-clogger.lo \
@@ -287,16 +302,16 @@ am__objects_3 = src/liblog4cplus_la-appenderattachableimpl.lo \
 	src/liblog4cplus_la-version.lo \
 	src/liblog4cplus_la-win32consoleappender.lo \
 	src/liblog4cplus_la-win32debugappender.lo
-am__objects_4 = $(am__objects_3)
 am__objects_5 = $(am__objects_4)
-am_liblog4cplus_la_OBJECTS = $(am__objects_5)
+am__objects_6 = $(am__objects_5)
+am_liblog4cplus_la_OBJECTS = $(am__objects_6)
 liblog4cplus_la_OBJECTS = $(am_liblog4cplus_la_OBJECTS)
 liblog4cplus_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(liblog4cplus_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
 liblog4cplusU_la_LIBADD =
-am__objects_6 = src/liblog4cplusU_la-appenderattachableimpl.lo \
+am__objects_7 = src/liblog4cplusU_la-appenderattachableimpl.lo \
 	src/liblog4cplusU_la-appender.lo \
 	src/liblog4cplusU_la-asyncappender.lo \
 	src/liblog4cplusU_la-clogger.lo \
@@ -345,10 +360,10 @@ am__objects_6 = src/liblog4cplusU_la-appenderattachableimpl.lo \
 	src/liblog4cplusU_la-version.lo \
 	src/liblog4cplusU_la-win32consoleappender.lo \
 	src/liblog4cplusU_la-win32debugappender.lo
-am__objects_7 = $(am__objects_6)
 am__objects_8 = $(am__objects_7)
+am__objects_9 = $(am__objects_8)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_liblog4cplusU_la_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_8)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_9)
 liblog4cplusU_la_OBJECTS = $(am_liblog4cplusU_la_OBJECTS)
 liblog4cplusU_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
@@ -358,9 +373,9 @@ liblog4cplusU_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(libdir)
 @QT_TRUE@liblog4cplusqt4debugappender_la_DEPENDENCIES =  \
 @QT_TRUE@	$(liblog4cplus_la_file)
-@QT_TRUE@am__objects_9 = qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo
+@QT_TRUE@am__objects_10 = qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo
 @QT_TRUE@am_liblog4cplusqt4debugappender_la_OBJECTS =  \
-@QT_TRUE@	$(am__objects_9)
+@QT_TRUE@	$(am__objects_10)
 liblog4cplusqt4debugappender_la_OBJECTS =  \
 	$(am_liblog4cplusqt4debugappender_la_OBJECTS)
 liblog4cplusqt4debugappender_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
@@ -369,9 +384,9 @@ liblog4cplusqt4debugappender_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(liblog4cplusqt4debugappender_la_LDFLAGS) $(LDFLAGS) -o $@
 @QT_TRUE@am_liblog4cplusqt4debugappender_la_rpath = -rpath $(libdir)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@liblog4cplusqt4debugappenderU_la_DEPENDENCIES = $(liblog4cplusU_la_file)
-@QT_TRUE@am__objects_10 = qt4debugappender/liblog4cplusqt4debugappenderU_la-qt4debugappender.lo
+@QT_TRUE@am__objects_11 = qt4debugappender/liblog4cplusqt4debugappenderU_la-qt4debugappender.lo
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@am_liblog4cplusqt4debugappenderU_la_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@	$(am__objects_10)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@	$(am__objects_11)
 liblog4cplusqt4debugappenderU_la_OBJECTS =  \
 	$(am_liblog4cplusqt4debugappenderU_la_OBJECTS)
 liblog4cplusqt4debugappenderU_la_LINK = $(LIBTOOL) $(AM_V_lt) \
@@ -382,9 +397,9 @@ liblog4cplusqt4debugappenderU_la_LINK = $(LIBTOOL) $(AM_V_lt) \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@	-rpath $(libdir)
 @QT5_TRUE@liblog4cplusqt5debugappender_la_DEPENDENCIES =  \
 @QT5_TRUE@	$(liblog4cplus_la_file)
-@QT5_TRUE@am__objects_11 = qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo
+@QT5_TRUE@am__objects_12 = qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo
 @QT5_TRUE@am_liblog4cplusqt5debugappender_la_OBJECTS =  \
-@QT5_TRUE@	$(am__objects_11)
+@QT5_TRUE@	$(am__objects_12)
 liblog4cplusqt5debugappender_la_OBJECTS =  \
 	$(am_liblog4cplusqt5debugappender_la_OBJECTS)
 liblog4cplusqt5debugappender_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
@@ -393,9 +408,9 @@ liblog4cplusqt5debugappender_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(liblog4cplusqt5debugappender_la_LDFLAGS) $(LDFLAGS) -o $@
 @QT5_TRUE@am_liblog4cplusqt5debugappender_la_rpath = -rpath $(libdir)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@liblog4cplusqt5debugappenderU_la_DEPENDENCIES = $(liblog4cplusU_la_file)
-@QT5_TRUE@am__objects_12 = qt5debugappender/liblog4cplusqt5debugappenderU_la-qt5debugappender.lo
+@QT5_TRUE@am__objects_13 = qt5debugappender/liblog4cplusqt5debugappenderU_la-qt5debugappender.lo
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@am_liblog4cplusqt5debugappenderU_la_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@	$(am__objects_12)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@	$(am__objects_13)
 liblog4cplusqt5debugappenderU_la_OBJECTS =  \
 	$(am_liblog4cplusqt5debugappenderU_la_OBJECTS)
 liblog4cplusqt5debugappenderU_la_LINK = $(LIBTOOL) $(AM_V_lt) \
@@ -434,186 +449,186 @@ liblog4cplusqt5debugappenderU_la_LINK = $(LIBTOOL) $(AM_V_lt) \
 @MULTI_THREADED_TRUE@am__EXEEXT_19 = loggingserver$(EXEEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_20 = loggingserverU$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
-am__objects_13 = tests/appender_test/main.$(OBJEXT)
-am_appender_test_OBJECTS = $(am__objects_13)
+am__objects_14 = tests/appender_test/main.$(OBJEXT)
+am_appender_test_OBJECTS = $(am__objects_14)
 appender_test_OBJECTS = $(am_appender_test_OBJECTS)
 appender_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am__objects_14 = tests/appender_test/appender_testU-main.$(OBJEXT)
+am__objects_15 = tests/appender_test/appender_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_appender_testU_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_14)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_15)
 appender_testU_OBJECTS = $(am_appender_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@appender_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
-@MULTI_THREADED_TRUE@am__objects_15 =  \
+@MULTI_THREADED_TRUE@am__objects_16 =  \
 @MULTI_THREADED_TRUE@	tests/configandwatch_test/main.$(OBJEXT)
 @MULTI_THREADED_TRUE@am_configandwatch_test_OBJECTS =  \
-@MULTI_THREADED_TRUE@	$(am__objects_15)
+@MULTI_THREADED_TRUE@	$(am__objects_16)
 configandwatch_test_OBJECTS = $(am_configandwatch_test_OBJECTS)
 @MULTI_THREADED_TRUE@configandwatch_test_DEPENDENCIES =  \
 @MULTI_THREADED_TRUE@	$(liblog4cplus_la_file)
-@MULTI_THREADED_TRUE@am__objects_16 = tests/configandwatch_test/configandwatch_testU-main.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am_configandwatch_testU_OBJECTS = $(am__objects_16)
+@MULTI_THREADED_TRUE@am__objects_17 = tests/configandwatch_test/configandwatch_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am_configandwatch_testU_OBJECTS = $(am__objects_17)
 configandwatch_testU_OBJECTS = $(am_configandwatch_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@configandwatch_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
-am__objects_17 = tests/customloglevel_test/main.$(OBJEXT) \
+am__objects_18 = tests/customloglevel_test/main.$(OBJEXT) \
 	tests/customloglevel_test/func.$(OBJEXT) \
 	tests/customloglevel_test/customloglevel.$(OBJEXT)
-am_customloglevel_test_OBJECTS = $(am__objects_17)
+am_customloglevel_test_OBJECTS = $(am__objects_18)
 customloglevel_test_OBJECTS = $(am_customloglevel_test_OBJECTS)
 customloglevel_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am__objects_18 =  \
+am__objects_19 =  \
 	tests/customloglevel_test/customloglevel_testU-main.$(OBJEXT) \
 	tests/customloglevel_test/customloglevel_testU-func.$(OBJEXT) \
 	tests/customloglevel_test/customloglevel_testU-customloglevel.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_customloglevel_testU_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_18)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_19)
 customloglevel_testU_OBJECTS = $(am_customloglevel_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@customloglevel_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
-am__objects_19 = tests/fileappender_test/main.$(OBJEXT)
-am_fileappender_test_OBJECTS = $(am__objects_19)
+am__objects_20 = tests/fileappender_test/main.$(OBJEXT)
+am_fileappender_test_OBJECTS = $(am__objects_20)
 fileappender_test_OBJECTS = $(am_fileappender_test_OBJECTS)
 fileappender_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am__objects_20 =  \
+am__objects_21 =  \
 	tests/fileappender_test/fileappender_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_fileappender_testU_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_20)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_21)
 fileappender_testU_OBJECTS = $(am_fileappender_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@fileappender_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
-am__objects_21 = tests/filter_test/main.$(OBJEXT)
-am_filter_test_OBJECTS = $(am__objects_21)
+am__objects_22 = tests/filter_test/main.$(OBJEXT)
+am_filter_test_OBJECTS = $(am__objects_22)
 filter_test_OBJECTS = $(am_filter_test_OBJECTS)
 filter_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am__objects_22 = tests/filter_test/filter_testU-main.$(OBJEXT)
+am__objects_23 = tests/filter_test/filter_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_filter_testU_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_22)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_23)
 filter_testU_OBJECTS = $(am_filter_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@filter_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
-am__objects_23 = tests/hierarchy_test/main.$(OBJEXT)
-am_hierarchy_test_OBJECTS = $(am__objects_23)
+am__objects_24 = tests/hierarchy_test/main.$(OBJEXT)
+am_hierarchy_test_OBJECTS = $(am__objects_24)
 hierarchy_test_OBJECTS = $(am_hierarchy_test_OBJECTS)
 hierarchy_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am__objects_24 = tests/hierarchy_test/hierarchy_testU-main.$(OBJEXT)
+am__objects_25 = tests/hierarchy_test/hierarchy_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_hierarchy_testU_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_24)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_25)
 hierarchy_testU_OBJECTS = $(am_hierarchy_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@hierarchy_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
-@MULTI_THREADED_TRUE@am__objects_25 =  \
+@MULTI_THREADED_TRUE@am__objects_26 =  \
 @MULTI_THREADED_TRUE@	simpleserver/loggingserver.$(OBJEXT)
-@MULTI_THREADED_TRUE@am_loggingserver_OBJECTS = $(am__objects_25)
+@MULTI_THREADED_TRUE@am_loggingserver_OBJECTS = $(am__objects_26)
 loggingserver_OBJECTS = $(am_loggingserver_OBJECTS)
 @MULTI_THREADED_TRUE@loggingserver_DEPENDENCIES =  \
 @MULTI_THREADED_TRUE@	$(liblog4cplus_la_file)
-@MULTI_THREADED_TRUE@am__objects_26 = simpleserver/loggingserverU-loggingserver.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am_loggingserverU_OBJECTS = $(am__objects_26)
+@MULTI_THREADED_TRUE@am__objects_27 = simpleserver/loggingserverU-loggingserver.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am_loggingserverU_OBJECTS = $(am__objects_27)
 loggingserverU_OBJECTS = $(am_loggingserverU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@loggingserverU_DEPENDENCIES = $(liblog4cplusU_la_file)
-am__objects_27 = tests/loglog_test/main.$(OBJEXT)
-am_loglog_test_OBJECTS = $(am__objects_27)
+am__objects_28 = tests/loglog_test/main.$(OBJEXT)
+am_loglog_test_OBJECTS = $(am__objects_28)
 loglog_test_OBJECTS = $(am_loglog_test_OBJECTS)
 loglog_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am__objects_28 = tests/loglog_test/loglog_testU-main.$(OBJEXT)
+am__objects_29 = tests/loglog_test/loglog_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_loglog_testU_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_28)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_29)
 loglog_testU_OBJECTS = $(am_loglog_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@loglog_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
-am__objects_29 = tests/ndc_test/main.$(OBJEXT)
-am_ndc_test_OBJECTS = $(am__objects_29)
+am__objects_30 = tests/ndc_test/main.$(OBJEXT)
+am_ndc_test_OBJECTS = $(am__objects_30)
 ndc_test_OBJECTS = $(am_ndc_test_OBJECTS)
 ndc_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am__objects_30 = tests/ndc_test/ndc_testU-main.$(OBJEXT)
+am__objects_31 = tests/ndc_test/ndc_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_ndc_testU_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_30)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_31)
 ndc_testU_OBJECTS = $(am_ndc_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ndc_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
-am__objects_31 = tests/ostream_test/main.$(OBJEXT)
-am_ostream_test_OBJECTS = $(am__objects_31)
+am__objects_32 = tests/ostream_test/main.$(OBJEXT)
+am_ostream_test_OBJECTS = $(am__objects_32)
 ostream_test_OBJECTS = $(am_ostream_test_OBJECTS)
 ostream_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am__objects_32 = tests/ostream_test/ostream_testU-main.$(OBJEXT)
+am__objects_33 = tests/ostream_test/ostream_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_ostream_testU_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_32)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_33)
 ostream_testU_OBJECTS = $(am_ostream_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ostream_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
-am__objects_33 = tests/patternlayout_test/main.$(OBJEXT)
-am_patternlayout_test_OBJECTS = $(am__objects_33)
+am__objects_34 = tests/patternlayout_test/main.$(OBJEXT)
+am_patternlayout_test_OBJECTS = $(am__objects_34)
 patternlayout_test_OBJECTS = $(am_patternlayout_test_OBJECTS)
 patternlayout_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am__objects_34 =  \
+am__objects_35 =  \
 	tests/patternlayout_test/patternlayout_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_patternlayout_testU_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_34)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_35)
 patternlayout_testU_OBJECTS = $(am_patternlayout_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@patternlayout_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
-am__objects_35 = tests/performance_test/main.$(OBJEXT)
-am_performance_test_OBJECTS = $(am__objects_35)
+am__objects_36 = tests/performance_test/main.$(OBJEXT)
+am_performance_test_OBJECTS = $(am__objects_36)
 performance_test_OBJECTS = $(am_performance_test_OBJECTS)
 performance_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am__objects_36 =  \
+am__objects_37 =  \
 	tests/performance_test/performance_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_performance_testU_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_36)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_37)
 performance_testU_OBJECTS = $(am_performance_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@performance_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
-am__objects_37 = tests/priority_test/main.$(OBJEXT) \
+am__objects_38 = tests/priority_test/main.$(OBJEXT) \
 	tests/priority_test/func.$(OBJEXT)
-am_priority_test_OBJECTS = $(am__objects_37)
+am_priority_test_OBJECTS = $(am__objects_38)
 priority_test_OBJECTS = $(am_priority_test_OBJECTS)
 priority_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am__objects_38 = tests/priority_test/priority_testU-main.$(OBJEXT) \
+am__objects_39 = tests/priority_test/priority_testU-main.$(OBJEXT) \
 	tests/priority_test/priority_testU-func.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_priority_testU_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_38)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_39)
 priority_testU_OBJECTS = $(am_priority_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@priority_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
-am__objects_39 = tests/propertyconfig_test/main.$(OBJEXT)
-am_propertyconfig_test_OBJECTS = $(am__objects_39)
+am__objects_40 = tests/propertyconfig_test/main.$(OBJEXT)
+am_propertyconfig_test_OBJECTS = $(am__objects_40)
 propertyconfig_test_OBJECTS = $(am_propertyconfig_test_OBJECTS)
 propertyconfig_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am__objects_40 =  \
+am__objects_41 =  \
 	tests/propertyconfig_test/propertyconfig_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_propertyconfig_testU_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_40)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_41)
 propertyconfig_testU_OBJECTS = $(am_propertyconfig_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@propertyconfig_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
-am__objects_41 = tests/socket_test/main.$(OBJEXT)
-am_socket_test_OBJECTS = $(am__objects_41)
+am__objects_42 = tests/socket_test/main.$(OBJEXT)
+am_socket_test_OBJECTS = $(am__objects_42)
 socket_test_OBJECTS = $(am_socket_test_OBJECTS)
 socket_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am__objects_42 = tests/socket_test/socket_testU-main.$(OBJEXT)
+am__objects_43 = tests/socket_test/socket_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_socket_testU_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_42)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_43)
 socket_testU_OBJECTS = $(am_socket_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@socket_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
-@MULTI_THREADED_TRUE@am__objects_43 =  \
+@MULTI_THREADED_TRUE@am__objects_44 =  \
 @MULTI_THREADED_TRUE@	tests/thread_test/main.$(OBJEXT)
-@MULTI_THREADED_TRUE@am_thread_test_OBJECTS = $(am__objects_43)
+@MULTI_THREADED_TRUE@am_thread_test_OBJECTS = $(am__objects_44)
 thread_test_OBJECTS = $(am_thread_test_OBJECTS)
 @MULTI_THREADED_TRUE@thread_test_DEPENDENCIES =  \
 @MULTI_THREADED_TRUE@	$(liblog4cplus_la_file)
-@MULTI_THREADED_TRUE@am__objects_44 = tests/thread_test/thread_testU-main.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am_thread_testU_OBJECTS = $(am__objects_44)
+@MULTI_THREADED_TRUE@am__objects_45 = tests/thread_test/thread_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am_thread_testU_OBJECTS = $(am__objects_45)
 thread_testU_OBJECTS = $(am_thread_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@thread_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
-am__objects_45 = tests/timeformat_test/main.$(OBJEXT)
-am_timeformat_test_OBJECTS = $(am__objects_45)
+am__objects_46 = tests/timeformat_test/main.$(OBJEXT)
+am_timeformat_test_OBJECTS = $(am__objects_46)
 timeformat_test_OBJECTS = $(am_timeformat_test_OBJECTS)
 timeformat_test_DEPENDENCIES = $(liblog4cplus_la_file)
-am__objects_46 =  \
+am__objects_47 =  \
 	tests/timeformat_test/timeformat_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_timeformat_testU_OBJECTS =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_46)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_47)
 timeformat_testU_OBJECTS = $(am_timeformat_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
@@ -669,8 +684,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(_log4cplus_la_SOURCES) $(liblog4cplus_la_SOURCES) \
-	$(liblog4cplusU_la_SOURCES) \
+SOURCES = $(_log4cplus_la_SOURCES) $(_log4cplusU_la_SOURCES) \
+	$(liblog4cplus_la_SOURCES) $(liblog4cplusU_la_SOURCES) \
 	$(liblog4cplusqt4debugappender_la_SOURCES) \
 	$(liblog4cplusqt4debugappenderU_la_SOURCES) \
 	$(liblog4cplusqt5debugappender_la_SOURCES) \
@@ -705,7 +720,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-am__pkgpython_PYTHON_DIST = log4cplus.py
+am__pkgpython_PYTHON_DIST = log4cplus.py log4cplusU.py
 am__py_compile = PYTHON=$(PYTHON) $(SHELL) $(py_compile)
 am__pep3147_tweak = \
   sed -e 's|\.py$$||' -e 's|[^/]*$$|__pycache__/&.*.py|'
@@ -1177,18 +1192,27 @@ timeformat_test_LDADD = $(liblog4cplus_la_file)
 @WITH_SWIG_TRUE@  swig/loggingevent.swg
 
 @WITH_PYTHON_TRUE@PYTHON_WRAP_CXX = python_wrap.cxx
-@WITH_PYTHON_TRUE@BUILT_SOURCES = $(PYTHON_WRAP_CXX)
-@WITH_PYTHON_TRUE@pkgpython_PYTHON = log4cplus.py
-@WITH_PYTHON_TRUE@pkgpyexec_LTLIBRARIES = _log4cplus.la
+@WITH_PYTHON_TRUE@BUILT_SOURCES = $(PYTHON_WRAP_CXX) $(am__append_26)
+@WITH_PYTHON_TRUE@pkgpython_PYTHON = log4cplus.py $(am__append_27)
+@WITH_PYTHON_TRUE@pkgpyexec_LTLIBRARIES = _log4cplus.la \
+@WITH_PYTHON_TRUE@	$(am__append_28)
 @WITH_PYTHON_TRUE@_log4cplus_la_SOURCES = $(PYTHON_WRAP_CXX) $(SWIG_SOURCES)
 @WITH_PYTHON_TRUE@_log4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) $(SWIG_PYTHON_CPPFLAGS) \
-@WITH_PYTHON_TRUE@  $(PYTHON_CPPFLAGS) -I$(top_srcdir)/include -I$(top_builddir)/include \
-@WITH_PYTHON_TRUE@  -DSWIG_TYPE_TABLE=log4cplus
+@WITH_PYTHON_TRUE@  $(PYTHON_CPPFLAGS) -DSWIG_TYPE_TABLE=log4cplus
 
 @WITH_PYTHON_TRUE@_log4cplus_la_LDFLAGS = -no-undefined -shared -module -avoid-version \
 @WITH_PYTHON_TRUE@  $(PYTHON_LDFLAGS) $(AM_LDFLAGS)
 
 @WITH_PYTHON_TRUE@_log4cplus_la_LIBADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@PYTHON_WRAPU_CXX = python_wrapU.cxx
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@_log4cplusU_la_SOURCES = $(PYTHON_WRAPU_CXX) $(SWIG_SOURCES)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@_log4cplusU_la_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@  $(SWIG_PYTHON_CPPFLAGS) $(PYTHON_CPPFLAGS) -DSWIG_TYPE_TABLE=log4cplus
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@_log4cplusU_la_LDFLAGS = -no-undefined -shared -module -avoid-version \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@  $(PYTHON_LDFLAGS) $(AM_LDFLAGS)
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@_log4cplusU_la_LIBADD = $(liblog4cplusU_la_file)
 TESTSUITE = tests/testsuite
 AUTOTEST = $(AUTOM4TE) --language=Autotest
 TESTSUITE_AT = \
@@ -1359,6 +1383,9 @@ clean-pkgpyexecLTLIBRARIES:
 
 _log4cplus.la: $(_log4cplus_la_OBJECTS) $(_log4cplus_la_DEPENDENCIES) $(EXTRA__log4cplus_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(_log4cplus_la_LINK) $(am__log4cplus_la_rpath) $(_log4cplus_la_OBJECTS) $(_log4cplus_la_LIBADD) $(LIBS)
+
+_log4cplusU.la: $(_log4cplusU_la_OBJECTS) $(_log4cplusU_la_DEPENDENCIES) $(EXTRA__log4cplusU_la_DEPENDENCIES) 
+	$(AM_V_CXXLD)$(_log4cplusU_la_LINK) $(am__log4cplusU_la_rpath) $(_log4cplusU_la_OBJECTS) $(_log4cplusU_la_LIBADD) $(LIBS)
 src/$(am__dirstamp):
 	@$(MKDIR_P) src
 	@: > src/$(am__dirstamp)
@@ -2009,6 +2036,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_log4cplusU_la-python_wrapU.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_log4cplus_la-python_wrap.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappenderU_la-qt4debugappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappender_la-qt4debugappender.Plo@am__quote@
@@ -2191,6 +2219,13 @@ _log4cplus_la-python_wrap.lo: python_wrap.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='python_wrap.cxx' object='_log4cplus_la-python_wrap.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(_log4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o _log4cplus_la-python_wrap.lo `test -f 'python_wrap.cxx' || echo '$(srcdir)/'`python_wrap.cxx
+
+_log4cplusU_la-python_wrapU.lo: python_wrapU.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(_log4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT _log4cplusU_la-python_wrapU.lo -MD -MP -MF $(DEPDIR)/_log4cplusU_la-python_wrapU.Tpo -c -o _log4cplusU_la-python_wrapU.lo `test -f 'python_wrapU.cxx' || echo '$(srcdir)/'`python_wrapU.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/_log4cplusU_la-python_wrapU.Tpo $(DEPDIR)/_log4cplusU_la-python_wrapU.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='python_wrapU.cxx' object='_log4cplusU_la-python_wrapU.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(_log4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o _log4cplusU_la-python_wrapU.lo `test -f 'python_wrapU.cxx' || echo '$(srcdir)/'`python_wrapU.cxx
 
 src/liblog4cplus_la-appenderattachableimpl.lo: src/appenderattachableimpl.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-appenderattachableimpl.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-appenderattachableimpl.Tpo -c -o src/liblog4cplus_la-appenderattachableimpl.lo `test -f 'src/appenderattachableimpl.cxx' || echo '$(srcdir)/'`src/appenderattachableimpl.cxx
@@ -3619,6 +3654,12 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgconfigDATA \
 @WITH_PYTHON_TRUE@	-I$(top_srcdir)/include -I$(top_builddir)/include \
 @WITH_PYTHON_TRUE@	-I$(top_srcdir)/swig -o $(PYTHON_WRAP_CXX) \
 @WITH_PYTHON_TRUE@	$(top_srcdir)/swig/log4cplus.swg
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@$(PYTHON_WRAPU_CXX): $(SWIG_SOURCES)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@	$(SWIG) -DUNICODE=1 $(SWIG_FLAGS) -c++ -python $(SWIG_PYTHON_OPT) \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@	-I$(top_srcdir)/include -I$(top_builddir)/include \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@	-I$(top_srcdir)/swig -o $(PYTHON_WRAPU_CXX) \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@	$(top_srcdir)/swig/log4cplus.swg
 
 all: $(TESTSUITE)
 
