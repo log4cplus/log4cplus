@@ -167,6 +167,8 @@ AC_ARG_WITH([wchar_t-support],
   [with_wchar_t_support=yes])
 AM_CONDITIONAL([BUILD_WITH_WCHAR_T_SUPPORT],
   [test "x$with_wchar_t_support" = "xyes"])
+AS_VAR_SET([BUILD_WITH_WCHAR_T_SUPPORT], [$with_wchar_t_support])
+AC_SUBST([BUILD_WITH_WCHAR_T_SUPPORT])
 
 dnl Check for c/c++ compilers.
 
