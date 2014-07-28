@@ -1,5 +1,13 @@
+m4_define([ATX_WCHAR_T_TEST], [
+  AS_IF([test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"], [$1])
+])
+
+
 m4_define([ATX_COMPILE_CXX], [
   AT_CHECK([$CXX $CPPFLAGS $CXXFLAGS -c "$1"], [0], [stdout], [stderr])
+  ATX_WCHAR_T_TEST([
+    AT_CHECK([$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "$1"], [0], [stdout],
+      [stderr])])
 ])
 
 
@@ -8,3 +16,5 @@ m4_define([ATX_COMPILE_CXX_HEADER], [
   AT_CAPTURE_FILE([test.cxx])
   ATX_COMPILE_CXX([test.cxx])
 ])
+
+

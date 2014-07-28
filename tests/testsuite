@@ -2097,6 +2097,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -2141,6 +2160,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -2189,6 +2227,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -2233,6 +2290,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -2281,6 +2357,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -2325,6 +2420,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -2373,6 +2487,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -2417,6 +2550,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -2465,6 +2617,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -2509,6 +2680,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -2557,6 +2747,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -2601,6 +2810,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -2649,6 +2877,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -2693,6 +2940,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -2741,6 +3007,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -2785,6 +3070,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -2833,6 +3137,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -2877,6 +3200,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -2925,6 +3267,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -2969,6 +3330,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -3017,6 +3397,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -3061,6 +3460,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -3109,6 +3527,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -3153,6 +3590,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -3201,6 +3657,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -3245,6 +3720,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -3293,6 +3787,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -3337,6 +3850,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -3385,6 +3917,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -3429,6 +3980,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -3477,6 +4047,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -3521,6 +4110,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -3569,6 +4177,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -3613,6 +4240,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -3661,6 +4307,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -3705,6 +4370,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -3753,6 +4437,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -3797,6 +4500,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -3845,6 +4567,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -3889,6 +4630,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -3937,6 +4697,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -3981,6 +4760,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -4029,6 +4827,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -4073,6 +4890,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -4121,6 +4957,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -4165,6 +5020,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -4213,6 +5087,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -4257,6 +5150,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -4305,6 +5217,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -4349,6 +5280,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -4397,6 +5347,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -4441,6 +5410,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -4489,6 +5477,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -4533,6 +5540,25 @@ at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
 $at_failed && at_fn_log_failure  \
 "test.cxx"
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
 
 
 
@@ -4581,6 +5607,25 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+    { set +x
+$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -c \"test.cxx\""
+at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c \"test.cxx\"" "headers.at:1"
+( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "test.cxx"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/headers.at:1"
+$at_failed && at_fn_log_failure  \
+"test.cxx"
+$at_traceon; }
+
+fi
+
+
 
     set +x
   $at_times_p && times >"$at_times_file"
@@ -4622,6 +5667,25 @@ $at_diff expout "$at_stdout" || at_failed=:
 at_fn_check_status 0 $at_status "$at_srcdir/appender_test.at:5"
 $at_failed && at_fn_log_failure
 $at_traceon; }
+
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/appender_test.at:7: \"\${abs_top_builddir}/appender_testU\" 2>&1"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "appender_test.at:7"
+( $at_check_trace; "${abs_top_builddir}/appender_testU" 2>&1
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+$at_diff expout "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/appender_test.at:7"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+fi
 
 
   set +x
@@ -4682,6 +5746,39 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/configandwatch_test.at:9: \"\${abs_top_builddir}/configandwatch_testU\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "configandwatch_test.at:9"
+( $at_check_trace; "${abs_top_builddir}/configandwatch_testU"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; cat "$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/configandwatch_test.at:9"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  { set +x
+$as_echo "$at_srcdir/configandwatch_test.at:9: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "configandwatch_test.at:9"
+( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/configandwatch_test.at:9"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+fi
+
+
   set +x
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
@@ -4722,6 +5819,25 @@ $at_diff expout "$at_stdout" || at_failed=:
 at_fn_check_status 0 $at_status "$at_srcdir/customloglevel_test.at:5"
 $at_failed && at_fn_log_failure
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/customloglevel_test.at:6: \"\${abs_top_builddir}/customloglevel_testU\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "customloglevel_test.at:6"
+( $at_check_trace; "${abs_top_builddir}/customloglevel_testU"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; cat "$at_stderr"
+$at_diff expout "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/customloglevel_test.at:6"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+fi
 
 
   set +x
@@ -4779,6 +5895,51 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/fileappender_test.at:7: rm -rf \"a\""
+at_fn_check_prepare_trace "fileappender_test.at:7"
+( $at_check_trace; rm -rf "a"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/fileappender_test.at:7"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  { set +x
+$as_echo "$at_srcdir/fileappender_test.at:7: \"\${abs_top_builddir}/fileappender_testU\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "fileappender_test.at:7"
+( $at_check_trace; "${abs_top_builddir}/fileappender_testU"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+$at_diff experr "$at_stderr" || at_failed=:
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/fileappender_test.at:7"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  { set +x
+$as_echo "$at_srcdir/fileappender_test.at:7: test -f \"a/b/c/d/Test.log\""
+at_fn_check_prepare_trace "fileappender_test.at:7"
+( $at_check_trace; test -f "a/b/c/d/Test.log"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/fileappender_test.at:7"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+fi
+
+
   set +x
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
@@ -4807,126 +5968,257 @@ at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:4"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
-
 { set +x
-$as_echo "$at_srcdir/filter_test.at:6: cp -f \"\${abs_builddir}/filter_test/log4cplus.properties\" ."
-at_fn_check_prepare_notrace 'a ${...} parameter expansion' "filter_test.at:6"
+$as_echo "$at_srcdir/filter_test.at:5: cp -f \"\${abs_builddir}/filter_test/log4cplus.properties\" ."
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "filter_test.at:5"
 ( $at_check_trace; cp -f "${abs_builddir}/filter_test/log4cplus.properties" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:6"
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:5"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
+
+
+
 { set +x
-$as_echo "$at_srcdir/filter_test.at:7: \"\${abs_top_builddir}/filter_test\""
-at_fn_check_prepare_notrace 'a ${...} parameter expansion' "filter_test.at:7"
+$as_echo "$at_srcdir/filter_test.at:18: \"\${abs_top_builddir}/filter_test\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "filter_test.at:18"
 ( $at_check_trace; "${abs_top_builddir}/filter_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 echo stderr:; tee stderr <"$at_stderr"
 $at_diff expout "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:7"
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:18"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/filter_test.at:8: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
-at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "filter_test.at:8"
+$as_echo "$at_srcdir/filter_test.at:19: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "filter_test.at:19"
 ( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:8"
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:19"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-{ set +x
-$as_echo "$at_srcdir/filter_test.at:10: test -s debug_info_msgs.log"
-at_fn_check_prepare_trace "filter_test.at:10"
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:20: test -s debug_info_msgs.log"
+at_fn_check_prepare_trace "filter_test.at:20"
 ( $at_check_trace; test -s debug_info_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:10"
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:20"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
-{ set +x
-$as_echo "$at_srcdir/filter_test.at:11: ! \$GREP 'TRACE\\|WARN\\|ERROR\\|FATAL' debug_info_msgs.log"
-at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:11"
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:20: ! \$GREP 'TRACE\\|WARN\\|ERROR\\|FATAL' debug_info_msgs.log"
+at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:20"
 ( $at_check_trace; ! $GREP 'TRACE\|WARN\|ERROR\|FATAL' debug_info_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:11"
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:20"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-{ set +x
-$as_echo "$at_srcdir/filter_test.at:13: test -s fatal_msgs.log"
-at_fn_check_prepare_trace "filter_test.at:13"
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:20: test -s fatal_msgs.log"
+at_fn_check_prepare_trace "filter_test.at:20"
 ( $at_check_trace; test -s fatal_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:13"
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:20"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
-{ set +x
-$as_echo "$at_srcdir/filter_test.at:14: ! \$GREP 'TRACE\\|DEBUG\\|INFO\\|WARN\\|ERROR' fatal_msgs.log"
-at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:14"
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:20: ! \$GREP 'TRACE\\|DEBUG\\|INFO\\|WARN\\|ERROR' fatal_msgs.log"
+at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:20"
 ( $at_check_trace; ! $GREP 'TRACE\|DEBUG\|INFO\|WARN\|ERROR' fatal_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:14"
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:20"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-{ set +x
-$as_echo "$at_srcdir/filter_test.at:16: test -s trace_msgs.log"
-at_fn_check_prepare_trace "filter_test.at:16"
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:20: test -s trace_msgs.log"
+at_fn_check_prepare_trace "filter_test.at:20"
 ( $at_check_trace; test -s trace_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:16"
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:20"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
-{ set +x
-$as_echo "$at_srcdir/filter_test.at:17: ! \$GREP 'DEBUG\\|INFO\\|WARN\\|ERROR\\|FATAL' trace_msgs.log"
-at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:17"
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:20: ! \$GREP 'DEBUG\\|INFO\\|WARN\\|ERROR\\|FATAL' trace_msgs.log"
+at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:20"
 ( $at_check_trace; ! $GREP 'DEBUG\|INFO\|WARN\|ERROR\|FATAL' trace_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:17"
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:20"
 $at_failed && at_fn_log_failure
 $at_traceon; }
+
+
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:22: rm -f stderr debug_info_msgs.log fatal_msgs.log trace_msgs.log"
+at_fn_check_prepare_trace "filter_test.at:22"
+( $at_check_trace; rm -f stderr debug_info_msgs.log fatal_msgs.log trace_msgs.log
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:22"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:22: \"\${abs_top_builddir}/filter_testU\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "filter_test.at:22"
+( $at_check_trace; "${abs_top_builddir}/filter_testU"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+$at_diff expout "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:22"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:22: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "filter_test.at:22"
+( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:22"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:22: test -s debug_info_msgs.log"
+at_fn_check_prepare_trace "filter_test.at:22"
+( $at_check_trace; test -s debug_info_msgs.log
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:22"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:22: ! \$GREP 'TRACE\\|WARN\\|ERROR\\|FATAL' debug_info_msgs.log"
+at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:22"
+( $at_check_trace; ! $GREP 'TRACE\|WARN\|ERROR\|FATAL' debug_info_msgs.log
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:22"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:22: test -s fatal_msgs.log"
+at_fn_check_prepare_trace "filter_test.at:22"
+( $at_check_trace; test -s fatal_msgs.log
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:22"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:22: ! \$GREP 'TRACE\\|DEBUG\\|INFO\\|WARN\\|ERROR' fatal_msgs.log"
+at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:22"
+( $at_check_trace; ! $GREP 'TRACE\|DEBUG\|INFO\|WARN\|ERROR' fatal_msgs.log
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:22"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:22: test -s trace_msgs.log"
+at_fn_check_prepare_trace "filter_test.at:22"
+( $at_check_trace; test -s trace_msgs.log
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:22"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  { set +x
+$as_echo "$at_srcdir/filter_test.at:22: ! \$GREP 'DEBUG\\|INFO\\|WARN\\|ERROR\\|FATAL' trace_msgs.log"
+at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:22"
+( $at_check_trace; ! $GREP 'DEBUG\|INFO\|WARN\|ERROR\|FATAL' trace_msgs.log
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/filter_test.at:22"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+
+fi
 
 
   set +x
@@ -4969,6 +6261,25 @@ $at_diff expout "$at_stdout" || at_failed=:
 at_fn_check_status 0 $at_status "$at_srcdir/hierarchy_test.at:5"
 $at_failed && at_fn_log_failure
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/hierarchy_test.at:6: \"\${abs_top_builddir}/hierarchy_test\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "hierarchy_test.at:6"
+( $at_check_trace; "${abs_top_builddir}/hierarchy_test"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+$at_diff expout "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/hierarchy_test.at:6"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+fi
 
 
   set +x
@@ -5026,6 +6337,25 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/loglog_test.at:7: \"\${abs_top_builddir}/loglog_test\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "loglog_test.at:7"
+( $at_check_trace; "${abs_top_builddir}/loglog_test"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+$at_diff experr "$at_stderr" || at_failed=:
+$at_diff expout "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/loglog_test.at:7"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+fi
+
+
   set +x
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
@@ -5066,6 +6396,25 @@ $at_diff expout "$at_stdout" || at_failed=:
 at_fn_check_status 0 $at_status "$at_srcdir/ndc_test.at:5"
 $at_failed && at_fn_log_failure
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/ndc_test.at:6: \"\${abs_top_builddir}/ndc_test\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "ndc_test.at:6"
+( $at_check_trace; "${abs_top_builddir}/ndc_test"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+$at_diff expout "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/ndc_test.at:6"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+fi
 
 
   set +x
@@ -5110,6 +6459,25 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/ostream_test.at:6: \"\${abs_top_builddir}/ostream_test\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "ostream_test.at:6"
+( $at_check_trace; "${abs_top_builddir}/ostream_test"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+$at_diff expout "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/ostream_test.at:6"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+fi
+
+
   set +x
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
@@ -5125,27 +6493,29 @@ at_xfail=no
 
 
 
+
+
 { set +x
-$as_echo "$at_srcdir/patternlayout_test.at:4: \"\${abs_top_builddir}/patternlayout_test\""
-at_fn_check_prepare_notrace 'a ${...} parameter expansion' "patternlayout_test.at:4"
+$as_echo "$at_srcdir/patternlayout_test.at:12: \"\${abs_top_builddir}/patternlayout_test\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "patternlayout_test.at:12"
 ( $at_check_trace; "${abs_top_builddir}/patternlayout_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
 echo stderr:; tee stderr <"$at_stderr"
 echo stdout:; tee stdout <"$at_stdout"
-at_fn_check_status 0 $at_status "$at_srcdir/patternlayout_test.at:4"
+at_fn_check_status 0 $at_status "$at_srcdir/patternlayout_test.at:12"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/patternlayout_test.at:5: \$AWK '
+$as_echo "$at_srcdir/patternlayout_test.at:13: \$AWK '
 BEGIN {count = 0}
 /^Entering main/ && ++count;
 /(DEBUG|INFO|WARN|ERROR|FATAL)[ ]+c\\.logger %[^%]*% - MDC value - This is the (FIRST|SECOND|THIRD|FOURTH|FIFTH) log message\\.\\.\\. \\[.*main\\.cxx:[0-9]+\\]/ && ++count;
 /^Exiting main/ && ++count;
 END {exit count}' <stdout >/dev/null"
-at_fn_check_prepare_notrace 'an embedded newline' "patternlayout_test.at:5"
+at_fn_check_prepare_notrace 'an embedded newline' "patternlayout_test.at:13"
 ( $at_check_trace; $AWK '
 BEGIN {count = 0}
 /^Entering main/ && ++count;
@@ -5157,9 +6527,52 @@ at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
 at_fn_diff_devnull "$at_stdout" || at_failed=:
-at_fn_check_status 7 $at_status "$at_srcdir/patternlayout_test.at:5"
+at_fn_check_status 7 $at_status "$at_srcdir/patternlayout_test.at:13"
 $at_failed && at_fn_log_failure
 $at_traceon; }
+
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/patternlayout_test.at:15: \"\${abs_top_builddir}/patternlayout_testU\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "patternlayout_test.at:15"
+( $at_check_trace; "${abs_top_builddir}/patternlayout_testU"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/patternlayout_test.at:15"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  { set +x
+$as_echo "$at_srcdir/patternlayout_test.at:15: \$AWK '
+BEGIN {count = 0}
+/^Entering main/ && ++count;
+/(DEBUG|INFO|WARN|ERROR|FATAL)[ ]+c\\.logger %[^%]*% - MDC value - This is the (FIRST|SECOND|THIRD|FOURTH|FIFTH) log message\\.\\.\\. \\[.*main\\.cxx:[0-9]+\\]/ && ++count;
+/^Exiting main/ && ++count;
+END {exit count}' <stdout >/dev/null"
+at_fn_check_prepare_notrace 'an embedded newline' "patternlayout_test.at:15"
+( $at_check_trace; $AWK '
+BEGIN {count = 0}
+/^Entering main/ && ++count;
+/(DEBUG|INFO|WARN|ERROR|FATAL)[ ]+c\.logger %[^%]*% - MDC value - This is the (FIRST|SECOND|THIRD|FOURTH|FIFTH) log message\.\.\. \[.*main\.cxx:[0-9]+\]/ && ++count;
+/^Exiting main/ && ++count;
+END {exit count}' <stdout >/dev/null
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 7 $at_status "$at_srcdir/patternlayout_test.at:15"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+fi
 
 
   set +x
@@ -5217,6 +6630,38 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/performance_test.at:7: \"\${abs_top_builddir}/performance_testU\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "performance_test.at:7"
+( $at_check_trace; "${abs_top_builddir}/performance_testU"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/performance_test.at:7"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  { set +x
+$as_echo "$at_srcdir/performance_test.at:7: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "performance_test.at:7"
+( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/performance_test.at:7"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+fi
+
+
   set +x
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
@@ -5257,6 +6702,25 @@ $at_diff expout "$at_stdout" || at_failed=:
 at_fn_check_status 0 $at_status "$at_srcdir/priority_test.at:5"
 $at_failed && at_fn_log_failure
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/priority_test.at:6: \"\${abs_top_builddir}/priority_testU\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "priority_test.at:6"
+( $at_check_trace; "${abs_top_builddir}/priority_testU"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; cat "$at_stderr"
+$at_diff expout "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/priority_test.at:6"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+fi
 
 
   set +x
@@ -5340,6 +6804,64 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/propertyconfig_test.at:9: rm -f \"output_test.log\""
+at_fn_check_prepare_trace "propertyconfig_test.at:9"
+( $at_check_trace; rm -f "output_test.log"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/propertyconfig_test.at:9"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  { set +x
+$as_echo "$at_srcdir/propertyconfig_test.at:9: ENV_VAR=test \"\${abs_top_builddir}/propertyconfig_testU\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "propertyconfig_test.at:9"
+( $at_check_trace; ENV_VAR=test "${abs_top_builddir}/propertyconfig_testU"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/propertyconfig_test.at:9"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  { set +x
+$as_echo "$at_srcdir/propertyconfig_test.at:9: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "propertyconfig_test.at:9"
+( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/propertyconfig_test.at:9"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  { set +x
+$as_echo "$at_srcdir/propertyconfig_test.at:9: test -f \"output_test.log\""
+at_fn_check_prepare_trace "propertyconfig_test.at:9"
+( $at_check_trace; test -f "output_test.log"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/propertyconfig_test.at:9"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+fi
+
+
   set +x
   $at_times_p && times >"$at_times_file"
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
@@ -5370,6 +6892,25 @@ echo stdout:; tee stdout <"$at_stdout"
 at_fn_check_status 0 $at_status "$at_srcdir/thread_test.at:5"
 $at_failed && at_fn_log_failure
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/thread_test.at:6: \"\${abs_top_builddir}/thread_testU\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "thread_test.at:6"
+( $at_check_trace; "${abs_top_builddir}/thread_testU"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/thread_test.at:6"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+fi
 
 
   set +x
@@ -5425,6 +6966,25 @@ $at_diff expout "$at_stdout" || at_failed=:
 at_fn_check_status 0 $at_status "$at_srcdir/timeformat_test.at:6"
 $at_failed && at_fn_log_failure
 $at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/timeformat_test.at:7: \$SED -e '2d' <stdout"
+at_fn_check_prepare_dynamic "$SED -e '2d' <stdout" "timeformat_test.at:7"
+( $at_check_trace; $SED -e '2d' <stdout
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; cat "$at_stderr"
+$at_diff expout "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/timeformat_test.at:7"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+fi
 
 
   set +x
