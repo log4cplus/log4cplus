@@ -91,7 +91,8 @@ struct destroy_default_context
         default_context = nullptr;
         default_context_state = DC_DESTROYED;
     }
-} static destroy_default_context_;
+} static destroy_default_context_
+LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE + 1);
 
 
 static
@@ -541,7 +542,8 @@ struct _static_log4cplus_initializer
 namespace {
 
 static void
-_log4cplus_initializer_func () LOG4CPLUS_CONSTRUCTOR_FUNC(65535 / 2);
+_log4cplus_initializer_func ()
+    LOG4CPLUS_CONSTRUCTOR_FUNC (LOG4CPLUS_INIT_PRIORITY_BASE);
 static void
 _log4cplus_initializer_func ()
 {
@@ -563,7 +565,8 @@ struct _static_log4cplus_initializer
         log4cplus::thread::impl::tls_cleanup (
             log4cplus::internal::tls_storage_key);
     }
-} static initializer;
+} static initializer
+LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE);
 
 } // namespace
 

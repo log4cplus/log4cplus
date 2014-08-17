@@ -142,6 +142,15 @@
 #  define LOG4CPLUS_CONSTRUCTOR_FUNC(prio) /* empty */
 #endif
 
+#if defined (LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY)
+#  define LOG4CPLUS_INIT_PRIORITY(prio) \
+    __attribute__ ((__init_priority__ ((prio))))
+#else
+#  define LOG4CPLUS_INIT_PRIORITY(prio) /* empty */
+#endif
+
+#define LOG4CPLUS_INIT_PRIORITY_BASE (65535 / 2)
+
 #include <log4cplus/helpers/thread-config.h>
 
 #if defined(__cplusplus)
