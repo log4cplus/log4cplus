@@ -387,6 +387,10 @@ AH_TEMPLATE([LOG4CPLUS_HAVE_FUNC_SYMBOL])
 AS_IF([test "x$ac_cv_have___func___symbol" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_HAVE_FUNC_SYMBOL])])
 
+AX_GCC_FUNC_ATTRIBUTE([constructor])
+AH_TEMPLATE([LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR])
+AS_IF([test "x$ax_cv_have_func_attribute_constructor" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR])])
 
 dnl Checks for libraries.
 

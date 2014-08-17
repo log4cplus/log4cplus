@@ -154,6 +154,13 @@
 #  pragma once
 #endif
 
+#if defined (LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR)
+#  define LOG4CPLUS_CONSTRUCTOR_FUNC(prio) \
+    __attribute__ ((__constructor__ ((prio))))
+#else
+#  define LOG4CPLUS_CONSTRUCTOR_FUNC(prio) /* empty */
+#endif
+
 #include <log4cplus/helpers/thread-config.h>
 
 #if defined(__cplusplus)
