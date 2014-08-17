@@ -281,4 +281,7 @@
 /* Define to 1 if the system has the `constructor' function attribute */
 #undef LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR
 
+/* Define to 1 if the system has the `init_priority' variable attribute */
+#undef LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY
+
 #endif // LOG4CPLUS_CONFIG_DEFINES_HXX
