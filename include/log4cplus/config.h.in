@@ -157,6 +157,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define to 1 if the system has the `init_priority' variable attribute */
+#undef HAVE_VAR_ATTRIBUTE_INIT_PRIORITY
+
 /* Define to 1 if you have the `vfprintf_s' function. */
 #undef HAVE_VFPRINTF_S
 
@@ -393,6 +396,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_UNISTD_H
+
+/* */
+#undef LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY
 
 /* */
 #undef LOG4CPLUS_HAVE_VFPRINTF_S
