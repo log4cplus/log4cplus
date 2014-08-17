@@ -540,6 +540,14 @@ struct _static_log4cplus_initializer
 #else
 namespace {
 
+static void
+_log4cplus_initializer_func () LOG4CPLUS_CONSTRUCTOR_FUNC(65535 / 2);
+static void
+_log4cplus_initializer_func ()
+{
+    log4cplus::initializeLog4cplus();
+}
+
 struct _static_log4cplus_initializer
 {
     _static_log4cplus_initializer ()
