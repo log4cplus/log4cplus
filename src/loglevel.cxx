@@ -32,39 +32,35 @@ namespace log4cplus
 namespace
 {
 
-static tstring const ALL_STRING (LOG4CPLUS_TEXT("ALL"));
-static tstring const TRACE_STRING (LOG4CPLUS_TEXT("TRACE"));
-static tstring const DEBUG_STRING (LOG4CPLUS_TEXT("DEBUG"));
-static tstring const INFO_STRING (LOG4CPLUS_TEXT("INFO"));
-static tstring const WARN_STRING (LOG4CPLUS_TEXT("WARN"));
-static tstring const ERROR_STRING (LOG4CPLUS_TEXT("ERROR"));
-static tstring const FATAL_STRING (LOG4CPLUS_TEXT("FATAL"));
-static tstring const OFF_STRING (LOG4CPLUS_TEXT("OFF"));
-static tstring const NOTSET_STRING (LOG4CPLUS_TEXT("NOTSET"));
-static tstring const UNKNOWN_STRING (LOG4CPLUS_TEXT("UNKNOWN"));
+// The strings here are not simple tstring constants to allow using these
+// strings and log4cplus itself in client code during static variables
+// initialization. If they are simple tstring constants then, due to undefined
+// order of initialization between translation units, they might be
+// uninitialized before they are used by the client code. One possible solution
+// to this is to use compiler specific attributes and/or pragmas to influence
+// initialization order/priority. Another solution is using function local
+// static variables, which are initialized on first use. We choose this
+// implementation because it is more portable than compiler specific means.
 
+#define DEF_LL_STRING(_logLevel)                                        \
+static tstring const & _logLevel ## _STRING ()                          \
+{                                                                       \
+    static tstring const str (LOG4CPLUS_TEXT (#_logLevel));             \
+    return str;                                                         \
+}
 
-struct log_levels_table_rec
-{
-    LogLevel const ll;
-    tstring const * const str;
-};
+DEF_LL_STRING (OFF)
+DEF_LL_STRING (FATAL)
+DEF_LL_STRING (ERROR)
+DEF_LL_STRING (WARN)
+DEF_LL_STRING (INFO)
+DEF_LL_STRING (DEBUG)
+DEF_LL_STRING (TRACE)
+DEF_LL_STRING (ALL)
+DEF_LL_STRING (NOTSET)
+DEF_LL_STRING (UNKNOWN)
 
-
-#define DEF_LLTAB_REC(x) { x ## _LOG_LEVEL, &(x ## _STRING) }
-
-static log_levels_table_rec const log_levels_table[8] = {
-    DEF_LLTAB_REC (OFF),
-    DEF_LLTAB_REC (FATAL),
-    DEF_LLTAB_REC (ERROR),
-    DEF_LLTAB_REC (WARN),
-    DEF_LLTAB_REC (INFO),
-    DEF_LLTAB_REC (DEBUG),
-    DEF_LLTAB_REC (TRACE),
-    DEF_LLTAB_REC (ALL),
-};
-
-#undef DEF_LLTAB_REC
+#undef DEF_LL_STRING
 
 
 static
@@ -72,17 +68,17 @@ tstring const &
 defaultLogLevelToStringMethod(LogLevel ll)
 {
     switch(ll) {
-        case OFF_LOG_LEVEL:     return OFF_STRING;
-        case FATAL_LOG_LEVEL:   return FATAL_STRING;
-        case ERROR_LOG_LEVEL:   return ERROR_STRING;
-        case WARN_LOG_LEVEL:    return WARN_STRING;
-        case INFO_LOG_LEVEL:    return INFO_STRING;
-        case DEBUG_LOG_LEVEL:   return DEBUG_STRING;
-        case TRACE_LOG_LEVEL:   return TRACE_STRING;
-        //case ALL_LOG_LEVEL:     return ALL_STRING;
-        case NOT_SET_LOG_LEVEL: return NOTSET_STRING;
+        case OFF_LOG_LEVEL:     return OFF_STRING();
+        case FATAL_LOG_LEVEL:   return FATAL_STRING();
+        case ERROR_LOG_LEVEL:   return ERROR_STRING();
+        case WARN_LOG_LEVEL:    return WARN_STRING();
+        case INFO_LOG_LEVEL:    return INFO_STRING();
+        case DEBUG_LOG_LEVEL:   return DEBUG_STRING();
+        case TRACE_LOG_LEVEL:   return TRACE_STRING();
+        //case ALL_LOG_LEVEL:     return ALL_STRING();
+        case NOT_SET_LOG_LEVEL: return NOTSET_STRING();
     };
-    
+
     return internal::empty_str;
 }
 
@@ -91,28 +87,58 @@ static
 LogLevel
 defaultStringToLogLevelMethod(const tstring& s)
 {
-    std::size_t const tbl_size
-        = sizeof (log_levels_table) / sizeof (log_levels_table[0]);
+#if __cplusplus < 201103L
+    if (s.empty ())
+        return NOT_SET_LOG_LEVEL;
 
-    for (log_levels_table_rec const * it = log_levels_table;
-        it != log_levels_table + tbl_size; ++it)
+    // The above check is only necessary prior to C++11 standard. Since C++11,
+    // accessing str[0] is always safe as it returns '\0' for empty string.
+#endif
+
+    switch (s[0])
     {
-        if (*it->str == s)
-            return it->ll;
+#define DEF_LLMATCH(_chr, _logLevel)                 \
+        case _chr: if (s == _logLevel ## _STRING ()) \
+            return _logLevel ## _LOG_LEVEL; break;
+
+        DEF_LLMATCH ('O', OFF);
+        DEF_LLMATCH ('F', FATAL);
+        DEF_LLMATCH ('E', ERROR);
+        DEF_LLMATCH ('W', WARN);
+        DEF_LLMATCH ('I', INFO);
+        DEF_LLMATCH ('D', DEBUG);
+        DEF_LLMATCH ('T', TRACE);
+        DEF_LLMATCH ('A', ALL);
+
+#undef DEF_LLMATCH
     }
-    
+
     return NOT_SET_LOG_LEVEL;
 }
 
 } // namespace
 
 
+void
+initializeLogLevelStrings ()
+{
+    OFF_STRING();
+    FATAL_STRING();
+    ERROR_STRING();
+    WARN_STRING();
+    INFO_STRING();
+    DEBUG_STRING();
+    TRACE_STRING();
+    ALL_STRING();
+    NOTSET_STRING();
+}
+
 
 //////////////////////////////////////////////////////////////////////////////
 // LogLevelManager ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-LogLevelManager::LogLevelManager() 
+LogLevelManager::LogLevelManager()
 {
     LogLevelToStringMethodRec rec;
     rec.func = defaultLogLevelToStringMethod;
@@ -123,7 +149,7 @@ LogLevelManager::LogLevelManager()
 }
 
 
-LogLevelManager::~LogLevelManager() 
+LogLevelManager::~LogLevelManager()
 { }
 
 
@@ -155,11 +181,11 @@ LogLevelManager::toString(LogLevel ll) const
             return *ret;
     }
 
-    return UNKNOWN_STRING;
+    return UNKNOWN_STRING();
 }
 
 
-LogLevel 
+LogLevel
 LogLevelManager::fromString(const tstring& arg) const
 {
     tstring s = helpers::toUpper(arg);
@@ -171,7 +197,7 @@ LogLevelManager::fromString(const tstring& arg) const
         if (ret != NOT_SET_LOG_LEVEL)
             return ret;
     }
-    
+
     helpers::getLogLog ().error (
         LOG4CPLUS_TEXT ("Unrecognized log level: ")
         + arg);
@@ -180,7 +206,7 @@ LogLevelManager::fromString(const tstring& arg) const
 }
 
 
-void 
+void
 LogLevelManager::pushToStringMethod(LogLevelToStringMethod newToString)
 {
     LogLevelToStringMethodRec rec;
@@ -190,7 +216,7 @@ LogLevelManager::pushToStringMethod(LogLevelToStringMethod newToString)
 }
 
 
-void 
+void
 LogLevelManager::pushToStringMethod(LogLevelToStringMethod_1_0 newToString)
 {
     LogLevelToStringMethodRec rec;
@@ -200,11 +226,11 @@ LogLevelManager::pushToStringMethod(LogLevelToStringMethod_1_0 newToString)
 }
 
 
-void 
+void
 LogLevelManager::pushFromStringMethod(StringToLogLevelMethod newFromString)
 {
     fromStringMethods.push_back (newFromString);
 }
 
-        
+
 } // namespace log4cplus
