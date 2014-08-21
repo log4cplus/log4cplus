@@ -300,7 +300,8 @@ alloc_ptd ()
 } // namespace internal
 
 
-void initializeFactoryRegistry();
+void initializeFactoryRegistry ();
+void initializeLogLevelStrings ();
 
 
 //! Thread local storage clean up function for POSIX threads.
@@ -372,6 +373,7 @@ initializeLog4cplus()
     dc->TTCCLayout_time_base = helpers::now ();
     Logger::getRoot();
     initializeFactoryRegistry();
+    initializeLogLevelStrings();
 
     initialized = true;
 }
