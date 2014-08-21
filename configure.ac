@@ -468,7 +468,6 @@ LOG4CPLUS_CHECK_HEADER([wchar.h], [LOG4CPLUS_HAVE_WCHAR_H])
 LOG4CPLUS_CHECK_HEADER([time.h], [LOG4CPLUS_HAVE_TIME_H])
 LOG4CPLUS_CHECK_HEADER([errno.h], [LOG4CPLUS_HAVE_ERRNO_H])
 LOG4CPLUS_CHECK_HEADER([limits.h], [LOG4CPLUS_HAVE_LIMITS_H])
-LOG4CPLUS_CHECK_HEADER([atomic.h], [LOG4CPLUS_HAVE_ATOMIC_H])
 LOG4CPLUS_CHECK_HEADER([poll.h], [LOG4CPLUS_HAVE_POLL_H])
 AS_IF([test "x$with_iconv" = "xyes"],
   [LOG4CPLUS_CHECK_HEADER([iconv.h], [LOG4CPLUS_HAVE_ICONV_H])])
@@ -518,33 +517,9 @@ dnl Multi threaded library.
       AX_CXXFLAGS_AIX_OPTION([-qtls])])
 
    AX__SYNC
-   AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])
-   AS_IF([test "x$ac_cv___sync_add_and_fetch" = "xyes"],
-     [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])])
-     
-   AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])
-   AS_IF([test "x$ac_cv___sync_sub_and_fetch" = "xyes"],
-     [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])])
-     
    AH_TEMPLATE([LOG4CPLUS_HAVE_CXX11_ATOMICS])
    AS_IF([test "x$ac_cv_cxx11_atomics" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE_CXX11_ATOMICS])])
-
-   AH_TEMPLATE([LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH])
-   AS_IF([test "x$ac_cv___atomic_add_fetch" = "xyes"],
-     [AC_DEFINE([LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH])])
-     
-   AH_TEMPLATE([LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH])
-   AS_IF([test "x$ac_cv___atomic_sub_fetch" = "xyes"],
-     [AC_DEFINE([LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH])])
-
-   AH_TEMPLATE([LOG4CPLUS_HAVE_ATOMIC_INC_UINT])
-   AS_IF([test "x$ac_cv_atomic_inc_uint" = "xyes"],
-     [AC_DEFINE([LOG4CPLUS_HAVE_ATOMIC_INC_UINT])])
-
-   AH_TEMPLATE([LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV])
-   AS_IF([test "x$ac_cv_atomic_dec_uint_nv" = "xyes"],
-     [AC_DEFINE([LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV])])
 
    AX_TLS_SUPPORT
    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
