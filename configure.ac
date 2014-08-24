@@ -20,7 +20,7 @@ AM_PROG_AR
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=2:0:0
+LT_VERSION=2:1:0
 LT_RELEASE=1.2
 AC_SUBST([LT_VERSION])
 AC_SUBST([LT_RELEASE])
@@ -387,6 +387,15 @@ AH_TEMPLATE([LOG4CPLUS_HAVE_FUNC_SYMBOL])
 AS_IF([test "x$ac_cv_have___func___symbol" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_HAVE_FUNC_SYMBOL])])
 
+AX_GCC_FUNC_ATTRIBUTE([constructor])
+AH_TEMPLATE([LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR])
+AS_IF([test "x$ax_cv_have_func_attribute_constructor" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR])])
+
+AX_GCC_VAR_ATTRIBUTE([init_priority])
+AH_TEMPLATE([LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY])
+AS_IF([test "x$ax_cv_have_var_attribute_init_priority" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY])])
 
 dnl Checks for libraries.
 
