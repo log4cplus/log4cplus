@@ -135,9 +135,9 @@ initializeLogLevelStrings ()
 
 LogLevelManager::LogLevelManager()
 {
-    toStringMethods.emplace_back (defaultLogLevelToStringMethod);
+    pushToStringMethod (defaultLogLevelToStringMethod);
 
-    fromStringMethods.push_back (defaultStringToLogLevelMethod);
+    pushFromStringMethod (defaultStringToLogLevelMethod);
 }
 
 
@@ -198,14 +198,14 @@ LogLevelManager::fromString(const tstring& arg) const
 void
 LogLevelManager::pushToStringMethod(LogLevelToStringMethod newToString)
 {
-    toStringMethods.emplace_back (newToString);
+    toStringMethods.emplace (toStringMethods.begin (), newToString);
 }
 
 
 void
 LogLevelManager::pushToStringMethod(LogLevelToStringMethod_1_0 newToString)
 {
-    toStringMethods.emplace_back (newToString);
+    toStringMethods.emplace (toStringMethods.begin(), newToString);
 }
 
 
