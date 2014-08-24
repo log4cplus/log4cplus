@@ -140,12 +140,9 @@ initializeLogLevelStrings ()
 
 LogLevelManager::LogLevelManager()
 {
-    LogLevelToStringMethodRec rec;
-    rec.func = defaultLogLevelToStringMethod;
-    rec.use_1_0 = false;
-    toStringMethods.push_back (rec);
+    pushToStringMethod (defaultLogLevelToStringMethod);
 
-    fromStringMethods.push_back (defaultStringToLogLevelMethod);
+    pushFromStringMethod (defaultStringToLogLevelMethod);
 }
 
 
@@ -212,7 +209,7 @@ LogLevelManager::pushToStringMethod(LogLevelToStringMethod newToString)
     LogLevelToStringMethodRec rec;
     rec.func = newToString;
     rec.use_1_0 = false;
-    toStringMethods.push_back (rec);
+    toStringMethods.insert (toStringMethods.begin (), rec);
 }
 
 
@@ -222,14 +219,14 @@ LogLevelManager::pushToStringMethod(LogLevelToStringMethod_1_0 newToString)
     LogLevelToStringMethodRec rec;
     rec.func_1_0 = newToString;
     rec.use_1_0 = true;
-    toStringMethods.push_back (rec);
+    toStringMethods.insert (toStringMethods.begin (), rec);
 }
 
 
 void
 LogLevelManager::pushFromStringMethod(StringToLogLevelMethod newFromString)
 {
-    fromStringMethods.push_back (newFromString);
+    fromStringMethods.insert (fromStringMethods.begin (), newFromString);
 }
 
 
