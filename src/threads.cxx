@@ -45,7 +45,7 @@
 #  include <sched.h>
 #  include <signal.h>
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS)
-#  include <process.h> 
+#  include <process.h>
 #endif
 #include <log4cplus/config/windowsh-inc.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
@@ -78,7 +78,7 @@ blockAllSignals()
     sigset_t signal_set;
     sigfillset (&signal_set);
     pthread_sigmask (SIG_BLOCK, &signal_set, 0);
-#endif    
+#endif
 }
 
 
@@ -95,8 +95,10 @@ yield()
 }
 
 #if defined(LOG4CPLUS_SINGLE_THREADED)
-static log4cplus::tstring thread_name(LOG4CPLUS_TEXT("single"));
-static log4cplus::tstring thread_name2(thread_name);
+static log4cplus::tstring thread_name(LOG4CPLUS_TEXT("single"))
+    LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE - 1);
+static log4cplus::tstring thread_name2(thread_name)
+    LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE - 1);
 #endif
 
 LOG4CPLUS_EXPORT
@@ -141,7 +143,7 @@ get_current_thread_name_alt (log4cplus::tostream * s)
 #elif defined (__CYGWIN__)
     unsigned long tid = cygwin::get_current_win32_thread_id ();
     os << tid;
-    
+
 #else
     os << getCurrentThreadName ();
 
@@ -222,7 +224,7 @@ namespace log4cplus { namespace thread { namespace impl {
 
 
 #if defined(LOG4CPLUS_USE_PTHREADS)
-void* 
+void*
 ThreadStart::threadStartFuncWorker(void * arg)
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
 unsigned
@@ -455,7 +457,7 @@ AbstractThread::~AbstractThread()
 { }
 
 
-} } // namespace log4cplus { namespace thread { 
+} } // namespace log4cplus { namespace thread {
 
 
 #endif // LOG4CPLUS_SINGLE_THREADED
