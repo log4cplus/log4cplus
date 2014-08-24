@@ -91,7 +91,8 @@ struct destroy_default_context
         default_context = nullptr;
         default_context_state = DC_DESTROYED;
     }
-} static destroy_default_context_;
+} static destroy_default_context_
+LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE + 1);
 
 
 static
@@ -299,7 +300,8 @@ alloc_ptd ()
 } // namespace internal
 
 
-void initializeFactoryRegistry();
+void initializeFactoryRegistry ();
+void initializeLogLevelStrings ();
 
 
 //! Thread local storage clean up function for POSIX threads.
@@ -371,6 +373,7 @@ initializeLog4cplus()
     dc->TTCCLayout_time_base = helpers::now ();
     Logger::getRoot();
     initializeFactoryRegistry();
+    initializeLogLevelStrings();
 
     initialized = true;
 }
@@ -540,6 +543,15 @@ struct _static_log4cplus_initializer
 #else
 namespace {
 
+static void
+_log4cplus_initializer_func ()
+    LOG4CPLUS_CONSTRUCTOR_FUNC (LOG4CPLUS_INIT_PRIORITY_BASE);
+static void
+_log4cplus_initializer_func ()
+{
+    log4cplus::initializeLog4cplus();
+}
+
 struct _static_log4cplus_initializer
 {
     _static_log4cplus_initializer ()
@@ -555,7 +567,8 @@ struct _static_log4cplus_initializer
         log4cplus::thread::impl::tls_cleanup (
             log4cplus::internal::tls_storage_key);
     }
-} static initializer;
+} static initializer
+LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE);
 
 } // namespace
 

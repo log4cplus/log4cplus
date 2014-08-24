@@ -21,15 +21,18 @@ env:
   - PARAM_THREADS="--disable-threads --with-python --with-qt --with-iconv --with-wchar_t-support"
     CXXFLAGS="" SWIG_FLAGS=""
 before_install:
+  - lsb_release -a
   - wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key|sudo apt-key add -
   - sudo add-apt-repository --yes
     'deb http://ppa.launchpad.net/canonical-x/x-staging/ubuntu precise main'
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/ppa
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test/ubuntu
   - if [ ! -z "$QT" ] ; then
       sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa ;
     fi
   - sudo add-apt-repository --yes
-    'deb http://llvm.org/apt/precise/ llvm-toolchain-precise main'
+    'deb http://llvm.org/apt/precise/ llvm-toolchain-precise-3.5 main'
   - sudo apt-get update -qq
   - sudo apt-get install -q
     gcc-4.8

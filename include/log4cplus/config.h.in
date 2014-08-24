@@ -42,6 +42,9 @@
 /* Define to 1 if you have the `ftime' function. */
 #undef HAVE_FTIME
 
+/* Define to 1 if the system has the `constructor' function attribute */
+#undef HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR
+
 /* */
 #undef HAVE_GETADDRINFO
 
@@ -172,6 +175,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define to 1 if the system has the `init_priority' variable attribute */
+#undef HAVE_VAR_ATTRIBUTE_INIT_PRIORITY
+
 /* Define to 1 if you have the `vfprintf_s' function. */
 #undef HAVE_VFPRINTF_S
 
@@ -245,15 +251,6 @@
 #undef LOG4CPLUS_HAVE_ARPA_INET_H
 
 /* */
-#undef LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV
-
-/* */
-#undef LOG4CPLUS_HAVE_ATOMIC_H
-
-/* */
-#undef LOG4CPLUS_HAVE_ATOMIC_INC_UINT
-
-/* */
 #undef LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
 
 /* */
@@ -285,6 +282,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_FUNCTION_MACRO
+
+/* */
+#undef LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR
 
 /* */
 #undef LOG4CPLUS_HAVE_FUNC_SYMBOL
@@ -428,6 +428,9 @@
 #undef LOG4CPLUS_HAVE_UNISTD_H
 
 /* */
+#undef LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY
+
+/* */
 #undef LOG4CPLUS_HAVE_VFPRINTF_S
 
 /* */
@@ -462,18 +465,6 @@
 
 /* */
 #undef LOG4CPLUS_HAVE__VSNWPRINTF_S
-
-/* */
-#undef LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH
-
-/* */
-#undef LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH
-
-/* */
-#undef LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH
-
-/* */
-#undef LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH
 
 /* Define if this is a single-threaded library. */
 #undef LOG4CPLUS_SINGLE_THREADED
