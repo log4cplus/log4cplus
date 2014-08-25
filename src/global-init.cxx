@@ -50,7 +50,7 @@ LOG4CPLUS_EXPORT tostream & tcerr = std::cerr;
 #endif // UNICODE
 
 
-namespace 
+namespace
 {
 
 
@@ -72,7 +72,7 @@ struct DefaultContext
 
 
 enum DCState
-{ 
+{
     DC_UNINITIALIZED,
     DC_INITIALIZED,
     DC_DESTROYED
@@ -82,7 +82,7 @@ enum DCState
 static DCState default_context_state;
 static DefaultContext * default_context;
 
-   
+
 struct destroy_default_context
 {
     ~destroy_default_context ()
@@ -91,7 +91,8 @@ struct destroy_default_context
         default_context = 0;
         default_context_state = DC_DESTROYED;
     }
-} static destroy_default_context_;
+} static destroy_default_context_
+LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE + 1);
 
 
 static
@@ -109,7 +110,7 @@ alloc_dc ()
         throw std::logic_error ("alloc_dc() called in DC_INITIALIZED state.");
 
     default_context = new DefaultContext;
-    
+
     if (default_context_state == DC_DESTROYED)
         default_context->loglog.error (
             LOG4CPLUS_TEXT ("Re-initializing default context after it has")
@@ -162,7 +163,7 @@ getTTCCLayoutTimeBase ()
 
 
 LogLevelManager &
-getLogLevelManager () 
+getLogLevelManager ()
 {
     return get_dc ()->log_level_manager;
 }
@@ -175,7 +176,7 @@ getDefaultHierarchy ()
 }
 
 
-NDC & 
+NDC &
 getNDC ()
 {
     return get_dc ()->ndc;
@@ -299,7 +300,8 @@ alloc_ptd ()
 } // namespace internal
 
 
-void initializeFactoryRegistry();
+void initializeFactoryRegistry ();
+void initializeLogLevelStrings ();
 
 
 //! Thread local storage clean up function for POSIX threads.
@@ -371,6 +373,7 @@ initializeLog4cplus()
     dc->TTCCLayout_time_base = helpers::Time::gettimeofday ();
     Logger::getRoot();
     initializeFactoryRegistry();
+    initializeLogLevelStrings();
 
     initialized = true;
 }
@@ -419,7 +422,7 @@ thread_callback (LPVOID /*hinstDLL*/, DWORD fdwReason, LPVOID /*lpReserved*/)
 {
     // Perform actions based on the reason for calling.
     switch (fdwReason)
-    { 
+    {
     case DLL_PROCESS_ATTACH:
     {
         // We cannot initialize log4cplus directly here. This is because
@@ -540,6 +543,15 @@ struct _static_log4cplus_initializer
 #else
 namespace {
 
+static void
+_log4cplus_initializer_func ()
+    LOG4CPLUS_CONSTRUCTOR_FUNC (LOG4CPLUS_INIT_PRIORITY_BASE);
+static void
+_log4cplus_initializer_func ()
+{
+    log4cplus::initializeLog4cplus();
+}
+
 struct _static_log4cplus_initializer
 {
     _static_log4cplus_initializer ()
@@ -555,7 +567,8 @@ struct _static_log4cplus_initializer
         log4cplus::thread::impl::tls_cleanup (
             log4cplus::internal::tls_storage_key);
     }
-} static initializer;
+} static initializer
+LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE);
 
 } // namespace
 
