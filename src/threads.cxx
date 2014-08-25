@@ -94,6 +94,12 @@ yield()
 #endif
 }
 
+#if defined(LOG4CPLUS_SINGLE_THREADED)
+static log4cplus::tstring thread_name(LOG4CPLUS_TEXT("single"))
+    LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE - 1);
+static log4cplus::tstring thread_name2(thread_name)
+    LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE - 1);
+#endif
 
 LOG4CPLUS_EXPORT
 log4cplus::tstring const &
@@ -108,7 +114,11 @@ getCurrentThreadName()
         name = tmp.str ();
     }
 #else
-    static log4cplus::tstring const name (LOG4CPLUS_TEXT ("single"));
+    log4cplus::tstring & name = thread_name;
+    if (LOG4CPLUS_UNLIKELY(name.empty()))
+    {
+        name = LOG4CPLUS_TEXT("single");
+    }
 #endif
 
     return name;
@@ -160,11 +170,33 @@ getCurrentThreadName2()
     }
 
 #else
-    static log4cplus::tstring const name (getCurrentThreadName ());
+    log4cplus::tstring & name = thread_name2;
+    if (LOG4CPLUS_UNLIKELY(name.empty()))
+    {
+        name = getCurrentThreadName();
+    }
 
 #endif
 
     return name;
+}
+
+LOG4CPLUS_EXPORT void setCurrentThreadName(const log4cplus::tstring & name)
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    log4cplus::internal::get_thread_name_str() = name;
+#else
+    thread_name = name;
+#endif
+}
+
+LOG4CPLUS_EXPORT void setCurrentThreadName2(const log4cplus::tstring & name)
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    log4cplus::internal::get_thread_name2_str() = name;
+#else
+    thread_name2 = name;
+#endif
 }
 
 
