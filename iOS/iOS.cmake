@@ -28,7 +28,6 @@
 #  A macro used to find executable programs on the host system, not within the iOS environment.
 #  Thanks to the android-cmake project for providing the command
 
-
 # Standard settings
 set (CMAKE_SYSTEM_NAME Darwin)
 set (CMAKE_SYSTEM_VERSION 1)
@@ -48,8 +47,9 @@ endif (CMAKE_UNAME)
 
 # Force the compilers to gcc for iOS
 include (CMakeForceCompiler)
-CMAKE_FORCE_C_COMPILER (gcc gcc)
-CMAKE_FORCE_CXX_COMPILER (g++ g++)
+CMAKE_FORCE_C_COMPILER (/usr/bin/clang Apple)
+CMAKE_FORCE_CXX_COMPILER (/usr/bin/clang++ Apple)
+set(CMAKE_AR ar CACHE FILEPATH "" FORCE)
 
 # Skip the platform compiler checks for cross compiling
 set (CMAKE_CXX_COMPILER_WORKS TRUE)
@@ -70,7 +70,7 @@ set (CMAKE_CXX_OSX_CURRENT_VERSION_FLAG "${CMAKE_C_OSX_CURRENT_VERSION_FLAG}")
 
 # Hidden visibilty is required for cxx on iOS 
 set (CMAKE_C_FLAGS_INIT "")
-set (CMAKE_CXX_FLAGS_INIT "-headerpad_max_install_names -fvisibility=hidden -fvisibility-inlines-hidden")
+set (CMAKE_CXX_FLAGS_INIT "-fvisibility=hidden -fvisibility-inlines-hidden -isysroot ${CMAKE_OSX_SYSROOT}")
 
 set (CMAKE_C_LINK_FLAGS "-Wl,-search_paths_first ${CMAKE_C_LINK_FLAGS}")
 set (CMAKE_CXX_LINK_FLAGS "-Wl,-search_paths_first ${CMAKE_CXX_LINK_FLAGS}")
