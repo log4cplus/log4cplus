@@ -415,9 +415,6 @@ AS_IF([test "x$ax_cv_have_var_attribute_init_priority" = "xyes"],
 dnl Checks for libraries.
 
 AC_SEARCH_LIBS([strerror], [cposix])
-AC_SEARCH_LIBS([nanosleep], [rt])
-AC_SEARCH_LIBS([clock_nanosleep], [rt posix4])
-AC_SEARCH_LIBS([clock_gettime], [rt posix4])
 dnl On some systems libcompat exists only as a static library which
 dnl breaks compilation of shared library log4cplus.
 dnl AC_SEARCH_LIBS([ftime], [compat])
@@ -548,10 +545,6 @@ dnl Checks for library functions.
 
 LOG4CPLUS_CHECK_FUNCS([gmtime_r], [LOG4CPLUS_HAVE_GMTIME_R])
 LOG4CPLUS_CHECK_FUNCS([localtime_r], [LOG4CPLUS_HAVE_LOCALTIME_R])
-LOG4CPLUS_CHECK_FUNCS([gettimeofday], [LOG4CPLUS_HAVE_GETTIMEOFDAY])
-LOG4CPLUS_CHECK_FUNCS([nanosleep], [LOG4CPLUS_HAVE_NANOSLEEP])
-LOG4CPLUS_CHECK_FUNCS([clock_nanosleep], [LOG4CPLUS_HAVE_CLOCK_NANOSLEEP])
-LOG4CPLUS_CHECK_FUNCS([clock_gettime], [LOG4CPLUS_HAVE_CLOCK_GETTIME])
 LOG4CPLUS_CHECK_FUNCS([getpid], [LOG4CPLUS_HAVE_GETPID])
 LOG4CPLUS_CHECK_FUNCS([poll], [LOG4CPLUS_HAVE_POLL])
 LOG4CPLUS_CHECK_FUNCS([pipe], [LOG4CPLUS_HAVE_PIPE])
