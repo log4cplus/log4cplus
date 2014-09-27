@@ -377,16 +377,6 @@ AS_IF([test "x$enable_symbols_visibility_options" = "xyes"],
 AM_CONDITIONAL([USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX],
   [test "x$use_export_symbols_regex" = "xyes"])
 
-AX_C99_VARIADIC_MACROS
-AH_TEMPLATE([LOG4CPLUS_HAVE_C99_VARIADIC_MACROS])
-AS_IF([test "x$ac_cv_c99_variadic_macros" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_C99_VARIADIC_MACROS])])
-
-AX_GNU_VARIADIC_MACROS
-AH_TEMPLATE([LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS])
-AS_IF([test "x$ac_cv_gnu_variadic_macros" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS])])
-
 AX___FUNCTION___MACRO
 AH_TEMPLATE([LOG4CPLUS_HAVE_FUNCTION_MACRO])
 AS_IF([test "x$ac_cv_have___function___macro" = "xyes"],

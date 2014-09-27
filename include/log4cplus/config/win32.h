@@ -43,7 +43,7 @@
 #define LOG4CPLUS_HAVE_TIME_H
 #define LOG4CPLUS_HAVE_SYS_TIMEB_H
 #define LOG4CPLUS_HAVE_FTIME
-#if defined (_MSC_VER) || defined (__BORLANDC__) 
+#if defined (_MSC_VER) || defined (__BORLANDC__)
 #define LOG4CPLUS_HAVE_GMTIME_S
 #endif
 
@@ -155,7 +155,6 @@
 #    define LOG4CPLUS_WORKING_LOCALE
 #    define LOG4CPLUS_HAVE_FUNCTION_MACRO
 #    define LOG4CPLUS_HAVE_FUNCSIG_MACRO
-#    define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
 #    define LOG4CPLUS_ATTRIBUTE_NORETURN __declspec(noreturn)
 #  endif
 #  if _MSC_VER >= 1700
@@ -188,8 +187,6 @@
 //#    define LOG4CPLUS_INLINES_ARE_EXPORTED
 #  endif
 #  define LOG4CPLUS_HAVE_FUNCTION_MACRO
-#  define LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS
-#  define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
 #  if defined (__MINGW32__)
 #    define LOG4CPLUS_WORKING_C_LOCALE
 #  endif
@@ -197,7 +194,6 @@
 
 #if defined (__BORLANDC__) && __BORLANDC__ >= 0x0650
 #  define LOG4CPLUS_HAVE_FUNCTION_MACRO
-#  define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
 #endif // __BORLANDC__
 
 #if ! defined (LOG4CPLUS_DISABLE_DLL_RUNTIME_WARNING)
