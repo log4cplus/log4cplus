@@ -232,10 +232,13 @@ Hierarchy::getLoggerFactory()
     return defaultFactory.get();
 }
 
+void waitUntilEmptyThreadPoolQueue ();
 
 void
 Hierarchy::shutdown()
 {
+    waitUntilEmptyThreadPoolQueue ();
+
     LoggerList loggers = getCurrentLoggers();
 
     // begin by closing nested appenders

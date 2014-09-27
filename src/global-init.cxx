@@ -30,6 +30,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/hierarchy.h>
+#include "ThreadPool.h"
 #include <cstdio>
 #include <iostream>
 #include <stdexcept>
@@ -53,6 +54,7 @@ LOG4CPLUS_EXPORT tostream & tcerr = std::cerr;
 namespace
 {
 
+using namespace progschj;
 
 //! Default context.
 struct DefaultContext
@@ -68,6 +70,7 @@ struct DefaultContext
     spi::LayoutFactoryRegistry layout_factory_registry;
     spi::FilterFactoryRegistry filter_factory_registry;
     spi::LocaleFactoryRegistry locale_factory_registry;
+    ThreadPool thread_pool;
 };
 
 
@@ -190,6 +193,26 @@ getMDC ()
 }
 
 
+void
+enqueueAsyncDoAppend (SharedAppenderPtr appender,
+    spi::InternalLoggingEvent const & event)
+{
+    get_dc ()->thread_pool.enqueue (
+        [=] (SharedAppenderPtr app, spi::InternalLoggingEvent const ev)
+        {
+            ((app.get ())->*(&Appender::syncDoAppend)) (ev);
+        },
+        appender, event);
+}
+
+
+void
+waitUntilEmptyThreadPoolQueue ()
+{
+    get_dc ()->thread_pool.wait_until_empty ();
+}
+
+
 namespace spi
 {
 
@@ -295,7 +318,6 @@ alloc_ptd ()
 }
 
 #  endif
-
 
 } // namespace internal
 

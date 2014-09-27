@@ -166,6 +166,13 @@ namespace log4cplus {
          * delegating actual logging to the subclasses specific {@link
          * #append} method.
          */
+        void syncDoAppend(const log4cplus::spi::InternalLoggingEvent& event);
+
+        /**
+         * This function checks `async` flag. It either executes
+         * `syncDoAppend()` directly or and enqueues its execution to thread
+         * pool thread.
+         */
         void doAppend(const log4cplus::spi::InternalLoggingEvent& event);
 
         /**
@@ -286,6 +293,9 @@ namespace log4cplus {
         //! Use lock file for inter-process synchronization of access
         //! to log file.
         bool useLockFile;
+
+        //! Asynchronous append.
+        bool async;
 
         /** Is this appender closed? */
         bool closed;

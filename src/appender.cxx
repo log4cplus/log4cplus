@@ -102,6 +102,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
     , threshold(NOT_SET_LOG_LEVEL)
     , errorHandler(new OnlyOnceErrorHandler)
     , useLockFile(false)
+    , async(false)
     , closed(false)
 {
     if(properties.exists( LOG4CPLUS_TEXT("layout") ))
@@ -200,6 +201,9 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
                     "UseLockFile is true but LockFile is not specified"));
         }
     }
+
+    // Deal with asynchronous append flag.
+    properties.getBool (async, LOG4CPLUS_TEXT("AsyncAppend"));
 }
 
 
@@ -241,8 +245,21 @@ bool Appender::isClosed() const
 }
 
 
+void enqueueAsyncDoAppend (SharedAppenderPtr appender,
+    spi::InternalLoggingEvent const & event);
+
+
 void
 Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
+{
+    if (async)
+        enqueueAsyncDoAppend (SharedAppenderPtr (this), event);
+    else
+        syncDoAppend (event);
+}
+
+void
+Appender::syncDoAppend(const log4cplus::spi::InternalLoggingEvent& event)
 {
     thread::MutexGuard guard (access_mutex);
 
