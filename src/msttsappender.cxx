@@ -216,10 +216,10 @@ MSTTSAppender::MSTTSAppender (helpers::Properties const & props)
     if (has_rate)
         rate = (std::max) (-10l, (std::min) (rate, 10l));
 
-    bool async;
+    bool async = false;
     async = props.getBool (async, LOG4CPLUS_TEXT ("Async")) && async;
 
-    bool speak_punc;
+    bool speak_punc = false;
     speak_punc = props.getBool (speak_punc, LOG4CPLUS_TEXT ("SpeakPunc"))
         && speak_punc;
 
