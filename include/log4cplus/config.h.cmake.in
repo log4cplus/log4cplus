@@ -312,12 +312,6 @@
 /* */
 #cmakedefine LOG4CPLUS_HAVE__VSNWPRINTF_S 1
 
-/* */
-#cmakedefine LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH 1
-
-/* */
-#cmakedefine LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH 1
-
 /* Define if this is a single-threaded library. */
 #undef LOG4CPLUS_SINGLE_THREADED
 
