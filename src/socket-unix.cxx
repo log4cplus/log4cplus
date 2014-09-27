@@ -87,7 +87,8 @@ namespace
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
 // We need to use log4cplus::thread here to work around compilation
 // problem on AIX.
-static log4cplus::thread::Mutex ghbn_mutex;
+static log4cplus::thread::Mutex ghbn_mutex
+    LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE);
 
 #endif
 
