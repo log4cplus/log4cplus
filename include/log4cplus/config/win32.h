@@ -157,10 +157,6 @@
 #    define LOG4CPLUS_HAVE_FUNCSIG_MACRO
 #    define LOG4CPLUS_ATTRIBUTE_NORETURN __declspec(noreturn)
 #  endif
-#  if _MSC_VER >= 1700
-#    define LOG4CPLUS_HAVE_CXX11_ATOMICS
-#    define LOG4CPLUS_WITH_CXX11_THREADS
-#  endif
 #endif
 
 #if defined (__GNUC__)
@@ -169,11 +165,6 @@
 #    define LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
 #    define LOG4CPLUS_HAVE_FUNC_SYMBOL
 #  endif
-#  if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7)
-#    if defined (__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4)
-#      define LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH
-#      define LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH
-#    endif
 // This has worked for some versions of MinGW with GCC 4.7+ but it
 // appears to be broken again in 4.8.x. Thus, we disable this for GCC
 // completely forever.
