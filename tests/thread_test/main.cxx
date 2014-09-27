@@ -129,7 +129,7 @@ TestThread::run()
         LOG4CPLUS_WARN(logger, name + LOG4CPLUS_TEXT(" TestThread.run()- Starting..."));
         NDC& ndc = getNDC();
         NDCContextCreator _first_ndc(name);
-       LOG4CPLUS_DEBUG(logger, "Entering Run()...");
+        LOG4CPLUS_DEBUG(logger, "Entering Run()...");
         for(int i=0; i<NUM_LOOPS; ++i) {
             NDCContextCreator _ndc(LOG4CPLUS_TEXT("loop"));
             slow->doSomething();
