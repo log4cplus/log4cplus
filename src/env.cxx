@@ -383,8 +383,6 @@ bool
 split_path (std::vector<tstring> & components, std::size_t & special,
     tstring const & path)
 {
-    typedef tstring::const_iterator const_iterator;
-
     components.reserve (10);
     special = 0;
 
