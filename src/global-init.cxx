@@ -543,6 +543,10 @@ struct _static_log4cplus_initializer
 #else
 namespace {
 
+#if __GNUC__
+# pragma GCC diagnostic push
+# pragma GCC diagnostic warning "-Wunused-function"
+#endif
 static void
 _log4cplus_initializer_func ()
     LOG4CPLUS_CONSTRUCTOR_FUNC (LOG4CPLUS_INIT_PRIORITY_BASE);
@@ -551,6 +555,8 @@ _log4cplus_initializer_func ()
 {
     log4cplus::initializeLog4cplus();
 }
+
+// there's no closing pop because unused-function is checked on entire compilation unit
 
 struct _static_log4cplus_initializer
 {
