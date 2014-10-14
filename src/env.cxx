@@ -185,6 +185,7 @@ remove_empty (Cont & cont, std::size_t special)
 }
 
 
+#if defined(_WIN32)
 static
 bool
 is_drive_letter (tchar ch)
@@ -192,7 +193,7 @@ is_drive_letter (tchar ch)
     tchar dl = helpers::toUpper (ch);
     return LOG4CPLUS_TEXT ('A') <= dl && dl <= LOG4CPLUS_TEXT ('Z');
 }
-
+#endif // _WIN32
 
 #if defined (_WIN32)
 static
@@ -399,9 +400,10 @@ split_path (std::vector<tstring> & components, std::size_t & special,
 
 retry_recognition:;
     std::size_t const comp_count = components.size ();
-    std::size_t comp_0_size;
 
 #if defined (_WIN32)
+    std::size_t comp_0_size;
+
     // Special Windows paths recognition:
     // \\?\UNC\hostname\share\ - long UNC path
     // \\?\ - UNC path
