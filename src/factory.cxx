@@ -175,6 +175,7 @@ void initializeFactoryRegistry()
     LOG4CPLUS_REG_APPENDER (reg, FileAppender);
     LOG4CPLUS_REG_APPENDER (reg, RollingFileAppender);
     LOG4CPLUS_REG_APPENDER (reg, DailyRollingFileAppender);
+    LOG4CPLUS_REG_APPENDER (reg, TimeBasedRollingFileAppender);
     LOG4CPLUS_REG_APPENDER (reg, SocketAppender);
 #if defined(_WIN32)
 #  if defined(LOG4CPLUS_HAVE_NT_EVENT_LOG)
