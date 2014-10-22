@@ -941,23 +941,6 @@ DailyRollingFileAppender::getFilename(const Time& t) const
 // TimeBasedRollingFileAppender utility functions
 ///////////////////////////////////////////////////////////////////////////////
 
-static int
-countContiguousChars(const tstring& s, size_t from)
-{
-    tchar c = s[from];
-    int result = 1;
-
-    for (size_t i = from+1; i < s.length(); i++)
-    {
-        if (s[i] == c)
-            result += 1;
-        else
-            break;
-    }
-
-    return result;
-}
-
 static tstring
 preprocessDateTimePattern(const tstring& pattern, DailyRollingFileSchedule& schedule)
 {
@@ -972,7 +955,8 @@ preprocessDateTimePattern(const tstring& pattern, DailyRollingFileSchedule& sche
     for (size_t i = 0; i < pattern.length(); )
     {
         tchar c = pattern[i];
-        int len = countContiguousChars(pattern, i);
+        size_t end_pos = pattern.find_first_not_of(c, i);
+        int len = (end_pos == tstring::npos ? pattern.length() : end_pos) - i;
 
         switch (c)
         {
