@@ -27,6 +27,7 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/internal/env.h>
+#include <limits>
 #include <cstdlib>
 
 
@@ -75,7 +76,8 @@ namespace pattern
 struct FormattingInfo {
     int minLen;
     std::size_t maxLen;
-    bool leftAlign;
+    bool leftAlign : 1;
+    bool trimStart : 1;
     FormattingInfo() { reset(); }
 
     void reset();
@@ -104,7 +106,8 @@ public:
 private:
     int minLen;
     std::size_t maxLen;
-    bool leftAlign;
+    bool leftAlign : 1;
+    bool trimStart : 1;
 };
 
 
@@ -316,8 +319,9 @@ private:
 void
 FormattingInfo::reset() {
     minLen = -1;
-    maxLen = 0x7FFFFFFF;
+    maxLen = std::numeric_limits<std::size_t>::max ();
     leftAlign = false;
+    trimStart = true;
 }
 
 
@@ -326,7 +330,8 @@ FormattingInfo::dump(helpers::LogLog& loglog) {
     tostringstream buf;
     buf << LOG4CPLUS_TEXT("min=") << minLen
         << LOG4CPLUS_TEXT(", max=") << maxLen
-        << LOG4CPLUS_TEXT(", leftAlign=") << std::boolalpha << leftAlign;
+        << LOG4CPLUS_TEXT(", leftAlign=") << std::boolalpha << leftAlign
+        << LOG4CPLUS_TEXT(", trimStart=") << std::boolalpha << trimStart;
     loglog.debug(buf.str());
 }
 
@@ -342,6 +347,7 @@ PatternConverter::PatternConverter(const FormattingInfo& i)
     minLen = i.minLen;
     maxLen = i.maxLen;
     leftAlign = i.leftAlign;
+    trimStart = i.trimStart;
 }
 
 
@@ -355,7 +361,12 @@ PatternConverter::formatAndAppend(
     std::size_t len = s.length();
 
     if (len > maxLen)
-        output << s.substr(len - maxLen);
+    {
+        if (trimStart)
+            output << s.substr(len - maxLen);
+        else
+            output << s.substr(0, maxLen);
+    }
     else if (static_cast<int>(len) < minLen)
     {
         std::ios_base::fmtflags const original_flags = output.flags ();
@@ -807,7 +818,9 @@ PatternParser::parse()
 
         case DOT_STATE:
             currentLiteral += c;
-            if(c >= LOG4CPLUS_TEXT('0') && c <= LOG4CPLUS_TEXT('9')) {
+            if (c == LOG4CPLUS_TEXT('-'))
+                formattingInfo.trimStart = false;
+            else if(c >= LOG4CPLUS_TEXT('0') && c <= LOG4CPLUS_TEXT('9')) {
                 formattingInfo.maxLen = c - LOG4CPLUS_TEXT('0');
                 state = MAX_STATE;
             }
