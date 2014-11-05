@@ -169,8 +169,7 @@
 // appears to be broken again in 4.8.x. Thus, we disable this for GCC
 // completely forever.
 //
-//#    define LOG4CPLUS_INLINES_ARE_EXPORTED
-#  endif
+//#  define LOG4CPLUS_INLINES_ARE_EXPORTED
 #  define LOG4CPLUS_HAVE_FUNCTION_MACRO
 #  if defined (__MINGW32__)
 #    define LOG4CPLUS_WORKING_C_LOCALE
