@@ -1135,7 +1135,7 @@ TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
 TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     const log4cplus::helpers::Properties& properties)
     : FileAppenderBase(properties, std::ios_base::app)
-    , filenamePattern("%d.log")
+    , filenamePattern(LOG4CPLUS_TEXT("%d.log"))
     , schedule(DAILY)
     , maxHistory(10)
     , cleanHistoryOnStart(false)
