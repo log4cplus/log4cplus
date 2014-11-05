@@ -51,7 +51,7 @@ namespace log4cplus
      * <dl>
      * <dt><tt>File</tt></dt>
      * <dd>This property specifies output file name.</dd>
-     * 
+     *
      * <dt><tt>ImmediateFlush</tt></dt>
      * <dd>When it is set true, output stream will be flushed after
      * each appended event.</dd>
@@ -117,7 +117,7 @@ namespace log4cplus
       //! provide UTF-8 locale in case UNICODE macro is defined.
         virtual std::locale imbue(std::locale const& loc);
 
-      //! \returns Locale imbued in fstream. 
+      //! \returns Locale imbued in fstream.
         virtual std::locale getloc () const;
 
     protected:
@@ -145,7 +145,7 @@ namespace log4cplus
          * <code>false</code>, then there is a good chance that the last few
          * logs events are not actually written to persistent media if and
          * when the application crashes.
-         *  
+         *
          * The <code>immediateFlush</code> variable is set to
          * <code>true</code> by default.
          */
@@ -160,10 +160,10 @@ namespace log4cplus
         bool createDirs;
 
         /**
-         * When any append operation fails, <code>reopenDelay</code> says 
-         * for how many seconds the next attempt to re-open the log file and 
-         * resume logging will be delayed. If <code>reopenDelay</code> is zero, 
-         * each failed append operation will cause log file to be re-opened. 
+         * When any append operation fails, <code>reopenDelay</code> says
+         * for how many seconds the next attempt to re-open the log file and
+         * resume logging will be delayed. If <code>reopenDelay</code> is zero,
+         * each failed append operation will cause log file to be re-opened.
          * By default, <code>reopenDelay</code> is 1 second.
          */
         int reopenDelay;
@@ -299,7 +299,7 @@ namespace log4cplus
 
       // Dtor
         virtual ~DailyRollingFileAppender();
-        
+
       // Methods
         virtual void close();
 
@@ -324,9 +324,9 @@ namespace log4cplus
 
 
     /**
-     * TimeBasedRollingFileAppender extends {@link FileAppenderBase} so that the
-     * underlying file is rolled over at a user chosen frequency while also keeping
-     * in check a total maximum number of produced files.
+     * TimeBasedRollingFileAppender extends {@link FileAppenderBase} so that
+     * the underlying file is rolled over at a user chosen frequency while also
+     * keeping in check a total maximum number of produced files.
      *
      * <h3>Properties</h3>
      * <p>Properties additional to {@link FileAppenderBase}'s properties:
@@ -334,19 +334,20 @@ namespace log4cplus
      * <dl>
      *
      * <dt><tt>FilenamePattern</tt></dt>
-     * <dd>The mandatory fileNamePattern property defines the name of the rolled-over
-     * (archived) log files. Its value should consist of the name of the file, plus
-     * a suitably placed %d conversion specifier. The %d conversion specifier may
-     * contain a date-and-time pattern as specified by the java's SimpleDateFormat.
-     * The rollover period is inferred from the value of fileNamePattern.</dd>
+     * <dd>The mandatory fileNamePattern property defines the name of the
+     * rolled-over (archived) log files. Its value should consist of the name
+     * of the file, plus a suitably placed %d conversion specifier. The %d
+     * conversion specifier may contain a date-and-time pattern as specified by
+     * the java's SimpleDateFormat.  The rollover period is inferred from the
+     * value of fileNamePattern.</dd>
      *
      * <dt><tt>MaxHistory</tt></dt>
-     * <dd>The optional maxHistory property controls the maximum number of archive
-     * files to keep, deleting older files.</dd>
+     * <dd>The optional maxHistory property controls the maximum number of
+     * archive files to keep, deleting older files.</dd>
      *
-     * <dt><tt>CleanHistoryOnStatr</tt></dt>
-     * <dd>If set to true, archive removal will be executed on appender start up.
-     * By default this property is set to false. </dd>
+     * <dt><tt>CleanHistoryOnStart</tt></dt>
+     * <dd>If set to true, archive removal will be executed on appender start
+     * up.  By default this property is set to false. </dd>
      *
      * </dl>
      */
@@ -357,7 +358,7 @@ namespace log4cplus
                                      const tstring& filenamePattern = LOG4CPLUS_TEXT("%d.log"),
                                      int maxHistory = 10,
                                      bool cleanHistoryOnStart = false,
-    			                     bool immediateFlush = true,
+                                     bool immediateFlush = true,
                                      bool createDirs = false);
         TimeBasedRollingFileAppender(const helpers::Properties& properties);
 
@@ -387,9 +388,8 @@ namespace log4cplus
     };
 
     typedef helpers::SharedObjectPtr<TimeBasedRollingFileAppender>
-    	SharedTimeBasedRollingFileAppenderPtr;
+        SharedTimeBasedRollingFileAppenderPtr;
 
 } // end namespace log4cplus
 
 #endif // LOG4CPLUS_FILE_APPENDER_HEADER_
-
