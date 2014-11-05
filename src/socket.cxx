@@ -216,7 +216,11 @@ Socket::write(const std::string & buffer)
 
 ServerSocket::ServerSocket (ServerSocket && other)
     : AbstractSocket (std::move (other))
+#if defined (_MSC_VER)
+    , interruptHandles {{ -1, -1 }}
+#else
     , interruptHandles { -1, -1 }
+#endif
 {
     interruptHandles.swap (other.interruptHandles);
 }
