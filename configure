@@ -3226,6 +3226,7 @@ END
     as_fn_error $? "Your 'rm' program is bad, sorry." "$LINENO" 5
   fi
 fi
+
 ac_config_commands="$ac_config_commands tests/atconfig"
 
 
@@ -4470,7 +4471,7 @@ esac
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=2:1:0
+LT_VERSION=3:1:0
 LT_RELEASE=1.2
 
 
