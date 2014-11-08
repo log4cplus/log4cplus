@@ -94,9 +94,13 @@ SimpleLayout::formatAndAppend(log4cplus::tostream& output,
 // log4cplus::TTCCLayout ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-TTCCLayout::TTCCLayout(bool use_gmtime_)
+  TTCCLayout::TTCCLayout(bool use_gmtime_, bool thread_printing_,
+      bool category_prefixing_, bool context_printing_)
     : dateFormat()
     , use_gmtime(use_gmtime_)
+    , thread_printing (thread_printing_)
+    , category_prefixing (category_prefixing_)
+    , context_printing (context_printing_)
 {
 }
 
@@ -105,9 +109,11 @@ TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
     : Layout(properties)
     , dateFormat(properties.getProperty (LOG4CPLUS_TEXT("DateFormat"),
             internal::empty_str))
-    , use_gmtime(false)
 {
     properties.getBool (use_gmtime, LOG4CPLUS_TEXT("Use_gmtime"));
+    properties.getBool (thread_printing, LOG4CPLUS_TEXT("ThreadPrinting"));
+    properties.getBool (category_prefixing, LOG4CPLUS_TEXT("CategoryPrefixing"));
+    properties.getBool (context_printing, LOG4CPLUS_TEXT("ContextPrinting"));
 }
 
 
@@ -130,17 +136,70 @@ TTCCLayout::formatAndAppend(log4cplus::tostream& output,
          output << helpers::getFormattedTime(dateFormat, event.getTimestamp(),
              use_gmtime);
 
-    output << LOG4CPLUS_TEXT(" [")
-           << event.getThread()
-           << LOG4CPLUS_TEXT("] ")
-           << llmCache.toString(event.getLogLevel())
-           << LOG4CPLUS_TEXT(" ")
-           << event.getLoggerName()
-           << LOG4CPLUS_TEXT(" <")
-           << event.getNDC()
-           << LOG4CPLUS_TEXT("> - ")
-           << event.getMessage()
-           << LOG4CPLUS_TEXT("\n");
+     if (getThreadPrinting ())
+         output << LOG4CPLUS_TEXT(" [")
+                << event.getThread()
+                << LOG4CPLUS_TEXT("] ");
+     else
+         output << LOG4CPLUS_TEXT(' ');
+
+     output << llmCache.toString(event.getLogLevel())
+            << LOG4CPLUS_TEXT(' ');
+
+     if (getCategoryPrefixing ())
+         output << event.getLoggerName()
+                << LOG4CPLUS_TEXT(' ');
+
+     if (getContextPrinting ())
+         output << LOG4CPLUS_TEXT("<")
+                << event.getNDC()
+                << LOG4CPLUS_TEXT("> ");
+
+     output << LOG4CPLUS_TEXT("- ")
+            << event.getMessage()
+            << LOG4CPLUS_TEXT("\n");
+}
+
+
+bool
+TTCCLayout::getThreadPrinting() const
+{
+    return thread_printing;
+}
+
+
+void
+TTCCLayout::setThreadPrinting(bool thread_printing_)
+{
+    thread_printing = thread_printing_;
+}
+
+
+bool
+TTCCLayout::getCategoryPrefixing() const
+{
+    return category_prefixing;
+}
+
+
+void
+TTCCLayout::setCategoryPrefixing(bool category_prefixing_)
+{
+    category_prefixing = category_prefixing_;
+}
+
+
+bool
+TTCCLayout::getContextPrinting() const
+{
+    return context_printing;
+}
+
+
+void
+TTCCLayout::setContextPrinting(bool context_printing_)
+{
+    context_printing = context_printing_;
 }
 
 
