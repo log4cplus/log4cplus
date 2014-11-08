@@ -4478,7 +4478,7 @@ esac
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=1:1:0
+LT_VERSION=2:1:1
 LT_RELEASE=2.0
 
 
