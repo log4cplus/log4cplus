@@ -255,7 +255,8 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
     properties.getBool (udp, LOG4CPLUS_TEXT ("udp"));
     remoteSyslogType = udp ? RSTUdp : RSTTcp;
 
-    host = properties.getProperty (LOG4CPLUS_TEXT ("host"));
+    properties.getString (host, LOG4CPLUS_TEXT ("host"))
+      || properties.getString (host, LOG4CPLUS_TEXT ("SyslogHost"));
     if (host.empty ())
     {
 #if defined (LOG4CPLUS_HAVE_SYSLOG_H)
@@ -458,7 +459,7 @@ SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
         appender_sp.chstr.insert (appender_sp.chstr.begin (),
             syslogFrameHeader.begin (), syslogFrameHeader.end ());
     }
-    
+
     bool ret = syslogSocket.write (appender_sp.chstr);
     if (! ret)
     {
@@ -534,4 +535,3 @@ SysLogAppender::openSocket ()
 
 
 } // namespace log4cplus
-

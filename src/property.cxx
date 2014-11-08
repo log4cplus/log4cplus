@@ -195,8 +195,8 @@ Properties::Properties(const tstring& inputFile, unsigned f)
 
 
 
-void 
-Properties::init(tistream& input) 
+void
+Properties::init(tistream& input)
 {
     if (! input)
         return;
@@ -209,8 +209,8 @@ Properties::init(tistream& input)
         tstring::size_type const buffLen = buffer.size ();
         if (buffLen == 0 || buffer[0] == PROPERTIES_COMMENT_CHAR)
             continue;
-        
-        // Check if we have a trailing \r because we are 
+
+        // Check if we have a trailing \r because we are
         // reading a properties file produced on Windows.
         if (buffer[buffLen-1] == LOG4CPLUS_TEXT('\r'))
             // Remove trailing 'Windows' \r.
@@ -248,7 +248,7 @@ Properties::init(tistream& input)
 
 
 
-Properties::~Properties() 
+Properties::~Properties()
 {
 }
 
@@ -274,7 +274,7 @@ Properties::exists(tchar const * key) const
 
 
 tstring const &
-Properties::getProperty(const tstring& key) const 
+Properties::getProperty(const tstring& key) const
 {
     return get_property_worker (key);
 }
@@ -299,7 +299,7 @@ Properties::getProperty(const tstring& key, const tstring& defaultVal) const
 
 
 std::vector<tstring>
-Properties::propertyNames() const 
+Properties::propertyNames() const
 {
     std::vector<tstring> tmp;
     for (StringMap::const_iterator it=data.begin(); it!=data.end(); ++it)
@@ -325,7 +325,7 @@ Properties::removeProperty(const log4cplus::tstring& key)
 }
 
 
-Properties 
+Properties
 Properties::getPropertySubset(const log4cplus::tstring& prefix) const
 {
     Properties ret;
@@ -378,6 +378,19 @@ Properties::getBool (bool & val, log4cplus::tstring const & key) const
 
     log4cplus::tstring const & prop_val = getProperty (key);
     return internal::parse_bool (val, prop_val);
+}
+
+
+bool
+Properties::getString (log4cplus::tstring & val, log4cplus::tstring const & key)
+    const
+{
+    StringMap::const_iterator it (data.find (key));
+    if (it == data.end ())
+        return false;
+
+    val = it->second;
+    return true;
 }
 
 
