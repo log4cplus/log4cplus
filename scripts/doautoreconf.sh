@@ -2,7 +2,7 @@
 
 export AUTOMAKE_SUFFIX=-1.14.1
 export AUTOCONF_SUFFIX=-2.69
-export LIBTOOL_SUFFIX=-2.4.3
+export LIBTOOL_SUFFIX=-2.4.4
 
 export ACLOCAL="aclocal${AUTOMAKE_SUFFIX}"
 export AUTOMAKE="automake${AUTOMAKE_SUFFIX}"
