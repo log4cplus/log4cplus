@@ -130,9 +130,6 @@
     <ClCompile Include="..\src\loglog.cxx">
       <Filter>helpers</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\logloguser.cxx">
-      <Filter>helpers</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\pointer.cxx">
       <Filter>helpers</Filter>
     </ClCompile>
@@ -337,9 +334,6 @@
       <Filter>helpers</Filter>
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\helpers\loglog.h">
-      <Filter>helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\log4cplus\helpers\logloguser.h">
       <Filter>helpers</Filter>
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\helpers\pointer.h">
