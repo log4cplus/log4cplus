@@ -100,11 +100,11 @@ namespace
 
 static
 HANDLE
-get_os_HANDLE (int fd, helpers::LogLog & loglog = helpers::getLogLog ())
+get_os_HANDLE (int fd)
 {
     HANDLE fh = reinterpret_cast<HANDLE>(_get_osfhandle (fd));
     if (fh == INVALID_HANDLE_VALUE)
-        loglog.error (tstring (LOG4CPLUS_TEXT ("_get_osfhandle() failed: "))
+        getLogLog ().error (tstring (LOG4CPLUS_TEXT ("_get_osfhandle() failed: "))
             + convertIntegerToString (errno), true);
 
     return fh;
@@ -130,14 +130,14 @@ mode_t const OPEN_MODE = (S_IRWXU ^ S_IXUSR)
 //! that support it.
 LOG4CPLUS_PRIVATE
 bool
-trySetCloseOnExec (int fd, helpers::LogLog & loglog = helpers::getLogLog ())
+trySetCloseOnExec (int fd)
 {
 #if defined (WIN32)
     int ret = SetHandleInformation (get_os_HANDLE (fd), HANDLE_FLAG_INHERIT, 0);
     if (! ret)
     {
         DWORD eno = GetLastError ();
-        loglog.warn (
+        getLogLog ().warn (
             tstring (
                 LOG4CPLUS_TEXT ("could not unset HANDLE_FLAG_INHERIT on fd: "))
             + convertIntegerToString (fd)
@@ -151,7 +151,7 @@ trySetCloseOnExec (int fd, helpers::LogLog & loglog = helpers::getLogLog ())
     if (ret == -1)
     {
         int eno = errno;
-        loglog.warn (
+        getLogLog ().warn (
             tstring (LOG4CPLUS_TEXT ("could not set FD_CLOEXEC on fd: "))
             + convertIntegerToString (fd)
             + LOG4CPLUS_TEXT (", errno: ")
@@ -210,8 +210,6 @@ LockFile::~LockFile ()
 void
 LockFile::open (int open_flags) const
 {
-    LogLog & loglog = getLogLog ();
-
     if (create_dirs)
         internal::make_dirs (lock_file_name);
 
@@ -227,20 +225,20 @@ LockFile::open (int open_flags) const
 #  else
 #    error "Neither _tsopen_s() nor _tsopen() is available."
 #  endif
-        loglog.error (tstring (LOG4CPLUS_TEXT("could not open or create file "))
+        getLogLog ().error (tstring (LOG4CPLUS_TEXT("could not open or create file "))
             + lock_file_name, true);
 
 #elif defined (LOG4CPLUS_USE_POSIX_LOCKING)
     data->fd = ::open (LOG4CPLUS_TSTRING_TO_STRING (lock_file_name).c_str (),
         open_flags, OPEN_MODE);
     if (data->fd == -1)
-        loglog.error (
+        getLogLog ().error (
             tstring (LOG4CPLUS_TEXT ("could not open or create file "))
             + lock_file_name, true);
 
 #if ! defined (O_CLOEXEC)
     if (! trySetCloseOnExec (data->fd, loglog))
-        loglog.warn (
+        getLogLog ().warn (
             tstring (LOG4CPLUS_TEXT("could not set FD_CLOEXEC on file "))
             + lock_file_name);
 
@@ -277,7 +275,7 @@ LockFile::lock () const
     (void) ret;
 
 #if defined (LOG4CPLUS_USE_WIN32_LOCKFILEEX)
-    HANDLE fh = get_os_HANDLE (data->fd, loglog);
+    HANDLE fh = get_os_HANDLE (data->fd);
 
     OVERLAPPED overlapped;
     std::memset (&overlapped, 0, sizeof (overlapped));
@@ -287,7 +285,7 @@ LockFile::lock () const
         (std::numeric_limits<DWORD>::max) (),
         (std::numeric_limits<DWORD>::max) (), &overlapped);
     if (! ret)
-        loglog.error (tstring (LOG4CPLUS_TEXT ("LockFileEx() failed: "))
+        getLogLog ().error (tstring (LOG4CPLUS_TEXT ("LockFileEx() failed: "))
             + convertIntegerToString (GetLastError ()), true);
 
 #elif defined (LOG4CPLUS_USE_O_EXLOCK)
@@ -303,7 +301,7 @@ LockFile::lock () const
         fl.l_len = 0;
         ret = fcntl (data->fd, F_SETLKW, &fl);
         if (ret == -1 && errno != EINTR)
-            loglog.error (tstring (LOG4CPLUS_TEXT("fcntl(F_SETLKW) failed: "))
+            getLogLog ().error (tstring (LOG4CPLUS_TEXT("fcntl(F_SETLKW) failed: "))
                 + convertIntegerToString (errno), true);
     }
     while (ret == -1);
@@ -313,7 +311,7 @@ LockFile::lock () const
     {
         ret = lockf (data->fd, F_LOCK, 0);
         if (ret == -1 && errno != EINTR)
-            loglog.error (tstring (LOG4CPLUS_TEXT("lockf() failed: "))
+            getLogLog ().error (tstring (LOG4CPLUS_TEXT("lockf() failed: "))
                 + convertIntegerToString (errno), true);
     }
     while (ret == -1);
@@ -323,7 +321,7 @@ LockFile::lock () const
     {
         ret = flock (data->fd, LOCK_EX);
         if (ret == -1 && errno != EINTR)
-            loglog.error (tstring (LOG4CPLUS_TEXT("flock() failed: "))
+            getLogLog ().error (tstring (LOG4CPLUS_TEXT("flock() failed: "))
                 + convertIntegerToString (errno), true);
     }
     while (ret == -1);
@@ -334,16 +332,15 @@ LockFile::lock () const
 
 void LockFile::unlock () const
 {
-    LogLog & loglog = getLogLog ();
     int ret = 0;
 
 #if defined (LOG4CPLUS_USE_WIN32_LOCKFILEEX)
-    HANDLE fh = get_os_HANDLE (data->fd, loglog);
+    HANDLE fh = get_os_HANDLE (data->fd);
 
     ret = UnlockFile(fh, 0, 0, (std::numeric_limits<DWORD>::max) (),
         (std::numeric_limits<DWORD>::max) ());
     if (! ret)
-        loglog.error (tstring (LOG4CPLUS_TEXT ("UnlockFile() failed: "))
+        getLogLog ().error (tstring (LOG4CPLUS_TEXT ("UnlockFile() failed: "))
             + convertIntegerToString (GetLastError ()), true);
 
 #elif defined (LOG4CPLUS_USE_O_EXLOCK)
@@ -357,19 +354,19 @@ void LockFile::unlock () const
     fl.l_len = 0;
     ret = fcntl (data->fd, F_SETLKW, &fl);
     if (ret != 0)
-        loglog.error (tstring (LOG4CPLUS_TEXT("fcntl(F_SETLKW) failed: "))
+        getLogLog ().error (tstring (LOG4CPLUS_TEXT("fcntl(F_SETLKW) failed: "))
             + convertIntegerToString (errno), true);
 
 #elif defined (LOG4CPLUS_USE_LOCKF)
     ret = lockf (data->fd, F_ULOCK, 0);
     if (ret != 0)
-        loglog.error (tstring (LOG4CPLUS_TEXT("lockf() failed: "))
+        getLogLog ().error (tstring (LOG4CPLUS_TEXT("lockf() failed: "))
             + convertIntegerToString (errno), true);
 
 #elif defined (LOG4CPLUS_USE_FLOCK)
     ret = flock (data->fd, LOCK_UN);
     if (ret != 0)
-        loglog.error (tstring (LOG4CPLUS_TEXT("flock() failed: "))
+        getLogLog ().error (tstring (LOG4CPLUS_TEXT("flock() failed: "))
             + convertIntegerToString (errno), true);
 
 #endif
