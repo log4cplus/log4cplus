@@ -138,7 +138,6 @@ get_env_var (tstring & value, tstring const & name)
 
     return !! val;
 
-
 #else
     char const * val
         = std::getenv (LOG4CPLUS_TSTRING_TO_STRING (name).c_str ());

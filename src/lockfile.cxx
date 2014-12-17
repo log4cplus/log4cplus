@@ -34,9 +34,6 @@
 #if defined (LOG4CPLUS_HAVE_SYS_FILE_H)
 #include <sys/file.h>
 #endif
-#if defined (LOG4CPLUS_HAVE_SYS_LOCKING_H)
-#include <sys/locking.h>
-#endif
 #if defined (LOG4CPLUS_HAVE_UNISTD_H)
 #include <unistd.h>
 #endif
@@ -63,11 +60,7 @@
 #include <log4cplus/internal/env.h>
 
 #if defined (_WIN32)
-#  if _WIN32_WINNT < 0x0501
-#    define LOG4CPLUS_USE_WIN32_LOCKING
-#  else
-#    define LOG4CPLUS_USE_WIN32_LOCKFILEEX
-#  endif
+#  define LOG4CPLUS_USE_WIN32_LOCKFILEEX
 #else
 #  if defined (O_EXLOCK)
 #    define LOG4CPLUS_USE_O_EXLOCK
@@ -297,12 +290,6 @@ LockFile::lock () const
         loglog.error (tstring (LOG4CPLUS_TEXT ("LockFileEx() failed: "))
             + convertIntegerToString (GetLastError ()), true);
 
-#elif defined (LOG4CPLUS_USE_WIN32_LOCKING)
-    ret = _locking (data->fd, _LK_LOCK, (std::numeric_limits<long>::max) ());
-    if (ret != 0)
-        loglog.error (tstring (LOG4CPLUS_TEXT ("_locking() failed: "))
-            + convertIntegerToString (errno), true);
-
 #elif defined (LOG4CPLUS_USE_O_EXLOCK)
     open (OPEN_FLAGS | O_EXLOCK);
 
@@ -358,12 +345,6 @@ void LockFile::unlock () const
     if (! ret)
         loglog.error (tstring (LOG4CPLUS_TEXT ("UnlockFile() failed: "))
             + convertIntegerToString (GetLastError ()), true);
-
-#elif defined (LOG4CPLUS_USE_WIN32_LOCKING)
-    ret = _locking (data->fd, _LK_UNLCK, (std::numeric_limits<long>::max) ());
-    if (ret != 0)
-        loglog.error (tstring (LOG4CPLUS_TEXT ("_locking() failed: "))
-            + convertIntegerToString (errno), true);
 
 #elif defined (LOG4CPLUS_USE_O_EXLOCK)
     close ();
