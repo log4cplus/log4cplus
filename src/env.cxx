@@ -55,6 +55,7 @@
 #include <algorithm>
 #include <functional>
 #include <stdexcept>
+#include <memory>
 
 
 namespace log4cplus { namespace internal {

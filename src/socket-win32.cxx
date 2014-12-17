@@ -48,7 +48,7 @@ enum WSInitStates
 
 
 static WSADATA wsa;
-static std::atomic<WSInitStates> winsock_state = WS_UNINITIALIZED;
+static std::atomic<WSInitStates> winsock_state (WS_UNINITIALIZED);
 
 
 static inline
@@ -413,9 +413,11 @@ getHostname (bool fqdn)
     ADDRINFOT addr_info_hints{ };
     addr_info_hints.ai_family = AF_INET;
     // The AI_FQDN flag is available only on Windows 7 and later.
+#if defined (AI_FQDN)
     if (verifyWindowsVersionAtLeast (6, 1))
         addr_info_hints.ai_flags = AI_FQDN;
     else
+#endif
         addr_info_hints.ai_flags = AI_CANONNAME;
 
     std::unique_ptr<ADDRINFOT, ADDRINFOT_deleter> addr_info;
