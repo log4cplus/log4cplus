@@ -148,6 +148,7 @@ namespace
 struct path_sep_comp
     : public std::unary_function<tchar, bool>
 {
+    constexpr
     bool
     operator () (tchar ch) const
     {
@@ -157,18 +158,7 @@ struct path_sep_comp
         return ch == LOG4CPLUS_TEXT ('/');
 #endif
     }
-};
-
-
-struct is_empty_string
-    : public std::unary_function<tstring const &, bool>
-{
-    bool
-    operator () (tstring const & str) const
-    {
-        return str.empty ();
-    }
-};
+} constexpr is_sep;
 
 } // namespace
 
@@ -180,7 +170,7 @@ remove_empty (Cont & cont, std::size_t special)
 {
     cont.erase (
         std::remove_if (cont.begin () + special, cont.end (),
-            is_empty_string ()),
+            [](tstring const & str) { return str.empty (); }),
         cont.end ());
 }
 
@@ -193,19 +183,26 @@ is_drive_letter (tchar ch)
     tchar dl = helpers::toUpper (ch);
     return LOG4CPLUS_TEXT ('A') <= dl && dl <= LOG4CPLUS_TEXT ('Z');
 }
-#endif // _WIN32
 
-#if defined (_WIN32)
+
 static
 tstring
 get_drive_cwd (tchar drive)
 {
-    tstring path;
-
     drive = helpers::toUpper (drive);
 
+    struct free_deleter
+    { 
+        void
+        operator () (void * ptr)
+        {
+            std::free (ptr);
+        }
+    };
+
 #ifdef UNICODE
-    wchar_t * cstr = _wgetdcwd (drive - LOG4CPLUS_TEXT ('A') + 1, 0, 0x7FFF);
+    std::unique_ptr<wchar_t, free_deleter> cstr (
+        _wgetdcwd(drive - LOG4CPLUS_TEXT('A') + 1, 0, 0x7FFF));
     if (! cstr)
     {
         int const eno = errno;
@@ -216,7 +213,8 @@ get_drive_cwd (tchar drive)
     }
 
 #else
-    char * cstr = _getdcwd (drive - LOG4CPLUS_TEXT ('A') + 1, 0, 0x7FFF);
+    std::unique_ptr<char, free_deleter> cstr(
+        _getdcwd (drive - LOG4CPLUS_TEXT ('A') + 1, 0, 0x7FFF));
     if (! cstr)
     {
         int const eno = errno;
@@ -228,18 +226,7 @@ get_drive_cwd (tchar drive)
 
 #endif
 
-    try
-    {
-        path.assign (cstr);
-    }
-    catch (...)
-    {
-        std::free (cstr);
-        throw;
-    }
-
-    std::free (cstr);
-    return path;
+    return cstr.get ();
 }
 
 #endif
@@ -389,7 +376,6 @@ split_path (std::vector<tstring> & components, std::size_t & special,
     // First split the path into individual components separated by
     // system specific separator.
 
-    path_sep_comp is_sep;
     split_into_components (components, path, is_sep);
 
     // Try to recognize the path to find out how many initial components
