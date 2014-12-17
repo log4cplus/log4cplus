@@ -352,6 +352,26 @@ write(SOCKET_TYPE sock, const std::string & buffer)
 }
 
 
+static
+bool
+verifyWindowsVersionAtLeast (DWORD major, DWORD minor)
+{
+    OSVERSIONINFOEX os{};
+    os.dwOSVersionInfoSize = sizeof (os);
+    os.dwMajorVersion = major;
+    os.dwMinorVersion = minor;
+
+    ULONGLONG cond_mask
+        = VerSetConditionMask (0, VER_MAJORVERSION, VER_GREATER_EQUAL);
+    cond_mask = VerSetConditionMask (cond_mask, VER_MINORVERSION,
+        VER_GREATER_EQUAL);
+
+    bool result = !! VerifyVersionInfo (&os,
+        VER_MAJORVERSION | VER_MINORVERSION, cond_mask);
+    return result;
+}
+
+
 tstring
 getHostname (bool fqdn)
 {
@@ -359,7 +379,9 @@ getHostname (bool fqdn)
 
     char const * hostname = "unknown";
     int ret;
-    std::vector<char> hn (1024, 0);
+    // The initial size is based on information in the Microsoft KB article:
+    // <http://support.microsoft.com/kb/909264>
+    std::vector<char> hn (64, 0);
 
     while (true)
     {
@@ -369,11 +391,20 @@ getHostname (bool fqdn)
             hostname = &hn[0];
             break;
         }
-        else if (ret != 0 && WSAGetLastError () == WSAEFAULT)
-            // Out buffer was too short. Retry with buffer twice the size.
-            hn.resize (hn.size () * 2, 0);
         else
-            break;
+        {
+            int const wsaeno = WSAGetLastError();
+            if (wsaeno == WSAEFAULT && hn.size () <= 1024 * 8)
+                // Out buffer was too short. Retry with buffer twice the size.
+                hn.resize (hn.size () * 2, 0);
+            else
+            {
+                helpers::getLogLog().error(
+                    LOG4CPLUS_TEXT("Failed to get own hostname. Error: ")
+                    + convertIntegerToString (wsaeno));
+                return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+            }
+        }
     }
 
     if (ret != 0 || (ret == 0 && ! fqdn))
@@ -381,9 +412,11 @@ getHostname (bool fqdn)
 
     ADDRINFOT addr_info_hints{ };
     addr_info_hints.ai_family = AF_INET;
-    // XXX: The AI_FQDN flag is available only on Windows 7.
-    // XXX: We need a Windows version check here.
-    addr_info_hints.ai_flags = AI_CANONNAME /*| AI_FQDN*/;
+    // The AI_FQDN flag is available only on Windows 7 and later.
+    if (verifyWindowsVersionAtLeast (6, 1))
+        addr_info_hints.ai_flags = AI_FQDN;
+    else
+        addr_info_hints.ai_flags = AI_CANONNAME;
 
     std::unique_ptr<ADDRINFOT, ADDRINFOT_deleter> addr_info;
     ADDRINFOT * ai = nullptr;
@@ -393,10 +426,12 @@ getHostname (bool fqdn)
     {
         WSASetLastError (ret);
         helpers::getLogLog ().error (
-            LOG4CPLUS_TEXT ("Failed to get own hostname"), true);
+            LOG4CPLUS_TEXT ("Failed to resolve own hostname. Error: ")
+            + convertIntegerToString (ret));
+        return LOG4CPLUS_STRING_TO_TSTRING (hostname);
     }
 
-    addr_info.reset(ai);
+    addr_info.reset (ai);
     return addr_info->ai_canonname;
 }
 
@@ -488,7 +523,8 @@ ServerSocket::ServerSocket(unsigned short port)
     }
     else
     {
-        assert (sizeof (std::ptrdiff_t) >= sizeof (HANDLE));
+        static_assert (sizeof (std::ptrdiff_t) >= sizeof (HANDLE),
+            "Size of std::ptrdiff_t must be larger than size of HANDLE.");
         interruptHandles[0] = reinterpret_cast<std::ptrdiff_t>(ev);
     }
 }
