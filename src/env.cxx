@@ -81,6 +81,7 @@ struct free_deleter
 } // namespace
 
 
+#if defined (_WIN32)
 static inline
 errno_t
 dup_env_var (wchar_t ** buf, std::size_t * buf_len, wchar_t const * name)
@@ -96,6 +97,7 @@ dup_env_var (char ** buf, std::size_t * buf_len, char const * name)
     return _dupenv_s (buf, buf_len, name);
 }
 
+#endif
 
 bool
 get_env_var (tstring & value, tstring const & name)
