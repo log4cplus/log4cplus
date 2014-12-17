@@ -66,15 +66,67 @@ tstring const dir_sep(LOG4CPLUS_TEXT("/"));
 #endif
 
 
+namespace
+{
+
+struct free_deleter
+{
+    void
+    operator () (void * ptr)
+    {
+        std::free(ptr);
+    }
+};
+
+} // namespace
+
+
+static inline
+errno_t
+dup_env_var (wchar_t ** buf, std::size_t * buf_len, wchar_t const * name)
+{
+    return _wdupenv_s (buf, buf_len, name);
+}
+
+
+static inline
+errno_t
+dup_env_var (char ** buf, std::size_t * buf_len, char const * name)
+{
+    return _dupenv_s (buf, buf_len, name);
+}
+
+
 bool
 get_env_var (tstring & value, tstring const & name)
 {
-#if defined (_WIN32) && defined (UNICODE)
-    tchar const * val = _wgetenv (name.c_str ());
-    if (val)
-        value = val;
+#if defined (_WIN32)
+    tchar * buf = nullptr;
+    std::size_t buf_len = 0;
+    errno_t eno = dup_env_var (&buf, &buf_len, name.c_str ());
+    std::unique_ptr<tchar, free_deleter> val (buf);
+    switch (eno)
+    {
+    case 0:
+        // Success of the _dupenv_s() call but the variable might still
+        // not be defined.
+        if (buf)
+            value.assign (buf, buf_len - 1);
 
-    return !! val;
+        break;
+
+    case ENOMEM:
+        helpers::getLogLog ().error (
+            LOG4CPLUS_TEXT ("_dupenv_s failed to allocate memory"));
+        throw std::bad_alloc ();
+
+    default:
+        helpers::getLogLog().error(
+            LOG4CPLUS_TEXT ("_dupenv_s failed. Error: ")
+            + helpers::convertIntegerToString (eno), true);
+    }
+
+    return !! buf;
 
 #else
     char const * val
@@ -190,15 +242,6 @@ tstring
 get_drive_cwd (tchar drive)
 {
     drive = helpers::toUpper (drive);
-
-    struct free_deleter
-    { 
-        void
-        operator () (void * ptr)
-        {
-            std::free (ptr);
-        }
-    };
 
 #ifdef UNICODE
     std::unique_ptr<wchar_t, free_deleter> cstr (
