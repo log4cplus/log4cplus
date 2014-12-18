@@ -207,6 +207,7 @@ LOG4CPLUS_EXPORT void setCurrentThreadName2(const log4cplus::tstring & name)
 //
 
 AbstractThread::AbstractThread ()
+    : flags (0)
 { }
 
 
