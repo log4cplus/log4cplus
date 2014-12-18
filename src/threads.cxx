@@ -222,13 +222,11 @@ AbstractThread::start()
 {
     try
     {
-        addReference ();
         flags |= fRUNNING;
         thread.reset (
-            new std::thread ([this] () {
+            new std::thread ([this] (AbstractThreadPtr const & thread_ptr) {
+                    (void) thread_ptr;
                     blockAllSignals ();
-                    AbstractThreadPtr thread_ptr (this);
-                    this->removeReference ();
                     helpers::LogLog * loglog = helpers::LogLog::getLogLog();
                     try
                     {
@@ -248,12 +246,11 @@ AbstractThread::start()
                     }
                     this->flags &= ~fRUNNING;
                     threadCleanup ();
-                }));
+                }, AbstractThreadPtr (this)));
     }
     catch (...)
     {
         flags &= ~fRUNNING;
-        removeReference ();
         throw;
     }
 }
