@@ -43,6 +43,8 @@ ported to and tested on the following platforms:
     MinGW-W64 project) using CMake build system
   - Windows 7 with MS Visual Studio 2015[^msvc]
   - OpenBSD 5.6/AMD64 with GCC version 4.9.0
+  - FreeBSD 10.1/i386 with Clang version 3.4.1 (tags/RELEASE_34/dot1-final
+    208032)
 
 The testing on the above listed platforms has been done at some point
 in time with some version of source. Continuous testing is done only
@@ -58,7 +60,6 @@ compiler or have not been checked with [log4cplus] 2.x, yet:
     (tags/RELEASE_32/final) (based on LLVM 3.2)
   - Linux/AMD64 with Intel(R) C++ Intel(R) 64 Compiler XE for
     applications running on Intel(R) 64, Version 12.1 Build 20120410
-  - FreeBSD/AMD64
   - OpenSolaris with `-library=stlport4`
   - Solaris with `-library=stlport4` and with `-library=Cstd`.
   - Solaris 5.10/Sparc
