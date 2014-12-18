@@ -115,7 +115,14 @@ AppenderAttachableImpl::removeAllAppenders()
 {
     thread::MutexGuard guard (appender_list_mutex);
 
-    appenderList.erase(appenderList.begin(), appenderList.end());
+    // Clear appenders in specific order because the order of destruction of
+    // std::vector elements is surprisingly unspecified and it breaks our
+    // tests' expectations.
+
+    for (auto & app : appenderList)
+        app = SharedAppenderPtr ();
+
+    appenderList.clear ();
 }
 
 

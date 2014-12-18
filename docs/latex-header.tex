@@ -2,12 +2,12 @@
 %% latex-header.tex begin
 %%
 
+\usepackage{fix-cm}
 \usepackage{a4wide}
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage{anyfontsize}
-\usepackage[printwatermark]{xwatermark}
 \usepackage{amssymb}
 \usepackage{newunicodechar}
 \usepackage{fancyhdr}
@@ -18,7 +18,23 @@
 \usepackage{textcomp}
 \usepackage{upquote}
 \usepackage{etoolbox}
-\usepackage{selnolig}
+
+\defaultfontfeatures{Ligatures={TeX, Common}}
+\setmainfont[Ligatures={TeX, Common}]{TeX Gyre Pagella}
+\setmonofont[Scale=MatchLowercase,Ligatures={NoCommon}]{DejaVu Sans Mono}
+%\setromanfont{Georgia}
+%\setsansfont{DejaVu Sans}
+
+\ifxetex
+  \usepackage{xeCJK}
+  \setCJKmainfont{WenQuanYi Zen Hei}
+  \setCJKmonofont{WenQuanYi Zen Hei Mono}
+\else
+  %% Adding senolig breaks compilation in the CJK support.
+  %\usepackage{selnolig}
+  \usepackage{luatexja-fontspec}
+  \setmainjfont{WenQuanYi Zen Hei}
+\fi
 
 \pagestyle{fancy}
 \chead{\raisebox{\baselineskip}{\includegraphics[width=1.5cm,keepaspectratio]{./docs/log4cplus}}}
@@ -30,11 +46,7 @@
 %\institute{}
 %\date{\today}
 
-\defaultfontfeatures{Ligatures={TeX, Common}}
-\setmainfont{TeX Gyre Pagella}
-\setmonofont[Scale=MatchLowercase,Ligatures={NoCommon}]{DejaVu Sans Mono}
-%\setromanfont{Georgia}
-%\setsansfont{DejaVu Sans}
+
 \urlstyle{same}
 
 \AtBeginEnvironment{quote}{\slshape}

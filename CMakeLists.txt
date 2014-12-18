@@ -66,7 +66,7 @@ option(ENABLE_SYMBOLS_VISIBILITY
   "Enable compiler and platform specific options for symbols visibility"
   ON)
 
-set(_WIN32_WINNT 0x0500 CACHE STRING "Define Windows API version to use.")
+set(_WIN32_WINNT 0x0600 CACHE STRING "Define Windows API version to use.")
 
 if (NOT ${BUILD_SHARED_LIBS})
   # set S-prefix for static build

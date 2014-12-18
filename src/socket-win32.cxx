@@ -25,6 +25,7 @@
 #include <cerrno>
 #include <vector>
 #include <cstring>
+#include <atomic>
 #include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/threads.h>
@@ -47,7 +48,18 @@ enum WSInitStates
 
 
 static WSADATA wsa;
-static LONG volatile winsock_state = WS_UNINITIALIZED;
+static std::atomic<WSInitStates> winsock_state (WS_UNINITIALIZED);
+
+
+static inline
+WSInitStates
+interlocked_compare_exchange (std::atomic<WSInitStates> & var,
+    WSInitStates expected, WSInitStates desired)
+{
+    var.compare_exchange_strong (expected, desired);
+    return expected;
+}
+
 
 
 static
@@ -58,8 +70,8 @@ init_winsock_worker ()
         = log4cplus::helpers::LogLog::getLogLog ();
 
     // Try to change the state to WS_INITIALIZING.
-    LONG val = ::InterlockedCompareExchange (
-        const_cast<LPLONG>(&winsock_state), WS_INITIALIZING, WS_UNINITIALIZED);
+    WSInitStates val = interlocked_compare_exchange (winsock_state,
+        WS_UNINITIALIZED, WS_INITIALIZING);
     switch (val)
     {
     case WS_UNINITIALIZED:
@@ -69,18 +81,16 @@ init_winsock_worker ()
         {
             // Revert the state back to WS_UNINITIALIZED to unblock other
             // threads and let them throw exception.
-            val = ::InterlockedCompareExchange (
-                const_cast<LPLONG>(&winsock_state), WS_UNINITIALIZED,
-                WS_INITIALIZING);
+            val = interlocked_compare_exchange (winsock_state, WS_INITIALIZING,
+                WS_UNINITIALIZED);
             assert (val == WS_INITIALIZING);
             loglog->error (LOG4CPLUS_TEXT ("Could not initialize WinSock."),
                 true);
         }
 
         // WinSock is initialized, change the state to WS_INITIALIZED.
-        val = ::InterlockedCompareExchange (
-            const_cast<LPLONG>(&winsock_state), WS_INITIALIZED,
-            WS_INITIALIZING);
+        val = interlocked_compare_exchange (winsock_state, WS_INITIALIZING,
+            WS_INITIALIZED);
         assert (val == WS_INITIALIZING);
         return;
     }
@@ -160,7 +170,7 @@ openSocket(unsigned short port, SocketState& state)
 
     init_winsock ();
 
-    SOCKET sock = WSASocket (AF_INET, SOCK_STREAM, AF_UNSPEC, 0, 0
+    SOCKET sock = WSASocketW (AF_INET, SOCK_STREAM, AF_UNSPEC, 0, 0
 #if defined (WSA_FLAG_NO_HANDLE_INHERIT)
         , WSA_FLAG_NO_HANDLE_INHERIT
 #else
@@ -199,14 +209,17 @@ error:
 SOCKET_TYPE
 connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& state)
 {
-    struct hostent * hp;
+    ADDRINFOT addr_info_hints{};
+    PADDRINFOT ai = nullptr;
+    std::unique_ptr<ADDRINFOT, ADDRINFOT_deleter> addr_info;
+    int socket_type = udp ? SOCK_DGRAM : SOCK_STREAM;
+    tstring port_str = convertIntegerToString (port);
     struct sockaddr_in insock;
     int retval;
 
     init_winsock ();
 
-    SOCKET sock = WSASocket (AF_INET, (udp ? SOCK_DGRAM : SOCK_STREAM),
-        AF_UNSPEC, 0, 0
+    SOCKET sock = WSASocketW (AF_INET, socket_type, AF_UNSPEC, 0, 0
 #if defined (WSA_FLAG_NO_HANDLE_INHERIT)
         , WSA_FLAG_NO_HANDLE_INHERIT
 #else
@@ -216,28 +229,25 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& 
     if (sock == INVALID_OS_SOCKET_VALUE)
         goto error;
 
-    hp = ::gethostbyname( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
-    if (hp == nullptr || hp->h_addrtype != AF_INET)
+    addr_info_hints.ai_family = AF_INET;
+    addr_info_hints.ai_socktype = socket_type;
+    addr_info_hints.ai_protocol = AF_UNSPEC;
+    retval = GetAddrInfo (hostn.c_str(), port_str.c_str (), &addr_info_hints,
+        &ai);
+    if (retval != 0)
     {
-        insock.sin_family = AF_INET;
-        INT insock_size = sizeof (insock);
-        INT ret = WSAStringToAddress (const_cast<LPTSTR>(hostn.c_str ()),
-            AF_INET, 0, reinterpret_cast<struct sockaddr *>(&insock),
-            &insock_size);
-        if (ret == SOCKET_ERROR || insock_size != static_cast<INT>(sizeof (insock)))
-        {
-            state = bad_address;
-            goto error;
-        }
+        WSASetLastError (retval);
+        goto error;
     }
-    else
-        std::memcpy (&insock.sin_addr, hp->h_addr_list[0],
-            sizeof (insock.sin_addr));
+
+    addr_info.reset(ai);
+    assert (addr_info->ai_addrlen == sizeof (insock));
+    std::memcpy (&insock, addr_info->ai_addr, sizeof (insock));
 
     insock.sin_port = htons(port);
     insock.sin_family = AF_INET;
 
-    while(   (retval = ::connect(sock, (struct sockaddr*)&insock, sizeof(insock))) == -1
+    while ((retval = ::connect(sock, (struct sockaddr*)&insock, sizeof(insock))) == -1
           && (WSAGetLastError() == WSAEINTR))
         ;
     if (retval == SOCKET_ERROR)
@@ -342,6 +352,26 @@ write(SOCKET_TYPE sock, const std::string & buffer)
 }
 
 
+static
+bool
+verifyWindowsVersionAtLeast (DWORD major, DWORD minor)
+{
+    OSVERSIONINFOEX os{};
+    os.dwOSVersionInfoSize = sizeof (os);
+    os.dwMajorVersion = major;
+    os.dwMinorVersion = minor;
+
+    ULONGLONG cond_mask
+        = VerSetConditionMask (0, VER_MAJORVERSION, VER_GREATER_EQUAL);
+    cond_mask = VerSetConditionMask (cond_mask, VER_MINORVERSION,
+        VER_GREATER_EQUAL);
+
+    bool result = !! VerifyVersionInfo (&os,
+        VER_MAJORVERSION | VER_MINORVERSION, cond_mask);
+    return result;
+}
+
+
 tstring
 getHostname (bool fqdn)
 {
@@ -349,7 +379,9 @@ getHostname (bool fqdn)
 
     char const * hostname = "unknown";
     int ret;
-    std::vector<char> hn (1024, 0);
+    // The initial size is based on information in the Microsoft KB article:
+    // <http://support.microsoft.com/kb/909264>
+    std::vector<char> hn (64, 0);
 
     while (true)
     {
@@ -359,21 +391,50 @@ getHostname (bool fqdn)
             hostname = &hn[0];
             break;
         }
-        else if (ret != 0 && WSAGetLastError () == WSAEFAULT)
-            // Out buffer was too short. Retry with buffer twice the size.
-            hn.resize (hn.size () * 2, 0);
         else
-            break;
+        {
+            int const wsaeno = WSAGetLastError();
+            if (wsaeno == WSAEFAULT && hn.size () <= 1024 * 8)
+                // Out buffer was too short. Retry with buffer twice the size.
+                hn.resize (hn.size () * 2, 0);
+            else
+            {
+                helpers::getLogLog().error(
+                    LOG4CPLUS_TEXT("Failed to get own hostname. Error: ")
+                    + convertIntegerToString (wsaeno));
+                return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+            }
+        }
     }
 
     if (ret != 0 || (ret == 0 && ! fqdn))
         return LOG4CPLUS_STRING_TO_TSTRING (hostname);
 
-    struct ::hostent * hp = ::gethostbyname (hostname);
-    if (hp)
-        hostname = hp->h_name;
+    ADDRINFOT addr_info_hints{ };
+    addr_info_hints.ai_family = AF_INET;
+    // The AI_FQDN flag is available only on Windows 7 and later.
+#if defined (AI_FQDN)
+    if (verifyWindowsVersionAtLeast (6, 1))
+        addr_info_hints.ai_flags = AI_FQDN;
+    else
+#endif
+        addr_info_hints.ai_flags = AI_CANONNAME;
 
-    return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+    std::unique_ptr<ADDRINFOT, ADDRINFOT_deleter> addr_info;
+    ADDRINFOT * ai = nullptr;
+    ret = GetAddrInfo (LOG4CPLUS_C_STR_TO_TSTRING (hostname).c_str (), nullptr,
+        &addr_info_hints, &ai);
+    if (ret != 0)
+    {
+        WSASetLastError (ret);
+        helpers::getLogLog ().error (
+            LOG4CPLUS_TEXT ("Failed to resolve own hostname. Error: ")
+            + convertIntegerToString (ret));
+        return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+    }
+
+    addr_info.reset (ai);
+    return addr_info->ai_canonname;
 }
 
 
@@ -464,7 +525,8 @@ ServerSocket::ServerSocket(unsigned short port)
     }
     else
     {
-        assert (sizeof (std::ptrdiff_t) >= sizeof (HANDLE));
+        static_assert (sizeof (std::ptrdiff_t) >= sizeof (HANDLE),
+            "Size of std::ptrdiff_t must be larger than size of HANDLE.");
         interruptHandles[0] = reinterpret_cast<std::ptrdiff_t>(ev);
     }
 }

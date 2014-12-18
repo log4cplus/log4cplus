@@ -207,6 +207,7 @@ LOG4CPLUS_EXPORT void setCurrentThreadName2(const log4cplus::tstring & name)
 //
 
 AbstractThread::AbstractThread ()
+    : flags (0)
 { }
 
 
@@ -222,14 +223,12 @@ AbstractThread::start()
 {
     try
     {
-        addReference ();
         flags |= fRUNNING;
         thread.reset (
-            new std::thread ([this] () {
+            new std::thread ([this] (AbstractThreadPtr const & thread_ptr) {
+                    (void) thread_ptr;
                     blockAllSignals ();
-                    AbstractThreadPtr thread_ptr (this);
-                    this->removeReference ();
-                    helpers::LogLog * loglog = helpers::LogLog::getLogLog();
+                    helpers::LogLog & loglog = helpers::getLogLog();
                     try
                     {
                         this->run ();
@@ -239,21 +238,20 @@ AbstractThread::start()
                         tstring err (LOG4CPLUS_TEXT ("threadStartFunc()")
                             LOG4CPLUS_TEXT ("- run() terminated with an exception: "));
                         err += LOG4CPLUS_C_STR_TO_TSTRING(e.what());
-                        loglog->warn(err);
+                        loglog.warn(err);
                     }
                     catch(...)
                     {
-                        loglog->warn(LOG4CPLUS_TEXT("threadStartFunc()")
+                        loglog.warn(LOG4CPLUS_TEXT("threadStartFunc()")
                             LOG4CPLUS_TEXT ("- run() terminated with an exception."));
                     }
                     this->flags &= ~fRUNNING;
                     threadCleanup ();
-                }));
+                }, AbstractThreadPtr (this)));
     }
     catch (...)
     {
         flags &= ~fRUNNING;
-        removeReference ();
         throw;
     }
 }

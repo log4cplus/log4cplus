@@ -33,14 +33,11 @@
 #   endif
 
 #elif defined(LOG4CPLUS_USE_WIN32_THREADS)
-#   if defined (_WIN32_WINNT) && _WIN32_WINNT >= 0x0600
-#     define LOG4CPLUS_USE_SRW_LOCK
-#   else
-#     define LOG4CPLUS_POOR_MANS_SHAREDMUTEX
-#   endif
+#   define LOG4CPLUS_USE_SRW_LOCK
+//#   define LOG4CPLUS_POOR_MANS_SHAREDMUTEX
 #   undef LOG4CPLUS_HAVE_TLS_SUPPORT
 #   undef LOG4CPLUS_THREAD_LOCAL_VAR
-#   if defined (_MSC_VER) && _WIN32_WINNT >= 0x0600
+#   if defined (_MSC_VER)
 // The __declspec(thread) functionality is not compatible with LoadLibrary().
 // For more information why see and "Windows and TLS" note in README.
 // <http://msdn.microsoft.com/en-us/library/2s9wt68x(v=vs.100).aspx>.

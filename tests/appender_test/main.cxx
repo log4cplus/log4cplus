@@ -10,25 +10,20 @@
 #include "log4cplus/helpers/property.h"
 #include "log4cplus/spi/loggingevent.h"
 
-using namespace std;
-using namespace log4cplus;
-using namespace log4cplus::helpers;
-using namespace log4cplus::spi;
 
 static void
-printAppenderList(const SharedAppenderPtrList& list)
+printAppenderList(const log4cplus::SharedAppenderPtrList& list)
 {
-   cout << "List size: " << list.size() << endl;
-   for(SharedAppenderPtrList::const_iterator it=list.begin(); it!=list.end(); ++it) {
-       log4cplus::tcout << "Loop Body: Appender name = " << (*it)->getName()
-                        << endl;
-   }
+    log4cplus::tcout << "List size: " << list.size() << std::endl;
+    for (auto & appender : list)
+        log4cplus::tcout << "Loop Body: Appender name = " << appender->getName()
+                         << std::endl;
 }
 
 
 // This appender does not call destructorImpl(), which is wrong.
 class BadDerivedAppender
-    : public Appender
+    : public log4cplus::Appender
 {
 public:
     virtual void close ()
@@ -43,22 +38,23 @@ int
 main()
 {
     log4cplus::initialize ();
-    LogLog::getLogLog()->setInternalDebugging(true);
+    log4cplus::helpers::LogLog::getLogLog()->setInternalDebugging(true);
     {
-        AppenderAttachableImpl aai;
         try {
-            SharedObjectPtr<Appender> append_1(
-                new ConsoleAppender(false, true));
+            log4cplus::SharedAppenderPtr append_1(
+                new log4cplus::ConsoleAppender(false, true));
             append_1->setName(LOG4CPLUS_TEXT("First"));
 
-            SharedObjectPtr<Appender> append_2(new ConsoleAppender());
+            log4cplus::SharedAppenderPtr append_2(
+                new log4cplus::ConsoleAppender);
             append_2->setName(LOG4CPLUS_TEXT("Second"));
 
             // Test that we get back the same layout as we set.
 
-            Layout * layout_2;
+            log4cplus::Layout * layout_2;
             append_2->setLayout(
-                std::unique_ptr<Layout>(layout_2 = new log4cplus::SimpleLayout));
+                std::unique_ptr<log4cplus::Layout>(
+                    layout_2 = new log4cplus::SimpleLayout));
             if (append_2->getLayout () != layout_2)
                 return 1;
 
@@ -69,32 +65,35 @@ main()
 
             // Test warning on NULL handler.
 
-            append_2->setErrorHandler (std::unique_ptr<ErrorHandler>());
+            append_2->setErrorHandler (
+                std::unique_ptr<log4cplus::ErrorHandler>());
 
             // Set working error handler.
 
-            std::unique_ptr<ErrorHandler> errorHandler (new OnlyOnceErrorHandler);
+            std::unique_ptr<log4cplus::ErrorHandler> errorHandler (
+                new log4cplus::OnlyOnceErrorHandler);
             append_2->setErrorHandler (std::move(errorHandler));
 
             // Test logging through instantiated appenders.
 
-            InternalLoggingEvent event(
-                Logger::getInstance(LOG4CPLUS_TEXT("test")).getName(),
-                DEBUG_LOG_LEVEL, LOG4CPLUS_TEXT("This is a test..."), __FILE__,
-                __LINE__, "main");
+            log4cplus::spi::InternalLoggingEvent event(
+                log4cplus::Logger::getInstance(LOG4CPLUS_TEXT("test")).getName(),
+                log4cplus::DEBUG_LOG_LEVEL, LOG4CPLUS_TEXT("This is a test..."),
+                __FILE__, __LINE__, "main");
 
+            log4cplus::helpers::AppenderAttachableImpl aai;
             aai.addAppender(append_1);
             aai.addAppender(append_2);
             aai.addAppender(append_1);
             aai.addAppender(append_2);
-            aai.addAppender(SharedAppenderPtr());
+            aai.addAppender(log4cplus::SharedAppenderPtr());
             printAppenderList(aai.getAllAppenders());
 
             aai.removeAppender(append_2);
             printAppenderList(aai.getAllAppenders());
 
             aai.removeAppender(LOG4CPLUS_TEXT("First"));
-            aai.removeAppender(SharedAppenderPtr());
+            aai.removeAppender(log4cplus::SharedAppenderPtr());
             printAppenderList(aai.getAllAppenders());
 
             aai.addAppender(append_1);
@@ -102,10 +101,12 @@ main()
             aai.addAppender(append_1);
             aai.addAppender(append_2);
             log4cplus::tcout << "Should be First: "
-                             << aai.getAppender(LOG4CPLUS_TEXT("First"))->getName() << endl;
+                             << aai.getAppender(LOG4CPLUS_TEXT("First"))->getName()
+                             << std::endl;
             log4cplus::tcout << "Should be Second: "
-                             << aai.getAppender(LOG4CPLUS_TEXT("Second"))->getName() << endl
-                             << endl;
+                             << aai.getAppender(LOG4CPLUS_TEXT("Second"))->getName()
+                             << std::endl
+                             << std::endl;
             append_1->doAppend(event);
             append_2->doAppend(event);
 
@@ -117,44 +118,44 @@ main()
             // Test appender's error handling for wrong layout.
 
             {
-                tistringstream propsStream (
+                log4cplus::tistringstream propsStream (
                     LOG4CPLUS_TEXT ("layout=log4cplus::WrongLayout"));
-                Properties props (propsStream);
-                SharedObjectPtr<Appender> append (
-                    new ConsoleAppender (props));
+                log4cplus::helpers::Properties props (propsStream);
+                log4cplus::SharedAppenderPtr append (
+                    new log4cplus::ConsoleAppender (props));
                 append->setName (LOG4CPLUS_TEXT ("Third"));
             }
 
             // Test threshold parsing.
 
             {
-                tistringstream propsStream (
+                log4cplus::tistringstream propsStream (
                     LOG4CPLUS_TEXT ("Threshold=ERROR"));
-                Properties props (propsStream);
-                SharedObjectPtr<Appender> append (
-                    new ConsoleAppender (props));
+                log4cplus::helpers::Properties props (propsStream);
+                log4cplus::SharedAppenderPtr append (
+                    new log4cplus::ConsoleAppender (props));
                 append->setName (LOG4CPLUS_TEXT ("Fourth"));
             }
 
             // Test threshold parsing of wrong log level.
 
             {
-                tistringstream propsStream (
+                log4cplus::tistringstream propsStream (
                     LOG4CPLUS_TEXT ("Threshold=WRONG"));
-                Properties props (propsStream);
-                SharedObjectPtr<Appender> append (
-                    new ConsoleAppender (props));
+                log4cplus::helpers::Properties props (propsStream);
+                log4cplus::SharedAppenderPtr append (
+                    new log4cplus::ConsoleAppender (props));
                 append->setName (LOG4CPLUS_TEXT ("Fifth"));
             }
 
             // Test wrong filter parsing.
 
             {
-                tistringstream propsStream (
+                log4cplus::tistringstream propsStream (
                     LOG4CPLUS_TEXT ("filters.1=log4cplus::spi::WrongFilter"));
-                Properties props (propsStream);
-                SharedObjectPtr<Appender> append (
-                    new ConsoleAppender (props));
+                log4cplus::helpers::Properties props (propsStream);
+                log4cplus::SharedAppenderPtr append (
+                    new log4cplus::ConsoleAppender (props));
                 append->setName (LOG4CPLUS_TEXT ("Sixth"));
             }
 
@@ -166,10 +167,11 @@ main()
             }
         }
         catch(std::exception const & e) {
-            log4cplus::tcout << "**** Exception occured: " << e.what() << endl;
+            log4cplus::tcout << "**** Exception occured: " << e.what()
+                             << std::endl;
         }
     }
 
-    log4cplus::tcout << "Exiting main()..." << endl;
+    log4cplus::tcout << "Exiting main()..." << std::endl;
     return 0;
 }

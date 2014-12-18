@@ -41,16 +41,19 @@ ported to and tested on the following platforms:
   - Linux/AMD64 with GCC 4.8.1 (Ubuntu/Linaro 4.8.1-10ubuntu9)
   - Windows/AMD64 with GCC version 4.8.2 (x86_64-posix-seh-rev3, Built by
     MinGW-W64 project) using CMake build system
+  - Windows 7 with MS Visual Studio 2015[^msvc]
+  - OpenBSD 5.6/AMD64 with GCC version 4.9.0
 
 The testing on the above listed platforms has been done at some point
 in time with some version of source. Continuous testing is done only
 on Linux platform offered by [Travis CI][11] service.
 
+The oldest Windows version that is supported by 2.x releases is Windows Vista.
+
 The following platforms were supported by the 1.x series of
 [log4cplus]. They either do not have a reasonable C++11 capable
 compiler or have not been checked with [log4cplus] 2.x, yet:
 
-  - Windows 7 with MS Visual Studio 2013
   - Linux/AMD64 with Clang version 3.2-1~exp9ubuntu1
     (tags/RELEASE_32/final) (based on LLVM 3.2)
   - Linux/AMD64 with Intel(R) C++ Intel(R) 64 Compiler XE for
@@ -60,12 +63,13 @@ compiler or have not been checked with [log4cplus] 2.x, yet:
   - Solaris with `-library=stlport4` and with `-library=Cstd`.
   - Solaris 5.10/Sparc
   - NetBSD 6.0/AMD64
-  - OpenBSD 5.2/AMD64
   - MacOS X 10.8
   - MacOS X 11.4.2
   - HP-UX (hppa2.0w-hp-hpux11.11)
   - Haiku R1 Alpha 4.1
   - AIX 5.3 with IBM XL C/C++ for AIX
+
+[^msvc]: Visual Studio 2015 Preview version was used for the test.
 
 
 Configure script options

@@ -27,7 +27,7 @@ log4cplus: Entering ConsoleAppender::close()..
 log4cplus: Destroying appender named [Sixth].
 log4cplus: Destroying appender named [Seventh].
 log4cplus:ERROR Derived Appender did not call destructorImpl().
+log4cplus: Destroying appender named [Second].
 log4cplus: Entering ConsoleAppender::close()..
 log4cplus: Destroying appender named [First].
-log4cplus: Destroying appender named [Second].
 Exiting main()...
