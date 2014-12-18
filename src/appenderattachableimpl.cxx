@@ -74,7 +74,7 @@ AppenderAttachableImpl::addAppender(SharedAppenderPtr newAppender)
 
     thread::MutexGuard guard (appender_list_mutex);
 
-    ListType::iterator it = 
+    ListType::iterator it =
         std::find(appenderList.begin(), appenderList.end(), newAppender);
     if(it == appenderList.end()) {
         appenderList.push_back(newAppender);
@@ -87,19 +87,19 @@ AppenderAttachableImpl::ListType
 AppenderAttachableImpl::getAllAppenders()
 {
     thread::MutexGuard guard (appender_list_mutex);
-    
+
     return appenderList;
 }
 
 
 
-SharedAppenderPtr 
+SharedAppenderPtr
 AppenderAttachableImpl::getAppender(const log4cplus::tstring& name)
 {
     thread::MutexGuard guard (appender_list_mutex);
 
-    for(ListType::iterator it=appenderList.begin(); 
-        it!=appenderList.end(); 
+    for(ListType::iterator it=appenderList.begin();
+        it!=appenderList.end();
         ++it)
     {
         if((*it)->getName() == name) {
@@ -112,17 +112,26 @@ AppenderAttachableImpl::getAppender(const log4cplus::tstring& name)
 
 
 
-void 
+void
 AppenderAttachableImpl::removeAllAppenders()
 {
     thread::MutexGuard guard (appender_list_mutex);
 
-    appenderList.erase(appenderList.begin(), appenderList.end());
+    // Clear appenders in specific order because the order of destruction of
+    // std::vector elements is surprisingly unspecified and it breaks our
+    // tests' expectations.
+
+    for (ListType::iterator it = appenderList.begin (),
+             end = appenderList.end ();
+         it != end; ++it)
+        *it = SharedAppenderPtr ();
+
+    appenderList.clear ();
 }
 
 
 
-void 
+void
 AppenderAttachableImpl::removeAppender(SharedAppenderPtr appender)
 {
     if(appender == NULL) {
@@ -141,7 +150,7 @@ AppenderAttachableImpl::removeAppender(SharedAppenderPtr appender)
 
 
 
-void 
+void
 AppenderAttachableImpl::removeAppender(const log4cplus::tstring& name)
 {
     removeAppender(getAppender(name));
@@ -149,7 +158,7 @@ AppenderAttachableImpl::removeAppender(const log4cplus::tstring& name)
 
 
 
-int 
+int
 AppenderAttachableImpl::appendLoopOnAppenders(const spi::InternalLoggingEvent& event) const
 {
     int count = 0;
