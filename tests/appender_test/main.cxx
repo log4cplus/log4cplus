@@ -45,7 +45,6 @@ main()
     log4cplus::initialize ();
     LogLog::getLogLog()->setInternalDebugging(true);
     {
-        AppenderAttachableImpl aai;
         try {
             SharedObjectPtr<Appender> append_1(
                 new ConsoleAppender(false, true));
@@ -83,6 +82,7 @@ main()
                 DEBUG_LOG_LEVEL, LOG4CPLUS_TEXT("This is a test..."), __FILE__,
                 __LINE__, "main");
 
+            AppenderAttachableImpl aai;
             aai.addAppender(append_1);
             aai.addAppender(append_2);
             aai.addAppender(append_1);
