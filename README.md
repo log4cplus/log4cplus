@@ -41,6 +41,7 @@ ported to and tested on the following platforms:
   - Linux/AMD64 with GCC version 4.9.1 (Ubuntu 4.9.1-16ubuntu6)
   - Linux/AMD64 with Clang version 3.5.0-4ubuntu2 (tags/RELEASE_350/final)
     (based on LLVM 3.5.0)
+  - Linux/AMD64 with Intel Parallel Studio XE 2015, ICPC version 15.0.1
   - Windows/AMD64 with GCC version 4.8.2 (x86_64-posix-seh-rev3, Built by
     MinGW-W64 project) using CMake build system
   - Windows 7 with MS Visual Studio 2015[^msvc]
@@ -59,8 +60,6 @@ The following platforms were supported by the 1.x series of
 [log4cplus]. They either do not have a reasonable C++11 capable
 compiler or have not been checked with [log4cplus] 2.x, yet:
 
-  - Linux/AMD64 with Intel(R) C++ Intel(R) 64 Compiler XE for
-    applications running on Intel(R) 64, Version 12.1 Build 20120410
   - OpenSolaris with `-library=stlport4`
   - Solaris with `-library=stlport4` and with `-library=Cstd`.
   - Solaris 5.10/Sparc
