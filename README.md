@@ -49,6 +49,8 @@ ported to and tested on the following platforms:
   - FreeBSD 10.1/i386 with Clang version 3.4.1 (tags/RELEASE_34/dot1-final
     208032)
   - NetBSD 6.1.5/AMD64 with GCC version 4.9.1
+  - DragonflyBSD 4.0.1/AMD64 with GCC version 4.9.3 20141126 (prerelease)
+    (FreeBSD Ports Collection)
 
 The testing on the above listed platforms has been done at some point
 in time with some version of source. Continuous testing is done only
