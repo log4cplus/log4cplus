@@ -36,7 +36,7 @@
   <!-- Targets  -->
 
   <target name="adjust-time-stamps">
-    <exec dir="${srcdir}" executable="sh">
+    <exec dir="${srcdir}" executable="sh" failonerror="true">
       <arg value="./scripts/fix-timestamps.sh" />
     </exec>
   </target>
@@ -54,7 +54,7 @@
   <!-- OpenBSD -->
 
   <target name="openbsd" if="openbsd">
-    <exec dir="${objdir}" executable="sh">
+    <exec dir="${objdir}" executable="sh" failonerror="true">
       <arg value="../configure" />
       <arg value="--with-working-c-locale" />
       <arg value="--with-python" />
@@ -63,9 +63,9 @@
       <arg value="NM=x86_64-unknown-openbsd5.6-egcc-nm" />
     </exec>
 
-    <exec dir="${objdir}" executable="gmake" />
+    <exec dir="${objdir}" executable="gmake" failonerror="true" />
 
-    <exec dir="${objdir}" executable="gmake">
+    <exec dir="${objdir}" executable="gmake" failonerror="true">
       <arg value="check" />
     </exec>
   </target>
@@ -73,14 +73,14 @@
   <!-- NetBSD -->
 
   <target name="netbsd" if="netbsd">
-    <exec dir="${objdir}" executable="sh">
+    <exec dir="${objdir}" executable="sh" failonerror="true">
       <arg value="../configure" />
       <arg value="--with-working-c-locale" />
     </exec>
 
-    <exec dir="${objdir}" executable="gmake" />
+    <exec dir="${objdir}" executable="gmake" failonerror="true" />
 
-    <exec dir="${objdir}" executable="gmake">
+    <exec dir="${objdir}" executable="gmake" failonerror="true">
       <arg value="check" />
     </exec>
   </target>
