@@ -28,6 +28,11 @@
             trim="trim" />
   </condition>
 
+  <condition property="linux" value="true">
+    <equals arg1="linux" arg2="${LOG4CPLUS_BUILD_OS}" casesensitive="false"
+            trim="trim" />
+  </condition>
+
   <!-- Targets  -->
 
   <target name="adjust-time-stamps">
@@ -46,7 +51,7 @@
 
   </target>
 
-  <!-- Per OS targets. -->
+  <!-- OpenBSD -->
 
   <target name="openbsd" if="openbsd">
     <exec dir="${objdir}" executable="sh">
@@ -65,13 +70,28 @@
     </exec>
   </target>
 
+  <!-- NetBSD -->
+
   <target name="netbsd" if="netbsd">
+    <exec dir="${objdir}" executable="sh">
+      <arg value="../configure" />
+      <arg value="--with-working-c-locale" />
+    </exec>
+
+    <exec dir="${objdir}" executable="gmake" />
+
+    <exec dir="${objdir}" executable="gmake">
+      <arg value="check" />
+    </exec>
   </target>
 
   <target name="freebsd" if="freebsd">
   </target>
 
   <target name="dragonflybsd" if="dragonflybsd">
+  </target>
+
+  <target name="linux" if="linux">
   </target>
 
 </project>
