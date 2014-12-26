@@ -210,6 +210,7 @@ void
 waitUntilEmptyThreadPoolQueue ()
 {
     get_dc ()->thread_pool.wait_until_empty ();
+    get_dc ()->thread_pool.wait_until_nothing_in_flight ();
 }
 
 
