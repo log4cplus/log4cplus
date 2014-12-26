@@ -90,6 +90,8 @@ Appender::Appender()
    threshold(NOT_SET_LOG_LEVEL),
    errorHandler(new OnlyOnceErrorHandler),
    useLockFile(false),
+   async(false),
+   in_flight(0),
    closed(false)
 {
 }
@@ -103,6 +105,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
     , errorHandler(new OnlyOnceErrorHandler)
     , useLockFile(false)
     , async(false)
+    , in_flight(0)
     , closed(false)
 {
     if(properties.exists( LOG4CPLUS_TEXT("layout") ))
@@ -226,6 +229,20 @@ Appender::~Appender()
 ///////////////////////////////////////////////////////////////////////////////
 
 void
+Appender::waitToFinishAsyncLogging()
+{
+    if (async)
+    {
+        // When async flag is true we might have some logging still in flight
+        // on thread pool threads. Wait for them to finish.
+
+        std::unique_lock<std::mutex> lock (in_flight_mutex);
+        in_flight_condition.wait (lock,
+            [&] { return this->in_flight == 0; });
+    }
+}
+
+void
 Appender::destructorImpl()
 {
     // An appender might be closed then destroyed. There is no point
@@ -233,6 +250,8 @@ Appender::destructorImpl()
     // files get rolled more than once.
     if (closed)
         return;
+
+    waitToFinishAsyncLogging ();
 
     close();
     closed = true;
@@ -245,7 +264,8 @@ bool Appender::isClosed() const
 }
 
 
-void enqueueAsyncDoAppend (SharedAppenderPtr appender,
+// from global-init.cxx
+void enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
     spi::InternalLoggingEvent const & event);
 
 
@@ -253,10 +273,51 @@ void
 Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
 {
     if (async)
-        enqueueAsyncDoAppend (SharedAppenderPtr (this), event);
+    {
+        std::atomic_fetch_add_explicit (&in_flight, std::size_t (1),
+            std::memory_order_relaxed);
+
+        try
+        {
+            enqueueAsyncDoAppend (SharedAppenderPtr (this), event);
+        }
+        catch (...)
+        {
+            std::atomic_fetch_sub_explicit (&in_flight, std::size_t (1),
+                std::memory_order_consume);
+            in_flight_condition.notify_all ();
+            throw;
+        }
+
+    }
     else
         syncDoAppend (event);
 }
+
+
+void
+Appender::asyncDoAppend(const log4cplus::spi::InternalLoggingEvent& event)
+{
+    struct handle_in_flight
+    {
+        Appender * const app;
+
+        handle_in_flight (Appender * app_)
+            : app (app_)
+        { }
+
+        ~handle_in_flight ()
+        {
+            std::atomic_fetch_sub_explicit (&app->in_flight, std::size_t (1),
+                std::memory_order_consume);
+            app->in_flight_condition.notify_all ();
+        }
+    };
+
+    handle_in_flight guard (this);
+    syncDoAppend (event);
+}
+
 
 void
 Appender::syncDoAppend(const log4cplus::spi::InternalLoggingEvent& event)

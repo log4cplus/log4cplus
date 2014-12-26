@@ -194,15 +194,14 @@ getMDC ()
 
 
 void
-enqueueAsyncDoAppend (SharedAppenderPtr appender,
+enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
     spi::InternalLoggingEvent const & event)
 {
     get_dc ()->thread_pool.enqueue (
-        [=] (SharedAppenderPtr app, spi::InternalLoggingEvent const ev)
+        [=] ()
         {
-            ((app.get ())->*(&Appender::syncDoAppend)) (ev);
-        },
-        appender, event);
+            ((appender.get ())->*(&Appender::asyncDoAppend)) (event);
+        });
 }
 
 

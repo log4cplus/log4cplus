@@ -243,12 +243,23 @@ Hierarchy::shutdown()
 
     // begin by closing nested appenders
     // then, remove all appenders
+
+    for (auto & appenderPtr : root.getAllAppenders())
+    {
+        Appender & appender = *appenderPtr;
+        appender.waitToFinishAsyncLogging ();
+    }
     root.closeNestedAppenders();
     root.removeAllAppenders();
 
     // repeat
     for (auto & logger : loggers)
     {
+        for (auto & appenderPtr : logger.getAllAppenders())
+        {
+            Appender & appender = *appenderPtr;
+            appender.waitToFinishAsyncLogging ();
+        }
         logger.closeNestedAppenders();
         logger.removeAllAppenders();
     }

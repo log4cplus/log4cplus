@@ -38,6 +38,9 @@
 #include <log4cplus/helpers/lockfile.h>
 
 #include <memory>
+#include <mutex>
+#include <atomic>
+#include <condition_variable>
 
 
 namespace log4cplus {
@@ -169,9 +172,16 @@ namespace log4cplus {
         void syncDoAppend(const log4cplus::spi::InternalLoggingEvent& event);
 
         /**
+         * This method performs book keeping related to asynchronous logging
+         * and executes `syncDoAppend()` to do the actual logging.
+         */
+
+        void asyncDoAppend(const log4cplus::spi::InternalLoggingEvent& event);
+
+        /**
          * This function checks `async` flag. It either executes
-         * `syncDoAppend()` directly or and enqueues its execution to thread
-         * pool thread.
+         * `syncDoAppend()` directly or enqueues its execution to thread pool
+         * thread.
          */
         void doAppend(const log4cplus::spi::InternalLoggingEvent& event);
 
@@ -258,6 +268,12 @@ namespace log4cplus {
             return ((ll != NOT_SET_LOG_LEVEL) && (ll >= threshold));
         }
 
+        /**
+         * This method waits for all events that are being asynchronously
+         * logged to finish.
+         */
+        void waitToFinishAsyncLogging();
+
     protected:
       // Methods
         /**
@@ -296,6 +312,9 @@ namespace log4cplus {
 
         //! Asynchronous append.
         bool async;
+        std::atomic<std::size_t> in_flight;
+        std::mutex in_flight_mutex;
+        std::condition_variable in_flight_condition;
 
         /** Is this appender closed? */
         bool closed;
