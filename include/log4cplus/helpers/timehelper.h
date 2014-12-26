@@ -114,7 +114,8 @@ microseconds_part (Time const & the_time)
         "microseconds");
 
     // This is based on <http://stackoverflow.com/a/17395137/341065>
-    return (the_time - from_time_t (to_time_t (the_time))).count ();
+    return static_cast<long>(
+        (the_time - from_time_t (to_time_t (the_time))).count ());
 }
 
 

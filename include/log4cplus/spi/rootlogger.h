@@ -64,7 +64,7 @@ namespace log4cplus {
              * Setting a NOT_SET_LOG_LEVEL value to the LogLevel of the root logger 
              * may have catastrophic results. We prevent this here.
              */
-            void setLogLevel(LogLevel ll);
+            void setLogLevel(LogLevel);
 
         };
 

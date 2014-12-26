@@ -166,8 +166,6 @@ namespace log4cplus {
                 intTypeLimits::is_signed> HelperType;
 
             charType buffer[intTypeLimits::digits10 + 2];
-            // We define buffer_size from buffer using sizeof operator
-            // to apease HP aCC compiler.
             const std::size_t buffer_size
                 = sizeof (buffer) / sizeof (charType);
 

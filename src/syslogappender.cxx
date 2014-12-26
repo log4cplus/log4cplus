@@ -255,7 +255,8 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
     properties.getBool (udp, LOG4CPLUS_TEXT ("udp"));
     remoteSyslogType = udp ? RSTUdp : RSTTcp;
 
-    host = properties.getProperty (LOG4CPLUS_TEXT ("host"));
+    properties.getString (host, LOG4CPLUS_TEXT ("host"))
+      || properties.getString (host, LOG4CPLUS_TEXT ("SyslogHost"));
     if (host.empty ())
     {
 #if defined (LOG4CPLUS_HAVE_SYSLOG_H)

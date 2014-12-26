@@ -76,8 +76,7 @@
 namespace log4cplus { namespace helpers {
 
 // from lockfile.cxx
-LOG4CPLUS_PRIVATE bool trySetCloseOnExec (int fd,
-    helpers::LogLog & loglog = helpers::getLogLog ());
+LOG4CPLUS_PRIVATE bool trySetCloseOnExec (int fd);
 
 
 namespace

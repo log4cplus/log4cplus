@@ -382,6 +382,19 @@ Properties::getBool (bool & val, log4cplus::tstring const & key) const
 }
 
 
+bool
+Properties::getString (log4cplus::tstring & val, log4cplus::tstring const & key)
+    const
+{
+    StringMap::const_iterator it (data.find (key));
+    if (it == data.end ())
+        return false;
+
+    val = it->second;
+    return true;
+}
+
+
 template <typename StringType>
 log4cplus::tstring const &
 Properties::get_property_worker (StringType const & key) const

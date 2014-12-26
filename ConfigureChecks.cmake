@@ -101,19 +101,6 @@ check_symbol_exists(__FUNCTION__          ""            LOG4CPLUS_HAVE_FUNCTION_
 check_symbol_exists(__PRETTY_FUNCTION__   ""            LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO )
 check_symbol_exists(__func__              ""            LOG4CPLUS_HAVE_FUNC_SYMBOL )
 
-check_c_source_compiles("#include <stdlib.h> \n int main() { int x = 1; int y = __sync_add_and_fetch (&x, 1); return y;}"
-                        LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH )
-
-check_c_source_compiles("#include <stdlib.h> \n int main() { int x = 1; int y = __sync_sub_and_fetch (&x, 1); return y;}"
-                        LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH )
-
-check_c_source_compiles("#include <stdio.h>\n #define MACRO(buf, args...) (sprintf (buf, \"%d\", args))\n int main() {char a[10]; MACRO(a, 1); return 0; }"
-                        LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS )
-
-check_c_source_compiles("#include <stdio.h>\n #define MACRO(buf, ...) (sprintf (buf, \"%d\",  __VA_ARGS__))\n int main() {char a[10]; MACRO(a, 1); return 0; }"
-                        LOG4CPLUS_HAVE_C99_VARIADIC_MACROS )
-
-
 # clock_gettime() needs -lrt here
 # TODO AC says this exists
 if (LIBRT)

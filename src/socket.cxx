@@ -216,8 +216,9 @@ Socket::write(const std::string & buffer)
 
 ServerSocket::ServerSocket (ServerSocket && other)
     : AbstractSocket (std::move (other))
-    , interruptHandles { -1, -1 }
 {
+    interruptHandles[0] = -1;
+    interruptHandles[1] = -1;
     interruptHandles.swap (other.interruptHandles);
 }
 

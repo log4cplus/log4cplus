@@ -65,6 +65,16 @@ namespace helpers {
 
 #if defined(_WIN32)
 typedef SOCKET os_socket_type;
+
+struct ADDRINFOT_deleter
+{
+    void
+    operator () (ADDRINFOT * ptr) const
+    {
+        FreeAddrInfo(ptr);
+    }
+};
+
 #else
 typedef int os_socket_type;
 #endif

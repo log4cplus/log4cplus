@@ -12,11 +12,11 @@ using namespace log4cplus::spi;
 using namespace log4cplus::helpers;
 
 
-static Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("log"));
-
 void
 printDebug()
 {
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("log"));
+
     LOG4CPLUS_TRACE_METHOD(logger, LOG4CPLUS_TEXT("::printDebug()"));
     LOG4CPLUS_DEBUG(logger, "This is a DEBUG message");
     LOG4CPLUS_INFO(logger, "This is a INFO message");

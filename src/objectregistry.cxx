@@ -59,6 +59,7 @@ ObjectRegistryBase::getAllNames() const
 
     {
         thread::MutexGuard guard (mutex);
+        tmp.reserve (data.size ());
         for (auto const & kv : data)
             tmp.emplace_back(kv.first);
     }
@@ -83,11 +84,12 @@ ObjectRegistryBase::putVal(const tstring& name, void* object)
         if (locking)
             guard.attach_and_lock (mutex);
 
-        ret = data.insert(value);
+        ret = data.insert(std::move (value));
     }
 
     if (! ret.second)
         deleteObject( value.second );
+
     return ret.second;
 }
 
