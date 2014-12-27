@@ -65,7 +65,7 @@ namespace log4cplus {
               */
             InternalLoggingEvent(const log4cplus::tstring& logger,
                 LogLevel loglevel, const log4cplus::tstring& message,
-                const char* filename, int line, const char * function = NULL);
+                const char* filename, int line, const char * function = nullptr);
 
             InternalLoggingEvent(const log4cplus::tstring& logger,
                 LogLevel loglevel, const log4cplus::tstring& ndc,
@@ -86,7 +86,7 @@ namespace log4cplus {
             void setLoggingEvent (const log4cplus::tstring & logger,
                 LogLevel ll, const log4cplus::tstring & message,
                 const char * filename, int line,
-                const char * function = NULL);
+                const char * function = nullptr);
 
             void setFunction (char const * func);
             void setFunction (log4cplus::tstring const &);

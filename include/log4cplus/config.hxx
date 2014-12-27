@@ -105,9 +105,9 @@
 #  define LOG4CPLUS_CALLER_LINE() __builtin_LINE ()
 #  define LOG4CPLUS_CALLER_FUNCTION() __builtin_FUNCTION ()
 #else
-#  define LOG4CPLUS_CALLER_FILE() (NULL)
+#  define LOG4CPLUS_CALLER_FILE() (nullptr)
 #  define LOG4CPLUS_CALLER_LINE() (-1)
-#  define LOG4CPLUS_CALLER_FUNCTION() (NULL)
+#  define LOG4CPLUS_CALLER_FUNCTION() (nullptr)
 #endif
 
 #if defined (__GNUC__) && __GNUC__ >= 3
