@@ -1,4 +1,6 @@
-AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include \
+AM_CPPFLAGS = -I$(top_srcdir)/include \
+	-I$(top_srcdir)/threadpool \
+	-I$(top_builddir)/include \
 	@LOG4CPLUS_NDEBUG@
 AM_CXXFLAGS=@LOG4CPLUS_PROFILING_CXXFLAGS@
 AM_LDFLAGS=@LOG4CPLUS_PROFILING_LDFLAGS@

@@ -38,6 +38,9 @@
 #include <log4cplus/helpers/lockfile.h>
 
 #include <memory>
+#include <mutex>
+#include <atomic>
+#include <condition_variable>
 
 
 namespace log4cplus {
@@ -166,6 +169,20 @@ namespace log4cplus {
          * delegating actual logging to the subclasses specific {@link
          * #append} method.
          */
+        void syncDoAppend(const log4cplus::spi::InternalLoggingEvent& event);
+
+        /**
+         * This method performs book keeping related to asynchronous logging
+         * and executes `syncDoAppend()` to do the actual logging.
+         */
+
+        void asyncDoAppend(const log4cplus::spi::InternalLoggingEvent& event);
+
+        /**
+         * This function checks `async` flag. It either executes
+         * `syncDoAppend()` directly or enqueues its execution to thread pool
+         * thread.
+         */
         void doAppend(const log4cplus::spi::InternalLoggingEvent& event);
 
         /**
@@ -251,6 +268,12 @@ namespace log4cplus {
             return ((ll != NOT_SET_LOG_LEVEL) && (ll >= threshold));
         }
 
+        /**
+         * This method waits for all events that are being asynchronously
+         * logged to finish.
+         */
+        void waitToFinishAsyncLogging();
+
     protected:
       // Methods
         /**
@@ -286,6 +309,14 @@ namespace log4cplus {
         //! Use lock file for inter-process synchronization of access
         //! to log file.
         bool useLockFile;
+
+        //! Asynchronous append.
+        bool async;
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+        std::atomic<std::size_t> in_flight;
+        std::mutex in_flight_mutex;
+        std::condition_variable in_flight_condition;
+#endif
 
         /** Is this appender closed? */
         bool closed;

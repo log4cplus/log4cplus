@@ -105,9 +105,9 @@
 #  define LOG4CPLUS_CALLER_LINE() __builtin_LINE ()
 #  define LOG4CPLUS_CALLER_FUNCTION() __builtin_FUNCTION ()
 #else
-#  define LOG4CPLUS_CALLER_FILE() (NULL)
+#  define LOG4CPLUS_CALLER_FILE() (nullptr)
 #  define LOG4CPLUS_CALLER_LINE() (-1)
-#  define LOG4CPLUS_CALLER_FUNCTION() (NULL)
+#  define LOG4CPLUS_CALLER_FUNCTION() (nullptr)
 #endif
 
 #if defined (__GNUC__) && __GNUC__ >= 3
@@ -153,6 +153,12 @@
 #define LOG4CPLUS_INIT_PRIORITY_BASE (65535 / 2)
 
 #include <log4cplus/helpers/thread-config.h>
+
+#if defined (LOG4CPLUS_SINGLE_THREADED)
+#define LOG4CPLUS_THREADED(x)
+#else
+#define LOG4CPLUS_THREADED(x) x
+#endif
 
 #if defined(__cplusplus)
 namespace log4cplus

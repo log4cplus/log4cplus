@@ -7,6 +7,7 @@
 #include <log4cplus/streams.h>
 #include <log4cplus/loggingmacros.h>
 #include <log4cplus/tracelogger.h>
+#include <log4cplus/helpers/property.h>
 #include <exception>
 #include <iostream>
 #include <string>
@@ -91,7 +92,10 @@ main()
         LogLevel ll = logger.getLogLevel();
         tcout << "main Priority: " << getLogLevelManager().toString(ll) << endl;
 
-        helpers::SharedObjectPtr<Appender> append_1(new ConsoleAppender);
+        log4cplus::helpers::Properties props;
+        props.setProperty(LOG4CPLUS_TEXT ("AsyncAppend"),
+            LOG4CPLUS_TEXT ("true"));
+        helpers::SharedObjectPtr<Appender> append_1(new ConsoleAppender(props));
         append_1->setLayout(std::unique_ptr<Layout>(new log4cplus::TTCCLayout));
         Logger::getRoot().addAppender(append_1);
         append_1->setName(LOG4CPLUS_TEXT("cout"));

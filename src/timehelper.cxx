@@ -116,19 +116,19 @@ namespace
 
 static log4cplus::tstring const padding_zeros[4] =
 {
-    log4cplus::tstring (LOG4CPLUS_TEXT("000")),
-    log4cplus::tstring (LOG4CPLUS_TEXT("00")),
-    log4cplus::tstring (LOG4CPLUS_TEXT("0")),
-    log4cplus::tstring (LOG4CPLUS_TEXT(""))
+    { LOG4CPLUS_TEXT("000") },
+    { LOG4CPLUS_TEXT("00") },
+    { LOG4CPLUS_TEXT("0") },
+    { }
 };
 
 
 static log4cplus::tstring const uc_q_padding_zeros[4] =
 {
-    log4cplus::tstring (LOG4CPLUS_TEXT(".000")),
-    log4cplus::tstring (LOG4CPLUS_TEXT(".00")),
-    log4cplus::tstring (LOG4CPLUS_TEXT(".0")),
-    log4cplus::tstring (LOG4CPLUS_TEXT("."))
+    { LOG4CPLUS_TEXT(".000") },
+    { LOG4CPLUS_TEXT(".00") },
+    { LOG4CPLUS_TEXT(".0") },
+    { LOG4CPLUS_TEXT(".") }
 };
 
 

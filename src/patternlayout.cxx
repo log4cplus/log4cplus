@@ -121,7 +121,8 @@ PatternConverterList;
 class LiteralPatternConverter : public PatternConverter
 {
 public:
-    LiteralPatternConverter(const tstring& str);
+    LiteralPatternConverter();
+    explicit LiteralPatternConverter(const tstring& str);
     virtual void convert(tstring & result,
         const spi::InternalLoggingEvent&)
     {
@@ -387,6 +388,12 @@ PatternConverter::formatAndAppend(
 ////////////////////////////////////////////////
 // LiteralPatternConverter methods:
 ////////////////////////////////////////////////
+
+LiteralPatternConverter::LiteralPatternConverter()
+    : PatternConverter(FormattingInfo())
+    , str()
+{ }
+
 
 LiteralPatternConverter::LiteralPatternConverter(
     const tstring& str_)
@@ -1090,7 +1097,7 @@ PatternLayout::init(const tstring& pattern_, unsigned ndcMaxDepth)
         {
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("Parsed Pattern created a NULL PatternConverter"));
-            pc.reset (new pattern::LiteralPatternConverter( LOG4CPLUS_TEXT("") ));
+            pc.reset (new pattern::LiteralPatternConverter);
         }
     }
 
