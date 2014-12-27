@@ -154,6 +154,12 @@
 
 #include <log4cplus/helpers/thread-config.h>
 
+#if defined (LOG4CPLUS_SINGLE_THREADED)
+#define LOG4CPLUS_THREADED(x)
+#else
+#define LOG4CPLUS_THREADED(x) x
+#endif
+
 #if defined(__cplusplus)
 namespace log4cplus
 {

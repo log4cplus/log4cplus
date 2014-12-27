@@ -312,9 +312,11 @@ namespace log4cplus {
 
         //! Asynchronous append.
         bool async;
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
         std::atomic<std::size_t> in_flight;
         std::mutex in_flight_mutex;
         std::condition_variable in_flight_condition;
+#endif
 
         /** Is this appender closed? */
         bool closed;

@@ -91,7 +91,9 @@ Appender::Appender()
    errorHandler(new OnlyOnceErrorHandler),
    useLockFile(false),
    async(false),
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
    in_flight(0),
+#endif
    closed(false)
 {
 }
@@ -105,7 +107,9 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
     , errorHandler(new OnlyOnceErrorHandler)
     , useLockFile(false)
     , async(false)
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
     , in_flight(0)
+#endif
     , closed(false)
 {
     if(properties.exists( LOG4CPLUS_TEXT("layout") ))
@@ -231,6 +235,7 @@ Appender::~Appender()
 void
 Appender::waitToFinishAsyncLogging()
 {
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
     if (async)
     {
         // When async flag is true we might have some logging still in flight
@@ -240,6 +245,7 @@ Appender::waitToFinishAsyncLogging()
         in_flight_condition.wait (lock,
             [&] { return this->in_flight == 0; });
     }
+#endif
 }
 
 void
@@ -272,6 +278,7 @@ void enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
 void
 Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
 {
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
     if (async)
     {
         std::atomic_fetch_add_explicit (&in_flight, std::size_t (1),
@@ -291,6 +298,7 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
 
     }
     else
+#endif
         syncDoAppend (event);
 }
 
@@ -298,6 +306,7 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
 void
 Appender::asyncDoAppend(const log4cplus::spi::InternalLoggingEvent& event)
 {
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
     struct handle_in_flight
     {
         Appender * const app;
@@ -315,6 +324,8 @@ Appender::asyncDoAppend(const log4cplus::spi::InternalLoggingEvent& event)
     };
 
     handle_in_flight guard (this);
+#endif
+
     syncDoAppend (event);
 }
 

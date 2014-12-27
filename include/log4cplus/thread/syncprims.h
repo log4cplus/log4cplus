@@ -34,12 +34,6 @@
 #include <mutex>
 #include <condition_variable>
 
-#if defined (LOG4CPLUS_SINGLE_THREADED)
-#define LOG4CPLUS_THREADED(x)
-#else
-#define LOG4CPLUS_THREADED(x) x
-#endif
-
 
 namespace log4cplus { namespace thread {
 
