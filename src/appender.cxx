@@ -85,8 +85,8 @@ OnlyOnceErrorHandler::reset()
 ///////////////////////////////////////////////////////////////////////////////
 
 Appender::Appender()
- : layout(new SimpleLayout()),
-   name( LOG4CPLUS_TEXT("") ),
+ : layout(new SimpleLayout),
+   name(internal::empty_str),
    threshold(NOT_SET_LOG_LEVEL),
    errorHandler(new OnlyOnceErrorHandler),
    useLockFile(false),
@@ -101,7 +101,7 @@ Appender::Appender()
 
 
 Appender::Appender(const log4cplus::helpers::Properties & properties)
-    : layout(new SimpleLayout())
+    : layout(new SimpleLayout)
     , name()
     , threshold(NOT_SET_LOG_LEVEL)
     , errorHandler(new OnlyOnceErrorHandler)
