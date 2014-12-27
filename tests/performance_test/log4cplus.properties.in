@@ -1,5 +1,5 @@
 
-log4cplus.rootLogger=TRACE, STDOUT 
+log4cplus.rootLogger=TRACE, STDOUT
 log4cplus.logger.testlogger=TRACE, TEST
 log4cplus.additivity.testlogger=FALSE
 
@@ -10,6 +10,7 @@ log4cplus.appender.STDOUT.layout.ConversionPattern=%d{%m/%d/%y %H:%M:%S} [%t] %-
 #log4cplus.appender.TEST=log4cplus::NullAppender
 log4cplus.appender.TEST=log4cplus::FileAppender
 log4cplus.appender.TEST.File=test_output.log
+log4cplus.appender.TEST.BufferSize=16384
 
 # For AsyncAppender testing.
 #log4cplus.appender.TEST=log4cplus::AsyncAppender
