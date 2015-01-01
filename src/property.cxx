@@ -216,7 +216,7 @@ Properties::init(tistream& input)
             // Remove trailing 'Windows' \r.
             buffer.resize (buffLen - 1);
 
-        tstring::size_type const idx = buffer.find('=');
+        tstring::size_type const idx = buffer.find(LOG4CPLUS_TEXT ('='));
         if (idx != tstring::npos)
         {
             tstring key = buffer.substr(0, idx);
