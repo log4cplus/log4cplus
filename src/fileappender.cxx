@@ -221,7 +221,7 @@ FileAppender::FileAppender(const tstring& filename_,
     , createDirs (createDirs_)
     , reopenDelay(1)
     , bufferSize (0)
-    , buffer (0)
+    , buffer (nullptr)
     , localeName (LOG4CPLUS_TEXT ("DEFAULT"))
 {
     init(filename_, mode_, internal::empty_str);
@@ -235,7 +235,7 @@ FileAppender::FileAppender(const Properties& props,
     , createDirs (false)
     , reopenDelay(1)
     , bufferSize (0)
-    , buffer (0)
+    , buffer (nullptr)
 {
     bool app = (mode_ & (std::ios_base::app | std::ios_base::ate)) != 0;
     tstring const & fn = props.getProperty( LOG4CPLUS_TEXT("File") );
@@ -275,9 +275,8 @@ FileAppender::init(const tstring& filename_,
 
     if (bufferSize != 0)
     {
-        delete[] buffer;
-        buffer = new tchar[bufferSize];
-        out.rdbuf ()->pubsetbuf (buffer, bufferSize);
+        buffer.reset (new tchar[bufferSize]);
+        out.rdbuf ()->pubsetbuf (buffer.get (), bufferSize);
     }
 
     helpers::LockFileGuard guard;
@@ -326,8 +325,7 @@ FileAppender::close()
     thread::MutexGuard guard (access_mutex);
 
     out.close();
-    delete[] buffer;
-    buffer = 0;
+    buffer.reset ();
     closed = true;
 }
 
