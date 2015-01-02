@@ -31,6 +31,7 @@
 #    cold
 #    const
 #    constructor
+#    constructor_priority for constructor attribute with priority
 #    deprecated
 #    destructor
 #    dllexport
@@ -102,6 +103,9 @@ AC_DEFUN([AX_GCC_FUNC_ATTRIBUTE], [
                 ],
                 [const], [
                     int foo( void ) __attribute__(($1));
+                ],
+                [constructor_priority], [
+                    int foo( void ) __attribute__((__constructor__(65535/2)));
                 ],
                 [constructor], [
                     int foo( void ) __attribute__(($1));

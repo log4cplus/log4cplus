@@ -42,6 +42,10 @@
 /* Define to 1 if the system has the `constructor' function attribute */
 #undef HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR
 
+/* Define to 1 if the system has the `constructor_priority' function attribute
+   */
+#undef HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR_PRIORITY
+
 /* */
 #undef HAVE_GETADDRINFO
 
@@ -291,6 +295,9 @@
 
 /* */
 #undef LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR
+
+/* */
+#undef LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR_PRIORITY
 
 /* */
 #undef LOG4CPLUS_HAVE_FUNC_SYMBOL
