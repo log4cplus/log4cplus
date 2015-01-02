@@ -1,5 +1,5 @@
 // Module:  Log4CPLUS
-// File:    socket-win32.cxx
+// File:    socket.cxx
 // Created: 4/2003
 // Author:  Tad E. Smith
 //
