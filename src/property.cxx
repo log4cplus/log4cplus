@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2002-2014 Tad E. Smith
+// Copyright 2002-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -216,7 +216,7 @@ Properties::init(tistream& input)
             // Remove trailing 'Windows' \r.
             buffer.resize (buffLen - 1);
 
-        tstring::size_type const idx = buffer.find('=');
+        tstring::size_type const idx = buffer.find(LOG4CPLUS_TEXT ('='));
         if (idx != tstring::npos)
         {
             tstring key = buffer.substr(0, idx);
