@@ -1,10 +1,16 @@
 #!/bin/sh
 
-FILES=`find . \( \( -not -path './objdir*' \) -and \( -name '*.h' -o -name '*.hxx' -o -name '*.cxx' \) \)`
+find_files() {
+    find . \( \( \! -path './objdir*' \) \
+        \( -name '*.h' -o -name '*.hxx' -o -name '*.cxx' \) \)
+}
+
+find_files | while read file ; do
+echo "modifying file $file";
 perl -wn -i.bak -e '
 use strict;
 
-my $YEAR = 2013;
+my $YEAR = 2015;
 
 my $sep = qr/[\s,;]/;
 if (/copyright/i)
@@ -27,4 +33,6 @@ else
 {
   print;
 }
-' $FILES
+' $file;
+done
+
