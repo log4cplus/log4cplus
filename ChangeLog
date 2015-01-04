@@ -1,3 +1,28 @@
+log4cplus 1.2.0-RC3
+-------------------
+
+  - Fixed various issues related to unspecified behaviors which manifested
+    when log4cplus was compiled using Clang.
+
+  - SysLogAppender now recognize `SyslogHost` property as synonym for `host`
+    property.
+
+  - Improved compatibility of TTCCLayout with log4j's. Added
+    `ThreadPrinting`, `CategoryPrefixing` and `ContextPrinting` configuration
+    properties.
+
+  - Allow negative maximal length in pattern specifier to make trimming of
+    end instead of beginning possible. E.g., allow `%.-1p` to get initial
+    letters of log level.
+
+  - New appender TimeBasedRollingFileAppender. (Alexander Malinin)
+
+  - `LOG4CPLUS_*_FMT()` macros can now be invoked with just formatting
+    string, without additional arguments. (Zhang Shengfa)
+
+  - Insert to/from string/log level conversion functions to the beginning of
+    vector to favour user defined log levels and conversion functions.
+
 log4cplus 1.2.0-RC2
 -------------------
 
@@ -13,7 +38,7 @@ builds.
 
 log4cplus 1.2.0-RC1
 -------------------
-        
+
   - TraceLogger and associated `LOG4CPLUS_TRACE_*()` macros now record
 function name in generated event.
 
