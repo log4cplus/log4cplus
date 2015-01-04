@@ -12,12 +12,12 @@ SRC_URI="mirror://sourceforge/log4cplus/log4cplus-stable/${PV%-rc*}/${P}.tar.xz"
 PATCH_URI="configure.ac-relax-libtool-version.patch
            configure.ac-disable-__thread-keyword.patch"
 
-PKG_NAMES="lib${PN}1.2_2 lib${PN}qt4debugappender1.2_2
+PKG_NAMES="lib${PN}1.2_5 lib${PN}qt4debugappender1.2_5
            lib${PN}-devel lib${PN}qt4debugappender-devel"
-liblog4cplus1_2_2_SUMMARY="${SUMMARY} (runtime)"
-liblog4cplus1_2_2_CONTENTS="usr/bin/cyglog4cplus-1-2-2.dll"
-liblog4cplusqt4debugappender1_2_2_SUMMARY="${SUMMARY} (Qt4 runtime)"
-liblog4cplusqt4debugappender1_2_2_CONTENTS="usr/bin/cyglog4cplusqt4*-1-2-2.dll"
+liblog4cplus1_2_5_SUMMARY="${SUMMARY} (runtime)"
+liblog4cplus1_2_5_CONTENTS="usr/bin/cyglog4cplus-1-2-5.dll"
+liblog4cplusqt4debugappender1_2_5_SUMMARY="${SUMMARY} (Qt4 runtime)"
+liblog4cplusqt4debugappender1_2_5_CONTENTS="usr/bin/cyglog4cplusqt4*-1-2-5.dll"
 liblog4cplus_devel_SUMMARY="${SUMMARY} (development)"
 liblog4cplus_devel_CONTENTS="--exclude=*qt4* usr/include/ usr/lib/ usr/share/doc/"
 liblog4cplusqt4debugappender_devel_SUMMARY="${SUMMARY} (Qt4 development)"
