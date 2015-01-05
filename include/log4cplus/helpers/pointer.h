@@ -60,17 +60,17 @@ namespace log4cplus {
           // Ctor
             SharedObject()
                 : access_mutex()
-                , count(0)
+                , count__(0)
             { }
 
             SharedObject(const SharedObject&)
                 : access_mutex()
-                , count(0)
+                , count__(0)
             { }
 
             SharedObject(SharedObject &&)
                 : access_mutex()
-                , count(0)
+                , count__(0)
             { }
 
           // Dtor
@@ -89,7 +89,7 @@ namespace log4cplus {
 #else
             typedef std::atomic<unsigned> count_type;
 #endif
-            mutable count_type count;
+            mutable count_type count__;
         };
 
 

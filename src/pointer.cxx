@@ -34,7 +34,7 @@ namespace log4cplus { namespace helpers {
 
 SharedObject::~SharedObject()
 {
-    assert(count == 0);
+    assert(count__ == 0);
 }
 
 
@@ -47,10 +47,10 @@ void
 SharedObject::addReference() const
 {
 #if defined (LOG4CPLUS_SINGLE_THREADED)
-    ++count;
+    ++count__;
 
 #else
-    std::atomic_fetch_add_explicit (&count, 1u,
+    std::atomic_fetch_add_explicit (&count__, 1u,
         std::memory_order_relaxed);
 
 #endif
@@ -60,14 +60,14 @@ SharedObject::addReference() const
 void
 SharedObject::removeReference() const
 {
-    assert (count > 0);
+    assert (count__ > 0);
     bool destroy;
 
 #if defined (LOG4CPLUS_SINGLE_THREADED)
-    destroy = --count == 0;
+    destroy = --count__ == 0;
 
 #else
-    destroy = std::atomic_fetch_sub_explicit (&count, 1u,
+    destroy = std::atomic_fetch_sub_explicit (&count__, 1u,
         std::memory_order_release) == 1;
     if (LOG4CPLUS_UNLIKELY (destroy))
         std::atomic_thread_fence (std::memory_order_acquire);
