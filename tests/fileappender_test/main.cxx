@@ -18,7 +18,7 @@ main()
     log4cplus::initialize ();
     helpers::LogLog::getLogLog()->setInternalDebugging(true);
     SharedFileAppenderPtr append_1(
-        new RollingFileAppender(LOG4CPLUS_TEXT("a/b/c/d/Test.log"), 5*1024, 5,
+        new RollingFileAppender(LOG4CPLUS_TEXT("a////b/c/d/Test.log"), 5*1024, 5,
             false, true));
     append_1->setName(LOG4CPLUS_TEXT("First"));
     append_1->setLayout( std::unique_ptr<Layout>(new TTCCLayout()) );

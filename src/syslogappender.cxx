@@ -224,6 +224,7 @@ SysLogAppender::SysLogAppender(const tstring& id)
     , facility (0)
     , appendFunc (&SysLogAppender::appendLocal)
     , port (0)
+    , remoteSyslogType ()
     , connected (false)
     // Store std::string form of ident as member of SysLogAppender so
     // the address of the c_str() result remains stable for openlog &

@@ -31,6 +31,7 @@ namespace log4cplus { namespace spi {
 ///////////////////////////////////////////////////////////////////////////////
 
 ObjectRegistryBase::ObjectRegistryBase()
+    : locking (true)
 { }
 
 
