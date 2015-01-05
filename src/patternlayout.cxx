@@ -753,10 +753,9 @@ PatternParser::extractPrecisionOption()
 PatternConverterList
 PatternParser::parse()
 {
-    tchar c;
     pos = 0;
     while(pos < pattern.length()) {
-        c = pattern[pos++];
+        tchar const c = pattern[pos++];
         switch (state) {
         case LITERAL_STATE :
             // In literal state, the last char is always a literal.

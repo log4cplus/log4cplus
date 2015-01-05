@@ -73,7 +73,7 @@ namespace
 struct free_deleter
 {
     void
-    operator () (void * ptr)
+    operator () (void * ptr) const
     {
         std::free(ptr);
     }

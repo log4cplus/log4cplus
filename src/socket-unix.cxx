@@ -321,11 +321,12 @@ shutdownSocket(SOCKET_TYPE sock)
 long
 read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
-    long res, readbytes = 0;
+    long readbytes = 0;
 
     do
     {
-        res = ::read(to_os_socket (sock), buffer.getBuffer() + readbytes,
+        long const res = ::read(to_os_socket (sock),
+            buffer.getBuffer() + readbytes,
             buffer.getMaxSize() - readbytes);
         if( res <= 0 ) {
             return res;
