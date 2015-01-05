@@ -26,6 +26,9 @@
     <Filter Include="helpers">
       <UniqueIdentifier>{78489271-5a5b-4622-96aa-18dae6086c42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="threadpool">
+      <UniqueIdentifier>{4a60f43c-0ed5-424b-b332-85e408d99dda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\appender.cxx">
@@ -380,6 +383,9 @@
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\helpers\connectorthread.h">
       <Filter>helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\threadpool\ThreadPool.h">
+      <Filter>threadpool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

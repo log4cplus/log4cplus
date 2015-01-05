@@ -933,6 +933,7 @@
     <ClInclude Include="..\include\log4cplus\nteventlogappender.h" />
     <ClInclude Include="..\include\log4cplus\nullappender.h" />
     <ClInclude Include="..\include\log4cplus\socketappender.h" />
+    <ClInclude Include="..\threadpool\ThreadPool.h" />
     <CustomBuildStep Include="..\include\log4cplus\syslogappender.h" />
     <ClInclude Include="..\include\log4cplus\win32consoleappender.h" />
     <ClInclude Include="..\include\log4cplus\win32debugappender.h" />
