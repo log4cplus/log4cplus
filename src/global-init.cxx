@@ -71,7 +71,7 @@ struct DefaultContext
     spi::FilterFactoryRegistry filter_factory_registry;
     spi::LocaleFactoryRegistry locale_factory_registry;
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-    std::unique_ptr<progschj::ThreadPool> thread_pool = new progschj::ThreadPool;
+    std::unique_ptr<progschj::ThreadPool> thread_pool {new progschj::ThreadPool};
 #endif
 };
 
