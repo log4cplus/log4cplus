@@ -71,7 +71,7 @@ struct DefaultContext
     spi::FilterFactoryRegistry filter_factory_registry;
     spi::LocaleFactoryRegistry locale_factory_registry;
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-    progschj::ThreadPool thread_pool;
+    std::unique_ptr<progschj::ThreadPool> thread_pool = new progschj::ThreadPool;
 #endif
 };
 
@@ -200,19 +200,33 @@ void
 enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
     spi::InternalLoggingEvent const & event)
 {
-    get_dc ()->thread_pool.enqueue (
+    get_dc ()->thread_pool->enqueue (
         [=] ()
         {
-            ((appender.get ())->*(&Appender::asyncDoAppend)) (event);
+            appender->asyncDoAppend (event);
         });
 }
+
 #endif
+
+void
+shutdownThreadPool ()
+{
+    LOG4CPLUS_THREADED (get_dc ()->thread_pool.release ());
+}
+
 
 void
 waitUntilEmptyThreadPoolQueue ()
 {
-    LOG4CPLUS_THREADED (get_dc ()->thread_pool.wait_until_empty ());
-    LOG4CPLUS_THREADED (get_dc ()->thread_pool.wait_until_nothing_in_flight ());
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    DefaultContext * const dc = get_dc ();
+    if (dc->thread_pool)
+    {
+        dc->thread_pool->wait_until_empty ();
+        dc->thread_pool->wait_until_nothing_in_flight ();
+    }
+#endif
 }
 
 

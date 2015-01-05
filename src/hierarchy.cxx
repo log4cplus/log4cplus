@@ -232,12 +232,16 @@ Hierarchy::getLoggerFactory()
     return defaultFactory.get();
 }
 
+
+// from global-init.cxx
 void waitUntilEmptyThreadPoolQueue ();
+void shutdownThreadPool ();
 
 void
 Hierarchy::shutdown()
 {
     waitUntilEmptyThreadPoolQueue ();
+    shutdownThreadPool ();
 
     LoggerList loggers = getCurrentLoggers();
 
