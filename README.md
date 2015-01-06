@@ -511,24 +511,15 @@ argument on both Unix--like platforms and Windows. The conversion of
 `wchar_t` back to `char` then depends on C locale.
 
 
-Unsupported compilers
----------------------
+Unsupported compilers and platforms
+-----------------------------------
 
-[log4cplus] does not support too old or broken C++ compilers:
+[log4cplus] does not support too old or broken C++ compilers. Since [log4cplus]
+version 2.0.0, it means it does not support any platform or compiler without
+decent C++11 support.
 
-- Visual C++ prior to 7.1
-- GCC prior to 3.2
-- Older versions of Borland/CodeGear/Embarcadero C++ compilers
-
-
-Unsupported platforms
----------------------
-
-[log4cplus] requires some minimal set of C and/or C++ library
-functions. Some systems/platforms fail to provide these functions and
-thus [log4cplus] cannot be supported there:
-
-- Windows CE -- missing implementations of `<time.h>` functions
+  - Visual Studio prior to 2015
+  - GCC prior to 4.8
 
 
 License
