@@ -49,5 +49,6 @@ main()
         appender.setName (LOG4CPLUS_TEXT ("Third"));
     }
 
+    log4cplus::Logger::shutdown();
     return 0;
 }

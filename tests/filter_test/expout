@@ -55,6 +55,6 @@ log4cplus: function filter: accepting event: invisible
 INFO - invisible
 log4cplus: function filter: accepting event: EXIT:  ::printDebug()
 TRACE - EXIT:  ::printDebug()
-Exiting main()...
 log4cplus: Entering ConsoleAppender::close()..
 log4cplus: Destroying appender named [THIRD].
+Exiting main()...

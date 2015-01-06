@@ -43,6 +43,7 @@ main()
     }
 
     tcout << LOG4CPLUS_TEXT("Exiting main()...") << endl;
+    log4cplus::Logger::shutdown();
     return 0;
 }
 

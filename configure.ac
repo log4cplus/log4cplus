@@ -1,8 +1,8 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl This version of log4cplus requires the follwing autotools versions:
 dnl autoconf-2.69
-dnl automake-1.14.1
-dnl libtool-2.4.2
+dnl automake-1.15
+dnl libtool-2.4.4
 
 AC_INIT([log4cplus],[2.0.0])
 AC_CANONICAL_TARGET
@@ -288,6 +288,7 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
       dnl -Wstack-protector results into not too interesting warnings.
       dnl AX_CXXFLAGS_GCC_OPTION([-Wstack-protector])
       AX_CXXFLAGS_GCC_OPTION([-fsanitize=address])
+      AX_CXXFLAGS_GCC_OPTION([-fsanitize=undefined])
       dnl The -fsanitize=thread option requires -pie or -shared flags.
       dnl AX_CXXFLAGS_GCC_OPTION([-fsanitize=thread])
       AX_CXXFLAGS_GCC_OPTION([-ftrapv])

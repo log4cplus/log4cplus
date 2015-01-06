@@ -53,6 +53,7 @@ main()
         Logger::getRoot().log(FATAL_LOG_LEVEL, LOG4CPLUS_TEXT("Exception occured..."));
     }
 
+    log4cplus::Logger::shutdown();
     cout << "Exiting main()..." << endl;
     return 0;
 }
