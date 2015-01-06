@@ -36,7 +36,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4428C51A-6903-47E9-AECD-B2F2D4C040DE}</ProjectGuid>
-    <RootNamespace>filter_test</RootNamespace>
+    <RootNamespace>filter_testS</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Unicode|Win32'" Label="Configuration">
