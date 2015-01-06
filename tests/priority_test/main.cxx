@@ -56,6 +56,6 @@ main()
     cout << "Returned from writeLogMessage()..." << endl;
     }
     cout << "REALLY exiting main()..." << endl;
-
+    log4cplus::Logger::shutdown();
     return 0;
 }

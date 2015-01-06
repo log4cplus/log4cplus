@@ -47,5 +47,6 @@ main()
     LOG4CPLUS_WARN(test, "The following message is empty:");
     LOG4CPLUS_WARN(test, "");
 
+    log4cplus::Logger::shutdown();
     return 0;
 }

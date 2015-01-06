@@ -172,6 +172,7 @@ main()
         }
     }
 
+    log4cplus::Logger::shutdown();
     log4cplus::tcout << "Exiting main()..." << std::endl;
     return 0;
 }

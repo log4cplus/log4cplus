@@ -51,6 +51,6 @@ main(int argc, char **argv)
                     "This is a long double: "
                     << setprecision(15)
                     << 123452342342.342L);
-
+    log4cplus::Logger::shutdown();
     return 0;
 }

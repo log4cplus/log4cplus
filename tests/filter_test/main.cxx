@@ -126,6 +126,7 @@ main()
         LOG4CPLUS_FATAL(root, "Exception occurred...");
     }
 
+    log4cplus::Logger::shutdown();
     tcout << "Exiting main()..." << endl;
     return 0;
 }

@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/logger.h>
 
 using namespace std;
 using namespace log4cplus::helpers;
@@ -37,6 +38,7 @@ main() {
     LogLog::getLogLog()->setQuietMode(true);
     printMsgs();
 
+    log4cplus::Logger::shutdown();
     return 0;
 }
 
