@@ -44,6 +44,7 @@ ported to and tested on the following platforms:
   - Linux/AMD64 with Intel Parallel Studio XE 2015, ICPC version 15.0.1
   - Windows/AMD64 with GCC version 4.8.2 (x86_64-posix-seh-rev3, Built by
     MinGW-W64 project) using CMake build system
+  - Windows/AMD64 with GCC version 4.9.2 (tdm64-1) using CMake build system
   - Windows 7 with MS Visual Studio 2015[^msvc]
   - OpenBSD 5.6/AMD64 with GCC version 4.9.0
   - FreeBSD 10.1/i386 with Clang version 3.4.1 (tags/RELEASE_34/dot1-final
