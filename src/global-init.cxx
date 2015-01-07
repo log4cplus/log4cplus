@@ -19,7 +19,7 @@
 // limitations under the License.
 
 #include <log4cplus/config.hxx>
-#include <log4cplus/log4cplus.h>
+#include <log4cplus/initializer.h>
 #include <log4cplus/config/windowsh-inc.h>
 #include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
