@@ -21,8 +21,8 @@
 //  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef LOG4CPLUS_LOG4CPLUS_HXX
-#define LOG4CPLUS_LOG4CPLUS_HXX
+#ifndef LOG4CPLUS_INITIALIZER_HXX
+#define LOG4CPLUS_INITIALIZER_HXX
 
 #include <log4cplus/config.hxx>
 
@@ -30,28 +30,37 @@
 #pragma once
 #endif
 
-#include <log4cplus/version.h>
-#include <log4cplus/loglevel.h>
-#include <log4cplus/logger.h>
-#include <log4cplus/layout.h>
-#include <log4cplus/hierarchy.h>
-#include <log4cplus/loggingmacros.h>
-#include <log4cplus/tracelogger.h>
-#include <log4cplus/configurator.h>
-#include <log4cplus/appender.h>
-#include <log4cplus/mdc.h>
-#include <log4cplus/ndc.h>
-#include <log4cplus/initializer.h>
-#include <log4cplus/helpers/property.h>
-#include <log4cplus/spi/factory.h>
-#include <log4cplus/spi/filter.h>
-#include <log4cplus/spi/loggingevent.h>
+#include <memory>
 
-#include <log4cplus/asyncappender.h>
-#include <log4cplus/consoleappender.h>
-#include <log4cplus/fileappender.h>
-#include <log4cplus/socketappender.h>
-#include <log4cplus/syslogappender.h>
-#include <log4cplus/nullappender.h>
 
-#endif // LOG4CPLUS_LOG4CPLUS_HXX
+namespace log4cplus
+{
+
+/**
+   This class helps with initialization and shutdown of log4cplus. Its
+   constructor calls `log4cplus::initialize()` and its destructor calls
+   `log4cplus::Logger::shutdown()`. Use this class as the first thing in your
+   `main()`. It will ensure shutdown of log4cplus at the end of
+   `main()`. This is particularly important on Windows, where shutdown of
+   standard threads outside `main()` is impossible.
+ */
+class LOG4CPLUS_EXPORT Initializer
+{
+public:
+    Initializer ();
+    ~Initializer ();
+
+    Initializer (Initializer const &) = delete;
+    Initializer (Initializer &&) = delete;
+    Initializer & operator = (Initializer const &) = delete;
+    Initializer & operator = (Initializer &&) = delete;
+
+private:
+    struct Impl;
+    std::unique_ptr<Impl> pimpl;
+};
+
+} // namespace log4cplus
+
+
+#endif // LOG4CPLUS_INITIALIZER_HXX
