@@ -19,6 +19,7 @@
 // limitations under the License.
 
 #include <log4cplus/config.hxx>
+#include <log4cplus/initializer.h>
 #include <log4cplus/config/windowsh-inc.h>
 #include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
@@ -51,6 +52,36 @@ LOG4CPLUS_EXPORT tostream & tcout = std::cout;
 LOG4CPLUS_EXPORT tostream & tcerr = std::cerr;
 
 #endif // UNICODE
+
+
+struct Initializer::Impl
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    std::mutex mtx;
+#endif
+
+    unsigned count = 0;
+};
+
+
+Initializer::Initializer ()
+    : pimpl (new Impl)
+{
+    LOG4CPLUS_THREADED (std::unique_lock<std::mutex> guard (pimpl->mtx));
+    if (pimpl->count == 0)
+        initialize ();
+
+    ++pimpl->count;
+}
+
+
+Initializer::~Initializer ()
+{
+    LOG4CPLUS_THREADED (std::unique_lock<std::mutex> guard (pimpl->mtx));
+    --pimpl->count;
+    if (pimpl->count == 0)
+        Logger::shutdown ();
+}
 
 
 namespace

@@ -52,6 +52,8 @@ ported to and tested on the following platforms:
   - NetBSD 6.1.5/AMD64 with GCC version 4.9.1
   - DragonflyBSD 4.0.1/AMD64 with GCC version 4.9.3 20141126 (prerelease)
     (FreeBSD Ports Collection)
+  - Minix 3.3.0/i386 with Clang version 3.4 (branches/release_34) with
+    `--disable-threads`
 
 The testing on the above listed platforms has been done at some point
 in time with some version of source. Continuous testing is done only
@@ -199,12 +201,12 @@ autotools based build system is considered to be primary for
 Unix--like platforms.
 
 On Windows, the primary build system is Visual Studio 2010 solution
-and projects (`msvc10/log4cplus.sln`). This solution and associated
+and projects (`msvc14/log4cplus.sln`). This solution and associated
 project files should update just fine to Visual Studio 2012 out of the
-box. See also `scripts/msvc10_to_msvc11.cmd` and
-`scripts/msvc10_to_msvc12.cmd` helper scripts that create
+box. See also `scripts/msvc14_to_msvc11.cmd` and
+`scripts/msvc14_to_msvc12.cmd` helper scripts that create
 `msvc11/log4cplus.sln` and `msvc12/log4cplus.sln` respectively when
-invoked on `msvc10/log4cplus.sln` from source root directory.
+invoked on `msvc14/log4cplus.sln` from source root directory.
 
 MinGW is supported by autotools based build system. CMake build system
 is supported as well and it should be used to compile [log4cplus] with
@@ -440,11 +442,11 @@ Add these lines to qmake project file for using [log4cplus] and
     INCLUDEPATH += C:\log4cplus\include
     win32 {
         CONFIG(debug, debug|release) {
-            LIBS += -LC:\log4cplus\msvc10\Win32\bin.Debug_Unicode -llog4cplusUD
-            LIBS += -LC:\log4cplus\msvc10\Win32\bin.Debug_Unicode -llog4cplus-Qt4DebugAppender
+            LIBS += -LC:\log4cplus\msvc14\Win32\bin.Debug_Unicode -llog4cplusUD
+            LIBS += -LC:\log4cplus\msvc14\Win32\bin.Debug_Unicode -llog4cplus-Qt4DebugAppender
         } else {
-            LIBS += -LC:\log4cplus\msvc10\Win32\bin.Release_Unicode -llog4cplusU
-            LIBS += -LC:\log4cplus\msvc10\Win32\bin.Release_Unicode -llog4cplus-Qt4DebugAppender
+            LIBS += -LC:\log4cplus\msvc14\Win32\bin.Release_Unicode -llog4cplusU
+            LIBS += -LC:\log4cplus\msvc14\Win32\bin.Release_Unicode -llog4cplus-Qt4DebugAppender
         }
     }
 
@@ -511,24 +513,15 @@ argument on both Unix--like platforms and Windows. The conversion of
 `wchar_t` back to `char` then depends on C locale.
 
 
-Unsupported compilers
----------------------
+Unsupported compilers and platforms
+-----------------------------------
 
-[log4cplus] does not support too old or broken C++ compilers:
+[log4cplus] does not support too old or broken C++ compilers. Since [log4cplus]
+version 2.0.0, it means it does not support any platform or compiler without
+decent C++11 support.
 
-- Visual C++ prior to 7.1
-- GCC prior to 3.2
-- Older versions of Borland/CodeGear/Embarcadero C++ compilers
-
-
-Unsupported platforms
----------------------
-
-[log4cplus] requires some minimal set of C and/or C++ library
-functions. Some systems/platforms fail to provide these functions and
-thus [log4cplus] cannot be supported there:
-
-- Windows CE -- missing implementations of `<time.h>` functions
+  - Visual Studio prior to 2015
+  - GCC prior to 4.8
 
 
 License
