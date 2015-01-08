@@ -271,7 +271,7 @@ SharedMutex::SharedMutex ()
 LOG4CPLUS_INLINE_EXPORT
 SharedMutex::~SharedMutex ()
 {
-    LOG4CPLUS_THREADED (delete static_cast<impl::SharedMutex>(sm));
+    LOG4CPLUS_THREADED (delete static_cast<impl::SharedMutex *>(sm));
 }
 
 
