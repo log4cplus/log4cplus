@@ -108,8 +108,11 @@ AC_DEFUN([AX_GCC_VAR_ATTRIBUTE], [
                     int foo __attribute__(($1));
                 ],
                 [init_priority], [
+                    #include <string>
                     struct bar { bar() {} ~bar() {} };
                     bar b __attribute__(($1(65535/2)));
+                    static std::string name ("test")
+                                        __attribute__(($1(65535/2)));
                 ],
                 [
                  m4_warn([syntax], [Unsupported attribute $1, the test may fail])
