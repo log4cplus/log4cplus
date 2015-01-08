@@ -264,13 +264,15 @@ SharedMutexImplBase::~SharedMutexImplBase ()
 
 LOG4CPLUS_INLINE_EXPORT
 SharedMutex::SharedMutex ()
-    : sm (LOG4CPLUS_THREADED (new impl::SharedMutex) + 0)
+    : sm (LOG4CPLUS_THREADED (new impl::SharedMutex))
 { }
 
 
 LOG4CPLUS_INLINE_EXPORT
 SharedMutex::~SharedMutex ()
-{ }
+{
+    LOG4CPLUS_THREADED (delete static_cast<impl::SharedMutex>(sm));
+}
 
 
 LOG4CPLUS_INLINE_EXPORT
