@@ -109,6 +109,7 @@ configure_file(${DEFINES_HXX_CMAKE} ${DEFINES_HXX} @ONLY)
 
 include_directories (${log4cplus_SOURCE_DIR}/include
                      ${log4cplus_SOURCE_DIR}/threadpool
+                     ${log4cplus_SOURCE_DIR}/catch/single_include
                      ${log4cplus_BINARY_DIR}/include
                     )
 

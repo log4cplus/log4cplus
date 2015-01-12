@@ -30,6 +30,10 @@
 #include <cctype>
 #include <cassert>
 
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#include <catch.hpp>
+#endif
+
 
 namespace log4cplus
 {
@@ -38,6 +42,12 @@ namespace internal
 {
 
 log4cplus::tstring const empty_str;
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+CATCH_TEST_CASE( "The empty_str variable is empty", "[strings]" ) {
+    CATCH_REQUIRE (empty_str.empty ());
+}
+#endif
 
 } // namespace internal
 
@@ -50,7 +60,7 @@ log4cplus::tstring const empty_str;
 
 #if defined (UNICODE) && defined (LOG4CPLUS_ENABLE_GLOBAL_C_STRING_STREAM_INSERTER)
 
-log4cplus::tostream& 
+log4cplus::tostream&
 operator <<(log4cplus::tostream& stream, const char* str)
 {
     return (stream << log4cplus::helpers::towstring(str));
@@ -96,7 +106,7 @@ tostring_internal (std::string & ret, wchar_t const * src, std::size_t size)
 }
 
 
-std::string 
+std::string
 tostring(const std::wstring& src)
 {
     std::string ret;
@@ -105,7 +115,7 @@ tostring(const std::wstring& src)
 }
 
 
-std::string 
+std::string
 tostring(wchar_t const * src)
 {
     assert (src);
@@ -131,7 +141,7 @@ towstring_internal (std::wstring & ret, char const * src, std::size_t size)
 }
 
 
-std::wstring 
+std::wstring
 towstring(const std::string& src)
 {
     std::wstring ret;
@@ -140,7 +150,7 @@ towstring(const std::string& src)
 }
 
 
-std::wstring 
+std::wstring
 towstring(char const * src)
 {
     assert (src);

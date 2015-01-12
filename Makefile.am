@@ -1,6 +1,8 @@
 AM_CPPFLAGS = -I$(top_srcdir)/include \
 	-I$(top_srcdir)/threadpool \
 	-I$(top_builddir)/include \
+	-I$(top_srcdir)/catch/single_include \
+        -DCATCH_CONFIG_PREFIX_ALL=1 \
 	@LOG4CPLUS_NDEBUG@
 AM_CXXFLAGS=@LOG4CPLUS_PROFILING_CXXFLAGS@
 AM_LDFLAGS=@LOG4CPLUS_PROFILING_LDFLAGS@
@@ -49,6 +51,7 @@ include tests/propertyconfig_test/Makefile.am
 include tests/socket_test/Makefile.am
 include tests/timeformat_test/Makefile.am
 include tests/thread_test/Makefile.am
+include tests/unit_tests/Makefile.am
 
 include simpleserver/Makefile.am
 include qt4debugappender/Makefile.am

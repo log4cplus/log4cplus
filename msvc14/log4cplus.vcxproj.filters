@@ -387,8 +387,12 @@
     <ClInclude Include="..\threadpool\ThreadPool.h">
       <Filter>threadpool</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\log4cplus\initializer.h" />
-    <ClInclude Include="..\include\log4cplus\log4cplus.h" />
+    <ClInclude Include="..\include\log4cplus\initializer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\log4cplus\log4cplus.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="log4cplus.props" />

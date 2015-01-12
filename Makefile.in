@@ -104,7 +104,8 @@ noinst_PROGRAMS = appender_test$(EXEEXT) $(am__EXEEXT_1) \
 	propertyconfig_test$(EXEEXT) $(am__EXEEXT_14) \
 	socket_test$(EXEEXT) $(am__EXEEXT_15) timeformat_test$(EXEEXT) \
 	$(am__EXEEXT_16) $(am__EXEEXT_17) $(am__EXEEXT_18) \
-	$(am__EXEEXT_19) $(am__EXEEXT_20)
+	unit_tests$(EXEEXT) $(am__EXEEXT_19) $(am__EXEEXT_20) \
+	$(am__EXEEXT_21)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_2 = appender_testU
 @MULTI_THREADED_TRUE@am__append_3 = configandwatch_test
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_4 = configandwatch_testU
@@ -123,15 +124,16 @@ noinst_PROGRAMS = appender_test$(EXEEXT) $(am__EXEEXT_1) \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_17 = timeformat_testU
 @MULTI_THREADED_TRUE@am__append_18 = thread_test
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_19 = thread_testU
-@MULTI_THREADED_TRUE@am__append_20 = loggingserver
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_21 = loggingserverU
-@QT_TRUE@am__append_22 = liblog4cplusqt4debugappender.la
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@am__append_23 = liblog4cplusqt4debugappenderU.la
-@QT5_TRUE@am__append_24 = liblog4cplusqt5debugappender.la
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@am__append_25 = liblog4cplusqt5debugappenderU.la
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_26 = $(PYTHON_WRAPU_CXX)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_27 = log4cplusU.py
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_28 = _log4cplusU.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_20 = unit_testsU
+@MULTI_THREADED_TRUE@am__append_21 = loggingserver
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_22 = loggingserverU
+@QT_TRUE@am__append_23 = liblog4cplusqt4debugappender.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@am__append_24 = liblog4cplusqt4debugappenderU.la
+@QT5_TRUE@am__append_25 = liblog4cplusqt5debugappender.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@am__append_26 = liblog4cplusqt5debugappenderU.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_27 = $(PYTHON_WRAPU_CXX)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_28 = log4cplusU.py
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_29 = _log4cplusU.la
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -425,8 +427,9 @@ liblog4cplusqt5debugappenderU_la_LINK = $(LIBTOOL) $(AM_V_lt) \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	timeformat_testU$(EXEEXT)
 @MULTI_THREADED_TRUE@am__EXEEXT_17 = thread_test$(EXEEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_18 = thread_testU$(EXEEXT)
-@MULTI_THREADED_TRUE@am__EXEEXT_19 = loggingserver$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_20 = loggingserverU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_19 = unit_testsU$(EXEEXT)
+@MULTI_THREADED_TRUE@am__EXEEXT_20 = loggingserver$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_21 = loggingserverU$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am__objects_14 = tests/appender_test/main.$(OBJEXT)
 am_appender_test_OBJECTS = $(am__objects_14)
@@ -611,6 +614,16 @@ am__objects_47 =  \
 timeformat_testU_OBJECTS = $(am_timeformat_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_DEPENDENCIES =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
+am__objects_48 = tests/unit_tests/unit_tests.$(OBJEXT)
+am_unit_tests_OBJECTS = $(am__objects_48)
+unit_tests_OBJECTS = $(am_unit_tests_OBJECTS)
+unit_tests_DEPENDENCIES = $(liblog4cplus_la_file)
+am__objects_49 = tests/unit_tests/unit_testsU-unit_tests.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_unit_testsU_OBJECTS =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_49)
+unit_testsU_OBJECTS = $(am_unit_testsU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@unit_testsU_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(liblog4cplusU_la_file)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -685,7 +698,8 @@ SOURCES = $(_log4cplus_la_SOURCES) $(_log4cplusU_la_SOURCES) \
 	$(propertyconfig_test_SOURCES) $(propertyconfig_testU_SOURCES) \
 	$(socket_test_SOURCES) $(socket_testU_SOURCES) \
 	$(thread_test_SOURCES) $(thread_testU_SOURCES) \
-	$(timeformat_test_SOURCES) $(timeformat_testU_SOURCES)
+	$(timeformat_test_SOURCES) $(timeformat_testU_SOURCES) \
+	$(unit_tests_SOURCES) $(unit_testsU_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -900,6 +914,8 @@ top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/include \
 	-I$(top_srcdir)/threadpool \
 	-I$(top_builddir)/include \
+	-I$(top_srcdir)/catch/single_include \
+        -DCATCH_CONFIG_PREFIX_ALL=1 \
 	@LOG4CPLUS_NDEBUG@
 
 AM_CXXFLAGS = @LOG4CPLUS_PROFILING_CXXFLAGS@
@@ -918,8 +934,8 @@ LOG4CPLUS_VERSION_LT_FLAGS = $(VERSION_INFO_OPTION) $(RELEASE_OPTION)
 INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
 liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_file = $(top_builddir)/liblog4cplusU.la
-lib_LTLIBRARIES = liblog4cplus.la $(am__append_1) $(am__append_22) \
-	$(am__append_23) $(am__append_24) $(am__append_25)
+lib_LTLIBRARIES = liblog4cplus.la $(am__append_1) $(am__append_23) \
+	$(am__append_24) $(am__append_25) $(am__append_26)
 SINGLE_THREADED_SRC = \
 	src/appenderattachableimpl.cxx \
 	src/appender.cxx \
@@ -1095,6 +1111,12 @@ timeformat_test_LDADD = $(liblog4cplus_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@thread_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@thread_testU_SOURCES = $(thread_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@thread_testU_LDADD = $(liblog4cplusU_la_file)
+unit_tests_sources = tests/unit_tests/unit_tests.cxx
+unit_tests_SOURCES = $(unit_tests_sources)
+unit_tests_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@unit_testsU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@unit_testsU_SOURCES = $(unit_tests_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@unit_testsU_LDADD = $(liblog4cplusU_la_file)
 @MULTI_THREADED_TRUE@loggingserver_sources = simpleserver/loggingserver.cxx
 @MULTI_THREADED_TRUE@loggingserver_SOURCES = $(loggingserver_sources)
 @MULTI_THREADED_TRUE@loggingserver_LDADD = $(liblog4cplus_la_file)
@@ -1173,10 +1195,10 @@ timeformat_test_LDADD = $(liblog4cplus_la_file)
 @WITH_SWIG_TRUE@  swig/loggingevent.swg
 
 @WITH_PYTHON_TRUE@PYTHON_WRAP_CXX = python_wrap.cxx
-@WITH_PYTHON_TRUE@BUILT_SOURCES = $(PYTHON_WRAP_CXX) $(am__append_26)
-@WITH_PYTHON_TRUE@pkgpython_PYTHON = log4cplus.py $(am__append_27)
+@WITH_PYTHON_TRUE@BUILT_SOURCES = $(PYTHON_WRAP_CXX) $(am__append_27)
+@WITH_PYTHON_TRUE@pkgpython_PYTHON = log4cplus.py $(am__append_28)
 @WITH_PYTHON_TRUE@pkgpyexec_LTLIBRARIES = _log4cplus.la \
-@WITH_PYTHON_TRUE@	$(am__append_28)
+@WITH_PYTHON_TRUE@	$(am__append_29)
 @WITH_PYTHON_TRUE@_log4cplus_la_SOURCES = $(PYTHON_WRAP_CXX) $(SWIG_SOURCES)
 @WITH_PYTHON_TRUE@_log4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) $(SWIG_PYTHON_CPPFLAGS) \
 @WITH_PYTHON_TRUE@  $(PYTHON_CPPFLAGS) -DSWIG_TYPE_TABLE=log4cplus
@@ -1221,7 +1243,7 @@ all: $(BUILT_SOURCES)
 .SUFFIXES: .cxx .lo .o .obj
 am--refresh: Makefile
 	@:
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -1243,7 +1265,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
 	esac;
-$(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(am__empty):
+$(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(am__empty):
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -1986,6 +2008,26 @@ tests/timeformat_test/timeformat_testU-main.$(OBJEXT):  \
 timeformat_testU$(EXEEXT): $(timeformat_testU_OBJECTS) $(timeformat_testU_DEPENDENCIES) $(EXTRA_timeformat_testU_DEPENDENCIES) 
 	@rm -f timeformat_testU$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(timeformat_testU_OBJECTS) $(timeformat_testU_LDADD) $(LIBS)
+tests/unit_tests/$(am__dirstamp):
+	@$(MKDIR_P) tests/unit_tests
+	@: > tests/unit_tests/$(am__dirstamp)
+tests/unit_tests/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/unit_tests/$(DEPDIR)
+	@: > tests/unit_tests/$(DEPDIR)/$(am__dirstamp)
+tests/unit_tests/unit_tests.$(OBJEXT):  \
+	tests/unit_tests/$(am__dirstamp) \
+	tests/unit_tests/$(DEPDIR)/$(am__dirstamp)
+
+unit_tests$(EXEEXT): $(unit_tests_OBJECTS) $(unit_tests_DEPENDENCIES) $(EXTRA_unit_tests_DEPENDENCIES) 
+	@rm -f unit_tests$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(unit_tests_OBJECTS) $(unit_tests_LDADD) $(LIBS)
+tests/unit_tests/unit_testsU-unit_tests.$(OBJEXT):  \
+	tests/unit_tests/$(am__dirstamp) \
+	tests/unit_tests/$(DEPDIR)/$(am__dirstamp)
+
+unit_testsU$(EXEEXT): $(unit_testsU_OBJECTS) $(unit_testsU_DEPENDENCIES) $(EXTRA_unit_testsU_DEPENDENCIES) 
+	@rm -f unit_testsU$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(unit_testsU_OBJECTS) $(unit_testsU_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -2012,6 +2054,7 @@ mostlyclean-compile:
 	-rm -f tests/socket_test/*.$(OBJEXT)
 	-rm -f tests/thread_test/*.$(OBJEXT)
 	-rm -f tests/timeformat_test/*.$(OBJEXT)
+	-rm -f tests/unit_tests/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -2168,6 +2211,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@tests/thread_test/$(DEPDIR)/thread_testU-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/timeformat_test/$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@tests/timeformat_test/$(DEPDIR)/timeformat_testU-main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/unit_tests/$(DEPDIR)/unit_tests.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@tests/unit_tests/$(DEPDIR)/unit_testsU-unit_tests.Po@am__quote@
 
 .cxx.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -3257,6 +3302,20 @@ tests/timeformat_test/timeformat_testU-main.obj: tests/timeformat_test/main.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(timeformat_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/timeformat_test/timeformat_testU-main.obj `if test -f 'tests/timeformat_test/main.cxx'; then $(CYGPATH_W) 'tests/timeformat_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/timeformat_test/main.cxx'; fi`
 
+tests/unit_tests/unit_testsU-unit_tests.o: tests/unit_tests/unit_tests.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_testsU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/unit_tests/unit_testsU-unit_tests.o -MD -MP -MF tests/unit_tests/$(DEPDIR)/unit_testsU-unit_tests.Tpo -c -o tests/unit_tests/unit_testsU-unit_tests.o `test -f 'tests/unit_tests/unit_tests.cxx' || echo '$(srcdir)/'`tests/unit_tests/unit_tests.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/unit_tests/$(DEPDIR)/unit_testsU-unit_tests.Tpo tests/unit_tests/$(DEPDIR)/unit_testsU-unit_tests.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/unit_tests/unit_tests.cxx' object='tests/unit_tests/unit_testsU-unit_tests.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_testsU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/unit_tests/unit_testsU-unit_tests.o `test -f 'tests/unit_tests/unit_tests.cxx' || echo '$(srcdir)/'`tests/unit_tests/unit_tests.cxx
+
+tests/unit_tests/unit_testsU-unit_tests.obj: tests/unit_tests/unit_tests.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_testsU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/unit_tests/unit_testsU-unit_tests.obj -MD -MP -MF tests/unit_tests/$(DEPDIR)/unit_testsU-unit_tests.Tpo -c -o tests/unit_tests/unit_testsU-unit_tests.obj `if test -f 'tests/unit_tests/unit_tests.cxx'; then $(CYGPATH_W) 'tests/unit_tests/unit_tests.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/unit_tests/unit_tests.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/unit_tests/$(DEPDIR)/unit_testsU-unit_tests.Tpo tests/unit_tests/$(DEPDIR)/unit_testsU-unit_tests.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/unit_tests/unit_tests.cxx' object='tests/unit_tests/unit_testsU-unit_tests.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_testsU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/unit_tests/unit_testsU-unit_tests.obj `if test -f 'tests/unit_tests/unit_tests.cxx'; then $(CYGPATH_W) 'tests/unit_tests/unit_tests.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/unit_tests/unit_tests.cxx'; fi`
+
 mostlyclean-libtool:
 	-rm -f *.lo
 
@@ -3520,6 +3579,8 @@ distclean-generic:
 	-rm -f tests/thread_test/$(am__dirstamp)
 	-rm -f tests/timeformat_test/$(DEPDIR)/$(am__dirstamp)
 	-rm -f tests/timeformat_test/$(am__dirstamp)
+	-rm -f tests/unit_tests/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/unit_tests/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -3532,7 +3593,7 @@ clean-am: clean-generic clean-libLTLIBRARIES clean-libtool clean-local \
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf ./$(DEPDIR) qt4debugappender/$(DEPDIR) qt5debugappender/$(DEPDIR) simpleserver/$(DEPDIR) src/$(DEPDIR) tests/appender_test/$(DEPDIR) tests/configandwatch_test/$(DEPDIR) tests/customloglevel_test/$(DEPDIR) tests/fileappender_test/$(DEPDIR) tests/filter_test/$(DEPDIR) tests/hierarchy_test/$(DEPDIR) tests/loglog_test/$(DEPDIR) tests/ndc_test/$(DEPDIR) tests/ostream_test/$(DEPDIR) tests/patternlayout_test/$(DEPDIR) tests/performance_test/$(DEPDIR) tests/priority_test/$(DEPDIR) tests/propertyconfig_test/$(DEPDIR) tests/socket_test/$(DEPDIR) tests/thread_test/$(DEPDIR) tests/timeformat_test/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) qt4debugappender/$(DEPDIR) qt5debugappender/$(DEPDIR) simpleserver/$(DEPDIR) src/$(DEPDIR) tests/appender_test/$(DEPDIR) tests/configandwatch_test/$(DEPDIR) tests/customloglevel_test/$(DEPDIR) tests/fileappender_test/$(DEPDIR) tests/filter_test/$(DEPDIR) tests/hierarchy_test/$(DEPDIR) tests/loglog_test/$(DEPDIR) tests/ndc_test/$(DEPDIR) tests/ostream_test/$(DEPDIR) tests/patternlayout_test/$(DEPDIR) tests/performance_test/$(DEPDIR) tests/priority_test/$(DEPDIR) tests/propertyconfig_test/$(DEPDIR) tests/socket_test/$(DEPDIR) tests/thread_test/$(DEPDIR) tests/timeformat_test/$(DEPDIR) tests/unit_tests/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-tags
@@ -3580,7 +3641,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf ./$(DEPDIR) qt4debugappender/$(DEPDIR) qt5debugappender/$(DEPDIR) simpleserver/$(DEPDIR) src/$(DEPDIR) tests/appender_test/$(DEPDIR) tests/configandwatch_test/$(DEPDIR) tests/customloglevel_test/$(DEPDIR) tests/fileappender_test/$(DEPDIR) tests/filter_test/$(DEPDIR) tests/hierarchy_test/$(DEPDIR) tests/loglog_test/$(DEPDIR) tests/ndc_test/$(DEPDIR) tests/ostream_test/$(DEPDIR) tests/patternlayout_test/$(DEPDIR) tests/performance_test/$(DEPDIR) tests/priority_test/$(DEPDIR) tests/propertyconfig_test/$(DEPDIR) tests/socket_test/$(DEPDIR) tests/thread_test/$(DEPDIR) tests/timeformat_test/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) qt4debugappender/$(DEPDIR) qt5debugappender/$(DEPDIR) simpleserver/$(DEPDIR) src/$(DEPDIR) tests/appender_test/$(DEPDIR) tests/configandwatch_test/$(DEPDIR) tests/customloglevel_test/$(DEPDIR) tests/fileappender_test/$(DEPDIR) tests/filter_test/$(DEPDIR) tests/hierarchy_test/$(DEPDIR) tests/loglog_test/$(DEPDIR) tests/ndc_test/$(DEPDIR) tests/ostream_test/$(DEPDIR) tests/patternlayout_test/$(DEPDIR) tests/performance_test/$(DEPDIR) tests/priority_test/$(DEPDIR) tests/propertyconfig_test/$(DEPDIR) tests/socket_test/$(DEPDIR) tests/thread_test/$(DEPDIR) tests/timeformat_test/$(DEPDIR) tests/unit_tests/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

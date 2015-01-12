@@ -662,6 +662,7 @@ at_help_all="1;headers.at:1;separate compilation of log4cplus/appender.h;headers
 70;propertyconfig_test.at:1;propertyconfig_test;appenders;
 71;thread_test.at:1;thread_test;appenders;
 72;timeformat_test.at:1;timeformat_test;appenders;
+73;unit_tests.at:1;unit_tests;unit-tests;
 "
 # List of the all the test groups.
 at_groups_all=`$as_echo "$at_help_all" | sed 's/;.*//'`
@@ -675,7 +676,7 @@ at_fn_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 72; then
+    if test $at_value -lt 1 || test $at_value -gt 73; then
       $as_echo "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -7124,3 +7125,51 @@ fi
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
 #AT_STOP_72
+#AT_START_73
+at_fn_group_banner 73 'unit_tests.at:1' \
+  "unit_tests" "                                     " 2
+at_xfail=no
+(
+  $as_echo "73. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+
+{ set +x
+$as_echo "$at_srcdir/unit_tests.at:4: \"\${abs_top_builddir}/unit_tests\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "unit_tests.at:4"
+( $at_check_trace; "${abs_top_builddir}/unit_tests"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/unit_tests.at:4"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+
+  { set +x
+$as_echo "$at_srcdir/unit_tests.at:5: \"\${abs_top_builddir}/unit_testsU\""
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "unit_tests.at:5"
+( $at_check_trace; "${abs_top_builddir}/unit_testsU"
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo stderr:; tee stderr <"$at_stderr"
+echo stdout:; tee stdout <"$at_stdout"
+at_fn_check_status 0 $at_status "$at_srcdir/unit_tests.at:5"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+
+fi
+
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_73
