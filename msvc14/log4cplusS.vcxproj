@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_Unicode|Win32">
@@ -913,7 +913,9 @@
     <ClInclude Include="..\include\log4cplus\helpers\lockfile.h" />
     <ClInclude Include="..\include\log4cplus\hierarchy.h" />
     <ClInclude Include="..\include\log4cplus\hierarchylocker.h" />
+    <ClInclude Include="..\include\log4cplus\initializer.h" />
     <ClInclude Include="..\include\log4cplus\layout.h" />
+    <ClInclude Include="..\include\log4cplus\log4cplus.h" />
     <ClInclude Include="..\include\log4cplus\log4judpappender.h" />
     <ClInclude Include="..\include\log4cplus\logger.h" />
     <ClInclude Include="..\include\log4cplus\spi\loggingevent.h" />

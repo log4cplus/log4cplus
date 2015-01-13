@@ -34,6 +34,10 @@
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
 #include "ThreadPool.h"
 #endif
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#  define CATCH_CONFIG_RUNNER
+#  include <catch.hpp>
+#endif
 #include <cstdio>
 #include <iostream>
 #include <stdexcept>
@@ -535,6 +539,16 @@ thread_callback (LPVOID /*hinstDLL*/, DWORD fdwReason, LPVOID /*lpReserved*/)
 
 #endif
 
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+LOG4CPLUS_EXPORT int unit_tests_main (int argc, char* argv[]);
+int
+unit_tests_main (int argc, char * argv[])
+{
+    return Catch::Session ().run (argc, argv);
+}
+
+#endif
 
 } // namespace log4cplus
 

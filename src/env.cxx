@@ -210,10 +210,9 @@ namespace
 struct path_sep_comp
     : public std::unary_function<tchar, bool>
 {
-    constexpr path_sep_comp ()
+    path_sep_comp ()
     { }
 
-    constexpr
     bool
     operator () (tchar ch) const
     {
@@ -432,7 +431,7 @@ split_path (std::vector<tstring> & components, std::size_t & special,
     // First split the path into individual components separated by
     // system specific separator.
 
-    constexpr path_sep_comp is_sep;
+    const path_sep_comp is_sep;
     split_into_components (components, path, is_sep);
 
     // Try to recognize the path to find out how many initial components

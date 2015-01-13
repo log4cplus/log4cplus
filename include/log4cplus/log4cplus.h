@@ -54,4 +54,13 @@
 #include <log4cplus/syslogappender.h>
 #include <log4cplus/nullappender.h>
 
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+namespace log4cplus
+{
+
+LOG4CPLUS_EXPORT int unit_tests_main (int argc, char* argv[]);
+
+} // namespace log4cplus
+#endif
+
 #endif // LOG4CPLUS_LOG4CPLUS_HXX

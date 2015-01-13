@@ -832,6 +832,7 @@ enable_so_version
 enable_release_version
 enable_symbols_visibility_options
 with_wchar_t_support
+enable_unit_tests
 enable_profiling
 enable_threads
 with_qt
@@ -1507,6 +1508,7 @@ Optional Features:
                           Use platform and compiler specific symbols
                           visibility options, where they are available.
                           [default=yes]
+  --enable-unit-tests     Enable unit tests [default=no]
   --enable-profiling      Compile with profiling compiler options.
                           [default=no]
   --enable-threads=yes/no Use this option to create a singled-threaded version
@@ -4683,6 +4685,21 @@ fi
 
 BUILD_WITH_WCHAR_T_SUPPORT=$with_wchar_t_support
 
+
+
+
+# Check whether --enable-unit-tests was given.
+if test "${enable_unit_tests+set}" = set; then :
+  enableval=$enable_unit_tests;
+   log4cplus_check_yesno_func "${enableval}" "--enable-unit-tests"
+else
+  enable_unit_tests=no
+fi
+
+if test "x$enable_unit_tests" = "xyes"; then :
+  $as_echo "#define LOG4CPLUS_WITH_UNIT_TESTS 1" >>confdefs.h
+
+fi
 
 
 ac_ext=cpp

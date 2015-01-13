@@ -249,4 +249,7 @@
 /* Define to 1 if the system has the `init_priority' variable attribute */
 #undef LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY
 
+/* Defined to enable unit tests. */
+#undef LOG4CPLUS_WITH_UNIT_TESTS
+
 #endif // LOG4CPLUS_CONFIG_DEFINES_HXX

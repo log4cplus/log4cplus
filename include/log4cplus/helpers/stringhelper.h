@@ -127,7 +127,7 @@ namespace log4cplus {
                     value = -value;
             }
 
-            static constexpr
+            static
             bool
             is_negative (intType val)
             {
@@ -146,7 +146,7 @@ namespace log4cplus {
                 // This will never be called for unsigned types.
             }
 
-            static constexpr
+            static
             bool
             is_negative (intType)
             {

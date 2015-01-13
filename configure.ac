@@ -170,6 +170,19 @@ AM_CONDITIONAL([BUILD_WITH_WCHAR_T_SUPPORT],
 AS_VAR_SET([BUILD_WITH_WCHAR_T_SUPPORT], [$with_wchar_t_support])
 AC_SUBST([BUILD_WITH_WCHAR_T_SUPPORT])
 
+dnl Enable unit tests
+
+AH_TEMPLATE([LOG4CPLUS_WITH_UNIT_TESTS],
+  [Defined to enable unit tests.])
+AC_ARG_ENABLE([unit-tests],
+  [AC_HELP_STRING([--enable-unit-tests],
+    [Enable unit tests [default=no]])],
+  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-unit-tests])],
+  [enable_unit_tests=no])
+AS_IF([test "x$enable_unit_tests" = "xyes"],
+  [AC_DEFINE([LOG4CPLUS_WITH_UNIT_TESTS], [1])],
+  [])
+
 dnl Check for c/c++ compilers.
 
 AC_PROG_CXX

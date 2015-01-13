@@ -452,6 +452,9 @@
 /* Define when iconv() is available. */
 #undef LOG4CPLUS_WITH_ICONV
 
+/* Defined to enable unit tests. */
+#undef LOG4CPLUS_WITH_UNIT_TESTS
+
 /* Define for C99 compilers/standard libraries that support more than just the
    "C" locale. */
 #undef LOG4CPLUS_WORKING_C_LOCALE
