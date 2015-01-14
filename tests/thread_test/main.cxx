@@ -8,6 +8,7 @@
 #include <log4cplus/loggingmacros.h>
 #include <log4cplus/tracelogger.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/initializer.h>
 #include <exception>
 #include <iostream>
 #include <string>
@@ -82,7 +83,8 @@ using TestThreadPtr = log4cplus::helpers::SharedObjectPtr<TestThread>;
 int
 main()
 {
-    log4cplus::initialize();
+    log4cplus::Initializer initializer;
+
     try
     {
         SlowObjectPtr slowObject(new SlowObject());
@@ -127,7 +129,6 @@ main()
         LOG4CPLUS_FATAL(Logger::getRoot(), "main()- Exception occured");
     }
 
-    log4cplus::Logger::shutdown();
     return 0;
 }
 
@@ -135,6 +136,9 @@ main()
 void
 TestThread::run()
 {
+    // Test is here just to test initializer from multiple threads.
+    log4cplus::Initializer initializer;
+
     try {
         LOG4CPLUS_WARN(logger, name + LOG4CPLUS_TEXT(" TestThread.run()- Starting..."));
         NDC& ndc = getNDC();
