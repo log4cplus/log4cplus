@@ -41,7 +41,6 @@
 #include <log4cplus/appender.h>
 #include <log4cplus/mdc.h>
 #include <log4cplus/ndc.h>
-#include <log4cplus/initializer.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/filter.h>
@@ -53,5 +52,27 @@
 #include <log4cplus/socketappender.h>
 #include <log4cplus/syslogappender.h>
 #include <log4cplus/nullappender.h>
+
+
+namespace log4cplus
+{
+
+class LOG4CPLUS_EXPORT Initializer
+{
+public:
+    Initializer ();
+    ~Initializer ();
+
+    Initializer (Initializer const &) = delete;
+    Initializer (Initializer &&) = delete;
+    Initializer & operator = (Initializer const &) = delete;
+    Initializer & operator = (Initializer &&) = delete;
+
+private:
+    struct Impl;
+    std::unique_ptr<Impl> pimpl;
+};
+
+} // namespace log4cplus
 
 #endif // LOG4CPLUS_LOG4CPLUS_HXX

@@ -136,7 +136,6 @@ install(FILES ../include/log4cplus/appender.h
               ../include/log4cplus/fstreams.h
               ../include/log4cplus/hierarchy.h
               ../include/log4cplus/hierarchylocker.h
-              ../include/log4cplus/initializer.h
               ../include/log4cplus/layout.h
               ../include/log4cplus/log4cplus.h
               ../include/log4cplus/log4judpappender.h
