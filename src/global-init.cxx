@@ -85,7 +85,7 @@ Initializer::Initializer ()
                 InitializerImpl::instance = new InitializerImpl;
             });
 #else
-        InitializerImpl::instance = new InitializerImpl);
+        InitializerImpl::instance = new InitializerImpl;
 #endif
 
     LOG4CPLUS_THREADED (
