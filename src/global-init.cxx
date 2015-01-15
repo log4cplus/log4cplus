@@ -71,7 +71,9 @@ struct InitializerImpl
     static InitializerImpl * instance;
 };
 
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
 std::once_flag InitializerImpl::flag;
+#endif
 InitializerImpl * InitializerImpl::instance;
 
 
