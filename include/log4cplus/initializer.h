@@ -54,10 +54,6 @@ public:
     Initializer (Initializer &&) = delete;
     Initializer & operator = (Initializer const &) = delete;
     Initializer & operator = (Initializer &&) = delete;
-
-private:
-    struct Impl;
-    std::unique_ptr<Impl> pimpl;
 };
 
 } // namespace log4cplus

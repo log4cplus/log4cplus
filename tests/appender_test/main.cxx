@@ -9,6 +9,7 @@
 #include "log4cplus/helpers/pointer.h"
 #include "log4cplus/helpers/property.h"
 #include "log4cplus/spi/loggingevent.h"
+#include "log4cplus/initializer.h"
 
 
 static void
@@ -37,7 +38,8 @@ public:
 int
 main()
 {
-    log4cplus::initialize ();
+    log4cplus::Initializer initializer;
+
     log4cplus::helpers::LogLog::getLogLog()->setInternalDebugging(true);
     {
         try {
@@ -172,7 +174,7 @@ main()
         }
     }
 
-    log4cplus::Logger::shutdown();
     log4cplus::tcout << "Exiting main()..." << std::endl;
+
     return 0;
 }

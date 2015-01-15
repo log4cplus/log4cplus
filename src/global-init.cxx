@@ -58,33 +58,65 @@ LOG4CPLUS_EXPORT tostream & tcerr = std::cerr;
 #endif // UNICODE
 
 
-struct Initializer::Impl
+struct InitializerImpl
 {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     std::mutex mtx;
+
+    static std::once_flag flag;
 #endif
 
     unsigned count = 0;
+
+    static InitializerImpl * instance;
 };
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+std::once_flag InitializerImpl::flag;
+#endif
+InitializerImpl * InitializerImpl::instance;
 
 
 Initializer::Initializer ()
-    : pimpl (new Impl)
 {
-    LOG4CPLUS_THREADED (std::unique_lock<std::mutex> guard (pimpl->mtx));
-    if (pimpl->count == 0)
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+        std::call_once (InitializerImpl::flag,
+            [&] {
+                InitializerImpl::instance = new InitializerImpl;
+            });
+#else
+        InitializerImpl::instance = new InitializerImpl;
+#endif
+
+    LOG4CPLUS_THREADED (
+        std::unique_lock<std::mutex> guard (
+            InitializerImpl::instance->mtx));
+    if (InitializerImpl::instance->count == 0)
         initialize ();
 
-    ++pimpl->count;
+    ++InitializerImpl::instance->count;
 }
 
 
 Initializer::~Initializer ()
 {
-    LOG4CPLUS_THREADED (std::unique_lock<std::mutex> guard (pimpl->mtx));
-    --pimpl->count;
-    if (pimpl->count == 0)
-        Logger::shutdown ();
+    bool destroy = false;
+    {
+        LOG4CPLUS_THREADED (
+            std::unique_lock<std::mutex> guard (
+                InitializerImpl::instance->mtx));
+        --InitializerImpl::instance->count;
+        if (InitializerImpl::instance->count == 0)
+        {
+            destroy = true;
+            Logger::shutdown ();
+        }
+    }
+    if (destroy)
+    {
+        delete InitializerImpl::instance;
+        InitializerImpl::instance = 0;
+    }
 }
 
 
