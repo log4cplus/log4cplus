@@ -282,7 +282,7 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
     if (async)
     {
         std::atomic_fetch_add_explicit (&in_flight, std::size_t (1),
-            std::memory_order_relaxed);
+            std::memory_order_acq_rel);
 
         try
         {
@@ -291,9 +291,12 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
         catch (...)
         {
             std::size_t prev = std::atomic_fetch_sub_explicit (&in_flight,
-                std::size_t (1), std::memory_order_consume);
+                std::size_t (1), std::memory_order_acq_rel);
             if (prev == 1)
+            {
+                std::unique_lock<std::mutex> lock (in_flight_mutex);
                 in_flight_condition.notify_all ();
+            }
             throw;
         }
 
@@ -319,9 +322,12 @@ Appender::asyncDoAppend(const log4cplus::spi::InternalLoggingEvent& event)
         ~handle_in_flight ()
         {
             std::size_t prev = std::atomic_fetch_sub_explicit (&app->in_flight,
-                std::size_t (1), std::memory_order_consume);
+                std::size_t (1), std::memory_order_acq_rel);
             if (prev == 1)
+            {
+                std::unique_lock<std::mutex> lock (app->in_flight_mutex);
                 app->in_flight_condition.notify_all ();
+            }
         }
     };
 
