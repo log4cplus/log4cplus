@@ -283,6 +283,7 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
       AX_CXXFLAGS_GCC_OPTION([-Wundef])
       AX_CXXFLAGS_GCC_OPTION([-Wshadow])
       AX_CXXFLAGS_GCC_OPTION([-Wformat])
+      AX_CXXFLAGS_GCC_OPTION([-Wnoexcept])
       AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=format])
       dnl AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=pure])
       dnl AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=const])
