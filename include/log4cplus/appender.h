@@ -320,6 +320,11 @@ namespace log4cplus {
 
         /** Is this appender closed? */
         bool closed;
+
+    private:
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+        void subtract_in_flight();
+#endif
     };
 
     /** This is a pointer to an Appender. */
