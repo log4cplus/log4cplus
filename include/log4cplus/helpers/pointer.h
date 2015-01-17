@@ -53,7 +53,7 @@ namespace log4cplus {
         class LOG4CPLUS_EXPORT SharedObject
         {
         public:
-            void addReference() const;
+            void addReference() const LOG4CPLUS_NOEXCEPT;
             void removeReference() const;
 
         protected:
@@ -77,8 +77,8 @@ namespace log4cplus {
             virtual ~SharedObject();
 
           // Operators
-            SharedObject& operator=(const SharedObject&) { return *this; }
-            SharedObject& operator=(SharedObject &&) { return *this; }
+            SharedObject& operator=(const SharedObject&) LOG4CPLUS_NOEXCEPT { return *this; }
+            SharedObject& operator=(SharedObject &&) LOG4CPLUS_NOEXCEPT { return *this; }
 
         public:
             thread::Mutex access_mutex;
@@ -102,25 +102,25 @@ namespace log4cplus {
         public:
             // Ctor
             explicit
-            SharedObjectPtr(T* realPtr = 0)
+            SharedObjectPtr(T* realPtr = 0) LOG4CPLUS_NOEXCEPT
                 : pointee(realPtr)
             {
                 addref ();
             }
 
-            SharedObjectPtr(const SharedObjectPtr& rhs)
+            SharedObjectPtr(const SharedObjectPtr& rhs) LOG4CPLUS_NOEXCEPT
                 : pointee(rhs.pointee)
             {
                 addref ();
             }
 
-            SharedObjectPtr(SharedObjectPtr && rhs)
+            SharedObjectPtr(SharedObjectPtr && rhs) LOG4CPLUS_NOEXCEPT
                 : pointee (std::move (rhs.pointee))
             {
                 rhs.pointee = 0;
             }
 
-            SharedObjectPtr & operator = (SharedObjectPtr && rhs)
+            SharedObjectPtr & operator = (SharedObjectPtr && rhs) LOG4CPLUS_NOEXCEPT
             {
                 rhs.swap (*this);
                 return *this;
@@ -175,7 +175,7 @@ namespace log4cplus {
 
         private:
           // Methods
-            void addref() const
+            void addref() const LOG4CPLUS_NOEXCEPT
             {
                 if (pointee)
                     pointee->addReference();
