@@ -95,10 +95,12 @@ yield()
 }
 
 #if defined(LOG4CPLUS_SINGLE_THREADED)
-static log4cplus::tstring thread_name(LOG4CPLUS_TEXT("single"))
-    LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE - 1);
-static log4cplus::tstring thread_name2(thread_name)
-    LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE - 1);
+static log4cplus::tstring thread_name
+    LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE - 1)
+    (LOG4CPLUS_TEXT("single"));
+static log4cplus::tstring thread_name2
+    LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE - 1)
+    (thread_name);
 #endif
 
 LOG4CPLUS_EXPORT

@@ -279,7 +279,7 @@ enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
 void
 shutdownThreadPool ()
 {
-    LOG4CPLUS_THREADED (get_dc ()->thread_pool.release ());
+    LOG4CPLUS_THREADED (get_dc ()->thread_pool.reset ());
 }
 
 
