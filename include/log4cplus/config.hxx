@@ -90,6 +90,16 @@
 #  define __has_feature(X) 0
 #endif
 
+#if __has_feature (cxx_noexcept)                       \
+    || (defined (__GNUC__)                             \
+        && (__GNUC__ > 4                               \
+            || __GNUC__ == 4 && __GNUC_MINOR__ >= 6))  \
+    || (defined (_MSC_VER) && _MSC_VER >= 1900)
+#  define LOG4CPLUS_NOEXCEPT noexcept
+#else
+#  define LOG4CPLUS_NOEXCEPT /* empty */
+#endif
+
 #if ! defined (UNICODE) && defined (__GNUC__) && __GNUC__ >= 3
 #  define LOG4CPLUS_FORMAT_ATTRIBUTE(archetype, format_index, first_arg_index) \
     __attribute__ ((format (archetype, format_index, first_arg_index)))

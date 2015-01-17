@@ -44,7 +44,7 @@ SharedObject::~SharedObject()
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-SharedObject::addReference() const
+SharedObject::addReference() const LOG4CPLUS_NOEXCEPT
 {
 #if defined (LOG4CPLUS_SINGLE_THREADED)
     ++count__;
