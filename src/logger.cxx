@@ -97,11 +97,11 @@ Logger::shutdown ()
 // Logger ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-Logger::Logger ()
+Logger::Logger () LOG4CPLUS_NOEXCEPT
 { }
 
 
-Logger::Logger (spi::LoggerImpl * ptr)
+Logger::Logger (spi::LoggerImpl * ptr) LOG4CPLUS_NOEXCEPT
     : value (ptr)
 {
     if (value)
@@ -109,7 +109,7 @@ Logger::Logger (spi::LoggerImpl * ptr)
 }
 
 
-Logger::Logger (const Logger& rhs)
+Logger::Logger (const Logger& rhs) LOG4CPLUS_NOEXCEPT
     : spi::AppenderAttachable (rhs)
     , value (rhs.value)
 {
@@ -119,14 +119,14 @@ Logger::Logger (const Logger& rhs)
 
 
 Logger &
-Logger::operator = (const Logger& rhs)
+Logger::operator = (const Logger& rhs) LOG4CPLUS_NOEXCEPT
 {
     Logger (rhs).swap (*this);
     return *this;
 }
 
 
-Logger::Logger (Logger && rhs)
+Logger::Logger (Logger && rhs) LOG4CPLUS_NOEXCEPT
     : spi::AppenderAttachable (std::move (rhs))
     , value (std::move (rhs.value))
 {
@@ -135,7 +135,7 @@ Logger::Logger (Logger && rhs)
 
 
 Logger &
-Logger::operator = (Logger && rhs)
+Logger::operator = (Logger && rhs) LOG4CPLUS_NOEXCEPT
 {
     Logger (std::move (rhs)).swap (*this);
     return *this;
@@ -154,7 +154,7 @@ Logger::~Logger ()
 //////////////////////////////////////////////////////////////////////////////
 
 void
-Logger::swap (Logger & other)
+Logger::swap (Logger & other) LOG4CPLUS_NOEXCEPT
 {
     std::swap (value, other.value);
 }
