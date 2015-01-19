@@ -141,10 +141,6 @@
    "C" locale. */
 #undef LOG4CPLUS_WORKING_C_LOCALE
 
-/* Define so that log4cplus will use C++11 threads and synchronization
-   primitives. */
-#undef LOG4CPLUS_WITH_CXX11_THREADS
-
 /* Define to int if undefined. */
 #undef socklen_t
 
@@ -171,10 +167,6 @@
 
 /* Defined if the host OS provides ENAMETOOLONG errno value. */
 #undef LOG4CPLUS_HAVE_ENAMETOOLONG
-
-/* Defined if the compiler provides C++11 <atomic> header and increment,
-   decrement operations. */
-#undef LOG4CPLUS_HAVE_CXX11_ATOMICS
 
 /* */
 #undef LOG4CPLUS_HAVE_VSNPRINTF
