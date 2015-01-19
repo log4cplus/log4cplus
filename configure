@@ -23752,7 +23752,7 @@ ac_config_headers="$ac_config_headers include/log4cplus/config.h"
 
 ac_config_headers="$ac_config_headers include/log4cplus/config/defines.hxx"
 
-ac_config_files="$ac_config_files Makefile include/Makefile tests/atlocal"
+ac_config_files="$ac_config_files Makefile include/Makefile tests/atlocal log4cplus.pc"
 
 
 ac_config_files="$ac_config_files tests/configandwatch_test/log4cplus.properties tests/filter_test/log4cplus.properties tests/performance_test/log4cplus.properties tests/propertyconfig_test/log4cplus.properties tests/propertyconfig_test/log4cplus.tail.properties"
@@ -23765,8 +23765,6 @@ AUTOM4TE=${AUTOM4TE-"${am_missing_run}autom4te"}
 
 
 
-
-ac_config_files="$ac_config_files log4cplus.pc"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -24927,12 +24925,12 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "include/Makefile") CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
     "tests/atlocal") CONFIG_FILES="$CONFIG_FILES tests/atlocal" ;;
+    "log4cplus.pc") CONFIG_FILES="$CONFIG_FILES log4cplus.pc" ;;
     "tests/configandwatch_test/log4cplus.properties") CONFIG_FILES="$CONFIG_FILES tests/configandwatch_test/log4cplus.properties" ;;
     "tests/filter_test/log4cplus.properties") CONFIG_FILES="$CONFIG_FILES tests/filter_test/log4cplus.properties" ;;
     "tests/performance_test/log4cplus.properties") CONFIG_FILES="$CONFIG_FILES tests/performance_test/log4cplus.properties" ;;
     "tests/propertyconfig_test/log4cplus.properties") CONFIG_FILES="$CONFIG_FILES tests/propertyconfig_test/log4cplus.properties" ;;
     "tests/propertyconfig_test/log4cplus.tail.properties") CONFIG_FILES="$CONFIG_FILES tests/propertyconfig_test/log4cplus.tail.properties" ;;
-    "log4cplus.pc") CONFIG_FILES="$CONFIG_FILES log4cplus.pc" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

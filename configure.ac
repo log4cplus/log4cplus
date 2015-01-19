@@ -122,7 +122,7 @@ AC_SUBST([LOG4CPLUS_NDEBUG])
 dnl Turn warnings on/off?
 
 AC_ARG_ENABLE([warnings],
-  [AC_HELP_STRING([--enable-warnings],
+  [AS_HELP_STRING([--enable-warnings],
     [Use compiler warnings option, e.g. -Wall. [default=yes]])],
   [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-warnings])],
   [enable_warnings=yes])
@@ -130,7 +130,7 @@ AC_ARG_ENABLE([warnings],
 dnl Enable SO version.
 
 AC_ARG_ENABLE([so-version],
-  [AC_HELP_STRING([--enable-so-version],
+  [AS_HELP_STRING([--enable-so-version],
     [Use libtool -version-info option. [default=yes]])],
   [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-so-version])],
   [enable_so_version=yes])
@@ -140,7 +140,7 @@ AM_CONDITIONAL([ENABLE_VERSION_INFO_OPTION],
 dnl Enable release version.
 
 AC_ARG_ENABLE([release-version],
-  [AC_HELP_STRING([--enable-release-version],
+  [AS_HELP_STRING([--enable-release-version],
     [Use libtool -release option. [default=yes]])],
   [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-release-version])],
   [enable_release_version=yes])
@@ -150,7 +150,7 @@ AM_CONDITIONAL([ENABLE_RELEASE_OPTION],
 dnl Enable use of symbol visibility options.
 
 AC_ARG_ENABLE([symbols-visibility-options],
-  [AC_HELP_STRING([--enable-symbols-visibility-options],
+  [AS_HELP_STRING([--enable-symbols-visibility-options],
     [Use platform and compiler specific symbols visibility options,
      where they are available. [default=yes]])],
   [LOG4CPLUS_CHECK_YESNO([${enableval}],
@@ -175,7 +175,7 @@ dnl Enable unit tests
 AH_TEMPLATE([LOG4CPLUS_WITH_UNIT_TESTS],
   [Defined to enable unit tests.])
 AC_ARG_ENABLE([unit-tests],
-  [AC_HELP_STRING([--enable-unit-tests],
+  [AS_HELP_STRING([--enable-unit-tests],
     [Enable unit tests [default=no]])],
   [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-unit-tests])],
   [enable_unit_tests=no])
@@ -712,7 +712,8 @@ AC_CONFIG_HEADERS([include/log4cplus/config.h])
 AC_CONFIG_HEADERS([include/log4cplus/config/defines.hxx])
 AC_CONFIG_FILES([Makefile
            include/Makefile
-           tests/atlocal])
+           tests/atlocal
+           log4cplus.pc])
 
 m4_include([tests/configure.m4])
 
@@ -721,4 +722,4 @@ AM_MISSING_PROG([AUTOM4TE], [autom4te])
 AC_SUBST([LOG4CPLUS_PROFILING_LDFLAGS])
 AC_SUBST([LOG4CPLUS_PROFILING_CXXFLAGS])
 
-AC_OUTPUT([log4cplus.pc])
+AC_OUTPUT

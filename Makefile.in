@@ -170,13 +170,12 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h \
 	$(top_builddir)/include/log4cplus/config/defines.hxx
-CONFIG_CLEAN_FILES = tests/atlocal \
+CONFIG_CLEAN_FILES = tests/atlocal log4cplus.pc \
 	tests/configandwatch_test/log4cplus.properties \
 	tests/filter_test/log4cplus.properties \
 	tests/performance_test/log4cplus.properties \
 	tests/propertyconfig_test/log4cplus.properties \
-	tests/propertyconfig_test/log4cplus.tail.properties \
-	log4cplus.pc
+	tests/propertyconfig_test/log4cplus.tail.properties
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -1300,6 +1299,8 @@ distclean-hdr:
 	-rm -f include/log4cplus/config.h include/log4cplus/stamp-h1 include/log4cplus/config/defines.hxx include/log4cplus/config/stamp-h2
 tests/atlocal: $(top_builddir)/config.status $(top_srcdir)/tests/atlocal.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
+log4cplus.pc: $(top_builddir)/config.status $(srcdir)/log4cplus.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 tests/configandwatch_test/log4cplus.properties: $(top_builddir)/config.status $(top_srcdir)/tests/configandwatch_test/log4cplus.properties.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 tests/filter_test/log4cplus.properties: $(top_builddir)/config.status $(top_srcdir)/tests/filter_test/log4cplus.properties.in
@@ -1309,8 +1310,6 @@ tests/performance_test/log4cplus.properties: $(top_builddir)/config.status $(top
 tests/propertyconfig_test/log4cplus.properties: $(top_builddir)/config.status $(top_srcdir)/tests/propertyconfig_test/log4cplus.properties.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 tests/propertyconfig_test/log4cplus.tail.properties: $(top_builddir)/config.status $(top_srcdir)/tests/propertyconfig_test/log4cplus.tail.properties.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
-log4cplus.pc: $(top_builddir)/config.status $(srcdir)/log4cplus.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)

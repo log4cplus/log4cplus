@@ -19,5 +19,8 @@ export AUTOM4TE="autom4te${AUTOCONF_SUFFIX}"
 export LIBTOOLIZE="libtoolize${LIBTOOL_SUFFIX}"
 export LIBTOOL="libtool${LIBTOOL_SUFFIX}"
 
-$AUTORECONF -f
+$LIBTOOLIZE -vcif
+$ACLOCAL -I m4 --install -Wall --force
+$AUTOMAKE -vcaf
+$AUTOCONF -I m4 -f -Wall
 $AUTOM4TE --language=Autotest -I tests tests/testsuite.at -o tests/testsuite
