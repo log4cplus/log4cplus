@@ -7614,7 +7614,6 @@ if ${ax_cv_cxxflags_sun_option_pw+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option_pw="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7681,7 +7680,6 @@ if ${ax_cv_cxxflags_sun_option__g+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__g="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7748,7 +7746,6 @@ if ${ax_cv_cxxflags_sun_option__pg+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__pg="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7802,7 +7799,6 @@ if ${ax_cv_cxxflags_sun_option__g+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__g="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7868,7 +7864,6 @@ if ${ax_cv_cxxflags_sun_option__features_zla+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__features_zla="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7939,7 +7934,6 @@ if ${ax_cv_cxxflags_sun_option__library_stlport4+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__library_stlport4="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -8005,7 +7999,6 @@ if ${ax_cv_cxxflags_sun_option__library_Crun+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__library_Crun="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -8324,7 +8317,6 @@ if ${ax_cv_cxxflags_sun_option__xldscope_hidden+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__xldscope_hidden="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -10130,7 +10122,6 @@ if ${ax_cv_cxxflags_sun_option__xthreadvar+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__xthreadvar="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
