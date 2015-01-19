@@ -76,8 +76,11 @@ for ac_arg dnl
 in "+xstrconst -Xc % m4_ifval($2,$2,-option)"     dnl Solaris C
    #
 do FLAGS="$ac_save_[]FLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   AC_TRY_COMPILE([],[return 0;],
-   [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break])
+   AC_LINK_IFELSE(
+     [AC_LANG_PROGRAM([[int zero;]],
+        [[zero = 0; return zero;]])],
+     [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break],
+     [])
 done
  FLAGS="$ac_save_[]FLAGS"
  AC_LANG_POP([C])
@@ -111,8 +114,11 @@ for ac_arg dnl
 in "+xstrconst -Xc % m4_ifval($2,$2,-option)"     dnl Solaris C
    #
 do FLAGS="$ac_save_[]FLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   AC_TRY_COMPILE([],[return 0;],
-   [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break])
+   AC_LINK_IFELSE(
+     [AC_LANG_PROGRAM([[int zero;]],
+        [[zero = 0; return zero;]])],
+     [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break],
+     [])
 done
  FLAGS="$ac_save_[]FLAGS"
  AC_LANG_POP([C++])
@@ -145,8 +151,11 @@ for ac_arg dnl
 in "+xstrconst -Xc % m4_ifval($1,$1,-option)"     dnl Solaris C
    #
 do FLAGS="$ac_save_[]FLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   AC_TRY_COMPILE([],[return 0;],
-   [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break])
+   AC_LINK_IFELSE(
+     [AC_LANG_PROGRAM([[int zero;]],
+        [[zero = 0; return zero;]])],
+     [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break],
+     [])
 done
  FLAGS="$ac_save_[]FLAGS"
  AC_LANG_POP([C])
@@ -180,8 +189,11 @@ for ac_arg dnl
 in "+xstrconst -Xc % m4_ifval($1,$1,-option)"     dnl Solaris C
    #
 do FLAGS="$ac_save_[]FLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   AC_TRY_COMPILE([],[return 0;],
-   [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break])
+   AC_LINK_IFELSE(
+     [AC_LANG_PROGRAM([[int zero;]],
+        [[zero = 0; return zero;]])],
+     [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break],
+     [])
 done
  FLAGS="$ac_save_[]FLAGS"
  AC_LANG_POP([C++])
