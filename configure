@@ -5757,7 +5757,6 @@ if ${ax_cv_cxxflags_gcc_option__fdiagnostics_show_caret+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__fdiagnostics_show_caret="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -5822,7 +5821,6 @@ if ${ax_cv_cxxflags_gcc_option__ftrack_macro_expansion+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__ftrack_macro_expansion="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -5889,7 +5887,6 @@ if ${ax_cv_cxxflags_gcc_option__fdiagnostics_color_auto+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__fdiagnostics_color_auto="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -5956,7 +5953,6 @@ if ${ax_cv_cxxflags_gcc_option__Wextra+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wextra="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6021,7 +6017,6 @@ if ${ax_cv_cxxflags_gcc_option__pedantic+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__pedantic="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6086,7 +6081,6 @@ if ${ax_cv_cxxflags_gcc_option__Wstrict_aliasing+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wstrict_aliasing="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6151,7 +6145,6 @@ if ${ax_cv_cxxflags_gcc_option__Wstrict_overflow+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wstrict_overflow="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6216,7 +6209,6 @@ if ${ax_cv_cxxflags_gcc_option__Woverloaded_virtual+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Woverloaded_virtual="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6285,7 +6277,6 @@ if ${ax_cv_cxxflags_gcc_option__Wold_style_cast+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wold_style_cast="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6351,7 +6342,6 @@ if ${ax_cv_cxxflags_gcc_option__Wcpp14_compat+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wcpp14_compat="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6416,7 +6406,6 @@ if ${ax_cv_cxxflags_gcc_option__Wundef+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wundef="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6481,7 +6470,6 @@ if ${ax_cv_cxxflags_gcc_option__Wshadow+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wshadow="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6546,7 +6534,6 @@ if ${ax_cv_cxxflags_gcc_option__Wformat+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wformat="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6611,7 +6598,6 @@ if ${ax_cv_cxxflags_gcc_option__Wnoexcept+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wnoexcept="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6676,7 +6662,6 @@ if ${ax_cv_cxxflags_gcc_option__Wsuggest_attribute_format+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wsuggest_attribute_format="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6741,7 +6726,6 @@ if ${ax_cv_cxxflags_gcc_option__Wsuggest_attribute_noreturn+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wsuggest_attribute_noreturn="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6806,7 +6790,6 @@ if ${ax_cv_cxxflags_gcc_option__Wno_variadic_macros+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wno_variadic_macros="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6874,7 +6857,6 @@ if ${ax_cv_cxxflags_gcc_option__g3+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__g3="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6943,7 +6925,6 @@ if ${ax_cv_cxxflags_gcc_option__fstack_check+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__fstack_check="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7008,7 +6989,6 @@ if ${ax_cv_cxxflags_gcc_option__fstack_protector+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__fstack_protector="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7074,7 +7054,6 @@ if ${ax_cv_cxxflags_gcc_option__fsanitize_address+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__fsanitize_address="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7139,7 +7118,6 @@ if ${ax_cv_cxxflags_gcc_option__fsanitize_undefined+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__fsanitize_undefined="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7204,7 +7182,6 @@ if ${ax_cv_cxxflags_gcc_option__ftrapv+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__ftrapv="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7273,7 +7250,6 @@ if ${ax_cv_cxxflags_gcc_option__Og+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Og="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7343,7 +7319,6 @@ if ${ax_cv_cxxflags_gcc_option__O1+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__O1="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7414,7 +7389,6 @@ if ${ax_cv_cxxflags_gcc_option__O2+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__O2="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7483,7 +7457,6 @@ if ${ax_cv_cxxflags_gcc_option__pg+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__pg="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7538,7 +7511,6 @@ if ${ax_cv_cxxflags_gcc_option__g3+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__g3="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -8250,7 +8222,6 @@ if ${ax_cv_cxxflags_gcc_option__fvisibility_hidden+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__fvisibility_hidden="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
