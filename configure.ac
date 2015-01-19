@@ -438,15 +438,15 @@ dnl Windows/MinGW specific.
 AS_CASE(["$target_os"],
   [mingw*], [
     AC_LANG_PUSH([C])
-    AC_HAVE_LIBRARY([kernel32])
-    AC_HAVE_LIBRARY([advapi32])
-    AC_HAVE_LIBRARY([ws2_32])
-    AC_HAVE_LIBRARY([oleaut32])
+    AC_CHECK_LIB([kernel32], [main])
+    AC_CHECK_LIB([advapi32], [main])
+    AC_CHECK_LIB([ws2_32], [main])
+    AC_CHECK_LIB([oleaut32], [main])
     AC_LANG_POP([C])],
   [cygwin*], [
     AC_LANG_PUSH([C])
-    AC_HAVE_LIBRARY([kernel32])
-    AC_HAVE_LIBRARY([oleaut32])
+    AC_CHECK_LIB([kernel32], [main])
+    AC_CHECK_LIB([oleaut32], [main])
     AC_LANG_POP([C])])
 
 dnl Checks for header files.

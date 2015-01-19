@@ -8996,7 +8996,6 @@ _ACEOF
   LIBS="-lkernel32 $LIBS"
 
 fi
-ac_cv_lib_kernel32=ac_cv_lib_kernel32_main
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -ladvapi32" >&5
 $as_echo_n "checking for main in -ladvapi32... " >&6; }
@@ -9036,7 +9035,6 @@ _ACEOF
   LIBS="-ladvapi32 $LIBS"
 
 fi
-ac_cv_lib_advapi32=ac_cv_lib_advapi32_main
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lws2_32" >&5
 $as_echo_n "checking for main in -lws2_32... " >&6; }
@@ -9076,7 +9074,6 @@ _ACEOF
   LIBS="-lws2_32 $LIBS"
 
 fi
-ac_cv_lib_ws2_32=ac_cv_lib_ws2_32_main
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -loleaut32" >&5
 $as_echo_n "checking for main in -loleaut32... " >&6; }
@@ -9116,7 +9113,6 @@ _ACEOF
   LIBS="-loleaut32 $LIBS"
 
 fi
-ac_cv_lib_oleaut32=ac_cv_lib_oleaut32_main
 
     ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -9170,7 +9166,6 @@ _ACEOF
   LIBS="-lkernel32 $LIBS"
 
 fi
-ac_cv_lib_kernel32=ac_cv_lib_kernel32_main
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -loleaut32" >&5
 $as_echo_n "checking for main in -loleaut32... " >&6; }
@@ -9210,7 +9205,6 @@ _ACEOF
   LIBS="-loleaut32 $LIBS"
 
 fi
-ac_cv_lib_oleaut32=ac_cv_lib_oleaut32_main
 
     ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
