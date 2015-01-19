@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 dnl This version of log4cplus requires the follwing autotools versions:
 dnl autoconf-2.69
 dnl automake-1.15
-dnl libtool-2.4.4
+dnl libtool-2.4.5
 
 AC_INIT([log4cplus],[2.0.0])
 AC_CANONICAL_TARGET
