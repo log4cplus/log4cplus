@@ -31,10 +31,8 @@ AH_TEMPLATE([LOG4CPLUS_WORKING_LOCALE],
   [Define for compilers/standard libraries that support more than
    just the "C" locale.])
 
-AC_ARG_WITH([working-locale],
-  [AS_HELP_STRING([--with-working-locale],
-    [Use std::locale for char->wchar_t conversion.])],
-  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-working-locale])],
+LOG4CPLUS_ARG_WITH([working-locale], [--with-working-locale],
+  [Use std::locale for char->wchar_t conversion.],
   [with_working_locale=no])
 
 AS_IF([test "x$with_working_locale" = "xyes"],
@@ -47,10 +45,8 @@ AH_TEMPLATE([LOG4CPLUS_WORKING_C_LOCALE],
   [Define for C99 compilers/standard libraries that support more than
    just the "C" locale.])
 
-AC_ARG_WITH([working-c-locale],
-  [AS_HELP_STRING([--with-working-c-locale],
-    [Use C99 locale facilities for char->wchar_t conversion.])],
-  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-working-c-locale])],
+LOG4CPLUS_ARG_WITH([working-c-locale], [--with-working-c-locale],
+  [Use C99 locale facilities for char->wchar_t conversion.],
   [with_working_c_locale=no])
 
 AS_IF([test "x$with_working_c_locale" = "xyes"],
@@ -62,10 +58,8 @@ dnl Use iconv() function for string conversion.
 AH_TEMPLATE([LOG4CPLUS_WITH_ICONV],
   [Define when iconv() is available.])
 
-AC_ARG_WITH([iconv],
-  [AS_HELP_STRING([--with-iconv],
-    [Use iconv() for char->wchar_t conversion.])],
-  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-iconv])],
+LOG4CPLUS_ARG_WITH([iconv], [--with-iconv],
+  [Use iconv() for char->wchar_t conversion.],
   [with_iconv=no])
 
 AS_IF([test "x$with_iconv" = "xyes"],
@@ -143,11 +137,9 @@ AC_ARG_ENABLE([symbols-visibility-options],
 
 dnl Build wchar_t aware alternative.
 
-AC_ARG_WITH([wchar_t-support],
-  [AS_HELP_STRING([--with-wchar_t-support],
-    [Additionally, produce binaries with log4cplus::tchar as wchar_t.
-     The additional produced binaries will have 'U' suffix. [default=yes]])],
-  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-wchar_t-support])],
+LOG4CPLUS_ARG_WITH([wchar_t-support], [--with-wchar_t-support],
+  [Additionally, produce binaries with log4cplus::tchar as wchar_t.
+   The additional produced binaries will have 'U' suffix. [default=yes]],
   [with_wchar_t_support=yes])
 AM_CONDITIONAL([BUILD_WITH_WCHAR_T_SUPPORT],
   [test "x$with_wchar_t_support" = "xyes"])
@@ -622,10 +614,8 @@ dnl Qt4 setup using pkg-config.
 
 PKG_PROG_PKG_CONFIG
 
-AC_ARG_WITH([qt],
-  [AS_HELP_STRING([--with-qt],
-    [Build liblog4cplusqt4debugappender.])],
-  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-qt])],
+LOG4CPLUS_ARG_WITH([qt], [--with-qt],
+  [Build liblog4cplusqt4debugappender.],
   [with_qt=no])
 
 AS_IF([test "x$with_qt" = "xyes"],
@@ -638,10 +628,8 @@ AC_SUBST([QT_LIBS])
 
 dnl Qt5 setup using pkg-config.
 
-AC_ARG_WITH([qt5],
-  [AS_HELP_STRING([--with-qt5],
-    [Build liblog4cplusqt5debugappender.])],
-  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-qt5])],
+LOG4CPLUS_ARG_WITH([qt5], [--with-qt5],
+  [Build liblog4cplusqt5debugappender.],
   [with_qt5=no])
 
 AS_IF([test "x$with_qt5" = "xyes"],
