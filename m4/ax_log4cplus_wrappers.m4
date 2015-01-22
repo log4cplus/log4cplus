@@ -41,13 +41,13 @@ AC_DEFUN([LOG4CPLUS_CXXFLAGS_ADD_IF_NO_OPTIMIZATION],
 dnl Declare --with-foo.
 AC_DEFUN([LOG4CPLUS_ARG_WITH],
   [AC_ARG_WITH([$1],
-     [AS_HELP_STRING([$2], [$3])],
-     [LOG4CPLUS_CHECK_YESNO([${withval}], [$2])],
-     [$4])])
+     [AS_HELP_STRING([--with-$1], [$2])],
+     [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-$1])],
+     [$3])])
 
 dnl Declare --enable-bar.
 AC_DEFUN([LOG4CPLUS_ARG_ENABLE],
   [AC_ARG_ENABLE([$1],
-     [AS_HELP_STRING([$2], [$3])],
-     [LOG4CPLUS_CHECK_YESNO([${enableval}], [$2])],
-     [$4])])
+     [AS_HELP_STRING([--enable-$1], [$2])],
+     [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-$1])],
+     [$3])])

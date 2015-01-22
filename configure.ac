@@ -31,7 +31,7 @@ AH_TEMPLATE([LOG4CPLUS_WORKING_LOCALE],
   [Define for compilers/standard libraries that support more than
    just the "C" locale.])
 
-LOG4CPLUS_ARG_WITH([working-locale], [--with-working-locale],
+LOG4CPLUS_ARG_WITH([working-locale],
   [Use std::locale for char->wchar_t conversion.],
   [with_working_locale=no])
 
@@ -45,7 +45,7 @@ AH_TEMPLATE([LOG4CPLUS_WORKING_C_LOCALE],
   [Define for C99 compilers/standard libraries that support more than
    just the "C" locale.])
 
-LOG4CPLUS_ARG_WITH([working-c-locale], [--with-working-c-locale],
+LOG4CPLUS_ARG_WITH([working-c-locale],
   [Use C99 locale facilities for char->wchar_t conversion.],
   [with_working_c_locale=no])
 
@@ -58,7 +58,7 @@ dnl Use iconv() function for string conversion.
 AH_TEMPLATE([LOG4CPLUS_WITH_ICONV],
   [Define when iconv() is available.])
 
-LOG4CPLUS_ARG_WITH([iconv], [--with-iconv],
+LOG4CPLUS_ARG_WITH([iconv],
   [Use iconv() for char->wchar_t conversion.],
   [with_iconv=no])
 
@@ -74,7 +74,7 @@ nor iconv() support requested, using poor man's locale conversion.])])
 
 dnl Debugging or release build?
 
-LOG4CPLUS_ARG_ENABLE([debugging], [--enable-debugging],
+LOG4CPLUS_ARG_ENABLE([debugging],
   [Turns off optimization and adds switches that generate debugging
    information. [default=no]],
   [enable_debugging=no])
@@ -97,13 +97,13 @@ AC_SUBST([LOG4CPLUS_NDEBUG])
 
 dnl Turn warnings on/off?
 
-LOG4CPLUS_ARG_ENABLE([warnings], [--enable-warnings],
+LOG4CPLUS_ARG_ENABLE([warnings],
   [Use compiler warnings option, e.g. -Wall. [default=yes]],
   [enable_warnings=yes])
 
 dnl Enable SO version.
 
-LOG4CPLUS_ARG_ENABLE([so-version], [--enable-so-version],
+LOG4CPLUS_ARG_ENABLE([so-version],
   [Use libtool -version-info option. [default=yes]],
   [enable_so_version=yes])
 AM_CONDITIONAL([ENABLE_VERSION_INFO_OPTION],
@@ -111,7 +111,7 @@ AM_CONDITIONAL([ENABLE_VERSION_INFO_OPTION],
 
 dnl Enable release version.
 
-LOG4CPLUS_ARG_ENABLE([release-version], [--enable-release-version],
+LOG4CPLUS_ARG_ENABLE([release-version],
   [Use libtool -release option. [default=yes]],
   [enable_release_version=yes])
 AM_CONDITIONAL([ENABLE_RELEASE_OPTION],
@@ -120,14 +120,13 @@ AM_CONDITIONAL([ENABLE_RELEASE_OPTION],
 dnl Enable use of symbol visibility options.
 
 LOG4CPLUS_ARG_ENABLE([symbols-visibility-options],
-  [--enable-symbols-visibility-options],
   [Use platform and compiler specific symbols visibility options,
    where they are available. [default=yes]],
   [enable_symbols_visibility_options=yes])
 
 dnl Build wchar_t aware alternative.
 
-LOG4CPLUS_ARG_WITH([wchar_t-support], [--with-wchar_t-support],
+LOG4CPLUS_ARG_WITH([wchar_t-support],
   [Additionally, produce binaries with log4cplus::tchar as wchar_t.
    The additional produced binaries will have 'U' suffix. [default=yes]],
   [with_wchar_t_support=yes])
@@ -140,7 +139,7 @@ dnl Enable unit tests
 
 AH_TEMPLATE([LOG4CPLUS_WITH_UNIT_TESTS],
   [Defined to enable unit tests.])
-LOG4CPLUS_ARG_ENABLE([unit-tests], [--enable-unit-tests],
+LOG4CPLUS_ARG_ENABLE([unit-tests],
   [Enable unit tests [default=no]],
   [enable_unit_tests=no])
 AS_IF([test "x$enable_unit_tests" = "xyes"],
@@ -189,7 +188,7 @@ AS_CASE(["$target_os"],
      [UNIX_STD=2003])
    export UNIX_STD])
 
-LOG4CPLUS_ARG_ENABLE([profiling], [--enable-profiling],
+LOG4CPLUS_ARG_ENABLE([profiling],
   [Compile with profiling compiler options. [default=no]],
   [enable_profiling=no])
 LOG4CPLUS_PROFILING_LDFLAGS=
@@ -447,7 +446,7 @@ AX_TYPE_SOCKLEN_T
 dnl Check for single-threaded compilation
 
 AH_TEMPLATE([LOG4CPLUS_USE_PTHREADS])
-LOG4CPLUS_ARG_ENABLE([threads], [--enable-threads],
+LOG4CPLUS_ARG_ENABLE([threads],
   [Use this option to create a singled-threaded version of this library [default=yes]],
   [enable_threads=yes])
 AS_VAR_SET([ENABLE_THREADS], [$enable_threads])
@@ -598,7 +597,7 @@ dnl Qt4 setup using pkg-config.
 
 PKG_PROG_PKG_CONFIG
 
-LOG4CPLUS_ARG_WITH([qt], [--with-qt],
+LOG4CPLUS_ARG_WITH([qt],
   [Build liblog4cplusqt4debugappender.],
   [with_qt=no])
 
@@ -612,7 +611,7 @@ AC_SUBST([QT_LIBS])
 
 dnl Qt5 setup using pkg-config.
 
-LOG4CPLUS_ARG_WITH([qt5], [--with-qt5],
+LOG4CPLUS_ARG_WITH([qt5],
   [Build liblog4cplusqt5debugappender.],
   [with_qt5=no])
 
