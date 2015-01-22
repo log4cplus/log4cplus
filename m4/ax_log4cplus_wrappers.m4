@@ -51,3 +51,8 @@ AC_DEFUN([LOG4CPLUS_ARG_ENABLE],
      [AS_HELP_STRING([--enable-$1], [$2])],
      [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-$1])],
      [$3])])
+
+dnl Define C++ preprocessor symbol if condition evaluates true.
+AC_DEFUN([LOG4CPLUS_DEFINE_MACRO_IF],
+  [AH_TEMPLATE([$1], [$2])dnl
+   AS_IF([$3], [AC_DEFINE([$1], [$4])], [])])

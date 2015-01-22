@@ -27,44 +27,35 @@ AC_SUBST([LT_RELEASE])
 
 dnl Use C++ std::locale and std::codecvt facet for string conversion.
 
-AH_TEMPLATE([LOG4CPLUS_WORKING_LOCALE],
-  [Define for compilers/standard libraries that support more than
-   just the "C" locale.])
-
 LOG4CPLUS_ARG_WITH([working-locale],
   [Use std::locale for char->wchar_t conversion.],
   [with_working_locale=no])
 
-AS_IF([test "x$with_working_locale" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_WORKING_LOCALE], [1])],
-  [])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_WORKING_LOCALE],
+  [Define for compilers/standard libraries that support more than
+   just the "C" locale.],
+   [test "x$with_working_locale" = "xyes"], [1])
 
 dnl Use C99 wcsrtombs() etc. functions for string conversion.
-
-AH_TEMPLATE([LOG4CPLUS_WORKING_C_LOCALE],
-  [Define for C99 compilers/standard libraries that support more than
-   just the "C" locale.])
 
 LOG4CPLUS_ARG_WITH([working-c-locale],
   [Use C99 locale facilities for char->wchar_t conversion.],
   [with_working_c_locale=no])
 
-AS_IF([test "x$with_working_c_locale" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_WORKING_C_LOCALE], [1])],
-  [])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_WORKING_C_LOCALE],
+  [Define for C99 compilers/standard libraries that support more than
+   just the "C" locale.],
+  [test "x$with_working_c_locale" = "xyes"], [1])
 
 dnl Use iconv() function for string conversion.
-
-AH_TEMPLATE([LOG4CPLUS_WITH_ICONV],
-  [Define when iconv() is available.])
 
 LOG4CPLUS_ARG_WITH([iconv],
   [Use iconv() for char->wchar_t conversion.],
   [with_iconv=no])
 
-AS_IF([test "x$with_iconv" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_WITH_ICONV], [1])],
-  [])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_WITH_ICONV],
+  [Define when iconv() is available.],
+  [test "x$with_iconv" = "xyes"], [1])
 
 AS_IF([test "x$with_working_locale" = "xno" \
   -a "x$with_working_c_locale" = "xno" \
@@ -137,14 +128,13 @@ AC_SUBST([BUILD_WITH_WCHAR_T_SUPPORT])
 
 dnl Enable unit tests
 
-AH_TEMPLATE([LOG4CPLUS_WITH_UNIT_TESTS],
-  [Defined to enable unit tests.])
 LOG4CPLUS_ARG_ENABLE([unit-tests],
   [Enable unit tests [default=no]],
   [enable_unit_tests=no])
-AS_IF([test "x$enable_unit_tests" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_WITH_UNIT_TESTS], [1])],
-  [])
+
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_WITH_UNIT_TESTS],
+  [Defined to enable unit tests.],
+  [test "x$enable_unit_tests" = "xyes"], [1])
 
 dnl Check for c/c++ compilers.
 
@@ -353,34 +343,34 @@ AM_CONDITIONAL([USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX],
   [test "x$use_export_symbols_regex" = "xyes"])
 
 AX___FUNCTION___MACRO
-AH_TEMPLATE([LOG4CPLUS_HAVE_FUNCTION_MACRO])
-AS_IF([test "x$ac_cv_have___function___macro" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_FUNCTION_MACRO])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_FUNCTION_MACRO],
+  [Define if compiler supports __FUNCTION__ macro.],
+  [test "x$ac_cv_have___function___macro" = "xyes"], [1])
 
 AX___PRETTY_FUNCTION___MACRO
-AH_TEMPLATE([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO])
-AS_IF([test "x$ac_cv_have___pretty_function___macro" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO],
+  [DEfine if compiler supports __PRETTY_FUNCTION__ macro.],
+  [test "x$ac_cv_have___pretty_function___macro" = "xyes"], [1])
 
 AX___FUNC___SYMBOL
-AH_TEMPLATE([LOG4CPLUS_HAVE_FUNC_SYMBOL])
-AS_IF([test "x$ac_cv_have___func___symbol" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_FUNC_SYMBOL])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_FUNC_SYMBOL],
+  [Define if compiler supports __func__ symbol.],
+  [test "x$ac_cv_have___func___symbol" = "xyes"], [1])
 
 AX_GCC_FUNC_ATTRIBUTE([constructor_priority])
-AH_TEMPLATE([LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR_PRIORITY])
-AS_IF([test "x$ax_cv_have_func_attribute_constructor_priority" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR_PRIORITY])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR_PRIORITY],
+  [Define if compiler supports __attribute__((constructor(PRIORITY))).],
+  [test "x$ax_cv_have_func_attribute_constructor_priority" = "xyes"], [1])
 
 AX_GCC_FUNC_ATTRIBUTE([constructor])
-AH_TEMPLATE([LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR])
-AS_IF([test "x$ax_cv_have_func_attribute_constructor" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR],
+  [Define if compiler supports __attribute__((constructor)).],
+  [test "x$ax_cv_have_func_attribute_constructor" = "xyes"], [1])
 
 AX_GCC_VAR_ATTRIBUTE([init_priority])
-AH_TEMPLATE([LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY])
-AS_IF([test "x$ax_cv_have_var_attribute_init_priority" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY],
+  [Define if compiler supports __attribute__((init_priority(PRIORITY))).],
+  [test "x$ax_cv_have_var_attribute_init_priority" = "xyes"], [1])
 
 dnl Checks for libraries.
 
@@ -563,26 +553,25 @@ AS_CASE(["$target_os"],
     LOG4CPLUS_CHECK_FUNCS([OutputDebugStringW],
       [LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING])])
 
-AH_TEMPLATE([LOG4CPLUS_HAVE_ENAMETOOLONG])
 AC_CACHE_CHECK([for ENAMETOOLONG], [ax_cv_have_enametoolong],
   [AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM([#include <errno.h>], [int value = ENAMETOOLONG;])],
     [ax_cv_have_enametoolong=yes],
     [ax_cv_have_enametoolong=no])])
-AS_IF([test "x$ax_cv_have_enametoolong" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_ENAMETOOLONG])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_ENAMETOOLONG],
+  [Define if ENAMETOOLONG is provided.],
+  [test "x$ax_cv_have_enametoolong" = "xyes"], [1])
 
-AH_TEMPLATE([LOG4CPLUS_HAVE_GETADDRINFO])
 AX_GETADDRINFO
-AS_IF([test "x$ax_cv_have_getaddrinfo" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_GETADDRINFO])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_GETADDRINFO],
+  [Define if getaddrinfo() is provided.],
+  [test "x$ax_cv_have_getaddrinfo" = "xyes"], [1])
 
-AH_TEMPLATE([LOG4CPLUS_HAVE_GETHOSTBYNAME_R])
 AX_GETHOSTBYNAME_R
-AS_IF([test "x$ax_cv_have_gethostbyname_r" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_GETHOSTBYNAME_R])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_GETHOSTBYNAME_R],
+  [Define if gethostbyname_r() is provided.],
+  [test "x$ax_cv_have_gethostbyname_r" = "xyes"], [1])
 
-AH_TEMPLATE([LOG4CPLUS_HAVE_GETTID])
 AC_CACHE_CHECK([for gettid], [ax_cv_have_gettid],
   [AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM([#include <sys/types.h>
@@ -590,8 +579,9 @@ AC_CACHE_CHECK([for gettid], [ax_cv_have_gettid],
 #include <unistd.h>], [int rv = syscall(SYS_gettid);])],
     [ax_cv_have_gettid=yes],
     [ax_cv_have_gettid=no])])
-AS_IF([test "x$ax_cv_have_gettid" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_GETTID])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_GETTID],
+  [Define if gettid() Linux syscall is available.],
+  [test "x$ax_cv_have_gettid" = "xyes"], [1])
 
 dnl Qt4 setup using pkg-config.
 

@@ -4493,8 +4493,6 @@ LT_RELEASE=2.0
 
 
 
-
-
 log4cplus_check_yesno_func() {
    case "$1" in #(
   yes) :
@@ -4515,12 +4513,10 @@ else
 fi
 
 
-if test "x$with_working_locale" = "xyes"; then :
+   if test "x$with_working_locale" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_WORKING_LOCALE 1" >>confdefs.h
 
 fi
-
-
 
 
 
@@ -4533,12 +4529,10 @@ else
 fi
 
 
-if test "x$with_working_c_locale" = "xyes"; then :
+   if test "x$with_working_c_locale" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_WORKING_C_LOCALE 1" >>confdefs.h
 
 fi
-
-
 
 
 
@@ -4551,7 +4545,7 @@ else
 fi
 
 
-if test "x$with_iconv" = "xyes"; then :
+   if test "x$with_iconv" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_WITH_ICONV 1" >>confdefs.h
 
 fi
@@ -4671,7 +4665,6 @@ BUILD_WITH_WCHAR_T_SUPPORT=$with_wchar_t_support
 
 
 
-
 # Check whether --enable-unit-tests was given.
 if test "${enable_unit_tests+set}" = set; then :
   enableval=$enable_unit_tests;
@@ -4680,7 +4673,8 @@ else
   enable_unit_tests=no
 fi
 
-if test "x$enable_unit_tests" = "xyes"; then :
+
+   if test "x$enable_unit_tests" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_WITH_UNIT_TESTS 1" >>confdefs.h
 
 fi
@@ -8383,8 +8377,7 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_have___function___macro" >&5
 $as_echo "$ac_cv_have___function___macro" >&6; }
 
-
-if test "x$ac_cv_have___function___macro" = "xyes"; then :
+   if test "x$ac_cv_have___function___macro" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_FUNCTION_MACRO 1" >>confdefs.h
 
 fi
@@ -8423,8 +8416,7 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_have___pretty_function___macro" >&5
 $as_echo "$ac_cv_have___pretty_function___macro" >&6; }
 
-
-if test "x$ac_cv_have___pretty_function___macro" = "xyes"; then :
+   if test "x$ac_cv_have___pretty_function___macro" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO 1" >>confdefs.h
 
 fi
@@ -8464,8 +8456,7 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_have___func___symbol" >&5
 $as_echo "$ac_cv_have___func___symbol" >&6; }
 
-
-if test "x$ac_cv_have___func___symbol" = "xyes"; then :
+   if test "x$ac_cv_have___func___symbol" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_FUNC_SYMBOL 1" >>confdefs.h
 
 fi
@@ -8520,8 +8511,7 @@ fi
 
 
 
-
-if test "x$ax_cv_have_func_attribute_constructor_priority" = "xyes"; then :
+   if test "x$ax_cv_have_func_attribute_constructor_priority" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR_PRIORITY 1" >>confdefs.h
 
 fi
@@ -8576,8 +8566,7 @@ fi
 
 
 
-
-if test "x$ax_cv_have_func_attribute_constructor" = "xyes"; then :
+   if test "x$ax_cv_have_func_attribute_constructor" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR 1" >>confdefs.h
 
 fi
@@ -8637,8 +8626,7 @@ fi
 
 
 
-
-if test "x$ax_cv_have_var_attribute_init_priority" = "xyes"; then :
+   if test "x$ax_cv_have_var_attribute_init_priority" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY 1" >>confdefs.h
 
 fi
@@ -10900,7 +10888,6 @@ done
      ;;
 esac
 
-
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for ENAMETOOLONG" >&5
 $as_echo_n "checking for ENAMETOOLONG... " >&6; }
 if ${ax_cv_have_enametoolong+:} false; then :
@@ -10926,11 +10913,10 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_have_enametoolong" >&5
 $as_echo "$ax_cv_have_enametoolong" >&6; }
-if test "x$ax_cv_have_enametoolong" = "xyes"; then :
+   if test "x$ax_cv_have_enametoolong" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_ENAMETOOLONG 1" >>confdefs.h
 
 fi
-
 
 
 
@@ -10977,11 +10963,10 @@ if test "x$ax_cv_have_getaddrinfo" = "xyes"; then :
 
 fi
 
-if test "x$ax_cv_have_getaddrinfo" = "xyes"; then :
+   if test "x$ax_cv_have_getaddrinfo" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_GETADDRINFO 1" >>confdefs.h
 
 fi
-
 
 
 
@@ -11028,11 +11013,10 @@ if test "x$ax_cv_have_gethostbyname_r" = "xyes"; then :
 
 fi
 
-if test "x$ax_cv_have_gethostbyname_r" = "xyes"; then :
+   if test "x$ax_cv_have_gethostbyname_r" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_GETHOSTBYNAME_R 1" >>confdefs.h
 
 fi
-
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for gettid" >&5
 $as_echo_n "checking for gettid... " >&6; }
@@ -11061,7 +11045,7 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_have_gettid" >&5
 $as_echo "$ax_cv_have_gettid" >&6; }
-if test "x$ax_cv_have_gettid" = "xyes"; then :
+   if test "x$ax_cv_have_gettid" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_GETTID 1" >>confdefs.h
 
 fi
