@@ -44,3 +44,10 @@ AC_DEFUN([LOG4CPLUS_ARG_WITH],
      [AS_HELP_STRING([$2], [$3])],
      [LOG4CPLUS_CHECK_YESNO([${withval}], [$2])],
      [$4])])
+
+dnl Declare --enable-bar.
+AC_DEFUN([LOG4CPLUS_ARG_ENABLE],
+  [AC_ARG_ENABLE([$1],
+     [AS_HELP_STRING([$2], [$3])],
+     [LOG4CPLUS_CHECK_YESNO([${enableval}], [$2])],
+     [$4])])

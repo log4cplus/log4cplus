@@ -1512,8 +1512,8 @@ Optional Features:
   --enable-unit-tests     Enable unit tests [default=no]
   --enable-profiling      Compile with profiling compiler options.
                           [default=no]
-  --enable-threads=yes/no Use this option to create a singled-threaded version
-                          of this library
+  --enable-threads        Use this option to create a singled-threaded version
+                          of this library [default=yes]
   --enable-static[=PKGS]  build static libraries [default=no]
   --enable-shared[=PKGS]  build shared libraries [default=yes]
   --enable-fast-install[=PKGS]

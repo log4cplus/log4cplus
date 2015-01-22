@@ -74,11 +74,9 @@ nor iconv() support requested, using poor man's locale conversion.])])
 
 dnl Debugging or release build?
 
-AC_ARG_ENABLE([debugging],
-  [AS_HELP_STRING([--enable-debugging],
-    [Turns off optimization and adds switches that generate debugging
-    information. [default=no]])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-debugging])],
+LOG4CPLUS_ARG_ENABLE([debugging], [--enable-debugging],
+  [Turns off optimization and adds switches that generate debugging
+   information. [default=no]],
   [enable_debugging=no])
 
 AH_TEMPLATE([LOG4CPLUS_DEBUGGING],
@@ -99,40 +97,32 @@ AC_SUBST([LOG4CPLUS_NDEBUG])
 
 dnl Turn warnings on/off?
 
-AC_ARG_ENABLE([warnings],
-  [AS_HELP_STRING([--enable-warnings],
-    [Use compiler warnings option, e.g. -Wall. [default=yes]])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-warnings])],
+LOG4CPLUS_ARG_ENABLE([warnings], [--enable-warnings],
+  [Use compiler warnings option, e.g. -Wall. [default=yes]],
   [enable_warnings=yes])
 
 dnl Enable SO version.
 
-AC_ARG_ENABLE([so-version],
-  [AS_HELP_STRING([--enable-so-version],
-    [Use libtool -version-info option. [default=yes]])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-so-version])],
+LOG4CPLUS_ARG_ENABLE([so-version], [--enable-so-version],
+  [Use libtool -version-info option. [default=yes]],
   [enable_so_version=yes])
 AM_CONDITIONAL([ENABLE_VERSION_INFO_OPTION],
   [test "x$enable_so_version" = "xyes"])
 
 dnl Enable release version.
 
-AC_ARG_ENABLE([release-version],
-  [AS_HELP_STRING([--enable-release-version],
-    [Use libtool -release option. [default=yes]])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-release-version])],
+LOG4CPLUS_ARG_ENABLE([release-version], [--enable-release-version],
+  [Use libtool -release option. [default=yes]],
   [enable_release_version=yes])
 AM_CONDITIONAL([ENABLE_RELEASE_OPTION],
   [test "x$enable_release_version" = "xyes"])
 
 dnl Enable use of symbol visibility options.
 
-AC_ARG_ENABLE([symbols-visibility-options],
-  [AS_HELP_STRING([--enable-symbols-visibility-options],
-    [Use platform and compiler specific symbols visibility options,
-     where they are available. [default=yes]])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}],
-    [--enable-symbols-visibility-options])],
+LOG4CPLUS_ARG_ENABLE([symbols-visibility-options],
+  [--enable-symbols-visibility-options],
+  [Use platform and compiler specific symbols visibility options,
+   where they are available. [default=yes]],
   [enable_symbols_visibility_options=yes])
 
 dnl Build wchar_t aware alternative.
@@ -150,10 +140,8 @@ dnl Enable unit tests
 
 AH_TEMPLATE([LOG4CPLUS_WITH_UNIT_TESTS],
   [Defined to enable unit tests.])
-AC_ARG_ENABLE([unit-tests],
-  [AS_HELP_STRING([--enable-unit-tests],
-    [Enable unit tests [default=no]])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-unit-tests])],
+LOG4CPLUS_ARG_ENABLE([unit-tests], [--enable-unit-tests],
+  [Enable unit tests [default=no]],
   [enable_unit_tests=no])
 AS_IF([test "x$enable_unit_tests" = "xyes"],
   [AC_DEFINE([LOG4CPLUS_WITH_UNIT_TESTS], [1])],
@@ -201,10 +189,8 @@ AS_CASE(["$target_os"],
      [UNIX_STD=2003])
    export UNIX_STD])
 
-AC_ARG_ENABLE([profiling],
-  [AS_HELP_STRING([--enable-profiling],
-    [Compile with profiling compiler options. [default=no]])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-profiling])],
+LOG4CPLUS_ARG_ENABLE([profiling], [--enable-profiling],
+  [Compile with profiling compiler options. [default=no]],
   [enable_profiling=no])
 LOG4CPLUS_PROFILING_LDFLAGS=
 LOG4CPLUS_PROFILING_CXXFLAGS=
@@ -461,10 +447,8 @@ AX_TYPE_SOCKLEN_T
 dnl Check for single-threaded compilation
 
 AH_TEMPLATE([LOG4CPLUS_USE_PTHREADS])
-AC_ARG_ENABLE([threads],
-  [AS_HELP_STRING([--enable-threads=yes/no],
-    [Use this option to create a singled-threaded version of this library])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-threads])],
+LOG4CPLUS_ARG_ENABLE([threads], [--enable-threads],
+  [Use this option to create a singled-threaded version of this library [default=yes]],
   [enable_threads=yes])
 AS_VAR_SET([ENABLE_THREADS], [$enable_threads])
 AC_SUBST([ENABLE_THREADS])
