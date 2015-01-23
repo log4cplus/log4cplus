@@ -536,17 +536,8 @@ LOG4CPLUS_CHECK_FUNCS([vfwprintf_s], [LOG4CPLUS_HAVE_VFWPRINTF_S])
 LOG4CPLUS_CHECK_FUNCS([_vsnprintf_s], [LOG4CPLUS_HAVE__VSNPRINTF_S])
 LOG4CPLUS_CHECK_FUNCS([_vsnwprintf_s], [LOG4CPLUS_HAVE__VSNWPRINTF_S])
 
-dnl These should not be necessary, they ought to be in std:: namespace
-dnl via the <cstdio>, <cwchar> headers.
-
-dnl AH_TEMPLATE([LOG4CPLUS_HAVE_VSPRINTF])
-dnl AC_CHECK_FUNCS([vsprintf], [AC_DEFINE([LOG4CPLUS_HAVE_VSPRINTF])])
-
-dnl AH_TEMPLATE([LOG4CPLUS_HAVE_VFPRINTF])
-dnl AC_CHECK_FUNCS([vfprintf], [AC_DEFINE([LOG4CPLUS_HAVE_VFPRINTF])])
-
-dnl AH_TEMPLATE([LOG4CPLUS_HAVE_VSWPRINTF])
-dnl AC_CHECK_FUNCS([vswprintf], [AC_DEFINE([LOG4CPLUS_HAVE_VSWPRINTF])])
+dnl Checks for vsprintf, vfprintf and vswprintf should not be necessary, they
+dnl ought to be in std:: namespace via the <cstdio>, <cwchar> headers.
 
 AS_CASE(["$target_os"],
   [cygwin*], [
