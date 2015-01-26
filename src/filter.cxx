@@ -25,6 +25,11 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#include <log4cplus/logger.h>
+#include <catch.hpp>
+#endif
+
 
 namespace log4cplus { namespace spi {
 
@@ -269,5 +274,36 @@ FunctionFilter::decide(const InternalLoggingEvent& event) const
     return function (event);
 }
 
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+CATCH_TEST_CASE ("Filter", "[filter]")
+{
+    FilterPtr filter;
+    Logger log (Logger::getInstance (LOG4CPLUS_TEXT ("test")));
+    InternalLoggingEvent info_ev (log.getName (), INFO_LOG_LEVEL,
+        LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("info log message")),
+        __FILE__, __LINE__);
+    InternalLoggingEvent error_ev (log.getName (), ERROR_LOG_LEVEL,
+        LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("error log message")),
+        __FILE__, __LINE__);
+
+    CATCH_SECTION ("deny all filter")
+    {
+        filter = new DenyAllFilter;
+        CATCH_REQUIRE (filter->decide (info_ev) == DENY);
+        CATCH_REQUIRE (checkFilter (filter.get (), info_ev) == DENY);
+    }
+
+    CATCH_SECTION ("log level match filter")
+    {
+        helpers::Properties props;
+        props.setProperty (LOG4CPLUS_TEXT("LogLevelToMatch"),
+            LOG4CPLUS_TEXT ("INFO"));
+        filter = new LogLevelMatchFilter (props);
+        CATCH_REQUIRE (filter->decide (info_ev) == ACCEPT);
+    }
+}
+
+#endif
 
 } } // namespace log4cplus { namespace spi {
