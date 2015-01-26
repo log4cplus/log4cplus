@@ -305,6 +305,7 @@ NDCContextCreator::~NDCContextCreator()
 CATCH_TEST_CASE ("NDC", "[NDC]")
 {
     NDC & ndc = getNDC ();
+    ndc.clear ();
     static tchar const CONTEXT1[] = LOG4CPLUS_TEXT ("c1");
     static tchar const CONTEXT2[] = LOG4CPLUS_TEXT ("c2");
     static tchar const CONTEXT3[] = LOG4CPLUS_TEXT ("c3");
