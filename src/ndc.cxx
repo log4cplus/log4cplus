@@ -134,11 +134,11 @@ DiagnosticContext::swap (DiagnosticContext & other)
 // log4cplus::NDC ctor and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-NDC::NDC() 
+NDC::NDC()
 { }
 
 
-NDC::~NDC() 
+NDC::~NDC()
 { }
 
 
@@ -155,6 +155,13 @@ NDC::clear()
 }
 
 
+void
+NDC::remove()
+{
+    clear();
+}
+
+
 DiagnosticContextStack
 NDC::cloneStack() const
 {
@@ -163,7 +170,7 @@ NDC::cloneStack() const
 }
 
 
-void 
+void
 NDC::inherit(const DiagnosticContextStack& stack)
 {
     DiagnosticContextStack* ptr = getPtr();
@@ -182,7 +189,7 @@ NDC::get() const
 }
 
 
-std::size_t 
+std::size_t
 NDC::getDepth() const
 {
     DiagnosticContextStack* ptr = getPtr();
@@ -190,7 +197,7 @@ NDC::getDepth() const
 }
 
 
-log4cplus::tstring 
+log4cplus::tstring
 NDC::pop()
 {
     DiagnosticContextStack* ptr = getPtr();
@@ -226,14 +233,14 @@ NDC::peek() const
 }
 
 
-void 
+void
 NDC::push(const log4cplus::tstring& message)
 {
     push_worker (message);
 }
 
 
-void 
+void
 NDC::push(tchar const * message)
 {
     push_worker (message);
@@ -255,15 +262,7 @@ NDC::push_worker (StringType const & message)
 }
 
 
-void 
-NDC::remove()
-{
-    DiagnosticContextStack* ptr = getPtr();
-    DiagnosticContextStack ().swap (*ptr);
-}
-
-
-void 
+void
 NDC::setMaxDepth(std::size_t maxDepth)
 {
     DiagnosticContextStack* ptr = getPtr();
@@ -283,9 +282,9 @@ DiagnosticContextStack* NDC::getPtr()
 //
 //
 
-NDCContextCreator::NDCContextCreator(const log4cplus::tstring& msg) 
-{ 
-    getNDC().push(msg); 
+NDCContextCreator::NDCContextCreator(const log4cplus::tstring& msg)
+{
+    getNDC().push(msg);
 }
 
 
@@ -295,9 +294,9 @@ NDCContextCreator::NDCContextCreator(tchar const * msg)
 }
 
 
-NDCContextCreator::~NDCContextCreator() 
-{ 
-    getNDC().pop_void(); 
+NDCContextCreator::~NDCContextCreator()
+{
+    getNDC().pop_void();
 }
 
 
