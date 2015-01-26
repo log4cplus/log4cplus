@@ -70,6 +70,8 @@ after_failure:
 branches:
   only:
     - master
+    - 1.2.x
+    - 1.1.x
 notifications:
   recipients:
     - vhaisman@gmail.com
