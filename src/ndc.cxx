@@ -152,6 +152,13 @@ NDC::clear()
 }
 
 
+void
+NDC::remove()
+{
+    clear();
+}
+
+
 DiagnosticContextStack
 NDC::cloneStack() const
 {
@@ -249,14 +256,6 @@ NDC::push_worker (StringType const & message)
         DiagnosticContext const & dc = ptr->back();
         ptr->push_back( DiagnosticContext(message, &dc) );
     }
-}
-
-
-void
-NDC::remove()
-{
-    DiagnosticContextStack* ptr = getPtr();
-    DiagnosticContextStack ().swap (*ptr);
 }
 
 
