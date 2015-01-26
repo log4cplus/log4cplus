@@ -66,6 +66,15 @@ option(ENABLE_SYMBOLS_VISIBILITY
   "Enable compiler and platform specific options for symbols visibility"
   ON)
 
+option(WITH_UNIT_TESTS "Enable unit tests" ON)
+if (WITH_UNIT_TESTS)
+  set (LOG4CPLUS_WITH_UNIT_TESTS 1)
+  add_definitions (-DCATCH_CONFIG_PREFIX_ALL=1)
+  if (WIN32)
+    add_definitions (-DLOG4CPLUS_WITH_UNIT_TESTS=1)
+  endif (WIN32)
+endif (WITH_UNIT_TESTS)
+
 set(_WIN32_WINNT 0x0600 CACHE STRING "Define Windows API version to use.")
 
 if (NOT ${BUILD_SHARED_LIBS})
