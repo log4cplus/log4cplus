@@ -189,12 +189,13 @@ LogLevelRangeFilter::init()
 FilterResult
 LogLevelRangeFilter::decide(const InternalLoggingEvent& event) const
 {
-    if((logLevelMin != NOT_SET_LOG_LEVEL) && (event.getLogLevel() < logLevelMin)) {
+    LogLevel const eventLogLevel = event.getLogLevel ();
+    if((logLevelMin != NOT_SET_LOG_LEVEL) && (eventLogLevel < logLevelMin)) {
         // priority of event is less than minimum
         return DENY;
     }
 
-    if((logLevelMax != NOT_SET_LOG_LEVEL) && (event.getLogLevel() > logLevelMax)) {
+    if((logLevelMax != NOT_SET_LOG_LEVEL) && (eventLogLevel > logLevelMax)) {
         // priority of event is greater than maximum
         return DENY;
     }
@@ -278,11 +279,20 @@ CATCH_TEST_CASE ("Filter", "[filter]")
 {
     FilterPtr filter;
     Logger log (Logger::getInstance (LOG4CPLUS_TEXT ("test")));
-    InternalLoggingEvent info_ev (log.getName (), INFO_LOG_LEVEL,
+    static InternalLoggingEvent const warn_ev (log.getName (), WARN_LOG_LEVEL,
+        LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("warn log message")),
+        __FILE__, __LINE__);
+    static InternalLoggingEvent const info_ev (log.getName (), INFO_LOG_LEVEL,
         LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("info log message")),
         __FILE__, __LINE__);
-    InternalLoggingEvent error_ev (log.getName (), ERROR_LOG_LEVEL,
+    static InternalLoggingEvent const empty_ev (log.getName (), INFO_LOG_LEVEL,
+        LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("")),
+        __FILE__, __LINE__);
+    static InternalLoggingEvent const error_ev (log.getName (), ERROR_LOG_LEVEL,
         LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("error log message")),
+        __FILE__, __LINE__);
+    static InternalLoggingEvent const fatal_ev (log.getName (), FATAL_LOG_LEVEL,
+        LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("fatal log message")),
         __FILE__, __LINE__);
 
     CATCH_SECTION ("deny all filter")
@@ -294,11 +304,102 @@ CATCH_TEST_CASE ("Filter", "[filter]")
 
     CATCH_SECTION ("log level match filter")
     {
-        helpers::Properties props;
-        props.setProperty (LOG4CPLUS_TEXT("LogLevelToMatch"),
-            LOG4CPLUS_TEXT ("INFO"));
-        filter = new LogLevelMatchFilter (props);
-        CATCH_REQUIRE (filter->decide (info_ev) == ACCEPT);
+        CATCH_SECTION ("accept level")
+        {
+            helpers::Properties props;
+            props.setProperty (LOG4CPLUS_TEXT ("LogLevelToMatch"),
+                LOG4CPLUS_TEXT ("INFO"));
+            filter = new LogLevelMatchFilter (props);
+            CATCH_REQUIRE (filter->decide (info_ev) == ACCEPT);
+            CATCH_REQUIRE (filter->decide (error_ev) == NEUTRAL);
+        }
+
+        CATCH_SECTION ("deny level")
+        {
+            helpers::Properties props;
+            props.setProperty (LOG4CPLUS_TEXT ("LogLevelToMatch"),
+                LOG4CPLUS_TEXT ("INFO"));
+            props.setProperty (LOG4CPLUS_TEXT ("AcceptOnMatch"),
+                LOG4CPLUS_TEXT ("false"));
+            filter = new LogLevelMatchFilter (props);
+            CATCH_REQUIRE (filter->decide (info_ev) == DENY);
+            CATCH_REQUIRE (filter->decide (error_ev) == NEUTRAL);
+        }
+    }
+
+    CATCH_SECTION ("log level range filter")
+    {
+        CATCH_SECTION ("accept in range")
+        {
+            helpers::Properties props;
+            props.setProperty (LOG4CPLUS_TEXT ("LogLevelMin"),
+                LOG4CPLUS_TEXT ("WARN"));
+            props.setProperty (LOG4CPLUS_TEXT ("LogLevelMax"),
+                LOG4CPLUS_TEXT ("ERROR"));
+            filter = new LogLevelRangeFilter (props);
+            CATCH_REQUIRE (filter->decide (info_ev) == DENY);
+            CATCH_REQUIRE (filter->decide (warn_ev) == ACCEPT);
+            CATCH_REQUIRE (filter->decide (error_ev) == ACCEPT);
+            CATCH_REQUIRE (filter->decide (fatal_ev) == DENY);
+        }
+
+        CATCH_SECTION ("deny out of range")
+        {
+            helpers::Properties props;
+            props.setProperty (LOG4CPLUS_TEXT ("LogLevelMin"),
+                LOG4CPLUS_TEXT ("WARN"));
+            props.setProperty (LOG4CPLUS_TEXT ("LogLevelMax"),
+                LOG4CPLUS_TEXT ("ERROR"));
+            props.setProperty (LOG4CPLUS_TEXT ("AcceptOnMatch"),
+                LOG4CPLUS_TEXT ("false"));
+            filter = new LogLevelRangeFilter (props);
+            CATCH_REQUIRE (filter->decide (info_ev) == DENY);
+            CATCH_REQUIRE (filter->decide (warn_ev) == NEUTRAL);
+            CATCH_REQUIRE (filter->decide (error_ev) == NEUTRAL);
+            CATCH_REQUIRE (filter->decide (fatal_ev) == DENY);
+        }
+    }
+
+    CATCH_SECTION ("string match filter")
+    {
+        CATCH_SECTION ("empty string to match is neutral")
+        {
+            filter = new StringMatchFilter;
+            CATCH_REQUIRE (filter->decide (info_ev) == NEUTRAL);
+            CATCH_REQUIRE (filter->decide (error_ev) == NEUTRAL);
+        }
+
+        CATCH_SECTION ("not found is neutral")
+        {
+            helpers::Properties props;
+            props.setProperty (LOG4CPLUS_TEXT ("StringToMatch"),
+                LOG4CPLUS_TEXT ("nonexistent"));
+            filter = new StringMatchFilter (props);
+            CATCH_REQUIRE (filter->decide (info_ev) == NEUTRAL);
+            CATCH_REQUIRE (filter->decide (error_ev) == NEUTRAL);
+        }
+
+        CATCH_SECTION ("empty event is neutral")
+        {
+            helpers::Properties props;
+            props.setProperty (LOG4CPLUS_TEXT ("StringToMatch"),
+                LOG4CPLUS_TEXT ("message"));
+            filter = new StringMatchFilter (props);
+            CATCH_REQUIRE (filter->decide (empty_ev) == NEUTRAL);
+        }
+
+        CATCH_SECTION ("deny on match")
+        {
+            helpers::Properties props;
+            props.setProperty (LOG4CPLUS_TEXT ("StringToMatch"),
+                LOG4CPLUS_TEXT ("message"));
+            props.setProperty (LOG4CPLUS_TEXT ("AcceptOnMatch"),
+                LOG4CPLUS_TEXT ("false"));
+            filter = new StringMatchFilter (props);
+            CATCH_REQUIRE (filter->decide (empty_ev) == NEUTRAL);
+            CATCH_REQUIRE (filter->decide (info_ev) == DENY);
+            CATCH_REQUIRE (filter->decide (warn_ev) == DENY);
+        }
     }
 }
 
