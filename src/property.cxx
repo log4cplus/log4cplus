@@ -466,16 +466,8 @@ Properties::get_type_val_worker (ValType & val, log4cplus::tstring const & key)
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
 CATCH_TEST_CASE ("Properties", "[properties]")
 {
+    static tchar const PROP_ABC[] = LOG4CPLUS_TEXT ("a.b.c");
     Properties props;
-    tistringstream iss (
-        LOG4CPLUS_TEXT ("bool=true\r\n")
-        LOG4CPLUS_TEXT ("bool1=1\n")
-        LOG4CPLUS_TEXT ("int=-1\n")
-        LOG4CPLUS_TEXT ("uint=42\n")
-        LOG4CPLUS_TEXT ("long=-65537\n")
-        LOG4CPLUS_TEXT ("ulong=65537")
-    );
-    Properties from_stream (iss);
 
     CATCH_SECTION ("new object is empty")
     {
@@ -484,8 +476,10 @@ CATCH_TEST_CASE ("Properties", "[properties]")
 
     CATCH_SECTION ("added property can be retrieved")
     {
-        props.setProperty (LOG4CPLUS_TEXT ("a.b.c"), LOG4CPLUS_TEXT ("true"));
-        CATCH_REQUIRE (props.getProperty (LOG4CPLUS_TEXT ("a.b.c"))
+        props.setProperty (PROP_ABC, LOG4CPLUS_TEXT ("true"));
+        CATCH_REQUIRE (props.exists (PROP_ABC));
+        CATCH_REQUIRE (props.exists (LOG4CPLUS_C_STR_TO_TSTRING (PROP_ABC)));
+        CATCH_REQUIRE (props.getProperty (PROP_ABC)
             == LOG4CPLUS_TEXT ("true"));
     }
 
@@ -496,6 +490,16 @@ CATCH_TEST_CASE ("Properties", "[properties]")
         unsigned int uint;
         long long_;
         unsigned long ulong;
+
+        tistringstream iss (
+            LOG4CPLUS_TEXT ("bool=true\r\n")
+            LOG4CPLUS_TEXT ("bool1=1\n")
+            LOG4CPLUS_TEXT ("int=-1\n")
+            LOG4CPLUS_TEXT ("uint=42\n")
+            LOG4CPLUS_TEXT ("long=-65537\n")
+            LOG4CPLUS_TEXT ("ulong=65537")
+        );
+        Properties from_stream (iss);
 
         CATCH_REQUIRE (from_stream.getBool (bool_, LOG4CPLUS_TEXT ("bool")));
         CATCH_REQUIRE (bool_);
@@ -509,6 +513,26 @@ CATCH_TEST_CASE ("Properties", "[properties]")
         CATCH_REQUIRE (long_ == -65537);
         CATCH_REQUIRE (from_stream.getULong (ulong, LOG4CPLUS_TEXT ("ulong")));
         CATCH_REQUIRE (ulong == 65537);
+    }
+
+    CATCH_SECTION ("remove property")
+    {
+        props.setProperty (PROP_ABC, LOG4CPLUS_TEXT ("true"));
+        CATCH_REQUIRE (props.exists (PROP_ABC));
+        props.removeProperty (PROP_ABC);
+        CATCH_REQUIRE (! props.exists (PROP_ABC));
+    }
+
+    CATCH_SECTION ("retrieve property names")
+    {
+        props.setProperty (PROP_ABC, LOG4CPLUS_TEXT ("true"));
+        static tchar const PROP_SECOND[] = LOG4CPLUS_TEXT ("second");
+        props.setProperty (LOG4CPLUS_TEXT ("second"), LOG4CPLUS_TEXT ("false"));
+        std::vector<log4cplus::tstring> names (props.propertyNames ());
+        CATCH_REQUIRE (std::find (std::begin (names), std::end (names),
+                PROP_ABC) != std::end (names));
+        CATCH_REQUIRE (std::find (std::begin (names), std::end (names),
+                PROP_SECOND) != std::end (names));
     }
 }
 #endif

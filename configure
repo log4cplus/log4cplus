@@ -636,6 +636,7 @@ LIBOBJS
 LOG4CPLUS_PROFILING_CXXFLAGS
 LOG4CPLUS_PROFILING_LDFLAGS
 AUTOM4TE
+LT_SYS_LIBRARY_PATH
 OTOOL64
 OTOOL
 LIPO
@@ -825,7 +826,6 @@ enable_dependency_tracking
 with_working_locale
 with_working_c_locale
 with_iconv
-with_c__11_threads
 enable_debugging
 enable_warnings
 enable_so_version
@@ -868,7 +868,8 @@ QT5_CFLAGS
 QT5_LIBS
 SWIG_FLAGS
 PYTHON
-PYTHON_VERSION'
+PYTHON_VERSION
+LT_SYS_LIBRARY_PATH'
 
 
 # Initialize some variables set by options.
@@ -1511,8 +1512,8 @@ Optional Features:
   --enable-unit-tests     Enable unit tests [default=no]
   --enable-profiling      Compile with profiling compiler options.
                           [default=no]
-  --enable-threads=yes/no Use this option to create a singled-threaded version
-                          of this library
+  --enable-threads        Use this option to create a singled-threaded version
+                          of this library [default=yes]
   --enable-static[=PKGS]  build static libraries [default=no]
   --enable-shared[=PKGS]  build shared libraries [default=yes]
   --enable-fast-install[=PKGS]
@@ -1526,7 +1527,6 @@ Optional Packages:
   --with-working-c-locale Use C99 locale facilities for char->wchar_t
                           conversion.
   --with-iconv            Use iconv() for char->wchar_t conversion.
-  --with-c++11-threads    Use C++11 threads and synchronization primitives.
   --with-wchar_t-support  Additionally, produce binaries with log4cplus::tchar
                           as wchar_t. The additional produced binaries will
                           have 'U' suffix. [default=yes]
@@ -1568,6 +1568,8 @@ Some influential environment variables:
               The installed Python version to use, for example '2.3'. This
               string will be appended to the Python interpreter canonical
               name.
+  LT_SYS_LIBRARY_PATH
+              User-defined run-time library search path.
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -4491,8 +4493,6 @@ LT_RELEASE=2.0
 
 
 
-
-
 log4cplus_check_yesno_func() {
    case "$1" in #(
   yes) :
@@ -4513,12 +4513,10 @@ else
 fi
 
 
-if test "x$with_working_locale" = "xyes"; then :
+   if test "x$with_working_locale" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_WORKING_LOCALE 1" >>confdefs.h
 
 fi
-
-
 
 
 
@@ -4531,12 +4529,10 @@ else
 fi
 
 
-if test "x$with_working_c_locale" = "xyes"; then :
+   if test "x$with_working_c_locale" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_WORKING_C_LOCALE 1" >>confdefs.h
 
 fi
-
-
 
 
 
@@ -4549,7 +4545,7 @@ else
 fi
 
 
-if test "x$with_iconv" = "xyes"; then :
+   if test "x$with_iconv" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_WITH_ICONV 1" >>confdefs.h
 
 fi
@@ -4561,24 +4557,6 @@ if test "x$with_working_locale" = "xno" \
 nor iconv() support requested, using poor man's locale conversion." >&5
 $as_echo "$as_me: WARNING: Neither C++ locale support nor C locale support \
 nor iconv() support requested, using poor man's locale conversion." >&2;}
-fi
-
-
-
-
-
-# Check whether --with-c++11-threads was given.
-if test "${with_c__11_threads+set}" = set; then :
-  withval=$with_c__11_threads;
-   log4cplus_check_yesno_func "${withval}" "--with-c++11-threads"
-else
-  with_c__11_threads=no
-fi
-
-
-if test "x$with_c__11_threads" = "xyes"; then :
-  $as_echo "#define LOG4CPLUS_WITH_CXX11_THREADS 1" >>confdefs.h
-
 fi
 
 
@@ -4687,7 +4665,6 @@ BUILD_WITH_WCHAR_T_SUPPORT=$with_wchar_t_support
 
 
 
-
 # Check whether --enable-unit-tests was given.
 if test "${enable_unit_tests+set}" = set; then :
   enableval=$enable_unit_tests;
@@ -4696,7 +4673,8 @@ else
   enable_unit_tests=no
 fi
 
-if test "x$enable_unit_tests" = "xyes"; then :
+
+   if test "x$enable_unit_tests" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_WITH_UNIT_TESTS 1" >>confdefs.h
 
 fi
@@ -5753,7 +5731,6 @@ if ${ax_cv_cxxflags_gcc_option__fdiagnostics_show_caret+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__fdiagnostics_show_caret="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -5818,7 +5795,6 @@ if ${ax_cv_cxxflags_gcc_option__ftrack_macro_expansion+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__ftrack_macro_expansion="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -5885,7 +5861,6 @@ if ${ax_cv_cxxflags_gcc_option__fdiagnostics_color_auto+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__fdiagnostics_color_auto="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -5952,7 +5927,6 @@ if ${ax_cv_cxxflags_gcc_option__Wextra+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wextra="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6017,7 +5991,6 @@ if ${ax_cv_cxxflags_gcc_option__pedantic+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__pedantic="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6082,7 +6055,6 @@ if ${ax_cv_cxxflags_gcc_option__Wstrict_aliasing+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wstrict_aliasing="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6147,7 +6119,6 @@ if ${ax_cv_cxxflags_gcc_option__Wstrict_overflow+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wstrict_overflow="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6212,7 +6183,6 @@ if ${ax_cv_cxxflags_gcc_option__Woverloaded_virtual+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Woverloaded_virtual="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6281,7 +6251,6 @@ if ${ax_cv_cxxflags_gcc_option__Wold_style_cast+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wold_style_cast="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6347,7 +6316,6 @@ if ${ax_cv_cxxflags_gcc_option__Wcpp14_compat+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wcpp14_compat="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6412,7 +6380,6 @@ if ${ax_cv_cxxflags_gcc_option__Wundef+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wundef="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6477,7 +6444,6 @@ if ${ax_cv_cxxflags_gcc_option__Wshadow+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wshadow="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6542,7 +6508,6 @@ if ${ax_cv_cxxflags_gcc_option__Wformat+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wformat="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6607,7 +6572,6 @@ if ${ax_cv_cxxflags_gcc_option__Wnoexcept+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wnoexcept="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6672,7 +6636,6 @@ if ${ax_cv_cxxflags_gcc_option__Wsuggest_attribute_format+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wsuggest_attribute_format="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6737,7 +6700,6 @@ if ${ax_cv_cxxflags_gcc_option__Wsuggest_attribute_noreturn+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wsuggest_attribute_noreturn="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6802,7 +6764,6 @@ if ${ax_cv_cxxflags_gcc_option__Wno_variadic_macros+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Wno_variadic_macros="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6870,7 +6831,6 @@ if ${ax_cv_cxxflags_gcc_option__g3+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__g3="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6939,7 +6899,6 @@ if ${ax_cv_cxxflags_gcc_option__fstack_check+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__fstack_check="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7004,7 +6963,6 @@ if ${ax_cv_cxxflags_gcc_option__fstack_protector+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__fstack_protector="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7070,7 +7028,6 @@ if ${ax_cv_cxxflags_gcc_option__fsanitize_address+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__fsanitize_address="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7135,7 +7092,6 @@ if ${ax_cv_cxxflags_gcc_option__fsanitize_undefined+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__fsanitize_undefined="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7200,7 +7156,6 @@ if ${ax_cv_cxxflags_gcc_option__ftrapv+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__ftrapv="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7269,7 +7224,6 @@ if ${ax_cv_cxxflags_gcc_option__Og+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__Og="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7339,7 +7293,6 @@ if ${ax_cv_cxxflags_gcc_option__O1+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__O1="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7410,7 +7363,6 @@ if ${ax_cv_cxxflags_gcc_option__O2+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__O2="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7479,7 +7431,6 @@ if ${ax_cv_cxxflags_gcc_option__pg+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__pg="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7534,7 +7485,6 @@ if ${ax_cv_cxxflags_gcc_option__g3+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__g3="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7610,7 +7560,6 @@ if ${ax_cv_cxxflags_sun_option_pw+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option_pw="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7622,19 +7571,20 @@ for ac_arg in "+xstrconst -Xc % +w"        #
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_sun_option_pw=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -7677,7 +7627,6 @@ if ${ax_cv_cxxflags_sun_option__g+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__g="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7689,19 +7638,20 @@ for ac_arg in "+xstrconst -Xc % -g"        #
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_sun_option__g=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -7744,7 +7694,6 @@ if ${ax_cv_cxxflags_sun_option__pg+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__pg="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7756,19 +7705,20 @@ for ac_arg in "+xstrconst -Xc % -pg"        #
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_sun_option__pg=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -7798,7 +7748,6 @@ if ${ax_cv_cxxflags_sun_option__g+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__g="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7810,19 +7759,20 @@ for ac_arg in "+xstrconst -Xc % -g"        #
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_sun_option__g=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -7864,7 +7814,6 @@ if ${ax_cv_cxxflags_sun_option__features_zla+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__features_zla="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7876,19 +7825,20 @@ for ac_arg in "+xstrconst -Xc % -features=zla"        #
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_sun_option__features_zla=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -7935,7 +7885,6 @@ if ${ax_cv_cxxflags_sun_option__library_stlport4+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__library_stlport4="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7947,19 +7896,20 @@ for ac_arg in "+xstrconst -Xc % -library=stlport4"        #
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_sun_option__library_stlport4=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -8001,7 +7951,6 @@ if ${ax_cv_cxxflags_sun_option__library_Crun+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__library_Crun="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -8013,19 +7962,20 @@ for ac_arg in "+xstrconst -Xc % -library=Crun"        #
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_sun_option__library_Crun=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -8253,7 +8203,6 @@ if ${ax_cv_cxxflags_gcc_option__fvisibility_hidden+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_gcc_option__fvisibility_hidden="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -8320,7 +8269,6 @@ if ${ax_cv_cxxflags_sun_option__xldscope_hidden+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__xldscope_hidden="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -8332,19 +8280,20 @@ for ac_arg in "+xstrconst -Xc % -xldscope=hidden"        #
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_sun_option__xldscope_hidden=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -8428,8 +8377,7 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_have___function___macro" >&5
 $as_echo "$ac_cv_have___function___macro" >&6; }
 
-
-if test "x$ac_cv_have___function___macro" = "xyes"; then :
+   if test "x$ac_cv_have___function___macro" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_FUNCTION_MACRO 1" >>confdefs.h
 
 fi
@@ -8468,8 +8416,7 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_have___pretty_function___macro" >&5
 $as_echo "$ac_cv_have___pretty_function___macro" >&6; }
 
-
-if test "x$ac_cv_have___pretty_function___macro" = "xyes"; then :
+   if test "x$ac_cv_have___pretty_function___macro" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO 1" >>confdefs.h
 
 fi
@@ -8509,8 +8456,7 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_have___func___symbol" >&5
 $as_echo "$ac_cv_have___func___symbol" >&6; }
 
-
-if test "x$ac_cv_have___func___symbol" = "xyes"; then :
+   if test "x$ac_cv_have___func___symbol" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_FUNC_SYMBOL 1" >>confdefs.h
 
 fi
@@ -8565,8 +8511,7 @@ fi
 
 
 
-
-if test "x$ax_cv_have_func_attribute_constructor_priority" = "xyes"; then :
+   if test "x$ax_cv_have_func_attribute_constructor_priority" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR_PRIORITY 1" >>confdefs.h
 
 fi
@@ -8621,8 +8566,7 @@ fi
 
 
 
-
-if test "x$ax_cv_have_func_attribute_constructor" = "xyes"; then :
+   if test "x$ax_cv_have_func_attribute_constructor" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR 1" >>confdefs.h
 
 fi
@@ -8682,8 +8626,7 @@ fi
 
 
 
-
-if test "x$ax_cv_have_var_attribute_init_priority" = "xyes"; then :
+   if test "x$ax_cv_have_var_attribute_init_priority" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY 1" >>confdefs.h
 
 fi
@@ -9021,7 +8964,6 @@ _ACEOF
   LIBS="-lkernel32 $LIBS"
 
 fi
-ac_cv_lib_kernel32=ac_cv_lib_kernel32_main
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -ladvapi32" >&5
 $as_echo_n "checking for main in -ladvapi32... " >&6; }
@@ -9061,7 +9003,6 @@ _ACEOF
   LIBS="-ladvapi32 $LIBS"
 
 fi
-ac_cv_lib_advapi32=ac_cv_lib_advapi32_main
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lws2_32" >&5
 $as_echo_n "checking for main in -lws2_32... " >&6; }
@@ -9101,7 +9042,6 @@ _ACEOF
   LIBS="-lws2_32 $LIBS"
 
 fi
-ac_cv_lib_ws2_32=ac_cv_lib_ws2_32_main
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -loleaut32" >&5
 $as_echo_n "checking for main in -loleaut32... " >&6; }
@@ -9141,7 +9081,6 @@ _ACEOF
   LIBS="-loleaut32 $LIBS"
 
 fi
-ac_cv_lib_oleaut32=ac_cv_lib_oleaut32_main
 
     ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -9195,7 +9134,6 @@ _ACEOF
   LIBS="-lkernel32 $LIBS"
 
 fi
-ac_cv_lib_kernel32=ac_cv_lib_kernel32_main
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -loleaut32" >&5
 $as_echo_n "checking for main in -loleaut32... " >&6; }
@@ -9235,7 +9173,6 @@ _ACEOF
   LIBS="-loleaut32 $LIBS"
 
 fi
-ac_cv_lib_oleaut32=ac_cv_lib_oleaut32_main
 
     ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -9642,8 +9579,10 @@ else
 
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-#include <sys/types.h>
-   #include <sys/socket.h>
+
+       #include <sys/types.h>
+       #include <sys/socket.h>
+
 int
 main ()
 {
@@ -10126,7 +10065,6 @@ if ${ax_cv_cxxflags_sun_option__xthreadvar+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_sun_option__xthreadvar="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -10138,19 +10076,20 @@ for ac_arg in "+xstrconst -Xc % -xthreadvar"        #
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
+if ac_fn_cxx_try_link "$LINENO"; then :
   ax_cv_cxxflags_sun_option__xthreadvar=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -10191,7 +10130,6 @@ if ${ax_cv_cxxflags_aix_option__qtls+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ax_cv_cxxflags_aix_option__qtls="no, unknown"
-
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -10203,19 +10141,20 @@ for ac_arg in "-qlanglvl=ansi -qsrcmsg % -qtls"        #
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
+int zero;
 int
 main ()
 {
-return 0;
+zero = 0; return zero;
   ;
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
-  ax_cv_cxxflags_aix_option__qtls=`echo $ac_arg | sed -e 's,.*% *,,'` ; break
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ax_cv_cxxflags_aix_option__qtls=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
 done
  CXXFLAGS="$ac_save_CXXFLAGS"
  ac_ext=cpp
@@ -10251,334 +10190,6 @@ esac
   *) :
      ;;
 esac
-
-
-
-
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __sync_add_and_fetch" >&5
-$as_echo_n "checking for __sync_add_and_fetch... " >&6; }
-if ${ac_cv___sync_add_and_fetch+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-#include <stdlib.h>
-
-int
-main ()
-{
-
-volatile int x = 1;
-volatile int y = __sync_add_and_fetch (&x, 1);
-if (x != 2 || y != 2)
-  abort ();
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv___sync_add_and_fetch=yes
-else
-  ac_cv___sync_add_and_fetch=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv___sync_add_and_fetch" >&5
-$as_echo "$ac_cv___sync_add_and_fetch" >&6; }
-
-if test "x$ac_cv___sync_add_and_fetch" = "xyes"; then :
-  $as_echo "#define HAVE___SYNC_ADD_AND_FETCH 1" >>confdefs.h
-
-fi
-
-
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __sync_sub_and_fetch" >&5
-$as_echo_n "checking for __sync_sub_and_fetch... " >&6; }
-if ${ac_cv___sync_sub_and_fetch+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-#include <stdlib.h>
-
-int
-main ()
-{
-
-volatile int x = 2;
-volatile int y = __sync_sub_and_fetch (&x, 1);
-if (x != 1 || y != 1)
-  abort ();
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv___sync_sub_and_fetch=yes
-else
-  ac_cv___sync_sub_and_fetch=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv___sync_sub_and_fetch" >&5
-$as_echo "$ac_cv___sync_sub_and_fetch" >&6; }
-
-if test "x$ac_cv___sync_sub_and_fetch" = "xyes"; then :
-  $as_echo "#define HAVE___SYNC_SUB_AND_FETCH 1" >>confdefs.h
-
-fi
-
-
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for C++11 atomics" >&5
-$as_echo_n "checking for C++11 atomics... " >&6; }
-if ${ac_cv_cxx11_atomics+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-#include <atomic>
-
-int
-main ()
-{
-
-#define TEST_ATOMIC(type) do { \
-std::atomic<type> x (0); \
-std::atomic_fetch_add_explicit (&x, static_cast<type>(1), std::memory_order_acquire); \
-std::atomic_fetch_sub_explicit (&x, static_cast<type>(1), std::memory_order_release); \
-} while (0)
-
-TEST_ATOMIC(int);
-TEST_ATOMIC(unsigned int);
-TEST_ATOMIC(long);
-TEST_ATOMIC(unsigned long);
-std::atomic_thread_fence (std::memory_order_acquire);
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv_cxx11_atomics=yes
-else
-  ac_cv_cxx11_atomics=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_cxx11_atomics" >&5
-$as_echo "$ac_cv_cxx11_atomics" >&6; }
-
-if test "x$ac_cv_cxx11_atomics" = "xyes"; then :
-  $as_echo "#define HAVE_CXX11_ATOMICS 1" >>confdefs.h
-
-fi
-
-
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __atomic_add_fetch" >&5
-$as_echo_n "checking for __atomic_add_fetch... " >&6; }
-if ${ac_cv___atomic_add_fetch+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-#include <stdlib.h>
-
-int
-main ()
-{
-
-volatile int x = 1;
-volatile int y = __atomic_add_fetch (&x, 1, __ATOMIC_RELAXED);
-if (x != 2 || y != 2)
-  abort ();
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv___atomic_add_fetch=yes
-else
-  ac_cv___atomic_add_fetch=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv___atomic_add_fetch" >&5
-$as_echo "$ac_cv___atomic_add_fetch" >&6; }
-
-if test "x$ac_cv___atomic_add_fetch" = "xyes"; then :
-  $as_echo "#define HAVE___ATOMIC_ADD_FETCH 1" >>confdefs.h
-
-fi
-
-
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __atomic_sub_fetch" >&5
-$as_echo_n "checking for __atomic_sub_fetch... " >&6; }
-if ${ac_cv___atomic_sub_fetch+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-#include <stdlib.h>
-
-int
-main ()
-{
-
-volatile int x = 2;
-volatile int y = __atomic_sub_fetch (&x, 1, __ATOMIC_RELEASE);
-__atomic_thread_fence (__ATOMIC_ACQUIRE);
-if (x != 1 || y != 1)
-  abort ();
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv___atomic_sub_fetch=yes
-else
-  ac_cv___atomic_sub_fetch=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv___atomic_sub_fetch" >&5
-$as_echo "$ac_cv___atomic_sub_fetch" >&6; }
-
-if test "x$ac_cv___atomic_sub_fetch" = "xyes"; then :
-  $as_echo "#define HAVE___ATOMIC_SUB_FETCH 1" >>confdefs.h
-
-fi
-
-
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for atomic_inc_uint" >&5
-$as_echo_n "checking for atomic_inc_uint... " >&6; }
-if ${ac_cv_atomic_inc_uint+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-#include <stdlib.h>
-#include <atomic.h>
-
-int
-main ()
-{
-
-volatile unsigned int x = 1;
-atomic_inc_uint (&x);
-if (x != 2)
-  abort ();
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv_atomic_inc_uint=yes
-else
-  ac_cv_atomic_inc_uint=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_atomic_inc_uint" >&5
-$as_echo "$ac_cv_atomic_inc_uint" >&6; }
-
-if test "x$ac_cv_atomic_inc_uint" = "xyes"; then :
-  $as_echo "#define HAVE_ATOMIC_INC_UINT 1" >>confdefs.h
-
-fi
-
-
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for atomic_dec_uint_nv" >&5
-$as_echo_n "checking for atomic_dec_uint_nv... " >&6; }
-if ${ac_cv_atomic_dec_uint_nv+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-#include <stdlib.h>
-#include <atomic.h>
-
-int
-main ()
-{
-
-volatile unsigned int x = 2;
-volatile unsigned int y = atomic_dec_uint_nv (&x);
-membar_exit();
-if (x != 1 || y != 1)
-  abort ();
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv_atomic_dec_uint_nv=yes
-else
-  ac_cv_atomic_dec_uint_nv=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_atomic_dec_uint_nv" >&5
-$as_echo "$ac_cv_atomic_dec_uint_nv" >&6; }
-
-if test "x$ac_cv_atomic_dec_uint_nv" = "xyes"; then :
-  $as_echo "#define HAVE_ATOMIC_DEC_UINT_NV 1" >>confdefs.h
-
-fi
-
-
-
-   if test "x$ac_cv_cxx11_atomics" = "xyes"; then :
-  $as_echo "#define LOG4CPLUS_HAVE_CXX11_ATOMICS 1" >>confdefs.h
-
-fi
 
 
 
@@ -11254,9 +10865,6 @@ done
 
 
 
-
-
-
 case "$target_os" in #(
   cygwin*) :
 
@@ -11276,7 +10884,6 @@ done
   *) :
      ;;
 esac
-
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for ENAMETOOLONG" >&5
 $as_echo_n "checking for ENAMETOOLONG... " >&6; }
@@ -11303,11 +10910,10 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_have_enametoolong" >&5
 $as_echo "$ax_cv_have_enametoolong" >&6; }
-if test "x$ax_cv_have_enametoolong" = "xyes"; then :
+   if test "x$ax_cv_have_enametoolong" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_ENAMETOOLONG 1" >>confdefs.h
 
 fi
-
 
 
 
@@ -11354,11 +10960,10 @@ if test "x$ax_cv_have_getaddrinfo" = "xyes"; then :
 
 fi
 
-if test "x$ax_cv_have_getaddrinfo" = "xyes"; then :
+   if test "x$ax_cv_have_getaddrinfo" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_GETADDRINFO 1" >>confdefs.h
 
 fi
-
 
 
 
@@ -11405,11 +11010,10 @@ if test "x$ax_cv_have_gethostbyname_r" = "xyes"; then :
 
 fi
 
-if test "x$ax_cv_have_gethostbyname_r" = "xyes"; then :
+   if test "x$ax_cv_have_gethostbyname_r" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_GETHOSTBYNAME_R 1" >>confdefs.h
 
 fi
-
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for gettid" >&5
 $as_echo_n "checking for gettid... " >&6; }
@@ -11438,7 +11042,7 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_have_gettid" >&5
 $as_echo "$ax_cv_have_gettid" >&6; }
-if test "x$ax_cv_have_gettid" = "xyes"; then :
+   if test "x$ax_cv_have_gettid" = "xyes"; then :
   $as_echo "#define LOG4CPLUS_HAVE_GETTID 1" >>confdefs.h
 
 fi
@@ -12583,8 +12187,8 @@ esac
 
 
 
-macro_version='2.4.4'
-macro_revision='2.4.4'
+macro_version='2.4.5'
+macro_revision='2.4.5'
 
 
 
@@ -14799,6 +14403,21 @@ $as_echo "$lt_cv_truncate_bin" >&6; }
 
 
 
+
+# Calculate cc_basename.  Skip known compiler wrappers and cross-prefix.
+func_cc_basename ()
+{
+    for cc_temp in $*""; do
+      case $cc_temp in
+        compile | *[\\/]compile | ccache | *[\\/]ccache ) ;;
+        distcc | *[\\/]distcc | purify | *[\\/]purify ) ;;
+        \-*) ;;
+        *) break;;
+      esac
+    done
+    func_cc_basename_result=`$ECHO "$cc_temp" | $SED "s%.*/%%; s%^$host_alias-%%"`
+}
+
 # Check whether --enable-libtool-lock was given.
 if test "${enable_libtool_lock+set}" = set; then :
   enableval=$enable_libtool_lock;
@@ -15806,6 +15425,41 @@ $as_echo "$lt_cv_ld_force_load" >&6; }
     ;;
   esac
 
+# func_munge_path_list VARIABLE PATH
+# -----------------------------------
+# VARIABLE is name of variable containing _space_ separated list of
+# directories to be munged by the contents of PATH, which is string
+# having a format:
+# "DIR[:DIR]:"
+#       string "DIR[ DIR]" will be prepended to VARIABLE
+# ":DIR[:DIR]"
+#       string "DIR[ DIR]" will be appended to VARIABLE
+# "DIRP[:DIRP]::[DIRA:]DIRA"
+#       string "DIRP[ DIRP]" will be prepended to VARIABLE and string
+#       "DIRA[ DIRA]" will be appended to VARIABLE
+# "DIR[:DIR]"
+#       VARIABLE will be replaced by "DIR[ DIR]"
+func_munge_path_list ()
+{
+    case x$2 in
+    x)
+        ;;
+    *:)
+        eval $1=\"`$ECHO $2 | $SED 's/:/ /g'` \S|@1\"
+        ;;
+    x:*)
+        eval $1=\"\$$1 `$ECHO $2 | $SED 's/:/ /g'`\"
+        ;;
+    *::*)
+        eval $1=\"\$$1\ `$ECHO $2 | $SED -e 's/.*:://' -e 's/:/ /g'`\"
+        eval $1=\"`$ECHO $2 | $SED -e 's/::.*//' -e 's/:/ /g'`\ \$$1\"
+        ;;
+    *)
+        eval $1=\"`$ECHO $2 | $SED 's/:/ /g'`\"
+        ;;
+    esac
+}
+
 for ac_header in dlfcn.h
 do :
   ac_fn_c_check_header_compile "$LINENO" "dlfcn.h" "ac_cv_header_dlfcn_h" "$ac_includes_default
@@ -16432,15 +16086,8 @@ test -z "$LTCFLAGS" && LTCFLAGS=$CFLAGS
 test -z "$LD" && LD=ld
 test -z "$ac_objext" && ac_objext=o
 
-for cc_temp in $compiler""; do
-  case $cc_temp in
-    compile | *[\\/]compile | ccache | *[\\/]ccache ) ;;
-    distcc | *[\\/]distcc | purify | *[\\/]purify ) ;;
-    \-*) ;;
-    *) break;;
-  esac
-done
-cc_basename=`$ECHO "$cc_temp" | $SED "s%.*/%%; s%^$host_alias-%%"`
+func_cc_basename $compiler
+cc_basename=$func_cc_basename_result
 
 
 # Only perform the check for file, if the check method requires it
@@ -18899,6 +18546,8 @@ hardcode_into_libs=no
 # flags to be left without arguments
 need_version=unknown
 
+
+
 case $host_os in
 aix3*)
   version_type=linux # correct to gnu/linux during the next big refactor
@@ -19187,6 +18836,7 @@ freebsd* | dragonfly*)
   case $version_type in
     freebsd-elf*)
       library_names_spec='$libname$release$shared_ext$versuffix $libname$release$shared_ext$major $libname$shared_ext'
+      soname_spec='$libname$release$shared_ext$major'
       need_version=no
       need_lib_prefix=no
       ;;
@@ -19246,10 +18896,11 @@ hpux9* | hpux10* | hpux11*)
     soname_spec='$libname$release$shared_ext$major'
     if test 32 = "$HPUX_IA64_MODE"; then
       sys_lib_search_path_spec="/usr/lib/hpux32 /usr/local/lib/hpux32 /usr/local/lib"
+      sys_lib_dlsearch_path_spec=/usr/lib/hpux32
     else
       sys_lib_search_path_spec="/usr/lib/hpux64 /usr/local/lib/hpux64"
+      sys_lib_dlsearch_path_spec=/usr/lib/hpux64
     fi
-    sys_lib_dlsearch_path_spec=$sys_lib_search_path_spec
     ;;
   hppa*64*)
     shrext_cmds='.sl'
@@ -19401,7 +19052,12 @@ fi
   # before this can be enabled.
   hardcode_into_libs=yes
 
-  # Append ld.so.conf contents to the search path
+  # Ideally, we could use ldconfig to report *all* directores which are
+  # searched for libraries, however this is still not possible.  Aside from not
+  # being certain /sbin/ldconfig is available, command
+  # 'ldconfig -N -X -v | grep ^/' on 64bit Fedora does not report /usr/lib64,
+  # even though it is searched at run-time.  Try to do the best guess by
+  # appending ld.so.conf contents (and includes) to the search path.
   if test -f /etc/ld.so.conf; then
     lt_ld_extra=`awk '/^include / { system(sprintf("cd /etc; cat %s 2>/dev/null", \$2)); skip = 1; } { if (!skip) print \$0; skip = 0; }' < /etc/ld.so.conf | $SED -e 's/#.*//;/^[	 ]*hwcap[	 ]/d;s/[:,	]/ /g;s/=[^=]*$//;s/=[^= ]* / /g;s/"//g;/^$/d' | tr '\n' ' '`
     sys_lib_dlsearch_path_spec="/lib /usr/lib $lt_ld_extra"
@@ -19626,9 +19282,17 @@ fi
 if test set = "${lt_cv_sys_lib_search_path_spec+set}"; then
   sys_lib_search_path_spec=$lt_cv_sys_lib_search_path_spec
 fi
+
 if test set = "${lt_cv_sys_lib_dlsearch_path_spec+set}"; then
   sys_lib_dlsearch_path_spec=$lt_cv_sys_lib_dlsearch_path_spec
 fi
+
+# lt_cv_sys_lib... is unaugmented for libtool script decls...
+lt_cv_sys_lib_dlsearch_path_spec=$sys_lib_dlsearch_path_spec
+
+# ..but sys_lib_... needs LT_SYS_LIBRARY_PATH munging for
+# LT_SYS_DLSEARCH_PATH macro in ltdl.m4 to work with the correct paths:
+func_munge_path_list sys_lib_dlsearch_path_spec "$LT_SYS_LIBRARY_PATH"
 
 
 
@@ -20628,15 +20292,8 @@ $RM -r conftest*
   CFLAGS=$CXXFLAGS
   compiler=$CC
   compiler_CXX=$CC
-  for cc_temp in $compiler""; do
-  case $cc_temp in
-    compile | *[\\/]compile | ccache | *[\\/]ccache ) ;;
-    distcc | *[\\/]distcc | purify | *[\\/]purify ) ;;
-    \-*) ;;
-    *) break;;
-  esac
-done
-cc_basename=`$ECHO "$cc_temp" | $SED "s%.*/%%; s%^$host_alias-%%"`
+  func_cc_basename $compiler
+cc_basename=$func_cc_basename_result
 
 
   if test -n "$compiler"; then
@@ -22023,51 +21680,6 @@ interix[3-9]*)
   postdep_objects_CXX=
   postdeps_CXX=
   ;;
-
-linux*)
-  case `$CC -V 2>&1 | sed 5q` in
-  *Sun\ C*)
-    # Sun C++ 5.9
-
-    # The more standards-conforming stlport4 library is
-    # incompatible with the Cstd library. Avoid specifying
-    # it if it's in CXXFLAGS. Ignore libCrun as
-    # -library=stlport4 depends on it.
-    case " $CXX $CXXFLAGS " in
-    *" -library=stlport4 "*)
-      solaris_use_stlport4=yes
-      ;;
-    esac
-
-    if test yes != "$solaris_use_stlport4"; then
-      postdeps_CXX='-library=Cstd -library=Crun'
-    fi
-    ;;
-  esac
-  ;;
-
-solaris*)
-  case $cc_basename in
-  CC* | sunCC*)
-    # The more standards-conforming stlport4 library is
-    # incompatible with the Cstd library. Avoid specifying
-    # it if it's in CXXFLAGS. Ignore libCrun as
-    # -library=stlport4 depends on it.
-    case " $CXX $CXXFLAGS " in
-    *" -library=stlport4 "*)
-      solaris_use_stlport4=yes
-      ;;
-    esac
-
-    # Adding this requires a known-good setup of shared libraries for
-    # Sun compiler versions before 5.6, else PIC objects from an old
-    # archive will be linked into the output, leading to subtle bugs.
-    if test yes != "$solaris_use_stlport4"; then
-      postdeps_CXX='-library=Cstd -library=Crun'
-    fi
-    ;;
-  esac
-  ;;
 esac
 
 
@@ -22891,6 +22503,8 @@ hardcode_into_libs=no
 # flags to be left without arguments
 need_version=unknown
 
+
+
 case $host_os in
 aix3*)
   version_type=linux # correct to gnu/linux during the next big refactor
@@ -23177,6 +22791,7 @@ freebsd* | dragonfly*)
   case $version_type in
     freebsd-elf*)
       library_names_spec='$libname$release$shared_ext$versuffix $libname$release$shared_ext$major $libname$shared_ext'
+      soname_spec='$libname$release$shared_ext$major'
       need_version=no
       need_lib_prefix=no
       ;;
@@ -23236,10 +22851,11 @@ hpux9* | hpux10* | hpux11*)
     soname_spec='$libname$release$shared_ext$major'
     if test 32 = "$HPUX_IA64_MODE"; then
       sys_lib_search_path_spec="/usr/lib/hpux32 /usr/local/lib/hpux32 /usr/local/lib"
+      sys_lib_dlsearch_path_spec=/usr/lib/hpux32
     else
       sys_lib_search_path_spec="/usr/lib/hpux64 /usr/local/lib/hpux64"
+      sys_lib_dlsearch_path_spec=/usr/lib/hpux64
     fi
-    sys_lib_dlsearch_path_spec=$sys_lib_search_path_spec
     ;;
   hppa*64*)
     shrext_cmds='.sl'
@@ -23391,7 +23007,12 @@ fi
   # before this can be enabled.
   hardcode_into_libs=yes
 
-  # Append ld.so.conf contents to the search path
+  # Ideally, we could use ldconfig to report *all* directores which are
+  # searched for libraries, however this is still not possible.  Aside from not
+  # being certain /sbin/ldconfig is available, command
+  # 'ldconfig -N -X -v | grep ^/' on 64bit Fedora does not report /usr/lib64,
+  # even though it is searched at run-time.  Try to do the best guess by
+  # appending ld.so.conf contents (and includes) to the search path.
   if test -f /etc/ld.so.conf; then
     lt_ld_extra=`awk '/^include / { system(sprintf("cd /etc; cat %s 2>/dev/null", \$2)); skip = 1; } { if (!skip) print \$0; skip = 0; }' < /etc/ld.so.conf | $SED -e 's/#.*//;/^[	 ]*hwcap[	 ]/d;s/[:,	]/ /g;s/=[^=]*$//;s/=[^= ]* / /g;s/"//g;/^$/d' | tr '\n' ' '`
     sys_lib_dlsearch_path_spec="/lib /usr/lib $lt_ld_extra"
@@ -23616,9 +23237,17 @@ fi
 if test set = "${lt_cv_sys_lib_search_path_spec+set}"; then
   sys_lib_search_path_spec=$lt_cv_sys_lib_search_path_spec
 fi
+
 if test set = "${lt_cv_sys_lib_dlsearch_path_spec+set}"; then
   sys_lib_dlsearch_path_spec=$lt_cv_sys_lib_dlsearch_path_spec
 fi
+
+# lt_cv_sys_lib... is unaugmented for libtool script decls...
+lt_cv_sys_lib_dlsearch_path_spec=$sys_lib_dlsearch_path_spec
+
+# ..but sys_lib_... needs LT_SYS_LIBRARY_PATH munging for
+# LT_SYS_DLSEARCH_PATH macro in ltdl.m4 to work with the correct paths:
+func_munge_path_list sys_lib_dlsearch_path_spec "$LT_SYS_LIBRARY_PATH"
 
 
 
@@ -23752,7 +23381,7 @@ ac_config_headers="$ac_config_headers include/log4cplus/config.h"
 
 ac_config_headers="$ac_config_headers include/log4cplus/config/defines.hxx"
 
-ac_config_files="$ac_config_files Makefile include/Makefile tests/atlocal"
+ac_config_files="$ac_config_files Makefile include/Makefile tests/atlocal log4cplus.pc"
 
 
 ac_config_files="$ac_config_files tests/configandwatch_test/log4cplus.properties tests/filter_test/log4cplus.properties tests/performance_test/log4cplus.properties tests/propertyconfig_test/log4cplus.properties tests/propertyconfig_test/log4cplus.tail.properties"
@@ -23765,8 +23394,6 @@ AUTOM4TE=${AUTOM4TE-"${am_missing_run}autom4te"}
 
 
 
-
-ac_config_files="$ac_config_files log4cplus.pc"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -24666,7 +24293,7 @@ finish_cmds='`$ECHO "$finish_cmds" | $SED "$delay_single_quote_subst"`'
 finish_eval='`$ECHO "$finish_eval" | $SED "$delay_single_quote_subst"`'
 hardcode_into_libs='`$ECHO "$hardcode_into_libs" | $SED "$delay_single_quote_subst"`'
 sys_lib_search_path_spec='`$ECHO "$sys_lib_search_path_spec" | $SED "$delay_single_quote_subst"`'
-sys_lib_dlsearch_path_spec='`$ECHO "$sys_lib_dlsearch_path_spec" | $SED "$delay_single_quote_subst"`'
+lt_cv_sys_lib_dlsearch_path_spec='`$ECHO "$lt_cv_sys_lib_dlsearch_path_spec" | $SED "$delay_single_quote_subst"`'
 hardcode_action='`$ECHO "$hardcode_action" | $SED "$delay_single_quote_subst"`'
 enable_dlopen='`$ECHO "$enable_dlopen" | $SED "$delay_single_quote_subst"`'
 enable_dlopen_self='`$ECHO "$enable_dlopen_self" | $SED "$delay_single_quote_subst"`'
@@ -24870,7 +24497,7 @@ postinstall_cmds \
 postuninstall_cmds \
 finish_cmds \
 sys_lib_search_path_spec \
-sys_lib_dlsearch_path_spec \
+lt_cv_sys_lib_dlsearch_path_spec \
 reload_cmds_CXX \
 old_archive_cmds_CXX \
 old_archive_from_new_cmds_CXX \
@@ -24927,12 +24554,12 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "include/Makefile") CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
     "tests/atlocal") CONFIG_FILES="$CONFIG_FILES tests/atlocal" ;;
+    "log4cplus.pc") CONFIG_FILES="$CONFIG_FILES log4cplus.pc" ;;
     "tests/configandwatch_test/log4cplus.properties") CONFIG_FILES="$CONFIG_FILES tests/configandwatch_test/log4cplus.properties" ;;
     "tests/filter_test/log4cplus.properties") CONFIG_FILES="$CONFIG_FILES tests/filter_test/log4cplus.properties" ;;
     "tests/performance_test/log4cplus.properties") CONFIG_FILES="$CONFIG_FILES tests/performance_test/log4cplus.properties" ;;
     "tests/propertyconfig_test/log4cplus.properties") CONFIG_FILES="$CONFIG_FILES tests/propertyconfig_test/log4cplus.properties" ;;
     "tests/propertyconfig_test/log4cplus.tail.properties") CONFIG_FILES="$CONFIG_FILES tests/propertyconfig_test/log4cplus.tail.properties" ;;
-    "log4cplus.pc") CONFIG_FILES="$CONFIG_FILES log4cplus.pc" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
@@ -25691,6 +25318,9 @@ $as_echo X"$file" |
 # The names of the tagged configurations supported by this script.
 available_tags='CXX '
 
+# Configured defaults for sys_lib_dlsearch_path munging.
+: \${LT_SYS_LIBRARY_PATH="$LT_SYS_LIBRARY_PATH"}
+
 # ### BEGIN LIBTOOL CONFIG
 
 # Which release of libtool.m4 was used?
@@ -25944,7 +25574,7 @@ hardcode_into_libs=$hardcode_into_libs
 sys_lib_search_path_spec=$lt_sys_lib_search_path_spec
 
 # Run-time system search path for libraries.
-sys_lib_dlsearch_path_spec=$lt_sys_lib_dlsearch_path_spec
+sys_lib_dlsearch_path_spec=$lt_lt_cv_sys_lib_dlsearch_path_spec
 
 # Whether dlopen is supported.
 dlopen_support=$enable_dlopen
@@ -26106,6 +25736,64 @@ postdeps=$lt_postdeps
 compiler_lib_search_path=$lt_compiler_lib_search_path
 
 # ### END LIBTOOL CONFIG
+
+_LT_EOF
+
+    cat <<'_LT_EOF' >> "$cfgfile"
+## -------------------------------------- ##
+## Shell functions shared with configure. ##
+## -------------------------------------- ##
+
+# func_munge_path_list VARIABLE PATH
+# -----------------------------------
+# VARIABLE is name of variable containing _space_ separated list of
+# directories to be munged by the contents of PATH, which is string
+# having a format:
+# "DIR[:DIR]:"
+#       string "DIR[ DIR]" will be prepended to VARIABLE
+# ":DIR[:DIR]"
+#       string "DIR[ DIR]" will be appended to VARIABLE
+# "DIRP[:DIRP]::[DIRA:]DIRA"
+#       string "DIRP[ DIRP]" will be prepended to VARIABLE and string
+#       "DIRA[ DIRA]" will be appended to VARIABLE
+# "DIR[:DIR]"
+#       VARIABLE will be replaced by "DIR[ DIR]"
+func_munge_path_list ()
+{
+    case x$2 in
+    x)
+        ;;
+    *:)
+        eval $1=\"`$ECHO $2 | $SED 's/:/ /g'` \S|@1\"
+        ;;
+    x:*)
+        eval $1=\"\$$1 `$ECHO $2 | $SED 's/:/ /g'`\"
+        ;;
+    *::*)
+        eval $1=\"\$$1\ `$ECHO $2 | $SED -e 's/.*:://' -e 's/:/ /g'`\"
+        eval $1=\"`$ECHO $2 | $SED -e 's/::.*//' -e 's/:/ /g'`\ \$$1\"
+        ;;
+    *)
+        eval $1=\"`$ECHO $2 | $SED 's/:/ /g'`\"
+        ;;
+    esac
+}
+
+
+# Calculate cc_basename.  Skip known compiler wrappers and cross-prefix.
+func_cc_basename ()
+{
+    for cc_temp in $*""; do
+      case $cc_temp in
+        compile | *[\\/]compile | ccache | *[\\/]ccache ) ;;
+        distcc | *[\\/]distcc | purify | *[\\/]purify ) ;;
+        \-*) ;;
+        *) break;;
+      esac
+    done
+    func_cc_basename_result=`$ECHO "$cc_temp" | $SED "s%.*/%%; s%^$host_alias-%%"`
+}
+
 
 _LT_EOF
 

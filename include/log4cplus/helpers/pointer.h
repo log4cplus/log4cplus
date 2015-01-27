@@ -157,7 +157,7 @@ namespace log4cplus {
           // Methods
             T* get() const { return pointee; }
 
-            void swap (SharedObjectPtr & other) throw ()
+            void swap (SharedObjectPtr & other) LOG4CPLUS_NOEXCEPT
             {
                 std::swap (pointee, other.pointee);
             }

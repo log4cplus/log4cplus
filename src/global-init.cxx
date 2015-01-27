@@ -636,7 +636,7 @@ struct _static_log4cplus_initializer
         // when we are using Visual Studio and C++11 threads
         // and synchronization primitives. It would result into a deadlock
         // on loader lock.
-#if ! (defined (LOG4CPLUS_WITH_CXX11_THREADS) && defined (_MSC_VER))
+#if ! defined (_MSC_VER)
         log4cplus::initializeLog4cplus ();
 #endif
     }

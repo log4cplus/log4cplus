@@ -283,35 +283,6 @@ if(NOT DEFINED LOG4CPLUS_HAVE_TLS_SUPPORT)
   endif()
 endif()
 
-# check for c++11 atomic stuff
-# TODO: requires special compiler switch on GCC and Clang
-# Currently it is assumed that they are provided in
-# CMAKE_CXX_FLAGS
-set(CMAKE_REQUIRED_FLAGS "${CMAKE_CXX_FLAGS}")
-check_cxx_source_compiles(
-  "#include <atomic>
-
-   template<typename T>
-   void test_atomic()
-   {
-       std::atomic<T> x(0);
-       std::atomic_fetch_add_explicit(&x, static_cast<T>(1), std::memory_order_acquire);
-       std::atomic_fetch_sub_explicit(&x, static_cast<T>(1), std::memory_order_release);
-   }
-
-   int main()
-   {
-       test_atomic<int>();
-       test_atomic<unsigned int>();
-       test_atomic<long>();
-       test_atomic<unsigned long>();
-       std::atomic_thread_fence(std::memory_order_acquire);
-       return 0;
-   }"
-  LOG4CPLUS_HAVE_CXX11_ATOMICS
-)
-set(CMAKE_REQUIRED_FLAGS "")
-
 set(CMAKE_EXTRA_INCLUDE_FILES sys/socket.h)
 check_type_size(socklen_t _SOCKLEN_SIZE)
 if (_SOCKLEN_SIZE)

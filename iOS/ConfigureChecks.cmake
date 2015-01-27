@@ -107,8 +107,6 @@ set(LOG4CPLUS_DECLSPEC_PRIVATE "__attribute__ ((visibility(\"hidden\")))" )
 set(LOG4CPLUS_HAVE_TLS_SUPPORT 1)
 set(LOG4CPLUS_THREAD_LOCAL_VAR "__thread")
 
-#set(LOG4CPLUS_HAVE_CXX11_ATOMICS )
-
 #set(socklen_t)
 
 set(HAVE_STDLIB_H              ${LOG4CPLUS_HAVE_STDLIB_H} )

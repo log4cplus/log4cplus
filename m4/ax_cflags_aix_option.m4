@@ -70,18 +70,20 @@ AS_VAR_PUSHDEF([FLAGS],[CFLAGS])dnl
 AS_VAR_PUSHDEF([VAR],[ax_cv_cflags_aix_option_$2])dnl
 AC_CACHE_CHECK([m4_ifval($1,$1,FLAGS) for aix/cc m4_ifval($2,$2,-option)],
 VAR,[VAR="no, unknown"
- AC_LANG_SAVE
- AC_LANG_C
+ AC_LANG_PUSH([C])
  ac_save_[]FLAGS="$[]FLAGS"
 for ac_arg dnl
 in "-qlanglvl=ansi -qsrcmsg % m4_ifval($2,$2,-option)"     dnl AIX
    #
 do FLAGS="$ac_save_[]FLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   AC_TRY_COMPILE([],[return 0;],
-   [VAR=`echo $ac_arg | sed -e 's,.*% *,,'` ; break])
+   AC_LINK_IFELSE(
+     [AC_LANG_PROGRAM([[int zero;]],
+        [[zero = 0; return zero;]])],
+     [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break],
+     [])
 done
  FLAGS="$ac_save_[]FLAGS"
- AC_LANG_RESTORE
+ AC_LANG_POP([C])
 ])
 case ".$VAR" in
      .ok|.ok,*) m4_ifvaln($3,$3) ;;
@@ -104,18 +106,20 @@ AS_VAR_PUSHDEF([FLAGS],[CXXFLAGS])dnl
 AS_VAR_PUSHDEF([VAR],[ax_cv_cxxflags_aix_option_$2])dnl
 AC_CACHE_CHECK([m4_ifval($1,$1,FLAGS) for aix/cc m4_ifval($2,$2,-option)],
 VAR,[VAR="no, unknown"
- AC_LANG_SAVE
- AC_LANG_CPLUSPLUS
+ AC_LANG_PUSH([C++])
  ac_save_[]FLAGS="$[]FLAGS"
 for ac_arg dnl
 in "-qlanglvl=ansi -qsrcmsg % m4_ifval($2,$2,-option)"     dnl AIX
    #
 do FLAGS="$ac_save_[]FLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   AC_TRY_COMPILE([],[return 0;],
-   [VAR=`echo $ac_arg | sed -e 's,.*% *,,'` ; break])
+   AC_LINK_IFELSE(
+     [AC_LANG_PROGRAM([[int zero;]],
+        [[zero = 0; return zero;]])],
+     [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break],
+     [])
 done
  FLAGS="$ac_save_[]FLAGS"
- AC_LANG_RESTORE
+ AC_LANG_POP([C++])
 ])
 case ".$VAR" in
      .ok|.ok,*) m4_ifvaln($3,$3) ;;
@@ -138,18 +142,20 @@ AS_VAR_PUSHDEF([FLAGS],[CFLAGS])dnl
 AS_VAR_PUSHDEF([VAR],[ax_cv_cflags_aix_option_$1])dnl
 AC_CACHE_CHECK([m4_ifval($2,$2,FLAGS) for aix/cc m4_ifval($1,$1,-option)],
 VAR,[VAR="no, unknown"
- AC_LANG_SAVE
- AC_LANG_C
+ AC_LANG_PUSH([C])
  ac_save_[]FLAGS="$[]FLAGS"
 for ac_arg dnl
 in "-qlanglvl=ansi -qsrcmsg % m4_ifval($1,$1,-option)"     dnl AIX
    #
 do FLAGS="$ac_save_[]FLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   AC_TRY_COMPILE([],[return 0;],
-   [VAR=`echo $ac_arg | sed -e 's,.*% *,,'` ; break])
+   AC_LINK_IFELSE(
+     [AC_LANG_PROGRAM([[int zero;]],
+        [[zero = 0; return zero;]])],
+     [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break],
+     [])
 done
  FLAGS="$ac_save_[]FLAGS"
- AC_LANG_RESTORE
+ AC_LANG_POP([C])
 ])
 case ".$VAR" in
      .ok|.ok,*) m4_ifvaln($3,$3) ;;
@@ -172,18 +178,20 @@ AS_VAR_PUSHDEF([FLAGS],[CXXFLAGS])dnl
 AS_VAR_PUSHDEF([VAR],[ax_cv_cxxflags_aix_option_$1])dnl
 AC_CACHE_CHECK([m4_ifval($2,$2,FLAGS) for aix/cc m4_ifval($1,$1,-option)],
 VAR,[VAR="no, unknown"
- AC_LANG_SAVE
- AC_LANG_CPLUSPLUS
+ AC_LANG_PUSH([C++])
  ac_save_[]FLAGS="$[]FLAGS"
 for ac_arg dnl
 in "-qlanglvl=ansi -qsrcmsg % m4_ifval($1,$1,-option)"     dnl AIX
    #
 do FLAGS="$ac_save_[]FLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   AC_TRY_COMPILE([],[return 0;],
-   [VAR=`echo $ac_arg | sed -e 's,.*% *,,'` ; break])
+   AC_LINK_IFELSE(
+     [AC_LANG_PROGRAM([[int zero;]],
+        [[zero = 0; return zero;]])],
+     [AS_VAR_SET([VAR],[`echo $ac_arg | sed -e 's,.*% *,,'`]); break],
+     [])
 done
  FLAGS="$ac_save_[]FLAGS"
- AC_LANG_RESTORE
+ AC_LANG_POP([C++])
 ])
 case ".$VAR" in
      .ok|.ok,*) m4_ifvaln($3,$3) ;;

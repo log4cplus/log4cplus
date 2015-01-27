@@ -9,8 +9,7 @@ configuration. It is modelled after the Java log4j API."
 HOMEPAGE="http://log4cplus.sourceforge.net/"
 SRC_URI="mirror://sourceforge/log4cplus/log4cplus-stable/${PV%-rc*}/${P}.tar.xz"
 
-PATCH_URI="configure.ac-relax-libtool-version.patch
-           configure.ac-disable-__thread-keyword.patch"
+PATCH_URI="configure.ac.patch"
 
 PKG_NAMES="lib${PN}2.0_3 lib${PN}qt4debugappender2.0_3
            lib${PN}-devel lib${PN}qt4debugappender-devel"

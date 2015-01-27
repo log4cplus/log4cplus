@@ -149,7 +149,6 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ax_cflags_aix_option.m4 \
 	$(top_srcdir)/m4/ax_pthread.m4 $(top_srcdir)/m4/ax_declspec.m4 \
 	$(top_srcdir)/m4/ax_tls_support.m4 \
-	$(top_srcdir)/m4/ax__sync.m4 \
 	$(top_srcdir)/m4/ax_macro_function.m4 \
 	$(top_srcdir)/m4/ax_gethostbyname_r.m4 \
 	$(top_srcdir)/m4/ax_getaddrinfo.m4 \
@@ -170,13 +169,12 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/log4cplus/config.h \
 	$(top_builddir)/include/log4cplus/config/defines.hxx
-CONFIG_CLEAN_FILES = tests/atlocal \
+CONFIG_CLEAN_FILES = tests/atlocal log4cplus.pc \
 	tests/configandwatch_test/log4cplus.properties \
 	tests/filter_test/log4cplus.properties \
 	tests/performance_test/log4cplus.properties \
 	tests/propertyconfig_test/log4cplus.properties \
-	tests/propertyconfig_test/log4cplus.tail.properties \
-	log4cplus.pc
+	tests/propertyconfig_test/log4cplus.tail.properties
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -802,6 +800,7 @@ LOG4CPLUS_PROFILING_CXXFLAGS = @LOG4CPLUS_PROFILING_CXXFLAGS@
 LOG4CPLUS_PROFILING_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@
 LTLIBOBJS = @LTLIBOBJS@
 LT_RELEASE = @LT_RELEASE@
+LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 LT_VERSION = @LT_VERSION@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
@@ -1300,6 +1299,8 @@ distclean-hdr:
 	-rm -f include/log4cplus/config.h include/log4cplus/stamp-h1 include/log4cplus/config/defines.hxx include/log4cplus/config/stamp-h2
 tests/atlocal: $(top_builddir)/config.status $(top_srcdir)/tests/atlocal.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
+log4cplus.pc: $(top_builddir)/config.status $(srcdir)/log4cplus.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 tests/configandwatch_test/log4cplus.properties: $(top_builddir)/config.status $(top_srcdir)/tests/configandwatch_test/log4cplus.properties.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 tests/filter_test/log4cplus.properties: $(top_builddir)/config.status $(top_srcdir)/tests/filter_test/log4cplus.properties.in
@@ -1309,8 +1310,6 @@ tests/performance_test/log4cplus.properties: $(top_builddir)/config.status $(top
 tests/propertyconfig_test/log4cplus.properties: $(top_builddir)/config.status $(top_srcdir)/tests/propertyconfig_test/log4cplus.properties.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 tests/propertyconfig_test/log4cplus.tail.properties: $(top_builddir)/config.status $(top_srcdir)/tests/propertyconfig_test/log4cplus.tail.properties.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
-log4cplus.pc: $(top_builddir)/config.status $(srcdir)/log4cplus.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)

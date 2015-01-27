@@ -3,23 +3,23 @@ compiler:
   - gcc
   - clang
 env:
-  - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-c-locale --with-wchar_t-support"
+  - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-c-locale --with-wchar_t-support --enable-unit-tests"
     CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
-  - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-locale --with-wchar_t-support"
+  - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-locale --with-wchar_t-support --enable-unit-tests"
     CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
-  - PARAM_THREADS="--disable-threads --with-python --with-qt5 --with-working-locale --with-wchar_t-support"
+  - PARAM_THREADS="--disable-threads --with-python --with-qt5 --with-working-locale --with-wchar_t-support --enable-unit-tests"
     CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
-  - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-iconv --with-wchar_t-support"
+  - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-iconv --with-wchar_t-support --enable-unit-tests"
     CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
-  - PARAM_THREADS="--disable-threads --with-python --with-qt5 --with-iconv --with-wchar_t-support"
+  - PARAM_THREADS="--disable-threads --with-python --with-qt5 --with-iconv --with-wchar_t-support --enable-unit-tests"
     CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
-  - PARAM_THREADS="--enable-threads --with-python --with-qt --with-working-locale --with-wchar_t-support"
+  - PARAM_THREADS="--enable-threads --with-python --with-qt --with-working-locale --with-wchar_t-support --enable-unit-tests"
     CXXFLAGS="" SWIG_FLAGS=""
-  - PARAM_THREADS="--disable-threads --with-python --with-qt --with-working-locale --with-wchar_t-support"
+  - PARAM_THREADS="--disable-threads --with-python --with-qt --with-working-locale --with-wchar_t-support --enable-unit-tests"
     CXXFLAGS="" SWIG_FLAGS=""
-  - PARAM_THREADS="--enable-threads --with-python --with-qt --with-iconv --with-wchar_t-support"
+  - PARAM_THREADS="--enable-threads --with-python --with-qt --with-iconv --with-wchar_t-support --enable-unit-tests"
     CXXFLAGS="" SWIG_FLAGS=""
-  - PARAM_THREADS="--disable-threads --with-python --with-qt --with-iconv --with-wchar_t-support"
+  - PARAM_THREADS="--disable-threads --with-python --with-qt --with-iconv --with-wchar_t-support --enable-unit-tests"
     CXXFLAGS="" SWIG_FLAGS=""
 before_install:
   - lsb_release -a
