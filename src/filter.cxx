@@ -110,8 +110,7 @@ LogLevelMatchFilter::LogLevelMatchFilter(const helpers::Properties& properties)
 {
     init();
 
-    properties.getBool (acceptOnMatch = false,
-        LOG4CPLUS_TEXT("AcceptOnMatch"));
+    properties.getBool (acceptOnMatch, LOG4CPLUS_TEXT("AcceptOnMatch"));
 
     tstring const & log_level_to_match
         = properties.getProperty( LOG4CPLUS_TEXT("LogLevelToMatch") );
@@ -135,7 +134,7 @@ LogLevelMatchFilter::decide(const InternalLoggingEvent& event) const
     }
 
     bool matchOccured = (logLevelToMatch == event.getLogLevel());
-       
+
     if(matchOccured) {
         return (acceptOnMatch ? ACCEPT : DENY);
     }
@@ -161,8 +160,7 @@ LogLevelRangeFilter::LogLevelRangeFilter(const helpers::Properties& properties)
 {
     init();
 
-    properties.getBool (acceptOnMatch = false,
-        LOG4CPLUS_TEXT("AcceptOnMatch"));
+    properties.getBool (acceptOnMatch, LOG4CPLUS_TEXT("AcceptOnMatch"));
 
     tstring const & log_level_min
         = properties.getProperty( LOG4CPLUS_TEXT("LogLevelMin") );
@@ -224,8 +222,7 @@ StringMatchFilter::StringMatchFilter(const helpers::Properties& properties)
 {
     init();
 
-    properties.getBool (acceptOnMatch = false,
-        LOG4CPLUS_TEXT("AcceptOnMatch"));
+    properties.getBool (acceptOnMatch, LOG4CPLUS_TEXT("AcceptOnMatch"));
     stringToMatch = properties.getProperty( LOG4CPLUS_TEXT("StringToMatch") );
 }
 
