@@ -279,14 +279,17 @@ CATCH_TEST_CASE ("Filter", "[filter]")
 {
     FilterPtr filter;
     Logger log (Logger::getInstance (LOG4CPLUS_TEXT ("test")));
-    static InternalLoggingEvent const warn_ev (log.getName (), WARN_LOG_LEVEL,
-        LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("warn log message")),
+    static InternalLoggingEvent const debug_ev (log.getName (), DEBUG_LOG_LEVEL,
+        LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("debug log message")),
         __FILE__, __LINE__);
     static InternalLoggingEvent const info_ev (log.getName (), INFO_LOG_LEVEL,
         LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("info log message")),
         __FILE__, __LINE__);
     static InternalLoggingEvent const empty_ev (log.getName (), INFO_LOG_LEVEL,
         LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("")),
+        __FILE__, __LINE__);
+    static InternalLoggingEvent const warn_ev (log.getName (), WARN_LOG_LEVEL,
+        LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("warn log message")),
         __FILE__, __LINE__);
     static InternalLoggingEvent const error_ev (log.getName (), ERROR_LOG_LEVEL,
         LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("error log message")),
@@ -400,6 +403,16 @@ CATCH_TEST_CASE ("Filter", "[filter]")
             CATCH_REQUIRE (filter->decide (info_ev) == DENY);
             CATCH_REQUIRE (filter->decide (warn_ev) == DENY);
         }
+    }
+
+    CATCH_SECTION ("function filter")
+    {
+        filter = new FunctionFilter (
+            [](InternalLoggingEvent const & ev) -> FilterResult {
+                return ev.getLogLevel () >= INFO_LOG_LEVEL ? ACCEPT : DENY;
+            });
+        CATCH_REQUIRE (filter->decide (info_ev) == ACCEPT);
+        CATCH_REQUIRE (filter->decide (debug_ev) == DENY);
     }
 }
 
