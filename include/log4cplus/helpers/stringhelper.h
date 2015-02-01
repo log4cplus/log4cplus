@@ -90,6 +90,8 @@ namespace log4cplus {
             }
             if (first != i)
                 *result = StringType (s, first, i - first);
+            else if (! collapseTokens && first == i)
+                *result = StringType ();
         }
 
 
