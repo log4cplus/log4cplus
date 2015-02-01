@@ -32,6 +32,7 @@
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
 #include <catch.hpp>
+#include <limits>
 #endif
 
 
@@ -230,6 +231,35 @@ toLower(const tstring& s)
 
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+
+namespace
+{
+
+template <typename IntType>
+struct test
+{
+    using limits = std::numeric_limits<IntType>;
+
+    static void run_one (IntType value = 123)
+    {
+        tostringstream oss;
+        oss.imbue (std::locale ("C"));
+        oss << +value;
+
+        CATCH_REQUIRE (convertIntegerToString (value) == oss.str ());
+    }
+
+    static void run ()
+    {
+        test<IntType>::run_one ();
+        test<IntType>::run_one (limits::min ());
+        test<IntType>::run_one (limits::max ());
+    }
+};
+
+} // namespace
+
+
 CATCH_TEST_CASE( "Strings helpers", "[strings]" )
 {
     CATCH_SECTION ("empty_str is empty")
@@ -416,6 +446,29 @@ CATCH_TEST_CASE( "Strings helpers", "[strings]" )
                 CATCH_REQUIRE (tokens == expected_tokens);
             }
         }
+    }
+
+    CATCH_SECTION ("convert integer to string")
+    {
+
+#define LOG4CPLUS_GEN_TEST(TYPE)                \
+        CATCH_SECTION (#TYPE)                   \
+        {                                       \
+            test<TYPE>::run ();                 \
+        }
+
+        LOG4CPLUS_GEN_TEST (char)
+        LOG4CPLUS_GEN_TEST (unsigned char)
+        LOG4CPLUS_GEN_TEST (signed char)
+        LOG4CPLUS_GEN_TEST (short)
+        LOG4CPLUS_GEN_TEST (unsigned short)
+        LOG4CPLUS_GEN_TEST (int)
+        LOG4CPLUS_GEN_TEST (unsigned int)
+        LOG4CPLUS_GEN_TEST (long)
+        LOG4CPLUS_GEN_TEST (unsigned long)
+        LOG4CPLUS_GEN_TEST (long long)
+        LOG4CPLUS_GEN_TEST (unsigned long long)
+#undef LOG4CPLUS_GEN_TEST
     }
 }
 #endif
