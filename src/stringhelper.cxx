@@ -470,6 +470,36 @@ CATCH_TEST_CASE( "Strings helpers", "[strings]" )
         LOG4CPLUS_GEN_TEST (unsigned long long)
 #undef LOG4CPLUS_GEN_TEST
     }
+
+    CATCH_SECTION ("join strings")
+    {
+        tstring const items[] = {
+            { LOG4CPLUS_TEXT ("1") },
+            { LOG4CPLUS_TEXT ("2") },
+            { LOG4CPLUS_TEXT ("3") } };
+        tstring result;
+
+        CATCH_SECTION ("1")
+        {
+            helpers::join (result, std::begin (items), items + 1,
+                LOG4CPLUS_TEXT (','));
+            CATCH_REQUIRE (result == LOG4CPLUS_TEXT ("1"));
+        }
+
+        CATCH_SECTION ("1,2")
+        {
+            helpers::join (result, std::begin (items), items + 2,
+                LOG4CPLUS_TEXT (","));
+            CATCH_REQUIRE (result == LOG4CPLUS_TEXT ("1,2"));
+        }
+
+        CATCH_SECTION ("1,2,3")
+        {
+            helpers::join (result, std::begin (items), items + 3,
+                LOG4CPLUS_TEXT (','));
+            CATCH_REQUIRE (result == LOG4CPLUS_TEXT ("1,2,3"));
+        }
+    }
 }
 #endif
 

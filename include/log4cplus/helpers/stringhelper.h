@@ -227,10 +227,11 @@ namespace log4cplus {
 
 
         //! Join a list of items into a string.
-        template <typename Iterator>
+        template <typename Iterator, typename Separator>
         inline
         void
-        join (tstring & result, Iterator start, Iterator last, tstring const & sep)
+        join_worker (tstring & result, Iterator & start, Iterator & last,
+            Separator const & sep)
         {
             if (start != last)
                 result = *start++;
@@ -240,6 +241,26 @@ namespace log4cplus {
                 result += sep;
                 result += *start;
             }
+        }
+
+        //! Join a list of items into a string.
+        template <typename Iterator>
+        inline
+        void
+        join (tstring & result, Iterator start, Iterator last,
+            tstring const & sep)
+        {
+            join_worker (result, start, last, sep);
+        }
+
+        //! Join a list of items into a string.
+        template <typename Iterator>
+        inline
+        void
+        join (tstring & result, Iterator start, Iterator last,
+            tstring::value_type sep)
+        {
+            join_worker (result, start, last, sep);
         }
 
 
