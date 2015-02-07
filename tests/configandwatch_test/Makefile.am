@@ -5,12 +5,14 @@ configandwatch_test_sources = %D%/main.cxx
 configandwatch_test_SOURCES = $(configandwatch_test_sources)
 
 configandwatch_test_LDADD = $(liblog4cplus_la_file)
+configandwatch_test_LDFLAGS = -no-install
 
 if BUILD_WITH_WCHAR_T_SUPPORT
 noinst_PROGRAMS += configandwatch_testU
 configandwatch_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
 configandwatch_testU_SOURCES = $(configandwatch_test_sources)
 configandwatch_testU_LDADD = $(liblog4cplusU_la_file)
+configandwatch_testU_LDFLAGS = -no-install
 endif
 
 endif
