@@ -1404,22 +1404,25 @@ unit_tests_LDFLAGS = -no-install
 TESTSUITE = tests/testsuite
 AUTOTEST = $(AUTOM4TE) --language=Autotest
 TESTSUITE_AT = \
-  tests/appender_test.at \
-  tests/configandwatch_test.at \
-  tests/customloglevel_test.at \
-  tests/fileappender_test.at \
-  tests/filter_test.at \
-  tests/hierarchy_test.at \
-  tests/loglog_test.at \
-  tests/ndc_test.at \
-  tests/ostream_test.at \
-  tests/patternlayout_test.at \
-  tests/priority_test.at \
-  tests/propertyconfig_test.at \
-  tests/thread_test.at \
-  tests/timeformat_test.at \
-  tests/local.at \
-  tests/testsuite.at
+	tests/appender_test.at \
+	tests/configandwatch_test.at \
+	tests/customloglevel_test.at \
+	tests/fileappender_test.at \
+	tests/filter_test.at \
+	tests/headers.at \
+	tests/hierarchy_test.at \
+	tests/local.at \
+	tests/loglog_test.at \
+	tests/ndc_test.at \
+	tests/ostream_test.at \
+	tests/patternlayout_test.at \
+	tests/performance_test.at \
+	tests/priority_test.at \
+	tests/propertyconfig_test.at \
+	tests/testsuite.at \
+	tests/thread_test.at \
+	tests/timeformat_test.at \
+	tests/unit_tests.at
 
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
