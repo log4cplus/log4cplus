@@ -466,9 +466,9 @@ configandwatch_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(configandwatch_testU_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_18 = tests/customloglevel_test/main.$(OBJEXT) \
+am__objects_18 = tests/customloglevel_test/customloglevel.$(OBJEXT) \
 	tests/customloglevel_test/func.$(OBJEXT) \
-	tests/customloglevel_test/customloglevel.$(OBJEXT)
+	tests/customloglevel_test/main.$(OBJEXT)
 am_customloglevel_test_OBJECTS = $(am__objects_18)
 customloglevel_test_OBJECTS = $(am_customloglevel_test_OBJECTS)
 customloglevel_test_DEPENDENCIES = $(liblog4cplus_la_file)
@@ -476,10 +476,9 @@ customloglevel_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(customloglevel_test_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_19 =  \
-	tests/customloglevel_test/customloglevel_testU-main.$(OBJEXT) \
+am__objects_19 = tests/customloglevel_test/customloglevel_testU-customloglevel.$(OBJEXT) \
 	tests/customloglevel_test/customloglevel_testU-func.$(OBJEXT) \
-	tests/customloglevel_test/customloglevel_testU-customloglevel.$(OBJEXT)
+	tests/customloglevel_test/customloglevel_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_customloglevel_testU_OBJECTS =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_19)
 customloglevel_testU_OBJECTS = $(am_customloglevel_testU_OBJECTS)
@@ -639,8 +638,8 @@ performance_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(performance_testU_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_38 = tests/priority_test/main.$(OBJEXT) \
-	tests/priority_test/func.$(OBJEXT)
+am__objects_38 = tests/priority_test/func.$(OBJEXT) \
+	tests/priority_test/main.$(OBJEXT)
 am_priority_test_OBJECTS = $(am__objects_38)
 priority_test_OBJECTS = $(am_priority_test_OBJECTS)
 priority_test_DEPENDENCIES = $(liblog4cplus_la_file)
@@ -648,8 +647,8 @@ priority_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(priority_test_LDFLAGS) $(LDFLAGS) \
 	-o $@
-am__objects_39 = tests/priority_test/priority_testU-main.$(OBJEXT) \
-	tests/priority_test/priority_testU-func.$(OBJEXT)
+am__objects_39 = tests/priority_test/priority_testU-func.$(OBJEXT) \
+	tests/priority_test/priority_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_priority_testU_OBJECTS =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_39)
 priority_testU_OBJECTS = $(am_priority_testU_OBJECTS)
@@ -1130,7 +1129,9 @@ liblog4cplus_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags) -DUNICODE=1
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_SOURCES = $(common_liblog4cplus_la_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
-appender_test_sources = tests/appender_test/main.cxx
+appender_test_sources = \
+	tests/appender_test/main.cxx
+
 appender_test_SOURCES = $(appender_test_sources)
 appender_test_LDADD = $(liblog4cplus_la_file)
 appender_test_LDFLAGS = -no-install
@@ -1138,7 +1139,9 @@ appender_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@appender_testU_SOURCES = $(appender_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@appender_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@appender_testU_LDFLAGS = -no-install
-@MULTI_THREADED_TRUE@configandwatch_test_sources = tests/configandwatch_test/main.cxx
+@MULTI_THREADED_TRUE@configandwatch_test_sources = \
+@MULTI_THREADED_TRUE@	tests/configandwatch_test/main.cxx
+
 @MULTI_THREADED_TRUE@configandwatch_test_SOURCES = $(configandwatch_test_sources)
 @MULTI_THREADED_TRUE@configandwatch_test_LDADD = $(liblog4cplus_la_file)
 @MULTI_THREADED_TRUE@configandwatch_test_LDFLAGS = -no-install
@@ -1147,9 +1150,9 @@ appender_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@configandwatch_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@configandwatch_testU_LDFLAGS = -no-install
 customloglevel_test_sources = \
-	tests/customloglevel_test/main.cxx \
+	tests/customloglevel_test/customloglevel.cxx \
 	tests/customloglevel_test/func.cxx \
-	tests/customloglevel_test/customloglevel.cxx
+	tests/customloglevel_test/main.cxx
 
 customloglevel_test_SOURCES = $(customloglevel_test_sources)
 customloglevel_test_LDADD = $(liblog4cplus_la_file)
@@ -1158,7 +1161,9 @@ customloglevel_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@customloglevel_testU_SOURCES = $(customloglevel_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@customloglevel_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@customloglevel_testU_LDFLAGS = -no-install
-fileappender_test_sources = tests/fileappender_test/main.cxx
+fileappender_test_sources = \
+	tests/fileappender_test/main.cxx
+
 fileappender_test_SOURCES = $(fileappender_test_sources)
 fileappender_test_LDADD = $(liblog4cplus_la_file)
 fileappender_test_LDFLAGS = -no-install
@@ -1166,7 +1171,9 @@ fileappender_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@fileappender_testU_SOURCES = $(fileappender_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@fileappender_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@fileappender_testU_LDFLAGS = -no-install
-filter_test_sources = tests/filter_test/main.cxx
+filter_test_sources = \
+	tests/filter_test/main.cxx
+
 filter_test_SOURCES = $(filter_test_sources)
 filter_test_LDADD = $(liblog4cplus_la_file)
 filter_test_LDFLAGS = -no-install
@@ -1174,7 +1181,9 @@ filter_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@filter_testU_SOURCES = $(filter_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@filter_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@filter_testU_LDFLAGS = -no-install
-hierarchy_test_sources = tests/hierarchy_test/main.cxx
+hierarchy_test_sources = \
+	tests/hierarchy_test/main.cxx
+
 hierarchy_test_SOURCES = $(hierarchy_test_sources)
 hierarchy_test_LDADD = $(liblog4cplus_la_file)
 hierarchy_test_LDFLAGS = -no-install
@@ -1182,7 +1191,9 @@ hierarchy_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@hierarchy_testU_SOURCES = $(hierarchy_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@hierarchy_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@hierarchy_testU_LDFLAGS = -no-install
-loglog_test_sources = tests/loglog_test/main.cxx
+loglog_test_sources = \
+	tests/loglog_test/main.cxx
+
 loglog_test_SOURCES = $(loglog_test_sources)
 loglog_test_LDADD = $(liblog4cplus_la_file)
 loglog_test_LDFLAGS = -no-install
@@ -1190,7 +1201,9 @@ loglog_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@loglog_testU_SOURCES = $(loglog_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@loglog_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@loglog_testU_LDFLAGS = -no-install
-ndc_test_sources = tests/ndc_test/main.cxx
+ndc_test_sources = \
+	tests/ndc_test/main.cxx
+
 ndc_test_SOURCES = $(ndc_test_sources)
 ndc_test_LDADD = $(liblog4cplus_la_file)
 ndc_test_LDFLAGS = -no-install
@@ -1198,7 +1211,9 @@ ndc_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ndc_testU_SOURCES = $(ndc_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ndc_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ndc_testU_LDFLAGS = -no-install
-ostream_test_sources = tests/ostream_test/main.cxx
+ostream_test_sources = \
+	tests/ostream_test/main.cxx
+
 ostream_test_SOURCES = $(ostream_test_sources)
 ostream_test_LDADD = $(liblog4cplus_la_file)
 ostream_test_LDFLAGS = -no-install
@@ -1206,7 +1221,9 @@ ostream_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ostream_testU_SOURCES = $(ostream_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ostream_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@ostream_testU_LDFLAGS = -no-install
-patternlayout_test_sources = tests/patternlayout_test/main.cxx
+patternlayout_test_sources = \
+	tests/patternlayout_test/main.cxx
+
 patternlayout_test_SOURCES = $(patternlayout_test_sources)
 patternlayout_test_LDADD = $(liblog4cplus_la_file)
 patternlayout_test_LDFLAGS = -no-install
@@ -1214,7 +1231,9 @@ patternlayout_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@patternlayout_testU_SOURCES = $(patternlayout_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@patternlayout_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@patternlayout_testU_LDFLAGS = -no-install
-performance_test_sources = tests/performance_test/main.cxx
+performance_test_sources = \
+	tests/performance_test/main.cxx
+
 performance_test_SOURCES = $(performance_test_sources)
 performance_test_LDADD = $(liblog4cplus_la_file)
 performance_test_LDFLAGS = -no-install
@@ -1223,8 +1242,8 @@ performance_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@performance_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@performance_testU_LDFLAGS = -no-install
 priority_test_sources = \
-	tests/priority_test/main.cxx \
-	tests/priority_test/func.cxx
+	tests/priority_test/func.cxx \
+	tests/priority_test/main.cxx
 
 priority_test_SOURCES = $(priority_test_sources)
 priority_test_LDADD = $(liblog4cplus_la_file)
@@ -1233,7 +1252,9 @@ priority_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@priority_testU_SOURCES = $(priority_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@priority_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@priority_testU_LDFLAGS = -no-install
-propertyconfig_test_sources = tests/propertyconfig_test/main.cxx
+propertyconfig_test_sources = \
+	tests/propertyconfig_test/main.cxx
+
 propertyconfig_test_SOURCES = $(propertyconfig_test_sources)
 propertyconfig_test_LDADD = $(liblog4cplus_la_file)
 propertyconfig_test_LDFLAGS = -no-install
@@ -1241,7 +1262,9 @@ propertyconfig_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@propertyconfig_testU_SOURCES = $(propertyconfig_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@propertyconfig_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@propertyconfig_testU_LDFLAGS = -no-install
-socket_test_sources = tests/socket_test/main.cxx
+socket_test_sources = \
+	tests/socket_test/main.cxx
+
 socket_test_SOURCES = $(socket_test_sources)
 socket_test_LDADD = $(liblog4cplus_la_file)
 socket_test_LDFLAGS = -no-install
@@ -1249,7 +1272,9 @@ socket_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@socket_testU_SOURCES = $(socket_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@socket_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@socket_testU_LDFLAGS = -no-install
-timeformat_test_sources = tests/timeformat_test/main.cxx
+timeformat_test_sources = \
+	tests/timeformat_test/main.cxx
+
 timeformat_test_SOURCES = $(timeformat_test_sources)
 timeformat_test_LDADD = $(liblog4cplus_la_file)
 timeformat_test_LDFLAGS = -no-install
@@ -1257,7 +1282,9 @@ timeformat_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_SOURCES = $(timeformat_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_LDFLAGS = -no-install
-@MULTI_THREADED_TRUE@thread_test_sources = tests/thread_test/main.cxx
+@MULTI_THREADED_TRUE@thread_test_sources = \
+@MULTI_THREADED_TRUE@	tests/thread_test/main.cxx
+
 @MULTI_THREADED_TRUE@thread_test_SOURCES = $(thread_test_sources)
 @MULTI_THREADED_TRUE@thread_test_LDADD = $(liblog4cplus_la_file)
 @MULTI_THREADED_TRUE@thread_test_LDFLAGS = -no-install
@@ -1265,7 +1292,9 @@ timeformat_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@thread_testU_SOURCES = $(thread_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@thread_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@thread_testU_LDFLAGS = -no-install
-unit_tests_sources = tests/unit_tests/unit_tests.cxx
+unit_tests_sources = \
+	tests/unit_tests/unit_tests.cxx
+
 unit_tests_SOURCES = $(unit_tests_sources)
 unit_tests_LDADD = $(liblog4cplus_la_file)
 unit_tests_LDFLAGS = -no-install
@@ -1859,26 +1888,26 @@ tests/customloglevel_test/$(am__dirstamp):
 tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/customloglevel_test/$(DEPDIR)
 	@: > tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
-tests/customloglevel_test/main.$(OBJEXT):  \
+tests/customloglevel_test/customloglevel.$(OBJEXT):  \
 	tests/customloglevel_test/$(am__dirstamp) \
 	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
 tests/customloglevel_test/func.$(OBJEXT):  \
 	tests/customloglevel_test/$(am__dirstamp) \
 	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
-tests/customloglevel_test/customloglevel.$(OBJEXT):  \
+tests/customloglevel_test/main.$(OBJEXT):  \
 	tests/customloglevel_test/$(am__dirstamp) \
 	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
 
 customloglevel_test$(EXEEXT): $(customloglevel_test_OBJECTS) $(customloglevel_test_DEPENDENCIES) $(EXTRA_customloglevel_test_DEPENDENCIES) 
 	@rm -f customloglevel_test$(EXEEXT)
 	$(AM_V_CXXLD)$(customloglevel_test_LINK) $(customloglevel_test_OBJECTS) $(customloglevel_test_LDADD) $(LIBS)
-tests/customloglevel_test/customloglevel_testU-main.$(OBJEXT):  \
+tests/customloglevel_test/customloglevel_testU-customloglevel.$(OBJEXT):  \
 	tests/customloglevel_test/$(am__dirstamp) \
 	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
 tests/customloglevel_test/customloglevel_testU-func.$(OBJEXT):  \
 	tests/customloglevel_test/$(am__dirstamp) \
 	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
-tests/customloglevel_test/customloglevel_testU-customloglevel.$(OBJEXT):  \
+tests/customloglevel_test/customloglevel_testU-main.$(OBJEXT):  \
 	tests/customloglevel_test/$(am__dirstamp) \
 	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
 
@@ -2066,20 +2095,20 @@ tests/priority_test/$(am__dirstamp):
 tests/priority_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/priority_test/$(DEPDIR)
 	@: > tests/priority_test/$(DEPDIR)/$(am__dirstamp)
-tests/priority_test/main.$(OBJEXT):  \
+tests/priority_test/func.$(OBJEXT):  \
 	tests/priority_test/$(am__dirstamp) \
 	tests/priority_test/$(DEPDIR)/$(am__dirstamp)
-tests/priority_test/func.$(OBJEXT):  \
+tests/priority_test/main.$(OBJEXT):  \
 	tests/priority_test/$(am__dirstamp) \
 	tests/priority_test/$(DEPDIR)/$(am__dirstamp)
 
 priority_test$(EXEEXT): $(priority_test_OBJECTS) $(priority_test_DEPENDENCIES) $(EXTRA_priority_test_DEPENDENCIES) 
 	@rm -f priority_test$(EXEEXT)
 	$(AM_V_CXXLD)$(priority_test_LINK) $(priority_test_OBJECTS) $(priority_test_LDADD) $(LIBS)
-tests/priority_test/priority_testU-main.$(OBJEXT):  \
+tests/priority_test/priority_testU-func.$(OBJEXT):  \
 	tests/priority_test/$(am__dirstamp) \
 	tests/priority_test/$(DEPDIR)/$(am__dirstamp)
-tests/priority_test/priority_testU-func.$(OBJEXT):  \
+tests/priority_test/priority_testU-main.$(OBJEXT):  \
 	tests/priority_test/$(am__dirstamp) \
 	tests/priority_test/$(DEPDIR)/$(am__dirstamp)
 
@@ -3206,19 +3235,19 @@ tests/configandwatch_test/configandwatch_testU-main.obj: tests/configandwatch_te
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(configandwatch_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/configandwatch_test/configandwatch_testU-main.obj `if test -f 'tests/configandwatch_test/main.cxx'; then $(CYGPATH_W) 'tests/configandwatch_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/configandwatch_test/main.cxx'; fi`
 
-tests/customloglevel_test/customloglevel_testU-main.o: tests/customloglevel_test/main.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-main.o -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Tpo -c -o tests/customloglevel_test/customloglevel_testU-main.o `test -f 'tests/customloglevel_test/main.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/main.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/main.cxx' object='tests/customloglevel_test/customloglevel_testU-main.o' libtool=no @AMDEPBACKSLASH@
+tests/customloglevel_test/customloglevel_testU-customloglevel.o: tests/customloglevel_test/customloglevel.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-customloglevel.o -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.o `test -f 'tests/customloglevel_test/customloglevel.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/customloglevel.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/customloglevel.cxx' object='tests/customloglevel_test/customloglevel_testU-customloglevel.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-main.o `test -f 'tests/customloglevel_test/main.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/main.cxx
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.o `test -f 'tests/customloglevel_test/customloglevel.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/customloglevel.cxx
 
-tests/customloglevel_test/customloglevel_testU-main.obj: tests/customloglevel_test/main.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-main.obj -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Tpo -c -o tests/customloglevel_test/customloglevel_testU-main.obj `if test -f 'tests/customloglevel_test/main.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/main.cxx'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/main.cxx' object='tests/customloglevel_test/customloglevel_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+tests/customloglevel_test/customloglevel_testU-customloglevel.obj: tests/customloglevel_test/customloglevel.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-customloglevel.obj -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.obj `if test -f 'tests/customloglevel_test/customloglevel.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/customloglevel.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/customloglevel.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/customloglevel.cxx' object='tests/customloglevel_test/customloglevel_testU-customloglevel.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-main.obj `if test -f 'tests/customloglevel_test/main.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/main.cxx'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.obj `if test -f 'tests/customloglevel_test/customloglevel.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/customloglevel.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/customloglevel.cxx'; fi`
 
 tests/customloglevel_test/customloglevel_testU-func.o: tests/customloglevel_test/func.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-func.o -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Tpo -c -o tests/customloglevel_test/customloglevel_testU-func.o `test -f 'tests/customloglevel_test/func.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/func.cxx
@@ -3234,19 +3263,19 @@ tests/customloglevel_test/customloglevel_testU-func.obj: tests/customloglevel_te
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-func.obj `if test -f 'tests/customloglevel_test/func.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/func.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/func.cxx'; fi`
 
-tests/customloglevel_test/customloglevel_testU-customloglevel.o: tests/customloglevel_test/customloglevel.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-customloglevel.o -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.o `test -f 'tests/customloglevel_test/customloglevel.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/customloglevel.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/customloglevel.cxx' object='tests/customloglevel_test/customloglevel_testU-customloglevel.o' libtool=no @AMDEPBACKSLASH@
+tests/customloglevel_test/customloglevel_testU-main.o: tests/customloglevel_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-main.o -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Tpo -c -o tests/customloglevel_test/customloglevel_testU-main.o `test -f 'tests/customloglevel_test/main.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/main.cxx' object='tests/customloglevel_test/customloglevel_testU-main.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.o `test -f 'tests/customloglevel_test/customloglevel.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/customloglevel.cxx
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-main.o `test -f 'tests/customloglevel_test/main.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/main.cxx
 
-tests/customloglevel_test/customloglevel_testU-customloglevel.obj: tests/customloglevel_test/customloglevel.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-customloglevel.obj -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.obj `if test -f 'tests/customloglevel_test/customloglevel.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/customloglevel.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/customloglevel.cxx'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/customloglevel.cxx' object='tests/customloglevel_test/customloglevel_testU-customloglevel.obj' libtool=no @AMDEPBACKSLASH@
+tests/customloglevel_test/customloglevel_testU-main.obj: tests/customloglevel_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-main.obj -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Tpo -c -o tests/customloglevel_test/customloglevel_testU-main.obj `if test -f 'tests/customloglevel_test/main.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/main.cxx' object='tests/customloglevel_test/customloglevel_testU-main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.obj `if test -f 'tests/customloglevel_test/customloglevel.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/customloglevel.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/customloglevel.cxx'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-main.obj `if test -f 'tests/customloglevel_test/main.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/main.cxx'; fi`
 
 tests/fileappender_test/fileappender_testU-main.o: tests/fileappender_test/main.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fileappender_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/fileappender_test/fileappender_testU-main.o -MD -MP -MF tests/fileappender_test/$(DEPDIR)/fileappender_testU-main.Tpo -c -o tests/fileappender_test/fileappender_testU-main.o `test -f 'tests/fileappender_test/main.cxx' || echo '$(srcdir)/'`tests/fileappender_test/main.cxx
@@ -3374,20 +3403,6 @@ tests/performance_test/performance_testU-main.obj: tests/performance_test/main.c
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(performance_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/performance_test/performance_testU-main.obj `if test -f 'tests/performance_test/main.cxx'; then $(CYGPATH_W) 'tests/performance_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/performance_test/main.cxx'; fi`
 
-tests/priority_test/priority_testU-main.o: tests/priority_test/main.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/priority_test/priority_testU-main.o -MD -MP -MF tests/priority_test/$(DEPDIR)/priority_testU-main.Tpo -c -o tests/priority_test/priority_testU-main.o `test -f 'tests/priority_test/main.cxx' || echo '$(srcdir)/'`tests/priority_test/main.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/priority_test/$(DEPDIR)/priority_testU-main.Tpo tests/priority_test/$(DEPDIR)/priority_testU-main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/priority_test/main.cxx' object='tests/priority_test/priority_testU-main.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/priority_test/priority_testU-main.o `test -f 'tests/priority_test/main.cxx' || echo '$(srcdir)/'`tests/priority_test/main.cxx
-
-tests/priority_test/priority_testU-main.obj: tests/priority_test/main.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/priority_test/priority_testU-main.obj -MD -MP -MF tests/priority_test/$(DEPDIR)/priority_testU-main.Tpo -c -o tests/priority_test/priority_testU-main.obj `if test -f 'tests/priority_test/main.cxx'; then $(CYGPATH_W) 'tests/priority_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/priority_test/main.cxx'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/priority_test/$(DEPDIR)/priority_testU-main.Tpo tests/priority_test/$(DEPDIR)/priority_testU-main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/priority_test/main.cxx' object='tests/priority_test/priority_testU-main.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/priority_test/priority_testU-main.obj `if test -f 'tests/priority_test/main.cxx'; then $(CYGPATH_W) 'tests/priority_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/priority_test/main.cxx'; fi`
-
 tests/priority_test/priority_testU-func.o: tests/priority_test/func.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/priority_test/priority_testU-func.o -MD -MP -MF tests/priority_test/$(DEPDIR)/priority_testU-func.Tpo -c -o tests/priority_test/priority_testU-func.o `test -f 'tests/priority_test/func.cxx' || echo '$(srcdir)/'`tests/priority_test/func.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/priority_test/$(DEPDIR)/priority_testU-func.Tpo tests/priority_test/$(DEPDIR)/priority_testU-func.Po
@@ -3401,6 +3416,20 @@ tests/priority_test/priority_testU-func.obj: tests/priority_test/func.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/priority_test/func.cxx' object='tests/priority_test/priority_testU-func.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/priority_test/priority_testU-func.obj `if test -f 'tests/priority_test/func.cxx'; then $(CYGPATH_W) 'tests/priority_test/func.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/priority_test/func.cxx'; fi`
+
+tests/priority_test/priority_testU-main.o: tests/priority_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/priority_test/priority_testU-main.o -MD -MP -MF tests/priority_test/$(DEPDIR)/priority_testU-main.Tpo -c -o tests/priority_test/priority_testU-main.o `test -f 'tests/priority_test/main.cxx' || echo '$(srcdir)/'`tests/priority_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/priority_test/$(DEPDIR)/priority_testU-main.Tpo tests/priority_test/$(DEPDIR)/priority_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/priority_test/main.cxx' object='tests/priority_test/priority_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/priority_test/priority_testU-main.o `test -f 'tests/priority_test/main.cxx' || echo '$(srcdir)/'`tests/priority_test/main.cxx
+
+tests/priority_test/priority_testU-main.obj: tests/priority_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/priority_test/priority_testU-main.obj -MD -MP -MF tests/priority_test/$(DEPDIR)/priority_testU-main.Tpo -c -o tests/priority_test/priority_testU-main.obj `if test -f 'tests/priority_test/main.cxx'; then $(CYGPATH_W) 'tests/priority_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/priority_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/priority_test/$(DEPDIR)/priority_testU-main.Tpo tests/priority_test/$(DEPDIR)/priority_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/priority_test/main.cxx' object='tests/priority_test/priority_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(priority_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/priority_test/priority_testU-main.obj `if test -f 'tests/priority_test/main.cxx'; then $(CYGPATH_W) 'tests/priority_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/priority_test/main.cxx'; fi`
 
 tests/propertyconfig_test/propertyconfig_testU-main.o: tests/propertyconfig_test/main.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(propertyconfig_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/propertyconfig_test/propertyconfig_testU-main.o -MD -MP -MF tests/propertyconfig_test/$(DEPDIR)/propertyconfig_testU-main.Tpo -c -o tests/propertyconfig_test/propertyconfig_testU-main.o `test -f 'tests/propertyconfig_test/main.cxx' || echo '$(srcdir)/'`tests/propertyconfig_test/main.cxx
