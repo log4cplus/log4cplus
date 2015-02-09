@@ -91,49 +91,49 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-noinst_PROGRAMS = appender_test$(EXEEXT) $(am__EXEEXT_1) \
-	$(am__EXEEXT_2) $(am__EXEEXT_3) customloglevel_test$(EXEEXT) \
-	$(am__EXEEXT_4) fileappender_test$(EXEEXT) $(am__EXEEXT_5) \
-	filter_test$(EXEEXT) $(am__EXEEXT_6) hierarchy_test$(EXEEXT) \
-	$(am__EXEEXT_7) loglog_test$(EXEEXT) $(am__EXEEXT_8) \
-	ndc_test$(EXEEXT) $(am__EXEEXT_9) ostream_test$(EXEEXT) \
-	$(am__EXEEXT_10) patternlayout_test$(EXEEXT) $(am__EXEEXT_11) \
-	performance_test$(EXEEXT) $(am__EXEEXT_12) \
-	priority_test$(EXEEXT) $(am__EXEEXT_13) \
-	propertyconfig_test$(EXEEXT) $(am__EXEEXT_14) \
-	socket_test$(EXEEXT) $(am__EXEEXT_15) timeformat_test$(EXEEXT) \
-	$(am__EXEEXT_16) $(am__EXEEXT_17) $(am__EXEEXT_18) \
-	unit_tests$(EXEEXT) $(am__EXEEXT_19) $(am__EXEEXT_20) \
-	$(am__EXEEXT_21)
+noinst_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2) \
+	appender_test$(EXEEXT) $(am__EXEEXT_3) $(am__EXEEXT_4) \
+	$(am__EXEEXT_5) customloglevel_test$(EXEEXT) $(am__EXEEXT_6) \
+	fileappender_test$(EXEEXT) $(am__EXEEXT_7) \
+	filter_test$(EXEEXT) $(am__EXEEXT_8) hierarchy_test$(EXEEXT) \
+	$(am__EXEEXT_9) loglog_test$(EXEEXT) $(am__EXEEXT_10) \
+	ndc_test$(EXEEXT) $(am__EXEEXT_11) ostream_test$(EXEEXT) \
+	$(am__EXEEXT_12) patternlayout_test$(EXEEXT) $(am__EXEEXT_13) \
+	performance_test$(EXEEXT) $(am__EXEEXT_14) \
+	priority_test$(EXEEXT) $(am__EXEEXT_15) \
+	propertyconfig_test$(EXEEXT) $(am__EXEEXT_16) \
+	socket_test$(EXEEXT) $(am__EXEEXT_17) $(am__EXEEXT_18) \
+	$(am__EXEEXT_19) timeformat_test$(EXEEXT) $(am__EXEEXT_20) \
+	unit_tests$(EXEEXT) $(am__EXEEXT_21)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_1 = liblog4cplusU.la
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_2 = appender_testU
-@MULTI_THREADED_TRUE@am__append_3 = configandwatch_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_4 = configandwatch_testU
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_5 = customloglevel_testU
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_6 = fileappender_testU
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_7 = filter_testU
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_8 = hierarchy_testU
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_9 = loglog_testU
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_10 = ndc_testU
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_11 = ostream_testU
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_12 = patternlayout_testU
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_13 = performance_testU
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_14 = priority_testU
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_15 = propertyconfig_testU
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_16 = socket_testU
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_17 = timeformat_testU
-@MULTI_THREADED_TRUE@am__append_18 = thread_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_19 = thread_testU
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_20 = unit_testsU
-@MULTI_THREADED_TRUE@am__append_21 = loggingserver
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_22 = loggingserverU
-@QT_TRUE@am__append_23 = liblog4cplusqt4debugappender.la
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@am__append_24 = liblog4cplusqt4debugappenderU.la
-@QT5_TRUE@am__append_25 = liblog4cplusqt5debugappender.la
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@am__append_26 = liblog4cplusqt5debugappenderU.la
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_27 = $(PYTHON_WRAPU_CXX)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_28 = log4cplusU.py
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_29 = _log4cplusU.la
+@MULTI_THREADED_TRUE@am__append_2 = loggingserver
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_3 = loggingserverU
+@QT_TRUE@am__append_4 = liblog4cplusqt4debugappender.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@am__append_5 = liblog4cplusqt4debugappenderU.la
+@QT5_TRUE@am__append_6 = liblog4cplusqt5debugappender.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@am__append_7 = liblog4cplusqt5debugappenderU.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_8 = $(PYTHON_WRAPU_CXX)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_9 = log4cplusU.py
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_10 = _log4cplusU.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_11 = appender_testU
+@MULTI_THREADED_TRUE@am__append_12 = configandwatch_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_13 = configandwatch_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_14 = customloglevel_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_15 = fileappender_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_16 = filter_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_17 = hierarchy_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_18 = loglog_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_19 = ndc_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_20 = ostream_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_21 = patternlayout_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_22 = performance_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_23 = priority_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_24 = propertyconfig_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_25 = socket_testU
+@MULTI_THREADED_TRUE@am__append_26 = thread_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_27 = thread_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_28 = timeformat_testU
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_29 = unit_testsU
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -398,36 +398,37 @@ liblog4cplusqt5debugappenderU_la_LINK = $(LIBTOOL) $(AM_V_lt) \
 	$(liblog4cplusqt5debugappenderU_la_LDFLAGS) $(LDFLAGS) -o $@
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@am_liblog4cplusqt5debugappenderU_la_rpath =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@	-rpath $(libdir)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_1 =  \
+@MULTI_THREADED_TRUE@am__EXEEXT_1 = loggingserver$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_2 = loggingserverU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_3 =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	appender_testU$(EXEEXT)
-@MULTI_THREADED_TRUE@am__EXEEXT_2 = configandwatch_test$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_3 = configandwatch_testU$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_4 = customloglevel_testU$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_5 =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	fileappender_testU$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_6 = filter_testU$(EXEEXT)
+@MULTI_THREADED_TRUE@am__EXEEXT_4 = configandwatch_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_5 = configandwatch_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_6 = customloglevel_testU$(EXEEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_7 =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	fileappender_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_8 = filter_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_9 =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	hierarchy_testU$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_8 = loglog_testU$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_9 = ndc_testU$(EXEEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_10 =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	ostream_testU$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_11 =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	patternlayout_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	loglog_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_11 = ndc_testU$(EXEEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_12 =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	performance_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	ostream_testU$(EXEEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_13 =  \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	priority_testU$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_14 = propertyconfig_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	patternlayout_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_14 =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	performance_testU$(EXEEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_15 =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	priority_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_16 = propertyconfig_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_17 =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	socket_testU$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_16 =  \
+@MULTI_THREADED_TRUE@am__EXEEXT_18 = thread_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_19 = thread_testU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_20 =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	timeformat_testU$(EXEEXT)
-@MULTI_THREADED_TRUE@am__EXEEXT_17 = thread_test$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_18 = thread_testU$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_19 = unit_testsU$(EXEEXT)
-@MULTI_THREADED_TRUE@am__EXEEXT_20 = loggingserver$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_21 = loggingserverU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__EXEEXT_21 = unit_testsU$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am__objects_14 = tests/appender_test/main.$(OBJEXT)
 am_appender_test_OBJECTS = $(am__objects_14)
@@ -1055,8 +1056,8 @@ LOG4CPLUS_VERSION_LT_FLAGS = $(VERSION_INFO_OPTION) $(RELEASE_OPTION)
 INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
 liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_file = $(top_builddir)/liblog4cplusU.la
-lib_LTLIBRARIES = liblog4cplus.la $(am__append_1) $(am__append_23) \
-	$(am__append_24) $(am__append_25) $(am__append_26)
+lib_LTLIBRARIES = liblog4cplus.la $(am__append_1) $(am__append_4) \
+	$(am__append_5) $(am__append_6) $(am__append_7)
 SINGLE_THREADED_SRC = \
 	src/appenderattachableimpl.cxx \
 	src/appender.cxx \
@@ -1129,6 +1130,128 @@ liblog4cplus_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags) -DUNICODE=1
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_SOURCES = $(common_liblog4cplus_la_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
+@MULTI_THREADED_TRUE@loggingserver_sources = simpleserver/loggingserver.cxx
+@MULTI_THREADED_TRUE@loggingserver_SOURCES = $(loggingserver_sources)
+@MULTI_THREADED_TRUE@loggingserver_LDADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@loggingserverU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@loggingserverU_SOURCES = $(loggingserver_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@loggingserverU_LDADD = $(liblog4cplusU_la_file)
+@QT_TRUE@liblog4cplusqt4debugappender_la_cppflags = \
+@QT_TRUE@	$(AM_CPPFLAGS) \
+@QT_TRUE@	-DINSIDE_LOG4CPLUS_QT4DEBUGAPPENDER \
+@QT_TRUE@	@QT_CFLAGS@
+
+@QT_TRUE@liblog4cplusqt4debugappender_la_CPPFLAGS = \
+@QT_TRUE@	$(liblog4cplusqt4debugappender_la_cppflags)
+
+@QT_TRUE@liblog4cplusqt4debugappender_la_sources = \
+@QT_TRUE@	$(INCLUDES_SRC_PATH)/qt4debugappender.h \
+@QT_TRUE@	qt4debugappender/qt4debugappender.cxx
+
+@QT_TRUE@liblog4cplusqt4debugappender_la_SOURCES = $(liblog4cplusqt4debugappender_la_sources)
+@QT_TRUE@liblog4cplusqt4debugappender_la_LIBADD = $(liblog4cplus_la_file)
+@QT_TRUE@liblog4cplusqt4debugappender_la_ldflags = -no-undefined \
+@QT_TRUE@	$(LOG4CPLUS_VERSION_LT_FLAGS) \
+@QT_TRUE@	@QT_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
+
+@QT_TRUE@liblog4cplusqt4debugappender_la_LDFLAGS = \
+@QT_TRUE@	$(liblog4cplusqt4debugappender_la_ldflags)
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@liblog4cplusqt4debugappenderU_la_CPPFLAGS = \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@	$(liblog4cplusqt4debugappender_la_cppflags) -DUNICODE=1
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@liblog4cplusqt4debugappenderU_la_SOURCES = \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@	$(liblog4cplusqt4debugappender_la_sources)
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@liblog4cplusqt4debugappenderU_la_LIBADD = $(liblog4cplusU_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@liblog4cplusqt4debugappenderU_la_LDFLAGS = \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@	$(liblog4cplusqt4debugappender_la_ldflags)
+
+@QT5_TRUE@liblog4cplusqt5debugappender_la_cppflags = \
+@QT5_TRUE@	$(AM_CPPFLAGS) \
+@QT5_TRUE@	-DINSIDE_LOG4CPLUS_QT5DEBUGAPPENDER \
+@QT5_TRUE@	@QT5_CFLAGS@
+
+@QT5_TRUE@liblog4cplusqt5debugappender_la_CPPFLAGS = \
+@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_cppflags)
+
+@QT5_TRUE@liblog4cplusqt5debugappender_la_sources = \
+@QT5_TRUE@	$(INCLUDES_SRC_PATH)/qt5debugappender.h \
+@QT5_TRUE@	qt5debugappender/qt5debugappender.cxx
+
+@QT5_TRUE@liblog4cplusqt5debugappender_la_SOURCES = \
+@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_sources)
+
+@QT5_TRUE@liblog4cplusqt5debugappender_la_LIBADD = $(liblog4cplus_la_file)
+@QT5_TRUE@liblog4cplusqt5debugappender_la_ldflags = -no-undefined \
+@QT5_TRUE@	$(LOG4CPLUS_VERSION_LT_FLAGS) \
+@QT5_TRUE@	@QT5_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
+
+@QT5_TRUE@liblog4cplusqt5debugappender_la_LDFLAGS = \
+@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_ldflags)
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@liblog4cplusqt5debugappenderU_la_CPPFLAGS = \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_cppflags) -DUNICODE=1
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@liblog4cplusqt5debugappenderU_la_SOURCES = \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_sources)
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@liblog4cplusqt5debugappenderU_la_LIBADD = $(liblog4cplusU_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@liblog4cplusqt5debugappenderU_la_LDFLAGS = \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_ldflags)
+
+@WITH_SWIG_TRUE@SWIG_SOURCES = \
+@WITH_SWIG_TRUE@  swig/configurator.swg \
+@WITH_SWIG_TRUE@  swig/hierarchy.swg \
+@WITH_SWIG_TRUE@  swig/log4cplus.swg \
+@WITH_SWIG_TRUE@  swig/logger.swg \
+@WITH_SWIG_TRUE@  swig/loggingevent.swg
+
+@WITH_PYTHON_TRUE@PYTHON_WRAP_CXX = python_wrap.cxx
+@WITH_PYTHON_TRUE@BUILT_SOURCES = $(PYTHON_WRAP_CXX) $(am__append_8)
+@WITH_PYTHON_TRUE@pkgpython_PYTHON = log4cplus.py $(am__append_9)
+@WITH_PYTHON_TRUE@pkgpyexec_LTLIBRARIES = _log4cplus.la \
+@WITH_PYTHON_TRUE@	$(am__append_10)
+@WITH_PYTHON_TRUE@_log4cplus_la_SOURCES = $(PYTHON_WRAP_CXX) $(SWIG_SOURCES)
+@WITH_PYTHON_TRUE@_log4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) $(SWIG_PYTHON_CPPFLAGS) \
+@WITH_PYTHON_TRUE@  $(PYTHON_CPPFLAGS) -DSWIG_TYPE_TABLE=log4cplus
+
+@WITH_PYTHON_TRUE@_log4cplus_la_LDFLAGS = -no-undefined -shared -module -avoid-version \
+@WITH_PYTHON_TRUE@  $(PYTHON_LDFLAGS) $(AM_LDFLAGS)
+
+@WITH_PYTHON_TRUE@_log4cplus_la_LIBADD = $(liblog4cplus_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@PYTHON_WRAPU_CXX = python_wrapU.cxx
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@_log4cplusU_la_SOURCES = $(PYTHON_WRAPU_CXX) $(SWIG_SOURCES)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@_log4cplusU_la_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@  $(SWIG_PYTHON_CPPFLAGS) $(PYTHON_CPPFLAGS) -DSWIG_TYPE_TABLE=log4cplus
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@_log4cplusU_la_LDFLAGS = -no-undefined -shared -module -avoid-version \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@  $(PYTHON_LDFLAGS) $(AM_LDFLAGS)
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@_log4cplusU_la_LIBADD = $(liblog4cplusU_la_file)
+TESTSUITE = tests/testsuite
+AUTOTEST = $(AUTOM4TE) --language=Autotest
+TESTSUITE_AT = \
+	tests/appender_test.at \
+	tests/configandwatch_test.at \
+	tests/customloglevel_test.at \
+	tests/fileappender_test.at \
+	tests/filter_test.at \
+	tests/headers.at \
+	tests/hierarchy_test.at \
+	tests/local.at \
+	tests/loglog_test.at \
+	tests/ndc_test.at \
+	tests/ostream_test.at \
+	tests/patternlayout_test.at \
+	tests/performance_test.at \
+	tests/priority_test.at \
+	tests/propertyconfig_test.at \
+	tests/testsuite.at \
+	tests/thread_test.at \
+	tests/timeformat_test.at \
+	tests/unit_tests.at
+
 appender_test_sources = \
 	tests/appender_test/main.cxx
 
@@ -1272,16 +1395,6 @@ socket_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@socket_testU_SOURCES = $(socket_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@socket_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@socket_testU_LDFLAGS = -no-install
-timeformat_test_sources = \
-	tests/timeformat_test/main.cxx
-
-timeformat_test_SOURCES = $(timeformat_test_sources)
-timeformat_test_LDADD = $(liblog4cplus_la_file)
-timeformat_test_LDFLAGS = -no-install
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_SOURCES = $(timeformat_test_sources)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_LDADD = $(liblog4cplusU_la_file)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_LDFLAGS = -no-install
 @MULTI_THREADED_TRUE@thread_test_sources = \
 @MULTI_THREADED_TRUE@	tests/thread_test/main.cxx
 
@@ -1292,6 +1405,16 @@ timeformat_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@thread_testU_SOURCES = $(thread_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@thread_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@thread_testU_LDFLAGS = -no-install
+timeformat_test_sources = \
+	tests/timeformat_test/main.cxx
+
+timeformat_test_SOURCES = $(timeformat_test_sources)
+timeformat_test_LDADD = $(liblog4cplus_la_file)
+timeformat_test_LDFLAGS = -no-install
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_SOURCES = $(timeformat_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_LDADD = $(liblog4cplusU_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@timeformat_testU_LDFLAGS = -no-install
 unit_tests_sources = \
 	tests/unit_tests/unit_tests.cxx
 
@@ -1302,128 +1425,6 @@ unit_tests_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@unit_testsU_SOURCES = $(unit_tests_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@unit_testsU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@unit_testsU_LDFLAGS = -no-install
-@MULTI_THREADED_TRUE@loggingserver_sources = simpleserver/loggingserver.cxx
-@MULTI_THREADED_TRUE@loggingserver_SOURCES = $(loggingserver_sources)
-@MULTI_THREADED_TRUE@loggingserver_LDADD = $(liblog4cplus_la_file)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@loggingserverU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@loggingserverU_SOURCES = $(loggingserver_sources)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@loggingserverU_LDADD = $(liblog4cplusU_la_file)
-@QT_TRUE@liblog4cplusqt4debugappender_la_cppflags = \
-@QT_TRUE@	$(AM_CPPFLAGS) \
-@QT_TRUE@	-DINSIDE_LOG4CPLUS_QT4DEBUGAPPENDER \
-@QT_TRUE@	@QT_CFLAGS@
-
-@QT_TRUE@liblog4cplusqt4debugappender_la_CPPFLAGS = \
-@QT_TRUE@	$(liblog4cplusqt4debugappender_la_cppflags)
-
-@QT_TRUE@liblog4cplusqt4debugappender_la_sources = \
-@QT_TRUE@	$(INCLUDES_SRC_PATH)/qt4debugappender.h \
-@QT_TRUE@	qt4debugappender/qt4debugappender.cxx
-
-@QT_TRUE@liblog4cplusqt4debugappender_la_SOURCES = $(liblog4cplusqt4debugappender_la_sources)
-@QT_TRUE@liblog4cplusqt4debugappender_la_LIBADD = $(liblog4cplus_la_file)
-@QT_TRUE@liblog4cplusqt4debugappender_la_ldflags = -no-undefined \
-@QT_TRUE@	$(LOG4CPLUS_VERSION_LT_FLAGS) \
-@QT_TRUE@	@QT_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
-
-@QT_TRUE@liblog4cplusqt4debugappender_la_LDFLAGS = \
-@QT_TRUE@	$(liblog4cplusqt4debugappender_la_ldflags)
-
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@liblog4cplusqt4debugappenderU_la_CPPFLAGS = \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@	$(liblog4cplusqt4debugappender_la_cppflags) -DUNICODE=1
-
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@liblog4cplusqt4debugappenderU_la_SOURCES = \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@	$(liblog4cplusqt4debugappender_la_sources)
-
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@liblog4cplusqt4debugappenderU_la_LIBADD = $(liblog4cplusU_la_file)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@liblog4cplusqt4debugappenderU_la_LDFLAGS = \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@	$(liblog4cplusqt4debugappender_la_ldflags)
-
-@QT5_TRUE@liblog4cplusqt5debugappender_la_cppflags = \
-@QT5_TRUE@	$(AM_CPPFLAGS) \
-@QT5_TRUE@	-DINSIDE_LOG4CPLUS_QT5DEBUGAPPENDER \
-@QT5_TRUE@	@QT5_CFLAGS@
-
-@QT5_TRUE@liblog4cplusqt5debugappender_la_CPPFLAGS = \
-@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_cppflags)
-
-@QT5_TRUE@liblog4cplusqt5debugappender_la_sources = \
-@QT5_TRUE@	$(INCLUDES_SRC_PATH)/qt5debugappender.h \
-@QT5_TRUE@	qt5debugappender/qt5debugappender.cxx
-
-@QT5_TRUE@liblog4cplusqt5debugappender_la_SOURCES = \
-@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_sources)
-
-@QT5_TRUE@liblog4cplusqt5debugappender_la_LIBADD = $(liblog4cplus_la_file)
-@QT5_TRUE@liblog4cplusqt5debugappender_la_ldflags = -no-undefined \
-@QT5_TRUE@	$(LOG4CPLUS_VERSION_LT_FLAGS) \
-@QT5_TRUE@	@QT5_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
-
-@QT5_TRUE@liblog4cplusqt5debugappender_la_LDFLAGS = \
-@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_ldflags)
-
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@liblog4cplusqt5debugappenderU_la_CPPFLAGS = \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_cppflags) -DUNICODE=1
-
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@liblog4cplusqt5debugappenderU_la_SOURCES = \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_sources)
-
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@liblog4cplusqt5debugappenderU_la_LIBADD = $(liblog4cplusU_la_file)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@liblog4cplusqt5debugappenderU_la_LDFLAGS = \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@	$(liblog4cplusqt5debugappender_la_ldflags)
-
-@WITH_SWIG_TRUE@SWIG_SOURCES = \
-@WITH_SWIG_TRUE@  swig/configurator.swg \
-@WITH_SWIG_TRUE@  swig/hierarchy.swg \
-@WITH_SWIG_TRUE@  swig/log4cplus.swg \
-@WITH_SWIG_TRUE@  swig/logger.swg \
-@WITH_SWIG_TRUE@  swig/loggingevent.swg
-
-@WITH_PYTHON_TRUE@PYTHON_WRAP_CXX = python_wrap.cxx
-@WITH_PYTHON_TRUE@BUILT_SOURCES = $(PYTHON_WRAP_CXX) $(am__append_27)
-@WITH_PYTHON_TRUE@pkgpython_PYTHON = log4cplus.py $(am__append_28)
-@WITH_PYTHON_TRUE@pkgpyexec_LTLIBRARIES = _log4cplus.la \
-@WITH_PYTHON_TRUE@	$(am__append_29)
-@WITH_PYTHON_TRUE@_log4cplus_la_SOURCES = $(PYTHON_WRAP_CXX) $(SWIG_SOURCES)
-@WITH_PYTHON_TRUE@_log4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) $(SWIG_PYTHON_CPPFLAGS) \
-@WITH_PYTHON_TRUE@  $(PYTHON_CPPFLAGS) -DSWIG_TYPE_TABLE=log4cplus
-
-@WITH_PYTHON_TRUE@_log4cplus_la_LDFLAGS = -no-undefined -shared -module -avoid-version \
-@WITH_PYTHON_TRUE@  $(PYTHON_LDFLAGS) $(AM_LDFLAGS)
-
-@WITH_PYTHON_TRUE@_log4cplus_la_LIBADD = $(liblog4cplus_la_file)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@PYTHON_WRAPU_CXX = python_wrapU.cxx
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@_log4cplusU_la_SOURCES = $(PYTHON_WRAPU_CXX) $(SWIG_SOURCES)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@_log4cplusU_la_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@  $(SWIG_PYTHON_CPPFLAGS) $(PYTHON_CPPFLAGS) -DSWIG_TYPE_TABLE=log4cplus
-
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@_log4cplusU_la_LDFLAGS = -no-undefined -shared -module -avoid-version \
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@  $(PYTHON_LDFLAGS) $(AM_LDFLAGS)
-
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@_log4cplusU_la_LIBADD = $(liblog4cplusU_la_file)
-TESTSUITE = tests/testsuite
-AUTOTEST = $(AUTOM4TE) --language=Autotest
-TESTSUITE_AT = \
-	tests/appender_test.at \
-	tests/configandwatch_test.at \
-	tests/customloglevel_test.at \
-	tests/fileappender_test.at \
-	tests/filter_test.at \
-	tests/headers.at \
-	tests/hierarchy_test.at \
-	tests/local.at \
-	tests/loglog_test.at \
-	tests/ndc_test.at \
-	tests/ostream_test.at \
-	tests/patternlayout_test.at \
-	tests/performance_test.at \
-	tests/priority_test.at \
-	tests/propertyconfig_test.at \
-	tests/testsuite.at \
-	tests/thread_test.at \
-	tests/timeformat_test.at \
-	tests/unit_tests.at
-
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -1431,7 +1432,7 @@ all: $(BUILT_SOURCES)
 .SUFFIXES: .cxx .lo .o .obj
 am--refresh: Makefile
 	@:
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -1453,7 +1454,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
 	esac;
-$(srcdir)/src/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(am__empty):
+$(srcdir)/src/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(am__empty):
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
