@@ -91,7 +91,6 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_1 = liblog4cplusU.la
 noinst_PROGRAMS = appender_test$(EXEEXT) $(am__EXEEXT_1) \
 	$(am__EXEEXT_2) $(am__EXEEXT_3) customloglevel_test$(EXEEXT) \
 	$(am__EXEEXT_4) fileappender_test$(EXEEXT) $(am__EXEEXT_5) \
@@ -106,6 +105,7 @@ noinst_PROGRAMS = appender_test$(EXEEXT) $(am__EXEEXT_1) \
 	$(am__EXEEXT_16) $(am__EXEEXT_17) $(am__EXEEXT_18) \
 	unit_tests$(EXEEXT) $(am__EXEEXT_19) $(am__EXEEXT_20) \
 	$(am__EXEEXT_21)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_1 = liblog4cplusU.la
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_2 = appender_testU
 @MULTI_THREADED_TRUE@am__append_3 = configandwatch_test
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_4 = configandwatch_testU

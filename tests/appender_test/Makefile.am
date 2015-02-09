@@ -1,6 +1,4 @@
-# This is the only program that uses '=' to assign to
-# noinst_PROGRAMS. All other test cases and loggingserver use '+='.
-noinst_PROGRAMS = appender_test
+noinst_PROGRAMS += appender_test
 
 appender_test_sources = %D%/main.cxx
 appender_test_SOURCES = $(appender_test_sources)

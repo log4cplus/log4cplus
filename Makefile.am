@@ -33,6 +33,10 @@ if BUILD_WITH_WCHAR_T_SUPPORT
 liblog4cplusU_la_file = $(top_builddir)/liblog4cplusU.la
 endif
 
+# The tests add to this using += operator, so it needs to be initialized to
+# empty first.
+noinst_PROGRAMS=
+
 include src/Makefile.am
 
 include tests/appender_test/Makefile.am
