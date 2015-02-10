@@ -19,6 +19,11 @@ export AUTOM4TE="autom4te${AUTOCONF_SUFFIX}"
 export LIBTOOLIZE="libtoolize${LIBTOOL_SUFFIX}"
 export LIBTOOL="libtool${LIBTOOL_SUFFIX}"
 
+export AUTOGEN=autogen
+
+(cd tests && $AUTOGEN ./Makefile.am.def)
+(cd include && $AUTOGEN ./Makefile.am.def)
+$AUTOGEN ./Makefile.am.def
 $LIBTOOLIZE -vcif
 $ACLOCAL -I m4 --install -Wall --force
 $AUTOMAKE -vcaf

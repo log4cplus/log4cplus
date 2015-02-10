@@ -32,6 +32,7 @@
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
 #include <catch.hpp>
+#include <limits>
 #endif
 
 
@@ -42,12 +43,6 @@ namespace internal
 {
 
 log4cplus::tstring const empty_str;
-
-#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
-CATCH_TEST_CASE( "The empty_str variable is empty", "[strings]" ) {
-    CATCH_REQUIRE (empty_str.empty ());
-}
-#endif
 
 } // namespace internal
 
@@ -233,6 +228,281 @@ toLower(const tstring& s)
         tolower_func ());
     return ret;
 }
+
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+
+namespace
+{
+
+template <typename IntType>
+struct test
+{
+    using limits = std::numeric_limits<IntType>;
+
+    static void run_one (IntType value = 123)
+    {
+        tostringstream oss;
+        oss.imbue (std::locale ("C"));
+        oss << +value;
+
+        CATCH_REQUIRE (convertIntegerToString (value) == oss.str ());
+    }
+
+    static void run ()
+    {
+        test<IntType>::run_one ();
+        test<IntType>::run_one (limits::min ());
+        test<IntType>::run_one (limits::max ());
+    }
+};
+
+} // namespace
+
+
+CATCH_TEST_CASE( "Strings helpers", "[strings]" )
+{
+    CATCH_SECTION ("empty_str is empty")
+    {
+        CATCH_REQUIRE (internal::empty_str.empty ());
+    }
+
+    CATCH_SECTION ("tokenize")
+    {
+        std::vector<tstring> tokens;
+
+        CATCH_SECTION ("collapse tokens")
+        {
+            CATCH_SECTION ("1")
+            {
+                tstring const str = LOG4CPLUS_TEXT ("1");
+                std::vector<tstring> const expected_tokens = {
+                    { LOG4CPLUS_TEXT ("1") } };
+                tokenize (str, LOG4CPLUS_TEXT (','),
+                    std::back_inserter (tokens));
+                CATCH_REQUIRE (tokens == expected_tokens);
+            }
+
+            CATCH_SECTION ("1,2")
+            {
+                tstring const str = LOG4CPLUS_TEXT ("1,2");
+                std::vector<tstring> const expected_tokens = {
+                    { LOG4CPLUS_TEXT ("1") },
+                    { LOG4CPLUS_TEXT ("2") } };
+                tokenize (str, LOG4CPLUS_TEXT (','),
+                    std::back_inserter (tokens), false);
+                CATCH_REQUIRE (tokens == expected_tokens);
+            }
+
+            CATCH_SECTION ("1,2,3")
+            {
+                tstring const str = LOG4CPLUS_TEXT ("1,2,3");
+                std::vector<tstring> const expected_tokens = {
+                    { LOG4CPLUS_TEXT ("1") },
+                    { LOG4CPLUS_TEXT ("2") },
+                    { LOG4CPLUS_TEXT ("3") } };
+                tokenize (str, LOG4CPLUS_TEXT (','),
+                    std::back_inserter (tokens));
+                CATCH_REQUIRE (tokens == expected_tokens);
+            }
+
+            CATCH_SECTION ("1,,2,,,3")
+            {
+                tstring const str = LOG4CPLUS_TEXT ("1,,2,,,3");
+                std::vector<tstring> const expected_tokens = {
+                    { LOG4CPLUS_TEXT ("1") },
+                    { LOG4CPLUS_TEXT ("2") },
+                    { LOG4CPLUS_TEXT ("3") } };
+                tokenize (str, LOG4CPLUS_TEXT (','),
+                    std::back_inserter (tokens));
+                CATCH_REQUIRE (tokens == expected_tokens);
+            }
+
+            CATCH_SECTION ("1,,2,,,3,")
+            {
+                tstring const str = LOG4CPLUS_TEXT ("1,,2,,,3,");
+                std::vector<tstring> const expected_tokens = {
+                    { LOG4CPLUS_TEXT ("1") },
+                    { LOG4CPLUS_TEXT ("2") },
+                    { LOG4CPLUS_TEXT ("3") } };
+                tokenize (str, LOG4CPLUS_TEXT (','), std::back_inserter (tokens));
+                CATCH_REQUIRE (tokens == expected_tokens);
+            }
+
+            CATCH_SECTION ("1,,2,,,3,,")
+            {
+                tstring const str = LOG4CPLUS_TEXT ("1,,2,,,3,,");
+                std::vector<tstring> const expected_tokens = {
+                    { LOG4CPLUS_TEXT ("1") },
+                    { LOG4CPLUS_TEXT ("2") },
+                    { LOG4CPLUS_TEXT ("3") } };
+                tokenize (str, LOG4CPLUS_TEXT (','), std::back_inserter (tokens));
+                CATCH_REQUIRE (tokens == expected_tokens);
+            }
+        }
+
+        CATCH_SECTION ("do not collapse tokens")
+        {
+            CATCH_SECTION ("1")
+            {
+                tstring const str = LOG4CPLUS_TEXT ("1");
+                std::vector<tstring> const expected_tokens = {
+                    { LOG4CPLUS_TEXT ("1") } };
+                tokenize (str, LOG4CPLUS_TEXT (','),
+                    std::back_inserter (tokens));
+                CATCH_REQUIRE (tokens == expected_tokens);
+            }
+
+            CATCH_SECTION ("1,2")
+            {
+                tstring const str = LOG4CPLUS_TEXT ("1,2");
+                std::vector<tstring> const expected_tokens = {
+                    { LOG4CPLUS_TEXT ("1") },
+                    { LOG4CPLUS_TEXT ("2") } };
+                tokenize (str, LOG4CPLUS_TEXT (','),
+                    std::back_inserter (tokens), false);
+                CATCH_REQUIRE (tokens == expected_tokens);
+            }
+
+            CATCH_SECTION ("1,2,3")
+            {
+                tstring const str = LOG4CPLUS_TEXT ("1,2,3");
+                std::vector<tstring> const expected_tokens = {
+                    { LOG4CPLUS_TEXT ("1") },
+                    { LOG4CPLUS_TEXT ("2") },
+                    { LOG4CPLUS_TEXT ("3") } };
+                tokenize (str, LOG4CPLUS_TEXT (','),
+                    std::back_inserter (tokens), false);
+                CATCH_REQUIRE (tokens == expected_tokens);
+            }
+
+            CATCH_SECTION ("1,,2,,,3")
+            {
+                tstring const str = LOG4CPLUS_TEXT ("1,,2,,,3");
+                std::vector<tstring> const expected_tokens = {
+                    { LOG4CPLUS_TEXT ("1") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("2") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("3") } };
+                tokenize (str, LOG4CPLUS_TEXT (','),
+                    std::back_inserter (tokens), false);
+                CATCH_REQUIRE (tokens == expected_tokens);
+            }
+
+
+            CATCH_SECTION (",1,,2,,,3,")
+            {
+                tstring const str = LOG4CPLUS_TEXT (",1,,2,,,3,");
+                std::vector<tstring> const expected_tokens = {
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("1") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("2") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("3") },
+                    { LOG4CPLUS_TEXT ("") } };
+                tokenize (str, LOG4CPLUS_TEXT (','),
+                    std::back_inserter (tokens), false);
+                CATCH_REQUIRE (tokens == expected_tokens);
+            }
+
+            CATCH_SECTION (",1,,2,,,3,,")
+            {
+                tstring const str = LOG4CPLUS_TEXT (",1,,2,,,3,,");
+                std::vector<tstring> const expected_tokens = {
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("1") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("2") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("3") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("") } };
+                tokenize (str, LOG4CPLUS_TEXT (','),
+                    std::back_inserter (tokens), false);
+                CATCH_REQUIRE (tokens == expected_tokens);
+            }
+
+            CATCH_SECTION (",,1,,2,,,3,,")
+            {
+                tstring const str = LOG4CPLUS_TEXT (",,1,,2,,,3,,");
+                std::vector<tstring> const expected_tokens = {
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("1") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("2") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("3") },
+                    { LOG4CPLUS_TEXT ("") },
+                    { LOG4CPLUS_TEXT ("") } };
+                tokenize (str, LOG4CPLUS_TEXT (','),
+                    std::back_inserter (tokens), false);
+                CATCH_REQUIRE (tokens == expected_tokens);
+            }
+        }
+    }
+
+    CATCH_SECTION ("convert integer to string")
+    {
+
+#define LOG4CPLUS_GEN_TEST(TYPE)                \
+        CATCH_SECTION (#TYPE)                   \
+        {                                       \
+            test<TYPE>::run ();                 \
+        }
+
+        LOG4CPLUS_GEN_TEST (char)
+        LOG4CPLUS_GEN_TEST (unsigned char)
+        LOG4CPLUS_GEN_TEST (signed char)
+        LOG4CPLUS_GEN_TEST (short)
+        LOG4CPLUS_GEN_TEST (unsigned short)
+        LOG4CPLUS_GEN_TEST (int)
+        LOG4CPLUS_GEN_TEST (unsigned int)
+        LOG4CPLUS_GEN_TEST (long)
+        LOG4CPLUS_GEN_TEST (unsigned long)
+        LOG4CPLUS_GEN_TEST (long long)
+        LOG4CPLUS_GEN_TEST (unsigned long long)
+#undef LOG4CPLUS_GEN_TEST
+    }
+
+    CATCH_SECTION ("join strings")
+    {
+        tstring const items[] = {
+            { LOG4CPLUS_TEXT ("1") },
+            { LOG4CPLUS_TEXT ("2") },
+            { LOG4CPLUS_TEXT ("3") } };
+        tstring result;
+
+        CATCH_SECTION ("1")
+        {
+            helpers::join (result, std::begin (items), items + 1,
+                LOG4CPLUS_TEXT (','));
+            CATCH_REQUIRE (result == LOG4CPLUS_TEXT ("1"));
+        }
+
+        CATCH_SECTION ("1,2")
+        {
+            helpers::join (result, std::begin (items), items + 2,
+                LOG4CPLUS_TEXT (","));
+            CATCH_REQUIRE (result == LOG4CPLUS_TEXT ("1,2"));
+        }
+
+        CATCH_SECTION ("1,2,3")
+        {
+            helpers::join (result, std::begin (items), items + 3,
+                LOG4CPLUS_TEXT (','));
+            CATCH_REQUIRE (result == LOG4CPLUS_TEXT ("1,2,3"));
+        }
+    }
+}
+#endif
+
 
 
 } // namespace helpers
