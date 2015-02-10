@@ -16,7 +16,6 @@
 
 
 
-
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -164,8 +163,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
-	$(am__configure_deps) $(am__pkgpython_PYTHON_DIST) \
-	$(nobase_log4cplusinc_HEADERS)
+	$(am__configure_deps) $(am__pkgpython_PYTHON_DIST)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -206,8 +204,7 @@ am__uninstall_files_from_dir = { \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgpyexecdir)" \
-	"$(DESTDIR)$(pkgpythondir)" "$(DESTDIR)$(pkgconfigdir)" \
-	"$(DESTDIR)$(log4cplusincdir)"
+	"$(DESTDIR)$(pkgpythondir)" "$(DESTDIR)$(pkgconfigdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES) $(pkgpyexec_LTLIBRARIES)
 @WITH_PYTHON_TRUE@_log4cplus_la_DEPENDENCIES =  \
 @WITH_PYTHON_TRUE@	$(liblog4cplus_la_file)
@@ -843,7 +840,6 @@ am__pep3147_tweak = \
   sed -e 's|\.py$$||' -e 's|[^/]*$$|__pycache__/&.*.py|'
 py_compile = $(top_srcdir)/py-compile
 DATA = $(pkgconfig_DATA)
-HEADERS = $(nobase_log4cplusinc_HEADERS)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
 am__recursive_targets = \
@@ -1429,78 +1425,6 @@ unit_tests_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@unit_testsU_SOURCES = $(unit_tests_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@unit_testsU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@unit_testsU_LDFLAGS = -no-install
-log4cplusincdir = $(includedir)
-nobase_log4cplusinc_HEADERS = \
-	log4cplus/appender.h \
-	log4cplus/asyncappender.h \
-	log4cplus/boost/deviceappender.hxx \
-	log4cplus/clogger.h \
-	log4cplus/config.hxx \
-	log4cplus/config/defines.hxx \
-	log4cplus/config/macosx.h \
-	log4cplus/config/win32.h \
-	log4cplus/config/windowsh-inc.h \
-	log4cplus/configurator.h \
-	log4cplus/consoleappender.h \
-	log4cplus/fileappender.h \
-	log4cplus/fstreams.h \
-	log4cplus/helpers/appenderattachableimpl.h \
-	log4cplus/helpers/connectorthread.h \
-	log4cplus/helpers/fileinfo.h \
-	log4cplus/helpers/lockfile.h \
-	log4cplus/helpers/loglog.h \
-	log4cplus/helpers/pointer.h \
-	log4cplus/helpers/property.h \
-	log4cplus/helpers/queue.h \
-	log4cplus/helpers/snprintf.h \
-	log4cplus/helpers/socketbuffer.h \
-	log4cplus/helpers/socket.h \
-	log4cplus/helpers/stringhelper.h \
-	log4cplus/helpers/thread-config.h \
-	log4cplus/helpers/timehelper.h \
-	log4cplus/hierarchy.h \
-	log4cplus/hierarchylocker.h \
-	log4cplus/initializer.h \
-	log4cplus/internal/cygwin-win32.h \
-	log4cplus/internal/env.h \
-	log4cplus/internal/internal.h \
-	log4cplus/internal/socket.h \
-	log4cplus/layout.h \
-	log4cplus/log4cplus.h \
-	log4cplus/log4judpappender.h \
-	log4cplus/logger.h \
-	log4cplus/loggingmacros.h \
-	log4cplus/loglevel.h \
-	log4cplus/mdc.h \
-	log4cplus/ndc.h \
-	log4cplus/nteventlogappender.h \
-	log4cplus/nullappender.h \
-	log4cplus/qt4debugappender.h \
-	log4cplus/spi/appenderattachable.h \
-	log4cplus/spi/factory.h \
-	log4cplus/spi/filter.h \
-	log4cplus/spi/loggerfactory.h \
-	log4cplus/spi/loggerimpl.h \
-	log4cplus/spi/loggingevent.h \
-	log4cplus/spi/objectregistry.h \
-	log4cplus/spi/rootlogger.h \
-	log4cplus/socketappender.h \
-	log4cplus/streams.h \
-	log4cplus/syslogappender.h \
-	log4cplus/tchar.h \
-	log4cplus/thread/impl/syncprims-cxx11.h \
-	log4cplus/thread/impl/syncprims-impl.h \
-	log4cplus/thread/impl/threads-impl.h \
-	log4cplus/thread/impl/tls.h \
-	log4cplus/thread/syncprims.h \
-	log4cplus/thread/syncprims-pub-impl.h \
-	log4cplus/thread/threads.h \
-	log4cplus/tracelogger.h \
-	log4cplus/tstring.h \
-	log4cplus/version.h \
-	log4cplus/win32consoleappender.h \
-	log4cplus/win32debugappender.h
-
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -1508,7 +1432,7 @@ all: $(BUILT_SOURCES)
 .SUFFIXES: .cxx .lo .o .obj
 am--refresh: Makefile
 	@:
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(srcdir)/include/Makefile.am $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -1530,7 +1454,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
 	esac;
-$(srcdir)/src/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(srcdir)/include/Makefile.am $(am__empty):
+$(srcdir)/src/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(am__empty):
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -3661,30 +3585,6 @@ uninstall-pkgconfigDATA:
 	@list='$(pkgconfig_DATA)'; test -n "$(pkgconfigdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
 	dir='$(DESTDIR)$(pkgconfigdir)'; $(am__uninstall_files_from_dir)
-install-nobase_log4cplusincHEADERS: $(nobase_log4cplusinc_HEADERS)
-	@$(NORMAL_INSTALL)
-	@list='$(nobase_log4cplusinc_HEADERS)'; test -n "$(log4cplusincdir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(log4cplusincdir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(log4cplusincdir)" || exit 1; \
-	fi; \
-	$(am__nobase_list) | while read dir files; do \
-	  xfiles=; for file in $$files; do \
-	    if test -f "$$file"; then xfiles="$$xfiles $$file"; \
-	    else xfiles="$$xfiles $(srcdir)/$$file"; fi; done; \
-	  test -z "$$xfiles" || { \
-	    test "x$$dir" = x. || { \
-	      echo " $(MKDIR_P) '$(DESTDIR)$(log4cplusincdir)/$$dir'"; \
-	      $(MKDIR_P) "$(DESTDIR)$(log4cplusincdir)/$$dir"; }; \
-	    echo " $(INSTALL_HEADER) $$xfiles '$(DESTDIR)$(log4cplusincdir)/$$dir'"; \
-	    $(INSTALL_HEADER) $$xfiles "$(DESTDIR)$(log4cplusincdir)/$$dir" || exit $$?; }; \
-	done
-
-uninstall-nobase_log4cplusincHEADERS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(nobase_log4cplusinc_HEADERS)'; test -n "$(log4cplusincdir)" || list=; \
-	$(am__nobase_strip_setup); files=`$(am__nobase_strip)`; \
-	dir='$(DESTDIR)$(log4cplusincdir)'; $(am__uninstall_files_from_dir)
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run 'make' without going through this Makefile.
@@ -3795,10 +3695,10 @@ check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) check-local
 check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-recursive
-all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(DATA) $(HEADERS)
+all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(DATA)
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgpyexecdir)" "$(DESTDIR)$(pkgpythondir)" "$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(log4cplusincdir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgpyexecdir)" "$(DESTDIR)$(pkgpythondir)" "$(DESTDIR)$(pkgconfigdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: $(BUILT_SOURCES)
@@ -3899,8 +3799,7 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-nobase_log4cplusincHEADERS \
-	install-pkgconfigDATA install-pkgpythonPYTHON
+install-data-am: install-pkgconfigDATA install-pkgpythonPYTHON
 
 install-dvi: install-dvi-recursive
 
@@ -3948,8 +3847,7 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES \
-	uninstall-nobase_log4cplusincHEADERS uninstall-pkgconfigDATA \
+uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgconfigDATA \
 	uninstall-pkgpyexecLTLIBRARIES uninstall-pkgpythonPYTHON
 
 .MAKE: $(am__recursive_targets) all check check-am install install-am \
@@ -3965,17 +3863,15 @@ uninstall-am: uninstall-libLTLIBRARIES \
 	install-am install-data install-data-am install-dvi \
 	install-dvi-am install-exec install-exec-am install-html \
 	install-html-am install-info install-info-am \
-	install-libLTLIBRARIES install-man \
-	install-nobase_log4cplusincHEADERS install-pdf install-pdf-am \
+	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
 	install-pkgconfigDATA install-pkgpyexecLTLIBRARIES \
 	install-pkgpythonPYTHON install-ps install-ps-am install-strip \
 	installcheck installcheck-am installdirs installdirs-am \
 	maintainer-clean maintainer-clean-generic mostlyclean \
 	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
 	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-libLTLIBRARIES uninstall-nobase_log4cplusincHEADERS \
-	uninstall-pkgconfigDATA uninstall-pkgpyexecLTLIBRARIES \
-	uninstall-pkgpythonPYTHON
+	uninstall-libLTLIBRARIES uninstall-pkgconfigDATA \
+	uninstall-pkgpyexecLTLIBRARIES uninstall-pkgpythonPYTHON
 
 .PRECIOUS: Makefile
 
