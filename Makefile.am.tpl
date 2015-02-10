@@ -42,7 +42,6 @@ endif
 # The tests add to this using += operator, so it needs to be initialized to
 # empty first.
 noinst_PROGRAMS=
-
 [= FOR src-dirs =][=
 (let ((files (list)))
   (define (emit-am-file-ftw-cb filename statinfo flag)
@@ -53,9 +52,9 @@ noinst_PROGRAMS=
   (begin
     (ftw (get "name") emit-am-file-ftw-cb)
     (sort! files string<?)
+    (emit "\n")
     (for-each
      (lambda (x)
        (emit "include %D%/" x "\n"))
-     files)
-    (emit "\n")))
+     files)))
 =][= ENDFOR =]
