@@ -69,4 +69,6 @@ include %D%/tests/thread_test/Makefile.am
 include %D%/tests/timeformat_test/Makefile.am
 include %D%/tests/unit_tests/Makefile.am
 
+include %D%/include/Makefile.am
+
 

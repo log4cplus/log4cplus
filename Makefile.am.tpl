@@ -43,28 +43,19 @@ endif
 # empty first.
 noinst_PROGRAMS=
 
-[=
-(let ((dirs (list "src" 
-                  "simpleserver" 
-                  "qt4debugappender"
-                  "qt5debugappender"
-                  "swig"
-                  "tests")))
-  (for-each (lambda (dir) 
-              (letrec ((files (list)))
-                ;;(define files (list))
-                (define (emit-am-file-ftw-cb filename statinfo flag)
-                  (begin
-                    (if (and (string-suffix-ci? ".am" filename))
-                        (set! files (append! files (list filename))))
-                    #t))
-                (begin
-                  (ftw dir emit-am-file-ftw-cb)
-                  (sort! files string<?)
-                  (for-each 
-                   (lambda (x) 
-                     (emit "include %D%/" x "\n"))
-                   files)
-                  (emit "\n"))))
-            dirs))
-=]
+[= FOR src-dirs =][=
+(let ((files (list)))
+  (define (emit-am-file-ftw-cb filename statinfo flag)
+    (begin
+      (if (and (string-suffix-ci? ".am" filename))
+          (set! files (append! files (list filename))))
+      #t))
+  (begin
+    (ftw (get "name") emit-am-file-ftw-cb)
+    (sort! files string<?)
+    (for-each
+     (lambda (x)
+       (emit "include %D%/" x "\n"))
+     files)
+    (emit "\n")))
+=][= ENDFOR =]
