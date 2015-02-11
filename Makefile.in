@@ -3902,10 +3902,10 @@ tests/atconfig: $(top_builddir)/config.status
 	cd "$(top_builddir)" && ./config.status $@
 
 check-local: tests/atconfig tests/atlocal $(TESTSUITE)
-	cd "$(top_builddir)/tests" && $(SHELL) $(abs_top_srcdir)/$(TESTSUITE) $(TESTSUITEFLAGS)
+	cd "$(top_builddir)/tests" && $(SHELL) "$(abs_top_srcdir)/$(TESTSUITE)" $(TESTSUITEFLAGS)
 
 clean-local:
-	cd "$(top_builddir)/tests" && (test ! -f '$(abs_top_srcdir)/$(TESTSUITE)' || $(SHELL) '$(abs_top_srcdir)/$(TESTSUITE)' --clean)
+	cd "$(top_builddir)/tests" && (test ! -f "$(abs_top_srcdir)/$(TESTSUITE)" || $(SHELL) "$(abs_top_srcdir)/$(TESTSUITE)" --clean)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
