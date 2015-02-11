@@ -51,7 +51,7 @@ noinst_PROGRAMS=
       #t))
   (begin
     (ftw (get "name") emit-am-file-ftw-cb)
-    (sort! files string<?)
+    (set! files (sort! files string<?))
     (emit "\n")
     (for-each
      (lambda (x)
