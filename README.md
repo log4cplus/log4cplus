@@ -142,6 +142,14 @@ help with configuration by supplying additional flags to the
 Linux.  See one of the later note for details.
 
 
+`--with-wchar_t-support`
+------------------------
+
+This option is enabled by default.  When enabled, additional binaries will be
+built, marked with `U` suffix in file name and compiled with `-DUNICODE=1`
+flag. In effect, these binaries assume that `log4cplus::tchar` is `wchar_t`.
+
+
 `--with-working-locale`
 -----------------------
 
@@ -187,6 +195,14 @@ signatures are accepted.
 This option is disabled by default.  It enables compilation of a
 separate shared library (liblog4cplusqt4debugappender) that implements
 `Qt4DebugAppender`.  It requires Qt4 and pkg-config to be installed.
+
+
+`--enable-unit-tests`
+---------------------
+
+This option is disabled by default.  It enables compilation of unit tests along
+their units.  These unit tests then can be executed through `unit_tests` test
+executable that is built during compilation.
 
 
 Notes
