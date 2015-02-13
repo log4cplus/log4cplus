@@ -142,6 +142,14 @@ help with configuration by supplying additional flags to the
 Linux.  See one of the later note for details.
 
 
+`--with-wchar_t-support`
+------------------------
+
+This option is enabled by default.  When enabled, additional binaries will be
+built, marked with `U` suffix in file name and compiled with `-DUNICODE=1`
+flag. In effect, these binaries assume that `log4cplus::tchar` is `wchar_t`.
+
+
 `--with-working-locale`
 -----------------------
 
@@ -187,6 +195,14 @@ signatures are accepted.
 This option is disabled by default.  It enables compilation of a
 separate shared library (liblog4cplusqt4debugappender) that implements
 `Qt4DebugAppender`.  It requires Qt4 and pkg-config to be installed.
+
+
+`--enable-unit-tests`
+---------------------
+
+This option is disabled by default.  It enables compilation of unit tests along
+their units.  These unit tests then can be executed through `unit_tests` test
+executable that is built during compilation.
 
 
 Notes
@@ -536,9 +552,9 @@ Contributions
 =============
 
 [log4cplus] (bug tracker, files, wiki) is hosted on SourceForge,
-except for [log4cplus source][5], which is hosted on Github. This
+except for [log4cplus source][5], which is hosted on GitHub. This
 allows the project to integrate with [Travis CI][11] service offered
-by Github.
+by GitHub.
 
 [5]: https://sourceforge.net/p/log4cplus/source-code-link/
 [11]: https://sourceforge.net/p/log4cplus/travis-ci/
@@ -576,3 +592,41 @@ guide line:
                 (arglist-cont-nonempty . +)
                 (template-args-cont . +))))
 ~~~~
+
+
+Tools
+-----
+
+### Build system
+
+[log4cplus] supports multiple build systems (GNU Autoconf/Automake/Libtool aka
+Autotools, CMake and Visual Studio solution and project files).
+
+Autotools is considered the primary build system on Unix--like
+platforms. However, CMake should still be usable on Unix--like platforms as
+well.
+
+On Windows, it depends on compiler and tool-chain that you want to use. When
+using Visual Studio, use Visual Studio solution and project files. However,
+CMake build system should still work and produce useful results. When using
+some form of MinGW64 tool-chain, the CMake build system is considered primary
+and the Autotools based build system is unsupported. Use the `MinGW Makefiles`
+option and build with `mingw-make` (or similar). The `MSYS Makefiles` option is
+untested and unsupported.
+
+#### Autotools
+
+The `Makefile.am` files for this build systems are hand written. Some of them,
+however, are generated from `Makefile.am.tpl` and `Makefile.am.def` by
+[GNU Autogen][12]. This is to make adding new files to the source easier.
+
+To regenerate `Makefile.am` files, `configure` script, `testsuite` script or
+any other part of the Autotools build system, use the `scripts/doautoreconf.sh`
+script from source root directory. It will invoke all the necessary tools in
+the correct order.
+
+[log4cplus] closely follows Autoconf's, Automake's and Libtool's development
+and its master branch files are always generated using the latest available
+version of the tools.
+
+[12]: http://www.gnu.org/software/autogen/

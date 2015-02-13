@@ -25,10 +25,10 @@ $(TESTSUITE): $(TESTSUITE_AT) %D%/atlocal.in
 	cd "$(top_builddir)" && ./config.status $@
 
 check-local: %D%/atconfig %D%/atlocal $(TESTSUITE)
-	cd "$(top_builddir)/tests" && $(SHELL) $(abs_top_srcdir)/$(TESTSUITE) $(TESTSUITEFLAGS)
+	cd "$(top_builddir)/tests" && $(SHELL) "$(abs_top_srcdir)/$(TESTSUITE)" $(TESTSUITEFLAGS)
 
 clean-local:
-	cd "$(top_builddir)/tests" && (test ! -f '$(abs_top_srcdir)/$(TESTSUITE)' || $(SHELL) '$(abs_top_srcdir)/$(TESTSUITE)' --clean)
+	cd "$(top_builddir)/tests" && (test ! -f "$(abs_top_srcdir)/$(TESTSUITE)" || $(SHELL) "$(abs_top_srcdir)/$(TESTSUITE)" --clean)
 
 EXTRA_DIST += %D%/testsuite.at $(TESTSUITE) %D%/atlocal.in
 [= FOR tests =][=
@@ -65,4 +65,4 @@ endif
 endif
 [= ENDIF =][=
  (out-pop)
-=][= ENDFOR test =]
+=][= ENDFOR tests =]
