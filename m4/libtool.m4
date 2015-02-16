@@ -738,7 +738,7 @@ _LT_COPYING
 _LT_LIBTOOL_TAGS
 
 # Configured defaults for sys_lib_dlsearch_path munging.
-: \${LT_SYS_LIBRARY_PATH="$LT_SYS_LIBRARY_PATH"}
+: \${LT_SYS_LIBRARY_PATH="$configure_time_lt_sys_library_path"}
 
 # ### BEGIN LIBTOOL CONFIG
 _LT_LIBTOOL_CONFIG_VARS
@@ -748,12 +748,13 @@ _LT_LIBTOOL_TAG_VARS
 _LT_EOF
 
     cat <<'_LT_EOF' >> "$cfgfile"
-## -------------------------------------- ##
-## Shell functions shared with configure. ##
-## -------------------------------------- ##
+
+# ### BEGIN FUNCTIONS SHARED WITH CONFIGURE
 
 _LT_PREPARE_MUNGE_PATH_LIST
 _LT_PREPARE_CC_BASENAME
+
+# ### END FUNCTIONS SHARED WITH CONFIGURE
 
 _LT_EOF
 
@@ -2256,7 +2257,7 @@ func_munge_path_list ()
     x)
         ;;
     *:)
-        eval @S|@1=\"`$ECHO @S|@2 | $SED 's/:/ /g'` \$@S|@1\"
+        eval @S|@1=\"`$ECHO @S|@2 | $SED 's/:/ /g'` \@S|@@S|@1\"
         ;;
     x:*)
         eval @S|@1=\"\@S|@@S|@1 `$ECHO @S|@2 | $SED 's/:/ /g'`\"
@@ -3100,12 +3101,14 @@ if test set = "${lt_cv_sys_lib_dlsearch_path_spec+set}"; then
   sys_lib_dlsearch_path_spec=$lt_cv_sys_lib_dlsearch_path_spec
 fi
 
-# lt_cv_sys_lib... is unaugmented for libtool script decls...
-lt_cv_sys_lib_dlsearch_path_spec=$sys_lib_dlsearch_path_spec
+# remember unaugmented sys_lib_dlsearch_path content for libtool script decls...
+configure_time_dlsearch_path=$sys_lib_dlsearch_path_spec
 
-# ..but sys_lib_... needs LT_SYS_LIBRARY_PATH munging for
-# LT_SYS_DLSEARCH_PATH macro in ltdl.m4 to work with the correct paths:
+# ... but it needs LT_SYS_LIBRARY_PATH munging for other configure-time code
 func_munge_path_list sys_lib_dlsearch_path_spec "$LT_SYS_LIBRARY_PATH"
+
+# to be used as default LT_SYS_LIBRARY_PATH value in generated libtool
+configure_time_lt_sys_library_path=$LT_SYS_LIBRARY_PATH
 
 _LT_DECL([], [variables_saved_for_relink], [1],
     [Variables whose values should be saved in libtool wrapper scripts and
@@ -3139,8 +3142,10 @@ _LT_DECL([], [hardcode_into_libs], [0],
     [Whether we should hardcode library paths into libraries])
 _LT_DECL([], [sys_lib_search_path_spec], [2],
     [Compile-time system search path for libraries])
-_LT_DECL([sys_lib_dlsearch_path_spec], [lt_cv_sys_lib_dlsearch_path_spec], [2],
-    [Run-time system search path for libraries])
+_LT_DECL([sys_lib_dlsearch_path_spec], [configure_time_dlsearch_path], [2],
+    [Detected run-time system search path for libraries])
+_LT_DECL([], [configure_time_lt_sys_library_path], [2],
+    [Explicit LT_SYS_LIBRARY_PATH set during ./configure time])
 ])# _LT_SYS_DYNAMIC_LINKER
 
 
