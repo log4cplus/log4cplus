@@ -47,8 +47,7 @@ ported to and tested on the following platforms:
   - Windows/AMD64 with GCC version 4.9.2 (tdm64-1) using CMake build system
   - Windows 7 with MS Visual Studio 2015[^msvc]
   - OpenBSD 5.6/AMD64 with GCC version 4.9.0
-  - FreeBSD 10.1/i386 with Clang version 3.4.1 (tags/RELEASE_34/dot1-final
-    208032)
+  - FreeBSD 10.1/i386 with Clang version 3.4.1 (tags/RELEASE_34/dot1-final 208032)
   - NetBSD 6.1.5/AMD64 with GCC version 4.9.1
   - DragonflyBSD 4.0.1/AMD64 with GCC version 4.9.3 20141126 (prerelease)
     (FreeBSD Ports Collection)
