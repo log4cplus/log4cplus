@@ -49,5 +49,21 @@ main()
         appender.setName (LOG4CPLUS_TEXT ("Third"));
     }
 
+    {
+        // This is checking that CreateDirs is respected when UseLockFile is
+        // provided and that directories for the lock file are created.
+        tistringstream propsStream (
+            LOG4CPLUS_TEXT("CreateDirs=true\n")
+            LOG4CPLUS_TEXT("File=./logs/some_name.log\n")
+            LOG4CPLUS_TEXT("UseLockFile=true\n")
+            LOG4CPLUS_TEXT("MaxFileSize=100MB\n")
+            LOG4CPLUS_TEXT("MaxBackupIndex=10\n"));
+        helpers::Properties props (propsStream);
+        FileAppender appender (props);
+        appender.setName (LOG4CPLUS_TEXT ("Fourth"));
+    }
+
+    log4cplus::Logger::shutdown();
+
     return 0;
 }

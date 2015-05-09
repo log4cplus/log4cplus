@@ -279,6 +279,9 @@ FileAppenderBase::init()
     helpers::LockFileGuard guard;
     if (useLockFile && ! lockFile.get ())
     {
+        if (createDirs)
+            internal::make_dirs (lockFileName);
+
         try
         {
             lockFile.reset (new helpers::LockFile (lockFileName));
