@@ -282,6 +282,9 @@ FileAppender::init(const tstring& filename_,
     helpers::LockFileGuard guard;
     if (useLockFile && ! lockFile.get ())
     {
+        if (createDirs)
+            internal::make_dirs (lockFileName_);
+
         try
         {
             lockFile.reset (new helpers::LockFile (lockFileName_));
