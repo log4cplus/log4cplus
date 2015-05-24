@@ -297,6 +297,8 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     if (async)
     {
+        event.gatherThreadSpecificData ();
+
         std::atomic_fetch_add_explicit (&in_flight, std::size_t (1),
             std::memory_order_relaxed);
 
