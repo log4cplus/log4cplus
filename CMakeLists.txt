@@ -33,6 +33,10 @@ if(NOT LOG4CPLUS_SINGLE_THREADED)
   message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
 endif(NOT LOG4CPLUS_SINGLE_THREADED)
 
+if(LOG4CPLUS_SINGLE_THREADED AND LOG4CPLUS_BUILD_LOGGINGSERVER)
+  message (FATAL_ERROR "The logging server requires the multi-thread capability.")
+endif(LOG4CPLUS_SINGLE_THREADED AND LOG4CPLUS_BUILD_LOGGINGSERVER)
+
 set(BUILD_SHARED_LIBS TRUE CACHE BOOL "If TRUE, log4cplus is built as a shared library, otherwise as a static library")
 
 if (WIN32)
