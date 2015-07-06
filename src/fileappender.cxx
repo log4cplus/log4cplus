@@ -33,6 +33,7 @@
 #include <algorithm>
 #include <sstream>
 #include <cstdio>
+#include <cmath>
 #include <stdexcept>
 
 #if defined (__BORLANDC__)
@@ -809,11 +810,16 @@ DailyRollingFileAppender::rollover(bool alreadyLocked)
 
 
 Time
-DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
+DailyRollingFileAppender::calculateNextRolloverTime(const Time& t_) const
 {
+    // Round down the time to whole minutes.
+    Time const t (
+        t_.getTime ()
+        - static_cast<time_t>(std::fmod (t_.getTime (), 60)));
+
     switch(schedule)
     {
-    case MONTHLY: 
+    case MONTHLY:
     {
         struct tm nextMonthTime;
         t.localtime(&nextMonthTime);
