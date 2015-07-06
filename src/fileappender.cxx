@@ -28,6 +28,8 @@
 #include <sstream>
 #include <algorithm>
 #include <cstdio>
+#include <cmath>
+
 #if defined (__BORLANDC__)
 // For _wrename() and _wremove() on Windows.
 #  include <stdio.h>
@@ -716,11 +718,16 @@ DailyRollingFileAppender::rollover()
 
 
 Time
-DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
+DailyRollingFileAppender::calculateNextRolloverTime(const Time& t_) const
 {
+    // Round down the time to whole minutes.
+    Time const t (
+        t_.getTime ()
+        - static_cast<time_t>(std::fmod (t_.getTime (), 60)));
+
     switch(schedule)
     {
-    case MONTHLY: 
+    case MONTHLY:
     {
         struct tm nextMonthTime;
         t.localtime(&nextMonthTime);
