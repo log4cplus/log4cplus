@@ -187,6 +187,9 @@
     <ClCompile Include="..\src\connectorthread.cxx">
       <Filter>helpers</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\callbackappender.cxx">
+      <Filter>Appenders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\log4cplus\appender.h">
@@ -392,6 +395,9 @@
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\log4cplus.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\log4cplus\callbackappender.h">
+      <Filter>Appenders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
