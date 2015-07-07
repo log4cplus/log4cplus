@@ -645,7 +645,9 @@ round_time (Time const & t, time_t seconds)
 {
     return Time (
         t.getTime ()
-        - static_cast<time_t>(std::fmod (t.getTime (), seconds)));
+        - static_cast<time_t>(std::fmod (
+                static_cast<double>(t.getTime ()),
+                static_cast<double>(seconds))));
 }
 
 
