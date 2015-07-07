@@ -33,6 +33,7 @@
 #include <algorithm>
 #include <sstream>
 #include <cstdio>
+#include <cmath>
 #include <stdexcept>
 
 #if defined (__BORLANDC__)
@@ -634,6 +635,32 @@ DailyRollingFileAppender::DailyRollingFileAppender(
 }
 
 
+namespace
+{
+
+
+static
+Time
+round_time (Time const & t, time_t seconds)
+{
+    return Time (
+        t.getTime ()
+        - static_cast<time_t>(std::fmod (
+                static_cast<double>(t.getTime ()),
+                static_cast<double>(seconds))));
+}
+
+
+static
+Time
+round_time_and_add (Time const & t, Time const & seconds)
+{
+    return round_time (t, seconds.sec ()) + seconds;
+}
+
+
+} // namespace
+
 
 void
 DailyRollingFileAppender::init(DailyRollingFileSchedule sch)
@@ -813,7 +840,7 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
 {
     switch(schedule)
     {
-    case MONTHLY: 
+    case MONTHLY:
     {
         struct tm nextMonthTime;
         t.localtime(&nextMonthTime);
@@ -826,14 +853,14 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
                 LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()-")
                 LOG4CPLUS_TEXT(" setTime() returned error"));
             // Set next rollover to 31 days in future.
-            ret = (t + Time(2678400));
+            ret = round_time (t, 24 * 60 * 60) + Time(2678400);
         }
 
         return ret;
     }
 
     case WEEKLY:
-        return (t + Time(7 * 24 * 60 * 60));
+        return round_time (t, 24 * 60 * 60) + Time (7 * 24 * 60 * 60);
 
     default:
         helpers::getLogLog ().error (
@@ -842,16 +869,16 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
         // Fall through.
 
     case DAILY:
-        return (t + Time(24 * 60 * 60));
+        return round_time_and_add (t, Time (24 * 60 * 60));
 
     case TWICE_DAILY:
-        return (t + Time(12 * 60 * 60));
+        return round_time_and_add (t, Time (12 * 60 * 60));
 
     case HOURLY:
-        return (t + Time(60 * 60));
+        return round_time_and_add (t, Time (60 * 60));
 
     case MINUTELY:
-        return (t + Time(60));
+        return round_time_and_add (t, Time (60));
     };
 }
 
