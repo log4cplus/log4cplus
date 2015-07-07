@@ -108,7 +108,7 @@ namespace log4cplus
      * </dd>
      * </dl>
      */
-    class FileAppenderBase : public Appender {
+    class LOG4CPLUS_EXPORT FileAppenderBase : public Appender {
     public:
       // Methods
         virtual void close();
