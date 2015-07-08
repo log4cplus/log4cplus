@@ -27,6 +27,8 @@
 #include <log4cplus/configurator.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/helpers/snprintf.h>
+#include <log4cplus/initializer.h>
+#include <log4cplus/callbackappender.h>
 
 #include <cerrno>
 #include <cstdio>
@@ -37,6 +39,42 @@
 
 using namespace log4cplus;
 using namespace log4cplus::helpers;
+
+
+LOG4CPLUS_EXPORT void *
+log4cplus_initialize(void)
+{
+    Initializer * initializer = 0;
+    try
+    {
+        return new Initializer();
+    }
+    catch (std::exception const &)
+    {
+        return 0;
+    }
+}
+
+
+LOG4CPLUS_EXPORT int
+log4cplus_deinitialize(void * initializer_)
+{
+    if (!initializer_)
+        return EINVAL;
+
+    try
+    {
+        Initializer * initializer = static_cast<Initializer *>(initializer_);
+        delete initializer;
+    }
+    catch (std::exception const &)
+    {
+        return -1;
+    }
+
+    return 0;
+}
+
 
 LOG4CPLUS_EXPORT int
 log4cplus_file_configure(const log4cplus_char_t *pathname)
@@ -97,6 +135,28 @@ log4cplus_shutdown(void)
 {
     Logger::shutdown();
 }
+
+
+LOG4CPLUS_EXPORT int
+log4cplus_add_callback_appender(const log4cplus_char_t * logger_name,
+    log4cplus_log_event_callback_t callback, void * cookie)
+{
+    try
+    {
+        Logger logger = logger_name
+            ? Logger::getInstance(logger_name)
+            : Logger::getRoot();
+        SharedAppenderPtr appender(new CallbackAppender(callback, cookie));
+        logger.addAppender(appender);
+    }
+    catch (std::exception const &)
+    {
+        return -1;
+    }
+
+    return 0;
+}
+
 
 LOG4CPLUS_EXPORT int
 log4cplus_logger_exists(const log4cplus_char_t *name)
@@ -170,6 +230,33 @@ log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll,
     return retval;
 }
 
+
+LOG4CPLUS_EXPORT int
+log4cplus_logger_log_str(const log4cplus_char_t *name,
+    log4cplus_loglevel_t ll, const log4cplus_char_t *msg)
+{
+    int retval = -1;
+
+    try
+    {
+        Logger logger = name ? Logger::getInstance(name) : Logger::getRoot();
+
+        if (logger.isEnabledFor(ll))
+        {
+            logger.forcedLog(ll, msg, 0, -1);
+        }
+
+        retval = 0;
+    }
+    catch (std::exception const &)
+    {
+        // Fall through.
+    }
+
+    return retval;
+}
+
+
 LOG4CPLUS_EXPORT int
 log4cplus_logger_force_log(const log4cplus_char_t *name, loglevel_t ll,
     const log4cplus_char_t *msgfmt, ...)
@@ -196,6 +283,27 @@ log4cplus_logger_force_log(const log4cplus_char_t *name, loglevel_t ll,
         retval = 0;
     }
     catch(std::exception const &)
+    {
+        // Fall through.
+    }
+
+    return retval;
+}
+
+
+LOG4CPLUS_EXPORT int
+log4cplus_logger_force_log_str(const log4cplus_char_t *name, loglevel_t ll,
+    const log4cplus_char_t *msg)
+{
+    int retval = -1;
+
+    try
+    {
+        Logger logger = name ? Logger::getInstance(name) : Logger::getRoot();
+        logger.forcedLog(ll, msg, 0, -1);
+        retval = 0;
+    }
+    catch (std::exception const &)
     {
         // Fall through.
     }
