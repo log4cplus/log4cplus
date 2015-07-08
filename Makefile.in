@@ -239,6 +239,7 @@ am__dirstamp = $(am__leading_dot)dirstamp
 am__objects_4 = src/liblog4cplus_la-appenderattachableimpl.lo \
 	src/liblog4cplus_la-appender.lo \
 	src/liblog4cplus_la-asyncappender.lo \
+	src/liblog4cplus_la-callbackappender.lo \
 	src/liblog4cplus_la-clogger.lo \
 	src/liblog4cplus_la-configurator.lo \
 	src/liblog4cplus_la-connectorthread.lo \
@@ -293,6 +294,7 @@ liblog4cplusU_la_LIBADD =
 am__objects_7 = src/liblog4cplusU_la-appenderattachableimpl.lo \
 	src/liblog4cplusU_la-appender.lo \
 	src/liblog4cplusU_la-asyncappender.lo \
+	src/liblog4cplusU_la-callbackappender.lo \
 	src/liblog4cplusU_la-clogger.lo \
 	src/liblog4cplusU_la-configurator.lo \
 	src/liblog4cplusU_la-connectorthread.lo \
@@ -1062,6 +1064,7 @@ SINGLE_THREADED_SRC = \
 	src/appenderattachableimpl.cxx \
 	src/appender.cxx \
 	src/asyncappender.cxx \
+        src/callbackappender.cxx \
 	src/clogger.cxx \
 	src/configurator.cxx \
 	src/connectorthread.cxx \
@@ -1589,6 +1592,8 @@ src/liblog4cplus_la-appender.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-asyncappender.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplus_la-callbackappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-clogger.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-configurator.lo: src/$(am__dirstamp) \
@@ -1697,6 +1702,8 @@ src/liblog4cplusU_la-appenderattachableimpl.lo: src/$(am__dirstamp) \
 src/liblog4cplusU_la-appender.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplusU_la-asyncappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-callbackappender.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplusU_la-clogger.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
@@ -2259,6 +2266,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-appender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-asyncappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-callbackappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-clogger.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-configurator.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-connectorthread.Plo@am__quote@
@@ -2312,6 +2320,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-appender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-appenderattachableimpl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-asyncappender.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-callbackappender.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-clogger.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-configurator.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-connectorthread.Plo@am__quote@
@@ -2461,6 +2470,13 @@ src/liblog4cplus_la-asyncappender.lo: src/asyncappender.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/asyncappender.cxx' object='src/liblog4cplus_la-asyncappender.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-asyncappender.lo `test -f 'src/asyncappender.cxx' || echo '$(srcdir)/'`src/asyncappender.cxx
+
+src/liblog4cplus_la-callbackappender.lo: src/callbackappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-callbackappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-callbackappender.Tpo -c -o src/liblog4cplus_la-callbackappender.lo `test -f 'src/callbackappender.cxx' || echo '$(srcdir)/'`src/callbackappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplus_la-callbackappender.Tpo src/$(DEPDIR)/liblog4cplus_la-callbackappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/callbackappender.cxx' object='src/liblog4cplus_la-callbackappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-callbackappender.lo `test -f 'src/callbackappender.cxx' || echo '$(srcdir)/'`src/callbackappender.cxx
 
 src/liblog4cplus_la-clogger.lo: src/clogger.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-clogger.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-clogger.Tpo -c -o src/liblog4cplus_la-clogger.lo `test -f 'src/clogger.cxx' || echo '$(srcdir)/'`src/clogger.cxx
@@ -2832,6 +2848,13 @@ src/liblog4cplusU_la-asyncappender.lo: src/asyncappender.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/asyncappender.cxx' object='src/liblog4cplusU_la-asyncappender.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-asyncappender.lo `test -f 'src/asyncappender.cxx' || echo '$(srcdir)/'`src/asyncappender.cxx
+
+src/liblog4cplusU_la-callbackappender.lo: src/callbackappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-callbackappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-callbackappender.Tpo -c -o src/liblog4cplusU_la-callbackappender.lo `test -f 'src/callbackappender.cxx' || echo '$(srcdir)/'`src/callbackappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-callbackappender.Tpo src/$(DEPDIR)/liblog4cplusU_la-callbackappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/callbackappender.cxx' object='src/liblog4cplusU_la-callbackappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-callbackappender.lo `test -f 'src/callbackappender.cxx' || echo '$(srcdir)/'`src/callbackappender.cxx
 
 src/liblog4cplusU_la-clogger.lo: src/clogger.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-clogger.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-clogger.Tpo -c -o src/liblog4cplusU_la-clogger.lo `test -f 'src/clogger.cxx' || echo '$(srcdir)/'`src/clogger.cxx
