@@ -642,6 +642,32 @@ DailyRollingFileAppender::DailyRollingFileAppender(
 }
 
 
+namespace
+{
+
+
+static
+Time
+round_time (Time const & t_, helpers::chrono::seconds seconds)
+{
+    time_t const t = helpers::to_time_t (t_);
+    return helpers::from_time_t (
+        t - static_cast<time_t>(std::fmod (
+                static_cast<double>(t),
+                static_cast<double>(seconds.count ()))));
+}
+
+
+static
+Time
+round_time_and_add (Time const & t, helpers::chrono::seconds const & seconds)
+{
+    return round_time (t, seconds) + seconds;
+}
+
+
+} // namespace
+
 
 void
 DailyRollingFileAppender::init(DailyRollingFileSchedule sch)
@@ -841,14 +867,16 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
                 LOG4CPLUS_TEXT(" setTime() returned error: ")
                 + LOG4CPLUS_C_STR_TO_TSTRING (e.what ()));
             // Set next rollover to 31 days in future.
-            ret = t + chrono::seconds (2678400);
+            ret = round_time (t, chrono::seconds (24 * 60 * 60))
+                + chrono::seconds (2678400);
         }
 
         return ret;
     }
 
     case WEEKLY:
-        return t + chrono::seconds (7 * 24 * 60 * 60);
+        return round_time (t, chrono::seconds (24 * 60 * 60))
+            + chrono::seconds (7 * 24 * 60 * 60);
 
     default:
         helpers::getLogLog ().error (
@@ -857,16 +885,16 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
         // Fall through.
 
     case DAILY:
-        return t + chrono::seconds (24 * 60 * 60);
+        return round_time_and_add (t, chrono::seconds (24 * 60 * 60));
 
     case TWICE_DAILY:
-        return t + chrono::seconds (12 * 60 * 60);
+        return round_time_and_add (t, chrono::seconds (12 * 60 * 60));
 
     case HOURLY:
-        return t + chrono::seconds (60 * 60);
+        return round_time_and_add (t, chrono::seconds (60 * 60));
 
     case MINUTELY:
-        return t + chrono::seconds (60);
+        return round_time_and_add (t, chrono::seconds (60));
     };
 }
 
