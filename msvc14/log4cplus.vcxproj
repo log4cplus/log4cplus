@@ -395,6 +395,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="..\src\callbackappender.cxx" />
     <ClCompile Include="..\src\clogger.cxx" />
     <ClCompile Include="..\src\configurator.cxx">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -968,6 +969,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\log4cplus\appender.h" />
+    <ClInclude Include="..\include\log4cplus\callbackappender.h" />
     <ClInclude Include="..\include\log4cplus\clogger.h" />
     <ClInclude Include="..\include\log4cplus\config.hxx" />
     <ClInclude Include="..\include\log4cplus\configurator.h" />

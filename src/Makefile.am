@@ -4,6 +4,7 @@ SINGLE_THREADED_SRC = \
 	%D%/appenderattachableimpl.cxx \
 	%D%/appender.cxx \
 	%D%/asyncappender.cxx \
+        %D%/callbackappender.cxx \
 	%D%/clogger.cxx \
 	%D%/configurator.cxx \
 	%D%/connectorthread.cxx \

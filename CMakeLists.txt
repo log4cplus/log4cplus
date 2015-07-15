@@ -81,20 +81,24 @@ endif (WITH_UNIT_TESTS)
 
 set(_WIN32_WINNT 0x0600 CACHE STRING "Define Windows API version to use.")
 
-if (NOT ${BUILD_SHARED_LIBS})
-  # set S-prefix for static build
-  set (log4cplus_postfix "${log4cplus_postfix}S")
-endif()
+option(LOG4CPLUS_ENABLE_DECORATED_LIBRARY_NAME
+  "Turns on resulting file name decoration for static and UNICODE builds." ON)
+if (LOG4CPLUS_ENABLE_DECORATED_LIBRARY_NAME)
+  if (NOT ${BUILD_SHARED_LIBS})
+    # set S-prefix for static build
+    set (log4cplus_postfix "${log4cplus_postfix}S")
+  endif ()
 
-if (UNICODE)
-  set (log4cplus_postfix "${log4cplus_postfix}U")
-endif (UNICODE)
+  if (UNICODE)
+    set (log4cplus_postfix "${log4cplus_postfix}U")
+  endif (UNICODE)
+endif (LOG4CPLUS_ENABLE_DECORATED_LIBRARY_NAME)
+
+set (log4cplus "log4cplus${log4cplus_postfix}")
 
 if (WITH_ICONV)
   set(LOG4CPLUS_WITH_ICONV 1)
 endif ()
-
-set (log4cplus "log4cplus${log4cplus_postfix}")
 
 if(LOG4CPLUS_CONFIGURE_CHECKS_PATH)
   get_filename_component(LOG4CPLUS_CONFIGURE_CHECKS_PATH "${LOG4CPLUS_CONFIGURE_CHECKS_PATH}" ABSOLUTE)
