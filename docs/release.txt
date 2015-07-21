@@ -4,7 +4,7 @@ This describes the release procedure:
 
  2. Tag revision on branch.
 
- 3. Run scripts/prepare_dist_from_bzr.sh to prepare tarballs.
+ 3. Run scripts/prepare_dist_from_git.sh to prepare tarballs.
 
  4. Upload tarballs to SourceForge.
 
