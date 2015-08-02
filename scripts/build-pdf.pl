@@ -1,3 +1,4 @@
+#! env perl
 use strict;
 use autodie qw(:all);
 use File::Basename;
@@ -103,6 +104,16 @@ my @args = (
     'pandoc', @PANDOC_2ND_STEP_SWITCHES,
     '-o', 'README.md.tex',
     @parts);
+
+print Dumper(\@args), "\n";
+
+system(@args);
+
+
+# produce PDF using latexmk utility to run the LuaLaTeX
+
+@args = (
+    'latexmk', '-gg', '-lualatex', 'README.md.tex');
 
 print Dumper(\@args), "\n";
 
