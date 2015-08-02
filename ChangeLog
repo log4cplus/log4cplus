@@ -1,4 +1,4 @@
-log4cplus 1.2.0-RC3
+log4cplus 1.2.0-RC4
 -------------------
 
   - Fixed `init_priority` GCC attribute detection and use issue.
