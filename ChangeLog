@@ -1,6 +1,25 @@
 log4cplus 1.2.0-RC3
 -------------------
 
+  - Fixed `init_priority` GCC attribute detection and use issue.
+
+  - Fixed "most vexing parse" issue with `LOG4CPLUS_C_STR_TO_TSTRING(STRING)`
+    when `STRING` is an identifier.`
+
+  - Fixed AcceptOnMatch property function in filters default to true value.
+
+  - Fixed GitHub bug #92. `DailyRollingFileAppender` rollover time was
+    drifting.
+
+  - Fixed GitHub bug #86. Create directories for lock file if CreateDirs is
+    specified.
+
+  - Allow turning off library name decoration in CMake builds. See also
+    GitHub issue #98.
+
+log4cplus 1.2.0-RC3
+-------------------
+
   - Fixed various issues related to unspecified behaviors which manifested
     when log4cplus was compiled using Clang.
 
