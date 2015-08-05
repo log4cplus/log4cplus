@@ -98,6 +98,9 @@ Initializer::Initializer ()
 }
 
 
+// Forward declaration. Defined in this file.
+void shutdownThreadPool();
+
 Initializer::~Initializer ()
 {
     bool destroy = false;
@@ -109,6 +112,7 @@ Initializer::~Initializer ()
         if (InitializerImpl::instance->count == 0)
         {
             destroy = true;
+            shutdownThreadPool();
             Logger::shutdown ();
         }
     }
