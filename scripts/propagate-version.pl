@@ -99,5 +99,5 @@ close $fh2;
             || $line =~ s/\d+ ([._\-]) \d+ ([._\-]) \d+
                          /$major$1$minor$2$so_current_adjusted/gx;
         print $line;
-    }    
+    }
 }

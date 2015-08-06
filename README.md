@@ -280,6 +280,19 @@ ensures that [log4cplus] is initialized. More importantly, it ensures that
 [log4cplus] shuts down before the execution leaves the `main()` function.
 
 
+Windows and rolling file Appenders
+----------------------------------
+
+On Windows, the standard C++ file streams open files in way that underlying
+Win32 file `HANDLE` is not open with `FILE_SHARE_DELETE` flag. This flag,
+beside shared delete, allows renaming files that have handles open to
+them. This issue manifests as error code 13 when the file needs to be rolled
+over and it is still open by another process.
+
+This is also [bug #167](https://sourceforge.net/p/log4cplus/bugs/167/) on
+SourceForge.
+
+
 Windows and TLS
 ---------------
 
