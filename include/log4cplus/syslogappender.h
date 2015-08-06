@@ -85,14 +85,14 @@ namespace log4cplus
             RSTUdp,
             RSTTcp
         };
-      
+
       // Ctors
 #if defined (LOG4CPLUS_HAVE_SYSLOG_H)
         SysLogAppender(const tstring& ident);
 #endif
         SysLogAppender(const tstring& ident, const tstring & host,
             int port = 514, const tstring & facility = tstring (),
-            RemoteSyslogType remoteSyslogType = RSTUdp);
+            RemoteSyslogType remoteSyslogType = RSTUdp, bool ipv6 = false);
         SysLogAppender(const log4cplus::helpers::Properties & properties);
 
       // Dtor
@@ -124,6 +124,7 @@ namespace log4cplus
         RemoteSyslogType remoteSyslogType;
         helpers::Socket syslogSocket;
         bool connected;
+        bool ipv6 = false;
 
         static tstring const remoteTimeFormat;
 
