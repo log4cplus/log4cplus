@@ -32,10 +32,6 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/helpers/stringhelper.h>
 
-#ifdef LOG4CPLUS_ENABLE_IPV6
-#include <stdio.h>
-#endif
-
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
@@ -86,25 +82,13 @@ LOG4CPLUS_PRIVATE bool trySetCloseOnExec (int fd);
 namespace
 {
 
-
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
-// We need to use log4cplus::thread here to work around compilation
-// problem on AIX.
-static log4cplus::thread::Mutex ghbn_mutex
-    LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE);
-
-#endif
-
-
 static
 int
 get_host_by_name (char const * hostname, std::string * name,
     struct sockaddr_in * addr)
 {
-#if defined (LOG4CPLUS_HAVE_GETADDRINFO)
-    struct addrinfo hints;
-    std::memset (&hints, 0, sizeof (hints));
-    hints.ai_family = AF_INET;
+    struct addrinfo hints = addrinfo();
+    hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;
     hints.ai_flags = AI_CANONNAME;
@@ -117,40 +101,13 @@ get_host_by_name (char const * hostname, std::string * name,
     if (ret != 0)
         return ret;
 
-    struct addrinfo const & ai = *res;
-    assert (ai.ai_family == AF_INET);
+    std::unique_ptr<struct addrinfo, addrinfo_deleter> ai (res);
 
     if (name)
-        *name = ai.ai_canonname;
+        *name = ai->ai_canonname;
 
     if (addr)
-        std::memcpy (addr, ai.ai_addr, ai.ai_addrlen);
-
-    freeaddrinfo (res);
-
-#else
-    #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-    // We need to use log4cplus::thread here to work around
-    // compilation problem on AIX.
-    log4cplus::thread::MutexGuard guard (ghbn_mutex);
-
-    #endif
-
-    struct ::hostent * hp = gethostbyname (hostname);
-    if (! hp)
-        return 1;
-    assert (hp->h_addrtype == AF_INET);
-
-    if (name)
-        *name = hp->h_name;
-
-    if (addr)
-    {
-        assert (hp->h_length <= sizeof (addr->sin_addr));
-        std::memcpy (&addr->sin_addr, hp->h_addr_list[0], hp->h_length);
-    }
-
-#endif
+        std::memcpy (addr, ai->ai_addr, ai->ai_addrlen);
 
     return 0;
 }
@@ -163,28 +120,51 @@ get_host_by_name (char const * hostname, std::string * name,
 // Global Methods
 /////////////////////////////////////////////////////////////////////////////
 
-SOCKET_TYPE
-openSocket(unsigned short port, SocketState& state)
-{
-#if defined (LOG4CPLUS_ENABLE_IPV6)
-    int sock = ::socket(AF_INET6, SOCK_STREAM, 0);
+int const TYPE_SOCK_CLOEXEC =
+#if defined (SOCK_CLOEXEC)
+        SOCK_CLOEXEC
 #else
-    int sock = ::socket(AF_INET, SOCK_STREAM, 0);
+        0
 #endif
-    if(sock < 0) {
+        ;
+
+
+SOCKET_TYPE
+openSocket(unsigned short port, bool udp, bool ipv6, SocketState& state)
+{
+    struct addrinfo addr_info_hints = addrinfo();
+    struct addrinfo * ai = nullptr;
+    std::unique_ptr<struct addrinfo, addrinfo_deleter> addr_info;
+    int const family = ipv6 ? AF_INET6 : AF_INET;
+    int const socket_type = udp ? SOCK_DGRAM : SOCK_STREAM;
+    int const protocol = udp ? IPPROTO_UDP : IPPROTO_TCP;
+    std::string const port_str = convertIntegerToNarrowString(port);
+    int retval;
+
+    addr_info_hints.ai_family = family;
+    addr_info_hints.ai_socktype = socket_type;
+    addr_info_hints.ai_protocol = protocol;
+    addr_info_hints.ai_flags = AI_PASSIVE | AI_NUMERICSERV;
+    retval = getaddrinfo (nullptr, port_str.c_str (), &addr_info_hints, &ai);
+    if (retval != 0)
+    {
+        helpers::getLogLog ().error (
+            LOG4CPLUS_TEXT ("openSocket: getaddrinfo() failed: ")
+            + convertIntegerToString (retval)
+            + LOG4CPLUS_TEXT (". ")
+            + LOG4CPLUS_C_STR_TO_TSTRING (gai_strerror (retval)));
         return INVALID_SOCKET_VALUE;
     }
 
-#if defined (LOG4CPLUS_ENABLE_IPV6)
-    struct sockaddr_in6 server = sockaddr_in6 ();
-    server.sin6_family = AF_INET6;
-    server.sin6_addr = in6addr_any;
-    server.sin6_port = htons(port);
-#else
-    struct sockaddr_in server = sockaddr_in ();
-    server.sin_family = AF_INET;
-    server.sin_addr.s_addr = INADDR_ANY;
-    server.sin_port = htons(port);
+    addr_info.reset (ai);
+
+    int sock = ::socket (ai->ai_family, ai->ai_socktype | TYPE_SOCK_CLOEXEC,
+        ai->ai_protocol);
+    if (sock < 0)
+        return INVALID_SOCKET_VALUE;
+
+#if ! defined (SOCK_CLOEXEC)
+    trySetCloseOnExec (sock);
 #endif
 
     int optval = 1;
@@ -197,8 +177,7 @@ openSocket(unsigned short port, SocketState& state)
             + helpers::convertIntegerToString (eno));
     }
 
-    int retval = bind(sock, reinterpret_cast<struct sockaddr*>(&server),
-        sizeof(server));
+    retval = bind(sock, ai->ai_addr, ai->ai_addrlen);
     if (retval < 0)
         goto error;
 
@@ -215,72 +194,57 @@ error:
 
 
 SOCKET_TYPE
-connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& state)
+connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
+    SocketState& state)
 {
-    int sock;
+    int sock = INVALID_OS_SOCKET_VALUE;
     int retval;
+    struct addrinfo addr_info_hints = addrinfo();
+    struct addrinfo * ai = nullptr;
+    std::unique_ptr<struct addrinfo, addrinfo_deleter> addr_info;
+    int const family = ipv6 ? AF_INET6 : AF_INET;
+    int const socket_type = udp ? SOCK_DGRAM : SOCK_STREAM;
+    int const protocol = udp ? IPPROTO_UDP : IPPROTO_TCP;
+    std::string const port_str = convertIntegerToNarrowString(port);
 
-#if defined (LOG4CPLUS_ENABLE_IPV6)
-    struct addrinfo *rp, *result = NULL;
-    char portname[8];
-    snprintf(&(portname[0]), sizeof(portname), "%hu", port);
-    retval = getaddrinfo(LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str(), portname,
-        NULL, &result);
+    addr_info_hints.ai_family = family;
+    addr_info_hints.ai_socktype = socket_type;
+    addr_info_hints.ai_protocol = protocol;
+    addr_info_hints.ai_flags = AI_NUMERICSERV;
+    retval = getaddrinfo (LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str(),
+        port_str.c_str(), &addr_info_hints, &ai);
     if (retval != 0)
     {
+        set_last_socket_error (retval);
         return INVALID_SOCKET_VALUE;
     }
 
-    for (rp = result; rp != NULL; rp = rp->ai_next)
+    addr_info.reset(ai);
+
+    struct addrinfo * rp;
+    for (rp = ai; rp; rp = rp->ai_next)
     {
-        sock = ::socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
+        sock = ::socket(rp->ai_family, rp->ai_socktype | TYPE_SOCK_CLOEXEC,
+            rp->ai_protocol);
         if (sock < 0)
             continue;
 
-        while ((retval = ::connect (sock,
-                    reinterpret_cast<struct sockaddr *>(rp->ai_addr),
-                    rp->ai_addrlen)) == -1
+#if ! defined (SOCK_CLOEXEC)
+        trySetCloseOnExec (sock);
+#endif
+
+        while ((retval = ::connect (sock, rp->ai_addr, rp->ai_addrlen)) == -1
             && (errno == EINTR))
             ;
-      if (retval == 0)
-          break;
+        if (retval == 0)
+            break;
 
-      ::close(sock);
+        ::close(sock);
     }
-    freeaddrinfo(result);
+
     if (rp == NULL)
         // No address succeeded.
         return INVALID_SOCKET_VALUE;
-
-#else
-    struct sockaddr_in server;
-    std::memset (&server, 0, sizeof (server));
-    retval = get_host_by_name (LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str(),
-        0, &server);
-    if (retval != 0)
-        return INVALID_SOCKET_VALUE;
-
-    server.sin_port = htons(port);
-    server.sin_family = AF_INET;
-
-    sock = ::socket(AF_INET, (udp ? SOCK_DGRAM : SOCK_STREAM), 0);
-    if(sock < 0) {
-        return INVALID_SOCKET_VALUE;
-    }
-
-    socklen_t namelen = sizeof (server);
-    while (
-        (retval = ::connect(sock, reinterpret_cast<struct sockaddr*>(&server),
-            namelen))
-        == -1
-        && (errno == EINTR))
-        ;
-    if (retval == INVALID_OS_SOCKET_VALUE)
-    {
-        ::close(sock);
-        return INVALID_SOCKET_VALUE;
-    }
-#endif
 
     state = ok;
     return to_log4cplus_socket (sock);
@@ -482,12 +446,13 @@ setTCPNoDelay (SOCKET_TYPE sock, bool val)
 // ServerSocket OS dependent stuff
 //
 
-ServerSocket::ServerSocket(unsigned short port)
+ServerSocket::ServerSocket(unsigned short port, bool udp /*= false*/,
+    bool ipv6 /*= false*/)
 {
     int fds[2] = {-1, -1};
     int ret;
 
-    sock = openSocket (port, state);
+    sock = openSocket (port, udp, ipv6, state);
     if (sock == INVALID_SOCKET_VALUE)
         goto error;
 

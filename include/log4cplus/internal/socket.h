@@ -6,17 +6,17 @@
 //
 //
 //  Copyright (C) 2010-2015, Vaclav Haisman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -28,7 +28,7 @@
 //  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-/** @file 
+/** @file
  * This header contains declaration internal to log4cplus. They must never be
  * visible from user accesible headers or exported in DLL/shared libray.
  */
@@ -57,6 +57,10 @@
 #include <errno.h>
 #endif
 
+#if defined (LOG4CPLUS_HAVE_NETDB_H)
+#include <netdb.h>
+#endif
+
 
 namespace log4cplus {
 
@@ -83,6 +87,15 @@ struct ADDRINFOT_deleter
 
 #else
 typedef int os_socket_type;
+
+struct addrinfo_deleter
+{
+    void
+    operator () (struct addrinfo * ptr) const
+    {
+        freeaddrinfo(ptr);
+    }
+};
 #endif
 
 
@@ -128,7 +141,7 @@ get_last_socket_error ()
 
 } // namespace helpers {
 
-} // namespace log4cplus { 
+} // namespace log4cplus {
 
 
 #endif // LOG4CPLUS_INTERNAL_SOCKET_H_
