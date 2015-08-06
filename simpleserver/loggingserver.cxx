@@ -25,6 +25,7 @@
 #include <log4cplus/helpers/socket.h>
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/log4cplus.h>
 
 
 namespace loggingserver
@@ -53,11 +54,11 @@ private:
 }
 
 
-
-
 int
 main(int argc, char** argv)
 {
+    log4cplus::Initializer initializer;
+
     if(argc < 3) {
         std::cout << "Usage: port config_file" << std::endl;
         return 1;
@@ -93,6 +94,8 @@ main(int argc, char** argv)
 void
 loggingserver::ClientThread::run()
 {
+    log4cplus::Initializer initializer;
+
     while(1) {
         if(!clientsock.isOpen()) {
             return;
