@@ -261,7 +261,7 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
     }
 
     addr_info.reset(ai);
-    
+
     for (ADDRINFOT * rp = ai; rp; rp = rp->ai_next)
     {
         sock = WSASocketW(rp->ai_family, rp->ai_socktype,
@@ -269,7 +269,7 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
         if (sock == INVALID_OS_SOCKET_VALUE)
         {
             DWORD const eno = WSAGetLastError();
-            
+
             LogLog & loglog = helpers::getLogLog();
             tostringstream tmp;
             tmp << LOG4CPLUS_TEXT("Failed to create socket with ")
