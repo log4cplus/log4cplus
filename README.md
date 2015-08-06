@@ -256,6 +256,30 @@ less than `0x900` and vice versa.
     $ ../configure CPPFLAGS="-D__MSVCRT_VERSION__=0x700"
 
 
+Windows and Visual Studio
+-------------------------
+
+[log4cplus] uses C++11 thread and synchronization facilities. The
+synchronization facilities are implemented in Visual Studio C++ standard
+library in a way that utilizes global variables. Therefore it is impossible
+(due to "static initialization order fiasco") to use them outside
+`main()`. This issue manifests as a deadlock on exit during destruction of
+[log4cplus]' thread pool.
+
+To overcome this limitation,
+
+  - always use `log4cplus::Initializer initializer;` as the first thing in
+`main()`;
+
+  - never try to log from static/global objects constructors;
+
+  - never try to log from static/global object destructors.
+
+Defining the `log4cplus::Initializer` instance as the first thing in `main()`
+ensures that [log4cplus] is initialized. More importantly, it ensures that
+[log4cplus] shuts down before the execution leaves the `main()` function.
+
+
 Windows and TLS
 ---------------
 
