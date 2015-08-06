@@ -133,9 +133,10 @@ operator << (tostream & os, outputXMLEscaped const & x)
 // Log4jUdpAppender ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-Log4jUdpAppender::Log4jUdpAppender(const tstring& host_, int port_)
+Log4jUdpAppender::Log4jUdpAppender(const tstring& host_, int port_, bool ipv6_)
     : host(host_)
     , port(port_)
+    , ipv6(ipv6_)
 {
     layout.reset (new PatternLayout (LOG4CPLUS_TEXT ("%m")));
     openSocket();
@@ -150,6 +151,7 @@ Log4jUdpAppender::Log4jUdpAppender(const helpers::Properties & properties)
     host = properties.getProperty( LOG4CPLUS_TEXT("host"),
         LOG4CPLUS_TEXT ("localhost") );
     properties.getInt (port, LOG4CPLUS_TEXT ("port"));
+    properties.getBool (ipv6, LOG4CPLUS_TEXT ("IPv6"));
 
     openSocket();
 }
@@ -187,7 +189,7 @@ void
 Log4jUdpAppender::openSocket()
 {
     if(!socket.isOpen()) {
-        socket = helpers::Socket(host, port, true);
+        socket = helpers::Socket(host, port, true, ipv6);
     }
 }
 
@@ -198,7 +200,8 @@ Log4jUdpAppender::append(const spi::InternalLoggingEvent& event)
         openSocket();
         if(!socket.isOpen()) {
             helpers::getLogLog().error(
-                LOG4CPLUS_TEXT("Log4jUdpAppender::append()- Cannot connect to server"));
+                LOG4CPLUS_TEXT("Log4jUdpAppender::append()")
+                LOG4CPLUS_TEXT("- Cannot connect to server"));
             return;
         }
     }
