@@ -61,12 +61,17 @@ namespace log4cplus
      * <dt><tt>port</tt></dt>
      * <dd>Destination port of syslog service on host specified by the
      * <tt>host</tt> property. The default value is port 514.</dd>
-     * </dl>
      *
      * <dt><tt>udp</tt></dt> <dd>When the syslog is remote, this
      * property picks the IP protocol. When the value is true, UDP is
      * used. When the value is false, TCP is used. The default value
-     * is true.</dd> </dl>
+     * is true.</dd>
+     *
+     * <dt><tt>IPv6</tt></dt>
+     * <dd>Boolean value specifying whether to use IPv6 (true) or IPv4
+     * (false). Default value is false.</dd>
+     *
+     * </dl>
      *
      * \note Messages sent to remote syslog using UDP are conforming
      * to RFC5424. Messages sent to remote syslog using TCP are
