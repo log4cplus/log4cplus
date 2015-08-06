@@ -106,8 +106,9 @@ namespace log4cplus
     {
     public:
       // Ctors
-        SocketAppender(const log4cplus::tstring& host, unsigned short port, 
-                       const log4cplus::tstring& serverName = tstring());
+        SocketAppender(const log4cplus::tstring& host, unsigned short port,
+            const log4cplus::tstring& serverName = tstring(),
+            bool ipv6 = false);
         SocketAppender(const log4cplus::helpers::Properties & properties);
 
       // Dtor
@@ -126,6 +127,7 @@ namespace log4cplus
         log4cplus::tstring host;
         unsigned int port;
         log4cplus::tstring serverName;
+        bool ipv6 = false;
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
         virtual thread::Mutex const & ctcGetAccessMutex () const;
