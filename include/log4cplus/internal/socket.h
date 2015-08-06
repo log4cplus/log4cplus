@@ -69,9 +69,15 @@ typedef SOCKET os_socket_type;
 struct ADDRINFOT_deleter
 {
     void
-    operator () (ADDRINFOT * ptr) const
+    operator () (ADDRINFOA * ptr) const
     {
-        FreeAddrInfo(ptr);
+        FreeAddrInfoA(ptr);
+    }
+
+    void
+    operator () (ADDRINFOW * ptr) const
+    {
+        FreeAddrInfoW(ptr);
     }
 };
 
