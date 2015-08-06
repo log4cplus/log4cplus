@@ -251,6 +251,7 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
     addr_info_hints.ai_family = family;
     addr_info_hints.ai_socktype = socket_type;
     addr_info_hints.ai_protocol = protocol;
+    addr_info_hints.ai_flags = AI_NUMERICSERV;
     retval = GetAddrInfo(hostn.c_str(), port_str.c_str(), &addr_info_hints,
         &ai);
     if (retval != 0)
@@ -292,7 +293,9 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
                 static_cast<int>(rp->ai_addrlen))) == -1
             && (WSAGetLastError() == WSAEINTR))
             ;
-        if (retval == SOCKET_ERROR)
+        if (retval != SOCKET_ERROR)
+            break;
+        else
         {
             DWORD const eno = WSAGetLastError();
 
