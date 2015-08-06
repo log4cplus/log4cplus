@@ -60,16 +60,19 @@ main(int argc, char** argv)
     log4cplus::Initializer initializer;
 
     if(argc < 3) {
-        std::cout << "Usage: port config_file" << std::endl;
+        std::cout << "Usage: port config_file [<IP version>]\n"
+            << "<IP version> either 0 for IPv4 (default) or 1 for IPv6\n"
+            << std::flush;
         return 1;
     }
-    int port = std::atoi(argv[1]);
+    int const port = std::atoi(argv[1]);
+    bool const ipv6 = argc >= 4 ? !!std::atoi(argv[3]) : false;
     const log4cplus::tstring configFile = LOG4CPLUS_C_STR_TO_TSTRING(argv[2]);
 
     log4cplus::PropertyConfigurator config(configFile);
     config.configure();
 
-    log4cplus::helpers::ServerSocket serverSocket(port);
+    log4cplus::helpers::ServerSocket serverSocket(port, false, ipv6);
     if (!serverSocket.isOpen()) {
         std::cout << "Could not open server socket, maybe port "
             << port << " is already in use." << std::endl;
