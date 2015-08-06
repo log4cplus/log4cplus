@@ -1,4 +1,3 @@
-
 log4cplus.rootLogger=TRACE, STDOUT
 log4cplus.logger.testlogger=TRACE, TEST
 log4cplus.additivity.testlogger=FALSE
@@ -27,3 +26,11 @@ log4cplus.appender.TEST.layout.ConversionPattern=%d{%y-%m-%d %H:%M:%S,%q} [%t] %
 #log4cplus.appender.TEST.layout.ConversionPattern=%-5p - %m%n
 #log4cplus.appender.TEST.layout.ConversionPattern=%l - %m%n
 #log4cplus.appender.TEST.layout.ConversionPattern=%C.%M.%L - %m%n
+
+# For remote SyslogAppender testing.
+#log4cplus.appender.TEST=log4cplus::SysLogAppender
+#log4cplus.appender.TEST.host=localhost
+#log4cplus.appender.TEST.ident=log4cplus
+#log4cplus.appender.TEST.port=514
+#log4cplus.appender.TEST.udp=true
+#log4cplus.appender.TEST.IPv6=true
