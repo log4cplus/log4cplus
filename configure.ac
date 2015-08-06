@@ -86,6 +86,15 @@ AS_IF([test "x$enable_debugging" = "xyes"],
   [LOG4CPLUS_NDEBUG=-DNDEBUG])
 AC_SUBST([LOG4CPLUS_NDEBUG])
 
+dnl Enable IPv6 (and disable IPv4).
+
+LOG4CPLUS_ARG_ENABLE([ipv6], [Use IPv6 sockets instead of IPv4. [default=no]],
+  [enable_ipv6=no])
+
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_ENABLE_IPV6],
+  [Defined for --enable-ipv6.]
+  [test "x$enable_ipv6" = "xyes"], [1])
+
 dnl Turn warnings on/off?
 
 LOG4CPLUS_ARG_ENABLE([warnings],

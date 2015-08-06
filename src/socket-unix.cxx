@@ -32,6 +32,10 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/helpers/stringhelper.h>
 
+#ifdef LOG4CPLUS_ENABLE_IPV6
+#include <stdio.h>
+#endif
+
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
@@ -162,15 +166,26 @@ get_host_by_name (char const * hostname, std::string * name,
 SOCKET_TYPE
 openSocket(unsigned short port, SocketState& state)
 {
+#if defined (LOG4CPLUS_ENABLE_IPV6)
+    int sock = ::socket(AF_INET6, SOCK_STREAM, 0);
+#else
     int sock = ::socket(AF_INET, SOCK_STREAM, 0);
+#endif
     if(sock < 0) {
         return INVALID_SOCKET_VALUE;
     }
 
+#if defined (LOG4CPLUS_ENABLE_IPV6)
+    struct sockaddr_in6 server = sockaddr_in6 ();
+    server.sin6_family = AF_INET6;
+    server.sin6_addr = in6addr_any;
+    server.sin6_port = htons(port);
+#else
     struct sockaddr_in server = sockaddr_in ();
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = INADDR_ANY;
     server.sin_port = htons(port);
+#endif
 
     int optval = 1;
     socklen_t optlen = sizeof (optval);
@@ -202,10 +217,43 @@ error:
 SOCKET_TYPE
 connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& state)
 {
-    struct sockaddr_in server;
     int sock;
     int retval;
 
+#if defined (LOG4CPLUS_ENABLE_IPV6)
+    struct addrinfo *rp, *result = NULL;
+    char portname[8];
+    snprintf(&(portname[0]), sizeof(portname), "%hu", port);
+    retval = getaddrinfo(LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str(), portname,
+        NULL, &result);
+    if (retval != 0)
+    {
+        return INVALID_SOCKET_VALUE;
+    }
+
+    for (rp = result; rp != NULL; rp = rp->ai_next)
+    {
+        sock = ::socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
+        if (sock < 0)
+            continue;
+
+        while ((retval = ::connect (sock,
+                    reinterpret_cast<struct sockaddr *>(rp->ai_addr),
+                    rp->ai_addrlen)) == -1
+            && (errno == EINTR))
+            ;
+      if (retval == 0)
+          break;
+
+      ::close(sock);
+    }
+    freeaddrinfo(result);
+    if (rp == NULL)
+        // No address succeeded.
+        return INVALID_SOCKET_VALUE;
+
+#else
+    struct sockaddr_in server;
     std::memset (&server, 0, sizeof (server));
     retval = get_host_by_name (LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str(),
         0, &server);
@@ -232,6 +280,7 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& 
         ::close(sock);
         return INVALID_SOCKET_VALUE;
     }
+#endif
 
     state = ok;
     return to_log4cplus_socket (sock);
