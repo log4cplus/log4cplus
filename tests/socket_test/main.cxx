@@ -12,8 +12,7 @@ main(int argc, char **argv)
     std::this_thread::sleep_for (std::chrono::seconds (1));
     tstring serverName = (argc > 1
         ? LOG4CPLUS_C_STR_TO_TSTRING(argv[1]) : tstring());
-//    tstring host = LOG4CPLUS_TEXT("192.168.2.10");
-    tstring host = LOG4CPLUS_TEXT("192.168.2.169");
+    tstring host = LOG4CPLUS_TEXT("localhost");
     SharedAppenderPtr append_1(new SocketAppender(host, 9998, serverName));
     append_1->setName( LOG4CPLUS_TEXT("First") );
     Logger::getRoot().addAppender(append_1);
@@ -47,6 +46,6 @@ main(int argc, char **argv)
                     "This is a long double: "
                     << setprecision(15)
                     << 123452342342.342L);
-    log4cplus::Logger::shutdown();
+
     return 0;
 }
