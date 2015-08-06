@@ -147,9 +147,6 @@
 /* Defined for --enable-debugging builds. */
 #undef LOG4CPLUS_DEBUGGING
 
-/* Defined for --enable-ipv6. */
-#undef LOG4CPLUS_ENABLE_IPV6
-
 /* Defined if the compiler understands __declspec(dllexport) or
    __attribute__((visibility("default"))) construct. */
 #undef LOG4CPLUS_DECLSPEC_EXPORT

@@ -827,7 +827,6 @@ with_working_locale
 with_working_c_locale
 with_iconv
 enable_debugging
-enable_ipv6
 enable_warnings
 enable_so_version
 enable_release_version
@@ -1501,7 +1500,6 @@ Optional Features:
                           speeds up one-time build
   --enable-debugging      Turns off optimization and adds switches that
                           generate debugging information. [default=no]
-  --enable-ipv6           Use IPv6 sockets instead of IPv4. [default=no]
   --enable-warnings       Use compiler warnings option, e.g. -Wall.
                           [default=yes]
   --enable-so-version     Use libtool -version-info option. [default=yes]
@@ -4588,21 +4586,6 @@ else
   LOG4CPLUS_NDEBUG=-DNDEBUG
 fi
 
-
-
-# Check whether --enable-ipv6 was given.
-if test "${enable_ipv6+set}" = set; then :
-  enableval=$enable_ipv6;
-   log4cplus_check_yesno_func "${enableval}" "--enable-ipv6"
-else
-  enable_ipv6=no
-fi
-
-
-   if 1; then :
-  $as_echo "#define LOG4CPLUS_ENABLE_IPV6 /**/" >>confdefs.h
-
-fi
 
 
 # Check whether --enable-warnings was given.
