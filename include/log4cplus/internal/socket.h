@@ -66,9 +66,9 @@ namespace log4cplus {
 
 namespace helpers {
 
-
 #if defined(_WIN32)
 typedef SOCKET os_socket_type;
+os_socket_type const INVALID_OS_SOCKET_VALUE = INVALID_SOCKET;
 
 struct ADDRINFOT_deleter
 {
@@ -85,8 +85,26 @@ struct ADDRINFOT_deleter
     }
 };
 
+
+struct socket_closer
+{
+    void
+    operator () (SOCKET s)
+    {
+        if (s && s != INVALID_OS_SOCKET_VALUE)
+        {
+            DWORD const eno = WSAGetLastError();
+            ::closesocket(s);
+            WSASetLastError(eno);
+        }
+    }
+};
+
+
 #else
 typedef int os_socket_type;
+os_socket_type const INVALID_OS_SOCKET_VALUE = -1;
+
 
 struct addrinfo_deleter
 {
@@ -96,15 +114,50 @@ struct addrinfo_deleter
         freeaddrinfo(ptr);
     }
 };
+
 #endif
 
 
-os_socket_type const INVALID_OS_SOCKET_VALUE
-#if defined(_WIN32)
-    = INVALID_SOCKET;
-#else
-    = -1;
-#endif
+struct socket_holder
+{
+    os_socket_type sock;
+
+    socket_holder()
+        : sock(INVALID_OS_SOCKET_VALUE)
+    { }
+
+    socket_holder(os_socket_type s)
+        : sock(s)
+    { }
+
+    ~socket_holder()
+    {
+        socket_closer()(sock);
+    }
+
+    void
+    reset(os_socket_type s = INVALID_OS_SOCKET_VALUE)
+    {
+        if (sock != INVALID_OS_SOCKET_VALUE)
+            socket_closer()(sock);
+
+        sock = s;
+    }
+
+    os_socket_type
+    detach()
+    {
+        os_socket_type s = sock;
+        sock = INVALID_OS_SOCKET_VALUE;
+        return s;
+    }
+
+    socket_holder(socket_holder &&) = delete;
+    socket_holder(socket_holder const &) = delete;
+
+    socket_holder operator = (socket_holder &&) = delete;
+    socket_holder operator = (socket_holder const &) = delete;
+};
 
 
 static inline

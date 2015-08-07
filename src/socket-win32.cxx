@@ -26,12 +26,10 @@
 #include <vector>
 #include <cstring>
 #include <atomic>
-#include <sstream>
 #include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/helpers/stringhelper.h>
-#include <log4cplus/streams.h>
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -182,7 +180,6 @@ openSocket(unsigned short port, bool udp, bool ipv6, SocketState& state)
 #else
         0;
 #endif
-    SOCKET sock = INVALID_OS_SOCKET_VALUE;
 
     init_winsock ();
 
@@ -192,35 +189,31 @@ openSocket(unsigned short port, bool udp, bool ipv6, SocketState& state)
     addr_info_hints.ai_flags = AI_PASSIVE;
     retval = GetAddrInfo(nullptr, port_str.c_str(), &addr_info_hints,
         &ai);
-
     if (retval != 0)
     {
-        WSASetLastError(retval);
-        goto error;
+        set_last_socket_error(retval);
+        return INVALID_SOCKET_VALUE;
     }
 
     addr_info.reset(ai);
 
-    sock = WSASocketW (ai->ai_family, ai->ai_socktype,
-        ai->ai_protocol, nullptr, 0, wsa_socket_flags);
-    if (sock == INVALID_OS_SOCKET_VALUE)
+    socket_holder sock_holder (
+        WSASocketW (ai->ai_family, ai->ai_socktype, ai->ai_protocol, nullptr,
+            0, wsa_socket_flags));
+    if (sock_holder.sock == INVALID_OS_SOCKET_VALUE)
         goto error;
 
-    if (bind(sock, ai->ai_addr, static_cast<int>(ai->ai_addrlen)) != 0)
+    if (bind(sock_holder.sock, ai->ai_addr, static_cast<int>(ai->ai_addrlen)) != 0)
         goto error;
 
-    if (::listen(sock, 10) != 0)
+    if (::listen(sock_holder.sock, 10) != 0)
         goto error;
 
     state = ok;
-    return to_log4cplus_socket (sock);
+    return to_log4cplus_socket (sock_holder.detach());
 
 error:
     int eno = WSAGetLastError ();
-
-    if (sock != INVALID_OS_SOCKET_VALUE)
-        ::closesocket (sock);
-
     set_last_socket_error (eno);
     return INVALID_SOCKET_VALUE;
 }
@@ -244,7 +237,6 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
 #else
         0;
 #endif
-    SOCKET sock = INVALID_SOCKET_VALUE;
 
     init_winsock ();
 
@@ -256,71 +248,39 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
         &ai);
     if (retval != 0)
     {
-        WSASetLastError(retval);
-        goto error;
+        set_last_socket_error(retval);
+        return INVALID_SOCKET_VALUE;
     }
 
     addr_info.reset(ai);
 
+    socket_holder sock_holder;
     for (ADDRINFOT * rp = ai; rp; rp = rp->ai_next)
     {
-        sock = WSASocketW(rp->ai_family, rp->ai_socktype,
-            rp->ai_protocol, nullptr, 0, wsa_socket_flags);
-        if (sock == INVALID_OS_SOCKET_VALUE)
-        {
-            DWORD const eno = WSAGetLastError();
-
-            LogLog & loglog = helpers::getLogLog();
-            tostringstream tmp;
-            tmp << LOG4CPLUS_TEXT("Failed to create socket with ")
-                << LOG4CPLUS_TEXT("WSASocketW(")
-                << rp->ai_family
-                << LOG4CPLUS_TEXT(", ")
-                << rp->ai_socktype
-                << LOG4CPLUS_TEXT(", ")
-                << rp->ai_protocol
-                << LOG4CPLUS_TEXT(", nullptr, 0, ")
-                << wsa_socket_flags
-                << LOG4CPLUS_TEXT("). Error: ")
-                << eno;
-            loglog.debug(tmp.str());
-
+        sock_holder.reset(
+            WSASocketW(rp->ai_family, rp->ai_socktype, rp->ai_protocol,
+                nullptr, 0, wsa_socket_flags));
+        if (sock_holder.sock == INVALID_OS_SOCKET_VALUE)
             continue;
-        }
 
         while (
-            (retval = ::connect(sock, rp->ai_addr,
+            (retval = ::connect(sock_holder.sock, rp->ai_addr,
                 static_cast<int>(rp->ai_addrlen))) == -1
             && (WSAGetLastError() == WSAEINTR))
             ;
         if (retval != SOCKET_ERROR)
             break;
-        else
-        {
-            DWORD const eno = WSAGetLastError();
-
-            // XXX TODO: Add some ADDRINFOT formatting and printing.
-            ::closesocket(sock);
-            sock = INVALID_OS_SOCKET_VALUE;
-
-            continue;
-        }
     }
 
-    if (sock == INVALID_OS_SOCKET_VALUE)
-        goto error;
+    if (sock_holder.sock == INVALID_OS_SOCKET_VALUE)
+    {
+        DWORD const eno = WSAGetLastError();
+        set_last_socket_error(eno);
+        return INVALID_SOCKET_VALUE;
+    }
 
     state = ok;
-    return to_log4cplus_socket (sock);
-
-error:
-    int eno = WSAGetLastError ();
-
-    if (sock != INVALID_OS_SOCKET_VALUE)
-        ::closesocket (sock);
-
-    set_last_socket_error (eno);
-    return INVALID_SOCKET_VALUE;
+    return to_log4cplus_socket (sock_holder.detach());
 }
 
 
