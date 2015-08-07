@@ -256,6 +256,8 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
     properties.getBool (udp, LOG4CPLUS_TEXT ("udp"));
     remoteSyslogType = udp ? RSTUdp : RSTTcp;
 
+    properties.getBool (ipv6, LOG4CPLUS_TEXT ("IPv6"));
+
     properties.getString (host, LOG4CPLUS_TEXT ("host"))
       || properties.getString (host, LOG4CPLUS_TEXT ("SyslogHost"));
     if (host.empty ())
@@ -284,7 +286,8 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
 
 
 SysLogAppender::SysLogAppender(const tstring& id, const tstring & h,
-    int p, const tstring & f, SysLogAppender::RemoteSyslogType rst)
+    int p, const tstring & f, SysLogAppender::RemoteSyslogType rst,
+    bool ipv6_ /*= false*/)
     : ident (id)
     , facility (parseFacility (helpers::toLower (f)))
     , appendFunc (&SysLogAppender::appendRemote)
@@ -292,6 +295,7 @@ SysLogAppender::SysLogAppender(const tstring& id, const tstring & h,
     , port (p)
     , remoteSyslogType (rst)
     , connected (false)
+    , ipv6 (ipv6_)
     // Store std::string form of ident as member of SysLogAppender so
     // the address of the c_str() result remains stable for openlog &
     // co to use even if we use wstrings.
@@ -524,7 +528,7 @@ void
 SysLogAppender::openSocket ()
 {
     syslogSocket = helpers::Socket (host, static_cast<unsigned short>(port),
-        remoteSyslogType == RSTUdp);
+        remoteSyslogType == RSTUdp, ipv6);
     connected = syslogSocket.isOpen ();
     if (! connected)
         helpers::getLogLog ().error (

@@ -143,7 +143,7 @@ trySetCloseOnExec (int fd)
             + convertIntegerToString (fd)
             + LOG4CPLUS_TEXT (", errno: ")
             + convertIntegerToString (eno));
-        return false;        
+        return false;
     }
 
 #elif defined (FD_CLOEXEC)
