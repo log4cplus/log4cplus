@@ -57,6 +57,10 @@
 #include <errno.h>
 #endif
 
+#ifdef LOG4CPLUS_HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 #if defined (LOG4CPLUS_HAVE_NETDB_H)
 #include <netdb.h>
 #endif
@@ -112,6 +116,21 @@ struct addrinfo_deleter
     operator () (struct addrinfo * ptr) const
     {
         freeaddrinfo(ptr);
+    }
+};
+
+
+struct socket_closer
+{
+    void
+    operator () (os_socket_type s)
+    {
+        if (s >= 0)
+        {
+            int const eno = errno;
+            close(s);
+            errno = eno;
+        }
     }
 };
 

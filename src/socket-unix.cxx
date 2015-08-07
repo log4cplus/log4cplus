@@ -148,28 +148,26 @@ openSocket(unsigned short port, bool udp, bool ipv6, SocketState& state)
     retval = getaddrinfo (nullptr, port_str.c_str (), &addr_info_hints, &ai);
     if (retval != 0)
     {
-        helpers::getLogLog ().error (
-            LOG4CPLUS_TEXT ("openSocket: getaddrinfo() failed: ")
-            + convertIntegerToString (retval)
-            + LOG4CPLUS_TEXT (". ")
-            + LOG4CPLUS_C_STR_TO_TSTRING (gai_strerror (retval)));
+        set_last_socket_error(retval);
         return INVALID_SOCKET_VALUE;
     }
 
     addr_info.reset (ai);
 
-    int sock = ::socket (ai->ai_family, ai->ai_socktype | TYPE_SOCK_CLOEXEC,
-        ai->ai_protocol);
-    if (sock < 0)
+    socket_holder sock_holder (
+        ::socket (ai->ai_family, ai->ai_socktype | TYPE_SOCK_CLOEXEC,
+            ai->ai_protocol));
+    if (sock_holder.sock < 0)
         return INVALID_SOCKET_VALUE;
 
 #if ! defined (SOCK_CLOEXEC)
-    trySetCloseOnExec (sock);
+    trySetCloseOnExec (sock_holder.sock);
 #endif
 
     int optval = 1;
     socklen_t optlen = sizeof (optval);
-    int ret = setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, optlen );
+    int ret = setsockopt (sock_holder.sock, SOL_SOCKET, SO_REUSEADDR, &optval,
+        optlen);
     if (ret != 0)
     {
         int const eno = errno;
@@ -177,19 +175,15 @@ openSocket(unsigned short port, bool udp, bool ipv6, SocketState& state)
             + helpers::convertIntegerToString (eno));
     }
 
-    retval = bind(sock, ai->ai_addr, ai->ai_addrlen);
+    retval = bind (sock_holder.sock, ai->ai_addr, ai->ai_addrlen);
     if (retval < 0)
-        goto error;
+        return INVALID_SOCKET_VALUE;
 
-    if (::listen(sock, 10))
-        goto error;
+    if (::listen(sock_holder.sock, 10))
+        return INVALID_SOCKET_VALUE;
 
     state = ok;
-    return to_log4cplus_socket (sock);
-
-error:
-    close (sock);
-    return INVALID_SOCKET_VALUE;
+    return to_log4cplus_socket (sock_holder.detach ());
 }
 
 
@@ -197,7 +191,6 @@ SOCKET_TYPE
 connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
     SocketState& state)
 {
-    int sock = INVALID_OS_SOCKET_VALUE;
     int retval;
     struct addrinfo addr_info_hints = addrinfo();
     struct addrinfo * ai = nullptr;
@@ -222,24 +215,25 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
     addr_info.reset(ai);
 
     struct addrinfo * rp;
+    socket_holder sock_holder;
     for (rp = ai; rp; rp = rp->ai_next)
     {
-        sock = ::socket(rp->ai_family, rp->ai_socktype | TYPE_SOCK_CLOEXEC,
-            rp->ai_protocol);
-        if (sock < 0)
+        sock_holder.reset (
+            ::socket(rp->ai_family, rp->ai_socktype | TYPE_SOCK_CLOEXEC,
+                rp->ai_protocol));
+        if (sock_holder.sock < 0)
             continue;
 
 #if ! defined (SOCK_CLOEXEC)
-        trySetCloseOnExec (sock);
+        trySetCloseOnExec (sock_holder.sock);
 #endif
 
-        while ((retval = ::connect (sock, rp->ai_addr, rp->ai_addrlen)) == -1
+        while ((retval = ::connect (sock_holder.sock, rp->ai_addr,
+                    rp->ai_addrlen)) == -1
             && (errno == EINTR))
             ;
         if (retval == 0)
             break;
-
-        ::close(sock);
     }
 
     if (rp == NULL)
@@ -247,7 +241,7 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
         return INVALID_SOCKET_VALUE;
 
     state = ok;
-    return to_log4cplus_socket (sock);
+    return to_log4cplus_socket (sock_holder.detach ());
 }
 
 
