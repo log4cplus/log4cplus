@@ -1,3 +1,4 @@
+#! env perl
 use strict;
 use IO::All;
 use LWP::UserAgent;
