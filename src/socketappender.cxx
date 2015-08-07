@@ -37,10 +37,11 @@ int const LOG4CPLUS_MESSAGE_VERSION = 3;
 //////////////////////////////////////////////////////////////////////////////
 
 SocketAppender::SocketAppender(const tstring& host_,
-    unsigned short port_, const tstring& serverName_)
-: host(host_),
-  port(port_),
-  serverName(serverName_)
+    unsigned short port_, const tstring& serverName_, bool ipv6_ /*= false*/)
+    : host(host_)
+    , port(port_)
+    , serverName(serverName_)
+    , ipv6(ipv6_)
 {
     openSocket();
     initConnector ();
@@ -55,6 +56,7 @@ SocketAppender::SocketAppender(const helpers::Properties & properties)
     host = properties.getProperty( LOG4CPLUS_TEXT("host") );
     properties.getUInt (port, LOG4CPLUS_TEXT("port"));
     serverName = properties.getProperty( LOG4CPLUS_TEXT("ServerName") );
+    properties.getBool(ipv6, LOG4CPLUS_TEXT("IPv6"));
 
     openSocket();
     initConnector ();
@@ -97,7 +99,7 @@ void
 SocketAppender::openSocket()
 {
     if(!socket.isOpen()) {
-        socket = helpers::Socket(host, static_cast<unsigned short>(port));
+        socket = helpers::Socket(host, static_cast<unsigned short>(port), false, ipv6);
     }
 }
 

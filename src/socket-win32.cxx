@@ -164,106 +164,123 @@ namespace log4cplus { namespace helpers {
 /////////////////////////////////////////////////////////////////////////////
 
 SOCKET_TYPE
-openSocket(unsigned short port, SocketState& state)
+openSocket(unsigned short port, bool udp, bool ipv6, SocketState& state)
 {
-    struct sockaddr_in server;
+    ADDRINFOT addr_info_hints{};
+    PADDRINFOT ai = nullptr;
+    std::unique_ptr<ADDRINFOT, ADDRINFOT_deleter> addr_info;
+    int const family = ipv6 ? AF_INET6 : AF_INET;
+    int const socket_type = udp ? SOCK_DGRAM : SOCK_STREAM;
+    int const protocol = udp ? IPPROTO_UDP : IPPROTO_TCP;
+    tstring const port_str = convertIntegerToString(port);
+    int retval;
+    DWORD const wsa_socket_flags =
+#if defined (WSA_FLAG_NO_HANDLE_INHERIT)
+        WSA_FLAG_NO_HANDLE_INHERIT;
+#else
+        0;
+#endif
 
     init_winsock ();
 
-    SOCKET sock = WSASocketW (AF_INET, SOCK_STREAM, AF_UNSPEC, 0, 0
-#if defined (WSA_FLAG_NO_HANDLE_INHERIT)
-        , WSA_FLAG_NO_HANDLE_INHERIT
-#else
-        , 0
-#endif
-        );
+    addr_info_hints.ai_family = family;
+    addr_info_hints.ai_socktype = socket_type;
+    addr_info_hints.ai_protocol = protocol;
+    addr_info_hints.ai_flags = AI_PASSIVE;
+    retval = GetAddrInfo(nullptr, port_str.c_str(), &addr_info_hints,
+        &ai);
+    if (retval != 0)
+    {
+        set_last_socket_error(retval);
+        return INVALID_SOCKET_VALUE;
+    }
 
-    if (sock == INVALID_OS_SOCKET_VALUE)
+    addr_info.reset(ai);
+
+    socket_holder sock_holder (
+        WSASocketW (ai->ai_family, ai->ai_socktype, ai->ai_protocol, nullptr,
+            0, wsa_socket_flags));
+    if (sock_holder.sock == INVALID_OS_SOCKET_VALUE)
         goto error;
 
-    server.sin_family = AF_INET;
-    server.sin_addr.s_addr = htonl(INADDR_ANY);
-    server.sin_port = htons(port);
-
-    if (bind(sock, reinterpret_cast<struct sockaddr*>(&server), sizeof(server))
-        != 0)
+    if (bind(sock_holder.sock, ai->ai_addr, static_cast<int>(ai->ai_addrlen)) != 0)
         goto error;
 
-    if (::listen(sock, 10) != 0)
+    if (::listen(sock_holder.sock, 10) != 0)
         goto error;
 
     state = ok;
-    return to_log4cplus_socket (sock);
+    return to_log4cplus_socket (sock_holder.detach());
 
 error:
     int eno = WSAGetLastError ();
-
-    if (sock != INVALID_OS_SOCKET_VALUE)
-        ::closesocket (sock);
-
     set_last_socket_error (eno);
     return INVALID_SOCKET_VALUE;
 }
 
 
 SOCKET_TYPE
-connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& state)
+connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
+    SocketState& state)
 {
     ADDRINFOT addr_info_hints{};
     PADDRINFOT ai = nullptr;
     std::unique_ptr<ADDRINFOT, ADDRINFOT_deleter> addr_info;
-    int socket_type = udp ? SOCK_DGRAM : SOCK_STREAM;
-    tstring port_str = convertIntegerToString (port);
-    struct sockaddr_in insock;
+    int const family = ipv6 ? AF_INET6 : AF_INET;
+    int const socket_type = udp ? SOCK_DGRAM : SOCK_STREAM;
+    int const protocol = udp ? IPPROTO_UDP : IPPROTO_TCP;
+    tstring const port_str = convertIntegerToString (port);
     int retval;
+    DWORD const wsa_socket_flags =
+#if defined (WSA_FLAG_NO_HANDLE_INHERIT)
+        WSA_FLAG_NO_HANDLE_INHERIT;
+#else
+        0;
+#endif
 
     init_winsock ();
 
-    SOCKET sock = WSASocketW (AF_INET, socket_type, AF_UNSPEC, 0, 0
-#if defined (WSA_FLAG_NO_HANDLE_INHERIT)
-        , WSA_FLAG_NO_HANDLE_INHERIT
-#else
-        , 0
-#endif
-        );
-    if (sock == INVALID_OS_SOCKET_VALUE)
-        goto error;
-
-    addr_info_hints.ai_family = AF_INET;
+    addr_info_hints.ai_family = family;
     addr_info_hints.ai_socktype = socket_type;
-    addr_info_hints.ai_protocol = AF_UNSPEC;
-    retval = GetAddrInfo (hostn.c_str(), port_str.c_str (), &addr_info_hints,
+    addr_info_hints.ai_protocol = protocol;
+    addr_info_hints.ai_flags = AI_NUMERICSERV;
+    retval = GetAddrInfo(hostn.c_str(), port_str.c_str(), &addr_info_hints,
         &ai);
     if (retval != 0)
     {
-        WSASetLastError (retval);
-        goto error;
+        set_last_socket_error(retval);
+        return INVALID_SOCKET_VALUE;
     }
 
     addr_info.reset(ai);
-    assert (addr_info->ai_addrlen == sizeof (insock));
-    std::memcpy (&insock, addr_info->ai_addr, sizeof (insock));
 
-    insock.sin_port = htons(port);
-    insock.sin_family = AF_INET;
+    socket_holder sock_holder;
+    for (ADDRINFOT * rp = ai; rp; rp = rp->ai_next)
+    {
+        sock_holder.reset(
+            WSASocketW(rp->ai_family, rp->ai_socktype, rp->ai_protocol,
+                nullptr, 0, wsa_socket_flags));
+        if (sock_holder.sock == INVALID_OS_SOCKET_VALUE)
+            continue;
 
-    while ((retval = ::connect(sock, (struct sockaddr*)&insock, sizeof(insock))) == -1
-          && (WSAGetLastError() == WSAEINTR))
-        ;
-    if (retval == SOCKET_ERROR)
-        goto error;
+        while (
+            (retval = ::connect(sock_holder.sock, rp->ai_addr,
+                static_cast<int>(rp->ai_addrlen))) == -1
+            && (WSAGetLastError() == WSAEINTR))
+            ;
+        if (retval != SOCKET_ERROR)
+            break;
+    }
+
+    if (sock_holder.sock == INVALID_OS_SOCKET_VALUE)
+    {
+        DWORD const eno = WSAGetLastError();
+        set_last_socket_error(eno);
+        return INVALID_SOCKET_VALUE;
+    }
 
     state = ok;
-    return to_log4cplus_socket (sock);
-
-error:
-    int eno = WSAGetLastError ();
-
-    if (sock != INVALID_OS_SOCKET_VALUE)
-        ::closesocket (sock);
-
-    set_last_socket_error (eno);
-    return INVALID_SOCKET_VALUE;
+    return to_log4cplus_socket (sock_holder.detach());
 }
 
 
@@ -507,9 +524,10 @@ socketEventHandlingCleanup (SOCKET_TYPE s, HANDLE ev)
 } // namespace
 
 
-ServerSocket::ServerSocket(unsigned short port)
+ServerSocket::ServerSocket(unsigned short port, bool udp /*= false*/,
+    bool ipv6 /*= false*/)
 {
-    sock = openSocket (port, state);
+    sock = openSocket (port, udp, ipv6, state);
     if (sock == INVALID_SOCKET_VALUE)
     {
         err = get_last_socket_error ();

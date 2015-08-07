@@ -79,7 +79,7 @@ namespace log4cplus
      *   then the rate of event production, then the client can only
      *   progress at the network rate. In particular, if the network link
      *   to the the server is down, the client will be blocked.
-     * 
+     *
      *   <li>On the other hand, if the network link is up, but the server
      *   is down, the client will not be blocked when making log requests
      *   but the log events will be lost due to server unavailability.
@@ -96,18 +96,23 @@ namespace log4cplus
      * <dt><tt>ServerName</tt></dt>
      * <dd>Host name of event's origin prepended to each event.</dd>
      *
+     * <dt><tt>IPv6</tt></dt>
+     * <dd>Boolean value specifying whether to use IPv6 (true) or IPv4
+     * (false). Default value is false.</dd>
+     *
      * </dl>
      */
     class LOG4CPLUS_EXPORT SocketAppender
-        : public Appender 
+        : public Appender
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
         , protected virtual helpers::IConnectorThreadClient
 #endif
     {
     public:
       // Ctors
-        SocketAppender(const log4cplus::tstring& host, unsigned short port, 
-                       const log4cplus::tstring& serverName = tstring());
+        SocketAppender(const log4cplus::tstring& host, unsigned short port,
+            const log4cplus::tstring& serverName = tstring(),
+            bool ipv6 = false);
         SocketAppender(const log4cplus::helpers::Properties & properties);
 
       // Dtor
@@ -126,6 +131,7 @@ namespace log4cplus
         log4cplus::tstring host;
         unsigned int port;
         log4cplus::tstring serverName;
+        bool ipv6 = false;
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
         virtual thread::Mutex const & ctcGetAccessMutex () const;
@@ -156,4 +162,3 @@ namespace log4cplus
 } // end namespace log4cplus
 
 #endif // LOG4CPLUS_SOCKET_APPENDER_HEADER_
-
