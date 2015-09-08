@@ -510,6 +510,40 @@ thus [log4cplus] cannot be supported there:
 - Windows CE -- missing implementations of `<time.h>` functions
 
 
+Bug reporting instructions
+--------------------------
+
+For successful resolution of reported bugs, it is necessary to provide enough information:
+
+- [log4cplus]
+    - What is the exact release version or Git branch and revision?
+    - What is the build system that you are building [log4cplus] with
+      (Autotools, Visual Studio solution and its version, CMake).
+    - Autotools -- Provide `configure` script parameters and environment
+      variables, attach generated `config.log` and `defines.hxx` files.
+    - CMake -- Provide build configuration (`Release`, `Debug`,
+      `RelWithDebInfo`) and non--default `CMAKE_*` variables values.
+    - Visual Studio -- Provide project configuration (`Release`,
+      `Release_Unicode`, `Debug`, `Debug_Unicode`) and Visual Studio version.
+    - Provide target OS and CPU. In case of MinGW, provide its exact compiler
+      distribution -- TDM? Nuwen? Other?
+
+- [log4cplus] client application
+    - Are you using shared library [log4cplus] or as static library [log4cplus]?
+    - Is [log4cplus] linked into an executable or into a shared library (DLL or
+      SO)?
+    - If [log4cplus] is linked into a shared library, is this library
+      loaded dynamically or not?
+    - What library file you are linking your application with --
+      `log4cplus.lib`, `log4cplusUSD.lib`, `liblog4cplus.dll.a`, etc., on
+      Windows?
+    - Is your application is using Unicode/`wchar_t` or not?
+    - Provide any error messages.
+    - Provide stack trace.
+    - Provide [log4cplus] properties/configuration files.
+    - Provide a self--contained test case, if possible.
+
+
 License
 =======
 
