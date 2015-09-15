@@ -35,6 +35,7 @@
 #include <sstream>
 #include <cstdio>
 #include <stdexcept>
+#include <cmath> // std::fmod
 
 // For _wrename() and _wremove() on Windows.
 #include <stdio.h>
