@@ -36,6 +36,7 @@
 #include <cstdio>
 #include <cmath>
 #include <stdexcept>
+#include <cmath> // std::fmod
 
 #if defined (__BORLANDC__)
 // For _wrename() and _wremove() on Windows.
