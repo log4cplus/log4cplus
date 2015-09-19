@@ -76,9 +76,10 @@ LRZIP=${LRZIP:-$(find_archiver lrzip)}
 GIT=${GIT:-git}
 GPG=${GPG:-gpg}
 
-$GIT clone -v --depth=1 "$GIT_URL" -b "$GIT_BRANCH" "$SRC_DIR"
+$GIT clone -v --recursive --depth=1 "$GIT_URL" -b "$GIT_BRANCH" "$SRC_DIR"
 (cd "$SRC_DIR" && $GIT rev-parse @ >REVISION)
 rm -rf "$SRC_DIR/.git"
+find "$SRC_DIR" -name .git -print -exec rm -f '{}' ';'
 
 pushd "$SRC_DIR"
 $SHELL ./scripts/fix-timestamps.sh
