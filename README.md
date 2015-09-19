@@ -526,15 +526,14 @@ is fixed in OpenBSD 5.3 and later. This shows as failing
 `CXXFLAGS`.
 
 
-iOS
----
+iOS support
+-----------
 
-log4cplus build for iOS is based on `iOS.cmake` toolchain file, originally
-taken from <https://code.google.com/p/ios-cmake/>.
+iOS support is based on CMake build. Use the scripts in `iOS` directory. The
+`iOS.cmake` toolchain file was originally taken from [ios-cmake] project.
 
-To build the library for iOS, being in current folder, perform the steps below.
-
-For ARMv7 architecture:
+To build the library for iOS, being in current folder, perform the steps
+below. For ARMv7 architecture:
 
     $ ./scripts/cmake_ios_armv7.sh
     $ cmake --build ./build_armv7 --config "Release"
@@ -545,6 +544,29 @@ For i386 architecture:
     $ ./scripts/cmake_ios_i386.sh
     $ cmake --build ./build_i386 --config "Release"
     $ cmake --build ./build_i386 --config "Debug"
+
+Some versions of the iOS and/or its SDK have problems with thread-local storage
+(TLS) and getting through CMake's environment detection phase. To work around
+these issues, make these changes:
+
+Edit the `iOS.cmake` file and add these two lines.
+
+    set (CMAKE_CXX_COMPILER_WORKS TRUE)
+    set (CMAKE_C_COMPILER_WORKS TRUE)
+
+Add these lines. Customize them accordingly:
+
+    set(MACOSX_BUNDLE_GUI_IDENTIFIER com.example)
+    set(CMAKE_MACOSX_BUNDLE YES)
+    set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer")
+    set(IPHONEOS_ARCHS arm64)
+
+If you have issues with TLS, also comment out these lines:
+
+    set(LOG4CPLUS_HAVE_TLS_SUPPORT 1)
+    set(LOG4CPLUS_THREAD_LOCAL_VAR "__thread")
+
+[ios-cmake]: https://code.google.com/p/ios-cmake/
 
 
 `LOG4CPLUS_*_FMT()` and UNICODE
