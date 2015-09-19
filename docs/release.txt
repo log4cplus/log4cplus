@@ -8,7 +8,8 @@ This describes log4cplus release procedure:
 to date. Run `scripts/propagate-version.sh` followed by
 `scripts/doautoreconf.sh`. _Do not forget to commit the changes._
 
- #. Run `scripts/prepare_dist_from_git.sh` to prepare tarballs.
+ #. Run `scripts/prepare_dist_from_git.sh` to prepare tarballs. _Do not tag the
+revision, yet._
 
  #. [Upload tarballs][4] to SourceForge.
 

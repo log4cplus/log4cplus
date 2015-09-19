@@ -2,12 +2,10 @@
 %% latex-header.tex begin
 %%
 
-\usepackage{a4wide}
-\usepackage{xcolor}
+\usepackage{fix-cm}
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage{anyfontsize}
-\usepackage[printwatermark]{xwatermark}
 \usepackage{amssymb}
 \usepackage{newunicodechar}
 \usepackage{fancyhdr}
@@ -33,9 +31,6 @@
 \defaultfontfeatures{Ligatures={TeX, Common}}
 \setmainfont{TeX Gyre Pagella}
 \setmonofont[Scale=MatchLowercase,Ligatures={NoCommon}]{DejaVu Sans Mono}
-%\setromanfont{Georgia}
-%\setsansfont{DejaVu Sans}
-\urlstyle{same}
 
 \AtBeginEnvironment{quote}{\slshape}
 
@@ -57,14 +52,6 @@
   showstringspaces=false,
   numbers=left, numberstyle=\scriptsize\noncopy,
   prebreak={\raisebox{0ex}[0ex][0ex]{\ensuremath{\noncopy{\rhookswarrow}}}}}
-
-\lstdefinelanguage{diff}{
-  morecomment=[f][\color{blue}]{@@},     % group identifier
-  morecomment=[f][\color{red}]-,         % deleted lines
-  morecomment=[f][\color{green}]+,       % added lines
-  morecomment=[f][\color{magenta}]{---}, % Diff header lines (must appear after +,-)
-  morecomment=[f][\color{magenta}]{+++},
-}
 
 %%
 %% latex-header.tex end

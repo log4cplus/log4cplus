@@ -1,3 +1,4 @@
+#! env perl
 use strict;
 use autodie qw(:all);
 use File::Basename;
@@ -35,7 +36,8 @@ my @PANDOC_2ND_STEP_SWITCHES =
       , '--latex-engine=lualatex',
       , '--include-in-header=docs/latex-header.tex'
       , '--include-before-body=docs/latex-body.tex'
-      , '-V', 'lang=english');
+      , '-V', 'lang=english',
+      , '-V', 'geometry:a4paper');
 
 # pre-compute  various source information strings
 
@@ -99,9 +101,19 @@ for my $f (@FILES)
 print Dumper(\@parts), "\n";
 
 my @args = (
-    'pandoc', @PANDOC_2ND_STEP_SWITCHES, 
+    'pandoc', @PANDOC_2ND_STEP_SWITCHES,
     '-o', 'README.md.tex',
     @parts);
+
+print Dumper(\@args), "\n";
+
+system(@args);
+
+
+# produce PDF using latexmk utility to run the LuaLaTeX
+
+@args = (
+    'latexmk', '-gg', '-lualatex', 'README.md.tex');
 
 print Dumper(\@args), "\n";
 

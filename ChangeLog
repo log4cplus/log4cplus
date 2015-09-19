@@ -6,7 +6,7 @@ log4cplus 1.2.0-RC4
   - Fixed "most vexing parse" issue with `LOG4CPLUS_C_STR_TO_TSTRING(STRING)`
     when `STRING` is an identifier.`
 
-  - Fixed AcceptOnMatch property function in filters default to true value.
+  - Fixed `AcceptOnMatch` property function in filters default to true value.
 
   - Fixed GitHub bug #92. `DailyRollingFileAppender` rollover time was
     drifting.
@@ -26,7 +26,7 @@ log4cplus 1.2.0-RC3
   - SysLogAppender now recognize `SyslogHost` property as synonym for `host`
     property.
 
-  - Improved compatibility of TTCCLayout with log4j's. Added
+  - Improved compatibility of `TTCCLayout` with log4j's. Added
     `ThreadPrinting`, `CategoryPrefixing` and `ContextPrinting` configuration
     properties.
 
@@ -34,7 +34,7 @@ log4cplus 1.2.0-RC3
     end instead of beginning possible. E.g., allow `%.-1p` to get initial
     letters of log level.
 
-  - New appender TimeBasedRollingFileAppender. (Alexander Malinin)
+  - New appender `TimeBasedRollingFileAppender`. (Alexander Malinin)
 
   - `LOG4CPLUS_*_FMT()` macros can now be invoked with just formatting
     string, without additional arguments. (Zhang Shengfa)
