@@ -3,6 +3,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/loggingmacros.h>
+#include <log4cplus/initializer.h>
 #include <thread>
 
 using namespace std;
@@ -31,7 +32,8 @@ int
 main()
 {
     tcout << LOG4CPLUS_TEXT("Entering main()...") << endl;
-    log4cplus::initialize ();
+    log4cplus::Initializer initializer;
+
     LogLog::getLogLog()->setInternalDebugging(true);
     Logger root = Logger::getRoot();
     try
@@ -53,7 +55,6 @@ main()
         LOG4CPLUS_FATAL(root, "Exception occured...");
     }
 
-    log4cplus::Logger::shutdown();
     tcout << LOG4CPLUS_TEXT("Exiting main()...") << endl;
     return 0;
 }

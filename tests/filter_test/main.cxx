@@ -5,6 +5,7 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/loggingmacros.h>
 #include <log4cplus/consoleappender.h>
+#include <log4cplus/initializer.h>
 
 using namespace std;
 using namespace log4cplus;
@@ -101,7 +102,7 @@ int
 main()
 {
     tcout << "Entering main()..." << endl;
-    log4cplus::initialize ();
+    log4cplus::Initializer initializer;
     LogLog::getLogLog()->setInternalDebugging(true);
     Logger root = Logger::getRoot();
     try {
@@ -126,7 +127,6 @@ main()
         LOG4CPLUS_FATAL(root, "Exception occurred...");
     }
 
-    log4cplus::Logger::shutdown();
     tcout << "Exiting main()..." << endl;
     return 0;
 }

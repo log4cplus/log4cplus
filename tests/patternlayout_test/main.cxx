@@ -6,6 +6,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/loggingmacros.h>
+#include <log4cplus/initializer.h>
 #include <iostream>
 #include <string>
 
@@ -17,7 +18,7 @@ int
 main()
 {
     cout << "Entering main()..." << endl;
-    log4cplus::initialize ();
+    log4cplus::Initializer initializer;
     LogLog::getLogLog()->setInternalDebugging(true);
     try {
         SharedObjectPtr<Appender> append_1(new ConsoleAppender());
@@ -53,7 +54,6 @@ main()
         Logger::getRoot().log(FATAL_LOG_LEVEL, LOG4CPLUS_TEXT("Exception occured..."));
     }
 
-    log4cplus::Logger::shutdown();
     cout << "Exiting main()..." << endl;
     return 0;
 }
