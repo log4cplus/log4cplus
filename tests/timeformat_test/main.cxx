@@ -1,6 +1,7 @@
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/streams.h>
 #include <log4cplus/logger.h>
+#include <log4cplus/initializer.h>
 #include <iostream>
 
 using namespace log4cplus;
@@ -15,7 +16,7 @@ int
 main()
 {
     std::cout << "Entering main()..." << std::endl;
-    log4cplus::initialize ();
+    log4cplus::Initializer initializer;
     try
     {
         Time time;
@@ -62,7 +63,6 @@ main()
         std::cout << "Exception..." << std::endl;
     }
 
-    log4cplus::Logger::shutdown();
     std::cout << "Exiting main()..." << std::endl;
     return 0;
 }

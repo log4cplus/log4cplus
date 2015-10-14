@@ -5,6 +5,7 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/initializer.h>
 
 
 using namespace std;
@@ -28,7 +29,8 @@ int
 main()
 {
     tcout << LOG4CPLUS_TEXT("Entering main()...") << endl;
-    log4cplus::initialize ();
+    log4cplus::Initializer initializer;
+
     PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
     Logger root = Logger::getRoot();
     try {
@@ -125,6 +127,5 @@ main()
 
     tcout << LOG4CPLUS_TEXT("Exiting main()...") << endl;
 
-    log4cplus::Logger::shutdown();
     return 0;
 }

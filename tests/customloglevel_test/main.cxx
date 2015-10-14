@@ -1,6 +1,7 @@
 #include "customloglevel.h"
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/loggingmacros.h>
+#include <log4cplus/initializer.h>
 #include <iomanip>
 #include <iostream>
 
@@ -16,6 +17,7 @@ int
 main()
 {
     cout << "Entering main()..." << endl;
+    log4cplus::Initializer initializer;
     {
         log4cplus::initialize ();
         SharedAppenderPtr append_1(new ConsoleAppender());
@@ -55,7 +57,6 @@ main()
         cout << "Returned from writeLogMessage()..." << endl;
     }
 
-    log4cplus::Logger::shutdown();
     cout << "REALLY exiting main()..." << endl;
 
     return 0;
