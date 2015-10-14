@@ -518,9 +518,11 @@ static
 void
 queueLog4cplusInitializationThroughAPC ()
 {
+#if defined (LOG4CPLUS_BUILD_DLL)
     if (! QueueUserAPC (initializeLog4cplusApcProc, GetCurrentThread (),
         0))
         throw std::runtime_error ("QueueUserAPC() has failed");
+#endif
 }
 
 
