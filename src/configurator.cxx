@@ -140,7 +140,7 @@ namespace
                 dest = val;
                 return false;
             }
-            
+
             key.assign (pattern, var_start + DELIM_START_LEN,
                 var_end - (var_start + DELIM_START_LEN));
             replacement.clear ();
@@ -148,7 +148,7 @@ namespace
                 replacement = props.getProperty (key);
             if (! shadow_env || (! empty_vars && replacement.empty ()))
                 internal::get_env_var (replacement, key);
-            
+
             if (empty_vars || ! replacement.empty ())
             {
                 // Substitute the variable with its value in place.
@@ -340,7 +340,7 @@ PropertyConfigurator::replaceEnvironVariables()
         = !! (flags & PropertyConfigurator::fRecursiveExpansion);
     bool changed;
 
-    do 
+    do
     {
         changed = false;
         properties.propertyNames().swap (keys);
@@ -461,7 +461,7 @@ PropertyConfigurator::configureAppenders()
         if( it->find( LOG4CPLUS_TEXT('.') ) == tstring::npos )
         {
             factoryName = appenderProperties.getProperty(*it);
-            spi::AppenderFactory* factory 
+            spi::AppenderFactory* factory
                 = spi::getAppenderFactoryRegistry().get(factoryName);
             if (! factory)
             {
@@ -586,7 +586,7 @@ BasicConfigurator::doConfigure(Hierarchy& h, bool logToStdErr)
 // ConfigurationWatchDogThread implementation
 //////////////////////////////////////////////////////////////////////////////
 
-class ConfigurationWatchDogThread 
+class ConfigurationWatchDogThread
     : public thread::AbstractThread,
       public PropertyConfigurator
 {
@@ -606,7 +606,7 @@ public:
 
     virtual ~ConfigurationWatchDogThread ()
     { }
-    
+
     void terminate ()
     {
         shouldTerminate.signal ();
@@ -617,10 +617,10 @@ protected:
     virtual void run();
     virtual Logger getLogger(const tstring& name);
     virtual void addAppender(Logger &logger, SharedAppenderPtr& appender);
-    
+
     bool checkForFileModification();
     void updateLastModInfo();
-    
+
 private:
     ConfigurationWatchDogThread (ConfigurationWatchDogThread const &);
     ConfigurationWatchDogThread & operator = (
