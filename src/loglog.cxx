@@ -144,7 +144,7 @@ LogLog::get_debug_mode () const
         set_tristate_from_env (&debugEnabled,
             LOG4CPLUS_TEXT ("LOG4CPLUS_LOGLOG_DEBUGENABLED"));
 
-    return debugEnabled && ! get_quiet_mode ();
+    return (debugEnabled == TriTrue) && ! get_quiet_mode ();
 }
 
 
@@ -152,9 +152,13 @@ void
 LogLog::set_tristate_from_env (TriState * result, tchar const * envvar_name)
 {
     tstring envvar_value;
-    bool exists = internal::get_env_var (envvar_value, envvar_name);
+    if (!internal::get_env_var (envvar_value, envvar_name)) // simply return if the variable isn't set
+        return;
     bool value = false;
-    if (exists && internal::parse_bool (value, envvar_value) && value)
+    if (!internal::parse_bool (value, envvar_value)) // return if the variable exists but can't be parsed correctly
+        return;
+
+    if (value)
         *result = TriTrue;
     else
         *result = TriFalse;
