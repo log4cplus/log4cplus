@@ -14,6 +14,7 @@ addons: &addons
       - llvm-toolchain-precise-3.6
       - llvm-toolchain-precise-3.7
       - llvm-toolchain-precise
+      - ubuntu-sdk-team
 env:
   - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-c-locale --with-wchar_t-support --enable-unit-tests"
     CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
@@ -35,16 +36,8 @@ env:
     CXXFLAGS="" SWIG_FLAGS=""
 before_install:
   - lsb_release -a
-  - sudo add-apt-repository --yes
-    'deb http://ppa.launchpad.net/canonical-x/x-staging/ubuntu precise main'
-  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/ppa
-  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test/ubuntu
-  - if [ ! -z "$QT" ] ; then
-      sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa ;
-    fi
-  - sudo apt-get update -qq
-  - sudo apt-get install -q
+  - apt-get update -qq
+  - apt-get install -q
     gcc-4.9
     g++-4.9
     libstdc++-4.9-dev
@@ -53,11 +46,11 @@ before_install:
     swig
     python
   - if [ ! -z "$QT" ] ; then
-      sudo apt-get install -q $QT ;
+      apt-get install -q $QT ;
     fi
-  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 40
+  - update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 40
     --slave /usr/bin/g++ g++ /usr/bin/g++-4.9
-  - sudo update-alternatives --config gcc
+  - update-alternatives --config gcc
 before_script:
   - sh ./scripts/fix-timestamps.sh
   - mkdir objdir
