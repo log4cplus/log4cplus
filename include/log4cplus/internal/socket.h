@@ -5,18 +5,18 @@
 // Author:  Vaclav Haisman
 //
 //
-//  Copyright (C) 2010-2013, Vaclav Haisman. All rights reserved.
-//  
+//  Copyright (C) 2010-2015, Vaclav Haisman. All rights reserved.
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -28,7 +28,7 @@
 //  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-/** @file 
+/** @file
  * This header contains declaration internal to log4cplus. They must never be
  * visible from user accesible headers or exported in DLL/shared libray.
  */
@@ -57,25 +57,134 @@
 #include <errno.h>
 #endif
 
+#ifdef LOG4CPLUS_HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
+#if defined (LOG4CPLUS_HAVE_NETDB_H)
+#include <netdb.h>
+#endif
+
 
 namespace log4cplus {
 
 namespace helpers {
 
-
 #if defined(_WIN32)
 typedef SOCKET os_socket_type;
+os_socket_type const INVALID_OS_SOCKET_VALUE = INVALID_SOCKET;
+
+struct ADDRINFOT_deleter
+{
+    void
+    operator () (ADDRINFOA * ptr) const
+    {
+        FreeAddrInfoA(ptr);
+    }
+
+    void
+    operator () (ADDRINFOW * ptr) const
+    {
+        FreeAddrInfoW(ptr);
+    }
+};
+
+
+struct socket_closer
+{
+    void
+    operator () (SOCKET s)
+    {
+        if (s && s != INVALID_OS_SOCKET_VALUE)
+        {
+            DWORD const eno = WSAGetLastError();
+            ::closesocket(s);
+            WSASetLastError(eno);
+        }
+    }
+};
+
+
 #else
 typedef int os_socket_type;
+os_socket_type const INVALID_OS_SOCKET_VALUE = -1;
+
+
+struct addrinfo_deleter
+{
+    void
+    operator () (struct addrinfo * ptr) const
+    {
+        freeaddrinfo(ptr);
+    }
+};
+
+
+struct socket_closer
+{
+    void
+    operator () (os_socket_type s)
+    {
+        if (s >= 0)
+        {
+            int const eno = errno;
+            close(s);
+            errno = eno;
+        }
+    }
+};
+
 #endif
 
 
-os_socket_type const INVALID_OS_SOCKET_VALUE
-#if defined(_WIN32)
-    = INVALID_SOCKET;
+struct socket_holder
+{
+    os_socket_type sock;
+
+    socket_holder()
+        : sock(INVALID_OS_SOCKET_VALUE)
+    { }
+
+    socket_holder(os_socket_type s)
+        : sock(s)
+    { }
+
+    ~socket_holder()
+    {
+        socket_closer()(sock);
+    }
+
+    void
+    reset(os_socket_type s = INVALID_OS_SOCKET_VALUE)
+    {
+        if (sock != INVALID_OS_SOCKET_VALUE)
+            socket_closer()(sock);
+
+        sock = s;
+    }
+
+    os_socket_type
+    detach()
+    {
+        os_socket_type s = sock;
+        sock = INVALID_OS_SOCKET_VALUE;
+        return s;
+    }
+
+#if defined (LOG4CPLUS_HAVE_CXX11_SUPPORT)
+    socket_holder (socket_holder &&) = delete;
+    socket_holder (socket_holder const &) = delete;
+
+    socket_holder operator = (socket_holder &&) = delete;
+    socket_holder operator = (socket_holder const &) = delete;
+
 #else
-    = -1;
+private:
+    socket_holder (socket_holder const &);
+    socket_holder operator = (socket_holder const &);
+
 #endif
+};
 
 
 static inline
@@ -112,7 +221,7 @@ get_last_socket_error ()
 
 } // namespace helpers {
 
-} // namespace log4cplus { 
+} // namespace log4cplus {
 
 
 #endif // LOG4CPLUS_INTERNAL_SOCKET_H_

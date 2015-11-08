@@ -88,7 +88,7 @@ AbstractSocket::shutdown()
 {
     if(sock != INVALID_SOCKET_VALUE) {
         shutdownSocket(sock);
-    }    
+    }
 }
 
 
