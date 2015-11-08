@@ -7,7 +7,12 @@ addons: &addons
   apt:
     packages: &packages
       - g++-4.9
+      - gcc-4.9
       - clang-3.6
+      - libstdc++-4.9-dev
+      - swig
+      - python
+      - qtbase5-dev
     sources: &sources
       - ubuntu-toolchain-r-test
       - llvm-toolchain-precise-3.5
@@ -36,21 +41,6 @@ env:
     CXXFLAGS="" SWIG_FLAGS=""
 before_install:
   - lsb_release -a
-  - apt-get update -qq
-  - apt-get install -q
-    gcc-4.9
-    g++-4.9
-    libstdc++-4.9-dev
-    llvm-3.5
-    clang-3.5
-    swig
-    python
-  - if [ ! -z "$QT" ] ; then
-      apt-get install -q $QT ;
-    fi
-  - update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 40
-    --slave /usr/bin/g++ g++ /usr/bin/g++-4.9
-  - update-alternatives --config gcc
 before_script:
   - sh ./scripts/fix-timestamps.sh
   - mkdir objdir
