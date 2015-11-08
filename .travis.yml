@@ -6,10 +6,9 @@ compiler:
 addons: &addons
   apt:
     packages: &packages
-      - g++-4.9
-      - gcc-4.9
-      - clang-3.6
-      - libstdc++-4.9-dev
+      - g++-5.2
+      - gcc-5.2
+      - clang-3.7
       - swig
       - python
       - qtbase5-dev
@@ -42,6 +41,19 @@ env:
 before_install:
   - lsb_release -a
 before_script:
+  - case "$CXX" in #(
+      g++*) CXX=g++-5.2 #(
+      ;;
+      clang++*) CXX=clang++-3.7
+      ;;
+    esac
+  - case "$CC" in #(
+      gcc*) CXX=gcc-5.2 #(
+      ;;
+      clang*) CXX=clang-3.7
+      ;;
+    esac
+  - export CXX CC
   - sh ./scripts/fix-timestamps.sh
   - mkdir objdir
   - cd objdir
