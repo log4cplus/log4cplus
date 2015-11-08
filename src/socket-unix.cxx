@@ -162,8 +162,8 @@ get_host_by_name (char const * hostname, std::string * name,
 SOCKET_TYPE
 openSocket(unsigned short port, SocketState& state)
 {
-    int sock = ::socket(AF_INET, SOCK_STREAM, 0);
-    if(sock < 0) {
+    socket_holder sock_holder (::socket(AF_INET, SOCK_STREAM, 0));
+    if(sock_holder.sock < 0) {
         return INVALID_SOCKET_VALUE;
     }
 
@@ -174,7 +174,8 @@ openSocket(unsigned short port, SocketState& state)
 
     int optval = 1;
     socklen_t optlen = sizeof (optval);
-    int ret = setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, optlen );
+    int ret = setsockopt (sock_holder.sock, SOL_SOCKET, SO_REUSEADDR, &optval,
+        optlen);
     if (ret != 0)
     {
         int const eno = errno;
@@ -182,20 +183,16 @@ openSocket(unsigned short port, SocketState& state)
             + helpers::convertIntegerToString (eno));
     }
 
-    int retval = bind(sock, reinterpret_cast<struct sockaddr*>(&server),
-        sizeof(server));
+    int retval = bind(sock_holder.sock,
+        reinterpret_cast<struct sockaddr*>(&server), sizeof(server));
     if (retval < 0)
-        goto error;
+        return INVALID_SOCKET_VALUE;
 
-    if (::listen(sock, 10))
-        goto error;
+    if (::listen(sock_holder.sock, 10))
+        return INVALID_SOCKET_VALUE;
 
     state = ok;
-    return to_log4cplus_socket (sock);
-
-error:
-    close (sock);
-    return INVALID_SOCKET_VALUE;
+    return to_log4cplus_socket (sock_holder.detach ());
 }
 
 
@@ -203,7 +200,6 @@ SOCKET_TYPE
 connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& state)
 {
     struct sockaddr_in server;
-    int sock;
     int retval;
 
     std::memset (&server, 0, sizeof (server));
@@ -215,26 +211,23 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& 
     server.sin_port = htons(port);
     server.sin_family = AF_INET;
 
-    sock = ::socket(AF_INET, (udp ? SOCK_DGRAM : SOCK_STREAM), 0);
-    if(sock < 0) {
+    socket_holder sock_holder (
+        ::socket(AF_INET, (udp ? SOCK_DGRAM : SOCK_STREAM), 0));
+    if (sock_holder.sock < 0)
         return INVALID_SOCKET_VALUE;
-    }
 
     socklen_t namelen = sizeof (server);
     while (
-        (retval = ::connect(sock, reinterpret_cast<struct sockaddr*>(&server),
-            namelen))
+        (retval = ::connect(sock_holder.sock,
+            reinterpret_cast<struct sockaddr*>(&server), namelen))
         == -1
         && (errno == EINTR))
         ;
     if (retval == INVALID_OS_SOCKET_VALUE)
-    {
-        ::close(sock);
         return INVALID_SOCKET_VALUE;
-    }
 
     state = ok;
-    return to_log4cplus_socket (sock);
+    return to_log4cplus_socket (sock_holder.detach ());
 }
 
 
