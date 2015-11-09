@@ -41,6 +41,7 @@ env:
     CXXFLAGS="" SWIG_FLAGS=""
 before_install:
   - lsb_release -a
+  - git submodule update --init --recursive
 before_script:
   - |
       case "$CXX" in #(
