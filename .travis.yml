@@ -6,8 +6,8 @@ compiler:
 addons: &addons
   apt:
     packages: &packages
-      - g++-5.2
-      - gcc-5.2
+      - g++-5
+      - gcc-5
       - clang-3.7
       - swig
       - python
@@ -43,14 +43,14 @@ before_install:
 before_script:
   - |
       case "$CXX" in #(
-      g++*) CXX=g++-5.2 #(
+      g++*) CXX=g++-5 #(
       ;;
       clang++*) CXX=clang++-3.7
       ;;
       esac
   - |
       case "$CC" in #(
-      gcc*) CXX=gcc-5.2 #(
+      gcc*) CXX=gcc-5 #(
       ;;
       clang*) CXX=clang-3.7
       ;;
