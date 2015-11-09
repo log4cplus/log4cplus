@@ -9,6 +9,7 @@ addons: &addons
       - g++-5
       - gcc-5
       - clang-3.7
+      - libstdc++-5-dev
       - swig
       - python
       - qtbase5-dev
