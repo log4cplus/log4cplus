@@ -41,18 +41,20 @@ env:
 before_install:
   - lsb_release -a
 before_script:
-  - case "$CXX" in #(
+  - |
+      case "$CXX" in #(
       g++*) CXX=g++-5.2 #(
       ;;
       clang++*) CXX=clang++-3.7
       ;;
-    esac
-  - case "$CC" in #(
+      esac
+  - |
+      case "$CC" in #(
       gcc*) CXX=gcc-5.2 #(
       ;;
       clang*) CXX=clang-3.7
       ;;
-    esac
+      esac
   - export CXX CC
   - sh ./scripts/fix-timestamps.sh
   - mkdir objdir
