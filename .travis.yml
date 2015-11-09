@@ -51,9 +51,9 @@ before_script:
       esac
   - |
       case "$CC" in #(
-      gcc*) CXX=gcc-5 #(
+      gcc*) CC=gcc-5 #(
       ;;
-      clang*) CXX=clang-3.7
+      clang*) CC=clang-3.7
       ;;
       esac
   - export CXX CC
