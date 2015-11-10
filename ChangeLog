@@ -1,3 +1,14 @@
+log4cplus 1.2.0-RC5
+-------------------
+
+  - Various scripts and documentation cleanups.
+
+  - Fix sockets and memory leak in loggingserver discussed in GitHub
+    issue #112.
+
+  - CMake improvements.
+
+
 log4cplus 1.2.0-RC4
 -------------------
 
