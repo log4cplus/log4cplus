@@ -41,7 +41,7 @@ namespace log4cplus {
                            not_opened,
                            bad_address,
                            connection_failed,
-                           broken_pipe, 
+                           broken_pipe,
                            invalid_access_mode,
                            message_truncated,
                            accept_interrupted
@@ -63,7 +63,7 @@ namespace log4cplus {
             /// Close socket
             virtual void close();
             virtual bool isOpen() const;
-            virtual void shutdown(); 
+            virtual void shutdown();
             AbstractSocket& operator=(const AbstractSocket& rhs);
 
         protected:

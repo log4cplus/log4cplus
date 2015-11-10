@@ -51,7 +51,7 @@
 #if defined (LOG4CPLUS_HAVE_ARPA_INET_H)
 #include <arpa/inet.h>
 #endif
- 
+
 #if defined (LOG4CPLUS_HAVE_ERRNO_H)
 #include <errno.h>
 #endif
@@ -76,7 +76,7 @@
 namespace log4cplus { namespace helpers {
 
 // from lockfile.cxx
-LOG4CPLUS_PRIVATE bool trySetCloseOnExec (int fd, 
+LOG4CPLUS_PRIVATE bool trySetCloseOnExec (int fd,
     helpers::LogLog & loglog = helpers::getLogLog ());
 
 
@@ -115,7 +115,7 @@ get_host_by_name (char const * hostname, std::string * name,
 
     struct addrinfo const & ai = *res;
     assert (ai.ai_family == AF_INET);
-    
+
     if (name)
         *name = ai.ai_canonname;
 
@@ -162,8 +162,8 @@ get_host_by_name (char const * hostname, std::string * name,
 SOCKET_TYPE
 openSocket(unsigned short port, SocketState& state)
 {
-    int sock = ::socket(AF_INET, SOCK_STREAM, 0);
-    if(sock < 0) {
+    socket_holder sock_holder (::socket(AF_INET, SOCK_STREAM, 0));
+    if(sock_holder.sock < 0) {
         return INVALID_SOCKET_VALUE;
     }
 
@@ -174,7 +174,8 @@ openSocket(unsigned short port, SocketState& state)
 
     int optval = 1;
     socklen_t optlen = sizeof (optval);
-    int ret = setsockopt( sock, SOL_SOCKET, SO_REUSEADDR, &optval, optlen );
+    int ret = setsockopt (sock_holder.sock, SOL_SOCKET, SO_REUSEADDR, &optval,
+        optlen);
     if (ret != 0)
     {
         int const eno = errno;
@@ -182,20 +183,16 @@ openSocket(unsigned short port, SocketState& state)
             + helpers::convertIntegerToString (eno));
     }
 
-    int retval = bind(sock, reinterpret_cast<struct sockaddr*>(&server),
-        sizeof(server));
+    int retval = bind(sock_holder.sock,
+        reinterpret_cast<struct sockaddr*>(&server), sizeof(server));
     if (retval < 0)
-        goto error;
+        return INVALID_SOCKET_VALUE;
 
-    if (::listen(sock, 10))
-        goto error;
+    if (::listen(sock_holder.sock, 10))
+        return INVALID_SOCKET_VALUE;
 
     state = ok;
-    return to_log4cplus_socket (sock);
-
-error:
-    close (sock);
-    return INVALID_SOCKET_VALUE;
+    return to_log4cplus_socket (sock_holder.detach ());
 }
 
 
@@ -203,7 +200,6 @@ SOCKET_TYPE
 connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& state)
 {
     struct sockaddr_in server;
-    int sock;
     int retval;
 
     std::memset (&server, 0, sizeof (server));
@@ -215,26 +211,23 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& 
     server.sin_port = htons(port);
     server.sin_family = AF_INET;
 
-    sock = ::socket(AF_INET, (udp ? SOCK_DGRAM : SOCK_STREAM), 0);
-    if(sock < 0) {
+    socket_holder sock_holder (
+        ::socket(AF_INET, (udp ? SOCK_DGRAM : SOCK_STREAM), 0));
+    if (sock_holder.sock < 0)
         return INVALID_SOCKET_VALUE;
-    }
 
     socklen_t namelen = sizeof (server);
     while (
-        (retval = ::connect(sock, reinterpret_cast<struct sockaddr*>(&server),
-            namelen))
+        (retval = ::connect(sock_holder.sock,
+            reinterpret_cast<struct sockaddr*>(&server), namelen))
         == -1
         && (errno == EINTR))
         ;
-    if (retval == INVALID_OS_SOCKET_VALUE) 
-    {
-        ::close(sock);
+    if (retval == INVALID_OS_SOCKET_VALUE)
         return INVALID_SOCKET_VALUE;
-    }
 
     state = ok;
-    return to_log4cplus_socket (sock);
+    return to_log4cplus_socket (sock_holder.detach ());
 }
 
 
@@ -290,7 +283,7 @@ acceptSocket(SOCKET_TYPE sock, SocketState& state)
 
     while(
         (clientSock = accept_wrap (accept, to_os_socket (sock),
-            reinterpret_cast<struct sockaddr*>(&net_client), &len)) 
+            reinterpret_cast<struct sockaddr*>(&net_client), &len))
         == -1
         && (errno == EINTR))
         ;
@@ -322,9 +315,9 @@ long
 read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
     long res, readbytes = 0;
- 
+
     do
-    { 
+    {
         res = ::read(to_os_socket (sock), buffer.getBuffer() + readbytes,
             buffer.getMaxSize() - readbytes);
         if( res <= 0 ) {
@@ -332,7 +325,7 @@ read(SOCKET_TYPE sock, SocketBuffer& buffer)
         }
         readbytes += res;
     } while( readbytes < static_cast<long>(buffer.getMaxSize()) );
- 
+
     return readbytes;
 }
 
@@ -417,7 +410,7 @@ setTCPNoDelay (SOCKET_TYPE sock, bool val)
     if ((result = setsockopt(sock, level, TCP_NODELAY, &enabled,
                 sizeof(enabled))) != 0)
         set_last_socket_error (errno);
-    
+
     return result;
 
 #else
@@ -495,7 +488,7 @@ ServerSocket::accept ()
     {
         interrupt_pipe.revents = 0;
         accept_fd.revents = 0;
-        
+
         int ret = poll (pollfds, 2, -1);
         switch (ret)
         {
@@ -504,7 +497,7 @@ ServerSocket::accept ()
             if (errno == EINTR)
                 // Signal has interrupted the call. Just re-run it.
                 continue;
-            
+
             set_last_socket_error (errno);
             return Socket (INVALID_SOCKET_VALUE, not_opened, errno);
 
@@ -536,7 +529,7 @@ ServerSocket::accept ()
                 }
 
                 // Return Socket with state set to accept_interrupted.
-                
+
                 return Socket (INVALID_SOCKET_VALUE, accept_interrupted, 0);
             }
             else if ((accept_fd.revents & POLLIN) == POLLIN)
@@ -550,7 +543,7 @@ ServerSocket::accept ()
                 int eno = 0;
                 if (clientSock == INVALID_SOCKET_VALUE)
                     eno = get_last_socket_error ();
-                
+
                 return Socket (clientSock, st, eno);
             }
             else
