@@ -617,8 +617,7 @@ extern "C"
 
 // This magic has been pieced together from several sources:
 // - <http://www.nynaeve.net/?p=183>
-// - <http://lists.cs.uiuc.edu/pipermail/cfe-dev/2011-November/018818.html>
-//   (dead link)
+// - <http://lists.llvm.org/pipermail/cfe-dev/2011-November/018818.html>
 
 #pragma data_seg (push, old_seg)
 #ifdef _WIN64
