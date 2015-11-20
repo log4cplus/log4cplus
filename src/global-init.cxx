@@ -504,6 +504,15 @@ threadCleanup ()
 }
 
 
+static
+void
+freeTLSSlot ()
+{
+    thread::impl::tls_cleanup(internal::tls_storage_key);
+    internal::tls_storage_key = thread::impl::tls_key_type();
+}
+
+
 #if defined (_WIN32)
 static
 VOID CALLBACK
@@ -565,10 +574,8 @@ thread_callback (LPVOID /*hinstDLL*/, DWORD fdwReason, LPVOID /*lpReserved*/)
 
         // Do thread-specific cleanup.
         log4cplus::threadCleanup ();
-#if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
-        log4cplus::thread::impl::tls_cleanup (
-            log4cplus::internal::tls_storage_key);
-#endif
+        log4cplus::freeTLSSlot();
+
         break;
     }
 
@@ -586,12 +593,13 @@ unit_tests_main (int argc, char * argv[])
     return Catch::Session ().run (argc, argv);
 }
 
-#endif
+#endif // defined (LOG4CPLUS_WITH_UNIT_TESTS)
 
 } // namespace log4cplus
 
 
-#if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL) && defined (_DLL)
+#if defined (_WIN32)
+#if defined (LOG4CPLUS_BUILD_DLL) && defined (_DLL)
 extern "C"
 BOOL
 WINAPI
@@ -603,8 +611,7 @@ DllMain (LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL, DWORD fdwReason,
     return TRUE;  // Successful DLL_PROCESS_ATTACH.
 }
 
-#elif defined (_WIN32) \
-    && defined (_MSC_VER) && _MSC_VER >= 1400 && defined (_DLL)
+#elif defined (_MSC_VER) && _MSC_VER >= 1400 && defined (_DLL)
 extern "C"
 {
 
@@ -631,7 +638,8 @@ PIMAGE_TLS_CALLBACK log4cplus_p_thread_callback = log4cplus::thread_callback;
 
 } // extern "C"
 
-#elif defined (_WIN32)
+#endif
+
 namespace {
 
 struct _static_log4cplus_initializer
@@ -651,16 +659,14 @@ struct _static_log4cplus_initializer
     {
         // Last thread cleanup.
         log4cplus::threadCleanup ();
-#if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
-    log4cplus::thread::impl::tls_cleanup (
-        log4cplus::internal::tls_storage_key);
-#endif
+        log4cplus::freeTLSSlot();
     }
 } static initializer;
 
 } // namespace
 
-#else
+
+#else // defined (WIN32)
 namespace {
 
 static void
@@ -683,9 +689,7 @@ struct _static_log4cplus_initializer
     {
         // Last thread cleanup.
         log4cplus::threadCleanup ();
-
-        log4cplus::thread::impl::tls_cleanup (
-            log4cplus::internal::tls_storage_key);
+        log4cplus::freeTLSSlot();
     }
 } static initializer
 LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE);
