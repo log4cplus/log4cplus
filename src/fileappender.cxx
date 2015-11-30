@@ -632,9 +632,10 @@ RollingFileAppender::rollover(bool alreadyLocked)
 
 DailyRollingFileAppender::DailyRollingFileAppender(
     const tstring& filename_, DailyRollingFileSchedule schedule_,
-    bool immediateFlush_, int maxBackupIndex_, bool createDirs_)
+    bool immediateFlush_, int maxBackupIndex_, bool createDirs_,
+    const tstring& rotatePattern_)
     : FileAppender(filename_, std::ios_base::app, immediateFlush_, createDirs_)
-    , maxBackupIndex(maxBackupIndex_)
+    , maxBackupIndex(maxBackupIndex_), rotatePattern(rotatePattern_)
 {
     init(schedule_);
 }
@@ -669,7 +670,8 @@ DailyRollingFileAppender::DailyRollingFileAppender(
             + properties.getProperty(LOG4CPLUS_TEXT("Schedule")));
         theSchedule = DAILY;
     }
-    
+
+    properties.getString (rotatePattern, LOG4CPLUS_TEXT("RotatePattern"));
     properties.getInt (maxBackupIndex, LOG4CPLUS_TEXT("MaxBackupIndex"));
 
     init(theSchedule);
@@ -929,38 +931,41 @@ tstring
 DailyRollingFileAppender::getFilename(const Time& t) const
 {
     tchar const * pattern = 0;
-    switch (schedule)
-    {
-    case MONTHLY:
-        pattern = LOG4CPLUS_TEXT("%Y-%m");
-        break;
+    if (rotatePattern.empty()) {
+        switch (schedule)
+        {
+        case MONTHLY:
+            pattern = LOG4CPLUS_TEXT("%Y-%m");
+            break;
 
-    case WEEKLY:
-        pattern = LOG4CPLUS_TEXT("%Y-%W");
-        break;
+        case WEEKLY:
+            pattern = LOG4CPLUS_TEXT("%Y-%W");
+            break;
 
-    default:
-        helpers::getLogLog ().error (
-            LOG4CPLUS_TEXT ("DailyRollingFileAppender::getFilename()-")
-            LOG4CPLUS_TEXT (" invalid schedule value"));
-        // Fall through.
+        default:
+            helpers::getLogLog ().error (
+                LOG4CPLUS_TEXT ("DailyRollingFileAppender::getFilename()-")
+                LOG4CPLUS_TEXT (" invalid schedule value"));
+            // Fall through.
 
-    case DAILY:
-        pattern = LOG4CPLUS_TEXT("%Y-%m-%d");
-        break;
+        case DAILY:
+            pattern = LOG4CPLUS_TEXT("%Y-%m-%d");
+            break;
 
-    case TWICE_DAILY:
-        pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%p");
-        break;
+        case TWICE_DAILY:
+            pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%p");
+            break;
 
-    case HOURLY:
-        pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%H");
-        break;
+        case HOURLY:
+            pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%H");
+            break;
 
-    case MINUTELY:
-        pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%H-%M");
-        break;
-    };
+        case MINUTELY:
+            pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%H-%M");
+            break;
+        };
+    } else
+        pattern = rotatePattern.c_str();
 
     tstring result (filename);
     result += LOG4CPLUS_TEXT(".");

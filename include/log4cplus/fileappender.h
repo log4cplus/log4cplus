@@ -285,6 +285,13 @@ namespace log4cplus
      * single logging period; e.g. how many <tt>log.2009-11-07.1</tt>,
      * <tt>log.2009-11-07.2</tt> etc. files are kept.</dd>
      *
+     * <dt><tt>RotatePattern</tt></dt>
+     * <dd>This property specifies filename suffix pattern to use for
+     * periodical backups of the logfile. The patern should be in
+     * format supported by {@link log4cplus::helpers::Time::getFormatterTime()}</code>.</dd>
+     * If the property isn't specified a reasonable default for a given
+     * schedule type is used.
+     *
      * </dl>
      */
     class LOG4CPLUS_EXPORT DailyRollingFileAppender : public FileAppender {
@@ -294,7 +301,8 @@ namespace log4cplus
                                  DailyRollingFileSchedule schedule = DAILY,
                                  bool immediateFlush = true,
                                  int maxBackupIndex = 10,
-                                 bool createDirs = false);
+                                 bool createDirs = false,
+                                 const log4cplus::tstring& rotatePattern = log4cplus::tstring());
         DailyRollingFileAppender(const log4cplus::helpers::Properties& properties);
 
       // Dtor
@@ -314,6 +322,7 @@ namespace log4cplus
         log4cplus::tstring scheduledFilename;
         log4cplus::helpers::Time nextRolloverTime;
         int maxBackupIndex;
+        log4cplus::tstring rotatePattern;
 
     private:
         LOG4CPLUS_PRIVATE void init(DailyRollingFileSchedule schedule);
