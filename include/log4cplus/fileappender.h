@@ -285,6 +285,12 @@ namespace log4cplus
      * single logging period; e.g. how many <tt>log.2009-11-07.1</tt>,
      * <tt>log.2009-11-07.2</tt> etc. files are kept.</dd>
      *
+     * <dt><tt>RollOnClose</tt></dt>
+     * <dd>This property specifies whether to rollover log files upon
+     * shutdown. By default it's set to <code>true</code> to retain compatibility
+     * with legacy code, however it may lead to undesired behaviour
+     * as described in the github issue #120.</dd>
+     *
      * </dl>
      */
     class LOG4CPLUS_EXPORT DailyRollingFileAppender : public FileAppender {
@@ -294,7 +300,8 @@ namespace log4cplus
                                  DailyRollingFileSchedule schedule = DAILY,
                                  bool immediateFlush = true,
                                  int maxBackupIndex = 10,
-                                 bool createDirs = false);
+                                 bool createDirs = false,
+                                 bool rollOnClose = true);
         DailyRollingFileAppender(const log4cplus::helpers::Properties& properties);
 
       // Dtor
@@ -314,6 +321,7 @@ namespace log4cplus
         log4cplus::tstring scheduledFilename;
         log4cplus::helpers::Time nextRolloverTime;
         int maxBackupIndex;
+        bool rollOnClose;
 
     private:
         LOG4CPLUS_PRIVATE void init(DailyRollingFileSchedule schedule);

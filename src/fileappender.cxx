@@ -632,9 +632,10 @@ RollingFileAppender::rollover(bool alreadyLocked)
 
 DailyRollingFileAppender::DailyRollingFileAppender(
     const tstring& filename_, DailyRollingFileSchedule schedule_,
-    bool immediateFlush_, int maxBackupIndex_, bool createDirs_)
+    bool immediateFlush_, int maxBackupIndex_, bool createDirs_,
+    bool rollOnClose_)
     : FileAppender(filename_, std::ios_base::app, immediateFlush_, createDirs_)
-    , maxBackupIndex(maxBackupIndex_)
+    , maxBackupIndex(maxBackupIndex_), rollOnClose(rollOnClose_)
 {
     init(schedule_);
 }
@@ -645,6 +646,7 @@ DailyRollingFileAppender::DailyRollingFileAppender(
     const Properties& properties)
     : FileAppender(properties, std::ios_base::app)
     , maxBackupIndex(10)
+    , rollOnClose(true)
 {
     DailyRollingFileSchedule theSchedule = DAILY;
     tstring scheduleStr (helpers::toUpper (
@@ -669,7 +671,8 @@ DailyRollingFileAppender::DailyRollingFileAppender(
             + properties.getProperty(LOG4CPLUS_TEXT("Schedule")));
         theSchedule = DAILY;
     }
-    
+
+    properties.getBool (rollOnClose, LOG4CPLUS_TEXT("RollOnClose"));
     properties.getInt (maxBackupIndex, LOG4CPLUS_TEXT("MaxBackupIndex"));
 
     init(theSchedule);
@@ -773,7 +776,8 @@ DailyRollingFileAppender::~DailyRollingFileAppender()
 void
 DailyRollingFileAppender::close()
 {
-    rollover();
+    if (rollOnClose)
+        rollover();
     FileAppender::close();
 }
 
