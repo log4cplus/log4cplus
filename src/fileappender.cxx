@@ -1159,12 +1159,14 @@ TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     int maxHistory_,
     bool cleanHistoryOnStart_,
     bool immediateFlush_,
-    bool createDirs_)
+    bool createDirs_,
+    bool rollOnClose_)
     : FileAppenderBase(filename_, std::ios_base::app, immediateFlush_, createDirs_)
     , filenamePattern(filenamePattern_)
     , schedule(DAILY)
     , maxHistory(maxHistory_)
     , cleanHistoryOnStart(cleanHistoryOnStart_)
+    , rollOnClose(rollOnClose_)
 { }
 
 TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
@@ -1174,10 +1176,12 @@ TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     , schedule(DAILY)
     , maxHistory(10)
     , cleanHistoryOnStart(false)
+    , rollOnClose(true)
 {
     filenamePattern = properties.getProperty(LOG4CPLUS_TEXT("FilenamePattern"));
     properties.getInt(maxHistory, LOG4CPLUS_TEXT("MaxHistory"));
     properties.getBool(cleanHistoryOnStart, LOG4CPLUS_TEXT("CleanHistoryOnStart"));
+    properties.getBool(rollOnClose, LOG4CPLUS_TEXT("RollOnClose"));
     filenamePattern = preprocessFilenamePattern(filenamePattern, schedule);
 
     init();
@@ -1245,7 +1249,8 @@ TimeBasedRollingFileAppender::open(std::ios_base::openmode mode)
 void
 TimeBasedRollingFileAppender::close()
 {
-    rollover();
+    if (rollOnClose)
+        rollover();
     FileAppenderBase::close();
 }
 

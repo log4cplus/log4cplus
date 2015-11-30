@@ -357,6 +357,12 @@ namespace log4cplus
      * <dd>If set to true, archive removal will be executed on appender start
      * up.  By default this property is set to false. </dd>
      *
+     * <dt><tt>RollOnClose</tt></dt>
+     * <dd>This property specifies whether to rollover log files upon
+     * shutdown. By default it's set to <code>true</code> to retain compatibility
+     * with legacy code, however it may lead to undesired behaviour
+     * as described in the github issue #120.</dd>
+     *
      * </dl>
      */
     class LOG4CPLUS_EXPORT TimeBasedRollingFileAppender : public FileAppenderBase {
@@ -367,7 +373,8 @@ namespace log4cplus
                                      int maxHistory = 10,
                                      bool cleanHistoryOnStart = false,
                                      bool immediateFlush = true,
-                                     bool createDirs = false);
+                                     bool createDirs = false,
+                                     bool rollOnClose = true);
         TimeBasedRollingFileAppender(const helpers::Properties& properties);
 
       // Dtor
@@ -390,6 +397,7 @@ namespace log4cplus
         bool cleanHistoryOnStart;
         helpers::Time lastHeartBeat;
         helpers::Time nextRolloverTime;
+        bool rollOnClose;
 
     private:
         LOG4CPLUS_PRIVATE void init();
