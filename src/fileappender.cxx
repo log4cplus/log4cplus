@@ -632,9 +632,11 @@ RollingFileAppender::rollover(bool alreadyLocked)
 
 DailyRollingFileAppender::DailyRollingFileAppender(
     const tstring& filename_, DailyRollingFileSchedule schedule_,
-    bool immediateFlush_, int maxBackupIndex_, bool createDirs_)
+    bool immediateFlush_, int maxBackupIndex_, bool createDirs_,
+    bool rollOnClose_, const tstring& datePattern_)
     : FileAppender(filename_, std::ios_base::app, immediateFlush_, createDirs_)
-    , maxBackupIndex(maxBackupIndex_)
+    , maxBackupIndex(maxBackupIndex_), rollOnClose(rollOnClose_)
+    , datePattern(datePattern_)
 {
     init(schedule_);
 }
@@ -645,6 +647,7 @@ DailyRollingFileAppender::DailyRollingFileAppender(
     const Properties& properties)
     : FileAppender(properties, std::ios_base::app)
     , maxBackupIndex(10)
+    , rollOnClose(true)
 {
     DailyRollingFileSchedule theSchedule = DAILY;
     tstring scheduleStr (helpers::toUpper (
@@ -669,7 +672,9 @@ DailyRollingFileAppender::DailyRollingFileAppender(
             + properties.getProperty(LOG4CPLUS_TEXT("Schedule")));
         theSchedule = DAILY;
     }
-    
+
+    properties.getBool (rollOnClose, LOG4CPLUS_TEXT("RollOnClose"));
+    properties.getString (datePattern, LOG4CPLUS_TEXT("DatePattern"));
     properties.getInt (maxBackupIndex, LOG4CPLUS_TEXT("MaxBackupIndex"));
 
     init(theSchedule);
@@ -773,7 +778,8 @@ DailyRollingFileAppender::~DailyRollingFileAppender()
 void
 DailyRollingFileAppender::close()
 {
-    rollover();
+    if (rollOnClose)
+        rollover();
     FileAppender::close();
 }
 
@@ -929,38 +935,41 @@ tstring
 DailyRollingFileAppender::getFilename(const Time& t) const
 {
     tchar const * pattern = 0;
-    switch (schedule)
-    {
-    case MONTHLY:
-        pattern = LOG4CPLUS_TEXT("%Y-%m");
-        break;
+    if (datePattern.empty()) {
+        switch (schedule)
+        {
+        case MONTHLY:
+            pattern = LOG4CPLUS_TEXT("%Y-%m");
+            break;
 
-    case WEEKLY:
-        pattern = LOG4CPLUS_TEXT("%Y-%W");
-        break;
+        case WEEKLY:
+            pattern = LOG4CPLUS_TEXT("%Y-%W");
+            break;
 
-    default:
-        helpers::getLogLog ().error (
-            LOG4CPLUS_TEXT ("DailyRollingFileAppender::getFilename()-")
-            LOG4CPLUS_TEXT (" invalid schedule value"));
-        // Fall through.
+        default:
+            helpers::getLogLog ().error (
+                LOG4CPLUS_TEXT ("DailyRollingFileAppender::getFilename()-")
+                LOG4CPLUS_TEXT (" invalid schedule value"));
+            // Fall through.
 
-    case DAILY:
-        pattern = LOG4CPLUS_TEXT("%Y-%m-%d");
-        break;
+        case DAILY:
+            pattern = LOG4CPLUS_TEXT("%Y-%m-%d");
+            break;
 
-    case TWICE_DAILY:
-        pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%p");
-        break;
+        case TWICE_DAILY:
+            pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%p");
+            break;
 
-    case HOURLY:
-        pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%H");
-        break;
+        case HOURLY:
+            pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%H");
+            break;
 
-    case MINUTELY:
-        pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%H-%M");
-        break;
-    };
+        case MINUTELY:
+            pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%H-%M");
+            break;
+        };
+    } else
+        pattern = datePattern.c_str();
 
     tstring result (filename);
     result += LOG4CPLUS_TEXT(".");
@@ -1155,12 +1164,14 @@ TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     int maxHistory_,
     bool cleanHistoryOnStart_,
     bool immediateFlush_,
-    bool createDirs_)
+    bool createDirs_,
+    bool rollOnClose_)
     : FileAppenderBase(filename_, std::ios_base::app, immediateFlush_, createDirs_)
     , filenamePattern(filenamePattern_)
     , schedule(DAILY)
     , maxHistory(maxHistory_)
     , cleanHistoryOnStart(cleanHistoryOnStart_)
+    , rollOnClose(rollOnClose_)
 { }
 
 TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
@@ -1170,10 +1181,12 @@ TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     , schedule(DAILY)
     , maxHistory(10)
     , cleanHistoryOnStart(false)
+    , rollOnClose(true)
 {
     filenamePattern = properties.getProperty(LOG4CPLUS_TEXT("FilenamePattern"));
     properties.getInt(maxHistory, LOG4CPLUS_TEXT("MaxHistory"));
     properties.getBool(cleanHistoryOnStart, LOG4CPLUS_TEXT("CleanHistoryOnStart"));
+    properties.getBool(rollOnClose, LOG4CPLUS_TEXT("RollOnClose"));
     filenamePattern = preprocessFilenamePattern(filenamePattern, schedule);
 
     init();
@@ -1241,7 +1254,8 @@ TimeBasedRollingFileAppender::open(std::ios_base::openmode mode)
 void
 TimeBasedRollingFileAppender::close()
 {
-    rollover();
+    if (rollOnClose)
+        rollover();
     FileAppenderBase::close();
 }
 
