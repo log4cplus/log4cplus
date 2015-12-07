@@ -69,7 +69,7 @@ namespace
 long const LOG4CPLUS_FILE_NOT_FOUND = ENOENT;
 
 
-static 
+static
 long
 file_rename (tstring const & src, tstring const & target)
 {
@@ -118,8 +118,8 @@ loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
     if (ret == 0)
     {
         loglog.debug (
-            LOG4CPLUS_TEXT("Renamed file ") 
-            + src 
+            LOG4CPLUS_TEXT("Renamed file ")
+            + src
             + LOG4CPLUS_TEXT(" to ")
             + target);
     }
@@ -145,7 +145,7 @@ loglog_opening_result (helpers::LogLog & loglog,
     if (! os)
     {
         loglog.error (
-            LOG4CPLUS_TEXT("Failed to open file ") 
+            LOG4CPLUS_TEXT("Failed to open file ")
             + filename);
     }
 }
@@ -342,11 +342,11 @@ FileAppenderBase::append(const spi::InternalLoggingEvent& event)
 {
     if(!out.good()) {
         if(!reopen()) {
-            getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ") 
+            getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ")
                                      + filename);
             return;
         }
-        // Resets the error handler to make it 
+        // Resets the error handler to make it
         // ready to handle a future append error.
         else
             getErrorHandler()->reset();
@@ -557,7 +557,7 @@ RollingFileAppender::rollover(bool alreadyLocked)
     out.close();
     // Reset flags since the C++ standard specified that all the flags
     // should remain unchanged on a close.
-    out.clear(); 
+    out.clear();
 
     if (useLockFile)
     {
@@ -608,8 +608,8 @@ RollingFileAppender::rollover(bool alreadyLocked)
 #endif
 
         loglog.debug (
-            LOG4CPLUS_TEXT("Renaming file ") 
-            + filename 
+            LOG4CPLUS_TEXT("Renaming file ")
+            + filename
             + LOG4CPLUS_TEXT(" to ")
             + target);
         ret = file_rename (filename, target);
@@ -856,12 +856,12 @@ DailyRollingFileAppender::rollover(bool alreadyLocked)
     // possible to rename over existing file, e.g. "log.2009-11-07".
     ret = file_remove (scheduledFilename);
 #endif
-   
+
     // Rename filename to scheduledFilename,
     // e.g. rename "log" to "log.2009-11-07".
     loglog.debug(
         LOG4CPLUS_TEXT("Renaming file ")
-        + filename 
+        + filename
         + LOG4CPLUS_TEXT(" to ")
         + scheduledFilename);
     ret = file_rename (filename, scheduledFilename);
@@ -935,7 +935,8 @@ tstring
 DailyRollingFileAppender::getFilename(const Time& t) const
 {
     tchar const * pattern = 0;
-    if (datePattern.empty()) {
+    if (datePattern.empty())
+    {
         switch (schedule)
         {
         case MONTHLY:
@@ -968,7 +969,8 @@ DailyRollingFileAppender::getFilename(const Time& t) const
             pattern = LOG4CPLUS_TEXT("%Y-%m-%d-%H-%M");
             break;
         };
-    } else
+    }
+    else
         pattern = datePattern.c_str();
 
     tstring result (filename);
