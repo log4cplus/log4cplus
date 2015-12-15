@@ -171,18 +171,13 @@ struct socket_holder
         return s;
     }
 
-#if defined (LOG4CPLUS_HAVE_CXX11_SUPPORT)
-    socket_holder (socket_holder &&) = delete;
-    socket_holder (socket_holder const &) = delete;
-
-    socket_holder operator = (socket_holder &&) = delete;
-    socket_holder operator = (socket_holder const &) = delete;
-
-#else
 private:
     socket_holder (socket_holder const &);
     socket_holder operator = (socket_holder const &);
 
+#if defined (LOG4CPLUS_HAVE_CXX11_SUPPORT)
+    socket_holder (socket_holder &&);
+    socket_holder operator = (socket_holder &&);
 #endif
 };
 
