@@ -89,7 +89,8 @@ init_winsock_worker ()
         // Wait for state change.
         while (true)
         {
-            switch (winsock_state)
+            LONG state = InterlockedAdd (&winsock_state, 0);
+            switch (state)
             {
             case WS_INITIALIZED:
                 return;
