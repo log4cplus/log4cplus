@@ -1323,12 +1323,12 @@ TimeBasedRollingFileAppender::clean(Time time)
     interval += Time(1);
 
     int periodDuration = getRolloverPeriodDuration();
-    int periods = interval.sec() / periodDuration;
+    long periods = static_cast<long>(interval.sec() / periodDuration);
 
     helpers::LogLog & loglog = helpers::getLogLog();
-    for (int i = 0; i < periods; i++)
+    for (long i = 0; i < periods; i++)
     {
-        int periodToRemove = (-maxHistory - 1) - i;
+        long periodToRemove = (-maxHistory - 1) - i;
         Time timeToRemove = time + Time(periodToRemove * periodDuration);
         tstring filenameToRemove = timeToRemove.getFormattedTime(filenamePattern, false);
         loglog.debug(LOG4CPLUS_TEXT("Removing file ") + filenameToRemove);
