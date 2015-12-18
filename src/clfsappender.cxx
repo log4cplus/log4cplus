@@ -214,7 +214,8 @@ CLFSAppender::init (tstring const & logname, unsigned long logsize,
     return;
 
 error:
-    if (data->log_handle != INVALID_HANDLE_VALUE)
+    if (data->log_handle != INVALID_HANDLE_VALUE
+        && data->log_handle)
     {
         CloseHandle (data->log_handle);
         data->log_handle = INVALID_HANDLE_VALUE;
