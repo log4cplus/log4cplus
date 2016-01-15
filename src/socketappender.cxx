@@ -26,6 +26,7 @@
 #include <log4cplus/helpers/sleep.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
+#include <log4cplus/internal/internal.h>
 
 
 namespace log4cplus {
@@ -168,7 +169,7 @@ SocketAppender::~SocketAppender()
 // SocketAppender public methods
 //////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 SocketAppender::close()
 {
     helpers::getLogLog().debug(
@@ -315,8 +316,8 @@ readFromBuffer(SocketBuffer& buffer)
 
     // TODO: Pass MDC through.
     spi::InternalLoggingEvent ev (loggerName, ll, ndc,
-        MappedDiagnosticContextMap (), message, thread, Time(sec, usec), file,
-        line);
+        MappedDiagnosticContextMap (), message, thread, internal::empty_str,
+        Time(sec, usec), file, line);
     ev.setFunction (function);
     return ev;
 }
