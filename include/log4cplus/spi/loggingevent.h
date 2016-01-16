@@ -74,6 +74,16 @@ namespace log4cplus {
                 const log4cplus::tstring& thread,
                 log4cplus::helpers::Time time, const log4cplus::tstring& file,
                 int line, const log4cplus::tstring & function
+                    = log4cplus::tstring ()) LOG4CPLUS_ATTRIBUTE_DEPRECATED;
+
+            InternalLoggingEvent(const log4cplus::tstring& logger,
+                LogLevel loglevel, const log4cplus::tstring& ndc,
+                MappedDiagnosticContextMap const & mdc,
+                const log4cplus::tstring& message,
+                const log4cplus::tstring& thread,
+                const log4cplus::tstring& thread2,
+                log4cplus::helpers::Time time, const log4cplus::tstring& file,
+                int line, const log4cplus::tstring & function
                     = log4cplus::tstring ());
 
             InternalLoggingEvent ();

@@ -25,6 +25,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
+#include <log4cplus/internal/internal.h>
 
 
 namespace log4cplus {
@@ -254,7 +255,7 @@ readFromBuffer(SocketBuffer& buffer)
 
     // TODO: Pass MDC through.
     spi::InternalLoggingEvent ev (loggerName, ll, ndc,
-        MappedDiagnosticContextMap (), message, thread,
+        MappedDiagnosticContextMap (), message, thread, internal::empty_str,
         from_time_t (sec) + chrono::microseconds (usec), file,
         line, function);
     return ev;
