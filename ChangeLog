@@ -1,3 +1,21 @@
+log4cplus 1.2.0-RC6
+-------------------
+
+  - Fixed Visual Studio build issue #322 related to WinSock functions being
+    used and second about C++11 syntax. **This forces minimum version of
+    Windows supported by this release to Windows XP SP2.**
+
+  - Added `DatePattern` property to `DailyRollingFileAppender` configuration
+    -- This property specifies filename suffix pattern to use for periodical
+    backups of the logfile. (Alexey Morozov)
+
+  - Added `RollOnClose` property to `DailyRollingFileAppender` and
+    `TimeBasedRollingFileAppender` configuration -- This property specifies
+    whether to rollover log files upon shutdown. By default it's set to
+    `true` to retain compatibility with legacy code. (Alexey Morozov)
+
+  - Normalized line endings, used `.gitattributes` to enforce it.
+
 log4cplus 1.2.0-RC5
 -------------------
 

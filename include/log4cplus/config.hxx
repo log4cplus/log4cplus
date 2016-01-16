@@ -131,12 +131,14 @@
 #if defined (__GNUC__) && __GNUC__ >= 3
 #  define LOG4CPLUS_ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
 #  define LOG4CPLUS_ATTRIBUTE_PURE __attribute__ ((__pure__))
+#  define LOG4CPLUS_ATTRIBUTE_DEPRECATED __attribute__ ((__deprecated__))
 #  define LOG4CPLUS_BUILTIN_EXPECT(exp, c) __builtin_expect ((exp), (c))
 #else
 #  if ! defined (LOG4CPLUS_ATTRIBUTE_NORETURN)
 #    define LOG4CPLUS_ATTRIBUTE_NORETURN /* empty */
 #  endif
 #  define LOG4CPLUS_ATTRIBUTE_PURE /* empty */
+#  define LOG4CPLUS_ATTRIBUTE_DEPRECATED /* empty */
 #  define LOG4CPLUS_BUILTIN_EXPECT(exp, c) (exp)
 #endif
 
