@@ -270,6 +270,7 @@ InternalLoggingEvent::swap (InternalLoggingEvent & other)
     swap (function, other.function);
     swap (line, other.line);
     swap (threadCached, other.threadCached);
+    swap (thread2Cached, other.thread2Cached);
     swap (ndcCached, other.ndcCached);
 }
 
