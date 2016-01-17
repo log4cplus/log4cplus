@@ -659,6 +659,33 @@ round_time_and_add (Time const & t, Time const & seconds)
 }
 
 
+static
+long
+local_time_offset (Time t)
+{
+    tm time_local, time_gmt;
+
+    t.localtime (&time_local);
+    t.gmtime (&time_gmt);
+
+    t.setTime (&time_local);
+    Time t2 = t;
+
+    t.setTime (&time_gmt);
+    Time t3 = t;
+
+    return t2.sec () - t3.sec ();
+}
+
+
+static
+Time
+adjust_for_time_zone (Time const & t, long tzoffset)
+{
+    return t - Time (tzoffset);
+}
+
+
 } // namespace
 
 
@@ -860,7 +887,10 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
     }
 
     case WEEKLY:
-        return round_time (t, 24 * 60 * 60) + Time (7 * 24 * 60 * 60);
+    {
+        Time next = round_time (t, 24 * 60 * 60) + Time (7 * 24 * 60 * 60);
+        return adjust_for_time_zone (next, local_time_offset (next));
+    }
 
     default:
         helpers::getLogLog ().error (
@@ -869,10 +899,16 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
         // Fall through.
 
     case DAILY:
-        return round_time_and_add (t, Time (24 * 60 * 60));
+    {
+        Time next = round_time_and_add (t, Time (24 * 60 * 60));
+        return adjust_for_time_zone (next, local_time_offset (next));
+    }
 
     case TWICE_DAILY:
-        return round_time_and_add (t, Time (12 * 60 * 60));
+    {
+        Time next = round_time_and_add (t, Time (12 * 60 * 60));
+        return adjust_for_time_zone (next, local_time_offset (next));
+    }
 
     case HOURLY:
         return round_time_and_add (t, Time (60 * 60));
