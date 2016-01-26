@@ -1,3 +1,13 @@
+log4cplus 1.2.0
+---------------
+
+  - Fixed SourceForge bug #324, MinGW compilation issue. Use
+    `InterlockedExchangeAdd` instead of `InterlockedAdd`. The former is
+    supported by older MinGW.
+    
+  - Fixed GitHub bug #137. Fix missing thread's alternative name.
+
+
 log4cplus 1.2.0-RC6
 -------------------
 
@@ -15,6 +25,7 @@ log4cplus 1.2.0-RC6
     `true` to retain compatibility with legacy code. (Alexey Morozov)
 
   - Normalized line endings, used `.gitattributes` to enforce it.
+
 
 log4cplus 1.2.0-RC5
 -------------------
