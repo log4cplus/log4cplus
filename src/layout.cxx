@@ -99,7 +99,7 @@ SimpleLayout::formatAndAppend(log4cplus::tostream& output,
 // log4cplus::TTCCLayout ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-  TTCCLayout::TTCCLayout(bool use_gmtime_, bool thread_printing_,
+TTCCLayout::TTCCLayout(bool use_gmtime_, bool thread_printing_,
       bool category_prefixing_, bool context_printing_)
     : dateFormat()
     , use_gmtime(use_gmtime_)
@@ -114,6 +114,10 @@ TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
     : Layout(properties)
     , dateFormat(properties.getProperty (LOG4CPLUS_TEXT("DateFormat"),
             internal::empty_str))
+    , use_gmtime (false)
+    , thread_printing (true)
+    , category_prefixing (true)
+    , context_printing (true)
 {
     properties.getBool (use_gmtime, LOG4CPLUS_TEXT("Use_gmtime"));
     properties.getBool (thread_printing, LOG4CPLUS_TEXT("ThreadPrinting"));
