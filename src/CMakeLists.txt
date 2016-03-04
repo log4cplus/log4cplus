@@ -115,6 +115,12 @@ else ()
     COMPILE_FLAGS "-DINSIDE_LOG4CPLUS")
 endif ()
 
+if (MINGW)
+  # avoid dependency from mingw libstdc++/libgcc in resulting dll
+  set_target_properties (${log4cplus} PROPERTIES
+    LINK_FLAGS "-static -static-libgcc -static-libstdc++")
+endif ()
+
 if (WIN32)
   set_target_properties (${log4cplus} PROPERTIES
     DEBUG_POSTFIX "D")
