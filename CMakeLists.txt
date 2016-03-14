@@ -25,7 +25,6 @@ set (log4cplus_soversion 0)
 set (log4cplus_postfix "")
 
 option(LOG4CPLUS_BUILD_TESTING "Build the test suite." ON)
-
 option(LOG4CPLUS_BUILD_LOGGINGSERVER "Build the logging server." ON)
 
 if(NOT LOG4CPLUS_SINGLE_THREADED)
@@ -69,6 +68,10 @@ option(WITH_ICONV "Use iconv() for char->wchar_t conversion."
 option(ENABLE_SYMBOLS_VISIBILITY
   "Enable compiler and platform specific options for symbols visibility"
   ON)
+
+if (MINGW)
+  option(LOG4CPLUS_MINGW_STATIC_RUNTIME "Enable MinGW static runtime" OFF)
+endif()
 
 option(WITH_UNIT_TESTS "Enable unit tests" ON)
 if (WITH_UNIT_TESTS)

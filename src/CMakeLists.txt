@@ -115,7 +115,7 @@ else ()
     COMPILE_FLAGS "-DINSIDE_LOG4CPLUS")
 endif ()
 
-if (MINGW)
+if (MINGW AND LOG4CPLUS_MINGW_STATIC_RUNTIME)
   # avoid dependency from mingw libstdc++/libgcc in resulting dll
   set_target_properties (${log4cplus} PROPERTIES
     LINK_FLAGS "-static -static-libgcc -static-libstdc++")
