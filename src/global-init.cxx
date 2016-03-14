@@ -387,9 +387,38 @@ initialize ()
 void
 threadCleanup ()
 {
-    // Do thread-specific cleanup.
-    internal::per_thread_data * ptd = internal::get_ptd (false);
-    delete ptd;
+    // Here we check that we can get CRT's heap handle because if we do not
+    // then the following `delete` will fail with access violation in
+    // `RtlFreeHeap()`.
+    //
+    // How is it possible that the CRT heap handle is NULL?
+    //
+    // This function can be called from TLS initializer/terminator by loader
+    // when log4cplus is compiled and linked to as a static library. In case of
+    // other threads temination, it should do its job and free per-thread
+    // data. However, when the whole process is being terminated, it is called
+    // after the CRT has been uninitialized and the CRT heap is not available
+    // any more. In such case, instead of crashing, we just give up and leak
+    // the memory for the short while before the process terminates anyway.
+    //
+    // It is possible to work around this situation in user application by
+    // calling `threadCleanup()` manually before `main()` exits.
+#if defined (_WIN32)
+    if (_get_heap_handle() != 0)
+    {
+#endif
+        // Do thread-specific cleanup.
+        internal::per_thread_data * ptd = internal::get_ptd (false);
+        delete ptd;
+#if defined (_WIN32)
+    }
+    else
+    {
+        OutputDebugString (
+            LOG4CPLUS_TEXT ("log4cplus: ")
+            LOG4CPLUS_TEXT ("CRT heap is already gone in threadCleanup()\n"));
+    }
+#endif
     internal::set_ptd (0);
 }
 
@@ -463,6 +492,25 @@ thread_callback (LPVOID /*hinstDLL*/, DWORD fdwReason, LPVOID /*lpReserved*/)
     } // switch
 }
 
+
+static
+void NTAPI
+thread_callback_initializer(LPVOID hinstDLL, DWORD fdwReason, LPVOID lpReserved)
+{
+    if (fdwReason == DLL_PROCESS_ATTACH
+        || fdwReason == DLL_THREAD_ATTACH)
+        thread_callback(hinstDLL, fdwReason, lpReserved);
+}
+
+static
+void NTAPI
+thread_callback_terminator(LPVOID hinstDLL, DWORD fdwReason, LPVOID lpReserved)
+{
+    if (fdwReason == DLL_THREAD_DETACH
+        || fdwReason == DLL_PROCESS_DETACH)
+        thread_callback(hinstDLL, fdwReason, lpReserved);
+}
+
 #endif
 
 
@@ -489,22 +537,36 @@ extern "C"
 // This magic has been pieced together from several sources:
 // - <http://www.nynaeve.net/?p=183>
 // - <http://lists.cs.uiuc.edu/pipermail/cfe-dev/2011-November/018818.html>
+// - `internal_shared.h` in CRT source in Visual Studio 2015
 
 #pragma data_seg (push, old_seg)
 #ifdef _WIN64
-#pragma const_seg (".CRT$XLX")
+#pragma const_seg (".CRT$XLY")
 extern const
 #else
-#pragma data_seg (".CRT$XLX")
+#pragma data_seg (".CRT$XLY")
 #endif
-PIMAGE_TLS_CALLBACK log4cplus_p_thread_callback = log4cplus::thread_callback;
+PIMAGE_TLS_CALLBACK log4cplus_p_thread_callback_initializer = log4cplus::thread_callback_initializer;
 #pragma data_seg (pop, old_seg)
+
+#pragma data_seg (push, old_seg)
+#ifdef _WIN64
+#pragma const_seg (".CRT$XLAA")
+extern const
+#else
+#pragma data_seg (".CRT$XLAA")
+#endif
+PIMAGE_TLS_CALLBACK log4cplus_p_thread_callback_terminator = log4cplus::thread_callback_terminator;
+#pragma data_seg (pop, old_seg)
+
 #ifdef _WIN64
 #pragma comment (linker, "/INCLUDE:_tls_used")
-#pragma comment (linker, "/INCLUDE:log4cplus_p_thread_callback")
+#pragma comment (linker, "/INCLUDE:log4cplus_p_thread_callback_initializer")
+#pragma comment (linker, "/INCLUDE:log4cplus_p_thread_callback_terminator")
 #else
 #pragma comment (linker, "/INCLUDE:__tls_used")
-#pragma comment (linker, "/INCLUDE:_log4cplus_p_thread_callback")
+#pragma comment (linker, "/INCLUDE:_log4cplus_p_thread_callback_initializer")
+#pragma comment (linker, "/INCLUDE:_log4cplus_p_thread_callback_terminator")
 #endif
 
 } // extern "C"
