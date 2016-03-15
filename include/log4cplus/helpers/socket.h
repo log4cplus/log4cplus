@@ -109,7 +109,8 @@ namespace log4cplus {
          */
         class LOG4CPLUS_EXPORT ServerSocket : public AbstractSocket {
         public:
-            ServerSocket(unsigned short port, bool udp = false, bool ipv6 = false);
+            ServerSocket(unsigned short port, bool udp = false,
+                bool ipv6 = false, tstring const & host = tstring ());
             ServerSocket(ServerSocket &&);
             virtual ~ServerSocket();
 
@@ -126,6 +127,9 @@ namespace log4cplus {
 
         LOG4CPLUS_EXPORT SOCKET_TYPE openSocket(unsigned short port, bool udp,
             bool ipv6, SocketState& state);
+        LOG4CPLUS_EXPORT SOCKET_TYPE openSocket(tstring const & host,
+            unsigned short port, bool udp, bool ipv6, SocketState& state);
+
         LOG4CPLUS_EXPORT SOCKET_TYPE connectSocket(const log4cplus::tstring& hostn,
             unsigned short port, bool udp, bool ipv6, SocketState& state);
         LOG4CPLUS_EXPORT SOCKET_TYPE acceptSocket(SOCKET_TYPE sock, SocketState& state);

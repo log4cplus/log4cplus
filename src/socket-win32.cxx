@@ -30,6 +30,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/internal/internal.h>
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -164,7 +165,8 @@ namespace log4cplus { namespace helpers {
 /////////////////////////////////////////////////////////////////////////////
 
 SOCKET_TYPE
-openSocket(unsigned short port, bool udp, bool ipv6, SocketState& state)
+openSocket(tstring const & host, unsigned short port, bool udp, bool ipv6,
+    SocketState& state)
 {
     ADDRINFOT addr_info_hints{};
     PADDRINFOT ai = nullptr;
@@ -187,8 +189,8 @@ openSocket(unsigned short port, bool udp, bool ipv6, SocketState& state)
     addr_info_hints.ai_socktype = socket_type;
     addr_info_hints.ai_protocol = protocol;
     addr_info_hints.ai_flags = AI_PASSIVE;
-    retval = GetAddrInfo(nullptr, port_str.c_str(), &addr_info_hints,
-        &ai);
+    retval = GetAddrInfo (host.empty () ? nullptr : host.c_str (),
+        port_str.c_str (), &addr_info_hints, &ai);
     if (retval != 0)
     {
         set_last_socket_error(retval);
@@ -525,9 +527,14 @@ socketEventHandlingCleanup (SOCKET_TYPE s, HANDLE ev)
 
 
 ServerSocket::ServerSocket(unsigned short port, bool udp /*= false*/,
-    bool ipv6 /*= false*/)
+    bool ipv6 /*= false*/, tstring const & host /*= tstring ()*/)
 {
-    sock = openSocket (port, udp, ipv6, state);
+    // Initialize these here so that we do not try to close invalid handles
+    // in dtor if the following `openSocket()` fails.
+    interruptHandles[0] = 0;
+    interruptHandles[1] = 0;
+
+    sock = openSocket (host, port, udp, ipv6, state);
     if (sock == INVALID_SOCKET_VALUE)
     {
         err = get_last_socket_error ();
@@ -658,7 +665,8 @@ ServerSocket::interruptAccept ()
 
 ServerSocket::~ServerSocket()
 {
-    (void) WSACloseEvent (reinterpret_cast<HANDLE>(interruptHandles[0]));
+    if (interruptHandles[0] != 0)
+        (void) WSACloseEvent(reinterpret_cast<HANDLE>(interruptHandles[0]));
 }
 
 
