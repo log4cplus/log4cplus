@@ -146,7 +146,8 @@ openSocket(tstring const & host, unsigned short port, bool udp, bool ipv6,
     addr_info_hints.ai_socktype = socket_type;
     addr_info_hints.ai_protocol = protocol;
     addr_info_hints.ai_flags = AI_PASSIVE | AI_NUMERICSERV;
-    retval = getaddrinfo (host.empty () ? nullptr : host.c_str (),
+    retval = getaddrinfo (
+        host.empty () ? nullptr : LOG4CPLUS_TSTRING_TO_STRING (host).c_str (),
         port_str.c_str (), &addr_info_hints, &ai);
     if (retval != 0)
     {
