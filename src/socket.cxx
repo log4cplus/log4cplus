@@ -20,6 +20,7 @@
 
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/internal/socket.h>
+#include <log4cplus/internal/internal.h>
 
 
 namespace log4cplus { namespace helpers {
@@ -237,6 +238,17 @@ ServerSocket::swap (ServerSocket & other)
 {
     AbstractSocket::swap (other);
     interruptHandles.swap (other.interruptHandles);
+}
+
+
+//
+//
+//
+
+SOCKET_TYPE
+openSocket(unsigned short port, bool udp, bool ipv6, SocketState& state)
+{
+    return openSocket(log4cplus::internal::empty_str, port, udp, ipv6, state);
 }
 
 

@@ -130,7 +130,8 @@ int const TYPE_SOCK_CLOEXEC =
 
 
 SOCKET_TYPE
-openSocket(unsigned short port, bool udp, bool ipv6, SocketState& state)
+openSocket(tstring const & host, unsigned short port, bool udp, bool ipv6,
+    SocketState& state)
 {
     struct addrinfo addr_info_hints = addrinfo();
     struct addrinfo * ai = nullptr;
@@ -145,7 +146,9 @@ openSocket(unsigned short port, bool udp, bool ipv6, SocketState& state)
     addr_info_hints.ai_socktype = socket_type;
     addr_info_hints.ai_protocol = protocol;
     addr_info_hints.ai_flags = AI_PASSIVE | AI_NUMERICSERV;
-    retval = getaddrinfo (nullptr, port_str.c_str (), &addr_info_hints, &ai);
+    retval = getaddrinfo (
+        host.empty () ? nullptr : LOG4CPLUS_TSTRING_TO_STRING (host).c_str (),
+        port_str.c_str (), &addr_info_hints, &ai);
     if (retval != 0)
     {
         set_last_socket_error(retval);
@@ -441,12 +444,17 @@ setTCPNoDelay (SOCKET_TYPE sock, bool val)
 //
 
 ServerSocket::ServerSocket(unsigned short port, bool udp /*= false*/,
-    bool ipv6 /*= false*/)
+    bool ipv6 /*= false*/, tstring const & host /*= tstring ()*/)
 {
+    // Initialize these here so that we do not try to close invalid handles
+    // in dtor if the following `openSocket()` fails.
+    interruptHandles[0] = -1;
+    interruptHandles[1] = -1;
+
     int fds[2] = {-1, -1};
     int ret;
 
-    sock = openSocket (port, udp, ipv6, state);
+    sock = openSocket (host, port, udp, ipv6, state);
     if (sock == INVALID_SOCKET_VALUE)
         goto error;
 

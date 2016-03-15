@@ -83,7 +83,7 @@ inline
 time_t
 to_time_t (Time const & the_time)
 {
-    // This is based on <http://stackoverflow.com/a/17395137/341065> It is
+    // This is based on <http://stackoverflow.com/a/17395137/341065>. It is
     // possible that to_time_t() returns rounded time and we want truncation.
 
     time_t time = Clock::to_time_t (the_time);

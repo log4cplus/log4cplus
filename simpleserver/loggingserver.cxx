@@ -231,20 +231,21 @@ main(int argc, char** argv)
 {
     log4cplus::Initializer initializer;
 
-    if(argc < 3) {
-        std::cout << "Usage: port config_file [<IP version>]\n"
+    if(argc < 4) {
+        std::cout << "Usage: host port config_file [<IP version>]\n"
             << "<IP version> either 0 for IPv4 (default) or 1 for IPv6\n"
             << std::flush;
         return 1;
     }
-    int const port = std::atoi(argv[1]);
-    bool const ipv6 = argc >= 4 ? !!std::atoi(argv[3]) : false;
-    const log4cplus::tstring configFile = LOG4CPLUS_C_STR_TO_TSTRING(argv[2]);
+    int const port = std::atoi(argv[2]);
+    bool const ipv6 = argc >= 5 ? !!std::atoi(argv[4]) : false;
+    const log4cplus::tstring configFile = LOG4CPLUS_C_STR_TO_TSTRING(argv[3]);
 
     log4cplus::PropertyConfigurator config(configFile);
     config.configure();
 
-    log4cplus::helpers::ServerSocket serverSocket(port, false, ipv6);
+    log4cplus::helpers::ServerSocket serverSocket(port, false, ipv6,
+        LOG4CPLUS_C_STR_TO_TSTRING(argv[1]));
     if (!serverSocket.isOpen()) {
         std::cerr << "Could not open server socket, maybe port "
             << port << " is already in use." << std::endl;
