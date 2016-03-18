@@ -414,8 +414,13 @@ void initializeFactoryRegistry ();
 
 
 //! Thread local storage clean up function for POSIX threads.
+#if defined (LOG4CPLUS_USE_WIN32_THREADS)
+static
+void NTAPI
+#else
 static
 void
+#endif
 ptd_cleanup_func (void * arg)
 {
     internal::per_thread_data * const arg_ptd
@@ -537,8 +542,11 @@ static
 void
 freeTLSSlot ()
 {
-    thread::impl::tls_cleanup(internal::tls_storage_key);
-    internal::tls_storage_key = thread::impl::tls_key_type();
+    if (internal::tls_storage_key != thread::impl::tls_key_type ())
+    {
+        thread::impl::tls_cleanup(internal::tls_storage_key);
+        internal::tls_storage_key = thread::impl::tls_key_type();
+    }
 }
 
 
