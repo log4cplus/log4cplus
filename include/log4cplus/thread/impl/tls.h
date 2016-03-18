@@ -110,7 +110,11 @@ tls_cleanup (tls_key_type key)
 tls_key_type
 tls_init (tls_init_cleanup_func_type)
 {
+#if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
     return TlsAlloc ();
+#else 
+    return (tls_key_type)0;	//TLS key not used
+#endif
 }
 
 
