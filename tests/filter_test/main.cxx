@@ -106,18 +106,21 @@ main()
     LogLog::getLogLog()->setInternalDebugging(true);
     Logger root = Logger::getRoot();
     try {
-        // Test filters set up through properties file.
+        tcout << LOG4CPLUS_TEXT ("Test filters set up through properties file.")
+              << std::endl;
 
         test_1 (root);
         printDebug();
 
-        // Test custom function filter.
+        tcout << LOG4CPLUS_TEXT ("Test custom function filter.")
+              << std::endl;
 
         test_2 (root);
         printDebug();
 
-        // Test custom function filter added using second overload of
-        // `addFilter()`.
+        tcout << LOG4CPLUS_TEXT ("Test custom function filter added using")
+              << LOG4CPLUS_TEXT (" second overload of addFilter().")
+              << std::endl;
 
         test_3 (root);
         printDebug();
