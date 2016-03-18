@@ -1,3 +1,4 @@
+cmake_policy(SET CMP0054 NEW)
 include(CheckIncludeFiles)
 include(CheckFunctionExists)
 include(CheckLibraryExists)

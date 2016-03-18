@@ -33,6 +33,7 @@
 
 #include <new>
 #include <cassert>
+#include <system_error>
 
 #if ! defined (INSIDE_LOG4CPLUS)
 #  error "This header must not be be used outside log4cplus' implementation files."
@@ -81,7 +82,10 @@ tls_key_type
 tls_init (tls_init_cleanup_func_type cleanupfunc)
 {
     pthread_key_t * key = new pthread_key_t;
-    pthread_key_create (key, cleanupfunc);
+    int ret = pthread_key_create (key, cleanupfunc);
+    if (LOG4CPLUS_UNLIKELY (ret != 0))
+        throw std::system_error(ret, std::system_category (),
+            "pthread_key_create() failed");
     return key;
 }
 
@@ -112,7 +116,14 @@ tls_cleanup (tls_key_type key)
 tls_key_type
 tls_init (tls_init_cleanup_func_type cleanupfunc)
 {
-    return FlsAlloc (cleanupfunc);
+    DWORD const slot = FlsAlloc (cleanupfunc);
+    if (LOG4CPLUS_UNLIKELY (slot == FLS_OUT_OF_INDEXES))
+    {
+        DWORD const eno = GetLastError ();
+        throw std::system_error (static_cast<int>(eno),
+            std::system_category (), "FlsAlloc() failed");
+    }
+    return slot;
 }
 
 
