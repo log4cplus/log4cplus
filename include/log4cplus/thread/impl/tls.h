@@ -33,6 +33,7 @@
 
 #include <new>
 #include <cassert>
+#include <system_error>
 
 #if ! defined (INSIDE_LOG4CPLUS)
 #  error "This header must not be be used outside log4cplus' implementation files."
@@ -54,16 +55,18 @@ namespace log4cplus { namespace thread { namespace impl {
 
 
 typedef void * tls_value_type;
-typedef void (* tls_init_cleanup_func_type)(void *);
 
 #ifdef LOG4CPLUS_USE_PTHREADS
 typedef pthread_key_t * tls_key_type;
+typedef void (* tls_init_cleanup_func_type)(void *);
 
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS)
 typedef DWORD tls_key_type;
+typedef PFLS_CALLBACK_FUNCTION tls_init_cleanup_func_type;
 
 #elif defined (LOG4CPLUS_SINGLE_THREADED)
 typedef std::size_t tls_key_type;
+typedef void (* tls_init_cleanup_func_type)(void *);
 
 #endif
 
@@ -79,7 +82,10 @@ tls_key_type
 tls_init (tls_init_cleanup_func_type cleanupfunc)
 {
     pthread_key_t * key = new pthread_key_t;
-    pthread_key_create (key, cleanupfunc);
+    int ret = pthread_key_create (key, cleanupfunc);
+    if (LOG4CPLUS_UNLIKELY (ret != 0))
+        throw std::system_error(ret, std::system_category (),
+            "pthread_key_create() failed");
     return key;
 }
 
@@ -108,29 +114,36 @@ tls_cleanup (tls_key_type key)
 
 #elif defined (LOG4CPLUS_USE_WIN32_THREADS)
 tls_key_type
-tls_init (tls_init_cleanup_func_type)
+tls_init (tls_init_cleanup_func_type cleanupfunc)
 {
-    return TlsAlloc ();
+    DWORD const slot = FlsAlloc (cleanupfunc);
+    if (LOG4CPLUS_UNLIKELY (slot == FLS_OUT_OF_INDEXES))
+    {
+        DWORD const eno = GetLastError ();
+        throw std::system_error (static_cast<int>(eno),
+            std::system_category (), "FlsAlloc() failed");
+    }
+    return slot;
 }
 
 
 tls_value_type tls_get_value (tls_key_type k)
 {
-    return TlsGetValue (k);
+    return FlsGetValue (k);
 }
 
 
 void
 tls_set_value (tls_key_type k, tls_value_type value)
 {
-    TlsSetValue (k, value);
+    FlsSetValue (k, value);
 }
 
 
 void
 tls_cleanup (tls_key_type k)
 {
-    TlsFree (k);
+    FlsFree (k);
 }
 
 
