@@ -70,7 +70,7 @@ option(ENABLE_SYMBOLS_VISIBILITY
   "Enable compiler and platform specific options for symbols visibility"
   ON)
 
-set(_WIN32_WINNT 0x0500 CACHE STRING "Define Windows API version to use.")
+set(_WIN32_WINNT 0x0502 CACHE STRING "Define Windows API version to use.")
 
 option(LOG4CPLUS_ENABLE_DECORATED_LIBRARY_NAME
   "Turns on resulting file name decoration for static and UNICODE builds." ON)
