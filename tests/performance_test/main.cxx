@@ -1,10 +1,10 @@
-
 #include <log4cplus/logger.h>
 #include <log4cplus/loggingmacros.h>
 #include <log4cplus/configurator.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/helpers/fileinfo.h>
 #include <log4cplus/spi/loggingevent.h>
 
 
@@ -22,12 +22,28 @@ log4cplus::tostream& operator <<(log4cplus::tostream& s, const Time& t)
 #define LOOP_COUNT 100000
 
 
+log4cplus::tstring
+getPropertiesFileArgument (int argc, char * argv[])
+{
+    if (argc >= 2)
+    {
+        char const * arg = argv[1];
+        log4cplus::tstring file = LOG4CPLUS_C_STR_TO_TSTRING (arg);
+        log4cplus::helpers::FileInfo fi;
+        if (getFileInfo (&fi, file) == 0)
+            return file;
+    }
+
+    return LOG4CPLUS_TEXT ("log4cplus.properties");
+}
+
+
 int
-main()
+main(int argc, char * argv[])
 {
     tcout << LOG4CPLUS_TEXT("Entering main()...") << endl;
     log4cplus::initialize ();
-    PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
+    PropertyConfigurator::doConfigure(getPropertiesFileArgument (argc, argv));
     Logger root = Logger::getRoot();
     try {
         Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("testlogger"));
@@ -47,8 +63,8 @@ main()
         start = Time::gettimeofday();
         for(i=0; i<LOOP_COUNT; ++i) {
             tostringstream buffer;
-	        buffer /*<< "test"*/ << 123122;
-	        tstring tmp = buffer.str();
+            buffer /*<< "test"*/ << 123122;
+            tstring tmp = buffer.str();
         }
         end = Time::gettimeofday();
         diff = end - start;
@@ -56,7 +72,7 @@ main()
 
         start = Time::gettimeofday();
         for(i=0; i<LOOP_COUNT; ++i) {
-	    log4cplus::spi::InternalLoggingEvent e(logger.getName(),
+            log4cplus::spi::InternalLoggingEvent e(logger.getName(),
                 log4cplus::WARN_LOG_LEVEL, msg, __FILE__, __LINE__, "main");
         }
         end = Time::gettimeofday();
@@ -67,32 +83,32 @@ main()
 
         start = Time::gettimeofday();
         for(i=0; i<LOOP_COUNT; ++i) {
-	    log4cplus::spi::InternalLoggingEvent e(logger.getName(),
+            log4cplus::spi::InternalLoggingEvent e(logger.getName(),
                 log4cplus::WARN_LOG_LEVEL, msg, __FILE__, __LINE__, "main");
-	    e.getNDC();
-	    e.getThread();
+            e.getNDC();
+            e.getThread();
         }
         end = Time::gettimeofday();
         diff = end - start;
         LOG4CPLUS_WARN(root, "Creating FULL log " << LOOP_COUNT << " objects took: " << diff);
         LOG4CPLUS_WARN(root, "Creating FULL log object average: " << (diff/LOOP_COUNT) << endl);
-        
+
         start = Time::gettimeofday();
         for(i=0; i<LOOP_COUNT; ++i) {
             log4cplus::spi::InternalLoggingEvent e(logger.getName(),
                 log4cplus::WARN_LOG_LEVEL, msg, __FILE__, __LINE__, "main");
-	    e.getNDC();
+            e.getNDC();
         }
         end = Time::gettimeofday();
         diff = end - start;
         LOG4CPLUS_WARN(root, "getNDC() " << LOOP_COUNT << " calls took: " << diff);
         LOG4CPLUS_WARN(root, "getNDC() average: " << (diff/LOOP_COUNT) << endl);
-        
+
         start = Time::gettimeofday();
         for(i=0; i<LOOP_COUNT; ++i) {
             log4cplus::spi::InternalLoggingEvent e(logger.getName(),
                 log4cplus::WARN_LOG_LEVEL, msg, __FILE__, __LINE__, "main");
-	    e.getThread();
+            e.getThread();
         }
         end = Time::gettimeofday();
         diff = end - start;

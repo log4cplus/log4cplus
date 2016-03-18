@@ -12,7 +12,11 @@ function(log4cplus_add_test _name)
 #  message (STATUS "${_name} sources: ${_srcs}")
   add_executable (${_name} ${_srcs})
   target_link_libraries (${_name} ${log4cplus})
-  add_test(NAME ${_name} WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} COMMAND ${_name})
+  get_filename_component (_log4cplus_properties "log4cplus.properties.in"
+    ABSOLUTE)
+  add_test(NAME ${_name}
+    WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+    COMMAND ${_name} ${_log4cplus_properties})
 endfunction()
 
 
