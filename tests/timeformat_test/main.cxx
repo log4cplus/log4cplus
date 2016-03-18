@@ -1,5 +1,6 @@
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/streams.h>
+#include <log4cplus/logger.h>
 #include <iostream>
 
 using namespace log4cplus;
@@ -62,5 +63,6 @@ main()
     }
 
     std::cout << "Exiting main()..." << std::endl;
+    log4cplus::Logger::shutdown();
     return 0;
 }
