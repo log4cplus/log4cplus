@@ -6,7 +6,10 @@ if (${BUILD_SHARED_LIBS})
   add_definitions (-Dlog4cplus_EXPORTS)
 endif ()
 
-# a function to set up a test, since it's the same for each one:
+# A function to set up a test, since it's the same for each one.  Note:
+# unit_tests test is not set up using this function because it does not like
+# the additional argument on commmand line and consequently does not run any
+# test.
 function(log4cplus_add_test _name)
   set(_srcs ${ARGN})
 #  message (STATUS "${_name} sources: ${_srcs}")
@@ -36,4 +39,6 @@ add_subdirectory (propertyconfig_test)
 #add_subdirectory (socket_test) # I don't know how this test is supposed to be executed
 add_subdirectory (thread_test)
 add_subdirectory (timeformat_test)
-add_subdirectory (unit_tests)
+if (WITH_UNIT_TESTS)
+  add_subdirectory (unit_tests)
+endif (WITH_UNIT_TESTS)
