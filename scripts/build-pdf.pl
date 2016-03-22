@@ -14,6 +14,7 @@ use Data::UUID;
 
 my @FILES =
     ( 'README.md'
+      , 'docs/examples.md'
       , 'docs/unicode.txt'
       , 'docs/release.txt'
       , 'AUTHORS'

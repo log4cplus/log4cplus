@@ -9,10 +9,6 @@ configuration.  It is modeled after the Java log4j API.
 
 [log4cplus]: https://sourceforge.net/projects/log4cplus/
 
-Branches        | Travis-CI      | AppVeyor-CI | 
-----------------|--------------- |-------------|-
-master          | [![Build Status](https://travis-ci.org/log4cplus/log4cplus.svg?branch=master)](https://travis-ci.org/log4cplus/log4cplus) | TBD |
--------------------------------------------------
 
 Latest Project Information
 ==========================
