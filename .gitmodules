@@ -3,4 +3,4 @@
 	url = https://github.com/log4cplus/ThreadPool.git
 [submodule "catch"]
 	path = catch
-	url = https://github.com/philsquared/Catch/tree/v1.4.0
+	url = https://github.com/philsquared/Catch.git
