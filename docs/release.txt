@@ -20,10 +20,10 @@ revision, yet._
  #. Write [news entry][2] to SourceForge.
 
  #. Use Pandoc with parameters `--smart --standalone -f markdown -t
-markdown_strict+hard_line_breaks-intraword_underscores` to generate a version
-of README file with Markdown compatible with SourceForge's wiki. Upload
-resulting file to project's SourceForge wiki page using the
-`scripts/upload_to_wiki.pl` script.
+markdown_strict+hard_line_breaks+fenced_code_blocks+fenced_code_attributes-intraword_underscores`
+to generate a version of README file with Markdown compatible with
+SourceForge's wiki. Upload resulting file to project's SourceForge wiki page
+using the `scripts/upload_to_wiki.pl` script.
 
  #. Post release information to [G+ log4cplus page][1] and share it with the
 [log4cplus community][3].

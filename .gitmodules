@@ -4,4 +4,3 @@
 [submodule "catch"]
 	path = catch
 	url = https://github.com/philsquared/Catch.git
-	branch = v1.3.1
