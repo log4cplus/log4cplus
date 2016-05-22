@@ -631,10 +631,11 @@ RollingFileAppender::rollover(bool alreadyLocked)
 ///////////////////////////////////////////////////////////////////////////////
 
 DailyRollingFileAppender::DailyRollingFileAppender(
-    const tstring& filename_, DailyRollingFileSchedule schedule_,
+    const tstring& filename_, std::ios_base::openmode mode,
+    DailyRollingFileSchedule schedule_,
     bool immediateFlush_, int maxBackupIndex_, bool createDirs_,
     bool rollOnClose_, const tstring& datePattern_)
-    : FileAppender(filename_, std::ios_base::app, immediateFlush_, createDirs_)
+    : FileAppender(filename_, mode, immediateFlush_, createDirs_)
     , maxBackupIndex(maxBackupIndex_), rollOnClose(rollOnClose_)
     , datePattern(datePattern_)
 {
@@ -689,11 +690,14 @@ static
 Time
 round_time (Time const & t, time_t seconds)
 {
-    return Time (
-        t.getTime ()
-        - static_cast<time_t>(std::fmod (
-                static_cast<double>(t.getTime ()),
-                static_cast<double>(seconds))));
+	tm gmt_time;
+	tm local_time;
+	t.localtime(&local_time);
+	t.gmtime(&gmt_time);
+
+	return Time(
+		t.getTime()
+		- std::fmod(t.getTime() + (local_time.tm_hour - gmt_time.tm_hour) * 3600, seconds));
 }
 
 
@@ -868,7 +872,7 @@ DailyRollingFileAppender::rollover(bool alreadyLocked)
     loglog_renaming_result (loglog, filename, scheduledFilename, ret);
 
     // Open a new file, e.g. "log".
-    open(std::ios::out | std::ios::trunc);
+	open(fileOpenMode);
     loglog_opening_result (loglog, out, filename);
 
     // Calculate the next rollover time

@@ -306,6 +306,7 @@ namespace log4cplus
     public:
       // Ctors
         DailyRollingFileAppender(const log4cplus::tstring& filename,
+                                 std::ios_base::openmode mode = std::ios_base::trunc,
                                  DailyRollingFileSchedule schedule = DAILY,
                                  bool immediateFlush = true,
                                  int maxBackupIndex = 10,
