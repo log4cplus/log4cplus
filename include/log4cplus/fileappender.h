@@ -381,8 +381,10 @@ namespace log4cplus
     public:
       // Ctors
         TimeBasedRollingFileAppender(const tstring& filename = LOG4CPLUS_TEXT(""),
+                                     DailyRollingFileSchedule schedule = DAILY,
                                      const tstring& filenamePattern = LOG4CPLUS_TEXT("%d.log"),
                                      int maxHistory = 10,
+                                     std::ios_base::openmode mode = std::ios_base::app,
                                      bool cleanHistoryOnStart = false,
                                      bool immediateFlush = true,
                                      bool createDirs = false,
@@ -404,12 +406,9 @@ namespace log4cplus
       // Data
         tstring filenamePattern;
         DailyRollingFileSchedule schedule;
-        tstring scheduledFilename;
         int maxHistory;
         bool cleanHistoryOnStart;
-        helpers::Time lastHeartBeat;
         helpers::Time nextRolloverTime;
-        bool rollOnClose;
 
     private:
         LOG4CPLUS_PRIVATE void init();

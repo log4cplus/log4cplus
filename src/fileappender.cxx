@@ -1166,19 +1166,22 @@ preprocessFilenamePattern(const tstring& pattern, DailyRollingFileSchedule& sche
 
 TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     const tstring& filename_,
+	DailyRollingFileSchedule schedule_,
     const tstring& filenamePattern_,
     int maxHistory_,
+	std::ios_base::openmode mode_,
     bool cleanHistoryOnStart_,
     bool immediateFlush_,
     bool createDirs_,
     bool rollOnClose_)
-    : FileAppenderBase(filename_, std::ios_base::app, immediateFlush_, createDirs_)
+    : FileAppenderBase(filename_, mode_, immediateFlush_, createDirs_)
     , filenamePattern(filenamePattern_)
-    , schedule(DAILY)
+    , schedule(schedule_)
     , maxHistory(maxHistory_)
     , cleanHistoryOnStart(cleanHistoryOnStart_)
-    , rollOnClose(rollOnClose_)
-{ }
+{
+	init();
+}
 
 TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     const log4cplus::helpers::Properties& properties)
@@ -1187,12 +1190,10 @@ TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     , schedule(DAILY)
     , maxHistory(10)
     , cleanHistoryOnStart(false)
-    , rollOnClose(true)
 {
     filenamePattern = properties.getProperty(LOG4CPLUS_TEXT("FilenamePattern"));
     properties.getInt(maxHistory, LOG4CPLUS_TEXT("MaxHistory"));
     properties.getBool(cleanHistoryOnStart, LOG4CPLUS_TEXT("CleanHistoryOnStart"));
-    properties.getBool(rollOnClose, LOG4CPLUS_TEXT("RollOnClose"));
     filenamePattern = preprocessFilenamePattern(filenamePattern, schedule);
 
     init();
@@ -1223,10 +1224,9 @@ TimeBasedRollingFileAppender::init()
 
     if (cleanHistoryOnStart)
     {
-        clean(now + Time(maxHistory*getRolloverPeriodDuration()));
+        clean(now);
     }
 
-    lastHeartBeat = now;
 }
 
 void
@@ -1242,8 +1242,8 @@ TimeBasedRollingFileAppender::append(const spi::InternalLoggingEvent& event)
 void
 TimeBasedRollingFileAppender::open(std::ios_base::openmode mode)
 {
-    scheduledFilename = Time::gettimeofday().getFormattedTime(filenamePattern, false);
-    tstring currentFilename = filename.empty() ? scheduledFilename : filename;
+    tstring scheduledFilename = Time::gettimeofday().getFormattedTime(filenamePattern, false);
+    tstring currentFilename = filename + "." + scheduledFilename;
 
     if (createDirs)
         internal::make_dirs (currentFilename);
@@ -1260,8 +1260,6 @@ TimeBasedRollingFileAppender::open(std::ios_base::openmode mode)
 void
 TimeBasedRollingFileAppender::close()
 {
-    if (rollOnClose)
-        rollover();
     FileAppenderBase::close();
 }
 
@@ -1288,30 +1286,11 @@ TimeBasedRollingFileAppender::rollover(bool alreadyLocked)
     // should remain unchanged on a close
     out.clear();
 
-    if (! filename.empty())
-    {
-        helpers::LogLog & loglog = helpers::getLogLog();
-        long ret;
-
-#if defined (_WIN32)
-        // Try to remove the target first. It seems it is not
-        // possible to rename over existing file.
-        ret = file_remove (scheduledFilename);
-#endif
-
-        loglog.debug(
-            LOG4CPLUS_TEXT("Renaming file ")
-            + filename
-            + LOG4CPLUS_TEXT(" to ")
-            + scheduledFilename);
-        ret = file_rename (filename, scheduledFilename);
-        loglog_renaming_result (loglog, filename, scheduledFilename, ret);
-    }
 
     Time now = Time::gettimeofday();
     clean(now);
 
-    open(std::ios::out | std::ios::trunc);
+    open(fileOpenMode);
 
     nextRolloverTime = calculateNextRolloverTime(now);
 }
@@ -1319,27 +1298,53 @@ TimeBasedRollingFileAppender::rollover(bool alreadyLocked)
 void
 TimeBasedRollingFileAppender::clean(Time time)
 {
-    Time interval = Time(31*24*3600); // ~1 month
-    if (lastHeartBeat.sec() != 0)
-    {
-        interval = time - lastHeartBeat;
-    }
-    interval += Time(1);
-
-    int periodDuration = getRolloverPeriodDuration();
-    long periods = static_cast<long>(interval.sec() / periodDuration);
-
     helpers::LogLog & loglog = helpers::getLogLog();
-    for (long i = 0; i < periods; i++)
+
+	int rmIntervel = maxHistory;
+	while (true)
     {
-        long periodToRemove = (-maxHistory - 1) - i;
-        Time timeToRemove = time + Time(periodToRemove * periodDuration);
-        tstring filenameToRemove = timeToRemove.getFormattedTime(filenamePattern, false);
+		struct tm rmnext;
+
+		switch (schedule)
+		{
+		case MONTHLY:
+			time.localtime(&rmnext);
+			rmnext.tm_mon -= rmIntervel;
+			if (time.setTime(&rmnext) == -1) {
+                time = time - Time(getRolloverPeriodDuration()*rmIntervel);
+			}
+			break;
+
+		case WEEKLY:
+			time.localtime(&rmnext);
+			rmnext.tm_mday -= (7 - rmnext.tm_wday + 1)*rmIntervel; // Round up to next week
+			if (time.setTime(&rmnext) == -1) {
+				time = time - Time(getRolloverPeriodDuration()*rmIntervel);
+			}
+			break;
+		case DAILY:
+		case HOURLY:
+		case MINUTELY:
+		{
+			int periodDuration = getRolloverPeriodDuration() * rmIntervel;
+			time = time - Time(periodDuration);
+			break;
+		}
+		default:
+			helpers::getLogLog().error(
+				LOG4CPLUS_TEXT("TimeBasedRollingFileAppender::getRolloverPeriodDuration()-")
+				LOG4CPLUS_TEXT(" invalid schedule value"));
+			// Fall through.
+		}
+		rmIntervel = 1;
+
+        Time timeToRemove = time;
+        tstring filenameToRemove = filename + "." + timeToRemove.getFormattedTime(filenamePattern, false);
         loglog.debug(LOG4CPLUS_TEXT("Removing file ") + filenameToRemove);
-        file_remove(filenameToRemove);
+        if(file_remove(filenameToRemove) != 0)
+			break;
     }
 
-    lastHeartBeat = time;
 }
 
 int
@@ -1351,17 +1356,17 @@ TimeBasedRollingFileAppender::getRolloverPeriodDuration() const
         return 31*24*3600;
     case WEEKLY:
         return 7*24*3600;
-    default:
-        helpers::getLogLog ().error (
-            LOG4CPLUS_TEXT ("TimeBasedRollingFileAppender::getRolloverPeriodDuration()-")
-            LOG4CPLUS_TEXT (" invalid schedule value"));
-        // Fall through.
     case DAILY:
         return 24*3600;
     case HOURLY:
         return 3600;
     case MINUTELY:
         return 60;
+	default:
+		helpers::getLogLog().error(
+			LOG4CPLUS_TEXT("TimeBasedRollingFileAppender::getRolloverPeriodDuration()-")
+			LOG4CPLUS_TEXT(" invalid schedule value"));
+		// Fall through.
     }
 }
 
@@ -1397,19 +1402,18 @@ TimeBasedRollingFileAppender::calculateNextRolloverTime(const Time& t) const
             result = t + Time(getRolloverPeriodDuration());
         }
         break;
-
-    default:
     case DAILY:
     case HOURLY:
     case MINUTELY:
     {
         int periodDuration = getRolloverPeriodDuration();
-        result = t + Time(periodDuration);
-        time_t seconds = result.sec();
-        int remainder = seconds % periodDuration;
-        result.sec(seconds - remainder);
+        result = round_time_and_add(t, Time(periodDuration));
         break;
     }
+    default:
+		helpers::getLogLog().error(
+			LOG4CPLUS_TEXT("TimeBasedRollingFileAppender::calculateNextRolloverTime()-")
+			LOG4CPLUS_TEXT(" invalid schedule value"));
     };
 
     result.usec(0);
