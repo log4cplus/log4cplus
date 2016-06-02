@@ -251,7 +251,13 @@ FileAppenderBase::FileAppenderBase(const Properties& props,
 
     bool app = (mode_ & (std::ios_base::app | std::ios_base::ate)) != 0;
     props.getBool (app, LOG4CPLUS_TEXT("Append"));
+    bool binary = false;
+    props.getBool(binary, LOG4CPLUS_TEXT("Binary"));
+
     fileOpenMode = app ? std::ios::app : std::ios::trunc;
+    if (binary){
+        fileOpenMode = fileOpenMode | std::ios::binary;
+    }
 }
 
 
@@ -697,7 +703,7 @@ round_time (Time const & t, time_t seconds)
 
 	return Time(
 		t.getTime()
-		- std::fmod(t.getTime() + (local_time.tm_hour - gmt_time.tm_hour) * 3600, seconds));
+		- std::fmod((long double)t.getTime() + (local_time.tm_hour - gmt_time.tm_hour) * 3600, (long double)seconds));
 }
 
 
