@@ -1373,6 +1373,7 @@ TimeBasedRollingFileAppender::getRolloverPeriodDuration() const
 			LOG4CPLUS_TEXT("TimeBasedRollingFileAppender::getRolloverPeriodDuration()-")
 			LOG4CPLUS_TEXT(" invalid schedule value"));
 		// Fall through.
+		return 3600;
     }
 }
 
