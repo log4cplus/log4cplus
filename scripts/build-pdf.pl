@@ -9,6 +9,7 @@ use File::Basename;
 use File::Spec::Functions;
 use File::Spec::Functions qw(rel2abs abs2rel);
 use File::Glob qw(:globally);
+use File::Slurp;
 use Data::Dumper;
 use Data::UUID;
 
@@ -105,20 +106,36 @@ for my $f (@FILES)
 
 print Dumper(\@parts), "\n";
 
+use constant README_MD_0_TEX => 'README.md.0.tex';
 my @args = (
     'pandoc', @PANDOC_2ND_STEP_SWITCHES,
-    '-o', 'README.md.tex',
+    '-o', README_MD_0_TEX,
     @parts);
 
 print Dumper(\@args), "\n";
 
 system(@args);
+
+# process LaTeX source for non-Latin character ranges
 
+# slurp file
+my $contents = read_file(README_MD_0_TEX, binmode => ':utf8');
+# search for character ranges and switch fonts for them
+my $cjkCodePoint = qr/[\p{InCJKUnifiedIdeographs}]/u;
+my $devanagariCodePoint = qr/[\p{Devanagari}]/u;
+my $tamilCodePoint = qr/[\p{Tamil}]/u;
+my $cyrilicCodePoint = qr/[\p{InCyrillic}\p{InCyrillicSupplementary}]/u;
+$contents =~ s/(${cjkCodePoint}+)/{\\cjkfont{}$1}/g;
+$contents =~ s/(${devanagariCodePoint}+)/{\\devanagarifont{}$1}/g;
+$contents =~ s/(${tamilCodePoint}+)/{\\tamilfont{}$1}/g;
+$contents =~ s/(${cyrilicCodePoint}+)/{\\cyrilicfont{}$1}/g;
+use constant README_MD_TEX => 'README.md.tex';
+write_file(README_MD_TEX, {binmode => ':utf8'}, $contents);
 
 # produce PDF using latexmk utility to run the LuaLaTeX
 
 @args = (
-    'latexmk', '-gg', '-lualatex', 'README.md.tex');
+    'latexmk', '-gg', '-lualatex', README_MD_TEX);
 
 print Dumper(\@args), "\n";
 
