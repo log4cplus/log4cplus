@@ -1202,6 +1202,31 @@ TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     properties.getBool(cleanHistoryOnStart, LOG4CPLUS_TEXT("CleanHistoryOnStart"));
     filenamePattern = preprocessFilenamePattern(filenamePattern, schedule);
 
+	DailyRollingFileSchedule theSchedule = DAILY;
+	tstring scheduleStr(helpers::toUpper(
+		properties.getProperty(LOG4CPLUS_TEXT("Schedule"))));
+
+	if (scheduleStr == LOG4CPLUS_TEXT("MONTHLY"))
+		theSchedule = MONTHLY;
+	else if (scheduleStr == LOG4CPLUS_TEXT("WEEKLY"))
+		theSchedule = WEEKLY;
+	else if (scheduleStr == LOG4CPLUS_TEXT("DAILY"))
+		theSchedule = DAILY;
+	else if (scheduleStr == LOG4CPLUS_TEXT("TWICE_DAILY"))
+		theSchedule = TWICE_DAILY;
+	else if (scheduleStr == LOG4CPLUS_TEXT("HOURLY"))
+		theSchedule = HOURLY;
+	else if (scheduleStr == LOG4CPLUS_TEXT("MINUTELY"))
+		theSchedule = MINUTELY;
+	else {
+		helpers::getLogLog().warn(
+			LOG4CPLUS_TEXT("DailyRollingFileAppender::ctor()")
+			LOG4CPLUS_TEXT("- \"Schedule\" not valid: ")
+			+ properties.getProperty(LOG4CPLUS_TEXT("Schedule")));
+		theSchedule = DAILY;
+	}
+	this->schedule = theSchedule;
+
     init();
 }
 
