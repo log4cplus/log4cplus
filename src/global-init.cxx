@@ -130,6 +130,18 @@ get_dc (bool alloc = true)
     return default_context;
 }
 
+static
+void
+clean_dc()
+{
+    if (default_context_state == DC_INITIALIZED)
+    {
+        delete default_context;
+        default_context = 0;
+        default_context_state = DC_DESTROYED;
+    }
+
+}
 
 } // namespace
 
@@ -357,11 +369,10 @@ threadSetup ()
     internal::get_ptd (true);
 }
 
-
+static bool initialized = false;
 void
 initializeLog4cplus()
 {
-    static bool initialized = false;
     if (initialized)
         return;
 
@@ -376,6 +387,16 @@ initializeLog4cplus()
     initialized = true;
 }
 
+void
+unInitializeLog4cplus()
+{
+    if (!initialized)
+        return;
+    clean_dc();
+    initialized = false;
+
+    threadCleanup();
+}
 
 void
 initialize ()
@@ -383,6 +404,10 @@ initialize ()
     initializeLog4cplus ();
 }
 
+void unInitialize()
+{
+    unInitializeLog4cplus();
+}
 
 void
 threadCleanup ()
