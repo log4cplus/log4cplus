@@ -12,7 +12,8 @@ addons: &addons
       - libstdc++-5-dev
       - swig
       - python
-      - qtbase5-dev
+      - qt5-default
+      - qttools5-dev-tools
     sources: &sources
       - ubuntu-toolchain-r-test
       - llvm-toolchain-precise-3.5
