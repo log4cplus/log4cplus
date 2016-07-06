@@ -355,7 +355,7 @@ variants that support threading using the `CXX` variable on
 
     $ ../configure --enable-threads CXX=xlC_r
 
-[1]: http://pic.dhe.ibm.com/infocenter/comphelp/v121v141/index.jsp?topic=%2Fcom.ibm.xlcpp121.aix.doc%2Fcompiler_ref%2Ftucmpinv.html
+[1]: http://www.ibm.com/support/knowledgecenter/en/SSGH3R_12.1.0/com.ibm.xlcpp121.aix.doc/compiler_ref/tucmpinv.html
 
 
 AIX reentrancy problem
