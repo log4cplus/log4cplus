@@ -1,5 +1,6 @@
 language: cpp
 sudo: false
+dist: trusty
 compiler:
   - gcc
   - clang
@@ -12,8 +13,7 @@ addons: &addons
       - libstdc++-5-dev
       - swig
       - python
-      - qt5-default
-      - qttools5-dev-tools
+      - qtbase5-dev
     sources: &sources
       - ubuntu-toolchain-r-test
       - llvm-toolchain-precise-3.5
@@ -21,6 +21,7 @@ addons: &addons
       - llvm-toolchain-precise-3.7
       - llvm-toolchain-precise
       - ubuntu-sdk-team
+      - ppa:beineri/opt-qt551-trusty
 env:
   - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-c-locale --with-wchar_t-support --enable-unit-tests"
     CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
