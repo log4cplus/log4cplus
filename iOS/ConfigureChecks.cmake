@@ -110,8 +110,10 @@ set(LOG4CPLUS_DECLSPEC_EXPORT "__attribute__ ((visibility(\"default\")))" )
 set(LOG4CPLUS_DECLSPEC_IMPORT "__attribute__ ((visibility(\"default\")))" )
 set(LOG4CPLUS_DECLSPEC_PRIVATE "__attribute__ ((visibility(\"hidden\")))" )
 
-set(LOG4CPLUS_HAVE_TLS_SUPPORT 1)
-set(LOG4CPLUS_THREAD_LOCAL_VAR "__thread")
+# According to <https://llvm.org/bugs/show_bug.cgi?id=19232> and other sources,
+# thread local storage is not supported on iOS.
+#set(LOG4CPLUS_HAVE_TLS_SUPPORT 1)
+#set(LOG4CPLUS_THREAD_LOCAL_VAR "__thread")
 
 #set(LOG4CPLUS_HAVE_CXX11_ATOMICS )
 
