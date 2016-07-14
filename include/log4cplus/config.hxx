@@ -191,6 +191,9 @@ LOG4CPLUS_EXPORT void threadCleanup ();
 //! Initializes log4cplus.
 LOG4CPLUS_EXPORT void initialize ();
 
+//! UnInitializes log4cplus.
+LOG4CPLUS_EXPORT void unInitialize();
+
 } // namespace log4cplus
 
 #endif
