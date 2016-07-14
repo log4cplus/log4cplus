@@ -720,7 +720,7 @@ local_time_offset (Time t)
     t.setTime (&time_gmt);
     Time t3 = t;
 
-    return t2.sec () - t3.sec ();
+    return static_cast<long>(t2.sec () - t3.sec ());
 }
 
 
@@ -1034,7 +1034,7 @@ preprocessDateTimePattern(const tstring& pattern, DailyRollingFileSchedule& sche
     {
         tchar c = pattern[i];
         size_t end_pos = pattern.find_first_not_of(c, i);
-        int len = (end_pos == tstring::npos ? pattern.length() : end_pos) - i;
+        size_t len = (end_pos == tstring::npos ? pattern.length() : end_pos) - i;
 
         switch (c)
         {
