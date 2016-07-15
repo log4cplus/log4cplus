@@ -1331,7 +1331,8 @@ TimeBasedRollingFileAppender::clean(Time time)
 {
     helpers::LogLog & loglog = helpers::getLogLog();
 
-	int rmIntervel = maxHistory;
+	unsigned int rmIntervel = maxHistory;
+	int errTimes = 0;
 	while (true)
     {
 		struct tm rmnext;
@@ -1367,13 +1368,23 @@ TimeBasedRollingFileAppender::clean(Time time)
 				LOG4CPLUS_TEXT(" invalid schedule value"));
 			// Fall through.
 		}
-		rmIntervel = 1;
 
         Time timeToRemove = time;
+		if (time.sec()<0){
+			break;
+		}
+
         tstring filenameToRemove = filename + "." + timeToRemove.getFormattedTime(filenamePattern, false);
         loglog.debug(LOG4CPLUS_TEXT("Removing file ") + filenameToRemove);
-        if(file_remove(filenameToRemove) != 0)
-			break;
+		if (file_remove(filenameToRemove) != 0){
+			rmIntervel *= 2;
+			if (errTimes++ < 10)
+				continue;
+			else
+				break;
+		}
+		else
+			rmIntervel = 1;
     }
 
 }
