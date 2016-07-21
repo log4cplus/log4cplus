@@ -6,8 +6,6 @@ dnl libtool-2.4.2
 
 AC_INIT([log4cplus],[1.2.0])
 AC_CANONICAL_TARGET
-m4_include([m4/ax_check_host_and_build_os.m4])
-
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.14 no-define no-dist nostdinc foreign subdir-objects -Wall])
@@ -538,9 +536,8 @@ dnl Multi threaded library.
    AS_IF([test "x$ac_cv_atomic_dec_uint_nv" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV])])
 
-   if test "$os_iphone" != "yes"; then
-    AX_TLS_SUPPORT
-   fi
+   AS_IF([test "$target_os" != "darwin" -o "$target_cpu" != "arm",
+     [AX_TLS_SUPPORT]])
    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
    AH_TEMPLATE([LOG4CPLUS_THREAD_LOCAL_VAR])
    AS_IF([test "x$ac_cv_thread_local" = "xyes"],
