@@ -511,11 +511,11 @@ dnl Multi threaded library.
    AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])
    AS_IF([test "x$ac_cv___sync_add_and_fetch" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH])])
-     
+
    AH_TEMPLATE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])
    AS_IF([test "x$ac_cv___sync_sub_and_fetch" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH])])
-     
+
    AH_TEMPLATE([LOG4CPLUS_HAVE_CXX11_ATOMICS])
    AS_IF([test "x$ac_cv_cxx11_atomics" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE_CXX11_ATOMICS])])
@@ -523,7 +523,7 @@ dnl Multi threaded library.
    AH_TEMPLATE([LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH])
    AS_IF([test "x$ac_cv___atomic_add_fetch" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH])])
-     
+
    AH_TEMPLATE([LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH])
    AS_IF([test "x$ac_cv___atomic_sub_fetch" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH])])
@@ -536,7 +536,10 @@ dnl Multi threaded library.
    AS_IF([test "x$ac_cv_atomic_dec_uint_nv" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV])])
 
-   AX_TLS_SUPPORT
+   dnl Check if TLS is supported, but only if it isn't iOS target, because it
+   dnl is forbidden by Apple Store to use __tlv_* functions.
+   AS_IF([test "$target_os" != "darwin" -o "$target_cpu" != "arm",
+     [AX_TLS_SUPPORT]])
    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
    AH_TEMPLATE([LOG4CPLUS_THREAD_LOCAL_VAR])
    AS_IF([test "x$ac_cv_thread_local" = "xyes"],
