@@ -536,6 +536,8 @@ dnl Multi threaded library.
    AS_IF([test "x$ac_cv_atomic_dec_uint_nv" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE_ATOMIC_DEC_UINT_NV])])
 
+   dnl Check if TLS is supported, but only if it isn't iOS target, because it
+   dnl is forbidden by Apple Store to use __tlv_* functions.
    AS_IF([test "$target_os" != "darwin" -o "$target_cpu" != "arm",
      [AX_TLS_SUPPORT]])
    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
