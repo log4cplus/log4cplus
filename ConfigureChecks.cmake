@@ -1,4 +1,7 @@
-cmake_policy(SET CMP0054 NEW)
+if (NOT CMAKE_VERSION VERSION_LESS 3.1.0)
+  cmake_policy(SET CMP0054 NEW)
+endif()
+
 include(CheckIncludeFiles)
 include(CheckFunctionExists)
 include(CheckLibraryExists)
