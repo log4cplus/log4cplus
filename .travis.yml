@@ -1,5 +1,6 @@
 language: cpp
 sudo: false
+dist: trusty
 compiler:
   - gcc
   - clang
@@ -12,7 +13,7 @@ addons: &addons
       - libstdc++-5-dev
       - swig
       - python
-      - qtbase5-dev
+      # - qtbase5-dev
     sources: &sources
       - ubuntu-toolchain-r-test
       - llvm-toolchain-precise-3.5
@@ -21,16 +22,18 @@ addons: &addons
       - llvm-toolchain-precise
       - ubuntu-sdk-team
 env:
-  - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-c-locale --with-wchar_t-support --enable-unit-tests"
-    CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
-  - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-locale --with-wchar_t-support --enable-unit-tests"
-    CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
-  - PARAM_THREADS="--disable-threads --with-python --with-qt5 --with-working-locale --with-wchar_t-support --enable-unit-tests"
-    CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
-  - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-iconv --with-wchar_t-support --enable-unit-tests"
-    CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
-  - PARAM_THREADS="--disable-threads --with-python --with-qt5 --with-iconv --with-wchar_t-support --enable-unit-tests"
-    CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
+  # - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-c-locale --with-wchar_t-support --enable-unit-tests"
+  #   CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
+  # - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-locale --with-wchar_t-support --enable-unit-tests"
+  #   CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
+  # - PARAM_THREADS="--disable-threads --with-python --with-qt5 --with-working-locale --with-wchar_t-support --enable-unit-tests"
+  #   CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
+  # - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-iconv --with-wchar_t-support --enable-unit-tests"
+  #   CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
+  # - PARAM_THREADS="--disable-threads --with-python --with-qt5 --with-iconv --with-wchar_t-support --enable-unit-tests"
+  #   CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
+  - PARAM_THREADS="--enable-threads --with-python --with-qt --with-working-c-locale --with-wchar_t-support --enable-unit-tests"
+    CXXFLAGS="" SWIG_FLAGS=""
   - PARAM_THREADS="--enable-threads --with-python --with-qt --with-working-locale --with-wchar_t-support --enable-unit-tests"
     CXXFLAGS="" SWIG_FLAGS=""
   - PARAM_THREADS="--disable-threads --with-python --with-qt --with-working-locale --with-wchar_t-support --enable-unit-tests"
