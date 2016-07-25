@@ -473,8 +473,8 @@ dnl Multi threaded library.
 
    dnl Check if TLS is supported, but only if it isn't iOS target, because it
    dnl is forbidden by Apple Store to use __tlv_* functions.
-   AS_IF([test "$target_os" != "darwin" -o "$target_cpu" != "arm",
-     [AX_TLS_SUPPORT]])
+   AS_IF([test "$target_os" != "darwin" -o "$target_cpu" != "arm"],
+     [AX_TLS_SUPPORT])
 
    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
    AH_TEMPLATE([LOG4CPLUS_THREAD_LOCAL_VAR])

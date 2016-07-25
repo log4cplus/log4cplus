@@ -10191,6 +10191,7 @@ esac
      ;;
 esac
 
+         if test "$target_os" != "darwin" -o "$target_cpu" != "arm"; then :
 
 
 
@@ -10362,6 +10363,8 @@ $as_echo "$ac_cv_declspec_thread" >&6; }
 fi
 fi
 
+
+fi
 
 
 
