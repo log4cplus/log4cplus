@@ -71,6 +71,7 @@ endif (UNICODE)
 if (WIN32)
   add_definitions (-DMINGW_HAS_SECURE_API=1)
   add_definitions (-D_WIN32_WINNT=${_WIN32_WINNT})
+  add_definitions (-DNTDDI_VERSION=${NTDDI_VERSION})
 
   if (BUILD_SHARED_LIBS)
     set(log4cplus_build_shared 1)
