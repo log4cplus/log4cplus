@@ -155,6 +155,8 @@ AsyncAppender::close ()
         getErrorHandler ()->error (
             LOG4CPLUS_TEXT ("Error in AsyncAppender::close"));
     queue_thread->join ();
+    
+    removeAllAppenders();
 }
 
 
