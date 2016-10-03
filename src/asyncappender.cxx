@@ -1,4 +1,4 @@
-//  Copyright (C) 2009-2015, Vaclav Haisman. All rights reserved.
+//  Copyright (C) 2009-2016, Vaclav Haisman. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -154,7 +154,11 @@ AsyncAppender::close ()
     if (ret & (thread::Queue::ERROR_BIT | thread::Queue::ERROR_AFTER))
         getErrorHandler ()->error (
             LOG4CPLUS_TEXT ("Error in AsyncAppender::close"));
-    queue_thread->join ();
+
+    if (queue_thread && queue_thread->isRunning ())
+        queue_thread->join ();
+
+    removeAllAppenders();
 }
 
 
