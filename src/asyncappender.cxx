@@ -1,4 +1,4 @@
-//  Copyright (C) 2009-2014, Vaclav Haisman. All rights reserved.
+//  Copyright (C) 2009-2016, Vaclav Haisman. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -68,8 +68,8 @@ QueueThread::run()
 
     while (true)
     {
-        unsigned flags = queue->get_events (&ev_buf);
-        if (flags & thread::Queue::EVENT)
+        unsigned qflags = queue->get_events (&ev_buf);
+        if (qflags & thread::Queue::EVENT)
         {
             ev_buf_type::const_iterator const ev_buf_end = ev_buf.end ();
             for (ev_buf_type::const_iterator it = ev_buf.begin ();
@@ -78,11 +78,11 @@ QueueThread::run()
         }
 
         if (((thread::Queue::EXIT | thread::Queue::DRAIN
-                | thread::Queue::EVENT) & flags)
+                | thread::Queue::EVENT) & qflags)
             == (thread::Queue::EXIT | thread::Queue::DRAIN
                 | thread::Queue::EVENT))
             continue;
-        else if (thread::Queue::EXIT & flags)
+        else if (thread::Queue::EXIT & qflags)
             break;
     }
 }
@@ -117,12 +117,7 @@ AsyncAppender::AsyncAppender (helpers::Properties const & props)
     {
         tstring const err (LOG4CPLUS_TEXT ("AsyncAppender::AsyncAppender()")
             LOG4CPLUS_TEXT (" - Cannot find AppenderFactory: "));
-        helpers::getLogLog ().error (err + appender_name);
-        // Add at least null appender so that we do not crash unexpectedly
-        // elsewhere.
-        // XXX: What about throwing an exception instead?
-        factory = appender_registry.get (
-            LOG4CPLUS_TEXT ("log4cplus::NullAppender"));
+        helpers::getLogLog ().error (err + appender_name, true);
     }
 
     helpers::Properties appender_props = props.getPropertySubset (
@@ -159,7 +154,11 @@ AsyncAppender::close ()
     if (ret & (thread::Queue::ERROR_BIT | thread::Queue::ERROR_AFTER))
         getErrorHandler ()->error (
             LOG4CPLUS_TEXT ("Error in AsyncAppender::close"));
-    queue_thread->join ();
+
+    if (queue_thread && queue_thread->isRunning ())
+        queue_thread->join ();
+
+    removeAllAppenders();
 }
 
 

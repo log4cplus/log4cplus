@@ -1,15 +1,15 @@
-//  Copyright (C) 2010-2014, Vaclav Haisman. All rights reserved.
-//  
+//  Copyright (C) 2010-2015, Vaclav Haisman. All rights reserved.
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -23,6 +23,10 @@
 
 #include <log4cplus/mdc.h>
 #include <log4cplus/internal/internal.h>
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#include <catch.hpp>
+#endif
 
 
 namespace log4cplus
@@ -91,5 +95,40 @@ MDC::getContext () const
     return *getPtr ();
 }
 
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+CATCH_TEST_CASE ("MDC", "[MDC]")
+{
+    tstring str;
+    MDC & mdc = getMDC ();
+    mdc.put (LOG4CPLUS_TEXT ("key1"), LOG4CPLUS_TEXT ("value1"));
+    mdc.put (LOG4CPLUS_TEXT ("key2"), LOG4CPLUS_TEXT ("value2"));
+
+    CATCH_SECTION ("get")
+    {
+        CATCH_REQUIRE (mdc.get (&str, LOG4CPLUS_TEXT ("key1")));
+        CATCH_REQUIRE (str == LOG4CPLUS_TEXT ("value1"));
+        CATCH_REQUIRE (mdc.get (&str, LOG4CPLUS_TEXT ("key2")));
+        CATCH_REQUIRE (str == LOG4CPLUS_TEXT ("value2"));
+        CATCH_REQUIRE (! mdc.get (&str, LOG4CPLUS_TEXT ("nonexisting")));
+    }
+
+    CATCH_SECTION ("remove")
+    {
+        mdc.remove (LOG4CPLUS_TEXT ("key1"));
+        CATCH_REQUIRE (! mdc.get (&str, LOG4CPLUS_TEXT ("key1")));
+        CATCH_REQUIRE (mdc.get (&str, LOG4CPLUS_TEXT ("key2")));
+        CATCH_REQUIRE (str == LOG4CPLUS_TEXT ("value2"));
+    }
+
+    CATCH_SECTION  ("clear")
+    {
+        mdc.clear ();
+        CATCH_REQUIRE (! mdc.get (&str, LOG4CPLUS_TEXT ("key1")));
+        CATCH_REQUIRE (! mdc.get (&str, LOG4CPLUS_TEXT ("key2")));
+    }
+}
+
+#endif
 
 } // namespace log4cplus

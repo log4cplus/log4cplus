@@ -5,6 +5,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/loggingmacros.h>
+#include <log4cplus/initializer.h>
 
 
 using namespace log4cplus;
@@ -15,10 +16,10 @@ const int LOOP_COUNT = 20000;
 int
 main()
 {
-    log4cplus::initialize ();
+    log4cplus::Initializer initializer;
     helpers::LogLog::getLogLog()->setInternalDebugging(true);
     SharedFileAppenderPtr append_1(
-        new RollingFileAppender(LOG4CPLUS_TEXT("a/b/c/d/Test.log"), 5*1024, 5,
+        new RollingFileAppender(LOG4CPLUS_TEXT("a////b/c/d/Test.log"), 5*1024, 5,
             false, true));
     append_1->setName(LOG4CPLUS_TEXT("First"));
     append_1->setLayout( std::unique_ptr<Layout>(new TTCCLayout()) );
@@ -47,6 +48,20 @@ main()
         helpers::Properties props (propsStream);
         FileAppender appender (props);
         appender.setName (LOG4CPLUS_TEXT ("Third"));
+    }
+
+    {
+        // This is checking that CreateDirs is respected when UseLockFile is
+        // provided and that directories for the lock file are created.
+        tistringstream propsStream (
+            LOG4CPLUS_TEXT("CreateDirs=true\n")
+            LOG4CPLUS_TEXT("File=./logs/some_name.log\n")
+            LOG4CPLUS_TEXT("UseLockFile=true\n")
+            LOG4CPLUS_TEXT("MaxFileSize=100MB\n")
+            LOG4CPLUS_TEXT("MaxBackupIndex=10\n"));
+        helpers::Properties props (propsStream);
+        FileAppender appender (props);
+        appender.setName (LOG4CPLUS_TEXT ("Fourth"));
     }
 
     return 0;

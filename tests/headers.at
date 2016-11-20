@@ -11,7 +11,9 @@ m4_foreach_w([HEADER],
   log4cplus/fstreams.h
   log4cplus/hierarchy.h
   log4cplus/hierarchylocker.h
+  log4cplus/initializer.h
   log4cplus/layout.h
+  log4cplus/log4cplus.h
   log4cplus/log4judpappender.h
   log4cplus/logger.h
   log4cplus/loggingmacros.h

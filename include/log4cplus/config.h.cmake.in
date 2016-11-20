@@ -169,9 +169,6 @@
 #define LOG4CPLUS_DECLSPEC_IMPORT @LOG4CPLUS_DECLSPEC_IMPORT@ /**/
 
 /* */
-#cmakedefine LOG4CPLUS_HAVE_C99_VARIADIC_MACROS 1
-
-/* */
 #cmakedefine LOG4CPLUS_HAVE_CLOCK_GETTIME 1
 
 /* */
@@ -203,9 +200,6 @@
 
 /* */
 #cmakedefine LOG4CPLUS_HAVE_GMTIME_R 1
-
-/* */
-#cmakedefine LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS 1
 
 /* */
 #cmakedefine LOG4CPLUS_HAVE_HTONL 1
@@ -317,12 +311,6 @@
 
 /* */
 #cmakedefine LOG4CPLUS_HAVE__VSNWPRINTF_S 1
-
-/* */
-#cmakedefine LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH 1
-
-/* */
-#cmakedefine LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH 1
 
 /* Define if this is a single-threaded library. */
 #undef LOG4CPLUS_SINGLE_THREADED

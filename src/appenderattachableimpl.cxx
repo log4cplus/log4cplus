@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2014 Tad E. Smith
+// Copyright 2001-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -115,7 +115,14 @@ AppenderAttachableImpl::removeAllAppenders()
 {
     thread::MutexGuard guard (appender_list_mutex);
 
-    appenderList.erase(appenderList.begin(), appenderList.end());
+    // Clear appenders in specific order because the order of destruction of
+    // std::vector elements is surprisingly unspecified and it breaks our
+    // tests' expectations.
+
+    for (auto & app : appenderList)
+        app = SharedAppenderPtr ();
+
+    appenderList.clear ();
 }
 
 

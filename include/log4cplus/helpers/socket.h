@@ -5,7 +5,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2014 Tad E. Smith
+// Copyright 2003-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -86,7 +86,8 @@ namespace log4cplus {
           // ctor and dtor
             Socket();
             Socket(SOCKET_TYPE sock, SocketState state, int err);
-            Socket(const tstring& address, unsigned short port, bool udp = false);
+            Socket(const tstring& address, unsigned short port,
+                bool udp = false, bool ipv6 = false);
             Socket(Socket &&);
             virtual ~Socket();
 
@@ -108,7 +109,8 @@ namespace log4cplus {
          */
         class LOG4CPLUS_EXPORT ServerSocket : public AbstractSocket {
         public:
-            ServerSocket(unsigned short port);
+            ServerSocket(unsigned short port, bool udp = false,
+                bool ipv6 = false, tstring const & host = tstring ());
             ServerSocket(ServerSocket &&);
             virtual ~ServerSocket();
 
@@ -123,10 +125,13 @@ namespace log4cplus {
         };
 
 
-        LOG4CPLUS_EXPORT SOCKET_TYPE openSocket(unsigned short port, SocketState& state);
+        LOG4CPLUS_EXPORT SOCKET_TYPE openSocket(unsigned short port, bool udp,
+            bool ipv6, SocketState& state);
+        LOG4CPLUS_EXPORT SOCKET_TYPE openSocket(tstring const & host,
+            unsigned short port, bool udp, bool ipv6, SocketState& state);
+
         LOG4CPLUS_EXPORT SOCKET_TYPE connectSocket(const log4cplus::tstring& hostn,
-                                                   unsigned short port, bool udp,
-                                                   SocketState& state);
+            unsigned short port, bool udp, bool ipv6, SocketState& state);
         LOG4CPLUS_EXPORT SOCKET_TYPE acceptSocket(SOCKET_TYPE sock, SocketState& state);
         LOG4CPLUS_EXPORT int closeSocket(SOCKET_TYPE sock);
         LOG4CPLUS_EXPORT int shutdownSocket(SOCKET_TYPE sock);

@@ -1,6 +1,8 @@
 
 #include <iostream>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/logger.h>
+#include <log4cplus/initializer.h>
 
 using namespace std;
 using namespace log4cplus::helpers;
@@ -26,7 +28,7 @@ void printMsgs() {
 
 int
 main() {
-    log4cplus::initialize ();
+    log4cplus::Initializer initializer;
     printMsgs();
 
     cout << "Turning on debug..." << endl;

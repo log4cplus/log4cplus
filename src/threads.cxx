@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2014 Tad E. Smith
+// Copyright 2001-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -95,10 +95,12 @@ yield()
 }
 
 #if defined(LOG4CPLUS_SINGLE_THREADED)
-static log4cplus::tstring thread_name(LOG4CPLUS_TEXT("single"))
-    LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE - 1);
-static log4cplus::tstring thread_name2(thread_name)
-    LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE - 1);
+static log4cplus::tstring thread_name
+    LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE - 1)
+    (LOG4CPLUS_TEXT("single"));
+static log4cplus::tstring thread_name2
+    LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE - 1)
+    (thread_name);
 #endif
 
 LOG4CPLUS_EXPORT
@@ -207,6 +209,7 @@ LOG4CPLUS_EXPORT void setCurrentThreadName2(const log4cplus::tstring & name)
 //
 
 AbstractThread::AbstractThread ()
+    : flags (0)
 { }
 
 
@@ -222,14 +225,12 @@ AbstractThread::start()
 {
     try
     {
-        addReference ();
         flags |= fRUNNING;
         thread.reset (
-            new std::thread ([this] () {
+            new std::thread ([this] (AbstractThreadPtr const & thread_ptr) {
+                    (void) thread_ptr;
                     blockAllSignals ();
-                    AbstractThreadPtr thread_ptr (this);
-                    this->removeReference ();
-                    helpers::LogLog * loglog = helpers::LogLog::getLogLog();
+                    helpers::LogLog & loglog = helpers::getLogLog();
                     try
                     {
                         this->run ();
@@ -239,21 +240,20 @@ AbstractThread::start()
                         tstring err (LOG4CPLUS_TEXT ("threadStartFunc()")
                             LOG4CPLUS_TEXT ("- run() terminated with an exception: "));
                         err += LOG4CPLUS_C_STR_TO_TSTRING(e.what());
-                        loglog->warn(err);
+                        loglog.warn(err);
                     }
                     catch(...)
                     {
-                        loglog->warn(LOG4CPLUS_TEXT("threadStartFunc()")
+                        loglog.warn(LOG4CPLUS_TEXT("threadStartFunc()")
                             LOG4CPLUS_TEXT ("- run() terminated with an exception."));
                     }
                     this->flags &= ~fRUNNING;
                     threadCleanup ();
-                }));
+                }, AbstractThreadPtr (this)));
     }
     catch (...)
     {
         flags &= ~fRUNNING;
-        removeReference ();
         throw;
     }
 }

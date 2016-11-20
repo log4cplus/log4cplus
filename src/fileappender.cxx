@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2014 Tad E. Smith
+// Copyright 2001-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,6 +35,7 @@
 #include <sstream>
 #include <cstdio>
 #include <stdexcept>
+#include <cmath> // std::fmod
 
 // For _wrename() and _wremove() on Windows.
 #include <stdio.h>
@@ -164,8 +165,8 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
     // Map {(maxBackupIndex - 1), ..., 2, 1} to {maxBackupIndex, ..., 3, 2}
     for (int i = maxBackupIndex - 1; i >= 1; --i)
     {
-        source_oss.str(LOG4CPLUS_TEXT(""));
-        target_oss.str(LOG4CPLUS_TEXT(""));
+        source_oss.str(internal::empty_str);
+        target_oss.str(internal::empty_str);
 
         source_oss << filename << LOG4CPLUS_TEXT(".") << i;
         target_oss << filename << LOG4CPLUS_TEXT(".") << (i+1);
@@ -221,7 +222,7 @@ FileAppender::FileAppender(const tstring& filename_,
     , createDirs (createDirs_)
     , reopenDelay(1)
     , bufferSize (0)
-    , buffer (0)
+    , buffer (nullptr)
     , localeName (LOG4CPLUS_TEXT ("DEFAULT"))
 {
     init(filename_, mode_, internal::empty_str);
@@ -235,7 +236,7 @@ FileAppender::FileAppender(const Properties& props,
     , createDirs (false)
     , reopenDelay(1)
     , bufferSize (0)
-    , buffer (0)
+    , buffer (nullptr)
 {
     bool app = (mode_ & (std::ios_base::app | std::ios_base::ate)) != 0;
     tstring const & fn = props.getProperty( LOG4CPLUS_TEXT("File") );
@@ -275,14 +276,16 @@ FileAppender::init(const tstring& filename_,
 
     if (bufferSize != 0)
     {
-        delete[] buffer;
-        buffer = new tchar[bufferSize];
-        out.rdbuf ()->pubsetbuf (buffer, bufferSize);
+        buffer.reset (new tchar[bufferSize]);
+        out.rdbuf ()->pubsetbuf (buffer.get (), bufferSize);
     }
 
     helpers::LockFileGuard guard;
     if (useLockFile && ! lockFile.get ())
     {
+        if (createDirs)
+            internal::make_dirs (lockFileName_);
+
         try
         {
             lockFile.reset (new helpers::LockFile (lockFileName_));
@@ -326,8 +329,7 @@ FileAppender::close()
     thread::MutexGuard guard (access_mutex);
 
     out.close();
-    delete[] buffer;
-    buffer = 0;
+    buffer.reset ();
     closed = true;
 }
 
@@ -641,6 +643,56 @@ DailyRollingFileAppender::DailyRollingFileAppender(
 }
 
 
+namespace
+{
+
+
+static
+Time
+round_time (Time const & t_, helpers::chrono::seconds seconds)
+{
+    time_t const t = helpers::to_time_t (t_);
+    return helpers::from_time_t (
+        t - static_cast<time_t>(std::fmod (
+                static_cast<double>(t),
+                static_cast<double>(seconds.count ()))));
+}
+
+
+static
+Time
+round_time_and_add (Time const & t, helpers::chrono::seconds const & seconds)
+{
+    return round_time (t, seconds) + seconds;
+}
+
+
+static
+std::chrono::seconds
+local_time_offset (Time const & t)
+{
+    tm time_local, time_gmt;
+
+    helpers::localTime (&time_local, t);
+    helpers::gmTime (&time_gmt, t);
+
+    Time t2 = helpers::from_struct_tm (&time_local);
+    Time t3 = helpers::from_struct_tm (&time_gmt);
+
+    return std::chrono::duration_cast<std::chrono::seconds> (t2 - t3);
+}
+
+
+static
+Time
+adjust_for_time_zone (Time const & t, std::chrono::seconds const & tzoffset)
+{
+    return helpers::time_cast (t - tzoffset);
+}
+
+
+} // namespace
+
 
 void
 DailyRollingFileAppender::init(DailyRollingFileSchedule sch)
@@ -840,14 +892,19 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
                 LOG4CPLUS_TEXT(" setTime() returned error: ")
                 + LOG4CPLUS_C_STR_TO_TSTRING (e.what ()));
             // Set next rollover to 31 days in future.
-            ret = t + chrono::seconds (2678400);
+            ret = round_time (t, chrono::seconds (24 * 60 * 60))
+                + chrono::seconds (2678400);
         }
 
         return ret;
     }
 
     case WEEKLY:
-        return t + chrono::seconds (7 * 24 * 60 * 60);
+    {
+        Time next = round_time (t, chrono::seconds (24 * 60 * 60))
+            + chrono::seconds (7 * 24 * 60 * 60);
+        return adjust_for_time_zone (next, local_time_offset (next));
+    }
 
     default:
         helpers::getLogLog ().error (
@@ -856,16 +913,22 @@ DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
         // Fall through.
 
     case DAILY:
-        return t + chrono::seconds (24 * 60 * 60);
+    {
+        Time next = round_time_and_add (t, chrono::seconds (24 * 60 * 60));
+        return adjust_for_time_zone (next, local_time_offset (next));
+    }
 
     case TWICE_DAILY:
-        return t + chrono::seconds (12 * 60 * 60);
+    {
+        Time next = round_time_and_add (t, chrono::seconds (12 * 60 * 60));
+        return adjust_for_time_zone (next, local_time_offset (next));
+    }
 
     case HOURLY:
-        return t + chrono::seconds (60 * 60);
+        return round_time_and_add (t, chrono::seconds (60 * 60));
 
     case MINUTELY:
-        return t + chrono::seconds (60);
+        return round_time_and_add (t, chrono::seconds (60));
     };
 }
 

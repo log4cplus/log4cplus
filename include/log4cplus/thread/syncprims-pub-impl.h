@@ -1,5 +1,5 @@
 // -*- C++ -*-
-//  Copyright (C) 2010-2014, Vaclav Haisman. All rights reserved.
+//  Copyright (C) 2010-2015, Vaclav Haisman. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -264,13 +264,15 @@ SharedMutexImplBase::~SharedMutexImplBase ()
 
 LOG4CPLUS_INLINE_EXPORT
 SharedMutex::SharedMutex ()
-    : sm (LOG4CPLUS_THREADED (new impl::SharedMutex) + 0)
+    : sm (LOG4CPLUS_THREADED (new impl::SharedMutex))
 { }
 
 
 LOG4CPLUS_INLINE_EXPORT
 SharedMutex::~SharedMutex ()
-{ }
+{
+    LOG4CPLUS_THREADED (delete static_cast<impl::SharedMutex *>(sm));
+}
 
 
 LOG4CPLUS_INLINE_EXPORT

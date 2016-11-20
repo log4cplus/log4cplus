@@ -5,7 +5,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2014 Tad E. Smith
+// Copyright 2001-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -53,32 +53,32 @@ namespace log4cplus {
         class LOG4CPLUS_EXPORT SharedObject
         {
         public:
-            void addReference() const;
+            void addReference() const LOG4CPLUS_NOEXCEPT;
             void removeReference() const;
 
         protected:
           // Ctor
             SharedObject()
                 : access_mutex()
-                , count(0)
+                , count__(0)
             { }
 
             SharedObject(const SharedObject&)
                 : access_mutex()
-                , count(0)
+                , count__(0)
             { }
 
             SharedObject(SharedObject &&)
                 : access_mutex()
-                , count(0)
+                , count__(0)
             { }
 
           // Dtor
             virtual ~SharedObject();
 
           // Operators
-            SharedObject& operator=(const SharedObject&) { return *this; }
-            SharedObject& operator=(SharedObject &&) { return *this; }
+            SharedObject& operator=(const SharedObject&) LOG4CPLUS_NOEXCEPT { return *this; }
+            SharedObject& operator=(SharedObject &&) LOG4CPLUS_NOEXCEPT { return *this; }
 
         public:
             thread::Mutex access_mutex;
@@ -89,7 +89,7 @@ namespace log4cplus {
 #else
             typedef std::atomic<unsigned> count_type;
 #endif
-            mutable count_type count;
+            mutable count_type count__;
         };
 
 
@@ -102,25 +102,25 @@ namespace log4cplus {
         public:
             // Ctor
             explicit
-            SharedObjectPtr(T* realPtr = 0)
+            SharedObjectPtr(T* realPtr = 0) LOG4CPLUS_NOEXCEPT
                 : pointee(realPtr)
             {
                 addref ();
             }
 
-            SharedObjectPtr(const SharedObjectPtr& rhs)
+            SharedObjectPtr(const SharedObjectPtr& rhs) LOG4CPLUS_NOEXCEPT
                 : pointee(rhs.pointee)
             {
                 addref ();
             }
 
-            SharedObjectPtr(SharedObjectPtr && rhs)
+            SharedObjectPtr(SharedObjectPtr && rhs) LOG4CPLUS_NOEXCEPT
                 : pointee (std::move (rhs.pointee))
             {
                 rhs.pointee = 0;
             }
 
-            SharedObjectPtr & operator = (SharedObjectPtr && rhs)
+            SharedObjectPtr & operator = (SharedObjectPtr && rhs) LOG4CPLUS_NOEXCEPT
             {
                 rhs.swap (*this);
                 return *this;
@@ -157,7 +157,7 @@ namespace log4cplus {
           // Methods
             T* get() const { return pointee; }
 
-            void swap (SharedObjectPtr & other) throw ()
+            void swap (SharedObjectPtr & other) LOG4CPLUS_NOEXCEPT
             {
                 std::swap (pointee, other.pointee);
             }
@@ -175,7 +175,7 @@ namespace log4cplus {
 
         private:
           // Methods
-            void addref() const
+            void addref() const LOG4CPLUS_NOEXCEPT
             {
                 if (pointee)
                     pointee->addReference();

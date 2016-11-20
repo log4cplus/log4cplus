@@ -1,10 +1,10 @@
 // Module:  Log4CPLUS
-// File:    socket-win32.cxx
+// File:    socket.cxx
 // Created: 4/2003
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2014 Tad E. Smith
+// Copyright 2003-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/internal/socket.h>
+#include <log4cplus/internal/internal.h>
 
 
 namespace log4cplus { namespace helpers {
@@ -128,10 +129,11 @@ Socket::Socket()
 { }
 
 
-Socket::Socket(const tstring& address, unsigned short port, bool udp /*= false*/)
+Socket::Socket(const tstring& address, unsigned short port,
+    bool udp /*= false*/, bool ipv6 /*= false */)
     : AbstractSocket()
 {
-    sock = connectSocket(address, port, udp, state);
+    sock = connectSocket(address, port, udp, ipv6, state);
     if (sock == INVALID_SOCKET_VALUE)
         goto error;
 
@@ -216,8 +218,9 @@ Socket::write(const std::string & buffer)
 
 ServerSocket::ServerSocket (ServerSocket && other)
     : AbstractSocket (std::move (other))
-    , interruptHandles { -1, -1 }
 {
+    interruptHandles[0] = -1;
+    interruptHandles[1] = -1;
     interruptHandles.swap (other.interruptHandles);
 }
 
@@ -235,6 +238,17 @@ ServerSocket::swap (ServerSocket & other)
 {
     AbstractSocket::swap (other);
     interruptHandles.swap (other.interruptHandles);
+}
+
+
+//
+//
+//
+
+SOCKET_TYPE
+openSocket(unsigned short port, bool udp, bool ipv6, SocketState& state)
+{
+    return openSocket(log4cplus::internal::empty_str, port, udp, ipv6, state);
 }
 
 

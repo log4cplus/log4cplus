@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2014 Tad E. Smith
+// Copyright 2003-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,10 +25,12 @@
 #include <cerrno>
 #include <vector>
 #include <cstring>
+#include <atomic>
 #include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/internal/internal.h>
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -47,7 +49,18 @@ enum WSInitStates
 
 
 static WSADATA wsa;
-static LONG volatile winsock_state = WS_UNINITIALIZED;
+static std::atomic<WSInitStates> winsock_state (WS_UNINITIALIZED);
+
+
+static inline
+WSInitStates
+interlocked_compare_exchange (std::atomic<WSInitStates> & var,
+    WSInitStates expected, WSInitStates desired)
+{
+    var.compare_exchange_strong (expected, desired);
+    return expected;
+}
+
 
 
 static
@@ -58,8 +71,8 @@ init_winsock_worker ()
         = log4cplus::helpers::LogLog::getLogLog ();
 
     // Try to change the state to WS_INITIALIZING.
-    LONG val = ::InterlockedCompareExchange (
-        const_cast<LPLONG>(&winsock_state), WS_INITIALIZING, WS_UNINITIALIZED);
+    WSInitStates val = interlocked_compare_exchange (winsock_state,
+        WS_UNINITIALIZED, WS_INITIALIZING);
     switch (val)
     {
     case WS_UNINITIALIZED:
@@ -69,18 +82,16 @@ init_winsock_worker ()
         {
             // Revert the state back to WS_UNINITIALIZED to unblock other
             // threads and let them throw exception.
-            val = ::InterlockedCompareExchange (
-                const_cast<LPLONG>(&winsock_state), WS_UNINITIALIZED,
-                WS_INITIALIZING);
+            val = interlocked_compare_exchange (winsock_state, WS_INITIALIZING,
+                WS_UNINITIALIZED);
             assert (val == WS_INITIALIZING);
             loglog->error (LOG4CPLUS_TEXT ("Could not initialize WinSock."),
                 true);
         }
 
         // WinSock is initialized, change the state to WS_INITIALIZED.
-        val = ::InterlockedCompareExchange (
-            const_cast<LPLONG>(&winsock_state), WS_INITIALIZED,
-            WS_INITIALIZING);
+        val = interlocked_compare_exchange (winsock_state, WS_INITIALIZING,
+            WS_INITIALIZED);
         assert (val == WS_INITIALIZING);
         return;
     }
@@ -154,106 +165,124 @@ namespace log4cplus { namespace helpers {
 /////////////////////////////////////////////////////////////////////////////
 
 SOCKET_TYPE
-openSocket(unsigned short port, SocketState& state)
+openSocket(tstring const & host, unsigned short port, bool udp, bool ipv6,
+    SocketState& state)
 {
-    struct sockaddr_in server;
+    ADDRINFOT addr_info_hints{};
+    PADDRINFOT ai = nullptr;
+    std::unique_ptr<ADDRINFOT, ADDRINFOT_deleter> addr_info;
+    int const family = ipv6 ? AF_INET6 : AF_INET;
+    int const socket_type = udp ? SOCK_DGRAM : SOCK_STREAM;
+    int const protocol = udp ? IPPROTO_UDP : IPPROTO_TCP;
+    tstring const port_str = convertIntegerToString(port);
+    int retval;
+    DWORD const wsa_socket_flags =
+#if defined (WSA_FLAG_NO_HANDLE_INHERIT)
+        WSA_FLAG_NO_HANDLE_INHERIT;
+#else
+        0;
+#endif
 
     init_winsock ();
 
-    SOCKET sock = WSASocket (AF_INET, SOCK_STREAM, AF_UNSPEC, 0, 0
-#if defined (WSA_FLAG_NO_HANDLE_INHERIT)
-        , WSA_FLAG_NO_HANDLE_INHERIT
-#else
-        , 0
-#endif
-        );
+    addr_info_hints.ai_family = family;
+    addr_info_hints.ai_socktype = socket_type;
+    addr_info_hints.ai_protocol = protocol;
+    addr_info_hints.ai_flags = AI_PASSIVE;
+    retval = GetAddrInfo (host.empty () ? nullptr : host.c_str (),
+        port_str.c_str (), &addr_info_hints, &ai);
+    if (retval != 0)
+    {
+        set_last_socket_error(retval);
+        return INVALID_SOCKET_VALUE;
+    }
 
-    if (sock == INVALID_OS_SOCKET_VALUE)
+    addr_info.reset(ai);
+
+    socket_holder sock_holder (
+        WSASocketW (ai->ai_family, ai->ai_socktype, ai->ai_protocol, nullptr,
+            0, wsa_socket_flags));
+    if (sock_holder.sock == INVALID_OS_SOCKET_VALUE)
         goto error;
 
-    server.sin_family = AF_INET;
-    server.sin_addr.s_addr = htonl(INADDR_ANY);
-    server.sin_port = htons(port);
-
-    if (bind(sock, reinterpret_cast<struct sockaddr*>(&server), sizeof(server))
-        != 0)
+    if (bind(sock_holder.sock, ai->ai_addr, static_cast<int>(ai->ai_addrlen)) != 0)
         goto error;
 
-    if (::listen(sock, 10) != 0)
+    if (::listen(sock_holder.sock, 10) != 0)
         goto error;
 
     state = ok;
-    return to_log4cplus_socket (sock);
+    return to_log4cplus_socket (sock_holder.detach());
 
 error:
     int eno = WSAGetLastError ();
-
-    if (sock != INVALID_OS_SOCKET_VALUE)
-        ::closesocket (sock);
-
     set_last_socket_error (eno);
     return INVALID_SOCKET_VALUE;
 }
 
 
 SOCKET_TYPE
-connectSocket(const tstring& hostn, unsigned short port, bool udp, SocketState& state)
+connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
+    SocketState& state)
 {
-    struct hostent * hp;
-    struct sockaddr_in insock;
+    ADDRINFOT addr_info_hints{};
+    PADDRINFOT ai = nullptr;
+    std::unique_ptr<ADDRINFOT, ADDRINFOT_deleter> addr_info;
+    int const family = ipv6 ? AF_INET6 : AF_INET;
+    int const socket_type = udp ? SOCK_DGRAM : SOCK_STREAM;
+    int const protocol = udp ? IPPROTO_UDP : IPPROTO_TCP;
+    tstring const port_str = convertIntegerToString (port);
     int retval;
+    DWORD const wsa_socket_flags =
+#if defined (WSA_FLAG_NO_HANDLE_INHERIT)
+        WSA_FLAG_NO_HANDLE_INHERIT;
+#else
+        0;
+#endif
 
     init_winsock ();
 
-    SOCKET sock = WSASocket (AF_INET, (udp ? SOCK_DGRAM : SOCK_STREAM),
-        AF_UNSPEC, 0, 0
-#if defined (WSA_FLAG_NO_HANDLE_INHERIT)
-        , WSA_FLAG_NO_HANDLE_INHERIT
-#else
-        , 0
-#endif
-        );
-    if (sock == INVALID_OS_SOCKET_VALUE)
-        goto error;
-
-    hp = ::gethostbyname( LOG4CPLUS_TSTRING_TO_STRING(hostn).c_str() );
-    if (hp == nullptr || hp->h_addrtype != AF_INET)
+    addr_info_hints.ai_family = family;
+    addr_info_hints.ai_socktype = socket_type;
+    addr_info_hints.ai_protocol = protocol;
+    addr_info_hints.ai_flags = AI_NUMERICSERV;
+    retval = GetAddrInfo(hostn.c_str(), port_str.c_str(), &addr_info_hints,
+        &ai);
+    if (retval != 0)
     {
-        insock.sin_family = AF_INET;
-        INT insock_size = sizeof (insock);
-        INT ret = WSAStringToAddress (const_cast<LPTSTR>(hostn.c_str ()),
-            AF_INET, 0, reinterpret_cast<struct sockaddr *>(&insock),
-            &insock_size);
-        if (ret == SOCKET_ERROR || insock_size != static_cast<INT>(sizeof (insock)))
-        {
-            state = bad_address;
-            goto error;
-        }
+        set_last_socket_error(retval);
+        return INVALID_SOCKET_VALUE;
     }
-    else
-        std::memcpy (&insock.sin_addr, hp->h_addr_list[0],
-            sizeof (insock.sin_addr));
 
-    insock.sin_port = htons(port);
-    insock.sin_family = AF_INET;
+    addr_info.reset(ai);
 
-    while(   (retval = ::connect(sock, (struct sockaddr*)&insock, sizeof(insock))) == -1
-          && (WSAGetLastError() == WSAEINTR))
-        ;
-    if (retval == SOCKET_ERROR)
-        goto error;
+    socket_holder sock_holder;
+    for (ADDRINFOT * rp = ai; rp; rp = rp->ai_next)
+    {
+        sock_holder.reset(
+            WSASocketW(rp->ai_family, rp->ai_socktype, rp->ai_protocol,
+                nullptr, 0, wsa_socket_flags));
+        if (sock_holder.sock == INVALID_OS_SOCKET_VALUE)
+            continue;
+
+        while (
+            (retval = ::connect(sock_holder.sock, rp->ai_addr,
+                static_cast<int>(rp->ai_addrlen))) == -1
+            && (WSAGetLastError() == WSAEINTR))
+            ;
+        if (retval != SOCKET_ERROR)
+            break;
+    }
+
+    if (sock_holder.sock == INVALID_OS_SOCKET_VALUE)
+    {
+        DWORD const eno = WSAGetLastError();
+        set_last_socket_error(eno);
+        return INVALID_SOCKET_VALUE;
+    }
 
     state = ok;
-    return to_log4cplus_socket (sock);
-
-error:
-    int eno = WSAGetLastError ();
-
-    if (sock != INVALID_OS_SOCKET_VALUE)
-        ::closesocket (sock);
-
-    set_last_socket_error (eno);
-    return INVALID_SOCKET_VALUE;
+    return to_log4cplus_socket (sock_holder.detach());
 }
 
 
@@ -291,15 +320,15 @@ shutdownSocket(SOCKET_TYPE sock)
 long
 read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
-    long res, read = 0;
+    long read = 0;
     os_socket_type const osSocket = to_os_socket (sock);
 
     do
     {
-        res = ::recv(osSocket,
-                     buffer.getBuffer() + read,
-                     static_cast<int>(buffer.getMaxSize() - read),
-                     0);
+        long const res = ::recv(osSocket,
+            buffer.getBuffer() + read,
+            static_cast<int>(buffer.getMaxSize() - read),
+            0);
         if (res == SOCKET_ERROR)
         {
             set_last_socket_error (WSAGetLastError ());
@@ -342,6 +371,26 @@ write(SOCKET_TYPE sock, const std::string & buffer)
 }
 
 
+static
+bool
+verifyWindowsVersionAtLeast (DWORD major, DWORD minor)
+{
+    OSVERSIONINFOEX os{};
+    os.dwOSVersionInfoSize = sizeof (os);
+    os.dwMajorVersion = major;
+    os.dwMinorVersion = minor;
+
+    ULONGLONG cond_mask
+        = VerSetConditionMask (0, VER_MAJORVERSION, VER_GREATER_EQUAL);
+    cond_mask = VerSetConditionMask (cond_mask, VER_MINORVERSION,
+        VER_GREATER_EQUAL);
+
+    bool result = !! VerifyVersionInfo (&os,
+        VER_MAJORVERSION | VER_MINORVERSION, cond_mask);
+    return result;
+}
+
+
 tstring
 getHostname (bool fqdn)
 {
@@ -349,7 +398,9 @@ getHostname (bool fqdn)
 
     char const * hostname = "unknown";
     int ret;
-    std::vector<char> hn (1024, 0);
+    // The initial size is based on information in the Microsoft KB article:
+    // <http://support.microsoft.com/kb/909264>
+    std::vector<char> hn (64, 0);
 
     while (true)
     {
@@ -359,21 +410,50 @@ getHostname (bool fqdn)
             hostname = &hn[0];
             break;
         }
-        else if (ret != 0 && WSAGetLastError () == WSAEFAULT)
-            // Out buffer was too short. Retry with buffer twice the size.
-            hn.resize (hn.size () * 2, 0);
         else
-            break;
+        {
+            int const wsaeno = WSAGetLastError();
+            if (wsaeno == WSAEFAULT && hn.size () <= 1024 * 8)
+                // Out buffer was too short. Retry with buffer twice the size.
+                hn.resize (hn.size () * 2, 0);
+            else
+            {
+                helpers::getLogLog().error(
+                    LOG4CPLUS_TEXT("Failed to get own hostname. Error: ")
+                    + convertIntegerToString (wsaeno));
+                return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+            }
+        }
     }
 
     if (ret != 0 || (ret == 0 && ! fqdn))
         return LOG4CPLUS_STRING_TO_TSTRING (hostname);
 
-    struct ::hostent * hp = ::gethostbyname (hostname);
-    if (hp)
-        hostname = hp->h_name;
+    ADDRINFOT addr_info_hints{ };
+    addr_info_hints.ai_family = AF_INET;
+    // The AI_FQDN flag is available only on Windows 7 and later.
+#if defined (AI_FQDN)
+    if (verifyWindowsVersionAtLeast (6, 1))
+        addr_info_hints.ai_flags = AI_FQDN;
+    else
+#endif
+        addr_info_hints.ai_flags = AI_CANONNAME;
 
-    return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+    std::unique_ptr<ADDRINFOT, ADDRINFOT_deleter> addr_info;
+    ADDRINFOT * ai = nullptr;
+    ret = GetAddrInfo (LOG4CPLUS_C_STR_TO_TSTRING (hostname).c_str (), nullptr,
+        &addr_info_hints, &ai);
+    if (ret != 0)
+    {
+        WSASetLastError (ret);
+        helpers::getLogLog ().error (
+            LOG4CPLUS_TEXT ("Failed to resolve own hostname. Error: ")
+            + convertIntegerToString (ret));
+        return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+    }
+
+    addr_info.reset (ai);
+    return addr_info->ai_canonname;
 }
 
 
@@ -446,9 +526,15 @@ socketEventHandlingCleanup (SOCKET_TYPE s, HANDLE ev)
 } // namespace
 
 
-ServerSocket::ServerSocket(unsigned short port)
+ServerSocket::ServerSocket(unsigned short port, bool udp /*= false*/,
+    bool ipv6 /*= false*/, tstring const & host /*= tstring ()*/)
 {
-    sock = openSocket (port, state);
+    // Initialize these here so that we do not try to close invalid handles
+    // in dtor if the following `openSocket()` fails.
+    interruptHandles[0] = 0;
+    interruptHandles[1] = 0;
+
+    sock = openSocket (host, port, udp, ipv6, state);
     if (sock == INVALID_SOCKET_VALUE)
     {
         err = get_last_socket_error ();
@@ -464,7 +550,8 @@ ServerSocket::ServerSocket(unsigned short port)
     }
     else
     {
-        assert (sizeof (std::ptrdiff_t) >= sizeof (HANDLE));
+        static_assert (sizeof (std::ptrdiff_t) >= sizeof (HANDLE),
+            "Size of std::ptrdiff_t must be larger than size of HANDLE.");
         interruptHandles[0] = reinterpret_cast<std::ptrdiff_t>(ev);
     }
 }
@@ -578,7 +665,8 @@ ServerSocket::interruptAccept ()
 
 ServerSocket::~ServerSocket()
 {
-    (void) WSACloseEvent (reinterpret_cast<HANDLE>(interruptHandles[0]));
+    if (interruptHandles[0] != 0)
+        (void) WSACloseEvent(reinterpret_cast<HANDLE>(interruptHandles[0]));
 }
 
 

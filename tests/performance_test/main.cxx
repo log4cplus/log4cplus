@@ -4,7 +4,9 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/helpers/fileinfo.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/initializer.h>
 
 
 using namespace std;
@@ -24,12 +26,29 @@ log4cplus::tostream& operator <<(log4cplus::tostream& s, const Time& t)
 #define LOOP_COUNT 100000
 
 
+log4cplus::tstring
+getPropertiesFileArgument (int argc, char * argv[])
+{
+    if (argc >= 2)
+    {
+        char const * arg = argv[1];
+        log4cplus::tstring file = LOG4CPLUS_C_STR_TO_TSTRING (arg);
+        log4cplus::helpers::FileInfo fi;
+        if (getFileInfo (&fi, file) == 0)
+            return file;
+    }
+
+    return LOG4CPLUS_TEXT ("log4cplus.properties");
+}
+
+
 int
-main()
+main(int argc, char * argv[])
 {
     tcout << LOG4CPLUS_TEXT("Entering main()...") << endl;
-    log4cplus::initialize ();
-    PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
+    log4cplus::Initializer initializer;
+
+    PropertyConfigurator::doConfigure(getPropertiesFileArgument (argc, argv));
     Logger root = Logger::getRoot();
     try {
         Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("testlogger"));
@@ -53,8 +72,8 @@ main()
         start = hr_clock::now ();
         for(i=0; i<LOOP_COUNT; ++i) {
             tostringstream buffer;
-                buffer /*<< "test"*/ << 123122;
-                tstring tmp = buffer.str();
+            buffer /*<< "test"*/ << 123122;
+            tstring tmp = buffer.str();
         }
         end = hr_clock::now ();
         diff = end - start;
@@ -125,6 +144,5 @@ main()
 
     tcout << LOG4CPLUS_TEXT("Exiting main()...") << endl;
 
-    log4cplus::Logger::shutdown();
     return 0;
 }

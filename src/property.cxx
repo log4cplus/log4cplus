@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2002-2014 Tad E. Smith
+// Copyright 2002-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,6 +41,10 @@
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/internal/env.h>
 #include <log4cplus/helpers/loglog.h>
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#include <catch.hpp>
+#endif
 
 
 namespace log4cplus { namespace helpers {
@@ -100,6 +104,33 @@ trim_ws (tstring & str)
     trim_trailing_ws (str);
     trim_leading_ws (str);
 }
+
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+CATCH_TEST_CASE( "String trimming", "[strings][properties]")
+{
+    CATCH_SECTION ("trim trailing whitespace")
+    {
+        tstring trailing_ws (LOG4CPLUS_TEXT ("abcd \t\n\v\f\r"));
+        trim_trailing_ws (trailing_ws);
+        CATCH_REQUIRE (trailing_ws == LOG4CPLUS_TEXT ("abcd"));
+    }
+
+    CATCH_SECTION ("trim leading whitespace")
+    {
+        tstring leading_ws (LOG4CPLUS_TEXT (" \t\n\v\f\rabcd"));
+        trim_leading_ws (leading_ws);
+        CATCH_REQUIRE (leading_ws == LOG4CPLUS_TEXT ("abcd"));
+    }
+
+    CATCH_SECTION ("trim all whitespace")
+    {
+        tstring ws (LOG4CPLUS_TEXT (" \t\n\v\f\rabcd \t\n\v\f\r"));
+        trim_ws (ws);
+        CATCH_REQUIRE (ws == LOG4CPLUS_TEXT ("abcd"));
+    }
+}
+#endif
 
 
 void
@@ -216,7 +247,7 @@ Properties::init(tistream& input)
             // Remove trailing 'Windows' \r.
             buffer.resize (buffLen - 1);
 
-        tstring::size_type const idx = buffer.find('=');
+        tstring::size_type const idx = buffer.find(LOG4CPLUS_TEXT ('='));
         if (idx != tstring::npos)
         {
             tstring key = buffer.substr(0, idx);
@@ -382,6 +413,19 @@ Properties::getBool (bool & val, log4cplus::tstring const & key) const
 }
 
 
+bool
+Properties::getString (log4cplus::tstring & val, log4cplus::tstring const & key)
+    const
+{
+    StringMap::const_iterator it (data.find (key));
+    if (it == data.end ())
+        return false;
+
+    val = it->second;
+    return true;
+}
+
+
 template <typename StringType>
 log4cplus::tstring const &
 Properties::get_property_worker (StringType const & key) const
@@ -417,6 +461,81 @@ Properties::get_type_val_worker (ValType & val, log4cplus::tstring const & key)
     val = tmp_val;
     return true;
 }
+
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+CATCH_TEST_CASE ("Properties", "[properties]")
+{
+    static tchar const PROP_ABC[] = LOG4CPLUS_TEXT ("a.b.c");
+    Properties props;
+
+    CATCH_SECTION ("new object is empty")
+    {
+        CATCH_REQUIRE (props.size () == 0);
+    }
+
+    CATCH_SECTION ("added property can be retrieved")
+    {
+        props.setProperty (PROP_ABC, LOG4CPLUS_TEXT ("true"));
+        CATCH_REQUIRE (props.exists (PROP_ABC));
+        CATCH_REQUIRE (props.exists (LOG4CPLUS_C_STR_TO_TSTRING (PROP_ABC)));
+        CATCH_REQUIRE (props.getProperty (PROP_ABC)
+            == LOG4CPLUS_TEXT ("true"));
+    }
+
+    CATCH_SECTION ("type conversions work")
+    {
+        bool bool_;
+        int int_;
+        unsigned int uint;
+        long long_;
+        unsigned long ulong;
+
+        tistringstream iss (
+            LOG4CPLUS_TEXT ("bool=true\r\n")
+            LOG4CPLUS_TEXT ("bool1=1\n")
+            LOG4CPLUS_TEXT ("int=-1\n")
+            LOG4CPLUS_TEXT ("uint=42\n")
+            LOG4CPLUS_TEXT ("long=-65537\n")
+            LOG4CPLUS_TEXT ("ulong=65537")
+        );
+        Properties from_stream (iss);
+
+        CATCH_REQUIRE (from_stream.getBool (bool_, LOG4CPLUS_TEXT ("bool")));
+        CATCH_REQUIRE (bool_);
+        CATCH_REQUIRE (from_stream.getBool (bool_, LOG4CPLUS_TEXT ("bool1")));
+        CATCH_REQUIRE (bool_);
+        CATCH_REQUIRE (from_stream.getInt (int_, LOG4CPLUS_TEXT ("int")));
+        CATCH_REQUIRE (int_ == -1);
+        CATCH_REQUIRE (from_stream.getUInt (uint, LOG4CPLUS_TEXT ("uint")));
+        CATCH_REQUIRE (uint == 42);
+        CATCH_REQUIRE (from_stream.getLong (long_, LOG4CPLUS_TEXT ("long")));
+        CATCH_REQUIRE (long_ == -65537);
+        CATCH_REQUIRE (from_stream.getULong (ulong, LOG4CPLUS_TEXT ("ulong")));
+        CATCH_REQUIRE (ulong == 65537);
+    }
+
+    CATCH_SECTION ("remove property")
+    {
+        props.setProperty (PROP_ABC, LOG4CPLUS_TEXT ("true"));
+        CATCH_REQUIRE (props.exists (PROP_ABC));
+        props.removeProperty (PROP_ABC);
+        CATCH_REQUIRE (! props.exists (PROP_ABC));
+    }
+
+    CATCH_SECTION ("retrieve property names")
+    {
+        props.setProperty (PROP_ABC, LOG4CPLUS_TEXT ("true"));
+        static tchar const PROP_SECOND[] = LOG4CPLUS_TEXT ("second");
+        props.setProperty (LOG4CPLUS_TEXT ("second"), LOG4CPLUS_TEXT ("false"));
+        std::vector<log4cplus::tstring> names (props.propertyNames ());
+        CATCH_REQUIRE (std::find (std::begin (names), std::end (names),
+                PROP_ABC) != std::end (names));
+        CATCH_REQUIRE (std::find (std::begin (names), std::end (names),
+                PROP_SECOND) != std::end (names));
+    }
+}
+#endif
 
 
 } } // namespace log4cplus { namespace helpers {

@@ -5,7 +5,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2014 Tad E. Smith
+// Copyright 2003-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -90,6 +90,8 @@ namespace log4cplus {
             }
             if (first != i)
                 *result = StringType (s, first, i - first);
+            else if (! collapseTokens && first == i)
+                *result = StringType ();
         }
 
 
@@ -127,7 +129,7 @@ namespace log4cplus {
                     value = -value;
             }
 
-            static constexpr
+            static
             bool
             is_negative (intType val)
             {
@@ -146,7 +148,7 @@ namespace log4cplus {
                 // This will never be called for unsigned types.
             }
 
-            static constexpr
+            static
             bool
             is_negative (intType)
             {
@@ -166,8 +168,6 @@ namespace log4cplus {
                 intTypeLimits::is_signed> HelperType;
 
             charType buffer[intTypeLimits::digits10 + 2];
-            // We define buffer_size from buffer using sizeof operator
-            // to apease HP aCC compiler.
             const std::size_t buffer_size
                 = sizeof (buffer) / sizeof (charType);
 
@@ -227,10 +227,11 @@ namespace log4cplus {
 
 
         //! Join a list of items into a string.
-        template <typename Iterator>
+        template <typename Iterator, typename Separator>
         inline
         void
-        join (tstring & result, Iterator start, Iterator last, tstring const & sep)
+        join_worker (tstring & result, Iterator & start, Iterator & last,
+            Separator const & sep)
         {
             if (start != last)
                 result = *start++;
@@ -240,6 +241,26 @@ namespace log4cplus {
                 result += sep;
                 result += *start;
             }
+        }
+
+        //! Join a list of items into a string.
+        template <typename Iterator>
+        inline
+        void
+        join (tstring & result, Iterator start, Iterator last,
+            tstring const & sep)
+        {
+            join_worker (result, start, last, sep);
+        }
+
+        //! Join a list of items into a string.
+        template <typename Iterator>
+        inline
+        void
+        join (tstring & result, Iterator start, Iterator last,
+            tstring::value_type sep)
+        {
+            join_worker (result, start, last, sep);
         }
 
 

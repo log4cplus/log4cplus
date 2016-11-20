@@ -3,6 +3,7 @@
 #include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/loggingmacros.h>
+#include <log4cplus/initializer.h>
 #include <iostream>
 #include <string>
 
@@ -14,7 +15,7 @@ int
 main()
 {
     cout << "Entering main()..." << endl;
-    log4cplus::initialize ();
+    log4cplus::Initializer initializer;
     LogLog::getLogLog()->setInternalDebugging(true);
     try {
         SharedObjectPtr<Appender> append_1(new ConsoleAppender());

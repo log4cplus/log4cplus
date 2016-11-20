@@ -1,3 +1,7 @@
+if (NOT CMAKE_VERSION VERSION_LESS 3.1.0)
+  cmake_policy(SET CMP0054 NEW)
+endif()
+
 include(CheckIncludeFiles)
 include(CheckFunctionExists)
 include(CheckLibraryExists)
@@ -100,19 +104,6 @@ check_symbol_exists(SYS_gettid            sys/syscall.h LOG4CPLUS_HAVE_GETTID )
 check_symbol_exists(__FUNCTION__          ""            LOG4CPLUS_HAVE_FUNCTION_MACRO )
 check_symbol_exists(__PRETTY_FUNCTION__   ""            LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO )
 check_symbol_exists(__func__              ""            LOG4CPLUS_HAVE_FUNC_SYMBOL )
-
-check_c_source_compiles("#include <stdlib.h> \n int main() { int x = 1; int y = __sync_add_and_fetch (&x, 1); return y;}"
-                        LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH )
-
-check_c_source_compiles("#include <stdlib.h> \n int main() { int x = 1; int y = __sync_sub_and_fetch (&x, 1); return y;}"
-                        LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH )
-
-check_c_source_compiles("#include <stdio.h>\n #define MACRO(buf, args...) (sprintf (buf, \"%d\", args))\n int main() {char a[10]; MACRO(a, 1); return 0; }"
-                        LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS )
-
-check_c_source_compiles("#include <stdio.h>\n #define MACRO(buf, ...) (sprintf (buf, \"%d\",  __VA_ARGS__))\n int main() {char a[10]; MACRO(a, 1); return 0; }"
-                        LOG4CPLUS_HAVE_C99_VARIADIC_MACROS )
-
 
 # clock_gettime() needs -lrt here
 # TODO AC says this exists
@@ -295,35 +286,6 @@ if(NOT DEFINED LOG4CPLUS_HAVE_TLS_SUPPORT)
     set(LOG4CPLUS_THREAD_LOCAL_VAR "__declspec(thread)")
   endif()
 endif()
-
-# check for c++11 atomic stuff
-# TODO: requires special compiler switch on GCC and Clang
-# Currently it is assumed that they are provided in
-# CMAKE_CXX_FLAGS
-set(CMAKE_REQUIRED_FLAGS "${CMAKE_CXX_FLAGS}")
-check_cxx_source_compiles(
-  "#include <atomic>
-
-   template<typename T>
-   void test_atomic()
-   {
-       std::atomic<T> x(0);
-       std::atomic_fetch_add_explicit(&x, static_cast<T>(1), std::memory_order_acquire);
-       std::atomic_fetch_sub_explicit(&x, static_cast<T>(1), std::memory_order_release);
-   }
-
-   int main()
-   {
-       test_atomic<int>();
-       test_atomic<unsigned int>();
-       test_atomic<long>();
-       test_atomic<unsigned long>();
-       std::atomic_thread_fence(std::memory_order_acquire);
-       return 0;
-   }"
-  LOG4CPLUS_HAVE_CXX11_ATOMICS
-)
-set(CMAKE_REQUIRED_FLAGS "")
 
 set(CMAKE_EXTRA_INCLUDE_FILES sys/socket.h)
 check_type_size(socklen_t _SOCKLEN_SIZE)

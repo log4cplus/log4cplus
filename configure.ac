@@ -1,8 +1,8 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl This version of log4cplus requires the follwing autotools versions:
 dnl autoconf-2.69
-dnl automake-1.14.1
-dnl libtool-2.4.2
+dnl automake-1.15
+dnl libtool-2.4.6
 
 AC_INIT([log4cplus],[2.0.0])
 AC_CANONICAL_TARGET
@@ -20,57 +20,42 @@ AM_PROG_AR
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=0:1:0
+LT_VERSION=3:1:0
 LT_RELEASE=2.0
 AC_SUBST([LT_VERSION])
 AC_SUBST([LT_RELEASE])
 
 dnl Use C++ std::locale and std::codecvt facet for string conversion.
 
-AH_TEMPLATE([LOG4CPLUS_WORKING_LOCALE],
-  [Define for compilers/standard libraries that support more than
-   just the "C" locale.])
-
-AC_ARG_WITH([working-locale],
-  [AS_HELP_STRING([--with-working-locale],
-    [Use std::locale for char->wchar_t conversion.])],
-  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-working-locale])],
+LOG4CPLUS_ARG_WITH([working-locale],
+  [Use std::locale for char->wchar_t conversion.],
   [with_working_locale=no])
 
-AS_IF([test "x$with_working_locale" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_WORKING_LOCALE], [1])],
-  [])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_WORKING_LOCALE],
+  [Define for compilers/standard libraries that support more than
+   just the "C" locale.],
+   [test "x$with_working_locale" = "xyes"], [1])
 
 dnl Use C99 wcsrtombs() etc. functions for string conversion.
 
-AH_TEMPLATE([LOG4CPLUS_WORKING_C_LOCALE],
-  [Define for C99 compilers/standard libraries that support more than
-   just the "C" locale.])
-
-AC_ARG_WITH([working-c-locale],
-  [AS_HELP_STRING([--with-working-c-locale],
-    [Use C99 locale facilities for char->wchar_t conversion.])],
-  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-working-c-locale])],
+LOG4CPLUS_ARG_WITH([working-c-locale],
+  [Use C99 locale facilities for char->wchar_t conversion.],
   [with_working_c_locale=no])
 
-AS_IF([test "x$with_working_c_locale" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_WORKING_C_LOCALE], [1])],
-  [])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_WORKING_C_LOCALE],
+  [Define for C99 compilers/standard libraries that support more than
+   just the "C" locale.],
+  [test "x$with_working_c_locale" = "xyes"], [1])
 
 dnl Use iconv() function for string conversion.
 
-AH_TEMPLATE([LOG4CPLUS_WITH_ICONV],
-  [Define when iconv() is available.])
-
-AC_ARG_WITH([iconv],
-  [AS_HELP_STRING([--with-iconv],
-    [Use iconv() for char->wchar_t conversion.])],
-  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-iconv])],
+LOG4CPLUS_ARG_WITH([iconv],
+  [Use iconv() for char->wchar_t conversion.],
   [with_iconv=no])
 
-AS_IF([test "x$with_iconv" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_WITH_ICONV], [1])],
-  [])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_WITH_ICONV],
+  [Define when iconv() is available.],
+  [test "x$with_iconv" = "xyes"], [1])
 
 AS_IF([test "x$with_working_locale" = "xno" \
   -a "x$with_working_c_locale" = "xno" \
@@ -78,29 +63,11 @@ AS_IF([test "x$with_working_locale" = "xno" \
   [AC_MSG_WARN([Neither C++ locale support nor C locale support \
 nor iconv() support requested, using poor man's locale conversion.])])
 
-dnl With C++11 threads and synchronization primitives.
-
-AH_TEMPLATE([LOG4CPLUS_WITH_CXX11_THREADS],
-  [Define so that log4cplus will use C++11 threads and synchronization
-   primitives.])
-
-AC_ARG_WITH([c++11-threads],
-  [AS_HELP_STRING([--with-c++11-threads],
-    [Use C++11 threads and synchronization primitives.])],
-  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-c++11-threads])],
-  [with_c__11_threads=no])
-
-AS_IF([test "x$with_c__11_threads" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_WITH_CXX11_THREADS], [1])],
-  [])
-
 dnl Debugging or release build?
 
-AC_ARG_ENABLE([debugging],
-  [AS_HELP_STRING([--enable-debugging],
-    [Turns off optimization and adds switches that generate debugging
-    information. [default=no]])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-debugging])],
+LOG4CPLUS_ARG_ENABLE([debugging],
+  [Turns off optimization and adds switches that generate debugging
+   information. [default=no]],
   [enable_debugging=no])
 
 AH_TEMPLATE([LOG4CPLUS_DEBUGGING],
@@ -121,54 +88,53 @@ AC_SUBST([LOG4CPLUS_NDEBUG])
 
 dnl Turn warnings on/off?
 
-AC_ARG_ENABLE([warnings],
-  [AC_HELP_STRING([--enable-warnings],
-    [Use compiler warnings option, e.g. -Wall. [default=yes]])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-warnings])],
+LOG4CPLUS_ARG_ENABLE([warnings],
+  [Use compiler warnings option, e.g. -Wall. [default=yes]],
   [enable_warnings=yes])
 
 dnl Enable SO version.
 
-AC_ARG_ENABLE([so-version],
-  [AC_HELP_STRING([--enable-so-version],
-    [Use libtool -version-info option. [default=yes]])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-so-version])],
+LOG4CPLUS_ARG_ENABLE([so-version],
+  [Use libtool -version-info option. [default=yes]],
   [enable_so_version=yes])
 AM_CONDITIONAL([ENABLE_VERSION_INFO_OPTION],
   [test "x$enable_so_version" = "xyes"])
 
 dnl Enable release version.
 
-AC_ARG_ENABLE([release-version],
-  [AC_HELP_STRING([--enable-release-version],
-    [Use libtool -release option. [default=yes]])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-release-version])],
+LOG4CPLUS_ARG_ENABLE([release-version],
+  [Use libtool -release option. [default=yes]],
   [enable_release_version=yes])
 AM_CONDITIONAL([ENABLE_RELEASE_OPTION],
   [test "x$enable_release_version" = "xyes"])
 
 dnl Enable use of symbol visibility options.
 
-AC_ARG_ENABLE([symbols-visibility-options],
-  [AC_HELP_STRING([--enable-symbols-visibility-options],
-    [Use platform and compiler specific symbols visibility options,
-     where they are available. [default=yes]])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}],
-    [--enable-symbols-visibility-options])],
+LOG4CPLUS_ARG_ENABLE([symbols-visibility-options],
+  [Use platform and compiler specific symbols visibility options,
+   where they are available. [default=yes]],
   [enable_symbols_visibility_options=yes])
 
 dnl Build wchar_t aware alternative.
 
-AC_ARG_WITH([wchar_t-support],
-  [AS_HELP_STRING([--with-wchar_t-support],
-    [Additionally, produce binaries with log4cplus::tchar as wchar_t.
-     The additional produced binaries will have 'U' suffix. [default=yes]])],
-  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-wchar_t-support])],
+LOG4CPLUS_ARG_WITH([wchar_t-support],
+  [Additionally, produce binaries with log4cplus::tchar as wchar_t.
+   The additional produced binaries will have 'U' suffix. [default=yes]],
   [with_wchar_t_support=yes])
 AM_CONDITIONAL([BUILD_WITH_WCHAR_T_SUPPORT],
   [test "x$with_wchar_t_support" = "xyes"])
 AS_VAR_SET([BUILD_WITH_WCHAR_T_SUPPORT], [$with_wchar_t_support])
 AC_SUBST([BUILD_WITH_WCHAR_T_SUPPORT])
+
+dnl Enable unit tests
+
+LOG4CPLUS_ARG_ENABLE([unit-tests],
+  [Enable unit tests [default=no]],
+  [enable_unit_tests=no])
+
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_WITH_UNIT_TESTS],
+  [Defined to enable unit tests.],
+  [test "x$enable_unit_tests" = "xyes"], [1])
 
 dnl Check for c/c++ compilers.
 
@@ -212,10 +178,8 @@ AS_CASE(["$target_os"],
      [UNIX_STD=2003])
    export UNIX_STD])
 
-AC_ARG_ENABLE([profiling],
-  [AS_HELP_STRING([--enable-profiling],
-    [Compile with profiling compiler options. [default=no]])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-profiling])],
+LOG4CPLUS_ARG_ENABLE([profiling],
+  [Compile with profiling compiler options. [default=no]],
   [enable_profiling=no])
 LOG4CPLUS_PROFILING_LDFLAGS=
 LOG4CPLUS_PROFILING_CXXFLAGS=
@@ -264,12 +228,12 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
         [mingw*], [],
         [AX_CXXFLAGS_GCC_OPTION([-Wold-style-cast])])
       dnl AX_CXXFLAGS_GCC_OPTION([-Wabi])
-      AX_CXXFLAGS_GCC_OPTION([-Wc++0x-compat])
-      AX_CXXFLAGS_GCC_OPTION([-Wc++11-compat])
+      AX_CXXFLAGS_GCC_OPTION([-Wc++14-compat])
       dnl AX_CXXFLAGS_GCC_OPTION([-Wconversion])
       AX_CXXFLAGS_GCC_OPTION([-Wundef])
       AX_CXXFLAGS_GCC_OPTION([-Wshadow])
       AX_CXXFLAGS_GCC_OPTION([-Wformat])
+      AX_CXXFLAGS_GCC_OPTION([-Wnoexcept])
       AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=format])
       dnl AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=pure])
       dnl AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=const])
@@ -288,6 +252,7 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
       dnl -Wstack-protector results into not too interesting warnings.
       dnl AX_CXXFLAGS_GCC_OPTION([-Wstack-protector])
       AX_CXXFLAGS_GCC_OPTION([-fsanitize=address])
+      AX_CXXFLAGS_GCC_OPTION([-fsanitize=undefined])
       dnl The -fsanitize=thread option requires -pie or -shared flags.
       dnl AX_CXXFLAGS_GCC_OPTION([-fsanitize=thread])
       AX_CXXFLAGS_GCC_OPTION([-ftrapv])
@@ -377,40 +342,35 @@ AS_IF([test "x$enable_symbols_visibility_options" = "xyes"],
 AM_CONDITIONAL([USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX],
   [test "x$use_export_symbols_regex" = "xyes"])
 
-AX_C99_VARIADIC_MACROS
-AH_TEMPLATE([LOG4CPLUS_HAVE_C99_VARIADIC_MACROS])
-AS_IF([test "x$ac_cv_c99_variadic_macros" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_C99_VARIADIC_MACROS])])
-
-AX_GNU_VARIADIC_MACROS
-AH_TEMPLATE([LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS])
-AS_IF([test "x$ac_cv_gnu_variadic_macros" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS])])
-
 AX___FUNCTION___MACRO
-AH_TEMPLATE([LOG4CPLUS_HAVE_FUNCTION_MACRO])
-AS_IF([test "x$ac_cv_have___function___macro" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_FUNCTION_MACRO])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_FUNCTION_MACRO],
+  [Define if compiler supports __FUNCTION__ macro.],
+  [test "x$ac_cv_have___function___macro" = "xyes"], [1])
 
 AX___PRETTY_FUNCTION___MACRO
-AH_TEMPLATE([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO])
-AS_IF([test "x$ac_cv_have___pretty_function___macro" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO],
+  [DEfine if compiler supports __PRETTY_FUNCTION__ macro.],
+  [test "x$ac_cv_have___pretty_function___macro" = "xyes"], [1])
 
 AX___FUNC___SYMBOL
-AH_TEMPLATE([LOG4CPLUS_HAVE_FUNC_SYMBOL])
-AS_IF([test "x$ac_cv_have___func___symbol" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_FUNC_SYMBOL])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_FUNC_SYMBOL],
+  [Define if compiler supports __func__ symbol.],
+  [test "x$ac_cv_have___func___symbol" = "xyes"], [1])
+
+AX_GCC_FUNC_ATTRIBUTE([constructor_priority])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR_PRIORITY],
+  [Define if compiler supports __attribute__((constructor(PRIORITY))).],
+  [test "x$ax_cv_have_func_attribute_constructor_priority" = "xyes"], [1])
 
 AX_GCC_FUNC_ATTRIBUTE([constructor])
-AH_TEMPLATE([LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR])
-AS_IF([test "x$ax_cv_have_func_attribute_constructor" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR],
+  [Define if compiler supports __attribute__((constructor)).],
+  [test "x$ax_cv_have_func_attribute_constructor" = "xyes"], [1])
 
 AX_GCC_VAR_ATTRIBUTE([init_priority])
-AH_TEMPLATE([LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY])
-AS_IF([test "x$ax_cv_have_var_attribute_init_priority" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY],
+  [Define if compiler supports __attribute__((init_priority(PRIORITY))).],
+  [test "x$ax_cv_have_var_attribute_init_priority" = "xyes"], [1])
 
 dnl Checks for libraries.
 
@@ -429,15 +389,15 @@ dnl Windows/MinGW specific.
 AS_CASE(["$target_os"],
   [mingw*], [
     AC_LANG_PUSH([C])
-    AC_HAVE_LIBRARY([kernel32])
-    AC_HAVE_LIBRARY([advapi32])
-    AC_HAVE_LIBRARY([ws2_32])
-    AC_HAVE_LIBRARY([oleaut32])
+    AC_CHECK_LIB([kernel32], [main])
+    AC_CHECK_LIB([advapi32], [main])
+    AC_CHECK_LIB([ws2_32], [main])
+    AC_CHECK_LIB([oleaut32], [main])
     AC_LANG_POP([C])],
   [cygwin*], [
     AC_LANG_PUSH([C])
-    AC_HAVE_LIBRARY([kernel32])
-    AC_HAVE_LIBRARY([oleaut32])
+    AC_CHECK_LIB([kernel32], [main])
+    AC_CHECK_LIB([oleaut32], [main])
     AC_LANG_POP([C])])
 
 dnl Checks for header files.
@@ -476,10 +436,8 @@ AX_TYPE_SOCKLEN_T
 dnl Check for single-threaded compilation
 
 AH_TEMPLATE([LOG4CPLUS_USE_PTHREADS])
-AC_ARG_ENABLE([threads],
-  [AS_HELP_STRING([--enable-threads=yes/no],
-    [Use this option to create a singled-threaded version of this library])],
-  [LOG4CPLUS_CHECK_YESNO([${enableval}], [--enable-threads])],
+LOG4CPLUS_ARG_ENABLE([threads],
+  [Use this option to create a singled-threaded version of this library [default=yes]],
   [enable_threads=yes])
 AS_VAR_SET([ENABLE_THREADS], [$enable_threads])
 AC_SUBST([ENABLE_THREADS])
@@ -513,12 +471,11 @@ dnl Multi threaded library.
      [dnl Check for IBM's compiler's TLS option.
       AX_CXXFLAGS_AIX_OPTION([-qtls])])
 
-   AX__SYNC
-   AH_TEMPLATE([LOG4CPLUS_HAVE_CXX11_ATOMICS])
-   AS_IF([test "x$ac_cv_cxx11_atomics" = "xyes"],
-     [AC_DEFINE([LOG4CPLUS_HAVE_CXX11_ATOMICS])])
+   dnl Check if TLS is supported, but only if it isn't iOS target, because it
+   dnl is forbidden by Apple Store to use __tlv_* functions.
+   AS_IF([test "$target_os" != "darwin" -o "$target_cpu" != "arm"],
+     [AX_TLS_SUPPORT])
 
-   AX_TLS_SUPPORT
    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
    AH_TEMPLATE([LOG4CPLUS_THREAD_LOCAL_VAR])
    AS_IF([test "x$ac_cv_thread_local" = "xyes"],
@@ -583,43 +540,33 @@ LOG4CPLUS_CHECK_FUNCS([vfwprintf_s], [LOG4CPLUS_HAVE_VFWPRINTF_S])
 LOG4CPLUS_CHECK_FUNCS([_vsnprintf_s], [LOG4CPLUS_HAVE__VSNPRINTF_S])
 LOG4CPLUS_CHECK_FUNCS([_vsnwprintf_s], [LOG4CPLUS_HAVE__VSNWPRINTF_S])
 
-dnl These should not be necessary, they ought to be in std:: namespace
-dnl via the <cstdio>, <cwchar> headers.
-
-dnl AH_TEMPLATE([LOG4CPLUS_HAVE_VSPRINTF])
-dnl AC_CHECK_FUNCS([vsprintf], [AC_DEFINE([LOG4CPLUS_HAVE_VSPRINTF])])
-
-dnl AH_TEMPLATE([LOG4CPLUS_HAVE_VFPRINTF])
-dnl AC_CHECK_FUNCS([vfprintf], [AC_DEFINE([LOG4CPLUS_HAVE_VFPRINTF])])
-
-dnl AH_TEMPLATE([LOG4CPLUS_HAVE_VSWPRINTF])
-dnl AC_CHECK_FUNCS([vswprintf], [AC_DEFINE([LOG4CPLUS_HAVE_VSWPRINTF])])
+dnl Checks for vsprintf, vfprintf and vswprintf should not be necessary, they
+dnl ought to be in std:: namespace via the <cstdio>, <cwchar> headers.
 
 AS_CASE(["$target_os"],
   [cygwin*], [
     LOG4CPLUS_CHECK_FUNCS([OutputDebugStringW],
       [LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING])])
 
-AH_TEMPLATE([LOG4CPLUS_HAVE_ENAMETOOLONG])
 AC_CACHE_CHECK([for ENAMETOOLONG], [ax_cv_have_enametoolong],
   [AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM([#include <errno.h>], [int value = ENAMETOOLONG;])],
     [ax_cv_have_enametoolong=yes],
     [ax_cv_have_enametoolong=no])])
-AS_IF([test "x$ax_cv_have_enametoolong" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_ENAMETOOLONG])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_ENAMETOOLONG],
+  [Define if ENAMETOOLONG is provided.],
+  [test "x$ax_cv_have_enametoolong" = "xyes"], [1])
 
-AH_TEMPLATE([LOG4CPLUS_HAVE_GETADDRINFO])
 AX_GETADDRINFO
-AS_IF([test "x$ax_cv_have_getaddrinfo" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_GETADDRINFO])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_GETADDRINFO],
+  [Define if getaddrinfo() is provided.],
+  [test "x$ax_cv_have_getaddrinfo" = "xyes"], [1])
 
-AH_TEMPLATE([LOG4CPLUS_HAVE_GETHOSTBYNAME_R])
 AX_GETHOSTBYNAME_R
-AS_IF([test "x$ax_cv_have_gethostbyname_r" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_GETHOSTBYNAME_R])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_GETHOSTBYNAME_R],
+  [Define if gethostbyname_r() is provided.],
+  [test "x$ax_cv_have_gethostbyname_r" = "xyes"], [1])
 
-AH_TEMPLATE([LOG4CPLUS_HAVE_GETTID])
 AC_CACHE_CHECK([for gettid], [ax_cv_have_gettid],
   [AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM([#include <sys/types.h>
@@ -627,17 +574,16 @@ AC_CACHE_CHECK([for gettid], [ax_cv_have_gettid],
 #include <unistd.h>], [int rv = syscall(SYS_gettid);])],
     [ax_cv_have_gettid=yes],
     [ax_cv_have_gettid=no])])
-AS_IF([test "x$ax_cv_have_gettid" = "xyes"],
-  [AC_DEFINE([LOG4CPLUS_HAVE_GETTID])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_GETTID],
+  [Define if gettid() Linux syscall is available.],
+  [test "x$ax_cv_have_gettid" = "xyes"], [1])
 
 dnl Qt4 setup using pkg-config.
 
 PKG_PROG_PKG_CONFIG
 
-AC_ARG_WITH([qt],
-  [AS_HELP_STRING([--with-qt],
-    [Build liblog4cplusqt4debugappender.])],
-  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-qt])],
+LOG4CPLUS_ARG_WITH([qt],
+  [Build liblog4cplusqt4debugappender.],
   [with_qt=no])
 
 AS_IF([test "x$with_qt" = "xyes"],
@@ -650,10 +596,8 @@ AC_SUBST([QT_LIBS])
 
 dnl Qt5 setup using pkg-config.
 
-AC_ARG_WITH([qt5],
-  [AS_HELP_STRING([--with-qt5],
-    [Build liblog4cplusqt5debugappender.])],
-  [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-qt5])],
+LOG4CPLUS_ARG_WITH([qt5],
+  [Build liblog4cplusqt5debugappender.],
   [with_qt5=no])
 
 AS_IF([test "x$with_qt5" = "xyes"],
@@ -703,7 +647,8 @@ AC_CONFIG_HEADERS([include/log4cplus/config.h])
 AC_CONFIG_HEADERS([include/log4cplus/config/defines.hxx])
 AC_CONFIG_FILES([Makefile
            include/Makefile
-           tests/atlocal])
+           tests/atlocal
+           log4cplus.pc])
 
 m4_include([tests/configure.m4])
 
@@ -712,4 +657,4 @@ AM_MISSING_PROG([AUTOM4TE], [autom4te])
 AC_SUBST([LOG4CPLUS_PROFILING_LDFLAGS])
 AC_SUBST([LOG4CPLUS_PROFILING_CXXFLAGS])
 
-AC_OUTPUT([log4cplus.pc])
+AC_OUTPUT

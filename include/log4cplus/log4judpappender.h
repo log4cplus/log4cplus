@@ -5,7 +5,7 @@
 // Author:  Siva Chandran P
 //
 //
-// Copyright 2012-2014 Siva Chandran P
+// Copyright 2012-2015 Siva Chandran P
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,14 +50,19 @@ namespace log4cplus {
      * <dd>Remote host name to connect and send events to.</dd>
      *
      * <dt><tt>port</tt></dt>
-     * <dd>Port on remote host to send events to.</dd>
+     * <dd>Port on remote host to send events to. Default is 5000.</dd>
+     *
+     * <dt><tt>IPv6</tt></dt>
+     * <dd>Boolean value specifying whether to use IPv6 (true) or IPv4
+     * (false). Default value is false.</dd>
      *
      * </dl>
      */
     class LOG4CPLUS_EXPORT Log4jUdpAppender : public Appender {
     public:
       // Ctors
-        Log4jUdpAppender(const log4cplus::tstring& host, int port);
+        Log4jUdpAppender(const log4cplus::tstring& host, int port,
+            bool ipv6 = false);
         Log4jUdpAppender(const log4cplus::helpers::Properties & properties);
 
       // Dtor
@@ -74,6 +79,7 @@ namespace log4cplus {
         log4cplus::helpers::Socket socket;
         log4cplus::tstring host;
         int port;
+        bool ipv6 = false;
 
     private:
       // Disallow copying of instances of this class
@@ -83,4 +89,3 @@ namespace log4cplus {
 } // end namespace log4cplus
 
 #endif // LOG4CPLUS_LOG4J_UDP_APPENDER_HEADER_
-

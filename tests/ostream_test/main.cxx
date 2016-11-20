@@ -3,6 +3,7 @@
 #include "log4cplus/consoleappender.h"
 #include "log4cplus/loglevel.h"
 #include <log4cplus/loggingmacros.h>
+#include <log4cplus/initializer.h>
 #include <iomanip>
 
 using namespace std;
@@ -11,7 +12,7 @@ using namespace log4cplus;
 int
 main()
 {
-    log4cplus::initialize ();
+    log4cplus::Initializer initializer;
     SharedAppenderPtr append_1(new ConsoleAppender());
     append_1->setName(LOG4CPLUS_TEXT("First"));
     Logger::getRoot().addAppender(append_1);

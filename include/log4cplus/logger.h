@@ -5,7 +5,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2014 Tad E. Smith
+// Copyright 2001-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -264,14 +264,14 @@ namespace log4cplus
 
         virtual void removeAppender(const log4cplus::tstring& name);
 
-        Logger ();
-        Logger(const Logger& rhs);
-        Logger& operator=(const Logger& rhs);
-        Logger (Logger && rhs);
-        Logger & operator = (Logger && rhs);
+        Logger () LOG4CPLUS_NOEXCEPT;
+        Logger(const Logger& rhs) LOG4CPLUS_NOEXCEPT;
+        Logger& operator=(const Logger& rhs) LOG4CPLUS_NOEXCEPT;
+        Logger (Logger && rhs) LOG4CPLUS_NOEXCEPT;
+        Logger & operator = (Logger && rhs) LOG4CPLUS_NOEXCEPT;
         virtual ~Logger();
 
-        void swap (Logger &);
+        void swap (Logger &) LOG4CPLUS_NOEXCEPT;
 
         /**
          * Used to retrieve the parent of this Logger in the
@@ -295,7 +295,7 @@ namespace log4cplus
          * @param ptr A pointer to the Logger implementation.  This value
          *            cannot be NULL.
          */
-        LOG4CPLUS_PRIVATE Logger(spi::LoggerImpl * ptr);
+        LOG4CPLUS_PRIVATE Logger(spi::LoggerImpl * ptr) LOG4CPLUS_NOEXCEPT;
 
       // Friends
         friend class log4cplus::spi::LoggerImpl;

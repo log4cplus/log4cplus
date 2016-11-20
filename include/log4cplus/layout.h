@@ -5,7 +5,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2014 Tad E. Smith
+// Copyright 2001-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -125,8 +125,11 @@ namespace log4cplus {
      * diagnostic context information, hence the name.
      *
      * The time format depends on the <code>DateFormat</code> used.  Use the
-     * <code>Use_gmtime</code> to specify whether messages should be logged using
-     * <code>localtime</code> or <code>gmtime</code>.
+     * <code>Use_gmtime</code> to specify whether messages should be logged
+     * using <code>localtime</code> or <code>gmtime</code>. There are also
+     * <code>ThreadPrinting</code>, <code>CategoryPrefixing</code> and
+     * <code>ContextPrinting</code> properties to turn on and off thread name,
+     * logger name and NDC context printing respectively.
      *
      * Here is an example TTCCLayout output:
      *
@@ -163,17 +166,29 @@ namespace log4cplus {
         : public Layout
     {
     public:
-      // Ctor and dtor
-        TTCCLayout(bool use_gmtime = false);
+        TTCCLayout(bool use_gmtime = false, bool thread_printing = true,
+            bool category_prefixes = true, bool context_printing = true);
         TTCCLayout(const log4cplus::helpers::Properties& properties);
         virtual ~TTCCLayout();
 
         virtual void formatAndAppend(log4cplus::tostream& output,
                                      const log4cplus::spi::InternalLoggingEvent& event);
 
+        bool getThreadPrinting() const;
+        void setThreadPrinting(bool);
+
+        bool getCategoryPrefixing() const;
+        void setCategoryPrefixing(bool);
+
+        bool getContextPrinting() const;
+        void setContextPrinting(bool);
+
     protected:
        log4cplus::tstring dateFormat;
-       bool use_gmtime;
+       bool use_gmtime = false;
+       bool thread_printing = true;
+       bool category_prefixing = true;
+       bool context_printing = true;
 
     private:
       // Disallow copying of instances of this class

@@ -2,23 +2,43 @@
 %% latex-header.tex begin
 %%
 
-\usepackage{a4wide}
-\usepackage{xcolor}
+\usepackage{fix-cm}
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage{anyfontsize}
-\usepackage[printwatermark]{xwatermark}
 \usepackage{amssymb}
 \usepackage{newunicodechar}
 \usepackage{fancyhdr}
-\usepackage{footnote}
 \usepackage{listings}
 \usepackage{accsupp}
 \usepackage{MnSymbol}
 \usepackage{textcomp}
 \usepackage{upquote}
 \usepackage{etoolbox}
-\usepackage{selnolig}
+
+\defaultfontfeatures{Ligatures={TeX, Common}}
+\setmainfont[Ligatures={TeX, Common}]{TeX Gyre Pagella}
+\setmonofont[Scale=MatchLowercase,Ligatures={NoCommon}]{DejaVu Sans Mono}
+%\setromanfont{Georgia}
+%\setsansfont{DejaVu Sans}
+
+\newfontfamily{\cjkfont}{WenQuanYi Zen Hei}[]
+\newfontfamily{\devanagarifont}{Lohit Devanagari}[]
+\newfontfamily{\tamilfont}{Lohit Tamil}[]
+\newfontfamily{\cyrilicfont}{CMU Serif}
+
+%% These unfortunately break too many things. PDF will have to be without
+%% contributors' native names.
+% \ifxetex
+%   \usepackage{xeCJK}
+%   \setCJKmainfont{WenQuanYi Zen Hei}
+%   \setCJKmonofont{WenQuanYi Zen Hei Mono}
+% \else
+%   %% Adding senolig breaks compilation in the CJK support.
+%   %\usepackage{selnolig}
+%   \usepackage{luatexja-fontspec}
+%   \setmainjfont{WenQuanYi Zen Hei}
+% \fi
 
 \pagestyle{fancy}
 \chead{\raisebox{\baselineskip}{\includegraphics[width=1.5cm,keepaspectratio]{./docs/log4cplus}}}
@@ -30,11 +50,7 @@
 %\institute{}
 %\date{\today}
 
-\defaultfontfeatures{Ligatures={TeX, Common}}
-\setmainfont{TeX Gyre Pagella}
-\setmonofont[Scale=MatchLowercase,Ligatures={NoCommon}]{DejaVu Sans Mono}
-%\setromanfont{Georgia}
-%\setsansfont{DejaVu Sans}
+
 \urlstyle{same}
 
 \AtBeginEnvironment{quote}{\slshape}
@@ -50,21 +66,13 @@
 
 \lstset{breaklines=true,
   basicstyle=\ttfamily,
-  upquote=true,
+  %upquote=true,
   literate={`}{{\BeginAccSupp{method=plain,ActualText=`}‵\EndAccSupp{}}}1
   {"}{{\BeginAccSupp{method=plain,ActualText="}"\EndAccSupp{}}}1
   {'}{{\BeginAccSupp{method=plain,ActualText='}'\EndAccSupp{}}}1,
   showstringspaces=false,
   numbers=left, numberstyle=\scriptsize\noncopy,
   prebreak={\raisebox{0ex}[0ex][0ex]{\ensuremath{\noncopy{\rhookswarrow}}}}}
-
-\lstdefinelanguage{diff}{
-  morecomment=[f][\color{blue}]{@@},     % group identifier
-  morecomment=[f][\color{red}]-,         % deleted lines
-  morecomment=[f][\color{green}]+,       % added lines
-  morecomment=[f][\color{magenta}]{---}, % Diff header lines (must appear after +,-)
-  morecomment=[f][\color{magenta}]{+++},
-}
 
 %%
 %% latex-header.tex end

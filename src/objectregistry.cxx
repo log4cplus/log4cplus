@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2014 Tad E. Smith
+// Copyright 2003-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ namespace log4cplus { namespace spi {
 ///////////////////////////////////////////////////////////////////////////////
 
 ObjectRegistryBase::ObjectRegistryBase()
+    : locking (true)
 { }
 
 
@@ -59,6 +60,7 @@ ObjectRegistryBase::getAllNames() const
 
     {
         thread::MutexGuard guard (mutex);
+        tmp.reserve (data.size ());
         for (auto const & kv : data)
             tmp.emplace_back(kv.first);
     }
@@ -83,11 +85,12 @@ ObjectRegistryBase::putVal(const tstring& name, void* object)
         if (locking)
             guard.attach_and_lock (mutex);
 
-        ret = data.insert(value);
+        ret = data.insert(std::move (value));
     }
 
     if (! ret.second)
         deleteObject( value.second );
+
     return ret.second;
 }
 

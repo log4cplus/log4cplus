@@ -1,4 +1,5 @@
 Entering main()...
+Test filters set up through properties file.
 log4cplus: Just opened file: all_msgs.log
 log4cplus: Just opened file: debug_info_msgs.log
 log4cplus: Just opened file: fatal_msgs.log
@@ -13,6 +14,7 @@ FATAL - This is a FATAL message
 INFO - visible
 INFO - invisible
 TRACE - EXIT:  ::printDebug()
+Test custom function filter.
 WARN - Testing std::function<> filter....
 log4cplus: Entering ConsoleAppender::close()..
 log4cplus: Destroying appender named [STDOUT].
@@ -33,6 +35,7 @@ log4cplus: function filter: accepting event: visible
 INFO - visible
 log4cplus: function filter: denying event: invisible
 log4cplus: function filter: denying event: EXIT:  ::printDebug()
+Test custom function filter added using second overload of addFilter().
 log4cplus: function filter: going neutral on event: Testing std::function<> filter, 2nd overload of addFilter()....
 WARN - Testing std::function<> filter, 2nd overload of addFilter()....
 log4cplus: Entering ConsoleAppender::close()..

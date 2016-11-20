@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2014 Tad E. Smith
+// Copyright 2003-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 // limitations under the License.
 
 #include <log4cplus/config.hxx>
+#include <log4cplus/initializer.h>
 #include <log4cplus/config/windowsh-inc.h>
 #include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
@@ -30,6 +31,13 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/hierarchy.h>
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+#include "ThreadPool.h"
+#endif
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#  define CATCH_CONFIG_RUNNER
+#  include <catch.hpp>
+#endif
 #include <cstdio>
 #include <iostream>
 #include <stdexcept>
@@ -50,9 +58,74 @@ LOG4CPLUS_EXPORT tostream & tcerr = std::cerr;
 #endif // UNICODE
 
 
+struct InitializerImpl
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    std::mutex mtx;
+
+    static std::once_flag flag;
+#endif
+
+    unsigned count = 0;
+
+    static InitializerImpl * instance;
+};
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+std::once_flag InitializerImpl::flag;
+#endif
+InitializerImpl * InitializerImpl::instance;
+
+
+Initializer::Initializer ()
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+        std::call_once (InitializerImpl::flag,
+            [&] {
+                InitializerImpl::instance = new InitializerImpl;
+            });
+#else
+        InitializerImpl::instance = new InitializerImpl;
+#endif
+
+    LOG4CPLUS_THREADED (
+        std::unique_lock<std::mutex> guard (
+            InitializerImpl::instance->mtx));
+    if (InitializerImpl::instance->count == 0)
+        initialize ();
+
+    ++InitializerImpl::instance->count;
+}
+
+
+// Forward declaration. Defined in this file.
+void shutdownThreadPool();
+
+Initializer::~Initializer ()
+{
+    bool destroy = false;
+    {
+        LOG4CPLUS_THREADED (
+            std::unique_lock<std::mutex> guard (
+                InitializerImpl::instance->mtx));
+        --InitializerImpl::instance->count;
+        if (InitializerImpl::instance->count == 0)
+        {
+            destroy = true;
+            shutdownThreadPool();
+            Logger::shutdown ();
+        }
+    }
+    if (destroy)
+    {
+        delete InitializerImpl::instance;
+        InitializerImpl::instance = 0;
+    }
+}
+
+
 namespace
 {
-
 
 //! Default context.
 struct DefaultContext
@@ -68,6 +141,9 @@ struct DefaultContext
     spi::LayoutFactoryRegistry layout_factory_registry;
     spi::FilterFactoryRegistry filter_factory_registry;
     spi::LocaleFactoryRegistry locale_factory_registry;
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    std::unique_ptr<progschj::ThreadPool> thread_pool {new progschj::ThreadPool};
+#endif
 };
 
 
@@ -190,6 +266,41 @@ getMDC ()
 }
 
 
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+void
+enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
+    spi::InternalLoggingEvent const & event)
+{
+    get_dc ()->thread_pool->enqueue (
+        [=] ()
+        {
+            appender->asyncDoAppend (event);
+        });
+}
+
+#endif
+
+void
+shutdownThreadPool ()
+{
+    LOG4CPLUS_THREADED (get_dc ()->thread_pool.reset ());
+}
+
+
+void
+waitUntilEmptyThreadPoolQueue ()
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    DefaultContext * const dc = get_dc ();
+    if (dc->thread_pool)
+    {
+        dc->thread_pool->wait_until_empty ();
+        dc->thread_pool->wait_until_nothing_in_flight ();
+    }
+#endif
+}
+
+
 namespace spi
 {
 
@@ -296,17 +407,20 @@ alloc_ptd ()
 
 #  endif
 
-
 } // namespace internal
 
 
 void initializeFactoryRegistry ();
-void initializeLogLevelStrings ();
 
 
 //! Thread local storage clean up function for POSIX threads.
+#if defined (LOG4CPLUS_USE_WIN32_THREADS)
+static
+void NTAPI
+#else
 static
 void
+#endif
 ptd_cleanup_func (void * arg)
 {
     internal::per_thread_data * const arg_ptd
@@ -373,7 +487,6 @@ initializeLog4cplus()
     dc->TTCCLayout_time_base = helpers::now ();
     Logger::getRoot();
     initializeFactoryRegistry();
-    initializeLogLevelStrings();
 
     initialized = true;
 }
@@ -389,10 +502,51 @@ initialize ()
 void
 threadCleanup ()
 {
-    // Do thread-specific cleanup.
-    internal::per_thread_data * ptd = internal::get_ptd (false);
-    delete ptd;
+    // Here we check that we can get CRT's heap handle because if we do not
+    // then the following `delete` will fail with access violation in
+    // `RtlFreeHeap()`.
+    //
+    // How is it possible that the CRT heap handle is NULL?
+    //
+    // This function can be called from TLS initializer/terminator by loader
+    // when log4cplus is compiled and linked to as a static library. In case of
+    // other threads temination, it should do its job and free per-thread
+    // data. However, when the whole process is being terminated, it is called
+    // after the CRT has been uninitialized and the CRT heap is not available
+    // any more. In such case, instead of crashing, we just give up and leak
+    // the memory for the short while before the process terminates anyway.
+    //
+    // It is possible to work around this situation in user application by
+    // calling `threadCleanup()` manually before `main()` exits.
+#if defined (_WIN32)
+    if (_get_heap_handle() != 0)
+    {
+#endif
+        // Do thread-specific cleanup.
+        internal::per_thread_data * ptd = internal::get_ptd (false);
+        delete ptd;
+#if defined (_WIN32)
+    }
+    else
+    {
+        OutputDebugString (
+            LOG4CPLUS_TEXT ("log4cplus: ")
+            LOG4CPLUS_TEXT ("CRT heap is already gone in threadCleanup()\n"));
+    }
+#endif
     internal::set_ptd (0);
+}
+
+
+static
+void
+freeTLSSlot ()
+{
+    if (internal::tls_storage_key != thread::impl::tls_key_type ())
+    {
+        thread::impl::tls_cleanup(internal::tls_storage_key);
+        internal::tls_storage_key = thread::impl::tls_key_type();
+    }
 }
 
 
@@ -410,9 +564,11 @@ static
 void
 queueLog4cplusInitializationThroughAPC ()
 {
+#if defined (LOG4CPLUS_BUILD_DLL)
     if (! QueueUserAPC (initializeLog4cplusApcProc, GetCurrentThread (),
         0))
         throw std::runtime_error ("QueueUserAPC() has failed");
+#endif
 }
 
 
@@ -455,23 +611,51 @@ thread_callback (LPVOID /*hinstDLL*/, DWORD fdwReason, LPVOID /*lpReserved*/)
 
         // Do thread-specific cleanup.
         log4cplus::threadCleanup ();
-#if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
-        log4cplus::thread::impl::tls_cleanup (
-            log4cplus::internal::tls_storage_key);
-#endif
+        log4cplus::freeTLSSlot();
+
         break;
     }
 
     } // switch
 }
 
+
+static
+void NTAPI
+thread_callback_initializer(LPVOID hinstDLL, DWORD fdwReason, LPVOID lpReserved)
+{
+    if (fdwReason == DLL_PROCESS_ATTACH
+        || fdwReason == DLL_THREAD_ATTACH)
+        thread_callback(hinstDLL, fdwReason, lpReserved);
+}
+
+static
+void NTAPI
+thread_callback_terminator(LPVOID hinstDLL, DWORD fdwReason, LPVOID lpReserved)
+{
+    if (fdwReason == DLL_THREAD_DETACH
+        || fdwReason == DLL_PROCESS_DETACH)
+        thread_callback(hinstDLL, fdwReason, lpReserved);
+}
+
 #endif
 
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+LOG4CPLUS_EXPORT int unit_tests_main (int argc, char* argv[]);
+int
+unit_tests_main (int argc, char * argv[])
+{
+    return Catch::Session ().run (argc, argv);
+}
+
+#endif // defined (LOG4CPLUS_WITH_UNIT_TESTS)
 
 } // namespace log4cplus
 
 
-#if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL) && defined (_DLL)
+#if defined (_WIN32)
+#if defined (LOG4CPLUS_BUILD_DLL) && defined (_DLL)
 extern "C"
 BOOL
 WINAPI
@@ -483,35 +667,49 @@ DllMain (LOG4CPLUS_DLLMAIN_HINSTANCE hinstDLL, DWORD fdwReason,
     return TRUE;  // Successful DLL_PROCESS_ATTACH.
 }
 
-#elif defined (_WIN32) \
-    && defined (_MSC_VER) && _MSC_VER >= 1400 && defined (_DLL)
+#elif defined (_MSC_VER) && _MSC_VER >= 1400 && defined (_DLL)
 extern "C"
 {
 
 // This magic has been pieced together from several sources:
 // - <http://www.nynaeve.net/?p=183>
-// - <http://lists.cs.uiuc.edu/pipermail/cfe-dev/2011-November/018818.html>
+// - <http://lists.llvm.org/pipermail/cfe-dev/2011-November/018818.html>
+// - `internal_shared.h` in CRT source in Visual Studio 2015
 
 #pragma data_seg (push, old_seg)
 #ifdef _WIN64
-#pragma const_seg (".CRT$XLX")
+#pragma const_seg (".CRT$XLY")
 extern const
 #else
-#pragma data_seg (".CRT$XLX")
+#pragma data_seg (".CRT$XLY")
 #endif
-PIMAGE_TLS_CALLBACK log4cplus_p_thread_callback = log4cplus::thread_callback;
+PIMAGE_TLS_CALLBACK log4cplus_p_thread_callback_initializer = log4cplus::thread_callback_initializer;
 #pragma data_seg (pop, old_seg)
+
+#pragma data_seg (push, old_seg)
+#ifdef _WIN64
+#pragma const_seg (".CRT$XLAA")
+extern const
+#else
+#pragma data_seg (".CRT$XLAA")
+#endif
+PIMAGE_TLS_CALLBACK log4cplus_p_thread_callback_terminator = log4cplus::thread_callback_terminator;
+#pragma data_seg (pop, old_seg)
+
 #ifdef _WIN64
 #pragma comment (linker, "/INCLUDE:_tls_used")
-#pragma comment (linker, "/INCLUDE:log4cplus_p_thread_callback")
+#pragma comment (linker, "/INCLUDE:log4cplus_p_thread_callback_initializer")
+#pragma comment (linker, "/INCLUDE:log4cplus_p_thread_callback_terminator")
 #else
 #pragma comment (linker, "/INCLUDE:__tls_used")
-#pragma comment (linker, "/INCLUDE:_log4cplus_p_thread_callback")
+#pragma comment (linker, "/INCLUDE:_log4cplus_p_thread_callback_initializer")
+#pragma comment (linker, "/INCLUDE:_log4cplus_p_thread_callback_terminator")
 #endif
 
 } // extern "C"
 
-#elif defined (_WIN32)
+#endif
+
 namespace {
 
 struct _static_log4cplus_initializer
@@ -522,7 +720,7 @@ struct _static_log4cplus_initializer
         // when we are using Visual Studio and C++11 threads
         // and synchronization primitives. It would result into a deadlock
         // on loader lock.
-#if ! (defined (LOG4CPLUS_WITH_CXX11_THREADS) && defined (_MSC_VER))
+#if ! defined (_MSC_VER)
         log4cplus::initializeLog4cplus ();
 #endif
     }
@@ -531,16 +729,14 @@ struct _static_log4cplus_initializer
     {
         // Last thread cleanup.
         log4cplus::threadCleanup ();
-#if ! defined (LOG4CPLUS_THREAD_LOCAL_VAR)
-    log4cplus::thread::impl::tls_cleanup (
-        log4cplus::internal::tls_storage_key);
-#endif
+        log4cplus::freeTLSSlot();
     }
 } static initializer;
 
 } // namespace
 
-#else
+
+#else // defined (WIN32)
 namespace {
 
 static void
@@ -563,9 +759,7 @@ struct _static_log4cplus_initializer
     {
         // Last thread cleanup.
         log4cplus::threadCleanup ();
-
-        log4cplus::thread::impl::tls_cleanup (
-            log4cplus::internal::tls_storage_key);
+        log4cplus::freeTLSSlot();
     }
 } static initializer
 LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE);

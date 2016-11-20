@@ -3,8 +3,10 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/helpers/fileinfo.h>
 #include <log4cplus/loggingmacros.h>
 #include <log4cplus/consoleappender.h>
+#include <log4cplus/initializer.h>
 
 using namespace std;
 using namespace log4cplus;
@@ -12,11 +14,11 @@ using namespace log4cplus::spi;
 using namespace log4cplus::helpers;
 
 
-static Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("log"));
-
 void
 printDebug()
 {
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("log"));
+
     LOG4CPLUS_TRACE_METHOD(logger, LOG4CPLUS_TEXT("::printDebug()"));
     LOG4CPLUS_DEBUG(logger, "This is a DEBUG message");
     LOG4CPLUS_INFO(logger, "This is a INFO message");
@@ -30,9 +32,9 @@ printDebug()
 
 
 void
-test_1 (Logger & root)
+test_1 (Logger & root, log4cplus::tstring const & file)
 {
-    PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT("log4cplus.properties"));
+    PropertyConfigurator::doConfigure(file);
     LOG4CPLUS_WARN(root, "Testing....");
 }
 
@@ -97,26 +99,45 @@ test_3 (Logger & root)
 }
 
 
+log4cplus::tstring
+getPropertiesFileArgument (int argc, char * argv[])
+{
+    if (argc >= 2)
+    {
+        char const * arg = argv[1];
+        log4cplus::tstring file = LOG4CPLUS_C_STR_TO_TSTRING (arg);
+        log4cplus::helpers::FileInfo fi;
+        if (getFileInfo (&fi, file) == 0)
+            return file;
+    }
+
+    return LOG4CPLUS_TEXT ("log4cplus.properties");
+}
+
+
 int
-main()
+main(int argc, char * argv[])
 {
     tcout << "Entering main()..." << endl;
-    log4cplus::initialize ();
+    log4cplus::Initializer initializer;
     LogLog::getLogLog()->setInternalDebugging(true);
     Logger root = Logger::getRoot();
     try {
-        // Test filters set up through properties file.
+        tcout << LOG4CPLUS_TEXT ("Test filters set up through properties file.")
+              << std::endl;
 
-        test_1 (root);
+        test_1 (root, getPropertiesFileArgument (argc, argv));
         printDebug();
 
-        // Test custom function filter.
+        tcout << LOG4CPLUS_TEXT ("Test custom function filter.")
+              << std::endl;
 
         test_2 (root);
         printDebug();
 
-        // Test custom function filter added using second overload of
-        // `addFilter()`.
+        tcout << LOG4CPLUS_TEXT ("Test custom function filter added using")
+              << LOG4CPLUS_TEXT (" second overload of addFilter().")
+              << std::endl;
 
         test_3 (root);
         printDebug();

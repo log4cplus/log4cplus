@@ -1,4 +1,4 @@
-//  Copyright (C) 2010-2014, Vaclav Haisman. All rights reserved.
+//  Copyright (C) 2010-2015, Vaclav Haisman. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -37,6 +37,10 @@
 #endif
 #if defined (LOG4CPLUS_HAVE_STDIO_H)
 #  include <stdio.h>
+#endif
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#include <catch.hpp>
 #endif
 
 
@@ -255,6 +259,27 @@ snprintf_buf::print_va_list (tchar const * & str, tchar const * fmt,
     str = &buf[0];
     return printed;
 }
+
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+CATCH_TEST_CASE ("snprintf_buf", "[snprintf_buf]")
+{
+    snprintf_buf buf;
+
+    CATCH_SECTION ("ints")
+    {
+        tchar const * const result
+            = buf.print (LOG4CPLUS_TEXT ("%d %d %d"), 1, 2, 3);
+        std::size_t const len = std::char_traits<tchar>::length (result);
+        CATCH_REQUIRE (result);
+        CATCH_REQUIRE (
+            std::char_traits<tchar>::compare (result, LOG4CPLUS_TEXT ("1 2 3"),
+                len)
+            == 0);
+    }
+}
+
+#endif
 
 
 } } // namespace log4cplus { namespace helpers

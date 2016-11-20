@@ -1,9 +1,4 @@
-#include <log4cplus/logger.h>
-#include <log4cplus/socketappender.h>
-#include <log4cplus/loglevel.h>
-#include <log4cplus/tstring.h>
-#include <log4cplus/thread/threads.h>
-#include <log4cplus/loggingmacros.h>
+#include <log4cplus/log4cplus.h>
 #include <iomanip>
 
 using namespace std;
@@ -12,12 +7,12 @@ using namespace log4cplus;
 int
 main(int argc, char **argv)
 {
-    log4cplus::initialize ();
+    log4cplus::Initializer initializer;
+
     std::this_thread::sleep_for (std::chrono::seconds (1));
     tstring serverName = (argc > 1
         ? LOG4CPLUS_C_STR_TO_TSTRING(argv[1]) : tstring());
-//    tstring host = LOG4CPLUS_TEXT("192.168.2.10");
-    tstring host = LOG4CPLUS_TEXT("192.168.2.169");
+    tstring host = LOG4CPLUS_TEXT("localhost");
     SharedAppenderPtr append_1(new SocketAppender(host, 9998, serverName));
     append_1->setName( LOG4CPLUS_TEXT("First") );
     Logger::getRoot().addAppender(append_1);

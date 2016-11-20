@@ -5,7 +5,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2014 Tad E. Smith
+// Copyright 2001-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -61,12 +61,17 @@ namespace log4cplus
      * <dt><tt>port</tt></dt>
      * <dd>Destination port of syslog service on host specified by the
      * <tt>host</tt> property. The default value is port 514.</dd>
-     * </dl>
      *
      * <dt><tt>udp</tt></dt> <dd>When the syslog is remote, this
      * property picks the IP protocol. When the value is true, UDP is
      * used. When the value is false, TCP is used. The default value
-     * is true.</dd> </dl>
+     * is true.</dd>
+     *
+     * <dt><tt>IPv6</tt></dt>
+     * <dd>Boolean value specifying whether to use IPv6 (true) or IPv4
+     * (false). Default value is false.</dd>
+     *
+     * </dl>
      *
      * \note Messages sent to remote syslog using UDP are conforming
      * to RFC5424. Messages sent to remote syslog using TCP are
@@ -85,14 +90,14 @@ namespace log4cplus
             RSTUdp,
             RSTTcp
         };
-      
+
       // Ctors
 #if defined (LOG4CPLUS_HAVE_SYSLOG_H)
         SysLogAppender(const tstring& ident);
 #endif
         SysLogAppender(const tstring& ident, const tstring & host,
             int port = 514, const tstring & facility = tstring (),
-            RemoteSyslogType remoteSyslogType = RSTUdp);
+            RemoteSyslogType remoteSyslogType = RSTUdp, bool ipv6 = false);
         SysLogAppender(const log4cplus::helpers::Properties & properties);
 
       // Dtor
@@ -124,6 +129,7 @@ namespace log4cplus
         RemoteSyslogType remoteSyslogType;
         helpers::Socket syslogSocket;
         bool connected;
+        bool ipv6 = false;
 
         static tstring const remoteTimeFormat;
 

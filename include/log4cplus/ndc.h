@@ -5,7 +5,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2014 Tad E. Smith
+// Copyright 2001-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -310,8 +310,14 @@ namespace log4cplus {
     class LOG4CPLUS_EXPORT NDCContextCreator {
     public:
         /** Pushes <code>msg</code> onto the NDC stack. */
-        NDCContextCreator(const log4cplus::tstring& msg);
-        NDCContextCreator(tchar const * msg);
+        explicit NDCContextCreator(const log4cplus::tstring& msg);
+        explicit NDCContextCreator(tchar const * msg);
+
+        NDCContextCreator() = delete;
+        NDCContextCreator(NDCContextCreator const &) = delete;
+        NDCContextCreator(NDCContextCreator &&) = delete;
+        NDCContextCreator & operator= (NDCContextCreator const &) = delete;
+        NDCContextCreator & operator= (NDCContextCreator &&) = delete;
 
         /** Pops the NDC stack. */
         ~NDCContextCreator();

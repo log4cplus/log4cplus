@@ -12,7 +12,7 @@ endif ()
 set (CMAKE_LEGACY_CYGWIN_WIN32 0)
 
 project (log4cplus)
-cmake_minimum_required (VERSION 2.8.4)
+cmake_minimum_required (VERSION 2.8.12)
 
 enable_language (CXX)
 include(GNUInstallDirs)
@@ -25,13 +25,16 @@ set (log4cplus_soversion 0)
 set (log4cplus_postfix "")
 
 option(LOG4CPLUS_BUILD_TESTING "Build the test suite." ON)
-
 option(LOG4CPLUS_BUILD_LOGGINGSERVER "Build the logging server." ON)
 
 if(NOT LOG4CPLUS_SINGLE_THREADED)
   find_package (Threads)
   message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
 endif(NOT LOG4CPLUS_SINGLE_THREADED)
+
+if(LOG4CPLUS_SINGLE_THREADED AND LOG4CPLUS_BUILD_LOGGINGSERVER)
+  message (FATAL_ERROR "The logging server requires the multi-thread capability.")
+endif(LOG4CPLUS_SINGLE_THREADED AND LOG4CPLUS_BUILD_LOGGINGSERVER)
 
 set(BUILD_SHARED_LIBS TRUE CACHE BOOL "If TRUE, log4cplus is built as a shared library, otherwise as a static library")
 
@@ -66,22 +69,39 @@ option(ENABLE_SYMBOLS_VISIBILITY
   "Enable compiler and platform specific options for symbols visibility"
   ON)
 
-set(_WIN32_WINNT 0x0500 CACHE STRING "Define Windows API version to use.")
-
-if (NOT ${BUILD_SHARED_LIBS})
-  # set S-prefix for static build
-  set (log4cplus_postfix "${log4cplus_postfix}S")
+if (MINGW)
+  option(LOG4CPLUS_MINGW_STATIC_RUNTIME "Enable MinGW static runtime" OFF)
 endif()
 
-if (UNICODE)
-  set (log4cplus_postfix "${log4cplus_postfix}U")
-endif (UNICODE)
+option(WITH_UNIT_TESTS "Enable unit tests" ON)
+if (WITH_UNIT_TESTS)
+  set (LOG4CPLUS_WITH_UNIT_TESTS 1)
+  add_definitions (-DCATCH_CONFIG_PREFIX_ALL=1)
+  if (WIN32)
+    add_definitions (-DLOG4CPLUS_WITH_UNIT_TESTS=1)
+  endif (WIN32)
+endif (WITH_UNIT_TESTS)
+
+set(_WIN32_WINNT 0x0600 CACHE STRING "Define Windows API version to use.")
+
+option(LOG4CPLUS_ENABLE_DECORATED_LIBRARY_NAME
+  "Turns on resulting file name decoration for static and UNICODE builds." ON)
+if (LOG4CPLUS_ENABLE_DECORATED_LIBRARY_NAME)
+  if (NOT ${BUILD_SHARED_LIBS})
+    # set S-prefix for static build
+    set (log4cplus_postfix "${log4cplus_postfix}S")
+  endif ()
+
+  if (UNICODE)
+    set (log4cplus_postfix "${log4cplus_postfix}U")
+  endif (UNICODE)
+endif (LOG4CPLUS_ENABLE_DECORATED_LIBRARY_NAME)
+
+set (log4cplus "log4cplus${log4cplus_postfix}")
 
 if (WITH_ICONV)
   set(LOG4CPLUS_WITH_ICONV 1)
 endif ()
-
-set (log4cplus "log4cplus${log4cplus_postfix}")
 
 if(LOG4CPLUS_CONFIGURE_CHECKS_PATH)
   get_filename_component(LOG4CPLUS_CONFIGURE_CHECKS_PATH "${LOG4CPLUS_CONFIGURE_CHECKS_PATH}" ABSOLUTE)
@@ -108,6 +128,8 @@ file(WRITE ${DEFINES_HXX_CMAKE} ${FILE_BUFFER})
 configure_file(${DEFINES_HXX_CMAKE} ${DEFINES_HXX} @ONLY)
 
 include_directories (${log4cplus_SOURCE_DIR}/include
+                     ${log4cplus_SOURCE_DIR}/threadpool
+                     ${log4cplus_SOURCE_DIR}/catch/single_include
                      ${log4cplus_BINARY_DIR}/include
                     )
 

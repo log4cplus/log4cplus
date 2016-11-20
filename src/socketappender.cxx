@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2014 Tad E. Smith
+// Copyright 2003-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
+#include <log4cplus/internal/internal.h>
 
 
 namespace log4cplus {
@@ -37,10 +38,11 @@ int const LOG4CPLUS_MESSAGE_VERSION = 3;
 //////////////////////////////////////////////////////////////////////////////
 
 SocketAppender::SocketAppender(const tstring& host_,
-    unsigned short port_, const tstring& serverName_)
-: host(host_),
-  port(port_),
-  serverName(serverName_)
+    unsigned short port_, const tstring& serverName_, bool ipv6_ /*= false*/)
+    : host(host_)
+    , port(port_)
+    , serverName(serverName_)
+    , ipv6(ipv6_)
 {
     openSocket();
     initConnector ();
@@ -55,6 +57,7 @@ SocketAppender::SocketAppender(const helpers::Properties & properties)
     host = properties.getProperty( LOG4CPLUS_TEXT("host") );
     properties.getUInt (port, LOG4CPLUS_TEXT("port"));
     serverName = properties.getProperty( LOG4CPLUS_TEXT("ServerName") );
+    properties.getBool(ipv6, LOG4CPLUS_TEXT("IPv6"));
 
     openSocket();
     initConnector ();
@@ -97,7 +100,7 @@ void
 SocketAppender::openSocket()
 {
     if(!socket.isOpen()) {
-        socket = helpers::Socket(host, static_cast<unsigned short>(port));
+        socket = helpers::Socket(host, static_cast<unsigned short>(port), false, ipv6);
     }
 }
 
@@ -252,7 +255,7 @@ readFromBuffer(SocketBuffer& buffer)
 
     // TODO: Pass MDC through.
     spi::InternalLoggingEvent ev (loggerName, ll, ndc,
-        MappedDiagnosticContextMap (), message, thread,
+        MappedDiagnosticContextMap (), message, thread, internal::empty_str,
         from_time_t (sec) + chrono::microseconds (usec), file,
         line, function);
     return ev;

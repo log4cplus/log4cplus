@@ -1,0 +1,22 @@
+diff --git a/configure.ac b/configure.ac
+index ff871e2..a820a35 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -506,7 +506,7 @@ dnl Multi threaded library.
+      [dnl Check for IBM's compiler's TLS option.
+       AX_CXXFLAGS_AIX_OPTION([-qtls])])
+ 
+-   AX_TLS_SUPPORT
++   dnl AX_TLS_SUPPORT
+    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
+    AH_TEMPLATE([LOG4CPLUS_THREAD_LOCAL_VAR])
+    AS_IF([test "x$ac_cv_thread_local" = "xyes"],
+@@ -680,7 +680,7 @@ dnl Libtool setup.
+ dnl Must be latest to catch rpath compiled in by changes made during
+ dnl checks before.
+ 
+-LT_PREREQ([2.4.2])
++LT_PREREQ([2.4])
+ LT_INIT([win32-dll disable-static pic-only])
+ 
+ AH_TOP([#ifndef LOG4CPLUS_CONFIG_H])

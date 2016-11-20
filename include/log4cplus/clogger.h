@@ -6,7 +6,7 @@
  * Author:  Jens Rehsack
  *
  *
- * Copyright 2011-2014 Jens Rehsack & Tad E. Smith
+ * Copyright 2011-2015 Jens Rehsack & Tad E. Smith
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
  * limitations under the License.
  */
 
-/** @file 
+/** @file
  * This header defines the C API for log4cplus and the logging macros. */
 
 #ifndef LOG4CPLUS_CLOGGERHEADER_
@@ -41,8 +41,11 @@ extern "C"
 
 // TODO UNICDE capable
 
-typedef void *logger_t;
-typedef int loglevel_t;
+typedef void * log4cplus_logger_t;
+typedef log4cplus_logger_t logger_t;
+
+typedef int log4cplus_loglevel_t;
+typedef log4cplus_loglevel_t loglevel_t;
 
 #define L4CP_OFF_LOG_LEVEL 60000
 #define L4CP_FATAL_LOG_LEVEL 50000
@@ -55,13 +58,22 @@ typedef int loglevel_t;
 #define L4CP_NOT_SET_LOG_LEVEL -1
 
 #ifdef UNICODE
-#  define LOG4CPLUS_TEXT2(STRING) L##STRING
 typedef wchar_t log4cplus_char_t;
 #else
-#  define LOG4CPLUS_TEXT2(STRING) STRING
 typedef char log4cplus_char_t;
 #endif // UNICODE
+
+#if ! defined (LOG4CPLUS_TEXT)
+#ifdef UNICODE
+#  define LOG4CPLUS_TEXT2(STRING) L##STRING
+#else
+#  define LOG4CPLUS_TEXT2(STRING) STRING
+#endif // UNICODE
 #define LOG4CPLUS_TEXT(STRING) LOG4CPLUS_TEXT2(STRING)
+#endif // LOG4CPLUS_TEXT
+
+LOG4CPLUS_EXPORT void * log4cplus_initialize(void);
+LOG4CPLUS_EXPORT int log4cplus_deinitialize(void * initializer);
 
 LOG4CPLUS_EXPORT int log4cplus_file_configure(const log4cplus_char_t *pathname);
 LOG4CPLUS_EXPORT int log4cplus_str_configure(const log4cplus_char_t *config);
@@ -70,13 +82,34 @@ LOG4CPLUS_EXPORT void log4cplus_shutdown(void);
 
 LOG4CPLUS_EXPORT int log4cplus_logger_exists(const log4cplus_char_t *name);
 LOG4CPLUS_EXPORT int log4cplus_logger_is_enabled_for(
-    const log4cplus_char_t *name, loglevel_t ll);
+    const log4cplus_char_t *name, log4cplus_loglevel_t ll);
+
 LOG4CPLUS_EXPORT int log4cplus_logger_log(const log4cplus_char_t *name,
-    loglevel_t ll, const log4cplus_char_t *msgfmt, ...)
+    log4cplus_loglevel_t ll, const log4cplus_char_t *msgfmt, ...)
     LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 3, 4);
+
+LOG4CPLUS_EXPORT int log4cplus_logger_log_str(const log4cplus_char_t *name,
+    log4cplus_loglevel_t ll, const log4cplus_char_t *msg);
+
 LOG4CPLUS_EXPORT int log4cplus_logger_force_log(const log4cplus_char_t *name,
-    loglevel_t ll, const log4cplus_char_t *msgfmt, ...)
+    log4cplus_loglevel_t ll, const log4cplus_char_t *msgfmt, ...)
     LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 3, 4);
+
+LOG4CPLUS_EXPORT int log4cplus_logger_force_log_str(const log4cplus_char_t *name,
+    log4cplus_loglevel_t ll, const log4cplus_char_t *msg);
+
+//! CallbackAppender callback type.
+typedef void (* log4cplus_log_event_callback_t)(void * cookie,
+    log4cplus_char_t const * message, log4cplus_char_t const * loggerName,
+    log4cplus_loglevel_t ll, log4cplus_char_t const * thread,
+    log4cplus_char_t const * thread2,
+    unsigned long long timestamp_secs, unsigned long timestamp_usecs,
+    log4cplus_char_t const * file, log4cplus_char_t const * function, int line);
+
+LOG4CPLUS_EXPORT int log4cplus_add_callback_appender(
+    const log4cplus_char_t * logger, log4cplus_log_event_callback_t callback,
+    void * cookie);
+
 
 #ifdef __cplusplus
 }

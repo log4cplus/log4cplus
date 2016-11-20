@@ -4,7 +4,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2014 Tad E. Smith
+// Copyright 2003-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -85,11 +85,15 @@ OnlyOnceErrorHandler::reset()
 ///////////////////////////////////////////////////////////////////////////////
 
 Appender::Appender()
- : layout(new SimpleLayout()),
-   name( LOG4CPLUS_TEXT("") ),
+ : layout(new SimpleLayout),
+   name(internal::empty_str),
    threshold(NOT_SET_LOG_LEVEL),
    errorHandler(new OnlyOnceErrorHandler),
    useLockFile(false),
+   async(false),
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+   in_flight(0),
+#endif
    closed(false)
 {
 }
@@ -97,11 +101,15 @@ Appender::Appender()
 
 
 Appender::Appender(const log4cplus::helpers::Properties & properties)
-    : layout(new SimpleLayout())
+    : layout(new SimpleLayout)
     , name()
     , threshold(NOT_SET_LOG_LEVEL)
     , errorHandler(new OnlyOnceErrorHandler)
     , useLockFile(false)
+    , async(false)
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    , in_flight(0)
+#endif
     , closed(false)
 {
     if(properties.exists( LOG4CPLUS_TEXT("layout") ))
@@ -200,6 +208,9 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
                     "UseLockFile is true but LockFile is not specified"));
         }
     }
+
+    // Deal with asynchronous append flag.
+    properties.getBool (async, LOG4CPLUS_TEXT("AsyncAppend"));
 }
 
 
@@ -222,6 +233,22 @@ Appender::~Appender()
 ///////////////////////////////////////////////////////////////////////////////
 
 void
+Appender::waitToFinishAsyncLogging()
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    if (async)
+    {
+        // When async flag is true we might have some logging still in flight
+        // on thread pool threads. Wait for them to finish.
+
+        std::unique_lock<std::mutex> lock (in_flight_mutex);
+        in_flight_condition.wait (lock,
+            [&] { return this->in_flight == 0; });
+    }
+#endif
+}
+
+void
 Appender::destructorImpl()
 {
     // An appender might be closed then destroyed. There is no point
@@ -229,6 +256,8 @@ Appender::destructorImpl()
     // files get rolled more than once.
     if (closed)
         return;
+
+    waitToFinishAsyncLogging ();
 
     close();
     closed = true;
@@ -241,8 +270,81 @@ bool Appender::isClosed() const
 }
 
 
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+void
+Appender::subtract_in_flight ()
+{
+    std::size_t const prev = std::atomic_fetch_sub_explicit (&in_flight,
+        std::size_t (1), std::memory_order_acq_rel);
+    if (prev == 1)
+    {
+        std::unique_lock<std::mutex> lock (in_flight_mutex);
+        in_flight_condition.notify_all ();
+    }
+}
+
+#endif
+
+
+// from global-init.cxx
+void enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
+    spi::InternalLoggingEvent const & event);
+
+
 void
 Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    if (async)
+    {
+        event.gatherThreadSpecificData ();
+
+        std::atomic_fetch_add_explicit (&in_flight, std::size_t (1),
+            std::memory_order_relaxed);
+
+        try
+        {
+            enqueueAsyncDoAppend (SharedAppenderPtr (this), event);
+        }
+        catch (...)
+        {
+            subtract_in_flight ();
+            throw;
+        }
+    }
+    else
+#endif
+        syncDoAppend (event);
+}
+
+
+void
+Appender::asyncDoAppend(const log4cplus::spi::InternalLoggingEvent& event)
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    struct handle_in_flight
+    {
+        Appender * const app;
+
+        handle_in_flight (Appender * app_)
+            : app (app_)
+        { }
+
+        ~handle_in_flight ()
+        {
+            app->subtract_in_flight ();
+        }
+    };
+
+    handle_in_flight guard (this);
+#endif
+
+    syncDoAppend (event);
+}
+
+
+void
+Appender::syncDoAppend(const log4cplus::spi::InternalLoggingEvent& event)
 {
     thread::MutexGuard guard (access_mutex);
 

@@ -4,7 +4,7 @@
 // Author:  Vaclav Zeman
 //
 //
-//  Copyright (C) 2012-2014, Vaclav Zeman. All rights reserved.
+//  Copyright (C) 2012-2015, Vaclav Zeman. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -214,7 +214,8 @@ CLFSAppender::init (tstring const & logname, unsigned long logsize,
     return;
 
 error:
-    if (data->log_handle != INVALID_HANDLE_VALUE)
+    if (data->log_handle != INVALID_HANDLE_VALUE
+        && data->log_handle)
     {
         CloseHandle (data->log_handle);
         data->log_handle = INVALID_HANDLE_VALUE;

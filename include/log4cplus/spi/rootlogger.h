@@ -5,7 +5,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2001-2014 Tad E. Smith
+// Copyright 2001-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -64,7 +64,7 @@ namespace log4cplus {
              * Setting a NOT_SET_LOG_LEVEL value to the LogLevel of the root logger 
              * may have catastrophic results. We prevent this here.
              */
-            void setLogLevel(LogLevel ll);
+            void setLogLevel(LogLevel);
 
         };
 

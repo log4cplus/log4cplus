@@ -1,4 +1,4 @@
-//  Copyright (C) 2009-2014, Vaclav Haisman. All rights reserved.
+//  Copyright (C) 2009-2015, Vaclav Haisman. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -90,6 +90,16 @@
 #  define __has_feature(X) 0
 #endif
 
+#if __has_feature (cxx_noexcept)                       \
+    || (defined (__GNUC__)                             \
+        && (__GNUC__ > 4                               \
+            || __GNUC__ == 4 && __GNUC_MINOR__ >= 6))  \
+    || (defined (_MSC_VER) && _MSC_VER >= 1900)
+#  define LOG4CPLUS_NOEXCEPT noexcept
+#else
+#  define LOG4CPLUS_NOEXCEPT /* empty */
+#endif
+
 #if ! defined (UNICODE) && defined (__GNUC__) && __GNUC__ >= 3
 #  define LOG4CPLUS_FORMAT_ATTRIBUTE(archetype, format_index, first_arg_index) \
     __attribute__ ((format (archetype, format_index, first_arg_index)))
@@ -99,25 +109,28 @@
 #endif
 
 #if defined (__GNUC__) \
-    && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8))
+    && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)) \
+    && ! defined (__INTEL_COMPILER)
 #  define LOG4CPLUS_CALLER_FILE() __builtin_FILE ()
 #  define LOG4CPLUS_CALLER_LINE() __builtin_LINE ()
 #  define LOG4CPLUS_CALLER_FUNCTION() __builtin_FUNCTION ()
 #else
-#  define LOG4CPLUS_CALLER_FILE() (NULL)
+#  define LOG4CPLUS_CALLER_FILE() (nullptr)
 #  define LOG4CPLUS_CALLER_LINE() (-1)
-#  define LOG4CPLUS_CALLER_FUNCTION() (NULL)
+#  define LOG4CPLUS_CALLER_FUNCTION() (nullptr)
 #endif
 
 #if defined (__GNUC__) && __GNUC__ >= 3
 #  define LOG4CPLUS_ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
 #  define LOG4CPLUS_ATTRIBUTE_PURE __attribute__ ((__pure__))
+#  define LOG4CPLUS_ATTRIBUTE_DEPRECATED __attribute__ ((__deprecated__))
 #  define LOG4CPLUS_BUILTIN_EXPECT(exp, c) __builtin_expect ((exp), (c))
 #else
 #  if ! defined (LOG4CPLUS_ATTRIBUTE_NORETURN)
 #    define LOG4CPLUS_ATTRIBUTE_NORETURN /* empty */
 #  endif
 #  define LOG4CPLUS_ATTRIBUTE_PURE /* empty */
+#  define LOG4CPLUS_ATTRIBUTE_DEPRECATED /* empty */
 #  define LOG4CPLUS_BUILTIN_EXPECT(exp, c) (exp)
 #endif
 
@@ -135,9 +148,12 @@
 #  pragma once
 #endif
 
-#if defined (LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR)
+#if defined (LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR_PRIORITY)
 #  define LOG4CPLUS_CONSTRUCTOR_FUNC(prio) \
     __attribute__ ((__constructor__ ((prio))))
+#elif defined (LOG4CPLUS_HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR)
+#  define LOG4CPLUS_CONSTRUCTOR_FUNC(prio) \
+    __attribute__ ((__constructor__))
 #else
 #  define LOG4CPLUS_CONSTRUCTOR_FUNC(prio) /* empty */
 #endif
@@ -152,6 +168,12 @@
 #define LOG4CPLUS_INIT_PRIORITY_BASE (65535 / 2)
 
 #include <log4cplus/helpers/thread-config.h>
+
+#if defined (LOG4CPLUS_SINGLE_THREADED)
+#define LOG4CPLUS_THREADED(x)
+#else
+#define LOG4CPLUS_THREADED(x) x
+#endif
 
 #if defined(__cplusplus)
 namespace log4cplus

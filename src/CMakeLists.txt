@@ -2,6 +2,7 @@ set (log4cplus_sources
   appenderattachableimpl.cxx
   appender.cxx
   asyncappender.cxx
+  callbackappender.cxx
   clogger.cxx
   configurator.cxx
   connectorthread.cxx
@@ -70,6 +71,14 @@ endif (UNICODE)
 if (WIN32)
   add_definitions (-DMINGW_HAS_SECURE_API=1)
   add_definitions (-D_WIN32_WINNT=${_WIN32_WINNT})
+
+  if (BUILD_SHARED_LIBS)
+    set(log4cplus_build_shared 1)
+  else ()
+    set(log4cplus_build_shared 0)
+  endif ()
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/log4cplus.rc.in ${CMAKE_CURRENT_BINARY_DIR}/log4cplus.rc @ONLY)
+  list(APPEND log4cplus_sources ${CMAKE_CURRENT_BINARY_DIR}/log4cplus.rc)
 endif (WIN32)
 
 add_library (${log4cplus} ${log4cplus_sources})
@@ -106,18 +115,62 @@ else ()
     COMPILE_FLAGS "-DINSIDE_LOG4CPLUS")
 endif ()
 
+if (MINGW AND LOG4CPLUS_MINGW_STATIC_RUNTIME)
+  # avoid dependency from mingw libstdc++/libgcc in resulting dll
+  set_target_properties (${log4cplus} PROPERTIES
+    LINK_FLAGS "-static -static-libgcc -static-libstdc++")
+endif ()
+
 if (WIN32)
   set_target_properties (${log4cplus} PROPERTIES
     DEBUG_POSTFIX "D")
   target_link_libraries (${log4cplus} ws2_32 advapi32)
 endif ()
 
-install(TARGETS ${log4cplus} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+###
+# Installation (https://github.com/forexample/package-example)
+
+set(config_install_dir "lib/cmake/${PROJECT_NAME}")
+
+set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
+
+# Configuration
+set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
+set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
+set(targets_export_name "${PROJECT_NAME}Targets")
+set(namespace "${PROJECT_NAME}::")
+
+include(CMakePackageConfigHelpers)
+
+write_basic_package_version_file(
+    "${version_config}"
+    VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}"
+    COMPATIBILITY SameMajorVersion
+)
+
+# Note: variable 'targets_export_name' used
+configure_file("cmake/Config.cmake.in" "${project_config}" @ONLY)
+
+install(
+    FILES "${project_config}" "${version_config}"
+    DESTINATION "${config_install_dir}"
+)
+
+install(
+    EXPORT "${targets_export_name}"
+    NAMESPACE "${namespace}"
+    DESTINATION "${config_install_dir}"
+)
+
+install(TARGETS ${log4cplus} EXPORT "${targets_export_name}"
+                          INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+                          LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
                           ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
                           RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 install(FILES ../include/log4cplus/appender.h
               ../include/log4cplus/asyncappender.h
+              ../include/log4cplus/callbackappender.h
               ../include/log4cplus/clogger.h
               ../include/log4cplus/config.hxx
               ../include/log4cplus/configurator.h
@@ -126,7 +179,9 @@ install(FILES ../include/log4cplus/appender.h
               ../include/log4cplus/fstreams.h
               ../include/log4cplus/hierarchy.h
               ../include/log4cplus/hierarchylocker.h
+              ../include/log4cplus/initializer.h
               ../include/log4cplus/layout.h
+              ../include/log4cplus/log4cplus.h
               ../include/log4cplus/log4judpappender.h
               ../include/log4cplus/logger.h
               ../include/log4cplus/loggingmacros.h

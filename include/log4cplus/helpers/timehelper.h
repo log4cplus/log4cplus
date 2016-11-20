@@ -5,7 +5,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2014 Tad E. Smith
+// Copyright 2003-2015 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ inline
 time_t
 to_time_t (Time const & the_time)
 {
-    // This is based on <http://stackoverflow.com/a/17395137/341065> It is
+    // This is based on <http://stackoverflow.com/a/17395137/341065>. It is
     // possible that to_time_t() returns rounded time and we want truncation.
 
     time_t time = Clock::to_time_t (the_time);
@@ -114,7 +114,8 @@ microseconds_part (Time const & the_time)
         "microseconds");
 
     // This is based on <http://stackoverflow.com/a/17395137/341065>
-    return (the_time - from_time_t (to_time_t (the_time))).count ();
+    return static_cast<long>(
+        (the_time - from_time_t (to_time_t (the_time))).count ());
 }
 
 
