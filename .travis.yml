@@ -1,26 +1,23 @@
 language: cpp
 sudo: false
-dist: trusty
+dist: precise
 compiler:
   - gcc
   - clang
 addons: &addons
   apt:
+    sources: &sources
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise-3.8
+      - ubuntu-sdk-team
     packages: &packages
-      - g++-5
-      - gcc-5
-      - clang-3.7
+      - g++-6
+      - gcc-6
+      - clang-3.8
       - libstdc++-5-dev
       - swig
       - python
       # - qtbase5-dev
-    sources: &sources
-      - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.5
-      - llvm-toolchain-precise-3.6
-      - llvm-toolchain-precise-3.7
-      - llvm-toolchain-precise
-      - ubuntu-sdk-team
 env:
   # - PARAM_THREADS="--enable-threads --with-python --with-qt5 --with-working-c-locale --with-wchar_t-support --enable-unit-tests"
   #   CXXFLAGS="" SWIG_FLAGS="" QT=qtbase5-dev
@@ -48,16 +45,16 @@ before_install:
 before_script:
   - |
       case "$CXX" in #(
-      g++*) CXX=g++-5 #(
+      g++*) CXX=g++-6 #(
       ;;
-      clang++*) CXX=clang++-3.7
+      clang++*) CXX=clang++-3.8
       ;;
       esac
   - |
       case "$CC" in #(
-      gcc*) CC=gcc-5 #(
+      gcc*) CC=gcc-6 #(
       ;;
-      clang*) CC=clang-3.7
+      clang*) CC=clang-3.8
       ;;
       esac
   - export CXX CC
