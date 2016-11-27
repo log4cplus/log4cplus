@@ -267,7 +267,7 @@ FileAppenderBase::init()
 
         lockFileName = filename;
         lockFileName += LOG4CPLUS_TEXT(".lock");
-	}
+    }
 
     if (bufferSize != 0)
     {
@@ -1362,7 +1362,7 @@ TimeBasedRollingFileAppender::clean(Time time)
     }
 
     Time::duration period = getRolloverPeriodDuration();
-    long periods = long(interval / period);
+    long periods = long(interval.count () / period.count ());
 
     helpers::LogLog & loglog = helpers::getLogLog();
     for (long i = 0; i < periods; i++)
@@ -1434,8 +1434,9 @@ TimeBasedRollingFileAppender::calculateNextRolloverTime(const Time& t) const
     case HOURLY:
     case MINUTELY:
     {
-        Time::duration period = getRolloverPeriodDuration();
-        result = t + (period - t.time_since_epoch() % period);
+        Time::duration const period = getRolloverPeriodDuration();
+        result = round_time_and_add (t,
+            helpers::chrono::duration_cast<helpers::chrono::seconds> (period));
         break;
     }
     };
