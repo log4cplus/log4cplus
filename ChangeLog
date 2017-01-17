@@ -1,10 +1,36 @@
+log4cplus 1.2.1-RC1
+---------------
+
+  - GitHub issue #205. Fixed `AsyncAppender` shutdown crash.
+
+  - Fix GitHub bug #195. Check if queue thread pointer is not NULL and if it
+    is running before trying to join it.
+
+  - Fixed GitHub bug #136. Adjust weekly, daily and twice daily rollover time
+    for `DailyRollingFileAppender` by time zone offset so that the rollover
+    happens at midnight, etc., of local time instead of UTC time.
+
+  - Fixed GitHub bug #148. `TTCCLayout` boolean members could be left
+    uninitialized. Initialize them.
+
+  - Fixed GitHub bug #163. Fixed Visual Studio 2015 build with
+    CMake. Compilation fails not finding `FreeAddrInfoW()`.
+
+  - Disabled use of `__thread` on iOS.
+
+  - Fixed SF#333. `AsyncAppender`'s appenders need to be closed so that
+    accumulated logs get flushed onto disk.
+
+  - Updated `android.toolchain.cmake` from OpenCV project.
+
+
 log4cplus 1.2.0
 ---------------
 
   - Fixed SourceForge bug #324, MinGW compilation issue. Use
     `InterlockedExchangeAdd` instead of `InterlockedAdd`. The former is
     supported by older MinGW.
-    
+
   - Fixed GitHub bug #137. Fix missing thread's alternative name.
 
 
