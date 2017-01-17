@@ -168,8 +168,8 @@ AsyncAppender::close ()
 
     removeAllAppenders();
 
-    queue_thread = nullptr;
-    queue = nullptr;
+    queue_thread = 0;
+    queue = 0;
 }
 
 
