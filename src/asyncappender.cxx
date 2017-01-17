@@ -150,15 +150,21 @@ AsyncAppender::init_queue_thread (unsigned queue_len)
 void
 AsyncAppender::close ()
 {
-    unsigned ret = queue->signal_exit ();
-    if (ret & (thread::Queue::ERROR_BIT | thread::Queue::ERROR_AFTER))
-        getErrorHandler ()->error (
-            LOG4CPLUS_TEXT ("Error in AsyncAppender::close"));
+    if (queue)
+    {
+        unsigned ret = queue->signal_exit ();
+        if (ret & (thread::Queue::ERROR_BIT | thread::Queue::ERROR_AFTER))
+            getErrorHandler ()->error (
+                LOG4CPLUS_TEXT ("Error in AsyncAppender::close"));
+    }
 
     if (queue_thread && queue_thread->isRunning ())
         queue_thread->join ();
 
     removeAllAppenders();
+
+    queue_thread = nullptr;
+    queue = nullptr;
 }
 
 
