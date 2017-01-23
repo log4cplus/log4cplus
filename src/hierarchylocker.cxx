@@ -61,7 +61,7 @@ HierarchyLocker::HierarchyLocker(Hierarchy& _h)
 }
  
 
-HierarchyLocker::~HierarchyLocker()
+HierarchyLocker::~HierarchyLocker() LOG4CPLUS_NOEXCEPT_FALSE
 {
     try {
         for(LoggerList::iterator it=loggerList.begin(); it!=loggerList.end(); ++it) {
