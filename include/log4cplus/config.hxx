@@ -109,9 +109,9 @@
 #  define LOG4CPLUS_HAVE_RVALUE_REFS
 #endif
 
-#if defined (LOG4CPLUS_HAVE_CXX11_SUPPORT) \
-    || __has_feature(cxx_noexcept) \
-    || (defined (_MSC_VER) &&  _MSC_VER >= 1900)
+#if defined (LOG4CPLUS_HAVE_CXX11_SUPPORT)          \
+    && (__has_feature(cxx_noexcept)                 \
+        || (defined (_MSC_VER) && _MSC_VER >= 1900))
 #  define LOG4CPLUS_NOEXCEPT_FALSE noexcept(false)
 #else
 #  define LOG4CPLUS_NOEXCEPT_FALSE /* empty */
