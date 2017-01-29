@@ -79,7 +79,9 @@ Queue::put_event (spi::InternalLoggingEvent const & ev)
     }
     catch (std::runtime_error const & e)
     {
-        (void)e;
+        log4cplus::helpers::getLogLog().error(
+            LOG4CPLUS_TEXT("put_event() exception: ")
+            + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
         return ret_flags;
     }
 
@@ -114,7 +116,9 @@ Queue::signal_exit (bool drain)
     }
     catch (std::runtime_error const & e)
     {
-        (void)e;
+        log4cplus::helpers::getLogLog().error(
+            LOG4CPLUS_TEXT("signal_exit() exception: ")
+            + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
         ret_flags |= ERROR_BIT;
         return ret_flags;
     }
@@ -174,7 +178,9 @@ Queue::get_events (queue_storage_type * buf)
     }
     catch (std::runtime_error const & e)
     {
-        (void)e;
+        log4cplus::helpers::getLogLog().error(
+            LOG4CPLUS_TEXT("get_events() exception: ")
+            + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
         ret_flags |= ERROR_BIT;
     }
 
