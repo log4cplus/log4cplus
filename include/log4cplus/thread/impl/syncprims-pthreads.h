@@ -245,11 +245,17 @@ inline
 void
 Semaphore::lock () const
 {
+    int ret;
+    while (LOG4CPLUS_UNLIKELY ((
 #if defined (LOG4CPLUS_USE_NAMED_POSIX_SEMAPHORE)
-    int ret = sem_wait (sem);
+            ret = sem_wait (sem)
 #else
-    int ret = sem_wait (&sem);
+            ret = sem_wait (&sem)
 #endif
+                ) == -1)
+        && errno == EINTR)
+    { /* try again after signal */ }
+
     if (LOG4CPLUS_UNLIKELY (ret != 0))
         LOG4CPLUS_THROW_RTE ("Semaphore::lock");
 }
