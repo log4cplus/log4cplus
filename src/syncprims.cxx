@@ -40,7 +40,7 @@ syncprims_throw_exception (char const * const msg, char const * const file,
     int line)
 {
     std::ostringstream oss;
-    oss << file << ":" << line << msg;
+    oss << file << ":" << line << ": " << msg;
     throw std::runtime_error (oss.str ());
 }
 
