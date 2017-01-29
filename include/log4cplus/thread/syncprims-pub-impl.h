@@ -109,7 +109,7 @@ Semaphore::~Semaphore ()
 
 LOG4CPLUS_INLINE_EXPORT
 void
-Semaphore::lock () const
+Semaphore::unlock () const
 {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     std::lock_guard<std::mutex> guard (mtx);
@@ -125,10 +125,13 @@ Semaphore::lock () const
 
 LOG4CPLUS_INLINE_EXPORT
 void
-Semaphore::unlock () const
+Semaphore::lock () const
 {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     std::unique_lock<std::mutex> guard (mtx);
+
+    if (LOG4CPLUS_UNLIKELY(val > max))
+        LOG4CPLUS_THROW_RTE ("Semaphore::unlock(): val > max");
 
     while (val == 0)
         cv.wait (guard);
