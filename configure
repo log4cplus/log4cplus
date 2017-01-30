@@ -10191,7 +10191,8 @@ esac
      ;;
 esac
 
-         if test "$target_os" != "darwin" -o "$target_cpu" != "arm"; then :
+               if test \( "$target_os" != "darwin" -o "$target_cpu" != "arm" \) \
+               -a "$target_os" != "cygwin"; then :
 
 
 

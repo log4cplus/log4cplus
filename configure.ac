@@ -472,8 +472,11 @@ dnl Multi threaded library.
       AX_CXXFLAGS_AIX_OPTION([-qtls])])
 
    dnl Check if TLS is supported, but only if it isn't iOS target, because it
-   dnl is forbidden by Apple Store to use __tlv_* functions.
-   AS_IF([test "$target_os" != "darwin" -o "$target_cpu" != "arm"],
+   dnl is forbidden by Apple Store to use __tlv_* functions. Also, Cygwin
+   dnl passes the compilation and link test here but fails during linking of
+   dnl the real code, so we want to avoid it too. See GCC PR64697.
+   AS_IF([test \( "$target_os" != "darwin" -o "$target_cpu" != "arm" \) \
+               -a "$target_os" != "cygwin"],
      [AX_TLS_SUPPORT])
 
    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
