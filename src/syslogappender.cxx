@@ -3,7 +3,7 @@
 // Created: 6/2001
 // Author:  Tad E. Smith
 //
-// Copyright 2001-2015 Tad E. Smith
+// Copyright 2001-2017 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.

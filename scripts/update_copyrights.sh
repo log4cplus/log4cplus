@@ -10,7 +10,7 @@ echo "modifying file $file";
 perl -wn -i.bak -e '
 use strict;
 
-my $YEAR = 2015;
+my $YEAR = 2017;
 
 my $sep = qr/[\s,;]/;
 if (/copyright/i)
