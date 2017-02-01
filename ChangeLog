@@ -8,7 +8,7 @@
     entered and after `main()` is left. Even more specifically, the library
     should not be used during global objects construction and destruction.
 
-  - log4cplus uses Catch unit testing framework and hand unit tests.
+  - log4cplus uses Catch unit testing framework and has unit tests.
 
   - log4cplus supports IPv6.
 
