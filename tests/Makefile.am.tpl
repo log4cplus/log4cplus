@@ -8,12 +8,26 @@ TESTSUITE = %D%/testsuite
 AUTOTEST = $(AUTOM4TE) --language=Autotest
 TESTSUITE_AT = \
 [=
-(emit "\t"
-      (join " \\\n\t"
-            (map (lambda (x) (string-append "%D%/" x))
-                 (scandir "."
-                          (lambda (x) (string-suffix-ci? ".at" x)))))
-      "\n")
+(let ((files (list)))
+  (define (emit-at-files-ftw-cb filename statinfo flag)
+    (begin
+      (if (and (eq? flag 'regular)
+               (string-suffix-ci? ".at" filename))
+          (set! files (append! files (list filename))))
+      #t))
+  (begin
+    (ftw "." emit-at-files-ftw-cb)
+    ;; Add the generated header as it will not be found by file search.
+    (set! files (sort! files string-ci<?))
+    (emit "\t"
+          (string-join (map (lambda (x)
+                              (string-append "%D%/"
+                                             (if (string-prefix? "./" x)
+                                                 (substring x 2)
+                                                 x)))
+                            files)
+                       " \\\n\t")
+          "\n")))
 =]
 
 all: $(TESTSUITE)
@@ -40,14 +54,28 @@ EXTRA_DIST += %D%/testsuite.at $(TESTSUITE) %D%/atlocal.in
 
 [=name=]_sources = \
 [=
-(emit "\t"
-      (join " \\\n\t"
-            (map (lambda (x) (string-append "%D%/" x))
-                 (scandir (get "name")
-                          (lambda (x)
-                            (or
-                             (string-suffix-ci? ".cxx" x))))))
-      "\n")
+(let ((name (get "name"))
+      (files (list)))
+  (define (emit-cxx-files-ftw-cb filename statinfo flag)
+    (begin
+      (display filename)
+      (if (and (eq? flag 'regular)
+               (string-suffix-ci? ".cxx" filename))
+          (set! files (append! files (list filename))))
+      #t))
+  (begin
+    (ftw name emit-cxx-files-ftw-cb)
+    ;; Add the generated header as it will not be found by file search.
+    (set! files (sort! files string-ci<?))
+    (emit "\t"
+          (string-join (map (lambda (x)
+                              (string-append "%D%/"
+                                             (if (string-prefix? name x)
+                                                 (substring x (1+ (string-length name)))
+                                                 x)))
+                            files)
+                       " \\\n\t")
+          "\n")))
 =]
 [=name=]_SOURCES = $([=name=]_sources)
 
