@@ -3,7 +3,7 @@
 Short Description
 =================
 
-[log4cplus] is a simple to use C++ logging API providing thread--safe,
+[log4cplus] is a simple to use C++11 logging API providing thread--safe,
 flexible, and arbitrarily granular control over log management and
 configuration.  It is modeled after the Java log4j API.
 
@@ -16,9 +16,10 @@ Latest Project Information
 The latest up-to-date information for this project can be found at
 [log4cplus] SourceForge project pages or [log4cplus wiki][4] on
 SourceForge.  Please submit bugs, patches, feature requests, etc.,
-there.
+there, or on [GitHub][13].
 
 [4]: https://sourceforge.net/p/log4cplus/wiki/Home/
+[13]: https://github.com/log4cplus/log4cplus
 
 
 Mission statement
@@ -38,21 +39,17 @@ Platform support
 [log4cplus] version 2.0 and beyond require C++11. [log4cplus] has been
 ported to and tested on the following platforms:
 
-  - Linux/AMD64 with GCC version 4.9.1 (Ubuntu 4.9.1-16ubuntu6)
-  - Linux/AMD64 with Clang version 3.5.0-4ubuntu2 (tags/RELEASE_350/final)
-    (based on LLVM 3.5.0)
-  - Linux/AMD64 with Intel Parallel Studio XE 2015, ICPC version 15.0.1
+  - Linux/AMD64 with GCC version 6.2.0 20161005 (Ubuntu 6.2.0-5ubuntu12)
+  - Linux/AMD64 with Clang version 3.8.1-12ubuntu1 (tags/RELEASE_381/final)
   - Windows/AMD64 with GCC version 4.8.2 (x86_64-posix-seh-rev3, Built by
     MinGW-W64 project) using CMake build system
   - Windows/AMD64 with GCC version 4.9.2 (tdm64-1) using CMake build system
-  - Windows 7 with MS Visual Studio 2015[^msvc]
+  - Windows 7 with MS Visual Studio 2015
   - OpenBSD 5.6/AMD64 with GCC version 4.9.0
   - FreeBSD 10.1/i386 with Clang version 3.4.1 (tags/RELEASE_34/dot1-final 208032)
   - NetBSD 6.1.5/AMD64 with GCC version 4.9.1
   - DragonflyBSD 4.0.1/AMD64 with GCC version 4.9.3 20141126 (prerelease)
     (FreeBSD Ports Collection)
-  - Minix 3.3.0/i386 with Clang version 3.4 (branches/release_34) with
-    `--disable-threads`
 
 The testing on the above listed platforms has been done at some point
 in time with some version of source. Continuous testing is done only
@@ -60,10 +57,13 @@ on Linux platform offered by [Travis CI][11] service.
 
 The oldest Windows version that is supported by 2.x releases is Windows Vista.
 
-The following platforms were supported by the 1.x series of
-[log4cplus]. They either do not have a reasonable C++11 capable
-compiler or have not been checked with [log4cplus] 2.x, yet:
+The following platforms were supported by the 1.x series of [log4cplus]. They
+either do not have a reasonable C++11 capable compiler or have not been checked
+with [log4cplus] 2.x, yet:
 
+  - Minix 3.3.0/i386 with Clang version 3.4 (branches/release_34) with
+    `--disable-threads`
+  - Linux/AMD64 with Intel Parallel Studio XE 2015, ICPC version 15.0.1
   - OpenSolaris with `-library=stlport4`
   - Solaris with `-library=stlport4` and with `-library=Cstd`.
   - Solaris 5.10/Sparc
@@ -72,8 +72,6 @@ compiler or have not been checked with [log4cplus] 2.x, yet:
   - HP-UX (hppa2.0w-hp-hpux11.11)
   - Haiku R1 Alpha 4.1
   - AIX 5.3 with IBM XL C/C++ for AIX
-
-[^msvc]: Visual Studio 2015 Preview version was used for the test.
 
 
 Configure script options
@@ -215,13 +213,8 @@ autotools based build system or using CMake build system. The
 autotools based build system is considered to be primary for
 Unix--like platforms.
 
-On Windows, the primary build system is Visual Studio 2010 solution
-and projects (`msvc14/log4cplus.sln`). This solution and associated
-project files should update just fine to Visual Studio 2012 out of the
-box. See also `scripts/msvc14_to_msvc11.cmd` and
-`scripts/msvc14_to_msvc12.cmd` helper scripts that create
-`msvc11/log4cplus.sln` and `msvc12/log4cplus.sln` respectively when
-invoked on `msvc14/log4cplus.sln` from source root directory.
+On Windows, the primary build system is Visual Studio 2015 solution
+and projects (`msvc14/log4cplus.sln`).
 
 MinGW is supported by autotools based build system. CMake build system
 is supported as well and it should be used to compile [log4cplus] with
@@ -229,17 +222,15 @@ older versions of Visual Studio or with less common compiler suites
 (e.g., Embarcadero, Code::Blocks, etc.).
 
 
-Cygwin/MinGW
-------------
+Cygwin
+------
 
-Some version of GCC (3.4.x and probably some of 4.x series too) on
-Windows (both MinGW and Cygwin) produces lots of warnings of the form:
+Cygwin 2.5.x has a problem[^pr64697] linking binaries that use language level
+thread-local storage and share thread-local variables across translation
+units. To avoid the issue language level thread-local storage is not used on
+Cygwin and traditional POSIX thread-local storage is used instead.
 
-    warning: inline function 'void foo()' is declared as dllimport: attribute ignored
-
-This can be worked around by adding `-Wno-attributes` option to GCC
-command.  Unfortunately, not all affected version of GCC have this
-option.
+[^pr64697]: <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64697>
 
 
 MinGW and MSVCRT version
