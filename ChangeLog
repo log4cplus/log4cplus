@@ -1,9 +1,19 @@
-log4cplus 2.0-RC1
+# log4cplus 2.0-RC1
 
-**IMPORTANT**: Implementation language is now C++11. OS specific
-implementations have been replaced by C++11 facilities wherever
-possible. This lowers complexity of the library and improves maintainability
-but it also brings limitations to when the library can be used. Specifically,
-the library should not be used before `main()` is entered and after `main()`
-is left. Even more specifically, the library should not be used during global
-objects construction and destruction.
+  - **IMPORTANT**: Implementation language is now C++11. OS specific
+    implementations have been replaced by C++11 facilities wherever
+    possible. This lowers complexity of the library and improves
+    maintainability but it also brings limitations to when the library can be
+    used. Specifically, the library should not be used before `main()` is
+    entered and after `main()` is left. Even more specifically, the library
+    should not be used during global objects construction and destruction.
+
+  - log4cplus uses Catch unit testing framework and hand unit tests.
+
+  - log4cplus supports IPv6.
+
+  - Autotools based build system is now partially generated from templates by
+    the Autogen tool.
+
+  - Autotools based build system can build both `wchar_t` and plain `char`
+    variants at once.
