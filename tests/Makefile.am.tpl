@@ -58,7 +58,6 @@ EXTRA_DIST += %D%/testsuite.at $(TESTSUITE) %D%/atlocal.in
       (files (list)))
   (define (emit-cxx-files-ftw-cb filename statinfo flag)
     (begin
-      (display filename)
       (if (and (eq? flag 'regular)
                (string-suffix-ci? ".cxx" filename))
           (set! files (append! files (list filename))))
