@@ -461,10 +461,10 @@ PropertyConfigurator::configureAppenders()
                 = spi::getAppenderFactoryRegistry().get(factoryName);
             if (! factory)
             {
-                tstring err =
+                helpers::getLogLog().error(
                     LOG4CPLUS_TEXT("PropertyConfigurator::configureAppenders()")
-                    LOG4CPLUS_TEXT("- Cannot find AppenderFactory: ");
-                helpers::getLogLog().error(err + factoryName);
+                    LOG4CPLUS_TEXT("- Cannot find AppenderFactory: ")
+                    + factoryName);
                 continue;
             }
 
@@ -477,11 +477,11 @@ PropertyConfigurator::configureAppenders()
                     = factory->createObject(props_subset);
                 if (! appender)
                 {
-                    tstring err =
+                    helpers::getLogLog().error(
                         LOG4CPLUS_TEXT("PropertyConfigurator::")
                         LOG4CPLUS_TEXT("configureAppenders()")
-                        LOG4CPLUS_TEXT("- Failed to create appender: ");
-                    helpers::getLogLog().error(err + appenderName);
+                        LOG4CPLUS_TEXT("- Failed to create Appender: ")
+                        + appenderName);
                 }
                 else
                 {
@@ -491,11 +491,11 @@ PropertyConfigurator::configureAppenders()
             }
             catch(std::exception const & e)
             {
-                tstring err =
+                helpers::getLogLog().error(
                     LOG4CPLUS_TEXT("PropertyConfigurator::")
                     LOG4CPLUS_TEXT("configureAppenders()")
-                    LOG4CPLUS_TEXT("- Error while creating Appender: ");
-                helpers::getLogLog().error(err + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
+                    LOG4CPLUS_TEXT("- Error while creating Appender: ")
+                    + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
             }
         }
     } // end for loop

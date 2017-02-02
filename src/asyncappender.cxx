@@ -116,9 +116,10 @@ AsyncAppender::AsyncAppender (helpers::Properties const & props)
     spi::AppenderFactory * factory = appender_registry.get (appender_name);
     if (! factory)
     {
-        tstring const err (LOG4CPLUS_TEXT ("AsyncAppender::AsyncAppender()")
-            LOG4CPLUS_TEXT (" - Cannot find AppenderFactory: "));
-        helpers::getLogLog ().error (err + appender_name, true);
+        helpers::getLogLog ().error (
+            LOG4CPLUS_TEXT ("AsyncAppender::AsyncAppender()")
+            LOG4CPLUS_TEXT (" - Cannot find AppenderFactory: ")
+            + appender_name, true);
     }
 
     helpers::Properties appender_props = props.getPropertySubset (

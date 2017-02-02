@@ -122,8 +122,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"")
                 + factoryName
-                + LOG4CPLUS_TEXT("\"") );
-            return;
+                + LOG4CPLUS_TEXT("\""), true);
         }
 
         helpers::Properties layoutProperties =
@@ -132,8 +131,8 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
             std::unique_ptr<Layout> newLayout(factory->createObject(layoutProperties));
             if(newLayout.get() == 0) {
                 helpers::getLogLog().error(
-                    LOG4CPLUS_TEXT("Failed to create appender: ")
-                    + factoryName);
+                    LOG4CPLUS_TEXT("Failed to create Layout: ")
+                    + factoryName, true);
             }
             else {
                 layout = std::move(newLayout);
@@ -142,8 +141,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
         catch(std::exception const & e) {
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("Error while creating Layout: ")
-                + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
-            return;
+                + LOG4CPLUS_C_STR_TO_TSTRING(e.what()), true);
         }
 
     }
@@ -169,17 +167,17 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
 
         if(! factory)
         {
-            tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Cannot find FilterFactory: ");
-            helpers::getLogLog().error(err + factoryName);
-            continue;
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT("Appender::ctor()- Cannot find FilterFactory: ")
+                + factoryName, true);
         }
         spi::FilterPtr tmpFilter = factory->createObject (
             filterProps.getPropertySubset(filterName + LOG4CPLUS_TEXT(".")));
         if (! tmpFilter)
         {
-            tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Failed to create filter: ");
-            helpers::getLogLog().error(err + filterName);
-            continue;
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT("Appender::ctor()- Failed to create filter: ")
+                + filterName, true);
         }
         addFilter (std::move (tmpFilter));
     }
