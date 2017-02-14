@@ -72,7 +72,7 @@ after_failure:
   - cat tests/testsuite.log
 branches:
   only:
-    - master
+    - 2.0.x
 notifications:
   recipients:
     - vhaisman@gmail.com
