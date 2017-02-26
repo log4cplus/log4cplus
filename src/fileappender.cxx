@@ -871,7 +871,7 @@ calculateNextRolloverTime(const Time& t, DailyRollingFileSchedule schedule)
     {
         helpers::localTime (&next, t);
         next.tm_mon += 1;
-        next.tm_mday = 0; // Round up to next month start
+        next.tm_mday = 1; // Round up to next month start
         next.tm_hour = 0;
         next.tm_min = 0;
         next.tm_sec = 0;
