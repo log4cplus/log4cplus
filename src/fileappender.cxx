@@ -733,50 +733,7 @@ void
 DailyRollingFileAppender::init(DailyRollingFileSchedule sch)
 {
     this->schedule = sch;
-
     Time now = helpers::truncate_fractions (helpers::now ());
-    struct tm time;
-    helpers::localTime(&time, now);
-
-    time.tm_sec = 0;
-    switch (schedule)
-    {
-    case MONTHLY:
-        time.tm_mday = 1;
-        time.tm_hour = 0;
-        time.tm_min = 0;
-        break;
-
-    case WEEKLY:
-        time.tm_mday -= (time.tm_wday % 7);
-        time.tm_hour = 0;
-        time.tm_min = 0;
-        break;
-
-    case DAILY:
-        time.tm_hour = 0;
-        time.tm_min = 0;
-        break;
-
-    case TWICE_DAILY:
-        if(time.tm_hour >= 12) {
-            time.tm_hour = 12;
-        }
-        else {
-            time.tm_hour = 0;
-        }
-        time.tm_min = 0;
-        break;
-
-    case HOURLY:
-        time.tm_min = 0;
-        break;
-
-    case MINUTELY:
-        break;
-    };
-    now = helpers::from_struct_tm (&time);
-
     scheduledFilename = getFilename(now);
     nextRolloverTime = calculateNextRolloverTime(now);
 }
