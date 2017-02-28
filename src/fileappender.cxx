@@ -742,48 +742,6 @@ DailyRollingFileAppender::init(DailyRollingFileSchedule sch)
 
     Time now = Time::gettimeofday();
     now.usec(0);
-    struct tm time;
-    now.localtime(&time);
-
-    time.tm_sec = 0;
-    switch (schedule)
-    {
-    case MONTHLY:
-        time.tm_mday = 1;
-        time.tm_hour = 0;
-        time.tm_min = 0;
-        break;
-
-    case WEEKLY:
-        time.tm_mday -= (time.tm_wday % 7);
-        time.tm_hour = 0;
-        time.tm_min = 0;
-        break;
-
-    case DAILY:
-        time.tm_hour = 0;
-        time.tm_min = 0;
-        break;
-
-    case TWICE_DAILY:
-        if(time.tm_hour >= 12) {
-            time.tm_hour = 12;
-        }
-        else {
-            time.tm_hour = 0;
-        }
-        time.tm_min = 0;
-        break;
-
-    case HOURLY:
-        time.tm_min = 0;
-        break;
-
-    case MINUTELY:
-        break;
-    };
-    now.setTime(&time);
-
     scheduledFilename = getFilename(now);
     nextRolloverTime = calculateNextRolloverTime(now);
 }
@@ -908,63 +866,141 @@ DailyRollingFileAppender::rollover(bool alreadyLocked)
 }
 
 
-
+static
 Time
-DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
+calculateNextRolloverTime(const Time& t, DailyRollingFileSchedule schedule)
 {
+    struct tm next;
     switch(schedule)
     {
     case MONTHLY:
     {
-        struct tm nextMonthTime;
-        t.localtime(&nextMonthTime);
-        nextMonthTime.tm_mon += 1;
-        nextMonthTime.tm_isdst = 0;
+        t.localtime (&next);
+        next.tm_mon += 1;
+        next.tm_mday = 1; // Round up to next month start
+        next.tm_hour = 0;
+        next.tm_min = 0;
+        next.tm_sec = 0;
+        next.tm_isdst = -1;
 
         Time ret;
-        if(ret.setTime(&nextMonthTime) == -1) {
+        if (ret.setTime (&next) == -1)
+        {
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()-")
                 LOG4CPLUS_TEXT(" setTime() returned error"));
             // Set next rollover to 31 days in future.
-            ret = round_time (t, 24 * 60 * 60) + Time(2678400);
+            ret = round_time (t, 24 * 60 * 60) + Time (31 * 24 * 60 * 60);
         }
-
         return ret;
     }
 
     case WEEKLY:
     {
-        Time next = round_time (t, 24 * 60 * 60) + Time (7 * 24 * 60 * 60);
-        return adjust_for_time_zone (next, local_time_offset (next));
+        t.localtime (&next);
+        // Round up to next week
+        next.tm_mday += (7 - next.tm_wday + 1);
+        next.tm_hour = 0;
+        next.tm_min = 0;
+        next.tm_sec = 0;
+        next.tm_isdst = -1;
+
+        Time ret;
+        if (ret.setTime (&next) == -1)
+        {
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()-")
+                LOG4CPLUS_TEXT(" setTime() returned error"));
+            // Set next rollover to 7 days in future.
+            ret = round_time (t, 24 * 60 * 60) + Time (7 * 24 * 60 * 60);
+        }
+        return ret;
     }
 
     default:
         helpers::getLogLog ().error (
-            LOG4CPLUS_TEXT ("DailyRollingFileAppender::calculateNextRolloverTime()-")
-            LOG4CPLUS_TEXT (" invalid schedule value"));
+            LOG4CPLUS_TEXT ("calculateNextRolloverTime()-")
+            LOG4CPLUS_TEXT (" unhandled or invalid schedule value"));
         // Fall through.
 
     case DAILY:
     {
-        Time next = round_time_and_add (t, Time (24 * 60 * 60));
-        return adjust_for_time_zone (next, local_time_offset (next));
+        t.localtime (&next);
+        next.tm_mday += 1;
+        next.tm_hour = 0;
+        next.tm_min = 0;
+        next.tm_sec = 0;
+        next.tm_isdst = -1;
+
+        Time ret;
+        if (ret.setTime (&next) == -1)
+        {
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()-")
+                LOG4CPLUS_TEXT(" setTime() returned error"));
+            // Set next rollover to 7 days in future.
+            ret = round_time (t, 60 * 60) + Time (24 * 60 * 60);
+        }
+        return ret;
     }
 
     case TWICE_DAILY:
     {
-        Time next = round_time_and_add (t, Time (12 * 60 * 60));
-        return adjust_for_time_zone (next, local_time_offset (next));
+        t.localtime (&next);
+        if (next.tm_hour < 12)
+            next.tm_hour = 12;
+        else
+            next.tm_hour = 24;
+        next.tm_min = 0;
+        next.tm_sec = 0;
+        next.tm_isdst = -1;
+
+        Time ret;
+        if (ret.setTime (&next) == -1)
+        {
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()-")
+                LOG4CPLUS_TEXT(" setTime() returned error"));
+            // Set next rollover to 7 days in future.
+            ret = round_time (t, 60 * 60) + Time (12 * 60 * 60);
+        }
+        return ret;
     }
 
     case HOURLY:
-        return round_time_and_add (t, Time (60 * 60));
+    {
+        t.localtime (&next);
+        next.tm_hour += 1;
+        next.tm_min = 0;
+        next.tm_sec = 0;
+        next.tm_isdst = -1;
+
+        Time ret;
+        if (ret.setTime (&next) == -1)
+        {
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()-")
+                LOG4CPLUS_TEXT(" setTime() returned error"));
+            // Set next rollover to 7 days in future.
+            ret = round_time (t, 60 * 60) + Time (60 * 60);
+        }
+
+        return ret;
+    }
 
     case MINUTELY:
         return round_time_and_add (t, Time (60));
     };
 }
 
+
+Time
+DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
+{
+    Time ret = log4cplus::calculateNextRolloverTime (t, schedule);
+    ret.usec (0);
+    return ret;
+}
 
 
 tstring
@@ -1400,53 +1436,9 @@ TimeBasedRollingFileAppender::getRolloverPeriodDuration() const
 Time
 TimeBasedRollingFileAppender::calculateNextRolloverTime(const Time& t) const
 {
-    Time result;
-    struct tm next;
-
-    switch(schedule)
-    {
-    case MONTHLY:
-        t.localtime(&next);
-        next.tm_mon += 1;
-        next.tm_mday = 0; // Round up to next month start
-        next.tm_hour = 0;
-        next.tm_min = 0;
-        next.tm_sec = 0;
-        next.tm_isdst = 0;
-        if (result.setTime(&next) == -1) {
-            result = t + Time(getRolloverPeriodDuration());
-        }
-        break;
-
-    case WEEKLY:
-        t.localtime(&next);
-        next.tm_mday += (7 - next.tm_wday + 1); // Round up to next week
-        next.tm_hour = 0; // Round up to next week start
-        next.tm_min = 0;
-        next.tm_sec = 0;
-        next.tm_isdst = 0;
-        if (result.setTime(&next) == -1) {
-            result = t + Time(getRolloverPeriodDuration());
-        }
-        break;
-
-    default:
-    case DAILY:
-    case HOURLY:
-    case MINUTELY:
-    {
-        int periodDuration = getRolloverPeriodDuration();
-        result = t + Time(periodDuration);
-        time_t seconds = result.sec();
-        int remainder = seconds % periodDuration;
-        result.sec(seconds - remainder);
-        break;
-    }
-    };
-
-    result.usec(0);
-
-    return result;
+    Time ret = log4cplus::calculateNextRolloverTime (t, schedule);
+    ret.usec (0);
+    return ret;
 }
 
 } // namespace log4cplus
