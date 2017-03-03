@@ -339,12 +339,6 @@
     <ClInclude Include="..\include\log4cplus\spi\rootlogger.h">
       <Filter>spi</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\log4cplus\helpers\syncprims-pub-impl.h">
-      <Filter>thread</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\log4cplus\helpers\syncprims.h">
-      <Filter>thread</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\log4cplus\thread\threads.h">
       <Filter>thread</Filter>
     </ClInclude>
@@ -352,12 +346,6 @@
       <Filter>thread\impl</Filter>
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-pmsm.h">
-      <Filter>thread\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-pthreads.h">
-      <Filter>thread\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-win32.h">
       <Filter>thread\impl</Filter>
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\thread\impl\threads-impl.h">
@@ -389,6 +377,15 @@
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\log4cplus.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\log4cplus\thread\syncprims.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\log4cplus\thread\syncprims-pub-impl.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-cxx11.h">
+      <Filter>thread\impl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
