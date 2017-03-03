@@ -77,7 +77,11 @@ from_struct_tm (tm * t)
     if (LOG4CPLUS_LIKELY (time != -1))
         return from_time_t (time);
     else
-        throw std::runtime_error ("from_struct_tm(): mktime() failed");
+    {
+        errno_t eno = errno;
+        throw std::system_error (eno, std::system_category (),
+            "from_struct_tm(): mktime() failed");
+    }
 }
 
 void
@@ -85,7 +89,10 @@ gmTime (tm* t, Time const & the_time)
 {
     time_t clock = to_time_t (the_time);
 #if defined (LOG4CPLUS_HAVE_GMTIME_S) && defined (_MSC_VER)
-    gmtime_s (t, &clock);
+    errno_t eno;
+    if (LOG4CPLUS_UNLIKELY ((eno = gmtime_s (t, &clock)) != 0))
+        throw std::system_error (eno, std::system_category (),
+            "gmTime(): gmtime_s() failed");
 #elif defined (LOG4CPLUS_HAVE_GMTIME_S) && defined (__BORLANDC__)
     gmtime_s (&clock, t);
 #elif defined (LOG4CPLUS_NEED_GMTIME_R)
@@ -103,6 +110,11 @@ localTime (tm* t, Time const & the_time)
     time_t clock = to_time_t (the_time);
 #ifdef LOG4CPLUS_NEED_LOCALTIME_R
     ::localtime_r(&clock, t);
+#elif defined (LOG4CPLUS_HAVE_LOCALTIME_S)
+    errno_t eno;
+    if (LOG4CPLUS_UNLIKELY ((eno = localtime_s (t, &clock)) != 0))
+        throw std::system_error (eno, std::system_category (),
+            "localTime(): localtime_s() failed");
 #else
     tm* tmp = helpers::localtime(&clock);
     *t = *tmp;
