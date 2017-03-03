@@ -78,7 +78,7 @@ from_struct_tm (tm * t)
         return from_time_t (time);
     else
     {
-        errno_t eno = errno;
+        int eno = errno;
         throw std::system_error (eno, std::system_category (),
             "from_struct_tm(): mktime() failed");
     }
