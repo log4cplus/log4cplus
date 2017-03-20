@@ -75,9 +75,9 @@ AppenderAttachableImpl::addAppender(SharedAppenderPtr newAppender)
 
     thread::MutexGuard guard (appender_list_mutex);
 
-    ListType::iterator it =
-        std::find(appenderList.begin(), appenderList.end(), newAppender);
-    if(it == appenderList.end()) {
+    auto it = std::find(appenderList.begin(), appenderList.end(), newAppender);
+    if (it == appenderList.end())
+    {
         appenderList.push_back(newAppender);
     }
 }
@@ -138,9 +138,9 @@ AppenderAttachableImpl::removeAppender(SharedAppenderPtr appender)
 
     thread::MutexGuard guard (appender_list_mutex);
 
-    ListType::iterator it =
-        std::find(appenderList.begin(), appenderList.end(), appender);
-    if(it != appenderList.end()) {
+    auto it = std::find(appenderList.begin(), appenderList.end(), appender);
+    if (it != appenderList.end())
+    {
         appenderList.erase(it);
     }
 }

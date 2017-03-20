@@ -204,23 +204,22 @@ getFormattedTime(const log4cplus::tstring& fmt_orig,
 
     long const tv_usec = microseconds_part (the_time);
     time_t const tv_sec = to_time_t (the_time);
-    for (log4cplus::tstring::const_iterator fmt_it = fmt_orig.begin ();
-         fmt_it != fmt_orig.end (); ++fmt_it)
+    for (auto fmt_ch : fmt_orig)
     {
         switch (state)
         {
         case TEXT:
         {
-            if (*fmt_it == LOG4CPLUS_TEXT ('%'))
+            if (fmt_ch == LOG4CPLUS_TEXT ('%'))
                 state = PERCENT_SIGN;
             else
-                gft_sp.ret.push_back (*fmt_it);
+                gft_sp.ret.push_back (fmt_ch);
         }
         break;
 
         case PERCENT_SIGN:
         {
-            switch (*fmt_it)
+            switch (fmt_ch)
             {
             case LOG4CPLUS_TEXT ('q'):
             {
@@ -263,7 +262,7 @@ getFormattedTime(const log4cplus::tstring& fmt_orig,
             default:
             {
                 gft_sp.ret.push_back (LOG4CPLUS_TEXT ('%'));
-                gft_sp.ret.push_back (*fmt_it);
+                gft_sp.ret.push_back (fmt_ch);
                 state = TEXT;
             }
             }

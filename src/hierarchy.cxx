@@ -49,7 +49,7 @@ bool startsWith(tstring const & teststr, tstring const & substr)
     return val;
 }
 
-}
+} // namespace
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -106,7 +106,7 @@ Hierarchy::exists(const tstring& name)
 
     thread::MutexGuard guard (hashtable_mutex);
 
-    LoggerMap::iterator it = loggerPtrs.find(name);
+    auto it = loggerPtrs.find(name);
     return it != loggerPtrs.end();
 }
 
@@ -241,7 +241,8 @@ Hierarchy::shutdown()
 {
     waitUntilEmptyThreadPoolQueue ();
 
-    LoggerList loggers = getCurrentLoggers();
+    LoggerList loggers;
+    initializeLoggerList (loggers);
 
     // begin by closing nested appenders
     // then, remove all appenders
@@ -295,7 +296,7 @@ Hierarchy::getInstanceImpl(const tstring& name, spi::LoggerFactory& factory)
                 true);
         }
 
-        ProvisionNodeMap::iterator pnm_it = provisionNodes.find(name);
+        auto pnm_it = provisionNodes.find(name);
         if (pnm_it != provisionNodes.end())
         {
             updateChildren(pnm_it->second, logger);
@@ -338,14 +339,14 @@ Hierarchy::updateParents(Logger const & logger)
     {
         substr.assign (name, 0, i);
 
-        LoggerMap::iterator it = loggerPtrs.find(substr);
+        auto it = loggerPtrs.find(substr);
         if(it != loggerPtrs.end()) {
             parentFound = true;
             logger.value->parent = it->second.value;
             break;  // no need to update the ancestors of the closest ancestor
         }
         else {
-            ProvisionNodeMap::iterator it2 = provisionNodes.find(substr);
+            auto it2 = provisionNodes.find(substr);
             if(it2 != provisionNodes.end()) {
                 it2->second.push_back(logger);
             }

@@ -128,7 +128,7 @@ Logger::operator = (const Logger& rhs) LOG4CPLUS_NOEXCEPT
 
 Logger::Logger (Logger && rhs) LOG4CPLUS_NOEXCEPT
     : spi::AppenderAttachable (std::move (rhs))
-    , value (std::move (rhs.value))
+    , value (rhs.value)
 {
     rhs.value = nullptr;
 }
@@ -221,7 +221,7 @@ void
 Logger::assertion (bool assertionVal, const log4cplus::tstring& msg) const
 {
     if (! assertionVal)
-        log (FATAL_LOG_LEVEL, msg, 0, -1);
+        log (FATAL_LOG_LEVEL, msg, nullptr, -1);
 }
 
 

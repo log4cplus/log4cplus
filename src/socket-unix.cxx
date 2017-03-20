@@ -97,7 +97,7 @@ get_host_by_name (char const * hostname, std::string * name,
         hints.ai_flags |= AI_NUMERICHOST;
 
     struct addrinfo * res = nullptr;
-    int ret = getaddrinfo (hostname, 0, &hints, &res);
+    int ret = getaddrinfo (hostname, nullptr, &hints, &res);
     if (ret != 0)
         return ret;
 
@@ -239,7 +239,7 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
             break;
     }
 
-    if (rp == NULL)
+    if (rp == nullptr)
         // No address succeeded.
         return INVALID_SOCKET_VALUE;
 
@@ -403,7 +403,7 @@ getHostname (bool fqdn)
         return LOG4CPLUS_STRING_TO_TSTRING (hostname);
 
     std::string full_hostname;
-    ret = get_host_by_name (hostname, &full_hostname, 0);
+    ret = get_host_by_name (hostname, &full_hostname, nullptr);
     if (ret == 0)
         hostname = full_hostname.c_str ();
 

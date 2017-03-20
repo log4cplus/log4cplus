@@ -430,7 +430,7 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
     // Set the Appenders
     for(std::vector<tstring>::size_type j=1; j<tokens.size(); ++j)
     {
-        AppenderMap::iterator appenderIt = appenders.find(tokens[j]);
+        auto appenderIt = appenders.find(tokens[j]);
         if (appenderIt == appenders.end())
         {
             helpers::getLogLog().error(
@@ -718,7 +718,7 @@ ConfigurationWatchDogThread::updateLastModInfo()
 
 ConfigureAndWatchThread::ConfigureAndWatchThread(const tstring& file,
     unsigned int millis)
-    : watchDogThread(0)
+    : watchDogThread(nullptr)
 {
     watchDogThread = new ConfigurationWatchDogThread(file, millis);
     watchDogThread->addReference ();
