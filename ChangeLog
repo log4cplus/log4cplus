@@ -1,5 +1,23 @@
+log4cplus 1.2.1-RC2
+-------------------
+
+  - Fixed SF#334. Handle signal interrupting `sem_wait()`.
+
+  - Avoid language level thread-local variables on Cygwin to avoid
+    compilation issue (GCC PR64697).
+
+  - Implement suggestion in SF#297 to allow filters in `AsyncAppender`
+    configuration.
+
+  - Require CMake 2.8.12 and later due to use of `INCLUDES DESTINATION`
+    (Patched by Enrico Jorns.)
+
+  - Fixed GitHub bug #136, again. Use `mktime()`'s ability to adjust for
+    excess values in fields of `struct tm`.
+
+
 log4cplus 1.2.1-RC1
----------------
+-------------------
 
   - GitHub issue #205. Fixed `AsyncAppender` shutdown crash.
 
@@ -118,34 +136,34 @@ log4cplus 1.2.0-RC2
   - Documented issue and work-around for Android's emutls issue.
 
   - Do not set SOVERSION and VERSION properties for CMake based Android
-builds.
+    builds.
 
 
 log4cplus 1.2.0-RC1
 -------------------
 
   - TraceLogger and associated `LOG4CPLUS_TRACE_*()` macros now record
-function name in generated event.
+    function name in generated event.
 
   - Added Qt5 based `Qt5DebugAppender`.
 
   - Added prototype of Python bindings using Swig 2.0+.
 
   - Autotools based build system has been converted from `Makefile` per
-directory to single `Makefile` for the whole project mode.
+    directory to single `Makefile` for the whole project mode.
 
   - Plain text documentation files have been converted to Markdown (with
-Pandoc's extensions).
+    Pandoc's extensions).
 
   - `FileAppender` can now create missing directories in log file path, if
-this is enabled by `CreateDirs` property.
+    this is enabled by `CreateDirs` property.
 
   - Added `MSTTSAppender` that uses Windows' text-to-speech engine.
 
   - `SysLogAppender` can now log into remote `syslog` instance using TCP in
-addition to previously supported UDP.
+    addition to previously supported UDP.
 
   - Added Autotest based testsuite running and verifying output of existing
-`tests/` directory tests. Improved tests coverage.
+    `tests/` directory tests. Improved tests coverage.
 
   - Many other small and bigger improvements.
