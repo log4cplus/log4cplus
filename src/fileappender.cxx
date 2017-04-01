@@ -1214,7 +1214,10 @@ TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     , maxHistory(maxHistory_)
     , cleanHistoryOnStart(cleanHistoryOnStart_)
     , rollOnClose(rollOnClose_)
-{ }
+{
+	filenamePattern = preprocessFilenamePattern(filenamePattern, schedule);
+	init();
+}
 
 TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     const log4cplus::helpers::Properties& properties)
