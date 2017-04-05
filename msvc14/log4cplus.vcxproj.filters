@@ -324,12 +324,6 @@
     <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-pmsm.h">
       <Filter>thread\impl</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-pthreads.h">
-      <Filter>thread\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-win32.h">
-      <Filter>thread\impl</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\log4cplus\thread\impl\threads-impl.h">
       <Filter>thread\impl</Filter>
     </ClInclude>

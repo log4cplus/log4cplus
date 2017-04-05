@@ -104,7 +104,7 @@ ObjectRegistryBase::getVal(const tstring& name) const
     if (it != data.end ())
         return it->second;
     else
-        return 0;
+        return nullptr;
 }
 
 

@@ -118,7 +118,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
             = properties.getProperty( LOG4CPLUS_TEXT("layout") );
         spi::LayoutFactory* factory
             = spi::getLayoutFactoryRegistry().get(factoryName);
-        if(factory == 0) {
+        if (factory == nullptr) {
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"")
                 + factoryName
@@ -129,7 +129,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
                 properties.getPropertySubset( LOG4CPLUS_TEXT("layout.") );
         try {
             std::unique_ptr<Layout> newLayout(factory->createObject(layoutProperties));
-            if(newLayout.get() == 0) {
+            if (newLayout == nullptr) {
                 helpers::getLogLog().error(
                     LOG4CPLUS_TEXT("Failed to create Layout: ")
                     + factoryName, true);
@@ -324,6 +324,7 @@ Appender::asyncDoAppend(const log4cplus::spi::InternalLoggingEvent& event)
     {
         Appender * const app;
 
+        explicit
         handle_in_flight (Appender * app_)
             : app (app_)
         { }

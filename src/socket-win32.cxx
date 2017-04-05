@@ -398,9 +398,9 @@ getHostname (bool fqdn)
 
     char const * hostname = "unknown";
     int ret;
-    // The initial size is based on information in the Microsoft KB article:
-    // <http://support.microsoft.com/kb/909264>
-    std::vector<char> hn (64, 0);
+    // The initial size is based on information in the Microsoft article
+    // <https://msdn.microsoft.com/en-us/library/ms738527(v=vs.85).aspx>
+    std::vector<char> hn (256, 0);
 
     while (true)
     {

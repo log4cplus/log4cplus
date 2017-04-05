@@ -119,7 +119,7 @@ Initializer::~Initializer ()
     if (destroy)
     {
         delete InitializerImpl::instance;
-        InitializerImpl::instance = 0;
+        InitializerImpl::instance = nullptr;
     }
 }
 
@@ -360,7 +360,7 @@ appender_sratch_pad::~appender_sratch_pad ()
 
 
 per_thread_data::per_thread_data ()
-    : fnull (0)
+    : fnull (nullptr)
 { }
 
 
@@ -383,7 +383,7 @@ LOG4CPLUS_THREAD_LOCAL_VAR per_thread_data * ptd = nullptr;
 per_thread_data *
 alloc_ptd ()
 {
-    per_thread_data * tmp = new per_thread_data;
+    auto * tmp = new per_thread_data;
     set_ptd (tmp);
     // This is a special hack. We set the keys' value to non-NULL to
     // get the ptd_cleanup_func to execute when this thread ends. The
@@ -400,7 +400,7 @@ alloc_ptd ()
 per_thread_data *
 alloc_ptd ()
 {
-    per_thread_data * tmp = new per_thread_data;
+    auto * tmp = new per_thread_data;
     set_ptd (tmp);
     return tmp;
 }
@@ -440,7 +440,7 @@ ptd_cleanup_func (void * arg)
         // similar constructs with POSIX threads.  Otherwise POSIX
         // calls this cleanup routine more than once if the value
         // stays non-NULL after it returns.
-        thread::impl::tls_set_value (internal::tls_storage_key, 0);
+        thread::impl::tls_set_value (internal::tls_storage_key, nullptr);
     else if (arg)
     {
         // Instead of using internal::get_ptd(false) here we are using
@@ -452,7 +452,7 @@ ptd_cleanup_func (void * arg)
         // unless the value is changed (after the destructor starts)
         // by a call to pthread_setspecific().
         delete arg_ptd;
-        thread::impl::tls_set_value (internal::tls_storage_key, 0);
+        thread::impl::tls_set_value (internal::tls_storage_key, nullptr);
     }
     else
     {
@@ -534,7 +534,7 @@ threadCleanup ()
             LOG4CPLUS_TEXT ("CRT heap is already gone in threadCleanup()\n"));
     }
 #endif
-    internal::set_ptd (0);
+    internal::set_ptd (nullptr);
 }
 
 

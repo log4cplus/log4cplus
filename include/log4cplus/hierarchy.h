@@ -246,7 +246,7 @@ namespace log4cplus {
          * NOTE: This method does not lock the <code>hashtable_mutex</code>.
          */
         LOG4CPLUS_PRIVATE
-        virtual Logger getInstanceImpl(const log4cplus::tstring& name,
+        Logger getInstanceImpl(const log4cplus::tstring& name,
             spi::LoggerFactory& factory);
 
         /**
@@ -254,7 +254,7 @@ namespace log4cplus {
          * NOTE: This method does not lock the <code>hashtable_mutex</code>.
          */
         LOG4CPLUS_PRIVATE
-        virtual void initializeLoggerList(LoggerList& list) const;
+        void initializeLoggerList(LoggerList& list) const;
 
         /**
          * This method loops through all the *potential* parents of

@@ -43,9 +43,9 @@ class QueueThread
     : public thread::AbstractThread
 {
 public:
-    QueueThread (AsyncAppenderPtr const &, thread::QueuePtr const &);
+    QueueThread (AsyncAppenderPtr, thread::QueuePtr);
 
-    virtual void run();
+    void run() override;
 
 private:
     AsyncAppenderPtr appenders;
@@ -53,10 +53,9 @@ private:
 };
 
 
-QueueThread::QueueThread (AsyncAppenderPtr const & aai,
-    thread::QueuePtr const & q)
-    : appenders (aai)
-    , queue (q)
+QueueThread::QueueThread (AsyncAppenderPtr aai, thread::QueuePtr q)
+    : appenders (std::move (aai))
+    , queue (std::move (q))
 { }
 
 

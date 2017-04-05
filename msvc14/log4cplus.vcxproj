@@ -1033,8 +1033,6 @@
     <ClInclude Include="..\include\log4cplus\thread\threads.h" />
     <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-impl.h" />
     <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-pmsm.h" />
-    <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-pthreads.h" />
-    <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-win32.h" />
     <ClInclude Include="..\include\log4cplus\thread\impl\threads-impl.h" />
     <ClInclude Include="..\include\log4cplus\thread\impl\tls.h" />
     <ClInclude Include="..\include\log4cplus\helpers\appenderattachableimpl.h" />

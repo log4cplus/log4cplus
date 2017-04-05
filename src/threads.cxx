@@ -77,7 +77,7 @@ blockAllSignals()
     // Block all signals.
     sigset_t signal_set;
     sigfillset (&signal_set);
-    pthread_sigmask (SIG_BLOCK, &signal_set, 0);
+    pthread_sigmask (SIG_BLOCK, &signal_set, nullptr);
 #endif
 }
 
