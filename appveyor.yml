@@ -13,14 +13,24 @@ environment:
         - PRJ_GEN: "Visual Studio 12 2013 Win64"
           BDIR: msvc2013
           PRJ_CFG: Release
+          SYS_VER: 7
         - PRJ_GEN: "Visual Studio 14 2015 Win64"
           BDIR: msvc2015
           PRJ_CFG: Release
+          SYS_VER: 7
+        - PRJ_GEN: "Visual Studio 14 2015 Win64"
+          BDIR: msvc2015
+          PRJ_CFG: Release
+          SYS_VER: 8.1
+        - PRJ_GEN: "Visual Studio 14 2015 Win64"
+          BDIR: msvc2015
+          PRJ_CFG: Release
+          SYS_VER: 10
 
 build_script:
     - mkdir build.%BDIR%
     - cd build.%BDIR%
-    - cmake .. -G"%PRJ_GEN%" -DCMAKE_BUILD_TYPE=%PRJ_CFG%
+    - cmake .. -G"%PRJ_GEN%" -DCMAKE_BUILD_TYPE=%PRJ_CFG% -DCMAKE_SYSTEM_VERSION=%SYS_VER%
     - cmake --build . --config %PRJ_CFG% --clean-first
 
 test_script:
