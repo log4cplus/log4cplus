@@ -22,16 +22,16 @@ environment:
           BDIR: msvc2015clang
           PRJ_CFG: Release
           PARAMS: -T "v140_clang_c2"
-        - PRJ_GEN: "Visual Studio 15 2017 Win64"
-          BDIR: msvc2017
-          PRJ_CFG: Release
-          PARAMS: ''
-          image: Visual Studio 2017
-        - PRJ_GEN: "Visual Studio 15 2017 Win64"
-          BDIR: msvc2017clang
-          PRJ_CFG: Release
-          PARAMS: -T "v141_clang_c2"
-          image: Visual Studio 2017
+        # - PRJ_GEN: "Visual Studio 15 2017 Win64"
+        #   BDIR: msvc2017
+        #   PRJ_CFG: Release
+        #   PARAMS: ''
+        #   image: Visual Studio 2017
+        # - PRJ_GEN: "Visual Studio 15 2017 Win64"
+        #   BDIR: msvc2017clang
+        #   PRJ_CFG: Release
+        #   PARAMS: -T "v141_clang_c2"
+        #   image: Visual Studio 2017
 
 build_script:
     - mkdir build.%BDIR%
