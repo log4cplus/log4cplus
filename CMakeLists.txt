@@ -142,3 +142,9 @@ if (LOG4CPLUS_QT5)
 endif (LOG4CPLUS_QT5)
 
 include(Log4CPlusCPack.cmake)
+
+message (STATUS "Compiler: ${CMAKE_CXX_COMPILER}")
+message (STATUS "${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}")
+message (STATUS "Compiler flags: ${CMAKE_CXX_FLAGS}")
+message (STATUS "System name: ${CMAKE_SYSTEM_NAME}")
+message (STATUS "System version: ${CMAKE_SYSTEM_VERSION}")
