@@ -86,12 +86,14 @@ namespace log4cplus {
              */
             virtual void deleteObject(void *object) const = 0;
 
+		public:
             /**
              * Deletes all objects from this registry.
              */
             virtual void clear();
 
-          // Types
+		protected:
+			// Types
             typedef std::map<log4cplus::tstring, void*> ObjectMap;
 
           // Data

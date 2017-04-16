@@ -114,6 +114,8 @@ ObjectRegistryBase::clear()
 
     for(ObjectMap::iterator it=data.begin(); it!=data.end(); ++it)
         deleteObject( it->second );
+		
+	data.clear();
 }
 
 
