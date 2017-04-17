@@ -32,8 +32,8 @@
 
 #include <log4cplus/tchar.h>
 
-#include <iosfwd>
-
+#include <iostream>
+#include <sstream>
 
 namespace log4cplus
 {
