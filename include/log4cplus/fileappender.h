@@ -168,6 +168,15 @@ namespace log4cplus
          */
         int reopenDelay;
 
+        /**
+         * When appending multilined logs to file, the OS can modify the end-of-line chars.
+         * If the OS is Windows, end-of-line will be overriden to "\r\n".
+         * When fileappender's property <code>TextMode</code> is set to <code>Binary</code>, 
+         * then bool attribute <code>binaryTextMode</code> is true, and the OS will not intervene.
+         * By default, <code>binaryTextMode</code> is false.
+         */
+        bool binaryTextMode;
+
         unsigned long bufferSize;
         std::unique_ptr<log4cplus::tchar[]> buffer;
 
