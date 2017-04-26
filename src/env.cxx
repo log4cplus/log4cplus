@@ -247,7 +247,7 @@ is_drive_letter (tchar ch)
     tchar dl = helpers::toUpper (ch);
     return LOG4CPLUS_TEXT ('A') <= dl && dl <= LOG4CPLUS_TEXT ('Z');
 }
-
+#endif // _WIN32
 
 static
 tstring
