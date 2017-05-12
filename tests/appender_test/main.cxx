@@ -119,6 +119,7 @@ main()
 
             // Test appender's error handling for wrong layout.
 
+            try
             {
                 log4cplus::tistringstream propsStream (
                     LOG4CPLUS_TEXT ("layout=log4cplus::WrongLayout"));
@@ -126,6 +127,12 @@ main()
                 log4cplus::SharedAppenderPtr append (
                     new log4cplus::ConsoleAppender (props));
                 append->setName (LOG4CPLUS_TEXT ("Third"));
+            }
+            catch (std::exception const & ex)
+            {
+                log4cplus::tcout << "Got expected exception: "
+                                 << LOG4CPLUS_C_STR_TO_TSTRING (ex.what ())
+                                 << std::endl;
             }
 
             // Test threshold parsing.
@@ -152,6 +159,7 @@ main()
 
             // Test wrong filter parsing.
 
+            try
             {
                 log4cplus::tistringstream propsStream (
                     LOG4CPLUS_TEXT ("filters.1=log4cplus::spi::WrongFilter"));
@@ -159,6 +167,12 @@ main()
                 log4cplus::SharedAppenderPtr append (
                     new log4cplus::ConsoleAppender (props));
                 append->setName (LOG4CPLUS_TEXT ("Sixth"));
+            }
+            catch (std::exception const & ex)
+            {
+                log4cplus::tcout << "Got expected exception: "
+                                 << LOG4CPLUS_C_STR_TO_TSTRING (ex.what ())
+                                 << std::endl;
             }
 
             // Test error reporting of badly coded appender.
