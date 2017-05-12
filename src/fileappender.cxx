@@ -221,7 +221,6 @@ FileAppenderBase::FileAppenderBase(const tstring& filename_,
     : immediateFlush(immediateFlush_)
     , createDirs (createDirs_)
     , reopenDelay(1)
-    , binaryTextMode(false)
     , bufferSize (0)
     , buffer (nullptr)
     , filename(filename_)
@@ -236,7 +235,6 @@ FileAppenderBase::FileAppenderBase(const Properties& props,
     , immediateFlush(true)
     , createDirs (false)
     , reopenDelay(1)
-    , binaryTextMode(false)
     , bufferSize (0)
     , buffer (nullptr)
 {
@@ -249,13 +247,13 @@ FileAppenderBase::FileAppenderBase(const Properties& props,
     props.getInt (reopenDelay, LOG4CPLUS_TEXT("ReopenDelay"));
     props.getULong (bufferSize, LOG4CPLUS_TEXT("BufferSize"));
 
-    if (props.getProperty(LOG4CPLUS_TEXT("TextMode"), LOG4CPLUS_TEXT("Text"))
-        == LOG4CPLUS_TEXT("Binary"))
-        binaryTextMode = true;
-
     bool app = (mode_ & (std::ios_base::app | std::ios_base::ate)) != 0;
     props.getBool (app, LOG4CPLUS_TEXT("Append"));
     fileOpenMode = app ? std::ios::app : std::ios::trunc;
+
+    if (props.getProperty(LOG4CPLUS_TEXT("TextMode"), LOG4CPLUS_TEXT("Text"))
+        == LOG4CPLUS_TEXT("Binary"))
+        fileOpenMode |= std::ios_base::binary;
 }
 
 
@@ -369,8 +367,7 @@ FileAppenderBase::open(std::ios_base::openmode mode)
     if (createDirs)
         internal::make_dirs (filename);
 
-    out.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(filename).c_str(),
-        binaryTextMode ? mode | std::ios_base::binary : mode);
+    out.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(filename).c_str(), mode);
 
     if(!out.good()) {
         getErrorHandler()->error(LOG4CPLUS_TEXT("Unable to open file: ") + filename);
