@@ -226,6 +226,7 @@ FileAppenderBase::FileAppenderBase(const tstring& filename_,
     , filename(filename_)
     , localeName (LOG4CPLUS_TEXT ("DEFAULT"))
     , fileOpenMode(mode_)
+    , binaryTextMode(false)
 { }
 
 
@@ -237,6 +238,7 @@ FileAppenderBase::FileAppenderBase(const Properties& props,
     , reopenDelay(1)
     , bufferSize (0)
     , buffer (nullptr)
+    , binaryTextMode(false)
 {
     filename = props.getProperty(LOG4CPLUS_TEXT("File"));
     lockFileName = props.getProperty (LOG4CPLUS_TEXT ("LockFile"));
@@ -246,6 +248,9 @@ FileAppenderBase::FileAppenderBase(const Properties& props,
     props.getBool (createDirs, LOG4CPLUS_TEXT("CreateDirs"));
     props.getInt (reopenDelay, LOG4CPLUS_TEXT("ReopenDelay"));
     props.getULong (bufferSize, LOG4CPLUS_TEXT("BufferSize"));
+
+    if(props.getProperty(LOG4CPLUS_TEXT("TextMode"), LOG4CPLUS_TEXT("Text")) == LOG4CPLUS_TEXT("Binary"))
+        binaryTextMode = true;
 
     bool app = (mode_ & (std::ios_base::app | std::ios_base::ate)) != 0;
     props.getBool (app, LOG4CPLUS_TEXT("Append"));
@@ -363,7 +368,8 @@ FileAppenderBase::open(std::ios_base::openmode mode)
     if (createDirs)
         internal::make_dirs (filename);
 
-    out.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(filename).c_str(), mode);
+    out.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(filename).c_str(),
+        binaryTextMode ? mode | std::ios_base::binary : mode);
 
     if(!out.good()) {
         getErrorHandler()->error(LOG4CPLUS_TEXT("Unable to open file: ") + filename);
@@ -1214,7 +1220,10 @@ TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     , maxHistory(maxHistory_)
     , cleanHistoryOnStart(cleanHistoryOnStart_)
     , rollOnClose(rollOnClose_)
-{ }
+{
+	filenamePattern = preprocessFilenamePattern(filenamePattern, schedule);
+	init();
+}
 
 TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     const log4cplus::helpers::Properties& properties)
