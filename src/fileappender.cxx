@@ -221,12 +221,12 @@ FileAppenderBase::FileAppenderBase(const tstring& filename_,
     : immediateFlush(immediateFlush_)
     , createDirs (createDirs_)
     , reopenDelay(1)
+    , binaryTextMode(false)
     , bufferSize (0)
     , buffer (nullptr)
     , filename(filename_)
     , localeName (LOG4CPLUS_TEXT ("DEFAULT"))
     , fileOpenMode(mode_)
-    , binaryTextMode(false)
 { }
 
 
@@ -236,9 +236,9 @@ FileAppenderBase::FileAppenderBase(const Properties& props,
     , immediateFlush(true)
     , createDirs (false)
     , reopenDelay(1)
+    , binaryTextMode(false)
     , bufferSize (0)
     , buffer (nullptr)
-    , binaryTextMode(false)
 {
     filename = props.getProperty(LOG4CPLUS_TEXT("File"));
     lockFileName = props.getProperty (LOG4CPLUS_TEXT ("LockFile"));
@@ -249,7 +249,8 @@ FileAppenderBase::FileAppenderBase(const Properties& props,
     props.getInt (reopenDelay, LOG4CPLUS_TEXT("ReopenDelay"));
     props.getULong (bufferSize, LOG4CPLUS_TEXT("BufferSize"));
 
-    if(props.getProperty(LOG4CPLUS_TEXT("TextMode"), LOG4CPLUS_TEXT("Text")) == LOG4CPLUS_TEXT("Binary"))
+    if (props.getProperty(LOG4CPLUS_TEXT("TextMode"), LOG4CPLUS_TEXT("Text"))
+        == LOG4CPLUS_TEXT("Binary"))
         binaryTextMode = true;
 
     bool app = (mode_ & (std::ios_base::app | std::ios_base::ate)) != 0;
@@ -1221,8 +1222,8 @@ TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     , cleanHistoryOnStart(cleanHistoryOnStart_)
     , rollOnClose(rollOnClose_)
 {
-	filenamePattern = preprocessFilenamePattern(filenamePattern, schedule);
-	init();
+    filenamePattern = preprocessFilenamePattern(filenamePattern, schedule);
+    init();
 }
 
 TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
