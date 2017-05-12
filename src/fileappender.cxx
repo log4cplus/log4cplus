@@ -250,6 +250,10 @@ FileAppenderBase::FileAppenderBase(const Properties& props,
     bool app = (mode_ & (std::ios_base::app | std::ios_base::ate)) != 0;
     props.getBool (app, LOG4CPLUS_TEXT("Append"));
     fileOpenMode = app ? std::ios::app : std::ios::trunc;
+
+    if (props.getProperty(LOG4CPLUS_TEXT("TextMode"), LOG4CPLUS_TEXT("Text"))
+        == LOG4CPLUS_TEXT("Binary"))
+        fileOpenMode |= std::ios_base::binary;
 }
 
 
@@ -1272,7 +1276,10 @@ TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     , maxHistory(maxHistory_)
     , cleanHistoryOnStart(cleanHistoryOnStart_)
     , rollOnClose(rollOnClose_)
-{ }
+{
+    filenamePattern = preprocessFilenamePattern(filenamePattern, schedule);
+    init();
+}
 
 TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     const log4cplus::helpers::Properties& properties)
