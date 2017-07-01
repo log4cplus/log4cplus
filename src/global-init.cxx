@@ -136,7 +136,6 @@ struct DefaultContext
     helpers::Time TTCCLayout_time_base;
     NDC ndc;
     MDC mdc;
-    Hierarchy hierarchy;
     spi::AppenderFactoryRegistry appender_factory_registry;
     spi::LayoutFactoryRegistry layout_factory_registry;
     spi::FilterFactoryRegistry filter_factory_registry;
@@ -144,6 +143,7 @@ struct DefaultContext
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     std::unique_ptr<progschj::ThreadPool> thread_pool {new progschj::ThreadPool};
 #endif
+    Hierarchy hierarchy;
 };
 
 
