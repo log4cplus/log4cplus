@@ -100,13 +100,6 @@ namespace log4cplus {
             virtual bool write(std::size_t bufferCount,
                 SocketBuffer const * const * buffers);
 
-            template <std::size_t BufferCount>
-            static bool write(Socket & socket,
-                SocketBuffer const (& buffers)[BufferCount])
-            {
-                return socket.write (BufferCount, buffers);
-            }
-
             template <typename... Args>
             static bool write(Socket & socket, Args &&... args)
             {
