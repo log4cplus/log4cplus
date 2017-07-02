@@ -122,7 +122,7 @@ SocketBuffer::readInt()
     std::memcpy (&ret, buffer + pos, sizeof(ret));
     ret = ntohl(ret);
     pos += sizeof(unsigned int);
-    
+
     return ret;
 }
 
@@ -239,7 +239,7 @@ void
 SocketBuffer::appendString(const tstring& str)
 {
     std::size_t const strlen = str.length();
-    static std::size_t const sizeOfChar = sizeof (tchar) == 1 ? 1 : 2;
+    std::size_t const sizeOfChar = sizeof (tchar) == 1 ? 1 : 2;
 
     if((pos + sizeof(unsigned int) + strlen * sizeOfChar) > maxsize)
     {
@@ -254,7 +254,7 @@ SocketBuffer::appendString(const tstring& str)
     pos += strlen;
     size = pos;
 #else
-    for(tstring::size_type i=0; i<str.length(); ++i) {
+    for(tstring::size_type i=0; i<strlen; ++i) {
         appendShort(static_cast<unsigned short>(str[i]));
     }
 #endif
