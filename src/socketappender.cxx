@@ -145,21 +145,7 @@ SocketAppender::append(const spi::InternalLoggingEvent& event)
     helpers::SocketBuffer buffer(sizeof(unsigned int));
     buffer.appendInt(static_cast<unsigned>(msgBuffer.getSize()));
 
-    bool ret = socket.write(buffer);
-    if (! ret)
-    {
-        helpers::getLogLog().error(
-            LOG4CPLUS_TEXT(
-                "SocketAppender::append()- Write failed"));
-
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
-        connected = false;
-        connector->trigger ();
-#endif
-        return;
-    }
-
-    ret = socket.write(msgBuffer);
+    bool ret = helpers::Socket::write(socket, buffer, msgBuffer);
     if (! ret)
     {
         helpers::getLogLog().error(

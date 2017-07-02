@@ -96,7 +96,24 @@ namespace log4cplus {
           // methods
             virtual bool read(SocketBuffer& buffer);
             virtual bool write(const SocketBuffer& buffer);
+            virtual bool write(std::size_t bufferCount,
+                SocketBuffer const * const * buffers);
             virtual bool write(const std::string & buffer);
+
+            template <std::size_t BufferCount>
+            static bool write(Socket & socket,
+                SocketBuffer const (& buffers)[BufferCount])
+            {
+                return socket.write (BufferCount, buffers);
+            }
+
+            template <typename... Args>
+            static bool write(Socket & socket, Args &&... args)
+            {
+                SocketBuffer const * const buffers[sizeof... (args)] {
+                    (&args)... };
+                return socket.write (sizeof... (args), buffers);
+            }
         };
 
 
@@ -139,6 +156,8 @@ namespace log4cplus {
         LOG4CPLUS_EXPORT long read(SOCKET_TYPE sock, SocketBuffer& buffer);
         LOG4CPLUS_EXPORT long write(SOCKET_TYPE sock,
             const SocketBuffer& buffer);
+        LOG4CPLUS_EXPORT long write(SOCKET_TYPE sock, std::size_t bufferCount,
+            SocketBuffer const * const * buffers);
         LOG4CPLUS_EXPORT long write(SOCKET_TYPE sock,
             const std::string & buffer);
 
