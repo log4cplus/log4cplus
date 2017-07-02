@@ -96,9 +96,9 @@ namespace log4cplus {
           // methods
             virtual bool read(SocketBuffer& buffer);
             virtual bool write(const SocketBuffer& buffer);
+            virtual bool write(const std::string & buffer);
             virtual bool write(std::size_t bufferCount,
                 SocketBuffer const * const * buffers);
-            virtual bool write(const std::string & buffer);
 
             template <std::size_t BufferCount>
             static bool write(Socket & socket,
