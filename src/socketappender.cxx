@@ -138,16 +138,34 @@ SocketAppender::append(const spi::InternalLoggingEvent& event)
     }
 #endif
 
-    helpers::SocketBuffer buffer(LOG4CPLUS_MAX_MESSAGE_SIZE - sizeof(unsigned int));
-    convertToBuffer (buffer, event, serverName);
-    helpers::SocketBuffer msgBuffer(LOG4CPLUS_MAX_MESSAGE_SIZE);
+    helpers::SocketBuffer msgBuffer(LOG4CPLUS_MAX_MESSAGE_SIZE
+        - sizeof (unsigned int));
+    convertToBuffer (msgBuffer, event, serverName);
 
-    msgBuffer.appendInt(static_cast<unsigned>(buffer.getSize()));
-    msgBuffer.appendBuffer(buffer);
+    helpers::SocketBuffer buffer(sizeof(unsigned int));
+    buffer.appendInt(static_cast<unsigned>(msgBuffer.getSize()));
 
-    bool ret = socket.write(msgBuffer);
+    bool ret = socket.write(buffer);
     if (! ret)
     {
+        helpers::getLogLog().error(
+            LOG4CPLUS_TEXT(
+                "SocketAppender::append()- Write failed"));
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+        connected = false;
+        connector->trigger ();
+#endif
+        return;
+    }
+
+    ret = socket.write(msgBuffer);
+    if (! ret)
+    {
+        helpers::getLogLog().error(
+            LOG4CPLUS_TEXT(
+                "SocketAppender::append()- Write failed"));
+
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
         connected = false;
         connector->trigger ();
