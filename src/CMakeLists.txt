@@ -65,6 +65,8 @@ elseif (WIN32)
   #set (log4cplus_postfix "${log4cplus_postfix}S")
 endif ()
 
+# Define _GNU_SOURCE so that functions like `pipe2()` are visible.
+add_definitions (-D_GNU_SOURCE=1)
 if (UNICODE)
   add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
 endif (UNICODE)

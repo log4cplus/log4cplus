@@ -130,8 +130,9 @@ main()
             }
             catch (std::exception const & ex)
             {
-                log4cplus::tcout << "Expected exception: " << ex.what ()
-                                 << "\n";
+                log4cplus::tcout << "Got expected exception: "
+                                 << LOG4CPLUS_C_STR_TO_TSTRING (ex.what ())
+                                 << std::endl;
             }
 
             // Test threshold parsing.
@@ -169,8 +170,9 @@ main()
             }
             catch (std::exception const & ex)
             {
-                log4cplus::tcout << "Expected exception: " << ex.what ()
-                                 << "\n";
+                log4cplus::tcout << "Got expected exception: "
+                                 << LOG4CPLUS_C_STR_TO_TSTRING (ex.what ())
+                                 << std::endl;
             }
 
             // Test error reporting of badly coded appender.
