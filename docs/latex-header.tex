@@ -16,7 +16,29 @@
 \usepackage{textcomp}
 \usepackage{upquote}
 \usepackage{etoolbox}
-\usepackage{selnolig}
+
+\setmainfont[Ligatures={TeX, Common}]{TeX Gyre Pagella}
+\setmonofont[Scale=MatchLowercase,Ligatures={NoCommon}]{DejaVu Sans Mono}
+%\setromanfont{Georgia}
+%\setsansfont{DejaVu Sans}
+
+\newfontfamily{\cjkfont}{WenQuanYi Zen Hei}[]
+\newfontfamily{\devanagarifont}{Lohit Devanagari}[]
+\newfontfamily{\tamilfont}{Lohit Tamil}[]
+\newfontfamily{\cyrilicfont}{CMU Serif}
+
+%% These unfortunately break too many things. PDF will have to be without
+%% contributors' native names.
+% \ifxetex
+%   \usepackage{xeCJK}
+%   \setCJKmainfont{WenQuanYi Zen Hei}
+%   \setCJKmonofont{WenQuanYi Zen Hei Mono}
+% \else
+%   %% Adding senolig breaks compilation in the CJK support.
+%   %\usepackage{selnolig}
+%   \usepackage{luatexja-fontspec}
+%   \setmainjfont{WenQuanYi Zen Hei}
+% \fi
 
 \pagestyle{fancy}
 \chead{\raisebox{\baselineskip}{\includegraphics[width=1.5cm,keepaspectratio]{./docs/log4cplus}}}
