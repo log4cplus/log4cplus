@@ -372,12 +372,12 @@ write (SOCKET_TYPE sock, std::size_t bufferCount,
         SocketBuffer const & buffer = *buffers[i];
 
         wsabuf.buf = buffer.getBuffer ();
-        wsabuf.len = buffer.getSize ();
+        wsabuf.len = static_cast<ULONG>(buffer.getSize ());
     }
 
     DWORD bytes_sent = 0;
-    int ret = WSASend (sock, &wsabufs[0], bufferCount, &bytes_sent, 0, nullptr,
-        nullptr);
+    int ret = WSASend (sock, &wsabufs[0], static_cast<DWORD>(bufferCount),
+        &bytes_sent, 0, nullptr, nullptr);
     if (ret == SOCKET_ERROR)
     {
         set_last_socket_error (WSAGetLastError ());
