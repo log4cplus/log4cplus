@@ -192,8 +192,10 @@ void
 SocketBuffer::appendByte(unsigned char val)
 {
     if((pos + sizeof(unsigned char)) > maxsize) {
-        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendByte()- Attempt to write beyond end of buffer"));
-        return;
+        getLogLog().error(
+            LOG4CPLUS_TEXT("SocketBuffer::appendByte()-")
+            LOG4CPLUS_TEXT(" Attempt to write beyond end of buffer"),
+            true);
     }
 
     buffer[pos] = static_cast<char>(val);
@@ -207,8 +209,10 @@ void
 SocketBuffer::appendShort(unsigned short val)
 {
     if((pos + sizeof(unsigned short)) > maxsize) {
-        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendShort()- Attempt to write beyond end of buffer"));
-        return;
+        getLogLog().error(
+            LOG4CPLUS_TEXT("SocketBuffer::appendShort()-")
+            LOG4CPLUS_TEXT("Attempt to write beyond end of buffer"),
+            true);
     }
 
     unsigned short s = htons(val);
@@ -223,7 +227,10 @@ void
 SocketBuffer::appendInt(unsigned int val)
 {
     if((pos + sizeof(unsigned int)) > maxsize) {
-        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendInt()- Attempt to write beyond end of buffer"));
+        getLogLog().error(
+            LOG4CPLUS_TEXT("SocketBuffer::appendInt()-")
+            LOG4CPLUS_TEXT(" Attempt to write beyond end of buffer"),
+            true);
         return;
     }
 
@@ -243,8 +250,10 @@ SocketBuffer::appendString(const tstring& str)
 
     if((pos + sizeof(unsigned int) + strlen * sizeOfChar) > maxsize)
     {
-        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendString()-")
-            LOG4CPLUS_TEXT(" Attempt to write beyond end of buffer"));
+        getLogLog().error(
+            LOG4CPLUS_TEXT("SocketBuffer::appendString()-")
+            LOG4CPLUS_TEXT(" Attempt to write beyond end of buffer"),
+            true);
         return;
     }
 
@@ -266,7 +275,10 @@ void
 SocketBuffer::appendBuffer(const SocketBuffer& buf)
 {
     if((pos + buf.getSize()) > maxsize) {
-        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::appendBuffer()- Attempt to write beyond end of buffer"));
+        getLogLog().error(
+            LOG4CPLUS_TEXT("SocketBuffer::appendBuffer()-")
+            LOG4CPLUS_TEXT(" Attempt to write beyond end of buffer"),
+            true);
         return;
     }
 
