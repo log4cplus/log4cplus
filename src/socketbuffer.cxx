@@ -37,6 +37,10 @@
 #include <netinet/in.h>
 #endif
 
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#include <catch.hpp>
+#endif
+
 
 namespace log4cplus { namespace helpers {
 
@@ -286,6 +290,39 @@ SocketBuffer::appendBuffer(const SocketBuffer& buf)
     pos += buf.getSize();
     size = pos;
 }
+
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+CATCH_TEST_CASE ("SocketBuffer", "[sockets]")
+{
+    static const std::size_t SMALL_BUFFER_SIZE = 4;
+    SocketBuffer small_sb (SMALL_BUFFER_SIZE);
+
+    CATCH_SECTION ("new object is initialized")
+    {
+        CATCH_REQUIRE (small_sb.getPos () == 0);
+        CATCH_REQUIRE (small_sb.getSize () == 0);
+        CATCH_REQUIRE (small_sb.getMaxSize () == SMALL_BUFFER_SIZE);
+        CATCH_REQUIRE (!!small_sb.getBuffer());
+    }
+
+    CATCH_SECTION ("appending to buffer works")
+    {
+        small_sb.appendByte (1);
+        CATCH_REQUIRE (small_sb.getPos () == 1);
+        CATCH_REQUIRE (small_sb.getSize () == 1);
+        CATCH_REQUIRE (small_sb.getMaxSize () == SMALL_BUFFER_SIZE);
+    }
+
+    CATCH_SECTION ("exception is thrown on overflow ")
+    {
+        for (std::size_t i = 0; i != SMALL_BUFFER_SIZE; ++i)
+            small_sb.appendByte (static_cast<unsigned char>(i));
+
+        CATCH_REQUIRE_THROWS (small_sb.appendByte (1));
+    }
+}
+#endif
 
 
 } } // namespace log4cplus { namespace helpers {
