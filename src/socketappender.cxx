@@ -146,7 +146,7 @@ SocketAppender::append(const spi::InternalLoggingEvent& event)
     {
         convertToBuffer (msgBuffer, event, serverName);
     }
-    catch (std::runtime_error const & ex)
+    catch (std::runtime_error const &)
     {
         return;
     }
