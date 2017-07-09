@@ -363,6 +363,41 @@ write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 
 
 long
+write(SOCKET_TYPE sock, std::size_t bufferCount,
+    SocketBuffer const * const * buffers)
+{
+#if defined(MSG_NOSIGNAL)
+    int flags = MSG_NOSIGNAL;
+#else
+    int flags = 0;
+#endif
+
+    std::vector<iovec> iovecs (bufferCount);
+    for (std::size_t i = 0; i != bufferCount; ++i)
+    {
+        iovec & iov = iovecs[i];
+        std::memset (&iov, 0, sizeof (iov));
+        SocketBuffer const & buffer = *buffers[i];
+
+        iov.iov_base = buffer.getBuffer();
+        iov.iov_len = buffer.getSize();
+    }
+
+    msghdr message;
+    std::memset (&message, 0, sizeof (message));
+    message.msg_name = nullptr;
+    message.msg_namelen = 0;
+    message.msg_control = nullptr;
+    message.msg_controllen = 0;
+    message.msg_flags = 0;
+    message.msg_iov = &iovecs[0];
+    message.msg_iovlen = iovecs.size ();
+
+    return sendmsg (to_os_socket (sock), &message, flags);
+}
+
+
+long
 write(SOCKET_TYPE sock, const std::string & buffer)
 {
 #if defined(MSG_NOSIGNAL)

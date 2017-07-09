@@ -19,6 +19,7 @@
 // limitations under the License.
 
 #include <cstdlib>
+#include <stdexcept>
 #include <log4cplus/socketappender.h>
 #include <log4cplus/layout.h>
 #include <log4cplus/spi/loggingevent.h>
@@ -138,16 +139,28 @@ SocketAppender::append(const spi::InternalLoggingEvent& event)
     }
 #endif
 
-    helpers::SocketBuffer buffer(LOG4CPLUS_MAX_MESSAGE_SIZE - sizeof(unsigned int));
-    convertToBuffer (buffer, event, serverName);
-    helpers::SocketBuffer msgBuffer(LOG4CPLUS_MAX_MESSAGE_SIZE);
+    helpers::SocketBuffer msgBuffer(LOG4CPLUS_MAX_MESSAGE_SIZE
+        - sizeof (unsigned int));
 
-    msgBuffer.appendInt(static_cast<unsigned>(buffer.getSize()));
-    msgBuffer.appendBuffer(buffer);
+    try
+    {
+        convertToBuffer (msgBuffer, event, serverName);
+    }
+    catch (std::runtime_error const & ex)
+    {
+        return;
+    }
 
-    bool ret = socket.write(msgBuffer);
+    helpers::SocketBuffer buffer(sizeof(unsigned int));
+    buffer.appendInt(static_cast<unsigned>(msgBuffer.getSize()));
+
+    bool ret = helpers::Socket::write(socket, buffer, msgBuffer);
     if (! ret)
     {
+        helpers::getLogLog().error(
+            LOG4CPLUS_TEXT(
+                "SocketAppender::append()- Write failed"));
+
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
         connected = false;
         connector->trigger ();
