@@ -58,14 +58,14 @@ namespace log4cplus {
             AbstractSocket();
             AbstractSocket(SOCKET_TYPE sock, SocketState state, int err);
             AbstractSocket(AbstractSocket const &) = delete;
-            AbstractSocket(AbstractSocket &&);
+            AbstractSocket(AbstractSocket &&) LOG4CPLUS_NOEXCEPT;
             virtual ~AbstractSocket() = 0;
 
             /// Close socket
             virtual void close();
             virtual bool isOpen() const;
             virtual void shutdown();
-            AbstractSocket & operator = (AbstractSocket && rhs);
+            AbstractSocket & operator = (AbstractSocket && rhs) LOG4CPLUS_NOEXCEPT;
 
             void swap (AbstractSocket &);
 
@@ -88,10 +88,10 @@ namespace log4cplus {
             Socket(SOCKET_TYPE sock, SocketState state, int err);
             Socket(const tstring& address, unsigned short port,
                 bool udp = false, bool ipv6 = false);
-            Socket(Socket &&);
+            Socket(Socket &&) LOG4CPLUS_NOEXCEPT;
             virtual ~Socket();
 
-            Socket & operator = (Socket &&);
+            Socket & operator = (Socket &&) LOG4CPLUS_NOEXCEPT;
 
           // methods
             virtual bool read(SocketBuffer& buffer);
@@ -111,10 +111,10 @@ namespace log4cplus {
         public:
             ServerSocket(unsigned short port, bool udp = false,
                 bool ipv6 = false, tstring const & host = tstring ());
-            ServerSocket(ServerSocket &&);
+            ServerSocket(ServerSocket &&) LOG4CPLUS_NOEXCEPT;
             virtual ~ServerSocket();
 
-            ServerSocket & operator = (ServerSocket &&);
+            ServerSocket & operator = (ServerSocket &&) LOG4CPLUS_NOEXCEPT;
 
             Socket accept();
             void interruptAccept ();

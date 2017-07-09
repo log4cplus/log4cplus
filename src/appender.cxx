@@ -118,22 +118,21 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
             = properties.getProperty( LOG4CPLUS_TEXT("layout") );
         spi::LayoutFactory* factory
             = spi::getLayoutFactoryRegistry().get(factoryName);
-        if(factory == 0) {
+        if (factory == nullptr) {
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"")
                 + factoryName
-                + LOG4CPLUS_TEXT("\"") );
-            return;
+                + LOG4CPLUS_TEXT("\""), true);
         }
 
         helpers::Properties layoutProperties =
                 properties.getPropertySubset( LOG4CPLUS_TEXT("layout.") );
         try {
             std::unique_ptr<Layout> newLayout(factory->createObject(layoutProperties));
-            if(newLayout.get() == 0) {
+            if (newLayout == nullptr) {
                 helpers::getLogLog().error(
-                    LOG4CPLUS_TEXT("Failed to create appender: ")
-                    + factoryName);
+                    LOG4CPLUS_TEXT("Failed to create Layout: ")
+                    + factoryName, true);
             }
             else {
                 layout = std::move(newLayout);
@@ -142,8 +141,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
         catch(std::exception const & e) {
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("Error while creating Layout: ")
-                + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
-            return;
+                + LOG4CPLUS_C_STR_TO_TSTRING(e.what()), true);
         }
 
     }
@@ -169,17 +167,17 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
 
         if(! factory)
         {
-            tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Cannot find FilterFactory: ");
-            helpers::getLogLog().error(err + factoryName);
-            continue;
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT("Appender::ctor()- Cannot find FilterFactory: ")
+                + factoryName, true);
         }
         spi::FilterPtr tmpFilter = factory->createObject (
             filterProps.getPropertySubset(filterName + LOG4CPLUS_TEXT(".")));
         if (! tmpFilter)
         {
-            tstring err = LOG4CPLUS_TEXT("Appender::ctor()- Failed to create filter: ");
-            helpers::getLogLog().error(err + filterName);
-            continue;
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT("Appender::ctor()- Failed to create filter: ")
+                + filterName, true);
         }
         addFilter (std::move (tmpFilter));
     }
@@ -326,6 +324,7 @@ Appender::asyncDoAppend(const log4cplus::spi::InternalLoggingEvent& event)
     {
         Appender * const app;
 
+        explicit
         handle_in_flight (Appender * app_)
             : app (app_)
         { }

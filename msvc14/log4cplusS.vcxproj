@@ -925,6 +925,9 @@
     <ClInclude Include="..\include\log4cplus\helpers\property.h" />
     <ClInclude Include="..\include\log4cplus\streams.h" />
     <ClInclude Include="..\include\log4cplus\tchar.h" />
+    <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-cxx11.h" />
+    <ClInclude Include="..\include\log4cplus\thread\syncprims-pub-impl.h" />
+    <ClInclude Include="..\include\log4cplus\thread\syncprims.h" />
     <ClInclude Include="..\include\log4cplus\tracelogger.h" />
     <ClInclude Include="..\include\log4cplus\tstring.h" />
     <ClInclude Include="..\include\log4cplus\version.h" />
@@ -972,13 +975,9 @@
     <ClInclude Include="..\include\log4cplus\loglevel.h" />
     <ClInclude Include="..\include\log4cplus\spi\objectregistry.h" />
     <ClInclude Include="..\include\log4cplus\spi\rootlogger.h" />
-    <ClInclude Include="..\include\log4cplus\helpers\syncprims-pub-impl.h" />
-    <ClInclude Include="..\include\log4cplus\helpers\syncprims.h" />
     <ClInclude Include="..\include\log4cplus\thread\threads.h" />
     <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-impl.h" />
     <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-pmsm.h" />
-    <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-pthreads.h" />
-    <ClInclude Include="..\include\log4cplus\thread\impl\syncprims-win32.h" />
     <ClInclude Include="..\include\log4cplus\thread\impl\threads-impl.h" />
     <ClInclude Include="..\include\log4cplus\thread\impl\tls.h" />
   </ItemGroup>

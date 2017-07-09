@@ -226,7 +226,6 @@ FileAppenderBase::FileAppenderBase(const tstring& filename_,
     , filename(filename_)
     , localeName (LOG4CPLUS_TEXT ("DEFAULT"))
     , fileOpenMode(mode_)
-    , binaryTextMode(false)
 { }
 
 
@@ -238,7 +237,6 @@ FileAppenderBase::FileAppenderBase(const Properties& props,
     , reopenDelay(1)
     , bufferSize (0)
     , buffer (nullptr)
-    , binaryTextMode(false)
 {
     filename = props.getProperty(LOG4CPLUS_TEXT("File"));
     lockFileName = props.getProperty (LOG4CPLUS_TEXT ("LockFile"));
@@ -249,12 +247,13 @@ FileAppenderBase::FileAppenderBase(const Properties& props,
     props.getInt (reopenDelay, LOG4CPLUS_TEXT("ReopenDelay"));
     props.getULong (bufferSize, LOG4CPLUS_TEXT("BufferSize"));
 
-    if(props.getProperty(LOG4CPLUS_TEXT("TextMode"), LOG4CPLUS_TEXT("Text")) == LOG4CPLUS_TEXT("Binary"))
-        binaryTextMode = true;
-
     bool app = (mode_ & (std::ios_base::app | std::ios_base::ate)) != 0;
     props.getBool (app, LOG4CPLUS_TEXT("Append"));
     fileOpenMode = app ? std::ios::app : std::ios::trunc;
+
+    if (props.getProperty(LOG4CPLUS_TEXT("TextMode"), LOG4CPLUS_TEXT("Text"))
+        == LOG4CPLUS_TEXT("Binary"))
+        fileOpenMode |= std::ios_base::binary;
 }
 
 
@@ -368,8 +367,7 @@ FileAppenderBase::open(std::ios_base::openmode mode)
     if (createDirs)
         internal::make_dirs (filename);
 
-    out.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(filename).c_str(),
-        binaryTextMode ? mode | std::ios_base::binary : mode);
+    out.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(filename).c_str(), mode);
 
     if(!out.good()) {
         getErrorHandler()->error(LOG4CPLUS_TEXT("Unable to open file: ") + filename);
@@ -739,50 +737,7 @@ void
 DailyRollingFileAppender::init(DailyRollingFileSchedule sch)
 {
     this->schedule = sch;
-
     Time now = helpers::truncate_fractions (helpers::now ());
-    struct tm time;
-    helpers::localTime(&time, now);
-
-    time.tm_sec = 0;
-    switch (schedule)
-    {
-    case MONTHLY:
-        time.tm_mday = 1;
-        time.tm_hour = 0;
-        time.tm_min = 0;
-        break;
-
-    case WEEKLY:
-        time.tm_mday -= (time.tm_wday % 7);
-        time.tm_hour = 0;
-        time.tm_min = 0;
-        break;
-
-    case DAILY:
-        time.tm_hour = 0;
-        time.tm_min = 0;
-        break;
-
-    case TWICE_DAILY:
-        if(time.tm_hour >= 12) {
-            time.tm_hour = 12;
-        }
-        else {
-            time.tm_hour = 0;
-        }
-        time.tm_min = 0;
-        break;
-
-    case HOURLY:
-        time.tm_min = 0;
-        break;
-
-    case MINUTELY:
-        break;
-    };
-    now = helpers::from_struct_tm (&time);
-
     scheduledFilename = getFilename(now);
     nextRolloverTime = calculateNextRolloverTime(now);
 }
@@ -907,73 +862,174 @@ DailyRollingFileAppender::rollover(bool alreadyLocked)
 }
 
 
-
+static
 Time
-DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
+calculateNextRolloverTime(const Time& t, DailyRollingFileSchedule schedule)
 {
     namespace chrono = helpers::chrono;
 
+    struct tm next;
     switch(schedule)
     {
     case MONTHLY:
     {
-        struct tm nextMonthTime;
-        helpers::localTime(&nextMonthTime, t);
-        nextMonthTime.tm_mon += 1;
-        nextMonthTime.tm_isdst = 0;
+        helpers::localTime (&next, t);
+        next.tm_mon += 1;
+        next.tm_mday = 1; // Round up to next month start
+        next.tm_hour = 0;
+        next.tm_min = 0;
+        next.tm_sec = 0;
+        next.tm_isdst = -1;
 
         Time ret;
         try
         {
-            ret = helpers::from_struct_tm (&nextMonthTime);
+            ret = helpers::from_struct_tm (&next);
         }
         catch (std::runtime_error const & e)
         {
             helpers::getLogLog().error(
-                LOG4CPLUS_TEXT("DailyRollingFileAppender::calculateNextRolloverTime()-")
-                LOG4CPLUS_TEXT(" setTime() returned error: ")
+                LOG4CPLUS_TEXT("calculateNextRolloverTime()-")
+                LOG4CPLUS_TEXT(" from_struct_tm() returned error: ")
                 + LOG4CPLUS_C_STR_TO_TSTRING (e.what ()));
             // Set next rollover to 31 days in future.
             ret = round_time (t, chrono::seconds (24 * 60 * 60))
                 + chrono::seconds (2678400);
         }
-
         return ret;
     }
 
     case WEEKLY:
     {
-        Time next = round_time (t, chrono::seconds (24 * 60 * 60))
-            + chrono::seconds (7 * 24 * 60 * 60);
-        return adjust_for_time_zone (next, local_time_offset (next));
+        helpers::localTime (&next, t);
+        // Round up to next week
+        next.tm_mday += (7 - next.tm_wday + 1);
+        next.tm_hour = 0;
+        next.tm_min = 0;
+        next.tm_sec = 0;
+        next.tm_isdst = -1;
+
+        Time ret;
+        try
+        {
+            ret = helpers::from_struct_tm (&next);
+        }
+        catch (std::runtime_error const & e)
+        {
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT("calculateNextRolloverTime()-")
+                LOG4CPLUS_TEXT(" from_struct_tm() returned error: ")
+                + LOG4CPLUS_C_STR_TO_TSTRING (e.what ()));
+            // Set next rollover to 7 days in future.
+            ret = round_time (t, chrono::seconds (24 * 60 * 60))
+                + chrono::seconds (7 * 24 * 60 * 60);
+        }
+        return ret;
     }
 
     default:
         helpers::getLogLog ().error (
-            LOG4CPLUS_TEXT ("DailyRollingFileAppender::calculateNextRolloverTime()-")
-            LOG4CPLUS_TEXT (" invalid schedule value"));
+            LOG4CPLUS_TEXT ("calculateNextRolloverTime()-")
+            LOG4CPLUS_TEXT (" unhandled or invalid schedule value"));
         // Fall through.
 
     case DAILY:
     {
-        Time next = round_time_and_add (t, chrono::seconds (24 * 60 * 60));
-        return adjust_for_time_zone (next, local_time_offset (next));
+        helpers::localTime(&next, t);
+        next.tm_mday += 1;
+        next.tm_hour = 0;
+        next.tm_min = 0;
+        next.tm_sec = 0;
+        next.tm_isdst = -1;
+
+        Time ret;
+        try
+        {
+            ret = helpers::from_struct_tm (&next);
+        }
+        catch (std::runtime_error const & e)
+        {
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT("calculateNextRolloverTime()-")
+                LOG4CPLUS_TEXT(" from_struct_tm() returned error: ")
+                + LOG4CPLUS_C_STR_TO_TSTRING (e.what ()));
+            // Set next rollover to 24 hours in future.
+            ret = round_time (t, chrono::seconds (60 * 60))
+                + chrono::seconds (24 * 60 * 60);
+        }
+
+        return ret;
     }
 
     case TWICE_DAILY:
     {
-        Time next = round_time_and_add (t, chrono::seconds (12 * 60 * 60));
-        return adjust_for_time_zone (next, local_time_offset (next));
+        helpers::localTime(&next, t);
+        if (next.tm_hour < 12)
+            next.tm_hour = 12;
+        else
+            next.tm_hour = 24;
+        next.tm_min = 0;
+        next.tm_sec = 0;
+        next.tm_isdst = -1;
+
+        Time ret;
+        try
+        {
+            ret = helpers::from_struct_tm (&next);
+        }
+        catch (std::runtime_error const & e)
+        {
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT("calculateNextRolloverTime()-")
+                LOG4CPLUS_TEXT(" from_struct_tm() returned error: ")
+                + LOG4CPLUS_C_STR_TO_TSTRING (e.what ()));
+            // Set next rollover to 12 hours in future.
+            ret = round_time (t, chrono::seconds (60 * 60))
+                + chrono::seconds (12 * 60 * 60);
+        }
+
+        return ret;
     }
 
     case HOURLY:
-        return round_time_and_add (t, chrono::seconds (60 * 60));
+    {
+        helpers::localTime(&next, t);
+        next.tm_hour += 1;
+        next.tm_min = 0;
+        next.tm_sec = 0;
+        next.tm_isdst = -1;
+
+        Time ret;
+        try
+        {
+            ret = helpers::from_struct_tm (&next);
+        }
+        catch (std::runtime_error const & e)
+        {
+            helpers::getLogLog().error(
+                LOG4CPLUS_TEXT("calculateNextRolloverTime()-")
+                LOG4CPLUS_TEXT(" from_struct_tm() returned error: ")
+                + LOG4CPLUS_C_STR_TO_TSTRING (e.what ()));
+            // Set next rollover to 60 minutes in future.
+            ret = round_time (t, chrono::seconds (60 * 60))
+                + chrono::seconds (60 * 60);
+        }
+
+        return ret;
+    }
 
     case MINUTELY:
         return round_time_and_add (t, chrono::seconds (60));
     };
 }
 
+
+Time
+DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
+{
+    return helpers::truncate_fractions (
+        log4cplus::calculateNextRolloverTime (t, schedule));
+}
 
 
 tstring
@@ -1221,8 +1277,8 @@ TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     , cleanHistoryOnStart(cleanHistoryOnStart_)
     , rollOnClose(rollOnClose_)
 {
-	filenamePattern = preprocessFilenamePattern(filenamePattern, schedule);
-	init();
+    filenamePattern = preprocessFilenamePattern(filenamePattern, schedule);
+    init();
 }
 
 TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
@@ -1412,45 +1468,8 @@ TimeBasedRollingFileAppender::getRolloverPeriodDuration() const
 Time
 TimeBasedRollingFileAppender::calculateNextRolloverTime(const Time& t) const
 {
-    Time result;
-    struct tm next;
-
-    switch(schedule)
-    {
-    case MONTHLY:
-        helpers::localTime(&next, t);
-        next.tm_mon += 1;
-        next.tm_mday = 0; // Round up to next month start
-        next.tm_hour = 0;
-        next.tm_min = 0;
-        next.tm_sec = 0;
-        next.tm_isdst = 0;
-        result = helpers::from_struct_tm(&next);
-        break;
-
-    case WEEKLY:
-        helpers::localTime(&next, t);
-        next.tm_mday += (7 - next.tm_wday + 1); // Round up to next week
-        next.tm_hour = 0; // Round up to next week start
-        next.tm_min = 0;
-        next.tm_sec = 0;
-        next.tm_isdst = 0;
-        result = helpers::from_struct_tm(&next);
-        break;
-
-    default:
-    case DAILY:
-    case HOURLY:
-    case MINUTELY:
-    {
-        Time::duration const period = getRolloverPeriodDuration();
-        result = round_time_and_add (t,
-            helpers::chrono::duration_cast<helpers::chrono::seconds> (period));
-        break;
-    }
-    };
-
-    return helpers::truncate_fractions(result);
+    return helpers::truncate_fractions (
+        log4cplus::calculateNextRolloverTime (t, schedule));
 }
 
 } // namespace log4cplus

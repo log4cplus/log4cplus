@@ -43,9 +43,9 @@ class QueueThread
     : public thread::AbstractThread
 {
 public:
-    QueueThread (AsyncAppenderPtr const &, thread::QueuePtr const &);
+    QueueThread (AsyncAppenderPtr, thread::QueuePtr);
 
-    virtual void run();
+    void run() override;
 
 private:
     AsyncAppenderPtr appenders;
@@ -53,10 +53,9 @@ private:
 };
 
 
-QueueThread::QueueThread (AsyncAppenderPtr const & aai,
-    thread::QueuePtr const & q)
-    : appenders (aai)
-    , queue (q)
+QueueThread::QueueThread (AsyncAppenderPtr aai, thread::QueuePtr q)
+    : appenders (std::move (aai))
+    , queue (std::move (q))
 { }
 
 
@@ -116,9 +115,10 @@ AsyncAppender::AsyncAppender (helpers::Properties const & props)
     spi::AppenderFactory * factory = appender_registry.get (appender_name);
     if (! factory)
     {
-        tstring const err (LOG4CPLUS_TEXT ("AsyncAppender::AsyncAppender()")
-            LOG4CPLUS_TEXT (" - Cannot find AppenderFactory: "));
-        helpers::getLogLog ().error (err + appender_name, true);
+        helpers::getLogLog ().error (
+            LOG4CPLUS_TEXT ("AsyncAppender::AsyncAppender()")
+            LOG4CPLUS_TEXT (" - Cannot find AppenderFactory: ")
+            + appender_name, true);
     }
 
     helpers::Properties appender_props = props.getPropertySubset (

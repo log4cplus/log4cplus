@@ -123,22 +123,11 @@ LogLevelManager::~LogLevelManager()
 tstring const &
 LogLevelManager::toString(LogLevel ll) const
 {
-    tstring const * ret;
     for (LogLevelToStringMethodRec const & rec : toStringMethods)
     {
-        if (rec.use_1_0)
-        {
-            // Use TLS to store the result to allow us to return
-            // a reference.
-            tstring & ll_str = internal::get_ptd ()->ll_str;
-            ll_str = rec.func_1_0 (ll);
-            ret = &ll_str;
-        }
-        else
-            ret = &rec.func (ll);
-
-        if (! ret->empty ())
-            return *ret;
+        tstring const & ret = rec.func (ll);
+        if (! ret.empty ())
+            return ret;
     }
 
     return UNKNOWN_STRING;
@@ -173,13 +162,6 @@ LogLevelManager::pushToStringMethod(LogLevelToStringMethod newToString)
 
 
 void
-LogLevelManager::pushToStringMethod(LogLevelToStringMethod_1_0 newToString)
-{
-    toStringMethods.emplace (toStringMethods.begin(), newToString);
-}
-
-
-void
 LogLevelManager::pushFromStringMethod(StringToLogLevelMethod newFromString)
 {
     fromStringMethods.push_back (newFromString);
@@ -197,14 +179,7 @@ LogLevelManager::LogLevelToStringMethodRec::LogLevelToStringMethodRec ()
 LogLevelManager::LogLevelToStringMethodRec::LogLevelToStringMethodRec (
     LogLevelToStringMethod f)
     : func {f}
-    , use_1_0 {false}
 { }
 
-
-LogLevelManager::LogLevelToStringMethodRec::LogLevelToStringMethodRec (
-    LogLevelToStringMethod_1_0 f)
-    : func_1_0 {f}
-    , use_1_0 {true}
-{ }
 
 } // namespace log4cplus

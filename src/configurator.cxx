@@ -430,7 +430,7 @@ PropertyConfigurator::configureLogger(Logger logger, const tstring& config)
     // Set the Appenders
     for(std::vector<tstring>::size_type j=1; j<tokens.size(); ++j)
     {
-        AppenderMap::iterator appenderIt = appenders.find(tokens[j]);
+        auto appenderIt = appenders.find(tokens[j]);
         if (appenderIt == appenders.end())
         {
             helpers::getLogLog().error(
@@ -461,10 +461,10 @@ PropertyConfigurator::configureAppenders()
                 = spi::getAppenderFactoryRegistry().get(factoryName);
             if (! factory)
             {
-                tstring err =
+                helpers::getLogLog().error(
                     LOG4CPLUS_TEXT("PropertyConfigurator::configureAppenders()")
-                    LOG4CPLUS_TEXT("- Cannot find AppenderFactory: ");
-                helpers::getLogLog().error(err + factoryName);
+                    LOG4CPLUS_TEXT("- Cannot find AppenderFactory: ")
+                    + factoryName);
                 continue;
             }
 
@@ -477,11 +477,11 @@ PropertyConfigurator::configureAppenders()
                     = factory->createObject(props_subset);
                 if (! appender)
                 {
-                    tstring err =
+                    helpers::getLogLog().error(
                         LOG4CPLUS_TEXT("PropertyConfigurator::")
                         LOG4CPLUS_TEXT("configureAppenders()")
-                        LOG4CPLUS_TEXT("- Failed to create appender: ");
-                    helpers::getLogLog().error(err + appenderName);
+                        LOG4CPLUS_TEXT("- Failed to create Appender: ")
+                        + appenderName);
                 }
                 else
                 {
@@ -491,11 +491,11 @@ PropertyConfigurator::configureAppenders()
             }
             catch(std::exception const & e)
             {
-                tstring err =
+                helpers::getLogLog().error(
                     LOG4CPLUS_TEXT("PropertyConfigurator::")
                     LOG4CPLUS_TEXT("configureAppenders()")
-                    LOG4CPLUS_TEXT("- Error while creating Appender: ");
-                helpers::getLogLog().error(err + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
+                    LOG4CPLUS_TEXT("- Error while creating Appender: ")
+                    + LOG4CPLUS_C_STR_TO_TSTRING(e.what()));
             }
         }
     } // end for loop
@@ -718,7 +718,7 @@ ConfigurationWatchDogThread::updateLastModInfo()
 
 ConfigureAndWatchThread::ConfigureAndWatchThread(const tstring& file,
     unsigned int millis)
-    : watchDogThread(0)
+    : watchDogThread(nullptr)
 {
     watchDogThread = new ConfigurationWatchDogThread(file, millis);
     watchDogThread->addReference ();

@@ -86,7 +86,7 @@ const char*
 useIdent (const std::string& string)
 {
     if (string.empty ())
-        return 0;
+        return nullptr;
     else
         return string.c_str ();
 }
@@ -241,7 +241,7 @@ SysLogAppender::SysLogAppender(const tstring& id)
 SysLogAppender::SysLogAppender(const helpers::Properties & properties)
     : Appender(properties)
     , facility (0)
-    , appendFunc (0)
+    , appendFunc (nullptr)
     , port (0)
     , connected (false)
     , hostname (helpers::getHostname (true))

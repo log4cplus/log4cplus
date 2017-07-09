@@ -56,7 +56,7 @@ AbstractSocket::AbstractSocket(SOCKET_TYPE sock_, SocketState state_, int err_)
 
 
 
-AbstractSocket::AbstractSocket(AbstractSocket && rhs)
+AbstractSocket::AbstractSocket(AbstractSocket && rhs) LOG4CPLUS_NOEXCEPT
     : AbstractSocket ()
 {
     swap (rhs);
@@ -102,7 +102,7 @@ AbstractSocket::isOpen() const
 
 
 AbstractSocket &
-AbstractSocket::operator = (AbstractSocket && rhs)
+AbstractSocket::operator = (AbstractSocket && rhs) LOG4CPLUS_NOEXCEPT
 {
     swap (rhs);
     return *this;
@@ -152,7 +152,7 @@ Socket::Socket(SOCKET_TYPE sock_, SocketState state_, int err_)
 { }
 
 
-Socket::Socket (Socket && other)
+Socket::Socket (Socket && other) LOG4CPLUS_NOEXCEPT
     : AbstractSocket (std::move (other))
 { }
 
@@ -162,7 +162,7 @@ Socket::~Socket()
 
 
 Socket &
-Socket::operator = (Socket && other)
+Socket::operator = (Socket && other) LOG4CPLUS_NOEXCEPT
 {
     swap (other);
     return *this;
@@ -216,7 +216,7 @@ Socket::write(const std::string & buffer)
 //
 //
 
-ServerSocket::ServerSocket (ServerSocket && other)
+ServerSocket::ServerSocket (ServerSocket && other) LOG4CPLUS_NOEXCEPT
     : AbstractSocket (std::move (other))
 {
     interruptHandles[0] = -1;
@@ -226,7 +226,7 @@ ServerSocket::ServerSocket (ServerSocket && other)
 
 
 ServerSocket &
-ServerSocket::operator = (ServerSocket && other)
+ServerSocket::operator = (ServerSocket && other) LOG4CPLUS_NOEXCEPT
 {
     swap (other);
     return *this;

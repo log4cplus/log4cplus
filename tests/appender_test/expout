@@ -15,16 +15,14 @@ DEBUG - This is a test...
 log4cplus: Entering ConsoleAppender::close()..
 log4cplus:ERROR Attempted to append to closed appender named [Second].
 log4cplus:ERROR Cannot find LayoutFactory: "log4cplus::WrongLayout"
-log4cplus: Entering ConsoleAppender::close()..
-log4cplus: Destroying appender named [Third].
+Got expected exception: Cannot find LayoutFactory: "log4cplus::WrongLayout"
 log4cplus: Entering ConsoleAppender::close()..
 log4cplus: Destroying appender named [Fourth].
 log4cplus:ERROR Unrecognized log level: WRONG
 log4cplus: Entering ConsoleAppender::close()..
 log4cplus: Destroying appender named [Fifth].
 log4cplus:ERROR Appender::ctor()- Cannot find FilterFactory: log4cplus::spi::WrongFilter
-log4cplus: Entering ConsoleAppender::close()..
-log4cplus: Destroying appender named [Sixth].
+Got expected exception: Appender::ctor()- Cannot find FilterFactory: log4cplus::spi::WrongFilter
 log4cplus: Destroying appender named [Seventh].
 log4cplus:ERROR Derived Appender did not call destructorImpl().
 log4cplus: Destroying appender named [Second].

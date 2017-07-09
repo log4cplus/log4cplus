@@ -12,9 +12,12 @@ endif ()
 set (CMAKE_LEGACY_CYGWIN_WIN32 0)
 
 project (log4cplus)
-cmake_minimum_required (VERSION 2.8.12)
+cmake_minimum_required (VERSION 3.1)
 
 enable_language (CXX)
+set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD_REQUIRED ON)
+set (CMAKE_CXX_EXTENSIONS ON)
 include(GNUInstallDirs)
 
 include (Log4CPlusUtils.cmake)
@@ -156,3 +159,9 @@ if (LOG4CPLUS_QT5)
 endif (LOG4CPLUS_QT5)
 
 include(Log4CPlusCPack.cmake)
+
+message (STATUS "Compiler: ${CMAKE_CXX_COMPILER}")
+message (STATUS "${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}")
+message (STATUS "Compiler flags: ${CMAKE_CXX_FLAGS}")
+message (STATUS "System name: ${CMAKE_SYSTEM_NAME}")
+message (STATUS "System version: ${CMAKE_SYSTEM_VERSION}")

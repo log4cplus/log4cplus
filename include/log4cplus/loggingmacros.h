@@ -141,7 +141,7 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 
 
 #undef LOG4CPLUS_MACRO_FUNCTION
-#define LOG4CPLUS_MACRO_FUNCTION() 0
+#define LOG4CPLUS_MACRO_FUNCTION() nullptr
 #if ! defined (LOG4CPLUS_DISABLE_FUNCTION_MACRO)
 #  if defined (LOG4CPLUS_HAVE_FUNCSIG_MACRO)
 #    undef LOG4CPLUS_MACRO_FUNCTION

@@ -106,6 +106,12 @@ namespace log4cplus
      * <dd>Set this property to <tt>true</tt> if you want to create
      * missing directories in path leading to log file and lock file.
      * </dd>
+     *
+     * <dt><tt>TextMode</tt></dt>
+     * <dd>Set this property to <tt>Binary</tt> if the underlying stream should
+     * not translate EOLs to OS specific character sequence. The default value
+     * is <tt>Text</tt> and the underlying stream will be opened in text
+     * mode.</dd>
      * </dl>
      */
     class LOG4CPLUS_EXPORT FileAppenderBase : public Appender {
@@ -167,15 +173,6 @@ namespace log4cplus
          * By default, <code>reopenDelay</code> is 1 second.
          */
         int reopenDelay;
-
-        /**
-         * When appending multilined logs to file, the OS can modify the end-of-line chars.
-         * If the OS is Windows, end-of-line will be overriden to "\r\n".
-         * When fileappender's property <code>TextMode</code> is set to <code>Binary</code>, 
-         * then bool attribute <code>binaryTextMode</code> is true, and the OS will not intervene.
-         * By default, <code>binaryTextMode</code> is false.
-         */
-        bool binaryTextMode;
 
         unsigned long bufferSize;
         std::unique_ptr<log4cplus::tchar[]> buffer;
