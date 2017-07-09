@@ -15,6 +15,8 @@ log4cplus 1.2.1-RC2
   - Fixed GitHub bug #136, again. Use `mktime()`'s ability to adjust for
     excess values in fields of `struct tm`.
 
+  - `SocketBuffer` now throws an exception on overflow and `SocketAppender`
+    handles it and does not send overlong messages.
 
 log4cplus 1.2.1-RC1
 -------------------
