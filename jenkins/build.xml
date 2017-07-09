@@ -106,8 +106,6 @@
     <exec dir="${objdir}" executable="sh" failonerror="true">
       <arg value="../configure" />
       <arg value="--with-working-c-locale" />
-      <arg value="CC=gcc49" />
-      <arg value="CXX=g++49" />
     </exec>
 
     <exec dir="${objdir}" executable="gmake" failonerror="true" />
