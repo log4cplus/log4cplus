@@ -19,6 +19,7 @@
 // limitations under the License.
 
 #include <cstdlib>
+#include <stdexcept>
 #include <log4cplus/socketappender.h>
 #include <log4cplus/layout.h>
 #include <log4cplus/spi/loggingevent.h>
@@ -232,9 +233,16 @@ SocketAppender::append(const spi::InternalLoggingEvent& event)
 #endif
 
     helpers::SocketBuffer buffer(LOG4CPLUS_MAX_MESSAGE_SIZE - sizeof(unsigned int));
-    convertToBuffer (buffer, event, serverName);
-    helpers::SocketBuffer msgBuffer(LOG4CPLUS_MAX_MESSAGE_SIZE);
+    try
+    {
+        convertToBuffer (buffer, event, serverName);
+    }
+    catch (std::runtime_error const & ex)
+    {
+        return;
+    }
 
+    helpers::SocketBuffer msgBuffer(LOG4CPLUS_MAX_MESSAGE_SIZE);
     msgBuffer.appendInt(static_cast<unsigned>(buffer.getSize()));
     msgBuffer.appendBuffer(buffer);
 
