@@ -361,6 +361,34 @@ write(SOCKET_TYPE sock, const SocketBuffer& buffer)
 
 
 long
+write (SOCKET_TYPE sock, std::size_t bufferCount,
+    SocketBuffer const * const * buffers)
+{
+    std::vector<WSABUF> wsabufs (bufferCount);
+    for (std::size_t i = 0; i != bufferCount; ++i)
+    {
+        WSABUF & wsabuf = wsabufs[i];
+        std::memset (&wsabuf, 0, sizeof (wsabuf));
+        SocketBuffer const & buffer = *buffers[i];
+
+        wsabuf.buf = buffer.getBuffer ();
+        wsabuf.len = static_cast<ULONG>(buffer.getSize ());
+    }
+
+    DWORD bytes_sent = 0;
+    int ret = WSASend (sock, &wsabufs[0], static_cast<DWORD>(bufferCount),
+        &bytes_sent, 0, nullptr, nullptr);
+    if (ret == SOCKET_ERROR)
+    {
+        set_last_socket_error (WSAGetLastError ());
+        return 0;
+    }
+    else
+        return static_cast<long>(bytes_sent);
+}
+
+
+long
 write(SOCKET_TYPE sock, const std::string & buffer)
 {
     long ret = ::send (to_os_socket (sock), buffer.c_str (),

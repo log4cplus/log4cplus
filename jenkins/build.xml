@@ -58,9 +58,9 @@
       <arg value="../configure" />
       <arg value="--with-working-c-locale" />
       <arg value="--with-python" />
-      <arg value="CXX=x86_64-unknown-openbsd5.6-eg++" />
-      <arg value="CC=x86_64-unknown-openbsd5.6-egcc" />
-      <arg value="NM=x86_64-unknown-openbsd5.6-egcc-nm" />
+      <arg value="CXX=x86_64-unknown-openbsd6.1-eg++" />
+      <arg value="CC=x86_64-unknown-openbsd6.1-egcc" />
+      <arg value="NM=x86_64-unknown-openbsd6.1-egcc-nm" />
     </exec>
 
     <exec dir="${objdir}" executable="gmake" failonerror="true" />
@@ -106,8 +106,6 @@
     <exec dir="${objdir}" executable="sh" failonerror="true">
       <arg value="../configure" />
       <arg value="--with-working-c-locale" />
-      <arg value="CC=gcc49" />
-      <arg value="CXX=g++49" />
     </exec>
 
     <exec dir="${objdir}" executable="gmake" failonerror="true" />

@@ -64,6 +64,13 @@ option(LOG4CPLUS_WORKING_C_LOCALE
   "Define for compilers/standard libraries that have working C locale."
   OFF)
 
+option(LOG4CPLUS_SINGLE_THREADED
+  "Define if you want to build single-threaded version of the library."
+  OFF)
+if (LOG4CPLUS_SINGLE_THREADED)
+  add_definitions (-DLOG4CPLUS_SINGLE_THREADED=1)
+endif (LOG4CPLUS_SINGLE_THREADED)
+
 option (LOG4CPLUS_QT4 "Build with Qt4DebugAppender" OFF)
 option (LOG4CPLUS_QT5 "Build with Qt5DebugAppender" OFF)
 

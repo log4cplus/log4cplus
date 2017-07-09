@@ -202,6 +202,17 @@ Socket::write(const SocketBuffer& buffer)
 
 
 bool
+Socket::write(std::size_t bufferCount, SocketBuffer const * const * buffers)
+{
+    long retval = helpers::write(sock, bufferCount, buffers);
+    if (retval <= 0)
+        close ();
+
+    return retval > 0;
+}
+
+
+bool
 Socket::write(const std::string & buffer)
 {
     long retval = helpers::write (sock, buffer);

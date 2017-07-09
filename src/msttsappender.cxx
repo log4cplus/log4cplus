@@ -322,7 +322,11 @@ BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE,  // handle to DLL module
     {
     case DLL_PROCESS_ATTACH:
     {
-        log4cplus::MSTTSAppender::registerAppender ();
+        // We cannot do this here because it causes the thread to deadlock 
+        // when compiled with Visual Studio due to use of C++11 threading 
+        // facilities.
+
+        //log4cplus::MSTTSAppender::registerAppender ();
         break;
     }
 

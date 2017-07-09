@@ -1,3 +1,27 @@
+# log4cplus 2.0-RC2
+
+  - Avoid copying whole message just to prepend message length in
+    `SocketAppender`. Instead, use OS specific "gather" socket write.
+
+  - Fixed GitHub issue #136.
+
+  - `FileAppender` classes now have `TextMode` property that can be set to
+    `Binary` or `Text` (default) to specify underlying IO stream behavior
+    with respect to end-of-line handling. (Patch by raphaelmarcucci).
+
+  - Fixed compilation issues when building log4cplus with Visual Studio and
+    Clang toolchain.
+
+  - Fixed various shutdown and initialization related deadlocks and
+    crashes. GitHub issues #251, #253.
+
+  - Fixed GitHub issue #243. Single-threaded build with Visual Studio and
+    CMake were not single-threaded.
+
+  - Fixed GitHub issue #250. Creating WiX based installer using CPack does
+    not work because of missing license file.
+
+
 # log4cplus 2.0-RC1
 
   - **IMPORTANT**: Implementation language is now C++11. OS specific
