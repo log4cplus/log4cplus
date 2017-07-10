@@ -171,8 +171,8 @@ enum DCState
 };
 
 
-static DCState default_context_state;
-static DefaultContext * default_context;
+static DCState default_context_state = DC_UNINITIALIZED;
+static DefaultContext * default_context = nullptr;
 
 
 struct destroy_default_context
