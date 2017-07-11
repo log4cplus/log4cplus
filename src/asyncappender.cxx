@@ -100,6 +100,7 @@ AsyncAppender::AsyncAppender (SharedAppenderPtr const & app,
 
 
 AsyncAppender::AsyncAppender (helpers::Properties const & props)
+    : Appender (props)
 {
     tstring const & appender_name (
         props.getProperty (LOG4CPLUS_TEXT ("Appender")));

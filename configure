@@ -4225,7 +4225,7 @@ esac
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=11:4:2
+LT_VERSION=11:5:2
 LT_RELEASE=1.1
 
 
@@ -9674,6 +9674,8 @@ fi
 
 fi
 
+               if test \( "$target_os" != "darwin" -o "$target_cpu" != "arm" \) \
+               -a "$target_os" != "cygwin"; then :
 
 
 
@@ -9845,6 +9847,8 @@ $as_echo "$ac_cv_declspec_thread" >&6; }
 fi
 fi
 
+
+fi
 
 
 

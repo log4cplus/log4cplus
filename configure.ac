@@ -18,7 +18,7 @@ AM_PROG_AR
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=11:4:2
+LT_VERSION=11:5:2
 LT_RELEASE=1.1
 AC_SUBST([LT_VERSION])
 AC_SUBST([LT_RELEASE])
@@ -451,7 +451,14 @@ dnl Multi threaded library.
    AS_IF([test "x$ac_cv_cxx11_atomics" = "xyes"],
      [AC_DEFINE([LOG4CPLUS_HAVE_CXX11_ATOMICS])])
 
-   AX_TLS_SUPPORT
+   dnl Check if TLS is supported, but only if it isn't iOS target, because it
+   dnl is forbidden by Apple Store to use __tlv_* functions. Also, Cygwin
+   dnl passes the compilation and link test here but fails during linking of
+   dnl the real code, so we want to avoid it too. See GCC PR64697.
+   AS_IF([test \( "$target_os" != "darwin" -o "$target_cpu" != "arm" \) \
+               -a "$target_os" != "cygwin"],
+     [AX_TLS_SUPPORT])
+
    AH_TEMPLATE([LOG4CPLUS_HAVE_TLS_SUPPORT])
    AH_TEMPLATE([LOG4CPLUS_THREAD_LOCAL_VAR])
    AS_IF([test "x$ac_cv_thread_local" = "xyes"],
