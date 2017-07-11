@@ -18,6 +18,10 @@ log4cplus 1.2.1-RC2
   - `SocketBuffer` now throws an exception on overflow and `SocketAppender`
     handles it and does not send overlong messages.
 
+  - Fixed SF#343. Avoid using C++11 `std::mutex` and other synchronization
+    primitives in Visual Studio earlier than 2015.
+
+
 log4cplus 1.2.1-RC1
 -------------------
 
