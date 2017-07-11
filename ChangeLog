@@ -1,3 +1,30 @@
+log4cplus 1.1.3-RC8
+
+- Fixed GitHub issue #195. Check if queue thread pointer is not NULL and if
+  it is running before trying to join it.
+
+- Fixed GitHub issue #205. Fixed NULL pointer dereference of queue in
+  `AsyncAppender` code.
+
+- Fixed SF#333. `AsyncAppender`'s appenders need to be closed so that
+  accumulated logs get flushed onto disk.
+
+- Updated `android.toolchain.cmake` from OpenCV.
+
+- Fixed GitHub issue #215. Mark `~HierarchyLocker()` with `noexcept(false)`
+  to avoid unlikely but possible `terminate()` call and a warning message
+  during compilation.
+
+- Disabled TLS support for iOS.
+
+- Do not use language level thread-local storage on Cygwin. (GCC PR64697).
+
+- Allow filters cofiguration in `AsyncAppender`. (suggested in SF#297 by
+  Markus von Arx)
+
+- Handle `SocketBuffer` overflow by throwing exception.
+
+
 log4cplus 1.1.3-RC7
 
 - Fixed SF#322. -- C++11 construct that should not be present.
