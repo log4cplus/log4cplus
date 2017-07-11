@@ -43,7 +43,7 @@
 #define LOG4CPLUS_HAVE_TIME_H
 #define LOG4CPLUS_HAVE_SYS_TIMEB_H
 #define LOG4CPLUS_HAVE_FTIME
-#if defined (_MSC_VER) || defined (__BORLANDC__) 
+#if defined (_MSC_VER) || defined (__BORLANDC__)
 #define LOG4CPLUS_HAVE_GMTIME_S
 #endif
 
@@ -162,6 +162,12 @@
 #  endif
 #  if _MSC_VER >= 1700
 #    define LOG4CPLUS_HAVE_CXX11_ATOMICS
+#  endif
+#  if _MSC_VER >= 1900
+// C++11 threading facilities and synchronization primitives are available
+// already in earlier versions of Visual Studio compiler, however, there are
+// issues with the way mutexes are implemented and using them during process
+// shutdown. This appears to be fixed in Visual Studio 2015 and later.
 #    define LOG4CPLUS_WITH_CXX11_THREADS
 #  endif
 #endif
