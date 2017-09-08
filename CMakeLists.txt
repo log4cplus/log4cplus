@@ -33,6 +33,7 @@ set (log4cplus_postfix "")
 
 option(LOG4CPLUS_BUILD_TESTING "Build the test suite." ON)
 option(LOG4CPLUS_BUILD_LOGGINGSERVER "Build the logging server." ON)
+option(LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION "Require explicit initialization (see log4cplus::Initializer)" OFF)
 
 if(NOT LOG4CPLUS_SINGLE_THREADED)
   find_package (Threads)
