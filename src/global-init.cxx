@@ -215,10 +215,28 @@ alloc_dc ()
 
 static
 DefaultContext *
-get_dc (bool alloc = true)
+get_dc(
+#ifdef LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION
+  bool alloc = false
+#else
+  bool alloc = true
+#endif
+)
 {
-    if (LOG4CPLUS_UNLIKELY (! default_context && alloc))
-        alloc_dc ();
+    if (LOG4CPLUS_UNLIKELY(!default_context))
+    {
+        if (alloc)
+        {
+            alloc_dc();
+        }
+        else
+        {
+#ifdef LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION
+            tcerr << LOG4CPLUS_TEXT("ERROR: log4cplus is not initialized (see log4cplus::Initializer)") << std::endl;
+            throw std::logic_error("log4cplus is not initialized");
+#endif
+        }
+    }
     return default_context;
 }
 
@@ -630,11 +648,13 @@ thread_callback (LPVOID /*hinstDLL*/, DWORD fdwReason, LPVOID /*lpReserved*/)
     {
     case DLL_PROCESS_ATTACH:
     {
+#if !defined(LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION)
         // We cannot initialize log4cplus directly here. This is because
         // DllMain() is called under loader lock. When we are using C++11
         // threads and synchronization primitives then there is a deadlock
         // somewhere in internals of std::mutex::lock().
         queueLog4cplusInitializationThroughAPC ();
+#endif
         break;
     }
 
