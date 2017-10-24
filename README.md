@@ -269,7 +269,10 @@ To overcome this limitation,
 
 Defining the `log4cplus::Initializer` instance as the first thing in `main()`
 ensures that [log4cplus] is initialized. More importantly, it ensures that
-[log4cplus] shuts down before the execution leaves the `main()` function.
+[log4cplus] shuts down before the execution leaves the `main()`
+function. [log4cplus] will try to automatically initialize at process startup
+and/or on DLL load, and will not tear down until all `log4cplus:Initializer`
+instances are destroyed.
 
 
 Windows and rolling file Appenders
