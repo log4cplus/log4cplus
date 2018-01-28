@@ -1,3 +1,11 @@
+log4cplus 1.2.1
+---------------
+
+Version 1.2.1 is virtually identical to 1.2.1-RC2. This version is signed
+with new key: E406292F7D08BBB00846131404B89D51DFE5A215. The previous DSA key
+was only 1024 bits long.
+
+
 log4cplus 1.2.1-RC2
 -------------------
 
