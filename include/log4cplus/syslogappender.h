@@ -61,7 +61,6 @@ namespace log4cplus
      * <dt><tt>port</tt></dt>
      * <dd>Destination port of syslog service on host specified by the
      * <tt>host</tt> property. The default value is port 514.</dd>
-     * </dl>
      *
      * <dt><tt>udp</tt></dt> <dd>When the syslog is remote, this
      * property picks the IP protocol. When the value is true, UDP is
@@ -85,7 +84,7 @@ namespace log4cplus
             RSTUdp,
             RSTTcp
         };
-      
+
       // Ctors
 #if defined (LOG4CPLUS_HAVE_SYSLOG_H)
         SysLogAppender(const tstring& ident);
