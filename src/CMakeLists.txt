@@ -132,7 +132,7 @@ endif ()
 ###
 # Installation (https://github.com/forexample/package-example)
 
-set(config_install_dir "lib/cmake/${PROJECT_NAME}")
+set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 
 set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
 
