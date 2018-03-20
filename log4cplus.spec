@@ -33,7 +33,7 @@ configuration. It is modeled after the Java log4j API.
 rm -rf $RPM_BUILD_ROOT
 
 %setup
-./configure --prefix=%{prefix} --with-working-locale CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
+./configure --prefix=%{prefix} --libdir=%{_libdir} --with-working-locale CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
 
 %build
 make
@@ -41,7 +41,7 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 
-make prefix=$RPM_BUILD_ROOT%{prefix} install
+make DESTDIR=$RPM_BUILD_ROOT install
 mkdir -p $RPM_BUILD_ROOT%{prefix}/include/
 cp -rp include/log4cplus $RPM_BUILD_ROOT%{prefix}/include/
 rm -f $RPM_BUILD_ROOT%{prefix}/include/log4cplus/config/stamp-*
@@ -61,8 +61,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,755)
-%attr(755,root,root) %prefix/lib/lib*.so*
-%attr(644,root,root) %prefix/lib/*.la
+%attr(755,root,root) %_libdir/lib*.so*
+%attr(644,root,root) %_libdir/*.la
 
 %files devel
 %defattr(-,root,root,755)
@@ -76,5 +76,5 @@ rm -rf $RPM_BUILD_ROOT
 %prefix/include/log4cplus/thread/impl/*.h
 %prefix/include/log4cplus/thread/*.h
 %attr(644,root,root) 
-%prefix/lib/*.a
-%prefix/lib/pkgconfig/log4cplus.pc
+%_libdir/*.a
+%_libdir/pkgconfig/log4cplus.pc
