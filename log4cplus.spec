@@ -36,7 +36,7 @@ rm -rf $RPM_BUILD_ROOT
 ./configure --prefix=%{prefix} --libdir=%{_libdir} --with-working-locale CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS"
 
 %build
-make
+make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
