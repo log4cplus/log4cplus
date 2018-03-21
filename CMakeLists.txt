@@ -155,6 +155,15 @@ endif (LOG4CPLUS_BUILD_TESTING)
 
 add_subdirectory (src)
 
+# If the CMake version supports it, attach header directory information
+# to the targets for when we are part of a parent build (ie being pulled
+# in via add_subdirectory() rather than being a standalone build).
+if (DEFINED CMAKE_VERSION AND NOT "${CMAKE_VERSION}" VERSION_LESS "2.8.11")
+  target_include_directories(${log4cplus} INTERFACE
+    $<BUILD_INTERFACE:${log4cplus_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${log4cplus_BINARY_DIR}/include>)
+endif()
+
 if (LOG4CPLUS_BUILD_LOGGINGSERVER)
   add_subdirectory (simpleserver)
 endif (LOG4CPLUS_BUILD_LOGGINGSERVER)
