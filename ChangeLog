@@ -1,3 +1,17 @@
+# log4cplus 2.0
+
+  - CMake improvements: Automate export of includes if building as Cmake
+    sub-module. (Rodion Malinovsky)
+
+  - Debian spec file improvements: Use parallel build. Fix installation path
+    on 64bit. (Michal Marek)
+
+  - CMake improvements: Use `${CMAKE_INSTALL_LIBDIR}` instead of hardcoding
+    lib. (Radek Dostál)
+
+  - Experimental Windows 10 ARM support through CMAKE
+
+
 # log4cplus 2.0-RC2
 
   - Avoid copying whole message just to prepend message length in
