@@ -34,7 +34,15 @@ Logger
 DefaultLoggerFactory::makeNewLoggerInstance (const log4cplus::tstring & name,
     Hierarchy& h)
 {
-    return Logger (new spi::LoggerImpl (name, h));
+    return Logger (makeNewLoggerImplInstance(name, h));
+}
+
+
+spi::LoggerImpl *
+DefaultLoggerFactory::makeNewLoggerImplInstance(const log4cplus::tstring& name,
+    Hierarchy& h)
+{
+    return new spi::LoggerImpl (name, h);
 }
 
 
@@ -90,7 +98,6 @@ Logger::shutdown ()
 {
     getDefaultHierarchy ().shutdown ();
 }
-
 
 
 //////////////////////////////////////////////////////////////////////////////
