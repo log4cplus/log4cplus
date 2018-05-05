@@ -19,7 +19,7 @@ revision, yet._
 
  #. Write [news entry][2] to SourceForge.
 
- #. Use Pandoc with parameters `--smart --standalone -f markdown -t
+ #. Use Pandoc with parameters `--standalone -f markdown+smart -t
 markdown_strict+hard_line_breaks+fenced_code_blocks+fenced_code_attributes-intraword_underscores`
 to generate a version of README file with Markdown compatible with
 SourceForge's wiki. Upload resulting file to project's SourceForge wiki page
