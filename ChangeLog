@@ -1,3 +1,13 @@
+# log4cplus 2.0.1
+
+  - Update to Automake 1.16.1.
+
+  - Adjust `spi::LoggerFactory` to allow custom `spi::LoggerImpl`. GitHub
+    issue #309.
+
+  - Fix MacOS X compilation. GitHub issue #312.
+
+
 # log4cplus 2.0
 
   - CMake improvements: Automate export of includes if building as Cmake
