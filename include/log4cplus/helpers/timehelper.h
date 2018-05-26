@@ -110,7 +110,7 @@ inline
 long
 microseconds_part (Time const & the_time)
 {
-    static_assert (std::ratio_equal<Duration::period, std::micro>::value,
+    static_assert ((std::ratio_equal<Duration::period, std::micro>::value),
         "microseconds");
 
     // This is based on <http://stackoverflow.com/a/17395137/341065>
