@@ -113,12 +113,14 @@ main()
 
         for(i=0; i<NUM_THREADS; ++i) {
             threads[i]->start();
+            log4cplus::setThreadPoolSize (i % 10);
         }
 
         LOG4CPLUS_DEBUG(logger, "All Threads started...");
 
         for(i=0; i<NUM_THREADS; ++i) {
             threads[i]->join ();
+            log4cplus::setThreadPoolSize (i % 10);
         }
         LOG4CPLUS_INFO(logger, "Exiting main()...");
     }
@@ -146,6 +148,7 @@ TestThread::run()
         LOG4CPLUS_DEBUG(logger, "Entering Run()...");
         for(int i=0; i<NUM_LOOPS; ++i) {
             NDCContextCreator _ndc(LOG4CPLUS_TEXT("loop"));
+            log4cplus::setThreadPoolSize (16 - (i % 8));
             slow->doSomething();
         }
         LOG4CPLUS_DEBUG(logger, "Exiting run()...");
