@@ -136,6 +136,14 @@ LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_WITH_UNIT_TESTS],
   [Defined to enable unit tests.],
   [test "x$enable_unit_tests" = "xyes"], [1])
 
+dnl Enable LTO build.
+
+LOG4CPLUS_ARG_ENABLE([lto],
+  [Enable LTO build [default=no]],
+  [enable_lto=no])
+LOG4CPLUS_LTO_LDFLAGS=
+LOG4CPLUS_LTO_CXXFLAGS=
+
 dnl Check for c/c++ compilers.
 
 AC_PROG_CXX
@@ -267,6 +275,13 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
          LOG4CPLUS_PROFILING_CXXFLAGS="-pg"])
       AX_CXXFLAGS_GCC_OPTION([-g3])])
 
+   dnl LTO options.
+
+   AS_IF([test "x$enable_lto" = "xyes"],
+     [AX_CXXFLAGS_GCC_OPTION([-flto],[],
+        [LOG4CPLUS_LTO_LDFLAGS="-flto"
+         LOG4CPLUS_LTO_CXXFLAGS="-flto"])])
+
    dnl The --enable-auto-import and --enable-runtime-pseudo-reloc
    dnl options are required for log4cplus to work when compiled with
    dnl Cygwin's GCC 4.3.x.
@@ -349,7 +364,7 @@ LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_FUNCTION_MACRO],
 
 AX___PRETTY_FUNCTION___MACRO
 LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO],
-  [DEfine if compiler supports __PRETTY_FUNCTION__ macro.],
+  [Define if compiler supports __PRETTY_FUNCTION__ macro.],
   [test "x$ac_cv_have___pretty_function___macro" = "xyes"], [1])
 
 AX___FUNC___SYMBOL
@@ -659,5 +674,8 @@ AM_MISSING_PROG([AUTOM4TE], [autom4te])
 
 AC_SUBST([LOG4CPLUS_PROFILING_LDFLAGS])
 AC_SUBST([LOG4CPLUS_PROFILING_CXXFLAGS])
+
+AC_SUBST([LOG4CPLUS_LTO_LDFLAGS])
+AC_SUBST([LOG4CPLUS_LTO_CXXFLAGS])
 
 AC_OUTPUT

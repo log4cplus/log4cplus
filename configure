@@ -633,6 +633,8 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+LOG4CPLUS_LTO_CXXFLAGS
+LOG4CPLUS_LTO_LDFLAGS
 LOG4CPLUS_PROFILING_CXXFLAGS
 LOG4CPLUS_PROFILING_LDFLAGS
 AUTOM4TE
@@ -833,6 +835,7 @@ enable_release_version
 enable_symbols_visibility_options
 with_wchar_t_support
 enable_unit_tests
+enable_lto
 enable_profiling
 enable_threads
 with_qt
@@ -1510,6 +1513,7 @@ Optional Features:
                           visibility options, where they are available.
                           [default=yes]
   --enable-unit-tests     Enable unit tests [default=no]
+  --enable-lto            Enable LTO build [default=no]
   --enable-profiling      Compile with profiling compiler options.
                           [default=no]
   --enable-threads        Use this option to create a singled-threaded version
@@ -4680,6 +4684,18 @@ fi
 fi
 
 
+# Check whether --enable-lto was given.
+if test "${enable_lto+set}" = set; then :
+  enableval=$enable_lto;
+   log4cplus_check_yesno_func "${enableval}" "--enable-lto"
+else
+  enable_lto=no
+fi
+
+LOG4CPLUS_LTO_LDFLAGS=
+LOG4CPLUS_LTO_CXXFLAGS=
+
+
 ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -7540,6 +7556,64 @@ case ".$var" in
   test $ac_status = 0; }
                       CXXFLAGS="$CXXFLAGS $var"
    fi
+ ;;
+esac
+
+fi
+
+
+   if test "x$enable_lto" = "xyes"; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -flto" >&5
+$as_echo_n "checking CXXFLAGS for gcc -flto... " >&6; }
+if ${ax_cv_cxxflags_gcc_option__flto+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ax_cv_cxxflags_gcc_option__flto="no, unknown"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ ac_save_CXXFLAGS="$CXXFLAGS"
+for ac_arg in "-pedantic -Werror % -flto"     "-pedantic % -flto %% no, obsolete"     #
+do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+int zero;
+int
+main ()
+{
+zero = 0; return zero;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ax_cv_cxxflags_gcc_option__flto=`echo $ac_arg | sed -e 's,.*% *,,'`; break
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+done
+ CXXFLAGS="$ac_save_CXXFLAGS"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_cxxflags_gcc_option__flto" >&5
+$as_echo "$ax_cv_cxxflags_gcc_option__flto" >&6; }
+var=$ax_cv_cxxflags_gcc_option__flto
+case ".$var" in
+     .ok|.ok,*) LOG4CPLUS_LTO_LDFLAGS="-flto"
+         LOG4CPLUS_LTO_CXXFLAGS="-flto"
+ ;;
+   .|.no|.no,*)  ;;
+   *) LOG4CPLUS_LTO_LDFLAGS="-flto"
+         LOG4CPLUS_LTO_CXXFLAGS="-flto"
  ;;
 esac
 
@@ -23405,6 +23479,9 @@ ac_config_files="$ac_config_files tests/configandwatch_test/log4cplus.properties
 
 
 AUTOM4TE=${AUTOM4TE-"${am_missing_run}autom4te"}
+
+
+
 
 
 
