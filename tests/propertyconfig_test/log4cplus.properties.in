@@ -1,4 +1,5 @@
 
+log4cplus.threadPoolSize = 2
 log4cplus.rootLogger=INFO, STDOUT, R
 log4cplus.logger.test.a.b.c=WARN
 log4cplus.logger.filelogger=WARN, R

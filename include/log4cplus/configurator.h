@@ -197,6 +197,11 @@ namespace log4cplus
          * "log4cplus.disableOverride" to <code>true</code> or any value other
          * than false. As in <pre>log4cplus.disableOverride=true </pre>
          *
+         * <h3>Global configuration</h3>
+         *
+         * Property <pre>log4cplus.threadPoolSize</pre> can be used to adjust
+         * size of log4cplus' internal thread pool.
+         *
          * <h3>Example</h3>
          *
          * An example configuration is given below.
