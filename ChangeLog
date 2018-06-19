@@ -1,3 +1,16 @@
+# log4cplus 2.0.2
+
+  - Allow setting thread pool size using new function
+    `setThreadPoolSize()`. Allow setting the size from `log4cplus.properties`
+    using `log4cplus.threadPoolSize` property. Lower initial thread pool size
+    by half to `std::thread::hardware_concurrency()` threads. GitHub issue
+    #315.
+
+  - Fix Autotools based build for MinGW. GitHub issue #317.
+
+  - Add `configure` script option `--enable-lto` to allow easier LTO builds.
+
+
 # log4cplus 2.0.1
 
   - Update to Automake 1.16.1.
