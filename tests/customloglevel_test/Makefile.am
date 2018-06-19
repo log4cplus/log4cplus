@@ -14,7 +14,7 @@ customloglevel_test_LDFLAGS = -no-install
 
 if BUILD_WITH_WCHAR_T_SUPPORT
 noinst_PROGRAMS += customloglevel_testU
-customloglevel_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+customloglevel_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
 customloglevel_testU_SOURCES = $(customloglevel_test_sources)
 customloglevel_testU_LDADD = $(liblog4cplusU_la_file)
 customloglevel_testU_LDFLAGS = -no-install

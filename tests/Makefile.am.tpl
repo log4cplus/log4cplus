@@ -83,7 +83,7 @@ EXTRA_DIST += %D%/testsuite.at $(TESTSUITE) %D%/atlocal.in
 
 if BUILD_WITH_WCHAR_T_SUPPORT
 noinst_PROGRAMS += [=name=]U
-[=name=]U_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+[=name=]U_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
 [=name=]U_SOURCES = $([=name=]_sources)
 [=name=]U_LDADD = $(liblog4cplusU_la_file)
 [=name=]U_LDFLAGS = -no-install

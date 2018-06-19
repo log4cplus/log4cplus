@@ -81,7 +81,7 @@ liblog4cplus_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
 if BUILD_WITH_WCHAR_T_SUPPORT
 lib_LTLIBRARIES += liblog4cplusU.la
 
-liblog4cplusU_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags) -DUNICODE=1
+liblog4cplusU_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags) -DUNICODE=1 -D_UNICODE=1
 
 liblog4cplusU_la_SOURCES = $(common_liblog4cplus_la_sources)
 
