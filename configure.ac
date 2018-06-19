@@ -163,7 +163,11 @@ AS_CASE(["$target_os"],
    AS_VAR_APPEND([CPPFLAGS], [" -U__STRICT_ANSI__"])
    AS_VAR_APPEND([CPPFLAGS], [" -DWIN32"])
    AS_VAR_APPEND([CPPFLAGS], [" -D_WIN32"])
-   AS_VAR_APPEND([CPPFLAGS], [" -DMINGW_HAS_SECURE_API=1"])],
+   AS_VAR_APPEND([CPPFLAGS], [" -DMINGW_HAS_SECURE_API=1"])
+   AS_IF([AS_ECHO_N(["$CPPFLAGS"]) dnl
+          | $GREP -e '_WIN32_WINNT=' >/dev/null],
+     [],
+     [AS_VAR_APPEND([CPPFLAGS], [" -D_WIN32_WINNT=0x600"])])],
   [cygwin*],
   [dnl Undefining __STRICT_ANSI__ is a workaround for compilation
    dnl problem.  C <stdio.h> header does not define vsnprintf() or

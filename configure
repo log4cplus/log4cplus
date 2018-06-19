@@ -5424,7 +5424,12 @@ case "$target_os" in #(
                 as_fn_append CPPFLAGS " -U__STRICT_ANSI__"
    as_fn_append CPPFLAGS " -DWIN32"
    as_fn_append CPPFLAGS " -D_WIN32"
-   as_fn_append CPPFLAGS " -DMINGW_HAS_SECURE_API=1" ;; #(
+   as_fn_append CPPFLAGS " -DMINGW_HAS_SECURE_API=1"
+   if $as_echo_n "$CPPFLAGS"           | $GREP -e '_WIN32_WINNT=' >/dev/null; then :
+
+else
+  as_fn_append CPPFLAGS " -D_WIN32_WINNT=0x600"
+fi ;; #(
   cygwin*) :
              as_fn_append CPPFLAGS " -U__STRICT_ANSI__" ;; #(
   hpux*) :
