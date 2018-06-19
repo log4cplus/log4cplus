@@ -290,12 +290,23 @@ PropertyConfigurator::configure()
     properties.getBool (disable_override, LOG4CPLUS_TEXT ("disableOverride"));
 
     initializeLog4cplus();
+
+    unsigned int thread_pool_size;
+    if (properties.getUInt (thread_pool_size, LOG4CPLUS_TEXT ("threadPoolSize")))
+        thread_pool_size = (std::min) (thread_pool_size, 1024u);
+    else
+        thread_pool_size = 4;
+
+    setThreadPoolSize (thread_pool_size);
+
     configureAppenders();
     configureLoggers();
     configureAdditivity();
 
     if (disable_override)
         h.disable (Hierarchy::DISABLE_OVERRIDE);
+
+
 
     // Erase the appenders so that we are not artificially keeping them "alive".
     appenders.clear ();

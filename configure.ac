@@ -4,7 +4,7 @@ dnl autoconf-2.69
 dnl automake-1.16.1
 dnl libtool-2.4.6
 
-AC_INIT([log4cplus],[2.0.1])
+AC_INIT([log4cplus],[2.0.2])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
@@ -20,7 +20,7 @@ AM_PROG_AR
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=5:2:2
+LT_VERSION=6:3:3
 LT_RELEASE=2.0
 AC_SUBST([LT_VERSION])
 AC_SUBST([LT_RELEASE])
@@ -136,6 +136,14 @@ LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_WITH_UNIT_TESTS],
   [Defined to enable unit tests.],
   [test "x$enable_unit_tests" = "xyes"], [1])
 
+dnl Enable LTO build.
+
+LOG4CPLUS_ARG_ENABLE([lto],
+  [Enable LTO build [default=no]],
+  [enable_lto=no])
+LOG4CPLUS_LTO_LDFLAGS=
+LOG4CPLUS_LTO_CXXFLAGS=
+
 dnl Check for c/c++ compilers.
 
 AC_PROG_CXX
@@ -155,7 +163,11 @@ AS_CASE(["$target_os"],
    AS_VAR_APPEND([CPPFLAGS], [" -U__STRICT_ANSI__"])
    AS_VAR_APPEND([CPPFLAGS], [" -DWIN32"])
    AS_VAR_APPEND([CPPFLAGS], [" -D_WIN32"])
-   AS_VAR_APPEND([CPPFLAGS], [" -DMINGW_HAS_SECURE_API=1"])],
+   AS_VAR_APPEND([CPPFLAGS], [" -DMINGW_HAS_SECURE_API=1"])
+   AS_IF([AS_ECHO_N(["$CPPFLAGS"]) dnl
+          | $GREP -e '_WIN32_WINNT=' >/dev/null],
+     [],
+     [AS_VAR_APPEND([CPPFLAGS], [" -D_WIN32_WINNT=0x600"])])],
   [cygwin*],
   [dnl Undefining __STRICT_ANSI__ is a workaround for compilation
    dnl problem.  C <stdio.h> header does not define vsnprintf() or
@@ -267,6 +279,13 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
          LOG4CPLUS_PROFILING_CXXFLAGS="-pg"])
       AX_CXXFLAGS_GCC_OPTION([-g3])])
 
+   dnl LTO options.
+
+   AS_IF([test "x$enable_lto" = "xyes"],
+     [AX_CXXFLAGS_GCC_OPTION([-flto],[],
+        [LOG4CPLUS_LTO_LDFLAGS="-flto"
+         LOG4CPLUS_LTO_CXXFLAGS="-flto"])])
+
    dnl The --enable-auto-import and --enable-runtime-pseudo-reloc
    dnl options are required for log4cplus to work when compiled with
    dnl Cygwin's GCC 4.3.x.
@@ -349,7 +368,7 @@ LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_FUNCTION_MACRO],
 
 AX___PRETTY_FUNCTION___MACRO
 LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO],
-  [DEfine if compiler supports __PRETTY_FUNCTION__ macro.],
+  [Define if compiler supports __PRETTY_FUNCTION__ macro.],
   [test "x$ac_cv_have___pretty_function___macro" = "xyes"], [1])
 
 AX___FUNC___SYMBOL
@@ -659,5 +678,8 @@ AM_MISSING_PROG([AUTOM4TE], [autom4te])
 
 AC_SUBST([LOG4CPLUS_PROFILING_LDFLAGS])
 AC_SUBST([LOG4CPLUS_PROFILING_CXXFLAGS])
+
+AC_SUBST([LOG4CPLUS_LTO_LDFLAGS])
+AC_SUBST([LOG4CPLUS_LTO_CXXFLAGS])
 
 AC_OUTPUT

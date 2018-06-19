@@ -12,7 +12,7 @@ unit_tests_LDFLAGS = -no-install
 
 if BUILD_WITH_WCHAR_T_SUPPORT
 noinst_PROGRAMS += unit_testsU
-unit_testsU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+unit_testsU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
 unit_testsU_SOURCES = $(unit_tests_sources)
 unit_testsU_LDADD = $(liblog4cplusU_la_file)
 unit_testsU_LDFLAGS = -no-install

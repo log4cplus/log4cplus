@@ -538,6 +538,15 @@ threadCleanup ()
 }
 
 
+void
+setThreadPoolSize (std::size_t pool_size)
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    get_dc ()->thread_pool->set_pool_size (pool_size);
+#endif
+}
+
+
 static
 void
 freeTLSSlot ()

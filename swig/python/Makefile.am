@@ -31,7 +31,7 @@ _log4cplusU_la_LDFLAGS = -no-undefined -shared -module -avoid-version \
 _log4cplusU_la_LIBADD = $(liblog4cplusU_la_file)
 
 $(PYTHON_WRAPU_CXX): $(SWIG_SOURCES)
-	$(SWIG) -DUNICODE=1 $(SWIG_FLAGS) -c++ -python $(SWIG_PYTHON_OPT) \
+	$(SWIG) -DUNICODE=1 -D_UNICODE=1 $(SWIG_FLAGS) -c++ -python $(SWIG_PYTHON_OPT) \
 	-I$(top_srcdir)/include -I$(top_builddir)/include \
 	-I$(top_srcdir)/swig -o $(PYTHON_WRAPU_CXX) \
 	$(top_srcdir)/swig/log4cplus.swg

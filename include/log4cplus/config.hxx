@@ -31,6 +31,7 @@
 #else
 #  include <log4cplus/config/defines.hxx>
 #endif
+#include <cstddef>
 
 # if ! defined (LOG4CPLUS_WORKING_LOCALE) \
   && ! defined (LOG4CPLUS_WORKING_C_LOCALE) \
@@ -190,6 +191,9 @@ LOG4CPLUS_EXPORT void threadCleanup ();
 
 //! Initializes log4cplus.
 LOG4CPLUS_EXPORT void initialize ();
+
+//! Set thread pool size.
+LOG4CPLUS_EXPORT void setThreadPoolSize (std::size_t pool_size);
 
 } // namespace log4cplus
 
