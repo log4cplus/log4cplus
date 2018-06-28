@@ -359,6 +359,8 @@ Time::getFormattedTime(const log4cplus::tstring& fmt_orig, bool use_gmtime) cons
     // without changing errno. 
     std::size_t const buffer_size_max
         = (std::max) (static_cast<std::size_t>(1024), buffer_size * 16);
+    
+    buffer_size = (std::max) (buffer_size, gft_sp.buffer.capacity());
 
     do
     {
