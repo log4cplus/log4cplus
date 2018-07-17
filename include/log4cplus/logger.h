@@ -295,7 +295,7 @@ namespace log4cplus
          * @param ptr A pointer to the Logger implementation.  This value
          *            cannot be NULL.
          */
-        LOG4CPLUS_PRIVATE Logger(spi::LoggerImpl * ptr) LOG4CPLUS_NOEXCEPT;
+        Logger(spi::LoggerImpl * ptr) LOG4CPLUS_NOEXCEPT;
 
       // Friends
         friend class log4cplus::spi::LoggerImpl;
@@ -307,11 +307,15 @@ namespace log4cplus
 
     /**
      * This class is used to create the default implementation of
-     * the Logger class
+     * the Logger class.
      */
     class LOG4CPLUS_EXPORT DefaultLoggerFactory : public spi::LoggerFactory {
     public:
         Logger makeNewLoggerInstance(const log4cplus::tstring& name, Hierarchy& h);
+
+    protected:
+        virtual spi::LoggerImpl * makeNewLoggerImplInstance(
+            const log4cplus::tstring& name, Hierarchy& h);
     };
 
 
