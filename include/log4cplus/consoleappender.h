@@ -77,6 +77,8 @@ namespace log4cplus {
          * will be flushed at the end of each append operation.
          */
         bool immediateFlush;
+		
+		log4cplus::tstring localeName;
     };
 
 } // end namespace log4cplus

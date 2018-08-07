@@ -27,6 +27,7 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <ostream>
+#include "log4cplus/spi/factory.h"
 
 
 namespace log4cplus
@@ -47,27 +48,54 @@ ConsoleAppender::getOutputMutex ()
     return helpers::getConsoleOutputMutex ();
 }
 
+static
+std::locale
+get_locale_by_name(tstring const & locale_name)
+{
+	try
+	{
+		spi::LocaleFactoryRegistry & reg = spi::getLocaleFactoryRegistry();
+		spi::LocaleFactory * fact = reg.get(locale_name);
+		if (fact)
+		{
+			helpers::Properties props;
+			props.setProperty(LOG4CPLUS_TEXT("Locale"), locale_name);
+			return fact->createObject(props);
+		}
+		else
+			return std::locale(LOG4CPLUS_TSTRING_TO_STRING(locale_name).c_str());
+	}
+	catch (std::runtime_error const &)
+	{
+		helpers::getLogLog().error(
+			LOG4CPLUS_TEXT("Failed to create locale " + locale_name));
+		return std::locale();
+	}
+}
 
 //////////////////////////////////////////////////////////////////////////////
 // ConsoleAppender ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
 ConsoleAppender::ConsoleAppender(bool logToStdErr_,
-    bool immediateFlush_)
-: logToStdErr(logToStdErr_),
-  immediateFlush(immediateFlush_)
+	bool immediateFlush_)
+	: logToStdErr(logToStdErr_),
+	immediateFlush(immediateFlush_),
+	localeName(LOG4CPLUS_TEXT("DEFAULT"))
 {
 }
 
 
 
 ConsoleAppender::ConsoleAppender(const helpers::Properties & properties)
-: Appender(properties),
-  logToStdErr(false),
-  immediateFlush(false)
+	: Appender(properties),
+	logToStdErr(false),
+	immediateFlush(false),
+	localeName(LOG4CPLUS_TEXT("DEFAULT"))
 {
-    properties.getBool (logToStdErr, LOG4CPLUS_TEXT("logToStdErr"));
-    properties.getBool (immediateFlush, LOG4CPLUS_TEXT("ImmediateFlush"));
+	properties.getBool(logToStdErr, LOG4CPLUS_TEXT("logToStdErr"));
+	properties.getBool(immediateFlush, LOG4CPLUS_TEXT("ImmediateFlush"));
+	localeName = properties.getProperty(LOG4CPLUS_TEXT("Locale"), LOG4CPLUS_TEXT("DEFAULT"));
 }
 
 
@@ -103,7 +131,14 @@ ConsoleAppender::append(const spi::InternalLoggingEvent& event)
     thread::MutexGuard guard (getOutputMutex ());
 
     tostream& output = (logToStdErr ? tcerr : tcout);
+
+	auto cur_loc = output.getloc();
+	output.imbue(get_locale_by_name(localeName));
+
     layout->formatAndAppend(output, event);
+
+	output.imbue(cur_loc);
+
     if(immediateFlush) {
         output.flush();
     }
