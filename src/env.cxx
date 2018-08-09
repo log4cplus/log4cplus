@@ -59,12 +59,6 @@
 
 namespace log4cplus { namespace internal {
 
-#if defined(_WIN32)
-tstring const dir_sep(LOG4CPLUS_TEXT("\\"));
-#else
-tstring const dir_sep(LOG4CPLUS_TEXT("/"));
-#endif
-
 
 bool
 get_env_var (tstring & value, tstring const & name)
@@ -589,6 +583,12 @@ loglog_make_directory_result (helpers::LogLog & loglog, tstring const & path,
 void
 make_dirs (tstring const & file_path)
 {
+#if defined(_WIN32)
+    tstring const dir_sep(LOG4CPLUS_TEXT("\\"));
+#else
+    tstring const dir_sep(LOG4CPLUS_TEXT("/"));
+#endif
+
     std::vector<tstring> components;
     std::size_t special = 0;
     helpers::LogLog & loglog = helpers::getLogLog();
