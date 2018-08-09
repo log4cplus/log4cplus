@@ -11,6 +11,11 @@ autom4te.cache/
 objdir*/
 Win32/
 x64/
+build/
+.vscode/
+
+docs/log4cplus-*/
+docs/webpage_docs-*/
 
 .idea
 
