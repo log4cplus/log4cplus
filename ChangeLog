@@ -10,6 +10,12 @@
 
   - Add `configure` script option `--enable-lto` to allow easier LTO builds.
 
+  - Optimization of `getFormattedTime()`. (Alexey Vishtak)
+
+  - Introduction of `LOG4CPLUS_MACRO_FILE()` used in logging macros to allow
+    users to redefine it and consequently hide source file names from their
+    compiled executables and logging output.
+
 
 # log4cplus 2.0.1
 
