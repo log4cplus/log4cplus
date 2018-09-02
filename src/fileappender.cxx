@@ -44,6 +44,10 @@
 #include <errno.h>
 #endif
 
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#include <catch.hpp>
+#endif
+
 
 namespace log4cplus
 {
@@ -1085,7 +1089,7 @@ DailyRollingFileAppender::getFilename(const Time& t) const
 ///////////////////////////////////////////////////////////////////////////////
 
 static tstring
-preprocessDateTimePattern(const tstring& pattern, DailyRollingFileSchedule& schedule)
+preprocessDateTimePattern(const tstring_view& pattern, DailyRollingFileSchedule& schedule)
 {
     // Example: "yyyy-MM-dd HH:mm:ss,aux"
     // Patterns from java.text.SimpleDateFormat not implemented here: Y, F, k, K, S, X
@@ -1095,11 +1099,11 @@ preprocessDateTimePattern(const tstring& pattern, DailyRollingFileSchedule& sche
     bool auxilary = (pattern.find(LOG4CPLUS_TEXT(",aux")) == pattern.length()-4);
     bool has_week = false, has_day = false, has_hour = false, has_minute = false;
 
-    for (size_t i = 0; i < pattern.length(); )
+    for (size_t i = 0, pattern_length = pattern.length(); i < pattern_length; )
     {
         tchar c = pattern[i];
         size_t end_pos = pattern.find_first_not_of(c, i);
-        size_t len = (end_pos == tstring::npos ? pattern.length() : end_pos) - i;
+        size_t len = (end_pos == tstring::npos ? pattern_length : end_pos) - i;
 
         switch (c)
         {
@@ -1215,19 +1219,19 @@ preprocessDateTimePattern(const tstring& pattern, DailyRollingFileSchedule& sche
 }
 
 static tstring
-preprocessFilenamePattern(const tstring& pattern, DailyRollingFileSchedule& schedule)
+preprocessFilenamePattern(const tstring_view& pattern, DailyRollingFileSchedule& schedule)
 {
     tostringstream result;
 
-    for (size_t i = 0; i < pattern.length(); )
+    for (size_t i = 0, pattern_length = pattern.length(); i < pattern_length; )
     {
         tchar c = pattern[i];
 
         if (c == LOG4CPLUS_TEXT('%') &&
-            i < pattern.length()-1 &&
+            i < pattern_length-1 &&
             pattern[i+1] == LOG4CPLUS_TEXT('d'))
         {
-            if (i < pattern.length()-2 && pattern[i+2] == LOG4CPLUS_TEXT('{'))
+            if (i < pattern_length-2 && pattern[i+2] == LOG4CPLUS_TEXT('{'))
             {
                 size_t closingBracketPos = pattern.find(LOG4CPLUS_TEXT("}"), i+2);
                 if (closingBracketPos == std::string::npos)
@@ -1236,7 +1240,10 @@ preprocessFilenamePattern(const tstring& pattern, DailyRollingFileSchedule& sche
                 }
                 else
                 {
-                    result << preprocessDateTimePattern(pattern.substr(i+3, closingBracketPos-(i+3)), schedule);
+                    result << preprocessDateTimePattern(
+                        tstring_view (pattern.data () + (i+3),
+                            closingBracketPos-(i+3)),
+                        schedule);
                     i = closingBracketPos + 1;
                 }
             }
@@ -1471,5 +1478,32 @@ TimeBasedRollingFileAppender::calculateNextRolloverTime(const Time& t) const
     return helpers::truncate_fractions (
         log4cplus::calculateNextRolloverTime (t, schedule));
 }
+
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+CATCH_TEST_CASE ("TimeBasedRollingFileAppender", "[appender]")
+{
+
+    CATCH_SECTION ("date format string preprocessing")
+    {
+        DailyRollingFileSchedule schedule;
+        CATCH_REQUIRE (preprocessDateTimePattern(
+            LOG4CPLUS_TEXT ("yyyy-MM-dd"), schedule)
+            == LOG4CPLUS_TEXT ("%Y-%m-%d"));
+        CATCH_REQUIRE (schedule == DAILY);
+    }
+
+    CATCH_SECTION ("file name pattern preprocessing")
+    {
+        DailyRollingFileSchedule schedule;
+        CATCH_REQUIRE (preprocessFilenamePattern(
+            LOG4CPLUS_TEXT ("log-%d{yyyy-MM-dd}"), schedule)
+            == LOG4CPLUS_TEXT ("log-%Y-%m-%d"));
+        CATCH_REQUIRE (schedule == DAILY);
+    }
+
+}
+#endif
+
 
 } // namespace log4cplus
