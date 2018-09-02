@@ -36,6 +36,12 @@
 #endif
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
 #  define CATCH_CONFIG_RUNNER
+#  ifndef CP_UTF8
+// We have to define this here for Catch. It would have been defined by
+// Windows.h if we weren't avoiding its definition by defining NONLS in
+// windowsh-inc.h.
+#    define CP_UTF8 65001
+#  endif
 #  include <catch.hpp>
 #endif
 #include <cstdio>
