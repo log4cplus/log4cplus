@@ -1,4 +1,4 @@
-version: 3.0.0.{build}
+version: 3.0.0.{build}-{branch}
 
 install:
   - git submodule update --init --recursive
@@ -6,13 +6,11 @@ install:
 environment:
   matrix:
     - PRJ_GEN: "Visual Studio 15 2017 Win64"
-      VCVARS_COMMAND: '"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"'
       BDIR: msvc2017
       PRJ_CFG: Release
       image: Visual Studio 2017
 
 build_script:
-  - call %VCVARS_COMMAND%
   - mkdir build.%BDIR%
   - cd build.%BDIR%
   - cmake .. -G "%PRJ_GEN%" "-DCMAKE_BUILD_TYPE=%PRJ_CFG%" %PARAMS%
