@@ -4,10 +4,6 @@ branches:
   except:
     - gh-pages
 
-platform:
-  - x86
-  - x64
-
 install:
   - git submodule update --init --recursive
 
@@ -26,4 +22,3 @@ build_script:
 
 test_script:
   - ctest -V --output-on-failure -C %PRJ_CFG%
-
