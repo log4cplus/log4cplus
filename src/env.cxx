@@ -208,7 +208,6 @@ namespace
 {
 
 struct path_sep_comp
-    : public std::unary_function<tchar, bool>
 {
     path_sep_comp ()
     { }
