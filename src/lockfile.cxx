@@ -237,7 +237,7 @@ LockFile::open (int open_flags) const
             + lock_file_name, true);
 
 #if ! defined (O_CLOEXEC)
-    if (! trySetCloseOnExec (data->fd, loglog))
+    if (! trySetCloseOnExec (data->fd))
         getLogLog ().warn (
             tstring (LOG4CPLUS_TEXT("could not set FD_CLOEXEC on file "))
             + lock_file_name);
