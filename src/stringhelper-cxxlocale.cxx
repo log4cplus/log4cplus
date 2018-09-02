@@ -1,15 +1,15 @@
 //  Copyright (C) 2010-2017, Vaclav Haisman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -117,7 +117,16 @@ towstring_internal (std::wstring & outstr, const char * src, std::size_t size,
 }
 
 
-std::wstring 
+std::wstring
+towstring(const std::string_view & src)
+{
+    std::wstring ret;
+    towstring_internal (ret, src.data (), src.size (), std::locale ());
+    return ret;
+}
+
+
+std::wstring
 towstring(const std::string& src)
 {
     std::wstring ret;
@@ -126,7 +135,7 @@ towstring(const std::string& src)
 }
 
 
-std::wstring 
+std::wstring
 towstring(char const * src)
 {
     std::wstring ret;
@@ -205,7 +214,16 @@ tostring_internal (std::string & outstr, const wchar_t * src, std::size_t size,
 }
 
 
-std::string 
+std::string
+tostring(const std::wstring_view & src)
+{
+    std::string ret;
+    tostring_internal (ret, src.data (), src.size (), std::locale ());
+    return ret;
+}
+
+
+std::string
 tostring(const std::wstring& src)
 {
     std::string ret;
@@ -214,7 +232,7 @@ tostring(const std::wstring& src)
 }
 
 
-std::string 
+std::string
 tostring(wchar_t const * src)
 {
     std::string ret;
