@@ -1,14 +1,22 @@
 version: 3.0.0.{build}-{branch}
 
+branches:
+  except:
+    - gh-pages
+
+platform:
+  - x86
+  - x64
+
 install:
   - git submodule update --init --recursive
 
 environment:
   matrix:
     - PRJ_GEN: "Visual Studio 15 2017 Win64"
+      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2017"
       BDIR: msvc2017
       PRJ_CFG: Release
-      image: Visual Studio 2017
 
 build_script:
   - mkdir build.%BDIR%
