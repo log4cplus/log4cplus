@@ -931,7 +931,7 @@ calculateNextRolloverTime(const Time& t, DailyRollingFileSchedule schedule)
         helpers::getLogLog ().error (
             LOG4CPLUS_TEXT ("calculateNextRolloverTime()-")
             LOG4CPLUS_TEXT (" unhandled or invalid schedule value"));
-        // Fall through.
+        [[fallthrough]];
 
     case DAILY:
     {
@@ -1052,7 +1052,7 @@ DailyRollingFileAppender::getFilename(const Time& t) const
             helpers::getLogLog ().error (
                 LOG4CPLUS_TEXT ("DailyRollingFileAppender::getFilename()-")
                 LOG4CPLUS_TEXT (" invalid schedule value"));
-            // Fall through.
+            [[fallthrough]];
 
         case DAILY:
             pattern = LOG4CPLUS_TEXT("%Y-%m-%d");
@@ -1455,7 +1455,7 @@ TimeBasedRollingFileAppender::getRolloverPeriodDuration() const
         helpers::getLogLog ().error (
             LOG4CPLUS_TEXT ("TimeBasedRollingFileAppender::getRolloverPeriodDuration()-")
             LOG4CPLUS_TEXT (" invalid schedule value"));
-        // Fall through.
+        [[fallthrough]];
     case DAILY:
         return std::chrono::hours{24};
     case HOURLY:

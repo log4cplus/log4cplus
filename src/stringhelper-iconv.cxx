@@ -205,10 +205,10 @@ iconv_conv (std::basic_string<DestType> & result, char const * destenc,
                     continue;
                 }
 
-                // Fall through.
-                
+                [[fallthrough]];
+
             case E2BIG:;
-                // Fall through.
+                [[fallthrough]];
             }
 
             std::size_t const outbuf_index = result_size;
