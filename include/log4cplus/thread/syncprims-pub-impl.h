@@ -93,11 +93,11 @@ Mutex::unlock () const
 //
 
 LOG4CPLUS_INLINE_EXPORT
-Semaphore::Semaphore (unsigned LOG4CPLUS_THREADED (max_),
+Semaphore::Semaphore (unsigned LOG4CPLUS_THREADED (max),
     unsigned LOG4CPLUS_THREADED (initial))
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-    : max (max_)
-    , val ((std::min) (max, initial))
+    : max_ (max)
+    , val ((std::min) (max_, initial))
 #endif
 { }
 
@@ -114,7 +114,7 @@ Semaphore::unlock () const
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     std::lock_guard<std::mutex> guard (mtx);
 
-    if (val >= max)
+    if (val >= max_)
         LOG4CPLUS_THROW_RTE ("Semaphore::unlock(): val >= max");
 
     ++val;
@@ -130,7 +130,7 @@ Semaphore::lock () const
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     std::unique_lock<std::mutex> guard (mtx);
 
-    if (LOG4CPLUS_UNLIKELY(val > max))
+    if (LOG4CPLUS_UNLIKELY(val > max_))
         LOG4CPLUS_THROW_RTE ("Semaphore::unlock(): val > max");
 
     while (val == 0)
@@ -138,7 +138,7 @@ Semaphore::lock () const
 
     --val;
 
-    if (LOG4CPLUS_UNLIKELY(val >= max))
+    if (LOG4CPLUS_UNLIKELY(val >= max_))
         LOG4CPLUS_THROW_RTE ("Semaphore::unlock(): val >= max");
 #endif
 }
