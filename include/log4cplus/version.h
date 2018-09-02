@@ -41,10 +41,10 @@
 //! This is log4cplus version number as unsigned integer.  This must
 //! be kept on a single line. It is used by Autotool and CMake build
 //! systems to parse version number.
-#define LOG4CPLUS_VERSION LOG4CPLUS_MAKE_VERSION(2, 0, 2)
+#define LOG4CPLUS_VERSION LOG4CPLUS_MAKE_VERSION(3, 0, 0)
 
 //! This is log4cplus version number as a string.
-#define LOG4CPLUS_VERSION_STR LOG4CPLUS_MAKE_VERSION_STR(2, 0, 2)
+#define LOG4CPLUS_VERSION_STR LOG4CPLUS_MAKE_VERSION_STR(3, 0, 0)
 
 
 namespace log4cplus

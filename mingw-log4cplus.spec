@@ -1,12 +1,12 @@
 Name:           log4cplus
-Version:        2.0.2
+Version:        3.0.0
 Release:        1%{?dist}
 Summary:        log4cplus, C++ logging library
 
 License:        Apache
 Group:          Development/Libraries
 URL:            http://log4cplus.sourceforge.net/
-Source0:        http://downloads.sourceforge.net/project/log4cplus/log4cplus-stable/2.0.2/log4cplus-2.0.2.tar.gz
+Source0:        http://downloads.sourceforge.net/project/log4cplus/log4cplus-stable/3.0.0/log4cplus-3.0.0.tar.gz
 
 BuildArch:      noarch
 
