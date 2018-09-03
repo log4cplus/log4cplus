@@ -17,6 +17,9 @@ cmake_minimum_required (VERSION 3.8)
 # Use "-fPIC" / "-fPIE" for all targets by default, including static libs.
 set (CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# Use "-fPIC" / "-fPIE" for all targets by default, including static libs.
+set (CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 enable_language (CXX)
 if (MSVC)
   set (CMAKE_CXX_STANDARD 17)
