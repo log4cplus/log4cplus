@@ -14,6 +14,9 @@ set (CMAKE_LEGACY_CYGWIN_WIN32 0)
 project (log4cplus)
 cmake_minimum_required (VERSION 3.1)
 
+# Use "-fPIC" / "-fPIE" for all targets by default, including static libs.
+set (CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 enable_language (CXX)
 if (MSVC)
   #set (CMAKE_CXX_STANDARD 14)
