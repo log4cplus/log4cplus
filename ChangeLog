@@ -3,7 +3,7 @@
   - Fix compilation on systems without `O_CLOEXEC`. This affects, e.g.,
     Solaris 10. GitHub issue #326. (Patch by Jiangrz).
 
-  - Provide `log4cplus::deinitialize()` to make the API symetric
+  - Provide `log4cplus::deinitialize()` to make the API symmetric
     (`log4cplus::initialize()` already exists) and to allow
     de-/initialization without `log4cplus::Initializer` instance. GitHub
     issue #340.
