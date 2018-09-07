@@ -190,7 +190,14 @@ namespace log4cplus
 LOG4CPLUS_EXPORT void threadCleanup ();
 
 //! Initializes log4cplus.
+//!
+//! \note using `log4cplus::Initializer` is preferred
 LOG4CPLUS_EXPORT void initialize ();
+
+//! Deinitializes log4cplus.
+//!
+//! \note using `log4cplus::Initializer` is preferred
+LOG4CPLUS_EXPORT void deinitialize ();
 
 //! Set thread pool size.
 LOG4CPLUS_EXPORT void setThreadPoolSize (std::size_t pool_size);
