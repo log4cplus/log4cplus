@@ -33,9 +33,10 @@ static const int LOG4CPLUS_DEFAULT_TYPE = 1;
 // InternalLoggingEvent ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
-    LogLevel loglevel, const log4cplus::tstring& message_, const char* filename,
-    int line_, const char * function_)
+InternalLoggingEvent::InternalLoggingEvent(
+    const log4cplus::tstring_view& logger,
+    LogLevel loglevel, const log4cplus::tstring_view& message_,
+    const char* filename, int line_, const char * function_)
     : message(message_)
     , loggerName(logger)
     , ll(loglevel)
@@ -58,12 +59,15 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
 }
 
 
-InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
-    LogLevel loglevel, const log4cplus::tstring& ndc_,
-    MappedDiagnosticContextMap const & mdc_, const log4cplus::tstring& message_,
-    const log4cplus::tstring& thread_, log4cplus::helpers::Time time,
-    const log4cplus::tstring& file_, int line_,
-    const log4cplus::tstring & function_)
+InternalLoggingEvent::InternalLoggingEvent(
+    const log4cplus::tstring_view& logger,
+    LogLevel loglevel, const log4cplus::tstring_view& ndc_,
+    MappedDiagnosticContextMap const & mdc_,
+    const log4cplus::tstring_view& message_,
+    const log4cplus::tstring_view& thread_,
+    log4cplus::helpers::Time time,
+    const log4cplus::tstring_view& file_, int line_,
+    const log4cplus::tstring_view& function_)
     : message(message_)
     , loggerName(logger)
     , ll(loglevel)
@@ -72,7 +76,9 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , thread(thread_)
     , timestamp(time)
     , file(file_)
-    , function (function_)
+    , function (function_.data ()
+        ? function_
+        : log4cplus::tstring())
     , line(line_)
     , threadCached(true)
     , thread2Cached(true)
@@ -82,12 +88,16 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
 }
 
 
-InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
-    LogLevel loglevel, const log4cplus::tstring& ndc_,
-    MappedDiagnosticContextMap const & mdc_, const log4cplus::tstring& message_,
-    const log4cplus::tstring& thread_, const log4cplus::tstring& thread2_,
-    log4cplus::helpers::Time time, const log4cplus::tstring& file_, int line_,
-    const log4cplus::tstring & function_)
+InternalLoggingEvent::InternalLoggingEvent(
+    const log4cplus::tstring_view& logger,
+    LogLevel loglevel, const log4cplus::tstring_view& ndc_,
+    MappedDiagnosticContextMap const & mdc_,
+    const log4cplus::tstring_view& message_,
+    const log4cplus::tstring_view& thread_,
+    const log4cplus::tstring_view& thread2_,
+    log4cplus::helpers::Time time,
+    const log4cplus::tstring_view& file_, int line_,
+    const log4cplus::tstring_view& function_)
     : message(message_)
     , loggerName(logger)
     , ll(loglevel)
@@ -97,7 +107,9 @@ InternalLoggingEvent::InternalLoggingEvent(const log4cplus::tstring& logger,
     , thread2(thread2_)
     , timestamp(time)
     , file(file_)
-    , function (function_)
+    , function (function_.data ()
+        ? function_
+        : log4cplus::tstring())
     , line(line_)
     , threadCached(true)
     , thread2Cached(true)
@@ -162,9 +174,9 @@ InternalLoggingEvent::getDefaultType()
 ///////////////////////////////////////////////////////////////////////////////
 
 void
-InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring & logger,
-    LogLevel loglevel, const log4cplus::tstring & msg, const char * filename,
-    int fline, const char * function_)
+InternalLoggingEvent::setLoggingEvent (const log4cplus::tstring_view & logger,
+    LogLevel loglevel, const log4cplus::tstring_view & msg,
+    const char * filename, int fline, const char * function_)
 {
     // This could be imlemented using the swap idiom:
     //
@@ -207,9 +219,12 @@ InternalLoggingEvent::setFunction (char const * func)
 
 
 void
-InternalLoggingEvent::setFunction (log4cplus::tstring const & func)
+InternalLoggingEvent::setFunction (log4cplus::tstring_view const & func)
 {
-    function = func;
+    if (func.data ())
+        function = func;
+    else
+        function.clear ();
 }
 
 

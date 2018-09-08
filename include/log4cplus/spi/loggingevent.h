@@ -63,28 +63,30 @@ namespace log4cplus {
               *                 the <code>filename</code> parameter.
               * @param function Name of function that is logging this event.
               */
-            InternalLoggingEvent(const log4cplus::tstring& logger,
-                LogLevel loglevel, const log4cplus::tstring& message,
+            InternalLoggingEvent(const log4cplus::tstring_view& logger,
+                LogLevel loglevel, const log4cplus::tstring_view& message,
                 const char* filename, int line, const char * function = nullptr);
 
-            InternalLoggingEvent(const log4cplus::tstring& logger,
-                LogLevel loglevel, const log4cplus::tstring& ndc,
+            InternalLoggingEvent(const log4cplus::tstring_view& logger,
+                LogLevel loglevel, const log4cplus::tstring_view& ndc,
                 MappedDiagnosticContextMap const & mdc,
-                const log4cplus::tstring& message,
-                const log4cplus::tstring& thread,
-                log4cplus::helpers::Time time, const log4cplus::tstring& file,
-                int line, const log4cplus::tstring & function
-                    = log4cplus::tstring ()) LOG4CPLUS_ATTRIBUTE_DEPRECATED;
+                const log4cplus::tstring_view& message,
+                const log4cplus::tstring_view& thread,
+                log4cplus::helpers::Time time,
+                const log4cplus::tstring_view& file,
+                int line, const log4cplus::tstring_view & function
+                    = log4cplus::tstring_view ()) LOG4CPLUS_ATTRIBUTE_DEPRECATED;
 
-            InternalLoggingEvent(const log4cplus::tstring& logger,
-                LogLevel loglevel, const log4cplus::tstring& ndc,
+            InternalLoggingEvent(const log4cplus::tstring_view& logger,
+                LogLevel loglevel, const log4cplus::tstring_view& ndc,
                 MappedDiagnosticContextMap const & mdc,
-                const log4cplus::tstring& message,
-                const log4cplus::tstring& thread,
-                const log4cplus::tstring& thread2,
-                log4cplus::helpers::Time time, const log4cplus::tstring& file,
-                int line, const log4cplus::tstring & function
-                    = log4cplus::tstring ());
+                const log4cplus::tstring_view& message,
+                const log4cplus::tstring_view& thread,
+                const log4cplus::tstring_view& thread2,
+                log4cplus::helpers::Time time,
+                const log4cplus::tstring_view& file,
+                int line, const log4cplus::tstring_view & function
+                    = log4cplus::tstring_view ());
 
             InternalLoggingEvent ();
 
@@ -93,13 +95,13 @@ namespace log4cplus {
 
             virtual ~InternalLoggingEvent();
 
-            void setLoggingEvent (const log4cplus::tstring & logger,
-                LogLevel ll, const log4cplus::tstring & message,
+            void setLoggingEvent (const log4cplus::tstring_view & logger,
+                LogLevel ll, const log4cplus::tstring_view & message,
                 const char * filename, int line,
                 const char * function = nullptr);
 
             void setFunction (char const * func);
-            void setFunction (log4cplus::tstring const &);
+            void setFunction (log4cplus::tstring_view const &);
 
 
           // public virtual methods
