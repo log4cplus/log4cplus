@@ -116,8 +116,7 @@ Initializer::~Initializer ()
         if (InitializerImpl::instance->count == 0)
         {
             destroy = true;
-            shutdownThreadPool();
-            Logger::shutdown ();
+            deinitialize ();
         }
     }
     if (destroy)
@@ -500,6 +499,14 @@ void
 initialize ()
 {
     initializeLog4cplus ();
+}
+
+
+void
+deinitialize ()
+{
+    shutdownThreadPool();
+    Logger::shutdown ();
 }
 
 
