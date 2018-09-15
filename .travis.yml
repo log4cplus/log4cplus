@@ -71,8 +71,8 @@ after_failure:
   - cat config.log
   - cat tests/testsuite.log
 branches:
-  only:
-    - 2.0.x
+  except:
+    - gh-pages
 notifications:
   recipients:
     - vhaisman@gmail.com
