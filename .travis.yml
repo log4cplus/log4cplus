@@ -13,7 +13,6 @@ addons: &addons
     packages: &packages
       - g++-7
       - gcc-7
-      - clang-3.9
       - libstdc++-5-dev
       - swig
       - python
@@ -47,14 +46,14 @@ before_script:
       case "$CXX" in #(
       g++*) CXX=g++-7 #(
       ;;
-      clang++*) CXX=clang++-3.9
+      clang++*) CXX=clang++
       ;;
       esac
   - |
       case "$CC" in #(
       gcc*) CC=gcc-7 #(
       ;;
-      clang*) CC=clang-3.9
+      clang*) CC=clang
       ;;
       esac
   - export CXX CC
