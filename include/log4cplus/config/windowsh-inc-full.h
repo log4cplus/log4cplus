@@ -1,5 +1,11 @@
 // -*- C++ -*-
-//  Copyright (C) 2010-2017, Vaclav Haisman. All rights reserved.
+// Module:  Log4CPLUS
+// File:    windowsh-inc.h
+// Created: 9/2018
+// Author:  Vaclav Haisman
+//
+//
+//  Copyright (C) 2018, Vaclav Haisman. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -22,37 +28,15 @@
 //  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+// NOTE: This file is a fragment intentionally left without include guards.
 
-#if ! defined (LOG4CPLUS_VERSION_H)
-#define LOG4CPLUS_VERSION_H
-
-#include <log4cplus/config.hxx>
-
-#if defined (LOG4CPLUS_HAVE_PRAGMA_ONCE)
-#pragma once
+#if defined (_WIN32)
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <windows.h>
+#if defined (LOG4CPLUS_HAVE_INTRIN_H)
+#include <intrin.h>
+#endif
 #endif
 
-#define LOG4CPLUS_MAKE_VERSION(major, minor, point) \
-    (major * 1000 * 1000u + minor * 1000u + point)
-
-#define LOG4CPLUS_MAKE_VERSION_STR(major, minor, point) \
-    #major "." #minor "." #point
-
-//! This is log4cplus version number as unsigned integer.  This must
-//! be kept on a single line. It is used by Autotool and CMake build
-//! systems to parse version number.
-#define LOG4CPLUS_VERSION LOG4CPLUS_MAKE_VERSION(3, 0, 0)
-
-//! This is log4cplus version number as a string.
-#define LOG4CPLUS_VERSION_STR LOG4CPLUS_MAKE_VERSION_STR(3, 0, 0)
-
-
-namespace log4cplus
-{
-
-extern LOG4CPLUS_EXPORT unsigned const version;
-extern LOG4CPLUS_EXPORT char const versionStr[];
-
-}
-
-#endif
+// NOTE: This file is a fragment intentionally left without include guards.

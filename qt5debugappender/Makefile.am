@@ -25,7 +25,7 @@ liblog4cplusqt5debugappender_la_LDFLAGS = \
 if BUILD_WITH_WCHAR_T_SUPPORT
 lib_LTLIBRARIES += liblog4cplusqt5debugappenderU.la
 liblog4cplusqt5debugappenderU_la_CPPFLAGS = \
-	$(liblog4cplusqt5debugappender_la_cppflags) -DUNICODE=1
+	$(liblog4cplusqt5debugappender_la_cppflags) -DUNICODE=1 -D_UNICODE=1
 liblog4cplusqt5debugappenderU_la_SOURCES = \
 	$(liblog4cplusqt5debugappender_la_sources)
 liblog4cplusqt5debugappenderU_la_LIBADD = $(liblog4cplusU_la_file)

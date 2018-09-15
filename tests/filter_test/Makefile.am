@@ -12,7 +12,7 @@ filter_test_LDFLAGS = -no-install
 
 if BUILD_WITH_WCHAR_T_SUPPORT
 noinst_PROGRAMS += filter_testU
-filter_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+filter_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
 filter_testU_SOURCES = $(filter_test_sources)
 filter_testU_LDADD = $(liblog4cplusU_la_file)
 filter_testU_LDFLAGS = -no-install

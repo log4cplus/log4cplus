@@ -12,7 +12,7 @@ loglog_test_LDFLAGS = -no-install
 
 if BUILD_WITH_WCHAR_T_SUPPORT
 noinst_PROGRAMS += loglog_testU
-loglog_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+loglog_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
 loglog_testU_SOURCES = $(loglog_test_sources)
 loglog_testU_LDADD = $(liblog4cplusU_la_file)
 loglog_testU_LDFLAGS = -no-install

@@ -12,7 +12,7 @@ fileappender_test_LDFLAGS = -no-install
 
 if BUILD_WITH_WCHAR_T_SUPPORT
 noinst_PROGRAMS += fileappender_testU
-fileappender_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+fileappender_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
 fileappender_testU_SOURCES = $(fileappender_test_sources)
 fileappender_testU_LDADD = $(liblog4cplusU_la_file)
 fileappender_testU_LDFLAGS = -no-install

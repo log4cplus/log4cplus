@@ -100,4 +100,11 @@ close $fh2;
                          /$major$1$minor$2$so_current_adjusted/gx;
         print $line;
     }
+
+    local @ARGV = ("appveyor.yml");
+    while (my $line = <>)
+    {
+        $line =~ s/^(version:\s*)(?:\d+(?:\.\d+(?:\.\d+)?)?)(.*)/$1$version$2/x;
+        print $line;
+    }
 }

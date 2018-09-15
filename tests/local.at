@@ -6,7 +6,7 @@ m4_define([ATX_WCHAR_T_TEST], [
 m4_define([ATX_COMPILE_CXX], [
   AT_CHECK([$CXX $CPPFLAGS $CXXFLAGS -c "$1"], [0], [stdout], [stderr])
   ATX_WCHAR_T_TEST([
-    AT_CHECK([$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -c "$1"], [0], [stdout],
+    AT_CHECK([$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "$1"], [0], [stdout],
       [stderr])])
 ])
 

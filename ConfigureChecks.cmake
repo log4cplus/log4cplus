@@ -274,6 +274,13 @@ if(NOT DEFINED LOG4CPLUS_HAVE_TLS_SUPPORT)
   endif()
 endif()
 
+if(CYGWIN)
+  # Cygwin passes the compilation and link test here but fails during linking
+  # of the real code, so we want to avoid it too. See GCC PR64697.
+  unset(LOG4CPLUS_HAVE_TLS_SUPPORT)
+  unset(LOG4CPLUS_THREAD_LOCAL_VAR)
+endif()
+
 set(CMAKE_EXTRA_INCLUDE_FILES sys/socket.h)
 check_type_size(socklen_t _SOCKLEN_SIZE)
 if (_SOCKLEN_SIZE)

@@ -30,14 +30,16 @@
 #pragma once
 #endif
 
+#include <type_traits>
 #include <string>
+#include <string_view>
 #include <log4cplus/tchar.h>
 
 namespace log4cplus
 {
 
-typedef std::basic_string<tchar> tstring;
-
+using tstring = std::basic_string<tchar>;
+using tstring_view = std::basic_string_view<tchar>;
 
 namespace helpers
 {
@@ -47,6 +49,17 @@ std::string
 tostring (char const * str)
 {
     return std::string (str);
+}
+
+template <typename SV>
+inline
+std::enable_if_t<
+    std::is_convertible_v<SV const &, std::string_view>
+    && std::is_convertible_v<SV const &, char const *>,
+    std::string>
+tostring (SV const & sv)
+{
+    return std::string (sv);
 }
 
 inline
@@ -78,6 +91,17 @@ towstring (wchar_t const * str)
     return std::wstring (str);
 }
 
+template <typename SV>
+inline
+std::enable_if_t<
+    std::is_convertible_v<SV const &, std::wstring_view>
+    && std::is_convertible_v<SV const &, wchar_t const *>,
+    std::wstring>
+towstring (SV const & sv)
+{
+    return std::wstring (sv);
+}
+
 inline
 std::wstring
 towstring (std::wstring const & str)
@@ -101,9 +125,11 @@ towstring (std::wstring && str)
 
 
 LOG4CPLUS_EXPORT std::string tostring(const std::wstring&);
+LOG4CPLUS_EXPORT std::string tostring(const std::wstring_view&);
 LOG4CPLUS_EXPORT std::string tostring(wchar_t const *);
 
 LOG4CPLUS_EXPORT std::wstring towstring(const std::string&);
+LOG4CPLUS_EXPORT std::wstring towstring(const std::string_view&);
 LOG4CPLUS_EXPORT std::wstring towstring(char const *);
 
 } // namespace helpers

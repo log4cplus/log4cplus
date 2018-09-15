@@ -12,7 +12,7 @@ patternlayout_test_LDFLAGS = -no-install
 
 if BUILD_WITH_WCHAR_T_SUPPORT
 noinst_PROGRAMS += patternlayout_testU
-patternlayout_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1
+patternlayout_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
 patternlayout_testU_SOURCES = $(patternlayout_test_sources)
 patternlayout_testU_LDADD = $(liblog4cplusU_la_file)
 patternlayout_testU_LDFLAGS = -no-install

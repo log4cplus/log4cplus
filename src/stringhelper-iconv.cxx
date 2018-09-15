@@ -45,12 +45,12 @@ extern "C"
 
     //! SUSv3 iconv() type.
     typedef size_t (& iconv_func_type_1) (iconv_t cd, char * * inbuf,
-	size_t * inbytesleft, char * * outbuf, size_t * outbytesleft); 
+        size_t * inbytesleft, char * * outbuf, size_t * outbytesleft);
 
 
     //! GNU iconv() type.
     typedef size_t (& iconv_func_type_2) (iconv_t cd, const char * * inbuf,
-	size_t * inbytesleft, char * * outbuf, size_t * outbytesleft);
+        size_t * inbytesleft, char * * outbuf, size_t * outbytesleft);
 
 } // extern "C"
 
@@ -201,14 +201,14 @@ iconv_conv (std::basic_string<DestType> & result, char const * destenc,
                     *outbuf = question_mark<outbuf_type>::value;
                     ++outbuf;
                     outbytesleft -= sizeof (outbuf_type);
-                    
+
                     continue;
                 }
 
-                // Fall through.
-                
+                [[fallthrough]];
+
             case E2BIG:;
-                // Fall through.
+                [[fallthrough]];
             }
 
             std::size_t const outbuf_index = result_size;
@@ -227,6 +227,15 @@ iconv_conv (std::basic_string<DestType> & result, char const * destenc,
 
 
 std::string
+tostring (const std::wstring_view & src)
+{
+    std::string ret;
+    iconv_conv (ret, "UTF-8", src.data (), src.size (), "WCHAR_T");
+    return ret;
+}
+
+
+std::string
 tostring (const std::wstring & src)
 {
     std::string ret;
@@ -241,6 +250,15 @@ tostring (wchar_t const * src)
     assert (src);
     std::string ret;
     iconv_conv (ret, "UTF-8", src, std::wcslen (src), "WCHAR_T");
+    return ret;
+}
+
+
+std::wstring
+towstring (const std::string_view& src)
+{
+    std::wstring ret;
+    iconv_conv (ret, "WCHAR_T", src.data (), src.size (), "UTF-8");
     return ret;
 }
 

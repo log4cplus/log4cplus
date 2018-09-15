@@ -14,11 +14,17 @@ set (CMAKE_LEGACY_CYGWIN_WIN32 0)
 project (log4cplus)
 cmake_minimum_required (VERSION 3.1)
 
+# Use "-fPIC" / "-fPIE" for all targets by default, including static libs.
+set (CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 enable_language (CXX)
 if (MSVC)
-  #set (CMAKE_CXX_STANDARD 14)
+  set (CMAKE_CXX_STANDARD 17)
+  if (CMAKE_VS_PLATFORM_NAME MATCHES "ARM")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
+  endif ()
 else ()
-  set (CMAKE_CXX_STANDARD 11)
+  set (CMAKE_CXX_STANDARD 17)
 endif ()
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 set (CMAKE_CXX_EXTENSIONS ON)
@@ -143,7 +149,7 @@ configure_file(${DEFINES_HXX_CMAKE} ${DEFINES_HXX} @ONLY)
 
 include_directories (${log4cplus_SOURCE_DIR}/include
                      ${log4cplus_SOURCE_DIR}/threadpool
-                     ${log4cplus_SOURCE_DIR}/catch/single_include
+                     ${log4cplus_SOURCE_DIR}/catch/single_include/catch2
                      ${log4cplus_BINARY_DIR}/include
                     )
 
