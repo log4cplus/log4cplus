@@ -8,12 +8,12 @@ addons: &addons
   apt:
     sources: &sources
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.8
+      - llvm-toolchain-trusty-3.9
       - ubuntu-sdk-team
     packages: &packages
       - g++-7
       - gcc-7
-      - clang-3.8
+      - clang-3.9
       - libstdc++-5-dev
       - swig
       - python
@@ -47,14 +47,14 @@ before_script:
       case "$CXX" in #(
       g++*) CXX=g++-7 #(
       ;;
-      clang++*) CXX=clang++-3.8
+      clang++*) CXX=clang++-3.9
       ;;
       esac
   - |
       case "$CC" in #(
       gcc*) CC=gcc-7 #(
       ;;
-      clang*) CC=clang-3.8
+      clang*) CC=clang-3.9
       ;;
       esac
   - export CXX CC
