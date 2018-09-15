@@ -11,8 +11,8 @@ addons: &addons
       - llvm-toolchain-precise-3.8
       - ubuntu-sdk-team
     packages: &packages
-      - g++-6
-      - gcc-6
+      - g++-7
+      - gcc-7
       - clang-3.8
       - libstdc++-5-dev
       - swig
@@ -45,14 +45,14 @@ before_install:
 before_script:
   - |
       case "$CXX" in #(
-      g++*) CXX=g++-6 #(
+      g++*) CXX=g++-7 #(
       ;;
       clang++*) CXX=clang++-3.8
       ;;
       esac
   - |
       case "$CC" in #(
-      gcc*) CC=gcc-6 #(
+      gcc*) CC=gcc-7 #(
       ;;
       clang*) CC=clang-3.8
       ;;
