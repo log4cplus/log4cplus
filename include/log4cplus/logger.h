@@ -77,7 +77,7 @@ namespace log4cplus
          *
          * @param name The name of the logger to search for.
          */
-        static bool exists(const log4cplus::tstring& name);
+        static bool exists(const log4cplus::tstring_view& name);
 
         /*
          * Returns all the currently defined loggers in the default
@@ -104,7 +104,7 @@ namespace log4cplus
          *
          * @param name The name of the logger to retrieve.
          */
-        static Logger getInstance(const log4cplus::tstring& name);
+        static Logger getInstance(const log4cplus::tstring_view& name);
 
         /**
          * Like getInstance() except that the type of logger
@@ -118,7 +118,7 @@ namespace log4cplus
          * @param factory A {@link spi::LoggerFactory} implementation that will
          * actually create a new Instance.
          */
-        static Logger getInstance(const log4cplus::tstring& name,
+        static Logger getInstance(const log4cplus::tstring_view& name,
             spi::LoggerFactory& factory);
 
         /**
@@ -158,7 +158,7 @@ namespace log4cplus
          * @param msg The message to print if <code>assertion</code> is
          * false.
          */
-        void assertion(bool assertionVal, const log4cplus::tstring& msg) const;
+        void assertion(bool assertionVal, const log4cplus::tstring_view& msg) const;
 
         /**
          * Close all attached appenders implementing the AppenderAttachable
@@ -177,7 +177,7 @@ namespace log4cplus
         /**
          * This generic form is intended to be used by wrappers.
          */
-        void log(LogLevel ll, const log4cplus::tstring& message,
+        void log(LogLevel ll, const log4cplus::tstring_view& message,
             const char* file = LOG4CPLUS_CALLER_FILE (),
             int line = LOG4CPLUS_CALLER_LINE (),
             const char* function = LOG4CPLUS_CALLER_FUNCTION ()) const;
@@ -188,7 +188,7 @@ namespace log4cplus
          * This method creates a new logging event and logs the event
          * without further checks.
          */
-        void forcedLog(LogLevel ll, const log4cplus::tstring& message,
+        void forcedLog(LogLevel ll, const log4cplus::tstring_view& message,
             const char* file = LOG4CPLUS_CALLER_FILE (),
             int line = LOG4CPLUS_CALLER_LINE (),
             const char* function = LOG4CPLUS_CALLER_FUNCTION ()) const;
@@ -311,11 +311,11 @@ namespace log4cplus
      */
     class LOG4CPLUS_EXPORT DefaultLoggerFactory : public spi::LoggerFactory {
     public:
-        Logger makeNewLoggerInstance(const log4cplus::tstring& name, Hierarchy& h);
+        Logger makeNewLoggerInstance(const log4cplus::tstring_view& name, Hierarchy& h);
 
     protected:
         virtual spi::LoggerImpl * makeNewLoggerImplInstance(
-            const log4cplus::tstring& name, Hierarchy& h);
+            const log4cplus::tstring_view& name, Hierarchy& h);
     };
 
 

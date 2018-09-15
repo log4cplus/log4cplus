@@ -222,7 +222,7 @@ toUpper (tchar ch)
 
 
 tstring
-toUpper(const tstring& s)
+toUpper(const tstring_view& s)
 {
     tstring ret;
     std::transform(s.begin(), s.end(), std::back_inserter (ret),
@@ -239,7 +239,7 @@ toLower (tchar ch)
 
 
 tstring
-toLower(const tstring& s)
+toLower(const tstring_view& s)
 {
     tstring ret;
     std::transform(s.begin(), s.end(), std::back_inserter (ret),

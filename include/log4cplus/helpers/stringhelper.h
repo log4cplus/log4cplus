@@ -42,14 +42,14 @@ namespace log4cplus {
         /**
          * Returns <code>s</code> in upper case.
          */
-        LOG4CPLUS_EXPORT log4cplus::tstring toUpper(const log4cplus::tstring& s);
+        LOG4CPLUS_EXPORT log4cplus::tstring toUpper(const log4cplus::tstring_view& s);
         LOG4CPLUS_EXPORT tchar toUpper(tchar);
 
 
         /**
          * Returns <code>s</code> in lower case.
          */
-        LOG4CPLUS_EXPORT log4cplus::tstring toLower(const log4cplus::tstring& s);
+        LOG4CPLUS_EXPORT log4cplus::tstring toLower(const log4cplus::tstring_view& s);
         LOG4CPLUS_EXPORT tchar toLower(tchar);
 
 
@@ -248,7 +248,7 @@ namespace log4cplus {
         inline
         void
         join (tstring & result, Iterator start, Iterator last,
-            tstring const & sep)
+            tstring_view const & sep)
         {
             join_worker (result, start, last, sep);
         }

@@ -50,13 +50,13 @@ namespace log4cplus {
             /**
              * Creates a new <code>Logger</code> object.
              */
-            virtual Logger makeNewLoggerInstance(const log4cplus::tstring& name,
+            virtual Logger makeNewLoggerInstance(const log4cplus::tstring_view& name,
                                                  Hierarchy& h) = 0;
             virtual ~LoggerFactory() = 0;
 
         protected:
             virtual LoggerImpl * makeNewLoggerImplInstance(
-                const log4cplus::tstring& name, Hierarchy& h) = 0;
+                const log4cplus::tstring_view& name, Hierarchy& h) = 0;
         };
 
     } // end namespace spi

@@ -148,7 +148,7 @@ namespace log4cplus {
          * Note: It traverses the list of <code>StringToLogLevelMethod</code>
          *       to do this, so all "derived" LogLevels are recognized as well.
          */
-        LogLevel fromString(const log4cplus::tstring& arg) const;
+        LogLevel fromString(const log4cplus::tstring_view& arg) const;
 
         /**
          * When creating a "derived" LogLevel, a <code>LogLevelToStringMethod</code>

@@ -31,16 +31,16 @@ namespace log4cplus
 
 
 Logger
-DefaultLoggerFactory::makeNewLoggerInstance (const log4cplus::tstring & name,
-    Hierarchy& h)
+DefaultLoggerFactory::makeNewLoggerInstance (
+    const log4cplus::tstring_view & name, Hierarchy& h)
 {
     return Logger (makeNewLoggerImplInstance(name, h));
 }
 
 
 spi::LoggerImpl *
-DefaultLoggerFactory::makeNewLoggerImplInstance(const log4cplus::tstring& name,
-    Hierarchy& h)
+DefaultLoggerFactory::makeNewLoggerImplInstance(
+    const log4cplus::tstring_view& name, Hierarchy& h)
 {
     return new spi::LoggerImpl (name, h);
 }
@@ -58,7 +58,7 @@ Logger::getDefaultHierarchy ()
 
 
 bool
-Logger::exists (const log4cplus::tstring & name)
+Logger::exists (const log4cplus::tstring_view & name)
 {
     return getDefaultHierarchy().exists(name);
 }
@@ -72,14 +72,14 @@ Logger::getCurrentLoggers ()
 
 
 Logger
-Logger::getInstance (const log4cplus::tstring& name)
+Logger::getInstance (const log4cplus::tstring_view& name)
 {
     return getDefaultHierarchy().getInstance(name);
 }
 
 
 Logger
-Logger::getInstance (const log4cplus::tstring& name,
+Logger::getInstance (const log4cplus::tstring_view& name,
     spi::LoggerFactory& factory)
 {
     return getDefaultHierarchy().getInstance(name, factory);
@@ -225,7 +225,7 @@ Logger::removeAppender (const log4cplus::tstring& name)
 
 
 void
-Logger::assertion (bool assertionVal, const log4cplus::tstring& msg) const
+Logger::assertion (bool assertionVal, const log4cplus::tstring_view& msg) const
 {
     if (! assertionVal)
         log (FATAL_LOG_LEVEL, msg, nullptr, -1);
@@ -247,8 +247,8 @@ Logger::isEnabledFor (LogLevel ll) const
 
 
 void
-Logger::log (LogLevel ll, const log4cplus::tstring& message, const char* file,
-    int line, const char* function) const
+Logger::log (LogLevel ll, const log4cplus::tstring_view& message,
+    const char* file, int line, const char* function) const
 {
     value->log (ll, message, file, line, function ? function : "");
 }
@@ -262,7 +262,7 @@ Logger::log (spi::InternalLoggingEvent const & ev) const
 
 
 void
-Logger::forcedLog (LogLevel ll, const log4cplus::tstring& message,
+Logger::forcedLog (LogLevel ll, const log4cplus::tstring_view& message,
     const char* file, int line, const char* function) const
 {
     value->forcedLog (ll, message, file, line, function ? function : "");

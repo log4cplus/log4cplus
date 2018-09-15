@@ -87,7 +87,7 @@ namespace log4cplus {
             /**
              * This generic form is intended to be used by wrappers.
              */
-            virtual void log(LogLevel ll, const log4cplus::tstring& message,
+            virtual void log(LogLevel ll, const log4cplus::tstring_view& message,
                              const char* file=nullptr, int line=-1,
                              const char* function=nullptr);
 
@@ -150,7 +150,7 @@ namespace log4cplus {
              * @param name The name of the logger.
              * @param h Hierarchy
              */
-            LoggerImpl(const log4cplus::tstring& name, Hierarchy& h);
+            LoggerImpl(const log4cplus::tstring_view& name, Hierarchy& h);
 
 
           // Methods
@@ -159,7 +159,7 @@ namespace log4cplus {
              * without further checks.
              */
             virtual void forcedLog(LogLevel ll,
-                                   const log4cplus::tstring& message,
+                                   const log4cplus::tstring_view& message,
                                    const char* file,
                                    int line,
                                    const char* function);

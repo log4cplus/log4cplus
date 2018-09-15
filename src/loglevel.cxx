@@ -135,7 +135,7 @@ LogLevelManager::toString(LogLevel ll) const
 
 
 LogLevel
-LogLevelManager::fromString(const tstring& arg) const
+LogLevelManager::fromString(const tstring_view& arg) const
 {
     tstring const s = helpers::toUpper(arg);
 
@@ -148,7 +148,7 @@ LogLevelManager::fromString(const tstring& arg) const
 
     helpers::getLogLog ().error (
         LOG4CPLUS_TEXT ("Unrecognized log level: ")
-        + arg);
+        + tstring (arg));
 
     return NOT_SET_LOG_LEVEL;
 }

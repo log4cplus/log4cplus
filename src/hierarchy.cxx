@@ -39,7 +39,7 @@ namespace
 {
 
 static
-bool startsWith(tstring const & teststr, tstring const & substr)
+bool startsWith(tstring_view const & teststr, tstring_view const & substr)
 {
     bool val = false;
     tstring::size_type const len = substr.length();
@@ -98,7 +98,7 @@ Hierarchy::clear()
 
 
 bool
-Hierarchy::exists(const tstring& name)
+Hierarchy::exists(const tstring_view& name)
 {
     // Root logger always does exist.
     if (name.empty ())
@@ -112,7 +112,7 @@ Hierarchy::exists(const tstring& name)
 
 
 void
-Hierarchy::disable(const tstring& loglevelStr)
+Hierarchy::disable(const tstring_view& loglevelStr)
 {
     if(disableValue != DISABLE_OVERRIDE) {
         disableValue = getLogLevelManager().fromString(loglevelStr);
@@ -158,14 +158,14 @@ Hierarchy::enableAll()
 
 
 Logger
-Hierarchy::getInstance(const tstring& name)
+Hierarchy::getInstance(const tstring_view& name)
 {
     return getInstance(name, *defaultFactory);
 }
 
 
 Logger
-Hierarchy::getInstance(const tstring& name, spi::LoggerFactory& factory)
+Hierarchy::getInstance(const tstring_view& name, spi::LoggerFactory& factory)
 {
     thread::MutexGuard guard (hashtable_mutex);
 
@@ -275,7 +275,8 @@ Hierarchy::shutdown()
 //////////////////////////////////////////////////////////////////////////////
 
 Logger
-Hierarchy::getInstanceImpl(const tstring& name, spi::LoggerFactory& factory)
+Hierarchy::getInstanceImpl(const tstring_view& name,
+    spi::LoggerFactory& factory)
 {
     Logger logger;
     LoggerMap::iterator lm_it;
@@ -300,13 +301,7 @@ Hierarchy::getInstanceImpl(const tstring& name, spi::LoggerFactory& factory)
         if (pnm_it != provisionNodes.end())
         {
             updateChildren(pnm_it->second, logger);
-            bool deleted = (provisionNodes.erase(name) > 0);
-            if (! deleted)
-            {
-                helpers::getLogLog().error(
-                    LOG4CPLUS_TEXT("Hierarchy::getInstanceImpl()- Delete failed"),
-                    true);
-            }
+            provisionNodes.erase(pnm_it);
         }
         updateParents(logger);
     }

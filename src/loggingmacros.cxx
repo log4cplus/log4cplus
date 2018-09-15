@@ -86,7 +86,7 @@ macro_forced_log (log4cplus::Logger const & logger,
 
 void
 macro_forced_log (log4cplus::Logger const & logger,
-    log4cplus::LogLevel log_level, log4cplus::tstring const & msg,
+    log4cplus::LogLevel log_level, log4cplus::tstring_view const & msg,
     char const * filename, int line, char const * func)
 {
     log4cplus::spi::InternalLoggingEvent & ev

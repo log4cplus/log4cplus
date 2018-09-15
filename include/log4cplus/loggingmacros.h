@@ -107,7 +107,7 @@ macros_get_logger (Logger && logger)
 
 inline
 Logger
-macros_get_logger (tstring const & logger)
+macros_get_logger (tstring_view const & logger)
 {
     return Logger::getInstance (logger);
 }
@@ -127,7 +127,7 @@ LOG4CPLUS_EXPORT void clear_tostringstream (tostringstream &);
 LOG4CPLUS_EXPORT log4cplus::tostringstream & get_macro_body_oss ();
 LOG4CPLUS_EXPORT log4cplus::helpers::snprintf_buf & get_macro_body_snprintf_buf ();
 LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
-    log4cplus::LogLevel, log4cplus::tstring const &, char const *, int,
+    log4cplus::LogLevel, log4cplus::tstring_view const &, char const *, int,
     char const *);
 LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     log4cplus::LogLevel, log4cplus::tchar const *, char const *, int,

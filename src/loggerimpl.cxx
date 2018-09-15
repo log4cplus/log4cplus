@@ -33,7 +33,7 @@ namespace log4cplus { namespace spi {
 //////////////////////////////////////////////////////////////////////////////
 // Logger Constructors and Destructor
 //////////////////////////////////////////////////////////////////////////////
-LoggerImpl::LoggerImpl(const log4cplus::tstring& name_, Hierarchy& h)
+LoggerImpl::LoggerImpl(const log4cplus::tstring_view& name_, Hierarchy& h)
   : name(name_),
     ll(NOT_SET_LOG_LEVEL),
     parent(nullptr),
@@ -101,7 +101,7 @@ LoggerImpl::isEnabledFor(LogLevel loglevel) const
 
 void
 LoggerImpl::log(LogLevel loglevel,
-                const log4cplus::tstring& message,
+                const log4cplus::tstring_view& message,
                 const char* file,
                 int line,
                 const char* function)
@@ -159,7 +159,7 @@ LoggerImpl::setAdditivity(bool additive_)
 
 void
 LoggerImpl::forcedLog(LogLevel loglevel,
-                      const log4cplus::tstring& message,
+                      const log4cplus::tstring_view& message,
                       const char* file,
                       int line,
                       const char* function)
