@@ -303,6 +303,57 @@ namespace log4cplus {
             Function function;
         };
 
+        class LOG4CPLUS_EXPORT NDCMatchFilter : public Filter
+        {
+            public:
+              // ctors
+                NDCMatchFilter();
+                NDCMatchFilter(const log4cplus::helpers::Properties& p);
+
+                /**
+                 * Returns {@link #NEUTRAL} is there is no string match.
+                 */
+                virtual FilterResult decide(const InternalLoggingEvent& event) const;
+
+            private:
+              // Methods
+                LOG4CPLUS_PRIVATE void init();
+
+              // Data
+                /** Do we return ACCEPT when a match occurs. Default is <code>true</code>. */
+                bool acceptOnMatch;
+                /** return NEUTRAL if NDC::get() is empty or ndcToMatch is empty. Default is <code>true</code>. */
+                bool neutralOnEmpty;
+                log4cplus::tstring ndcToMatch;
+        };
+
+        class LOG4CPLUS_EXPORT MDCMatchFilter : public Filter
+        {
+            public:
+              // ctors
+                MDCMatchFilter();
+                MDCMatchFilter(const log4cplus::helpers::Properties& p);
+
+                /**
+                 * Returns {@link #NEUTRAL} is there is no string match.
+                 */
+                virtual FilterResult decide(const InternalLoggingEvent& event) const;
+
+            private:
+              // Methods
+                LOG4CPLUS_PRIVATE void init();
+
+              // Data
+                /** Do we return ACCEPT when a match occurs. Default is <code>true</code>. */
+                bool acceptOnMatch;
+                /** return NEUTRAL if mdcKeyToMatch is empty or event::getMDC(mdcKeyValue) is empty or mdcToMatch is empty. Default is <code>true</code>. */
+                bool neutralOnEmpty;
+                /** The MDC key to retrieve **/
+                log4cplus::tstring mdcKeyToMatch;
+                /** the MDC value to match **/
+                log4cplus::tstring mdcValueToMatch;
+        };
+
     } // end namespace spi
 } // end namespace log4cplus
 
