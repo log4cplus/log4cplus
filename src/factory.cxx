@@ -205,6 +205,8 @@ void initializeFactoryRegistry()
     LOG4CPLUS_REG_FILTER (reg3, LogLevelMatchFilter);
     LOG4CPLUS_REG_FILTER (reg3, LogLevelRangeFilter);
     LOG4CPLUS_REG_FILTER (reg3, StringMatchFilter);
+    LOG4CPLUS_REG_FILTER (reg3, NDCMatchFilter);
+    LOG4CPLUS_REG_FILTER (reg3, MDCMatchFilter);
 
     spi::LocaleFactoryRegistry& reg4 = spi::getLocaleFactoryRegistry();
     DisableFactoryLocking<spi::LocaleFactoryRegistry> dfl_reg4 (reg4);

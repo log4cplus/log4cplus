@@ -273,6 +273,88 @@ FunctionFilter::decide(const InternalLoggingEvent& event) const
     return function (event);
 }
 
+//
+// NDC Match filter
+//
+NDCMatchFilter::NDCMatchFilter()
+{
+    init();
+}
+
+NDCMatchFilter::NDCMatchFilter(const helpers::Properties& properties)
+{
+    init();
+
+    properties.getBool (acceptOnMatch,LOG4CPLUS_TEXT("AcceptOnMatch"));
+    properties.getBool (neutralOnEmpty,LOG4CPLUS_TEXT("NeutralOnEmpty"));
+    ndcToMatch = properties.getProperty(LOG4CPLUS_TEXT("NDCToMatch"));
+}
+
+
+void NDCMatchFilter::init()
+{
+    acceptOnMatch = true;
+    neutralOnEmpty = true;
+}
+
+
+FilterResult NDCMatchFilter::decide(const InternalLoggingEvent& event) const
+{
+    const tstring& ndcStr = event.getNDC();
+
+    if(neutralOnEmpty && (ndcToMatch.empty () || ndcStr.empty()))
+    {
+        return NEUTRAL;
+    }
+
+    if(ndcStr.compare(ndcToMatch) == 0)
+        return (acceptOnMatch ? ACCEPT : DENY);
+
+    return (acceptOnMatch ? DENY : ACCEPT);
+}
+
+//
+// MDC Match filter
+//
+MDCMatchFilter::MDCMatchFilter()
+{
+    init();
+}
+
+MDCMatchFilter::MDCMatchFilter(const helpers::Properties& properties)
+{
+    init();
+
+    properties.getBool (acceptOnMatch,LOG4CPLUS_TEXT("AcceptOnMatch"));
+    properties.getBool (neutralOnEmpty,LOG4CPLUS_TEXT("NeutralOnEmpty"));
+    mdcValueToMatch = properties.getProperty(LOG4CPLUS_TEXT("MDCValueToMatch"));
+    mdcKeyToMatch = properties.getProperty(LOG4CPLUS_TEXT("MDCKeyToMatch"));
+}
+
+
+void MDCMatchFilter::init()
+{
+    acceptOnMatch = true;
+    neutralOnEmpty = true;
+}
+
+
+FilterResult MDCMatchFilter::decide(const InternalLoggingEvent& event) const
+{
+    if(neutralOnEmpty && (mdcKeyToMatch.empty() || mdcValueToMatch.empty()))
+        return NEUTRAL;
+
+    const tstring mdcStr = event.getMDC(mdcKeyToMatch);
+
+    if(neutralOnEmpty && mdcStr.empty())
+        return NEUTRAL;
+
+    if(mdcStr.compare(mdcValueToMatch) == 0)
+        return (acceptOnMatch ? ACCEPT : DENY);
+
+    return (acceptOnMatch ? DENY : ACCEPT);
+}
+
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
 CATCH_TEST_CASE ("Filter", "[filter]")
