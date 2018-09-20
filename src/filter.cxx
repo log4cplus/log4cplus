@@ -27,6 +27,8 @@
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
 #include <log4cplus/logger.h>
+#include <log4cplus/ndc.h>
+#include <log4cplus/mdc.h>
 #include <catch.hpp>
 #endif
 
@@ -495,6 +497,219 @@ CATCH_TEST_CASE ("Filter", "[filter]")
             });
         CATCH_REQUIRE (filter->decide (info_ev) == ACCEPT);
         CATCH_REQUIRE (filter->decide (debug_ev) == DENY);
+    }
+
+
+    CATCH_SECTION ("ndc match filter")
+    {
+        InternalLoggingEvent  ndc_error_ev (log.getName (), ERROR_LOG_LEVEL,
+                LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("NDC error log message")), __FILE__, __LINE__);
+
+        CATCH_SECTION ("NeutralOnEmpty is true")
+        {
+            CATCH_SECTION ("string to match is empty, is neutral")
+            {
+                filter = new NDCMatchFilter;
+                CATCH_REQUIRE (filter->decide (ndc_error_ev) == NEUTRAL);
+            }
+
+            CATCH_SECTION ("ndc string empty, is neutral")
+            {
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("NDCToMatch"),
+                    LOG4CPLUS_TEXT ("ndc-match"));
+                filter = new NDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev) == NEUTRAL);
+            }
+
+            CATCH_SECTION ("ndc string match, is accept")
+            {
+                log4cplus::NDC().push(LOG4CPLUS_TEXT ("ndc-match"));
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("NDCToMatch"),
+                    LOG4CPLUS_TEXT ("ndc-match"));
+                filter = new NDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev) == ACCEPT);
+                log4cplus::NDC().pop_void();
+            }
+
+            CATCH_SECTION ("ndc string mismatch, is deny")
+            {
+                log4cplus::NDC().push(LOG4CPLUS_TEXT ("ndc-match"));
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("NDCToMatch"),
+                    LOG4CPLUS_TEXT ("no-match"));
+                filter = new NDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev) == DENY);
+                log4cplus::NDC().pop_void();
+            }
+
+
+            CATCH_SECTION ("ndc string match, AcceptOnMatch false, is deny")
+            {
+                log4cplus::NDC().push(LOG4CPLUS_TEXT ("ndc-match"));
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("NDCToMatch"),
+                    LOG4CPLUS_TEXT ("ndc-match"));
+                props.setProperty (LOG4CPLUS_TEXT ("AcceptOnMatch"),
+                    LOG4CPLUS_TEXT ("False"));
+                filter = new NDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev) == DENY);
+                log4cplus::NDC().pop_void();
+            }
+
+            CATCH_SECTION ("ndc string mismatch, AcceptOnMatch false, is accept")
+            {
+                log4cplus::NDC().push(LOG4CPLUS_TEXT ("ndc-match"));
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("NDCToMatch"),
+                    LOG4CPLUS_TEXT ("no-match"));
+                props.setProperty (LOG4CPLUS_TEXT ("AcceptOnMatch"),
+                    LOG4CPLUS_TEXT ("False"));
+                filter = new NDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev) == ACCEPT);
+                log4cplus::NDC().pop_void();
+            }
+        }
+
+        CATCH_SECTION ("NeutralOnEmpty is false")
+        {
+            CATCH_SECTION ("ndc string empty, ndc to match empty is accept")
+            {
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("NeutralOnEmpty"),
+                    LOG4CPLUS_TEXT ("False"));
+                filter = new NDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev) == ACCEPT);
+            }
+
+            CATCH_SECTION ("ndc string empty, match not empty is deny")
+            {
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("NeutralOnEmpty"),
+                    LOG4CPLUS_TEXT ("False"));
+                props.setProperty (LOG4CPLUS_TEXT ("NDCToMatch"),
+                    LOG4CPLUS_TEXT ("ndc-match"));
+                filter = new NDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev) == DENY);
+            }
+
+            CATCH_SECTION ("ndc string no empty, match empty is deny")
+            {
+                log4cplus::NDC().push(LOG4CPLUS_TEXT ("ndc-match"));
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("NeutralOnEmpty"),
+                    LOG4CPLUS_TEXT ("False"));
+                filter = new NDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev) == DENY);
+                log4cplus::NDC().pop_void();
+            }
+        }
+    }
+
+    CATCH_SECTION ("mdc match filter")
+    {
+        InternalLoggingEvent  mdc_error_ev (log.getName (), ERROR_LOG_LEVEL,
+                LOG4CPLUS_C_STR_TO_TSTRING (LOG4CPLUS_TEXT ("MDC error log message")), __FILE__, __LINE__);
+
+        CATCH_SECTION ("NeutralOnEmpty is true")
+        {
+            CATCH_SECTION ("MDCKeyToMatch is empty, is neutral")
+            {
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("MDCValueToMatch"),
+                    LOG4CPLUS_TEXT ("mdc-match"));
+                filter = new MDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev) == NEUTRAL);
+            }
+
+            CATCH_SECTION ("MDCValueToMatch empty, is neutral")
+            {
+                log4cplus::MDC().put(LOG4CPLUS_TEXT ("KeyToMatch"), LOG4CPLUS_TEXT ("mdc-match"));
+                filter = new MDCMatchFilter;
+                CATCH_REQUIRE (filter->decide (mdc_error_ev) == NEUTRAL);
+                log4cplus::MDC().clear();
+            }
+
+            CATCH_SECTION ("MDC Key/Values match, is accept")
+            {
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("MDCValueToMatch"),
+                    LOG4CPLUS_TEXT ("mdc-match"));
+                props.setProperty (LOG4CPLUS_TEXT ("MDCKeyToMatch"),
+                    LOG4CPLUS_TEXT ("KeyToMatch"));
+                log4cplus::MDC().put(LOG4CPLUS_TEXT ("KeyToMatch"), LOG4CPLUS_TEXT ("mdc-match"));
+                filter = new MDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev) == ACCEPT);
+                log4cplus::MDC().clear();
+            }
+
+            CATCH_SECTION ("MDC Values mismatch, is deny")
+            {
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("MDCValueToMatch"),
+                    LOG4CPLUS_TEXT ("mdc-match"));
+                props.setProperty (LOG4CPLUS_TEXT ("MDCKeyToMatch"),
+                    LOG4CPLUS_TEXT ("KeyToMatch"));
+                log4cplus::MDC().put(LOG4CPLUS_TEXT ("KeyToMatch"), LOG4CPLUS_TEXT ("mdc-no-match"));
+                filter = new MDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev) == DENY);
+                log4cplus::MDC().clear();
+            }
+
+            CATCH_SECTION ("AcceptOnMatch is false, MDC Key/Values match, is deny")
+            {
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("AcceptOnMatch"),
+                    LOG4CPLUS_TEXT ("False"));
+                props.setProperty (LOG4CPLUS_TEXT ("MDCValueToMatch"),
+                    LOG4CPLUS_TEXT ("mdc-match"));
+                props.setProperty (LOG4CPLUS_TEXT ("MDCKeyToMatch"),
+                    LOG4CPLUS_TEXT ("KeyToMatch"));
+                log4cplus::MDC().put(LOG4CPLUS_TEXT ("KeyToMatch"), LOG4CPLUS_TEXT ("mdc-match"));
+                filter = new MDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev) == DENY);
+                log4cplus::MDC().clear();
+            }
+
+            CATCH_SECTION ("AcceptOnmatch is false MDC Values mismatch, is accept")
+            {
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("AcceptOnMatch"),
+                    LOG4CPLUS_TEXT ("False"));
+                props.setProperty (LOG4CPLUS_TEXT ("MDCValueToMatch"),
+                    LOG4CPLUS_TEXT ("mdc-match"));
+                props.setProperty (LOG4CPLUS_TEXT ("MDCKeyToMatch"),
+                    LOG4CPLUS_TEXT ("KeyToMatch"));
+                log4cplus::MDC().put(LOG4CPLUS_TEXT ("KeyToMatch"), LOG4CPLUS_TEXT ("mdc-no-match"));
+                filter = new MDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev) == ACCEPT);
+                log4cplus::MDC().clear();
+            }
+        }
+
+        CATCH_SECTION ("NeutralOnEmpty is false")
+        {
+            CATCH_SECTION ("mdc key/value empty, MDC value to match empty is accept")
+            {
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("NeutralOnEmpty"),
+                    LOG4CPLUS_TEXT ("False"));
+                filter = new MDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev) == ACCEPT);
+            }
+
+            CATCH_SECTION ("mdc key/value empty, MDC value to match not empty is deny")
+            {
+                helpers::Properties props;
+                props.setProperty (LOG4CPLUS_TEXT ("NeutralOnEmpty"),
+                    LOG4CPLUS_TEXT ("False"));
+                props.setProperty (LOG4CPLUS_TEXT ("MDCValueToMatch"),
+                    LOG4CPLUS_TEXT ("mdc-match"));
+                filter = new MDCMatchFilter(props);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev) == DENY);
+            }
+        }
     }
 }
 
