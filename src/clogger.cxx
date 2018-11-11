@@ -44,7 +44,6 @@ using namespace log4cplus::helpers;
 LOG4CPLUS_EXPORT void *
 log4cplus_initialize(void)
 {
-    Initializer * initializer = 0;
     try
     {
         return new Initializer();
