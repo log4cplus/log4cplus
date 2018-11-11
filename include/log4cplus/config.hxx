@@ -31,7 +31,6 @@
 #else
 #  include <log4cplus/config/defines.hxx>
 #endif
-#include <cstddef>
 
 # if ! defined (LOG4CPLUS_WORKING_LOCALE) \
   && ! defined (LOG4CPLUS_WORKING_C_LOCALE) \
