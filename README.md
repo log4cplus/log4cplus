@@ -75,6 +75,16 @@ with [log4cplus] 2.x, yet:
   - AIX 5.3 with IBM XL C/C++ for AIX
 
 
+Installation instruction
+========================
+
+Generic Autotools installation instructions are in `INSTALL` file.  The
+following are [log4cplus] specific instructions.
+
+[log4cplus] uses Git sub-modules. Always use `--recurse-submodules` option when
+doing `git clone`.
+
+
 Configure script options
 ========================
 

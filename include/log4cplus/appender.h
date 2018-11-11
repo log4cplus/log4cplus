@@ -127,6 +127,11 @@ namespace log4cplus {
      * is mandatory.
      * \sa FileAppender
      * </dd>
+     *
+     * <dt><tt>AsyncAppend</tt></dt>
+     * <dd>Set this property to <tt>true</tt> if you want all appends using
+     * this appender to be done asynchronously. Default is <tt>false</tt>.</dd>
+     *
      * </dl>
      */
     class LOG4CPLUS_EXPORT Appender
