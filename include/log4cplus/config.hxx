@@ -178,6 +178,8 @@
 #endif
 
 #if defined(__cplusplus)
+#include <cstddef>
+
 namespace log4cplus
 {
 
