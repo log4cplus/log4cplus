@@ -24,7 +24,6 @@
 #ifndef LOG4CPLUS_CONFIG_HXX
 #define LOG4CPLUS_CONFIG_HXX
 
-#include <cstddef>
 #if defined (_WIN32)
 #  include <log4cplus/config/win32.h>
 #elif (defined(__MWERKS__) && defined(__MACOS__))
