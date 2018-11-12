@@ -113,6 +113,11 @@ LOG4CPLUS_EXPORT int log4cplus_add_callback_appender(
     const log4cplus_char_t * logger, log4cplus_log_event_callback_t callback,
     void * cookie);
 
+// Custom LogLevel
+LOG4CPLUS_EXPORT int log4cplus_add_log_level(unsigned int ll,
+    const log4cplus_char_t *ll_name);
+LOG4CPLUS_EXPORT int log4cplus_remove_log_level(unsigned int ll,
+    const log4cplus_char_t *ll_name);
 
 #ifdef __cplusplus
 }

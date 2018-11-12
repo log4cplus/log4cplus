@@ -37,6 +37,7 @@
 #include <cstring>
 
 #include <sstream>
+#include <map>
 
 using namespace log4cplus;
 using namespace log4cplus::helpers;
@@ -102,11 +103,11 @@ log4cplus_file_reconfigure(const log4cplus_char_t *pathname)
 
     try
     {
-	// lock the DefaultHierarchy
-	HierarchyLocker theLock(Logger::getDefaultHierarchy());
+        // lock the DefaultHierarchy
+        HierarchyLocker theLock(Logger::getDefaultHierarchy());
 
-	// reconfigure the DefaultHierarchy
-	theLock.resetConfiguration();
+        // reconfigure the DefaultHierarchy
+        theLock.resetConfiguration();
         PropertyConfigurator::doConfigure( pathname );
     }
     catch(std::exception const &)
@@ -148,10 +149,10 @@ log4cplus_str_reconfigure(const log4cplus_char_t *config)
     {
         tstring s(config);
         tistringstream iss(s);
-	HierarchyLocker theLock(Logger::getDefaultHierarchy());
+        HierarchyLocker theLock(Logger::getDefaultHierarchy());
 
-	// reconfigure the DefaultHierarchy
-	theLock.resetConfiguration();
+        // reconfigure the DefaultHierarchy
+        theLock.resetConfiguration();
         PropertyConfigurator pc(iss);
         pc.configure();
     }
@@ -183,10 +184,10 @@ log4cplus_basic_reconfigure(int logToStdErr)
 {
     try
     {
-	HierarchyLocker theLock(Logger::getDefaultHierarchy());
+        HierarchyLocker theLock(Logger::getDefaultHierarchy());
 
-	// reconfigure the DefaultHierarchy
-	theLock.resetConfiguration();
+        // reconfigure the DefaultHierarchy
+        theLock.resetConfiguration();
         BasicConfigurator::doConfigure(Logger::getDefaultHierarchy(), logToStdErr);
     }
     catch(std::exception const &)
@@ -377,3 +378,112 @@ log4cplus_logger_force_log_str(const log4cplus_char_t *name, loglevel_t ll,
 
     return retval;
 }
+
+static tstring const & customToStringMethod(LogLevel ll);
+static LogLevel customFromStringMethod(const tstring& nm);
+
+class CustomLogLevelmanager {
+    friend tstring const & customToStringMethod(LogLevel ll);
+    friend LogLevel customFromStringMethod(const tstring& nm);
+
+protected:
+    std::map<LogLevel,tstring> ll2nm;
+    std::map<tstring,LogLevel> nm2ll;
+    Hierarchy &h;
+
+public:
+    CustomLogLevelmanager()
+        : h(Logger::getDefaultHierarchy())
+    {
+        getLogLevelManager().pushToStringMethod(customToStringMethod);
+        getLogLevelManager().pushFromStringMethod(customFromStringMethod);
+    }
+
+    bool add(LogLevel ll, tstring const &nm)
+    {
+        // lock the DefaultHierarchy
+        HierarchyLocker theLock(h);
+        std::map<LogLevel,tstring>::iterator i = ll2nm.lower_bound(ll);
+        std::map<tstring,LogLevel>::iterator j = nm2ll.lower_bound(nm);
+        if( ( i != ll2nm.end() ) && ( i->first == ll ) && ( i->second != nm ) )
+            return false;
+        if( ( j != nm2ll.end() ) && ( j->first == nm ) && ( j->second != ll ) )
+            return false;
+
+        // there is no else after return
+        ll2nm.insert( i, std::make_pair(ll, nm) );
+        nm2ll.insert( j, std::make_pair(nm, ll) );
+        return true;
+    }
+
+    bool remove(LogLevel ll, tstring const &nm)
+    {
+        // lock the DefaultHierarchy
+        HierarchyLocker theLock(h);
+        std::map<LogLevel,tstring>::iterator i = ll2nm.find(ll);
+        std::map<tstring,LogLevel>::iterator j = nm2ll.find(nm);
+        if( ( i != ll2nm.end() ) && ( j != nm2ll.end() ) &&
+            ( i->first == j->second ) && ( i->second == j->first ) ) {
+            ll2nm.erase(i);
+            nm2ll.erase(j);
+
+            return true;
+        }
+
+        // there is no else after return
+        return false;
+    }
+};
+
+CustomLogLevelmanager customLogLevelmanager_;
+static log4cplus::tstring const empty_str;
+
+tstring const &
+customToStringMethod(LogLevel ll)
+{
+    HierarchyLocker theLock(customLogLevelmanager_.h);
+    std::map<LogLevel,tstring>::iterator i = customLogLevelmanager_.ll2nm.find(ll);
+    if( i != customLogLevelmanager_.ll2nm.end() )
+        return i->second;
+
+    return empty_str;
+}
+
+LogLevel
+customFromStringMethod(const tstring& nm)
+{
+    HierarchyLocker theLock(customLogLevelmanager_.h);
+    std::map<tstring,LogLevel>::iterator i = customLogLevelmanager_.nm2ll.find(nm);
+    if( i != customLogLevelmanager_.nm2ll.end() )
+        return i->second;
+
+    return NOT_SET_LOG_LEVEL;
+}
+
+
+LOG4CPLUS_EXPORT int
+log4cplus_add_log_level(unsigned int ll, const log4cplus_char_t *ll_name)
+{
+    if(ll == 0 || !ll_name)
+        return EINVAL;
+
+    tstring nm(ll_name);
+    if( customLogLevelmanager_.add(ll, nm) == true )
+        return 0;
+
+    return -1;
+}
+
+LOG4CPLUS_EXPORT int
+log4cplus_remove_log_level(unsigned int ll, const log4cplus_char_t *ll_name)
+{
+    if(ll == 0 || !ll_name)
+        return EINVAL;
+
+    tstring nm(ll_name);
+    if( customLogLevelmanager_.remove(ll, nm) == true )
+        return 0;
+
+    return -1;
+}
+
