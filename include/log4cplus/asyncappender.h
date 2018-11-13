@@ -59,6 +59,19 @@ namespace log4cplus
    attached appendres are then appended to from a separate thread which reads
    events appended to this appender from a queue.
 
+   <h3>Properties</h3>
+   <dl>
+
+   <dt><tt>QueueLimit</tt></dt>
+   <dd>Events queue size limit. Default is 100.</dd>
+   </dt>
+
+   <dt><tt>Appender</tt></dt>
+   <dd>`Appender` and its properties to use as sink for logged events.</dd>
+   </dt>
+
+   </dl>
+
    \sa helpers::AppenderAttachableImpl
  */
 class LOG4CPLUS_EXPORT AsyncAppender
