@@ -98,9 +98,6 @@ Initializer::Initializer ()
 }
 
 
-// Forward declaration. Defined in this file.
-void shutdownThreadPool();
-
 Initializer::~Initializer ()
 {
     bool destroy = false;
@@ -283,6 +280,13 @@ void
 shutdownThreadPool ()
 {
     LOG4CPLUS_THREADED (get_dc ()->thread_pool.reset ());
+}
+
+
+void
+restartThreadPool ()
+{
+    LOG4CPLUS_THREADED (get_dc()->thread_pool.reset(new  progschj::ThreadPool));
 }
 
 

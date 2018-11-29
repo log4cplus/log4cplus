@@ -203,6 +203,22 @@ LOG4CPLUS_EXPORT void deinitialize ();
 //! Set thread pool size.
 LOG4CPLUS_EXPORT void setThreadPoolSize (std::size_t pool_size);
 
+//! Shuts down the thread pool. 
+//! This function should be called in the special case the user wants to (temporarily) 
+//! shutdown the thread pool and delete its threads. 
+//! Such a case is if a process wants to create a new child process by calling fork() (without exec). 
+//! In this case the user should call this function before fork(), to prevent the created child 
+//! processs to hang on exit. If this function is not called before fork(), the child process will
+//! inherit a copy of the ThreadPool from the parent process, without its threads, which eventually
+//! results in the child to block on exit during the the destruction of ThreadPool.
+//! After forking the user must call restartThreadPool() before to continue using log4cplus.
+LOG4CPLUS_EXPORT void shutdownThreadPool ();
+
+//! Shuts down the current thread pool, if it exists, and starts a new one.
+//! One case where this is necessary is if the user wants to continue using log4cplus after calling
+//! shutdownThreadPool().
+LOG4CPLUS_EXPORT void restartThreadPool ();
+
 } // namespace log4cplus
 
 #endif
