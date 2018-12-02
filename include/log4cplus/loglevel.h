@@ -33,6 +33,7 @@
 #endif
 
 #include <vector>
+#include <memory>
 #include <log4cplus/tstring.h>
 
 
@@ -96,22 +97,26 @@ namespace log4cplus {
 
 
     /**
-     * This method type defined the signature of methods that convert LogLevels
-     * into strings.
-     *
-     * <b>Note:</b> Must return an empty <code>tstring</code> for unrecognized values.
+     * This is a base class used by `LogLevelManager` to translate between
+     * numeric `LogLevel` and log level name.
      */
-    typedef log4cplus::tstring const & (*LogLevelToStringMethod)(LogLevel);
+    class LOG4CPLUS_EXPORT LogLevelTranslator {
+    public:
+        LogLevelTranslator ();
+        virtual ~LogLevelTranslator () = 0;
 
+        /**
+         * This method is called by all `LogLevelManager` classes to convert a
+         * `LogLevel` into a string.
+         */
+        virtual log4cplus::tstring const & toString (LogLevel ll) const = 0;
 
-    /**
-     * This method type defined the signature of methods that convert strings
-     * into LogLevels.
-     *
-     * <b>Note:</b> Must return <code>NOT_SET_LOG_LEVEL</code> for unrecognized values.
-     */
-    typedef LogLevel (*StringToLogLevelMethod)(const log4cplus::tstring&);
-
+        /**
+         * This method is called by `LogLevelManager` to convert a string into
+         * a `LogLevel`.
+         */
+        virtual LogLevel fromString (const log4cplus::tstring_view& arg) const = 0;
+    };
 
 
     /**
@@ -150,41 +155,16 @@ namespace log4cplus {
          */
         LogLevel fromString(const log4cplus::tstring_view& arg) const;
 
-        /**
-         * When creating a "derived" LogLevel, a <code>LogLevelToStringMethod</code>
-         * should be defined and registered with the LogLevelManager by calling
-         * this method.
-         *
-         * @see pushFromStringMethod
-         */
-        void pushToStringMethod(LogLevelToStringMethod newToString);
 
-        /**
-         * When creating a "derived" LogLevel, a <code>StringToLogLevelMethod</code>
-         * should be defined and registered with the LogLevelManager by calling
-         * this method.
-         *
-         * @see pushToStringMethod
-         */
-        void pushFromStringMethod(StringToLogLevelMethod newFromString);
+        void pushLogLevel(LogLevel ll, const log4cplus::tstring_view & name);
+
+        void pushLogLevelTranslator(std::unique_ptr<LogLevelTranslator>);
 
     private:
-      // Data
-        struct LogLevelToStringMethodRec
-        {
-            LogLevelToStringMethodRec ();
-            LogLevelToStringMethodRec (LogLevelToStringMethod);
+        typedef std::vector<std::unique_ptr<LogLevelTranslator>> LogLevelTranslatorList;
+        LogLevelTranslatorList translator_list;
 
-            LogLevelToStringMethod func;
-        };
-
-        typedef std::vector<LogLevelToStringMethodRec> LogLevelToStringMethodList;
-        LogLevelToStringMethodList toStringMethods;
-
-        typedef std::vector<StringToLogLevelMethod> StringToLogLevelMethodList;
-        StringToLogLevelMethodList fromStringMethods;
-
-      // Disable Copy
+        // Disable Copy
         LogLevelManager(const LogLevelManager&);
         LogLevelManager& operator=(const LogLevelManager&);
     };
