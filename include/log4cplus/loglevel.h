@@ -35,6 +35,7 @@
 #include <vector>
 #include <memory>
 #include <log4cplus/tstring.h>
+#include <log4cplus/helpers/pointer.h>
 
 
 namespace log4cplus {
@@ -100,7 +101,8 @@ namespace log4cplus {
      * This is a base class used by `LogLevelManager` to translate between
      * numeric `LogLevel` and log level name.
      */
-    class LOG4CPLUS_EXPORT LogLevelTranslator {
+    class LOG4CPLUS_EXPORT LogLevelTranslator
+        : public virtual helpers::SharedObject {
     public:
         LogLevelTranslator ();
         virtual ~LogLevelTranslator () = 0;
@@ -117,6 +119,8 @@ namespace log4cplus {
          */
         virtual LogLevel fromString (const log4cplus::tstring_view& arg) const = 0;
     };
+
+    using SharedLogLevelTranslatorPtr = helpers::SharedObjectPtr<LogLevelTranslator>;
 
 
     /**
@@ -158,10 +162,10 @@ namespace log4cplus {
 
         void pushLogLevel(LogLevel ll, const log4cplus::tstring_view & name);
 
-        void pushLogLevelTranslator(std::unique_ptr<LogLevelTranslator>);
+        void pushLogLevelTranslator(SharedLogLevelTranslatorPtr);
 
     private:
-        typedef std::vector<std::unique_ptr<LogLevelTranslator>> LogLevelTranslatorList;
+        typedef std::vector<SharedLogLevelTranslatorPtr> LogLevelTranslatorList;
         LogLevelTranslatorList translator_list;
 
         // Disable Copy

@@ -162,7 +162,7 @@ protected:
 
 LogLevelManager::LogLevelManager()
 {
-    pushLogLevelTranslator (std::unique_ptr<LogLevelTranslator>(new DefaultLogLevelTranslator ()));
+    pushLogLevelTranslator (SharedLogLevelTranslatorPtr (new DefaultLogLevelTranslator ()));
 }
 
 
@@ -212,12 +212,12 @@ LogLevelManager::fromString(const tstring_view& arg) const
 void
 LogLevelManager::pushLogLevel(LogLevel ll, const log4cplus::tstring_view & name)
 {
-    pushLogLevelTranslator (std::make_unique<SingleLogLevelTranslator>(ll, name));
+    pushLogLevelTranslator (SharedLogLevelTranslatorPtr (new SingleLogLevelTranslator (ll, name)));
 }
 
 
 void
-LogLevelManager::pushLogLevelTranslator(std::unique_ptr<LogLevelTranslator> translator)
+LogLevelManager::pushLogLevelTranslator(SharedLogLevelTranslatorPtr translator)
 {
     translator_list.emplace_back (std::move (translator));
 }
