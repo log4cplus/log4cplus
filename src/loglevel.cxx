@@ -212,6 +212,12 @@ LogLevelManager::fromString(const tstring_view& arg) const
 void
 LogLevelManager::pushLogLevel(LogLevel ll, const log4cplus::tstring_view & name)
 {
+    if (ll < 0)
+        helpers::getLogLog ().error (LOG4CPLUS_TEXT ("Log level value must be > 0"), true);
+
+    if (name.empty ())
+        helpers::getLogLog ().error (LOG4CPLUS_TEXT ("Log level name cannot be empty"), true);
+
     pushLogLevelTranslator (SharedLogLevelTranslatorPtr (new SingleLogLevelTranslator (ll, name)));
 }
 
@@ -219,7 +225,7 @@ LogLevelManager::pushLogLevel(LogLevel ll, const log4cplus::tstring_view & name)
 void
 LogLevelManager::pushLogLevelTranslator(SharedLogLevelTranslatorPtr translator)
 {
-    translator_list.emplace_back (std::move (translator));
+    translator_list.push_back (std::move (translator));
 }
 
 
