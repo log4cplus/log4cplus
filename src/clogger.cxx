@@ -21,6 +21,7 @@
 #include <log4cplus/logger.h>
 #include <log4cplus/clogger.h>
 #include <log4cplus/appender.h>
+#include <log4cplus/hierarchylocker.h>
 #include <log4cplus/hierarchy.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggerimpl.h>
@@ -94,6 +95,29 @@ log4cplus_file_configure(const log4cplus_char_t *pathname)
 }
 
 LOG4CPLUS_EXPORT int
+log4cplus_file_reconfigure(const log4cplus_char_t *pathname)
+{
+    if( !pathname )
+        return EINVAL;
+
+    try
+    {
+	// lock the DefaultHierarchy
+	HierarchyLocker theLock(Logger::getDefaultHierarchy());
+
+	// reconfigure the DefaultHierarchy
+	theLock.resetConfiguration();
+        PropertyConfigurator::doConfigure( pathname );
+    }
+    catch(std::exception const &)
+    {
+        return -1;
+    }
+
+    return 0;
+}
+
+LOG4CPLUS_EXPORT int
 log4cplus_str_configure(const log4cplus_char_t *config)
 {
     if( !config )
@@ -115,11 +139,55 @@ log4cplus_str_configure(const log4cplus_char_t *config)
 }
 
 LOG4CPLUS_EXPORT int
+log4cplus_str_reconfigure(const log4cplus_char_t *config)
+{
+    if( !config )
+        return EINVAL;
+
+    try
+    {
+        tstring s(config);
+        tistringstream iss(s);
+	HierarchyLocker theLock(Logger::getDefaultHierarchy());
+
+	// reconfigure the DefaultHierarchy
+	theLock.resetConfiguration();
+        PropertyConfigurator pc(iss);
+        pc.configure();
+    }
+    catch(std::exception const &)
+    {
+        return -1;
+    }
+
+    return 0;
+}
+
+LOG4CPLUS_EXPORT int
 log4cplus_basic_configure(void)
 {
     try
     {
         BasicConfigurator::doConfigure();
+    }
+    catch(std::exception const &)
+    {
+        return -1;
+    }
+
+    return 0;
+}
+
+LOG4CPLUS_EXPORT int
+log4cplus_basic_reconfigure(int logToStdErr)
+{
+    try
+    {
+	HierarchyLocker theLock(Logger::getDefaultHierarchy());
+
+	// reconfigure the DefaultHierarchy
+	theLock.resetConfiguration();
+        BasicConfigurator::doConfigure(Logger::getDefaultHierarchy(), logToStdErr);
     }
     catch(std::exception const &)
     {
