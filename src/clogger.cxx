@@ -30,6 +30,8 @@
 #include <log4cplus/helpers/snprintf.h>
 #include <log4cplus/initializer.h>
 #include <log4cplus/callbackappender.h>
+#include <log4cplus/internal/internal.h>
+#include <log4cplus/internal/customloglevelmanager.h>
 
 #include <cerrno>
 #include <cstdio>
@@ -37,6 +39,7 @@
 #include <cstring>
 
 #include <sstream>
+#include <map>
 
 using namespace log4cplus;
 using namespace log4cplus::helpers;
@@ -102,11 +105,11 @@ log4cplus_file_reconfigure(const log4cplus_char_t *pathname)
 
     try
     {
-	// lock the DefaultHierarchy
-	HierarchyLocker theLock(Logger::getDefaultHierarchy());
+        // lock the DefaultHierarchy
+        HierarchyLocker theLock(Logger::getDefaultHierarchy());
 
-	// reconfigure the DefaultHierarchy
-	theLock.resetConfiguration();
+        // reconfigure the DefaultHierarchy
+        theLock.resetConfiguration();
         PropertyConfigurator::doConfigure( pathname );
     }
     catch(std::exception const &)
@@ -148,10 +151,10 @@ log4cplus_str_reconfigure(const log4cplus_char_t *config)
     {
         tstring s(config);
         tistringstream iss(s);
-	HierarchyLocker theLock(Logger::getDefaultHierarchy());
+        HierarchyLocker theLock(Logger::getDefaultHierarchy());
 
-	// reconfigure the DefaultHierarchy
-	theLock.resetConfiguration();
+        // reconfigure the DefaultHierarchy
+        theLock.resetConfiguration();
         PropertyConfigurator pc(iss);
         pc.configure();
     }
@@ -183,10 +186,10 @@ log4cplus_basic_reconfigure(int logToStdErr)
 {
     try
     {
-	HierarchyLocker theLock(Logger::getDefaultHierarchy());
+        HierarchyLocker theLock(Logger::getDefaultHierarchy());
 
-	// reconfigure the DefaultHierarchy
-	theLock.resetConfiguration();
+        // reconfigure the DefaultHierarchy
+        theLock.resetConfiguration();
         BasicConfigurator::doConfigure(Logger::getDefaultHierarchy(), logToStdErr);
     }
     catch(std::exception const &)
@@ -376,4 +379,54 @@ log4cplus_logger_force_log_str(const log4cplus_char_t *name, loglevel_t ll,
     }
 
     return retval;
+}
+
+
+namespace log4cplus {
+
+namespace internal {
+
+tstring const &
+CustomLogLevelManager::customToStringMethod(LogLevel ll)
+{
+    CustomLogLevelManager & customLogLevelManager = getCustomLogLevelManager ();
+    return customLogLevelManager.customToStringMethodWorker(ll);
+}
+
+LogLevel
+CustomLogLevelManager::customFromStringMethod(const tstring& nm)
+{
+    CustomLogLevelManager & customLogLevelManager = getCustomLogLevelManager ();
+    return customLogLevelManager.customFromStringMethodWorker(nm);
+}
+
+} // namespace internal
+
+} // namespace log4cplus
+
+
+LOG4CPLUS_EXPORT int
+log4cplus_add_log_level(unsigned int ll, const log4cplus_char_t *ll_name)
+{
+    if(ll == 0 || !ll_name)
+        return EINVAL;
+
+    tstring nm(ll_name);
+    if( log4cplus::internal::getCustomLogLevelManager ().add(ll, nm) == true )
+        return 0;
+
+    return -1;
+}
+
+LOG4CPLUS_EXPORT int
+log4cplus_remove_log_level(unsigned int ll, const log4cplus_char_t *ll_name)
+{
+    if(ll == 0 || !ll_name)
+        return EINVAL;
+
+    tstring nm(ll_name);
+    if( log4cplus::internal::getCustomLogLevelManager ().remove(ll, nm) == true )
+        return 0;
+
+    return -1;
 }
