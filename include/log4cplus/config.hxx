@@ -33,9 +33,7 @@
 #endif
 #ifdef __cplusplus
 #include <cstddef>
-#else // __cplusplus
-#include <stddef.h>
-#endif
+#endif // __cplusplus
 
 # if ! defined (LOG4CPLUS_WORKING_LOCALE) \
   && ! defined (LOG4CPLUS_WORKING_C_LOCALE) \
