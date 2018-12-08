@@ -8,7 +8,7 @@ AC_INIT([log4cplus],[3.0.0])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.14 no-define no-dist nostdinc foreign subdir-objects -Wall])
+AM_INIT_AUTOMAKE([1.16.1 no-define no-dist nostdinc foreign subdir-objects -Wall])
 AC_CONFIG_TESTDIR([tests])
 AM_MAINTAINER_MODE([enable])
 AM_PROG_AR
@@ -250,7 +250,10 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
       dnl AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=pure])
       dnl AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=const])
       AX_CXXFLAGS_GCC_OPTION([-Wsuggest-attribute=noreturn])
-      AX_CXXFLAGS_GCC_OPTION([-Wno-variadic-macros])])
+      AX_CXXFLAGS_GCC_OPTION([-Wno-variadic-macros])
+      AX_CXXFLAGS_GCC_OPTION([-Wduplicated-branches])
+      AX_CXXFLAGS_GCC_OPTION([-Wdangling-else])
+      AX_CXXFLAGS_GCC_OPTION([-Wmultistatement-macros])])
 
    AS_IF([test "x$enable_debugging" = "xyes"],
      [AX_CXXFLAGS_GCC_OPTION([-g3])
