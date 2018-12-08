@@ -178,7 +178,9 @@ LogLevelManager::~LogLevelManager()
 tstring const &
 LogLevelManager::toString(LogLevel ll) const
 {
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
     std::shared_lock guard (mtx);
+#endif
 
     for (auto & ptr : translator_list)
     {
@@ -196,7 +198,9 @@ LogLevelManager::fromString(const tstring_view& arg) const
 {
     tstring const s = helpers::toUpper(arg);
 
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
     std::shared_lock guard (mtx);
+#endif
 
     for (auto & ptr : translator_list)
     {
@@ -234,7 +238,9 @@ LogLevelManager::pushLogLevelTranslator(SharedLogLevelTranslatorPtr translator)
             LOG4CPLUS_TEXT ("Log level translator object pointer must not be NULL"),
             true);
 
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
     std::unique_lock guard (mtx);
+#endif
 
     translator_list.push_back (std::move (translator));
 }

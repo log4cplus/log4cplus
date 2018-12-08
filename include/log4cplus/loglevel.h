@@ -166,7 +166,9 @@ namespace log4cplus {
         void pushLogLevelTranslator(SharedLogLevelTranslatorPtr);
 
     private:
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
         mutable std::shared_mutex mtx;
+#endif
 
         typedef std::vector<SharedLogLevelTranslatorPtr> LogLevelTranslatorList;
         LogLevelTranslatorList translator_list;
