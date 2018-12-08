@@ -34,6 +34,7 @@
 
 #include <vector>
 #include <memory>
+#include <shared_mutex>
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/pointer.h>
 
@@ -165,6 +166,8 @@ namespace log4cplus {
         void pushLogLevelTranslator(SharedLogLevelTranslatorPtr);
 
     private:
+        mutable std::shared_mutex mtx;
+
         typedef std::vector<SharedLogLevelTranslatorPtr> LogLevelTranslatorList;
         LogLevelTranslatorList translator_list;
 
