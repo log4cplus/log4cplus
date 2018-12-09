@@ -51,7 +51,9 @@
 #include <map>
 #include <log4cplus/thread/syncprims.h>
 #include <log4cplus/internal/internal.h>
-
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+#include <shared_mutex>
+#endif
 
 namespace log4cplus {
 
@@ -61,84 +63,29 @@ namespace internal {
 /**
  * Custom log level manager used by C API.
  */
-class CustomLogLevelManager {
+class LOG4CPLUS_PRIVATE CustomLogLevelManager
+    : virtual public LogLevelTranslator
+{
 protected:
-    log4cplus::thread::Mutex mtx;
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    mutable std::shared_mutex mtx;
+#endif
     bool pushed_methods;
-    std::map<LogLevel,tstring> ll2nm;
-    std::map<tstring,LogLevel> nm2ll;
+    std::map<LogLevel, tstring> ll2nm;
+    std::map<tstring, LogLevel, std::less<>> nm2ll;
 
 public:
-    CustomLogLevelManager()
-        : pushed_methods (false)
-    { }
+    CustomLogLevelManager ();
+    virtual ~CustomLogLevelManager ();
 
-    bool add(LogLevel ll, tstring const &nm)
-    {
-        log4cplus::thread::MutexGuard guard (mtx);
+    bool add(LogLevel ll, tstring const &nm);
 
-        if (! pushed_methods)
-        {
-            pushed_methods = true;
-            getLogLevelManager().pushToStringMethod(customToStringMethod);
-            getLogLevelManager().pushFromStringMethod(customFromStringMethod);
-        }
-
-        auto i = ll2nm.lower_bound(ll);
-        if( ( i != ll2nm.end() ) && ( i->first == ll ) && ( i->second != nm ) )
-            return false;
-
-        auto j = nm2ll.lower_bound(nm);
-        if( ( j != nm2ll.end() ) && ( j->first == nm ) && ( j->second != ll ) )
-            return false;
-
-        // there is no else after return
-        ll2nm.insert( i, std::make_pair(ll, nm) );
-        nm2ll.insert( j, std::make_pair(nm, ll) );
-        return true;
-    }
-
-    bool remove(LogLevel ll, tstring const &nm)
-    {
-        log4cplus::thread::MutexGuard guard (mtx);
-
-        auto i = ll2nm.find(ll);
-        auto j = nm2ll.find(nm);
-        if( ( i != ll2nm.end() ) && ( j != nm2ll.end() ) &&
-            ( i->first == j->second ) && ( i->second == j->first ) ) {
-            ll2nm.erase(i);
-            nm2ll.erase(j);
-
-            return true;
-        }
-
-        // there is no else after return
-        return false;
-    }
+    bool remove(LogLevel ll, tstring const &nm);
 
 protected:
-    tstring const & customToStringMethodWorker(LogLevel ll)
-    {
-        log4cplus::thread::MutexGuard guard (mtx);
-        auto i = ll2nm.find(ll);
-        if( i != ll2nm.end() )
-            return i->second;
+    virtual log4cplus::tstring const & toString (LogLevel ll) const;
 
-        return internal::empty_str;
-    }
-
-    LogLevel customFromStringMethodWorker(const tstring& nm)
-    {
-        log4cplus::thread::MutexGuard guard (mtx);
-        auto i = nm2ll.find(nm);
-        if( i != nm2ll.end() )
-            return i->second;
-
-        return NOT_SET_LOG_LEVEL;
-    }
-
-    LOG4CPLUS_PRIVATE static tstring const & customToStringMethod(LogLevel ll);
-    LOG4CPLUS_PRIVATE static LogLevel customFromStringMethod(const tstring& nm);
+    virtual LogLevel fromString (const log4cplus::tstring_view& s) const;
 };
 
 LOG4CPLUS_PRIVATE CustomLogLevelManager & getCustomLogLevelManager ();

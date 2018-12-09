@@ -386,18 +386,92 @@ namespace log4cplus {
 
 namespace internal {
 
-tstring const &
-CustomLogLevelManager::customToStringMethod(LogLevel ll)
+CustomLogLevelManager::CustomLogLevelManager ()
+    : pushed_methods (false)
+{ }
+
+
+CustomLogLevelManager::~CustomLogLevelManager ()
+{ }
+
+
+bool
+CustomLogLevelManager::add(LogLevel ll, tstring const &nm)
 {
-    CustomLogLevelManager & customLogLevelManager = getCustomLogLevelManager ();
-    return customLogLevelManager.customToStringMethodWorker(ll);
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    std::unique_lock guard (mtx);
+#endif
+
+    if (! pushed_methods)
+    {
+        pushed_methods = true;
+        getLogLevelManager().pushLogLevelTranslator (SharedLogLevelTranslatorPtr (this));
+    }
+
+    auto i = ll2nm.lower_bound(ll);
+    if( ( i != ll2nm.end() ) && ( i->first == ll ) && ( i->second != nm ) )
+        return false;
+
+    auto j = nm2ll.lower_bound(nm);
+    if( ( j != nm2ll.end() ) && ( j->first == nm ) && ( j->second != ll ) )
+        return false;
+
+    // there is no else after return
+    ll2nm.insert( i, std::make_pair(ll, nm) );
+    nm2ll.insert( j, std::make_pair(nm, ll) );
+
+    return true;
 }
 
-LogLevel
-CustomLogLevelManager::customFromStringMethod(const tstring& nm)
+
+bool
+CustomLogLevelManager::remove(LogLevel ll, tstring const &nm)
 {
-    CustomLogLevelManager & customLogLevelManager = getCustomLogLevelManager ();
-    return customLogLevelManager.customFromStringMethodWorker(nm);
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    std::unique_lock guard (mtx);
+#endif
+
+    auto i = ll2nm.find(ll);
+    auto j = nm2ll.find(nm);
+    if( ( i != ll2nm.end() ) && ( j != nm2ll.end() ) &&
+        ( i->first == j->second ) && ( i->second == j->first ) ) {
+        ll2nm.erase(i);
+        nm2ll.erase(j);
+
+        return true;
+    }
+
+    // there is no else after return
+    return false;
+}
+
+
+log4cplus::tstring const &
+CustomLogLevelManager::toString (LogLevel ll) const
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    std::shared_lock guard (mtx);
+#endif
+
+    auto i = ll2nm.find(ll);
+    if( i != ll2nm.end() )
+        return i->second;
+
+    return internal::empty_str;
+}
+
+
+LogLevel
+CustomLogLevelManager::fromString (const log4cplus::tstring_view& nm) const
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    std::shared_lock guard (mtx);
+#endif
+    auto i = nm2ll.find(nm);
+    if( i != nm2ll.end() )
+        return i->second;
+
+    return NOT_SET_LOG_LEVEL;
 }
 
 } // namespace internal

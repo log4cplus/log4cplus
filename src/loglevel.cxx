@@ -22,6 +22,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/internal/customloglevelmanager.h>
 #include <algorithm>
 
 
@@ -244,7 +245,6 @@ LogLevelManager::pushLogLevelTranslator(SharedLogLevelTranslatorPtr translator)
 
     translator_list.push_back (std::move (translator));
 }
-
 
 
 } // namespace log4cplus

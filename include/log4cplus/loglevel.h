@@ -34,7 +34,9 @@
 
 #include <vector>
 #include <memory>
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
 #include <shared_mutex>
+#endif
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/pointer.h>
 
