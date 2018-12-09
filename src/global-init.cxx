@@ -33,6 +33,7 @@
 #include <log4cplus/ndc.h>
 #include <log4cplus/mdc.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/internal/customloglevelmanager.h>
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/thread/impl/tls.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
@@ -136,6 +137,7 @@ struct DefaultContext
     log4cplus::thread::Mutex console_mutex;
     helpers::LogLog loglog;
     LogLevelManager log_level_manager;
+    internal::CustomLogLevelManager custom_log_level_manager;
     helpers::Time TTCCLayout_time_base;
     NDC ndc;
     MDC mdc;
@@ -211,6 +213,16 @@ get_dc (bool alloc = true)
 
 
 } // namespace
+
+
+namespace internal {
+
+CustomLogLevelManager & getCustomLogLevelManager ()
+{
+    return get_dc ()->custom_log_level_manager;
+}
+
+} // namespace internal
 
 
 namespace helpers

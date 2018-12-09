@@ -22,11 +22,21 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/internal/customloglevelmanager.h>
 #include <algorithm>
 
 
 namespace log4cplus
 {
+
+
+LogLevelTranslator::LogLevelTranslator ()
+{ }
+
+LogLevelTranslator::~LogLevelTranslator ()
+{ }
+
+
 
 
 namespace
@@ -44,11 +54,21 @@ static tstring const NOTSET_STRING (LOG4CPLUS_TEXT("NOTSET"));
 static tstring const UNKNOWN_STRING (LOG4CPLUS_TEXT("UNKNOWN"));
 
 
-static
-tstring const &
-defaultLogLevelToStringMethod(LogLevel ll)
+class LOG4CPLUS_PRIVATE DefaultLogLevelTranslator
+    : virtual public LogLevelTranslator
 {
-    switch(ll) {
+public:
+    DefaultLogLevelTranslator ()
+    { }
+
+    virtual ~DefaultLogLevelTranslator ()
+    { }
+
+    virtual
+    log4cplus::tstring const &
+    toString (LogLevel ll) const
+    {
+        switch(ll) {
         case OFF_LOG_LEVEL:     return OFF_STRING;
         case FATAL_LOG_LEVEL:   return FATAL_STRING;
         case ERROR_LOG_LEVEL:   return ERROR_STRING;
@@ -58,21 +78,20 @@ defaultLogLevelToStringMethod(LogLevel ll)
         case TRACE_LOG_LEVEL:   return TRACE_STRING;
         //case ALL_LOG_LEVEL:     return ALL_STRING;
         case NOT_SET_LOG_LEVEL: return NOTSET_STRING;
-    };
+        }
 
-    return internal::empty_str;
-}
+        return internal::empty_str;
+    }
 
-
-static
-LogLevel
-defaultStringToLogLevelMethod(const tstring& s)
-{
-    // Since C++11, accessing str[0] is always safe as it returns '\0' for
-    // empty string.
-
-    switch (s[0])
+    virtual
+    LogLevel
+    fromString (const log4cplus::tstring_view& s) const
     {
+        // Since C++11, accessing str[0] is always safe as it returns '\0' for
+        // empty string.
+
+        switch (s[0])
+        {
 #define DEF_LLMATCH(_chr, _logLevel)                 \
         case LOG4CPLUS_TEXT (_chr):                  \
             if (s == _logLevel ## _STRING)           \
@@ -80,20 +99,59 @@ defaultStringToLogLevelMethod(const tstring& s)
             else                                     \
                 break;
 
-        DEF_LLMATCH ('O', OFF);
-        DEF_LLMATCH ('F', FATAL);
-        DEF_LLMATCH ('E', ERROR);
-        DEF_LLMATCH ('W', WARN);
-        DEF_LLMATCH ('I', INFO);
-        DEF_LLMATCH ('D', DEBUG);
-        DEF_LLMATCH ('T', TRACE);
-        DEF_LLMATCH ('A', ALL);
+            DEF_LLMATCH ('O', OFF);
+            DEF_LLMATCH ('F', FATAL);
+            DEF_LLMATCH ('E', ERROR);
+            DEF_LLMATCH ('W', WARN);
+            DEF_LLMATCH ('I', INFO);
+            DEF_LLMATCH ('D', DEBUG);
+            DEF_LLMATCH ('T', TRACE);
+            DEF_LLMATCH ('A', ALL);
 
 #undef DEF_LLMATCH
+        }
+
+        return NOT_SET_LOG_LEVEL;
+    }
+};
+
+
+class LOG4CPLUS_PRIVATE SingleLogLevelTranslator
+    : virtual public LogLevelTranslator
+{
+public:
+    SingleLogLevelTranslator (LogLevel ll, const log4cplus::tstring_view & name_)
+        : log_level (ll)
+        , name (name_)
+    { }
+
+    virtual ~SingleLogLevelTranslator ()
+    { }
+
+    virtual
+    log4cplus::tstring const &
+    toString (LogLevel ll) const
+    {
+        if (ll == log_level)
+            return name;
+        else
+            return internal::empty_str;
     }
 
-    return NOT_SET_LOG_LEVEL;
-}
+    virtual
+    LogLevel
+    fromString (const log4cplus::tstring_view& s) const
+    {
+        if (s == name)
+            return log_level;
+        else
+            return NOT_SET_LOG_LEVEL;
+    }
+
+protected:
+    LogLevel log_level;
+    log4cplus::tstring name;
+};
 
 } // namespace
 
@@ -105,9 +163,7 @@ defaultStringToLogLevelMethod(const tstring& s)
 
 LogLevelManager::LogLevelManager()
 {
-    pushToStringMethod (defaultLogLevelToStringMethod);
-
-    pushFromStringMethod (defaultStringToLogLevelMethod);
+    pushLogLevelTranslator (SharedLogLevelTranslatorPtr (new DefaultLogLevelTranslator ()));
 }
 
 
@@ -123,9 +179,13 @@ LogLevelManager::~LogLevelManager()
 tstring const &
 LogLevelManager::toString(LogLevel ll) const
 {
-    for (LogLevelToStringMethodRec const & rec : toStringMethods)
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    std::shared_lock guard (mtx);
+#endif
+
+    for (auto & ptr : translator_list)
     {
-        tstring const & ret = rec.func (ll);
+        tstring const & ret = ptr->toString (ll);
         if (! ret.empty ())
             return ret;
     }
@@ -139,9 +199,13 @@ LogLevelManager::fromString(const tstring_view& arg) const
 {
     tstring const s = helpers::toUpper(arg);
 
-    for (auto func : fromStringMethods)
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    std::shared_lock guard (mtx);
+#endif
+
+    for (auto & ptr : translator_list)
     {
-        LogLevel ret = func (s);
+        LogLevel ret = ptr->fromString (s);
         if (ret != NOT_SET_LOG_LEVEL)
             return ret;
     }
@@ -155,31 +219,32 @@ LogLevelManager::fromString(const tstring_view& arg) const
 
 
 void
-LogLevelManager::pushToStringMethod(LogLevelToStringMethod newToString)
+LogLevelManager::pushLogLevel(LogLevel ll, const log4cplus::tstring_view & name)
 {
-    toStringMethods.emplace (toStringMethods.begin (), newToString);
+    if (ll < 0)
+        helpers::getLogLog ().error (LOG4CPLUS_TEXT ("Log level value must be > 0"), true);
+
+    if (name.empty ())
+        helpers::getLogLog ().error (LOG4CPLUS_TEXT ("Log level name cannot be empty"), true);
+
+    pushLogLevelTranslator (SharedLogLevelTranslatorPtr (new SingleLogLevelTranslator (ll, name)));
 }
 
 
 void
-LogLevelManager::pushFromStringMethod(StringToLogLevelMethod newFromString)
+LogLevelManager::pushLogLevelTranslator(SharedLogLevelTranslatorPtr translator)
 {
-    fromStringMethods.push_back (newFromString);
+    if (! translator)
+        helpers::getLogLog ().error (
+            LOG4CPLUS_TEXT ("Log level translator object pointer must not be NULL"),
+            true);
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    std::unique_lock guard (mtx);
+#endif
+
+    translator_list.push_back (std::move (translator));
 }
-
-
-//
-//
-//
-
-LogLevelManager::LogLevelToStringMethodRec::LogLevelToStringMethodRec ()
-{ }
-
-
-LogLevelManager::LogLevelToStringMethodRec::LogLevelToStringMethodRec (
-    LogLevelToStringMethod f)
-    : func {f}
-{ }
 
 
 } // namespace log4cplus

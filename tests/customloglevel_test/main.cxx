@@ -12,6 +12,8 @@ using namespace log4cplus;
 // Forward Declarations
 void writeLogMessage();
 
+static log4cplus::tstring const CRITICAL_STRING (LOG4CPLUS_TEXT("CRITICAL"));
+
 
 int
 main()
@@ -20,6 +22,9 @@ main()
     log4cplus::Initializer initializer;
     {
         log4cplus::initialize ();
+
+        log4cplus::getLogLevelManager ().pushLogLevel (CRITICAL_LOG_LEVEL, CRITICAL_STRING);
+
         SharedAppenderPtr append_1(new ConsoleAppender());
         append_1->setName(LOG4CPLUS_TEXT("First"));
         // append_1->setLayout( std::unique_ptr<Layout>(new TTCCLayout()) );

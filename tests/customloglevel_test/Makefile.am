@@ -3,7 +3,6 @@
 noinst_PROGRAMS += customloglevel_test
 
 customloglevel_test_sources = \
-	%D%/customloglevel.cxx \
 	%D%/func.cxx \
 	%D%/main.cxx
 

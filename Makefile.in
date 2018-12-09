@@ -470,8 +470,7 @@ configandwatch_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(configandwatch_testU_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_18 = tests/customloglevel_test/customloglevel.$(OBJEXT) \
-	tests/customloglevel_test/func.$(OBJEXT) \
+am__objects_18 = tests/customloglevel_test/func.$(OBJEXT) \
 	tests/customloglevel_test/main.$(OBJEXT)
 am_customloglevel_test_OBJECTS = $(am__objects_18)
 customloglevel_test_OBJECTS = $(am_customloglevel_test_OBJECTS)
@@ -480,7 +479,7 @@ customloglevel_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(customloglevel_test_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__objects_19 = tests/customloglevel_test/customloglevel_testU-customloglevel.$(OBJEXT) \
+am__objects_19 =  \
 	tests/customloglevel_test/customloglevel_testU-func.$(OBJEXT) \
 	tests/customloglevel_test/customloglevel_testU-main.$(OBJEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_customloglevel_testU_OBJECTS =  \
@@ -883,8 +882,6 @@ am__depfiles_remade = ./$(DEPDIR)/_log4cplusU_la-python_wrapU.Plo \
 	tests/appender_test/$(DEPDIR)/main.Po \
 	tests/configandwatch_test/$(DEPDIR)/configandwatch_testU-main.Po \
 	tests/configandwatch_test/$(DEPDIR)/main.Po \
-	tests/customloglevel_test/$(DEPDIR)/customloglevel.Po \
-	tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Po \
 	tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Po \
 	tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Po \
 	tests/customloglevel_test/$(DEPDIR)/func.Po \
@@ -1438,7 +1435,6 @@ appender_test_LDFLAGS = -no-install
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@configandwatch_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@configandwatch_testU_LDFLAGS = -no-install
 customloglevel_test_sources = \
-	tests/customloglevel_test/customloglevel.cxx \
 	tests/customloglevel_test/func.cxx \
 	tests/customloglevel_test/main.cxx
 
@@ -2061,9 +2057,6 @@ tests/customloglevel_test/$(am__dirstamp):
 tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/customloglevel_test/$(DEPDIR)
 	@: > tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
-tests/customloglevel_test/customloglevel.$(OBJEXT):  \
-	tests/customloglevel_test/$(am__dirstamp) \
-	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
 tests/customloglevel_test/func.$(OBJEXT):  \
 	tests/customloglevel_test/$(am__dirstamp) \
 	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
@@ -2074,9 +2067,6 @@ tests/customloglevel_test/main.$(OBJEXT):  \
 customloglevel_test$(EXEEXT): $(customloglevel_test_OBJECTS) $(customloglevel_test_DEPENDENCIES) $(EXTRA_customloglevel_test_DEPENDENCIES) 
 	@rm -f customloglevel_test$(EXEEXT)
 	$(AM_V_CXXLD)$(customloglevel_test_LINK) $(customloglevel_test_OBJECTS) $(customloglevel_test_LDADD) $(LIBS)
-tests/customloglevel_test/customloglevel_testU-customloglevel.$(OBJEXT):  \
-	tests/customloglevel_test/$(am__dirstamp) \
-	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
 tests/customloglevel_test/customloglevel_testU-func.$(OBJEXT):  \
 	tests/customloglevel_test/$(am__dirstamp) \
 	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
@@ -2537,8 +2527,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@tests/appender_test/$(DEPDIR)/main.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/configandwatch_test/$(DEPDIR)/configandwatch_testU-main.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/configandwatch_test/$(DEPDIR)/main.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@tests/customloglevel_test/$(DEPDIR)/customloglevel.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/customloglevel_test/$(DEPDIR)/func.Po@am__quote@ # am--include-marker
@@ -3430,20 +3418,6 @@ tests/configandwatch_test/configandwatch_testU-main.obj: tests/configandwatch_te
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(configandwatch_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/configandwatch_test/configandwatch_testU-main.obj `if test -f 'tests/configandwatch_test/main.cxx'; then $(CYGPATH_W) 'tests/configandwatch_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/configandwatch_test/main.cxx'; fi`
 
-tests/customloglevel_test/customloglevel_testU-customloglevel.o: tests/customloglevel_test/customloglevel.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-customloglevel.o -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.o `test -f 'tests/customloglevel_test/customloglevel.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/customloglevel.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/customloglevel.cxx' object='tests/customloglevel_test/customloglevel_testU-customloglevel.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.o `test -f 'tests/customloglevel_test/customloglevel.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/customloglevel.cxx
-
-tests/customloglevel_test/customloglevel_testU-customloglevel.obj: tests/customloglevel_test/customloglevel.cxx
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-customloglevel.obj -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.obj `if test -f 'tests/customloglevel_test/customloglevel.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/customloglevel.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/customloglevel.cxx'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/customloglevel_test/customloglevel.cxx' object='tests/customloglevel_test/customloglevel_testU-customloglevel.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/customloglevel_test/customloglevel_testU-customloglevel.obj `if test -f 'tests/customloglevel_test/customloglevel.cxx'; then $(CYGPATH_W) 'tests/customloglevel_test/customloglevel.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/customloglevel_test/customloglevel.cxx'; fi`
-
 tests/customloglevel_test/customloglevel_testU-func.o: tests/customloglevel_test/func.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(customloglevel_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/customloglevel_test/customloglevel_testU-func.o -MD -MP -MF tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Tpo -c -o tests/customloglevel_test/customloglevel_testU-func.o `test -f 'tests/customloglevel_test/func.cxx' || echo '$(srcdir)/'`tests/customloglevel_test/func.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Tpo tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Po
@@ -4088,8 +4062,6 @@ distclean: distclean-recursive
 	-rm -f tests/appender_test/$(DEPDIR)/main.Po
 	-rm -f tests/configandwatch_test/$(DEPDIR)/configandwatch_testU-main.Po
 	-rm -f tests/configandwatch_test/$(DEPDIR)/main.Po
-	-rm -f tests/customloglevel_test/$(DEPDIR)/customloglevel.Po
-	-rm -f tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Po
 	-rm -f tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Po
 	-rm -f tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Po
 	-rm -f tests/customloglevel_test/$(DEPDIR)/func.Po
@@ -4291,8 +4263,6 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f tests/appender_test/$(DEPDIR)/main.Po
 	-rm -f tests/configandwatch_test/$(DEPDIR)/configandwatch_testU-main.Po
 	-rm -f tests/configandwatch_test/$(DEPDIR)/main.Po
-	-rm -f tests/customloglevel_test/$(DEPDIR)/customloglevel.Po
-	-rm -f tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-customloglevel.Po
 	-rm -f tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-func.Po
 	-rm -f tests/customloglevel_test/$(DEPDIR)/customloglevel_testU-main.Po
 	-rm -f tests/customloglevel_test/$(DEPDIR)/func.Po
