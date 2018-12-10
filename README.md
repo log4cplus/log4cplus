@@ -322,6 +322,14 @@ compiling [log4cplus] targeted to Windows Vista or later.
 [tlsvista]: http://support.microsoft.com/kb/118816/en-us
 
 
+Linking on Windows
+------------------
+
+If you are linking your application with DLL variant of [log4cplus], define
+`LOG4CPLUS_BUILD_DLL` preprocessor symbol. This changes definition of
+`LOG4CPLUS_EXPORT` symbol to `__declspec(dllimport)`.
+
+
 Android, TLS and CMake
 ----------------------
 
