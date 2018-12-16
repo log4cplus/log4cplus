@@ -8,6 +8,15 @@
     de-/initialization without `log4cplus::Initializer` instance. GitHub
     issue #340.
 
+  - Deal with `register` keyword being generated in SWIG based bindings. The
+    keyword is unused and reserved in C++17. Remove use of
+    `std::unary_function`, it was removed in C++17.
+
+  - Add ability to define new log levels using C API. Add reconfiguration
+    API. (Jens Rehsack)
+
+  - Add `NDCMatchFilter` and `MDCMatchFilter`. (Franck)
+
 
 # log4cplus 2.0.2
 
