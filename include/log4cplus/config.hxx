@@ -112,7 +112,8 @@
 
 #if defined (__GNUC__) \
     && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)) \
-    && ! defined (__INTEL_COMPILER)
+    && ! defined (__INTEL_COMPILER) \
+    && ! defined (__CUDACC__)
 #  define LOG4CPLUS_CALLER_FILE() __builtin_FILE ()
 #  define LOG4CPLUS_CALLER_LINE() __builtin_LINE ()
 #  define LOG4CPLUS_CALLER_FUNCTION() __builtin_FUNCTION ()
