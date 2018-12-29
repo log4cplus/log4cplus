@@ -1,3 +1,11 @@
+log4cplus 1.2.2
+---------------
+
+  - GitHub issue #375. Fixed compilation with NVCC in CUDA mode.
+
+  - Small documentation tweaks.
+
+
 log4cplus 1.2.1
 ---------------
 
