@@ -73,14 +73,6 @@ close $fh2;
         print $line;
     }
 
-    local @ARGV = ("docs/webpage_doxygen.config");
-    while (my $line = <>)
-    {
-        $line =~ s/(\s* PROJECT_NUMBER \s* = \s*)(.*)/$1$version/x;
-        $line =~ s/(\s* OUTPUT_DIRECTORY \s* = \s*)(.*)/$1webpage_docs-$version/x;
-        print $line;
-    }
-
     local @ARGV = ("log4cplus.spec", "mingw-log4cplus.spec");
     while (my $line = <>)
     {

@@ -2,21 +2,21 @@
 // Module:  Log4cplus
 // File:    asyncappender.h
 // Created: 1/2009
-// Author:  Vaclav Haisman  
+// Author:  Vaclav Haisman
 //
 //
 //  Copyright (C) 2009-2015, Vaclav Haisman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -27,8 +27,8 @@
 //  ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
 //  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-   
- 
+
+
 //
 
 /** @file */
@@ -54,6 +54,13 @@ namespace log4cplus
 {
 
 
+/**
+   This `Appender` is a wrapper to which other appenders can be attached. The
+   attached appendres are then appended to from a separate thread which reads
+   events appended to this appender from a queue.
+
+   \sa helpers::AppenderAttachableImpl
+ */
 class LOG4CPLUS_EXPORT AsyncAppender
     : public Appender
     , public helpers::AppenderAttachableImpl
