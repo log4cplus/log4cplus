@@ -50,6 +50,7 @@ include %D%/qt5debugappender/Makefile.am
 include %D%/swig/Makefile.common.am
 include %D%/swig/python/Makefile.am
 
+if ENABLE_TESTS
 include %D%/tests/Makefile.am
 include %D%/tests/appender_test/Makefile.am
 include %D%/tests/configandwatch_test/Makefile.am
@@ -68,4 +69,5 @@ include %D%/tests/socket_test/Makefile.am
 include %D%/tests/thread_test/Makefile.am
 include %D%/tests/timeformat_test/Makefile.am
 include %D%/tests/unit_tests/Makefile.am
+endif
 

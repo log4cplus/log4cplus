@@ -205,6 +205,12 @@ separate shared library (liblog4cplusqt4debugappender) that implements
 `Qt4DebugAppender`.  It requires Qt4 and pkg-config to be installed.
 
 
+`--enable-tests`
+---------------------
+
+This option is enabled by default.  It enables compilation of test executables.
+
+
 `--enable-unit-tests`
 ---------------------
 
