@@ -127,6 +127,17 @@ Initializer::~Initializer ()
 namespace
 {
 
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+static
+std::unique_ptr<progschj::ThreadPool>
+instantiate_thread_pool ()
+{
+    log4cplus::thread::SignalsBlocker sb;
+    return std::unique_ptr<progschj::ThreadPool>(new progschj::ThreadPool);
+}
+#endif
+
+
 //! Default context.
 struct DefaultContext
 {
@@ -142,7 +153,7 @@ struct DefaultContext
     spi::FilterFactoryRegistry filter_factory_registry;
     spi::LocaleFactoryRegistry locale_factory_registry;
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-    std::unique_ptr<progschj::ThreadPool> thread_pool {new progschj::ThreadPool};
+    std::unique_ptr<progschj::ThreadPool> thread_pool {instantiate_thread_pool ()};
 #endif
     Hierarchy hierarchy;
 };
@@ -558,7 +569,7 @@ threadCleanup ()
 
 
 void
-setThreadPoolSize (std::size_t pool_size)
+setThreadPoolSize (std::size_t LOG4CPLUS_THREADED (pool_size))
 {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     get_dc ()->thread_pool->set_pool_size (pool_size);
