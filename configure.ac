@@ -144,6 +144,7 @@ AS_VAR_SET([BUILD_WITH_WCHAR_T_SUPPORT], [$with_wchar_t_support])
 AC_SUBST([BUILD_WITH_WCHAR_T_SUPPORT])
 
 dnl Enable tests
+
 LOG4CPLUS_ARG_ENABLE([tests],
   [Enable tests [default=yes]],
   [enable_tests=yes])
