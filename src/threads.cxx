@@ -202,6 +202,37 @@ LOG4CPLUS_EXPORT void setCurrentThreadName2(const log4cplus::tstring & name)
 }
 
 
+//
+//
+//
+
+struct SignalsBlocker::SignalsBlockerImpl
+{
+#if defined (LOG4CPLUS_USE_PTHREADS)
+    sigset_t signal_set;
+#endif
+};
+
+
+SignalsBlocker::SignalsBlocker ()
+    : impl (new SignalsBlocker::SignalsBlockerImpl)
+{
+#if defined (LOG4CPLUS_USE_PTHREADS)
+    sigset_t block_all_set;
+    sigfillset (&block_all_set);
+    (void) pthread_sigmask (SIG_BLOCK, &block_all_set, &impl->signal_set);
+#endif
+}
+
+
+SignalsBlocker::~SignalsBlocker()
+{
+#if defined (LOG4CPLUS_USE_PTHREADS)
+    (void) pthread_sigmask (SIG_BLOCK, &impl->signal_set, nullptr);
+#endif
+}
+
+
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
 //
