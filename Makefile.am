@@ -50,22 +50,58 @@ include %D%/qt5debugappender/Makefile.am
 include %D%/swig/Makefile.common.am
 include %D%/swig/python/Makefile.am
 
+if ENABLE_TESTS
 include %D%/tests/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/appender_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/configandwatch_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/customloglevel_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/fileappender_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/filter_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/hierarchy_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/loglog_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/ndc_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/ostream_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/patternlayout_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/performance_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/priority_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/propertyconfig_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/socket_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/thread_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/timeformat_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/unit_tests/Makefile.am
+endif
 

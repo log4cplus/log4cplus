@@ -710,6 +710,8 @@ CXXDEPMODE
 ac_ct_CXX
 CXXFLAGS
 CXX
+ENABLE_TESTS_FALSE
+ENABLE_TESTS_TRUE
 BUILD_WITH_WCHAR_T_SUPPORT
 BUILD_WITH_WCHAR_T_SUPPORT_FALSE
 BUILD_WITH_WCHAR_T_SUPPORT_TRUE
@@ -834,6 +836,7 @@ enable_so_version
 enable_release_version
 enable_symbols_visibility_options
 with_wchar_t_support
+enable_tests
 enable_unit_tests
 enable_lto
 enable_profiling
@@ -1512,6 +1515,7 @@ Optional Features:
                           Use platform and compiler specific symbols
                           visibility options, where they are available.
                           [default=yes]
+  --enable-tests          Enable tests [default=yes]
   --enable-unit-tests     Enable unit tests [default=no]
   --enable-lto            Enable LTO build [default=no]
   --enable-profiling      Compile with profiling compiler options.
@@ -4666,6 +4670,23 @@ else
 fi
 
 BUILD_WITH_WCHAR_T_SUPPORT=$with_wchar_t_support
+
+
+# Check whether --enable-tests was given.
+if test "${enable_tests+set}" = set; then :
+  enableval=$enable_tests;
+   log4cplus_check_yesno_func "${enableval}" "--enable-tests"
+else
+  enable_tests=yes
+fi
+
+ if test "x$enable_tests" = "xyes"; then
+  ENABLE_TESTS_TRUE=
+  ENABLE_TESTS_FALSE='#'
+else
+  ENABLE_TESTS_TRUE='#'
+  ENABLE_TESTS_FALSE=
+fi
 
 
 
@@ -25311,6 +25332,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${BUILD_WITH_WCHAR_T_SUPPORT_TRUE}" && test -z "${BUILD_WITH_WCHAR_T_SUPPORT_FALSE}"; then
   as_fn_error $? "conditional \"BUILD_WITH_WCHAR_T_SUPPORT\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${ENABLE_TESTS_TRUE}" && test -z "${ENABLE_TESTS_FALSE}"; then
+  as_fn_error $? "conditional \"ENABLE_TESTS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then
