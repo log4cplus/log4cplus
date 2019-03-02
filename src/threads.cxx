@@ -53,9 +53,10 @@
 #include <log4cplus/internal/cygwin-win32.h>
 #include <log4cplus/streams.h>
 
+#include <log4cplus/thread/threads.h>
+
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
-#include <log4cplus/thread/threads.h>
 #include <log4cplus/thread/impl/threads-impl.h>
 #include <log4cplus/thread/impl/tls.h>
 #include <log4cplus/ndc.h>
