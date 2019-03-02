@@ -53,9 +53,10 @@
 #include <log4cplus/internal/cygwin-win32.h>
 #include <log4cplus/streams.h>
 
+#include <log4cplus/thread/threads.h>
+
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
-#include <log4cplus/thread/threads.h>
 #include <log4cplus/thread/impl/threads-impl.h>
 #include <log4cplus/thread/impl/tls.h>
 #include <log4cplus/ndc.h>
@@ -198,6 +199,37 @@ LOG4CPLUS_EXPORT void setCurrentThreadName2(const log4cplus::tstring & name)
     log4cplus::internal::get_thread_name2_str() = name;
 #else
     thread_name2 = name;
+#endif
+}
+
+
+//
+//
+//
+
+struct SignalsBlocker::SignalsBlockerImpl
+{
+#if defined (LOG4CPLUS_USE_PTHREADS)
+    sigset_t signal_set;
+#endif
+};
+
+
+SignalsBlocker::SignalsBlocker ()
+    : impl (new SignalsBlocker::SignalsBlockerImpl)
+{
+#if defined (LOG4CPLUS_USE_PTHREADS)
+    sigset_t block_all_set;
+    sigfillset (&block_all_set);
+    (void) pthread_sigmask (SIG_BLOCK, &block_all_set, &impl->signal_set);
+#endif
+}
+
+
+SignalsBlocker::~SignalsBlocker()
+{
+#if defined (LOG4CPLUS_USE_PTHREADS)
+    (void) pthread_sigmask (SIG_BLOCK, &impl->signal_set, nullptr);
 #endif
 }
 

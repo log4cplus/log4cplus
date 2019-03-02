@@ -47,6 +47,21 @@ LOG4CPLUS_EXPORT void setCurrentThreadName2(const log4cplus::tstring & name);
 LOG4CPLUS_EXPORT void yield();
 LOG4CPLUS_EXPORT void blockAllSignals();
 
+/**
+ * This class blocks all POSIX signals when created and unblocks them when
+ * destroyed.
+ */
+class LOG4CPLUS_EXPORT SignalsBlocker
+{
+public:
+    SignalsBlocker();
+    ~SignalsBlocker();
+
+private:
+    struct SignalsBlockerImpl;
+    std::unique_ptr<SignalsBlockerImpl> impl;
+};
+
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
