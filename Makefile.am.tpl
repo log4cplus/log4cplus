@@ -55,6 +55,10 @@ noinst_PROGRAMS=
     (emit "\n")
     (for-each
      (lambda (x)
-       (emit "include %D%/" x "\n"))
+       (if (not (string-null? (get "conditional")))
+           (emit "if " (get "conditional") "\n"))
+       (emit "include %D%/" x "\n")
+       (if (not (string-null? (get "conditional")))
+           (emit "endif\n")))
      files)))
 =][= ENDFOR =]

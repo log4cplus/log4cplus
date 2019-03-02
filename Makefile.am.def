@@ -5,4 +5,4 @@ src-dirs = { name = simpleserver; };
 src-dirs = { name = qt4debugappender; };
 src-dirs = { name = qt5debugappender; };
 src-dirs = { name = swig; };
-src-dirs = { name = tests; };
+src-dirs = { name = tests; conditional = ENABLE_TESTS; };
