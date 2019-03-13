@@ -229,7 +229,7 @@ SignalsBlocker::SignalsBlocker ()
 SignalsBlocker::~SignalsBlocker()
 {
 #if defined (LOG4CPLUS_USE_PTHREADS)
-    (void) pthread_sigmask (SIG_BLOCK, &impl->signal_set, nullptr);
+    (void) pthread_sigmask (SIG_SETMASK, &impl->signal_set, nullptr);
 #endif
 }
 
