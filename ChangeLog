@@ -1,3 +1,13 @@
+# log4cplus 2.0.4
+
+  - Fix Catch2 include path. GitHub issue #379.
+
+  - Disable POSIX signals in thread before creating pool threads. GitHub
+    issue #385 and follow up issue #390.
+
+  - Fix compilation with NVCC in CUDA mode. GitHub issue #375.
+
+
 # log4cplus 2.0.3
 
   - Fix compilation on systems without `O_CLOEXEC`. This affects, e.g.,
