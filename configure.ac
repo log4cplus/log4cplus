@@ -393,6 +393,7 @@ LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY],
 
 dnl Checks for libraries.
 
+AC_SEARCH_LIBS([__atomic_fetch_and_4], [atomic])
 AC_SEARCH_LIBS([strerror], [cposix])
 dnl On some systems libcompat exists only as a static library which
 dnl breaks compilation of shared library log4cplus.
