@@ -94,7 +94,7 @@ private:
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     mutable std::mutex mtx;
     mutable std::condition_variable cv;
-    mutable unsigned max;
+    mutable unsigned maximum;
     mutable unsigned val;
 #endif
 };
