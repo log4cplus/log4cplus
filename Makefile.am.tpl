@@ -7,7 +7,7 @@ am
 AM_CPPFLAGS = -I$(top_srcdir)/include \
 	-I$(top_srcdir)/threadpool \
 	-I$(top_builddir)/include \
-	-I$(top_srcdir)/catch/single_include \
+	-I$(top_srcdir)/catch/single_include/catch2 \
         -DCATCH_CONFIG_PREFIX_ALL=1 \
 	@LOG4CPLUS_NDEBUG@
 AM_CXXFLAGS=@LOG4CPLUS_PROFILING_CXXFLAGS@ @LOG4CPLUS_LTO_CXXFLAGS@

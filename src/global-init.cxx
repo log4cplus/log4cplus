@@ -19,6 +19,14 @@
 // limitations under the License.
 
 #include <log4cplus/config.hxx>
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+// Include full Windows.h early for Catch.
+#  include <log4cplus/config/windowsh-inc-full.h>
+#  define CATCH_CONFIG_RUNNER
+#  include <catch.hpp>
+#endif
+
 #include <log4cplus/initializer.h>
 #include <log4cplus/config/windowsh-inc.h>
 #include <log4cplus/logger.h>
@@ -34,10 +42,6 @@
 #include <log4cplus/hierarchy.h>
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
 #include "ThreadPool.h"
-#endif
-#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
-#  define CATCH_CONFIG_RUNNER
-#  include <catch.hpp>
 #endif
 #include <cstdio>
 #include <iostream>

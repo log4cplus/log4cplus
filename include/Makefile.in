@@ -367,6 +367,7 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/config/defines.hxx \
 	log4cplus/config/macosx.h \
 	log4cplus/config/win32.h \
+	log4cplus/config/windowsh-inc-full.h \
 	log4cplus/config/windowsh-inc.h \
 	log4cplus/configurator.h \
 	log4cplus/consoleappender.h \
