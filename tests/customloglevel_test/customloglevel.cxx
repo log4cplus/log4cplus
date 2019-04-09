@@ -1,4 +1,3 @@
-
 #include "customloglevel.h"
 
 static log4cplus::tstring const CRITICAL_STRING (LOG4CPLUS_TEXT("CRITICAL"));
@@ -20,7 +19,7 @@ criticalToStringMethod(LogLevel ll)
 
 static
 LogLevel
-criticalFromStringMethod(const tstring& s) 
+criticalFromStringMethod(const tstring& s)
 {
     if(s == CRITICAL_STRING) return CRITICAL_LOG_LEVEL;
 
@@ -29,13 +28,8 @@ criticalFromStringMethod(const tstring& s)
 
 
 
-class CriticalLogLevelInitializer {
-public:
-    CriticalLogLevelInitializer() {
-        getLogLevelManager().pushToStringMethod(criticalToStringMethod);
-        getLogLevelManager().pushFromStringMethod(criticalFromStringMethod);
-    }
-};
-
-CriticalLogLevelInitializer criticalLogLevelInitializer_;
-
+void initializeCriticalLogLevel ()
+{
+    getLogLevelManager().pushToStringMethod(criticalToStringMethod);
+    getLogLevelManager().pushFromStringMethod(criticalFromStringMethod);
+}

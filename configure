@@ -831,6 +831,7 @@ with_iconv
 enable_debugging
 enable_warnings
 enable_so_version
+enable_implicit_initialization
 enable_release_version
 enable_symbols_visibility_options
 with_wchar_t_support
@@ -1506,6 +1507,8 @@ Optional Features:
   --enable-warnings       Use compiler warnings option, e.g. -Wall.
                           [default=yes]
   --enable-so-version     Use libtool -version-info option. [default=yes]
+  --enable-implicit-initialization
+                          Initialize log4cplus implicitly. [default=yes]
   --enable-release-version
                           Use libtool -release option. [default=yes]
   --enable-symbols-visibility-options
@@ -4618,6 +4621,21 @@ else
   ENABLE_VERSION_INFO_OPTION_FALSE=
 fi
 
+
+
+# Check whether --enable-implicit-initialization was given.
+if test "${enable_implicit_initialization+set}" = set; then :
+  enableval=$enable_implicit_initialization;
+   log4cplus_check_yesno_func "${enableval}" "--enable-implicit-initialization"
+else
+  enable_implicit_initialization=yes
+fi
+
+if test "x$enable_implicit_initialization" = "xyes"; then :
+
+else
+  as_fn_append CPPFLAGS " -DLOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION=1"
+fi
 
 
 # Check whether --enable-release-version was given.
