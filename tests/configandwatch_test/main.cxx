@@ -12,9 +12,9 @@ using namespace log4cplus;
 using namespace log4cplus::helpers;
 
 
-Logger log_1 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_1"));
-Logger log_2 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_2"));
-Logger log_3 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_3"));
+Logger log_1;
+Logger log_2;
+Logger log_3;
 
 
 void
@@ -49,6 +49,10 @@ main(int argc, char * argv[])
 {
     tcout << LOG4CPLUS_TEXT("Entering main()...") << endl;
     log4cplus::Initializer initializer;
+
+    log_1 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_1"));
+    log_2 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_2"));
+    log_3 =  Logger::getInstance(LOG4CPLUS_TEXT("test.log_3"));
 
     LogLog::getLogLog()->setInternalDebugging(true);
     Logger root = Logger::getRoot();
