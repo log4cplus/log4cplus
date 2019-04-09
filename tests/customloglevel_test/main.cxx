@@ -18,6 +18,7 @@ main()
 {
     cout << "Entering main()..." << endl;
     log4cplus::Initializer initializer;
+    initializeCriticalLogLevel ();
     {
         log4cplus::initialize ();
         SharedAppenderPtr append_1(new ConsoleAppender());
