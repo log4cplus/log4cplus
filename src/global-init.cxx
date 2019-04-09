@@ -317,8 +317,8 @@ void
 waitUntilEmptyThreadPoolQueue ()
 {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-    DefaultContext * const dc = get_dc ();
-    if (dc->thread_pool)
+    DefaultContext * const dc = get_dc (false);
+    if (dc && dc->thread_pool)
     {
         dc->thread_pool->wait_until_empty ();
         dc->thread_pool->wait_until_nothing_in_flight ();
