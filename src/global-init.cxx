@@ -309,7 +309,13 @@ enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
 void
 shutdownThreadPool ()
 {
-    LOG4CPLUS_THREADED (get_dc ()->thread_pool.reset ());
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    DefaultContext * const dc = get_dc (false);
+    if (dc && dc->thread_pool)
+    {
+        dc->thread_pool.reset ();
+    }
+#endif
 }
 
 
