@@ -232,8 +232,8 @@ get_dc(
         else
         {
 #ifdef LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION
-            tcerr << LOG4CPLUS_TEXT("ERROR: log4cplus is not initialized (see log4cplus::Initializer)") << std::endl;
-            throw std::logic_error("log4cplus is not initialized");
+            throw std::logic_error("log4cplus is not initialized"
+                " and implicit initialization is turned off");
 #endif
         }
     }
@@ -767,11 +767,15 @@ PIMAGE_TLS_CALLBACK log4cplus_p_thread_callback_terminator = log4cplus::thread_c
 
 #ifdef _WIN64
 #pragma comment (linker, "/INCLUDE:_tls_used")
+#if ! defined (LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION)
 #pragma comment (linker, "/INCLUDE:log4cplus_p_thread_callback_initializer")
+#endif
 #pragma comment (linker, "/INCLUDE:log4cplus_p_thread_callback_terminator")
 #else
 #pragma comment (linker, "/INCLUDE:__tls_used")
+#if ! defined (LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION)
 #pragma comment (linker, "/INCLUDE:_log4cplus_p_thread_callback_initializer")
+#endif
 #pragma comment (linker, "/INCLUDE:_log4cplus_p_thread_callback_terminator")
 #endif
 
@@ -783,6 +787,7 @@ namespace {
 
 struct _static_log4cplus_initializer
 {
+#if ! defined (LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION)
     _static_log4cplus_initializer ()
     {
         // It is not possible to reliably call initializeLog4cplus() here
@@ -793,6 +798,7 @@ struct _static_log4cplus_initializer
         log4cplus::initializeLog4cplus ();
 #endif
     }
+#endif
 
     ~_static_log4cplus_initializer ()
     {
@@ -808,6 +814,7 @@ struct _static_log4cplus_initializer
 #else // defined (WIN32)
 namespace {
 
+#if ! defined (LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION)
 static void
 _log4cplus_initializer_func ()
     LOG4CPLUS_CONSTRUCTOR_FUNC (LOG4CPLUS_INIT_PRIORITY_BASE);
@@ -816,13 +823,16 @@ _log4cplus_initializer_func ()
 {
     log4cplus::initializeLog4cplus();
 }
+#endif
 
 struct _static_log4cplus_initializer
 {
+#if ! defined (LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION)
     _static_log4cplus_initializer ()
     {
         log4cplus::initializeLog4cplus();
     }
+#endif
 
     ~_static_log4cplus_initializer ()
     {
