@@ -100,6 +100,15 @@ LOG4CPLUS_ARG_ENABLE([so-version],
 AM_CONDITIONAL([ENABLE_VERSION_INFO_OPTION],
   [test "x$enable_so_version" = "xyes"])
 
+dnl Enable implicit initialization.
+
+LOG4CPLUS_ARG_ENABLE([implicit-initialization],
+  [Initialize log4cplus implicitly. [default=yes]],
+  [enable_implicit_initialization=yes])
+AS_IF([test "x$enable_implicit_initialization" = "xyes"],
+  [],
+  [AS_VAR_APPEND([CPPFLAGS], [" -DLOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION=1"])])
+
 dnl Enable release version.
 
 LOG4CPLUS_ARG_ENABLE([release-version],
