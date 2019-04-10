@@ -4,7 +4,7 @@ dnl autoconf-2.69
 dnl automake-1.16.1
 dnl libtool-2.4.6
 
-AC_INIT([log4cplus],[2.0.3])
+AC_INIT([log4cplus],[2.0.4])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
@@ -20,7 +20,7 @@ AM_PROG_AR
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=7:3:4
+LT_VERSION=7:4:4
 LT_RELEASE=2.0
 AC_SUBST([LT_VERSION])
 AC_SUBST([LT_RELEASE])
