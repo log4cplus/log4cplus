@@ -2,10 +2,21 @@
 
   - Fix Catch2 include path. GitHub issue #379.
 
-  - Disable POSIX signals in thread before creating pool threads. GitHub
-    issue #385 and follow up issue #390.
+  - Disable POSIX signals reception in thread before creating pool
+    threads. GitHub issue #385 and follow up issue #390.
 
   - Fix compilation with NVCC in CUDA mode. GitHub issue #375.
+
+  - Fix compilation with Visual Studio in C++17 mode. GitHub issue #401.
+
+  - Allow disabling implicit initialization through `configure` script option
+    `--disable-implicit-initialization`, or CMake build option
+    `LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION`. (MaksymB)
+
+  - Remove `android` directory with obsolete Android support. GitHub
+    issue #283.
+
+  - Link with `libatomic` when necessary. (Fabrice Fontaine)
 
 
 # log4cplus 2.0.3
