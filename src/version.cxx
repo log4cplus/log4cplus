@@ -37,7 +37,7 @@ char const versionStr[] = LOG4CPLUS_VERSION_STR LOG4CPLUS_VERSION_STR_SUFFIX;
 namespace
 {
 
-#if defined (__ELF__) && (defined (__GNUC__) || defined (__clang__))
+#if defined (__ELF__) && (defined (__GNUC__) || defined (__clang__)) && !defined(__INTEL_COMPILER)
 char const versionStrComment[]
     __attribute__ ((__used__, __section__ ((".comment"))))
     = "log4cplus " LOG4CPLUS_VERSION_STR LOG4CPLUS_VERSION_STR_SUFFIX;
