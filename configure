@@ -1519,8 +1519,7 @@ Optional Features:
   --enable-lto            Enable LTO build [default=no]
   --enable-profiling      Compile with profiling compiler options.
                           [default=no]
-  --enable-threads        Use this option to create a singled-threaded version
-                          of this library [default=yes]
+  --enable-threads        Create multi-threaded variant [default=yes]
   --enable-static[=PKGS]  build static libraries [default=no]
   --enable-shared[=PKGS]  build shared libraries [default=yes]
   --enable-fast-install[=PKGS]
