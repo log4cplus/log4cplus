@@ -34,16 +34,4 @@ namespace log4cplus
 unsigned const version = LOG4CPLUS_VERSION;
 char const versionStr[] = LOG4CPLUS_VERSION_STR LOG4CPLUS_VERSION_STR_SUFFIX;
 
-namespace
-{
-
-#if defined (__ELF__) && (defined (__GNUC__) || defined (__clang__))
-char const versionStrComment[]
-    __attribute__ ((__used__, __section__ ((".comment"))))
-    = "log4cplus " LOG4CPLUS_VERSION_STR LOG4CPLUS_VERSION_STR_SUFFIX;
-#endif
-
-
-} // namespace
-
-} // namespace log4cplus
+}
