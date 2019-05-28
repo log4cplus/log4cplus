@@ -30,6 +30,10 @@
 #include <limits>
 #include <cstdlib>
 
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#include <catch.hpp>
+#endif
+
 
 namespace
 {
@@ -40,12 +44,12 @@ log4cplus::tstring
 get_basename (const log4cplus::tstring& filename)
 {
 #if defined(_WIN32)
-    log4cplus::tchar const dir_sep(LOG4CPLUS_TEXT('\\'));
+    log4cplus::tstring const dir_sep(LOG4CPLUS_TEXT("\\/"));
 #else
     log4cplus::tchar const dir_sep(LOG4CPLUS_TEXT('/'));
 #endif
 
-    log4cplus::tstring::size_type pos = filename.rfind(dir_sep);
+    log4cplus::tstring::size_type pos = filename.find_last_of (dir_sep);
     if (pos != log4cplus::tstring::npos)
         return filename.substr(pos+1);
     else
@@ -1127,5 +1131,19 @@ PatternLayout::formatAndAppend(tostream& output,
     }
 }
 
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+CATCH_TEST_CASE ("PatternLayout", "[patternlayout]")
+{
+    CATCH_SECTION ("get_basename")
+    {
+        CATCH_REQUIRE(::get_basename(LOG4CPLUS_TEXT("/a/b")) == LOG4CPLUS_TEXT("b"));
+        #ifdef _WIN32
+        CATCH_REQUIRE(::get_basename(LOG4CPLUS_TEXT("C:/a/b")) == LOG4CPLUS_TEXT("b"));
+        CATCH_REQUIRE(::get_basename(LOG4CPLUS_TEXT("C:\\a\\b")) == LOG4CPLUS_TEXT("b"));
+        #endif
+    }
+}
+
+#endif
 
 } // namespace log4cplus
