@@ -466,7 +466,7 @@ dnl Check for single-threaded compilation
 
 AH_TEMPLATE([LOG4CPLUS_USE_PTHREADS])
 LOG4CPLUS_ARG_ENABLE([threads],
-  [Use this option to create a singled-threaded version of this library [default=yes]],
+  [Create multi-threaded variant [default=yes]],
   [enable_threads=yes])
 AS_VAR_SET([ENABLE_THREADS], [$enable_threads])
 AC_SUBST([ENABLE_THREADS])
