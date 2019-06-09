@@ -1,10 +1,6 @@
 set (qt4debugappender_sources
   qt4debugappender.cxx)
 
-if (${BUILD_SHARED_LIBS})
-  add_definitions (-D${log4cplus}_EXPORTS)
-endif ()
-
 find_package (Qt4 REQUIRED)
 include (${QT_USE_FILE})
 
@@ -15,6 +11,9 @@ if (UNICODE)
   target_compile_definitions (${qt4debugappender} PUBLIC _UNICODE)
   add_definitions (-UMBCS -U_MBCS)
 endif (UNICODE)
+if (${BUILD_SHARED_LIBS})
+  target_compile_definitions (${qt4debugappender} PRIVATE ${log4cplus}_EXPORTS)
+endif ()
 target_link_libraries (${qt4debugappender}
   ${log4cplus}
   ${QT_LIBRARIES}
@@ -22,8 +21,8 @@ target_link_libraries (${qt4debugappender}
 
 set_target_properties (${qt4debugappender} PROPERTIES
   VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}"
-  SOVERSION "${log4cplus_soversion}"
-  COMPILE_FLAGS "-DINSIDE_LOG4CPLUS_QT4DEBUGAPPENDER")
+  SOVERSION "${log4cplus_soversion}")
+target_compile_definitions (${qt4debugappender} PRIVATE INSIDE_LOG4CPLUS_QT4DEBUGAPPENDER)
 
 if (WIN32)
   set_target_properties (${qt4debugappender} PROPERTIES
