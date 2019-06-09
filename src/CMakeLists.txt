@@ -67,9 +67,6 @@ endif ()
 
 # Define _GNU_SOURCE so that functions like `pipe2()` are visible.
 add_definitions (-D_GNU_SOURCE=1)
-if (UNICODE)
-  add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
-endif (UNICODE)
 if (WIN32)
   add_definitions (-DMINGW_HAS_SECURE_API=1)
   add_definitions (-D_WIN32_WINNT=${_WIN32_WINNT})
@@ -84,6 +81,12 @@ if (WIN32)
 endif (WIN32)
 
 add_library (${log4cplus} ${log4cplus_sources})
+
+if (UNICODE)
+  target_compile_definitions (${log4cplus} PUBLIC UNICODE)
+  target_compile_definitions (${log4cplus} PUBLIC _UNICODE)
+  add_definitions (-UMBCS -U_MBCS)
+endif (UNICODE)
 
 set (log4cplus_LIBS ${CMAKE_THREAD_LIBS_INIT})
 if (LIBRT)
