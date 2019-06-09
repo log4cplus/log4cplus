@@ -4,15 +4,17 @@ set (qt5debugappender_sources
 if (${BUILD_SHARED_LIBS})
   add_definitions (-D${log4cplus}_EXPORTS)
 endif ()
-if (UNICODE)
-  add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
-endif (UNICODE)
 
 find_package (Qt5Core REQUIRED)
 #include (${QT_USE_FILE})
 
 set (qt5debugappender log4cplusqt5debugappender${log4cplus_postfix})
 add_library (${qt5debugappender} ${qt5debugappender_sources})
+if (UNICODE)
+  target_compile_definitions (${qt5debugappender} PUBLIC UNICODE)
+  target_compile_definitions (${qt5debugappender} PUBLIC _UNICODE)
+  add_definitions (-UMBCS -U_MBCS)
+endif (UNICODE)
 target_link_libraries (${qt5debugappender}
   ${log4cplus}
   ${Qt5Widgets_LIBRARIES}
