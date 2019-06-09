@@ -42,7 +42,7 @@ option(LOG4CPLUS_BUILD_LOGGINGSERVER "Build the logging server." ON)
 
 option(LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION "Require explicit initialization (see log4cplus::Initializer)" OFF)
 if (LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION)
-  add_definitions (-DLOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION=1)
+  add_compile_definitions (LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION=1)
 endif(LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION)
 
 if(NOT LOG4CPLUS_SINGLE_THREADED)
@@ -79,7 +79,7 @@ option(LOG4CPLUS_SINGLE_THREADED
   "Define if you want to build single-threaded version of the library."
   OFF)
 if (LOG4CPLUS_SINGLE_THREADED)
-  add_definitions (-DLOG4CPLUS_SINGLE_THREADED=1)
+  add_compile_definitions (LOG4CPLUS_SINGLE_THREADED=1)
 endif (LOG4CPLUS_SINGLE_THREADED)
 
 option (LOG4CPLUS_QT4 "Build with Qt4DebugAppender" OFF)
@@ -101,9 +101,9 @@ endif()
 option(WITH_UNIT_TESTS "Enable unit tests" ON)
 if (WITH_UNIT_TESTS)
   set (LOG4CPLUS_WITH_UNIT_TESTS 1)
-  add_definitions (-DCATCH_CONFIG_PREFIX_ALL=1)
+  add_compile_definitions (CATCH_CONFIG_PREFIX_ALL=1)
   if (WIN32)
-    add_definitions (-DLOG4CPLUS_WITH_UNIT_TESTS=1)
+    add_compile_definitions (LOG4CPLUS_WITH_UNIT_TESTS=1)
   endif (WIN32)
 endif (WITH_UNIT_TESTS)
 

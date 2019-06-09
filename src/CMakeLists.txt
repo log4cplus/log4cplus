@@ -61,15 +61,15 @@ elseif (WIN32)
     win32consoleappender.cxx
     win32debugappender.cxx)
 
-  #add_definitions (-DLOG4CPLUS_STATIC)
+  #add_compile_definitions (LOG4CPLUS_STATIC)
   #set (log4cplus_postfix "${log4cplus_postfix}S")
 endif ()
 
 # Define _GNU_SOURCE so that functions like `pipe2()` are visible.
-add_definitions (-D_GNU_SOURCE=1)
+add_compile_definitions (_GNU_SOURCE=1)
 if (WIN32)
-  add_definitions (-DMINGW_HAS_SECURE_API=1)
-  add_definitions (-D_WIN32_WINNT=${_WIN32_WINNT})
+  add_compile_definitions (MINGW_HAS_SECURE_API=1)
+  add_compile_definitions (_WIN32_WINNT=${_WIN32_WINNT})
 
   if (BUILD_SHARED_LIBS)
     set(log4cplus_build_shared 1)
@@ -111,13 +111,12 @@ target_link_libraries (${log4cplus} ${log4cplus_LIBS})
 
 if (ANDROID)
   # Android does not seem to have SO version support.
-  set_target_properties (${log4cplus} PROPERTIES
-    COMPILE_FLAGS "-DINSIDE_LOG4CPLUS")
+  target_compile_definitions (${log4cplus} PRIVATE INSIDE_LOG4CPLUS)
 else ()
   set_target_properties (${log4cplus} PROPERTIES
     VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}"
-    SOVERSION "${log4cplus_soversion}"
-    COMPILE_FLAGS "-DINSIDE_LOG4CPLUS")
+    SOVERSION "${log4cplus_soversion}")
+  target_compile_definitions (${log4cplus} PRIVATE INSIDE_LOG4CPLUS)
 endif ()
 
 if (MINGW AND LOG4CPLUS_MINGW_STATIC_RUNTIME)

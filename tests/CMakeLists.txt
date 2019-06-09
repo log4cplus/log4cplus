@@ -1,9 +1,10 @@
 if (UNICODE)
-  add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
+  add_compile_definitions (UNICODE _UNICODE)
+  add_definitions (-UMBCS -U_MBCS)
 endif (UNICODE)
 
 if (${BUILD_SHARED_LIBS})
-  add_definitions (-Dlog4cplus_EXPORTS)
+  add_compile_definitions (log4cplus_EXPORTS)
 endif ()
 
 # A function to set up a test, since it's the same for each one.  Note:
