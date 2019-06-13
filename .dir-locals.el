@@ -5,7 +5,7 @@
   ((fill-column . 79)
    (indent-tabs-mode)
    (show-trailing-whitespace . t)
-   (whitespace-style face trailing lines-tail space-before-tab indentation empty)
+   (whitespace-style face trailing lines-tail space-before-tab indentation)
    (whitespace-newline . t)))
  (c++-mode .
   ((tab-width . 4)
