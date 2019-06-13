@@ -137,7 +137,7 @@ std::unique_ptr<progschj::ThreadPool>
 instantiate_thread_pool ()
 {
     log4cplus::thread::SignalsBlocker sb;
-    return std::unique_ptr<progschj::ThreadPool>(new progschj::ThreadPool);
+    return std::unique_ptr<progschj::ThreadPool>(new progschj::ThreadPool (4));
 }
 #endif
 
