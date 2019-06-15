@@ -1,18 +1,19 @@
 set (qt5debugappender_sources
   qt5debugappender.cxx)
 
-if (${BUILD_SHARED_LIBS})
-  add_definitions (-D${log4cplus}_EXPORTS)
-endif ()
-if (UNICODE)
-  add_definitions (-DUNICODE -D_UNICODE -UMBCS -U_MBCS)
-endif (UNICODE)
-
 find_package (Qt5Core REQUIRED)
 #include (${QT_USE_FILE})
 
 set (qt5debugappender log4cplusqt5debugappender${log4cplus_postfix})
 add_library (${qt5debugappender} ${qt5debugappender_sources})
+if (UNICODE)
+  target_compile_definitions (${qt5debugappender} PUBLIC UNICODE)
+  target_compile_definitions (${qt5debugappender} PUBLIC _UNICODE)
+  add_definitions (-UMBCS -U_MBCS)
+endif (UNICODE)
+if (${BUILD_SHARED_LIBS})
+  target_compile_definitions (${qt5debugappender} PRIVATE ${log4cplus}_EXPORTS)
+endif ()
 target_link_libraries (${qt5debugappender}
   ${log4cplus}
   ${Qt5Widgets_LIBRARIES}
@@ -20,8 +21,8 @@ target_link_libraries (${qt5debugappender}
 
 set_target_properties (${qt5debugappender} PROPERTIES
   VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}"
-  SOVERSION "${log4cplus_soversion}"
-  COMPILE_FLAGS "-DINSIDE_LOG4CPLUS_QT5DEBUGAPPENDER")
+  SOVERSION "${log4cplus_soversion}")
+target_compile_definitions (${qt5debugappender} PRIVATE INSIDE_LOG4CPLUS_QT5DEBUGAPPENDER)
 
 qt5_use_modules(${qt5debugappender} Core)
 
