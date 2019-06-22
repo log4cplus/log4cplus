@@ -287,6 +287,32 @@ accept_wrap (
     return result;
 }
 
+// Overload for `accept4()`.
+template <typename accept_sockaddr_ptr_type, typename accept_socklen_type>
+static
+SOCKET_TYPE
+accept_wrap (
+    int (* accept_func) (int, accept_sockaddr_ptr_type, accept_socklen_type *,
+        int),
+    SOCKET_TYPE sock, struct sockaddr * sa, socklen_t * len)
+{
+    typedef typename socklen_var<accept_socklen_type, socklen_t>::type
+        socklen_var_type;
+    socklen_var_type l = static_cast<socklen_var_type>(*len);
+    SOCKET_TYPE result
+        = static_cast<SOCKET_TYPE>(
+            accept_func (sock, sa,
+                reinterpret_cast<accept_socklen_type *>(&l),
+#if defined (SOCK_CLOEXEC)
+                SOCK_CLOEXEC
+#else
+                0
+#endif
+                ));
+    *len = static_cast<socklen_t>(l);
+    return result;
+}
+
 
 } // namespace
 
@@ -299,7 +325,13 @@ acceptSocket(SOCKET_TYPE sock, SocketState& state)
     int clientSock;
 
     while(
-        (clientSock = accept_wrap (accept, to_os_socket (sock),
+        (clientSock = accept_wrap (
+#if defined (LOG4CPLUS_HAVE_ACCEPT4)
+            accept4
+#else
+            accept
+#endif
+            , to_os_socket (sock),
             reinterpret_cast<struct sockaddr*>(&net_client), &len))
         == -1
         && (errno == EINTR))
