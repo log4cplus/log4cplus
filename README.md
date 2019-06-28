@@ -1,4 +1,6 @@
-% log4cplus README
+# log4cplus
+
+[![Build Status](https://travis-ci.org/log4cplus/log4cplus.svg?branch=master)](https://travis-ci.org/log4cplus/log4cplus)
 
 Short Description
 =================
