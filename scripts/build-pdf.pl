@@ -22,28 +22,30 @@ my @FILES =
       , 'LICENSE' );
 
 my @PANDOC_1ST_STEP_SWITCHES =
-    ( '--smart'
-      , '--self-contained'
-      , '--normalize'
+    (   '--self-contained'
       , '--atx-headers'
-      , '-f', 'markdown'
+      , '-f', 'markdown+smart'
       , '-t', 'markdown' );
 
 my @PANDOC_2ND_STEP_SWITCHES =
-    ( '--smart'
-      , '--self-contained'
+    ( '--self-contained'
       , '--toc'
       , '--number-sections'
       # Qt4 / Win32 / MSVC has example that breaks listings on some versions of
       # TeXLive
       , '--listings'
-      , '-f', 'markdown'
+      , '-f', 'markdown+smart'
       , '-t', 'latex',
-      , '--latex-engine=lualatex',
+      , '--pdf-engine=lualatex',
       , '--include-in-header=docs/latex-header.tex'
       , '--include-before-body=docs/latex-body.tex'
-      , '-V', 'lang=en-US',
-      , '-V', 'geometry:a4paper');
+      , '-V', 'lang:en-US',
+      , '-V', 'geometry:a4paper'
+      , '-V', 'mainfont:TeX Gyre Pagella'
+      , '-V', 'mainfontoptions:Ligatures={TeX, Common}'
+      , '-V', 'monofont:DejaVu Sans Mono'
+      , '-V', 'monofontoptions:Ligatures={}'
+    );
 
 # pre-compute  various source information strings
 

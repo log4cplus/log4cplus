@@ -2,7 +2,6 @@
 %% latex-header.tex begin
 %%
 
-\usepackage{fix-cm}
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage{anyfontsize}
@@ -16,15 +15,15 @@
 \usepackage{upquote}
 \usepackage{etoolbox}
 
-\setmainfont[Ligatures={TeX, Common}]{TeX Gyre Pagella}
-\setmonofont[Scale=MatchLowercase,Ligatures={NoCommon}]{DejaVu Sans Mono}
+%\setmainfont[Ligatures={TeX, Common}]{TeX Gyre Pagella}
+%\setmonofont[Scale=MatchLowercase,Ligatures={NoCommon}]{DejaVu Sans Mono}
 %\setromanfont{Georgia}
 %\setsansfont{DejaVu Sans}
 
-\newfontfamily{\cjkfont}{WenQuanYi Zen Hei}[]
-\newfontfamily{\devanagarifont}{Lohit Devanagari}[]
-\newfontfamily{\tamilfont}{Lohit Tamil}[]
-\newfontfamily{\cyrilicfont}{CMU Serif}
+\newfontfamily\cjkfont{WenQuanYi Zen Hei}[]
+\newfontfamily\devanagarifont{Noto Serif Devanagari}[]
+\newfontfamily\tamilfont{Noto Serif Tamil}[]
+\newfontfamily\cyrilicfont{PTSerif}[]
 
 %% These unfortunately break too many things. PDF will have to be without
 %% contributors' native names.
