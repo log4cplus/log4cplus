@@ -236,6 +236,13 @@ initialized by calling either `log4cplus::initialize()` or by instantiating
 `log4cplus::Initializer`.
 
 
+`--enable-lto`
+--------------
+
+This option is disabled by default.  It enables LTO (Link-Time Optimization)
+builds.
+
+
 Notes
 =====
 
