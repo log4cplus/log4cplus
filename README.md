@@ -206,7 +206,7 @@ separate shared library (liblog4cplusqt4debugappender) that implements
 
 
 `--with-qt5`
--------------
+------------
 
 This option is disabled by default.  It enables compilation of a separate
 shared library (liblog4cplusqt5debugappender) that implements
@@ -214,7 +214,7 @@ shared library (liblog4cplusqt5debugappender) that implements
 
 
 `--enable-tests`
----------------------
+----------------
 
 This option is enabled by default.  It enables compilation of test executables.
 
@@ -228,7 +228,7 @@ executable that is built during compilation.
 
 
 `--enable-implicit-initialization`
---------------------------------------
+----------------------------------
 
 This option is enabled by default.  It enables implicit initialization of
 [log4cplus]. When it is turned off, [log4cplus] has to be explicitly
