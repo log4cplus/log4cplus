@@ -205,6 +205,14 @@ separate shared library (liblog4cplusqt4debugappender) that implements
 `Qt4DebugAppender`.  It requires Qt4 and pkg-config to be installed.
 
 
+`--with-qt5`
+-------------
+
+This option is disabled by default.  It enables compilation of a separate
+shared library (liblog4cplusqt5debugappender) that implements
+`Qt5DebugAppender`.  It requires Qt5 and pkg-config to be available.
+
+
 `--enable-tests`
 ---------------------
 
