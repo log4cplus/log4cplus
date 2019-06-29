@@ -3,7 +3,7 @@
 Short Description
 =================
 
-[log4cplus] is a simple to use C++11 logging API providing thread--safe,
+[log4cplus] is a simple to use C++17 logging API providing thread--safe,
 flexible, and arbitrarily granular control over log management and
 configuration.  It is modeled after the Java log4j API.
 
@@ -36,11 +36,11 @@ from log4net, log4cxx, log4cpp).
 Platform support
 ================
 
-[log4cplus] version 2.0 and beyond require C++11. [log4cplus] has been
+[log4cplus] version 3.0 and beyond require C++17. [log4cplus] has been
 ported to and tested on the following platforms:
 
-  - Linux/AMD64 with GCC version 6.2.0 20161005 (Ubuntu 6.2.0-5ubuntu12)
-  - Linux/AMD64 with Clang version 3.8.1-12ubuntu1 (tags/RELEASE_381/final)
+  - Linux/AMD64 with GCC version 8.3.0 (Ubuntu 8.3.0-6ubuntu1)
+  - Linux/AMD64 with Clang version 8.0.0-3 (tags/RELEASE_800/final)
   - Windows/AMD64 with GCC version 4.8.2 (x86_64-posix-seh-rev3, Built by
     MinGW-W64 project) using CMake build system
   - Windows/AMD64 with GCC version 4.9.2 (tdm64-1) using CMake build system
@@ -59,8 +59,8 @@ on Linux platform offered by [Travis CI][11] service.
 The oldest Windows version that is supported by 2.x releases is Windows Vista.
 
 The following platforms were supported by the 1.x series of [log4cplus]. They
-either do not have a reasonable C++11 capable compiler or have not been checked
-with [log4cplus] 2.x, yet:
+either do not have a reasonable C++17 capable compiler or have not been checked
+with [log4cplus] 3.x, yet:
 
   - Minix 3.3.0/i386 with Clang version 3.4 (branches/release_34) with
     `--disable-threads`
@@ -610,8 +610,8 @@ Unsupported compilers and platforms
 -----------------------------------
 
 [log4cplus] does not support too old or broken C++ compilers. Since [log4cplus]
-version 2.0.0, it means it does not support any platform or compiler without
-decent C++11 support.
+version 3.0.0, it means it does not support any platform or compiler without
+decent C++17 support.
 
   - Visual Studio prior to 2015
   - GCC prior to 4.8
