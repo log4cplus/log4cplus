@@ -227,6 +227,15 @@ their units.  These unit tests then can be executed through `unit_tests` test
 executable that is built during compilation.
 
 
+`--enable-implicit-initialization`
+--------------------------------------
+
+This option is enabled by default.  It enables implicit initialization of
+[log4cplus]. When it is turned off, [log4cplus] has to be explicitly
+initialized by calling either `log4cplus::initialize()` or by instantiating
+`log4cplus::Initializer`.
+
+
 Notes
 =====
 
