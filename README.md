@@ -150,6 +150,36 @@ help with configuration by supplying additional flags to the
 Linux.  See one of the later note for details.
 
 
+`--enable-tests`
+----------------
+
+This option is enabled by default.  It enables compilation of test executables.
+
+
+`--enable-unit-tests`
+---------------------
+
+This option is disabled by default.  It enables compilation of unit tests along
+their units.  These unit tests then can be executed through `unit_tests` test
+executable that is built during compilation.
+
+
+`--enable-implicit-initialization`
+----------------------------------
+
+This option is enabled by default.  It enables implicit initialization of
+[log4cplus]. When it is turned off, [log4cplus] has to be explicitly
+initialized by calling either `log4cplus::initialize()` or by instantiating
+`log4cplus::Initializer`.
+
+
+`--enable-lto`
+--------------
+
+This option is disabled by default.  It enables LTO (Link-Time Optimization)
+builds.
+
+
 `--with-wchar_t-support`
 ------------------------
 
@@ -211,36 +241,6 @@ separate shared library (liblog4cplusqt4debugappender) that implements
 This option is disabled by default.  It enables compilation of a separate
 shared library (liblog4cplusqt5debugappender) that implements
 `Qt5DebugAppender`.  It requires Qt5 and pkg-config to be available.
-
-
-`--enable-tests`
-----------------
-
-This option is enabled by default.  It enables compilation of test executables.
-
-
-`--enable-unit-tests`
----------------------
-
-This option is disabled by default.  It enables compilation of unit tests along
-their units.  These unit tests then can be executed through `unit_tests` test
-executable that is built during compilation.
-
-
-`--enable-implicit-initialization`
-----------------------------------
-
-This option is enabled by default.  It enables implicit initialization of
-[log4cplus]. When it is turned off, [log4cplus] has to be explicitly
-initialized by calling either `log4cplus::initialize()` or by instantiating
-`log4cplus::Initializer`.
-
-
-`--enable-lto`
---------------
-
-This option is disabled by default.  It enables LTO (Link-Time Optimization)
-builds.
 
 
 Notes
