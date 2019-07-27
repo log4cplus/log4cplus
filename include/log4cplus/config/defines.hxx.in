@@ -119,6 +119,9 @@
 #undef LOG4CPLUS_HAVE_PIPE2
 
 /* */
+#undef LOG4CPLUS_HAVE_ACCEPT4
+
+/* */
 #undef LOG4CPLUS_HAVE_POLL
 
 /* */

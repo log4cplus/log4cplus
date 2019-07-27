@@ -22,28 +22,30 @@ my @FILES =
       , 'LICENSE' );
 
 my @PANDOC_1ST_STEP_SWITCHES =
-    ( '--smart'
-      , '--self-contained'
-      , '--normalize'
+    (   '--self-contained'
       , '--atx-headers'
-      , '-f', 'markdown'
+      , '-f', 'markdown+smart'
       , '-t', 'markdown' );
 
 my @PANDOC_2ND_STEP_SWITCHES =
-    ( '--smart'
-      , '--self-contained'
+    ( '--self-contained'
       , '--toc'
       , '--number-sections'
       # Qt4 / Win32 / MSVC has example that breaks listings on some versions of
       # TeXLive
       , '--listings'
-      , '-f', 'markdown'
+      , '-f', 'markdown+smart'
       , '-t', 'latex',
-      , '--latex-engine=lualatex',
+      , '--pdf-engine=lualatex',
       , '--include-in-header=docs/latex-header.tex'
       , '--include-before-body=docs/latex-body.tex'
-      , '-V', 'lang=en-US',
-      , '-V', 'geometry:a4paper');
+      , '-V', 'lang:en-US',
+      , '-V', 'geometry:a4paper'
+      , '-V', 'mainfont:TeX Gyre Pagella'
+      , '-V', 'mainfontoptions:Ligatures={TeX, Common}'
+      , '-V', 'monofont:DejaVu Sans Mono'
+      , '-V', 'monofontoptions:Ligatures={}'
+    );
 
 # pre-compute  various source information strings
 
@@ -125,10 +127,10 @@ my $cjkCodePoint = qr/[\p{InCJKUnifiedIdeographs}]/u;
 my $devanagariCodePoint = qr/[\p{Devanagari}]/u;
 my $tamilCodePoint = qr/[\p{Tamil}]/u;
 my $cyrilicCodePoint = qr/[\p{InCyrillic}\p{InCyrillicSupplementary}]/u;
-$contents =~ s/(${cjkCodePoint}+)/{\\cjkfont{}$1}/g;
-$contents =~ s/(${devanagariCodePoint}+)/{\\devanagarifont{}$1}/g;
-$contents =~ s/(${tamilCodePoint}+)/{\\tamilfont{}$1}/g;
-$contents =~ s/(${cyrilicCodePoint}+)/{\\cyrilicfont{}$1}/g;
+$contents =~ s/(${cjkCodePoint}+(?:[\s\h\p{Zs}\p{Po}]+${cjkCodePoint}+)?)/{\\cjkfont{}$1}/gu;
+$contents =~ s/(${devanagariCodePoint}+(?:[\s\h\p{Zs}\p{Po}]+${devanagariCodePoint}+)?)/{\\devanagarifont{}$1}/gu;
+$contents =~ s/(${tamilCodePoint}+(?:[\s\h\p{Zs}\p{Po}]+${tamilCodePoint}+)?)/{\\tamilfont{}$1}/gu;
+$contents =~ s/(${cyrilicCodePoint}+(?:[\s\h\p{Zs}\p{Po}]+${cyrilicCodePoint}+)?)/{\\cyrilicfont{}$1}/gu;
 use constant README_MD_TEX => 'README.md.tex';
 write_file(README_MD_TEX, {binmode => ':utf8'}, $contents);
 
