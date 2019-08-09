@@ -212,7 +212,10 @@ snprintf_buf::print_va_list (tchar const * & str, tchar const * fmt,
                 LOG4CPLUS_TEXT ("Could not open NULL_FILE."), true);
     }
 
-    printed = vftprintf (fnull, fmt, args);
+    std::va_list args_copy;
+    va_copy (args_copy, args);
+    printed = vftprintf (fnull, fmt, args_copy);
+    va_end (args_copy);
     if (printed == -1)
         LogLog::getLogLog ()->error (
             LOG4CPLUS_TEXT ("Error printing into NULL_FILE."), true);
