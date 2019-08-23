@@ -16,10 +16,12 @@ Latest Project Information
 The latest up-to-date information for this project can be found at
 [log4cplus] SourceForge project pages or [log4cplus wiki][4] on
 SourceForge.  Please submit bugs, patches, feature requests, etc.,
-there, or on [GitHub][13].
+there, or on [GitHub][13]. Public key used to sign release artifacts is
+available on [log4cplus wiki at GitHub][14].
 
 [4]: https://sourceforge.net/p/log4cplus/wiki/Home/
 [13]: https://github.com/log4cplus/log4cplus
+[14]: https://github.com/log4cplus/log4cplus/wiki
 
 
 Mission statement
