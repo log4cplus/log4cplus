@@ -70,8 +70,7 @@ loglog_win32_error (tchar const * msg)
 struct CLFSAppender::Data
 {
     Data ()
-        : log_name ()
-        , log_handle (INVALID_HANDLE_VALUE)
+        : log_handle (INVALID_HANDLE_VALUE)
         , buffer (0)
         , buffer_size (0)
     { }
@@ -85,8 +84,7 @@ struct CLFSAppender::Data
 
 CLFSAppender::CLFSAppender (tstring const & logname, unsigned long logsize,
     unsigned long buffersize)
-    : Appender ()
-    , data (new Data)
+    : data (new Data)
 {
     init (logname, logsize, buffersize);
 }

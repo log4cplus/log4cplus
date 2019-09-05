@@ -391,7 +391,6 @@ PatternConverter::formatAndAppend(
 
 LiteralPatternConverter::LiteralPatternConverter()
     : PatternConverter(FormattingInfo())
-    , str()
 { }
 
 
