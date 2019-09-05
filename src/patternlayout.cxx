@@ -160,8 +160,8 @@ public:
 
 private:
   // Disable copy
-    BasicPatternConverter(const BasicPatternConverter&);
-    BasicPatternConverter& operator=(BasicPatternConverter&);
+    BasicPatternConverter(const BasicPatternConverter&) = delete;
+    BasicPatternConverter& operator=(BasicPatternConverter&) = delete;
 
     LogLevelManager& llmCache;
     Type type;
