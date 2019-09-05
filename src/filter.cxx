@@ -341,7 +341,7 @@ FilterResult MDCMatchFilter::decide(const InternalLoggingEvent& event) const
     if(neutralOnEmpty && (mdcKeyToMatch.empty() || mdcValueToMatch.empty()))
         return NEUTRAL;
 
-    const tstring mdcStr = event.getMDC(mdcKeyToMatch);
+    const tstring& mdcStr = event.getMDC(mdcKeyToMatch);
 
     if(neutralOnEmpty && mdcStr.empty())
         return NEUTRAL;

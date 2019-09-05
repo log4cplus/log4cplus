@@ -93,7 +93,7 @@ CLFSAppender::CLFSAppender (helpers::Properties const & props)
     : Appender (props)
     , data (new Data)
 {
-    tstring logname = props.getProperty (LOG4CPLUS_TEXT ("LogName"));
+    const tstring& logname = props.getProperty (LOG4CPLUS_TEXT ("LogName"));
 
     unsigned long logsize = CLFS_APPENDER_INITIAL_LOG_SIZE;
     props.getULong (logsize, LOG4CPLUS_TEXT ("LogSize"));
