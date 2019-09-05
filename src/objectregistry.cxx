@@ -35,8 +35,7 @@ ObjectRegistryBase::ObjectRegistryBase()
 { }
 
 
-ObjectRegistryBase::~ObjectRegistryBase()
-{ }
+ObjectRegistryBase::~ObjectRegistryBase() = default;
 
 
 

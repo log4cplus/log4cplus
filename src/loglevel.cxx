@@ -30,11 +30,9 @@ namespace log4cplus
 {
 
 
-LogLevelTranslator::LogLevelTranslator ()
-{ }
+LogLevelTranslator::LogLevelTranslator () = default;
 
-LogLevelTranslator::~LogLevelTranslator ()
-{ }
+LogLevelTranslator::~LogLevelTranslator () = default;
 
 
 
@@ -58,11 +56,9 @@ class LOG4CPLUS_PRIVATE DefaultLogLevelTranslator
     : virtual public LogLevelTranslator
 {
 public:
-    DefaultLogLevelTranslator ()
-    { }
+    DefaultLogLevelTranslator () = default;
 
-    virtual ~DefaultLogLevelTranslator ()
-    { }
+    virtual ~DefaultLogLevelTranslator () = default;
 
     virtual
     log4cplus::tstring const &
@@ -125,8 +121,7 @@ public:
         , name (name_)
     { }
 
-    virtual ~SingleLogLevelTranslator ()
-    { }
+    virtual ~SingleLogLevelTranslator () = default;
 
     virtual
     log4cplus::tstring const &
@@ -167,8 +162,7 @@ LogLevelManager::LogLevelManager()
 }
 
 
-LogLevelManager::~LogLevelManager()
-{ }
+LogLevelManager::~LogLevelManager() = default;
 
 
 

@@ -104,8 +104,7 @@ Logger::shutdown ()
 // Logger ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-Logger::Logger () LOG4CPLUS_NOEXCEPT
-{ }
+Logger::Logger () LOG4CPLUS_NOEXCEPT = default;
 
 
 Logger::Logger (spi::LoggerImpl * ptr) LOG4CPLUS_NOEXCEPT

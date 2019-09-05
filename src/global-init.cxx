@@ -392,16 +392,13 @@ gft_scratch_pad::gft_scratch_pad ()
 { }
 
 
-gft_scratch_pad::~gft_scratch_pad ()
-{ }
+gft_scratch_pad::~gft_scratch_pad () = default;
 
 
-appender_sratch_pad::appender_sratch_pad ()
-{ }
+appender_sratch_pad::appender_sratch_pad () = default;
 
 
-appender_sratch_pad::~appender_sratch_pad ()
-{ }
+appender_sratch_pad::~appender_sratch_pad () = default;
 
 
 per_thread_data::per_thread_data ()

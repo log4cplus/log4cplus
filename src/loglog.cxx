@@ -53,8 +53,7 @@ LogLog::LogLog()
 { }
 
 
-LogLog::~LogLog()
-{ }
+LogLog::~LogLog() = default;
 
 
 void

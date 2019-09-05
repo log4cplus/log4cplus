@@ -98,7 +98,7 @@ class PatternConverter
 {
 public:
     explicit PatternConverter(const FormattingInfo& info);
-    virtual ~PatternConverter() {}
+    virtual ~PatternConverter() = default;
     void formatAndAppend(tostream& output,
         const spi::InternalLoggingEvent& event);
 
@@ -1112,8 +1112,7 @@ PatternLayout::init(const tstring& pattern_, unsigned ndcMaxDepth)
 
 
 
-PatternLayout::~PatternLayout()
-{ }
+PatternLayout::~PatternLayout() = default;
 
 
 

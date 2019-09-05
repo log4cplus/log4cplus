@@ -36,8 +36,7 @@ namespace spi
 {
 
 
-AppenderAttachable::~AppenderAttachable()
-{ }
+AppenderAttachable::~AppenderAttachable() = default;
 
 
 } // namespace spi
@@ -51,12 +50,10 @@ namespace helpers
 // log4cplus::helpers::AppenderAttachableImpl ctor and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-AppenderAttachableImpl::AppenderAttachableImpl()
-{ }
+AppenderAttachableImpl::AppenderAttachableImpl() = default;
 
 
-AppenderAttachableImpl::~AppenderAttachableImpl()
-{ }
+AppenderAttachableImpl::~AppenderAttachableImpl() = default;
 
 
 

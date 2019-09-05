@@ -57,16 +57,14 @@ Layout::Layout (const log4cplus::helpers::Properties&)
 { }
 
 
-Layout::~Layout()
-{ }
+Layout::~Layout() = default;
 
 
 ///////////////////////////////////////////////////////////////////////////////
 // log4cplus::SimpleLayout public methods
 ///////////////////////////////////////////////////////////////////////////////
 
-SimpleLayout::SimpleLayout ()
-{ }
+SimpleLayout::SimpleLayout () = default;
 
 
 SimpleLayout::SimpleLayout (const helpers::Properties& properties)
@@ -74,8 +72,7 @@ SimpleLayout::SimpleLayout (const helpers::Properties& properties)
 { }
 
 
-SimpleLayout::~SimpleLayout()
-{ }
+SimpleLayout::~SimpleLayout() = default;
 
 
 void
@@ -116,8 +113,7 @@ TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
 }
 
 
-TTCCLayout::~TTCCLayout()
-{ }
+TTCCLayout::~TTCCLayout() = default;
 
 
 

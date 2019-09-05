@@ -209,8 +209,7 @@ namespace
 
 struct path_sep_comp
 {
-    path_sep_comp ()
-    { }
+    path_sep_comp () = default;
 
     bool
     operator () (tchar ch) const

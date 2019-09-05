@@ -42,8 +42,7 @@ Queue::Queue (unsigned len)
 { }
 
 
-Queue::~Queue ()
-{ }
+Queue::~Queue () = default;
 
 
 Queue::flags_type

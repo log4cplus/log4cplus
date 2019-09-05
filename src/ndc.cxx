@@ -93,10 +93,7 @@ DiagnosticContext::DiagnosticContext(tchar const * message_)
 }
 
 
-DiagnosticContext::DiagnosticContext (DiagnosticContext const & other)
-    : message (other.message)
-    , fullMessage (other.fullMessage)
-{ }
+DiagnosticContext::DiagnosticContext (DiagnosticContext const & other) = default;
 
 
 DiagnosticContext & DiagnosticContext::operator = (
@@ -134,11 +131,11 @@ DiagnosticContext::swap (DiagnosticContext & other)
 ///////////////////////////////////////////////////////////////////////////////
 
 NDC::NDC()
-{ }
+= default;
 
 
 NDC::~NDC()
-{ }
+= default;
 
 
 
