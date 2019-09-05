@@ -602,7 +602,7 @@ public:
         updateLastModInfo();
     }
 
-    virtual ~ConfigurationWatchDogThread () = default;
+    ~ConfigurationWatchDogThread () override = default;
 
     void terminate ()
     {
@@ -611,9 +611,9 @@ public:
     }
 
 protected:
-    virtual void run();
-    virtual Logger getLogger(const tstring& name);
-    virtual void addAppender(Logger &logger, SharedAppenderPtr& appender);
+    void run() override;
+    Logger getLogger(const tstring& name) override;
+    void addAppender(Logger &logger, SharedAppenderPtr& appender) override;
 
     bool checkForFileModification();
     void updateLastModInfo();
