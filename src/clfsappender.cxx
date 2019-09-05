@@ -76,7 +76,7 @@ struct CLFSAppender::Data
 
     tstring log_name;
     HANDLE log_handle;
-    void * buffer{0};
+    void * buffer{nullptr};
     ULONG buffer_size;
 };
 
