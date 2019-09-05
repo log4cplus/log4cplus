@@ -108,7 +108,7 @@ output_xml_escaped (tostream & os, tstring const & str)
 //! Helper manipulator like class for escaped XML output.
 struct outputXMLEscaped
 {
-    outputXMLEscaped (tstring const & s)
+    explicit outputXMLEscaped (tstring const & s)
         : str (s)
     { }
 
