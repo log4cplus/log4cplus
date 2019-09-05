@@ -289,7 +289,7 @@ PropertyConfigurator::configure()
 
     unsigned int thread_pool_size;
     if (properties.getUInt (thread_pool_size, LOG4CPLUS_TEXT ("threadPoolSize")))
-        thread_pool_size = (std::min) (thread_pool_size, 1024u);
+        thread_pool_size = (std::min) (thread_pool_size, 1024U);
     else
         thread_pool_size = 4;
 
