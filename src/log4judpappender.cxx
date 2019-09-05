@@ -60,9 +60,8 @@ static
 void
 output_xml_escaped (tostream & os, tstring const & str)
 {
-    for (tstring::const_iterator it = str.begin (); it != str.end (); ++it)
+    for (char ch : str)
     {
-        tchar const & ch = *it;
         switch (ch)
         {
         case LOG4CPLUS_TEXT ('<'):
