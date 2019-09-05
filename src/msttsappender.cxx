@@ -217,7 +217,7 @@ MSTTSAppender::MSTTSAppender (helpers::Properties const & props)
     speak_punc = props.getBool (speak_punc, LOG4CPLUS_TEXT ("SpeakPunc"))
         && speak_punc;
 
-    init (has_rate ? &rate : 0, has_volume ? &volume : 0, speak_punc, async);
+    init (has_rate ? &rate : nullptr, has_volume ? &volume : nullptr, speak_punc, async);
 }
 
 
