@@ -42,7 +42,7 @@
 #endif
 
 
-namespace log4cplus { namespace helpers {
+namespace log4cplus::helpers {
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -325,4 +325,4 @@ CATCH_TEST_CASE ("SocketBuffer", "[sockets]")
 #endif
 
 
-} } // namespace log4cplus { namespace helpers {
+} // namespace log4cplus::helpers

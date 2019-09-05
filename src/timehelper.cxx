@@ -56,7 +56,7 @@
 #include <log4cplus/config/windowsh-inc.h>
 
 
-namespace log4cplus { namespace helpers {
+namespace log4cplus::helpers {
 
 const int ONE_SEC_IN_USEC = 1000000;
 
@@ -315,4 +315,4 @@ getFormattedTime(const log4cplus::tstring& fmt_orig,
 }
 
 
-} } // namespace log4cplus { namespace helpers {
+} // namespace log4cplus::helpers

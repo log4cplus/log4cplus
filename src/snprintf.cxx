@@ -44,7 +44,7 @@
 #endif
 
 
-namespace log4cplus { namespace helpers {
+namespace log4cplus::helpers {
 
 
 std::size_t const START_BUF_SIZE = 512;
@@ -162,7 +162,7 @@ vsntprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
 #endif
 
 
-}
+} // namespace
 
 
 snprintf_buf::snprintf_buf ()
@@ -285,4 +285,4 @@ CATCH_TEST_CASE ("snprintf_buf", "[snprintf_buf]")
 #endif
 
 
-} } // namespace log4cplus { namespace helpers
+} // namespace log4cplus::helpers

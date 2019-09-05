@@ -64,7 +64,7 @@ loglog_win32_error (tchar const * msg)
     helpers::getLogLog ().error (oss.str ());
 }
 
-}
+} // namespace
 
 
 struct CLFSAppender::Data

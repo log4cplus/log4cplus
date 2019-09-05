@@ -36,10 +36,7 @@
 #include <vector>
 
 
-namespace log4cplus
-{
-
-namespace helpers
+namespace log4cplus::helpers
 {
 
 void clear_mbstate (std::mbstate_t &);
@@ -242,7 +239,5 @@ tostring(wchar_t const * src)
 
 
 #endif // LOG4CPLUS_WORKING_LOCALE
-
-} // namespace helpers
 
 } // namespace log4cplus

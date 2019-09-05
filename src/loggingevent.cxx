@@ -23,7 +23,7 @@
 #include <algorithm>
 
 
-namespace log4cplus {  namespace spi {
+namespace log4cplus::spi {
 
 
 static const int LOG4CPLUS_DEFAULT_TYPE = 1;
@@ -298,4 +298,4 @@ InternalLoggingEvent::swap (InternalLoggingEvent & other)
 }
 
 
-} } // namespace log4cplus {  namespace spi {
+} // namespace log4cplus::spi

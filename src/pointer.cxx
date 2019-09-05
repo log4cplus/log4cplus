@@ -25,7 +25,7 @@
 #include <cassert>
 
 
-namespace log4cplus { namespace helpers {
+namespace log4cplus::helpers {
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -78,4 +78,4 @@ SharedObject::removeReference() const
 }
 
 
-} } // namespace log4cplus { namespace helpers
+} // namespace log4cplus::helpers

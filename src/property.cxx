@@ -47,7 +47,7 @@
 #endif
 
 
-namespace log4cplus { namespace helpers {
+namespace log4cplus::helpers {
 
 
 const tchar Properties::PROPERTIES_COMMENT_CHAR = LOG4CPLUS_TEXT('#');
@@ -536,4 +536,4 @@ CATCH_TEST_CASE ("Properties", "[properties]")
 #endif
 
 
-} } // namespace log4cplus { namespace helpers {
+} // namespace log4cplus::helpers
