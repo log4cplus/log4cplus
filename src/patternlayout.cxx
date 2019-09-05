@@ -30,6 +30,7 @@
 #include <limits>
 #include <cstdlib>
 #include <memory>
+#include <utility>
 
 
 namespace
@@ -122,7 +123,7 @@ class LiteralPatternConverter : public PatternConverter
 {
 public:
     LiteralPatternConverter();
-    explicit LiteralPatternConverter(const tstring& str);
+    explicit LiteralPatternConverter(tstring  str);
     virtual void convert(tstring & result,
         const spi::InternalLoggingEvent&)
     {
@@ -193,7 +194,7 @@ private:
 class DatePatternConverter : public PatternConverter {
 public:
     DatePatternConverter(const FormattingInfo& info,
-                         const tstring& pattern,
+                         tstring  pattern,
                          bool use_gmtime);
     virtual void convert(tstring & result,
         const spi::InternalLoggingEvent& event);
@@ -210,7 +211,7 @@ private:
 class EnvPatternConverter : public PatternConverter {
 public:
     EnvPatternConverter(const FormattingInfo& info,
-                        const log4cplus::tstring& env);
+                        log4cplus::tstring  env);
     virtual void convert(tstring & result,
         const spi::InternalLoggingEvent& event);
 
@@ -251,7 +252,7 @@ class MDCPatternConverter
     : public PatternConverter
 {
 public:
-    MDCPatternConverter(const FormattingInfo& info, tstring const & k);
+    MDCPatternConverter(const FormattingInfo& info, tstring  k);
     virtual void convert(tstring & result,
         const spi::InternalLoggingEvent& event);
 
@@ -286,7 +287,7 @@ private:
 class PatternParser
 {
 public:
-    PatternParser(const tstring& pattern, unsigned ndcMaxDepth);
+    PatternParser(tstring  pattern, unsigned ndcMaxDepth);
     PatternConverterList parse();
 
 private:
@@ -395,9 +396,9 @@ LiteralPatternConverter::LiteralPatternConverter()
 
 
 LiteralPatternConverter::LiteralPatternConverter(
-    const tstring& str_)
+    tstring  str_)
     : PatternConverter(FormattingInfo())
-    , str(str_)
+    , str(std::move(str_))
 {
 }
 
@@ -540,11 +541,11 @@ LoggerPatternConverter::convert(tstring & result,
 
 
 DatePatternConverter::DatePatternConverter(
-    const FormattingInfo& info, const tstring& pattern,
+    const FormattingInfo& info, tstring  pattern,
     bool use_gmtime_)
     : PatternConverter(info)
     , use_gmtime(use_gmtime_)
-    , format(pattern)
+    , format(std::move(pattern))
 {
 }
 
@@ -565,9 +566,9 @@ DatePatternConverter::convert(tstring & result,
 
 
 EnvPatternConverter::EnvPatternConverter(
-    const FormattingInfo& info, const tstring& env)
+    const FormattingInfo& info, tstring  env)
     : PatternConverter(info)
-    , envKey(env)
+    , envKey(std::move(env))
 { }
 
 
@@ -628,9 +629,9 @@ HostnamePatternConverter::convert (
 ////////////////////////////////////////////////
 
 log4cplus::pattern::MDCPatternConverter::MDCPatternConverter (
-    const FormattingInfo& info, tstring const & k)
+    const FormattingInfo& info, tstring  k)
     : PatternConverter(info)
-    , key (k)
+    , key (std::move(k))
 { }
 
 
@@ -698,8 +699,8 @@ log4cplus::pattern::NDCPatternConverter::convert (tstring & result,
 ////////////////////////////////////////////////
 
 PatternParser::PatternParser(
-    const tstring& pattern_, unsigned ndcMaxDepth_)
-    : pattern(pattern_)
+    tstring  pattern_, unsigned ndcMaxDepth_)
+    : pattern(std::move(pattern_))
     , state(LITERAL_STATE)
     , pos(0)
     , ndcMaxDepth (ndcMaxDepth_)

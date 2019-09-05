@@ -20,6 +20,7 @@
 
 #include <cstdlib>
 #include <stdexcept>
+#include <utility>
 #include <log4cplus/socketappender.h>
 #include <log4cplus/layout.h>
 #include <log4cplus/spi/loggingevent.h>
@@ -38,11 +39,11 @@ int const LOG4CPLUS_MESSAGE_VERSION = 3;
 // SocketAppender ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-SocketAppender::SocketAppender(const tstring& host_,
-    unsigned short port_, const tstring& serverName_, bool ipv6_ /*= false*/)
-    : host(host_)
+SocketAppender::SocketAppender(tstring  host_,
+    unsigned short port_, tstring  serverName_, bool ipv6_ /*= false*/)
+    : host(std::move(host_))
     , port(port_)
-    , serverName(serverName_)
+    , serverName(std::move(serverName_))
     , ipv6(ipv6_)
 {
     openSocket();

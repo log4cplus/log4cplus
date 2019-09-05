@@ -284,11 +284,11 @@ namespace log4cplus {
     struct LOG4CPLUS_EXPORT DiagnosticContext
     {
       // Ctors
-        DiagnosticContext(const log4cplus::tstring& message,
+        DiagnosticContext(log4cplus::tstring  message,
             DiagnosticContext const * parent);
         DiagnosticContext(tchar const * message,
             DiagnosticContext const * parent);
-        DiagnosticContext(const log4cplus::tstring& message);
+        DiagnosticContext(log4cplus::tstring  message);
         DiagnosticContext(tchar const * message);
         DiagnosticContext(DiagnosticContext const &);
         DiagnosticContext & operator = (DiagnosticContext const &);

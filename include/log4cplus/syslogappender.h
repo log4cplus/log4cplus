@@ -95,7 +95,7 @@ namespace log4cplus
 #if defined (LOG4CPLUS_HAVE_SYSLOG_H)
         SysLogAppender(const tstring& ident);
 #endif
-        SysLogAppender(const tstring& ident, const tstring & host,
+        SysLogAppender(const tstring& ident, tstring  host,
             int port = 514, const tstring & facility = tstring (),
             RemoteSyslogType remoteSyslogType = RSTUdp, bool ipv6 = false);
         SysLogAppender(const log4cplus::helpers::Properties & properties);

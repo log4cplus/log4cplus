@@ -69,7 +69,7 @@ namespace log4cplus {
 
             InternalLoggingEvent(const log4cplus::tstring_view& logger,
                 LogLevel loglevel, const log4cplus::tstring_view& ndc,
-                MappedDiagnosticContextMap const & mdc,
+                MappedDiagnosticContextMap  mdc,
                 const log4cplus::tstring_view& message,
                 const log4cplus::tstring_view& thread,
                 log4cplus::helpers::Time time,
@@ -79,7 +79,7 @@ namespace log4cplus {
 
             InternalLoggingEvent(const log4cplus::tstring_view& logger,
                 LogLevel loglevel, const log4cplus::tstring_view& ndc,
-                MappedDiagnosticContextMap const & mdc,
+                MappedDiagnosticContextMap  mdc,
                 const log4cplus::tstring_view& message,
                 const log4cplus::tstring_view& thread,
                 const log4cplus::tstring_view& thread2,

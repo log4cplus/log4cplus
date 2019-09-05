@@ -63,9 +63,9 @@ init_full_message (log4cplus::tstring & fullMessage,
 } // namespace
 
 
-DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message_,
+DiagnosticContext::DiagnosticContext(log4cplus::tstring  message_,
                                      DiagnosticContext const * parent)
-    : message(message_)
+    : message(std::move(message_))
 {
     init_full_message (fullMessage, message, parent);
 }
@@ -79,8 +79,8 @@ DiagnosticContext::DiagnosticContext(tchar const * message_,
 }
 
 
-DiagnosticContext::DiagnosticContext(const log4cplus::tstring& message_)
-    : message(message_)
+DiagnosticContext::DiagnosticContext(log4cplus::tstring  message_)
+    : message(std::move(message_))
     , fullMessage(message)
 {
 }

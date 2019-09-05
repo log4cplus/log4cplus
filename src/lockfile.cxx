@@ -53,6 +53,7 @@
 #include <cerrno>
 #include <limits>
 #include <cstring>
+#include <utility>
 
 #include <log4cplus/helpers/lockfile.h>
 #include <log4cplus/helpers/stringhelper.h>
@@ -185,8 +186,8 @@ struct LockFile::Impl
 //
 //
 
-LockFile::LockFile (tstring const & lf, bool create_dirs_)
-    : lock_file_name (lf)
+LockFile::LockFile (tstring  lf, bool create_dirs_)
+    : lock_file_name (std::move(lf))
     , data (new LockFile::Impl)
     , create_dirs (create_dirs_)
 {

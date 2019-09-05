@@ -41,6 +41,7 @@
 // For _wrename() and _wremove() on Windows.
 #include <stdio.h>
 #include <cerrno>
+#include <utility>
 #ifdef LOG4CPLUS_HAVE_ERRNO_H
 #include <errno.h>
 #endif
@@ -221,14 +222,14 @@ catch (std::runtime_error const &)
 // FileAppenderBase ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-FileAppenderBase::FileAppenderBase(const tstring& filename_,
+FileAppenderBase::FileAppenderBase(tstring  filename_,
     std::ios_base::openmode mode_, bool immediateFlush_, bool createDirs_)
     : immediateFlush(immediateFlush_)
     , createDirs (createDirs_)
     , reopenDelay(1)
     , bufferSize (0)
     , buffer (nullptr)
-    , filename(filename_)
+    , filename(std::move(filename_))
     , localeName (LOG4CPLUS_TEXT ("DEFAULT"))
     , fileOpenMode(mode_)
 { }
@@ -638,11 +639,11 @@ RollingFileAppender::rollover(bool alreadyLocked)
 DailyRollingFileAppender::DailyRollingFileAppender(
     const tstring& filename_, DailyRollingFileSchedule schedule_,
     bool immediateFlush_, int maxBackupIndex_, bool createDirs_,
-    bool rollOnClose_, const tstring& datePattern_)
+    bool rollOnClose_, tstring  datePattern_)
     : FileAppender(filename_, std::ios_base::app, immediateFlush_, createDirs_)
     , maxBackupIndex(maxBackupIndex_)
     , rollOnClose(rollOnClose_)
-    , datePattern(datePattern_)
+    , datePattern(std::move(datePattern_))
 {
     init(schedule_);
 }
@@ -1272,14 +1273,14 @@ preprocessFilenamePattern(const tstring_view& pattern, DailyRollingFileSchedule&
 
 TimeBasedRollingFileAppender::TimeBasedRollingFileAppender(
     const tstring& filename_,
-    const tstring& filenamePattern_,
+    tstring  filenamePattern_,
     int maxHistory_,
     bool cleanHistoryOnStart_,
     bool immediateFlush_,
     bool createDirs_,
     bool rollOnClose_)
     : FileAppenderBase(filename_, std::ios_base::app, immediateFlush_, createDirs_)
-    , filenamePattern(filenamePattern_)
+    , filenamePattern(std::move(filenamePattern_))
     , schedule(DAILY)
     , maxHistory(maxHistory_)
     , cleanHistoryOnStart(cleanHistoryOnStart_)

@@ -27,6 +27,7 @@
 #include <log4cplus/internal/env.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <cstring>
+#include <utility>
 
 #if defined (LOG4CPLUS_HAVE_SYSLOG_H)
 #include <syslog.h>
@@ -285,13 +286,13 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
 }
 
 
-SysLogAppender::SysLogAppender(const tstring& id, const tstring & h,
+SysLogAppender::SysLogAppender(const tstring& id, tstring  h,
     int p, const tstring & f, SysLogAppender::RemoteSyslogType rst,
     bool ipv6_ /*= false*/)
     : ident (id)
     , facility (parseFacility (helpers::toLower (f)))
     , appendFunc (&SysLogAppender::appendRemote)
-    , host (h)
+    , host (std::move(h))
     , port (p)
     , remoteSyslogType (rst)
     , connected (false)

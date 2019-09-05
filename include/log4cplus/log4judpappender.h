@@ -61,7 +61,7 @@ namespace log4cplus {
     class LOG4CPLUS_EXPORT Log4jUdpAppender : public Appender {
     public:
       // Ctors
-        Log4jUdpAppender(const log4cplus::tstring& host, int port,
+        Log4jUdpAppender(log4cplus::tstring  host, int port,
             bool ipv6 = false);
         Log4jUdpAppender(const log4cplus::helpers::Properties & properties);
 

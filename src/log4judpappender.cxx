@@ -33,6 +33,7 @@
 #else
 #include <cctype>
 #include <memory>
+#include <utility>
 #endif
 
 
@@ -134,8 +135,8 @@ operator << (tostream & os, outputXMLEscaped const & x)
 // Log4jUdpAppender ctors and dtor
 //////////////////////////////////////////////////////////////////////////////
 
-Log4jUdpAppender::Log4jUdpAppender(const tstring& host_, int port_, bool ipv6_)
-    : host(host_)
+Log4jUdpAppender::Log4jUdpAppender(tstring  host_, int port_, bool ipv6_)
+    : host(std::move(host_))
     , port(port_)
     , ipv6(ipv6_)
 {

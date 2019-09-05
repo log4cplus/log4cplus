@@ -110,8 +110,8 @@ namespace log4cplus
     {
     public:
       // Ctors
-        SocketAppender(const log4cplus::tstring& host, unsigned short port,
-            const log4cplus::tstring& serverName = tstring(),
+        SocketAppender(log4cplus::tstring  host, unsigned short port,
+            log4cplus::tstring  serverName = tstring(),
             bool ipv6 = false);
         SocketAppender(const log4cplus::helpers::Properties & properties);
 

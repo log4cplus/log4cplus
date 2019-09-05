@@ -21,6 +21,7 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/internal/internal.h>
 #include <algorithm>
+#include <utility>
 
 
 namespace log4cplus {  namespace spi {
@@ -59,7 +60,7 @@ InternalLoggingEvent::InternalLoggingEvent(
 InternalLoggingEvent::InternalLoggingEvent(
     const log4cplus::tstring_view& logger,
     LogLevel loglevel, const log4cplus::tstring_view& ndc_,
-    MappedDiagnosticContextMap const & mdc_,
+    MappedDiagnosticContextMap  mdc_,
     const log4cplus::tstring_view& message_,
     const log4cplus::tstring_view& thread_,
     log4cplus::helpers::Time time,
@@ -69,7 +70,7 @@ InternalLoggingEvent::InternalLoggingEvent(
     , loggerName(logger)
     , ll(loglevel)
     , ndc(ndc_)
-    , mdc(mdc_)
+    , mdc(std::move(mdc_))
     , thread(thread_)
     , timestamp(time)
     , file(file_)
@@ -88,7 +89,7 @@ InternalLoggingEvent::InternalLoggingEvent(
 InternalLoggingEvent::InternalLoggingEvent(
     const log4cplus::tstring_view& logger,
     LogLevel loglevel, const log4cplus::tstring_view& ndc_,
-    MappedDiagnosticContextMap const & mdc_,
+    MappedDiagnosticContextMap  mdc_,
     const log4cplus::tstring_view& message_,
     const log4cplus::tstring_view& thread_,
     const log4cplus::tstring_view& thread2_,
@@ -99,7 +100,7 @@ InternalLoggingEvent::InternalLoggingEvent(
     , loggerName(logger)
     , ll(loglevel)
     , ndc(ndc_)
-    , mdc(mdc_)
+    , mdc(std::move(mdc_))
     , thread(thread_)
     , thread2(thread2_)
     , timestamp(time)

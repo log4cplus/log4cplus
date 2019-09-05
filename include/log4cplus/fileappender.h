@@ -128,7 +128,7 @@ namespace log4cplus
 
     protected:
       // Ctors
-        FileAppenderBase(const log4cplus::tstring& filename,
+        FileAppenderBase(log4cplus::tstring  filename,
                          std::ios_base::openmode mode = std::ios_base::trunc,
                          bool immediateFlush = true,
                          bool createDirs = false);
@@ -317,7 +317,7 @@ namespace log4cplus
                                  int maxBackupIndex = 10,
                                  bool createDirs = false,
                                  bool rollOnClose = true,
-                                 const log4cplus::tstring& datePattern = log4cplus::tstring());
+                                 log4cplus::tstring  datePattern = log4cplus::tstring());
         DailyRollingFileAppender(const log4cplus::helpers::Properties& properties);
 
       // Dtor
@@ -386,7 +386,7 @@ namespace log4cplus
     public:
       // Ctors
         TimeBasedRollingFileAppender(const tstring& filename = LOG4CPLUS_TEXT(""),
-                                     const tstring& filenamePattern = LOG4CPLUS_TEXT("%d.log"),
+                                     tstring  filenamePattern = LOG4CPLUS_TEXT("%d.log"),
                                      int maxHistory = 10,
                                      bool cleanHistoryOnStart = false,
                                      bool immediateFlush = true,
