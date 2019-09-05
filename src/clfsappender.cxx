@@ -71,13 +71,12 @@ struct CLFSAppender::Data
 {
     Data ()
         : log_handle (INVALID_HANDLE_VALUE)
-        , buffer (0)
         , buffer_size (0)
     { }
 
     tstring log_name;
     HANDLE log_handle;
-    void * buffer;
+    void * buffer{0};
     ULONG buffer_size;
 };
 
