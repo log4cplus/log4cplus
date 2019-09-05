@@ -621,9 +621,9 @@ protected:
     void updateLastModInfo();
 
 private:
-    ConfigurationWatchDogThread (ConfigurationWatchDogThread const &);
+    ConfigurationWatchDogThread (ConfigurationWatchDogThread const &) = delete;
     ConfigurationWatchDogThread & operator = (
-        ConfigurationWatchDogThread const &);
+        ConfigurationWatchDogThread const &) = delete;
 
     unsigned int const waitMillis;
     thread::ManualResetEvent shouldTerminate;
