@@ -21,6 +21,7 @@
 #include <log4cplus/config.hxx>
 
 #include <exception>
+#include <memory>
 #include <ostream>
 #include <cerrno>
 
@@ -258,8 +259,8 @@ AbstractThread::start()
     try
     {
         flags |= fRUNNING;
-        thread.reset (
-            new std::thread ([this] (AbstractThreadPtr const & thread_ptr) {
+        thread = std::make_unique<std::thread> (
+            [this] (AbstractThreadPtr const & thread_ptr) {
                     (void) thread_ptr;
                     blockAllSignals ();
                     helpers::LogLog & loglog = helpers::getLogLog();
@@ -281,7 +282,7 @@ AbstractThread::start()
                     }
                     this->flags &= ~fRUNNING;
                     threadCleanup ();
-                }, AbstractThreadPtr (this)));
+                }, AbstractThreadPtr (this));
     }
     catch (...)
     {
