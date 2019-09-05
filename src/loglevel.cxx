@@ -58,11 +58,10 @@ class LOG4CPLUS_PRIVATE DefaultLogLevelTranslator
 public:
     DefaultLogLevelTranslator () = default;
 
-    virtual ~DefaultLogLevelTranslator () = default;
+    ~DefaultLogLevelTranslator () override = default;
 
-    virtual
     log4cplus::tstring const &
-    toString (LogLevel ll) const
+    toString (LogLevel ll) const override
     {
         switch(ll) {
         case OFF_LOG_LEVEL:     return OFF_STRING;
@@ -79,9 +78,8 @@ public:
         return internal::empty_str;
     }
 
-    virtual
     LogLevel
-    fromString (const log4cplus::tstring_view& s) const
+    fromString (const log4cplus::tstring_view& s) const override
     {
         // Since C++11, accessing str[0] is always safe as it returns '\0' for
         // empty string.
@@ -121,11 +119,10 @@ public:
         , name (name_)
     { }
 
-    virtual ~SingleLogLevelTranslator () = default;
+    ~SingleLogLevelTranslator () override = default;
 
-    virtual
     log4cplus::tstring const &
-    toString (LogLevel ll) const
+    toString (LogLevel ll) const override
     {
         if (ll == log_level)
             return name;
@@ -133,9 +130,8 @@ public:
             return internal::empty_str;
     }
 
-    virtual
     LogLevel
-    fromString (const log4cplus::tstring_view& s) const
+    fromString (const log4cplus::tstring_view& s) const override
     {
         if (s == name)
             return log_level;

@@ -108,7 +108,7 @@ public:
     }
 
 
-    ~SpeechObjectThread ()
+    ~SpeechObjectThread () override
     {
         if (! CloseHandle (terminate_ev))
             loglog_win32_error (
@@ -116,9 +116,8 @@ public:
     }
 
 
-    virtual
     void
-    run ()
+    run () override
     {
         COMInitializer com_init (COINIT_MULTITHREADED);
 

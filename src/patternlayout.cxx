@@ -122,8 +122,8 @@ class LiteralPatternConverter : public PatternConverter
 public:
     LiteralPatternConverter();
     explicit LiteralPatternConverter(const tstring& str);
-    virtual void convert(tstring & result,
-        const spi::InternalLoggingEvent&)
+    void convert(tstring & result,
+        const spi::InternalLoggingEvent&) override
     {
         result = str;
     }
@@ -154,8 +154,8 @@ public:
                 FULL_LOCATION_CONVERTER,
                 FUNCTION_CONVERTER };
     BasicPatternConverter(const FormattingInfo& info, Type type);
-    virtual void convert(tstring & result,
-        const spi::InternalLoggingEvent& event);
+    void convert(tstring & result,
+        const spi::InternalLoggingEvent& event) override;
 
 private:
   // Disable copy
@@ -175,8 +175,8 @@ private:
 class LoggerPatternConverter : public PatternConverter {
 public:
     LoggerPatternConverter(const FormattingInfo& info, int precision);
-    virtual void convert(tstring & result,
-        const spi::InternalLoggingEvent& event);
+    void convert(tstring & result,
+        const spi::InternalLoggingEvent& event) override;
 
 private:
     int precision;
@@ -194,8 +194,8 @@ public:
     DatePatternConverter(const FormattingInfo& info,
                          const tstring& pattern,
                          bool use_gmtime);
-    virtual void convert(tstring & result,
-        const spi::InternalLoggingEvent& event);
+    void convert(tstring & result,
+        const spi::InternalLoggingEvent& event) override;
 
 private:
     bool use_gmtime;
@@ -210,8 +210,8 @@ class EnvPatternConverter : public PatternConverter {
 public:
     EnvPatternConverter(const FormattingInfo& info,
                         const log4cplus::tstring& env);
-    virtual void convert(tstring & result,
-        const spi::InternalLoggingEvent& event);
+    void convert(tstring & result,
+        const spi::InternalLoggingEvent& event) override;
 
 private:
     log4cplus::tstring envKey;
@@ -222,8 +222,8 @@ private:
 class RelativeTimestampConverter: public PatternConverter {
 public:
     RelativeTimestampConverter(const FormattingInfo& info);
-    virtual void convert(tstring & result,
-        const spi::InternalLoggingEvent& event);
+    void convert(tstring & result,
+        const spi::InternalLoggingEvent& event) override;
 };
 
 
@@ -233,8 +233,8 @@ public:
 class HostnamePatternConverter : public PatternConverter {
 public:
     HostnamePatternConverter(const FormattingInfo& info, bool fqdn);
-    virtual void convert(tstring & result,
-        const spi::InternalLoggingEvent& event);
+    void convert(tstring & result,
+        const spi::InternalLoggingEvent& event) override;
 
 private:
     tstring hostname_;
@@ -251,8 +251,8 @@ class MDCPatternConverter
 {
 public:
     MDCPatternConverter(const FormattingInfo& info, tstring const & k);
-    virtual void convert(tstring & result,
-        const spi::InternalLoggingEvent& event);
+    void convert(tstring & result,
+        const spi::InternalLoggingEvent& event) override;
 
 private:
     tstring key;
@@ -267,8 +267,8 @@ private:
 class NDCPatternConverter : public PatternConverter {
 public:
     NDCPatternConverter(const FormattingInfo& info, int precision);
-    virtual void convert(tstring & result,
-        const spi::InternalLoggingEvent& event);
+    void convert(tstring & result,
+        const spi::InternalLoggingEvent& event) override;
 
 private:
     int precision;
