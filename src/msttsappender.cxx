@@ -97,7 +97,7 @@ class SpeechObjectThread
     : public virtual log4cplus::thread::AbstractThread
 {
 public:
-    SpeechObjectThread (ISpVoice * & ispvoice_ref)
+    explicit SpeechObjectThread (ISpVoice * & ispvoice_ref)
         : ispvoice (ispvoice_ref)
     {
         terminate_ev = CreateEvent (0, true, false, 0);

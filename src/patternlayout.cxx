@@ -221,7 +221,7 @@ private:
 //! This pattern is used to format miliseconds since process start.
 class RelativeTimestampConverter: public PatternConverter {
 public:
-    RelativeTimestampConverter(const FormattingInfo& info);
+    explicit RelativeTimestampConverter(const FormattingInfo& info);
     void convert(tstring & result,
         const spi::InternalLoggingEvent& event) override;
 };
