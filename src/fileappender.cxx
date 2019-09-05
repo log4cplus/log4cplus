@@ -72,7 +72,6 @@ namespace
 long const LOG4CPLUS_FILE_NOT_FOUND = ENOENT;
 
 
-static
 long
 file_rename (tstring const & src, tstring const & target)
 {
@@ -93,7 +92,6 @@ file_rename (tstring const & src, tstring const & target)
 }
 
 
-static
 long
 file_remove (tstring const & src)
 {
@@ -113,7 +111,6 @@ file_remove (tstring const & src)
 }
 
 
-static
 void
 loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
     tstring const & target, long ret)
@@ -140,7 +137,6 @@ loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
 }
 
 
-static
 void
 loglog_opening_result (helpers::LogLog & loglog,
     log4cplus::tostream const & os, tstring const & filename)
@@ -154,7 +150,6 @@ loglog_opening_result (helpers::LogLog & loglog,
 }
 
 
-static
 void
 rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 {
@@ -192,7 +187,6 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
 } // end rolloverFiles()
 
 
-static
 std::locale
 get_locale_by_name (tstring const & locale_name)
 {try
@@ -692,7 +686,6 @@ namespace
 {
 
 
-static
 Time
 round_time (Time const & t_, helpers::chrono::seconds seconds)
 {
@@ -704,7 +697,6 @@ round_time (Time const & t_, helpers::chrono::seconds seconds)
 }
 
 
-static
 Time
 round_time_and_add (Time const & t, helpers::chrono::seconds const & seconds)
 {
@@ -712,7 +704,6 @@ round_time_and_add (Time const & t, helpers::chrono::seconds const & seconds)
 }
 
 
-static
 std::chrono::seconds
 local_time_offset (Time const & t)
 {
@@ -728,7 +719,6 @@ local_time_offset (Time const & t)
 }
 
 
-static
 Time
 adjust_for_time_zone (Time const & t, std::chrono::seconds const & tzoffset)
 {

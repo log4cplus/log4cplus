@@ -33,9 +33,9 @@ namespace log4cplus { namespace helpers {
 namespace
 {
 
-static tchar const PREFIX[] = LOG4CPLUS_TEXT("log4cplus: ");
-static tchar const WARN_PREFIX[] = LOG4CPLUS_TEXT("log4cplus:WARN ");
-static tchar const ERR_PREFIX[] = LOG4CPLUS_TEXT("log4cplus:ERROR ");
+tchar const PREFIX[] = LOG4CPLUS_TEXT("log4cplus: ");
+tchar const WARN_PREFIX[] = LOG4CPLUS_TEXT("log4cplus:WARN ");
+tchar const ERR_PREFIX[] = LOG4CPLUS_TEXT("log4cplus:ERROR ");
 
 } // namespace
 

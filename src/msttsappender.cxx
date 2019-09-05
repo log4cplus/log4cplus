@@ -48,7 +48,6 @@ namespace log4cplus
 namespace
 {
 
-static
 void
 loglog_win32_error (tchar const * msg, bool dothrow = false)
 {
@@ -62,7 +61,6 @@ loglog_win32_error (tchar const * msg, bool dothrow = false)
 }
 
 
-static
 void
 loglog_com_error (tchar const * msg, HRESULT hr)
 {

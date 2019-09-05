@@ -37,7 +37,6 @@ namespace
 {
 
 
-static
 log4cplus::tstring
 get_basename (const log4cplus::tstring& filename)
 {

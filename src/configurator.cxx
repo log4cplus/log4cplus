@@ -61,10 +61,10 @@ void initializeLog4cplus();
 
 namespace
 {
-    static tchar const DELIM_START[] = LOG4CPLUS_TEXT("${");
-    static tchar const DELIM_STOP[] = LOG4CPLUS_TEXT("}");
-    static std::size_t const DELIM_START_LEN = 2;
-    static std::size_t const DELIM_STOP_LEN = 1;
+    tchar const DELIM_START[] = LOG4CPLUS_TEXT("${");
+    tchar const DELIM_STOP[] = LOG4CPLUS_TEXT("}");
+    std::size_t const DELIM_START_LEN = 2;
+    std::size_t const DELIM_STOP_LEN = 1;
 
 
     /**
@@ -97,7 +97,6 @@ namespace
      * @param val The string on which variable substitution is performed.
      * @param dest The result.
      */
-    static
     bool
     substVars (tstring & dest, const tstring & val,
         helpers::Properties const & props, helpers::LogLog& loglog,
@@ -171,7 +170,6 @@ namespace
 
     //! Translates encoding in ProtpertyConfigurator::PCFlags
     //! to helpers::Properties::PFlags
-    static
     unsigned
     pcflag_to_pflags_encoding (unsigned pcflags)
     {

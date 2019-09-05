@@ -51,7 +51,6 @@ const ULONG CLFS_APPENDER_DEFAULT_BUFFER_SIZE = 1024 * 64;
 namespace
 {
 
-static
 void
 loglog_win32_error (tchar const * msg)
 {

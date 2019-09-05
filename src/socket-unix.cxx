@@ -82,7 +82,6 @@ LOG4CPLUS_PRIVATE bool trySetCloseOnExec (int fd);
 namespace
 {
 
-static
 int
 get_host_by_name (char const * hostname, std::string * name,
     struct sockaddr_in * addr)

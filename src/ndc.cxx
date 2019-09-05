@@ -42,7 +42,6 @@ namespace
 {
 
 
-static
 void
 init_full_message (log4cplus::tstring & fullMessage,
     log4cplus::tstring const & message, DiagnosticContext const * parent)

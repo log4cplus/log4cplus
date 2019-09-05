@@ -38,7 +38,6 @@ namespace log4cplus
 namespace
 {
 
-static
 bool startsWith(tstring_view const & teststr, tstring_view const & substr)
 {
     bool val = false;

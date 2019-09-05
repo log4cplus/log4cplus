@@ -40,16 +40,16 @@ LogLevelTranslator::~LogLevelTranslator () = default;
 namespace
 {
 
-static tstring const ALL_STRING (LOG4CPLUS_TEXT("ALL"));
-static tstring const TRACE_STRING (LOG4CPLUS_TEXT("TRACE"));
-static tstring const DEBUG_STRING (LOG4CPLUS_TEXT("DEBUG"));
-static tstring const INFO_STRING (LOG4CPLUS_TEXT("INFO"));
-static tstring const WARN_STRING (LOG4CPLUS_TEXT("WARN"));
-static tstring const ERROR_STRING (LOG4CPLUS_TEXT("ERROR"));
-static tstring const FATAL_STRING (LOG4CPLUS_TEXT("FATAL"));
-static tstring const OFF_STRING (LOG4CPLUS_TEXT("OFF"));
-static tstring const NOTSET_STRING (LOG4CPLUS_TEXT("NOTSET"));
-static tstring const UNKNOWN_STRING (LOG4CPLUS_TEXT("UNKNOWN"));
+tstring const ALL_STRING (LOG4CPLUS_TEXT("ALL"));
+tstring const TRACE_STRING (LOG4CPLUS_TEXT("TRACE"));
+tstring const DEBUG_STRING (LOG4CPLUS_TEXT("DEBUG"));
+tstring const INFO_STRING (LOG4CPLUS_TEXT("INFO"));
+tstring const WARN_STRING (LOG4CPLUS_TEXT("WARN"));
+tstring const ERROR_STRING (LOG4CPLUS_TEXT("ERROR"));
+tstring const FATAL_STRING (LOG4CPLUS_TEXT("FATAL"));
+tstring const OFF_STRING (LOG4CPLUS_TEXT("OFF"));
+tstring const NOTSET_STRING (LOG4CPLUS_TEXT("NOTSET"));
+tstring const UNKNOWN_STRING (LOG4CPLUS_TEXT("UNKNOWN"));
 
 
 class LOG4CPLUS_PRIVATE DefaultLogLevelTranslator

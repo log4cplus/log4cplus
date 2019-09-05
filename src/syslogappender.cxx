@@ -82,7 +82,6 @@ namespace log4cplus
 namespace
 {
 
-static
 const char*
 useIdent (const std::string& string)
 {
@@ -102,7 +101,6 @@ int const fallback_facility = 0;
 #endif
 
 
-static
 int
 parseFacility (const tstring& text)
 {

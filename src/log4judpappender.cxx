@@ -44,7 +44,7 @@ namespace
 {
 
 
-static inline bool
+inline bool
 is_control (tchar ch)
 {
 #if defined (UNICODE)
@@ -56,7 +56,6 @@ is_control (tchar ch)
 
 
 //! Outputs str with reserved XML characters escaped.
-static
 void
 output_xml_escaped (tostream & os, tstring const & str)
 {
@@ -118,7 +117,6 @@ struct outputXMLEscaped
 
 
 //! Overload stream insertion for outputXMLEscaped.
-static
 tostream &
 operator << (tostream & os, outputXMLEscaped const & x)
 {

@@ -133,7 +133,6 @@ namespace
 {
 
 
-static
 bool
 get_current_thread_name_alt (log4cplus::tostream * s)
 {

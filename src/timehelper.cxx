@@ -126,7 +126,7 @@ namespace
 {
 
 
-static log4cplus::tstring const padding_zeros[4] =
+log4cplus::tstring const padding_zeros[4] =
 {
     { LOG4CPLUS_TEXT("000") },
     { LOG4CPLUS_TEXT("00") },
@@ -135,7 +135,7 @@ static log4cplus::tstring const padding_zeros[4] =
 };
 
 
-static log4cplus::tstring const uc_q_padding_zeros[4] =
+log4cplus::tstring const uc_q_padding_zeros[4] =
 {
     { LOG4CPLUS_TEXT(".000") },
     { LOG4CPLUS_TEXT(".00") },
@@ -144,7 +144,6 @@ static log4cplus::tstring const uc_q_padding_zeros[4] =
 };
 
 
-static
 void
 build_q_value (log4cplus::tstring & q_str, long tv_usec)
 {
@@ -155,7 +154,6 @@ build_q_value (log4cplus::tstring & q_str, long tv_usec)
 }
 
 
-static
 void
 build_uc_q_value (log4cplus::tstring & uc_q_str, long tv_usec,
     log4cplus::tstring & tmp)

@@ -132,7 +132,6 @@ namespace
 {
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-static
 std::unique_ptr<progschj::ThreadPool>
 instantiate_thread_pool ()
 {
@@ -171,8 +170,8 @@ enum DCState
 };
 
 
-static DCState default_context_state = DC_UNINITIALIZED;
-static DefaultContext * default_context = nullptr;
+DCState default_context_state = DC_UNINITIALIZED;
+DefaultContext * default_context = nullptr;
 
 
 struct destroy_default_context
@@ -183,11 +182,10 @@ struct destroy_default_context
         default_context = nullptr;
         default_context_state = DC_DESTROYED;
     }
-} static destroy_default_context_
+} destroy_default_context_
 LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE + 1);
 
 
-static
 void
 alloc_dc ()
 {
@@ -213,7 +211,6 @@ alloc_dc ()
 }
 
 
-static
 DefaultContext *
 get_dc (bool alloc = true)
 {
@@ -808,7 +805,7 @@ namespace {
 static void
 _log4cplus_initializer_func ()
     LOG4CPLUS_CONSTRUCTOR_FUNC (LOG4CPLUS_INIT_PRIORITY_BASE);
-static void
+void
 _log4cplus_initializer_func ()
 {
     log4cplus::initializeLog4cplus();
@@ -830,7 +827,7 @@ struct _static_log4cplus_initializer
         log4cplus::threadCleanup ();
         log4cplus::freeTLSSlot();
     }
-} static initializer
+} initializer
 LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE);
 
 } // namespace

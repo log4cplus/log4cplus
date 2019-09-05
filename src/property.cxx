@@ -57,7 +57,6 @@ namespace
 {
 
 
-static
 int
 is_space (tchar ch)
 {
@@ -69,7 +68,6 @@ is_space (tchar ch)
 }
 
 
-static
 void
 trim_leading_ws (tstring & str)
 {
@@ -83,7 +81,6 @@ trim_leading_ws (tstring & str)
 }
 
 
-static
 void
 trim_trailing_ws (tstring & str)
 {
@@ -97,7 +94,6 @@ trim_trailing_ws (tstring & str)
 }
 
 
-static
 void
 trim_ws (tstring & str)
 {

@@ -121,7 +121,7 @@ static inline int vsntprintf (tchar * dest, std::size_t dest_size,
     tchar const * fmt, std::va_list args)
     LOG4CPLUS_FORMAT_ATTRIBUTE (__printf__, 3, 0);
 
-static inline
+inline
 int
 vsntprintf (tchar * dest, std::size_t dest_size, tchar const * fmt,
     std::va_list args)
