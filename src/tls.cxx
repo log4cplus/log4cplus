@@ -24,7 +24,7 @@
 #include <log4cplus/thread/impl/tls.h>
 
 
-namespace log4cplus { namespace thread { namespace impl {
+namespace log4cplus::thread::impl {
 
 
 #if defined (LOG4CPLUS_SINGLE_THREADED)
@@ -37,4 +37,4 @@ std::vector<tls_value_type> * tls_single_threaded_values;
 #endif
 
 
-} } } // namespace log4cplus { namespace thread { namespace impl {
+} // namespace log4cplus::thread::impl

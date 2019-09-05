@@ -36,15 +36,10 @@
 #endif
 
 
-namespace log4cplus
-{
-
-namespace internal
+namespace log4cplus::internal
 {
 
 log4cplus::tstring const empty_str;
-
-} // namespace internal
 
 } // namespace log4cplus
 
@@ -64,10 +59,7 @@ operator <<(log4cplus::tostream& stream, const char* str)
 #endif
 
 
-namespace log4cplus
-{
-
-namespace helpers
+namespace log4cplus::helpers
 {
 
 
@@ -522,7 +514,5 @@ CATCH_TEST_CASE( "Strings helpers", "[strings]" )
 #endif
 
 
-
-} // namespace helpers
 
 } // namespace log4cplus

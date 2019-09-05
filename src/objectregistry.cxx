@@ -23,7 +23,7 @@
 #include <log4cplus/thread/threads.h>
 
 
-namespace log4cplus { namespace spi {
+namespace log4cplus::spi {
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -126,4 +126,4 @@ ObjectRegistryBase::_enableLocking (bool enable)
 }
 
 
-} } // namespace log4cplus { namespace spi {
+} // namespace log4cplus::spi

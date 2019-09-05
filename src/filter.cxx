@@ -33,7 +33,7 @@
 #endif
 
 
-namespace log4cplus { namespace spi {
+namespace log4cplus::spi {
 
 ///////////////////////////////////////////////////////////////////////////////
 // global methods
@@ -710,4 +710,4 @@ CATCH_TEST_CASE ("Filter", "[filter]")
 
 #endif
 
-} } // namespace log4cplus { namespace spi {
+} // namespace log4cplus::spi

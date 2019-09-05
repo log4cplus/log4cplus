@@ -382,9 +382,7 @@ log4cplus_logger_force_log_str(const log4cplus_char_t *name, loglevel_t ll,
 }
 
 
-namespace log4cplus {
-
-namespace internal {
+namespace log4cplus::internal {
 
 CustomLogLevelManager::CustomLogLevelManager ()
     : pushed_methods (false)
@@ -472,8 +470,6 @@ CustomLogLevelManager::fromString (const log4cplus::tstring_view& nm) const
 
     return NOT_SET_LOG_LEVEL;
 }
-
-} // namespace internal
 
 } // namespace log4cplus
 

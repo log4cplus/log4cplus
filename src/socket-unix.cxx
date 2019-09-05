@@ -73,7 +73,7 @@
 #endif
 
 
-namespace log4cplus { namespace helpers {
+namespace log4cplus::helpers {
 
 // from lockfile.cxx
 LOG4CPLUS_PRIVATE bool trySetCloseOnExec (int fd);
@@ -675,6 +675,6 @@ ServerSocket::~ServerSocket()
         ::close (interruptHandles[1]);
 }
 
-} } // namespace log4cplus
+} // namespace log4cplus
 
 #endif // LOG4CPLUS_USE_BSD_SOCKETS

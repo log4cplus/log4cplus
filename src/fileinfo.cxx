@@ -39,7 +39,7 @@
 #endif
 
 
-namespace log4cplus { namespace helpers {
+namespace log4cplus::helpers {
 
 
 int
@@ -69,4 +69,4 @@ getFileInfo (FileInfo * fi, tstring const & name)
     return 0;
 }
 
-} } // namespace log4cplus { namespace helpers {
+} // namespace log4cplus::helpers

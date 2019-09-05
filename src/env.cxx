@@ -58,7 +58,7 @@
 #include <memory>
 
 
-namespace log4cplus { namespace internal {
+namespace log4cplus::internal {
 
 #if defined(_WIN32)
 tstring const dir_sep(LOG4CPLUS_TEXT("\\"));
@@ -669,4 +669,4 @@ make_dirs (tstring const & file_path)
 }
 
 
-} } // namespace log4cplus { namespace internal {
+} // namespace log4cplus::internal

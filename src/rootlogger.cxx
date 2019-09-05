@@ -23,7 +23,7 @@
 #include <log4cplus/thread/syncprims-pub-impl.h>
 
 
-namespace log4cplus { namespace spi {
+namespace log4cplus::spi {
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -62,4 +62,4 @@ RootLogger::setLogLevel(LogLevel loglevel)
 }
 
 
-} } // namespace log4cplus { namespace spi {
+} // namespace log4cplus::spi
