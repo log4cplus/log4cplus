@@ -103,7 +103,6 @@ Appender::Appender()
 
 Appender::Appender(const log4cplus::helpers::Properties & properties)
     : layout(new SimpleLayout)
-    , name()
     , threshold(NOT_SET_LOG_LEVEL)
     , errorHandler(new OnlyOnceErrorHandler)
     , useLockFile(false)

@@ -96,8 +96,7 @@ SimpleLayout::formatAndAppend(log4cplus::tostream& output,
 
   TTCCLayout::TTCCLayout(bool use_gmtime_, bool thread_printing_,
       bool category_prefixing_, bool context_printing_)
-    : dateFormat()
-    , use_gmtime(use_gmtime_)
+    : use_gmtime(use_gmtime_)
     , thread_printing (thread_printing_)
     , category_prefixing (category_prefixing_)
     , context_printing (context_printing_)

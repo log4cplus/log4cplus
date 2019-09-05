@@ -195,8 +195,7 @@ struct MSTTSAppender::Data
 
 
 MSTTSAppender::MSTTSAppender ()
-    : Appender ()
-    , data (new Data)
+    : data (new Data)
 {
     init ();
 }
