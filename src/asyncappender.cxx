@@ -62,7 +62,7 @@ QueueThread::QueueThread (AsyncAppenderPtr aai, thread::QueuePtr q)
 void
 QueueThread::run()
 {
-    typedef log4cplus::thread::Queue::queue_storage_type ev_buf_type;
+    using ev_buf_type = log4cplus::thread::Queue::queue_storage_type;
     ev_buf_type ev_buf;
 
     while (true)
