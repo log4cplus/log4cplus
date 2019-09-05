@@ -255,14 +255,14 @@ namespace
 template <typename T, typename U>
 struct socklen_var
 {
-    typedef T type;
+    using type = T;
 };
 
 
 template <typename U>
 struct socklen_var<void, U>
 {
-    typedef U type;
+    using type = U;
 };
 
 

@@ -147,7 +147,7 @@ namespace
 template <typename Factory>
 struct DisableFactoryLocking
 {
-    typedef Factory factory_type;
+    using factory_type = Factory;
 
     explicit
     DisableFactoryLocking (factory_type & f)

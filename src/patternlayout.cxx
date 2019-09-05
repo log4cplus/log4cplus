@@ -111,8 +111,7 @@ private:
 };
 
 
-typedef std::vector<std::unique_ptr<pattern::PatternConverter> >
-PatternConverterList;
+using PatternConverterList = std::vector<std::unique_ptr<pattern::PatternConverter> >;
 
 
 /**
@@ -1036,7 +1035,7 @@ PatternParser::finalizeConverter(tchar c)
 } // namespace pattern
 
 
-typedef pattern::PatternConverterList PatternConverterList;
+using PatternConverterList = pattern::PatternConverterList;
 
 
 ////////////////////////////////////////////////
