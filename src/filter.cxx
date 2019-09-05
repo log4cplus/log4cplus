@@ -304,7 +304,7 @@ FilterResult NDCMatchFilter::decide(const InternalLoggingEvent& event) const
         return NEUTRAL;
     }
 
-    if(ndcStr.compare(ndcToMatch) == 0)
+    if(ndcStr == ndcToMatch)
         return (acceptOnMatch ? ACCEPT : DENY);
 
     return (acceptOnMatch ? DENY : ACCEPT);
@@ -346,7 +346,7 @@ FilterResult MDCMatchFilter::decide(const InternalLoggingEvent& event) const
     if(neutralOnEmpty && mdcStr.empty())
         return NEUTRAL;
 
-    if(mdcStr.compare(mdcValueToMatch) == 0)
+    if(mdcStr == mdcValueToMatch)
         return (acceptOnMatch ? ACCEPT : DENY);
 
     return (acceptOnMatch ? DENY : ACCEPT);
