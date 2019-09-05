@@ -32,6 +32,7 @@
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/internal/env.h>
 #include <algorithm>
+#include <memory>
 #include <sstream>
 #include <cstdio>
 #include <stdexcept>
@@ -291,7 +292,7 @@ FileAppenderBase::init()
 
         try
         {
-            lockFile.reset (new helpers::LockFile (lockFileName));
+            lockFile = std::make_unique<helpers::LockFile> (lockFileName);
             guard.attach_and_lock (*lockFile);
         }
         catch (std::runtime_error const &)

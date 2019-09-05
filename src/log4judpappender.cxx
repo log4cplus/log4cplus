@@ -33,6 +33,7 @@
 #else
 #include <cctype>
 #endif
+#include <memory>
 
 
 namespace log4cplus
@@ -137,7 +138,7 @@ Log4jUdpAppender::Log4jUdpAppender(const tstring& host_, int port_, bool ipv6_)
     , port(port_)
     , ipv6(ipv6_)
 {
-    layout.reset (new PatternLayout (LOG4CPLUS_TEXT ("%m")));
+    layout = std::make_unique<PatternLayout> (LOG4CPLUS_TEXT ("%m"));
     openSocket();
 }
 

@@ -29,6 +29,7 @@
 #include <log4cplus/internal/env.h>
 #include <limits>
 #include <cstdlib>
+#include <memory>
 
 
 namespace
@@ -1093,7 +1094,7 @@ PatternLayout::init(const tstring& pattern_, unsigned ndcMaxDepth)
         {
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("Parsed Pattern created a NULL PatternConverter"));
-            pc.reset (new pattern::LiteralPatternConverter);
+            pc = std::make_unique<pattern::LiteralPatternConverter> ();
         }
     }
 

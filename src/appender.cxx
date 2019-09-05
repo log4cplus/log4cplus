@@ -28,6 +28,7 @@
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
+#include <memory>
 #include <stdexcept>
 
 
@@ -188,7 +189,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
         {
             try
             {
-                lockFile.reset (new helpers::LockFile (lockFileName));
+                lockFile = std::make_unique<helpers::LockFile> (lockFileName);
             }
             catch (std::runtime_error const &)
             {
