@@ -351,10 +351,8 @@ PropertyConfigurator::replaceEnvironVariables()
     {
         changed = false;
         keys = properties.propertyNames();
-        for (auto it = keys.begin();
-            it != keys.end(); ++it)
+        for (auto & key : keys)
         {
-            tstring const & key = *it;
             val = properties.getProperty(key);
 
             subKey.clear ();
