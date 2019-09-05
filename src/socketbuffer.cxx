@@ -80,7 +80,7 @@ SocketBuffer::readByte()
         return 0;
     }
 
-    unsigned char ret = static_cast<unsigned char>(buffer[pos]);
+    auto ret = static_cast<unsigned char>(buffer[pos]);
     pos += sizeof(unsigned char);
 
     return ret;

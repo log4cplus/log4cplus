@@ -468,7 +468,7 @@ void
 #endif
 ptd_cleanup_func (void * arg)
 {
-    internal::per_thread_data * const arg_ptd
+    auto * const arg_ptd
         = static_cast<internal::per_thread_data *>(arg);
     internal::per_thread_data * const ptd = internal::get_ptd (false);
     (void) ptd;

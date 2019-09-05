@@ -353,7 +353,7 @@ PropertyConfigurator::replaceEnvironVariables()
     {
         changed = false;
         keys = properties.propertyNames();
-        for (std::vector<tstring>::const_iterator it = keys.begin();
+        for (auto it = keys.begin();
             it != keys.end(); ++it)
         {
             tstring const & key = *it;

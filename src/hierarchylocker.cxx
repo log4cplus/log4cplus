@@ -53,7 +53,7 @@ HierarchyLocker::HierarchyLocker(Hierarchy& _h)
         helpers::getLogLog().error(
             LOG4CPLUS_TEXT("HierarchyLocker::ctor()")
             LOG4CPLUS_TEXT("- An error occurred while locking"));
-        LoggerList::iterator range_end = it;
+        auto range_end = it;
         for (it = loggerList.begin (); it != range_end; ++it)
             it->value->appender_list_mutex.unlock ();
         throw;
