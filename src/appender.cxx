@@ -419,7 +419,7 @@ Appender::getErrorHandler()
 void
 Appender::setErrorHandler(std::unique_ptr<ErrorHandler> eh)
 {
-    if (! eh.get())
+    if (! eh)
     {
         // We do not throw exception here since the cause is probably a
         // bad config file.
