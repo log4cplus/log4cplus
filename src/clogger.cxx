@@ -67,7 +67,7 @@ log4cplus_deinitialize(void * initializer_)
 
     try
     {
-        Initializer * initializer = static_cast<Initializer *>(initializer_);
+        auto * initializer = static_cast<Initializer *>(initializer_);
         delete initializer;
     }
     catch (std::exception const &)

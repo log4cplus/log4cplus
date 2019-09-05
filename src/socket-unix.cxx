@@ -278,8 +278,8 @@ accept_wrap (
 {
     typedef typename socklen_var<accept_socklen_type, socklen_t>::type
         socklen_var_type;
-    socklen_var_type l = static_cast<socklen_var_type>(*len);
-    SOCKET_TYPE result
+    auto l = static_cast<socklen_var_type>(*len);
+    auto result
         = static_cast<SOCKET_TYPE>(
             accept_func (sock, sa,
                 reinterpret_cast<accept_socklen_type *>(&l)));
@@ -298,8 +298,8 @@ accept_wrap (
 {
     typedef typename socklen_var<accept_socklen_type, socklen_t>::type
         socklen_var_type;
-    socklen_var_type l = static_cast<socklen_var_type>(*len);
-    SOCKET_TYPE result
+    auto l = static_cast<socklen_var_type>(*len);
+    auto result
         = static_cast<SOCKET_TYPE>(
             accept_func (sock, sa,
                 reinterpret_cast<accept_socklen_type *>(&l),

@@ -255,7 +255,7 @@ tstring const &
 InternalLoggingEvent::getMDC (tstring const & key) const
 {
     MappedDiagnosticContextMap const & mdc_ = getMDCCopy ();
-    MappedDiagnosticContextMap::const_iterator it = mdc_.find (key);
+    auto it = mdc_.find (key);
     if (it != mdc_.end ())
         return it->second;
     else

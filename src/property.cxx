@@ -321,7 +321,7 @@ Properties::getProperty(tchar const * key) const
 tstring
 Properties::getProperty(const tstring& key, const tstring& defaultVal) const
 {
-    StringMap::const_iterator it (data.find (key));
+    auto it (data.find (key));
     if (it == data.end ())
         return defaultVal;
     else
@@ -417,7 +417,7 @@ bool
 Properties::getString (log4cplus::tstring & val, log4cplus::tstring const & key)
     const
 {
-    StringMap::const_iterator it (data.find (key));
+    auto it (data.find (key));
     if (it == data.end ())
         return false;
 
@@ -430,7 +430,7 @@ template <typename StringType>
 log4cplus::tstring const &
 Properties::get_property_worker (StringType const & key) const
 {
-    StringMap::const_iterator it (data.find (key));
+    auto it (data.find (key));
     if (it == data.end ())
         return log4cplus::internal::empty_str;
     else
