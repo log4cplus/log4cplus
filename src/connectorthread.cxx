@@ -30,8 +30,7 @@
 namespace log4cplus { namespace helpers {
 
 
-IConnectorThreadClient::~IConnectorThreadClient ()
-{ }
+IConnectorThreadClient::~IConnectorThreadClient () = default;
 
 //
 //
@@ -44,8 +43,7 @@ ConnectorThread::ConnectorThread (
 { }
 
 
-ConnectorThread::~ConnectorThread ()
-{ }
+ConnectorThread::~ConnectorThread () = default;
 
 
 void

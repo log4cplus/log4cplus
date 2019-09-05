@@ -250,9 +250,7 @@ PropertyConfigurator::init()
 }
 
 
-PropertyConfigurator::~PropertyConfigurator()
-{
-}
+PropertyConfigurator::~PropertyConfigurator() = default;
 
 
 
@@ -569,9 +567,7 @@ BasicConfigurator::BasicConfigurator(Hierarchy& hier, bool logToStdErr)
 
 
 
-BasicConfigurator::~BasicConfigurator()
-{
-}
+BasicConfigurator::~BasicConfigurator() = default;
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -610,8 +606,7 @@ public:
         updateLastModInfo();
     }
 
-    virtual ~ConfigurationWatchDogThread ()
-    { }
+    virtual ~ConfigurationWatchDogThread () = default;
 
     void terminate ()
     {

@@ -279,9 +279,7 @@ Properties::init(tistream& input)
 
 
 
-Properties::~Properties()
-{
-}
+Properties::~Properties() = default;
 
 
 

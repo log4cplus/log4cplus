@@ -147,9 +147,7 @@ InternalLoggingEvent::InternalLoggingEvent(
 }
 
 
-InternalLoggingEvent::~InternalLoggingEvent()
-{
-}
+InternalLoggingEvent::~InternalLoggingEvent() = default;
 
 
 

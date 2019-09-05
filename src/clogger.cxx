@@ -391,8 +391,7 @@ CustomLogLevelManager::CustomLogLevelManager ()
 { }
 
 
-CustomLogLevelManager::~CustomLogLevelManager ()
-{ }
+CustomLogLevelManager::~CustomLogLevelManager () = default;
 
 
 bool

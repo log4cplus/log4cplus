@@ -157,8 +157,7 @@ Socket::Socket (Socket && other) LOG4CPLUS_NOEXCEPT
 { }
 
 
-Socket::~Socket()
-{ }
+Socket::~Socket() = default;
 
 
 Socket &

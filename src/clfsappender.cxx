@@ -72,7 +72,7 @@ struct CLFSAppender::Data
     Data ()
         : log_handle (INVALID_HANDLE_VALUE)
         , buffer_size (0)
-    { }
+    = default;
 
     tstring log_name;
     HANDLE log_handle;

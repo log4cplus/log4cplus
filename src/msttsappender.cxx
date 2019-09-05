@@ -177,7 +177,7 @@ struct MSTTSAppender::Data
 {
     Data ()
         : ispvoice (0)
-    { }
+    = default;
 
     ~Data ()
     {

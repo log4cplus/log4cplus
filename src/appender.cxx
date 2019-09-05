@@ -39,12 +39,10 @@ namespace log4cplus
 // log4cplus::ErrorHandler dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-ErrorHandler::ErrorHandler ()
-{ }
+ErrorHandler::ErrorHandler () = default;
 
 
-ErrorHandler::~ErrorHandler()
-{ }
+ErrorHandler::~ErrorHandler() = default;
 
 
 
@@ -57,8 +55,7 @@ OnlyOnceErrorHandler::OnlyOnceErrorHandler()
 { }
 
 
-OnlyOnceErrorHandler::~OnlyOnceErrorHandler ()
-{ }
+OnlyOnceErrorHandler::~OnlyOnceErrorHandler () = default;
 
 
 void

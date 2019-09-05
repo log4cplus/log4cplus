@@ -33,12 +33,10 @@ namespace log4cplus
 {
 
 
-MDC::MDC ()
-{ }
+MDC::MDC () = default;
 
 
-MDC::~MDC ()
-{ }
+MDC::~MDC () = default;
 
 
 MappedDiagnosticContextMap *

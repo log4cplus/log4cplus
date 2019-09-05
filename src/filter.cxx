@@ -61,14 +61,10 @@ checkFilter(const Filter* filter, const InternalLoggingEvent& event)
 // Filter implementation
 ///////////////////////////////////////////////////////////////////////////////
 
-Filter::Filter()
-{
-}
+Filter::Filter() = default;
 
 
-Filter::~Filter()
-{
-}
+Filter::~Filter() = default;
 
 
 void
@@ -86,8 +82,7 @@ Filter::appendFilter(FilterPtr filter)
 // DenyAllFilter implementation
 ///////////////////////////////////////////////////////////////////////////////
 
-DenyAllFilter::DenyAllFilter ()
-{ }
+DenyAllFilter::DenyAllFilter () = default;
 
 
 DenyAllFilter::DenyAllFilter (const helpers::Properties&)

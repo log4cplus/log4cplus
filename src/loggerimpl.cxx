@@ -43,9 +43,7 @@ LoggerImpl::LoggerImpl(const log4cplus::tstring_view& name_, Hierarchy& h)
 }
 
 
-LoggerImpl::~LoggerImpl()
-{
-}
+LoggerImpl::~LoggerImpl() = default;
 
 
 //////////////////////////////////////////////////////////////////////////////

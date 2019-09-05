@@ -32,8 +32,7 @@ namespace log4cplus
 {
 
 
-CallbackAppender::CallbackAppender()
-{ }
+CallbackAppender::CallbackAppender() = default;
 
 
 CallbackAppender::CallbackAppender(log4cplus_log_event_callback_t callback_,
