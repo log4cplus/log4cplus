@@ -23,8 +23,8 @@
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <log4cplus/callbackappender.h>
-#include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 
 

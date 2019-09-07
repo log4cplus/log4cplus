@@ -18,10 +18,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <log4cplus/streams.h>
 #include <log4cplus/helpers/pointer.h>
-#include <log4cplus/thread/threads.h>
+#include <log4cplus/streams.h>
 #include <log4cplus/thread/impl/syncprims-impl.h>
+#include <log4cplus/thread/threads.h>
+
 #include <cassert>
 
 

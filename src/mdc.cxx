@@ -21,8 +21,8 @@
 //  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include <log4cplus/mdc.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/mdc.h>
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
 #include <catch.hpp>

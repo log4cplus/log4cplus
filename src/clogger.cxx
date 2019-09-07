@@ -18,28 +18,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <log4cplus/logger.h>
-#include <log4cplus/clogger.h>
 #include <log4cplus/appender.h>
-#include <log4cplus/hierarchylocker.h>
-#include <log4cplus/hierarchy.h>
-#include <log4cplus/helpers/loglog.h>
-#include <log4cplus/spi/loggerimpl.h>
-#include <log4cplus/configurator.h>
-#include <log4cplus/streams.h>
-#include <log4cplus/helpers/snprintf.h>
-#include <log4cplus/initializer.h>
 #include <log4cplus/callbackappender.h>
-#include <log4cplus/internal/internal.h>
+#include <log4cplus/clogger.h>
+#include <log4cplus/configurator.h>
+#include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/snprintf.h>
+#include <log4cplus/hierarchy.h>
+#include <log4cplus/hierarchylocker.h>
+#include <log4cplus/initializer.h>
 #include <log4cplus/internal/customloglevelmanager.h>
+#include <log4cplus/internal/internal.h>
+#include <log4cplus/logger.h>
+#include <log4cplus/spi/loggerimpl.h>
+#include <log4cplus/streams.h>
 
 #include <cerrno>
-#include <cstdio>
 #include <cstdarg>
+#include <cstdio>
 #include <cstring>
 
-#include <sstream>
 #include <map>
+#include <sstream>
 
 using namespace log4cplus;
 using namespace log4cplus::helpers;

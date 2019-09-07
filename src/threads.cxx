@@ -20,10 +20,10 @@
 
 #include <log4cplus/config.hxx>
 
+#include <cerrno>
 #include <exception>
 #include <memory>
 #include <ostream>
-#include <cerrno>
 
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -49,22 +49,22 @@
 #  include <process.h>
 #endif
 #include <log4cplus/config/windowsh-inc.h>
-#include <log4cplus/thread/syncprims-pub-impl.h>
-#include <log4cplus/tstring.h>
 #include <log4cplus/internal/cygwin-win32.h>
 #include <log4cplus/streams.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
+#include <log4cplus/tstring.h>
 
 #include <log4cplus/thread/threads.h>
 
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
-#include <log4cplus/thread/impl/threads-impl.h>
-#include <log4cplus/thread/impl/tls.h>
-#include <log4cplus/ndc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/ndc.h>
+#include <log4cplus/thread/impl/threads-impl.h>
+#include <log4cplus/thread/impl/tls.h>
 
 #endif // LOG4CPLUS_SINGLE_THREADED
 

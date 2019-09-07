@@ -18,10 +18,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <log4cplus/spi/filter.h>
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/spi/filter.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 

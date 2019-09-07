@@ -21,10 +21,10 @@
 //  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include <log4cplus/internal/env.h>
-#include <log4cplus/helpers/stringhelper.h>
-#include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/fileinfo.h>
+#include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/internal/env.h>
 #include <log4cplus/streams.h>
 
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
@@ -47,15 +47,15 @@
 #include <direct.h>
 #endif
 
+#include <algorithm>
 #include <cassert>
+#include <cerrno>
 #include <cstdlib>
 #include <cstring>
-#include <cerrno>
-#include <sstream>
-#include <algorithm>
 #include <functional>
-#include <stdexcept>
 #include <memory>
+#include <sstream>
+#include <stdexcept>
 
 
 namespace log4cplus::internal {

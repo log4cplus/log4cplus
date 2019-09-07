@@ -21,13 +21,13 @@
 //  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/stringhelper.h>
 
+#include <cassert>
 #include <cstdlib>
 #include <cstring>
 #include <cwchar>
-#include <cassert>
 #include <vector>
 
 

@@ -27,17 +27,19 @@
 //  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#include <log4cplus/clfsappender.h>
 #include <log4cplus/config.hxx>
+#include <log4cplus/config/windowsh-inc.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/property.h>
-#include <log4cplus/clfsappender.h>
 #include <log4cplus/spi/factory.h>
-#include <sstream>
-#include <iomanip>
-#include <cstring>
-#include <log4cplus/config/windowsh-inc.h>
-#include <clfsw32.h>
+
 #include <clfsmgmtw32.h>
+#include <clfsw32.h>
+
+#include <cstring>
+#include <iomanip>
+#include <sstream>
 
 
 // Forward Declarations

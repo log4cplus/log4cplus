@@ -28,12 +28,12 @@
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <log4cplus/config.hxx>
-#include <log4cplus/msttsappender.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/msttsappender.h>
 #include <log4cplus/spi/factory.h>
-#include <log4cplus/thread/threads.h>
 #include <log4cplus/thread/syncprims.h>
+#include <log4cplus/thread/threads.h>
 
 #include <iomanip>
 #include <sstream>

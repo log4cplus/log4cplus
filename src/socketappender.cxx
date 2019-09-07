@@ -18,15 +18,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <cstdlib>
-#include <stdexcept>
-#include <log4cplus/socketappender.h>
-#include <log4cplus/layout.h>
-#include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/property.h>
-#include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/layout.h>
+#include <log4cplus/socketappender.h>
+#include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
+
+#include <cstdlib>
+#include <stdexcept>
 
 
 namespace log4cplus {

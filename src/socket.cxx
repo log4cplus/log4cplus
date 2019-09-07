@@ -19,8 +19,8 @@
 // limitations under the License.
 
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/internal/socket.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/internal/socket.h>
 
 
 namespace log4cplus::helpers {

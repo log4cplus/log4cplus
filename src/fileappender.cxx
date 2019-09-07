@@ -19,28 +19,29 @@
 // limitations under the License.
 
 #include <log4cplus/fileappender.h>
-#include <log4cplus/layout.h>
-#include <log4cplus/streams.h>
+#include <log4cplus/helpers/fileinfo.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/timehelper.h>
-#include <log4cplus/helpers/property.h>
-#include <log4cplus/helpers/fileinfo.h>
-#include <log4cplus/spi/loggingevent.h>
-#include <log4cplus/spi/factory.h>
-#include <log4cplus/thread/syncprims-pub-impl.h>
-#include <log4cplus/internal/internal.h>
 #include <log4cplus/internal/env.h>
+#include <log4cplus/internal/internal.h>
+#include <log4cplus/layout.h>
+#include <log4cplus/spi/factory.h>
+#include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/streams.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
+
 #include <algorithm>
+#include <cmath> // std::fmod
+#include <cstdio>
 #include <memory>
 #include <sstream>
-#include <cstdio>
 #include <stdexcept>
-#include <cmath> // std::fmod
 
 // For _wrename() and _wremove() on Windows.
-#include <stdio.h>
 #include <cerrno>
+#include <stdio.h>
 #ifdef LOG4CPLUS_HAVE_ERRNO_H
 #include <errno.h>
 #endif

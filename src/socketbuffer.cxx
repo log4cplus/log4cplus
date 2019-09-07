@@ -20,8 +20,8 @@
 
 #include <cstring>
 #include <limits>
-#include <log4cplus/helpers/socketbuffer.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/socketbuffer.h>
 
 #if defined (LOG4CPLUS_HAVE_SYS_TYPES_H)
 #include <sys/types.h>

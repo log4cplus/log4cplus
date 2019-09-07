@@ -24,12 +24,13 @@
 #include <log4cplus/config.hxx>
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
-#include <log4cplus/helpers/queue.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/queue.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
-#include <stdexcept>
+
 #include <algorithm>
 #include <iterator>
+#include <stdexcept>
 
 
 namespace log4cplus::thread {

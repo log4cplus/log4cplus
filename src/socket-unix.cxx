@@ -22,15 +22,16 @@
 #include <log4cplus/config.hxx>
 #if defined (LOG4CPLUS_USE_BSD_SOCKETS)
 
-#include <cstring>
-#include <vector>
+#include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/internal/socket.h>
+#include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
+
 #include <algorithm>
 #include <cerrno>
-#include <log4cplus/internal/socket.h>
-#include <log4cplus/helpers/loglog.h>
-#include <log4cplus/thread/syncprims-pub-impl.h>
-#include <log4cplus/spi/loggingevent.h>
-#include <log4cplus/helpers/stringhelper.h>
+#include <cstring>
+#include <vector>
 
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>

@@ -24,13 +24,13 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/streams.h>
 
-#include <locale>
-#include <iterator>
 #include <algorithm>
+#include <cctype>
 #include <cstring>
 #include <cwchar>
 #include <cwctype>
-#include <cctype>
+#include <iterator>
+#include <locale>
 
 #include <cassert>
 #include <vector>

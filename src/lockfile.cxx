@@ -25,6 +25,16 @@
 
 #include <log4cplus/config.hxx>
 
+#include <log4cplus/helpers/lockfile.h>
+#include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/internal/env.h>
+
+#include <cerrno>
+#include <cstring>
+#include <limits>
+#include <stdexcept>
+
 #if defined (LOG4CPLUS_HAVE_SYS_TYPES_H)
 #include <sys/types.h>
 #endif
@@ -48,16 +58,6 @@
 #include <share.h>
 #endif
 #include <log4cplus/config/windowsh-inc.h>
-
-#include <stdexcept>
-#include <cerrno>
-#include <limits>
-#include <cstring>
-
-#include <log4cplus/helpers/lockfile.h>
-#include <log4cplus/helpers/stringhelper.h>
-#include <log4cplus/helpers/loglog.h>
-#include <log4cplus/internal/env.h>
 
 #if defined (_WIN32)
 #  define LOG4CPLUS_USE_WIN32_LOCKFILEEX

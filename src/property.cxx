@@ -31,16 +31,17 @@
     || defined (LOG4CPLUS_HAVE_CODECVT_UTF32_FACET)
 #  include <codecvt>
 #endif
-#include <locale>
-#include <fstream>
-#include <sstream>
-#include <log4cplus/streams.h>
 #include <log4cplus/fstreams.h>
-#include <log4cplus/helpers/stringhelper.h>
-#include <log4cplus/helpers/property.h>
-#include <log4cplus/internal/internal.h>
-#include <log4cplus/internal/env.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/property.h>
+#include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/internal/env.h>
+#include <log4cplus/internal/internal.h>
+#include <log4cplus/streams.h>
+
+#include <fstream>
+#include <locale>
+#include <sstream>
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
 #include <catch.hpp>

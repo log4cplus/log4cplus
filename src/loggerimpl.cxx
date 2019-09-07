@@ -18,11 +18,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <log4cplus/appender.h>
+#include <log4cplus/helpers/loglog.h>
+#include <log4cplus/hierarchy.h>
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/spi/loggerimpl.h>
-#include <log4cplus/appender.h>
-#include <log4cplus/hierarchy.h>
-#include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/spi/rootlogger.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>

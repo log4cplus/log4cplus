@@ -19,18 +19,18 @@
 // limitations under the License.
 
 #include <log4cplus/configurator.h>
-#include <log4cplus/hierarchylocker.h>
-#include <log4cplus/hierarchy.h>
-#include <log4cplus/helpers/loglog.h>
-#include <log4cplus/helpers/stringhelper.h>
-#include <log4cplus/helpers/property.h>
-#include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/helpers/fileinfo.h>
-#include <log4cplus/thread/threads.h>
-#include <log4cplus/thread/syncprims-pub-impl.h>
+#include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/property.h>
+#include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/helpers/timehelper.h>
+#include <log4cplus/hierarchy.h>
+#include <log4cplus/hierarchylocker.h>
+#include <log4cplus/internal/env.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggerimpl.h>
-#include <log4cplus/internal/env.h>
+#include <log4cplus/thread/syncprims-pub-impl.h>
+#include <log4cplus/thread/threads.h>
 
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>

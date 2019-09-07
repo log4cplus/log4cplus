@@ -21,9 +21,10 @@
 //  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include <log4cplus/helpers/snprintf.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/snprintf.h>
 #include <log4cplus/internal/internal.h>
+
 #include <cstdarg>
 #include <cstdio>
 #if defined (UNICODE)

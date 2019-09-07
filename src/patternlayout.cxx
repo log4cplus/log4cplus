@@ -18,17 +18,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <log4cplus/layout.h>
 #include <log4cplus/helpers/loglog.h>
-#include <log4cplus/helpers/timehelper.h>
-#include <log4cplus/helpers/stringhelper.h>
-#include <log4cplus/helpers/socket.h>
 #include <log4cplus/helpers/property.h>
-#include <log4cplus/spi/loggingevent.h>
-#include <log4cplus/internal/internal.h>
+#include <log4cplus/helpers/socket.h>
+#include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/helpers/timehelper.h>
 #include <log4cplus/internal/env.h>
-#include <limits>
+#include <log4cplus/internal/internal.h>
+#include <log4cplus/layout.h>
+#include <log4cplus/spi/loggingevent.h>
+
 #include <cstdlib>
+#include <limits>
 #include <memory>
 
 

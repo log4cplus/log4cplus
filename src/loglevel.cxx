@@ -18,11 +18,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <log4cplus/loglevel.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
-#include <log4cplus/internal/internal.h>
 #include <log4cplus/internal/customloglevelmanager.h>
+#include <log4cplus/internal/internal.h>
+#include <log4cplus/loglevel.h>
+
 #include <algorithm>
 
 

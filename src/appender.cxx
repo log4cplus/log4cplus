@@ -19,14 +19,14 @@
 // limitations under the License.
 
 #include <log4cplus/appender.h>
-#include <log4cplus/layout.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/pointer.h>
-#include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/helpers/stringhelper.h>
+#include <log4cplus/internal/internal.h>
+#include <log4cplus/layout.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggingevent.h>
-#include <log4cplus/internal/internal.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <memory>
 #include <stdexcept>

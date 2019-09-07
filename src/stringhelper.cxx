@@ -19,16 +19,16 @@
 // limitations under the License.
 
 #include <log4cplus/helpers/stringhelper.h>
-#include <log4cplus/streams.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/streams.h>
 
-#include <iterator>
 #include <algorithm>
+#include <cassert>
+#include <cctype>
 #include <cstring>
 #include <cwchar>
 #include <cwctype>
-#include <cctype>
-#include <cassert>
+#include <iterator>
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
 #include <catch.hpp>

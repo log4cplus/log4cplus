@@ -27,19 +27,19 @@
 #  include <catch.hpp>
 #endif
 
-#include <log4cplus/initializer.h>
 #include <log4cplus/config/windowsh-inc.h>
-#include <log4cplus/logger.h>
-#include <log4cplus/ndc.h>
-#include <log4cplus/mdc.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/helpers/loglog.h>
+#include <log4cplus/hierarchy.h>
+#include <log4cplus/initializer.h>
 #include <log4cplus/internal/customloglevelmanager.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/logger.h>
+#include <log4cplus/mdc.h>
+#include <log4cplus/ndc.h>
+#include <log4cplus/spi/factory.h>
 #include <log4cplus/thread/impl/tls.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
-#include <log4cplus/helpers/loglog.h>
-#include <log4cplus/spi/factory.h>
-#include <log4cplus/hierarchy.h>
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
 #include "ThreadPool.h"
 #endif
