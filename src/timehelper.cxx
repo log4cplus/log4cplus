@@ -61,8 +61,6 @@ namespace log4cplus::helpers {
 const int ONE_SEC_IN_USEC = 1000000;
 
 using std::mktime;
-using std::gmtime;
-using std::localtime;
 #if defined (UNICODE)
 using std::wcsftime;
 #else
