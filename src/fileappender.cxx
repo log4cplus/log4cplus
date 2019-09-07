@@ -284,7 +284,7 @@ FileAppenderBase::init()
     }
 
     helpers::LockFileGuard guard;
-    if (useLockFile && ! lockFile.get ())
+    if (useLockFile && ! lockFile)
     {
         if (createDirs)
             internal::make_dirs (lockFileName);

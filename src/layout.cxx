@@ -57,16 +57,14 @@ Layout::Layout (const log4cplus::helpers::Properties&)
 { }
 
 
-Layout::~Layout()
-{ }
+Layout::~Layout() = default;
 
 
 ///////////////////////////////////////////////////////////////////////////////
 // log4cplus::SimpleLayout public methods
 ///////////////////////////////////////////////////////////////////////////////
 
-SimpleLayout::SimpleLayout ()
-{ }
+SimpleLayout::SimpleLayout () = default;
 
 
 SimpleLayout::SimpleLayout (const helpers::Properties& properties)
@@ -74,8 +72,7 @@ SimpleLayout::SimpleLayout (const helpers::Properties& properties)
 { }
 
 
-SimpleLayout::~SimpleLayout()
-{ }
+SimpleLayout::~SimpleLayout() = default;
 
 
 void
@@ -96,8 +93,7 @@ SimpleLayout::formatAndAppend(log4cplus::tostream& output,
 
   TTCCLayout::TTCCLayout(bool use_gmtime_, bool thread_printing_,
       bool category_prefixing_, bool context_printing_)
-    : dateFormat()
-    , use_gmtime(use_gmtime_)
+    : use_gmtime(use_gmtime_)
     , thread_printing (thread_printing_)
     , category_prefixing (category_prefixing_)
     , context_printing (context_printing_)
@@ -117,8 +113,7 @@ TTCCLayout::TTCCLayout(const log4cplus::helpers::Properties& properties)
 }
 
 
-TTCCLayout::~TTCCLayout()
-{ }
+TTCCLayout::~TTCCLayout() = default;
 
 
 

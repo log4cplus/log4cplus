@@ -392,16 +392,13 @@ gft_scratch_pad::gft_scratch_pad ()
 { }
 
 
-gft_scratch_pad::~gft_scratch_pad ()
-{ }
+gft_scratch_pad::~gft_scratch_pad () = default;
 
 
-appender_sratch_pad::appender_sratch_pad ()
-{ }
+appender_sratch_pad::appender_sratch_pad () = default;
 
 
-appender_sratch_pad::~appender_sratch_pad ()
-{ }
+appender_sratch_pad::~appender_sratch_pad () = default;
 
 
 per_thread_data::per_thread_data ()
@@ -468,7 +465,7 @@ void
 #endif
 ptd_cleanup_func (void * arg)
 {
-    internal::per_thread_data * const arg_ptd
+    auto * const arg_ptd
         = static_cast<internal::per_thread_data *>(arg);
     internal::per_thread_data * const ptd = internal::get_ptd (false);
     (void) ptd;

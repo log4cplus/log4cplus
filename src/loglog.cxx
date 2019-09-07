@@ -28,7 +28,7 @@
 #include <stdexcept>
 
 
-namespace log4cplus { namespace helpers {
+namespace log4cplus::helpers {
 
 namespace
 {
@@ -53,8 +53,7 @@ LogLog::LogLog()
 { }
 
 
-LogLog::~LogLog()
-{ }
+LogLog::~LogLog() = default;
 
 
 void
@@ -185,4 +184,4 @@ LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
 }
 
 
-} } // namespace log4cplus { namespace helpers {
+} // namespace log4cplus::helpers

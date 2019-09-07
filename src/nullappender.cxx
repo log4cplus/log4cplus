@@ -30,9 +30,7 @@ namespace log4cplus
 // NullAppender ctors and dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-NullAppender::NullAppender()
-{
-}
+NullAppender::NullAppender() = default;
 
 
 NullAppender::NullAppender(const helpers::Properties& properties)

@@ -33,7 +33,7 @@
 #endif
 
 
-namespace log4cplus { namespace spi {
+namespace log4cplus::spi {
 
 ///////////////////////////////////////////////////////////////////////////////
 // global methods
@@ -61,14 +61,10 @@ checkFilter(const Filter* filter, const InternalLoggingEvent& event)
 // Filter implementation
 ///////////////////////////////////////////////////////////////////////////////
 
-Filter::Filter()
-{
-}
+Filter::Filter() = default;
 
 
-Filter::~Filter()
-{
-}
+Filter::~Filter() = default;
 
 
 void
@@ -86,8 +82,7 @@ Filter::appendFilter(FilterPtr filter)
 // DenyAllFilter implementation
 ///////////////////////////////////////////////////////////////////////////////
 
-DenyAllFilter::DenyAllFilter ()
-{ }
+DenyAllFilter::DenyAllFilter () = default;
 
 
 DenyAllFilter::DenyAllFilter (const helpers::Properties&)
@@ -309,7 +304,7 @@ FilterResult NDCMatchFilter::decide(const InternalLoggingEvent& event) const
         return NEUTRAL;
     }
 
-    if(ndcStr.compare(ndcToMatch) == 0)
+    if(ndcStr == ndcToMatch)
         return (acceptOnMatch ? ACCEPT : DENY);
 
     return (acceptOnMatch ? DENY : ACCEPT);
@@ -346,12 +341,12 @@ FilterResult MDCMatchFilter::decide(const InternalLoggingEvent& event) const
     if(neutralOnEmpty && (mdcKeyToMatch.empty() || mdcValueToMatch.empty()))
         return NEUTRAL;
 
-    const tstring mdcStr = event.getMDC(mdcKeyToMatch);
+    const tstring& mdcStr = event.getMDC(mdcKeyToMatch);
 
     if(neutralOnEmpty && mdcStr.empty())
         return NEUTRAL;
 
-    if(mdcStr.compare(mdcValueToMatch) == 0)
+    if(mdcStr == mdcValueToMatch)
         return (acceptOnMatch ? ACCEPT : DENY);
 
     return (acceptOnMatch ? DENY : ACCEPT);
@@ -715,4 +710,4 @@ CATCH_TEST_CASE ("Filter", "[filter]")
 
 #endif
 
-} } // namespace log4cplus { namespace spi {
+} // namespace log4cplus::spi

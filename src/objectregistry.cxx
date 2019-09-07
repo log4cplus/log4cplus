@@ -23,7 +23,7 @@
 #include <log4cplus/thread/threads.h>
 
 
-namespace log4cplus { namespace spi {
+namespace log4cplus::spi {
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -35,8 +35,7 @@ ObjectRegistryBase::ObjectRegistryBase()
 { }
 
 
-ObjectRegistryBase::~ObjectRegistryBase()
-{ }
+ObjectRegistryBase::~ObjectRegistryBase() = default;
 
 
 
@@ -100,7 +99,7 @@ ObjectRegistryBase::getVal(const tstring& name) const
 {
     thread::MutexGuard guard (mutex);
 
-    ObjectMap::const_iterator it (data.find (name));
+    auto it (data.find (name));
     if (it != data.end ())
         return it->second;
     else
@@ -127,4 +126,4 @@ ObjectRegistryBase::_enableLocking (bool enable)
 }
 
 
-} } // namespace log4cplus { namespace spi {
+} // namespace log4cplus::spi

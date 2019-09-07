@@ -43,40 +43,30 @@ namespace log4cplus {
 
 namespace spi {
 
-BaseFactory::~BaseFactory()
-{ }
+BaseFactory::~BaseFactory() = default;
 
 
-AppenderFactory::AppenderFactory()
-{ }
+AppenderFactory::AppenderFactory() = default;
 
-AppenderFactory::~AppenderFactory()
-{ }
+AppenderFactory::~AppenderFactory() = default;
 
 
-LayoutFactory::LayoutFactory()
-{ }
+LayoutFactory::LayoutFactory() = default;
 
-LayoutFactory::~LayoutFactory()
-{ }
+LayoutFactory::~LayoutFactory() = default;
 
 
-FilterFactory::FilterFactory()
-{ }
+FilterFactory::FilterFactory() = default;
 
-FilterFactory::~FilterFactory()
-{ }
+FilterFactory::~FilterFactory() = default;
 
 
-LocaleFactory::LocaleFactory()
-{ }
+LocaleFactory::LocaleFactory() = default;
 
-LocaleFactory::~LocaleFactory()
-{ }
+LocaleFactory::~LocaleFactory() = default;
 
 
-LoggerFactory::~LoggerFactory()
-{ }
+LoggerFactory::~LoggerFactory() = default;
 
 
 namespace
@@ -147,7 +137,7 @@ namespace
 template <typename Factory>
 struct DisableFactoryLocking
 {
-    typedef Factory factory_type;
+    using factory_type = Factory;
 
     explicit
     DisableFactoryLocking (factory_type & f)

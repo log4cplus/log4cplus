@@ -25,7 +25,7 @@
 #include <log4cplus/loggingmacros.h>
 
 
-namespace log4cplus { namespace detail {
+namespace log4cplus::detail {
 
 
 //! Helper stream to get the defaults from.
@@ -97,4 +97,4 @@ macro_forced_log (log4cplus::Logger const & logger,
 }
 
 
-} } // namespace log4cplus { namespace detail {
+} // namespace log4cplus::detail

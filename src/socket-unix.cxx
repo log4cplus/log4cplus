@@ -73,7 +73,7 @@
 #endif
 
 
-namespace log4cplus { namespace helpers {
+namespace log4cplus::helpers {
 
 // from lockfile.cxx
 LOG4CPLUS_PRIVATE bool trySetCloseOnExec (int fd);
@@ -255,14 +255,14 @@ namespace
 template <typename T, typename U>
 struct socklen_var
 {
-    typedef T type;
+    using type = T;
 };
 
 
 template <typename U>
 struct socklen_var<void, U>
 {
-    typedef U type;
+    using type = U;
 };
 
 
@@ -278,8 +278,8 @@ accept_wrap (
 {
     typedef typename socklen_var<accept_socklen_type, socklen_t>::type
         socklen_var_type;
-    socklen_var_type l = static_cast<socklen_var_type>(*len);
-    SOCKET_TYPE result
+    auto l = static_cast<socklen_var_type>(*len);
+    auto result
         = static_cast<SOCKET_TYPE>(
             accept_func (sock, sa,
                 reinterpret_cast<accept_socklen_type *>(&l)));
@@ -298,8 +298,8 @@ accept_wrap (
 {
     typedef typename socklen_var<accept_socklen_type, socklen_t>::type
         socklen_var_type;
-    socklen_var_type l = static_cast<socklen_var_type>(*len);
-    SOCKET_TYPE result
+    auto l = static_cast<socklen_var_type>(*len);
+    auto result
         = static_cast<SOCKET_TYPE>(
             accept_func (sock, sa,
                 reinterpret_cast<accept_socklen_type *>(&l),
@@ -676,6 +676,6 @@ ServerSocket::~ServerSocket()
         ::close (interruptHandles[1]);
 }
 
-} } // namespace log4cplus
+} // namespace log4cplus
 
 #endif // LOG4CPLUS_USE_BSD_SOCKETS

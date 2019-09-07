@@ -250,9 +250,7 @@ PropertyConfigurator::init()
 }
 
 
-PropertyConfigurator::~PropertyConfigurator()
-{
-}
+PropertyConfigurator::~PropertyConfigurator() = default;
 
 
 
@@ -293,7 +291,7 @@ PropertyConfigurator::configure()
 
     unsigned int thread_pool_size;
     if (properties.getUInt (thread_pool_size, LOG4CPLUS_TEXT ("threadPoolSize")))
-        thread_pool_size = (std::min) (thread_pool_size, 1024u);
+        thread_pool_size = (std::min) (thread_pool_size, 1024U);
     else
         thread_pool_size = 4;
 
@@ -353,10 +351,8 @@ PropertyConfigurator::replaceEnvironVariables()
     {
         changed = false;
         keys = properties.propertyNames();
-        for (std::vector<tstring>::const_iterator it = keys.begin();
-            it != keys.end(); ++it)
+        for (auto & key : keys)
         {
-            tstring const & key = *it;
             val = properties.getProperty(key);
 
             subKey.clear ();
@@ -569,9 +565,7 @@ BasicConfigurator::BasicConfigurator(Hierarchy& hier, bool logToStdErr)
 
 
 
-BasicConfigurator::~BasicConfigurator()
-{
-}
+BasicConfigurator::~BasicConfigurator() = default;
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -610,8 +604,7 @@ public:
         updateLastModInfo();
     }
 
-    virtual ~ConfigurationWatchDogThread ()
-    { }
+    ~ConfigurationWatchDogThread () override = default;
 
     void terminate ()
     {
@@ -620,17 +613,17 @@ public:
     }
 
 protected:
-    virtual void run();
-    virtual Logger getLogger(const tstring& name);
-    virtual void addAppender(Logger &logger, SharedAppenderPtr& appender);
+    void run() override;
+    Logger getLogger(const tstring& name) override;
+    void addAppender(Logger &logger, SharedAppenderPtr& appender) override;
 
     bool checkForFileModification();
     void updateLastModInfo();
 
 private:
-    ConfigurationWatchDogThread (ConfigurationWatchDogThread const &);
+    ConfigurationWatchDogThread (ConfigurationWatchDogThread const &) = delete;
     ConfigurationWatchDogThread & operator = (
-        ConfigurationWatchDogThread const &);
+        ConfigurationWatchDogThread const &) = delete;
 
     unsigned int const waitMillis;
     thread::ManualResetEvent shouldTerminate;

@@ -27,11 +27,10 @@
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
 
-namespace log4cplus { namespace helpers {
+namespace log4cplus::helpers {
 
 
-IConnectorThreadClient::~IConnectorThreadClient ()
-{ }
+IConnectorThreadClient::~IConnectorThreadClient () = default;
 
 //
 //
@@ -44,8 +43,7 @@ ConnectorThread::ConnectorThread (
 { }
 
 
-ConnectorThread::~ConnectorThread ()
-{ }
+ConnectorThread::~ConnectorThread () = default;
 
 
 void
@@ -124,6 +122,6 @@ ConnectorThread::trigger ()
 }
 
 
-} } // namespace log4cplus { namespace helpers {
+} // namespace log4cplus::helpers
 
 #endif // ! defined (LOG4CPLUS_SINGLE_THREADED)

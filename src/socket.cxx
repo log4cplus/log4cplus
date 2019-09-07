@@ -23,7 +23,7 @@
 #include <log4cplus/internal/internal.h>
 
 
-namespace log4cplus { namespace helpers {
+namespace log4cplus::helpers {
 
 
 extern LOG4CPLUS_EXPORT SOCKET_TYPE const INVALID_SOCKET_VALUE
@@ -157,8 +157,7 @@ Socket::Socket (Socket && other) LOG4CPLUS_NOEXCEPT
 { }
 
 
-Socket::~Socket()
-{ }
+Socket::~Socket() = default;
 
 
 Socket &
@@ -263,4 +262,4 @@ openSocket(unsigned short port, bool udp, bool ipv6, SocketState& state)
 }
 
 
-} } // namespace log4cplus { namespace helpers {
+} // namespace log4cplus::helpers

@@ -68,7 +68,7 @@
 #endif // LOG4CPLUS_SINGLE_THREADED
 
 
-namespace log4cplus { namespace thread {
+namespace log4cplus::thread {
 
 LOG4CPLUS_EXPORT
 void
@@ -312,4 +312,4 @@ AbstractThread::~AbstractThread()
 #endif // LOG4CPLUS_SINGLE_THREADED
 
 
-} } // namespace log4cplus { namespace thread {
+} // namespace log4cplus::thread

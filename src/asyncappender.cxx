@@ -62,7 +62,7 @@ QueueThread::QueueThread (AsyncAppenderPtr aai, thread::QueuePtr q)
 void
 QueueThread::run()
 {
-    typedef log4cplus::thread::Queue::queue_storage_type ev_buf_type;
+    using ev_buf_type = log4cplus::thread::Queue::queue_storage_type;
     ev_buf_type ev_buf;
 
     while (true)
@@ -70,8 +70,8 @@ QueueThread::run()
         unsigned qflags = queue->get_events (&ev_buf);
         if (qflags & thread::Queue::EVENT)
         {
-            ev_buf_type::const_iterator const ev_buf_end = ev_buf.end ();
-            for (ev_buf_type::const_iterator it = ev_buf.begin ();
+            auto const ev_buf_end = ev_buf.end ();
+            for (auto it = ev_buf.begin ();
                 it != ev_buf_end; ++it)
                 appenders->appendLoopOnAppenders (*it);
         }

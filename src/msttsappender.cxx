@@ -97,7 +97,7 @@ class SpeechObjectThread
     : public virtual log4cplus::thread::AbstractThread
 {
 public:
-    SpeechObjectThread (ISpVoice * & ispvoice_ref)
+    explicit SpeechObjectThread (ISpVoice * & ispvoice_ref)
         : ispvoice (ispvoice_ref)
     {
         terminate_ev = CreateEvent (0, true, false, 0);
@@ -108,7 +108,7 @@ public:
     }
 
 
-    ~SpeechObjectThread ()
+    ~SpeechObjectThread () override
     {
         if (! CloseHandle (terminate_ev))
             loglog_win32_error (
@@ -116,9 +116,8 @@ public:
     }
 
 
-    virtual
     void
-    run ()
+    run () override
     {
         COMInitializer com_init (COINIT_MULTITHREADED);
 
@@ -177,9 +176,7 @@ struct MSTTSAppender::Data
 {
     Data ()
         : ispvoice (0)
-        , async (false)
-        , speak_punc (false)
-    { }
+    = default;
 
     ~Data ()
     {
@@ -189,14 +186,13 @@ struct MSTTSAppender::Data
 
     helpers::SharedObjectPtr<SpeechObjectThread> speech_thread;
     ISpVoice * ispvoice;
-    bool async;
-    bool speak_punc;
+    bool async{false};
+    bool speak_punc{false};
 };
 
 
 MSTTSAppender::MSTTSAppender ()
-    : Appender ()
-    , data (new Data)
+    : data (new Data)
 {
     init ();
 }
@@ -223,7 +219,7 @@ MSTTSAppender::MSTTSAppender (helpers::Properties const & props)
     speak_punc = props.getBool (speak_punc, LOG4CPLUS_TEXT ("SpeakPunc"))
         && speak_punc;
 
-    init (has_rate ? &rate : 0, has_volume ? &volume : 0, speak_punc, async);
+    init (has_rate ? &rate : nullptr, has_volume ? &volume : nullptr, speak_punc, async);
 }
 
 

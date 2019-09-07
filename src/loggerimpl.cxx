@@ -28,7 +28,7 @@
 #include <log4cplus/thread/syncprims-pub-impl.h>
 
 
-namespace log4cplus { namespace spi {
+namespace log4cplus::spi {
 
 //////////////////////////////////////////////////////////////////////////////
 // Logger Constructors and Destructor
@@ -43,9 +43,7 @@ LoggerImpl::LoggerImpl(const log4cplus::tstring_view& name_, Hierarchy& h)
 }
 
 
-LoggerImpl::~LoggerImpl()
-{
-}
+LoggerImpl::~LoggerImpl() = default;
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -179,4 +177,4 @@ LoggerImpl::forcedLog(spi::InternalLoggingEvent const & ev)
 }
 
 
-} } // namespace log4cplus { namespace spi {
+} // namespace log4cplus::spi

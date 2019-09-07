@@ -23,7 +23,7 @@
 #include <algorithm>
 
 
-namespace log4cplus {  namespace spi {
+namespace log4cplus::spi {
 
 
 static const int LOG4CPLUS_DEFAULT_TYPE = 1;
@@ -40,9 +40,6 @@ InternalLoggingEvent::InternalLoggingEvent(
     : message(message_)
     , loggerName(logger)
     , ll(loglevel)
-    , ndc()
-    , mdc()
-    , thread()
     , timestamp(log4cplus::helpers::now ())
     , file(filename
         ? LOG4CPLUS_C_STR_TO_TSTRING(filename)
@@ -121,7 +118,6 @@ InternalLoggingEvent::InternalLoggingEvent(
 
 InternalLoggingEvent::InternalLoggingEvent ()
     : ll (NOT_SET_LOG_LEVEL)
-    , function ()
     , line (0)
     , threadCached(false)
     , thread2Cached(false)
@@ -151,9 +147,7 @@ InternalLoggingEvent::InternalLoggingEvent(
 }
 
 
-InternalLoggingEvent::~InternalLoggingEvent()
-{
-}
+InternalLoggingEvent::~InternalLoggingEvent() = default;
 
 
 
@@ -255,7 +249,7 @@ tstring const &
 InternalLoggingEvent::getMDC (tstring const & key) const
 {
     MappedDiagnosticContextMap const & mdc_ = getMDCCopy ();
-    MappedDiagnosticContextMap::const_iterator it = mdc_.find (key);
+    auto it = mdc_.find (key);
     if (it != mdc_.end ())
         return it->second;
     else
@@ -304,4 +298,4 @@ InternalLoggingEvent::swap (InternalLoggingEvent & other)
 }
 
 
-} } // namespace log4cplus {  namespace spi {
+} // namespace log4cplus::spi

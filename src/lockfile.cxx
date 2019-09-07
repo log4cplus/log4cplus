@@ -81,7 +81,7 @@
 #error "no usable file locking"
 #endif
 
-namespace log4cplus { namespace helpers {
+namespace log4cplus::helpers {
 
 
 #if defined (_WIN32)
@@ -375,4 +375,4 @@ void LockFile::unlock () const
 
 
 
-} } // namespace log4cplus { namespace helpers {
+} // namespace log4cplus::helpers

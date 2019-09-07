@@ -27,10 +27,7 @@
 #include <log4cplus/thread/syncprims-pub-impl.h>
 
 
-namespace log4cplus { namespace thread {
-
-
-namespace impl
+namespace log4cplus::thread::impl
 {
 
 
@@ -45,7 +42,4 @@ syncprims_throw_exception (char const * const msg, char const * const file,
 }
 
 
-}
-
-
-} } // namespace log4cplus { namespace thread namespace impl {
+} // namespace log4cplus::thread::impl

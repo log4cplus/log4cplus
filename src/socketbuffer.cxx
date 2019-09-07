@@ -42,7 +42,7 @@
 #endif
 
 
-namespace log4cplus { namespace helpers {
+namespace log4cplus::helpers {
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -80,7 +80,7 @@ SocketBuffer::readByte()
         return 0;
     }
 
-    unsigned char ret = static_cast<unsigned char>(buffer[pos]);
+    auto ret = static_cast<unsigned char>(buffer[pos]);
     pos += sizeof(unsigned char);
 
     return ret;
@@ -325,4 +325,4 @@ CATCH_TEST_CASE ("SocketBuffer", "[sockets]")
 #endif
 
 
-} } // namespace log4cplus { namespace helpers {
+} // namespace log4cplus::helpers

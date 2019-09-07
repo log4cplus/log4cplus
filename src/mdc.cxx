@@ -33,12 +33,10 @@ namespace log4cplus
 {
 
 
-MDC::MDC ()
-{ }
+MDC::MDC () = default;
 
 
-MDC::~MDC ()
-{ }
+MDC::~MDC () = default;
 
 
 MappedDiagnosticContextMap *
@@ -70,7 +68,7 @@ MDC::get (tstring * value, tstring const & key) const
     assert (value);
 
     MappedDiagnosticContextMap * const dc = getPtr ();
-    MappedDiagnosticContextMap::const_iterator it = dc->find (key);
+    auto it = dc->find (key);
     if (it != dc->end ())
     {
         *value = it->second;

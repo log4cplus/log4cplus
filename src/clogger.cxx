@@ -54,7 +54,7 @@ log4cplus_initialize(void)
     }
     catch (std::exception const &)
     {
-        return 0;
+        return nullptr;
     }
 }
 
@@ -67,7 +67,7 @@ log4cplus_deinitialize(void * initializer_)
 
     try
     {
-        Initializer * initializer = static_cast<Initializer *>(initializer_);
+        auto * initializer = static_cast<Initializer *>(initializer_);
         delete initializer;
     }
     catch (std::exception const &)
@@ -287,7 +287,7 @@ log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll,
             }
             while (retval == -1);
 
-            logger.forcedLog(ll, msg, 0, -1);
+            logger.forcedLog(ll, msg, nullptr, -1);
         }
 
         retval = 0;
@@ -313,7 +313,7 @@ log4cplus_logger_log_str(const log4cplus_char_t *name,
 
         if (logger.isEnabledFor(ll))
         {
-            logger.forcedLog(ll, msg, 0, -1);
+            logger.forcedLog(ll, msg, nullptr, -1);
         }
 
         retval = 0;
@@ -348,7 +348,7 @@ log4cplus_logger_force_log(const log4cplus_char_t *name, loglevel_t ll,
         }
         while (retval == -1);
 
-        logger.forcedLog(ll, msg, 0, -1);
+        logger.forcedLog(ll, msg, nullptr, -1);
 
         retval = 0;
     }
@@ -370,7 +370,7 @@ log4cplus_logger_force_log_str(const log4cplus_char_t *name, loglevel_t ll,
     try
     {
         Logger logger = name ? Logger::getInstance(name) : Logger::getRoot();
-        logger.forcedLog(ll, msg, 0, -1);
+        logger.forcedLog(ll, msg, nullptr, -1);
         retval = 0;
     }
     catch (std::exception const &)
@@ -382,17 +382,14 @@ log4cplus_logger_force_log_str(const log4cplus_char_t *name, loglevel_t ll,
 }
 
 
-namespace log4cplus {
-
-namespace internal {
+namespace log4cplus::internal {
 
 CustomLogLevelManager::CustomLogLevelManager ()
     : pushed_methods (false)
 { }
 
 
-CustomLogLevelManager::~CustomLogLevelManager ()
-{ }
+CustomLogLevelManager::~CustomLogLevelManager () = default;
 
 
 bool
@@ -473,8 +470,6 @@ CustomLogLevelManager::fromString (const log4cplus::tstring_view& nm) const
 
     return NOT_SET_LOG_LEVEL;
 }
-
-} // namespace internal
 
 } // namespace log4cplus
 

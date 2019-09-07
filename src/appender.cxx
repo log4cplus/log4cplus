@@ -39,12 +39,10 @@ namespace log4cplus
 // log4cplus::ErrorHandler dtor
 ///////////////////////////////////////////////////////////////////////////////
 
-ErrorHandler::ErrorHandler ()
-{ }
+ErrorHandler::ErrorHandler () = default;
 
 
-ErrorHandler::~ErrorHandler()
-{ }
+ErrorHandler::~ErrorHandler() = default;
 
 
 
@@ -57,8 +55,7 @@ OnlyOnceErrorHandler::OnlyOnceErrorHandler()
 { }
 
 
-OnlyOnceErrorHandler::~OnlyOnceErrorHandler ()
-{ }
+OnlyOnceErrorHandler::~OnlyOnceErrorHandler () = default;
 
 
 void
@@ -102,7 +99,6 @@ Appender::Appender()
 
 Appender::Appender(const log4cplus::helpers::Properties & properties)
     : layout(new SimpleLayout)
-    , name()
     , threshold(NOT_SET_LOG_LEVEL)
     , errorHandler(new OnlyOnceErrorHandler)
     , useLockFile(false)
@@ -423,7 +419,7 @@ Appender::getErrorHandler()
 void
 Appender::setErrorHandler(std::unique_ptr<ErrorHandler> eh)
 {
-    if (! eh.get())
+    if (! eh)
     {
         // We do not throw exception here since the cause is probably a
         // bad config file.

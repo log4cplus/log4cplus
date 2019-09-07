@@ -32,19 +32,17 @@
 #include <iterator>
 
 
-namespace log4cplus { namespace thread {
+namespace log4cplus::thread {
 
 
 Queue::Queue (unsigned len)
-    : mutex ()
-    , ev_consumer (false)
+    : ev_consumer (false)
     , sem (len, len)
     , flags (DRAIN)
 { }
 
 
-Queue::~Queue ()
-{ }
+Queue::~Queue () = default;
 
 
 Queue::flags_type
@@ -188,7 +186,7 @@ Queue::get_events (queue_storage_type * buf)
 }
 
 
-} } // namespace log4cplus { namespace thread {
+} // namespace log4cplus::thread
 
 
 #endif // LOG4CPLUS_SINGLE_THREADED

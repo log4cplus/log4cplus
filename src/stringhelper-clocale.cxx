@@ -31,10 +31,7 @@
 #include <vector>
 
 
-namespace log4cplus
-{
-
-namespace helpers
+namespace log4cplus::helpers
 {
 
 
@@ -165,7 +162,5 @@ towstring (char const * src)
 }
 
 #endif // LOG4CPLUS_WORKING_C_LOCALE
-
-} // namespace helpers
 
 } // namespace log4cplus
