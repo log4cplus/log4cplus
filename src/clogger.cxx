@@ -481,7 +481,7 @@ log4cplus_add_log_level(unsigned int ll, const log4cplus_char_t *ll_name)
         return EINVAL;
 
     tstring nm(ll_name);
-    if( log4cplus::internal::getCustomLogLevelManager ().add(ll, nm) == true )
+    if( log4cplus::internal::getCustomLogLevelManager ().add(ll, nm) )
         return 0;
 
     return -1;
@@ -494,7 +494,7 @@ log4cplus_remove_log_level(unsigned int ll, const log4cplus_char_t *ll_name)
         return EINVAL;
 
     tstring nm(ll_name);
-    if( log4cplus::internal::getCustomLogLevelManager ().remove(ll, nm) == true )
+    if( log4cplus::internal::getCustomLogLevelManager ().remove(ll, nm) )
         return 0;
 
     return -1;
