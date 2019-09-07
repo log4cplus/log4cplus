@@ -74,8 +74,8 @@ MDC::get (tstring * value, tstring const & key) const
         *value = it->second;
         return true;
     }
-    else
-        return false;
+
+    return false;
 }
 
 

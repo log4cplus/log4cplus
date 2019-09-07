@@ -79,15 +79,15 @@ file_rename (tstring const & src, tstring const & target)
 #if defined (UNICODE) && defined (_WIN32)
     if (_wrename (src.c_str (), target.c_str ()) == 0)
         return 0;
-    else
-        return errno;
+
+    return errno;
 
 #else
     if (std::rename (LOG4CPLUS_TSTRING_TO_STRING (src).c_str (),
             LOG4CPLUS_TSTRING_TO_STRING (target).c_str ()) == 0)
         return 0;
-    else
-        return errno;
+
+    return errno;
 
 #endif
 }
@@ -100,14 +100,14 @@ file_remove (tstring const & src)
 #if defined (UNICODE) && defined (_WIN32)
     if (_wremove (src.c_str ()) == 0)
         return 0;
-    else
-        return errno;
+
+    return errno;
 
 #else
     if (std::remove (LOG4CPLUS_TSTRING_TO_STRING (src).c_str ()) == 0)
         return 0;
-    else
-        return errno;
+
+    return errno;
 
 #endif
 }
@@ -205,8 +205,8 @@ get_locale_by_name (tstring const & locale_name)
         props.setProperty (LOG4CPLUS_TEXT ("Locale"), locale_name);
         return fact->createObject (props);
     }
-    else
-        return std::locale (LOG4CPLUS_TSTRING_TO_STRING (locale_name).c_str ());
+
+    return std::locale (LOG4CPLUS_TSTRING_TO_STRING (locale_name).c_str ());
 }
 catch (std::runtime_error const &)
 {
@@ -354,8 +354,7 @@ FileAppenderBase::append(const spi::InternalLoggingEvent& event)
         }
         // Resets the error handler to make it
         // ready to handle a future append error.
-        else
-            getErrorHandler()->reset();
+        getErrorHandler()->reset();
     }
 
     if (useLockFile)
@@ -1237,17 +1236,13 @@ preprocessFilenamePattern(const tstring_view& pattern, DailyRollingFileSchedule&
             {
                 size_t closingBracketPos = pattern.find(LOG4CPLUS_TEXT("}"), i+2);
                 if (closingBracketPos == std::string::npos)
-                {
                     break; // Malformed conversion specifier
-                }
-                else
-                {
-                    result << preprocessDateTimePattern(
-                        tstring_view (pattern.data () + (i+3),
-                            closingBracketPos-(i+3)),
-                        schedule);
-                    i = closingBracketPos + 1;
-                }
+
+                result << preprocessDateTimePattern(
+                    tstring_view (pattern.data () + (i+3),
+                        closingBracketPos-(i+3)),
+                    schedule);
+                i = closingBracketPos + 1;
             }
             else
             {

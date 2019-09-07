@@ -127,8 +127,8 @@ public:
     {
         if (ll == log_level)
             return name;
-        else
-            return internal::empty_str;
+
+        return internal::empty_str;
     }
 
     LogLevel
@@ -136,8 +136,8 @@ public:
     {
         if (s == name)
             return log_level;
-        else
-            return NOT_SET_LOG_LEVEL;
+
+        return NOT_SET_LOG_LEVEL;
     }
 
 protected:

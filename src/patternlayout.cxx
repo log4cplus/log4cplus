@@ -50,8 +50,8 @@ get_basename (const log4cplus::tstring& filename)
     log4cplus::tstring::size_type pos = filename.rfind(dir_sep);
     if (pos != log4cplus::tstring::npos)
         return filename.substr(pos+1);
-    else
-        return filename;
+
+    return filename;
 }
 
 
@@ -723,14 +723,13 @@ PatternParser::extractOption()
             pos = end + 1;
             return r;
         }
-        else {
-            log4cplus::tostringstream buf;
-            buf << LOG4CPLUS_TEXT("No matching '}' found in conversion pattern string \"")
-                << pattern
-                << LOG4CPLUS_TEXT("\"");
-            helpers::getLogLog().error(buf.str());
-            pos = pattern.length();
-        }
+
+        log4cplus::tostringstream buf;
+        buf << LOG4CPLUS_TEXT("No matching '}' found in conversion pattern string \"")
+            << pattern
+            << LOG4CPLUS_TEXT("\"");
+        helpers::getLogLog().error(buf.str());
+        pos = pattern.length();
     }
 
     return r;

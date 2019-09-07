@@ -156,9 +156,9 @@ namespace
                 if (rec_exp)
                     // Retry expansion on the same spot.
                     continue;
-                else
-                    // Move beyond the just substituted part.
-                    i = var_start + replacement.size ();
+
+                // Move beyond the just substituted part.
+                i = var_start + replacement.size ();
             }
             else
                 // Nothing has been subtituted, just move beyond the
@@ -660,8 +660,8 @@ ConfigurationWatchDogThread::getLogger(const tstring& name)
 {
     if(lock)
         return lock->getInstance(name);
-    else
-        return PropertyConfigurator::getLogger(name);
+
+    return PropertyConfigurator::getLogger(name);
 }
 
 

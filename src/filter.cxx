@@ -131,18 +131,15 @@ LogLevelMatchFilter::init()
 FilterResult
 LogLevelMatchFilter::decide(const InternalLoggingEvent& event) const
 {
-    if(logLevelToMatch == NOT_SET_LOG_LEVEL) {
+    if(logLevelToMatch == NOT_SET_LOG_LEVEL)
         return NEUTRAL;
-    }
 
     bool matchOccured = (logLevelToMatch == event.getLogLevel());
 
-    if(matchOccured) {
+    if(matchOccured)
         return (acceptOnMatch ? ACCEPT : DENY);
-    }
-    else {
-        return NEUTRAL;
-    }
+
+    return NEUTRAL;
 }
 
 
@@ -202,10 +199,8 @@ LogLevelRangeFilter::decide(const InternalLoggingEvent& event) const
         // accept if priority in range
         return ACCEPT;
     }
-    else {
-        // event is ok for this filter; allow later filters to have a look...
-        return NEUTRAL;
-    }
+    // event is ok for this filter; allow later filters to have a look...
+    return NEUTRAL;
 }
 
 
@@ -249,9 +244,9 @@ StringMatchFilter::decide(const InternalLoggingEvent& event) const
     if(message.find(stringToMatch) == tstring::npos) {
         return NEUTRAL;
     }
-    else {  // we've got a match
-        return (acceptOnMatch ? ACCEPT : DENY);
-    }
+
+    // we've got a match
+    return (acceptOnMatch ? ACCEPT : DENY);
 }
 
 

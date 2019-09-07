@@ -459,7 +459,7 @@ getHostname (bool fqdn)
             break;
         }
 #if defined (LOG4CPLUS_HAVE_ENAMETOOLONG)
-        else if (errno == ENAMETOOLONG)
+        if (errno == ENAMETOOLONG)
             // Out buffer was too short. Retry with buffer twice the size.
             hn.resize (hn.size () * 2, 0);
 #endif

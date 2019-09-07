@@ -181,8 +181,8 @@ NDC::get() const
     DiagnosticContextStack* ptr = getPtr();
     if(!ptr->empty())
         return ptr->back().fullMessage;
-    else
-        return internal::empty_str;
+
+    return internal::empty_str;
 }
 
 
@@ -205,8 +205,8 @@ NDC::pop()
         ptr->pop_back();
         return message;
     }
-    else
-        return log4cplus::tstring ();
+
+    return log4cplus::tstring ();
 }
 
 
@@ -225,8 +225,8 @@ NDC::peek() const
     DiagnosticContextStack* ptr = getPtr();
     if(!ptr->empty())
         return ptr->back().message;
-    else
-        return internal::empty_str;
+
+    return internal::empty_str;
 }
 
 

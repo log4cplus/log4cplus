@@ -572,12 +572,9 @@ retry_recognition:;
 #endif
 
     // "relative\path\to\some\file.log
-    else
-    {
-        remove_empty (components, 0);
-        expand_relative_path (components, is_sep);
-        goto retry_recognition;
-    }
+    remove_empty (components, 0);
+    expand_relative_path (components, is_sep);
+    goto retry_recognition;
 }
 
 
@@ -597,8 +594,8 @@ make_directory (tstring const & dir)
 
 #endif
         return 0;
-    else
-        return errno;
+
+    return errno;
 }
 
 

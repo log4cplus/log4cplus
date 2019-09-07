@@ -74,12 +74,10 @@ from_struct_tm (tm * t)
     time_t time = helpers::mktime(t);
     if (LOG4CPLUS_LIKELY (time != -1))
         return from_time_t (time);
-    else
-    {
-        int eno = errno;
-        throw std::system_error (eno, std::system_category (),
-            "from_struct_tm(): mktime() failed");
-    }
+
+    int eno = errno;
+    throw std::system_error (eno, std::system_category (),
+        "from_struct_tm(): mktime() failed");
 }
 
 void

@@ -75,7 +75,7 @@ SocketBuffer::readByte()
         getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::readByte()- end of buffer reached"));
         return 0;
     }
-    else if((pos + sizeof(unsigned char)) > maxsize) {
+    if((pos + sizeof(unsigned char)) > maxsize) {
         getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::readByte()- Attempt to read beyond end of buffer"));
         return 0;
     }
@@ -95,7 +95,7 @@ SocketBuffer::readShort()
         getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::readShort()- end of buffer reached"));
         return 0;
     }
-    else if((pos + sizeof(unsigned short)) > maxsize) {
+    if((pos + sizeof(unsigned short)) > maxsize) {
         getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::readShort()- Attempt to read beyond end of buffer"));
         return 0;
     }
@@ -117,7 +117,7 @@ SocketBuffer::readInt()
         getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::readInt()- end of buffer reached"));
         return 0;
     }
-    else if((pos + sizeof(unsigned int)) > maxsize) {
+    if((pos + sizeof(unsigned int)) > maxsize) {
         getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::readInt()- Attempt to read beyond end of buffer"));
         return 0;
     }
@@ -157,7 +157,8 @@ SocketBuffer::readString(unsigned char sizeOfChar)
         pos += strlen;
         return ret;
     }
-    else if(sizeOfChar == 2) {
+
+    if(sizeOfChar == 2) {
         tstring ret;
         for(tstring::size_type i=0; i<strlen; ++i) {
             unsigned short tmp = readShort();
@@ -165,9 +166,8 @@ SocketBuffer::readString(unsigned char sizeOfChar)
         }
         return ret;
     }
-    else {
-        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::readString()- Invalid sizeOfChar!!!!"));
-    }
+
+    getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::readString()- Invalid sizeOfChar!!!!"));
 
 #else /* UNICODE */
     if(sizeOfChar == 1) {
@@ -175,16 +175,17 @@ SocketBuffer::readString(unsigned char sizeOfChar)
         pos += strlen;
         return towstring(ret);
     }
-    else if(sizeOfChar == 2) {
+
+    if(sizeOfChar == 2) {
         tstring ret;
         for(tstring::size_type i=0; i<strlen; ++i) {
             ret += static_cast<tchar>(readShort());
         }
         return ret;
     }
-    else {
-        getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::readString()- Invalid sizeOfChar!!!!"));
-    }
+
+    getLogLog().error(LOG4CPLUS_TEXT("SocketBuffer::readString()- Invalid sizeOfChar!!!!"));
+
 #endif
 
     return tstring();

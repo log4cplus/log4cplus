@@ -64,17 +64,15 @@ Queue::put_event (spi::InternalLoggingEvent const & ev)
             ret_flags &= ~(ERROR_BIT | ERROR_AFTER);
             return ret_flags;
         }
-        else
-        {
-            queue.push_back (ev);
-            ret_flags |= ERROR_AFTER;
-            semguard.detach ();
-            flags |= QUEUE;
-            ret_flags |= flags;
-            mguard.unlock ();
-            mguard.detach ();
-            ev_consumer.signal ();
-        }
+
+        queue.push_back (ev);
+        ret_flags |= ERROR_AFTER;
+        semguard.detach ();
+        flags |= QUEUE;
+        ret_flags |= flags;
+        mguard.unlock ();
+        mguard.detach ();
+        ev_consumer.signal ();
     }
     catch (std::runtime_error const & e)
     {
@@ -154,7 +152,7 @@ Queue::get_events (queue_storage_type * buf)
                 ret_flags = flags | EVENT;
                 break;
             }
-            else if (((EXIT | QUEUE) & flags) == (EXIT | QUEUE))
+            if (((EXIT | QUEUE) & flags) == (EXIT | QUEUE))
             {
                 assert (! queue.empty ());
                 queue.clear ();
@@ -164,15 +162,14 @@ Queue::get_events (queue_storage_type * buf)
                 ret_flags = flags;
                 break;
             }
-            else if (EXIT & flags)
+
+            if (EXIT & flags)
                 break;
-            else
-            {
-                ev_consumer.reset ();
-                mguard.unlock ();
-                mguard.detach ();
-                ev_consumer.wait ();
-            }
+
+            ev_consumer.reset ();
+            mguard.unlock ();
+            mguard.detach ();
+            ev_consumer.wait ();
         }
     }
     catch (std::runtime_error const & e)

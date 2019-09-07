@@ -341,23 +341,22 @@ Hierarchy::updateParents(Logger const & logger)
             logger.value->parent = it->second.value;
             break;  // no need to update the ancestors of the closest ancestor
         }
+
+        auto it2 = provisionNodes.find(substr);
+        if(it2 != provisionNodes.end()) {
+            it2->second.push_back(logger);
+        }
         else {
-            auto it2 = provisionNodes.find(substr);
-            if(it2 != provisionNodes.end()) {
-                it2->second.push_back(logger);
+            ProvisionNode node;
+            node.push_back(logger);
+            std::pair<ProvisionNodeMap::iterator, bool> tmp =
+                provisionNodes.emplace (substr, node);
+            if(!tmp.second) {
+                helpers::getLogLog().error(
+                    LOG4CPLUS_TEXT("Hierarchy::updateParents()- Insert failed"),
+                    true);
             }
-            else {
-                ProvisionNode node;
-                node.push_back(logger);
-                std::pair<ProvisionNodeMap::iterator, bool> tmp =
-                    provisionNodes.emplace (substr, node);
-                if(!tmp.second) {
-                    helpers::getLogLog().error(
-                        LOG4CPLUS_TEXT("Hierarchy::updateParents()- Insert failed"),
-                        true);
-                }
-            }
-        } // end if Logger found
+        }
     } // end for loop
 
     if(!parentFound) {

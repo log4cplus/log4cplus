@@ -253,8 +253,8 @@ InternalLoggingEvent::getMDC (tstring const & key) const
     auto it = mdc_.find (key);
     if (it != mdc_.end ())
         return it->second;
-    else
-        return internal::empty_str;
+
+    return internal::empty_str;
 }
 
 

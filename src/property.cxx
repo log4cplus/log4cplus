@@ -323,8 +323,8 @@ Properties::getProperty(const tstring& key, const tstring& defaultVal) const
     auto it (data.find (key));
     if (it == data.end ())
         return defaultVal;
-    else
-        return it->second;
+
+    return it->second;
 }
 
 
@@ -432,8 +432,8 @@ Properties::get_property_worker (StringType const & key) const
     auto it (data.find (key));
     if (it == data.end ())
         return log4cplus::internal::empty_str;
-    else
-        return it->second;
+
+    return it->second;
 }
 
 

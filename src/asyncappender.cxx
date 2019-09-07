@@ -81,7 +81,7 @@ QueueThread::run()
             == (thread::Queue::EXIT | thread::Queue::DRAIN
                 | thread::Queue::EVENT))
             continue;
-        else if (thread::Queue::EXIT & qflags)
+        if (thread::Queue::EXIT & qflags)
             break;
     }
 }

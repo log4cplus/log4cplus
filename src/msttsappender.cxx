@@ -142,7 +142,8 @@ public:
             if (hr == S_OK && dwReturn == WAIT_OBJECT_0)
                 // our event happened.
                 break;
-            else if (FAILED (hr))
+
+            if (FAILED (hr))
                 loglog_com_error (
                     LOG4CPLUS_TEXT ("SpeechObjectThread: CoWaitForMultipleHandles() failed"),
                     hr);
