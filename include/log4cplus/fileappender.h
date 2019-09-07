@@ -132,7 +132,7 @@ namespace log4cplus
                          std::ios_base::openmode mode = std::ios_base::trunc,
                          bool immediateFlush = true,
                          bool createDirs = false);
-        FileAppenderBase(const log4cplus::helpers::Properties& properties,
+        FileAppenderBase(const log4cplus::helpers::Properties& props,
                          std::ios_base::openmode mode = std::ios_base::trunc);
 
         void init();
@@ -205,7 +205,7 @@ namespace log4cplus
                      std::ios_base::openmode mode = std::ios_base::trunc,
                      bool immediateFlush = true,
                      bool createDirs = false);
-        FileAppender(const log4cplus::helpers::Properties& properties,
+        FileAppender(const log4cplus::helpers::Properties& props,
                      std::ios_base::openmode mode = std::ios_base::trunc);
 
       // Dtor

@@ -97,7 +97,7 @@ namespace log4cplus
 #endif
         SysLogAppender(const tstring& ident, const tstring & host,
             int port = 514, const tstring & facility = tstring (),
-            RemoteSyslogType remoteSyslogType = RSTUdp, bool ipv6 = false);
+            RemoteSyslogType rst = RSTUdp, bool ipv6 = false);
         SysLogAppender(const log4cplus::helpers::Properties & properties);
 
       // Dtor

@@ -96,7 +96,7 @@ namespace log4cplus {
             virtual ~InternalLoggingEvent();
 
             void setLoggingEvent (const log4cplus::tstring_view & logger,
-                LogLevel ll, const log4cplus::tstring_view & message,
+                LogLevel loglevel, const log4cplus::tstring_view & msg,
                 const char * filename, int line,
                 const char * function = nullptr);
 

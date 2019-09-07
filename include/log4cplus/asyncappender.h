@@ -66,7 +66,7 @@ class LOG4CPLUS_EXPORT AsyncAppender
     , public helpers::AppenderAttachableImpl
 {
 public:
-    AsyncAppender (SharedAppenderPtr const & app, unsigned max_len);
+    AsyncAppender (SharedAppenderPtr const & app, unsigned queue_len);
     AsyncAppender (helpers::Properties const &);
     virtual ~AsyncAppender ();
 

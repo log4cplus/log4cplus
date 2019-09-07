@@ -167,7 +167,7 @@ namespace log4cplus {
     {
     public:
         TTCCLayout(bool use_gmtime = false, bool thread_printing = true,
-            bool category_prefixes = true, bool context_printing = true);
+            bool category_prefixing_ = true, bool context_printing = true);
         TTCCLayout(const log4cplus::helpers::Properties& properties);
         virtual ~TTCCLayout();
 

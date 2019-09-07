@@ -51,7 +51,7 @@ namespace log4cplus {
              * The root logger names itself as "root". However, the root
              * logger cannot be retrieved by name.  
              */
-            RootLogger(Hierarchy& h, LogLevel ll);
+            RootLogger(Hierarchy& h, LogLevel loglevel);
 
           // Methods
             /**

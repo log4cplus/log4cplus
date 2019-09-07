@@ -85,7 +85,7 @@ public:
 protected:
     virtual log4cplus::tstring const & toString (LogLevel ll) const;
 
-    virtual LogLevel fromString (const log4cplus::tstring_view& s) const;
+    virtual LogLevel fromString (const log4cplus::tstring_view& nm) const;
 };
 
 LOG4CPLUS_PRIVATE CustomLogLevelManager & getCustomLogLevelManager ();

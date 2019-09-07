@@ -82,12 +82,12 @@ namespace log4cplus {
              *
              * @return boolean True if this logger is enabled for <code>ll</code>.
              */
-            virtual bool isEnabledFor(LogLevel ll) const;
+            virtual bool isEnabledFor(LogLevel loglevel) const;
 
             /**
              * This generic form is intended to be used by wrappers.
              */
-            virtual void log(LogLevel ll, const log4cplus::tstring_view& message,
+            virtual void log(LogLevel loglevel, const log4cplus::tstring_view& message,
                              const char* file=nullptr, int line=-1,
                              const char* function=nullptr);
 
@@ -158,7 +158,7 @@ namespace log4cplus {
              * This method creates a new logging event and logs the event
              * without further checks.
              */
-            virtual void forcedLog(LogLevel ll,
+            virtual void forcedLog(LogLevel loglevel,
                                    const log4cplus::tstring_view& message,
                                    const char* file,
                                    int line,

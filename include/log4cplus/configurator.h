@@ -110,7 +110,7 @@ namespace log4cplus
          * config.configure();
          * </code>
          */
-        static void doConfigure(const log4cplus::tstring& configFilename,
+        static void doConfigure(const log4cplus::tstring& file,
             Hierarchy& h = Logger::getDefaultHierarchy(), unsigned flags = 0);
 
         /**

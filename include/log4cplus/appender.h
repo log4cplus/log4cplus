@@ -218,7 +218,7 @@ namespace log4cplus {
          * their own (fixed) layouts or do not use one. For example, the
          * SocketAppender ignores the layout set here.
          */
-        virtual void setLayout(std::unique_ptr<Layout> layout);
+        virtual void setLayout(std::unique_ptr<Layout> lo);
 
         /**
          * Returns the layout of this appender. The value may be NULL.
