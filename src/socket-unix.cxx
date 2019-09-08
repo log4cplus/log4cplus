@@ -492,7 +492,7 @@ setTCPNoDelay (SOCKET_TYPE sock, bool val)
 #endif
 
     int result;
-    int enabled = static_cast<int>(val);
+    auto enabled = static_cast<int>(val);
     if ((result = setsockopt(sock, level, TCP_NODELAY, &enabled,
                 sizeof(enabled))) != 0)
         set_last_socket_error (errno);

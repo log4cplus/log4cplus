@@ -1431,10 +1431,10 @@ TimeBasedRollingFileAppender::clean(Time time)
     }
 
     Time::duration period = getRolloverPeriodDuration();
-    long periods = long(interval.count () / period.count ());
+    auto periods = long(interval.count () / period.count ());
 
     helpers::LogLog & loglog = helpers::getLogLog();
-    for (long i = 0; i < periods; i++)
+    for (auto i = 0; i < periods; i++)
     {
         long periodToRemove = (-maxHistory - 1) - i;
         Time timeToRemove = time + periodToRemove * period;
