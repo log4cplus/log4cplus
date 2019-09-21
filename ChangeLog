@@ -1,3 +1,9 @@
+# log4cplus 2.0.5
+
+  - Update iOS support to build for current hardware architectures. (Patch by
+    owlcoding)
+
+
 # log4cplus 2.0.4
 
   - Fix Catch2 include path. GitHub issue #379.
