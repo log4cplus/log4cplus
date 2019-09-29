@@ -14,6 +14,7 @@ cmake -G "Xcode" -DBUILD_SHARED_LIBS="FALSE" \
                  -DLOG4CPLUS_BUILD_LOGGINGSERVER="OFF" \
                  -DLOG4CPLUS_CONFIGURE_CHECKS_PATH=$scripts_dir/../ConfigureChecks.cmake \
                  -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=$scripts_dir/../build_i386/Binaries \
+		 -DCMAKE_CXX_FLAGS="-std=c++17" \
                  $@ \
                  $scripts_dir/../..
 
