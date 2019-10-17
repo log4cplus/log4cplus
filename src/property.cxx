@@ -256,25 +256,51 @@ Properties::init(tistream& input)
             trim_ws (value);
             setProperty(key, value);
         }
-        else if (buffer.compare (0, 7, LOG4CPLUS_TEXT ("include")) == 0
-            && buffer.size () >= 7 + 1 + 1
-            && is_space (buffer[7]))
-        {
-            tstring included (buffer, 8) ;
-            trim_ws (included);
+		else if (buffer.compare(0, 7, LOG4CPLUS_TEXT("include")) == 0
+			&& buffer.size() >= 7 + 1 + 1
+			&& is_space(buffer[7]))
+		{
+			tstring included(buffer, 8);
+			trim_ws(included);
+
+
+			tstring fileName = included;
+			tstring modFilename;
+			while (substitueEnvVariables(fileName, modFilename))
+			{
+				fileName = modFilename;
+			}
 
             tifstream file;
             imbue_file_from_flags (file, flags);
 
-            file.open (LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(included).c_str(),
+            file.open (LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(fileName).c_str(),
                 std::ios::binary);
             if (! file.good ())
                 helpers::getLogLog ().error (
-                    LOG4CPLUS_TEXT ("could not open file ") + included);
+                    LOG4CPLUS_TEXT ("could not open file ") + fileName);
 
             init (file);
         }
     }
+}
+
+bool
+Properties::substitueEnvVariables(tstring &fileName, tstring &modFileName)
+{
+	tstring::size_type const envStart_idx = fileName.find('{');
+	tstring::size_type const envEnd_idx = fileName.find('}');
+	if (envStart_idx != tstring::npos)
+	{
+		tstring envVarValue;
+		tstring envVarName(fileName, envStart_idx + 1, envEnd_idx - envStart_idx - 1);
+		bool exists = internal::get_env_var(envVarValue, envVarName);
+		modFileName = fileName.substr(0, envStart_idx - 1);
+		modFileName.append(envVarValue);
+		modFileName.append(fileName.substr(envEnd_idx + 1));
+		return true;
+	}
+	return false;
 }
 
 

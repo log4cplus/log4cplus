@@ -140,6 +140,7 @@ namespace log4cplus {
 
           // Methods
             void init(log4cplus::tistream& input);
+			bool substitueEnvVariables(tstring &fileName, tstring &modFileName);
 
           // Data
             StringMap data;
