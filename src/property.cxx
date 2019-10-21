@@ -247,17 +247,8 @@ Properties::init(tistream& input)
             // Remove trailing 'Windows' \r.
             buffer.resize (buffLen - 1);
 
-        tstring::size_type const idx = buffer.find(LOG4CPLUS_TEXT ('='));
-        if (idx != tstring::npos)
-        {
-            tstring key = buffer.substr(0, idx);
-            tstring value = buffer.substr(idx + 1);
-            trim_trailing_ws (key);
-            trim_ws (value);
-            setProperty(key, value);
-        }
-        else if (buffer.compare (0, 7, LOG4CPLUS_TEXT ("include")) == 0
-            && buffer.size () >= 7 + 1 + 1
+        if (buffer.size () >= 7 + 1 + 1
+            && buffer.compare (0, 7, LOG4CPLUS_TEXT ("include")) == 0
             && is_space (buffer[7]))
         {
             tstring included (buffer, 8) ;
@@ -273,6 +264,18 @@ Properties::init(tistream& input)
                     LOG4CPLUS_TEXT ("could not open file ") + included);
 
             init (file);
+        }
+        else
+        {
+            tstring::size_type const idx = buffer.find(LOG4CPLUS_TEXT ('='));
+            if (idx != tstring::npos)
+            {
+                tstring key = buffer.substr(0, idx);
+                tstring value = buffer.substr(idx + 1);
+                trim_trailing_ws (key);
+                trim_ws (value);
+                setProperty(key, value);
+            }
         }
     }
 }
