@@ -412,6 +412,7 @@ LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_VAR_ATTRIBUTE_INIT_PRIORITY],
 
 dnl Checks for libraries.
 
+AC_LANG_PUSH([C])
 AC_SEARCH_LIBS([__atomic_fetch_and_4], [atomic])
 AC_SEARCH_LIBS([strerror], [cposix])
 dnl On some systems libcompat exists only as a static library which
@@ -422,6 +423,7 @@ AC_SEARCH_LIBS([setsockopt], [socket network net])
 AS_IF([test "x$with_iconv" = "xyes"],
   [AC_SEARCH_LIBS([iconv_open], [iconv], [],
      [AC_SEARCH_LIBS([libiconv_open], [iconv])])])
+AC_LANG_POP([C])
 
 dnl Windows/MinGW specific.
 
@@ -497,7 +499,9 @@ dnl Multi threaded library.
    AS_VAR_APPEND([LIBS], [" $PTHREAD_LIBS"])
 
    dnl required on HP-UX
+   AC_LANG_PUSH([C])
    AC_SEARCH_LIBS([sem_init], [rt])
+   AC_LANG_POP([C])
 
    AS_CASE([$ax_cv_cxx_compiler_vendor],
      [gnu|clang],
