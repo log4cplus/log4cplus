@@ -1,7 +1,22 @@
 # log4cplus 2.0.5
 
+  - Modernized CMake build.
+
   - Update iOS support to build for current hardware architectures. (Patch by
-    owlcoding)
+    Pawel Maczewski)
+
+  - Fix issue with `std::va_list` value reuse.
+
+  - Fix parsing of `include` in configuration when included file path contains
+    `=`. (Patch by Peter Pei)
+
+  - Fix build issue #455. Source file `callbackappender.cxx` is missing from
+    Visual Studio project for static library.
+
+  - Fix issue #415. Wrong base source file name is provided if path on Windows
+    contains `/`.
+
+  - Change of default behaviour: Instantiate thread pool with only 4 threads.
 
 
 # log4cplus 2.0.4
