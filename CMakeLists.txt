@@ -12,7 +12,7 @@ endif ()
 set (CMAKE_LEGACY_CYGWIN_WIN32 0)
 
 project (log4cplus)
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.12)
 
 # Use "-fPIC" / "-fPIE" for all targets by default, including static libs.
 set (CMAKE_POSITION_INDEPENDENT_CODE ON)
