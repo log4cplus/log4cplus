@@ -119,6 +119,12 @@ else ()
   target_compile_definitions (${log4cplus} PRIVATE INSIDE_LOG4CPLUS)
 endif ()
 
+if (APPLE)
+  set_target_properties (${log4cplus} PROPERTIES
+    MACHO_CURRENT_VERSION "${log4cplus_macho_current_version}"
+    MACHO_COMPATIBILITY_VERSION "${log4cplus_macho_compatibility_version}")
+endif ()
+
 if (MINGW AND LOG4CPLUS_MINGW_STATIC_RUNTIME)
   # avoid dependency from mingw libstdc++/libgcc in resulting dll
   set_target_properties (${log4cplus} PROPERTIES
