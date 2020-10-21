@@ -107,4 +107,11 @@ close $fh2;
         $line =~ s/^(version:\s*)(?:\d+(?:\.\d+(?:\.\d+)?)?)(.*)/$1$version$2/x;
         print $line;
     }
+
+    local @ARGV = ("CMakeLists.txt");
+    while (my $line = <>)
+    {
+        $line =~ s/^(\s* set \s* \( \s* log4cplus_soversion \s*) (\d+)/$1$so_current_adjusted/x;
+        print $line;
+    }
 }
