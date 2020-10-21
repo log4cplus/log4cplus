@@ -34,7 +34,7 @@ include (Log4CPlusUtils.cmake)
 log4cplus_get_version ("${PROJECT_SOURCE_DIR}/include"
   log4cplus_version_major log4cplus_version_minor log4cplus_version_patch)
 message("-- Generating build for Log4cplus version ${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}")
-set (log4cplus_soversion 0)
+set (log4cplus_soversion 3)
 set (log4cplus_postfix "")
 
 option(LOG4CPLUS_BUILD_TESTING "Build the test suite." ON)
