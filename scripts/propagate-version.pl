@@ -104,7 +104,9 @@ close $fh2;
     local @ARGV = ("CMakeLists.txt");
     while (my $line = <>)
     {
-        $line =~ s/^(\s* set \s* \( \s* log4cplus_soversion \s*) (\d+)/$1$so_current_adjusted/x;
+        $line =~ s/^(\s* set \s* \( \s* log4cplus_soversion \s*) (\d+)/$1$so_current_adjusted/x
+            || $line =~ s/^(\s* set \s* \( \s* log4cplus_macho_current_version \s*) (\d+(?:\.\d+)+)/$1$so_current.0.0/x
+            || $line =~ s/^(\s* set \s* \( \s* log4cplus_macho_compatibility_version \s*) (\d+(?:\.\d+)+)/$1$so_current_adjusted.0.0/x;
         print $line;
     }
 }

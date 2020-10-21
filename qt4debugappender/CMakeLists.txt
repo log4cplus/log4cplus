@@ -24,6 +24,12 @@ set_target_properties (${qt4debugappender} PROPERTIES
   SOVERSION "${log4cplus_soversion}")
 target_compile_definitions (${qt4debugappender} PRIVATE INSIDE_LOG4CPLUS_QT4DEBUGAPPENDER)
 
+if (APPLE)
+  set_target_properties (${log4cplus} PROPERTIES
+    MACHO_CURRENT_VERSION "${log4cplus_macho_current_version}"
+    MACHO_COMPATIBILITY_VERSION "${log4cplus_macho_compatibility_version}")
+endif ()
+
 if (WIN32)
   set_target_properties (${qt4debugappender} PROPERTIES
     DEBUG_POSTFIX "D")

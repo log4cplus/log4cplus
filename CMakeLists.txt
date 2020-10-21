@@ -36,6 +36,10 @@ log4cplus_get_version ("${PROJECT_SOURCE_DIR}/include"
 message("-- Generating build for Log4cplus version ${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}")
 set (log4cplus_soversion 3)
 set (log4cplus_postfix "")
+if (APPLE)
+  set (log4cplus_macho_current_version 7.0.0)
+  set (log4cplus_macho_compatibility_version 3.0.0)
+endif ()
 
 option(LOG4CPLUS_BUILD_TESTING "Build the test suite." ON)
 option(LOG4CPLUS_BUILD_LOGGINGSERVER "Build the logging server." ON)
