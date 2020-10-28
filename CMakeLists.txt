@@ -206,3 +206,13 @@ message (STATUS "${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}"
 message (STATUS "Compiler flags: ${CMAKE_CXX_FLAGS}")
 message (STATUS "System name: ${CMAKE_SYSTEM_NAME}")
 message (STATUS "System version: ${CMAKE_SYSTEM_VERSION}")
+
+# generate pkgconfig file.
+set(prefix "${CMAKE_INSTALL_PREFIX}")
+set(exec_prefix "\${prefix}")
+set(libdir "\${prefix}/${CMAKE_INSTALL_LIBDIR}")
+set(includedir "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
+set(VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}")
+configure_file(log4cplus.pc.in ${CMAKE_BINARY_DIR}/lib/pkgconfig/log4cplus.pc @ONLY)
+
+install(FILES ${CMAKE_BINARY_DIR}/lib/pkgconfig/log4cplus.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/)
