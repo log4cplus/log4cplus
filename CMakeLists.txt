@@ -191,18 +191,23 @@ endif (LOG4CPLUS_QT5)
 
 include(Log4CPlusCPack.cmake)
 
+# generate pkgconfig file.
+set (log4cplus_pkgconfig "${CMAKE_BINARY_DIR}/lib/pkgconfig/log4cplus.pc")
+function(log4cplus_gen_pkgconfig)
+  message (STATUS "Generating ${log4cplus_pkgconfig}")
+  set(prefix "${CMAKE_INSTALL_PREFIX}")
+  set(exec_prefix "\${prefix}")
+  set(libdir "\${prefix}/${CMAKE_INSTALL_LIBDIR}")
+  set(includedir "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
+  set(VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}")
+  configure_file(log4cplus.pc.in "${log4cplus_pkgconfig}" @ONLY)
+endfunction(log4cplus_gen_pkgconfig)
+log4cplus_gen_pkgconfig ()
+
+install(FILES "${log4cplus_pkgconfig}" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/)
+
 message (STATUS "Compiler: ${CMAKE_CXX_COMPILER}")
 message (STATUS "${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}")
 message (STATUS "Compiler flags: ${CMAKE_CXX_FLAGS}")
 message (STATUS "System name: ${CMAKE_SYSTEM_NAME}")
 message (STATUS "System version: ${CMAKE_SYSTEM_VERSION}")
-
-# generate pkgconfig file.
-set(prefix "${CMAKE_INSTALL_PREFIX}")
-set(exec_prefix "\${prefix}")
-set(libdir "\${prefix}/${CMAKE_INSTALL_LIBDIR}")
-set(includedir "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
-set(VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}")
-configure_file(log4cplus.pc.in ${CMAKE_BINARY_DIR}/lib/pkgconfig/log4cplus.pc @ONLY)
-
-install(FILES ${CMAKE_BINARY_DIR}/lib/pkgconfig/log4cplus.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/)
