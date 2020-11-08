@@ -183,7 +183,7 @@ main()
             }
         }
         catch(std::exception const & e) {
-            log4cplus::tcout << "**** Exception occured: " << e.what()
+            log4cplus::tcout << "**** Exception occurred: " << e.what()
                              << std::endl;
         }
     }

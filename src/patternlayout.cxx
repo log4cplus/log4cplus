@@ -831,7 +831,7 @@ PatternParser::parse()
             }
             else {
                 tostringstream buf;
-                buf << LOG4CPLUS_TEXT("Error occured in position ")
+                buf << LOG4CPLUS_TEXT("Error occurred in position ")
                     << pos
                     << LOG4CPLUS_TEXT(".\n Was expecting digit, instead got char \"")
                     << c

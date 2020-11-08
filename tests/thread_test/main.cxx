@@ -125,10 +125,10 @@ main()
         LOG4CPLUS_INFO(logger, "Exiting main()...");
     }
     catch(std::exception &e) {
-        LOG4CPLUS_FATAL(Logger::getRoot(), "main()- Exception occured: " << e.what());
+        LOG4CPLUS_FATAL(Logger::getRoot(), "main()- Exception occurred: " << e.what());
     }
     catch(...) {
-        LOG4CPLUS_FATAL(Logger::getRoot(), "main()- Exception occured");
+        LOG4CPLUS_FATAL(Logger::getRoot(), "main()- Exception occurred");
     }
 
     return 0;

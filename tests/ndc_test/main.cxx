@@ -49,7 +49,7 @@ main()
     }
     catch(...) {
         cout << "Exception..." << endl;
-        Logger::getRoot().log(FATAL_LOG_LEVEL, LOG4CPLUS_TEXT("Exception occured..."));
+        Logger::getRoot().log(FATAL_LOG_LEVEL, LOG4CPLUS_TEXT("Exception occurred..."));
     }
 
     cout << "Exiting main()..." << endl;
