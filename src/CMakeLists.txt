@@ -111,12 +111,19 @@ target_link_libraries (${log4cplus} ${log4cplus_LIBS})
 
 if (ANDROID)
   # Android does not seem to have SO version support.
-  target_compile_definitions (${log4cplus} PRIVATE INSIDE_LOG4CPLUS)
+elseif (WIN32)
+  set_target_properties (${log4cplus} PROPERTIES
+    VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}")
 else ()
   set_target_properties (${log4cplus} PROPERTIES
-    VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}"
     SOVERSION "${log4cplus_soversion}")
-  target_compile_definitions (${log4cplus} PRIVATE INSIDE_LOG4CPLUS)
+endif ()
+target_compile_definitions (${log4cplus} PRIVATE INSIDE_LOG4CPLUS)
+
+if (APPLE)
+  set_target_properties (${log4cplus} PROPERTIES
+    MACHO_CURRENT_VERSION "${log4cplus_macho_current_version}"
+    MACHO_COMPATIBILITY_VERSION "${log4cplus_macho_compatibility_version}")
 endif ()
 
 if (MINGW AND LOG4CPLUS_MINGW_STATIC_RUNTIME)
