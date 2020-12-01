@@ -45,6 +45,11 @@ if (LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION)
   add_compile_definitions (LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION=1)
 endif(LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION)
 
+option(LOG4CPLUS_ENABLE_THREAD_POOL "Instantiate internal thread pool for when AsyncAppend=true" ON)
+if (LOG4CPLUS_ENABLE_THREAD_POOL)
+add_compile_definitions (LOG4CPLUS_ENABLE_THREAD_POOL=1)
+endif()
+
 if(NOT LOG4CPLUS_SINGLE_THREADED)
   find_package (Threads)
   message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
