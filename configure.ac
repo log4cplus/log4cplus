@@ -109,6 +109,14 @@ AS_IF([test "x$enable_implicit_initialization" = "xyes"],
   [],
   [AS_VAR_APPEND([CPPFLAGS], [" -DLOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION=1"])])
 
+dnl Enable thread pool
+
+LOG4CPLUS_ARG_ENABLE([thread-pool],
+  [Instantiate internal thread pool for when AsyncAppend=true. [default=yes]],
+  [enable_thread_pool=yes])
+AS_IF([test "x$enable_thread_pool" = "xyes"],
+  [AS_VAR_APPEND([CPPFLAGS], [" -DLOG4CPLUS_ENABLE_THREAD_POOL=1"])])
+
 dnl Enable release version.
 
 LOG4CPLUS_ARG_ENABLE([release-version],
