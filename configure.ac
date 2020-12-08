@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl This version of log4cplus requires the follwing autotools versions:
-dnl autoconf-2.69
+dnl autoconf-2.70
 dnl automake-1.16.1
 dnl libtool-2.4.6
 
@@ -439,9 +439,9 @@ AS_CASE(["$target_os"],
     AC_CHECK_LIB([oleaut32], [main])
     AC_LANG_POP([C])])
 
-dnl Checks for header files.
+AC_CHECK_INCLUDES_DEFAULT
+AC_PROG_EGREP
 
-AC_HEADER_STDC
 
 LOG4CPLUS_CHECK_HEADER([sys/types.h], [LOG4CPLUS_HAVE_SYS_TYPES_H])
 LOG4CPLUS_CHECK_HEADER([sys/socket.h], [LOG4CPLUS_HAVE_SYS_SOCKET_H])
