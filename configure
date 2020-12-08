@@ -12997,8 +12997,8 @@ if test "x$with_qt" = "xyes"
 then :
 
 pkg_failed=no
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for QT" >&5
-printf %s "checking for QT... " >&6; }
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for QtCore >= 4.0.0" >&5
+printf %s "checking for QtCore >= 4.0.0... " >&6; }
 
 if test -n "$QT_CFLAGS"; then
     pkg_cv_QT_CFLAGS="$QT_CFLAGS"
@@ -13038,7 +13038,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -13065,7 +13065,7 @@ Alternatively, you may set the environment variables QT_CFLAGS
 and QT_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
-     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
 	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in \`$ac_pwd':" >&2;}
@@ -13117,8 +13117,8 @@ if test "x$with_qt5" = "xyes"
 then :
 
 pkg_failed=no
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for QT5" >&5
-printf %s "checking for QT5... " >&6; }
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for Qt5Core >= 5.0.0" >&5
+printf %s "checking for Qt5Core >= 5.0.0... " >&6; }
 
 if test -n "$QT5_CFLAGS"; then
     pkg_cv_QT5_CFLAGS="$QT5_CFLAGS"
@@ -13158,7 +13158,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -13185,7 +13185,7 @@ Alternatively, you may set the environment variables QT5_CFLAGS
 and QT5_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
-     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
 	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in \`$ac_pwd':" >&2;}
