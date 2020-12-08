@@ -6518,18 +6518,20 @@ if test ${ax_cv_cxx_compiler_vendor+y}
 then :
   printf %s "(cached) " >&6
 else $as_nop
-  # note: don't check for gcc first since some other compilers define __GNUC__
+    # note: don't check for gcc first since some other compilers define __GNUC__
   vendors="intel:     __ICC,__ECC,__INTEL_COMPILER
            ibm:       __xlc__,__xlC__,__IBMC__,__IBMCPP__
            pathscale: __PATHCC__,__PATHSCALE__
            clang:     __clang__
+           cray:      _CRAYC
+           fujitsu:   __FUJITSU
+           sdcc:      SDCC, __SDCC
            gnu:       __GNUC__
            sun:       __SUNPRO_C,__SUNPRO_CC
            hp:        __HP_cc,__HP_aCC
            dec:       __DECC,__DECCXX,__DECC_VER,__DECCXX_VER
-           borland:   __BORLANDC__,__TURBOC__
+           borland:   __BORLANDC__,__CODEGEARC__,__TURBOC__
            comeau:    __COMO__
-           cray:      _CRAYC
            kai:       __KCC
            lcc:       __LCC__
            sgi:       __sgi,sgi
@@ -6537,6 +6539,7 @@ else $as_nop
            metrowerks: __MWERKS__
            watcom:    __WATCOMC__
            portland:  __PGI
+	   tcc:       __TINYC__
            unknown:   UNKNOWN"
   for ventest in $vendors; do
     case $ventest in #(
@@ -6580,52 +6583,89 @@ then :
           sun) :
      ;; #(
   *) :
-    ac_ext=cpp
+        ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for maximum warnings" >&5
-printf %s "checking CXXFLAGS for maximum warnings... " >&6; }
+
+
+
+
+    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for most reasonable warnings" >&5
+printf %s "checking CXXFLAGS for most reasonable warnings... " >&6; }
 if test ${ac_cv_cxxflags_warn_all+y}
 then :
   printf %s "(cached) " >&6
 else $as_nop
-  ac_cv_cxxflags_warn_all="no, unknown"
-ac_save_CXXFLAGS=$CXXFLAGS
-for ac_arg in "-warn all  % -warn all"      "-pedantic  % -Wall"          "-xstrconst % -v"             "-std1      % -verbose -w0 -warnprotos"    "-qlanglvl=ansi % -qsrcmsg -qinfo=all:noppt:noppc:noobs:nocnd"    "-ansi -ansiE % -fullwarn"    "+ESlit     % +w1"            "-Xc        % -pvctl,fullmsg"    "-h conform % -h msglevel 2"    #
-do CXXFLAGS="$ac_save_CXXFLAGS `printf %s \"$ac_arg\" | $SED -e 's,%%.*,,' -e 's,%,,'`"
-   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
 
-int
-main (void)
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"
-then :
-  ac_cv_cxxflags_warn_all="`printf %s \"$ac_arg\" | $SED -e 's,.*% *,,'`"
-                      break
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam \
-    conftest$ac_exeext conftest.$ac_ext
-done
-CXXFLAGS=$ac_save_CXXFLAGS
-
-fi
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_cxxflags_warn_all" >&5
-printf "%s\n" "$ac_cv_cxxflags_warn_all" >&6; }
-case ".$ac_cv_cxxflags_warn_all" in #(
-  .ok|.ok,*) :
+	ac_cv_cxxflags_warn_all=""
+	ac_save_cxxflags_warn_all_found="yes"
+		case "$ax_cv_cxx_compiler_vendor" in #(
+  intel) :
+    ac_cv_cxxflags_warn_all="-w2" ;; #(
+  ibm) :
+    ac_cv_cxxflags_warn_all="-qsrcmsg -qinfo=all:noppt:noppc:noobs:nocnd" ;; #(
+  pathscale) :
      ;; #(
-  .|.no|.no,*) :
+  clang) :
+    ac_cv_cxxflags_warn_all="-Wall" ;; #(
+  cray) :
+    ac_cv_cxxflags_warn_all="-h msglevel 2" ;; #(
+  fujitsu) :
      ;; #(
+  sdcc) :
+     ;; #(
+  sx) :
+    ac_cv_cxxflags_warn_all="-pvctl,fullmsg" ;; #(
+  portland) :
+     ;; #(
+  gnu) :
+    ac_cv_cxxflags_warn_all="-Wall" ;; #(
+  sun) :
+    ac_cv_cxxflags_warn_all="-v" ;; #(
+  hp) :
+    ac_cv_cxxflags_warn_all="+w1" ;; #(
+  dec) :
+    ac_cv_cxxflags_warn_all="-verbose -w0 -warnprotos" ;; #(
+  borland) :
+     ;; #(
+  comeau) :
+     ;; #(
+  kai) :
+     ;; #(
+  lcc) :
+     ;; #(
+  sgi) :
+    ac_cv_cxxflags_warn_all="-fullwarn" ;; #(
+  microsoft) :
+     ;; #(
+  metrowerks) :
+     ;; #(
+  watcom) :
+     ;; #(
+  tcc) :
+     ;; #(
+  unknown) :
+
+				    ac_cv_cxxflags_warn_all=""
+				    ac_save_cxxflags_warn_all_found="no"
+				 ;; #(
   *) :
+
+				    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: Unknown compiler vendor returned by AX_COMPILER_VENDOR" >&5
+printf "%s\n" "$as_me: WARNING: Unknown compiler vendor returned by AX_COMPILER_VENDOR" >&2;}
+				    ac_cv_cxxflags_warn_all=""
+				    ac_save_cxxflags_warn_all_found="no"
+
+	 ;;
+esac
+
+	if test "x$ac_save_cxxflags_warn_all_found" = "xyes"
+then :
+  	    if test "x$ac_cv_cxxflags_warn_all" != "x"
+then :
 
 if test ${CXXFLAGS+y}
 then :
@@ -6639,7 +6679,7 @@ then :
   test $ac_status = 0; } ;; #(
   *) :
 
-     as_fn_append CXXFLAGS " $ac_cv_cxxflags_warn_all"
+     CXXFLAGS="$ac_cv_cxxflags_warn_all $CXXFLAGS"
      { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS\""; } >&5
   (: CXXFLAGS="$CXXFLAGS") 2>&5
   ac_status=$?
@@ -6658,10 +6698,18 @@ else $as_nop
   test $ac_status = 0; }
 
 fi
- ;;
-esac
 
-ac_ext=cpp
+fi
+
+else $as_nop
+  	    true
+
+fi
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_cxxflags_warn_all" >&5
+printf "%s\n" "$ac_cv_cxxflags_warn_all" >&6; }
+
+    ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
