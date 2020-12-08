@@ -1,6 +1,6 @@
-# ================================================================================
-#  http://www.gnu.org/software/autoconf-archive/ax_swig_multi_module_support.html
-# ================================================================================
+# =================================================================================
+#  https://www.gnu.org/software/autoconf-archive/ax_swig_multi_module_support.html
+# =================================================================================
 #
 # SYNOPSIS
 #
@@ -17,9 +17,9 @@
 # LICENSE
 #
 #   Copyright (c) 2008 Sebastian Huber <sebastian-huber@web.de>
-#   Copyright (c) 2008 Alan W. Irwin <irwin@beluga.phys.uvic.ca>
+#   Copyright (c) 2008 Alan W. Irwin
 #   Copyright (c) 2008 Rafael Laboissiere <rafael@laboissiere.net>
-#   Copyright (c) 2008 Andrew Collier <colliera@ukzn.ac.za>
+#   Copyright (c) 2008 Andrew Collier
 #
 #   This program is free software; you can redistribute it and/or modify it
 #   under the terms of the GNU General Public License as published by the
@@ -32,7 +32,7 @@
 #   Public License for more details.
 #
 #   You should have received a copy of the GNU General Public License along
-#   with this program. If not, see <http://www.gnu.org/licenses/>.
+#   with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 #   As a special exception, the respective Autoconf Macro's copyright owner
 #   gives unlimited permission to copy, distribute and modify the configure
@@ -47,7 +47,7 @@
 #   modified version of the Autoconf Macro, you may extend this special
 #   exception to the GPL to apply to your modified version as well.
 
-#serial 7
+#serial 11
 
 AU_ALIAS([SWIG_MULTI_MODULE_SUPPORT], [AX_SWIG_MULTI_MODULE_SUPPORT])
 AC_DEFUN([AX_SWIG_MULTI_MODULE_SUPPORT],[
