@@ -4,7 +4,7 @@ dnl autoconf-2.69
 dnl automake-1.16.1
 dnl libtool-2.4.6
 
-AC_INIT([log4cplus],[2.0.5])
+AC_INIT([log4cplus],[2.0.6])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
@@ -20,7 +20,7 @@ AM_PROG_AR
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=7:5:4
+LT_VERSION=7:6:4
 LT_RELEASE=2.0
 AC_SUBST([LT_VERSION])
 AC_SUBST([LT_RELEASE])
@@ -108,6 +108,14 @@ LOG4CPLUS_ARG_ENABLE([implicit-initialization],
 AS_IF([test "x$enable_implicit_initialization" = "xyes"],
   [],
   [AS_VAR_APPEND([CPPFLAGS], [" -DLOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION=1"])])
+
+dnl Enable thread pool
+
+LOG4CPLUS_ARG_ENABLE([thread-pool],
+  [Instantiate internal thread pool for when AsyncAppend=true. [default=yes]],
+  [enable_thread_pool=yes])
+AS_IF([test "x$enable_thread_pool" = "xyes"],
+  [AS_VAR_APPEND([CPPFLAGS], [" -DLOG4CPLUS_ENABLE_THREAD_POOL=1"])])
 
 dnl Enable release version.
 

@@ -39,6 +39,8 @@ env:
     CXXFLAGS="" SWIG_FLAGS=""
   - PARAM_THREADS="--disable-threads --with-python --with-qt --with-iconv --with-wchar_t-support --enable-unit-tests"
     CXXFLAGS="" SWIG_FLAGS=""
+  - PARAM_THREADS="--enable-threads --disable-thread-pool --with-python --with-qt --with-iconv --with-wchar_t-support --enable-unit-tests"
+    CXXFLAGS="" SWIG_FLAGS=""
 before_install:
   - lsb_release -a
   - git submodule update --init --recursive
