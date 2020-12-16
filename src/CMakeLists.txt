@@ -114,9 +114,20 @@ if (ANDROID)
   target_compile_definitions (${log4cplus} PRIVATE INSIDE_LOG4CPLUS)
 else ()
   set_target_properties (${log4cplus} PROPERTIES
-    VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}"
-    SOVERSION "${log4cplus_soversion}")
+    VERSION "${log4cplus_libtoolversion}"
+    SOVERSION "${log4cplus_soversion}"
+    OUTPUT_NAME "${log4cplus}-${log4cplus_version_major}.${log4cplus_version_minor}")
   target_compile_definitions (${log4cplus} PRIVATE INSIDE_LOG4CPLUS)
+  get_target_property(libname ${log4cplus} OUTPUT_NAME)
+  get_target_property(libversion ${log4cplus} VERSION)
+  set(lib ${CMAKE_SHARED_LIBRARY_PREFIX})
+  set(so ${CMAKE_SHARED_LIBRARY_SUFFIX})
+  install(CODE "execute_process(
+    COMMAND bash -c \"set -e
+      cd $DESTDIR/${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}
+      echo -n -- Installing: `pwd`/
+      ln -sfv ${lib}${libname}${so}.${libversion} ${lib}${log4cplus}${so}
+      \")")
 endif ()
 
 if (MINGW AND LOG4CPLUS_MINGW_STATIC_RUNTIME)
