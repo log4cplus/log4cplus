@@ -1,3 +1,16 @@
+# log4cplus 2.0.6
+
+  - Fixes to internal thread pool.
+
+  - Internal thread pool can now be disabled during compilation. Use
+    `--disable-thread-pool` with Autotools based build or set
+    `LOG4CPLUS_ENABLE_THREAD_POOL` to `OFF` with CMake based build.
+
+  - Improved SONAME handling in CMake.
+
+  - Update Catch to 2.13.4 to fix compilation on MacOS X on AArch64.
+
+
 # log4cplus 2.0.5
 
   - Modernized CMake build.
