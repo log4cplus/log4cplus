@@ -109,6 +109,14 @@ AS_IF([test "x$enable_implicit_initialization" = "xyes"],
   [],
   [AS_VAR_APPEND([CPPFLAGS], [" -DLOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION=1"])])
 
+dnl Enable thread pool
+
+LOG4CPLUS_ARG_ENABLE([thread-pool],
+  [Instantiate internal thread pool for when AsyncAppend=true. [default=yes]],
+  [enable_thread_pool=yes])
+AS_IF([test "x$enable_thread_pool" = "xyes"],
+  [AS_VAR_APPEND([CPPFLAGS], [" -DLOG4CPLUS_ENABLE_THREAD_POOL=1"])])
+
 dnl Enable release version.
 
 LOG4CPLUS_ARG_ENABLE([release-version],
@@ -443,7 +451,8 @@ AS_CASE(["$target_os"],
 
 dnl Checks for header files.
 
-AC_HEADER_STDC
+AC_CHECK_INCLUDES_DEFAULT
+AC_PROG_EGREP
 
 LOG4CPLUS_CHECK_HEADER([sys/types.h], [LOG4CPLUS_HAVE_SYS_TYPES_H])
 LOG4CPLUS_CHECK_HEADER([sys/socket.h], [LOG4CPLUS_HAVE_SYS_SOCKET_H])

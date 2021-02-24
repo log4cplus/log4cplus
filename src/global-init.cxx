@@ -137,7 +137,11 @@ std::unique_ptr<progschj::ThreadPool>
 instantiate_thread_pool ()
 {
     log4cplus::thread::SignalsBlocker sb;
+#if defined (LOG4CPLUS_ENABLE_THREAD_POOL)
     return std::unique_ptr<progschj::ThreadPool>(new progschj::ThreadPool (4));
+#else
+    return std::unique_ptr<progschj::ThreadPool>();
+#endif
 }
 #endif
 
@@ -305,7 +309,8 @@ getMDC ()
 }
 
 
-#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+#if ! defined (LOG4CPLUS_SINGLE_THREADED) \
+    && defined (LOG4CPLUS_ENABLE_THREAD_POOL)
 void
 enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
     spi::InternalLoggingEvent const & event)
@@ -592,7 +597,10 @@ void
 setThreadPoolSize (std::size_t LOG4CPLUS_THREADED (pool_size))
 {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-    get_dc ()->thread_pool->set_pool_size (pool_size);
+    std::unique_ptr<progschj::ThreadPool> & thread_pool = get_dc ()->thread_pool;
+    if (thread_pool)
+        thread_pool->set_pool_size (pool_size);
+
 #endif
 }
 

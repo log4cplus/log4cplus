@@ -1,7 +1,7 @@
 #! /bin/sh
-# Generated from tests/testsuite.at by GNU Autoconf 2.69.
+# Generated from testsuite.at by GNU Autoconf 2.71.
 #
-# Copyright (C) 2009-2012 Free Software Foundation, Inc.
+# Copyright (C) 2009-2017, 2020-2021 Free Software Foundation, Inc.
 #
 # This test suite is free software; the Free Software Foundation gives
 # unlimited permission to copy, distribute and modify it.
@@ -11,14 +11,16 @@
 
 # Be more Bourne compatible
 DUALCASE=1; export DUALCASE # for MKS sh
-if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then :
+as_nop=:
+if test ${ZSH_VERSION+y} && (emulate sh) >/dev/null 2>&1
+then :
   emulate sh
   NULLCMD=:
   # Pre-4.2 versions of Zsh do word splitting on ${1+"$@"}, which
   # is contrary to our usage.  Disable this feature.
   alias -g '${1+"$@"}'='"$@"'
   setopt NO_GLOB_SUBST
-else
+else $as_nop
   case `(set -o) 2>/dev/null` in #(
   *posix*) :
     set -o posix ;; #(
@@ -28,46 +30,46 @@ esac
 fi
 
 
+
+# Reset variables that may have inherited troublesome values from
+# the environment.
+
+# IFS needs to be set, to space, tab, and newline, in precisely that order.
+# (If _AS_PATH_WALK were called with IFS unset, it would have the
+# side effect of setting IFS to empty, thus disabling word splitting.)
+# Quoting is to prevent editors from complaining about space-tab.
 as_nl='
 '
 export as_nl
-# Printing a long string crashes Solaris 7 /usr/bin/printf.
-as_echo='\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\'
-as_echo=$as_echo$as_echo$as_echo$as_echo$as_echo
-as_echo=$as_echo$as_echo$as_echo$as_echo$as_echo$as_echo
-# Prefer a ksh shell builtin over an external printf program on Solaris,
-# but without wasting forks for bash or zsh.
-if test -z "$BASH_VERSION$ZSH_VERSION" \
-    && (test "X`print -r -- $as_echo`" = "X$as_echo") 2>/dev/null; then
-  as_echo='print -r --'
-  as_echo_n='print -rn --'
-elif (test "X`printf %s $as_echo`" = "X$as_echo") 2>/dev/null; then
-  as_echo='printf %s\n'
-  as_echo_n='printf %s'
-else
-  if test "X`(/usr/ucb/echo -n -n $as_echo) 2>/dev/null`" = "X-n $as_echo"; then
-    as_echo_body='eval /usr/ucb/echo -n "$1$as_nl"'
-    as_echo_n='/usr/ucb/echo -n'
-  else
-    as_echo_body='eval expr "X$1" : "X\\(.*\\)"'
-    as_echo_n_body='eval
-      arg=$1;
-      case $arg in #(
-      *"$as_nl"*)
-	expr "X$arg" : "X\\(.*\\)$as_nl";
-	arg=`expr "X$arg" : ".*$as_nl\\(.*\\)"`;;
-      esac;
-      expr "X$arg" : "X\\(.*\\)" | tr -d "$as_nl"
-    '
-    export as_echo_n_body
-    as_echo_n='sh -c $as_echo_n_body as_echo'
-  fi
-  export as_echo_body
-  as_echo='sh -c $as_echo_body as_echo'
-fi
+IFS=" ""	$as_nl"
+
+PS1='$ '
+PS2='> '
+PS4='+ '
+
+# Ensure predictable behavior from utilities with locale-dependent output.
+LC_ALL=C
+export LC_ALL
+LANGUAGE=C
+export LANGUAGE
+
+# We cannot yet rely on "unset" to work, but we need these variables
+# to be unset--not just set to an empty or harmless value--now, to
+# avoid bugs in old shells (e.g. pre-3.0 UWIN ksh).  This construct
+# also avoids known problems related to "unset" and subshell syntax
+# in other old shells (e.g. bash 2.01 and pdksh 5.2.14).
+for as_var in BASH_ENV ENV MAIL MAILPATH CDPATH
+do eval test \${$as_var+y} \
+  && ( (unset $as_var) || exit 1) >/dev/null 2>&1 && unset $as_var || :
+done
+
+# Ensure that fds 0, 1, and 2 are open.
+if (exec 3>&0) 2>/dev/null; then :; else exec 0</dev/null; fi
+if (exec 3>&1) 2>/dev/null; then :; else exec 1>/dev/null; fi
+if (exec 3>&2)            ; then :; else exec 2>/dev/null; fi
 
 # The user is always right.
-if test "${PATH_SEPARATOR+set}" != set; then
+if ${PATH_SEPARATOR+false} :; then
   PATH_SEPARATOR=:
   (PATH='/bin;/bin'; FPATH=$PATH; sh -c :) >/dev/null 2>&1 && {
     (PATH='/bin:/bin'; FPATH=$PATH; sh -c :) >/dev/null 2>&1 ||
@@ -75,13 +77,6 @@ if test "${PATH_SEPARATOR+set}" != set; then
   }
 fi
 
-
-# IFS
-# We need space, tab and new line, in precisely that order.  Quoting is
-# there to prevent editors from complaining about space-tab.
-# (If _AS_PATH_WALK were called with IFS unset, it would disable word
-# splitting by setting IFS to empty value.)
-IFS=" ""	$as_nl"
 
 # Find who we are.  Look in the path if we contain no directory separator.
 as_myself=
@@ -91,8 +86,12 @@ case $0 in #((
 for as_dir in $PATH
 do
   IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    test -r "$as_dir/$0" && as_myself=$as_dir/$0 && break
+  case $as_dir in #(((
+    '') as_dir=./ ;;
+    */) ;;
+    *) as_dir=$as_dir/ ;;
+  esac
+    test -r "$as_dir$0" && as_myself=$as_dir$0 && break
   done
 IFS=$as_save_IFS
 
@@ -104,40 +103,22 @@ if test "x$as_myself" = x; then
   as_myself=$0
 fi
 if test ! -f "$as_myself"; then
-  $as_echo "$as_myself: error: cannot find myself; rerun with an absolute file name" >&2
+  printf "%s\n" "$as_myself: error: cannot find myself; rerun with an absolute file name" >&2
   exit 1
 fi
 
-# Unset variables that we do not need and which cause bugs (e.g. in
-# pre-3.0 UWIN ksh).  But do not cause bugs in bash 2.01; the "|| exit 1"
-# suppresses any "Segmentation fault" message there.  '((' could
-# trigger a bug in pdksh 5.2.14.
-for as_var in BASH_ENV ENV MAIL MAILPATH
-do eval test x\${$as_var+set} = xset \
-  && ( (unset $as_var) || exit 1) >/dev/null 2>&1 && unset $as_var || :
-done
-PS1='$ '
-PS2='> '
-PS4='+ '
-
-# NLS nuisances.
-LC_ALL=C
-export LC_ALL
-LANGUAGE=C
-export LANGUAGE
-
-# CDPATH.
-(unset CDPATH) >/dev/null 2>&1 && unset CDPATH
 
 if test "x$CONFIG_SHELL" = x; then
-  as_bourne_compatible="if test -n \"\${ZSH_VERSION+set}\" && (emulate sh) >/dev/null 2>&1; then :
+  as_bourne_compatible="as_nop=:
+if test \${ZSH_VERSION+y} && (emulate sh) >/dev/null 2>&1
+then :
   emulate sh
   NULLCMD=:
   # Pre-4.2 versions of Zsh do word splitting on \${1+\"\$@\"}, which
   # is contrary to our usage.  Disable this feature.
   alias -g '\${1+\"\$@\"}'='\"\$@\"'
   setopt NO_GLOB_SUBST
-else
+else \$as_nop
   case \`(set -o) 2>/dev/null\` in #(
   *posix*) :
     set -o posix ;; #(
@@ -157,42 +138,53 @@ as_fn_success || { exitcode=1; echo as_fn_success failed.; }
 as_fn_failure && { exitcode=1; echo as_fn_failure succeeded.; }
 as_fn_ret_success || { exitcode=1; echo as_fn_ret_success failed.; }
 as_fn_ret_failure && { exitcode=1; echo as_fn_ret_failure succeeded.; }
-if ( set x; as_fn_ret_success y && test x = \"\$1\" ); then :
+if ( set x; as_fn_ret_success y && test x = \"\$1\" )
+then :
 
-else
+else \$as_nop
   exitcode=1; echo positional parameters were not saved.
 fi
 test x\$exitcode = x0 || exit 1
+blah=\$(echo \$(echo blah))
+test x\"\$blah\" = xblah || exit 1
 test -x / || exit 1"
   as_suggested="  as_lineno_1=";as_suggested=$as_suggested$LINENO;as_suggested=$as_suggested" as_lineno_1a=\$LINENO
   as_lineno_2=";as_suggested=$as_suggested$LINENO;as_suggested=$as_suggested" as_lineno_2a=\$LINENO
   eval 'test \"x\$as_lineno_1'\$as_run'\" != \"x\$as_lineno_2'\$as_run'\" &&
   test \"x\`expr \$as_lineno_1'\$as_run' + 1\`\" = \"x\$as_lineno_2'\$as_run'\"' || exit 1
 test \$(( 1 + 1 )) = 2 || exit 1"
-  if (eval "$as_required") 2>/dev/null; then :
+  if (eval "$as_required") 2>/dev/null
+then :
   as_have_required=yes
-else
+else $as_nop
   as_have_required=no
 fi
-  if test x$as_have_required = xyes && (eval "$as_suggested") 2>/dev/null; then :
+  if test x$as_have_required = xyes && (eval "$as_suggested") 2>/dev/null
+then :
 
-else
+else $as_nop
   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 as_found=false
 for as_dir in /bin$PATH_SEPARATOR/usr/bin$PATH_SEPARATOR$PATH
 do
   IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
+  case $as_dir in #(((
+    '') as_dir=./ ;;
+    */) ;;
+    *) as_dir=$as_dir/ ;;
+  esac
   as_found=:
   case $as_dir in #(
 	 /*)
 	   for as_base in sh bash ksh sh5; do
 	     # Try only shells that exist, to save several forks.
-	     as_shell=$as_dir/$as_base
+	     as_shell=$as_dir$as_base
 	     if { test -f "$as_shell" || test -f "$as_shell.exe"; } &&
-		    { $as_echo "$as_bourne_compatible""$as_required" | as_run=a "$as_shell"; } 2>/dev/null; then :
+		    as_run=a "$as_shell" -c "$as_bourne_compatible""$as_required" 2>/dev/null
+then :
   CONFIG_SHELL=$as_shell as_have_required=yes
-		   if { $as_echo "$as_bourne_compatible""$as_suggested" | as_run=a "$as_shell"; } 2>/dev/null; then :
+		   if as_run=a "$as_shell" -c "$as_bourne_compatible""$as_suggested" 2>/dev/null
+then :
   break 2
 fi
 fi
@@ -200,14 +192,21 @@ fi
        esac
   as_found=false
 done
-$as_found || { if { test -f "$SHELL" || test -f "$SHELL.exe"; } &&
-	      { $as_echo "$as_bourne_compatible""$as_required" | as_run=a "$SHELL"; } 2>/dev/null; then :
-  CONFIG_SHELL=$SHELL as_have_required=yes
-fi; }
 IFS=$as_save_IFS
+if $as_found
+then :
+
+else $as_nop
+  if { test -f "$SHELL" || test -f "$SHELL.exe"; } &&
+	      as_run=a "$SHELL" -c "$as_bourne_compatible""$as_required" 2>/dev/null
+then :
+  CONFIG_SHELL=$SHELL as_have_required=yes
+fi
+fi
 
 
-      if test "x$CONFIG_SHELL" != x; then :
+      if test "x$CONFIG_SHELL" != x
+then :
   export CONFIG_SHELL
              # We cannot yet assume a decent shell, so we have to provide a
 # neutralization value for shells without unset; and this also
@@ -225,18 +224,19 @@ esac
 exec $CONFIG_SHELL $as_opts "$as_myself" ${1+"$@"}
 # Admittedly, this is quite paranoid, since all the known shells bail
 # out after a failed `exec'.
-$as_echo "$0: could not re-execute with $CONFIG_SHELL" >&2
+printf "%s\n" "$0: could not re-execute with $CONFIG_SHELL" >&2
 exit 255
 fi
 
-    if test x$as_have_required = xno; then :
-  $as_echo "$0: This script requires a shell more modern than all"
-  $as_echo "$0: the shells that I found on your system."
-  if test x${ZSH_VERSION+set} = xset ; then
-    $as_echo "$0: In particular, zsh $ZSH_VERSION has bugs and should"
-    $as_echo "$0: be upgraded to zsh 4.3.4 or later."
+    if test x$as_have_required = xno
+then :
+  printf "%s\n" "$0: This script requires a shell more modern than all"
+  printf "%s\n" "$0: the shells that I found on your system."
+  if test ${ZSH_VERSION+y} ; then
+    printf "%s\n" "$0: In particular, zsh $ZSH_VERSION has bugs and should"
+    printf "%s\n" "$0: be upgraded to zsh 4.3.4 or later."
   else
-    $as_echo "$0: Please tell bug-autoconf@gnu.org about your system,
+    printf "%s\n" "$0: Please tell bug-autoconf@gnu.org about your system,
 $0: including any error possibly output before this
 $0: message. Then install a modern shell, or manually run
 $0: the script under such a shell if you do have one."
@@ -263,6 +263,7 @@ as_fn_unset ()
 }
 as_unset=as_fn_unset
 
+
 # as_fn_set_status STATUS
 # -----------------------
 # Set $? to STATUS, without forking.
@@ -280,6 +281,14 @@ as_fn_exit ()
   as_fn_set_status $1
   exit $1
 } # as_fn_exit
+# as_fn_nop
+# ---------
+# Do nothing but, unlike ":", preserve the value of $?.
+as_fn_nop ()
+{
+  return $?
+}
+as_nop=as_fn_nop
 
 # as_fn_mkdir_p
 # -------------
@@ -294,7 +303,7 @@ as_fn_mkdir_p ()
     as_dirs=
     while :; do
       case $as_dir in #(
-      *\'*) as_qdir=`$as_echo "$as_dir" | sed "s/'/'\\\\\\\\''/g"`;; #'(
+      *\'*) as_qdir=`printf "%s\n" "$as_dir" | sed "s/'/'\\\\\\\\''/g"`;; #'(
       *) as_qdir=$as_dir;;
       esac
       as_dirs="'$as_qdir' $as_dirs"
@@ -303,7 +312,7 @@ $as_expr X"$as_dir" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
 	 X"$as_dir" : 'X\(//\)[^/]' \| \
 	 X"$as_dir" : 'X\(//\)$' \| \
 	 X"$as_dir" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X"$as_dir" |
+printf "%s\n" X"$as_dir" |
     sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
 	    s//\1/
 	    q
@@ -342,12 +351,13 @@ as_fn_executable_p ()
 # advantage of any shell optimizations that allow amortized linear growth over
 # repeated appends, instead of the typical quadratic growth present in naive
 # implementations.
-if (eval "as_var=1; as_var+=2; test x\$as_var = x12") 2>/dev/null; then :
+if (eval "as_var=1; as_var+=2; test x\$as_var = x12") 2>/dev/null
+then :
   eval 'as_fn_append ()
   {
     eval $1+=\$2
   }'
-else
+else $as_nop
   as_fn_append ()
   {
     eval $1=\$$1\$2
@@ -359,12 +369,13 @@ fi # as_fn_append
 # Perform arithmetic evaluation on the ARGs, and store the result in the
 # global $as_val. Take advantage of shells that can avoid forks. The arguments
 # must be portable across $(()) and expr.
-if (eval "test \$(( 1 + 1 )) = 2") 2>/dev/null; then :
+if (eval "test \$(( 1 + 1 )) = 2") 2>/dev/null
+then :
   eval 'as_fn_arith ()
   {
     as_val=$(( $* ))
   }'
-else
+else $as_nop
   as_fn_arith ()
   {
     as_val=`expr "$@" || test $? -eq 1`
@@ -382,9 +393,9 @@ as_fn_error ()
   as_status=$1; test $as_status -eq 0 && as_status=1
   if test "$4"; then
     as_lineno=${as_lineno-"$3"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
-    $as_echo "$as_me:${as_lineno-$LINENO}: error: $2" >&$4
+    printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: $2" >&$4
   fi
-  $as_echo "$as_me: error: $2" >&2
+  printf "%s\n" "$as_me: error: $2" >&2
   as_fn_exit $as_status
 } # as_fn_error
 
@@ -405,7 +416,7 @@ as_me=`$as_basename -- "$0" ||
 $as_expr X/"$0" : '.*/\([^/][^/]*\)/*$' \| \
 	 X"$0" : 'X\(//\)$' \| \
 	 X"$0" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X/"$0" |
+printf "%s\n" X/"$0" |
     sed '/^.*\/\([^/][^/]*\)\/*$/{
 	    s//\1/
 	    q
@@ -455,7 +466,7 @@ as_cr_alnum=$as_cr_Letters$as_cr_digits
       s/-\n.*//
     ' >$as_me.lineno &&
   chmod +x "$as_me.lineno" ||
-    { $as_echo "$as_me: error: cannot create $as_me.lineno; rerun with a POSIX shell" >&2; as_fn_exit 1; }
+    { printf "%s\n" "$as_me: error: cannot create $as_me.lineno; rerun with a POSIX shell" >&2; as_fn_exit 1; }
 
   # If we had to re-execute with $CONFIG_SHELL, we're ensured to have
   # already done that, so ensure we don't try to do so again and fall
@@ -469,6 +480,10 @@ as_cr_alnum=$as_cr_Letters$as_cr_digits
   exit
 }
 
+
+# Determine whether it's possible to make 'echo' print without a newline.
+# These variables are no longer used directly by Autoconf, but are AC_SUBSTed
+# for compatibility with existing Makefiles.
 ECHO_C= ECHO_N= ECHO_T=
 case `echo -n x` in #(((((
 -n*)
@@ -481,6 +496,13 @@ case `echo -n x` in #(((((
 *)
   ECHO_N='-n';;
 esac
+
+# For backward compatibility with old third-party macros, we provide
+# the shell variables $as_echo and $as_echo_n.  New code should use
+# AS_ECHO(["message"]) and AS_ECHO_N(["message"]), respectively.
+as_echo='printf %s\n'
+as_echo_n='printf %s'
+
 
 rm -f conf$$ conf$$.exe conf$$.file
 if test -d conf$$.dir; then
@@ -583,8 +605,6 @@ at_change_dir=false
 
 # Whether to enable colored test results.
 at_color=auto
-# List of the tested programs.
-at_tested=''
 # As many question marks as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -665,7 +685,7 @@ at_help_all="1;headers.at:1;separate compilation of log4cplus/appender.h;headers
 73;unit_tests.at:1;unit_tests;unit-tests;
 "
 # List of the all the test groups.
-at_groups_all=`$as_echo "$at_help_all" | sed 's/;.*//'`
+at_groups_all=`printf "%s\n" "$at_help_all" | sed 's/;.*//'`
 
 # at_fn_validate_ranges NAME...
 # -----------------------------
@@ -677,7 +697,7 @@ at_fn_validate_ranges ()
   do
     eval at_value=\$$at_grp
     if test $at_value -lt 1 || test $at_value -gt 73; then
-      $as_echo "invalid test group: $at_value" >&2
+      printf "%s\n" "invalid test group: $at_value" >&2
       exit 1
     fi
     case $at_value in
@@ -704,8 +724,6 @@ do
   *=?*) at_optarg=`expr "X$at_option" : '[^=]*=\(.*\)'` ;;
   *)    at_optarg= ;;
   esac
-
-  # Accept the important Cygnus configure options, so we can diagnose typos.
 
   case $at_option in
     --help | -h )
@@ -765,7 +783,7 @@ do
     [0-9]- | [0-9][0-9]- | [0-9][0-9][0-9]- | [0-9][0-9][0-9][0-9]-)
 	at_range_start=`echo $at_option |tr -d X-`
 	at_fn_validate_ranges at_range_start
-	at_range=`$as_echo "$at_groups_all" | \
+	at_range=`printf "%s\n" "$at_groups_all" | \
 	  sed -ne '/^'$at_range_start'$/,$p'`
 	as_fn_append at_groups "$at_range$as_nl"
 	;;
@@ -773,7 +791,7 @@ do
     -[0-9] | -[0-9][0-9] | -[0-9][0-9][0-9] | -[0-9][0-9][0-9][0-9])
 	at_range_end=`echo $at_option |tr -d X-`
 	at_fn_validate_ranges at_range_end
-	at_range=`$as_echo "$at_groups_all" | \
+	at_range=`printf "%s\n" "$at_groups_all" | \
 	  sed -ne '1,/^'$at_range_end'$/p'`
 	as_fn_append at_groups "$at_range$as_nl"
 	;;
@@ -792,7 +810,7 @@ do
 	  at_range_start=$at_tmp
 	fi
 	at_fn_validate_ranges at_range_start at_range_end
-	at_range=`$as_echo "$at_groups_all" | \
+	at_range=`printf "%s\n" "$at_groups_all" | \
 	  sed -ne '/^'$at_range_start'$/,/^'$at_range_end'$/p'`
 	as_fn_append at_groups "$at_range$as_nl"
 	;;
@@ -846,11 +864,11 @@ do
 	    ;;
 	  esac
 	  # It is on purpose that we match the test group titles too.
-	  at_groups_selected=`$as_echo "$at_groups_selected" |
+	  at_groups_selected=`printf "%s\n" "$at_groups_selected" |
 	      grep -i $at_invert "^[1-9][^;]*;.*[; ]$at_keyword[ ;]"`
 	done
 	# Smash the keywords.
-	at_groups_selected=`$as_echo "$at_groups_selected" | sed 's/;.*//'`
+	at_groups_selected=`printf "%s\n" "$at_groups_selected" | sed 's/;.*//'`
 	as_fn_append at_groups "$at_groups_selected$as_nl"
 	;;
     --recheck)
@@ -864,21 +882,22 @@ do
 	  '' | [0-9]* | *[!_$as_cr_alnum]* )
 	    as_fn_error $? "invalid variable name: \`$at_envvar'" ;;
 	esac
-	at_value=`$as_echo "$at_optarg" | sed "s/'/'\\\\\\\\''/g"`
+	at_value=`printf "%s\n" "$at_optarg" | sed "s/'/'\\\\\\\\''/g"`
 	# Export now, but save eval for later and for debug scripts.
 	export $at_envvar
 	as_fn_append at_debug_args " $at_envvar='$at_value'"
 	;;
 
-     *) $as_echo "$as_me: invalid option: $at_option" >&2
-	$as_echo "Try \`$0 --help' for more information." >&2
+     *) printf "%s\n" "$as_me: invalid option: $at_option" >&2
+	printf "%s\n" "Try \`$0 --help' for more information." >&2
 	exit 1
 	;;
   esac
 done
 
 # Verify our last option didn't require an argument
-if test -n "$at_prev"; then :
+if test -n "$at_prev"
+then :
   as_fn_error $? "\`$at_prev' requires an argument"
 fi
 
@@ -902,7 +921,7 @@ else
     as_fn_append at_groups "$at_oldfails$as_nl"
   fi
   # Sort the tests, removing duplicates.
-  at_groups=`$as_echo "$at_groups" | sort -nu | sed '/^$/d'`
+  at_groups=`printf "%s\n" "$at_groups" | sort -nu | sed '/^$/d'`
 fi
 
 if test x"$at_color" = xalways \
@@ -981,7 +1000,7 @@ log4cplus test suite: log4cplus test groups:
 
 _ATEOF
   # Pass an empty line as separator between selected groups and help.
-  $as_echo "$at_groups$as_nl$as_nl$at_help_all" |
+  printf "%s\n" "$at_groups$as_nl$as_nl$at_help_all" |
     awk 'NF == 1 && FS != ";" {
 	   selected[$ 1] = 1
 	   next
@@ -1015,10 +1034,10 @@ _ATEOF
   exit $at_write_fail
 fi
 if $at_version_p; then
-  $as_echo "$as_me (log4cplus)" &&
+  printf "%s\n" "$as_me (log4cplus)" &&
   cat <<\_ATEOF || at_write_fail=1
 
-Copyright (C) 2012 Free Software Foundation, Inc.
+Copyright (C) 2021 Free Software Foundation, Inc.
 This test suite is free software; the Free Software Foundation gives
 unlimited permission to copy, distribute and modify it.
 _ATEOF
@@ -1131,13 +1150,17 @@ fi
 # For embedded test suites, AUTOTEST_PATH is relative to the top level
 # of the package.  Then expand it into build/src parts, since users
 # may create executables in both places.
-AUTOTEST_PATH=`$as_echo "$AUTOTEST_PATH" | sed "s|:|$PATH_SEPARATOR|g"`
+AUTOTEST_PATH=`printf "%s\n" "$AUTOTEST_PATH" | sed "s|:|$PATH_SEPARATOR|g"`
 at_path=
 as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 for as_dir in $AUTOTEST_PATH $PATH
 do
   IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
+  case $as_dir in #(((
+    '') as_dir=./ ;;
+    */) ;;
+    *) as_dir=$as_dir/ ;;
+  esac
     test -n "$at_path" && as_fn_append at_path $PATH_SEPARATOR
 case $as_dir in
   [\\/]* | ?:[\\/]* )
@@ -1167,7 +1190,11 @@ as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 for as_dir in $at_path
 do
   IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
+  case $as_dir in #(((
+    '') as_dir=./ ;;
+    */) ;;
+    *) as_dir=$as_dir/ ;;
+  esac
     test -d "$as_dir" || continue
 case $as_dir in
   [\\/]* | ?:[\\/]* ) ;;
@@ -1197,23 +1224,23 @@ fi
 exec 5>>"$at_suite_log"
 
 # Banners and logs.
-$as_echo "## -------------------------------- ##
+printf "%s\n" "## -------------------------------- ##
 ## log4cplus test suite: log4cplus. ##
 ## -------------------------------- ##"
 {
-  $as_echo "## -------------------------------- ##
+  printf "%s\n" "## -------------------------------- ##
 ## log4cplus test suite: log4cplus. ##
 ## -------------------------------- ##"
   echo
 
-  $as_echo "$as_me: command line was:"
-  $as_echo "  \$ $0 $at_cli_args"
+  printf "%s\n" "$as_me: command line was:"
+  printf "%s\n" "  \$ $0 $at_cli_args"
   echo
 
   # If ChangeLog exists, list a few lines in case it might help determining
   # the exact version.
   if test -n "$at_top_srcdir" && test -f "$at_top_srcdir/ChangeLog"; then
-    $as_echo "## ---------- ##
+    printf "%s\n" "## ---------- ##
 ## ChangeLog. ##
 ## ---------- ##"
     echo
@@ -1250,8 +1277,12 @@ as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 for as_dir in $PATH
 do
   IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    $as_echo "PATH: $as_dir"
+  case $as_dir in #(((
+    '') as_dir=./ ;;
+    */) ;;
+    *) as_dir=$as_dir/ ;;
+  esac
+    printf "%s\n" "PATH: $as_dir"
   done
 IFS=$as_save_IFS
 
@@ -1262,7 +1293,7 @@ IFS=$as_save_IFS
   for at_file in atconfig atlocal
   do
     test -r $at_file || continue
-    $as_echo "$as_me: $at_file:"
+    printf "%s\n" "$as_me: $at_file:"
     sed 's/^/| /' $at_file
     echo
   done
@@ -1286,7 +1317,7 @@ at_fn_banner ()
   if test -z "$at_banner_text"; then
     $at_first || echo
   else
-    $as_echo "$as_nl$at_banner_text$as_nl"
+    printf "%s\n" "$as_nl$at_banner_text$as_nl"
   fi
 } # at_fn_banner
 
@@ -1297,7 +1328,7 @@ at_fn_banner ()
 at_fn_check_prepare_notrace ()
 {
   $at_trace_echo "Not enabling shell tracing (command contains $1)"
-  $as_echo "$2" >"$at_check_line_file"
+  printf "%s\n" "$2" >"$at_check_line_file"
   at_check_trace=: at_check_filter=:
   : >"$at_stdout"; : >"$at_stderr"
 }
@@ -1308,7 +1339,7 @@ at_fn_check_prepare_notrace ()
 # command.
 at_fn_check_prepare_trace ()
 {
-  $as_echo "$1" >"$at_check_line_file"
+  printf "%s\n" "$1" >"$at_check_line_file"
   at_check_trace=$at_traceon at_check_filter=$at_check_filter_trace
   : >"$at_stdout"; : >"$at_stderr"
 }
@@ -1345,7 +1376,7 @@ at_fn_filter_trace ()
 at_fn_log_failure ()
 {
   for file
-    do $as_echo "$file:"; sed 's/^/> /' "$file"; done
+    do printf "%s\n" "$file:"; sed 's/^/> /' "$file"; done
   echo 1 > "$at_status_file"
   exit 1
 }
@@ -1359,7 +1390,7 @@ at_fn_check_skip ()
 {
   case $1 in
     99) echo 99 > "$at_status_file"; at_failed=:
-	$as_echo "$2: hard failure"; exit 99;;
+	printf "%s\n" "$2: hard failure"; exit 99;;
     77) echo 77 > "$at_status_file"; exit 77;;
   esac
 }
@@ -1376,8 +1407,8 @@ at_fn_check_status ()
     $1 ) ;;
     77) echo 77 > "$at_status_file"; exit 77;;
     99) echo 99 > "$at_status_file"; at_failed=:
-	$as_echo "$3: hard failure"; exit 99;;
-    *) $as_echo "$3: exit code was $2, expected $1"
+	printf "%s\n" "$3: hard failure"; exit 99;;
+    *) printf "%s\n" "$3: exit code was $2, expected $1"
       at_failed=:;;
   esac
 }
@@ -1409,9 +1440,9 @@ at_fn_create_debugging_script ()
 {
   {
     echo "#! /bin/sh" &&
-    echo 'test "${ZSH_VERSION+set}" = set && alias -g '\''${1+"$@"}'\''='\''"$@"'\''' &&
-    $as_echo "cd '$at_dir'" &&
-    $as_echo "exec \${CONFIG_SHELL-$SHELL} \"$at_myself\" -v -d $at_debug_args $at_group \${1+\"\$@\"}" &&
+    echo 'test ${ZSH_VERSION+y} && alias -g '\''${1+"$@"}'\''='\''"$@"'\''' &&
+    printf "%s\n" "cd '$at_dir'" &&
+    printf "%s\n" "exec \${CONFIG_SHELL-$SHELL} \"$at_myself\" -v -d $at_debug_args $at_group \${1+\"\$@\"}" &&
     echo 'exit 1'
   } >"$at_group_dir/run" &&
   chmod +x "$at_group_dir/run"
@@ -1421,50 +1452,14 @@ at_fn_create_debugging_script ()
 ## End of autotest shell functions. ##
 ## -------------------------------- ##
 {
-  $as_echo "## ---------------- ##
-## Tested programs. ##
-## ---------------- ##"
-  echo
-} >&5
-
-# Report what programs are being tested.
-for at_program in : $at_tested
-do
-  test "$at_program" = : && continue
-  case $at_program in
-    [\\/]* | ?:[\\/]* ) $at_program_=$at_program ;;
-    * )
-    as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    test -f "$as_dir/$at_program" && break
-  done
-IFS=$as_save_IFS
-
-    at_program_=$as_dir/$at_program ;;
-  esac
-  if test -f "$at_program_"; then
-    {
-      $as_echo "$at_srcdir/testsuite.at:6: $at_program_ --version"
-      "$at_program_" --version </dev/null
-      echo
-    } >&5 2>&1
-  else
-    as_fn_error $? "cannot find $at_program" "$LINENO" 5
-  fi
-done
-
-{
-  $as_echo "## ------------------ ##
+  printf "%s\n" "## ------------------ ##
 ## Running the tests. ##
 ## ------------------ ##"
 } >&5
 
 at_start_date=`date`
 at_start_time=`date +%s 2>/dev/null`
-$as_echo "$as_me: starting at: $at_start_date" >&5
+printf "%s\n" "$as_me: starting at: $at_start_date" >&5
 
 # Create the master directory if it doesn't already exist.
 as_dir="$at_suite_dir"; as_fn_mkdir_p ||
@@ -1575,12 +1570,13 @@ at_fn_group_prepare ()
   # under the shell's notion of the current directory.
   at_group_dir=$at_suite_dir/$at_group_normalized
   at_group_log=$at_group_dir/$as_me.log
-  if test -d "$at_group_dir"; then
+  if test -d "$at_group_dir"
+then
   find "$at_group_dir" -type d ! -perm -700 -exec chmod u+rwx {} \;
   rm -fr "$at_group_dir"/* "$at_group_dir"/.[!.] "$at_group_dir"/.??*
 fi ||
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: test directory for $at_group_normalized could not be cleaned" >&5
-$as_echo "$as_me: WARNING: test directory for $at_group_normalized could not be cleaned" >&2;}
+    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: test directory for $at_group_normalized could not be cleaned" >&5
+printf "%s\n" "$as_me: WARNING: test directory for $at_group_normalized could not be cleaned" >&2;}
   # Be tolerant if the above `rm' was not able to remove the directory.
   as_dir="$at_group_dir"; as_fn_mkdir_p
 
@@ -1610,7 +1606,7 @@ at_fn_group_banner ()
     *)          at_desc_line="$1: "  ;;
   esac
   as_fn_append at_desc_line "$3$4"
-  $at_quiet $as_echo_n "$at_desc_line"
+  $at_quiet printf %s "$at_desc_line"
   echo "#                             -*- compilation -*-" >> "$at_group_log"
 }
 
@@ -1629,11 +1625,11 @@ at_fn_group_postprocess ()
       run. This means that test suite is improperly designed.  Please
       report this failure to <log4cplus-devel@lists.sourceforge.net>.
 _ATEOF
-    $as_echo "$at_setup_line" >"$at_check_line_file"
+    printf "%s\n" "$at_setup_line" >"$at_check_line_file"
     at_status=99
   fi
-  $at_verbose $as_echo_n "$at_group. $at_setup_line: "
-  $as_echo_n "$at_group. $at_setup_line: " >> "$at_group_log"
+  $at_verbose printf %s "$at_group. $at_setup_line: "
+  printf %s "$at_group. $at_setup_line: " >> "$at_group_log"
   case $at_xfail:$at_status in
     yes:0)
 	at_msg="UNEXPECTED PASS"
@@ -1669,10 +1665,10 @@ _ATEOF
   echo "$at_res" > "$at_job_dir/$at_res"
   # In parallel mode, output the summary line only afterwards.
   if test $at_jobs -ne 1 && test -n "$at_verbose"; then
-    $as_echo "$at_desc_line $at_color$at_msg$at_std"
+    printf "%s\n" "$at_desc_line $at_color$at_msg$at_std"
   else
     # Make sure there is a separator even with long titles.
-    $as_echo " $at_color$at_msg$at_std"
+    printf "%s\n" " $at_color$at_msg$at_std"
   fi
   at_log_msg="$at_group. $at_desc ($at_setup_line): $at_msg"
   case $at_status in
@@ -1685,8 +1681,8 @@ _ATEOF
 	at_log_msg="$at_log_msg     ("`sed 1d "$at_times_file"`')'
 	rm -f "$at_times_file"
       fi
-      $as_echo "$at_log_msg" >> "$at_group_log"
-      $as_echo "$at_log_msg" >&5
+      printf "%s\n" "$at_log_msg" >> "$at_group_log"
+      printf "%s\n" "$at_log_msg" >&5
 
       # Cleanup the group directory, unless the user wants the files
       # or the success was unexpected.
@@ -1707,7 +1703,7 @@ _ATEOF
       # Upon failure, include the log into the testsuite's global
       # log.  The failure message is written in the group log.  It
       # is later included in the global log.
-      $as_echo "$at_log_msg" >> "$at_group_log"
+      printf "%s\n" "$at_log_msg" >> "$at_group_log"
 
       # Upon failure, keep the group directory for autopsy, and create
       # the debugging script.  With -e, do not start any further tests.
@@ -1750,8 +1746,8 @@ for at_signal in 1 2 15; do
 	at_signame=`kill -l $at_signal 2>&1 || echo $at_signal`
 	set x $at_signame
 	test 1 -gt 2 && at_signame=$at_signal
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: caught signal $at_signame, bailing out" >&5
-$as_echo "$as_me: WARNING: caught signal $at_signame, bailing out" >&2;}
+	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: caught signal $at_signame, bailing out" >&5
+printf "%s\n" "$as_me: WARNING: caught signal $at_signame, bailing out" >&2;}
 	as_fn_arith 128 + $at_signal && exit_status=$as_val
 	as_fn_exit $exit_status' $at_signal
 done
@@ -1772,7 +1768,7 @@ then
 	done
 	if test -n "$at_pids"; then
 	  at_sig=TSTP
-	  test "${TMOUT+set}" = set && at_sig=STOP
+	  test ${TMOUT+y} && at_sig=STOP
 	  kill -$at_sig $at_pids 2>/dev/null
 	fi
 	kill -STOP $$
@@ -1780,7 +1776,7 @@ then
 
   echo
   # Turn jobs into a list of numbers, starting from 1.
-  at_joblist=`$as_echo "$at_groups" | sed -n 1,${at_jobs}p`
+  at_joblist=`printf "%s\n" "$at_groups" | sed -n 1,${at_jobs}p`
 
   set X $at_joblist
   shift
@@ -1804,8 +1800,8 @@ then
 	 at_fn_test $at_group &&
 	 . "$at_test_source"
       then :; else
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: unable to parse test group: $at_group" >&5
-$as_echo "$as_me: WARNING: unable to parse test group: $at_group" >&2;}
+	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: unable to parse test group: $at_group" >&5
+printf "%s\n" "$as_me: WARNING: unable to parse test group: $at_group" >&2;}
 	at_failed=:
       fi
       at_fn_group_postprocess
@@ -1843,8 +1839,8 @@ else
     if cd "$at_group_dir" &&
        at_fn_test $at_group &&
        . "$at_test_source"; then :; else
-      { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: unable to parse test group: $at_group" >&5
-$as_echo "$as_me: WARNING: unable to parse test group: $at_group" >&2;}
+      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: unable to parse test group: $at_group" >&5
+printf "%s\n" "$as_me: WARNING: unable to parse test group: $at_group" >&2;}
       at_failed=:
     fi
     at_fn_group_postprocess
@@ -1883,7 +1879,7 @@ rm -rf "$at_helper_dir"
 # Compute the duration of the suite.
 at_stop_date=`date`
 at_stop_time=`date +%s 2>/dev/null`
-$as_echo "$as_me: ending at: $at_stop_date" >&5
+printf "%s\n" "$as_me: ending at: $at_stop_date" >&5
 case $at_start_time,$at_stop_time in
   [0-9]*,[0-9]*)
     as_fn_arith $at_stop_time - $at_start_time && at_duration_s=$as_val
@@ -1892,18 +1888,18 @@ case $at_start_time,$at_stop_time in
     as_fn_arith $at_duration_s % 60 && at_duration_s=$as_val
     as_fn_arith $at_duration_m % 60 && at_duration_m=$as_val
     at_duration="${at_duration_h}h ${at_duration_m}m ${at_duration_s}s"
-    $as_echo "$as_me: test suite duration: $at_duration" >&5
+    printf "%s\n" "$as_me: test suite duration: $at_duration" >&5
     ;;
 esac
 
 echo
-$as_echo "## ------------- ##
+printf "%s\n" "## ------------- ##
 ## Test results. ##
 ## ------------- ##"
 echo
 {
   echo
-  $as_echo "## ------------- ##
+  printf "%s\n" "## ------------- ##
 ## Test results. ##
 ## ------------- ##"
   echo
@@ -1983,7 +1979,7 @@ else
   echo "ERROR: $at_result" >&5
   {
     echo
-    $as_echo "## ------------------------ ##
+    printf "%s\n" "## ------------------------ ##
 ## Summary of the failures. ##
 ## ------------------------ ##"
 
@@ -2004,7 +2000,7 @@ else
       echo
     fi
     if test $at_fail_count != 0; then
-      $as_echo "## ---------------------- ##
+      printf "%s\n" "## ---------------------- ##
 ## Detailed failed tests. ##
 ## ---------------------- ##"
       echo
@@ -2043,10 +2039,14 @@ _ASBOX
   else
     at_msg="\`${at_testdir+${at_testdir}/}$as_me.log'"
   fi
-  $as_echo "Please send $at_msg and all information you think might help:
+  at_msg1a=${at_xpass_list:+', '}
+  at_msg1=$at_fail_list${at_fail_list:+" failed$at_msg1a"}
+  at_msg2=$at_xpass_list${at_xpass_list:+" passed unexpectedly"}
+
+  printf "%s\n" "Please send $at_msg and all information you think might help:
 
    To: <log4cplus-devel@lists.sourceforge.net>
-   Subject: [log4cplus] $as_me: $at_fail_list${at_fail_list:+ failed${at_xpass_list:+, }}$at_xpass_list${at_xpass_list:+ passed unexpectedly}
+   Subject: [log4cplus] $as_me: $at_msg1$at_msg2
 
 You may investigate any problem if you feel able to do so, in which
 case the test suite provides a good starting point.  Its output may
@@ -2065,15 +2065,15 @@ at_fn_group_banner 1 'headers.at:1' \
   "separate compilation of log4cplus/appender.h" "   " 1
 at_xfail=no
 (
-  $as_echo "1. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "1. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/appender.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/appender.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/appender.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/appender.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/appender.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2086,7 +2086,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2100,10 +2100,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2130,15 +2131,15 @@ at_fn_group_banner 2 'headers.at:1' \
   "separate compilation of log4cplus/asyncappender.h" "" 1
 at_xfail=no
 (
-  $as_echo "2. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "2. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/asyncappender.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/asyncappender.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/asyncappender.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/asyncappender.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/asyncappender.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2151,7 +2152,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2165,10 +2166,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2195,15 +2197,15 @@ at_fn_group_banner 3 'headers.at:1' \
   "separate compilation of log4cplus/clfsappender.h" "" 1
 at_xfail=no
 (
-  $as_echo "3. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "3. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/clfsappender.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/clfsappender.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/clfsappender.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/clfsappender.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/clfsappender.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2216,7 +2218,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2230,10 +2232,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2260,15 +2263,15 @@ at_fn_group_banner 4 'headers.at:1' \
   "separate compilation of log4cplus/clogger.h" "    " 1
 at_xfail=no
 (
-  $as_echo "4. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "4. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/clogger.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/clogger.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/clogger.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/clogger.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/clogger.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2281,7 +2284,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2295,10 +2298,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2325,15 +2329,15 @@ at_fn_group_banner 5 'headers.at:1' \
   "separate compilation of log4cplus/config.hxx" "   " 1
 at_xfail=no
 (
-  $as_echo "5. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "5. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/config.hxx\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/config.hxx\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/config.hxx\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/config.hxx\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/config.hxx\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2346,7 +2350,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2360,10 +2364,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2390,15 +2395,15 @@ at_fn_group_banner 6 'headers.at:1' \
   "separate compilation of log4cplus/configurator.h" "" 1
 at_xfail=no
 (
-  $as_echo "6. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "6. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/configurator.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/configurator.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/configurator.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/configurator.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/configurator.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2411,7 +2416,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2425,10 +2430,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2455,15 +2461,15 @@ at_fn_group_banner 7 'headers.at:1' \
   "separate compilation of log4cplus/consoleappender.h" "" 1
 at_xfail=no
 (
-  $as_echo "7. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "7. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/consoleappender.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/consoleappender.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/consoleappender.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/consoleappender.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/consoleappender.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2476,7 +2482,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2490,10 +2496,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2520,15 +2527,15 @@ at_fn_group_banner 8 'headers.at:1' \
   "separate compilation of log4cplus/fileappender.h" "" 1
 at_xfail=no
 (
-  $as_echo "8. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "8. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/fileappender.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/fileappender.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/fileappender.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/fileappender.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/fileappender.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2541,7 +2548,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2555,10 +2562,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2585,15 +2593,15 @@ at_fn_group_banner 9 'headers.at:1' \
   "separate compilation of log4cplus/fstreams.h" "   " 1
 at_xfail=no
 (
-  $as_echo "9. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "9. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/fstreams.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/fstreams.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/fstreams.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/fstreams.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/fstreams.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2606,7 +2614,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2620,10 +2628,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2650,15 +2659,15 @@ at_fn_group_banner 10 'headers.at:1' \
   "separate compilation of log4cplus/hierarchy.h" "  " 1
 at_xfail=no
 (
-  $as_echo "10. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "10. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/hierarchy.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/hierarchy.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/hierarchy.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/hierarchy.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/hierarchy.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2671,7 +2680,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2685,10 +2694,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2715,15 +2725,15 @@ at_fn_group_banner 11 'headers.at:1' \
   "separate compilation of log4cplus/hierarchylocker.h" "" 1
 at_xfail=no
 (
-  $as_echo "11. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "11. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/hierarchylocker.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/hierarchylocker.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/hierarchylocker.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/hierarchylocker.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/hierarchylocker.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2736,7 +2746,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2750,10 +2760,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2780,15 +2791,15 @@ at_fn_group_banner 12 'headers.at:1' \
   "separate compilation of log4cplus/initializer.h" "" 1
 at_xfail=no
 (
-  $as_echo "12. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "12. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/initializer.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/initializer.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/initializer.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/initializer.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/initializer.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2801,7 +2812,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2815,10 +2826,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2845,15 +2857,15 @@ at_fn_group_banner 13 'headers.at:1' \
   "separate compilation of log4cplus/layout.h" "     " 1
 at_xfail=no
 (
-  $as_echo "13. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "13. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/layout.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/layout.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/layout.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/layout.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/layout.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2866,7 +2878,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2880,10 +2892,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2910,15 +2923,15 @@ at_fn_group_banner 14 'headers.at:1' \
   "separate compilation of log4cplus/log4cplus.h" "  " 1
 at_xfail=no
 (
-  $as_echo "14. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "14. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/log4cplus.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/log4cplus.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/log4cplus.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/log4cplus.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/log4cplus.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2931,7 +2944,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2945,10 +2958,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -2975,15 +2989,15 @@ at_fn_group_banner 15 'headers.at:1' \
   "separate compilation of log4cplus/log4judpappender.h" "" 1
 at_xfail=no
 (
-  $as_echo "15. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "15. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/log4judpappender.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/log4judpappender.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/log4judpappender.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/log4judpappender.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/log4judpappender.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2996,7 +3010,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3010,10 +3024,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3040,15 +3055,15 @@ at_fn_group_banner 16 'headers.at:1' \
   "separate compilation of log4cplus/logger.h" "     " 1
 at_xfail=no
 (
-  $as_echo "16. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "16. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/logger.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/logger.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/logger.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/logger.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/logger.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3061,7 +3076,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3075,10 +3090,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3105,15 +3121,15 @@ at_fn_group_banner 17 'headers.at:1' \
   "separate compilation of log4cplus/loggingmacros.h" "" 1
 at_xfail=no
 (
-  $as_echo "17. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "17. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/loggingmacros.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/loggingmacros.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/loggingmacros.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/loggingmacros.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/loggingmacros.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3126,7 +3142,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3140,10 +3156,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3170,15 +3187,15 @@ at_fn_group_banner 18 'headers.at:1' \
   "separate compilation of log4cplus/loglevel.h" "   " 1
 at_xfail=no
 (
-  $as_echo "18. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "18. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/loglevel.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/loglevel.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/loglevel.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/loglevel.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/loglevel.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3191,7 +3208,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3205,10 +3222,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3235,15 +3253,15 @@ at_fn_group_banner 19 'headers.at:1' \
   "separate compilation of log4cplus/mdc.h" "        " 1
 at_xfail=no
 (
-  $as_echo "19. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "19. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/mdc.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/mdc.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/mdc.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/mdc.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/mdc.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3256,7 +3274,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3270,10 +3288,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3300,15 +3319,15 @@ at_fn_group_banner 20 'headers.at:1' \
   "separate compilation of log4cplus/msttsappender.h" "" 1
 at_xfail=no
 (
-  $as_echo "20. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "20. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/msttsappender.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/msttsappender.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/msttsappender.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/msttsappender.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/msttsappender.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3321,7 +3340,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3335,10 +3354,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3365,15 +3385,15 @@ at_fn_group_banner 21 'headers.at:1' \
   "separate compilation of log4cplus/ndc.h" "        " 1
 at_xfail=no
 (
-  $as_echo "21. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "21. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/ndc.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/ndc.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/ndc.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/ndc.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/ndc.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3386,7 +3406,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3400,10 +3420,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3430,15 +3451,15 @@ at_fn_group_banner 22 'headers.at:1' \
   "separate compilation of log4cplus/nteventlogappender.h" "" 1
 at_xfail=no
 (
-  $as_echo "22. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "22. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/nteventlogappender.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/nteventlogappender.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/nteventlogappender.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/nteventlogappender.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/nteventlogappender.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3451,7 +3472,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3465,10 +3486,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3495,15 +3517,15 @@ at_fn_group_banner 23 'headers.at:1' \
   "separate compilation of log4cplus/nullappender.h" "" 1
 at_xfail=no
 (
-  $as_echo "23. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "23. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/nullappender.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/nullappender.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/nullappender.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/nullappender.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/nullappender.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3516,7 +3538,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3530,10 +3552,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3560,15 +3583,15 @@ at_fn_group_banner 24 'headers.at:1' \
   "separate compilation of log4cplus/qt4debugappender.h" "" 1
 at_xfail=no
 (
-  $as_echo "24. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "24. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/qt4debugappender.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/qt4debugappender.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/qt4debugappender.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/qt4debugappender.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/qt4debugappender.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3581,7 +3604,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3595,10 +3618,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3625,15 +3649,15 @@ at_fn_group_banner 25 'headers.at:1' \
   "separate compilation of log4cplus/socketappender.h" "" 1
 at_xfail=no
 (
-  $as_echo "25. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "25. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/socketappender.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/socketappender.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/socketappender.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/socketappender.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/socketappender.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3646,7 +3670,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3660,10 +3684,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3690,15 +3715,15 @@ at_fn_group_banner 26 'headers.at:1' \
   "separate compilation of log4cplus/streams.h" "    " 1
 at_xfail=no
 (
-  $as_echo "26. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "26. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/streams.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/streams.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/streams.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/streams.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/streams.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3711,7 +3736,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3725,10 +3750,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3755,15 +3781,15 @@ at_fn_group_banner 27 'headers.at:1' \
   "separate compilation of log4cplus/syslogappender.h" "" 1
 at_xfail=no
 (
-  $as_echo "27. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "27. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/syslogappender.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/syslogappender.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/syslogappender.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/syslogappender.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/syslogappender.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3776,7 +3802,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3790,10 +3816,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3820,15 +3847,15 @@ at_fn_group_banner 28 'headers.at:1' \
   "separate compilation of log4cplus/tchar.h" "      " 1
 at_xfail=no
 (
-  $as_echo "28. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "28. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/tchar.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/tchar.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/tchar.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/tchar.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/tchar.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3841,7 +3868,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3855,10 +3882,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3885,15 +3913,15 @@ at_fn_group_banner 29 'headers.at:1' \
   "separate compilation of log4cplus/tracelogger.h" "" 1
 at_xfail=no
 (
-  $as_echo "29. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "29. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/tracelogger.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/tracelogger.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/tracelogger.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/tracelogger.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/tracelogger.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3906,7 +3934,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3920,10 +3948,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3950,15 +3979,15 @@ at_fn_group_banner 30 'headers.at:1' \
   "separate compilation of log4cplus/tstring.h" "    " 1
 at_xfail=no
 (
-  $as_echo "30. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "30. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/tstring.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/tstring.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/tstring.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/tstring.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/tstring.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -3971,7 +4000,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -3985,10 +4014,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4015,15 +4045,15 @@ at_fn_group_banner 31 'headers.at:1' \
   "separate compilation of log4cplus/version.h" "    " 1
 at_xfail=no
 (
-  $as_echo "31. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "31. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/version.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/version.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/version.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/version.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/version.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4036,7 +4066,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4050,10 +4080,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4080,15 +4111,15 @@ at_fn_group_banner 32 'headers.at:1' \
   "separate compilation of log4cplus/win32consoleappender.h" "" 1
 at_xfail=no
 (
-  $as_echo "32. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "32. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/win32consoleappender.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/win32consoleappender.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/win32consoleappender.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/win32consoleappender.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/win32consoleappender.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4101,7 +4132,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4115,10 +4146,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4145,15 +4177,15 @@ at_fn_group_banner 33 'headers.at:1' \
   "separate compilation of log4cplus/win32debugappender.h" "" 1
 at_xfail=no
 (
-  $as_echo "33. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "33. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/win32debugappender.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/win32debugappender.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/win32debugappender.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/win32debugappender.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/win32debugappender.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4166,7 +4198,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4180,10 +4212,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4210,15 +4243,15 @@ at_fn_group_banner 34 'headers.at:1' \
   "separate compilation of log4cplus/helpers/appenderattachableimpl.h" "" 1
 at_xfail=no
 (
-  $as_echo "34. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "34. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/helpers/appenderattachableimpl.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/helpers/appenderattachableimpl.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/helpers/appenderattachableimpl.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/helpers/appenderattachableimpl.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/helpers/appenderattachableimpl.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4231,7 +4264,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4245,10 +4278,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4275,15 +4309,15 @@ at_fn_group_banner 35 'headers.at:1' \
   "separate compilation of log4cplus/helpers/connectorthread.h" "" 1
 at_xfail=no
 (
-  $as_echo "35. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "35. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/helpers/connectorthread.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/helpers/connectorthread.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/helpers/connectorthread.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/helpers/connectorthread.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/helpers/connectorthread.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4296,7 +4330,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4310,10 +4344,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4340,15 +4375,15 @@ at_fn_group_banner 36 'headers.at:1' \
   "separate compilation of log4cplus/helpers/fileinfo.h" "" 1
 at_xfail=no
 (
-  $as_echo "36. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "36. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/helpers/fileinfo.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/helpers/fileinfo.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/helpers/fileinfo.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/helpers/fileinfo.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/helpers/fileinfo.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4361,7 +4396,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4375,10 +4410,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4405,15 +4441,15 @@ at_fn_group_banner 37 'headers.at:1' \
   "separate compilation of log4cplus/helpers/lockfile.h" "" 1
 at_xfail=no
 (
-  $as_echo "37. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "37. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/helpers/lockfile.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/helpers/lockfile.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/helpers/lockfile.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/helpers/lockfile.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/helpers/lockfile.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4426,7 +4462,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4440,10 +4476,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4470,15 +4507,15 @@ at_fn_group_banner 38 'headers.at:1' \
   "separate compilation of log4cplus/helpers/loglog.h" "" 1
 at_xfail=no
 (
-  $as_echo "38. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "38. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/helpers/loglog.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/helpers/loglog.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/helpers/loglog.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/helpers/loglog.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/helpers/loglog.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4491,7 +4528,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4505,10 +4542,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4535,15 +4573,15 @@ at_fn_group_banner 39 'headers.at:1' \
   "separate compilation of log4cplus/helpers/pointer.h" "" 1
 at_xfail=no
 (
-  $as_echo "39. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "39. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/helpers/pointer.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/helpers/pointer.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/helpers/pointer.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/helpers/pointer.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/helpers/pointer.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4556,7 +4594,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4570,10 +4608,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4600,15 +4639,15 @@ at_fn_group_banner 40 'headers.at:1' \
   "separate compilation of log4cplus/helpers/property.h" "" 1
 at_xfail=no
 (
-  $as_echo "40. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "40. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/helpers/property.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/helpers/property.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/helpers/property.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/helpers/property.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/helpers/property.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4621,7 +4660,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4635,10 +4674,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4665,15 +4705,15 @@ at_fn_group_banner 41 'headers.at:1' \
   "separate compilation of log4cplus/helpers/queue.h" "" 1
 at_xfail=no
 (
-  $as_echo "41. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "41. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/helpers/queue.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/helpers/queue.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/helpers/queue.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/helpers/queue.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/helpers/queue.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4686,7 +4726,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4700,10 +4740,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4730,15 +4771,15 @@ at_fn_group_banner 42 'headers.at:1' \
   "separate compilation of log4cplus/helpers/snprintf.h" "" 1
 at_xfail=no
 (
-  $as_echo "42. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "42. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/helpers/snprintf.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/helpers/snprintf.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/helpers/snprintf.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/helpers/snprintf.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/helpers/snprintf.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4751,7 +4792,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4765,10 +4806,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4795,15 +4837,15 @@ at_fn_group_banner 43 'headers.at:1' \
   "separate compilation of log4cplus/helpers/socket.h" "" 1
 at_xfail=no
 (
-  $as_echo "43. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "43. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/helpers/socket.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/helpers/socket.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/helpers/socket.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/helpers/socket.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/helpers/socket.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4816,7 +4858,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4830,10 +4872,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4860,15 +4903,15 @@ at_fn_group_banner 44 'headers.at:1' \
   "separate compilation of log4cplus/helpers/socketbuffer.h" "" 1
 at_xfail=no
 (
-  $as_echo "44. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "44. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/helpers/socketbuffer.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/helpers/socketbuffer.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/helpers/socketbuffer.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/helpers/socketbuffer.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/helpers/socketbuffer.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4881,7 +4924,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4895,10 +4938,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4925,15 +4969,15 @@ at_fn_group_banner 45 'headers.at:1' \
   "separate compilation of log4cplus/helpers/stringhelper.h" "" 1
 at_xfail=no
 (
-  $as_echo "45. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "45. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/helpers/stringhelper.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/helpers/stringhelper.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/helpers/stringhelper.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/helpers/stringhelper.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/helpers/stringhelper.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -4946,7 +4990,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4960,10 +5004,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -4990,15 +5035,15 @@ at_fn_group_banner 46 'headers.at:1' \
   "separate compilation of log4cplus/helpers/timehelper.h" "" 1
 at_xfail=no
 (
-  $as_echo "46. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "46. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/helpers/timehelper.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/helpers/timehelper.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/helpers/timehelper.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/helpers/timehelper.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/helpers/timehelper.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5011,7 +5056,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5025,10 +5070,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5055,15 +5101,15 @@ at_fn_group_banner 47 'headers.at:1' \
   "separate compilation of log4cplus/spi/appenderattachable.h" "" 1
 at_xfail=no
 (
-  $as_echo "47. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "47. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/spi/appenderattachable.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/spi/appenderattachable.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/spi/appenderattachable.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/spi/appenderattachable.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/spi/appenderattachable.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5076,7 +5122,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5090,10 +5136,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5120,15 +5167,15 @@ at_fn_group_banner 48 'headers.at:1' \
   "separate compilation of log4cplus/spi/factory.h" "" 1
 at_xfail=no
 (
-  $as_echo "48. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "48. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/spi/factory.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/spi/factory.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/spi/factory.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/spi/factory.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/spi/factory.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5141,7 +5188,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5155,10 +5202,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5185,15 +5233,15 @@ at_fn_group_banner 49 'headers.at:1' \
   "separate compilation of log4cplus/spi/filter.h" " " 1
 at_xfail=no
 (
-  $as_echo "49. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "49. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/spi/filter.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/spi/filter.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/spi/filter.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/spi/filter.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/spi/filter.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5206,7 +5254,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5220,10 +5268,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5250,15 +5299,15 @@ at_fn_group_banner 50 'headers.at:1' \
   "separate compilation of log4cplus/spi/loggerfactory.h" "" 1
 at_xfail=no
 (
-  $as_echo "50. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "50. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/spi/loggerfactory.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/spi/loggerfactory.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/spi/loggerfactory.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/spi/loggerfactory.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/spi/loggerfactory.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5271,7 +5320,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5285,10 +5334,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5315,15 +5365,15 @@ at_fn_group_banner 51 'headers.at:1' \
   "separate compilation of log4cplus/spi/loggerimpl.h" "" 1
 at_xfail=no
 (
-  $as_echo "51. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "51. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/spi/loggerimpl.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/spi/loggerimpl.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/spi/loggerimpl.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/spi/loggerimpl.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/spi/loggerimpl.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5336,7 +5386,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5350,10 +5400,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5380,15 +5431,15 @@ at_fn_group_banner 52 'headers.at:1' \
   "separate compilation of log4cplus/spi/loggingevent.h" "" 1
 at_xfail=no
 (
-  $as_echo "52. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "52. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/spi/loggingevent.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/spi/loggingevent.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/spi/loggingevent.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/spi/loggingevent.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/spi/loggingevent.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5401,7 +5452,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5415,10 +5466,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5445,15 +5497,15 @@ at_fn_group_banner 53 'headers.at:1' \
   "separate compilation of log4cplus/spi/objectregistry.h" "" 1
 at_xfail=no
 (
-  $as_echo "53. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "53. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/spi/objectregistry.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/spi/objectregistry.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/spi/objectregistry.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/spi/objectregistry.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/spi/objectregistry.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5466,7 +5518,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5480,10 +5532,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5510,15 +5563,15 @@ at_fn_group_banner 54 'headers.at:1' \
   "separate compilation of log4cplus/spi/rootlogger.h" "" 1
 at_xfail=no
 (
-  $as_echo "54. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "54. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/spi/rootlogger.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/spi/rootlogger.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/spi/rootlogger.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/spi/rootlogger.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/spi/rootlogger.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5531,7 +5584,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5545,10 +5598,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5575,15 +5629,15 @@ at_fn_group_banner 55 'headers.at:1' \
   "separate compilation of log4cplus/thread/syncprims-pub-impl.h" "" 1
 at_xfail=no
 (
-  $as_echo "55. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "55. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/thread/syncprims-pub-impl.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/thread/syncprims-pub-impl.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/thread/syncprims-pub-impl.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/thread/syncprims-pub-impl.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/thread/syncprims-pub-impl.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5596,7 +5650,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5610,10 +5664,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5640,15 +5695,15 @@ at_fn_group_banner 56 'headers.at:1' \
   "separate compilation of log4cplus/thread/syncprims.h" "" 1
 at_xfail=no
 (
-  $as_echo "56. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "56. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/thread/syncprims.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/thread/syncprims.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/thread/syncprims.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/thread/syncprims.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/thread/syncprims.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5661,7 +5716,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5675,10 +5730,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5705,15 +5761,15 @@ at_fn_group_banner 57 'headers.at:1' \
   "separate compilation of log4cplus/thread/threads.h" "" 1
 at_xfail=no
 (
-  $as_echo "57. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "57. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$as_echo \"#include \\\"log4cplus/thread/threads.h\\\"\">test.cxx"
-at_fn_check_prepare_dynamic "$as_echo \"#include \\\"log4cplus/thread/threads.h\\\"\">test.cxx" "headers.at:1"
-( $at_check_trace; $as_echo "#include \"log4cplus/thread/threads.h\"">test.cxx
+printf "%s\n" "$at_srcdir/headers.at:1: printf \"%s\\n\" \"#include \\\"log4cplus/thread/threads.h\\\"\">test.cxx"
+at_fn_check_prepare_trace "headers.at:1"
+( $at_check_trace; printf "%s\n" "#include \"log4cplus/thread/threads.h\"">test.cxx
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -5726,7 +5782,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5740,10 +5796,11 @@ $at_failed && at_fn_log_failure  \
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
     { set +x
-$as_echo "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
+printf "%s\n" "$at_srcdir/headers.at:1: \$CXX \$CPPFLAGS \$CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\""
 at_fn_check_prepare_dynamic "$CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c \"test.cxx\"" "headers.at:1"
 ( $at_check_trace; $CXX $CPPFLAGS $CXXFLAGS -DUNICODE=1 -D_UNICODE=1 -c "test.cxx"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5770,13 +5827,13 @@ at_fn_group_banner 58 'appender_test.at:1' \
   "appender_test" "                                  " 2
 at_xfail=no
 (
-  $as_echo "58. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "58. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
 { set +x
-$as_echo "$at_srcdir/appender_test.at:4: cp -f \"\${abs_srcdir}/appender_test/expout\" ."
+printf "%s\n" "$at_srcdir/appender_test.at:4: cp -f \"\${abs_srcdir}/appender_test/expout\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "appender_test.at:4"
 ( $at_check_trace; cp -f "${abs_srcdir}/appender_test/expout" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5789,7 +5846,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/appender_test.at:5: \"\${abs_top_builddir}/appender_test\" 2>&1"
+printf "%s\n" "$at_srcdir/appender_test.at:5: \"\${abs_top_builddir}/appender_test\" 2>&1"
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "appender_test.at:5"
 ( $at_check_trace; "${abs_top_builddir}/appender_test" 2>&1
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5803,10 +5860,11 @@ $at_traceon; }
 
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/appender_test.at:7: \"\${abs_top_builddir}/appender_testU\" 2>&1"
+printf "%s\n" "$at_srcdir/appender_test.at:7: \"\${abs_top_builddir}/appender_testU\" 2>&1"
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "appender_test.at:7"
 ( $at_check_trace; "${abs_top_builddir}/appender_testU" 2>&1
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5831,16 +5889,16 @@ at_fn_group_banner 59 'configandwatch_test.at:1' \
   "configandwatch_test" "                            " 2
 at_xfail=no
 (
-  $as_echo "59. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "59. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
-$as_echo "configandwatch_test.at:4" >"$at_check_line_file"
+printf "%s\n" "configandwatch_test.at:4" >"$at_check_line_file"
 (test "x$ENABLE_THREADS" != "xyes") \
   && at_fn_check_skip 77 "$at_srcdir/configandwatch_test.at:4"
 { set +x
-$as_echo "$at_srcdir/configandwatch_test.at:5: cp -f \"\${abs_builddir}/configandwatch_test/log4cplus.properties\" ."
+printf "%s\n" "$at_srcdir/configandwatch_test.at:5: cp -f \"\${abs_builddir}/configandwatch_test/log4cplus.properties\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "configandwatch_test.at:5"
 ( $at_check_trace; cp -f "${abs_builddir}/configandwatch_test/log4cplus.properties" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5853,7 +5911,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/configandwatch_test.at:6: \"\${abs_top_builddir}/configandwatch_test\""
+printf "%s\n" "$at_srcdir/configandwatch_test.at:6: \"\${abs_top_builddir}/configandwatch_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "configandwatch_test.at:6"
 ( $at_check_trace; "${abs_top_builddir}/configandwatch_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5866,7 +5924,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/configandwatch_test.at:7: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+printf "%s\n" "$at_srcdir/configandwatch_test.at:7: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
 at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "configandwatch_test.at:7"
 ( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5880,10 +5938,11 @@ $at_traceon; }
 
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/configandwatch_test.at:9: \"\${abs_top_builddir}/configandwatch_testU\""
+printf "%s\n" "$at_srcdir/configandwatch_test.at:9: \"\${abs_top_builddir}/configandwatch_testU\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "configandwatch_test.at:9"
 ( $at_check_trace; "${abs_top_builddir}/configandwatch_testU"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5896,7 +5955,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/configandwatch_test.at:9: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+printf "%s\n" "$at_srcdir/configandwatch_test.at:9: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
 at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "configandwatch_test.at:9"
 ( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5922,13 +5981,13 @@ at_fn_group_banner 60 'customloglevel_test.at:1' \
   "customloglevel_test" "                            " 2
 at_xfail=no
 (
-  $as_echo "60. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "60. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
 { set +x
-$as_echo "$at_srcdir/customloglevel_test.at:4: cp -f \"\${abs_srcdir}/customloglevel_test/expout\" ."
+printf "%s\n" "$at_srcdir/customloglevel_test.at:4: cp -f \"\${abs_srcdir}/customloglevel_test/expout\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "customloglevel_test.at:4"
 ( $at_check_trace; cp -f "${abs_srcdir}/customloglevel_test/expout" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5941,7 +6000,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/customloglevel_test.at:5: \"\${abs_top_builddir}/customloglevel_test\""
+printf "%s\n" "$at_srcdir/customloglevel_test.at:5: \"\${abs_top_builddir}/customloglevel_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "customloglevel_test.at:5"
 ( $at_check_trace; "${abs_top_builddir}/customloglevel_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5954,10 +6013,11 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/customloglevel_test.at:6: \"\${abs_top_builddir}/customloglevel_testU\""
+printf "%s\n" "$at_srcdir/customloglevel_test.at:6: \"\${abs_top_builddir}/customloglevel_testU\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "customloglevel_test.at:6"
 ( $at_check_trace; "${abs_top_builddir}/customloglevel_testU"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -5983,13 +6043,13 @@ at_fn_group_banner 61 'fileappender_test.at:1' \
   "fileappender_test" "                              " 2
 at_xfail=no
 (
-  $as_echo "61. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "61. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
 { set +x
-$as_echo "$at_srcdir/fileappender_test.at:4: cp -f \"\${abs_srcdir}/fileappender_test/experr\" ."
+printf "%s\n" "$at_srcdir/fileappender_test.at:4: cp -f \"\${abs_srcdir}/fileappender_test/experr\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "fileappender_test.at:4"
 ( $at_check_trace; cp -f "${abs_srcdir}/fileappender_test/experr" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6002,7 +6062,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/fileappender_test.at:5: \"\${abs_top_builddir}/fileappender_test\""
+printf "%s\n" "$at_srcdir/fileappender_test.at:5: \"\${abs_top_builddir}/fileappender_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "fileappender_test.at:5"
 ( $at_check_trace; "${abs_top_builddir}/fileappender_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6015,7 +6075,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/fileappender_test.at:6: test -f \"a/b/c/d/Test.log\""
+printf "%s\n" "$at_srcdir/fileappender_test.at:6: test -f \"a/b/c/d/Test.log\""
 at_fn_check_prepare_trace "fileappender_test.at:6"
 ( $at_check_trace; test -f "a/b/c/d/Test.log"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6028,10 +6088,11 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/fileappender_test.at:7: rm -rf \"a\""
+printf "%s\n" "$at_srcdir/fileappender_test.at:7: rm -rf \"a\""
 at_fn_check_prepare_trace "fileappender_test.at:7"
 ( $at_check_trace; rm -rf "a"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6044,7 +6105,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/fileappender_test.at:7: \"\${abs_top_builddir}/fileappender_testU\""
+printf "%s\n" "$at_srcdir/fileappender_test.at:7: \"\${abs_top_builddir}/fileappender_testU\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "fileappender_test.at:7"
 ( $at_check_trace; "${abs_top_builddir}/fileappender_testU"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6057,7 +6118,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/fileappender_test.at:7: test -f \"a/b/c/d/Test.log\""
+printf "%s\n" "$at_srcdir/fileappender_test.at:7: test -f \"a/b/c/d/Test.log\""
 at_fn_check_prepare_trace "fileappender_test.at:7"
 ( $at_check_trace; test -f "a/b/c/d/Test.log"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6083,13 +6144,13 @@ at_fn_group_banner 62 'filter_test.at:1' \
   "filter_test" "                                    " 2
 at_xfail=no
 (
-  $as_echo "62. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "62. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
 { set +x
-$as_echo "$at_srcdir/filter_test.at:4: cp -f \"\${abs_srcdir}/filter_test/expout\" ."
+printf "%s\n" "$at_srcdir/filter_test.at:4: cp -f \"\${abs_srcdir}/filter_test/expout\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "filter_test.at:4"
 ( $at_check_trace; cp -f "${abs_srcdir}/filter_test/expout" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6102,7 +6163,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/filter_test.at:5: cp -f \"\${abs_builddir}/filter_test/log4cplus.properties\" ."
+printf "%s\n" "$at_srcdir/filter_test.at:5: cp -f \"\${abs_builddir}/filter_test/log4cplus.properties\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "filter_test.at:5"
 ( $at_check_trace; cp -f "${abs_builddir}/filter_test/log4cplus.properties" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6118,7 +6179,7 @@ $at_traceon; }
 
 
 { set +x
-$as_echo "$at_srcdir/filter_test.at:18: \"\${abs_top_builddir}/filter_test\""
+printf "%s\n" "$at_srcdir/filter_test.at:18: \"\${abs_top_builddir}/filter_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "filter_test.at:18"
 ( $at_check_trace; "${abs_top_builddir}/filter_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6131,7 +6192,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/filter_test.at:19: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+printf "%s\n" "$at_srcdir/filter_test.at:19: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
 at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "filter_test.at:19"
 ( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6145,7 +6206,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:20: test -s debug_info_msgs.log"
+printf "%s\n" "$at_srcdir/filter_test.at:20: test -s debug_info_msgs.log"
 at_fn_check_prepare_trace "filter_test.at:20"
 ( $at_check_trace; test -s debug_info_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6158,7 +6219,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:20: ! \$GREP 'TRACE\\|WARN\\|ERROR\\|FATAL' debug_info_msgs.log"
+printf "%s\n" "$at_srcdir/filter_test.at:20: ! \$GREP 'TRACE\\|WARN\\|ERROR\\|FATAL' debug_info_msgs.log"
 at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:20"
 ( $at_check_trace; ! $GREP 'TRACE\|WARN\|ERROR\|FATAL' debug_info_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6172,7 +6233,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:20: test -s fatal_msgs.log"
+printf "%s\n" "$at_srcdir/filter_test.at:20: test -s fatal_msgs.log"
 at_fn_check_prepare_trace "filter_test.at:20"
 ( $at_check_trace; test -s fatal_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6185,7 +6246,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:20: ! \$GREP 'TRACE\\|DEBUG\\|INFO\\|WARN\\|ERROR' fatal_msgs.log"
+printf "%s\n" "$at_srcdir/filter_test.at:20: ! \$GREP 'TRACE\\|DEBUG\\|INFO\\|WARN\\|ERROR' fatal_msgs.log"
 at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:20"
 ( $at_check_trace; ! $GREP 'TRACE\|DEBUG\|INFO\|WARN\|ERROR' fatal_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6199,7 +6260,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:20: test -s trace_msgs.log"
+printf "%s\n" "$at_srcdir/filter_test.at:20: test -s trace_msgs.log"
 at_fn_check_prepare_trace "filter_test.at:20"
 ( $at_check_trace; test -s trace_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6212,7 +6273,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:20: ! \$GREP 'DEBUG\\|INFO\\|WARN\\|ERROR\\|FATAL' trace_msgs.log"
+printf "%s\n" "$at_srcdir/filter_test.at:20: ! \$GREP 'DEBUG\\|INFO\\|WARN\\|ERROR\\|FATAL' trace_msgs.log"
 at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:20"
 ( $at_check_trace; ! $GREP 'DEBUG\|INFO\|WARN\|ERROR\|FATAL' trace_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6227,10 +6288,11 @@ $at_traceon; }
 
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:22: rm -f stderr debug_info_msgs.log fatal_msgs.log trace_msgs.log"
+printf "%s\n" "$at_srcdir/filter_test.at:22: rm -f stderr debug_info_msgs.log fatal_msgs.log trace_msgs.log"
 at_fn_check_prepare_trace "filter_test.at:22"
 ( $at_check_trace; rm -f stderr debug_info_msgs.log fatal_msgs.log trace_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6243,7 +6305,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:22: \"\${abs_top_builddir}/filter_testU\""
+printf "%s\n" "$at_srcdir/filter_test.at:22: \"\${abs_top_builddir}/filter_testU\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "filter_test.at:22"
 ( $at_check_trace; "${abs_top_builddir}/filter_testU"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6256,7 +6318,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:22: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+printf "%s\n" "$at_srcdir/filter_test.at:22: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
 at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "filter_test.at:22"
 ( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6270,7 +6332,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:22: test -s debug_info_msgs.log"
+printf "%s\n" "$at_srcdir/filter_test.at:22: test -s debug_info_msgs.log"
 at_fn_check_prepare_trace "filter_test.at:22"
 ( $at_check_trace; test -s debug_info_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6283,7 +6345,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:22: ! \$GREP 'TRACE\\|WARN\\|ERROR\\|FATAL' debug_info_msgs.log"
+printf "%s\n" "$at_srcdir/filter_test.at:22: ! \$GREP 'TRACE\\|WARN\\|ERROR\\|FATAL' debug_info_msgs.log"
 at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:22"
 ( $at_check_trace; ! $GREP 'TRACE\|WARN\|ERROR\|FATAL' debug_info_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6297,7 +6359,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:22: test -s fatal_msgs.log"
+printf "%s\n" "$at_srcdir/filter_test.at:22: test -s fatal_msgs.log"
 at_fn_check_prepare_trace "filter_test.at:22"
 ( $at_check_trace; test -s fatal_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6310,7 +6372,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:22: ! \$GREP 'TRACE\\|DEBUG\\|INFO\\|WARN\\|ERROR' fatal_msgs.log"
+printf "%s\n" "$at_srcdir/filter_test.at:22: ! \$GREP 'TRACE\\|DEBUG\\|INFO\\|WARN\\|ERROR' fatal_msgs.log"
 at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:22"
 ( $at_check_trace; ! $GREP 'TRACE\|DEBUG\|INFO\|WARN\|ERROR' fatal_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6324,7 +6386,7 @@ $at_traceon; }
 
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:22: test -s trace_msgs.log"
+printf "%s\n" "$at_srcdir/filter_test.at:22: test -s trace_msgs.log"
 at_fn_check_prepare_trace "filter_test.at:22"
 ( $at_check_trace; test -s trace_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6337,7 +6399,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/filter_test.at:22: ! \$GREP 'DEBUG\\|INFO\\|WARN\\|ERROR\\|FATAL' trace_msgs.log"
+printf "%s\n" "$at_srcdir/filter_test.at:22: ! \$GREP 'DEBUG\\|INFO\\|WARN\\|ERROR\\|FATAL' trace_msgs.log"
 at_fn_check_prepare_notrace 'a shell pipeline' "filter_test.at:22"
 ( $at_check_trace; ! $GREP 'DEBUG\|INFO\|WARN\|ERROR\|FATAL' trace_msgs.log
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6364,13 +6426,13 @@ at_fn_group_banner 63 'hierarchy_test.at:1' \
   "hierarchy_test" "                                 " 2
 at_xfail=no
 (
-  $as_echo "63. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "63. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
 { set +x
-$as_echo "$at_srcdir/hierarchy_test.at:4: cp -f \"\${abs_srcdir}/hierarchy_test/expout\" ."
+printf "%s\n" "$at_srcdir/hierarchy_test.at:4: cp -f \"\${abs_srcdir}/hierarchy_test/expout\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "hierarchy_test.at:4"
 ( $at_check_trace; cp -f "${abs_srcdir}/hierarchy_test/expout" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6383,7 +6445,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/hierarchy_test.at:5: \"\${abs_top_builddir}/hierarchy_test\""
+printf "%s\n" "$at_srcdir/hierarchy_test.at:5: \"\${abs_top_builddir}/hierarchy_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "hierarchy_test.at:5"
 ( $at_check_trace; "${abs_top_builddir}/hierarchy_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6396,10 +6458,11 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/hierarchy_test.at:6: \"\${abs_top_builddir}/hierarchy_test\""
+printf "%s\n" "$at_srcdir/hierarchy_test.at:6: \"\${abs_top_builddir}/hierarchy_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "hierarchy_test.at:6"
 ( $at_check_trace; "${abs_top_builddir}/hierarchy_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6425,13 +6488,13 @@ at_fn_group_banner 64 'loglog_test.at:1' \
   "loglog_test" "                                    " 2
 at_xfail=no
 (
-  $as_echo "64. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "64. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
 { set +x
-$as_echo "$at_srcdir/loglog_test.at:4: cp -f \"\${abs_srcdir}/loglog_test/expout\" ."
+printf "%s\n" "$at_srcdir/loglog_test.at:4: cp -f \"\${abs_srcdir}/loglog_test/expout\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "loglog_test.at:4"
 ( $at_check_trace; cp -f "${abs_srcdir}/loglog_test/expout" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6444,7 +6507,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/loglog_test.at:5: cp -f \"\${abs_srcdir}/loglog_test/experr\" ."
+printf "%s\n" "$at_srcdir/loglog_test.at:5: cp -f \"\${abs_srcdir}/loglog_test/experr\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "loglog_test.at:5"
 ( $at_check_trace; cp -f "${abs_srcdir}/loglog_test/experr" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6457,7 +6520,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/loglog_test.at:6: \"\${abs_top_builddir}/loglog_test\""
+printf "%s\n" "$at_srcdir/loglog_test.at:6: \"\${abs_top_builddir}/loglog_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "loglog_test.at:6"
 ( $at_check_trace; "${abs_top_builddir}/loglog_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6470,10 +6533,11 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/loglog_test.at:7: \"\${abs_top_builddir}/loglog_test\""
+printf "%s\n" "$at_srcdir/loglog_test.at:7: \"\${abs_top_builddir}/loglog_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "loglog_test.at:7"
 ( $at_check_trace; "${abs_top_builddir}/loglog_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6499,13 +6563,13 @@ at_fn_group_banner 65 'ndc_test.at:1' \
   "ndc_test" "                                       " 2
 at_xfail=no
 (
-  $as_echo "65. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "65. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
 { set +x
-$as_echo "$at_srcdir/ndc_test.at:4: cp -f \"\${abs_srcdir}/ndc_test/expout\" ."
+printf "%s\n" "$at_srcdir/ndc_test.at:4: cp -f \"\${abs_srcdir}/ndc_test/expout\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "ndc_test.at:4"
 ( $at_check_trace; cp -f "${abs_srcdir}/ndc_test/expout" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6518,7 +6582,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/ndc_test.at:5: \"\${abs_top_builddir}/ndc_test\""
+printf "%s\n" "$at_srcdir/ndc_test.at:5: \"\${abs_top_builddir}/ndc_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "ndc_test.at:5"
 ( $at_check_trace; "${abs_top_builddir}/ndc_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6531,10 +6595,11 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/ndc_test.at:6: \"\${abs_top_builddir}/ndc_test\""
+printf "%s\n" "$at_srcdir/ndc_test.at:6: \"\${abs_top_builddir}/ndc_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "ndc_test.at:6"
 ( $at_check_trace; "${abs_top_builddir}/ndc_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6560,13 +6625,13 @@ at_fn_group_banner 66 'ostream_test.at:1' \
   "ostream_test" "                                   " 2
 at_xfail=no
 (
-  $as_echo "66. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "66. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
 { set +x
-$as_echo "$at_srcdir/ostream_test.at:4: cp -f \"\${abs_srcdir}/ostream_test/expout\" ."
+printf "%s\n" "$at_srcdir/ostream_test.at:4: cp -f \"\${abs_srcdir}/ostream_test/expout\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "ostream_test.at:4"
 ( $at_check_trace; cp -f "${abs_srcdir}/ostream_test/expout" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6579,7 +6644,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/ostream_test.at:5: \"\${abs_top_builddir}/ostream_test\""
+printf "%s\n" "$at_srcdir/ostream_test.at:5: \"\${abs_top_builddir}/ostream_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "ostream_test.at:5"
 ( $at_check_trace; "${abs_top_builddir}/ostream_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6592,10 +6657,11 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/ostream_test.at:6: \"\${abs_top_builddir}/ostream_test\""
+printf "%s\n" "$at_srcdir/ostream_test.at:6: \"\${abs_top_builddir}/ostream_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "ostream_test.at:6"
 ( $at_check_trace; "${abs_top_builddir}/ostream_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6621,7 +6687,7 @@ at_fn_group_banner 67 'patternlayout_test.at:1' \
   "patternlayout_test" "                             " 2
 at_xfail=no
 (
-  $as_echo "67. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "67. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
@@ -6629,7 +6695,7 @@ at_xfail=no
 
 
 { set +x
-$as_echo "$at_srcdir/patternlayout_test.at:12: \"\${abs_top_builddir}/patternlayout_test\""
+printf "%s\n" "$at_srcdir/patternlayout_test.at:12: \"\${abs_top_builddir}/patternlayout_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "patternlayout_test.at:12"
 ( $at_check_trace; "${abs_top_builddir}/patternlayout_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6642,7 +6708,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/patternlayout_test.at:13: \$AWK '
+printf "%s\n" "$at_srcdir/patternlayout_test.at:13: \$AWK '
 BEGIN {count = 0}
 /^Entering main/ && ++count;
 /(DEBUG|INFO|WARN|ERROR|FATAL)[ ]+c\\.logger %[^%]*% - MDC value - This is the (FIRST|SECOND|THIRD|FOURTH|FIFTH) log message\\.\\.\\. \\[.*main\\.cxx:[0-9]+\\]/ && ++count;
@@ -6666,10 +6732,11 @@ $at_traceon; }
 
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/patternlayout_test.at:15: \"\${abs_top_builddir}/patternlayout_testU\""
+printf "%s\n" "$at_srcdir/patternlayout_test.at:15: \"\${abs_top_builddir}/patternlayout_testU\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "patternlayout_test.at:15"
 ( $at_check_trace; "${abs_top_builddir}/patternlayout_testU"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6682,7 +6749,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/patternlayout_test.at:15: \$AWK '
+printf "%s\n" "$at_srcdir/patternlayout_test.at:15: \$AWK '
 BEGIN {count = 0}
 /^Entering main/ && ++count;
 /(DEBUG|INFO|WARN|ERROR|FATAL)[ ]+c\\.logger %[^%]*% - MDC value - This is the (FIRST|SECOND|THIRD|FOURTH|FIFTH) log message\\.\\.\\. \\[.*main\\.cxx:[0-9]+\\]/ && ++count;
@@ -6718,13 +6785,13 @@ at_fn_group_banner 68 'performance_test.at:1' \
   "performance_test" "                               " 2
 at_xfail=no
 (
-  $as_echo "68. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "68. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
 { set +x
-$as_echo "$at_srcdir/performance_test.at:4: cp -f \"\${abs_builddir}/performance_test/log4cplus.properties\" ."
+printf "%s\n" "$at_srcdir/performance_test.at:4: cp -f \"\${abs_builddir}/performance_test/log4cplus.properties\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "performance_test.at:4"
 ( $at_check_trace; cp -f "${abs_builddir}/performance_test/log4cplus.properties" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6737,7 +6804,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/performance_test.at:5: \"\${abs_top_builddir}/performance_test\""
+printf "%s\n" "$at_srcdir/performance_test.at:5: \"\${abs_top_builddir}/performance_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "performance_test.at:5"
 ( $at_check_trace; "${abs_top_builddir}/performance_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6750,7 +6817,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/performance_test.at:6: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+printf "%s\n" "$at_srcdir/performance_test.at:6: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
 at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "performance_test.at:6"
 ( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6763,10 +6830,11 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/performance_test.at:7: \"\${abs_top_builddir}/performance_testU\""
+printf "%s\n" "$at_srcdir/performance_test.at:7: \"\${abs_top_builddir}/performance_testU\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "performance_test.at:7"
 ( $at_check_trace; "${abs_top_builddir}/performance_testU"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6779,7 +6847,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/performance_test.at:7: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+printf "%s\n" "$at_srcdir/performance_test.at:7: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
 at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "performance_test.at:7"
 ( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6805,13 +6873,13 @@ at_fn_group_banner 69 'priority_test.at:1' \
   "priority_test" "                                  " 2
 at_xfail=no
 (
-  $as_echo "69. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "69. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
 { set +x
-$as_echo "$at_srcdir/priority_test.at:4: cp -f \"\${abs_srcdir}/priority_test/expout\" ."
+printf "%s\n" "$at_srcdir/priority_test.at:4: cp -f \"\${abs_srcdir}/priority_test/expout\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "priority_test.at:4"
 ( $at_check_trace; cp -f "${abs_srcdir}/priority_test/expout" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6824,7 +6892,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/priority_test.at:5: \"\${abs_top_builddir}/priority_test\""
+printf "%s\n" "$at_srcdir/priority_test.at:5: \"\${abs_top_builddir}/priority_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "priority_test.at:5"
 ( $at_check_trace; "${abs_top_builddir}/priority_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6837,10 +6905,11 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/priority_test.at:6: \"\${abs_top_builddir}/priority_testU\""
+printf "%s\n" "$at_srcdir/priority_test.at:6: \"\${abs_top_builddir}/priority_testU\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "priority_test.at:6"
 ( $at_check_trace; "${abs_top_builddir}/priority_testU"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6866,13 +6935,13 @@ at_fn_group_banner 70 'propertyconfig_test.at:1' \
   "propertyconfig_test" "                            " 2
 at_xfail=no
 (
-  $as_echo "70. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "70. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
 { set +x
-$as_echo "$at_srcdir/propertyconfig_test.at:4: cp -f \"\${abs_builddir}/propertyconfig_test/log4cplus.properties\" ."
+printf "%s\n" "$at_srcdir/propertyconfig_test.at:4: cp -f \"\${abs_builddir}/propertyconfig_test/log4cplus.properties\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "propertyconfig_test.at:4"
 ( $at_check_trace; cp -f "${abs_builddir}/propertyconfig_test/log4cplus.properties" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6885,7 +6954,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/propertyconfig_test.at:5: cp -f \"\${abs_builddir}/propertyconfig_test/log4cplus.tail.properties\" ."
+printf "%s\n" "$at_srcdir/propertyconfig_test.at:5: cp -f \"\${abs_builddir}/propertyconfig_test/log4cplus.tail.properties\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "propertyconfig_test.at:5"
 ( $at_check_trace; cp -f "${abs_builddir}/propertyconfig_test/log4cplus.tail.properties" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6898,7 +6967,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/propertyconfig_test.at:6: ENV_VAR=test \"\${abs_top_builddir}/propertyconfig_test\""
+printf "%s\n" "$at_srcdir/propertyconfig_test.at:6: ENV_VAR=test \"\${abs_top_builddir}/propertyconfig_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "propertyconfig_test.at:6"
 ( $at_check_trace; ENV_VAR=test "${abs_top_builddir}/propertyconfig_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6911,7 +6980,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/propertyconfig_test.at:7: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+printf "%s\n" "$at_srcdir/propertyconfig_test.at:7: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
 at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "propertyconfig_test.at:7"
 ( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6924,7 +6993,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/propertyconfig_test.at:8: test -f \"output_test.log\""
+printf "%s\n" "$at_srcdir/propertyconfig_test.at:8: test -f \"output_test.log\""
 at_fn_check_prepare_trace "propertyconfig_test.at:8"
 ( $at_check_trace; test -f "output_test.log"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6937,10 +7006,11 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/propertyconfig_test.at:9: rm -f \"output_test.log\""
+printf "%s\n" "$at_srcdir/propertyconfig_test.at:9: rm -f \"output_test.log\""
 at_fn_check_prepare_trace "propertyconfig_test.at:9"
 ( $at_check_trace; rm -f "output_test.log"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6953,7 +7023,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/propertyconfig_test.at:9: ENV_VAR=test \"\${abs_top_builddir}/propertyconfig_testU\""
+printf "%s\n" "$at_srcdir/propertyconfig_test.at:9: ENV_VAR=test \"\${abs_top_builddir}/propertyconfig_testU\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "propertyconfig_test.at:9"
 ( $at_check_trace; ENV_VAR=test "${abs_top_builddir}/propertyconfig_testU"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6966,7 +7036,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/propertyconfig_test.at:9: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
+printf "%s\n" "$at_srcdir/propertyconfig_test.at:9: ! \$GREP \"Please initialize the log4cplus system properly\"< stderr"
 at_fn_check_prepare_dynamic "! $GREP \"Please initialize the log4cplus system properly\"< stderr" "propertyconfig_test.at:9"
 ( $at_check_trace; ! $GREP "Please initialize the log4cplus system properly"< stderr
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -6979,7 +7049,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
   { set +x
-$as_echo "$at_srcdir/propertyconfig_test.at:9: test -f \"output_test.log\""
+printf "%s\n" "$at_srcdir/propertyconfig_test.at:9: test -f \"output_test.log\""
 at_fn_check_prepare_trace "propertyconfig_test.at:9"
 ( $at_check_trace; test -f "output_test.log"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -7005,16 +7075,16 @@ at_fn_group_banner 71 'thread_test.at:1' \
   "thread_test" "                                    " 2
 at_xfail=no
 (
-  $as_echo "71. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "71. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
-$as_echo "thread_test.at:4" >"$at_check_line_file"
+printf "%s\n" "thread_test.at:4" >"$at_check_line_file"
 (test "x$ENABLE_THREADS" != "xyes") \
   && at_fn_check_skip 77 "$at_srcdir/thread_test.at:4"
 { set +x
-$as_echo "$at_srcdir/thread_test.at:5: \"\${abs_top_builddir}/thread_test\""
+printf "%s\n" "$at_srcdir/thread_test.at:5: \"\${abs_top_builddir}/thread_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "thread_test.at:5"
 ( $at_check_trace; "${abs_top_builddir}/thread_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -7027,10 +7097,11 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/thread_test.at:6: \"\${abs_top_builddir}/thread_testU\""
+printf "%s\n" "$at_srcdir/thread_test.at:6: \"\${abs_top_builddir}/thread_testU\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "thread_test.at:6"
 ( $at_check_trace; "${abs_top_builddir}/thread_testU"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -7056,13 +7127,13 @@ at_fn_group_banner 72 'timeformat_test.at:1' \
   "timeformat_test" "                                " 2
 at_xfail=no
 (
-  $as_echo "72. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "72. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
 { set +x
-$as_echo "$at_srcdir/timeformat_test.at:4: \"\${abs_top_builddir}/timeformat_test\""
+printf "%s\n" "$at_srcdir/timeformat_test.at:4: \"\${abs_top_builddir}/timeformat_test\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "timeformat_test.at:4"
 ( $at_check_trace; "${abs_top_builddir}/timeformat_test"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -7075,7 +7146,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/timeformat_test.at:5: cp -f \"\${abs_srcdir}/timeformat_test/expout\" ."
+printf "%s\n" "$at_srcdir/timeformat_test.at:5: cp -f \"\${abs_srcdir}/timeformat_test/expout\" ."
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "timeformat_test.at:5"
 ( $at_check_trace; cp -f "${abs_srcdir}/timeformat_test/expout" .
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -7088,7 +7159,7 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 { set +x
-$as_echo "$at_srcdir/timeformat_test.at:6: \$SED -e '2d' <stdout"
+printf "%s\n" "$at_srcdir/timeformat_test.at:6: \$SED -e '2d' <stdout"
 at_fn_check_prepare_dynamic "$SED -e '2d' <stdout" "timeformat_test.at:6"
 ( $at_check_trace; $SED -e '2d' <stdout
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -7101,10 +7172,11 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/timeformat_test.at:7: \$SED -e '2d' <stdout"
+printf "%s\n" "$at_srcdir/timeformat_test.at:7: \$SED -e '2d' <stdout"
 at_fn_check_prepare_dynamic "$SED -e '2d' <stdout" "timeformat_test.at:7"
 ( $at_check_trace; $SED -e '2d' <stdout
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -7130,13 +7202,13 @@ at_fn_group_banner 73 'unit_tests.at:1' \
   "unit_tests" "                                     " 2
 at_xfail=no
 (
-  $as_echo "73. $at_setup_line: testing $at_desc ..."
+  printf "%s\n" "73. $at_setup_line: testing $at_desc ..."
   $at_traceon
 
 
 
 { set +x
-$as_echo "$at_srcdir/unit_tests.at:4: \"\${abs_top_builddir}/unit_tests\""
+printf "%s\n" "$at_srcdir/unit_tests.at:4: \"\${abs_top_builddir}/unit_tests\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "unit_tests.at:4"
 ( $at_check_trace; "${abs_top_builddir}/unit_tests"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
@@ -7149,10 +7221,11 @@ $at_failed && at_fn_log_failure
 $at_traceon; }
 
 
-  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"; then :
+  if test "x$BUILD_WITH_WCHAR_T_SUPPORT" = "xyes"
+then :
 
   { set +x
-$as_echo "$at_srcdir/unit_tests.at:5: \"\${abs_top_builddir}/unit_testsU\""
+printf "%s\n" "$at_srcdir/unit_tests.at:5: \"\${abs_top_builddir}/unit_testsU\""
 at_fn_check_prepare_notrace 'a ${...} parameter expansion' "unit_tests.at:5"
 ( $at_check_trace; "${abs_top_builddir}/unit_testsU"
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-

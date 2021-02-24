@@ -19,10 +19,22 @@ target_link_libraries (${qt5debugappender}
   ${Qt5Widgets_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT})
 
-set_target_properties (${qt5debugappender} PROPERTIES
-  VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}"
-  SOVERSION "${log4cplus_soversion}")
+if (ANDROID)
+  # Android does not seem to have SO version support.
+elseif (WIN32)
+  set_target_properties (${qt5debugappender} PROPERTIES
+    VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}")
+else ()
+  set_target_properties (${qt5debugappender} PROPERTIES
+    SOVERSION "${log4cplus_soversion}")
+endif ()
 target_compile_definitions (${qt5debugappender} PRIVATE INSIDE_LOG4CPLUS_QT5DEBUGAPPENDER)
+
+if (APPLE)
+  set_target_properties (${log4cplus} PROPERTIES
+    MACHO_CURRENT_VERSION "${log4cplus_macho_current_version}"
+    MACHO_COMPATIBILITY_VERSION "${log4cplus_macho_compatibility_version}")
+endif ()
 
 qt5_use_modules(${qt5debugappender} Core)
 
