@@ -1,7 +1,7 @@
 #!/bin/sh
 
-export AUTOMAKE_SUFFIX=-1.16.1
-export AUTOCONF_SUFFIX=-2.69
+export AUTOMAKE_SUFFIX=-1.16.3
+export AUTOCONF_SUFFIX=-2.71
 export LIBTOOL_SUFFIX=-2.4.6
 
 export ACLOCAL="aclocal${AUTOMAKE_SUFFIX}"
