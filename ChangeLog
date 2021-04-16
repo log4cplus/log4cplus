@@ -1,3 +1,8 @@
+# log4cplus 2.0.7
+
+  - Fix compilation with C++20 compiler, use std::invoke_result.
+
+
 # log4cplus 2.0.6
 
   - Fixes to internal thread pool.
