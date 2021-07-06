@@ -13,6 +13,7 @@ Win32/
 x64/
 
 .idea
+.vscode
 
 # LaTeX/PDF produciton byproducts
 *.aux

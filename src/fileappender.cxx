@@ -1289,9 +1289,13 @@ TimeBasedRollingFileAppender::init()
     Time now = Time::gettimeofday();
     nextRolloverTime = calculateNextRolloverTime(now);
 
-    if (cleanHistoryOnStart)
+    if (LOG4CPLUS_UNLIKELY(cleanHistoryOnStart))
     {
         clean(now + Time(maxHistory*getRolloverPeriodDuration()));
+    }
+    else
+    {
+        clean(now);
     }
 
     lastHeartBeat = now;
