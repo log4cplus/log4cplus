@@ -1356,7 +1356,10 @@ void
 TimeBasedRollingFileAppender::open(std::ios_base::openmode mode)
 {
     scheduledFilename = helpers::getFormattedTime(filenamePattern, helpers::now(), false);
-    tstring currentFilename = filename.empty() ? scheduledFilename : filename;
+    if (filename.empty())
+        filename = scheduledFilename;
+
+    tstring currentFilename = filename;
 
     if (createDirs)
         internal::make_dirs (currentFilename);
@@ -1401,7 +1404,7 @@ TimeBasedRollingFileAppender::rollover(bool alreadyLocked)
     // should remain unchanged on a close
     out.clear();
 
-    if (! filename.empty())
+    if (filename != scheduledFilename)
     {
         helpers::LogLog & loglog = helpers::getLogLog();
         long ret;
