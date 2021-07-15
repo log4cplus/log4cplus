@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22310.1
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{92DEA81D-81ED-4283-BBC7-41975647F69E}"
 	ProjectSection(SolutionItems) = preProject
@@ -416,7 +416,6 @@ Global
 		{18B64AA1-A2F7-46BE-8D48-7882AA471FA9}.Debug_Unicode|Win32.ActiveCfg = Debug_Unicode|Win32
 		{18B64AA1-A2F7-46BE-8D48-7882AA471FA9}.Debug_Unicode|Win32.Build.0 = Debug_Unicode|Win32
 		{18B64AA1-A2F7-46BE-8D48-7882AA471FA9}.Debug_Unicode|x64.ActiveCfg = Debug_Unicode|x64
-		{18B64AA1-A2F7-46BE-8D48-7882AA471FA9}.Debug_Unicode|x64.Build.0 = Debug_Unicode|x64
 		{18B64AA1-A2F7-46BE-8D48-7882AA471FA9}.Debug|Win32.ActiveCfg = Debug|Win32
 		{18B64AA1-A2F7-46BE-8D48-7882AA471FA9}.Debug|Win32.Build.0 = Debug|Win32
 		{18B64AA1-A2F7-46BE-8D48-7882AA471FA9}.Debug|x64.ActiveCfg = Debug|x64
@@ -424,7 +423,6 @@ Global
 		{18B64AA1-A2F7-46BE-8D48-7882AA471FA9}.Release_Unicode|Win32.ActiveCfg = Release_Unicode|Win32
 		{18B64AA1-A2F7-46BE-8D48-7882AA471FA9}.Release_Unicode|Win32.Build.0 = Release_Unicode|Win32
 		{18B64AA1-A2F7-46BE-8D48-7882AA471FA9}.Release_Unicode|x64.ActiveCfg = Release_Unicode|x64
-		{18B64AA1-A2F7-46BE-8D48-7882AA471FA9}.Release_Unicode|x64.Build.0 = Release_Unicode|x64
 		{18B64AA1-A2F7-46BE-8D48-7882AA471FA9}.Release|Win32.ActiveCfg = Release|Win32
 		{18B64AA1-A2F7-46BE-8D48-7882AA471FA9}.Release|Win32.Build.0 = Release|Win32
 		{18B64AA1-A2F7-46BE-8D48-7882AA471FA9}.Release|x64.ActiveCfg = Release|x64
@@ -464,7 +462,6 @@ Global
 		{0F01EBDC-F988-41DD-BDA8-247DBC870F6B}.Debug_Unicode|Win32.ActiveCfg = Debug_Unicode|Win32
 		{0F01EBDC-F988-41DD-BDA8-247DBC870F6B}.Debug_Unicode|Win32.Build.0 = Debug_Unicode|Win32
 		{0F01EBDC-F988-41DD-BDA8-247DBC870F6B}.Debug_Unicode|x64.ActiveCfg = Debug_Unicode|x64
-		{0F01EBDC-F988-41DD-BDA8-247DBC870F6B}.Debug_Unicode|x64.Build.0 = Debug_Unicode|x64
 		{0F01EBDC-F988-41DD-BDA8-247DBC870F6B}.Debug|Win32.ActiveCfg = Debug|Win32
 		{0F01EBDC-F988-41DD-BDA8-247DBC870F6B}.Debug|Win32.Build.0 = Debug|Win32
 		{0F01EBDC-F988-41DD-BDA8-247DBC870F6B}.Debug|x64.ActiveCfg = Debug|x64
@@ -472,7 +469,6 @@ Global
 		{0F01EBDC-F988-41DD-BDA8-247DBC870F6B}.Release_Unicode|Win32.ActiveCfg = Release_Unicode|Win32
 		{0F01EBDC-F988-41DD-BDA8-247DBC870F6B}.Release_Unicode|Win32.Build.0 = Release_Unicode|Win32
 		{0F01EBDC-F988-41DD-BDA8-247DBC870F6B}.Release_Unicode|x64.ActiveCfg = Release_Unicode|x64
-		{0F01EBDC-F988-41DD-BDA8-247DBC870F6B}.Release_Unicode|x64.Build.0 = Release_Unicode|x64
 		{0F01EBDC-F988-41DD-BDA8-247DBC870F6B}.Release|Win32.ActiveCfg = Release|Win32
 		{0F01EBDC-F988-41DD-BDA8-247DBC870F6B}.Release|Win32.Build.0 = Release|Win32
 		{0F01EBDC-F988-41DD-BDA8-247DBC870F6B}.Release|x64.ActiveCfg = Release|x64
