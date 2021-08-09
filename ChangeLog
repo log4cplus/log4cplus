@@ -2,6 +2,12 @@
 
   - Fix compilation with C++20 compiler, use std::invoke_result.
 
+  - TimeBasedRollingFileAppender: Clear files before `MaxHistory` when
+    `CleanHistoryOnStart=false`.
+
+  - Update embedded Catch2 to version v2.13.7 to compilation with current
+    Glibc. GitHub issue #519.
+
 
 # log4cplus 2.0.6
 
