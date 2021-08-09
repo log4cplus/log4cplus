@@ -179,6 +179,7 @@ static DCState default_context_state = DC_UNINITIALIZED;
 static DefaultContext * default_context = nullptr;
 
 
+#if ! defined (LOG4CPLUS_NO_AUTO_DESTROY)
 struct destroy_default_context
 {
     ~destroy_default_context ()
@@ -189,6 +190,7 @@ struct destroy_default_context
     }
 } static destroy_default_context_
 LOG4CPLUS_INIT_PRIORITY (LOG4CPLUS_INIT_PRIORITY_BASE + 1);
+#endif
 
 
 static
