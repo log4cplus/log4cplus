@@ -6,6 +6,7 @@ find_package (Qt5Core REQUIRED)
 
 set (qt5debugappender log4cplusqt5debugappender${log4cplus_postfix})
 add_library (${qt5debugappender} ${qt5debugappender_sources})
+add_library (log4cplus::qt5debugappender ALIAS ${qt5debugappender})
 if (UNICODE)
   target_compile_definitions (${qt5debugappender} PUBLIC UNICODE)
   target_compile_definitions (${qt5debugappender} PUBLIC _UNICODE)
