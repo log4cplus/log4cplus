@@ -6,6 +6,7 @@ include (${QT_USE_FILE})
 
 set (qt4debugappender log4cplusqt4debugappender${log4cplus_postfix})
 add_library (${qt4debugappender} ${qt4debugappender_sources})
+add_library (log4cplus::qt4debugappender ALIAS ${qt4debugappender})
 if (UNICODE)
   target_compile_definitions (${qt4debugappender} PUBLIC UNICODE)
   target_compile_definitions (${qt4debugappender} PUBLIC _UNICODE)

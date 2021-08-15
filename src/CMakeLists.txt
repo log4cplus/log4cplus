@@ -81,6 +81,7 @@ if (WIN32)
 endif (WIN32)
 
 add_library (${log4cplus} ${log4cplus_sources})
+add_library (log4cplus::log4cplus ALIAS ${log4cplus})
 
 if (UNICODE)
   target_compile_definitions (${log4cplus} PUBLIC UNICODE)
