@@ -43,9 +43,13 @@ include %D%/src/Makefile.am
 
 include %D%/simpleserver/Makefile.am
 
+if QT
 include %D%/qt4debugappender/Makefile.am
+endif
 
+if QT5
 include %D%/qt5debugappender/Makefile.am
+endif
 
 include %D%/swig/Makefile.common.am
 include %D%/swig/python/Makefile.am
