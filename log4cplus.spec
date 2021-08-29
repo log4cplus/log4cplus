@@ -1,5 +1,5 @@
 Name: log4cplus
-Version: 2.0.7
+Version: 2.0.8
 Release: 1
 
 Summary: log4cplus, C++ logging library
