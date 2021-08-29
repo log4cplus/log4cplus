@@ -265,6 +265,8 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
         [AX_CXXFLAGS_GCC_OPTION([-Wold-style-cast])])
       dnl AX_CXXFLAGS_GCC_OPTION([-Wabi])
       AX_CXXFLAGS_GCC_OPTION([-Wc++14-compat])
+      AX_CXXFLAGS_GCC_OPTION([-Wc++17-compat])
+      AX_CXXFLAGS_GCC_OPTION([-Wc++20-compat])
       dnl AX_CXXFLAGS_GCC_OPTION([-Wconversion])
       AX_CXXFLAGS_GCC_OPTION([-Wundef])
       AX_CXXFLAGS_GCC_OPTION([-Wshadow])

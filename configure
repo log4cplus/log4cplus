@@ -7414,6 +7414,138 @@ case ".$var" in
  ;;
 esac
 
+      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -Wc++17-compat" >&5
+printf %s "checking CXXFLAGS for gcc -Wc++17-compat... " >&6; }
+if test ${ax_cv_cxxflags_gcc_option__Wcpp17_compat+y}
+then :
+  printf %s "(cached) " >&6
+else $as_nop
+  ax_cv_cxxflags_gcc_option__Wcpp17_compat="no, unknown"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ ac_save_CXXFLAGS="$CXXFLAGS"
+for ac_arg in "-pedantic -Werror % -Wc++17-compat"     "-pedantic % -Wc++17-compat %% no, obsolete"     #
+do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+int zero;
+int
+main (void)
+{
+zero = 0; return zero;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"
+then :
+  ax_cv_cxxflags_gcc_option__Wcpp17_compat=`echo $ac_arg | sed -e 's,.*% *,,'`; break
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam \
+    conftest$ac_exeext conftest.$ac_ext
+done
+ CXXFLAGS="$ac_save_CXXFLAGS"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ax_cv_cxxflags_gcc_option__Wcpp17_compat" >&5
+printf "%s\n" "$ax_cv_cxxflags_gcc_option__Wcpp17_compat" >&6; }
+var=$ax_cv_cxxflags_gcc_option__Wcpp17_compat
+case ".$var" in
+     .ok|.ok,*)  ;;
+   .|.no|.no,*)  ;;
+   *)
+   if echo " $CXXFLAGS " | grep " $var " 2>&1 >/dev/null
+   then { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$var"; } >&5
+  (: CXXFLAGS does contain $var) 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+   else { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$var\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS $var") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+                      CXXFLAGS="$CXXFLAGS $var"
+   fi
+ ;;
+esac
+
+      { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -Wc++20-compat" >&5
+printf %s "checking CXXFLAGS for gcc -Wc++20-compat... " >&6; }
+if test ${ax_cv_cxxflags_gcc_option__Wcpp20_compat+y}
+then :
+  printf %s "(cached) " >&6
+else $as_nop
+  ax_cv_cxxflags_gcc_option__Wcpp20_compat="no, unknown"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+ ac_save_CXXFLAGS="$CXXFLAGS"
+for ac_arg in "-pedantic -Werror % -Wc++20-compat"     "-pedantic % -Wc++20-compat %% no, obsolete"     #
+do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
+   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+int zero;
+int
+main (void)
+{
+zero = 0; return zero;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"
+then :
+  ax_cv_cxxflags_gcc_option__Wcpp20_compat=`echo $ac_arg | sed -e 's,.*% *,,'`; break
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam \
+    conftest$ac_exeext conftest.$ac_ext
+done
+ CXXFLAGS="$ac_save_CXXFLAGS"
+ ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ax_cv_cxxflags_gcc_option__Wcpp20_compat" >&5
+printf "%s\n" "$ax_cv_cxxflags_gcc_option__Wcpp20_compat" >&6; }
+var=$ax_cv_cxxflags_gcc_option__Wcpp20_compat
+case ".$var" in
+     .ok|.ok,*)  ;;
+   .|.no|.no,*)  ;;
+   *)
+   if echo " $CXXFLAGS " | grep " $var " 2>&1 >/dev/null
+   then { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: : CXXFLAGS does contain \$var"; } >&5
+  (: CXXFLAGS does contain $var) 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+   else { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$var\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS $var") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+                      CXXFLAGS="$CXXFLAGS $var"
+   fi
+ ;;
+esac
+
             { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -Wundef" >&5
 printf %s "checking CXXFLAGS for gcc -Wundef... " >&6; }
 if test ${ax_cv_cxxflags_gcc_option__Wundef+y}
