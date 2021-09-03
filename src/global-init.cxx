@@ -161,7 +161,7 @@ struct DefaultContext
     spi::FilterFactoryRegistry filter_factory_registry;
     spi::LocaleFactoryRegistry locale_factory_registry;
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-    std::unique_ptr<progschj::ThreadPool> thread_pool {instantiate_thread_pool ()};
+    std::unique_ptr<progschj::ThreadPool> thread_pool; // Delay instantiate_thread_pool () till required. This is what causes problems when run from DllMain during DLL_PROCESS_ATTACH.
 #endif
     Hierarchy hierarchy;
 };
@@ -315,6 +315,9 @@ void
 enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
     spi::InternalLoggingEvent const & event)
 {
+    if (!get_dc()->thread_pool) {
+      get_dc()->thread_pool = instantiate_thread_pool();
+    }
     get_dc ()->thread_pool->enqueue (
         [=] ()
         {
@@ -597,6 +600,9 @@ void
 setThreadPoolSize (std::size_t LOG4CPLUS_THREADED (pool_size))
 {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    if (!get_dc()->thread_pool) {
+      get_dc()->thread_pool = instantiate_thread_pool();
+    }
     std::unique_ptr<progschj::ThreadPool> & thread_pool = get_dc ()->thread_pool;
     if (thread_pool)
         thread_pool->set_pool_size (pool_size);
