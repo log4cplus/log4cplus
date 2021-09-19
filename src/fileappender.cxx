@@ -1088,14 +1088,33 @@ static tstring
 preprocessDateTimePattern(const tstring& pattern, DailyRollingFileSchedule& schedule)
 {
     // Example: "yyyy-MM-dd HH:mm:ss,aux"
+    // Example with space(s) between the ',' and 'aux': "yyyy-MM-dd HH:mm:ss, aux"
     // Patterns from java.text.SimpleDateFormat not implemented here: Y, F, k, K, S, X
 
     tostringstream result;
 
-    bool auxilary = (pattern.find(LOG4CPLUS_TEXT(",aux")) == pattern.length()-4);
+    size_t aux_len = 0;
+    auto pattern_length = pattern.length();
+    if (pattern_length >= 4 && pattern.find(LOG4CPLUS_TEXT("aux"), pattern_length-3) == pattern_length-3) {
+        auto const comma_pos = pattern.rfind(LOG4CPLUS_TEXT(","));
+        if (comma_pos != tstring::npos) {
+            auto const comma_to_aux_len = pattern_length - 4 - comma_pos;
+            if (comma_to_aux_len == 0) {
+                aux_len = 4;
+            }
+            else if (comma_to_aux_len > 0) {
+                auto const space_str = pattern.substr(comma_pos+1, comma_to_aux_len);
+                if (space_str == tstring(comma_to_aux_len, ' ')) {
+                    aux_len = 4 + comma_to_aux_len;
+                }
+            }
+            pattern_length -= aux_len;
+        }
+    }
+
     bool has_week = false, has_day = false, has_hour = false, has_minute = false;
 
-    for (size_t i = 0; i < pattern.length(); )
+    for (size_t i = 0; i < pattern_length; )
     {
         tchar c = pattern[i];
         size_t end_pos = pattern.find_first_not_of(c, i);
@@ -1197,7 +1216,7 @@ preprocessDateTimePattern(const tstring& pattern, DailyRollingFileSchedule& sche
         i += len;
     }
 
-    if (!auxilary)
+    if (aux_len == 0)
     {
         if (has_minute)
             schedule = MINUTELY;

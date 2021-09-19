@@ -1,12 +1,12 @@
 Name:           log4cplus
-Version:        2.0.7
+Version:        2.0.8
 Release:        1%{?dist}
 Summary:        log4cplus, C++ logging library
 
 License:        Apache
 Group:          Development/Libraries
-URL:            http://log4cplus.sourceforge.net/
-Source0:        http://downloads.sourceforge.net/project/log4cplus/log4cplus-stable/2.0.7/log4cplus-2.0.7.tar.gz
+URL:            https://log4cplus.sourceforge.io/
+Source0:        https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/2.0.7/log4cplus-2.0.7.tar.gz
 
 BuildArch:      noarch
 
@@ -25,8 +25,8 @@ BuildRequires:  mingw64-win-iconv
 BuildRequires:  mingw64-zlib
 
 %description
-log4cplus is a simple to use C++ logging API providing thread-safe, 
-flexible, and arbitrarily granular control over log management and 
+log4cplus is a simple to use C++ logging API providing thread-safe,
+flexible, and arbitrarily granular control over log management and
 configuration. It is modeled after the Java log4j API.
 
 # Strip removes essential information from the .dll.a file, so disable it
@@ -94,7 +94,7 @@ find $RPM_BUILD_ROOT -name .svn -type d -exec find '{}' -delete \;
 %{mingw32_includedir}/log4cplus/internal/*.h
 %{mingw32_includedir}/log4cplus/thread/impl/*.h
 %{mingw32_includedir}/log4cplus/thread/*.h
-%attr(644,root,root) 
+%attr(644,root,root)
 %{mingw32_libdir}/*.dll.a
 %{mingw32_libdir}/liblog4cplus.a
 %{mingw32_libdir}/pkgconfig/log4cplus.pc
@@ -115,7 +115,7 @@ find $RPM_BUILD_ROOT -name .svn -type d -exec find '{}' -delete \;
 %{mingw64_includedir}/log4cplus/internal/*.h
 %{mingw64_includedir}/log4cplus/thread/impl/*.h
 %{mingw64_includedir}/log4cplus/thread/*.h
-%attr(644,root,root) 
+%attr(644,root,root)
 %{mingw64_libdir}/*.dll.a
 %{mingw64_libdir}/liblog4cplus.a
 %{mingw64_libdir}/pkgconfig/log4cplus.pc

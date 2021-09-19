@@ -4,7 +4,7 @@ dnl autoconf-2.69
 dnl automake-1.16.1
 dnl libtool-2.4.6
 
-AC_INIT([log4cplus],[2.0.7])
+AC_INIT([log4cplus],[2.0.8])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
@@ -20,7 +20,7 @@ AM_PROG_AR
 #  ? :+1 : ?   == just some internal changes, nothing breaks but might work
 #                 better
 # CURRENT : REVISION : AGE
-LT_VERSION=7:6:4
+LT_VERSION=7:7:4
 LT_RELEASE=2.0
 AC_SUBST([LT_VERSION])
 AC_SUBST([LT_RELEASE])
@@ -265,6 +265,8 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
         [AX_CXXFLAGS_GCC_OPTION([-Wold-style-cast])])
       dnl AX_CXXFLAGS_GCC_OPTION([-Wabi])
       AX_CXXFLAGS_GCC_OPTION([-Wc++14-compat])
+      AX_CXXFLAGS_GCC_OPTION([-Wc++17-compat])
+      AX_CXXFLAGS_GCC_OPTION([-Wc++20-compat])
       dnl AX_CXXFLAGS_GCC_OPTION([-Wconversion])
       AX_CXXFLAGS_GCC_OPTION([-Wundef])
       AX_CXXFLAGS_GCC_OPTION([-Wshadow])
