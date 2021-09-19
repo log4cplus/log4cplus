@@ -1097,7 +1097,7 @@ preprocessDateTimePattern(const tstring& pattern, DailyRollingFileSchedule& sche
     auto pattern_length = pattern.length();
     if (pattern_length >= 4 && pattern.find(LOG4CPLUS_TEXT("aux"), pattern_length-3) == pattern_length-3) {
         auto const comma_pos = pattern.rfind(LOG4CPLUS_TEXT(","));
-        if (comma_pos != tstring_view::npos) {
+        if (comma_pos != tstring::npos) {
             auto const comma_to_aux_len = pattern_length - 4 - comma_pos;
             if (comma_to_aux_len == 0) {
                 aux_len = 4;
