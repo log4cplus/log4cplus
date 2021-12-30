@@ -2,9 +2,9 @@ name: cross compile with android-ndk
 
 on:
   push:
-    branches: [ 2.0.x ]
+    branches: [ 2.0.x, master ]
   pull_request:
-    branches: [ 2.0.x ]
+    branches: [ 2.0.x, master ]
 
 jobs:
   cross-compile:
