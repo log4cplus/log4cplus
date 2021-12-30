@@ -1,0 +1,65 @@
+name: cross compile with android-ndk
+
+on:
+  push:
+    branches: [ 2.0.x ]
+  pull_request:
+    branches: [ 2.0.x ]
+
+jobs:
+  cross-compile:
+    strategy:
+      fail-fast: false
+      matrix:
+        target-abi: [armeabi-v7a, arm64-v8a, x86, x86_64]
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - run:  brew install tree
+
+      - uses: actions/checkout@v2
+
+      - name: build for ${{ matrix.target-abi }}
+        run: |
+          COLOR_GREEN='\033[0;32m'        # Green
+          COLOR_PURPLE='\033[0;35m'       # Purple
+          COLOR_OFF='\033[0m'             # Reset
+
+          run() {
+            printf '%b\n' "$COLOR_PURPLE==>$COLOR_OFF $COLOR_GREEN$*$COLOR_OFF"
+            eval "$*"
+          }
+
+          run "env | sed -n '/^ANDROID_/p'"
+
+          BUILD_MACHINE_OS_TYPE=$(uname | tr A-Z a-z)
+          BUILD_MACHINE_OS_ARCH=$(uname -m)
+
+          ANDROID_NDK_VERS=$(grep "Pkg.Revision" "$ANDROID_NDK_HOME/source.properties" | cut -d " " -f3)
+          ANDROID_NDK_BASE=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/$BUILD_MACHINE_OS_TYPE-$BUILD_MACHINE_OS_ARCH
+          ANDROID_NDK_BIND=$ANDROID_NDK_BASE/bin
+          SYSROOT=$ANDROID_NDK_BASE/sysroot
+
+          printf '%s = %s\n' ANDROID_NDK_BASE "$ANDROID_NDK_BASE"
+          printf '%s = %s\n' ANDROID_NDK_VERS "$ANDROID_NDK_VERS"
+
+          run cmake --version
+
+          run cmake \
+            -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+            -DCMAKE_INSTALL_PREFIX=$PWD/install.d \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_VERBOSE_MAKEFILE=ON \
+            -DANDROID_TOOLCHAIN=clang \
+            -DANDROID_ABI=${{ matrix.target-abi }} \
+            -DANDROID_PLATFORM=21 \
+            -S . \
+            -B build.d \
+
+          run cmake --build   build.d
+
+          run cmake --install build.d
+
+          run tree install.d
+
