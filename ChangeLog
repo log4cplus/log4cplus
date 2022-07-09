@@ -1,3 +1,20 @@
+# log4cplus 2.0.8
+
+  - Add CMake alias libraries. GitHub issue #511.
+
+  - Add an option to disable tests to `configure` script. (Fabrice Fontaine)
+
+  - Fix C++11 compatibility: C++11 does not have `basic_string_view`.
+
+  - Look for Android's `log` library. GitHub issue #543.
+
+  - Fix handling of `,aux` extension for `FileAppender`. GitHub issue
+    #534. (Pieter du Preez)
+
+  - `filename` should not be empty for `TimeBasedRollingFileAppender`. GitHub
+    issue #517. (Fox Chen)
+
+
 # log4cplus 2.0.7
 
   - Fix compilation with C++20 compiler, use std::invoke_result.
