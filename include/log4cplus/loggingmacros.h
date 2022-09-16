@@ -55,7 +55,7 @@
 
 #define LOG4CPLUS_DOWHILE_NOTHING()                 \
     LOG4CPLUS_SUPPRESS_DOWHILE_WARNING()            \
-    do { } while (0)                                \
+    do { } while (false)                            \
     LOG4CPLUS_RESTORE_DOWHILE_WARNING()
 
 #if defined(LOG4CPLUS_DISABLE_FATAL) && !defined(LOG4CPLUS_DISABLE_ERROR)
@@ -222,7 +222,7 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
                 LOG4CPLUS_MACRO_FILE (), __LINE__,                      \
                 LOG4CPLUS_MACRO_FUNCTION ());                           \
         }                                                               \
-    } while (0)                                                         \
+    } while (false)                                                     \
     LOG4CPLUS_RESTORE_DOWHILE_WARNING()
 
 
@@ -238,7 +238,7 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
                 LOG4CPLUS_MACRO_FILE (), __LINE__,                      \
                 LOG4CPLUS_MACRO_FUNCTION ());                           \
         }                                                               \
-    } while(0)                                                          \
+    } while (false)                                                     \
     LOG4CPLUS_RESTORE_DOWHILE_WARNING()
 
 #define LOG4CPLUS_MACRO_FMT_BODY(logger, logLevel, ...)                 \
@@ -256,7 +256,7 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
                 LOG4CPLUS_MACRO_FILE (), __LINE__,                      \
                 LOG4CPLUS_MACRO_FUNCTION ());                           \
         }                                                               \
-    } while(0)                                                          \
+    } while (false)                                                     \
     LOG4CPLUS_RESTORE_DOWHILE_WARNING()
 
 /**
@@ -398,7 +398,7 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
             LOG4CPLUS_FATAL_STR ((logger),                              \
                 LOG4CPLUS_TEXT ("failed condition: ")                   \
                 LOG4CPLUS_TEXT (LOG4CPLUS_ASSERT_STRINGIFY (condition))); \
-    } while (0)                                                         \
+    } while (false)                                                     \
     LOG4CPLUS_RESTORE_DOWHILE_WARNING()
 
 
