@@ -44,7 +44,7 @@
 
 #define LOG4CPLUS_THROW_RTE(msg) \
     do { log4cplus::thread::impl::syncprims_throw_exception (msg, __FILE__, \
-            __LINE__); } while (0)
+            __LINE__); } while (false)
 
 namespace log4cplus { namespace thread {
 

@@ -190,7 +190,7 @@ loggingserver::ClientThread::run()
 {
     try
     {
-        while (1)
+        while (true)
         {
             if (!clientsock.isOpen())
                 break;
