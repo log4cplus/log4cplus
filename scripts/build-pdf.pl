@@ -22,8 +22,8 @@ my @FILES =
       , 'LICENSE' );
 
 my @PANDOC_1ST_STEP_SWITCHES =
-    (   '--self-contained'
-      , '--atx-headers'
+    ( '--self-contained'
+      , '--markdown-headings=atx'
       , '-f', 'markdown+smart'
       , '-t', 'markdown' );
 

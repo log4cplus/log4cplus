@@ -1,4 +1,3 @@
-if QT5
 lib_LTLIBRARIES += liblog4cplusqt5debugappender.la
 
 liblog4cplusqt5debugappender_la_cppflags = \
@@ -31,6 +30,4 @@ liblog4cplusqt5debugappenderU_la_SOURCES = \
 liblog4cplusqt5debugappenderU_la_LIBADD = $(liblog4cplusU_la_file)
 liblog4cplusqt5debugappenderU_la_LDFLAGS = \
 	$(liblog4cplusqt5debugappender_la_ldflags)
-endif
-
 endif
