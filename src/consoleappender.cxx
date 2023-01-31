@@ -24,6 +24,7 @@
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/property.h>
+#include <log4cplus/internal/env.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <ostream>
@@ -55,7 +56,8 @@ ConsoleAppender::getOutputMutex ()
 ConsoleAppender::ConsoleAppender(bool logToStdErr_,
     bool immediateFlush_)
 : logToStdErr(logToStdErr_),
-  immediateFlush(immediateFlush_)
+  immediateFlush(immediateFlush_),
+  locale(nullptr)
 {
 }
 
@@ -64,10 +66,18 @@ ConsoleAppender::ConsoleAppender(bool logToStdErr_,
 ConsoleAppender::ConsoleAppender(const helpers::Properties & properties)
 : Appender(properties),
   logToStdErr(false),
-  immediateFlush(false)
+  immediateFlush(false),
+  locale(nullptr)
 {
     properties.getBool (logToStdErr, LOG4CPLUS_TEXT("logToStdErr"));
     properties.getBool (immediateFlush, LOG4CPLUS_TEXT("ImmediateFlush"));
+
+    tstring localeName;
+    if (properties.getString(localeName, LOG4CPLUS_TEXT("Locale"))) {
+        locale = std::unique_ptr<std::locale> (new std::locale (internal::get_locale_by_name (localeName)));
+        // we need to flash immediately if non-default locale is used
+        immediateFlush = true;
+    }
 }
 
 
@@ -83,7 +93,7 @@ ConsoleAppender::~ConsoleAppender()
 // ConsoleAppender public methods
 //////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 ConsoleAppender::close()
 {
     helpers::getLogLog().debug(
@@ -103,9 +113,18 @@ ConsoleAppender::append(const spi::InternalLoggingEvent& event)
     thread::MutexGuard guard (getOutputMutex ());
 
     tostream& output = (logToStdErr ? tcerr : tcout);
+
+    std::locale cur_loc;
+    if (locale != nullptr) {
+        cur_loc = output.getloc();
+        output.imbue(*locale);
+    }
     layout->formatAndAppend(output, event);
     if(immediateFlush) {
         output.flush();
+    }
+    if (locale != nullptr) {
+        output.imbue(cur_loc);
     }
 }
 

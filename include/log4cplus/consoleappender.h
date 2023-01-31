@@ -31,6 +31,7 @@
 #endif
 
 #include <log4cplus/appender.h>
+#include <locale>
 
 namespace log4cplus {
     /**
@@ -47,6 +48,23 @@ namespace log4cplus {
      * <dt><tt>ImmediateFlush</tt></dt>
      * <dd>When it is set true, output stream will be flushed after
      * each appended event.</dd>
+     * 
+     * <dt><tt>Locale</tt></dt>
+     * <dd>This property specifies a locale name that will be imbued
+     * into output stream. Locale can be specified either by system
+     * specific locale name, e.g., <tt>en_US.UTF-8</tt>, or by one of
+     * four recognized keywords: <tt>GLOBAL</tt>, <tt>DEFAULT</tt>
+     * (which is an alias for <tt>GLOBAL</tt>), <tt>USER</tt> and
+     * <tt>CLASSIC</tt>. When specified locale is not available,
+     * <tt>GLOBAL</tt> is used instead. It is possible to register
+     * additional locale keywords by registering an instance of
+     * <code>spi::LocaleFactory</code> in
+     * <code>spi::LocaleFactoryRegistry</code>.
+     * \sa spi::getLocaleFactoryRegistry().
+     * 
+     * Note: if <tt>Locale</tt> is set, <tt>ImmediateFlush</tt> will
+     * be set to true automatically.
+     * </dd>
      * 
      * </dl>
      * \sa Appender
@@ -77,6 +95,8 @@ namespace log4cplus {
          * will be flushed at the end of each append operation.
          */
         bool immediateFlush;
+
+        std::unique_ptr<std::locale> locale;
     };
 
 } // end namespace log4cplus
