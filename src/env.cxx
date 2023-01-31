@@ -25,6 +25,8 @@
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/fileinfo.h>
+#include <log4cplus/helpers/property.h>
+#include <log4cplus/spi/factory.h>
 #include <log4cplus/streams.h>
 
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
@@ -147,6 +149,31 @@ get_env_var (tstring & value, tstring const & name)
     return !! val;
 
 #endif
+}
+
+
+std::locale
+get_locale_by_name(tstring const& locale_name)
+{
+    try
+    {
+        spi::LocaleFactoryRegistry& reg = spi::getLocaleFactoryRegistry();
+        spi::LocaleFactory* fact = reg.get(locale_name);
+        if (fact)
+        {
+            helpers::Properties props;
+            props.setProperty(LOG4CPLUS_TEXT("Locale"), locale_name);
+            return fact->createObject(props);
+        }
+        else
+            return std::locale(LOG4CPLUS_TSTRING_TO_STRING(locale_name).c_str());
+    }
+    catch (std::runtime_error const&)
+    {
+        helpers::getLogLog().error(
+            LOG4CPLUS_TEXT("Failed to create locale " + locale_name));
+        return std::locale();
+    }
 }
 
 
