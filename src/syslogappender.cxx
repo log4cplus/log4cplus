@@ -230,7 +230,7 @@ SysLogAppender::SysLogAppender(const tstring& id)
     // the address of the c_str() result remains stable for openlog &
     // co to use even if we use wstrings.
     , identStr(LOG4CPLUS_TSTRING_TO_STRING (id) )
-    , hostname (helpers::getHostname (true))
+    , hostname (helpers::getHostname (true).value_or ("-"))
 {
     ::openlog(useIdent(identStr), 0, 0);
 }
@@ -259,7 +259,7 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
 
     bool fqdn = true;
     properties.getBool (fqdn, LOG4CPLUS_TEXT ("fqdn"));
-    hostname = std::move(helpers::getHostname (fqdn));
+    hostname = std::move(helpers::getHostname (fqdn).value_or ("-"));
 
     properties.getString (host, LOG4CPLUS_TEXT ("host"))
       || properties.getString (host, LOG4CPLUS_TEXT ("SyslogHost"));
@@ -303,7 +303,7 @@ SysLogAppender::SysLogAppender(const tstring& id, const tstring & h,
     // the address of the c_str() result remains stable for openlog &
     // co to use even if we use wstrings.
     , identStr(LOG4CPLUS_TSTRING_TO_STRING (id) )
-    , hostname (helpers::getHostname (fqdn))
+    , hostname (helpers::getHostname (fqdn).value_or ("-"))
 {
     openSocket ();
     initConnector ();

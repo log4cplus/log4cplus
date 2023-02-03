@@ -419,12 +419,12 @@ verifyWindowsVersionAtLeast (DWORD major, DWORD minor)
 }
 
 
-tstring
+std::optional<tstring>
 getHostname (bool fqdn)
 {
     init_winsock ();
 
-    char const * hostname = "unknown";
+    char const * hostname = nullptr;
     int ret;
     // The initial size is based on information in the Microsoft article
     // <https://msdn.microsoft.com/en-us/library/ms738527(v=vs.85).aspx>
@@ -449,13 +449,13 @@ getHostname (bool fqdn)
                 helpers::getLogLog().error(
                     LOG4CPLUS_TEXT("Failed to get own hostname. Error: ")
                     + convertIntegerToString (wsaeno));
-                return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+                return { };
             }
         }
     }
 
-    if (ret != 0 || (ret == 0 && ! fqdn))
-        return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+    if (! fqdn)
+        return { LOG4CPLUS_C_STR_TO_TSTRING (hostname) };
 
     ADDRINFOT addr_info_hints{ };
     addr_info_hints.ai_family = AF_INET;
@@ -477,11 +477,11 @@ getHostname (bool fqdn)
         helpers::getLogLog ().error (
             LOG4CPLUS_TEXT ("Failed to resolve own hostname. Error: ")
             + convertIntegerToString (ret));
-        return LOG4CPLUS_STRING_TO_TSTRING (hostname);
+        return { LOG4CPLUS_C_STR_TO_TSTRING (hostname) };
     }
 
     addr_info.reset (ai);
-    return addr_info->ai_canonname;
+    return { addr_info->ai_canonname };
 }
 
 

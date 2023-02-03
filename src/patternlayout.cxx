@@ -610,7 +610,7 @@ RelativeTimestampConverter::convert (tstring & result,
 HostnamePatternConverter::HostnamePatternConverter (
     const FormattingInfo& info, bool fqdn)
     : PatternConverter(info)
-    , hostname_ (helpers::getHostname (fqdn))
+    , hostname_ (helpers::getHostname (fqdn).value_or ("-"))
 { }
 
 
