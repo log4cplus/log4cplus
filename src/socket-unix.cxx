@@ -413,7 +413,7 @@ write(SOCKET_TYPE sock, const std::string & buffer)
 tstring
 getHostname (bool fqdn)
 {
-    char const * hostname = "unknown";
+    char const * hostname = "-";
     int ret;
     std::vector<char> hn (1024, 0);
 
