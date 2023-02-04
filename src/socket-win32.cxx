@@ -424,7 +424,7 @@ getHostname (bool fqdn)
 {
     init_winsock ();
 
-    char const * hostname = "unknown";
+    char const * hostname = "-";
     int ret;
     // The initial size is based on information in the Microsoft article
     // <https://msdn.microsoft.com/en-us/library/ms738527(v=vs.85).aspx>

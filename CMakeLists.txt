@@ -37,7 +37,7 @@ message("-- Generating build for Log4cplus version ${log4cplus_version_major}.${
 set (log4cplus_soversion 3)
 set (log4cplus_postfix "")
 if (APPLE)
-  set (log4cplus_macho_current_version 7.0.0)
+  set (log4cplus_macho_current_version 8.0.0)
   set (log4cplus_macho_compatibility_version 3.0.0)
 endif ()
 

@@ -413,7 +413,7 @@ write(SOCKET_TYPE sock, const std::string & buffer)
 tstring
 getHostname (bool fqdn)
 {
-    char const * hostname = "unknown";
+    char const * hostname = "-";
     int ret;
     std::vector<char> hn (1024, 0);
 
@@ -425,11 +425,17 @@ getHostname (bool fqdn)
             hostname = &hn[0];
             break;
         }
+        else if (false
 #if defined (LOG4CPLUS_HAVE_ENAMETOOLONG)
-        else if (errno == ENAMETOOLONG)
+                 || errno == ENAMETOOLONG
+#endif
+#if defined (__GLIBC__) || defined (__GNU_LIBRARY__)
+                 // Before version 2.1, glibc uses EINVAL for this case.
+                 || errno == EINVAL
+#endif
+        )
             // Out buffer was too short. Retry with buffer twice the size.
             hn.resize (hn.size () * 2, 0);
-#endif
         else
             break;
     }

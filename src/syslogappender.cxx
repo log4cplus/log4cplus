@@ -244,7 +244,6 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
     , appendFunc (nullptr)
     , port (0)
     , connected (false)
-    , hostname (helpers::getHostname (true))
 {
     ident = properties.getProperty( LOG4CPLUS_TEXT("ident") );
     facility = parseFacility (
@@ -257,6 +256,10 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
     remoteSyslogType = udp ? RSTUdp : RSTTcp;
 
     properties.getBool (ipv6, LOG4CPLUS_TEXT ("IPv6"));
+
+    bool fqdn = true;
+    properties.getBool (fqdn, LOG4CPLUS_TEXT ("fqdn"));
+    hostname = std::move(helpers::getHostname (fqdn));
 
     properties.getString (host, LOG4CPLUS_TEXT ("host"))
       || properties.getString (host, LOG4CPLUS_TEXT ("SyslogHost"));
@@ -288,6 +291,13 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
 SysLogAppender::SysLogAppender(const tstring& id, const tstring & h,
     int p, const tstring & f, SysLogAppender::RemoteSyslogType rst,
     bool ipv6_ /*= false*/)
+    : SysLogAppender (id, h, p, f, rst, ipv6_, true)
+{ }
+
+
+SysLogAppender::SysLogAppender(const tstring& id, const tstring & h,
+    int p, const tstring & f, SysLogAppender::RemoteSyslogType rst,
+    bool ipv6_, bool fqdn)
     : ident (id)
     , facility (parseFacility (helpers::toLower (f)))
     , appendFunc (&SysLogAppender::appendRemote)
@@ -300,7 +310,7 @@ SysLogAppender::SysLogAppender(const tstring& id, const tstring & h,
     // the address of the c_str() result remains stable for openlog &
     // co to use even if we use wstrings.
     , identStr(LOG4CPLUS_TSTRING_TO_STRING (id) )
-    , hostname (helpers::getHostname (true))
+    , hostname (helpers::getHostname (fqdn))
 {
     openSocket ();
     initConnector ();
