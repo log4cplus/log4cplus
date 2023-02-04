@@ -274,14 +274,14 @@ CATCH_TEST_CASE ("Socket", "[sockets]")
         CATCH_SECTION ("FQDN")
         {
             auto result = getHostname(true);
-            CATCH_REQUIRE (result != "-");
+            CATCH_REQUIRE (result != LOG4CPLUS_C_STR_TO_TSTRING ("-"));
 
         }
 
         CATCH_SECTION ("non-FQDN")
         {
             auto result = getHostname(false);
-            CATCH_REQUIRE (result != "-");
+            CATCH_REQUIRE (result != LOG4CPLUS_C_STR_TO_TSTRING ("-"));
         }
     }
 }
