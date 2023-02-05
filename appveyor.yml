@@ -9,7 +9,7 @@ install:
 
 environment:
   matrix:
-    - PRJ_GEN: "Visual Studio 15 2017 Win64"
+    - PRJ_GEN: "Visual Studio 15 2017"
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2017"
       BDIR: msvc2017
       PRJ_CFG: Release
