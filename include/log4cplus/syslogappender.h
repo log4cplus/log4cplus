@@ -71,6 +71,10 @@ namespace log4cplus
      * <dd>Boolean value specifying whether to use IPv6 (true) or IPv4
      * (false). Default value is false.</dd>
      *
+     * <dt><tt>fqdn</tt></dt>
+     * <dd>Boolean value specifying whether to use FQDN for hostname field.
+     * Default value is true.</dd>
+     *
      * </dl>
      *
      * \note Messages sent to remote syslog using UDP are conforming
@@ -97,7 +101,7 @@ namespace log4cplus
 #endif
         SysLogAppender(const tstring& ident, const tstring & host,
             int port = 514, const tstring & facility = tstring (),
-            RemoteSyslogType remoteSyslogType = RSTUdp, bool ipv6 = false);
+            RemoteSyslogType remoteSyslogType = RSTUdp, bool ipv6 = false, bool fqdn = true);
         SysLogAppender(const log4cplus::helpers::Properties & properties);
 
       // Dtor

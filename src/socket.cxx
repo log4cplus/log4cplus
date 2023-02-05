@@ -22,6 +22,9 @@
 #include <log4cplus/internal/socket.h>
 #include <log4cplus/internal/internal.h>
 
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#include <catch.hpp>
+#endif
 
 namespace log4cplus::helpers {
 
@@ -260,6 +263,28 @@ openSocket(unsigned short port, bool udp, bool ipv6, SocketState& state)
 {
     return openSocket(log4cplus::internal::empty_str, port, udp, ipv6, state);
 }
+
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+CATCH_TEST_CASE ("Socket", "[sockets]")
+{
+    CATCH_SECTION ("hostname resolution")
+    {
+        CATCH_SECTION ("FQDN")
+        {
+            auto result = getHostname(true);
+            CATCH_REQUIRE (result.has_value ());
+
+        }
+
+        CATCH_SECTION ("non-FQDN")
+        {
+            auto result = getHostname(false);
+            CATCH_REQUIRE (result.has_value ());
+        }
+    }
+}
+#endif // LOG4CPLUS_WITH_UNIT_TESTS
 
 
 } // namespace log4cplus::helpers

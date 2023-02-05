@@ -31,6 +31,7 @@
 #endif
 
 #include <array>
+#include <optional>
 
 #include <log4cplus/tstring.h>
 #include <log4cplus/helpers/socketbuffer.h>
@@ -154,7 +155,7 @@ namespace log4cplus {
         LOG4CPLUS_EXPORT long write(SOCKET_TYPE sock,
             const std::string & buffer);
 
-        LOG4CPLUS_EXPORT tstring getHostname (bool fqdn);
+        LOG4CPLUS_EXPORT std::optional<tstring> getHostname (bool fqdn);
         LOG4CPLUS_EXPORT int setTCPNoDelay (SOCKET_TYPE, bool);
 
     } // end namespace helpers

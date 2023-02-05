@@ -230,7 +230,7 @@ SysLogAppender::SysLogAppender(const tstring& id)
     // the address of the c_str() result remains stable for openlog &
     // co to use even if we use wstrings.
     , identStr(LOG4CPLUS_TSTRING_TO_STRING (id) )
-    , hostname (helpers::getHostname (true))
+    , hostname (helpers::getHostname (true).value_or (LOG4CPLUS_C_STR_TO_TSTRING ("-")))
 {
     ::openlog(useIdent(identStr), 0, 0);
 }
@@ -244,7 +244,6 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
     , appendFunc (nullptr)
     , port (0)
     , connected (false)
-    , hostname (helpers::getHostname (true))
 {
     ident = properties.getProperty( LOG4CPLUS_TEXT("ident") );
     facility = parseFacility (
@@ -257,6 +256,10 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
     remoteSyslogType = udp ? RSTUdp : RSTTcp;
 
     properties.getBool (ipv6, LOG4CPLUS_TEXT ("IPv6"));
+
+    bool fqdn = true;
+    properties.getBool (fqdn, LOG4CPLUS_TEXT ("fqdn"));
+    hostname = std::move(helpers::getHostname (fqdn).value_or (LOG4CPLUS_C_STR_TO_TSTRING ("-")));
 
     properties.getString (host, LOG4CPLUS_TEXT ("host"))
       || properties.getString (host, LOG4CPLUS_TEXT ("SyslogHost"));
@@ -287,7 +290,7 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
 
 SysLogAppender::SysLogAppender(const tstring& id, const tstring & h,
     int p, const tstring & f, SysLogAppender::RemoteSyslogType rst,
-    bool ipv6_ /*= false*/)
+    bool ipv6_ /*= false*/, bool fqdn /*= true*/)
     : ident (id)
     , facility (parseFacility (helpers::toLower (f)))
     , appendFunc (&SysLogAppender::appendRemote)
@@ -300,7 +303,7 @@ SysLogAppender::SysLogAppender(const tstring& id, const tstring & h,
     // the address of the c_str() result remains stable for openlog &
     // co to use even if we use wstrings.
     , identStr(LOG4CPLUS_TSTRING_TO_STRING (id) )
-    , hostname (helpers::getHostname (true))
+    , hostname (helpers::getHostname (fqdn).value_or (LOG4CPLUS_C_STR_TO_TSTRING ("-")))
 {
     openSocket ();
     initConnector ();
