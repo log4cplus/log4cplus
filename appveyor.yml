@@ -13,11 +13,15 @@ environment:
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2017"
       BDIR: msvc2017
       PRJ_CFG: Release
+    - PRJ_GEN: "Visual Studio 16 2019"
+      APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2019"
+      BDIR: msvc2017
+      PRJ_CFG: Release
 
 build_script:
   - mkdir build.%BDIR%
   - cd build.%BDIR%
-  - cmake .. -G "%PRJ_GEN%" "-DCMAKE_BUILD_TYPE=%PRJ_CFG%" %PARAMS%
+  - cmake .. -G "%PRJ_GEN%" -A x64 "-DCMAKE_BUILD_TYPE=%PRJ_CFG%" %PARAMS%
   - cmake --build . --config "%PRJ_CFG%" --clean-first
 
 test_script:
