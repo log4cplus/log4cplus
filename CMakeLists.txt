@@ -49,6 +49,11 @@ if (LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION)
   add_compile_definitions (LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION=1)
 endif(LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION)
 
+option(LOG4CPLUS_NO_AUTO_DESTROY "Do not automatically destroy the default logging context")
+if (LOG4CPLUS_NO_AUTO_DESTROY)
+  add_compile_definitions (LOG4CPLUS_NO_AUTO_DESTROY=1)
+endif ()
+
 option(LOG4CPLUS_ENABLE_THREAD_POOL "Instantiate internal thread pool for when AsyncAppend=true" ON)
 if (LOG4CPLUS_ENABLE_THREAD_POOL)
 add_compile_definitions (LOG4CPLUS_ENABLE_THREAD_POOL=1)
