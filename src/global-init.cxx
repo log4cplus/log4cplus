@@ -146,6 +146,26 @@ instantiate_thread_pool ()
 #endif
 
 
+//! Helper structure for holding progschj::ThreadPool pointer.
+//! It is necessary to have this so that we can correctly order
+//! destructors between Hierarchy and the progschj::ThreadPool.
+//! Hierarchy wants to wait for outstading logging to finish
+//! therefore the ThreadPool can only be destroyed after that.
+struct ThreadPoolHolder
+{
+    std::atomic<progschj::ThreadPool*> thread_pool{};
+
+    ThreadPoolHolder () = default;
+    ThreadPoolHolder (ThreadPoolHolder const&) = delete;
+    ~ThreadPoolHolder ()
+    {
+        OutputDebugStringA("~ThreadPoolHolder ()");
+        auto const tp = thread_pool.exchange(nullptr, std::memory_order_release);
+        delete tp;
+    }
+};
+
+
 //! Default context.
 struct DefaultContext
 {
@@ -161,37 +181,31 @@ struct DefaultContext
     spi::FilterFactoryRegistry filter_factory_registry;
     spi::LocaleFactoryRegistry locale_factory_registry;
     Hierarchy hierarchy;
+    ThreadPoolHolder thread_pool;
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-    ~DefaultContext()
-    {
-        auto const tp = thread_pool.exchange (nullptr);
-        delete tp;
-    }
-
     progschj::ThreadPool *
     get_thread_pool (bool init)
     {
         if (init) {
             std::call_once (thread_pool_once, [&] {
-                thread_pool.store (instantiate_thread_pool ().release (), std::memory_order_release);
+                thread_pool.thread_pool.store (instantiate_thread_pool ().release (), std::memory_order_release);
             });
         }
         // cppreference.com says: The specification of release-consume ordering
         // is being revised, and the use of memory_order_consume is temporarily
         // discouraged. Thus, let's use memory_order_acquire.
-        return thread_pool.load (std::memory_order_acquire);
+        return thread_pool.thread_pool.load (std::memory_order_acquire);
     }
 
     void
     shutdown_thread_pool ()
     {
-        auto const tp = get_thread_pool (false);
+        auto const tp = thread_pool.thread_pool.exchange(nullptr, std::memory_order_release);
         delete tp;
     }
 
 private:
-    std::atomic<progschj::ThreadPool *> thread_pool {nullptr};
     std::once_flag thread_pool_once;
 #endif
 };
@@ -580,8 +594,8 @@ initialize ()
 void
 deinitialize ()
 {
-    shutdownThreadPool();
     Logger::shutdown ();
+    shutdownThreadPool();
 }
 
 
