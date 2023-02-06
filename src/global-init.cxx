@@ -609,7 +609,7 @@ threadCleanup ()
     //
     // This function can be called from TLS initializer/terminator by loader
     // when log4cplus is compiled and linked to as a static library. In case of
-    // other threads temination, it should do its job and free per-thread
+    // other threads termination, it should do its job and free per-thread
     // data. However, when the whole process is being terminated, it is called
     // after the CRT has been uninitialized and the CRT heap is not available
     // any more. In such case, instead of crashing, we just give up and leak
