@@ -116,4 +116,11 @@ close $fh2;
             || $line =~ s/^(\s* set \s* \( \s* log4cplus_macho_compatibility_version \s*) (\d+(?:\.\d+)+)/$1$so_current_adjusted.0.0/x;
         print $line;
     }
+
+    local @ARGV = ("appveyor.yml");
+    while (my $line = <>)
+    {
+        $line =~ s/^(version:\s+).*$/$1$version.{build}-{branch}/x;
+        print $line;
+    }
 }
