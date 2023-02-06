@@ -159,7 +159,6 @@ struct ThreadPoolHolder
     ThreadPoolHolder (ThreadPoolHolder const&) = delete;
     ~ThreadPoolHolder ()
     {
-        OutputDebugStringA("~ThreadPoolHolder ()");
         auto const tp = thread_pool.exchange(nullptr, std::memory_order_release);
         delete tp;
     }
