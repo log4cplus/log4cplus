@@ -39,6 +39,7 @@
 
 #include <vector>
 #include <log4cplus/tstring.h>
+#include <locale>
 
 #if defined (_WIN32)
 #include <log4cplus/config/windowsh-inc.h>
@@ -56,6 +57,9 @@ namespace log4cplus { namespace internal {
 
 //! Get environment variable value.
 bool get_env_var (tstring & value, tstring const & name);
+
+//! Get locale.
+std::locale get_locale_by_name(tstring const& locale_name);
 
 //! Parse a string as a boolean value.
 bool parse_bool (bool & val, tstring const & str);

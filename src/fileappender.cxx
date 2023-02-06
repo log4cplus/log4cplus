@@ -27,7 +27,6 @@
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/fileinfo.h>
 #include <log4cplus/spi/loggingevent.h>
-#include <log4cplus/spi/factory.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/internal/env.h>
@@ -190,30 +189,6 @@ rolloverFiles(const tstring& filename, unsigned int maxBackupIndex)
     }
 } // end rolloverFiles()
 
-
-static
-std::locale
-get_locale_by_name (tstring const & locale_name)
-{try
-{
-    spi::LocaleFactoryRegistry & reg = spi::getLocaleFactoryRegistry ();
-    spi::LocaleFactory * fact = reg.get (locale_name);
-    if (fact)
-    {
-        helpers::Properties props;
-        props.setProperty (LOG4CPLUS_TEXT ("Locale"), locale_name);
-        return fact->createObject (props);
-    }
-    else
-        return std::locale (LOG4CPLUS_TSTRING_TO_STRING (locale_name).c_str ());
-}
-catch (std::runtime_error const &)
-{
-    helpers::getLogLog ().error (
-        LOG4CPLUS_TEXT ("Failed to create locale " + locale_name));
-    return std::locale ();
-}}
-
 } // namespace
 
 
@@ -304,7 +279,7 @@ FileAppenderBase::init()
     }
 
     open(fileOpenMode);
-    imbue (get_locale_by_name (localeName));
+    imbue (internal::get_locale_by_name (localeName));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
