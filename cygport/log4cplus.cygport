@@ -11,12 +11,12 @@ SRC_URI="mirror://sourceforge/log4cplus/log4cplus-stable/${PV%-rc*}/${P}.tar.xz"
 
 PATCH_URI="configure.ac.patch"
 
-PKG_NAMES="lib${PN}2.0_3 lib${PN}qt4debugappender2.0_3
+PKG_NAMES="lib${PN}2.0_9 lib${PN}qt4debugappender2.0_9
            lib${PN}-devel lib${PN}qt4debugappender-devel"
-liblog4cplus2_0_3_SUMMARY="${SUMMARY} (runtime)"
-liblog4cplus2_0_3_CONTENTS="usr/bin/cyglog4cplus-2-0-3.dll"
-liblog4cplusqt4debugappender2_0_3_SUMMARY="${SUMMARY} (Qt4 runtime)"
-liblog4cplusqt4debugappender2_0_3_CONTENTS="usr/bin/cyglog4cplusqt4*-2-0-3.dll"
+liblog4cplus2_0_9_SUMMARY="${SUMMARY} (runtime)"
+liblog4cplus2_0_9_CONTENTS="usr/bin/cyglog4cplus-2-0-9.dll"
+liblog4cplusqt4debugappender2_0_9_SUMMARY="${SUMMARY} (Qt4 runtime)"
+liblog4cplusqt4debugappender2_0_9_CONTENTS="usr/bin/cyglog4cplusqt4*-2-0-9.dll"
 liblog4cplus_devel_SUMMARY="${SUMMARY} (development)"
 liblog4cplus_devel_CONTENTS="--exclude=*qt4* usr/include/ usr/lib/ usr/share/doc/"
 liblog4cplusqt4debugappender_devel_SUMMARY="${SUMMARY} (Qt4 development)"
