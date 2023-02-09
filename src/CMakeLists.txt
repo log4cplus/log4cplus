@@ -9,6 +9,7 @@ set (log4cplus_sources
   consoleappender.cxx
   cygwin-win32.cxx
   env.cxx
+  exception.cxx
   factory.cxx
   fileappender.cxx
   fileinfo.cxx
@@ -190,6 +191,7 @@ install(FILES ../include/log4cplus/appender.h
               ../include/log4cplus/config.hxx
               ../include/log4cplus/configurator.h
               ../include/log4cplus/consoleappender.h
+              ../include/log4cplus/exception.h
               ../include/log4cplus/fileappender.h
               ../include/log4cplus/fstreams.h
               ../include/log4cplus/hierarchy.h

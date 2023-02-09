@@ -34,6 +34,7 @@
 #include <locale>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 #include <log4cplus/streams.h>
 #include <log4cplus/fstreams.h>
 #include <log4cplus/helpers/stringhelper.h>
@@ -41,6 +42,7 @@
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/internal/env.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/exception.h>
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
 #include <catch.hpp>
@@ -162,7 +164,7 @@ imbue_file_from_flags (tistream & file, unsigned flags)
                 // TODO: This should actually be a custom "null" facet
                 // that just copies the chars to wchar_t buffer.
                 new std::codecvt<wchar_t, char, std::mbstate_t>));
-    break;
+        break;
 
 #endif
 
@@ -219,7 +221,7 @@ Properties::Properties(const tstring& inputFile, unsigned f)
         std::ios::binary);
     if (! file.good ())
         helpers::getLogLog ().error (LOG4CPLUS_TEXT ("could not open file ")
-            + inputFile);
+            + inputFile, (flags & Properties::fThrow) != 0);
 
     init(file);
 }
@@ -536,6 +538,14 @@ CATCH_TEST_CASE ("Properties", "[properties]")
                 PROP_ABC) != std::end (names));
         CATCH_REQUIRE (std::find (std::begin (names), std::end (names),
                 PROP_SECOND) != std::end (names));
+    }
+
+    CATCH_SECTION ("throw on nonexistent file")
+    {
+        auto && f = [] {
+            Properties props (LOG4CPLUS_TEXT ("xxx does not exist"), Properties::fThrow);
+        };
+        CATCH_REQUIRE_THROWS_AS (f (), log4cplus::exception);
     }
 }
 #endif

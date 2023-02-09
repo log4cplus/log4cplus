@@ -61,6 +61,7 @@ namespace log4cplus {
 #if defined (LOG4CPLUS_HAVE_CODECVT_UTF32_FACET) && defined (UNICODE)
                 , fUTF32            = (3 << fEncodingShift)
 #endif
+                , fThrow            = (1 << 5)
             };
 
             Properties();

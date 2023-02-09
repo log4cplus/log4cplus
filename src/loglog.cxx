@@ -24,6 +24,7 @@
 #include <log4cplus/thread/threads.h>
 #include <log4cplus/internal/env.h>
 #include <log4cplus/consoleappender.h>
+#include <log4cplus/exception.h>
 #include <ostream>
 #include <stdexcept>
 
@@ -181,7 +182,7 @@ LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
     }
 
     if (LOG4CPLUS_UNLIKELY (throw_flag))
-        throw std::runtime_error (LOG4CPLUS_TSTRING_TO_STRING (msg));
+        throw log4cplus::exception (msg);
 }
 
 

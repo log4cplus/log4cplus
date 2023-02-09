@@ -4,13 +4,14 @@ SINGLE_THREADED_SRC = \
 	%D%/appenderattachableimpl.cxx \
 	%D%/appender.cxx \
 	%D%/asyncappender.cxx \
-        %D%/callbackappender.cxx \
+	%D%/callbackappender.cxx \
 	%D%/clogger.cxx \
 	%D%/configurator.cxx \
 	%D%/connectorthread.cxx \
 	%D%/consoleappender.cxx \
 	%D%/cygwin-win32.cxx \
 	%D%/env.cxx \
+	%D%/exception.cxx \
 	%D%/factory.cxx \
 	%D%/fileappender.cxx \
 	%D%/fileinfo.cxx \

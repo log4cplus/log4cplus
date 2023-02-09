@@ -175,30 +175,39 @@ namespace
     unsigned
     pcflag_to_pflags_encoding (unsigned pcflags)
     {
+        unsigned pflags = 0;
         switch (pcflags
             & (PropertyConfigurator::fEncodingMask
                 << PropertyConfigurator::fEncodingShift))
         {
 #if defined (LOG4CPLUS_HAVE_CODECVT_UTF8_FACET) && defined (UNICODE)
         case PropertyConfigurator::fUTF8:
-            return helpers::Properties::fUTF8;
+            pflags |= helpers::Properties::fUTF8;
+            break;
 #endif
 
 #if (defined (LOG4CPLUS_HAVE_CODECVT_UTF16_FACET) || defined (WIN32)) \
     && defined (UNICODE)
         case PropertyConfigurator::fUTF16:
-            return helpers::Properties::fUTF16;
+            pflags |= helpers::Properties::fUTF16;
+            break;
 #endif
 
 #if defined (LOG4CPLUS_HAVE_CODECVT_UTF32_FACET) && defined (UNICODE)
         case PropertyConfigurator::fUTF32:
-            return helpers::Properties::fUTF32;
+            pflags |= helpers::Properties::fUTF32;
+            break;
 #endif
 
         case PropertyConfigurator::fUnspecEncoding:;
         default:
-            return 0;
+            break;
         }
+
+        if ((pcflags & PropertyConfigurator::fThrow) != 0)
+            pflags |= helpers::Properties::fThrow;
+
+        return pflags;
     }
 
 } // namespace
