@@ -375,6 +375,7 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/config/windowsh-inc.h \
 	log4cplus/configurator.h \
 	log4cplus/consoleappender.h \
+	log4cplus/exception.h \
 	log4cplus/fileappender.h \
 	log4cplus/fstreams.h \
 	log4cplus/helpers/appenderattachableimpl.h \
