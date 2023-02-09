@@ -272,4 +272,4 @@ install(FILES ../include/log4cplus/config/macosx.h
 install(FILES ../README.md
               ../LICENSE
               ../ChangeLog
-        DESTINATION ${CMAKE_INSTALL_DATADIR}/log4cplus-${log4cplus_version_str})
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/log4cplus)
