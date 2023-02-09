@@ -120,7 +120,7 @@ public:
         //! ERROR_BIT signals error.
         ERROR_BIT   = 0x0010,
 
-        //! ERROR_AFTER signals error that has occured after queue has
+        //! ERROR_AFTER signals error that has occurred after queue has
         //! already been touched.
         ERROR_AFTER = 0x0020
     };
