@@ -1,3 +1,22 @@
+# log4cplus 2.1.0
+
+This release breaks ABI with 2.0.x. It is source compatible.
+
+  - Throw exception on nonexistent properties file,
+    if requested by `fThrow` flag.
+
+  - Generate pkgconfig file with CMake.
+
+  - Add locale support to ConsoleAppender. (Choy Kho Yee)
+
+  - Initialize thread pool for async logging on demand.
+
+  - SysLogAppender: Allow non-FQDN hostname
+    in syslog messages.
+
+  - Update Catch2 to v2.13.9.
+
+
 # log4cplus 2.0.8
 
   - Add CMake alias libraries. GitHub issue #511.
