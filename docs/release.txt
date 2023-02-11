@@ -17,8 +17,6 @@ revision, yet._
 
  #. Tag revision on branch. _Do not forget to push the tag._
 
- #. Write [news entry][2] to SourceForge.
-
  #. Use Pandoc with parameters
 
     ```

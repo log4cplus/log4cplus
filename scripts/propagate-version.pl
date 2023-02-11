@@ -42,9 +42,9 @@ while (my $line = <$fh2>)
           (\d+) \s* : \s* (\d+) \s* : \s* (\d+) \s*/x)
     {
         ($so_current, $so_revision, $so_age) = ($1, $2, $3);
+        $so_current_adjusted = $so_current - $so_age;
         print +("SO version: ", $so_current, ".", $so_revision, ".", $so_age,
                 "\n");
-        $so_current_adjusted = $so_current - $so_age;
         print +("MingGW/Cygwin version: ", $major, "-", $minor, "-",
                 $so_current_adjusted, "\n");
         last;
@@ -111,9 +111,16 @@ close $fh2;
     local @ARGV = ("CMakeLists.txt");
     while (my $line = <>)
     {
-        $line =~ s/^(\s* set \s* \( \s* log4cplus_soversion \s*) (\d+)/$1$so_current_adjusted/x
+        $line =~ s/^(\s* set \s* \( \s* log4cplus_soversion \s*) [^)]* (\).*)$/$1$so_current_adjusted$2/x
             || $line =~ s/^(\s* set \s* \( \s* log4cplus_macho_current_version \s*) (\d+(?:\.\d+)+)/$1$so_current.0.0/x
             || $line =~ s/^(\s* set \s* \( \s* log4cplus_macho_compatibility_version \s*) (\d+(?:\.\d+)+)/$1$so_current_adjusted.0.0/x;
+        print $line;
+    }
+
+    local @ARGV = ("appveyor.yml");
+    while (my $line = <>)
+    {
+        $line =~ s/^(version:\s+).*$/$1$version.{build}-{branch}/x;
         print $line;
     }
 }
