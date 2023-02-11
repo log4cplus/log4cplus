@@ -21,6 +21,6 @@ jobs:
         cd objdir
         ../configure --enable-shared --enable-unit-tests --with-working-locale
     - name: make
-      run: make
+      run: cd objdir ; make
     - name: make check
-      run: make check
+      run: cd objdir ; make check
