@@ -18,7 +18,8 @@ jobs:
     - name: configure
       run: |
         mkdir objdir
-        ./configure --enable-shared --enable-unit-tests --with-working-locale
+        cd objdir
+        ../configure --enable-shared --enable-unit-tests --with-working-locale
     - name: make
       run: make
     - name: make check
