@@ -30,7 +30,6 @@ AC_CACHE_CHECK([for thread_local], [ac_cv_thread_local],
         p_s = new S;]])],
     [ac_cv_thread_local=yes
      ax_tls_support=yes],
-    [ac_cv_thread_local=no],
     [ac_cv_thread_local=no])
 ])
 AS_IF([test "x$ac_cv_thread_local" = "xyes"],
@@ -65,7 +64,6 @@ AC_CACHE_CHECK([for __thread], [ac_cv__thread_keyword], [
       ]])],
     [ac_cv__thread_keyword=yes
      ax_tls_support=yes],
-    [ac_cv__thread_keyword=no],
     [ac_cv__thread_keyword=no])
 ])
 
@@ -99,7 +97,6 @@ And extra please fail.
          p_s = new S;]])],
     [ac_cv_declspec_thread=yes
      ax_tls_support=yes],
-    [ac_cv_declspec_thread=no],
     [ac_cv_declspec_thread=no])])
 
   AS_IF([test "x$ac_cv_declspec_thread" = "xyes"],
