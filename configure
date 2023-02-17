@@ -13395,17 +13395,14 @@ if test ${ac_cv_ax_type_socklen_t+y}
 then :
   printf %s "(cached) " >&6
 else $as_nop
-
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
-       #include <sys/types.h>
-       #include <sys/socket.h>
-
+#include <sys/types.h>
+  #include <sys/socket.h>
 int
 main (void)
 {
-socklen_t len = 42; return 0;
+socklen_t len = (socklen_t) 42; return (!len);
   ;
   return 0;
 }
