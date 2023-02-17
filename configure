@@ -9040,8 +9040,10 @@ case ".$ac_cv_cxxflags_warn_all" in #(
   .|.no|.no,*) :
      ;; #(
   *) :
-    if test ${CXXFLAGS+y}
+
+if test ${CXXFLAGS+y}
 then :
+
   case " $CXXFLAGS " in #(
   *" $ac_cv_cxxflags_warn_all "*) :
     { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: : CXXFLAGS already contains \$ac_cv_cxxflags_warn_all"; } >&5
@@ -9050,15 +9052,25 @@ then :
   printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; } ;; #(
   *) :
-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_warn_all\""; } >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all") 2>&5
+
+     as_fn_append CXXFLAGS " $ac_cv_cxxflags_warn_all"
+     { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS") 2>&5
   ac_status=$?
   printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-     as_fn_append CXXFLAGS " $ac_cv_cxxflags_warn_all" ;;
+     ;;
 esac
+
 else $as_nop
-  CXXFLAGS="$ac_cv_cxxflags_warn_all"
+
+  CXXFLAGS=$ac_cv_cxxflags_warn_all
+  { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+
 fi
  ;;
 esac
