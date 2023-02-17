@@ -12300,7 +12300,7 @@ main (void)
 _ACEOF
 if ac_fn_cxx_try_link "$LINENO"
 then :
-                                      if test -s conftest.err
+                                      if grep -- -Wattributes conftest.err
 then :
   ax_cv_have_func_attribute_constructor_priority=no
 else $as_nop
@@ -12358,7 +12358,7 @@ main (void)
 _ACEOF
 if ac_fn_cxx_try_link "$LINENO"
 then :
-                                      if test -s conftest.err
+                                      if grep -- -Wattributes conftest.err
 then :
   ax_cv_have_func_attribute_constructor=no
 else $as_nop
