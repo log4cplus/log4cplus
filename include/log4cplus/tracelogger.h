@@ -31,12 +31,30 @@
 #endif
 
 #include <log4cplus/logger.h>
-#include <source_location>
+#if __cpp_lib_source_location >= 201907L
+#  include <source_location>
+#elif __clang__
+#  include <experimental/source_location>
+#else
+#  error std::source_location is not available
+#endif
 
 
 namespace log4cplus
 {
 
+namespace detail
+{
+
+#if __cpp_lib_source_location >= 201907L
+using source_location = std::source_location;
+#elif __clang__
+using source_location = std::experimental::source_location;
+#else
+#  error std::source_location is not available
+#endif
+
+} // namespace detail
 
 /**
  * This class is used to produce "Trace" logging.  When an instance of
@@ -52,7 +70,8 @@ class TraceLogger
 {
 public:
     TraceLogger(Logger l, log4cplus::tstring _msg,
-        std::source_location _location = std::source_location::current ())
+        log4cplus::detail::source_location _location
+            = log4cplus::detail::source_location::current ())
         : logger(std::move (l)), msg(std::move (_msg)), file(_location.file_name ()),
           function(_location.function_name ()), line(static_cast<int>(_location.line ()))
     {
