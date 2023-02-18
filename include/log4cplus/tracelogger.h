@@ -31,6 +31,7 @@
 #endif
 
 #include <log4cplus/logger.h>
+#include <source_location>
 
 
 namespace log4cplus
@@ -51,11 +52,9 @@ class TraceLogger
 {
 public:
     TraceLogger(Logger l, log4cplus::tstring _msg,
-        const char* _file = LOG4CPLUS_CALLER_FILE (),
-        int _line = LOG4CPLUS_CALLER_LINE (),
-        char const * _function = LOG4CPLUS_CALLER_FUNCTION ())
-        : logger(std::move (l)), msg(std::move (_msg)), file(_file),
-          function(_function), line(_line)
+        std::source_location _location = std::source_location::current ())
+        : logger(std::move (l)), msg(std::move (_msg)), file(_location.file_name ()),
+          function(_location.function_name ()), line(static_cast<int>(_location.line ()))
     {
         if(logger.isEnabledFor(TRACE_LOG_LEVEL))
             logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg,
@@ -70,8 +69,8 @@ public:
     }
 
 private:
-    TraceLogger (TraceLogger const &);
-    TraceLogger & operator = (TraceLogger const &);
+    TraceLogger (TraceLogger const &) = delete;
+    TraceLogger & operator = (TraceLogger const &) = delete;
 
     Logger logger;
     log4cplus::tstring msg;

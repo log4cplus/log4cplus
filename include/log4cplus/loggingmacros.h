@@ -35,6 +35,7 @@
 #include <log4cplus/logger.h>
 #include <log4cplus/helpers/snprintf.h>
 #include <log4cplus/tracelogger.h>
+#include <source_location>
 #include <sstream>
 #include <utility>
 
@@ -143,26 +144,15 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 #undef LOG4CPLUS_MACRO_FUNCTION
 #define LOG4CPLUS_MACRO_FUNCTION() nullptr
 #if ! defined (LOG4CPLUS_DISABLE_FUNCTION_MACRO)
-#  if defined (LOG4CPLUS_HAVE_FUNCSIG_MACRO)
-#    undef LOG4CPLUS_MACRO_FUNCTION
-#    define LOG4CPLUS_MACRO_FUNCTION() __FUNCSIG__
-#  elif defined (LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO)
-#    undef LOG4CPLUS_MACRO_FUNCTION
-#    define LOG4CPLUS_MACRO_FUNCTION() __PRETTY_FUNCTION__
-#  elif defined (LOG4CPLUS_HAVE_FUNCTION_MACRO)
-#    undef LOG4CPLUS_MACRO_FUNCTION
-#    define LOG4CPLUS_MACRO_FUNCTION() __FUNCTION__
-#  elif defined (LOG4CPLUS_HAVE_FUNC_SYMBOL)
-#    undef LOG4CPLUS_MACRO_FUNCTION
-#    define LOG4CPLUS_MACRO_FUNCTION() __func__
-#  endif
+#  undef LOG4CPLUS_MACRO_FUNCTION
+#  define LOG4CPLUS_MACRO_FUNCTION() (_logLocation.function_name ())
 #endif
 
 #undef LOG4CPLUS_MACRO_FILE
 #define LOG4CPLUS_MACRO_FILE() nullptr
 #if ! defined (LOG4CPLUS_DISABLE_FILE_MACRO)
 #  undef LOG4CPLUS_MACRO_FILE
-#  define LOG4CPLUS_MACRO_FILE() __FILE__
+#  define LOG4CPLUS_MACRO_FILE() (_logLocation.file_name ())
 #endif
 
 
@@ -217,9 +207,12 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
                 _l.isEnabledFor (log4cplus::logLevel), logLevel)) {     \
             LOG4CPLUS_MACRO_INSTANTIATE_OSTRINGSTREAM (_log4cplus_buf); \
             _log4cplus_buf << logEvent;                                 \
+            std::source_location constexpr _logLocation                 \
+                = std::source_location::current ();                     \
             log4cplus::detail::macro_forced_log (_l,                    \
                 log4cplus::logLevel, _log4cplus_buf.str(),              \
-                LOG4CPLUS_MACRO_FILE (), __LINE__,                      \
+                LOG4CPLUS_MACRO_FILE (),                                \
+                static_cast<int>(_logLocation.line ()),                 \
                 LOG4CPLUS_MACRO_FUNCTION ());                           \
         }                                                               \
     } while (false)                                                     \
@@ -233,9 +226,12 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
             = log4cplus::detail::macros_get_logger (logger);            \
         if (LOG4CPLUS_MACRO_LOGLEVEL_PRED (                             \
                 _l.isEnabledFor (log4cplus::logLevel), logLevel)) {     \
+            std::source_location constexpr _logLocation                 \
+                = std::source_location::current ();                     \
             log4cplus::detail::macro_forced_log (_l,                    \
                 log4cplus::logLevel, logEvent,                          \
-                LOG4CPLUS_MACRO_FILE (), __LINE__,                      \
+                LOG4CPLUS_MACRO_FILE (),                                \
+                static_cast<int>(_logLocation.line ()),                 \
                 LOG4CPLUS_MACRO_FUNCTION ());                           \
         }                                                               \
     } while (false)                                                     \
@@ -251,9 +247,12 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
             LOG4CPLUS_MACRO_INSTANTIATE_SNPRINTF_BUF (_snpbuf);         \
             log4cplus::tchar const * _logEvent                          \
                 = _snpbuf.print (__VA_ARGS__);                          \
+            std::source_location constexpr _logLocation                 \
+                = std::source_location::current ();                     \
             log4cplus::detail::macro_forced_log (_l,                    \
                 log4cplus::logLevel, _logEvent,                         \
-                LOG4CPLUS_MACRO_FILE (), __LINE__,                      \
+                LOG4CPLUS_MACRO_FILE (),                                \
+                static_cast<int>(_logLocation.line ()),                 \
                 LOG4CPLUS_MACRO_FUNCTION ());                           \
         }                                                               \
     } while (false)                                                     \
@@ -268,8 +267,7 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 #if !defined(LOG4CPLUS_DISABLE_TRACE)
 #define LOG4CPLUS_TRACE_METHOD(logger, logEvent)                        \
     log4cplus::TraceLogger _log4cplus_trace_logger(logger, logEvent,    \
-        LOG4CPLUS_MACRO_FILE (), __LINE__,                              \
-        LOG4CPLUS_MACRO_FUNCTION ());
+        std::source_location::current ());
 #define LOG4CPLUS_TRACE(logger, logEvent)                               \
     LOG4CPLUS_MACRO_BODY (logger, logEvent, TRACE_LOG_LEVEL)
 #define LOG4CPLUS_TRACE_STR(logger, logEvent)                           \
