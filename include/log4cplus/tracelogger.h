@@ -31,12 +31,11 @@
 #endif
 
 #include <log4cplus/logger.h>
-#if defined (__cpp_lib_source_location) && __cpp_lib_source_location >= 201907L
+#if __has_include (<source_location>)
 #  include <source_location>
-#elif __clang__
+#endif
+#if __has_include (<experimental/source_location>)
 #  include <experimental/source_location>
-#else
-#  error std::source_location is not available
 #endif
 
 
@@ -48,7 +47,7 @@ namespace detail
 
 #if defined (__cpp_lib_source_location) && __cpp_lib_source_location >= 201907L
 using source_location = std::source_location;
-#elif __clang__
+#elif defined (__cpp_lib_experimental_source_location) && __cpp_lib_experimental_source_location >= 201505L
 using source_location = std::experimental::source_location;
 #else
 #  error std::source_location is not available
