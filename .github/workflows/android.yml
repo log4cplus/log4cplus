@@ -53,7 +53,7 @@ jobs:
             -DCMAKE_VERBOSE_MAKEFILE=ON \
             -DANDROID_TOOLCHAIN=clang \
             -DANDROID_ABI=${{ matrix.target-abi }} \
-            -DANDROID_PLATFORM=21 \
+            -DANDROID_PLATFORM=31 \
             -DCMAKE_CXX_STANDARD=20 \
             -S . \
             -B build.d \
