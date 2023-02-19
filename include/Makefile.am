@@ -30,6 +30,7 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/helpers/snprintf.h \
 	log4cplus/helpers/socket.h \
 	log4cplus/helpers/socketbuffer.h \
+	log4cplus/helpers/source_location.h \
 	log4cplus/helpers/stringhelper.h \
 	log4cplus/helpers/thread-config.h \
 	log4cplus/helpers/timehelper.h \
