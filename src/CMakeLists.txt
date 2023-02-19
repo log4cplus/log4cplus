@@ -233,6 +233,7 @@ install(FILES ../include/log4cplus/helpers/appenderattachableimpl.h
               ../include/log4cplus/helpers/snprintf.h
               ../include/log4cplus/helpers/socket.h
               ../include/log4cplus/helpers/socketbuffer.h
+              ../include/log4cplus/helpers/source_location.h
               ../include/log4cplus/helpers/stringhelper.h
               ../include/log4cplus/helpers/thread-config.h
               ../include/log4cplus/helpers/timehelper.h

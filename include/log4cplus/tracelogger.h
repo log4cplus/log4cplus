@@ -31,29 +31,12 @@
 #endif
 
 #include <log4cplus/logger.h>
-#if __has_include (<source_location>)
-#  include <source_location>
-#endif
-#if __has_include (<experimental/source_location>)
-#  include <experimental/source_location>
-#endif
+#include <log4cplus/helpers/source_location.h>
 
 
 namespace log4cplus
 {
 
-namespace detail
-{
-
-#if defined (__cpp_lib_source_location) && __cpp_lib_source_location >= 201907L
-using source_location = std::source_location;
-#elif defined (__cpp_lib_experimental_source_location) && __cpp_lib_experimental_source_location >= 201505L
-using source_location = std::experimental::source_location;
-#else
-#  error std::source_location is not available
-#endif
-
-} // namespace detail
 
 /**
  * This class is used to produce "Trace" logging.  When an instance of
@@ -69,27 +52,39 @@ class TraceLogger
 {
 public:
     TraceLogger(Logger l, log4cplus::tstring _msg,
-        log4cplus::detail::source_location _location
-            = log4cplus::detail::source_location::current ())
+        log4cplus::helpers::SourceLocation _location
+            = log4cplus::helpers::SourceLocation::current ())
         : logger(std::move (l)), msg(std::move (_msg)), file(_location.file_name ()),
-          function(_location.function_name ()), line(static_cast<int>(_location.line ()))
+          function(_location.function_name ()), line(_location.line ())
     {
-        if(logger.isEnabledFor(TRACE_LOG_LEVEL))
+        if (logger.isEnabledFor(TRACE_LOG_LEVEL))
+            logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg,
+                file, line, function);
+    }
+
+    TraceLogger(Logger l, log4cplus::tstring _msg,
+        const char* _file, int _line, char const * _function)
+        : logger(std::move (l)), msg(std::move (_msg)), file(_file),
+          function(_function), line(_line)
+    {
+        if (logger.isEnabledFor(TRACE_LOG_LEVEL))
             logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg,
                 file, line, function);
     }
 
     ~TraceLogger()
     {
-        if(logger.isEnabledFor(TRACE_LOG_LEVEL))
+        if (logger.isEnabledFor(TRACE_LOG_LEVEL))
             logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("EXIT:  ") + msg,
                 file, line, function);
     }
 
-private:
     TraceLogger (TraceLogger const &) = delete;
+    TraceLogger (TraceLogger &&) = delete;
     TraceLogger & operator = (TraceLogger const &) = delete;
+    TraceLogger & operator = (TraceLogger &&) = delete;
 
+private:
     Logger logger;
     log4cplus::tstring msg;
     const char* file;
