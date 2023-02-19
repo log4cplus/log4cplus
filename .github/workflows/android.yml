@@ -54,6 +54,7 @@ jobs:
             -DANDROID_TOOLCHAIN=clang \
             -DANDROID_ABI=${{ matrix.target-abi }} \
             -DANDROID_PLATFORM=31 \
+            -DANDROID_STL=c++_static \
             -DCMAKE_CXX_STANDARD=20 \
             -S . \
             -B build.d \
