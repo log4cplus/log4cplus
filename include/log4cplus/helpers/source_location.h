@@ -74,7 +74,8 @@ private:
 consteval SourceLocation
 SourceLocation::current (std::source_location loc) noexcept
 {
-    return SourceLocation {loc.file_name (), loc.line (), loc.function_name ()};
+    return SourceLocation {
+        loc.file_name (), static_cast<int>(loc.line ()), loc.function_name ()};
 }
 
 #else // #if defined (__cpp_lib_source_location) && __cpp_lib_source_location >= 201907L
