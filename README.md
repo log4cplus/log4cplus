@@ -16,7 +16,7 @@ Latest Project Information
 The latest up-to-date information for this project can be found
 on [GitHub][13] project page or [log4cplus wiki][4] there.
 Please submit bugs, patches, feature requests, etc.,
-there, or on [GitHub][13].
+on [GitHub][13].
 
 [4]: https://github.com/log4cplus/log4cplus/wiki
 [13]: https://github.com/log4cplus/log4cplus
@@ -458,7 +458,7 @@ The autotools and our `configure.ac` combo does not handle Solaris
 Studio compiler on Linux well enough and needs a little help with
 configuration of POSIX threads:
 
-~~~~{.bash}
+```sh
 $ COMMON_FLAGS="-L/lib/x86_64-linux-gnu/ \
 -L/usr/lib/x86_64-linux-gnu/ -mt=yes -O"
 
@@ -468,7 +468,7 @@ CXX=/opt/solarisstudio12.3/bin/CC \
 CFLAGS="$COMMON_FLAGS" \
 CXXFLAGS="$COMMON_FLAGS" \
 LDFLAGS="-lpthread"
-~~~~
+```
 
 
 HP-UX with `aCC`
@@ -706,7 +706,7 @@ Please use common sense. Follow the style of surrounding code. You can
 use the following Emacs style that is based on Microsoft's style as a
 guide line:
 
-~~~~{.commonlisp}
+```lisp
 ;; Custom MS like indentation style.
 (c-add-style "microsoft"
              '("stroustrup"
@@ -716,7 +716,7 @@ guide line:
                 (inher-cont . c-lineup-multi-inher)
                 (arglist-cont-nonempty . +)
                 (template-args-cont . +))))
-~~~~
+```
 
 
 Tools
