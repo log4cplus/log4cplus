@@ -3,7 +3,7 @@
 Short Description
 =================
 
-[log4cplus] is a simple to use C++17 logging API providing thread--safe,
+[log4cplus] is a simple to use C++20 logging API providing thread--safe,
 flexible, and arbitrarily granular control over log management and
 configuration.  It is modeled after the Java log4j API.
 
@@ -36,7 +36,7 @@ from log4net, log4cxx, log4cpp).
 Platform support
 ================
 
-[log4cplus] version 3.0 and beyond require C++17. [log4cplus] has been
+[log4cplus] version 3.0 and beyond require C++20. [log4cplus] has been
 ported to and tested on the following platforms:
 
   - Linux/AMD64 with GCC version 8.3.0 (Ubuntu 8.3.0-6ubuntu1)
@@ -59,7 +59,7 @@ on Linux platform offered by [Travis CI][11] service.
 The oldest Windows version that is supported by 2.x releases is Windows Vista.
 
 The following platforms were supported by the 1.x series of [log4cplus]. They
-either do not have a reasonable C++17 capable compiler or have not been checked
+either do not have a reasonable C++20 capable compiler or have not been checked
 with [log4cplus] 3.x, yet:
 
   - Minix 3.3.0/i386 with Clang version 3.4 (branches/release_34) with
@@ -635,7 +635,7 @@ Unsupported compilers and platforms
 
 [log4cplus] does not support too old or broken C++ compilers. Since [log4cplus]
 version 3.0.0, it means it does not support any platform or compiler without
-decent C++17 support.
+decent C++20 support.
 
   - Visual Studio prior to 2015
   - GCC prior to 4.8
