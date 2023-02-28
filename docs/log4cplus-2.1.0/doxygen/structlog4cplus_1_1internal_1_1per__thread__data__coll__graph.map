@@ -1,0 +1,7 @@
+<map id="log4cplus::internal::per_thread_data" name="log4cplus::internal::per_thread_data">
+<area shape="rect" id="node1" title="Per thread data." alt="" coords="292,104,419,145"/>
+<area shape="rect" id="node2" href="$structlog4cplus_1_1internal_1_1gft__scratch__pad.html" title=" " alt="" coords="19,5,145,47"/>
+<area shape="rect" id="node3" href="$structlog4cplus_1_1internal_1_1appender__sratch__pad.html" title=" " alt="" coords="5,71,159,112"/>
+<area shape="rect" id="node4" href="$classlog4cplus_1_1helpers_1_1snprintf__buf.html" title=" " alt="" coords="19,136,145,177"/>
+<area shape="rect" id="node5" href="$classlog4cplus_1_1spi_1_1InternalLoggingEvent.html" title="The internal representation of logging events." alt="" coords="7,201,157,243"/>
+</map>

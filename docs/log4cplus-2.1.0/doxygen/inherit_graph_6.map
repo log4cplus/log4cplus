@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classlog4cplus_1_1helpers_1_1AbstractSocket.html" title=" " alt="" coords="5,39,132,80"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1helpers_1_1ServerSocket.html" title="This class implements server sockets." alt="" coords="180,5,307,47"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1helpers_1_1Socket.html" title="This class implements client sockets (also called just &quot;sockets&quot;)." alt="" coords="180,71,307,112"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="loggingevent.h" name="loggingevent.h">
+<area shape="rect" id="node1" title=" " alt="" coords="111,5,218,32"/>
+<area shape="rect" id="node2" href="$queue_8h.html" title=" " alt="" coords="45,80,114,107"/>
+<area shape="rect" id="node4" href="$log4cplus_8h.html" title=" " alt="" coords="71,229,160,256"/>
+<area shape="rect" id="node5" href="$internal_8h.html" title="This header contains declaration internal to log4cplus." alt="" coords="227,80,303,107"/>
+<area shape="rect" id="node3" href="$asyncappender_8h.html" title=" " alt="" coords="5,155,127,181"/>
+<area shape="rect" id="node6" href="$customloglevelmanager_8h.html" title="This header contains declaration internal to log4cplus." alt="" coords="202,155,375,181"/>
+</map>

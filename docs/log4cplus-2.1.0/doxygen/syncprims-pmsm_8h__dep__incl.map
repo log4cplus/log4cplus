@@ -1,0 +1,5 @@
+<map id="syncprims&#45;pmsm.h" name="syncprims&#45;pmsm.h">
+<area shape="rect" id="node1" title="This file contains implementations of reader&#45;writer locking primitive using other primitives,..." alt="" coords="5,5,141,32"/>
+<area shape="rect" id="node2" href="$syncprims-cxx11_8h.html" title="This file contains implementations of synchronization primitives using the C++11 API." alt="" coords="7,80,140,107"/>
+<area shape="rect" id="node3" href="$syncprims-impl_8h.html" title=" " alt="" coords="12,155,135,181"/>
+</map>

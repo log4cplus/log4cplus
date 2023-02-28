@@ -1,0 +1,9 @@
+<map id="ndc.h" name="ndc.h">
+<area shape="rect" id="node1" title="This header defined the NDC class." alt="" coords="197,5,251,32"/>
+<area shape="rect" id="node2" href="$internal_8h.html" title="This header contains declaration internal to log4cplus." alt="" coords="95,155,171,181"/>
+<area shape="rect" id="node4" href="$log4cplus_8h.html" title=" " alt="" coords="270,304,359,331"/>
+<area shape="rect" id="node5" href="$loggingevent_8h.html" title=" " alt="" coords="171,80,277,107"/>
+<area shape="rect" id="node3" href="$customloglevelmanager_8h.html" title="This header contains declaration internal to log4cplus." alt="" coords="5,229,179,256"/>
+<area shape="rect" id="node6" href="$queue_8h.html" title=" " alt="" coords="267,155,336,181"/>
+<area shape="rect" id="node7" href="$asyncappender_8h.html" title=" " alt="" coords="254,229,375,256"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="log4cplus::BasicConfigurator" name="log4cplus::BasicConfigurator">
+<area shape="rect" id="node1" title="Use this class to quickly configure the package." alt="" coords="53,185,242,212"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1PropertyConfigurator.html" title="Provides configuration from an external file." alt="" coords="44,109,251,136"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1helpers_1_1Properties.html" title=" " alt="" coords="5,5,132,47"/>
+<area shape="rect" id="node4" href="$classlog4cplus_1_1Hierarchy.html" title="This class is specialized in retrieving loggers by name and also maintaining the logger hierarchy." alt="" coords="157,13,295,39"/>
+</map>

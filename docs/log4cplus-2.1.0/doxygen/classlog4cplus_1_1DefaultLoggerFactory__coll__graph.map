@@ -1,0 +1,4 @@
+<map id="log4cplus::DefaultLoggerFactory" name="log4cplus::DefaultLoggerFactory">
+<area shape="rect" id="node1" title="This class is used to create the default implementation of the Logger class." alt="" coords="18,80,185,121"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1spi_1_1LoggerFactory.html" title="Implement this interface to create new instances of Logger or a sub&#45;class of Logger." alt="" coords="5,5,197,32"/>
+</map>

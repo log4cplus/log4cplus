@@ -1,0 +1,5 @@
+<map id="log4cplus::spi::StringMatchFilter" name="log4cplus::spi::StringMatchFilter">
+<area shape="rect" id="node1" title="This is a very simple filter based on string matching." alt="" coords="5,169,184,211"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1spi_1_1Filter.html" title="Users should extend this class to implement customized logging event filtering." alt="" coords="27,95,163,121"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1helpers_1_1SharedObject.html" title=" " alt="" coords="31,5,158,47"/>
+</map>

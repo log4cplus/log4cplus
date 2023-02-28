@@ -1,0 +1,5 @@
+<map id="log4cplus::helpers::AbstractSocket" name="log4cplus::helpers::AbstractSocket">
+<area shape="rect" id="node1" title=" " alt="" coords="80,5,207,47"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1helpers_1_1ServerSocket.html" title="This class implements server sockets." alt="" coords="5,95,132,136"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1helpers_1_1Socket.html" title="This class implements client sockets (also called just &quot;sockets&quot;)." alt="" coords="156,95,283,136"/>
+</map>

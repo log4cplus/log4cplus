@@ -1,0 +1,11 @@
+<map id="log4cplus::spi::Filter" name="log4cplus::spi::Filter">
+<area shape="rect" id="node1" title="Users should extend this class to implement customized logging event filtering." alt="" coords="180,195,316,221"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1spi_1_1DenyAllFilter.html" title="This filter drops all logging events." alt="" coords="364,5,544,32"/>
+<area shape="rect" id="node4" href="$classlog4cplus_1_1spi_1_1FunctionFilter.html" title="This filter allows using std::function&lt;FilterResult(const InternalLoggingEvent &amp;)&gt;." alt="" coords="375,57,533,98"/>
+<area shape="rect" id="node5" href="$classlog4cplus_1_1spi_1_1LogLevelMatchFilter.html" title="This is a very simple filter based on LogLevel matching." alt="" coords="375,122,533,163"/>
+<area shape="rect" id="node6" href="$classlog4cplus_1_1spi_1_1LogLevelRangeFilter.html" title="This is a very simple filter based on LogLevel matching, which can be used to reject messages with Lo..." alt="" coords="375,187,533,229"/>
+<area shape="rect" id="node7" href="$classlog4cplus_1_1spi_1_1MDCMatchFilter.html" title="This is a simple filter based on the key/value pair stored in MDC." alt="" coords="367,253,541,294"/>
+<area shape="rect" id="node8" href="$classlog4cplus_1_1spi_1_1NDCMatchFilter.html" title="This is a simple filter based on the string returned by event.getNDC()." alt="" coords="368,318,540,359"/>
+<area shape="rect" id="node9" href="$classlog4cplus_1_1spi_1_1StringMatchFilter.html" title="This is a very simple filter based on string matching." alt="" coords="365,383,543,425"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1helpers_1_1SharedObject.html" title=" " alt="" coords="5,187,132,229"/>
+</map>

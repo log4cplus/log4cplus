@@ -1,0 +1,8 @@
+<map id="log4cplus::spi::AppenderAttachable" name="log4cplus::spi::AppenderAttachable">
+<area shape="rect" id="node1" title="This Interface is for attaching Appenders to objects." alt="" coords="73,5,237,47"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1Logger.html" title="This is the central class in the log4cplus package." alt="" coords="5,102,131,129"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1helpers_1_1AppenderAttachableImpl.html" title="This Interface is for attaching Appenders to objects." alt="" coords="155,95,328,136"/>
+<area shape="rect" id="node4" href="$classlog4cplus_1_1AsyncAppender.html" title="This Appender is a wrapper to which other appenders can be attached." alt="" coords="53,184,230,211"/>
+<area shape="rect" id="node5" href="$classlog4cplus_1_1spi_1_1LoggerImpl.html" title="This is the central class in the log4cplus package." alt="" coords="254,184,429,211"/>
+<area shape="rect" id="node6" href="$classlog4cplus_1_1spi_1_1RootLogger.html" title="RootLogger sits at the top of the logger hierachy." alt="" coords="253,259,429,285"/>
+</map>

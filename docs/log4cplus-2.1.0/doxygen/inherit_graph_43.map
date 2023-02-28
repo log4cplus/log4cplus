@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classlog4cplus_1_1spi_1_1ObjectRegistryBase.html" title="This is the base class used to implement the functionality required by the ObjectRegistry template cl..." alt="" coords="5,5,225,32"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1spi_1_1FactoryRegistry.html" title="This template class is used as a &quot;Factory Registry&quot;." alt="" coords="273,5,500,32"/>
+</map>

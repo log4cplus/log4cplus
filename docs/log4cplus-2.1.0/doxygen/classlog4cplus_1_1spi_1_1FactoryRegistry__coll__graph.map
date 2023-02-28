@@ -1,0 +1,5 @@
+<map id="log4cplus::spi::FactoryRegistry&lt; T &gt;" name="log4cplus::spi::FactoryRegistry&lt; T &gt;">
+<area shape="rect" id="node1" title="This template class is used as a &quot;Factory Registry&quot;." alt="" coords="5,185,232,212"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1spi_1_1ObjectRegistryBase.html" title="This is the base class used to implement the functionality required by the ObjectRegistry template cl..." alt="" coords="9,109,229,136"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1thread_1_1Mutex.html" title=" " alt="" coords="55,5,182,47"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="log4cplus::FileAppender" name="log4cplus::FileAppender">
+<area shape="rect" id="node1" title="Appends log events to a file." alt="" coords="114,244,275,271"/>
+<area shape="rect" id="node5" href="$classlog4cplus_1_1DailyRollingFileAppender.html" title="DailyRollingFileAppender extends FileAppender so that the underlying file is rolled over at a user ch..." alt="" coords="5,319,176,360"/>
+<area shape="rect" id="node6" href="$classlog4cplus_1_1RollingFileAppender.html" title="RollingFileAppender extends FileAppender to backup the log files when they reach a certain size." alt="" coords="200,326,400,353"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1FileAppenderBase.html" title="Base class for Appenders writing log events to a file." alt="" coords="99,169,290,196"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1Appender.html" title="Extend this class for implementing your own strategies for printing log statements." alt="" coords="124,95,265,121"/>
+<area shape="rect" id="node4" href="$classlog4cplus_1_1helpers_1_1SharedObject.html" title=" " alt="" coords="131,5,258,47"/>
+</map>

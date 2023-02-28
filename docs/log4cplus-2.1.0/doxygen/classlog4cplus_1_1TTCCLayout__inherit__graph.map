@@ -1,0 +1,4 @@
+<map id="log4cplus::TTCCLayout" name="log4cplus::TTCCLayout">
+<area shape="rect" id="node1" title="TTCC layout format consists of time, thread, Logger and nested diagnostic context information,..." alt="" coords="5,80,163,107"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1Layout.html" title="This class is used to layout strings sent to an {}." alt="" coords="23,5,145,32"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="log4cplus::Logger" name="log4cplus::Logger">
+<area shape="rect" id="node1" title="This is the central class in the log4cplus package." alt="" coords="897,22,1023,49"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1spi_1_1AppenderAttachable.html" title="This Interface is for attaching Appenders to objects." alt="" coords="5,5,169,47"/>
+<area shape="rect" id="node6" href="$classlog4cplus_1_1helpers_1_1AppenderAttachableImpl.html" title="This Interface is for attaching Appenders to objects." alt="" coords="361,44,535,85"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1spi_1_1LoggerImpl.html" title="This is the central class in the log4cplus package." alt="" coords="641,91,816,118"/>
+<area shape="rect" id="node4" href="$classlog4cplus_1_1helpers_1_1SharedObject.html" title=" " alt="" coords="385,109,511,151"/>
+<area shape="rect" id="node5" href="$classlog4cplus_1_1thread_1_1Mutex.html" title=" " alt="" coords="24,83,151,124"/>
+<area shape="rect" id="node7" href="$classlog4cplus_1_1helpers_1_1SharedObjectPtr.html" title=" " alt="" coords="343,175,553,216"/>
+<area shape="rect" id="node8" href="$classlog4cplus_1_1helpers_1_1SharedObjectPtr.html" title=" " alt="" coords="11,175,163,216"/>
+</map>

@@ -1,0 +1,12 @@
+<map id="loggerfactory.h" name="loggerfactory.h">
+<area shape="rect" id="node1" title=" " alt="" coords="293,5,405,32"/>
+<area shape="rect" id="node2" href="$logger_8h.html" title="This header defines the Logger class and the logging macros." alt="" coords="261,80,330,107"/>
+<area shape="rect" id="node9" href="$loggerimpl_8h.html" title=" " alt="" coords="453,80,548,107"/>
+<area shape="rect" id="node3" href="$configurator_8h.html" title=" " alt="" coords="5,229,108,256"/>
+<area shape="rect" id="node4" href="$log4cplus_8h.html" title=" " alt="" coords="181,304,271,331"/>
+<area shape="rect" id="node5" href="$hierarchy_8h.html" title=" " alt="" coords="183,229,269,256"/>
+<area shape="rect" id="node6" href="$hierarchylocker_8h.html" title=" " alt="" coords="235,155,356,181"/>
+<area shape="rect" id="node7" href="$loggingmacros_8h.html" title="This header defines the logging macros." alt="" coords="323,229,443,256"/>
+<area shape="rect" id="node8" href="$tracelogger_8h.html" title=" " alt="" coords="431,155,530,181"/>
+<area shape="rect" id="node10" href="$rootlogger_8h.html" title=" " alt="" coords="554,155,647,181"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="log4cplus::spi::LogLevelRangeFilter" name="log4cplus::spi::LogLevelRangeFilter">
+<area shape="rect" id="node1" title="This is a very simple filter based on LogLevel matching, which can be used to reject messages with Lo..." alt="" coords="5,169,164,211"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1spi_1_1Filter.html" title="Users should extend this class to implement customized logging event filtering." alt="" coords="17,95,153,121"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1helpers_1_1SharedObject.html" title=" " alt="" coords="21,5,148,47"/>
+</map>

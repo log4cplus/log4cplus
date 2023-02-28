@@ -1,0 +1,5 @@
+<map id="log4cplus::PatternLayout" name="log4cplus::PatternLayout">
+<area shape="rect" id="node1" title="A flexible layout configurable with pattern string." alt="" coords="17,171,182,197"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1Layout.html" title="This class is used to layout strings sent to an {}." alt="" coords="38,95,161,121"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1LogLevelManager.html" title="This class is used to &quot;manage&quot; LogLevel definitions." alt="" coords="5,5,193,32"/>
+</map>

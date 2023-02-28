@@ -1,0 +1,5 @@
+<map id="log4cplus::NullAppender" name="log4cplus::NullAppender">
+<area shape="rect" id="node1" title="Appends log events to a file." alt="" coords="5,169,169,196"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1Appender.html" title="Extend this class for implementing your own strategies for printing log statements." alt="" coords="17,95,158,121"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1helpers_1_1SharedObject.html" title=" " alt="" coords="24,5,151,47"/>
+</map>
