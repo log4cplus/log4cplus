@@ -1,0 +1,5 @@
+<map id="log4cplus::Log4jUdpAppender" name="log4cplus::Log4jUdpAppender">
+<area shape="rect" id="node1" title="Sends log events as Log4j XML to a remote a log server." alt="" coords="5,169,203,196"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1Appender.html" title="Extend this class for implementing your own strategies for printing log statements." alt="" coords="33,95,175,121"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1helpers_1_1SharedObject.html" title=" " alt="" coords="41,5,167,47"/>
+</map>

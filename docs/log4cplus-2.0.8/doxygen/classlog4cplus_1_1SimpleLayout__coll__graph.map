@@ -1,0 +1,5 @@
+<map id="log4cplus::SimpleLayout" name="log4cplus::SimpleLayout">
+<area shape="rect" id="node1" title="SimpleLayout consists of the LogLevel of the log statement, followed by &quot; &#45; &quot; and then the log messag..." alt="" coords="18,171,181,197"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1Layout.html" title="This class is used to layout strings sent to an {}." alt="" coords="38,95,161,121"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1LogLevelManager.html" title="This class is used to &quot;manage&quot; LogLevel definitions." alt="" coords="5,5,193,32"/>
+</map>

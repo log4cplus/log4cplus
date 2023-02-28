@@ -1,0 +1,10 @@
+<map id="socketbuffer.h" name="socketbuffer.h">
+<area shape="rect" id="node1" title=" " alt="" coords="194,5,301,32"/>
+<area shape="rect" id="node2" href="$helpers_2socket_8h.html" title=" " alt="" coords="211,80,284,107"/>
+<area shape="rect" id="node3" href="$connectorthread_8h.html" title=" " alt="" coords="79,155,210,181"/>
+<area shape="rect" id="node4" href="$socketappender_8h.html" title=" " alt="" coords="5,229,132,256"/>
+<area shape="rect" id="node6" href="$syslogappender_8h.html" title=" " alt="" coords="157,229,282,256"/>
+<area shape="rect" id="node7" href="$internal_2socket_8h.html" title="This header contains declaration internal to log4cplus." alt="" coords="285,155,359,181"/>
+<area shape="rect" id="node8" href="$log4judpappender_8h.html" title=" " alt="" coords="383,155,520,181"/>
+<area shape="rect" id="node5" href="$log4cplus_8h.html" title=" " alt="" coords="99,304,188,331"/>
+</map>

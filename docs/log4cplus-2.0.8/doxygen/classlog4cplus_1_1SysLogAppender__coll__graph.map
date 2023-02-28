@@ -1,0 +1,13 @@
+<map id="log4cplus::SysLogAppender" name="log4cplus::SysLogAppender">
+<area shape="rect" id="node1" title="Appends log events to a file." alt="" coords="1036,203,1220,230"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1Appender.html" title="Extend this class for implementing your own strategies for printing log statements." alt="" coords="751,78,892,105"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1helpers_1_1SharedObject.html" title=" " alt="" coords="349,5,475,47"/>
+<area shape="rect" id="node4" href="$classlog4cplus_1_1thread_1_1Mutex.html" title=" " alt="" coords="18,5,145,47"/>
+<area shape="rect" id="node5" href="$classlog4cplus_1_1helpers_1_1SharedObjectPtr.html" title=" " alt="" coords="325,71,499,112"/>
+<area shape="rect" id="node6" href="$classlog4cplus_1_1helpers_1_1SharedObjectPtr.html" title=" " alt="" coords="5,100,157,141"/>
+<area shape="rect" id="node8" href="$classlog4cplus_1_1helpers_1_1SharedObjectPtr.html" title=" " alt="" coords="523,123,713,179"/>
+<area shape="rect" id="node7" href="$classlog4cplus_1_1helpers_1_1IConnectorThreadClient.html" title="Interface implemented by users of ConnectorThread." alt="" coords="737,196,905,237"/>
+<area shape="rect" id="node9" href="$classlog4cplus_1_1helpers_1_1Socket.html" title="This class implements client sockets (also called just &quot;sockets&quot;)." alt="" coords="758,261,885,303"/>
+<area shape="rect" id="node10" href="$classlog4cplus_1_1helpers_1_1AbstractSocket.html" title=" " alt="" coords="349,261,475,303"/>
+<area shape="rect" id="node11" href="$classlog4cplus_1_1spi_1_1InternalLoggingEvent.html" title="The internal representation of logging events." alt="" coords="746,327,897,368"/>
+</map>

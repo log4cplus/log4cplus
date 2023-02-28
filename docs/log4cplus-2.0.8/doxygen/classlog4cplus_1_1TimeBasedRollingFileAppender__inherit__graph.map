@@ -1,0 +1,6 @@
+<map id="log4cplus::TimeBasedRollingFileAppender" name="log4cplus::TimeBasedRollingFileAppender">
+<area shape="rect" id="node1" title="TimeBasedRollingFileAppender extends FileAppenderBase so that the underlying file is rolled over at a..." alt="" coords="5,244,196,285"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1FileAppenderBase.html" title="Base class for Appenders writing log events to a file." alt="" coords="5,169,196,196"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1Appender.html" title="Extend this class for implementing your own strategies for printing log statements." alt="" coords="30,95,171,121"/>
+<area shape="rect" id="node4" href="$classlog4cplus_1_1helpers_1_1SharedObject.html" title=" " alt="" coords="37,5,164,47"/>
+</map>

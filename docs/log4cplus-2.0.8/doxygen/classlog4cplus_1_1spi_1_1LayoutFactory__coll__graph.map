@@ -1,0 +1,4 @@
+<map id="log4cplus::spi::LayoutFactory" name="log4cplus::spi::LayoutFactory">
+<area shape="rect" id="node1" title="This abstract class defines the &quot;Factory&quot; interface to create &quot;Layout&quot; objects." alt="" coords="5,80,196,107"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1spi_1_1BaseFactory.html" title="This is the base class for all factories." alt="" coords="11,5,191,32"/>
+</map>

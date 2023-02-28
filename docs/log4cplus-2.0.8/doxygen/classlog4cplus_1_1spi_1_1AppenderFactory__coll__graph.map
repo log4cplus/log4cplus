@@ -1,0 +1,4 @@
+<map id="log4cplus::spi::AppenderFactory" name="log4cplus::spi::AppenderFactory">
+<area shape="rect" id="node1" title="This abstract class defines the &quot;Factory&quot; interface to create &quot;Appender&quot; objects." alt="" coords="13,80,177,121"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1spi_1_1BaseFactory.html" title="This is the base class for all factories." alt="" coords="5,5,185,32"/>
+</map>

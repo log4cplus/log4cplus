@@ -1,0 +1,5 @@
+<map id="log4cplus::helpers::IConnectorThreadClient" name="log4cplus::helpers::IConnectorThreadClient">
+<area shape="rect" id="node1" title="Interface implemented by users of ConnectorThread." alt="" coords="117,5,285,47"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1SocketAppender.html" title="Sends spi::InternalLoggingEvent objects to a remote a log server." alt="" coords="5,95,188,121"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1SysLogAppender.html" title="Appends log events to a file." alt="" coords="213,95,397,121"/>
+</map>

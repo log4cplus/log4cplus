@@ -1,0 +1,23 @@
+<map id="log4cplus::Appender" name="log4cplus::Appender">
+<area shape="rect" id="node1" title="Extend this class for implementing your own strategies for printing log statements." alt="" coords="180,376,321,403"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1AsyncAppender.html" title="This Appender is a wrapper to which other appenders can be attached." alt="" coords="394,5,571,32"/>
+<area shape="rect" id="node4" href="$classlog4cplus_1_1CLFSAppender.html" title=" " alt="" coords="397,56,569,83"/>
+<area shape="rect" id="node5" href="$classlog4cplus_1_1CallbackAppender.html" title="Send log events to a C function callback." alt="" coords="387,107,578,133"/>
+<area shape="rect" id="node6" href="$classlog4cplus_1_1ConsoleAppender.html" title="ConsoleAppender appends log events to std::cout or std::cerr using a layout specified by the user." alt="" coords="387,157,578,184"/>
+<area shape="rect" id="node7" href="$classlog4cplus_1_1DeviceAppender.html" title=" " alt="" coords="393,209,573,250"/>
+<area shape="rect" id="node8" href="$classlog4cplus_1_1FileAppenderBase.html" title="Base class for Appenders writing log events to a file." alt="" coords="387,275,578,301"/>
+<area shape="rect" id="node13" href="$classlog4cplus_1_1Log4jUdpAppender.html" title="Sends log events as Log4j XML to a remote a log server." alt="" coords="384,325,581,352"/>
+<area shape="rect" id="node14" href="$classlog4cplus_1_1MSTTSAppender.html" title=" " alt="" coords="390,376,575,403"/>
+<area shape="rect" id="node15" href="$classlog4cplus_1_1NTEventLogAppender.html" title="Appends log events to NT EventLog." alt="" coords="377,427,588,453"/>
+<area shape="rect" id="node16" href="$classlog4cplus_1_1NullAppender.html" title="Appends log events to a file." alt="" coords="401,477,565,504"/>
+<area shape="rect" id="node17" href="$classlog4cplus_1_1Qt4DebugAppender.html" title=" " alt="" coords="383,528,582,555"/>
+<area shape="rect" id="node18" href="$classlog4cplus_1_1Qt5DebugAppender.html" title=" " alt="" coords="383,579,582,605"/>
+<area shape="rect" id="node19" href="$classlog4cplus_1_1SocketAppender.html" title="Sends spi::InternalLoggingEvent objects to a remote a log server." alt="" coords="391,629,574,656"/>
+<area shape="rect" id="node20" href="$classlog4cplus_1_1SysLogAppender.html" title="Appends log events to a file." alt="" coords="391,680,575,707"/>
+<area shape="rect" id="node21" href="$classlog4cplus_1_1Win32ConsoleAppender.html" title="Prints events to Win32 console." alt="" coords="369,731,596,757"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1helpers_1_1SharedObject.html" title=" " alt="" coords="5,369,132,410"/>
+<area shape="rect" id="node9" href="$classlog4cplus_1_1FileAppender.html" title="Appends log events to a file." alt="" coords="659,245,820,272"/>
+<area shape="rect" id="node12" href="$classlog4cplus_1_1TimeBasedRollingFileAppender.html" title="TimeBasedRollingFileAppender extends FileAppenderBase so that the underlying file is rolled over at a..." alt="" coords="644,297,835,338"/>
+<area shape="rect" id="node10" href="$classlog4cplus_1_1DailyRollingFileAppender.html" title="DailyRollingFileAppender extends FileAppender so that the underlying file is rolled over at a user ch..." alt="" coords="897,209,1068,250"/>
+<area shape="rect" id="node11" href="$classlog4cplus_1_1RollingFileAppender.html" title="RollingFileAppender extends FileAppender to backup the log files when they reach a certain size." alt="" coords="883,275,1083,301"/>
+</map>

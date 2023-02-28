@@ -1,0 +1,5 @@
+<map id="log4cplus::spi::MDCMatchFilter" name="log4cplus::spi::MDCMatchFilter">
+<area shape="rect" id="node1" title="This is a simple filter based on the key/value pair stored in MDC." alt="" coords="5,169,180,211"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1spi_1_1Filter.html" title="Users should extend this class to implement customized logging event filtering." alt="" coords="25,95,161,121"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1helpers_1_1SharedObject.html" title=" " alt="" coords="29,5,156,47"/>
+</map>

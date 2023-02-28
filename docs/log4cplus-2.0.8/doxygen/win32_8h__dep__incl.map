@@ -1,0 +1,52 @@
+<map id="win32.h" name="win32.h">
+<area shape="rect" id="node1" title=" " alt="" coords="1908,5,1975,32"/>
+<area shape="rect" id="node2" href="$config_8hxx.html" title=" " alt="" coords="1900,80,1983,107"/>
+<area shape="rect" id="node3" href="$appender_8h.html" title=" " alt="" coords="1550,304,1637,331"/>
+<area shape="rect" id="node4" href="$asyncappender_8h.html" title=" " alt="" coords="226,528,347,555"/>
+<area shape="rect" id="node5" href="$log4cplus_8h.html" title=" " alt="" coords="1157,603,1246,629"/>
+<area shape="rect" id="node6" href="$deviceappender_8hxx.html" title=" " alt="" coords="1597,379,1736,405"/>
+<area shape="rect" id="node7" href="$callbackappender_8h.html" title=" " alt="" coords="3214,379,3349,405"/>
+<area shape="rect" id="node8" href="$clfsappender_8h.html" title=" " alt="" coords="1760,379,1869,405"/>
+<area shape="rect" id="node9" href="$configurator_8h.html" title=" " alt="" coords="501,528,603,555"/>
+<area shape="rect" id="node10" href="$consoleappender_8h.html" title=" " alt="" coords="827,379,962,405"/>
+<area shape="rect" id="node11" href="$fileappender_8h.html" title=" " alt="" coords="1267,379,1371,405"/>
+<area shape="rect" id="node12" href="$hierarchylocker_8h.html" title=" " alt="" coords="738,528,859,555"/>
+<area shape="rect" id="node13" href="$log4judpappender_8h.html" title=" " alt="" coords="2597,379,2734,405"/>
+<area shape="rect" id="node14" href="$msttsappender_8h.html" title=" " alt="" coords="1894,379,2015,405"/>
+<area shape="rect" id="node15" href="$nteventlogappender_8h.html" title=" " alt="" coords="2040,379,2187,405"/>
+<area shape="rect" id="node16" href="$nullappender_8h.html" title=" " alt="" coords="1136,379,1243,405"/>
+<area shape="rect" id="node17" href="$qt4debugappender_8h.html" title=" " alt="" coords="2211,379,2354,405"/>
+<area shape="rect" id="node18" href="$qt5debugappender_8h.html" title=" " alt="" coords="2430,379,2573,405"/>
+<area shape="rect" id="node19" href="$socketappender_8h.html" title=" " alt="" coords="2758,379,2885,405"/>
+<area shape="rect" id="node20" href="$appenderattachable_8h.html" title=" " alt="" coords="352,379,499,405"/>
+<area shape="rect" id="node21" href="$appenderattachableimpl_8h.html" title=" " alt="" coords="201,453,373,480"/>
+<area shape="rect" id="node22" href="$logger_8h.html" title="This header defines the Logger class and the logging macros." alt="" coords="531,453,600,480"/>
+<area shape="rect" id="node23" href="$hierarchy_8h.html" title=" " alt="" coords="628,528,713,555"/>
+<area shape="rect" id="node24" href="$loggingmacros_8h.html" title="This header defines the logging macros." alt="" coords="2671,528,2791,555"/>
+<area shape="rect" id="node25" href="$factory_8h.html" title=" " alt="" coords="1037,379,1112,405"/>
+<area shape="rect" id="node26" href="$clogger_8h.html" title="Module: Log4CPLUS File: clogger.h Created: 01/2011 Author: Jens Rehsack." alt="" coords="3214,304,3290,331"/>
+<area shape="rect" id="node27" href="$fstreams_8h.html" title=" " alt="" coords="1278,304,1365,331"/>
+<area shape="rect" id="node28" href="$connectorthread_8h.html" title=" " alt="" coords="2469,304,2600,331"/>
+<area shape="rect" id="node29" href="$fileinfo_8h.html" title=" " alt="" coords="1703,229,1777,256"/>
+<area shape="rect" id="node30" href="$lockfile_8h.html" title=" " alt="" coords="1359,229,1433,256"/>
+<area shape="rect" id="node31" href="$loglog_8h.html" title=" " alt="" coords="3315,155,3384,181"/>
+<area shape="rect" id="node32" href="$pointer_8h.html" title=" " alt="" coords="374,155,447,181"/>
+<area shape="rect" id="node33" href="$filter_8h.html" title="This header defines Filter and all of it&#39;s subclasses." alt="" coords="1008,229,1067,256"/>
+<area shape="rect" id="node34" href="$property_8h.html" title=" " alt="" coords="675,453,757,480"/>
+<area shape="rect" id="node35" href="$queue_8h.html" title=" " alt="" coords="5,453,75,480"/>
+<area shape="rect" id="node36" href="$snprintf_8h.html" title=" " alt="" coords="2675,155,2754,181"/>
+<area shape="rect" id="node37" href="$internal_8h.html" title="This header contains declaration internal to log4cplus." alt="" coords="2830,229,2906,256"/>
+<area shape="rect" id="node38" href="$customloglevelmanager_8h.html" title="This header contains declaration internal to log4cplus." alt="" coords="2763,304,2936,331"/>
+<area shape="rect" id="node39" href="$helpers_2socket_8h.html" title=" " alt="" coords="2370,229,2443,256"/>
+<area shape="rect" id="node40" href="$internal_2socket_8h.html" title="This header contains declaration internal to log4cplus." alt="" coords="2270,304,2343,331"/>
+<area shape="rect" id="node41" href="$socketbuffer_8h.html" title=" " alt="" coords="2320,155,2427,181"/>
+<area shape="rect" id="node42" href="$stringhelper_8h.html" title=" " alt="" coords="3408,155,3509,181"/>
+<area shape="rect" id="node43" href="$timehelper_8h.html" title=" " alt="" coords="1631,155,1726,181"/>
+<area shape="rect" id="node44" href="$layout_8h.html" title=" " alt="" coords="1559,229,1627,256"/>
+<area shape="rect" id="node45" href="$initializer_8h.html" title=" " alt="" coords="3113,453,3197,480"/>
+<area shape="rect" id="node46" href="$cygwin-win32_8h.html" title=" " alt="" coords="3534,155,3645,181"/>
+<area shape="rect" id="node47" href="$env_8h.html" title=" " alt="" coords="3669,155,3723,181"/>
+<area shape="rect" id="node48" href="$loglevel_8h.html" title="This header defines the LogLevel type." alt="" coords="1075,155,1152,181"/>
+<area shape="rect" id="node49" href="$mdc_8h.html" title=" " alt="" coords="2881,155,2941,181"/>
+<area shape="rect" id="node50" href="$ndc_8h.html" title="This header defined the NDC class." alt="" coords="2965,155,3019,181"/>
+</map>

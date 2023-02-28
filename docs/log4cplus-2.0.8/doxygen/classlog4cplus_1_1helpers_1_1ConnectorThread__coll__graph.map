@@ -1,0 +1,8 @@
+<map id="log4cplus::helpers::ConnectorThread" name="log4cplus::helpers::ConnectorThread">
+<area shape="rect" id="node1" title="This class is used by SocketAppender and (remote) SysLogAppender to provide asynchronous re&#45;connectio..." alt="" coords="723,71,853,112"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1thread_1_1AbstractThread.html" title="There are many cross&#45;platform C++ Threading libraries." alt="" coords="466,5,593,47"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1helpers_1_1SharedObject.html" title=" " alt="" coords="269,5,396,47"/>
+<area shape="rect" id="node4" href="$classlog4cplus_1_1thread_1_1Mutex.html" title=" " alt="" coords="5,5,132,47"/>
+<area shape="rect" id="node5" href="$classlog4cplus_1_1helpers_1_1IConnectorThreadClient.html" title="Interface implemented by users of ConnectorThread." alt="" coords="445,71,613,112"/>
+<area shape="rect" id="node6" href="$classlog4cplus_1_1thread_1_1ManualResetEvent.html" title=" " alt="" coords="465,136,594,177"/>
+</map>

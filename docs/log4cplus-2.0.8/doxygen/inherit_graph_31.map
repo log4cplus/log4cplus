@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classlog4cplus_1_1Layout.html" title="This class is used to layout strings sent to an {}." alt="" coords="5,56,128,83"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1PatternLayout.html" title="A flexible layout configurable with pattern string." alt="" coords="176,5,341,32"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1SimpleLayout.html" title="SimpleLayout consists of the LogLevel of the log statement, followed by &quot; &#45; &quot; and then the log messag..." alt="" coords="177,56,340,83"/>
+<area shape="rect" id="node4" href="$classlog4cplus_1_1TTCCLayout.html" title="TTCC layout format consists of time, thread, Logger and nested diagnostic context information,..." alt="" coords="180,107,337,133"/>
+</map>

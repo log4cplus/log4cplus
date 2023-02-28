@@ -1,0 +1,13 @@
+<map id="syncprims&#45;impl.h" name="syncprims&#45;impl.h">
+<area shape="rect" id="node1" title=" " alt="" coords="433,5,556,32"/>
+<area shape="rect" id="node2" href="$config_8hxx.html" title=" " alt="" coords="115,177,261,203"/>
+<area shape="rect" id="node5" title=" " alt="" coords="533,87,611,114"/>
+<area shape="rect" id="node6" href="$syncprims_8h.html" title=" " alt="" coords="259,87,458,114"/>
+<area shape="rect" id="node7" title=" " alt="" coords="300,177,359,203"/>
+<area shape="rect" id="node8" title=" " alt="" coords="407,177,535,203"/>
+<area shape="rect" id="node9" title=" " alt="" coords="636,87,695,114"/>
+<area shape="rect" id="node10" href="$syncprims-cxx11_8h.html" title="This file contains implementations of synchronization primitives using the C++11 API." alt="" coords="719,80,871,121"/>
+<area shape="rect" id="node3" href="$win32_8h.html" title=" " alt="" coords="5,266,176,293"/>
+<area shape="rect" id="node4" href="$thread-config_8h.html" title=" " alt="" coords="200,259,371,300"/>
+<area shape="rect" id="node11" href="$syncprims-pmsm_8h.html" title="This file contains implementations of reader&#45;writer locking primitive using other primitives,..." alt="" coords="719,169,871,211"/>
+</map>

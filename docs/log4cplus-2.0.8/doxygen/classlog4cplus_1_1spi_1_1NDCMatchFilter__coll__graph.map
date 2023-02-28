@@ -1,0 +1,8 @@
+<map id="log4cplus::spi::NDCMatchFilter" name="log4cplus::spi::NDCMatchFilter">
+<area shape="rect" id="node1" title="This is a simple filter based on the string returned by event.getNDC()." alt="" coords="69,289,241,331"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1spi_1_1Filter.html" title="Users should extend this class to implement customized logging event filtering." alt="" coords="87,213,223,240"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1helpers_1_1SharedObject.html" title=" " alt="" coords="5,109,132,151"/>
+<area shape="rect" id="node4" href="$classlog4cplus_1_1thread_1_1Mutex.html" title=" " alt="" coords="5,5,132,47"/>
+<area shape="rect" id="node5" href="$classlog4cplus_1_1helpers_1_1SharedObjectPtr.html" title=" " alt="" coords="157,109,330,151"/>
+<area shape="rect" id="node6" href="$classlog4cplus_1_1helpers_1_1SharedObjectPtr.html" title=" " alt="" coords="167,5,319,47"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="log4cplus::spi::RootLogger" name="log4cplus::spi::RootLogger">
+<area shape="rect" id="node1" title="RootLogger sits at the top of the logger hierachy." alt="" coords="865,83,1041,110"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1spi_1_1LoggerImpl.html" title="This is the central class in the log4cplus package." alt="" coords="641,83,816,110"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1helpers_1_1SharedObject.html" title=" " alt="" coords="385,5,511,47"/>
+<area shape="rect" id="node4" href="$classlog4cplus_1_1thread_1_1Mutex.html" title=" " alt="" coords="24,15,151,56"/>
+<area shape="rect" id="node5" href="$classlog4cplus_1_1helpers_1_1AppenderAttachableImpl.html" title="This Interface is for attaching Appenders to objects." alt="" coords="361,76,535,117"/>
+<area shape="rect" id="node6" href="$classlog4cplus_1_1spi_1_1AppenderAttachable.html" title="This Interface is for attaching Appenders to objects." alt="" coords="5,92,169,133"/>
+<area shape="rect" id="node7" href="$classlog4cplus_1_1helpers_1_1SharedObjectPtr.html" title=" " alt="" coords="343,153,553,195"/>
+<area shape="rect" id="node8" href="$classlog4cplus_1_1helpers_1_1SharedObjectPtr.html" title=" " alt="" coords="11,157,163,199"/>
+</map>

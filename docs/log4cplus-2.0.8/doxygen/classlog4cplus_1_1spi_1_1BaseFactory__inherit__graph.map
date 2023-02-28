@@ -1,0 +1,7 @@
+<map id="log4cplus::spi::BaseFactory" name="log4cplus::spi::BaseFactory">
+<area shape="rect" id="node1" title="This is the base class for all factories." alt="" coords="5,97,185,123"/>
+<area shape="rect" id="node2" href="$classlog4cplus_1_1spi_1_1AppenderFactory.html" title="This abstract class defines the &quot;Factory&quot; interface to create &quot;Appender&quot; objects." alt="" coords="247,5,411,47"/>
+<area shape="rect" id="node3" href="$classlog4cplus_1_1spi_1_1FilterFactory.html" title="This abstract class defines the &quot;Factory&quot; interface to create &quot;Appender&quot; objects." alt="" coords="239,71,419,98"/>
+<area shape="rect" id="node4" href="$classlog4cplus_1_1spi_1_1LayoutFactory.html" title="This abstract class defines the &quot;Factory&quot; interface to create &quot;Layout&quot; objects." alt="" coords="233,122,424,149"/>
+<area shape="rect" id="node5" href="$classlog4cplus_1_1spi_1_1LocaleFactory.html" title="This abstract class defines the &quot;Factory&quot; interface to create std::locale instances." alt="" coords="233,173,424,199"/>
+</map>

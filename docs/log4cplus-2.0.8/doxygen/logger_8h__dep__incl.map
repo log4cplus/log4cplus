@@ -1,0 +1,9 @@
+<map id="logger.h" name="logger.h">
+<area shape="rect" id="node1" title="This header defines the Logger class and the logging macros." alt="" coords="211,5,281,32"/>
+<area shape="rect" id="node2" href="$configurator_8h.html" title=" " alt="" coords="5,155,108,181"/>
+<area shape="rect" id="node3" href="$log4cplus_8h.html" title=" " alt="" coords="181,229,271,256"/>
+<area shape="rect" id="node4" href="$hierarchy_8h.html" title=" " alt="" coords="183,155,269,181"/>
+<area shape="rect" id="node5" href="$hierarchylocker_8h.html" title=" " alt="" coords="235,80,356,107"/>
+<area shape="rect" id="node6" href="$loggingmacros_8h.html" title="This header defines the logging macros." alt="" coords="323,155,443,181"/>
+<area shape="rect" id="node7" href="$tracelogger_8h.html" title=" " alt="" coords="431,80,530,107"/>
+</map>
