@@ -59,7 +59,7 @@ static
 void
 output_xml_escaped (tostream & os, tstring const & str)
 {
-    for (char ch : str)
+    for (tchar ch : str)
     {
         switch (ch)
         {

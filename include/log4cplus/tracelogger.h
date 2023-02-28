@@ -31,6 +31,7 @@
 #endif
 
 #include <log4cplus/logger.h>
+#include <log4cplus/helpers/source_location.h>
 
 
 namespace log4cplus
@@ -51,28 +52,39 @@ class TraceLogger
 {
 public:
     TraceLogger(Logger l, log4cplus::tstring _msg,
-        const char* _file = LOG4CPLUS_CALLER_FILE (),
-        int _line = LOG4CPLUS_CALLER_LINE (),
-        char const * _function = LOG4CPLUS_CALLER_FUNCTION ())
+        log4cplus::helpers::SourceLocation _location
+            = log4cplus::helpers::SourceLocation::current ())
+        : logger(std::move (l)), msg(std::move (_msg)), file(_location.file_name ()),
+          function(_location.function_name ()), line(_location.line ())
+    {
+        if (logger.isEnabledFor(TRACE_LOG_LEVEL))
+            logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg,
+                file, line, function);
+    }
+
+    TraceLogger(Logger l, log4cplus::tstring _msg,
+        const char* _file, int _line, char const * _function)
         : logger(std::move (l)), msg(std::move (_msg)), file(_file),
           function(_function), line(_line)
     {
-        if(logger.isEnabledFor(TRACE_LOG_LEVEL))
+        if (logger.isEnabledFor(TRACE_LOG_LEVEL))
             logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg,
                 file, line, function);
     }
 
     ~TraceLogger()
     {
-        if(logger.isEnabledFor(TRACE_LOG_LEVEL))
+        if (logger.isEnabledFor(TRACE_LOG_LEVEL))
             logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("EXIT:  ") + msg,
                 file, line, function);
     }
 
-private:
-    TraceLogger (TraceLogger const &);
-    TraceLogger & operator = (TraceLogger const &);
+    TraceLogger (TraceLogger const &) = delete;
+    TraceLogger (TraceLogger &&) = delete;
+    TraceLogger & operator = (TraceLogger const &) = delete;
+    TraceLogger & operator = (TraceLogger &&) = delete;
 
+private:
     Logger logger;
     log4cplus::tstring msg;
     const char* file;

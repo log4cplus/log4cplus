@@ -24,6 +24,10 @@
 #include <log4cplus/internal/internal.h>
 #include <log4cplus/loggingmacros.h>
 
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#include <catch.hpp>
+#endif
+
 
 namespace log4cplus::detail {
 
@@ -96,5 +100,20 @@ macro_forced_log (log4cplus::Logger const & logger,
     logger.forcedLog (ev);
 }
 
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+CATCH_TEST_CASE ("Macros", "[macros]")
+{
+    CATCH_SECTION ("LOG4CPLUS_MACRO_LOG_LOCATION")
+    {
+        char const * file = __FILE__;
+        // The following variables all have to be on the same line!
+        int const line = __LINE__; LOG4CPLUS_MACRO_LOG_LOCATION (loc);
+        CATCH_REQUIRE_THAT (loc.file_name (), Catch::Matchers::Equals (file));
+        CATCH_REQUIRE (loc.line () == line);
+    }
+} // CATCH_TEST_CASE
+
+#endif // defined (LOG4CPLUS_WITH_UNIT_TESTS)
 
 } // namespace log4cplus::detail

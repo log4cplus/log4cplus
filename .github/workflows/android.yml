@@ -13,7 +13,7 @@ jobs:
       matrix:
         target-abi: [armeabi-v7a, arm64-v8a, x86, x86_64]
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -53,7 +53,9 @@ jobs:
             -DCMAKE_VERBOSE_MAKEFILE=ON \
             -DANDROID_TOOLCHAIN=clang \
             -DANDROID_ABI=${{ matrix.target-abi }} \
-            -DANDROID_PLATFORM=21 \
+            -DANDROID_PLATFORM=31 \
+            -DANDROID_STL=c++_static \
+            -DCMAKE_CXX_STANDARD=20 \
             -S . \
             -B build.d \
 

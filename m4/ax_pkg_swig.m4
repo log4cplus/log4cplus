@@ -1,5 +1,5 @@
 # ===========================================================================
-#        http://www.gnu.org/software/autoconf-archive/ax_pkg_swig.html
+#       https://www.gnu.org/software/autoconf-archive/ax_pkg_swig.html
 # ===========================================================================
 #
 # SYNOPSIS
@@ -32,10 +32,11 @@
 # LICENSE
 #
 #   Copyright (c) 2008 Sebastian Huber <sebastian-huber@web.de>
-#   Copyright (c) 2008 Alan W. Irwin <irwin@beluga.phys.uvic.ca>
+#   Copyright (c) 2008 Alan W. Irwin
 #   Copyright (c) 2008 Rafael Laboissiere <rafael@laboissiere.net>
-#   Copyright (c) 2008 Andrew Collier <colliera@ukzn.ac.za>
+#   Copyright (c) 2008 Andrew Collier
 #   Copyright (c) 2011 Murray Cumming <murrayc@openismus.com>
+#   Copyright (c) 2021 Vincent Danjean <Vincent.Danjean@ens-lyon.org>
 #
 #   This program is free software; you can redistribute it and/or modify it
 #   under the terms of the GNU General Public License as published by the
@@ -48,7 +49,7 @@
 #   Public License for more details.
 #
 #   You should have received a copy of the GNU General Public License along
-#   with this program. If not, see <http://www.gnu.org/licenses/>.
+#   with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 #   As a special exception, the respective Autoconf Macro's copyright owner
 #   gives unlimited permission to copy, distribute and modify the configure
@@ -63,14 +64,16 @@
 #   modified version of the Autoconf Macro, you may extend this special
 #   exception to the GPL to apply to your modified version as well.
 
-#serial 8
+#serial 14
 
 AC_DEFUN([AX_PKG_SWIG],[
-        # Ubuntu has swig 2.0 as /usr/bin/swig2.0
-        AC_PATH_PROGS([SWIG],[swig swig2.0])
+        # Find path to the "swig" executable.
+        AC_PATH_PROGS([SWIG],[swig swig3.0 swig2.0])
         if test -z "$SWIG" ; then
                 m4_ifval([$3],[$3],[:])
-        elif test -n "$1" ; then
+        elif test -z "$1" ; then
+                m4_ifval([$2],[$2],[:])
+	else
                 AC_MSG_CHECKING([SWIG version])
                 [swig_version=`$SWIG -version 2>&1 | grep 'SWIG Version' | sed 's/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/g'`]
                 AC_MSG_RESULT([$swig_version])
@@ -81,12 +84,12 @@ AC_DEFUN([AX_PKG_SWIG],[
                         if test -z "$required_major" ; then
                                 [required_major=0]
                         fi
-                        [required=`echo $required | sed 's/[0-9]*[^0-9]//'`]
+                        [required=`echo $required. | sed 's/[0-9]*[^0-9]//'`]
                         [required_minor=`echo $required | sed 's/[^0-9].*//'`]
                         if test -z "$required_minor" ; then
                                 [required_minor=0]
                         fi
-                        [required=`echo $required | sed 's/[0-9]*[^0-9]//'`]
+                        [required=`echo $required. | sed 's/[0-9]*[^0-9]//'`]
                         [required_patch=`echo $required | sed 's/[^0-9].*//'`]
                         if test -z "$required_patch" ; then
                                 [required_patch=0]
