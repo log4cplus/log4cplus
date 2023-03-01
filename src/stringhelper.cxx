@@ -39,7 +39,7 @@
 namespace log4cplus::internal
 {
 
-log4cplus::tstring const empty_str;
+constinit log4cplus::tstring const empty_str;
 
 } // namespace log4cplus
 
