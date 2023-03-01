@@ -19,7 +19,7 @@ jobs:
       run: |
         mkdir objdir
         cd objdir
-        ../configure --enable-shared --enable-unit-tests --with-working-locale
+        ../configure --enable-shared --enable-unit-tests --with-working-locale CXX=/usr/bin/g++-12 CC=/usr/bin/gcc-12
     - name: make
       run: cd objdir ; make
     - name: make check
