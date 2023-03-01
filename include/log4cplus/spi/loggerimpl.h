@@ -152,6 +152,11 @@ namespace log4cplus {
              */
             LoggerImpl(const log4cplus::tstring_view& name, Hierarchy& h);
 
+            LoggerImpl(const LoggerImpl&) = delete;
+            LoggerImpl& operator=(const LoggerImpl&) = delete;
+
+            LoggerImpl(LoggerImpl&&) = delete;
+            LoggerImpl& operator=(LoggerImpl&&) = delete;
 
           // Methods
             /**
@@ -197,10 +202,6 @@ namespace log4cplus {
           // Data
             /** Loggers need to know what Hierarchy they are in. */
             Hierarchy& hierarchy;
-
-          // Disallow copying of instances of this class
-            LoggerImpl(const LoggerImpl&) = delete;
-            LoggerImpl& operator=(const LoggerImpl&) = delete;
 
           // Friends
             friend class log4cplus::Logger;
