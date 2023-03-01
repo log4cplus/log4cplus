@@ -51,7 +51,7 @@ namespace log4cplus { namespace thread {
 namespace impl
 {
 
-LOG4CPLUS_EXPORT [[noreturn]] void syncprims_throw_exception(
+LOG4CPLUS_EXPORT void syncprims_throw_exception [[noreturn]] (
     char const * const msg, char const * const file, int line);
 
 }
