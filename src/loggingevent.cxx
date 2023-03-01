@@ -62,35 +62,6 @@ InternalLoggingEvent::InternalLoggingEvent(
     MappedDiagnosticContextMap const & mdc_,
     const log4cplus::tstring_view& message_,
     const log4cplus::tstring_view& thread_,
-    log4cplus::helpers::Time time,
-    const log4cplus::tstring_view& file_, int line_,
-    const log4cplus::tstring_view& function_)
-    : message(message_)
-    , loggerName(logger)
-    , ll(loglevel)
-    , ndc(ndc_)
-    , mdc(mdc_)
-    , thread(thread_)
-    , timestamp(time)
-    , file(file_)
-    , function (function_.data ()
-        ? function_
-        : log4cplus::tstring())
-    , line(line_)
-    , threadCached(true)
-    , thread2Cached(true)
-    , ndcCached(true)
-    , mdcCached(true)
-{
-}
-
-
-InternalLoggingEvent::InternalLoggingEvent(
-    const log4cplus::tstring_view& logger,
-    LogLevel loglevel, const log4cplus::tstring_view& ndc_,
-    MappedDiagnosticContextMap const & mdc_,
-    const log4cplus::tstring_view& message_,
-    const log4cplus::tstring_view& thread_,
     const log4cplus::tstring_view& thread2_,
     log4cplus::helpers::Time time,
     const log4cplus::tstring_view& file_, int line_,
