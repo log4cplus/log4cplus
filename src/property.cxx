@@ -136,7 +136,7 @@ CATCH_TEST_CASE( "String trimming", "[strings][properties]")
 
 
 void
-imbue_file_from_flags (tistream & file, unsigned flags)
+imbue_file_from_flags ([[maybe_unused]] tistream & file, unsigned flags)
 {
     switch (flags & (Properties::fEncodingMask << Properties::fEncodingShift))
     {
@@ -541,7 +541,7 @@ CATCH_TEST_CASE ("Properties", "[properties]")
     CATCH_SECTION ("throw on nonexistent file")
     {
         auto && f = [] {
-            Properties props (LOG4CPLUS_TEXT ("xxx does not exist"), Properties::fThrow);
+            Properties props2 (LOG4CPLUS_TEXT ("xxx does not exist"), Properties::fThrow);
         };
         CATCH_REQUIRE_THROWS_AS (f (), log4cplus::exception);
     }
