@@ -211,6 +211,16 @@ parseFacility (const tstring& text)
 }
 
 
+static
+tstring
+substrOrNil(tstring const & str, tstring::size_type const limit)
+{
+    if (str.empty ())
+        return tstring (LOG4CPLUS_TEXT ("-"));
+    else
+        return str.substr (0, limit);
+}
+
 } // namespace
 
 
@@ -441,13 +451,13 @@ SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
         << helpers::getFormattedTime (remoteTimeFormat, event.getTimestamp (),
             true)
         // HOSTNAME
-        << LOG4CPLUS_TEXT (' ') << hostname
+        << LOG4CPLUS_TEXT (' ') << substrOrNil (hostname, 255)
         // APP-NAME
-        << LOG4CPLUS_TEXT (' ') << ident
+        << LOG4CPLUS_TEXT (' ') << substrOrNil (ident, 48)
         // PROCID
         << LOG4CPLUS_TEXT (' ') << internal::get_process_id ()
         // MSGID
-        << LOG4CPLUS_TEXT (' ') << event.getLoggerName ()
+        << LOG4CPLUS_TEXT (' ') << substrOrNil (event.getLoggerName (), 32)
         // STRUCTURED-DATA
         // no structured data, it could be whole MDC
         << LOG4CPLUS_TEXT (" - ");
