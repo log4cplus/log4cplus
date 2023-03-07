@@ -21,6 +21,7 @@ jobs:
         submodules: recursive
     - name: configure
       run: |
+        ./scripts/fix-timestamps.sh
         mkdir objdir
         cd objdir
         ../configure --enable-shared --enable-unit-tests --with-working-locale
