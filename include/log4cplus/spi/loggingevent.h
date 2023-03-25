@@ -72,16 +72,6 @@ namespace log4cplus {
                 MappedDiagnosticContextMap const & mdc,
                 const log4cplus::tstring_view& message,
                 const log4cplus::tstring_view& thread,
-                log4cplus::helpers::Time time,
-                const log4cplus::tstring_view& file,
-                int line, const log4cplus::tstring_view & function
-                    = log4cplus::tstring_view ()) LOG4CPLUS_ATTRIBUTE_DEPRECATED;
-
-            InternalLoggingEvent(const log4cplus::tstring_view& logger,
-                LogLevel loglevel, const log4cplus::tstring_view& ndc,
-                MappedDiagnosticContextMap const & mdc,
-                const log4cplus::tstring_view& message,
-                const log4cplus::tstring_view& thread,
                 const log4cplus::tstring_view& thread2,
                 log4cplus::helpers::Time time,
                 const log4cplus::tstring_view& file,

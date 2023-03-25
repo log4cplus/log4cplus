@@ -41,11 +41,11 @@
 
 namespace log4cplus {
     namespace helpers {
- 
+
         /**
          * This Interface is for attaching Appenders to objects.
          */
-        class LOG4CPLUS_EXPORT AppenderAttachableImpl 
+        class LOG4CPLUS_EXPORT AppenderAttachableImpl
             : public log4cplus::spi::AppenderAttachable
         {
         public:
@@ -57,6 +57,13 @@ namespace log4cplus {
 
           // Dtor
             virtual ~AppenderAttachableImpl();
+
+          // Operators
+            AppenderAttachableImpl(AppenderAttachableImpl const &) = delete;
+            AppenderAttachableImpl(AppenderAttachableImpl &&) = delete;
+            AppenderAttachableImpl & operator = (AppenderAttachableImpl const &) = delete;
+            AppenderAttachableImpl & operator = (AppenderAttachableImpl &&) = delete;
+
 
           // Methods
             /**
@@ -74,7 +81,7 @@ namespace log4cplus {
              * Look for an attached appender named as <code>name</code>.
              *
              * Return the appender with that name if in the list. Return null
-             * otherwise.  
+             * otherwise.
              */
             virtual SharedAppenderPtr getAppender(const log4cplus::tstring& name);
 
@@ -90,12 +97,12 @@ namespace log4cplus {
 
             /**
              * Remove the appender with the name passed as parameter from the
-             * list of appenders.  
+             * list of appenders.
              */
             virtual void removeAppender(const log4cplus::tstring& name);
 
             /**
-             * Call the <code>doAppend</code> method on all attached appenders.  
+             * Call the <code>doAppend</code> method on all attached appenders.
              */
             int appendLoopOnAppenders(const spi::InternalLoggingEvent& event) const;
 
@@ -106,10 +113,6 @@ namespace log4cplus {
           // Data
             /** Array of appenders. */
             ListType appenderList;
-
-        private:
-            AppenderAttachableImpl(AppenderAttachableImpl const &);
-            AppenderAttachableImpl & operator = (AppenderAttachableImpl const &);
         };  // end class AppenderAttachableImpl
 
     } // end namespace helpers

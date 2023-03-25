@@ -259,9 +259,6 @@ namespace log4cplus
          * log4cplus.logger.class.of.the.day=INHERIT
          * </pre>
          *
-         * Refer to the <b>setOption</b> method in each Appender and
-         * Layout for class specific options.
-         *
          * Use the <code>#</code> character at the beginning of a line
          * for comments.
          */
