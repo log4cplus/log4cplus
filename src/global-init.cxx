@@ -262,7 +262,13 @@ alloc_dc ()
 
 static
 DefaultContext *
-get_dc (bool alloc = true)
+get_dc (
+#ifdef LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION
+  bool alloc = false
+#else
+  bool alloc = true
+#endif
+)
 {
     if (LOG4CPLUS_UNLIKELY(!default_context))
     {
