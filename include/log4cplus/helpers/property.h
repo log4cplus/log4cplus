@@ -155,6 +155,15 @@ namespace log4cplus {
             bool get_type_val_worker (ValType & val,
                 log4cplus::tstring const & key) const;
         };
+
+
+        class LogLog;
+
+
+        bool
+        substVars (tstring & dest, const tstring & val,
+            Properties const & props, LogLog& loglog,
+            unsigned flags);
     } // end namespace helpers
 
 }
