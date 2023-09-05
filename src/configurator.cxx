@@ -61,114 +61,6 @@ void initializeLog4cplus();
 
 namespace
 {
-    static tchar const DELIM_START[] = LOG4CPLUS_TEXT("${");
-    static tchar const DELIM_STOP[] = LOG4CPLUS_TEXT("}");
-    static std::size_t const DELIM_START_LEN = 2;
-    static std::size_t const DELIM_STOP_LEN = 1;
-
-
-    /**
-     * Perform variable substitution in string <code>val</code> from
-     * environment variables.
-     *
-     * <p>The variable substitution delimeters are <b>${</b> and <b>}</b>.
-     *
-     * <p>For example, if the System properties contains "key=value", then
-     * the call
-     * <pre>
-     * string s;
-     * substEnvironVars(s, "Value of key is ${key}.");
-     * </pre>
-     *
-     * will set the variable <code>s</code> to "Value of key is value.".
-     *
-     * <p>If no value could be found for the specified key, then
-     * substitution defaults to the empty string.
-     *
-     * <p>For example, if there is no environment variable "inexistentKey",
-     * then the call
-     *
-     * <pre>
-     * string s;
-     * substEnvironVars(s, "Value of inexistentKey is [${inexistentKey}]");
-     * </pre>
-     * will set <code>s</code> to "Value of inexistentKey is []"
-     *
-     * @param val The string on which variable substitution is performed.
-     * @param dest The result.
-     */
-    static
-    bool
-    substVars (tstring & dest, const tstring & val,
-        helpers::Properties const & props, helpers::LogLog& loglog,
-        unsigned flags)
-    {
-        tstring::size_type i = 0;
-        tstring::size_type var_start, var_end;
-        tstring pattern (val);
-        tstring key;
-        tstring replacement;
-        bool changed = false;
-        bool const empty_vars
-            = !! (flags & PropertyConfigurator::fAllowEmptyVars);
-        bool const shadow_env
-            = !! (flags & PropertyConfigurator::fShadowEnvironment);
-        bool const rec_exp
-            = !! (flags & PropertyConfigurator::fRecursiveExpansion);
-
-        while (true)
-        {
-            // Find opening paren of variable substitution.
-            var_start = pattern.find(DELIM_START, i);
-            if (var_start == tstring::npos)
-            {
-                dest = pattern;
-                return changed;
-            }
-
-            // Find closing paren of variable substitution.
-            var_end = pattern.find(DELIM_STOP, var_start);
-            if (var_end == tstring::npos)
-            {
-                tostringstream buffer;
-                buffer << '"' << pattern
-                       << "\" has no closing brace. "
-                       << "Opening brace at position " << var_start << ".";
-                loglog.error(buffer.str());
-                dest = val;
-                return false;
-            }
-
-            key.assign (pattern, var_start + DELIM_START_LEN,
-                var_end - (var_start + DELIM_START_LEN));
-            replacement.clear ();
-            if (shadow_env)
-                replacement = props.getProperty (key);
-            if (! shadow_env || (! empty_vars && replacement.empty ()))
-                internal::get_env_var (replacement, key);
-
-            if (empty_vars || ! replacement.empty ())
-            {
-                // Substitute the variable with its value in place.
-                pattern.replace (var_start, var_end - var_start + DELIM_STOP_LEN,
-                    replacement);
-                changed = true;
-                if (rec_exp)
-                    // Retry expansion on the same spot.
-                    continue;
-                else
-                    // Move beyond the just substituted part.
-                    i = var_start + replacement.size ();
-            }
-            else
-                // Nothing has been subtituted, just move beyond the
-                // unexpanded variable.
-                i = var_end + DELIM_STOP_LEN;
-        } // end while loop
-
-    } // end substVars()
-
-
     //! Translates encoding in ProtpertyConfigurator::PCFlags
     //! to helpers::Properties::PFlags
     static
@@ -365,7 +257,7 @@ PropertyConfigurator::replaceEnvironVariables()
             val = properties.getProperty(key);
 
             subKey.clear ();
-            if (substVars(subKey, key, properties, helpers::getLogLog(), flags))
+            if (helpers::substVars(subKey, key, properties, helpers::getLogLog(), flags))
             {
                 properties.removeProperty(key);
                 properties.setProperty(subKey, val);
@@ -373,7 +265,7 @@ PropertyConfigurator::replaceEnvironVariables()
             }
 
             subVal.clear ();
-            if (substVars(subVal, val, properties, helpers::getLogLog(), flags))
+            if (helpers::substVars(subVal, val, properties, helpers::getLogLog(), flags))
             {
                 properties.setProperty(subKey, subVal);
                 changed = true;
