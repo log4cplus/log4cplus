@@ -393,6 +393,9 @@
     <ClInclude Include="..\include\log4cplus\callbackappender.h">
       <Filter>Appenders</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\log4cplus\exception.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="log4cplus.props" />
