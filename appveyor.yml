@@ -9,21 +9,41 @@ environment:
       BDIR: msvc2015
       PRJ_CFG: Release
       PARAMS: ''
+      MSBUILD: "false"
     - PRJ_GEN: "Visual Studio 15 2017"
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2017"
       BDIR: msvc2017
       PRJ_CFG: Release
+      MSBUILD: "false"
     - PRJ_GEN: "Visual Studio 16 2019"
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2019"
       BDIR: msvc2017
       PRJ_CFG: Release
+      MSBUILD: "false"
+    - APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2019"
+      PRJ_CFG: Release
+      PRJ_PLATFORM: x64
+      MSBUILD: "true"
+      PRJ_SUFFIX: ""
+    - APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2019"
+      PRJ_CFG: Release
+      PRJ_PLATFORM: x64
+      MSBUILD: "true"
+      PRJ_SUFFIX: "S"
 
-build_script:
-  - mkdir build.%BDIR%
-  - cd build.%BDIR%
-  - cmake .. -G "%PRJ_GEN%" -A x64 "-DCMAKE_BUILD_TYPE=%PRJ_CFG%" %PARAMS%
-  - cmake --build . --config "%PRJ_CFG%" --clean-first
-
-test_script:
-    - ctest -V --output-on-failure -C %PRJ_CFG%
-
+for:
+  - matrix:
+      only:
+        - MSBUILD: "true"
+    build_script:
+      - msbuild "msvc14\log4cplus%PRJ_SUFFIX%.vcxproj" "/p:Configuration=%PRJ_CFG%" "/p:Platform=%PRJ_PLATFORM%" /nologo /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - matrix:
+      only:
+        - MSBUILD: "false"
+    build_script:
+      - mkdir build.%BDIR%
+      - cd build.%BDIR%
+      - cmake .. -G "%PRJ_GEN%" -A x64 "-DCMAKE_BUILD_TYPE=%PRJ_CFG%" %PARAMS%
+      - cmake --build . --config "%PRJ_CFG%" --clean-first
+    test_script:
+      - ctest -V --output-on-failure -C %PRJ_CFG%
