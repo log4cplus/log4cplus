@@ -190,6 +190,9 @@
     <ClCompile Include="..\src\callbackappender.cxx">
       <Filter>Appenders</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\exception.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\log4cplus\appender.h">
