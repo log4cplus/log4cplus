@@ -1,5 +1,5 @@
 NAME=log4cplus
-VERSION=2.1.0-rc1
+VERSION=2.1.1-rc1
 RELEASE=1
 CATEGORY="Libs"
 SUMMARY="C++ logging library"
