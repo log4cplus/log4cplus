@@ -1,3 +1,11 @@
+# log4cplus 2.1.1
+
+  - Add missing source files to MSVC project files.
+
+  - Resolve environment variables in `include` directive
+    in configuration file. (Martin Engelmann)
+
+
 # log4cplus 2.1.0
 
 This release breaks ABI with 2.0.x. It is source compatible.
