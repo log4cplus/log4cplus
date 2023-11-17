@@ -623,23 +623,26 @@ threadCleanup ()
     //
     // It is possible to work around this situation in user application by
     // calling `threadCleanup()` manually before `main()` exits.
-#if defined (_WIN32)
-    if (_get_heap_handle() != 0)
+    internal::per_thread_data* ptd = internal::get_ptd(false);
+    if (ptd)
     {
-#endif
-        // Do thread-specific cleanup.
-        internal::per_thread_data * ptd = internal::get_ptd (false);
-        delete ptd;
 #if defined (_WIN32)
-    }
-    else
-    {
-        OutputDebugString (
-            LOG4CPLUS_TEXT ("log4cplus: ")
-            LOG4CPLUS_TEXT ("CRT heap is already gone in threadCleanup()\n"));
-    }
+        if (_get_heap_handle() != 0)
+        {
 #endif
-    internal::set_ptd (nullptr);
+            // Do thread-specific cleanup.
+            delete ptd;
+#if defined (_WIN32)
+        }
+        else
+        {
+            OutputDebugString(
+                LOG4CPLUS_TEXT("log4cplus: ")
+                LOG4CPLUS_TEXT("CRT heap is already gone in threadCleanup()\n"));
+        }
+#endif
+        internal::set_ptd(nullptr);
+    }
 }
 
 
