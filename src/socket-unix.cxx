@@ -365,16 +365,18 @@ read(SOCKET_TYPE sock, SocketBuffer& buffer)
 {
     long readbytes = 0;
 
+    char * const buf = buffer.getBuffer ();
+    std::size_t const buf_max_size = buffer.getMaxSize ();
     do
     {
         long const res = ::read(to_os_socket (sock),
-            buffer.getBuffer() + readbytes,
-            buffer.getMaxSize() - readbytes);
+            buf + readbytes,
+            buf_max_size - readbytes);
         if( res <= 0 ) {
             return res;
         }
         readbytes += res;
-    } while( readbytes < static_cast<long>(buffer.getMaxSize()) );
+    } while( readbytes < static_cast<long>(buf_max_size) );
 
     return readbytes;
 }

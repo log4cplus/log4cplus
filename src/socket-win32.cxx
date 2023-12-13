@@ -323,11 +323,13 @@ read(SOCKET_TYPE sock, SocketBuffer& buffer)
     long read = 0;
     os_socket_type const osSocket = to_os_socket (sock);
 
+    char * const buf = buffer.getBuffer ();
+    std::size_t const buf_max_size = buffer.getMaxSize ();
     do
     {
         long const res = ::recv(osSocket,
-            buffer.getBuffer() + read,
-            static_cast<int>(buffer.getMaxSize() - read),
+            buf + read,
+            static_cast<int>(buf_max_size - read),
             0);
         if (res == SOCKET_ERROR)
         {
@@ -342,7 +344,7 @@ read(SOCKET_TYPE sock, SocketBuffer& buffer)
 
         read += res;
     }
-    while (read < static_cast<long>(buffer.getMaxSize()));
+    while (read < static_cast<long>(buf_max_size));
 
     return read;
 }
