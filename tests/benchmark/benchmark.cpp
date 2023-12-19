@@ -18,7 +18,6 @@
 #include <log4cplus/loggingmacros.h>
 #include <log4cplus/layout.h>
 #include <log4cplus/appender.h>
-#include <log4cplus/internal/env.h>
 #include <log4cplus/asyncappender.h>
 #include <benchmark/benchmark.h>
 #include <thread>
