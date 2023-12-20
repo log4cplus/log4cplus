@@ -287,7 +287,7 @@ log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll,
             }
             while (retval == -1);
 
-            logger.forcedLog(ll, msg, nullptr, -1);
+            logger.log(ll, msg, nullptr, -1);
         }
 
         retval = 0;
@@ -313,7 +313,7 @@ log4cplus_logger_log_str(const log4cplus_char_t *name,
 
         if (logger.isEnabledFor(ll))
         {
-            logger.forcedLog(ll, msg, nullptr, -1);
+            logger.log(ll, msg, nullptr, -1);
         }
 
         retval = 0;
