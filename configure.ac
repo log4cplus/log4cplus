@@ -278,7 +278,8 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
       AX_CXXFLAGS_GCC_OPTION([-Wno-variadic-macros])
       AX_CXXFLAGS_GCC_OPTION([-Wduplicated-branches])
       AX_CXXFLAGS_GCC_OPTION([-Wdangling-else])
-      AX_CXXFLAGS_GCC_OPTION([-Wmultistatement-macros])])
+      AX_CXXFLAGS_GCC_OPTION([-Wmultistatement-macros])
+      AX_CXXFLAGS_GCC_OPTION([-Wthread-safety])])
 
    AS_IF([test "x$enable_debugging" = "xyes"],
      [AX_CXXFLAGS_GCC_OPTION([-g3])
