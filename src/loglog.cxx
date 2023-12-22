@@ -60,7 +60,7 @@ LogLog::~LogLog() = default;
 void
 LogLog::setInternalDebugging(bool enabled)
 {
-    thread::MutexGuard guard (mutex);
+    std::lock_guard guard {mutex};
 
     debugEnabled = enabled ? TriTrue : TriFalse;
 }
@@ -69,7 +69,7 @@ LogLog::setInternalDebugging(bool enabled)
 void
 LogLog::setQuietMode(bool quietModeVal)
 {
-    thread::MutexGuard guard (mutex);
+    std::lock_guard guard {mutex};
 
     quietMode = quietModeVal ? TriTrue : TriFalse;
 }
@@ -168,7 +168,7 @@ LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
 {
     bool output;
     {
-        thread::MutexGuard guard (mutex);
+        std::lock_guard guard {mutex};
         output = (this->*cond) ();
     }
 

@@ -70,7 +70,7 @@ namespace log4cplus {
 
             /**
              * In quite mode no LogLog generates strictly no output, not even
-             * for errors. 
+             * for errors.
              *
              * @param quietMode A true for not
              */
@@ -129,7 +129,7 @@ namespace log4cplus {
             // Data
             mutable TriState debugEnabled;
             mutable TriState quietMode;
-            thread::Mutex mutex;
+            mutable std::mutex mutex;
 
             LOG4CPLUS_PRIVATE LogLog(const LogLog&);
             LOG4CPLUS_PRIVATE LogLog & operator = (LogLog const &);
