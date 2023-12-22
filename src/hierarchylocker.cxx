@@ -117,9 +117,7 @@ HierarchyLocker::addAppender(Logger& logger, SharedAppenderPtr& appender)
     {
         if (l.value == logger.value)
         {
-            logger.value->appender_list_mutex.unlock ();
             logger.addAppender(appender);
-            logger.value->appender_list_mutex.lock ();
             return;
         }
     }

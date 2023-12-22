@@ -50,7 +50,7 @@ namespace log4cplus {
         {
         public:
           // Data
-            thread::Mutex appender_list_mutex;
+            mutable std::recursive_mutex appender_list_mutex;
 
           // Ctors
             AppenderAttachableImpl();
