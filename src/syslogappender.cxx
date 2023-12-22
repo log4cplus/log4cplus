@@ -336,7 +336,7 @@ SysLogAppender::close()
 {
     helpers::getLogLog().debug(
         LOG4CPLUS_TEXT("Entering SysLogAppender::close()..."));
-    std::lock_guard guard {access_mutex};
+    thread::MutexGuard guard (access_mutex);
 
     if (host.empty ())
     {
@@ -495,7 +495,7 @@ SysLogAppender::appendRemote(const spi::InternalLoggingEvent& event)
 
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-std::recursive_mutex &
+thread::Mutex const &
 SysLogAppender::ctcGetAccessMutex () const
 {
     return access_mutex;

@@ -22,10 +22,6 @@
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/thread/threads.h>
 
-#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
-#include <catch.hpp>
-#endif
-
 
 namespace log4cplus::spi {
 
@@ -50,7 +46,7 @@ ObjectRegistryBase::~ObjectRegistryBase() = default;
 bool
 ObjectRegistryBase::exists(const tstring& name) const
 {
-    std::unique_lock guard {mutex};
+    thread::MutexGuard guard (mutex);
 
     return data.find(name) != data.end();
 }
@@ -62,7 +58,7 @@ ObjectRegistryBase::getAllNames() const
     std::vector<tstring> tmp;
 
     {
-        std::unique_lock guard {mutex};
+        thread::MutexGuard guard (mutex);
         tmp.reserve (data.size ());
         for (auto const & kv : data)
             tmp.emplace_back(kv.first);
@@ -84,9 +80,9 @@ ObjectRegistryBase::putVal(const tstring& name, void* object)
     std::pair<ObjectMap::iterator, bool> ret;
 
     {
-        std::unique_lock<std::mutex> guard;
+        thread::MutexGuard guard;
         if (locking)
-            guard = std::unique_lock {mutex};
+            guard.attach_and_lock (mutex);
 
         ret = data.insert(std::move (value));
     }
@@ -101,7 +97,7 @@ ObjectRegistryBase::putVal(const tstring& name, void* object)
 void*
 ObjectRegistryBase::getVal(const tstring& name) const
 {
-    std::unique_lock guard {mutex};
+    thread::MutexGuard guard (mutex);
 
     auto it (data.find (name));
     if (it != data.end ())
@@ -116,7 +112,7 @@ ObjectRegistryBase::getVal(const tstring& name) const
 void
 ObjectRegistryBase::clear()
 {
-    std::unique_lock guard {mutex};
+    thread::MutexGuard guard (mutex);
 
     for (auto const & kv : data)
         deleteObject (kv.second);
@@ -129,38 +125,5 @@ ObjectRegistryBase::_enableLocking (bool enable)
     locking = enable;
 }
 
-
-#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
-CATCH_TEST_CASE ("ObjectRegistryBase")
-{
-
-    class TestObjectRegistry : public ObjectRegistryBase
-    {
-    public:
-        using ObjectRegistryBase::putVal;
-        using ObjectRegistryBase::getVal;
-        using ObjectRegistryBase::clear;
-
-        virtual void deleteObject(void *object) const
-        {
-            delete static_cast<std::string *>(object);
-        }
-    };
-
-    CATCH_SECTION ("put-get")
-    {
-        TestObjectRegistry reg;
-        CATCH_REQUIRE (reg.getVal (LOG4CPLUS_TEXT ("doesnotexist")) == nullptr);
-        std::string * const str = new std::string ("test");
-        CATCH_REQUIRE (reg.putVal (LOG4CPLUS_TEXT ("a"), str));
-        CATCH_REQUIRE (!reg.putVal (LOG4CPLUS_TEXT ("a"), str));
-        std::string * str2 = new std::string ("test2");
-        CATCH_REQUIRE (reg.putVal (LOG4CPLUS_TEXT ("b"), str2));
-        CATCH_REQUIRE (reg.getVal (LOG4CPLUS_TEXT ("a")) == str);
-        CATCH_REQUIRE (reg.getVal (LOG4CPLUS_TEXT ("b")) == str2);
-    }
-
-}
-#endif // defined (LOG4CPLUS_WITH_UNIT_TESTS)
 
 } // namespace log4cplus::spi

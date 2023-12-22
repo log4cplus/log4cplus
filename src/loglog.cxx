@@ -60,7 +60,7 @@ LogLog::~LogLog() = default;
 void
 LogLog::setInternalDebugging(bool enabled)
 {
-    std::lock_guard guard {mutex};
+    thread::MutexGuard guard (mutex);
 
     debugEnabled = enabled ? TriTrue : TriFalse;
 }
@@ -69,7 +69,7 @@ LogLog::setInternalDebugging(bool enabled)
 void
 LogLog::setQuietMode(bool quietModeVal)
 {
-    std::lock_guard guard {mutex};
+    thread::MutexGuard guard (mutex);
 
     quietMode = quietModeVal ? TriTrue : TriFalse;
 }
@@ -168,7 +168,7 @@ LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
 {
     bool output;
     {
-        std::lock_guard guard {mutex};
+        thread::MutexGuard guard (mutex);
         output = (this->*cond) ();
     }
 
@@ -176,7 +176,7 @@ LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
     {
         // XXX This is potential recursive lock of
         // ConsoleAppender::outputMutex.
-        std::lock_guard outputGuard {ConsoleAppender::getOutputMutex ()};
+        thread::MutexGuard outputGuard (ConsoleAppender::getOutputMutex ());
         os << prefix << msg << std::endl;
     }
 

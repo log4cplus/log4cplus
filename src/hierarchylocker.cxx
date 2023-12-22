@@ -35,7 +35,7 @@ namespace log4cplus
 
 HierarchyLocker::HierarchyLocker(Hierarchy& _h)
 : h(_h),
-  hierarchyLocker{h.hashtable_mutex}
+  hierarchyLocker(h.hashtable_mutex)
 {
     // Get a copy of all of the Hierarchy's Loggers (except the Root Logger)
     h.initializeLoggerList(loggerList);
@@ -117,7 +117,9 @@ HierarchyLocker::addAppender(Logger& logger, SharedAppenderPtr& appender)
     {
         if (l.value == logger.value)
         {
+            logger.value->appender_list_mutex.unlock ();
             logger.addAppender(appender);
+            logger.value->appender_list_mutex.lock ();
             return;
         }
     }

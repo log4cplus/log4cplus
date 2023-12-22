@@ -70,7 +70,7 @@ namespace log4cplus
     private:
       // Data
         Hierarchy& h;
-        std::unique_lock<std::recursive_mutex> hierarchyLocker;
+        log4cplus::thread::MutexGuard hierarchyLocker;
         LoggerList loggerList;
     };
 

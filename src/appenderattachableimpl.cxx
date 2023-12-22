@@ -70,7 +70,7 @@ AppenderAttachableImpl::addAppender(SharedAppenderPtr newAppender)
         return;
     }
 
-    std::unique_lock guard {appender_list_mutex};
+    thread::MutexGuard guard (appender_list_mutex);
 
     auto it = std::find(appenderList.begin(), appenderList.end(), newAppender);
     if (it == appenderList.end())
@@ -84,7 +84,7 @@ AppenderAttachableImpl::addAppender(SharedAppenderPtr newAppender)
 AppenderAttachableImpl::ListType
 AppenderAttachableImpl::getAllAppenders()
 {
-    std::unique_lock guard {appender_list_mutex};
+    thread::MutexGuard guard (appender_list_mutex);
 
     return appenderList;
 }
@@ -94,7 +94,7 @@ AppenderAttachableImpl::getAllAppenders()
 SharedAppenderPtr
 AppenderAttachableImpl::getAppender(const log4cplus::tstring& name)
 {
-    std::unique_lock guard {appender_list_mutex};
+    thread::MutexGuard guard (appender_list_mutex);
 
     for (SharedAppenderPtr & ptr : appenderList)
     {
@@ -110,7 +110,7 @@ AppenderAttachableImpl::getAppender(const log4cplus::tstring& name)
 void
 AppenderAttachableImpl::removeAllAppenders()
 {
-    std::unique_lock guard {appender_list_mutex};
+    thread::MutexGuard guard (appender_list_mutex);
 
     // Clear appenders in specific order because the order of destruction of
     // std::vector elements is surprisingly unspecified and it breaks our
@@ -133,7 +133,7 @@ AppenderAttachableImpl::removeAppender(SharedAppenderPtr appender)
         return;
     }
 
-    std::unique_lock guard {appender_list_mutex};
+    thread::MutexGuard guard (appender_list_mutex);
 
     auto it = std::find(appenderList.begin(), appenderList.end(), appender);
     if (it != appenderList.end())
@@ -157,7 +157,7 @@ AppenderAttachableImpl::appendLoopOnAppenders(const spi::InternalLoggingEvent& e
 {
     int count = 0;
 
-    std::unique_lock guard {appender_list_mutex};
+    thread::MutexGuard guard (appender_list_mutex);
 
     for (auto & appender : appenderList)
     {

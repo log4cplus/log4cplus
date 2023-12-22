@@ -134,7 +134,7 @@ namespace log4cplus
         bool ipv6 = false;
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-        virtual std::recursive_mutex & ctcGetAccessMutex () const;
+        virtual thread::Mutex const & ctcGetAccessMutex () const;
         virtual helpers::Socket & ctcGetSocket ();
         virtual helpers::Socket ctcConnect ();
         virtual void ctcSetConnected ();

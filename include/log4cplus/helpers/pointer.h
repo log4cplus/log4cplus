@@ -81,7 +81,7 @@ namespace log4cplus {
             SharedObject& operator=(SharedObject &&) LOG4CPLUS_NOEXCEPT { return *this; }
 
         public:
-            mutable std::recursive_mutex access_mutex;
+            thread::Mutex access_mutex;
 
         private:
 #if defined (LOG4CPLUS_SINGLE_THREADED)
