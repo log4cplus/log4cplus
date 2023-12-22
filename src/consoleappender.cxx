@@ -37,12 +37,12 @@ namespace log4cplus
 namespace helpers
 {
 
-extern log4cplus::thread::Mutex const & getConsoleOutputMutex ();
+extern std::recursive_mutex & getConsoleOutputMutex ();
 
 } // namespace helpers
 
 
-log4cplus::thread::Mutex const &
+std::recursive_mutex &
 ConsoleAppender::getOutputMutex ()
 {
     return helpers::getConsoleOutputMutex ();
@@ -93,7 +93,7 @@ ConsoleAppender::~ConsoleAppender()
 // ConsoleAppender public methods
 //////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 ConsoleAppender::close()
 {
     helpers::getLogLog().debug(
@@ -110,7 +110,7 @@ ConsoleAppender::close()
 void
 ConsoleAppender::append(const spi::InternalLoggingEvent& event)
 {
-    thread::MutexGuard guard (getOutputMutex ());
+    std::lock_guard guard {getOutputMutex ()};
 
     tostream& output = (logToStdErr ? tcerr : tcout);
 

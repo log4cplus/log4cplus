@@ -168,7 +168,7 @@ struct ThreadPoolHolder
 //! Default context.
 struct DefaultContext
 {
-    log4cplus::thread::Mutex console_mutex;
+    std::recursive_mutex console_mutex;
     helpers::LogLog loglog;
     LogLevelManager log_level_manager;
     internal::CustomLogLevelManager custom_log_level_manager;
@@ -306,7 +306,7 @@ namespace helpers
 {
 
 
-log4cplus::thread::Mutex const &
+std::recursive_mutex &
 getConsoleOutputMutex ()
 {
     return get_dc ()->console_mutex;
