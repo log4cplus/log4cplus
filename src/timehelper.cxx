@@ -58,8 +58,6 @@
 
 namespace log4cplus::helpers {
 
-const int ONE_SEC_IN_USEC = 1000000;
-
 using std::mktime;
 using std::gmtime;
 using std::localtime;
@@ -283,7 +281,7 @@ getFormattedTime(const log4cplus::tstring& fmt_orig,
     // without changing errno.
     std::size_t const buffer_size_max
         = (std::max) (static_cast<std::size_t>(1024), buffer_size * 16);
-    
+
     buffer_size = (std::max) (buffer_size, gft_sp.buffer.capacity());
 
     do
