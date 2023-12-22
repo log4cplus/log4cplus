@@ -40,7 +40,7 @@
 #include <mutex>
 #include <thread>
 #include <condition_variable>
-
+#include <log4cplus/internal/threadsafetyanalysis.h>
 
 namespace log4cplus { namespace thread { namespace impl {
 
@@ -49,17 +49,17 @@ LOG4CPLUS_EXPORT void syncprims_throw_exception [[noreturn]] (
     char const * const msg, char const * const file, int line);
 
 
-class SharedMutex
+class LOG4CPLUS_TSA_CAPABILITY("mutex") SharedMutex
     : public SharedMutexImplBase
 {
 public:
     SharedMutex ();
     ~SharedMutex ();
 
-    void rdlock () const;
-    void wrlock () const;
-    void rdunlock () const;
-    void wrunlock () const;
+    void rdlock () const LOG4CPLUS_TSA_ACQUIRE_SHARED();
+    void wrlock () const LOG4CPLUS_TSA_ACQUIRE();
+    void rdunlock () const LOG4CPLUS_TSA_RELEASE_SHARED();
+    void wrunlock () const LOG4CPLUS_TSA_RELEASE();
 
 private:
     Mutex m1;

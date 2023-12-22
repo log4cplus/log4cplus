@@ -33,26 +33,27 @@
 
 #include <mutex>
 #include <condition_variable>
+#include <log4cplus/internal/threadsafetyanalysis.h>
 
 
 namespace log4cplus { namespace thread {
 
 
 template <typename SyncPrim>
-class SyncGuard
+class LOG4CPLUS_TSA_SCOPED_CAPABILITY SyncGuard
 {
 public:
     SyncGuard ();
-    SyncGuard (SyncPrim const &);
-    ~SyncGuard ();
+    SyncGuard (SyncPrim const & sp) LOG4CPLUS_TSA_ACQUIRE (sp);
+    ~SyncGuard () LOG4CPLUS_TSA_RELEASE ();
     SyncGuard (SyncGuard const &) = delete;
     SyncGuard & operator = (SyncGuard const &) = delete;
 
 
-    void lock ();
-    void unlock ();
-    void attach (SyncPrim const &);
-    void attach_and_lock (SyncPrim const &);
+    void lock () LOG4CPLUS_TSA_ACQUIRE ();
+    void unlock () LOG4CPLUS_TSA_RELEASE ();
+    void attach (SyncPrim const & sp) LOG4CPLUS_TSA_REQUIRES (sp);
+    void attach_and_lock (SyncPrim const & sp) LOG4CPLUS_TSA_ACQUIRE (sp);
     void detach ();
 
 private:
@@ -60,7 +61,7 @@ private:
 };
 
 
-class LOG4CPLUS_EXPORT Mutex
+class LOG4CPLUS_EXPORT LOG4CPLUS_TSA_CAPABILITY ("mutex") Mutex
 {
 public:
     Mutex ();
@@ -68,8 +69,8 @@ public:
     Mutex (Mutex const &) = delete;
     Mutex & operator = (Mutex const &) = delete;
 
-    void lock () const;
-    void unlock () const;
+    void lock () const LOG4CPLUS_TSA_ACQUIRE ();
+    void unlock () const LOG4CPLUS_TSA_RELEASE ();
 
 private:
     LOG4CPLUS_THREADED (mutable std::recursive_mutex mtx;)
@@ -140,6 +141,8 @@ class SyncGuardFunc
 public:
     SyncGuardFunc (SyncPrim const &);
     ~SyncGuardFunc ();
+    SyncGuardFunc (SyncGuardFunc const &) = delete;
+    SyncGuardFunc & operator = (SyncGuardFunc const &) = delete;
 
     void lock ();
     void unlock ();
@@ -148,29 +151,25 @@ public:
 
 private:
     SyncPrim const * sp;
-
-    SyncGuardFunc (SyncGuardFunc const &);
-    SyncGuardFunc & operator = (SyncGuardFunc const &);
 };
 
 
-class LOG4CPLUS_EXPORT SharedMutex
+class LOG4CPLUS_EXPORT LOG4CPLUS_TSA_CAPABILITY ("mutex") SharedMutex
 {
 public:
     SharedMutex ();
     ~SharedMutex ();
+    SharedMutex (SharedMutex const &) = delete;
+    SharedMutex & operator = (SharedMutex const &) = delete;
 
-    void rdlock () const;
-    void rdunlock () const;
+    void rdlock () const LOG4CPLUS_TSA_ACQUIRE_SHARED ();
+    void rdunlock () const LOG4CPLUS_TSA_RELEASE_SHARED ();
 
-    void wrlock () const;
-    void wrunlock () const;
+    void wrlock () const LOG4CPLUS_TSA_ACQUIRE ();
+    void wrunlock () const LOG4CPLUS_TSA_RELEASE ();
 
 private:
     SharedMutexImplBase * sm;
-
-    SharedMutex (SharedMutex const &);
-    SharedMutex & operator = (SharedMutex const &);
 };
 
 
@@ -189,7 +188,7 @@ typedef SyncGuardFunc<SharedMutex, &SharedMutex::wrlock,
 template <typename SyncPrim>
 inline
 SyncGuard<SyncPrim>::SyncGuard ()
-    : sp (0)
+    : sp (nullptr)
 { }
 
 
