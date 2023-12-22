@@ -5384,7 +5384,6 @@ printf "%s\n" "$as_me: WARNING: Neither C++ locale support nor C locale support 
 nor iconv() support requested, using poor man's locale conversion." >&2;}
 fi
 
-
 # Check whether --enable-debugging was given.
 if test ${enable_debugging+y}
 then :
@@ -9820,13 +9819,13 @@ case ".$var" in
 esac
  ;;
 esac
-            { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -Wc++14-compat" >&5
-printf %s "checking CXXFLAGS for gcc -Wc++14-compat... " >&6; }
-if test ${ax_cv_cxxflags_gcc_option__Wcpp14_compat+y}
+            { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking CXXFLAGS for gcc -Wc++20-compat" >&5
+printf %s "checking CXXFLAGS for gcc -Wc++20-compat... " >&6; }
+if test ${ax_cv_cxxflags_gcc_option__Wcpp20_compat+y}
 then :
   printf %s "(cached) " >&6
 else $as_nop
-  ax_cv_cxxflags_gcc_option__Wcpp14_compat="no, unknown"
+  ax_cv_cxxflags_gcc_option__Wcpp20_compat="no, unknown"
  ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -9834,7 +9833,7 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
  ac_save_CXXFLAGS="$CXXFLAGS"
-for ac_arg in "-pedantic -Werror % -Wc++14-compat"     "-pedantic % -Wc++14-compat %% no, obsolete"     #
+for ac_arg in "-pedantic -Werror % -Wc++20-compat"     "-pedantic % -Wc++20-compat %% no, obsolete"     #
 do CXXFLAGS="$ac_save_CXXFLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
@@ -9849,7 +9848,7 @@ zero = 0; return zero;
 _ACEOF
 if ac_fn_cxx_try_link "$LINENO"
 then :
-  ax_cv_cxxflags_gcc_option__Wcpp14_compat=`echo $ac_arg | sed -e 's,.*% *,,'`; break
+  ax_cv_cxxflags_gcc_option__Wcpp20_compat=`echo $ac_arg | sed -e 's,.*% *,,'`; break
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.beam \
     conftest$ac_exeext conftest.$ac_ext
@@ -9863,9 +9862,9 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 fi
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ax_cv_cxxflags_gcc_option__Wcpp14_compat" >&5
-printf "%s\n" "$ax_cv_cxxflags_gcc_option__Wcpp14_compat" >&6; }
-var=$ax_cv_cxxflags_gcc_option__Wcpp14_compat
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ax_cv_cxxflags_gcc_option__Wcpp20_compat" >&5
+printf "%s\n" "$ax_cv_cxxflags_gcc_option__Wcpp20_compat" >&6; }
+var=$ax_cv_cxxflags_gcc_option__Wcpp20_compat
 case ".$var" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
