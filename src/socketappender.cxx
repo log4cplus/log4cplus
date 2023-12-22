@@ -170,7 +170,7 @@ SocketAppender::append(const spi::InternalLoggingEvent& event)
 
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-thread::Mutex const &
+std::recursive_mutex &
 SocketAppender::ctcGetAccessMutex () const
 {
     return access_mutex;

@@ -59,7 +59,7 @@ ConnectorThread::run ()
         // Check exit condition as the very first thing.
 
         {
-            thread::MutexGuard guard (access_mutex);
+            std::lock_guard guard {access_mutex};
             if (exit_flag)
                 return;
             trigger_ev.reset ();
@@ -68,9 +68,9 @@ ConnectorThread::run ()
         // Do not try to re-open already open socket.
 
         helpers::Socket & client_socket = ctc.ctcGetSocket ();
-        thread::Mutex const & client_access_mutex = ctc.ctcGetAccessMutex ();
+        std::recursive_mutex & client_access_mutex = ctc.ctcGetAccessMutex ();
         {
-            thread::MutexGuard guard (client_access_mutex);
+            std::lock_guard guard {client_access_mutex};
             if (client_socket.isOpen ())
                 continue;
         }
@@ -95,7 +95,7 @@ ConnectorThread::run ()
         // Connection was successful, move the socket into client.
 
         {
-            thread::MutexGuard guard (client_access_mutex);
+            std::lock_guard guard {client_access_mutex};
             client_socket = std::move (new_socket);
             ctc.ctcSetConnected ();
         }
@@ -107,7 +107,7 @@ void
 ConnectorThread::terminate ()
 {
     {
-        thread::MutexGuard guard (access_mutex);
+        std::lock_guard guard {access_mutex};
         exit_flag = true;
         trigger_ev.signal ();
     }

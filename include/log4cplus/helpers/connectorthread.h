@@ -1,16 +1,16 @@
 // -*- C++ -*-
 //  Copyright (C) 2013-2017, Vaclav Zeman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -51,7 +51,7 @@ protected:
 
     //! \return Mutex for synchronization between ConnectorThread and
     //! its client object. This is usually SharedObject::access_mutex.
-    virtual thread::Mutex const & ctcGetAccessMutex () const = 0;
+    virtual std::recursive_mutex & ctcGetAccessMutex () const = 0;
 
     //! \return Socket variable in ConnectorThread client to maintain.
     virtual helpers::Socket & ctcGetSocket () = 0;
@@ -76,7 +76,7 @@ public:
     //! \param client reference to ConnectorThread's client object
     ConnectorThread (IConnectorThreadClient & client);
     virtual ~ConnectorThread ();
-    
+
     virtual void run();
 
     //! Call this function to terminate ConnectorThread. The function
@@ -87,7 +87,7 @@ public:
     //! This function triggers (`trigger_ev`) connection check and
     //! attempt to re-connect a broken connection, when necessary.
     void trigger ();
-    
+
 protected:
     //! reference to ConnectorThread's client
     IConnectorThreadClient & ctc;
@@ -95,7 +95,7 @@ protected:
     //! This event is the re-connection trigger.
     thread::ManualResetEvent trigger_ev;
 
-    //! When this variable set to true when ConnectorThread is signaled to 
+    //! When this variable set to true when ConnectorThread is signaled to
     bool exit_flag;
 };
 

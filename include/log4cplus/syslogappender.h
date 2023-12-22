@@ -141,7 +141,7 @@ namespace log4cplus
         void openSocket ();
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-        virtual thread::Mutex const & ctcGetAccessMutex () const;
+        virtual std::recursive_mutex & ctcGetAccessMutex () const;
         virtual helpers::Socket & ctcGetSocket ();
         virtual helpers::Socket ctcConnect ();
         virtual void ctcSetConnected ();

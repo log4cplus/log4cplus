@@ -289,7 +289,7 @@ FileAppenderBase::init()
 void
 FileAppenderBase::close()
 {
-    thread::MutexGuard guard (access_mutex);
+    std::lock_guard guard {access_mutex};
 
     out.close();
     buffer.reset ();

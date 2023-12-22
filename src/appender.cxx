@@ -347,7 +347,7 @@ Appender::asyncDoAppend(const log4cplus::spi::InternalLoggingEvent& event)
 void
 Appender::syncDoAppend(const log4cplus::spi::InternalLoggingEvent& event)
 {
-    thread::MutexGuard guard (access_mutex);
+    std::lock_guard guard {access_mutex};
 
     if(closed) {
         helpers::getLogLog().error(
@@ -434,7 +434,7 @@ Appender::setErrorHandler(std::unique_ptr<ErrorHandler> eh)
         return;
     }
 
-    thread::MutexGuard guard (access_mutex);
+    std::lock_guard guard {access_mutex};
 
     this->errorHandler = std::move(eh);
 }
@@ -444,7 +444,7 @@ Appender::setErrorHandler(std::unique_ptr<ErrorHandler> eh)
 void
 Appender::setLayout(std::unique_ptr<Layout> lo)
 {
-    thread::MutexGuard guard (access_mutex);
+    std::lock_guard guard {access_mutex};
 
     this->layout = std::move(lo);
 }
@@ -454,7 +454,7 @@ Appender::setLayout(std::unique_ptr<Layout> lo)
 Layout*
 Appender::getLayout()
 {
-    thread::MutexGuard guard (access_mutex);
+    std::lock_guard guard {access_mutex};
 
     return layout.get();
 }
@@ -463,7 +463,7 @@ Appender::getLayout()
 void
 Appender::setFilter(log4cplus::spi::FilterPtr f)
 {
-    thread::MutexGuard guard (access_mutex);
+    std::lock_guard guard {access_mutex};
 
     filter = std::move (f);
 }
@@ -472,7 +472,7 @@ Appender::setFilter(log4cplus::spi::FilterPtr f)
 log4cplus::spi::FilterPtr
 Appender::getFilter() const
 {
-    thread::MutexGuard guard (access_mutex);
+    std::lock_guard guard {access_mutex};
 
     return filter;
 }
@@ -481,7 +481,7 @@ Appender::getFilter() const
 void
 Appender::addFilter (log4cplus::spi::FilterPtr f)
 {
-    thread::MutexGuard guard (access_mutex);
+    std::lock_guard guard {access_mutex};
 
     log4cplus::spi::FilterPtr filterChain = getFilter ();
     if (filterChain)
