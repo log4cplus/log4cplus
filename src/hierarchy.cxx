@@ -90,7 +90,7 @@ Hierarchy::~Hierarchy()
 void
 Hierarchy::clear()
 {
-    thread::MutexGuard guard (hashtable_mutex);
+    std::unique_lock guard {hashtable_mutex};
 
     provisionNodes.erase(provisionNodes.begin(), provisionNodes.end());
     loggerPtrs.erase(loggerPtrs.begin(), loggerPtrs.end());
@@ -104,7 +104,7 @@ Hierarchy::exists(const tstring_view& name)
     if (name.empty ())
         return true;
 
-    thread::MutexGuard guard (hashtable_mutex);
+    std::unique_lock guard {hashtable_mutex};
 
     auto it = loggerPtrs.find(name);
     return it != loggerPtrs.end();
@@ -167,7 +167,7 @@ Hierarchy::getInstance(const tstring_view& name)
 Logger
 Hierarchy::getInstance(const tstring_view& name, spi::LoggerFactory& factory)
 {
-    thread::MutexGuard guard (hashtable_mutex);
+    std::unique_lock guard {hashtable_mutex};
 
     return getInstanceImpl(name, factory);
 }
@@ -179,7 +179,7 @@ Hierarchy::getCurrentLoggers()
     LoggerList ret;
 
     {
-        thread::MutexGuard guard (hashtable_mutex);
+        std::unique_lock guard {hashtable_mutex};
         initializeLoggerList(ret);
     }
 
