@@ -95,12 +95,12 @@ namespace log4cplus {
             typedef std::map<log4cplus::tstring, void*> ObjectMap;
 
           // Data
-            thread::Mutex mutex;
+            mutable std::mutex mutex;
             ObjectMap data;
 
         private:
-            ObjectRegistryBase (ObjectRegistryBase const &);
-            ObjectRegistryBase & operator = (ObjectRegistryBase const &);
+            ObjectRegistryBase (ObjectRegistryBase const &) = delete;
+            ObjectRegistryBase & operator = (ObjectRegistryBase const &) = delete;
 
             bool volatile locking;
         };
