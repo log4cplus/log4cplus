@@ -22,6 +22,9 @@
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/thread/threads.h>
 
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#include <catch.hpp>
+#endif
 
 namespace log4cplus::spi {
 
@@ -125,5 +128,37 @@ ObjectRegistryBase::_enableLocking (bool enable)
     locking = enable;
 }
 
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+CATCH_TEST_CASE ("ObjectRegistryBase")
+{
+
+    class TestObjectRegistry : public ObjectRegistryBase
+    {
+    public:
+        using ObjectRegistryBase::putVal;
+        using ObjectRegistryBase::getVal;
+        using ObjectRegistryBase::clear;
+
+        virtual void deleteObject(void *object) const
+        {
+            delete static_cast<std::string *>(object);
+        }
+    };
+
+    CATCH_SECTION ("put-get")
+    {
+        TestObjectRegistry reg;
+        CATCH_REQUIRE (reg.getVal (LOG4CPLUS_TEXT ("doesnotexist")) == nullptr);
+        std::string * const str = new std::string ("test");
+        CATCH_REQUIRE (reg.putVal (LOG4CPLUS_TEXT ("a"), str));
+        CATCH_REQUIRE (!reg.putVal (LOG4CPLUS_TEXT ("a"), str));
+        std::string * str2 = new std::string ("test2");
+        CATCH_REQUIRE (reg.putVal (LOG4CPLUS_TEXT ("b"), str2));
+        CATCH_REQUIRE (reg.getVal (LOG4CPLUS_TEXT ("a")) == str);
+        CATCH_REQUIRE (reg.getVal (LOG4CPLUS_TEXT ("b")) == str2);
+    }
+
+}
+#endif // defined (LOG4CPLUS_WITH_UNIT_TESTS)
 
 } // namespace log4cplus::spi
