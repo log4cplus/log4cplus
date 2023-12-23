@@ -74,7 +74,7 @@ endif
 common_liblog4cplus_la_ldflags = -no-undefined \
 	$(LOG4CPLUS_VERSION_LT_FLAGS) \
 	$(LOG4CPLUS_PROFILING_LDFLAGS) \
-        $(LOG4CPLUS_LTO_LDFLAGS) \
+	$(LOG4CPLUS_LTO_LDFLAGS) \
 	$(LOG4CPLUS_AIX_XLC_LDFLAGS) \
 	$(LOG4CPLUS_EXPORT_SYMBOLS_REGEX)
 liblog4cplus_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
