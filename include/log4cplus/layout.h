@@ -75,6 +75,10 @@ namespace log4cplus {
     public:
         Layout();
         Layout(const helpers::Properties& properties);
+
+        Layout(const Layout&) = delete;
+        Layout& operator=(Layout const &) = delete;
+
         virtual ~Layout() = 0;
 
         virtual void formatAndAppend(log4cplus::tostream& output,
@@ -82,11 +86,6 @@ namespace log4cplus {
 
     protected:
         LogLevelManager& llmCache;
-
-    private:
-      // Disable copy
-        Layout(const Layout&);
-        Layout& operator=(Layout const &);
     };
 
 
@@ -107,15 +106,14 @@ namespace log4cplus {
     public:
         SimpleLayout();
         SimpleLayout(const log4cplus::helpers::Properties& properties);
+
+        SimpleLayout(const SimpleLayout&) = delete;
+        SimpleLayout& operator=(const SimpleLayout&) = delete;
+
         virtual ~SimpleLayout();
 
         virtual void formatAndAppend(log4cplus::tostream& output,
                                      const log4cplus::spi::InternalLoggingEvent& event) override;
-
-    private:
-      // Disallow copying of instances of this class
-        SimpleLayout(const SimpleLayout&);
-        SimpleLayout& operator=(const SimpleLayout&);
     };
 
 
@@ -169,6 +167,10 @@ namespace log4cplus {
         TTCCLayout(bool use_gmtime = false, bool thread_printing = true,
             bool category_prefixes = true, bool context_printing = true);
         TTCCLayout(const log4cplus::helpers::Properties& properties);
+
+        TTCCLayout(const TTCCLayout&) = delete;
+        TTCCLayout& operator=(const TTCCLayout&) = delete;
+
         virtual ~TTCCLayout();
 
         virtual void formatAndAppend(log4cplus::tostream& output,
@@ -189,11 +191,6 @@ namespace log4cplus {
        bool thread_printing = true;
        bool category_prefixing = true;
        bool context_printing = true;
-
-    private:
-      // Disallow copying of instances of this class
-        TTCCLayout(const TTCCLayout&);
-        TTCCLayout& operator=(const TTCCLayout&);
     };
 
 
@@ -620,6 +617,10 @@ namespace log4cplus {
       // Ctors and dtor
         PatternLayout(const log4cplus::tstring& pattern);
         PatternLayout(const log4cplus::helpers::Properties& properties);
+
+        PatternLayout(const PatternLayout&) = delete;
+        PatternLayout& operator=(const PatternLayout&) = delete;
+
         virtual ~PatternLayout();
 
         virtual void formatAndAppend(log4cplus::tostream& output,
@@ -631,11 +632,6 @@ namespace log4cplus {
       // Data
         log4cplus::tstring pattern;
         std::vector<std::unique_ptr<pattern::PatternConverter> > parsedPattern;
-
-    private:
-      // Disallow copying of instances of this class
-        PatternLayout(const PatternLayout&);
-        PatternLayout& operator=(const PatternLayout&);
     };
 
 
