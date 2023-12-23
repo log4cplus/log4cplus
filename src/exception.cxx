@@ -3,7 +3,7 @@
 namespace log4cplus {
 
 exception::exception (tstring const & message)
-    : std::runtime_error (LOG4CPLUS_TSTRING_TO_STRING (message).c_str ())
+    : std::runtime_error (LOG4CPLUS_TSTRING_TO_STRING (message))
 { }
 
 exception::exception (exception const &) = default;
