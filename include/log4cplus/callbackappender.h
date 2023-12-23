@@ -51,13 +51,13 @@ public:
     CallbackAppender(const log4cplus::helpers::Properties&);
 
     virtual ~CallbackAppender();
-    virtual void close();
+    virtual void close() override;
 
     void setCookie(void *);
     void setCallback(log4cplus_log_event_callback_t);
 
 protected:
-    virtual void append(const log4cplus::spi::InternalLoggingEvent& event);
+    virtual void append(const log4cplus::spi::InternalLoggingEvent& event) override;
 
 private:
     log4cplus_log_event_callback_t callback;

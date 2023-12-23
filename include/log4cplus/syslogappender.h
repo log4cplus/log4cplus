@@ -108,11 +108,11 @@ namespace log4cplus
         virtual ~SysLogAppender();
 
       // Methods
-        virtual void close();
+        virtual void close() override;
 
     protected:
         virtual int getSysLogLevel(const LogLevel& ll) const;
-        virtual void append(const spi::InternalLoggingEvent& event);
+        virtual void append(const spi::InternalLoggingEvent& event) override;
 #if defined (LOG4CPLUS_HAVE_SYSLOG_H)
         //! Local syslog (served by `syslog()`) worker function.
         void appendLocal(const spi::InternalLoggingEvent& event);
@@ -141,10 +141,10 @@ namespace log4cplus
         void openSocket ();
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-        virtual thread::Mutex const & ctcGetAccessMutex () const;
-        virtual helpers::Socket & ctcGetSocket ();
-        virtual helpers::Socket ctcConnect ();
-        virtual void ctcSetConnected ();
+        virtual thread::Mutex const & ctcGetAccessMutex () const override;
+        virtual helpers::Socket & ctcGetSocket () override;
+        virtual helpers::Socket ctcConnect () override;
+        virtual void ctcSetConnected () override;
 
         helpers::SharedObjectPtr<helpers::ConnectorThread> connector;
 #endif

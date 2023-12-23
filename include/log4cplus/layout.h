@@ -110,7 +110,7 @@ namespace log4cplus {
         virtual ~SimpleLayout();
 
         virtual void formatAndAppend(log4cplus::tostream& output,
-                                     const log4cplus::spi::InternalLoggingEvent& event);
+                                     const log4cplus::spi::InternalLoggingEvent& event) override;
 
     private:
       // Disallow copying of instances of this class
@@ -172,7 +172,7 @@ namespace log4cplus {
         virtual ~TTCCLayout();
 
         virtual void formatAndAppend(log4cplus::tostream& output,
-                                     const log4cplus::spi::InternalLoggingEvent& event);
+                                     const log4cplus::spi::InternalLoggingEvent& event) override;
 
         bool getThreadPrinting() const;
         void setThreadPrinting(bool);
@@ -623,7 +623,7 @@ namespace log4cplus {
         virtual ~PatternLayout();
 
         virtual void formatAndAppend(log4cplus::tostream& output,
-                                     const log4cplus::spi::InternalLoggingEvent& event);
+                                     const log4cplus::spi::InternalLoggingEvent& event) override;
 
     protected:
         void init(const log4cplus::tstring& pattern, unsigned ndcMaxDepth = 0);

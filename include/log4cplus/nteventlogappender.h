@@ -38,24 +38,27 @@
 namespace log4cplus {
 
     /**
-     * Appends log events to NT EventLog. 
+     * Appends log events to NT EventLog.
      */
     class LOG4CPLUS_EXPORT NTEventLogAppender : public Appender {
     public:
       // ctors
-        NTEventLogAppender(const log4cplus::tstring& server, 
-                           const log4cplus::tstring& log, 
+        NTEventLogAppender(const log4cplus::tstring& server,
+                           const log4cplus::tstring& log,
                            const log4cplus::tstring& source);
         NTEventLogAppender(const log4cplus::helpers::Properties & properties);
+
+        NTEventLogAppender(const NTEventLogAppender&) = delete;
+        NTEventLogAppender& operator=(const NTEventLogAppender&) = delete;
 
       // dtor
         virtual ~NTEventLogAppender();
 
       // public Methods
-        virtual void close();
+        virtual void close() override;
 
     protected:
-        virtual void append(const spi::InternalLoggingEvent& event);
+        virtual void append(const spi::InternalLoggingEvent& event) override;
         virtual WORD getEventType(const spi::InternalLoggingEvent& event);
         virtual WORD getEventCategory(const spi::InternalLoggingEvent& event);
         void init();
@@ -71,11 +74,6 @@ namespace log4cplus {
         log4cplus::tstring source;
         HANDLE hEventLog;
         SID* pCurrentUserSID;
-
-    private:
-      // Disallow copying of instances of this class
-        NTEventLogAppender(const NTEventLogAppender&);
-        NTEventLogAppender& operator=(const NTEventLogAppender&);
     };
 
 } // end namespace log4cplus

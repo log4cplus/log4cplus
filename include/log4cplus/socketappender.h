@@ -119,12 +119,12 @@ namespace log4cplus
         ~SocketAppender();
 
       // Methods
-        virtual void close();
+        virtual void close() override;
 
     protected:
         void openSocket();
         void initConnector ();
-        virtual void append(const spi::InternalLoggingEvent& event);
+        virtual void append(const spi::InternalLoggingEvent& event) override;
 
       // Data
         log4cplus::helpers::Socket socket;
@@ -134,10 +134,10 @@ namespace log4cplus
         bool ipv6 = false;
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
-        virtual thread::Mutex const & ctcGetAccessMutex () const;
-        virtual helpers::Socket & ctcGetSocket ();
-        virtual helpers::Socket ctcConnect ();
-        virtual void ctcSetConnected ();
+        virtual thread::Mutex const & ctcGetAccessMutex () const override;
+        virtual helpers::Socket & ctcGetSocket () override;
+        virtual helpers::Socket ctcConnect () override;
+        virtual void ctcSetConnected () override;
 
         volatile bool connected;
         helpers::SharedObjectPtr<helpers::ConnectorThread> connector;

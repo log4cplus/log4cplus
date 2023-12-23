@@ -117,7 +117,7 @@ namespace log4cplus
     class LOG4CPLUS_EXPORT FileAppenderBase : public Appender {
     public:
       // Methods
-        virtual void close();
+        virtual void close() override;
 
       //! Redefine default locale for output stream. It may be a good idea to
       //! provide UTF-8 locale in case UNICODE macro is defined.
@@ -137,7 +137,7 @@ namespace log4cplus
 
         void init();
 
-        virtual void append(const spi::InternalLoggingEvent& event);
+        virtual void append(const spi::InternalLoggingEvent& event) override;
 
         virtual void open(std::ios_base::openmode mode);
         bool reopen();
@@ -253,7 +253,7 @@ namespace log4cplus
         virtual ~RollingFileAppender();
 
     protected:
-        virtual void append(const spi::InternalLoggingEvent& event);
+        virtual void append(const spi::InternalLoggingEvent& event) override;
         void rollover(bool alreadyLocked = false);
 
       // Data
@@ -324,10 +324,10 @@ namespace log4cplus
         virtual ~DailyRollingFileAppender();
 
       // Methods
-        virtual void close();
+        virtual void close() override;
 
     protected:
-        virtual void append(const spi::InternalLoggingEvent& event);
+        virtual void append(const spi::InternalLoggingEvent& event) override;
         void rollover(bool alreadyLocked = false);
         log4cplus::helpers::Time calculateNextRolloverTime(const log4cplus::helpers::Time& t) const;
         log4cplus::tstring getFilename(const log4cplus::helpers::Time& t) const;
@@ -398,9 +398,9 @@ namespace log4cplus
         ~TimeBasedRollingFileAppender();
 
     protected:
-        void append(const spi::InternalLoggingEvent& event);
-        void open(std::ios_base::openmode mode);
-        void close();
+        virtual void append(const spi::InternalLoggingEvent& event) override;
+        void open(std::ios_base::openmode mode) override;
+        virtual void close() override;
         void rollover(bool alreadyLocked = false);
         void clean(helpers::Time time);
         helpers::Time::duration getRolloverPeriodDuration() const;

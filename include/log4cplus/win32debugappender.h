@@ -30,7 +30,7 @@
 #pragma once
 #endif
 
-#if defined (LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING) 
+#if defined (LOG4CPLUS_HAVE_OUTPUTDEBUGSTRING)
 
 #include <log4cplus/appender.h>
 
@@ -38,7 +38,7 @@
 namespace log4cplus {
 
     /**
-     * Prints log events using OutputDebugString(). 
+     * Prints log events using OutputDebugString().
      */
     class LOG4CPLUS_EXPORT Win32DebugAppender
         : public Appender
@@ -52,10 +52,10 @@ namespace log4cplus {
         virtual ~Win32DebugAppender();
 
       // Methods
-        virtual void close();
+        virtual void close() override;
 
     protected:
-        virtual void append(const log4cplus::spi::InternalLoggingEvent& event);
+        virtual void append(const log4cplus::spi::InternalLoggingEvent& event) override;
 
     private:
       // Disallow copying of instances of this class

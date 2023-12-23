@@ -36,7 +36,7 @@
 namespace log4cplus {
 
     /**
-     * Appends log events to a file. 
+     * Appends log events to a file.
      */
     class LOG4CPLUS_EXPORT NullAppender : public Appender {
     public:
@@ -48,10 +48,10 @@ namespace log4cplus {
         virtual ~NullAppender();
 
       // Methods
-        virtual void close();
+        virtual void close() override;
 
     protected:
-        virtual void append(const log4cplus::spi::InternalLoggingEvent& event);
+        virtual void append(const log4cplus::spi::InternalLoggingEvent& event) override;
 
     private:
       // Disallow copying of instances of this class

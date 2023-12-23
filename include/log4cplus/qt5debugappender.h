@@ -79,18 +79,18 @@ class LOG4CPLUS_QT5DEBUGAPPENDER_EXPORT Qt5DebugAppender
 public:
     Qt5DebugAppender ();
     explicit Qt5DebugAppender (helpers::Properties const &);
+
+    Qt5DebugAppender (Qt5DebugAppender const &) = delete;
+    Qt5DebugAppender & operator = (Qt5DebugAppender const &) = delete;
+
     virtual ~Qt5DebugAppender ();
 
-    virtual void close ();
+    virtual void close () override;
 
     static void registerAppender ();
 
 protected:
-    virtual void append (spi::InternalLoggingEvent const &);
-
-private:
-    Qt5DebugAppender (Qt5DebugAppender const &);
-    Qt5DebugAppender & operator = (Qt5DebugAppender const &);
+    virtual void append (spi::InternalLoggingEvent const &) override;
 };
 
 
