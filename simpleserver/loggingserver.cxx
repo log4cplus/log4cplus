@@ -54,7 +54,7 @@ public:
     ~ReaperThread ()
     { }
 
-    virtual void run ();
+    virtual void run () override;
 
     void signal_exit ();
 
@@ -176,7 +176,7 @@ public:
         std::cout << "Client connection closed." << std::endl;
     }
 
-    virtual void run();
+    virtual void run() override;
 
 private:
     log4cplus::thread::AbstractThreadPtr self_reference;

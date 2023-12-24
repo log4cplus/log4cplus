@@ -68,7 +68,7 @@ public:
         , logger(Logger::getInstance(LOG4CPLUS_TEXT("test.TestThread")))
      { }
 
-    virtual void run();
+    virtual void run() override;
 
 private:
     tstring name;
