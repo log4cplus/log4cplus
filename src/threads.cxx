@@ -111,7 +111,7 @@ getCurrentThreadName()
 {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     log4cplus::tstring & name = log4cplus::internal::get_thread_name_str ();
-    if (LOG4CPLUS_UNLIKELY (name.empty ()))
+    if (name.empty ()) [[unlikely]]
     {
         log4cplus::tostringstream tmp;
         tmp << impl::getCurrentThreadId ();
@@ -119,7 +119,7 @@ getCurrentThreadName()
     }
 #else
     log4cplus::tstring & name = thread_name;
-    if (LOG4CPLUS_UNLIKELY(name.empty()))
+    if (name.empty()) [[unlikely]]
     {
         name = LOG4CPLUS_TEXT("single");
     }
@@ -166,7 +166,7 @@ getCurrentThreadName2()
 {
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     log4cplus::tstring & name = log4cplus::internal::get_thread_name2_str ();
-    if (LOG4CPLUS_UNLIKELY (name.empty ()))
+    if (name.empty ()) [[unlikely]]
     {
         log4cplus::tostringstream tmp;
         get_current_thread_name_alt (&tmp);
@@ -175,7 +175,7 @@ getCurrentThreadName2()
 
 #else
     log4cplus::tstring & name = thread_name2;
-    if (LOG4CPLUS_UNLIKELY(name.empty()))
+    if (name.empty()) [[unlikely]]
     {
         name = getCurrentThreadName();
     }

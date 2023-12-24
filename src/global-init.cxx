@@ -270,7 +270,7 @@ get_dc (
 #endif
 )
 {
-    if (LOG4CPLUS_UNLIKELY(!default_context))
+    if (!default_context) [[unlikely]]
     {
         if (alloc)
         {

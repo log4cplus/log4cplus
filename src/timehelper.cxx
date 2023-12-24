@@ -88,7 +88,7 @@ gmTime (tm* t, Time const & the_time)
     time_t clock = to_time_t (the_time);
 #if defined (LOG4CPLUS_HAVE_GMTIME_S) && defined (_MSC_VER)
     errno_t eno;
-    if (LOG4CPLUS_UNLIKELY ((eno = gmtime_s (t, &clock)) != 0))
+    if ((eno = gmtime_s (t, &clock)) != 0) [[unlikely]]
         throw std::system_error (eno, std::system_category (),
             "gmTime(): gmtime_s() failed");
 #elif defined (LOG4CPLUS_HAVE_GMTIME_S) && defined (__BORLANDC__)
@@ -110,7 +110,7 @@ localTime (tm* t, Time const & the_time)
     ::localtime_r(&clock, t);
 #elif defined (LOG4CPLUS_HAVE_LOCALTIME_S)
     errno_t eno;
-    if (LOG4CPLUS_UNLIKELY ((eno = localtime_s (t, &clock)) != 0))
+    if ((eno = localtime_s (t, &clock)) != 0) [[unlikely]]
         throw std::system_error (eno, std::system_category (),
             "localTime(): localtime_s() failed");
 #else

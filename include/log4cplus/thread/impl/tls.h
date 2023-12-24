@@ -1,16 +1,16 @@
 // -*- C++ -*-
 //  Copyright (C) 2010-2017, Vaclav Haisman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -83,7 +83,7 @@ tls_init (tls_init_cleanup_func_type cleanupfunc)
 {
     pthread_key_t * key = new pthread_key_t;
     int ret = pthread_key_create (key, cleanupfunc);
-    if (LOG4CPLUS_UNLIKELY (ret != 0))
+    if (ret != 0) [[unlikely]]
         throw std::system_error(ret, std::system_category (),
             "pthread_key_create() failed");
     return key;
@@ -117,7 +117,7 @@ tls_key_type
 tls_init (tls_init_cleanup_func_type cleanupfunc)
 {
     DWORD const slot = FlsAlloc (cleanupfunc);
-    if (LOG4CPLUS_UNLIKELY (slot == FLS_OUT_OF_INDEXES))
+    if (slot == FLS_OUT_OF_INDEXES) [[unlikely]]
     {
         DWORD const eno = GetLastError ();
         throw std::system_error (static_cast<int>(eno),

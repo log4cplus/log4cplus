@@ -1324,7 +1324,7 @@ TimeBasedRollingFileAppender::init()
     Time now = helpers::now();
     nextRolloverTime = calculateNextRolloverTime(now);
 
-    if (LOG4CPLUS_UNLIKELY(cleanHistoryOnStart))
+    if (cleanHistoryOnStart) [[unlikely]]
     {
         clean(now + maxHistory*getRolloverPeriodDuration());
     }

@@ -183,17 +183,17 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 // Make TRACE and DEBUG log level unlikely and INFO, WARN, ERROR and
 // FATAL log level likely.
 #define LOG4CPLUS_MACRO_TRACE_LOG_LEVEL(pred) \
-    LOG4CPLUS_UNLIKELY (pred)
+    (pred) [[unlikely]]
 #define LOG4CPLUS_MACRO_DEBUG_LOG_LEVEL(pred) \
-    LOG4CPLUS_UNLIKELY (pred)
+    (pred) [[unlikely]]
 #define LOG4CPLUS_MACRO_INFO_LOG_LEVEL(pred) \
-    LOG4CPLUS_LIKELY (pred)
+    (pred) [[likely]]
 #define LOG4CPLUS_MACRO_WARN_LOG_LEVEL(pred) \
-    LOG4CPLUS_LIKELY (pred)
+    (pred) [[likely]]
 #define LOG4CPLUS_MACRO_ERROR_LOG_LEVEL(pred) \
-    LOG4CPLUS_LIKELY (pred)
+    (pred) [[likely]]
 #define LOG4CPLUS_MACRO_FATAL_LOG_LEVEL(pred) \
-    LOG4CPLUS_LIKELY (pred)
+    (pred) [[likely]]
 
 
 //! Dispatch to LOG4CPLUS_MACRO_LOGLEVEL_* depending on log level.
@@ -227,8 +227,8 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     do {                                                                \
         log4cplus::Logger const & _l                                    \
             = log4cplus::detail::macros_get_logger (logger);            \
-        if (LOG4CPLUS_MACRO_LOGLEVEL_PRED (                             \
-                _l.isEnabledFor (log4cplus::logLevel), logLevel)) {     \
+        if LOG4CPLUS_MACRO_LOGLEVEL_PRED (                              \
+                _l.isEnabledFor (log4cplus::logLevel), logLevel) {      \
             LOG4CPLUS_MACRO_INSTANTIATE_OSTRINGSTREAM (_log4cplus_buf); \
             _log4cplus_buf << logEvent;                                 \
             LOG4CPLUS_MACRO_LOG_LOCATION (_logLocation);                \
@@ -247,8 +247,8 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     do {                                                                \
         log4cplus::Logger const & _l                                    \
             = log4cplus::detail::macros_get_logger (logger);            \
-        if (LOG4CPLUS_MACRO_LOGLEVEL_PRED (                             \
-                _l.isEnabledFor (log4cplus::logLevel), logLevel)) {     \
+        if LOG4CPLUS_MACRO_LOGLEVEL_PRED (                              \
+                _l.isEnabledFor (log4cplus::logLevel), logLevel) {      \
             LOG4CPLUS_MACRO_LOG_LOCATION (_logLocation);                \
             log4cplus::detail::macro_forced_log (_l,                    \
                 log4cplus::logLevel, logEvent,                          \
@@ -264,8 +264,8 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     do {                                                                \
         log4cplus::Logger const & _l                                    \
             = log4cplus::detail::macros_get_logger (logger);            \
-        if (LOG4CPLUS_MACRO_LOGLEVEL_PRED (                             \
-                _l.isEnabledFor (log4cplus::logLevel), logLevel)) {     \
+        if LOG4CPLUS_MACRO_LOGLEVEL_PRED (                              \
+                _l.isEnabledFor (log4cplus::logLevel), logLevel) {      \
             LOG4CPLUS_MACRO_INSTANTIATE_SNPRINTF_BUF (_snpbuf);         \
             log4cplus::tchar const * _logEvent                          \
                 = _snpbuf.print (__VA_ARGS__);                          \
@@ -413,10 +413,11 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 #define LOG4CPLUS_ASSERT(logger, condition)                             \
     LOG4CPLUS_SUPPRESS_DOWHILE_WARNING()                                \
     do {                                                                \
-        if (LOG4CPLUS_UNLIKELY(! (condition)))                          \
+        if (! (condition)) [[unlikely]] {                               \
             LOG4CPLUS_FATAL_STR ((logger),                              \
                 LOG4CPLUS_TEXT ("failed condition: ")                   \
                 LOG4CPLUS_TEXT (LOG4CPLUS_ASSERT_STRINGIFY (condition))); \
+        }                                                               \
     } while (false)                                                     \
     LOG4CPLUS_RESTORE_DOWHILE_WARNING()
 

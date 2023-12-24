@@ -129,7 +129,7 @@ Semaphore::lock () const
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     std::unique_lock<std::mutex> guard (mtx);
 
-    if (LOG4CPLUS_UNLIKELY(val > max_))
+    if (val > max_) [[unlikely]]
         LOG4CPLUS_THROW_RTE ("Semaphore::unlock(): val > max");
 
     while (val == 0)
@@ -137,7 +137,7 @@ Semaphore::lock () const
 
     --val;
 
-    if (LOG4CPLUS_UNLIKELY(val >= max_))
+    if (val >= max_) [[unlikely]]
         LOG4CPLUS_THROW_RTE ("Semaphore::unlock(): val >= max");
 #endif
 }
