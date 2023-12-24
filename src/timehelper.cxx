@@ -72,7 +72,7 @@ Time
 from_struct_tm (tm * t)
 {
     time_t time = helpers::mktime(t);
-    if (LOG4CPLUS_LIKELY (time != -1))
+    if (time != -1) [[likely]]
         return from_time_t (time);
     else
     {
