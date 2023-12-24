@@ -35,6 +35,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <filesystem>
 #include <log4cplus/streams.h>
 #include <log4cplus/fstreams.h>
 #include <log4cplus/helpers/stringhelper.h>
@@ -323,7 +324,7 @@ Properties::Properties(const tstring& inputFile, unsigned f)
     tifstream file;
     imbue_file_from_flags (file, flags);
 
-    file.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(inputFile).c_str(),
+    file.open(std::filesystem::path (inputFile),
         std::ios::binary);
     if (! file.good ())
         helpers::getLogLog ().error (LOG4CPLUS_TEXT ("could not open file ")
@@ -368,7 +369,7 @@ Properties::init(tistream& input)
             tifstream file;
             imbue_file_from_flags (file, flags);
 
-            file.open (LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(subIncluded).c_str(),
+            file.open (std::filesystem::path (subIncluded),
                 std::ios::binary);
             if (! file.good ())
                 helpers::getLogLog ().error (

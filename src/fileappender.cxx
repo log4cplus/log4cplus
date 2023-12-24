@@ -36,6 +36,7 @@
 #include <cstdio>
 #include <stdexcept>
 #include <cmath> // std::fmod
+#include <filesystem>
 
 // For _wrename() and _wremove() on Windows.
 #include <stdio.h>
@@ -347,7 +348,7 @@ FileAppenderBase::open(std::ios_base::openmode mode)
     if (createDirs)
         internal::make_dirs (filename);
 
-    out.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(filename).c_str(), mode);
+    out.open(std::filesystem::path (filename), mode);
 
     if(!out.good()) {
         getErrorHandler()->error(LOG4CPLUS_TEXT("Unable to open file: ") + filename);
@@ -1358,7 +1359,7 @@ TimeBasedRollingFileAppender::open(std::ios_base::openmode mode)
     if (createDirs)
         internal::make_dirs (currentFilename);
 
-    out.open(LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(currentFilename).c_str(), mode);
+    out.open(std::filesystem::path (currentFilename), mode);
     if(!out.good())
     {
         getErrorHandler()->error(LOG4CPLUS_TEXT("Unable to open file: ") + currentFilename);

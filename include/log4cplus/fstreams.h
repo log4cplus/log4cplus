@@ -41,15 +41,6 @@ namespace log4cplus
 typedef std::basic_ofstream<tchar> tofstream;
 typedef std::basic_ifstream<tchar> tifstream;
 
-//! \def LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(X)
-//! \brief Expands into expression that picks the right type for
-//! std::fstream file name parameter.
-#if defined (LOG4CPLUS_FSTREAM_ACCEPTS_WCHAR_T) && defined (UNICODE)
-#  define LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(X) (X)
-#else
-#  define LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME(X) (LOG4CPLUS_TSTRING_TO_STRING(X))
-#endif
-
 
 }
 
