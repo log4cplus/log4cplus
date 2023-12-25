@@ -48,5 +48,7 @@ main()
     LOG4CPLUS_WARN(test, "The following message is empty:");
     LOG4CPLUS_WARN(test, "");
 
+    LOG4CPLUS_INFO_FORMAT(test, "{}, {}", "1st", "2nd");
+
     return 0;
 }
