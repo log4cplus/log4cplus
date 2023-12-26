@@ -115,7 +115,7 @@ BENCHMARK_DEFINE_F(benchmarker, logStaticStringFMT)(benchmark::State& state)
 {
     for (auto _ : state)
     {
-        LOG4CPLUS_INFO_FMT(m_logger, LOG4CPLUS_TEXT("This is a static string to see what happens"), 0);
+        LOG4CPLUS_INFO_FMT(m_logger, LOG4CPLUS_TEXT("This is a static string to see what happens"));
     }
 }
 BENCHMARK_REGISTER_F(benchmarker, logStaticStringFMT)->Name("Logging static string with printf");
