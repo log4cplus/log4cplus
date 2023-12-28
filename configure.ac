@@ -179,6 +179,8 @@ AX_CXX_COMPILE_STDCXX([20],[],[mandatory])
 
 AS_VAR_APPEND([CPPFLAGS], [" -D_GNU_SOURCE=1"])
 
+AC_SYS_YEAR2038
+
 AS_CASE(["$target_os"],
   [mingw*],
   [dnl Undefining __STRICT_ANSI__ is a workaround for MinGW

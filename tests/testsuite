@@ -1,7 +1,7 @@
 #! /bin/sh
-# Generated from testsuite.at by GNU Autoconf 2.71.
+# Generated from testsuite.at by GNU Autoconf 2.72.
 #
-# Copyright (C) 2009-2017, 2020-2021 Free Software Foundation, Inc.
+# Copyright (C) 2009-2017, 2020-2023 Free Software Foundation, Inc.
 #
 # This test suite is free software; the Free Software Foundation gives
 # unlimited permission to copy, distribute and modify it.
@@ -11,7 +11,6 @@
 
 # Be more Bourne compatible
 DUALCASE=1; export DUALCASE # for MKS sh
-as_nop=:
 if test ${ZSH_VERSION+y} && (emulate sh) >/dev/null 2>&1
 then :
   emulate sh
@@ -20,12 +19,13 @@ then :
   # is contrary to our usage.  Disable this feature.
   alias -g '${1+"$@"}'='"$@"'
   setopt NO_GLOB_SUBST
-else $as_nop
-  case `(set -o) 2>/dev/null` in #(
+else case e in #(
+  e) case `(set -o) 2>/dev/null` in #(
   *posix*) :
     set -o posix ;; #(
   *) :
      ;;
+esac ;;
 esac
 fi
 
@@ -97,7 +97,7 @@ IFS=$as_save_IFS
 
      ;;
 esac
-# We did not find ourselves, most probably we were run as `sh COMMAND'
+# We did not find ourselves, most probably we were run as 'sh COMMAND'
 # in which case we are not to be found in the path.
 if test "x$as_myself" = x; then
   as_myself=$0
@@ -109,8 +109,7 @@ fi
 
 
 if test "x$CONFIG_SHELL" = x; then
-  as_bourne_compatible="as_nop=:
-if test \${ZSH_VERSION+y} && (emulate sh) >/dev/null 2>&1
+  as_bourne_compatible="if test \${ZSH_VERSION+y} && (emulate sh) >/dev/null 2>&1
 then :
   emulate sh
   NULLCMD=:
@@ -118,12 +117,13 @@ then :
   # is contrary to our usage.  Disable this feature.
   alias -g '\${1+\"\$@\"}'='\"\$@\"'
   setopt NO_GLOB_SUBST
-else \$as_nop
-  case \`(set -o) 2>/dev/null\` in #(
+else case e in #(
+  e) case \`(set -o) 2>/dev/null\` in #(
   *posix*) :
     set -o posix ;; #(
   *) :
      ;;
+esac ;;
 esac
 fi
 "
@@ -141,8 +141,9 @@ as_fn_ret_failure && { exitcode=1; echo as_fn_ret_failure succeeded.; }
 if ( set x; as_fn_ret_success y && test x = \"\$1\" )
 then :
 
-else \$as_nop
-  exitcode=1; echo positional parameters were not saved.
+else case e in #(
+  e) exitcode=1; echo positional parameters were not saved. ;;
+esac
 fi
 test x\$exitcode = x0 || exit 1
 blah=\$(echo \$(echo blah))
@@ -156,14 +157,15 @@ test \$(( 1 + 1 )) = 2 || exit 1"
   if (eval "$as_required") 2>/dev/null
 then :
   as_have_required=yes
-else $as_nop
-  as_have_required=no
+else case e in #(
+  e) as_have_required=no ;;
+esac
 fi
   if test x$as_have_required = xyes && (eval "$as_suggested") 2>/dev/null
 then :
 
-else $as_nop
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+else case e in #(
+  e) as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
 as_found=false
 for as_dir in /bin$PATH_SEPARATOR/usr/bin$PATH_SEPARATOR$PATH
 do
@@ -196,12 +198,13 @@ IFS=$as_save_IFS
 if $as_found
 then :
 
-else $as_nop
-  if { test -f "$SHELL" || test -f "$SHELL.exe"; } &&
+else case e in #(
+  e) if { test -f "$SHELL" || test -f "$SHELL.exe"; } &&
 	      as_run=a "$SHELL" -c "$as_bourne_compatible""$as_required" 2>/dev/null
 then :
   CONFIG_SHELL=$SHELL as_have_required=yes
-fi
+fi ;;
+esac
 fi
 
 
@@ -223,7 +226,7 @@ case $- in # ((((
 esac
 exec $CONFIG_SHELL $as_opts "$as_myself" ${1+"$@"}
 # Admittedly, this is quite paranoid, since all the known shells bail
-# out after a failed `exec'.
+# out after a failed 'exec'.
 printf "%s\n" "$0: could not re-execute with $CONFIG_SHELL" >&2
 exit 255
 fi
@@ -242,7 +245,8 @@ $0: message. Then install a modern shell, or manually run
 $0: the script under such a shell if you do have one."
   fi
   exit 1
-fi
+fi ;;
+esac
 fi
 fi
 SHELL=${CONFIG_SHELL-/bin/sh}
@@ -281,14 +285,6 @@ as_fn_exit ()
   as_fn_set_status $1
   exit $1
 } # as_fn_exit
-# as_fn_nop
-# ---------
-# Do nothing but, unlike ":", preserve the value of $?.
-as_fn_nop ()
-{
-  return $?
-}
-as_nop=as_fn_nop
 
 # as_fn_mkdir_p
 # -------------
@@ -333,7 +329,7 @@ printf "%s\n" X"$as_dir" |
       test -d "$as_dir" && break
     done
     test -z "$as_dirs" || eval "mkdir $as_dirs"
-  } || test -d "$as_dir" || as_fn_error $? "cannot create directory $as_dir"
+  } || test -d "$as_dir" || as_fn_error $? "cannot create directory $as_dir" "$LINENO" 5
 
 
 } # as_fn_mkdir_p
@@ -357,11 +353,12 @@ then :
   {
     eval $1+=\$2
   }'
-else $as_nop
-  as_fn_append ()
+else case e in #(
+  e) as_fn_append ()
   {
     eval $1=\$$1\$2
-  }
+  } ;;
+esac
 fi # as_fn_append
 
 # as_fn_arith ARG...
@@ -375,11 +372,12 @@ then :
   {
     as_val=$(( $* ))
   }'
-else $as_nop
-  as_fn_arith ()
+else case e in #(
+  e) as_fn_arith ()
   {
     as_val=`expr "$@" || test $? -eq 1`
-  }
+  } ;;
+esac
 fi # as_fn_arith
 
 
@@ -455,6 +453,8 @@ as_cr_alnum=$as_cr_Letters$as_cr_digits
     /[$]LINENO/=
   ' <$as_myself |
     sed '
+      t clear
+      :clear
       s/[$]LINENO.*/&-/
       t lineno
       b
@@ -503,7 +503,6 @@ esac
 as_echo='printf %s\n'
 as_echo_n='printf %s'
 
-
 rm -f conf$$ conf$$.exe conf$$.file
 if test -d conf$$.dir; then
   rm -f conf$$.dir/conf$$.file
@@ -515,9 +514,9 @@ if (echo >conf$$.file) 2>/dev/null; then
   if ln -s conf$$.file conf$$ 2>/dev/null; then
     as_ln_s='ln -s'
     # ... but there are two gotchas:
-    # 1) On MSYS, both `ln -s file dir' and `ln file dir' fail.
-    # 2) DJGPP < 2.04 has no symlinks; `ln -s' creates a wrapper executable.
-    # In both cases, we have to default to `cp -pR'.
+    # 1) On MSYS, both 'ln -s file dir' and 'ln file dir' fail.
+    # 2) DJGPP < 2.04 has no symlinks; 'ln -s' creates a wrapper executable.
+    # In both cases, we have to default to 'cp -pR'.
     ln -s conf$$.file conf$$.dir 2>/dev/null && test ! -f conf$$.exe ||
       as_ln_s='cp -pR'
   elif ln conf$$.file conf$$ 2>/dev/null; then
@@ -542,10 +541,12 @@ as_test_x='test -x'
 as_executable_p=as_fn_executable_p
 
 # Sed expression to map a string onto a valid CPP name.
-as_tr_cpp="eval sed 'y%*$as_cr_letters%P$as_cr_LETTERS%;s%[^_$as_cr_alnum]%_%g'"
+as_sed_cpp="y%*$as_cr_letters%P$as_cr_LETTERS%;s%[^_$as_cr_alnum]%_%g"
+as_tr_cpp="eval sed '$as_sed_cpp'" # deprecated
 
 # Sed expression to map a string onto a valid variable name.
-as_tr_sh="eval sed 'y%*+%pp%;s%[^_$as_cr_alnum]%_%g'"
+as_sed_sh="y%*+%pp%;s%[^_$as_cr_alnum]%_%g"
+as_tr_sh="eval sed '$as_sed_sh'" # deprecated
 
 
 
@@ -575,7 +576,7 @@ at_traceon=:
 at_trace_echo=:
 at_check_filter_trace=:
 
-# Shall we keep the debug scripts?  Must be `:' when the suite is
+# Shall we keep the debug scripts?  Must be ':' when the suite is
 # run by a debug script, so that the script doesn't remove itself.
 at_debug_p=false
 # Display help message?
@@ -606,7 +607,7 @@ at_change_dir=false
 # Whether to enable colored test results.
 at_color=auto
 # As many question marks as there are digits in the last test group number.
-# Used to normalize the test group numbers so that `ls' lists them in
+# Used to normalize the test group numbers so that 'ls' lists them in
 # numerical order.
 at_format='??'
 # Description of all the test groups.
@@ -752,7 +753,7 @@ do
 	auto | tty | if-tty) at_color=auto ;;
 	always | yes | force) at_color=always ;;
 	*) at_optname=`echo " $at_option" | sed 's/^ //; s/=.*//'`
-	   as_fn_error $? "unrecognized argument to $at_optname: $at_optarg" ;;
+	   as_fn_error $? "unrecognized argument to $at_optname: $at_optarg" "$LINENO" 5 ;;
 	esac
 	;;
 
@@ -840,7 +841,7 @@ do
 	fi
 	case $at_jobs in *[!0-9]*)
 	  at_optname=`echo " $at_option" | sed 's/^ //; s/[0-9=].*//'`
-	  as_fn_error $? "non-numeric argument to $at_optname: $at_jobs" ;;
+	  as_fn_error $? "non-numeric argument to $at_optname: $at_jobs" "$LINENO" 5 ;;
 	esac
 	;;
 
@@ -881,7 +882,7 @@ do
 	# Reject names that are not valid shell variable names.
 	case $at_envvar in
 	  '' | [0-9]* | *[!_$as_cr_alnum]* )
-	    as_fn_error $? "invalid variable name: \`$at_envvar'" ;;
+	    as_fn_error $? "invalid variable name: '$at_envvar'" "$LINENO" 5 ;;
 	esac
 	at_value=`printf "%s\n" "$at_optarg" | sed "s/'/'\\\\\\\\''/g"`
 	# Export now, but save eval for later and for debug scripts.
@@ -890,7 +891,7 @@ do
 	;;
 
      *) printf "%s\n" "$as_me: invalid option: $at_option" >&2
-	printf "%s\n" "Try \`$0 --help' for more information." >&2
+	printf "%s\n" "Try '$0 --help' for more information." >&2
 	exit 1
 	;;
   esac
@@ -899,7 +900,7 @@ done
 # Verify our last option didn't require an argument
 if test -n "$at_prev"
 then :
-  as_fn_error $? "\`$at_prev' requires an argument"
+  as_fn_error $? "'$at_prev' requires an argument" "$LINENO" 5
 fi
 
 # The file containing the suite.
@@ -945,7 +946,7 @@ Run all the tests, or the selected TESTS, given by numeric ranges, and
 save a detailed log file.  Upon failure, create debugging scripts.
 
 Do not change environment variables directly.  Instead, set them via
-command line arguments.  Set \`AUTOTEST_PATH' to select the executables
+command line arguments.  Set 'AUTOTEST_PATH' to select the executables
 to exercise.  Each relative directory is expanded as build and source
 directories relative to the top level of this distribution.
 E.g., from within the build directory /tmp/foo-1.0, invoking this:
@@ -975,7 +976,7 @@ Execution tuning:
                  Allow N jobs at once; infinite jobs with no arg (default 1)
   -k, --keywords=KEYWORDS
                  select the tests matching all the comma-separated KEYWORDS
-                 multiple \`-k' accumulate; prefixed \`!' negates a KEYWORD
+                 multiple '-k' accumulate; prefixed '!' negates a KEYWORD
       --recheck  select all tests that failed or passed unexpectedly last time
   -e, --errexit  abort as soon as a test fails; implies --debug
   -v, --verbose  force more detailed output
@@ -1038,7 +1039,7 @@ if $at_version_p; then
   printf "%s\n" "$as_me (log4cplus)" &&
   cat <<\_ATEOF || at_write_fail=1
 
-Copyright (C) 2021 Free Software Foundation, Inc.
+Copyright (C) 2023 Free Software Foundation, Inc.
 This test suite is free software; the Free Software Foundation gives
 unlimited permission to copy, distribute and modify it.
 _ATEOF
@@ -1062,7 +1063,7 @@ at_banner_text_2="other tests"
 # Take any -C into account.
 if $at_change_dir ; then
   test x != "x$at_dir" && cd "$at_dir" \
-    || as_fn_error $? "unable to change directory"
+    || as_fn_error $? "unable to change directory" "$LINENO" 5
   at_dir=`pwd`
 fi
 
@@ -1070,7 +1071,7 @@ fi
 for at_file in atconfig atlocal
 do
   test -r $at_file || continue
-  . ./$at_file || as_fn_error $? "invalid content: $at_file"
+  . ./$at_file || as_fn_error $? "invalid content: $at_file" "$LINENO" 5
 done
 
 # Autoconf <=2.59b set at_top_builddir instead of at_top_build_prefix:
@@ -1125,7 +1126,7 @@ fi
 # | + ...           - files created during the group
 
 # The directory the whole suite works in.
-# Should be absolute to let the user `cd' at will.
+# Should be absolute to let the user 'cd' at will.
 at_suite_dir=$at_dir/$as_me.dir
 # The file containing the suite ($at_dir might have changed since earlier).
 at_suite_log=$at_dir/$as_me.log
@@ -1146,7 +1147,7 @@ fi
 # Don't take risks: use only absolute directories in PATH.
 #
 # For stand-alone test suites (ie. atconfig was not found),
-# AUTOTEST_PATH is relative to `.'.
+# AUTOTEST_PATH is relative to '.'.
 #
 # For embedded test suites, AUTOTEST_PATH is relative to the top level
 # of the package.  Then expand it into build/src parts, since users
@@ -1213,10 +1214,7 @@ PATH=$at_new_path
 export PATH
 
 # Setting up the FDs.
-
-
-
-# 5 is the log file.  Not to be overwritten if `-d'.
+# 5 is the log file.  Not to be overwritten if '-d'.
 if $at_debug_p; then
   at_suite_log=/dev/null
 else
@@ -1464,9 +1462,9 @@ printf "%s\n" "$as_me: starting at: $at_start_date" >&5
 
 # Create the master directory if it doesn't already exist.
 as_dir="$at_suite_dir"; as_fn_mkdir_p ||
-  as_fn_error $? "cannot create \`$at_suite_dir'" "$LINENO" 5
+  as_fn_error $? "cannot create '$at_suite_dir'" "$LINENO" 5
 
-# Can we diff with `/dev/null'?  DU 5.0 refuses.
+# Can we diff with '/dev/null'?  DU 5.0 refuses.
 if diff /dev/null /dev/null >/dev/null 2>&1; then
   at_devnull=/dev/null
 else
@@ -1474,7 +1472,7 @@ else
   >"$at_devnull"
 fi
 
-# Use `diff -u' when possible.
+# Use 'diff -u' when possible.
 if at_diff=`diff -u "$at_devnull" "$at_devnull" 2>&1` && test -z "$at_diff"
 then
   at_diff='diff -u'
@@ -1501,7 +1499,7 @@ BEGIN { FS="" }
   as_fn_error $? "cannot create test line number cache" "$LINENO" 5
 rm -f "$at_suite_dir/at-source-lines"
 
-# Set number of jobs for `-j'; avoid more jobs than test groups.
+# Set number of jobs for '-j'; avoid more jobs than test groups.
 set X $at_groups; shift; at_max_jobs=$#
 if test $at_max_jobs -eq 0; then
   at_jobs=1
@@ -1578,7 +1576,7 @@ then
 fi ||
     { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: test directory for $at_group_normalized could not be cleaned" >&5
 printf "%s\n" "$as_me: WARNING: test directory for $at_group_normalized could not be cleaned" >&2;}
-  # Be tolerant if the above `rm' was not able to remove the directory.
+  # Be tolerant if the above 'rm' was not able to remove the directory.
   as_dir="$at_group_dir"; as_fn_mkdir_p
 
   echo 0 > "$at_status_file"
@@ -1617,7 +1615,7 @@ at_fn_group_banner ()
 at_fn_group_postprocess ()
 {
   # Be sure to come back to the suite directory, in particular
-  # since below we might `rm' the group directory we are in currently.
+  # since below we might 'rm' the group directory we are in currently.
   cd "$at_suite_dir"
 
   if test ! -f "$at_check_line_file"; then
@@ -2038,7 +2036,7 @@ _ASBOX
   if $at_debug_p; then
     at_msg='per-test log files'
   else
-    at_msg="\`${at_testdir+${at_testdir}/}$as_me.log'"
+    at_msg="'${at_testdir+${at_testdir}/}$as_me.log'"
   fi
   at_msg1a=${at_xpass_list:+', '}
   at_msg1=$at_fail_list${at_fail_list:+" failed$at_msg1a"}
@@ -2051,7 +2049,7 @@ _ASBOX
 
 You may investigate any problem if you feel able to do so, in which
 case the test suite provides a good starting point.  Its output may
-be found below \`${at_testdir+${at_testdir}/}$as_me.dir'.
+be found below '${at_testdir+${at_testdir}/}$as_me.dir'.
 "
   exit 1
 fi
