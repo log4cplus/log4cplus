@@ -135,6 +135,11 @@ CATCH_TEST_CASE ("ObjectRegistryBase")
     class TestObjectRegistry : public ObjectRegistryBase
     {
     public:
+        virtual ~TestObjectRegistry ()
+        {
+            clear ();
+        }
+
         using ObjectRegistryBase::putVal;
         using ObjectRegistryBase::getVal;
         using ObjectRegistryBase::clear;
@@ -151,8 +156,11 @@ CATCH_TEST_CASE ("ObjectRegistryBase")
         CATCH_REQUIRE (reg.getVal (LOG4CPLUS_TEXT ("doesnotexist")) == nullptr);
         std::string * const str = new std::string ("test");
         CATCH_REQUIRE (reg.putVal (LOG4CPLUS_TEXT ("a"), str));
-        CATCH_REQUIRE (!reg.putVal (LOG4CPLUS_TEXT ("a"), str));
-        std::string * str2 = new std::string ("test2");
+        // Remember, the pointer is owned by the registry, thus we can't
+        // use the `str` pointer in this statement.
+        CATCH_REQUIRE (!reg.putVal (LOG4CPLUS_TEXT ("a"),
+            new std::string ("test")));
+        std::string * const str2 = new std::string ("test2");
         CATCH_REQUIRE (reg.putVal (LOG4CPLUS_TEXT ("b"), str2));
         CATCH_REQUIRE (reg.getVal (LOG4CPLUS_TEXT ("a")) == str);
         CATCH_REQUIRE (reg.getVal (LOG4CPLUS_TEXT ("b")) == str2);
