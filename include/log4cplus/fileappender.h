@@ -123,7 +123,7 @@ namespace log4cplus
       //! provide UTF-8 locale in case UNICODE macro is defined.
         virtual std::locale imbue(std::locale const& loc);
 
-      //! \returns Locale imbued in fstream.
+      //! \return Locale imbued in fstream.
         virtual std::locale getloc () const;
 
     protected:
