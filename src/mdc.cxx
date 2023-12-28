@@ -262,6 +262,7 @@ CATCH_TEST_CASE ("MDC", "[MDC]")
     tstring str;
     std::optional<tstring> opt_str;
     MDC & mdc = getMDC ();
+    mdc.clear ();
     mdc.put (LOG4CPLUS_TEXT ("key1"), LOG4CPLUS_TEXT ("value1"));
     mdc.put (LOG4CPLUS_TEXT ("key2"), LOG4CPLUS_TEXT ("value2"));
 
