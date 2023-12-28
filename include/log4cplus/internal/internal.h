@@ -118,7 +118,7 @@ struct per_thread_data
     tostringstream macros_oss;
     tostringstream layout_oss;
     DiagnosticContextStack ndc_dcs;
-    MappedDiagnosticContextMap mdc_map;
+    MappedDiagnosticContext mdc;
     log4cplus::tstring thread_name;
     log4cplus::tstring thread_name2;
     gft_scratch_pad gft_sp;
