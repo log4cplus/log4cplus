@@ -487,7 +487,7 @@ CATCH_TEST_CASE ("Filter", "[filter]")
     CATCH_SECTION ("function filter")
     {
         filter = new FunctionFilter (
-            [](InternalLoggingEvent const & ev) -> FilterResult {
+            [](InternalLoggingEvent const & ev) noexcept -> FilterResult {
                 return ev.getLogLevel () >= INFO_LOG_LEVEL ? ACCEPT : DENY;
             });
         CATCH_REQUIRE (filter->decide (info_ev) == ACCEPT);
