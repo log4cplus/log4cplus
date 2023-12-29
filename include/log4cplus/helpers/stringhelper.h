@@ -66,7 +66,8 @@ namespace log4cplus {
          *   tokenize(s, '.', back_insert_iterator<list<string> >(tokens));
          * </pre>
          */
-        template <class StringType, class OutputIter>
+        template <typename StringType, typename OutputIter>
+            requires std::output_iterator<OutputIter, StringType>
         inline
         void
         tokenize(const StringType& s, typename StringType::value_type c,
@@ -95,11 +96,11 @@ namespace log4cplus {
         }
 
 
-        template <typename intType, typename stringType, bool isSigned>
+        template <std::integral intType, typename stringType, bool isSigned>
         struct ConvertIntegerToStringHelper;
 
 
-        template <typename intType, typename charType>
+        template <std::integral intType, typename charType>
         struct ConvertIntegerToStringHelper<intType, charType, true>
         {
             static inline
@@ -128,7 +129,7 @@ namespace log4cplus {
                     value = -value;
             }
 
-            static
+            static constexpr
             bool
             is_negative (intType val)
             {
@@ -147,7 +148,7 @@ namespace log4cplus {
                 // This will never be called for unsigned types.
             }
 
-            static
+            static constexpr
             bool
             is_negative (intType)
             {
@@ -156,7 +157,7 @@ namespace log4cplus {
         };
 
 
-        template <class stringType, class intType>
+        template <class stringType, std::integral intType>
         inline
         void
         convertIntegerToString (stringType & str, intType value)
@@ -203,7 +204,7 @@ namespace log4cplus {
         }
 
 
-        template<class intType>
+        template<std::integral intType>
         inline
         tstring
         convertIntegerToString (intType value)
@@ -214,7 +215,7 @@ namespace log4cplus {
         }
 
 
-        template<class intType>
+        template<std::integral intType>
         inline
         std::string
         convertIntegerToNarrowString (intType value)
@@ -227,6 +228,7 @@ namespace log4cplus {
 
         //! Join a list of items into a string.
         template <typename Iterator, typename Separator>
+            requires std::forward_iterator<Iterator>
         inline
         void
         join_worker (tstring & result, Iterator & start, Iterator & last,
@@ -244,6 +246,7 @@ namespace log4cplus {
 
         //! Join a list of items into a string.
         template <typename Iterator>
+            requires std::forward_iterator<Iterator>
         inline
         void
         join (tstring & result, Iterator start, Iterator last,
@@ -254,6 +257,7 @@ namespace log4cplus {
 
         //! Join a list of items into a string.
         template <typename Iterator>
+            requires std::forward_iterator<Iterator>
         inline
         void
         join (tstring & result, Iterator start, Iterator last,
