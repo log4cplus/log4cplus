@@ -50,19 +50,19 @@ struct tstring_hash
     using is_transparent = void;
 
     std::size_t
-    operator () (tchar const * str) const
+    operator () (tchar const * str) const noexcept
     {
         return std::hash<tstring_view>{} (str);
     }
 
     std::size_t
-    operator () (tstring_view str) const
+    operator () (tstring_view str) const noexcept
     {
         return std::hash<tstring_view>{} (str);
     }
 
     std::size_t
-    operator () (tstring const & str) const
+    operator () (tstring const & str) const noexcept
     {
         return std::hash<tstring>{} (str);
     }
