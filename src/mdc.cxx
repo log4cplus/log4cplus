@@ -84,10 +84,11 @@ template <typename Map, typename Key, typename Value>
 static
 auto
 insert_or_assign (Map & map, Key && key, Value && value)
--> std::optional<typename std::remove_cvref<Value>::type>
+-> std::optional<typename Map::mapped_type>
 {
-    using ValueType = typename std::remove_cvref<Value>::type;
-    auto result = map.emplace (key, std::forward<Value> (value));
+    using ValueType = typename Map::mapped_type;
+    auto result = map.emplace (std::forward<Key>(key),
+        std::forward<Value> (value));
     if (result.second)
         return std::optional<ValueType> ();
     else
@@ -101,7 +102,7 @@ insert_or_assign (Map & map, Key && key, Value && value)
 
 
 void
-MDC::put (tstring const & key, tstring const & value)
+MDC::put (tstring_view const & key, tstring const & value)
 {
     MappedDiagnosticContextMap & mdc_map = getPtr ()->context_map;
     insert_or_assign (mdc_map, key, value);
@@ -109,7 +110,7 @@ MDC::put (tstring const & key, tstring const & value)
 
 
 void
-MDC::put (tstring const & key, tstring && value)
+MDC::put (tstring_view const & key, tstring && value)
 {
     MappedDiagnosticContextMap & mdc_map = getPtr ()->context_map;
     insert_or_assign (mdc_map, key, std::move (value));
@@ -125,7 +126,7 @@ push_to_stack (StackMap & stacks_map, Key && key, Value && value)
     if (it != stacks_map.end ())
     {
         MappedDiagnosticContextStack & stack = it->second;
-        stack.push_back (std::forward<Value> (value));
+        stack.emplace_back (std::forward<Value> (value));
     }
     else
     {
@@ -133,14 +134,13 @@ push_to_stack (StackMap & stacks_map, Key && key, Value && value)
             std::forward_as_tuple (std::forward<Key>(key)),
             std::forward_as_tuple (
                 MappedDiagnosticContextStack::size_type (1),
-                std::forward<Value> (value)));
-
+                tstring (std::forward<Value> (value))));
     }
 }
 
 
 void
-MDC::push (tstring const & key, tstring && value)
+MDC::push (tstring_view const & key, tstring && value)
 {
     MappedDiagnosticContext & mdc = *getPtr ();
 
@@ -156,7 +156,7 @@ MDC::push (tstring const & key, tstring && value)
 
 
 void
-MDC::push (tstring const & key, tstring const & value)
+MDC::push (tstring_view const & key, tstring_view const & value)
 {
     MappedDiagnosticContext & mdc = *getPtr ();
 
@@ -195,7 +195,7 @@ MDC::pop (tstring const & key)
 
 
 std::optional<tstring>
-MDC::get (tstring const & key) const
+MDC::get (tstring_view const & key) const
 {
     MappedDiagnosticContextMap const & dc = getPtr ()->context_map;
     auto it = dc.find (key);
@@ -225,7 +225,7 @@ MDC::getContext () const
 // MDCGuard
 //
 
-MDCGuard::MDCGuard (tstring const && key_, tstring const && value)
+MDCGuard::MDCGuard (tstring && key_, tstring && value)
     : key (std::move (key_))
 {
     MDC & mdc = getMDC ();
@@ -265,6 +265,29 @@ CATCH_TEST_CASE ("MDC", "[MDC]")
     mdc.clear ();
     mdc.put (LOG4CPLUS_TEXT ("key1"), LOG4CPLUS_TEXT ("value1"));
     mdc.put (LOG4CPLUS_TEXT ("key2"), LOG4CPLUS_TEXT ("value2"));
+
+    auto & context_map = internal::get_ptd ()->mdc.context_map;
+    auto & stacks_map = internal::get_ptd ()->mdc.stacks_map;
+
+    CATCH_SECTION ("hash test")
+    {
+        using Map = std::unordered_map<tstring, int, helpers::tstring_hash>;
+        Map m;
+        insert_or_assign (m, LOG4CPLUS_TEXT ("a"), 1);
+        CATCH_REQUIRE (m[LOG4CPLUS_TEXT ("a")] == 1);
+        insert_or_assign (m, LOG4CPLUS_TEXT ("b"), 2);
+        CATCH_REQUIRE (m[LOG4CPLUS_TEXT ("b")] == 2);
+    }
+
+    CATCH_SECTION ("map test")
+    {
+        using Map = std::map<tstring, int>;
+        Map m;
+        insert_or_assign (m, tstring_view (LOG4CPLUS_TEXT ("a")), 1);
+        CATCH_REQUIRE (m[LOG4CPLUS_TEXT ("a")] == 1);
+        insert_or_assign (m, tstring_view (LOG4CPLUS_TEXT ("b")), 2);
+        CATCH_REQUIRE (m[LOG4CPLUS_TEXT ("b")] == 2);
+    }
 
     CATCH_SECTION ("get")
     {
@@ -327,20 +350,38 @@ CATCH_TEST_CASE ("MDC", "[MDC]")
 
     CATCH_SECTION ("MDCGuard")
     {
+        tcerr << LOG4CPLUS_TEXT ("MDCGuard\n");
         {
             mdc.clear ();
+            CATCH_REQUIRE (stacks_map.empty ());
+            CATCH_REQUIRE (context_map.empty ());
 
             CATCH_REQUIRE (! mdc.get (LOG4CPLUS_TEXT ("a")).has_value ());
             {
                 MDCGuard guard1 (LOG4CPLUS_TEXT ("a"), LOG4CPLUS_TEXT ("value1"));
                 CATCH_REQUIRE ((opt_str = mdc.get (LOG4CPLUS_TEXT ("a"))).has_value ());
                 CATCH_REQUIRE (*opt_str == LOG4CPLUS_TEXT ("value1"));
+
+                CATCH_REQUIRE (stacks_map.size () == 0);
+                CATCH_REQUIRE (context_map.size () == 1);
+
                 {
                     CATCH_REQUIRE (value2 != LOG4CPLUS_TEXT ("value1"));
                     MDCGuard guard2 (LOG4CPLUS_TEXT ("a"), value2);
+
+                    CATCH_REQUIRE (stacks_map.size () == 1);
+                    CATCH_REQUIRE (stacks_map[LOG4CPLUS_TEXT ("a")].size () == 1);
+                    CATCH_REQUIRE (stacks_map[LOG4CPLUS_TEXT ("a")][0] == value1);
+                    CATCH_REQUIRE (context_map.size () == 1);
+
                     CATCH_REQUIRE ((opt_str = mdc.get (LOG4CPLUS_TEXT ("a"))).has_value ());
                     CATCH_REQUIRE (*opt_str == value2);
                 }
+
+                CATCH_REQUIRE (stacks_map.size () == 1);
+                CATCH_REQUIRE (stacks_map[LOG4CPLUS_TEXT ("a")].empty ());
+                CATCH_REQUIRE (context_map.size () == 1);
+
                 CATCH_REQUIRE ((opt_str = mdc.get (LOG4CPLUS_TEXT ("a"))).has_value ());
                 CATCH_REQUIRE (*opt_str == LOG4CPLUS_TEXT ("value1"));
             }

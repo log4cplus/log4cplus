@@ -35,7 +35,7 @@
 
 #include <map>
 #include <unordered_map>
-#include <unordered_set>
+#include <functional>
 #include <optional>
 #include <deque>
 
@@ -48,10 +48,12 @@ using MappedDiagnosticContextStack = std::deque<tstring>;
 
 //! Mapped diagnostic context map of keys to stacks of values.
 using MappedDiagnosticContextStacksMap
-    = std::unordered_map<tstring, MappedDiagnosticContextStack>;
+    = std::unordered_map<tstring, MappedDiagnosticContextStack,
+        helpers::tstring_hash, std::equal_to<>>;
 
 //! Mapped diagnostic context map, keys to values.
-using MappedDiagnosticContextMap = std::map<tstring, tstring>;
+using MappedDiagnosticContextMap = std::map<tstring, tstring,
+    std::less<>>;
 
 //! Internal MDC storage.
 struct LOG4CPLUS_EXPORT MappedDiagnosticContext final
@@ -97,8 +99,8 @@ public:
      * \param key MDC key
      * \param value MDC value
      */
-    void put (tstring const & key, tstring const & value);
-    void put (tstring const & key, tstring && value);
+    void put (tstring_view const & key, tstring const & value);
+    void put (tstring_view const & key, tstring && value);
     /**@}*/
 
     /**
@@ -111,13 +113,13 @@ public:
      * \return std::optional<tstring> Return previous value, if any,
      * stored in MDC.
      */
-    void push (tstring const & key, tstring const & value);
-    void push (tstring const & key, tstring && value);
+    void push (tstring_view const & key, tstring_view const & value);
+    void push (tstring_view const & key, tstring && value);
     /**@}*/
 
     void pop (tstring const & key);
 
-    std::optional<tstring> get (tstring const & key) const;
+    std::optional<tstring> get (tstring_view const & key) const;
     void remove (tstring const & key);
 
     MappedDiagnosticContextMap const & getContext () const;
@@ -134,7 +136,7 @@ private:
 class LOG4CPLUS_EXPORT MDCGuard
 {
 public:
-    MDCGuard (tstring const &&, tstring const &&);
+    MDCGuard (tstring &&, tstring &&);
     MDCGuard (tstring const &, tstring const &);
     ~MDCGuard ();
 
