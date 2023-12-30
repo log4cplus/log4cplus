@@ -175,7 +175,7 @@ void
 MDC::pop (tstring const & key)
 {
     MappedDiagnosticContext & mdc = *getPtr ();
-
+f
     MappedDiagnosticContextMap & mdc_map = mdc.context_map;
     MappedDiagnosticContextStacksMap & stacks_map = mdc.stacks_map;
     auto it = stacks_map.find (key);
@@ -350,7 +350,6 @@ CATCH_TEST_CASE ("MDC", "[MDC]")
 
     CATCH_SECTION ("MDCGuard")
     {
-        tcerr << LOG4CPLUS_TEXT ("MDCGuard\n");
         {
             mdc.clear ();
             CATCH_REQUIRE (stacks_map.empty ());
