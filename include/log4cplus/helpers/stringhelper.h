@@ -138,7 +138,7 @@ namespace log4cplus {
         };
 
 
-        template <typename intType, typename charType>
+        template <std::integral intType, typename charType>
         struct ConvertIntegerToStringHelper<intType, charType, false>
         {
             static inline

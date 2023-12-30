@@ -225,10 +225,10 @@ substVars (tstring & dest, const tstring & val,
     helpers::Properties const & props, helpers::LogLog& loglog,
     unsigned flags)
 {
-    static tchar const DELIM_START[] = LOG4CPLUS_TEXT("${");
-    static tchar const DELIM_STOP[] = LOG4CPLUS_TEXT("}");
-    static std::size_t const DELIM_START_LEN = 2;
-    static std::size_t const DELIM_STOP_LEN = 1;
+    tchar constexpr DELIM_START[] = LOG4CPLUS_TEXT("${");
+    tchar constexpr DELIM_STOP[] = LOG4CPLUS_TEXT("}");
+    std::size_t constexpr DELIM_START_LEN = 2;
+    std::size_t constexpr DELIM_STOP_LEN = 1;
 
     tstring::size_type i = 0;
     tstring::size_type var_start, var_end;
