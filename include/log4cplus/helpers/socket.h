@@ -102,11 +102,13 @@ namespace log4cplus {
                 SocketBuffer const * const * buffers);
 
             template <typename... Args>
+                requires (sizeof... (Args) == 0
+                    || (std::is_same_v<std::remove_cvref_t<Args>, SocketBuffer> && ...))
             static bool write(Socket & socket, Args &&... args)
             {
                 SocketBuffer const * const buffers[sizeof... (args)] {
                     (&args)... };
-                return socket.write (sizeof... (args), buffers);
+                return socket.write (sizeof... (Args), buffers);
             }
         };
 
