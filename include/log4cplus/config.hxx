@@ -73,9 +73,6 @@
 #endif
 
 #if defined (UNICODE)
-#  if defined (_MSC_VER) && _MSC_VER >= 1400
-#    define LOG4CPLUS_FSTREAM_ACCEPTS_WCHAR_T
-#  endif
 #  if defined (_MSC_VER) && _MSC_VER >= 1600
 #    define LOG4CPLUS_HAVE_CODECVT_UTF8_FACET
 #    define LOG4CPLUS_HAVE_CODECVT_UTF16_FACET
@@ -104,16 +101,18 @@
 
 #if ! defined (UNICODE) && defined (__GNUC__) && __GNUC__ >= 3
 #  define LOG4CPLUS_FORMAT_ATTRIBUTE(archetype, format_index, first_arg_index) \
-    __attribute__ ((format (archetype, format_index, first_arg_index)))
+    __attribute__ ((__format__ (archetype, format_index, first_arg_index)))
 #else
 #  define LOG4CPLUS_FORMAT_ATTRIBUTE(archetype, fmt_index, first_arg_index) \
     /* empty */
 #endif
 
-#if defined (__GNUC__) \
-    && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)) \
-    && ! defined (__INTEL_COMPILER) \
-    && ! defined (__CUDACC__)
+#if (defined (__GNUC__) \
+        && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)) \
+        && ! defined (__INTEL_COMPILER) \
+        && ! defined (__CUDACC__)) \
+    || (defined (__clang__) \
+        && __clang_major__ >= 9)
 #  define LOG4CPLUS_CALLER_FILE() __builtin_FILE ()
 #  define LOG4CPLUS_CALLER_LINE() __builtin_LINE ()
 #  define LOG4CPLUS_CALLER_FUNCTION() __builtin_FUNCTION ()
@@ -130,9 +129,6 @@
 #  define LOG4CPLUS_ATTRIBUTE_PURE /* empty */
 #  define LOG4CPLUS_BUILTIN_EXPECT(exp, c) (exp)
 #endif
-
-#define LOG4CPLUS_LIKELY(cond) LOG4CPLUS_BUILTIN_EXPECT(!! (cond), 1)
-#define LOG4CPLUS_UNLIKELY(cond) LOG4CPLUS_BUILTIN_EXPECT(!! (cond), 0)
 
 #if defined (_MSC_VER)                                             \
     || (defined (__BORLANDC__) && __BORLANDC__ >= 0x0650)          \

@@ -130,7 +130,7 @@ namespace log4cplus {
             LocaleFactory();
             virtual ~LocaleFactory() = 0;
 
-            //! \returns std::locale instance
+            //! \return std::locale instance
             virtual ProductPtr createObject (
                 const log4cplus::helpers::Properties & props) = 0;
         };

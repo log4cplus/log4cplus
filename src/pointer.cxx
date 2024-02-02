@@ -69,11 +69,11 @@ SharedObject::removeReference() const
 #else
     destroy = std::atomic_fetch_sub_explicit (&count__, 1U,
         std::memory_order_release) == 1;
-    if (LOG4CPLUS_UNLIKELY (destroy))
+    if (destroy) [[unlikely]]
         std::atomic_thread_fence (std::memory_order_acquire);
 
 #endif
-    if (LOG4CPLUS_UNLIKELY (destroy))
+    if (destroy) [[unlikely]]
         delete this;
 }
 

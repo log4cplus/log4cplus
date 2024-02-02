@@ -48,7 +48,7 @@ namespace log4cplus {
      * <dt><tt>ImmediateFlush</tt></dt>
      * <dd>When it is set true, output stream will be flushed after
      * each appended event.</dd>
-     * 
+     *
      * <dt><tt>Locale</tt></dt>
      * <dd>This property specifies a locale name that will be imbued
      * into output stream. Locale can be specified either by system
@@ -61,11 +61,11 @@ namespace log4cplus {
      * <code>spi::LocaleFactory</code> in
      * <code>spi::LocaleFactoryRegistry</code>.
      * \sa spi::getLocaleFactoryRegistry().
-     * 
+     *
      * Note: if <tt>Locale</tt> is set, <tt>ImmediateFlush</tt> will
      * be set to true automatically.
      * </dd>
-     * 
+     *
      * </dl>
      * \sa Appender
      */
@@ -79,14 +79,14 @@ namespace log4cplus {
         ~ConsoleAppender();
 
       // Methods
-        virtual void close();
+        virtual void close() override;
 
         //! This mutex is used by ConsoleAppender and helpers::LogLog
         //! classes to synchronize output to console.
         static log4cplus::thread::Mutex const & getOutputMutex();
 
     protected:
-        virtual void append(const spi::InternalLoggingEvent& event);
+        virtual void append(const spi::InternalLoggingEvent& event) override;
 
       // Data
         bool logToStdErr;

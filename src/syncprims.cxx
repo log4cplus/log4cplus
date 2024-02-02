@@ -22,9 +22,10 @@
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <sstream>
-#include <stdexcept>
 #define LOG4CPLUS_ENABLE_SYNCPRIMS_PUB_IMPL
 #include <log4cplus/thread/syncprims-pub-impl.h>
+#include <log4cplus/exception.h>
+#include <log4cplus/streams.h>
 
 
 namespace log4cplus::thread::impl
@@ -36,9 +37,10 @@ void
 syncprims_throw_exception (char const * const msg, char const * const file,
     int line)
 {
-    std::ostringstream oss;
-    oss << file << ":" << line << ": " << msg;
-    throw std::runtime_error (oss.str ());
+    log4cplus::tostringstream oss;
+    oss << LOG4CPLUS_C_STR_TO_TSTRING (file) << LOG4CPLUS_TEXT (":") << line
+        << LOG4CPLUS_TEXT (": ") << LOG4CPLUS_C_STR_TO_TSTRING (msg);
+    throw log4cplus::exception (oss.str ());
 }
 
 

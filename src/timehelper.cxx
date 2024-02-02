@@ -58,8 +58,6 @@
 
 namespace log4cplus::helpers {
 
-const int ONE_SEC_IN_USEC = 1000000;
-
 using std::mktime;
 using std::gmtime;
 using std::localtime;
@@ -74,7 +72,7 @@ Time
 from_struct_tm (tm * t)
 {
     time_t time = helpers::mktime(t);
-    if (LOG4CPLUS_LIKELY (time != -1))
+    if (time != -1) [[likely]]
         return from_time_t (time);
     else
     {
@@ -90,7 +88,7 @@ gmTime (tm* t, Time const & the_time)
     time_t clock = to_time_t (the_time);
 #if defined (LOG4CPLUS_HAVE_GMTIME_S) && defined (_MSC_VER)
     errno_t eno;
-    if (LOG4CPLUS_UNLIKELY ((eno = gmtime_s (t, &clock)) != 0))
+    if ((eno = gmtime_s (t, &clock)) != 0) [[unlikely]]
         throw std::system_error (eno, std::system_category (),
             "gmTime(): gmtime_s() failed");
 #elif defined (LOG4CPLUS_HAVE_GMTIME_S) && defined (__BORLANDC__)
@@ -112,7 +110,7 @@ localTime (tm* t, Time const & the_time)
     ::localtime_r(&clock, t);
 #elif defined (LOG4CPLUS_HAVE_LOCALTIME_S)
     errno_t eno;
-    if (LOG4CPLUS_UNLIKELY ((eno = localtime_s (t, &clock)) != 0))
+    if ((eno = localtime_s (t, &clock)) != 0) [[unlikely]]
         throw std::system_error (eno, std::system_category (),
             "localTime(): localtime_s() failed");
 #else
@@ -283,7 +281,7 @@ getFormattedTime(const log4cplus::tstring& fmt_orig,
     // without changing errno.
     std::size_t const buffer_size_max
         = (std::max) (static_cast<std::size_t>(1024), buffer_size * 16);
-    
+
     buffer_size = (std::max) (buffer_size, gft_sp.buffer.capacity());
 
     do

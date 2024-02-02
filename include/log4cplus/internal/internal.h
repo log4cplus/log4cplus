@@ -118,7 +118,7 @@ struct per_thread_data
     tostringstream macros_oss;
     tostringstream layout_oss;
     DiagnosticContextStack ndc_dcs;
-    MappedDiagnosticContextMap mdc_map;
+    MappedDiagnosticContext mdc;
     log4cplus::tstring thread_name;
     log4cplus::tstring thread_name2;
     gft_scratch_pad gft_sp;
@@ -155,7 +155,7 @@ inline
 per_thread_data *
 get_ptd (bool alloc = true)
 {
-    if (LOG4CPLUS_UNLIKELY (! ptd && alloc))
+    if (! ptd && alloc) [[unlikely]]
         return alloc_ptd ();
 
     // The assert() does not belong here. get_ptd() might be called by
@@ -185,7 +185,7 @@ get_ptd (bool alloc = true)
         = reinterpret_cast<per_thread_data *>(
             thread::impl::tls_get_value (tls_storage_key));
 
-    if (LOG4CPLUS_UNLIKELY (! ptd && alloc))
+    if (! ptd && alloc) [[unlikely]]
         return alloc_ptd ();
 
     return ptd;

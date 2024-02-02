@@ -1,16 +1,16 @@
 // -*- C++ -*-
 //  Copyright (C) 2009-2017, Vaclav Haisman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -67,12 +67,16 @@ namespace log4cplus
         explicit Win32ConsoleAppender (bool allocConsole = true,
             bool logToStdErr = false, unsigned int textColor = 0);
         Win32ConsoleAppender (helpers::Properties const & properties);
+
+        Win32ConsoleAppender (Win32ConsoleAppender const &) = delete;
+        Win32ConsoleAppender & operator = (Win32ConsoleAppender const &) = delete;
+
         virtual ~Win32ConsoleAppender ();
 
-        virtual void close ();
+        virtual void close () override;
 
     protected:
-        virtual void append (spi::InternalLoggingEvent const &);
+        virtual void append (spi::InternalLoggingEvent const &) override;
 
         void write_handle (void *, tchar const *, std::size_t);
         void write_console (void *, tchar const *, std::size_t);
@@ -80,10 +84,6 @@ namespace log4cplus
         bool alloc_console;
         bool log_to_std_err;
         unsigned int text_color;
-
-    private:
-        Win32ConsoleAppender (Win32ConsoleAppender const &);
-        Win32ConsoleAppender & operator = (Win32ConsoleAppender const &);
     };
 
 } // namespace log4cplus

@@ -113,8 +113,7 @@ namespace log4cplus {
                 // does not have positive counterpart; the range is
                 // asymetric.  That's why we handle the case of value
                 // == min() specially here.
-                if (LOG4CPLUS_UNLIKELY (
-                    value == (std::numeric_limits<intType>::min) ()))
+                if (value == (std::numeric_limits<intType>::min) ()) [[unlikely]]
                 {
                     intType const r = value / 10;
                     intType const a = (-r) * 10;
@@ -174,7 +173,7 @@ namespace log4cplus {
             charType * it = &buffer[buffer_size];
             charType const * const buf_end = &buffer[buffer_size];
 
-            if (LOG4CPLUS_UNLIKELY (value == 0))
+            if (value == 0) [[unlikely]]
             {
                 --it;
                 *it = LOG4CPLUS_TEXT('0');

@@ -45,7 +45,7 @@ class QueueThread
 public:
     QueueThread (AsyncAppenderPtr, thread::QueuePtr);
 
-    void run() override;
+    virtual void run() override;
 
 private:
     AsyncAppenderPtr appenders;

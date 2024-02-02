@@ -48,5 +48,9 @@ main()
     LOG4CPLUS_WARN(test, "The following message is empty:");
     LOG4CPLUS_WARN(test, "");
 
+#if ! defined (__ANDROID__)
+    LOG4CPLUS_INFO_FORMAT(test, "{}, {}", "1st", "2nd");
+#endif // ! defined (__ANDROID__)
+
     return 0;
 }

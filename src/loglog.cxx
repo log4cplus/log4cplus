@@ -122,7 +122,7 @@ LogLog::error(tchar const * msg, bool throw_flag) const
 bool
 LogLog::get_quiet_mode () const
 {
-    if (LOG4CPLUS_UNLIKELY (quietMode == TriUndef))
+    if (quietMode == TriUndef) [[unlikely]]
         set_tristate_from_env (&quietMode,
             LOG4CPLUS_TEXT ("LOG4CPLUS_LOGLOG_QUIETMODE"));
 
@@ -140,7 +140,7 @@ LogLog::get_not_quiet_mode () const
 bool
 LogLog::get_debug_mode () const
 {
-    if (LOG4CPLUS_UNLIKELY (debugEnabled == TriUndef))
+    if (debugEnabled == TriUndef) [[unlikely]]
         set_tristate_from_env (&debugEnabled,
             LOG4CPLUS_TEXT ("LOG4CPLUS_LOGLOG_DEBUGENABLED"));
 
@@ -172,7 +172,7 @@ LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
         output = (this->*cond) ();
     }
 
-    if (LOG4CPLUS_UNLIKELY (output))
+    if (output) [[unlikely]]
     {
         // XXX This is potential recursive lock of
         // ConsoleAppender::outputMutex.
@@ -180,7 +180,7 @@ LogLog::logging_worker (tostream & os, bool (LogLog:: * cond) () const,
         os << prefix << msg << std::endl;
     }
 
-    if (LOG4CPLUS_UNLIKELY (throw_flag))
+    if (throw_flag) [[unlikely]]
         throw log4cplus::exception (msg);
 }
 

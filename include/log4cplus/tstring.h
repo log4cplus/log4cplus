@@ -31,6 +31,7 @@
 #endif
 
 #include <type_traits>
+#include <functional>
 #include <string>
 #include <string_view>
 #include <log4cplus/tchar.h>
@@ -43,6 +44,30 @@ using tstring_view = std::basic_string_view<tchar>;
 
 namespace helpers
 {
+
+struct tstring_hash
+{
+    using is_transparent = void;
+
+    std::size_t
+    operator () (tchar const * str) const
+    {
+        return std::hash<tstring_view>{} (str);
+    }
+
+    std::size_t
+    operator () (tstring_view str) const
+    {
+        return std::hash<tstring_view>{} (str);
+    }
+
+    std::size_t
+    operator () (tstring const & str) const
+    {
+        return std::hash<tstring>{} (str);
+    }
+};
+
 
 inline
 std::string

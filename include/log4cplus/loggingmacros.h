@@ -37,7 +37,8 @@
 #include <log4cplus/tracelogger.h>
 #include <sstream>
 #include <utility>
-
+#include <format>
+#include <iterator>
 
 #if defined(_MSC_VER)
 #define LOG4CPLUS_SUPPRESS_DOWHILE_WARNING()  \
@@ -183,17 +184,17 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 // Make TRACE and DEBUG log level unlikely and INFO, WARN, ERROR and
 // FATAL log level likely.
 #define LOG4CPLUS_MACRO_TRACE_LOG_LEVEL(pred) \
-    LOG4CPLUS_UNLIKELY (pred)
+    (pred) [[unlikely]]
 #define LOG4CPLUS_MACRO_DEBUG_LOG_LEVEL(pred) \
-    LOG4CPLUS_UNLIKELY (pred)
+    (pred) [[unlikely]]
 #define LOG4CPLUS_MACRO_INFO_LOG_LEVEL(pred) \
-    LOG4CPLUS_LIKELY (pred)
+    (pred) [[likely]]
 #define LOG4CPLUS_MACRO_WARN_LOG_LEVEL(pred) \
-    LOG4CPLUS_LIKELY (pred)
+    (pred) [[likely]]
 #define LOG4CPLUS_MACRO_ERROR_LOG_LEVEL(pred) \
-    LOG4CPLUS_LIKELY (pred)
+    (pred) [[likely]]
 #define LOG4CPLUS_MACRO_FATAL_LOG_LEVEL(pred) \
-    LOG4CPLUS_LIKELY (pred)
+    (pred) [[likely]]
 
 
 //! Dispatch to LOG4CPLUS_MACRO_LOGLEVEL_* depending on log level.
@@ -227,8 +228,8 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     do {                                                                \
         log4cplus::Logger const & _l                                    \
             = log4cplus::detail::macros_get_logger (logger);            \
-        if (LOG4CPLUS_MACRO_LOGLEVEL_PRED (                             \
-                _l.isEnabledFor (log4cplus::logLevel), logLevel)) {     \
+        if LOG4CPLUS_MACRO_LOGLEVEL_PRED (                              \
+                _l.isEnabledFor (log4cplus::logLevel), logLevel) {      \
             LOG4CPLUS_MACRO_INSTANTIATE_OSTRINGSTREAM (_log4cplus_buf); \
             _log4cplus_buf << logEvent;                                 \
             LOG4CPLUS_MACRO_LOG_LOCATION (_logLocation);                \
@@ -247,8 +248,8 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     do {                                                                \
         log4cplus::Logger const & _l                                    \
             = log4cplus::detail::macros_get_logger (logger);            \
-        if (LOG4CPLUS_MACRO_LOGLEVEL_PRED (                             \
-                _l.isEnabledFor (log4cplus::logLevel), logLevel)) {     \
+        if LOG4CPLUS_MACRO_LOGLEVEL_PRED (                              \
+                _l.isEnabledFor (log4cplus::logLevel), logLevel) {      \
             LOG4CPLUS_MACRO_LOG_LOCATION (_logLocation);                \
             log4cplus::detail::macro_forced_log (_l,                    \
                 log4cplus::logLevel, logEvent,                          \
@@ -264,14 +265,35 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     do {                                                                \
         log4cplus::Logger const & _l                                    \
             = log4cplus::detail::macros_get_logger (logger);            \
-        if (LOG4CPLUS_MACRO_LOGLEVEL_PRED (                             \
-                _l.isEnabledFor (log4cplus::logLevel), logLevel)) {     \
+        if LOG4CPLUS_MACRO_LOGLEVEL_PRED (                              \
+                _l.isEnabledFor (log4cplus::logLevel), logLevel) {      \
             LOG4CPLUS_MACRO_INSTANTIATE_SNPRINTF_BUF (_snpbuf);         \
             log4cplus::tchar const * _logEvent                          \
                 = _snpbuf.print (__VA_ARGS__);                          \
             LOG4CPLUS_MACRO_LOG_LOCATION (_logLocation);                \
             log4cplus::detail::macro_forced_log (_l,                    \
                 log4cplus::logLevel, _logEvent,                         \
+                _logLocation.file_name (),                              \
+                _logLocation.line (),                                   \
+                _logLocation.function_name ());                         \
+        }                                                               \
+    } while (false)                                                     \
+    LOG4CPLUS_RESTORE_DOWHILE_WARNING()
+
+#define LOG4CPLUS_MACRO_FORMAT_BODY(logger, logLevel, logFormat, ...)   \
+    LOG4CPLUS_SUPPRESS_DOWHILE_WARNING()                                \
+    do {                                                                \
+        log4cplus::Logger const & _l                                    \
+            = log4cplus::detail::macros_get_logger (logger);            \
+        if LOG4CPLUS_MACRO_LOGLEVEL_PRED (                              \
+                _l.isEnabledFor (log4cplus::logLevel), logLevel) {      \
+            LOG4CPLUS_MACRO_INSTANTIATE_OSTRINGSTREAM (_oss);           \
+            std::format_to (                                            \
+                std::ostreambuf_iterator<log4cplus::tchar> (_oss),      \
+                logFormat, __VA_ARGS__);                                \
+            LOG4CPLUS_MACRO_LOG_LOCATION (_logLocation);                \
+            log4cplus::detail::macro_forced_log (_l,                    \
+                log4cplus::logLevel, _oss.str (),                       \
                 _logLocation.file_name (),                              \
                 _logLocation.line (),                                   \
                 _logLocation.function_name ());                         \
@@ -295,12 +317,15 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, TRACE_LOG_LEVEL)
 #define LOG4CPLUS_TRACE_FMT(logger, ...)                                \
     LOG4CPLUS_MACRO_FMT_BODY (logger, TRACE_LOG_LEVEL, __VA_ARGS__)
+#define LOG4CPLUS_TRACE_FORMAT(logger, ...)                             \
+    LOG4CPLUS_MACRO_FORMAT_BODY(logger, TRACE_LOG_LEVEL, __VA_ARGS__)
 
 #else
 #define LOG4CPLUS_TRACE_METHOD(logger, logEvent) LOG4CPLUS_DOWHILE_NOTHING()
 #define LOG4CPLUS_TRACE(logger, logEvent) LOG4CPLUS_DOWHILE_NOTHING()
 #define LOG4CPLUS_TRACE_STR(logger, logEvent) LOG4CPLUS_DOWHILE_NOTHING()
 #define LOG4CPLUS_TRACE_FMT(logger, logFmt, ...) LOG4CPLUS_DOWHILE_NOTHING()
+#define LOG4CPLUS_TRACE_FORMAT(logger, ...) LOG4CPLUS_DOWHILE_NOTHING()
 
 #endif
 
@@ -316,11 +341,14 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, DEBUG_LOG_LEVEL)
 #define LOG4CPLUS_DEBUG_FMT(logger, ...)                                \
     LOG4CPLUS_MACRO_FMT_BODY (logger, DEBUG_LOG_LEVEL, __VA_ARGS__)
+#define LOG4CPLUS_DEBUG_FORMAT(logger, ...)                             \
+    LOG4CPLUS_MACRO_FORMAT_BODY(logger, DEBUG_LOG_LEVEL, __VA_ARGS__)
 
 #else
 #define LOG4CPLUS_DEBUG(logger, logEvent) LOG4CPLUS_DOWHILE_NOTHING()
 #define LOG4CPLUS_DEBUG_STR(logger, logEvent) LOG4CPLUS_DOWHILE_NOTHING()
 #define LOG4CPLUS_DEBUG_FMT(logger, ...) LOG4CPLUS_DOWHILE_NOTHING()
+#define LOG4CPLUS_DEBUG_FORMAT(logger, ...) LOG4CPLUS_DOWHILE_NOTHING()
 
 #endif
 
@@ -336,11 +364,14 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, INFO_LOG_LEVEL)
 #define LOG4CPLUS_INFO_FMT(logger, ...)                                 \
     LOG4CPLUS_MACRO_FMT_BODY (logger, INFO_LOG_LEVEL, __VA_ARGS__)
+#define LOG4CPLUS_INFO_FORMAT(logger, ...)                              \
+    LOG4CPLUS_MACRO_FORMAT_BODY(logger, INFO_LOG_LEVEL, __VA_ARGS__)
 
 #else
 #define LOG4CPLUS_INFO(logger, logEvent) LOG4CPLUS_DOWHILE_NOTHING()
 #define LOG4CPLUS_INFO_STR(logger, logEvent) LOG4CPLUS_DOWHILE_NOTHING()
 #define LOG4CPLUS_INFO_FMT(logger, ...) LOG4CPLUS_DOWHILE_NOTHING()
+#define LOG4CPLUS_INFO_FORMAT(logger, ...) LOG4CPLUS_DOWHILE_NOTHING()
 
 #endif
 
@@ -356,11 +387,14 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, WARN_LOG_LEVEL)
 #define LOG4CPLUS_WARN_FMT(logger, ...)                                 \
     LOG4CPLUS_MACRO_FMT_BODY (logger, WARN_LOG_LEVEL, __VA_ARGS__)
+#define LOG4CPLUS_WARN_FORMAT(logger, ...)                              \
+    LOG4CPLUS_MACRO_FORMAT_BODY(logger, WARN_LOG_LEVEL, __VA_ARGS__)
 
 #else
 #define LOG4CPLUS_WARN(logger, logEvent) LOG4CPLUS_DOWHILE_NOTHING()
 #define LOG4CPLUS_WARN_STR(logger, logEvent) LOG4CPLUS_DOWHILE_NOTHING()
 #define LOG4CPLUS_WARN_FMT(logger, ...) LOG4CPLUS_DOWHILE_NOTHING()
+#define LOG4CPLUS_WARN_FORMAT(logger, ...) LOG4CPLUS_DOWHILE_NOTHING()
 
 #endif
 
@@ -376,11 +410,14 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, ERROR_LOG_LEVEL)
 #define LOG4CPLUS_ERROR_FMT(logger, ...)                                \
     LOG4CPLUS_MACRO_FMT_BODY (logger, ERROR_LOG_LEVEL, __VA_ARGS__)
+#define LOG4CPLUS_ERROR_FORMAT(logger, ...)                             \
+    LOG4CPLUS_MACRO_FORMAT_BODY(logger, ERROR_LOG_LEVEL, __VA_ARGS__)
 
 #else
 #define LOG4CPLUS_ERROR(logger, logEvent) LOG4CPLUS_DOWHILE_NOTHING()
 #define LOG4CPLUS_ERROR_STR(logger, logEvent) LOG4CPLUS_DOWHILE_NOTHING()
 #define LOG4CPLUS_ERROR_FMT(logger, ...) LOG4CPLUS_DOWHILE_NOTHING()
+#define LOG4CPLUS_ERROR_FORMAT(logger, ...) LOG4CPLUS_DOWHILE_NOTHING()
 
 #endif
 
@@ -396,11 +433,14 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, FATAL_LOG_LEVEL)
 #define LOG4CPLUS_FATAL_FMT(logger, ...)                                \
     LOG4CPLUS_MACRO_FMT_BODY (logger, FATAL_LOG_LEVEL, __VA_ARGS__)
+#define LOG4CPLUS_FATAL_FORMAT(logger, ...)                             \
+    LOG4CPLUS_MACRO_FORMAT_BODY(logger, FATAL_LOG_LEVEL, __VA_ARGS__)
 
 #else
 #define LOG4CPLUS_FATAL(logger, logEvent) LOG4CPLUS_DOWHILE_NOTHING()
 #define LOG4CPLUS_FATAL_STR(logger, logEvent) LOG4CPLUS_DOWHILE_NOTHING()
 #define LOG4CPLUS_FATAL_FMT(logger, ...) LOG4CPLUS_DOWHILE_NOTHING()
+#define LOG4CPLUS_FATAL_FORMAT(logger, ...) LOG4CPLUS_DOWHILE_NOTHING()
 
 #endif
 
@@ -413,10 +453,11 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 #define LOG4CPLUS_ASSERT(logger, condition)                             \
     LOG4CPLUS_SUPPRESS_DOWHILE_WARNING()                                \
     do {                                                                \
-        if (LOG4CPLUS_UNLIKELY(! (condition)))                          \
+        if (! (condition)) [[unlikely]] {                               \
             LOG4CPLUS_FATAL_STR ((logger),                              \
                 LOG4CPLUS_TEXT ("failed condition: ")                   \
                 LOG4CPLUS_TEXT (LOG4CPLUS_ASSERT_STRINGIFY (condition))); \
+        }                                                               \
     } while (false)                                                     \
     LOG4CPLUS_RESTORE_DOWHILE_WARNING()
 

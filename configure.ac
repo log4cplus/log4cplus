@@ -61,7 +61,7 @@ AS_IF([test "x$with_working_locale" = "xno" \
   -a "x$with_working_c_locale" = "xno" \
   -a "x$with_iconv" = "xno"],
   [AC_MSG_WARN([Neither C++ locale support nor C locale support \
-nor iconv() support requested, using poor man's locale conversion.])])
+nor iconv() support requested, using poor man's locale conversion.])]) dnl '
 
 dnl Debugging or release build?
 
@@ -179,6 +179,8 @@ AX_CXX_COMPILE_STDCXX([20],[],[mandatory])
 
 AS_VAR_APPEND([CPPFLAGS], [" -D_GNU_SOURCE=1"])
 
+AC_SYS_YEAR2038
+
 AS_CASE(["$target_os"],
   [mingw*],
   [dnl Undefining __STRICT_ANSI__ is a workaround for MinGW
@@ -265,7 +267,7 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
         [mingw*], [],
         [AX_CXXFLAGS_GCC_OPTION([-Wold-style-cast])])
       dnl AX_CXXFLAGS_GCC_OPTION([-Wabi])
-      AX_CXXFLAGS_GCC_OPTION([-Wc++14-compat])
+      AX_CXXFLAGS_GCC_OPTION([-Wc++23-compat])
       dnl AX_CXXFLAGS_GCC_OPTION([-Wconversion])
       AX_CXXFLAGS_GCC_OPTION([-Wundef])
       AX_CXXFLAGS_GCC_OPTION([-Wshadow])
@@ -278,7 +280,8 @@ AS_CASE([$ax_cv_cxx_compiler_vendor],
       AX_CXXFLAGS_GCC_OPTION([-Wno-variadic-macros])
       AX_CXXFLAGS_GCC_OPTION([-Wduplicated-branches])
       AX_CXXFLAGS_GCC_OPTION([-Wdangling-else])
-      AX_CXXFLAGS_GCC_OPTION([-Wmultistatement-macros])])
+      AX_CXXFLAGS_GCC_OPTION([-Wmultistatement-macros])
+      AX_CXXFLAGS_GCC_OPTION([-Wthread-safety])])
 
    AS_IF([test "x$enable_debugging" = "xyes"],
      [AX_CXXFLAGS_GCC_OPTION([-g3])

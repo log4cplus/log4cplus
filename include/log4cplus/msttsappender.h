@@ -82,12 +82,12 @@ public:
     explicit MSTTSAppender (helpers::Properties const &);
     virtual ~MSTTSAppender ();
 
-    virtual void close ();
+    virtual void close () override;
 
     static void registerAppender ();
 
 protected:
-    virtual void append (spi::InternalLoggingEvent const &);
+    virtual void append (spi::InternalLoggingEvent const &) override;
 
     struct Data;
 

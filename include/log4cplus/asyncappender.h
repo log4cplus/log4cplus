@@ -68,21 +68,21 @@ class LOG4CPLUS_EXPORT AsyncAppender
 public:
     AsyncAppender (SharedAppenderPtr const & app, unsigned max_len);
     AsyncAppender (helpers::Properties const &);
+
+    AsyncAppender (AsyncAppender const &) = delete;
+    AsyncAppender & operator = (AsyncAppender const &) = delete;
+
     virtual ~AsyncAppender ();
 
-    virtual void close ();
+    virtual void close () override;
 
 protected:
-    virtual void append (spi::InternalLoggingEvent const &);
+    virtual void append (spi::InternalLoggingEvent const &) override;
 
     void init_queue_thread (unsigned);
 
     thread::AbstractThreadPtr queue_thread;
     thread::QueuePtr queue;
-
-private:
-    AsyncAppender (AsyncAppender const &);
-    AsyncAppender & operator = (AsyncAppender const &);
 };
 
 

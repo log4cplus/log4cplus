@@ -269,7 +269,7 @@ SysLogAppender::SysLogAppender(const helpers::Properties & properties)
 
     bool fqdn = true;
     properties.getBool (fqdn, LOG4CPLUS_TEXT ("fqdn"));
-    hostname = std::move(helpers::getHostname (fqdn).value_or (LOG4CPLUS_C_STR_TO_TSTRING ("-")));
+    hostname = helpers::getHostname (fqdn).value_or (LOG4CPLUS_C_STR_TO_TSTRING ("-"));
 
     properties.getString (host, LOG4CPLUS_TEXT ("host"))
       || properties.getString (host, LOG4CPLUS_TEXT ("SyslogHost"));

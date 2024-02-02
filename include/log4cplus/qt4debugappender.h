@@ -81,16 +81,16 @@ public:
     explicit Qt4DebugAppender (helpers::Properties const &);
     virtual ~Qt4DebugAppender ();
 
-    virtual void close ();
+    Qt4DebugAppender (Qt4DebugAppender const &) = delete;
+    Qt4DebugAppender & operator = (Qt4DebugAppender const &) = delete;
+
+
+    virtual void close () override;
 
     static void registerAppender ();
 
 protected:
-    virtual void append (spi::InternalLoggingEvent const &);
-
-private:
-    Qt4DebugAppender (Qt4DebugAppender const &);
-    Qt4DebugAppender & operator = (Qt4DebugAppender const &);
+    virtual void append (spi::InternalLoggingEvent const &) override;
 };
 
 

@@ -37,7 +37,7 @@ public:
     {
         LOG4CPLUS_TRACE_METHOD(logger, LOG4CPLUS_TEXT("SlowObject::doSomething()"));
         {
-            log4cplus::thread::MutexGuard guard (mutex);
+            std::lock_guard guard {mutex};
             LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("Actually doing something..."));
             std::this_thread::sleep_for (std::chrono::milliseconds (75));
             LOG4CPLUS_INFO_FMT(logger,
@@ -52,7 +52,7 @@ public:
     { }
 
 private:
-    log4cplus::thread::Mutex mutex;
+    std::recursive_mutex mutex;
     Logger logger;
 };
 
@@ -68,7 +68,7 @@ public:
         , logger(Logger::getInstance(LOG4CPLUS_TEXT("test.TestThread")))
      { }
 
-    virtual void run();
+    virtual void run() override;
 
 private:
     tstring name;

@@ -41,7 +41,7 @@ class ReaperThread
     : public log4cplus::thread::AbstractThread
 {
 public:
-    ReaperThread (log4cplus::thread::Mutex & mtx_,
+    ReaperThread (std::recursive_mutex & mtx_,
         log4cplus::thread::ManualResetEvent & ev_,
         ThreadQueueType & queue_)
         : mtx (mtx_)
@@ -54,12 +54,12 @@ public:
     ~ReaperThread ()
     { }
 
-    virtual void run ();
+    virtual void run () override;
 
     void signal_exit ();
 
 private:
-    log4cplus::thread::Mutex & mtx;
+    std::recursive_mutex & mtx;
     log4cplus::thread::ManualResetEvent & ev;
     ThreadQueueType & queue;
     bool stop;
@@ -72,7 +72,7 @@ typedef log4cplus::helpers::SharedObjectPtr<ReaperThread> ReaperThreadPtr;
 void
 ReaperThread::signal_exit ()
 {
-    log4cplus::thread::MutexGuard guard (mtx);
+    std::lock_guard guard {mtx};
     stop = true;
     ev.signal ();
 }
@@ -88,7 +88,7 @@ ReaperThread::run ()
         ev.timed_wait (30 * 1000);
 
         {
-            log4cplus::thread::MutexGuard guard (mtx);
+            std::lock_guard guard {mtx};
 
             // Check exit condition as the very first thing.
             if (stop)
@@ -141,7 +141,7 @@ public:
     void visit (log4cplus::thread::AbstractThreadPtr const & thread_ptr);
 
 private:
-    log4cplus::thread::Mutex mtx;
+    std::recursive_mutex mtx;
     log4cplus::thread::ManualResetEvent ev;
     ThreadQueueType queue;
     ReaperThreadPtr reaper_thread;
@@ -151,7 +151,7 @@ private:
 void
 Reaper::visit (log4cplus::thread::AbstractThreadPtr const & thread_ptr)
 {
-    log4cplus::thread::MutexGuard guard (mtx);
+    std::lock_guard guard {mtx};
     queue.push_back (thread_ptr);
     ev.signal ();
 }
@@ -176,7 +176,7 @@ public:
         std::cout << "Client connection closed." << std::endl;
     }
 
-    virtual void run();
+    virtual void run() override;
 
 private:
     log4cplus::thread::AbstractThreadPtr self_reference;

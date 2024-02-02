@@ -6,17 +6,17 @@
 //
 //
 //  Copyright (C) 2012-2017, Vaclav Zeman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -27,8 +27,8 @@
 //  ANY  THEORY OF LIABILITY,  WHETHER  IN CONTRACT,  STRICT LIABILITY,  OR TORT
 //  (INCLUDING  NEGLIGENCE OR  OTHERWISE) ARISING IN  ANY WAY OUT OF THE  USE OF
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-   
- 
+
+
 //
 
 /** @file */
@@ -67,14 +67,18 @@ public:
     CLFSAppender (tstring const & logname, unsigned long logsize,
         unsigned long buffersize);
     explicit CLFSAppender (helpers::Properties const &);
+
+    CLFSAppender (CLFSAppender const &) = delete;
+    CLFSAppender & operator = (CLFSAppender const &) = delete;
+
     virtual ~CLFSAppender ();
 
-    virtual void close ();
+    virtual void close () override;
 
     static void registerAppender ();
 
 protected:
-    virtual void append (spi::InternalLoggingEvent const &);
+    virtual void append (spi::InternalLoggingEvent const &) override;
 
     void init (tstring const & logname, unsigned long logsize,
         unsigned long buffersize);
@@ -82,10 +86,6 @@ protected:
     struct Data;
 
     Data * data;
-
-private:
-    CLFSAppender (CLFSAppender const &);
-    CLFSAppender & operator = (CLFSAppender const &);
 };
 
 

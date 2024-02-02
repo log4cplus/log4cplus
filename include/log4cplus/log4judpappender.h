@@ -69,11 +69,11 @@ namespace log4cplus {
         ~Log4jUdpAppender();
 
       // Methods
-        virtual void close();
+        virtual void close() override;
 
     protected:
         void openSocket();
-        virtual void append(const spi::InternalLoggingEvent& event);
+        virtual void append(const spi::InternalLoggingEvent& event) override;
 
       // Data
         log4cplus::helpers::Socket socket;
