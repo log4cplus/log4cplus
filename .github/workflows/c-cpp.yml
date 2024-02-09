@@ -1,0 +1,44 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "2.1.x" ]
+  pull_request:
+    branches: [ "2.1.x" ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        config:
+        - os: 'ubuntu-latest'
+          cc: 'gcc-13'
+          cxx: 'g++-13'
+          prereq: |
+            sudo apt install libstdc++-13-dev g++-13 gcc-13
+        - os: 'macos-13'
+          cc: 'clang'
+          cxx: 'clang++'
+          prereq: |
+            sudo xcode-select -s '/Applications/Xcode_15.1.app/Contents/Developer'
+
+    runs-on: ${{ matrix.config.os }}
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+    - name: install prerequisites
+      run: |
+        ${{ matrix.config.prereq }}
+    - name: configure
+      run: |
+        ${{ matrix.config.cxx }} --version
+        ./scripts/fix-timestamps.sh
+        mkdir objdir
+        cd objdir
+        ../configure CC='${{ matrix.config.cc }}' CXX='${{ matrix.config.cxx }}' --enable-shared --enable-unit-tests --with-working-locale
+    - name: make
+      run: cd objdir ; make
+    - name: make check
+      run: cd objdir ; make check
