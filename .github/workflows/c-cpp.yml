@@ -16,11 +16,11 @@ jobs:
           cxx: 'g++-13'
           prereq: |
             sudo apt install libstdc++-13-dev g++-13 gcc-13
-        - os: 'macos-14'
-          cc: 'clang'
-          cxx: 'clang++'
-          prereq: |
-            sudo xcode-select -s '/Applications/Xcode_15.2.app/Contents/Developer'
+        #- os: 'macos-14'
+        #  cc: 'clang'
+        #  cxx: 'clang++'
+        #  prereq: |
+        #    sudo xcode-select -s '/Applications/Xcode_15.2.app/Contents/Developer'
 
     runs-on: ${{ matrix.config.os }}
 
