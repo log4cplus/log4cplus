@@ -245,7 +245,7 @@ toLower(const tstring_view& s)
 namespace
 {
 
-template <typename IntType>
+template <std::integral IntType>
 struct test
 {
     using limits = std::numeric_limits<IntType>;

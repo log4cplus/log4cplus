@@ -88,12 +88,7 @@ LOG4CPLUS_EXPORT
 void
 yield()
 {
-#if defined(LOG4CPLUS_USE_PTHREADS)
-    sched_yield();
-#elif defined(_WIN32)
-    if (! SwitchToThread ())
-        Sleep (0);
-#endif
+    std::this_thread::yield();
 }
 
 #if defined(LOG4CPLUS_SINGLE_THREADED)

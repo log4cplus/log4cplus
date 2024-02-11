@@ -49,6 +49,7 @@ namespace log4cplus::helpers {
 
 std::size_t const START_BUF_SIZE = 512;
 
+[[maybe_unused]]
 #if defined (_WIN32)
 char const NULL_FILE[] = "NUL";
 #else

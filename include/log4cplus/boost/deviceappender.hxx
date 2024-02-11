@@ -30,12 +30,11 @@
 #pragma once
 #endif
 
-#include <boost/utility/enable_if.hpp>
-#include <boost/type_traits/is_same.hpp>
-#include <boost/mpl/not.hpp>
+#include <memory>
 #include <boost/iostreams/operations.hpp>
 #include <boost/shared_ptr.hpp>
 #include <log4cplus/appender.h>
+#include <log4cplus/helpers/property.h>
 
 
 namespace log4cplus
@@ -51,7 +50,7 @@ struct device_type_traits
 {
     typedef T & device_type;
 
-    static
+    static inline
     device_type
     unwrap (device_type x)
     {
@@ -65,7 +64,21 @@ struct device_type_traits<boost::shared_ptr<T> >
 {
     typedef boost::shared_ptr<T> device_type;
 
-    static
+    static inline
+    T &
+    unwrap (device_type const & ptr)
+    {
+        return *ptr;
+    }
+};
+
+
+template <typename T>
+struct device_type_traits<std::shared_ptr<T> >
+{
+    typedef std::shared_ptr<T> device_type;
+
+    static inline
     T &
     unwrap (device_type const & ptr)
     {
@@ -77,6 +90,12 @@ struct device_type_traits<boost::shared_ptr<T> >
 } // namespace device_appender_detail
 
 
+/**
+ * @brief This appender wraps Boost IOStreams' Device concept instance
+ * as underlying sink for the appender.
+ *
+ * @tparam Device Boost IOStreams' Device concept instance
+ */
 template <typename Device>
 class DeviceAppender
     : public Appender
@@ -98,14 +117,18 @@ public:
     { }
 
     template <typename D>
+    DeviceAppender (std::shared_ptr<D> const & d, bool close_device = true)
+        : device (d)
+        , close_flag (close_device)
+    { }
+
+    template <typename D>
     DeviceAppender (D & d, const helpers::Properties & props)
         : Appender (props)
         , device (d)
+        , close_flag (true)
     {
-        if (props.exists (LOG4CPLUS_TEXT ("CloseDevice")))
-            close_flag = true;
-        else
-            close_flag = false;
+        props.getBool (close_flag, LOG4CPLUS_TEXT ("CloseDevice"));
     }
 
     template <typename D>
@@ -113,20 +136,33 @@ public:
         const helpers::Properties & props)
         : Appender (props)
         , device (d)
+        , close_flag (true)
     {
-        if (props.exists (LOG4CPLUS_TEXT ("CloseDevice")))
-            close_flag = true;
-        else
-            close_flag = false;
+        props.getBool (close_flag, LOG4CPLUS_TEXT ("CloseDevice"));
     }
+
+    template <typename D>
+    DeviceAppender (std::shared_ptr<D> const & d,
+        const helpers::Properties & props)
+        : Appender (props)
+        , device (d)
+        , close_flag (true)
+    {
+        props.getBool (close_flag, LOG4CPLUS_TEXT ("CloseDevice"));
+    }
+
+    DeviceAppender (DeviceAppender const &) = delete;
+    DeviceAppender & operator = (DeviceAppender const &) = delete;
 
     virtual
     ~DeviceAppender ()
-    { }
+    {
+        destructorImpl ();
+    }
 
     virtual
     void
-    close ()
+    close () override
     {
         if (close_flag)
             boost::iostreams::close (device_traits::unwrap (device));
@@ -135,7 +171,7 @@ public:
 protected:
     virtual
     void
-    append (log4cplus::spi::InternalLoggingEvent const & event)
+    append (log4cplus::spi::InternalLoggingEvent const & event) override
     {
         tstring & str = formatEvent (event);
         boost::iostreams::write (device_traits::unwrap (device),
@@ -144,10 +180,6 @@ protected:
 
     device_type device;
     bool close_flag;
-
-private:
-    DeviceAppender (DeviceAppender const &);
-    DeviceAppender & operator = (DeviceAppender const &);
 };
 
 
@@ -156,8 +188,7 @@ inline
 SharedAppenderPtr
 make_device_appender (T & d, bool close_device = true)
 {
-    SharedAppenderPtr app (new DeviceAppender<T> (d, close_device));
-    return app;
+    return SharedAppenderPtr (new DeviceAppender<T> (d, close_device));
 }
 
 
@@ -166,8 +197,7 @@ inline
 SharedAppenderPtr
 make_device_appender (T & d, const helpers::Properties & props)
 {
-    SharedAppenderPtr app (new DeviceAppender<T> (d, props));
-    return app;
+    return SharedAppenderPtr (new DeviceAppender<T> (d, props));
 }
 
 
@@ -177,9 +207,8 @@ SharedAppenderPtr
 make_device_appender_sp (boost::shared_ptr<T> const & p,
     bool close_device = true)
 {
-    SharedAppenderPtr app (
+    return SharedAppenderPtr (
         new DeviceAppender<boost::shared_ptr<T> > (p, close_device));
-    return app;
 }
 
 
@@ -189,9 +218,30 @@ SharedAppenderPtr
 make_device_appender_sp (boost::shared_ptr<T> const & p,
     const helpers::Properties & props)
 {
-    SharedAppenderPtr app (
+    return SharedAppenderPtr (
         new DeviceAppender<boost::shared_ptr<T> > (p, props));
-    return app;
+}
+
+
+template <typename T>
+inline
+SharedAppenderPtr
+make_device_appender_sp (std::shared_ptr<T> const & p,
+    bool close_device = true)
+{
+    return SharedAppenderPtr (
+        new DeviceAppender<std::shared_ptr<T> > (p, close_device));
+}
+
+
+template <typename T>
+inline
+SharedAppenderPtr
+make_device_appender_sp (std::shared_ptr<T> const & p,
+    const helpers::Properties & props)
+{
+    return SharedAppenderPtr (
+        new DeviceAppender<std::shared_ptr<T> > (p, props));
 }
 
 
