@@ -12,6 +12,8 @@
       <PreprocessorDefinitions>INSIDE_LOG4CPLUS_QT4DEBUGAPPENDER;LOG4CPLUS_QT4DEBUGAPPENDER_BUILD_DLL;LOG4CPLUS_BUILD_DLL;QT_SHARED;QT_THREAD_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\bin.$(Configuration);C:\QtSDK\Desktop\Qt\4.8.1\msvc2010\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
