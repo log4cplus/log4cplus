@@ -12,6 +12,8 @@
       <PreprocessorDefinitions>INSIDE_LOG4CPLUS_CLFSAPPENDER;LOG4CPLUS_CLFSAPPENDER_BUILD_DLL;LOG4CPLUS_BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(OutDir)$(TargetName).pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\bin.$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

@@ -3,6 +3,14 @@
 ###############################################################################
 * text=auto
 
+*.cxx   eol=lf
+*.cpp   eol=lf
+*.c     eol=lf
+*.h     eol=lf
+*.hxx   eol=lf
+*.sh    eol=lf
+
+
 ###############################################################################
 # Set default behavior for command prompt diff.
 #
