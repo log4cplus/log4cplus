@@ -174,9 +174,7 @@ private:
 
 struct MSTTSAppender::Data
 {
-    Data ()
-        : ispvoice (0)
-    = default;
+    Data () = default;
 
     ~Data ()
     {
@@ -185,7 +183,7 @@ struct MSTTSAppender::Data
     }
 
     helpers::SharedObjectPtr<SpeechObjectThread> speech_thread;
-    ISpVoice * ispvoice;
+    ISpVoice * ispvoice{nullptr};
     bool async{false};
     bool speak_punc{false};
 };
