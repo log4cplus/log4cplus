@@ -11,11 +11,11 @@ jobs:
     strategy:
       matrix:
         config:
-        - os: 'ubuntu-latest'
-          cc: 'gcc-13'
-          cxx: 'g++-13'
-          prereq: |
-            sudo apt install libstdc++-13-dev g++-13 gcc-13
+        - os: 'ubuntu-24.04'
+          cc: 'gcc-14'
+          cxx: 'g++-14'
+        #  prereq: |
+        #    sudo apt install libstdc++-14-dev g++-14 gcc-14
         #- os: 'macos-14'
         #  cc: 'clang'
         #  cxx: 'clang++'
