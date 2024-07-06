@@ -14,8 +14,8 @@ jobs:
         - os: 'ubuntu-24.04'
           cc: 'gcc-14'
           cxx: 'g++-14'
-        #  prereq: |
-        #    sudo apt install libstdc++-14-dev g++-14 gcc-14
+          prereq: |
+            sudo apt install libboost-iostreams-dev
         - os: 'macos-14'
           cc: 'clang'
           cxx: 'clang++'
