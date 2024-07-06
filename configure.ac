@@ -156,6 +156,8 @@ dnl Enable unit tests
 LOG4CPLUS_ARG_ENABLE([unit-tests],
   [Enable unit tests [default=no]],
   [enable_unit_tests=no])
+AM_CONDITIONAL([ENABLE_UNIT_TESTS],
+  [test "x$enable_unit_tests" = "xyes"])
 
 LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_WITH_UNIT_TESTS],
   [Defined to enable unit tests.],

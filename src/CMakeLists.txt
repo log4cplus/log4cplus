@@ -66,6 +66,17 @@ elseif (WIN32)
   #set (log4cplus_postfix "${log4cplus_postfix}S")
 endif ()
 
+find_package (Boost
+  COMPONENTS iostreams)
+if (Boost_FOUND)
+  set (log4cplus_sources ${log4cplus_sources}
+    boost_tests.cxx
+    ${CMAKE_CURRENT_SOURCE_DIR}/catch/extras/catch_amalgamated.cpp
+  )
+  set (unit_tests_libs ${log4cplus_sources}
+    Boost::iostreams)
+endif (Boost_FOUND)
+
 # Define _GNU_SOURCE so that functions like `pipe2()` are visible.
 add_compile_definitions (_GNU_SOURCE=1)
 if (WIN32)

@@ -105,51 +105,55 @@ noinst_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2) $(am__EXEEXT_3) \
 	$(am__EXEEXT_28) $(am__EXEEXT_29) $(am__EXEEXT_30) \
 	$(am__EXEEXT_31) $(am__EXEEXT_32) $(am__EXEEXT_33) \
 	$(am__EXEEXT_34) $(am__EXEEXT_35) $(am__EXEEXT_36)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_1 = liblog4cplusU.la
-@MULTI_THREADED_TRUE@am__append_2 = loggingserver
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_3 = loggingserverU
-@QT_TRUE@am__append_4 = liblog4cplusqt4debugappender.la
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@am__append_5 = liblog4cplusqt4debugappenderU.la
-@QT5_TRUE@am__append_6 = liblog4cplusqt5debugappender.la
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@am__append_7 = liblog4cplusqt5debugappenderU.la
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_8 = $(PYTHON_WRAPU_CXX)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_9 = log4cplusU.py
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_10 = _log4cplusU.la
-@ENABLE_TESTS_TRUE@am__append_11 = tests/testsuite.at $(TESTSUITE) tests/atlocal.in
-@ENABLE_TESTS_TRUE@am__append_12 = appender_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_13 = appender_testU
-@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_14 = configandwatch_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_15 = configandwatch_testU
-@ENABLE_TESTS_TRUE@am__append_16 = customloglevel_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_17 = customloglevel_testU
-@ENABLE_TESTS_TRUE@am__append_18 = fileappender_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_19 = fileappender_testU
-@ENABLE_TESTS_TRUE@am__append_20 = filter_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_21 = filter_testU
-@ENABLE_TESTS_TRUE@am__append_22 = hierarchy_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_23 = hierarchy_testU
-@ENABLE_TESTS_TRUE@am__append_24 = loglog_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_25 = loglog_testU
-@ENABLE_TESTS_TRUE@am__append_26 = ndc_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_27 = ndc_testU
-@ENABLE_TESTS_TRUE@am__append_28 = ostream_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_29 = ostream_testU
-@ENABLE_TESTS_TRUE@am__append_30 = patternlayout_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_31 = patternlayout_testU
-@ENABLE_TESTS_TRUE@am__append_32 = performance_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_33 = performance_testU
-@ENABLE_TESTS_TRUE@am__append_34 = priority_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_35 = priority_testU
-@ENABLE_TESTS_TRUE@am__append_36 = propertyconfig_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_37 = propertyconfig_testU
-@ENABLE_TESTS_TRUE@am__append_38 = socket_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_39 = socket_testU
-@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_40 = thread_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_41 = thread_testU
-@ENABLE_TESTS_TRUE@am__append_42 = timeformat_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_43 = timeformat_testU
-@ENABLE_TESTS_TRUE@am__append_44 = unit_tests
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_45 = unit_testsU
+@ENABLE_UNIT_TESTS_TRUE@am__append_1 = \
+@ENABLE_UNIT_TESTS_TRUE@	src/boost_tests.cxx \
+@ENABLE_UNIT_TESTS_TRUE@	$(top_srcdir)/catch/extras/catch_amalgamated.cpp
+
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_2 = liblog4cplusU.la
+@MULTI_THREADED_TRUE@am__append_3 = loggingserver
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_4 = loggingserverU
+@QT_TRUE@am__append_5 = liblog4cplusqt4debugappender.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@am__append_6 = liblog4cplusqt4debugappenderU.la
+@QT5_TRUE@am__append_7 = liblog4cplusqt5debugappender.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@am__append_8 = liblog4cplusqt5debugappenderU.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_9 = $(PYTHON_WRAPU_CXX)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_10 = log4cplusU.py
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_11 = _log4cplusU.la
+@ENABLE_TESTS_TRUE@am__append_12 = tests/testsuite.at $(TESTSUITE) tests/atlocal.in
+@ENABLE_TESTS_TRUE@am__append_13 = appender_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_14 = appender_testU
+@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_15 = configandwatch_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_16 = configandwatch_testU
+@ENABLE_TESTS_TRUE@am__append_17 = customloglevel_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_18 = customloglevel_testU
+@ENABLE_TESTS_TRUE@am__append_19 = fileappender_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_20 = fileappender_testU
+@ENABLE_TESTS_TRUE@am__append_21 = filter_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_22 = filter_testU
+@ENABLE_TESTS_TRUE@am__append_23 = hierarchy_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_24 = hierarchy_testU
+@ENABLE_TESTS_TRUE@am__append_25 = loglog_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_26 = loglog_testU
+@ENABLE_TESTS_TRUE@am__append_27 = ndc_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_28 = ndc_testU
+@ENABLE_TESTS_TRUE@am__append_29 = ostream_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_30 = ostream_testU
+@ENABLE_TESTS_TRUE@am__append_31 = patternlayout_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_32 = patternlayout_testU
+@ENABLE_TESTS_TRUE@am__append_33 = performance_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_34 = performance_testU
+@ENABLE_TESTS_TRUE@am__append_35 = priority_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_36 = priority_testU
+@ENABLE_TESTS_TRUE@am__append_37 = propertyconfig_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_38 = propertyconfig_testU
+@ENABLE_TESTS_TRUE@am__append_39 = socket_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_40 = socket_testU
+@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_41 = thread_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_42 = thread_testU
+@ENABLE_TESTS_TRUE@am__append_43 = timeformat_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_44 = timeformat_testU
+@ENABLE_TESTS_TRUE@am__append_45 = unit_tests
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_46 = unit_testsU
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -291,7 +295,10 @@ _log4cplusU_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@	$(pkgpyexecdir)
 liblog4cplus_la_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
-am__objects_4 = src/liblog4cplus_la-appenderattachableimpl.lo \
+@ENABLE_UNIT_TESTS_TRUE@am__objects_4 =  \
+@ENABLE_UNIT_TESTS_TRUE@	src/liblog4cplus_la-boost_tests.lo \
+@ENABLE_UNIT_TESTS_TRUE@	$(top_builddir)/catch/extras/liblog4cplus_la-catch_amalgamated.lo
+am__objects_5 = src/liblog4cplus_la-appenderattachableimpl.lo \
 	src/liblog4cplus_la-appender.lo \
 	src/liblog4cplus_la-asyncappender.lo \
 	src/liblog4cplus_la-callbackappender.lo \
@@ -337,8 +344,7 @@ am__objects_4 = src/liblog4cplus_la-appenderattachableimpl.lo \
 	src/liblog4cplus_la-timehelper.lo src/liblog4cplus_la-tls.lo \
 	src/liblog4cplus_la-version.lo \
 	src/liblog4cplus_la-win32consoleappender.lo \
-	src/liblog4cplus_la-win32debugappender.lo
-am__objects_5 = $(am__objects_4)
+	src/liblog4cplus_la-win32debugappender.lo $(am__objects_4)
 am__objects_6 = $(am__objects_5)
 am_liblog4cplus_la_OBJECTS = $(am__objects_6)
 liblog4cplus_la_OBJECTS = $(am_liblog4cplus_la_OBJECTS)
@@ -347,7 +353,10 @@ liblog4cplus_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(liblog4cplus_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
 liblog4cplusU_la_LIBADD =
-am__objects_7 = src/liblog4cplusU_la-appenderattachableimpl.lo \
+@ENABLE_UNIT_TESTS_TRUE@am__objects_7 =  \
+@ENABLE_UNIT_TESTS_TRUE@	src/liblog4cplusU_la-boost_tests.lo \
+@ENABLE_UNIT_TESTS_TRUE@	$(top_builddir)/catch/extras/liblog4cplusU_la-catch_amalgamated.lo
+am__objects_8 = src/liblog4cplusU_la-appenderattachableimpl.lo \
 	src/liblog4cplusU_la-appender.lo \
 	src/liblog4cplusU_la-asyncappender.lo \
 	src/liblog4cplusU_la-callbackappender.lo \
@@ -397,8 +406,7 @@ am__objects_7 = src/liblog4cplusU_la-appenderattachableimpl.lo \
 	src/liblog4cplusU_la-timehelper.lo src/liblog4cplusU_la-tls.lo \
 	src/liblog4cplusU_la-version.lo \
 	src/liblog4cplusU_la-win32consoleappender.lo \
-	src/liblog4cplusU_la-win32debugappender.lo
-am__objects_8 = $(am__objects_7)
+	src/liblog4cplusU_la-win32debugappender.lo $(am__objects_7)
 am__objects_9 = $(am__objects_8)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am_liblog4cplusU_la_OBJECTS =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__objects_9)
@@ -768,7 +776,9 @@ am__v_at_1 =
 DEFAULT_INCLUDES = 
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/_log4cplusU_la-python_wrapU.Plo \
+am__depfiles_remade = $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplusU_la-catch_amalgamated.Plo \
+	$(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplus_la-catch_amalgamated.Plo \
+	./$(DEPDIR)/_log4cplusU_la-python_wrapU.Plo \
 	./$(DEPDIR)/_log4cplus_la-python_wrap.Plo \
 	qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappenderU_la-qt4debugappender.Plo \
 	qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappender_la-qt4debugappender.Plo \
@@ -779,6 +789,7 @@ am__depfiles_remade = ./$(DEPDIR)/_log4cplusU_la-python_wrapU.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-appender.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-asyncappender.Plo \
+	src/$(DEPDIR)/liblog4cplusU_la-boost_tests.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-callbackappender.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-clogger.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-configurator.Plo \
@@ -834,6 +845,7 @@ am__depfiles_remade = ./$(DEPDIR)/_log4cplusU_la-python_wrapU.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-appender.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-appenderattachableimpl.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-asyncappender.Plo \
+	src/$(DEPDIR)/liblog4cplus_la-boost_tests.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-callbackappender.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-clogger.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-configurator.Plo \
@@ -1206,14 +1218,14 @@ top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/include \
 	-I$(top_srcdir)/threadpool \
 	-I$(top_builddir)/include \
-	-I$(top_srcdir)/catch/single_include/catch2 \
+	-I$(top_srcdir)/catch/extras \
         -DCATCH_CONFIG_PREFIX_ALL=1 \
 	@LOG4CPLUS_NDEBUG@
 
 AM_CXXFLAGS = @LOG4CPLUS_PROFILING_CXXFLAGS@ @LOG4CPLUS_LTO_CXXFLAGS@
 AM_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@ @LOG4CPLUS_LTO_LDFLAGS@
 ACLOCAL_AMFLAGS = -I m4
-EXTRA_DIST = ChangeLog log4cplus.pc.in $(am__append_11)
+EXTRA_DIST = ChangeLog log4cplus.pc.in $(am__append_12)
 SUBDIRS = include
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = log4cplus.pc
@@ -1225,66 +1237,29 @@ LOG4CPLUS_VERSION_LT_FLAGS = $(VERSION_INFO_OPTION) $(RELEASE_OPTION)
 INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
 liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_file = $(top_builddir)/liblog4cplusU.la
-lib_LTLIBRARIES = liblog4cplus.la $(am__append_1) $(am__append_4) \
-	$(am__append_5) $(am__append_6) $(am__append_7)
-SINGLE_THREADED_SRC = \
-	src/appenderattachableimpl.cxx \
-	src/appender.cxx \
-	src/asyncappender.cxx \
-	src/callbackappender.cxx \
-	src/clogger.cxx \
-	src/configurator.cxx \
-	src/connectorthread.cxx \
-	src/consoleappender.cxx \
-	src/cygwin-win32.cxx \
-	src/env.cxx \
-	src/exception.cxx \
-	src/factory.cxx \
-	src/fileappender.cxx \
-	src/fileinfo.cxx \
-	src/filter.cxx \
-	src/global-init.cxx \
-	src/hierarchy.cxx \
-	src/hierarchylocker.cxx \
-	src/layout.cxx \
-	src/log4judpappender.cxx \
-	src/lockfile.cxx \
-	src/logger.cxx \
-	src/loggerimpl.cxx \
-	src/loggingevent.cxx \
-	src/loggingmacros.cxx \
-	src/loglevel.cxx \
-	src/loglog.cxx \
-	src/mdc.cxx \
-	src/ndc.cxx \
-	src/nullappender.cxx \
-	src/nteventlogappender.cxx \
-	src/objectregistry.cxx \
-	src/patternlayout.cxx \
-	src/pointer.cxx \
-	src/property.cxx \
-	src/queue.cxx \
-	src/rootlogger.cxx \
-	src/snprintf.cxx \
-	src/socketappender.cxx \
-	src/socketbuffer.cxx \
-	src/socket.cxx \
-	src/socket-unix.cxx \
-	src/socket-win32.cxx \
-	src/stringhelper.cxx \
-	src/stringhelper-clocale.cxx \
-	src/stringhelper-cxxlocale.cxx \
-	src/stringhelper-iconv.cxx \
-	src/syncprims.cxx \
-	src/syslogappender.cxx \
-	src/threads.cxx \
-	src/timehelper.cxx \
-	src/tls.cxx \
-	src/version.cxx \
-	src/win32consoleappender.cxx \
-	src/win32debugappender.cxx
-
-LIB_SRC = $(SINGLE_THREADED_SRC)
+lib_LTLIBRARIES = liblog4cplus.la $(am__append_2) $(am__append_5) \
+	$(am__append_6) $(am__append_7) $(am__append_8)
+LIB_SRC = src/appenderattachableimpl.cxx src/appender.cxx \
+	src/asyncappender.cxx src/callbackappender.cxx src/clogger.cxx \
+	src/configurator.cxx src/connectorthread.cxx \
+	src/consoleappender.cxx src/cygwin-win32.cxx src/env.cxx \
+	src/exception.cxx src/factory.cxx src/fileappender.cxx \
+	src/fileinfo.cxx src/filter.cxx src/global-init.cxx \
+	src/hierarchy.cxx src/hierarchylocker.cxx src/layout.cxx \
+	src/log4judpappender.cxx src/lockfile.cxx src/logger.cxx \
+	src/loggerimpl.cxx src/loggingevent.cxx src/loggingmacros.cxx \
+	src/loglevel.cxx src/loglog.cxx src/mdc.cxx src/ndc.cxx \
+	src/nullappender.cxx src/nteventlogappender.cxx \
+	src/objectregistry.cxx src/patternlayout.cxx src/pointer.cxx \
+	src/property.cxx src/queue.cxx src/rootlogger.cxx \
+	src/snprintf.cxx src/socketappender.cxx src/socketbuffer.cxx \
+	src/socket.cxx src/socket-unix.cxx src/socket-win32.cxx \
+	src/stringhelper.cxx src/stringhelper-clocale.cxx \
+	src/stringhelper-cxxlocale.cxx src/stringhelper-iconv.cxx \
+	src/syncprims.cxx src/syslogappender.cxx src/threads.cxx \
+	src/timehelper.cxx src/tls.cxx src/version.cxx \
+	src/win32consoleappender.cxx src/win32debugappender.cxx \
+	$(am__append_1)
 common_liblog4cplus_la_cppflags = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
 liblog4cplus_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags)
 common_liblog4cplus_la_sources = $(LIB_SRC)
@@ -1380,10 +1355,10 @@ liblog4cplus_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
 @WITH_SWIG_TRUE@  swig/loggingevent.swg
 
 @WITH_PYTHON_TRUE@PYTHON_WRAP_CXX = python_wrap.cxx
-@WITH_PYTHON_TRUE@BUILT_SOURCES = $(PYTHON_WRAP_CXX) $(am__append_8)
-@WITH_PYTHON_TRUE@pkgpython_PYTHON = log4cplus.py $(am__append_9)
+@WITH_PYTHON_TRUE@BUILT_SOURCES = $(PYTHON_WRAP_CXX) $(am__append_9)
+@WITH_PYTHON_TRUE@pkgpython_PYTHON = log4cplus.py $(am__append_10)
 @WITH_PYTHON_TRUE@pkgpyexec_LTLIBRARIES = _log4cplus.la \
-@WITH_PYTHON_TRUE@	$(am__append_10)
+@WITH_PYTHON_TRUE@	$(am__append_11)
 @WITH_PYTHON_TRUE@_log4cplus_la_SOURCES = $(PYTHON_WRAP_CXX) $(SWIG_SOURCES)
 @WITH_PYTHON_TRUE@_log4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) $(SWIG_PYTHON_CPPFLAGS) \
 @WITH_PYTHON_TRUE@  $(PYTHON_CPPFLAGS) -DSWIG_TYPE_TABLE=log4cplus \
@@ -1602,7 +1577,7 @@ all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
-.SUFFIXES: .cxx .lo .o .obj
+.SUFFIXES: .cpp .cxx .lo .o .obj
 am--refresh: Makefile
 	@:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(am__configure_deps)
@@ -1752,10 +1727,10 @@ _log4cplusU.la: $(_log4cplusU_la_OBJECTS) $(_log4cplusU_la_DEPENDENCIES) $(EXTRA
 	$(AM_V_CXXLD)$(_log4cplusU_la_LINK) $(am__log4cplusU_la_rpath) $(_log4cplusU_la_OBJECTS) $(_log4cplusU_la_LIBADD) $(LIBS)
 src/$(am__dirstamp):
 	@$(MKDIR_P) src
-	@: >>src/$(am__dirstamp)
+	@: > src/$(am__dirstamp)
 src/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/$(DEPDIR)
-	@: >>src/$(DEPDIR)/$(am__dirstamp)
+	@: > src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-appenderattachableimpl.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-appender.lo: src/$(am__dirstamp) \
@@ -1866,6 +1841,17 @@ src/liblog4cplus_la-win32consoleappender.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-win32debugappender.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplus_la-boost_tests.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+$(top_builddir)/catch/extras/$(am__dirstamp):
+	@$(MKDIR_P) $(top_builddir)/catch/extras
+	@: > $(top_builddir)/catch/extras/$(am__dirstamp)
+$(top_builddir)/catch/extras/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) $(top_builddir)/catch/extras/$(DEPDIR)
+	@: > $(top_builddir)/catch/extras/$(DEPDIR)/$(am__dirstamp)
+$(top_builddir)/catch/extras/liblog4cplus_la-catch_amalgamated.lo:  \
+	$(top_builddir)/catch/extras/$(am__dirstamp) \
+	$(top_builddir)/catch/extras/$(DEPDIR)/$(am__dirstamp)
 
 liblog4cplus.la: $(liblog4cplus_la_OBJECTS) $(liblog4cplus_la_DEPENDENCIES) $(EXTRA_liblog4cplus_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(liblog4cplus_la_LINK) -rpath $(libdir) $(liblog4cplus_la_OBJECTS) $(liblog4cplus_la_LIBADD) $(LIBS)
@@ -1979,15 +1965,20 @@ src/liblog4cplusU_la-win32consoleappender.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplusU_la-win32debugappender.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-boost_tests.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+$(top_builddir)/catch/extras/liblog4cplusU_la-catch_amalgamated.lo:  \
+	$(top_builddir)/catch/extras/$(am__dirstamp) \
+	$(top_builddir)/catch/extras/$(DEPDIR)/$(am__dirstamp)
 
 liblog4cplusU.la: $(liblog4cplusU_la_OBJECTS) $(liblog4cplusU_la_DEPENDENCIES) $(EXTRA_liblog4cplusU_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(liblog4cplusU_la_LINK) $(am_liblog4cplusU_la_rpath) $(liblog4cplusU_la_OBJECTS) $(liblog4cplusU_la_LIBADD) $(LIBS)
 qt4debugappender/$(am__dirstamp):
 	@$(MKDIR_P) qt4debugappender
-	@: >>qt4debugappender/$(am__dirstamp)
+	@: > qt4debugappender/$(am__dirstamp)
 qt4debugappender/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) qt4debugappender/$(DEPDIR)
-	@: >>qt4debugappender/$(DEPDIR)/$(am__dirstamp)
+	@: > qt4debugappender/$(DEPDIR)/$(am__dirstamp)
 qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo:  \
 	qt4debugappender/$(am__dirstamp) \
 	qt4debugappender/$(DEPDIR)/$(am__dirstamp)
@@ -2002,10 +1993,10 @@ liblog4cplusqt4debugappenderU.la: $(liblog4cplusqt4debugappenderU_la_OBJECTS) $(
 	$(AM_V_CXXLD)$(liblog4cplusqt4debugappenderU_la_LINK) $(am_liblog4cplusqt4debugappenderU_la_rpath) $(liblog4cplusqt4debugappenderU_la_OBJECTS) $(liblog4cplusqt4debugappenderU_la_LIBADD) $(LIBS)
 qt5debugappender/$(am__dirstamp):
 	@$(MKDIR_P) qt5debugappender
-	@: >>qt5debugappender/$(am__dirstamp)
+	@: > qt5debugappender/$(am__dirstamp)
 qt5debugappender/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) qt5debugappender/$(DEPDIR)
-	@: >>qt5debugappender/$(DEPDIR)/$(am__dirstamp)
+	@: > qt5debugappender/$(DEPDIR)/$(am__dirstamp)
 qt5debugappender/liblog4cplusqt5debugappender_la-qt5debugappender.lo:  \
 	qt5debugappender/$(am__dirstamp) \
 	qt5debugappender/$(DEPDIR)/$(am__dirstamp)
@@ -2020,10 +2011,10 @@ liblog4cplusqt5debugappenderU.la: $(liblog4cplusqt5debugappenderU_la_OBJECTS) $(
 	$(AM_V_CXXLD)$(liblog4cplusqt5debugappenderU_la_LINK) $(am_liblog4cplusqt5debugappenderU_la_rpath) $(liblog4cplusqt5debugappenderU_la_OBJECTS) $(liblog4cplusqt5debugappenderU_la_LIBADD) $(LIBS)
 tests/appender_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/appender_test
-	@: >>tests/appender_test/$(am__dirstamp)
+	@: > tests/appender_test/$(am__dirstamp)
 tests/appender_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/appender_test/$(DEPDIR)
-	@: >>tests/appender_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/appender_test/$(DEPDIR)/$(am__dirstamp)
 tests/appender_test/main.$(OBJEXT):  \
 	tests/appender_test/$(am__dirstamp) \
 	tests/appender_test/$(DEPDIR)/$(am__dirstamp)
@@ -2040,10 +2031,10 @@ appender_testU$(EXEEXT): $(appender_testU_OBJECTS) $(appender_testU_DEPENDENCIES
 	$(AM_V_CXXLD)$(appender_testU_LINK) $(appender_testU_OBJECTS) $(appender_testU_LDADD) $(LIBS)
 tests/configandwatch_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/configandwatch_test
-	@: >>tests/configandwatch_test/$(am__dirstamp)
+	@: > tests/configandwatch_test/$(am__dirstamp)
 tests/configandwatch_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/configandwatch_test/$(DEPDIR)
-	@: >>tests/configandwatch_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/configandwatch_test/$(DEPDIR)/$(am__dirstamp)
 tests/configandwatch_test/main.$(OBJEXT):  \
 	tests/configandwatch_test/$(am__dirstamp) \
 	tests/configandwatch_test/$(DEPDIR)/$(am__dirstamp)
@@ -2060,10 +2051,10 @@ configandwatch_testU$(EXEEXT): $(configandwatch_testU_OBJECTS) $(configandwatch_
 	$(AM_V_CXXLD)$(configandwatch_testU_LINK) $(configandwatch_testU_OBJECTS) $(configandwatch_testU_LDADD) $(LIBS)
 tests/customloglevel_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/customloglevel_test
-	@: >>tests/customloglevel_test/$(am__dirstamp)
+	@: > tests/customloglevel_test/$(am__dirstamp)
 tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/customloglevel_test/$(DEPDIR)
-	@: >>tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
 tests/customloglevel_test/func.$(OBJEXT):  \
 	tests/customloglevel_test/$(am__dirstamp) \
 	tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
@@ -2086,10 +2077,10 @@ customloglevel_testU$(EXEEXT): $(customloglevel_testU_OBJECTS) $(customloglevel_
 	$(AM_V_CXXLD)$(customloglevel_testU_LINK) $(customloglevel_testU_OBJECTS) $(customloglevel_testU_LDADD) $(LIBS)
 tests/fileappender_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/fileappender_test
-	@: >>tests/fileappender_test/$(am__dirstamp)
+	@: > tests/fileappender_test/$(am__dirstamp)
 tests/fileappender_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/fileappender_test/$(DEPDIR)
-	@: >>tests/fileappender_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/fileappender_test/$(DEPDIR)/$(am__dirstamp)
 tests/fileappender_test/main.$(OBJEXT):  \
 	tests/fileappender_test/$(am__dirstamp) \
 	tests/fileappender_test/$(DEPDIR)/$(am__dirstamp)
@@ -2106,10 +2097,10 @@ fileappender_testU$(EXEEXT): $(fileappender_testU_OBJECTS) $(fileappender_testU_
 	$(AM_V_CXXLD)$(fileappender_testU_LINK) $(fileappender_testU_OBJECTS) $(fileappender_testU_LDADD) $(LIBS)
 tests/filter_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/filter_test
-	@: >>tests/filter_test/$(am__dirstamp)
+	@: > tests/filter_test/$(am__dirstamp)
 tests/filter_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/filter_test/$(DEPDIR)
-	@: >>tests/filter_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/filter_test/$(DEPDIR)/$(am__dirstamp)
 tests/filter_test/main.$(OBJEXT): tests/filter_test/$(am__dirstamp) \
 	tests/filter_test/$(DEPDIR)/$(am__dirstamp)
 
@@ -2125,10 +2116,10 @@ filter_testU$(EXEEXT): $(filter_testU_OBJECTS) $(filter_testU_DEPENDENCIES) $(EX
 	$(AM_V_CXXLD)$(filter_testU_LINK) $(filter_testU_OBJECTS) $(filter_testU_LDADD) $(LIBS)
 tests/hierarchy_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/hierarchy_test
-	@: >>tests/hierarchy_test/$(am__dirstamp)
+	@: > tests/hierarchy_test/$(am__dirstamp)
 tests/hierarchy_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/hierarchy_test/$(DEPDIR)
-	@: >>tests/hierarchy_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/hierarchy_test/$(DEPDIR)/$(am__dirstamp)
 tests/hierarchy_test/main.$(OBJEXT):  \
 	tests/hierarchy_test/$(am__dirstamp) \
 	tests/hierarchy_test/$(DEPDIR)/$(am__dirstamp)
@@ -2145,10 +2136,10 @@ hierarchy_testU$(EXEEXT): $(hierarchy_testU_OBJECTS) $(hierarchy_testU_DEPENDENC
 	$(AM_V_CXXLD)$(hierarchy_testU_LINK) $(hierarchy_testU_OBJECTS) $(hierarchy_testU_LDADD) $(LIBS)
 simpleserver/$(am__dirstamp):
 	@$(MKDIR_P) simpleserver
-	@: >>simpleserver/$(am__dirstamp)
+	@: > simpleserver/$(am__dirstamp)
 simpleserver/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) simpleserver/$(DEPDIR)
-	@: >>simpleserver/$(DEPDIR)/$(am__dirstamp)
+	@: > simpleserver/$(DEPDIR)/$(am__dirstamp)
 simpleserver/loggingserver.$(OBJEXT): simpleserver/$(am__dirstamp) \
 	simpleserver/$(DEPDIR)/$(am__dirstamp)
 
@@ -2164,10 +2155,10 @@ loggingserverU$(EXEEXT): $(loggingserverU_OBJECTS) $(loggingserverU_DEPENDENCIES
 	$(AM_V_CXXLD)$(CXXLINK) $(loggingserverU_OBJECTS) $(loggingserverU_LDADD) $(LIBS)
 tests/loglog_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/loglog_test
-	@: >>tests/loglog_test/$(am__dirstamp)
+	@: > tests/loglog_test/$(am__dirstamp)
 tests/loglog_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/loglog_test/$(DEPDIR)
-	@: >>tests/loglog_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/loglog_test/$(DEPDIR)/$(am__dirstamp)
 tests/loglog_test/main.$(OBJEXT): tests/loglog_test/$(am__dirstamp) \
 	tests/loglog_test/$(DEPDIR)/$(am__dirstamp)
 
@@ -2183,10 +2174,10 @@ loglog_testU$(EXEEXT): $(loglog_testU_OBJECTS) $(loglog_testU_DEPENDENCIES) $(EX
 	$(AM_V_CXXLD)$(loglog_testU_LINK) $(loglog_testU_OBJECTS) $(loglog_testU_LDADD) $(LIBS)
 tests/ndc_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/ndc_test
-	@: >>tests/ndc_test/$(am__dirstamp)
+	@: > tests/ndc_test/$(am__dirstamp)
 tests/ndc_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/ndc_test/$(DEPDIR)
-	@: >>tests/ndc_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/ndc_test/$(DEPDIR)/$(am__dirstamp)
 tests/ndc_test/main.$(OBJEXT): tests/ndc_test/$(am__dirstamp) \
 	tests/ndc_test/$(DEPDIR)/$(am__dirstamp)
 
@@ -2202,10 +2193,10 @@ ndc_testU$(EXEEXT): $(ndc_testU_OBJECTS) $(ndc_testU_DEPENDENCIES) $(EXTRA_ndc_t
 	$(AM_V_CXXLD)$(ndc_testU_LINK) $(ndc_testU_OBJECTS) $(ndc_testU_LDADD) $(LIBS)
 tests/ostream_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/ostream_test
-	@: >>tests/ostream_test/$(am__dirstamp)
+	@: > tests/ostream_test/$(am__dirstamp)
 tests/ostream_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/ostream_test/$(DEPDIR)
-	@: >>tests/ostream_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/ostream_test/$(DEPDIR)/$(am__dirstamp)
 tests/ostream_test/main.$(OBJEXT): tests/ostream_test/$(am__dirstamp) \
 	tests/ostream_test/$(DEPDIR)/$(am__dirstamp)
 
@@ -2221,10 +2212,10 @@ ostream_testU$(EXEEXT): $(ostream_testU_OBJECTS) $(ostream_testU_DEPENDENCIES) $
 	$(AM_V_CXXLD)$(ostream_testU_LINK) $(ostream_testU_OBJECTS) $(ostream_testU_LDADD) $(LIBS)
 tests/patternlayout_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/patternlayout_test
-	@: >>tests/patternlayout_test/$(am__dirstamp)
+	@: > tests/patternlayout_test/$(am__dirstamp)
 tests/patternlayout_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/patternlayout_test/$(DEPDIR)
-	@: >>tests/patternlayout_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/patternlayout_test/$(DEPDIR)/$(am__dirstamp)
 tests/patternlayout_test/main.$(OBJEXT):  \
 	tests/patternlayout_test/$(am__dirstamp) \
 	tests/patternlayout_test/$(DEPDIR)/$(am__dirstamp)
@@ -2241,10 +2232,10 @@ patternlayout_testU$(EXEEXT): $(patternlayout_testU_OBJECTS) $(patternlayout_tes
 	$(AM_V_CXXLD)$(patternlayout_testU_LINK) $(patternlayout_testU_OBJECTS) $(patternlayout_testU_LDADD) $(LIBS)
 tests/performance_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/performance_test
-	@: >>tests/performance_test/$(am__dirstamp)
+	@: > tests/performance_test/$(am__dirstamp)
 tests/performance_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/performance_test/$(DEPDIR)
-	@: >>tests/performance_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/performance_test/$(DEPDIR)/$(am__dirstamp)
 tests/performance_test/main.$(OBJEXT):  \
 	tests/performance_test/$(am__dirstamp) \
 	tests/performance_test/$(DEPDIR)/$(am__dirstamp)
@@ -2261,10 +2252,10 @@ performance_testU$(EXEEXT): $(performance_testU_OBJECTS) $(performance_testU_DEP
 	$(AM_V_CXXLD)$(performance_testU_LINK) $(performance_testU_OBJECTS) $(performance_testU_LDADD) $(LIBS)
 tests/priority_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/priority_test
-	@: >>tests/priority_test/$(am__dirstamp)
+	@: > tests/priority_test/$(am__dirstamp)
 tests/priority_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/priority_test/$(DEPDIR)
-	@: >>tests/priority_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/priority_test/$(DEPDIR)/$(am__dirstamp)
 tests/priority_test/func.$(OBJEXT):  \
 	tests/priority_test/$(am__dirstamp) \
 	tests/priority_test/$(DEPDIR)/$(am__dirstamp)
@@ -2287,10 +2278,10 @@ priority_testU$(EXEEXT): $(priority_testU_OBJECTS) $(priority_testU_DEPENDENCIES
 	$(AM_V_CXXLD)$(priority_testU_LINK) $(priority_testU_OBJECTS) $(priority_testU_LDADD) $(LIBS)
 tests/propertyconfig_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/propertyconfig_test
-	@: >>tests/propertyconfig_test/$(am__dirstamp)
+	@: > tests/propertyconfig_test/$(am__dirstamp)
 tests/propertyconfig_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/propertyconfig_test/$(DEPDIR)
-	@: >>tests/propertyconfig_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/propertyconfig_test/$(DEPDIR)/$(am__dirstamp)
 tests/propertyconfig_test/main.$(OBJEXT):  \
 	tests/propertyconfig_test/$(am__dirstamp) \
 	tests/propertyconfig_test/$(DEPDIR)/$(am__dirstamp)
@@ -2307,10 +2298,10 @@ propertyconfig_testU$(EXEEXT): $(propertyconfig_testU_OBJECTS) $(propertyconfig_
 	$(AM_V_CXXLD)$(propertyconfig_testU_LINK) $(propertyconfig_testU_OBJECTS) $(propertyconfig_testU_LDADD) $(LIBS)
 tests/socket_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/socket_test
-	@: >>tests/socket_test/$(am__dirstamp)
+	@: > tests/socket_test/$(am__dirstamp)
 tests/socket_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/socket_test/$(DEPDIR)
-	@: >>tests/socket_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/socket_test/$(DEPDIR)/$(am__dirstamp)
 tests/socket_test/main.$(OBJEXT): tests/socket_test/$(am__dirstamp) \
 	tests/socket_test/$(DEPDIR)/$(am__dirstamp)
 
@@ -2326,10 +2317,10 @@ socket_testU$(EXEEXT): $(socket_testU_OBJECTS) $(socket_testU_DEPENDENCIES) $(EX
 	$(AM_V_CXXLD)$(socket_testU_LINK) $(socket_testU_OBJECTS) $(socket_testU_LDADD) $(LIBS)
 tests/thread_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/thread_test
-	@: >>tests/thread_test/$(am__dirstamp)
+	@: > tests/thread_test/$(am__dirstamp)
 tests/thread_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/thread_test/$(DEPDIR)
-	@: >>tests/thread_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/thread_test/$(DEPDIR)/$(am__dirstamp)
 tests/thread_test/main.$(OBJEXT): tests/thread_test/$(am__dirstamp) \
 	tests/thread_test/$(DEPDIR)/$(am__dirstamp)
 
@@ -2345,10 +2336,10 @@ thread_testU$(EXEEXT): $(thread_testU_OBJECTS) $(thread_testU_DEPENDENCIES) $(EX
 	$(AM_V_CXXLD)$(thread_testU_LINK) $(thread_testU_OBJECTS) $(thread_testU_LDADD) $(LIBS)
 tests/timeformat_test/$(am__dirstamp):
 	@$(MKDIR_P) tests/timeformat_test
-	@: >>tests/timeformat_test/$(am__dirstamp)
+	@: > tests/timeformat_test/$(am__dirstamp)
 tests/timeformat_test/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/timeformat_test/$(DEPDIR)
-	@: >>tests/timeformat_test/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/timeformat_test/$(DEPDIR)/$(am__dirstamp)
 tests/timeformat_test/main.$(OBJEXT):  \
 	tests/timeformat_test/$(am__dirstamp) \
 	tests/timeformat_test/$(DEPDIR)/$(am__dirstamp)
@@ -2365,10 +2356,10 @@ timeformat_testU$(EXEEXT): $(timeformat_testU_OBJECTS) $(timeformat_testU_DEPEND
 	$(AM_V_CXXLD)$(timeformat_testU_LINK) $(timeformat_testU_OBJECTS) $(timeformat_testU_LDADD) $(LIBS)
 tests/unit_tests/$(am__dirstamp):
 	@$(MKDIR_P) tests/unit_tests
-	@: >>tests/unit_tests/$(am__dirstamp)
+	@: > tests/unit_tests/$(am__dirstamp)
 tests/unit_tests/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/unit_tests/$(DEPDIR)
-	@: >>tests/unit_tests/$(DEPDIR)/$(am__dirstamp)
+	@: > tests/unit_tests/$(DEPDIR)/$(am__dirstamp)
 tests/unit_tests/unit_tests.$(OBJEXT):  \
 	tests/unit_tests/$(am__dirstamp) \
 	tests/unit_tests/$(DEPDIR)/$(am__dirstamp)
@@ -2386,6 +2377,8 @@ unit_testsU$(EXEEXT): $(unit_testsU_OBJECTS) $(unit_testsU_DEPENDENCIES) $(EXTRA
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f $(top_builddir)/catch/extras/*.$(OBJEXT)
+	-rm -f $(top_builddir)/catch/extras/*.lo
 	-rm -f qt4debugappender/*.$(OBJEXT)
 	-rm -f qt4debugappender/*.lo
 	-rm -f qt5debugappender/*.$(OBJEXT)
@@ -2414,6 +2407,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@$(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplusU_la-catch_amalgamated.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@$(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplus_la-catch_amalgamated.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_log4cplusU_la-python_wrapU.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/_log4cplus_la-python_wrap.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappenderU_la-qt4debugappender.Plo@am__quote@ # am--include-marker
@@ -2425,6 +2420,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-appender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-asyncappender.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-boost_tests.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-callbackappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-clogger.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-configurator.Plo@am__quote@ # am--include-marker
@@ -2480,6 +2476,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-appender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-appenderattachableimpl.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-asyncappender.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-boost_tests.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-callbackappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-clogger.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-configurator.Plo@am__quote@ # am--include-marker
@@ -2577,7 +2574,7 @@ $(am__depfiles_remade):
 
 am--depfiles: $(am__depfiles_remade)
 
-.cxx.o:
+.cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
 @am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
@@ -2585,7 +2582,7 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
 
-.cxx.obj:
+.cpp.obj:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
 @am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
@@ -2593,7 +2590,7 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
-.cxx.lo:
+.cpp.lo:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.lo$$||'`;\
 @am__fastdepCXX_TRUE@	$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
 @am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Plo
@@ -3000,6 +2997,20 @@ src/liblog4cplus_la-win32debugappender.lo: src/win32debugappender.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-win32debugappender.lo `test -f 'src/win32debugappender.cxx' || echo '$(srcdir)/'`src/win32debugappender.cxx
 
+src/liblog4cplus_la-boost_tests.lo: src/boost_tests.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-boost_tests.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-boost_tests.Tpo -c -o src/liblog4cplus_la-boost_tests.lo `test -f 'src/boost_tests.cxx' || echo '$(srcdir)/'`src/boost_tests.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplus_la-boost_tests.Tpo src/$(DEPDIR)/liblog4cplus_la-boost_tests.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/boost_tests.cxx' object='src/liblog4cplus_la-boost_tests.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-boost_tests.lo `test -f 'src/boost_tests.cxx' || echo '$(srcdir)/'`src/boost_tests.cxx
+
+$(top_builddir)/catch/extras/liblog4cplus_la-catch_amalgamated.lo: $(top_builddir)/catch/extras/catch_amalgamated.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT $(top_builddir)/catch/extras/liblog4cplus_la-catch_amalgamated.lo -MD -MP -MF $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplus_la-catch_amalgamated.Tpo -c -o $(top_builddir)/catch/extras/liblog4cplus_la-catch_amalgamated.lo `test -f '$(top_builddir)/catch/extras/catch_amalgamated.cpp' || echo '$(srcdir)/'`$(top_builddir)/catch/extras/catch_amalgamated.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplus_la-catch_amalgamated.Tpo $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplus_la-catch_amalgamated.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_builddir)/catch/extras/catch_amalgamated.cpp' object='$(top_builddir)/catch/extras/liblog4cplus_la-catch_amalgamated.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o $(top_builddir)/catch/extras/liblog4cplus_la-catch_amalgamated.lo `test -f '$(top_builddir)/catch/extras/catch_amalgamated.cpp' || echo '$(srcdir)/'`$(top_builddir)/catch/extras/catch_amalgamated.cpp
+
 src/liblog4cplusU_la-appenderattachableimpl.lo: src/appenderattachableimpl.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-appenderattachableimpl.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Tpo -c -o src/liblog4cplusU_la-appenderattachableimpl.lo `test -f 'src/appenderattachableimpl.cxx' || echo '$(srcdir)/'`src/appenderattachableimpl.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Tpo src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Plo
@@ -3385,6 +3396,20 @@ src/liblog4cplusU_la-win32debugappender.lo: src/win32debugappender.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-win32debugappender.lo `test -f 'src/win32debugappender.cxx' || echo '$(srcdir)/'`src/win32debugappender.cxx
 
+src/liblog4cplusU_la-boost_tests.lo: src/boost_tests.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-boost_tests.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-boost_tests.Tpo -c -o src/liblog4cplusU_la-boost_tests.lo `test -f 'src/boost_tests.cxx' || echo '$(srcdir)/'`src/boost_tests.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-boost_tests.Tpo src/$(DEPDIR)/liblog4cplusU_la-boost_tests.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/boost_tests.cxx' object='src/liblog4cplusU_la-boost_tests.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-boost_tests.lo `test -f 'src/boost_tests.cxx' || echo '$(srcdir)/'`src/boost_tests.cxx
+
+$(top_builddir)/catch/extras/liblog4cplusU_la-catch_amalgamated.lo: $(top_builddir)/catch/extras/catch_amalgamated.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT $(top_builddir)/catch/extras/liblog4cplusU_la-catch_amalgamated.lo -MD -MP -MF $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplusU_la-catch_amalgamated.Tpo -c -o $(top_builddir)/catch/extras/liblog4cplusU_la-catch_amalgamated.lo `test -f '$(top_builddir)/catch/extras/catch_amalgamated.cpp' || echo '$(srcdir)/'`$(top_builddir)/catch/extras/catch_amalgamated.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplusU_la-catch_amalgamated.Tpo $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplusU_la-catch_amalgamated.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$(top_builddir)/catch/extras/catch_amalgamated.cpp' object='$(top_builddir)/catch/extras/liblog4cplusU_la-catch_amalgamated.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o $(top_builddir)/catch/extras/liblog4cplusU_la-catch_amalgamated.lo `test -f '$(top_builddir)/catch/extras/catch_amalgamated.cpp' || echo '$(srcdir)/'`$(top_builddir)/catch/extras/catch_amalgamated.cpp
+
 qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo: qt4debugappender/qt4debugappender.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusqt4debugappender_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo -MD -MP -MF qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappender_la-qt4debugappender.Tpo -c -o qt4debugappender/liblog4cplusqt4debugappender_la-qt4debugappender.lo `test -f 'qt4debugappender/qt4debugappender.cxx' || echo '$(srcdir)/'`qt4debugappender/qt4debugappender.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappender_la-qt4debugappender.Tpo qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappender_la-qt4debugappender.Plo
@@ -3693,10 +3718,35 @@ tests/unit_tests/unit_testsU-unit_tests.obj: tests/unit_tests/unit_tests.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_testsU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/unit_tests/unit_testsU-unit_tests.obj `if test -f 'tests/unit_tests/unit_tests.cxx'; then $(CYGPATH_W) 'tests/unit_tests/unit_tests.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/unit_tests/unit_tests.cxx'; fi`
 
+.cxx.o:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
+
+.cxx.obj:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.cxx.lo:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.lo$$||'`;\
+@am__fastdepCXX_TRUE@	$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
+
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
+	-rm -rf $(top_builddir)/catch/extras/.libs $(top_builddir)/catch/extras/_libs
 	-rm -rf .libs _libs
 	-rm -rf qt4debugappender/.libs qt4debugappender/_libs
 	-rm -rf qt5debugappender/.libs qt5debugappender/_libs
@@ -3913,53 +3963,55 @@ clean-generic:
 distclean-generic:
 	-$(am__rm_f) $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || $(am__rm_f) $(CONFIG_CLEAN_VPATH_FILES)
-	-$(am__rm_f) qt4debugappender/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) qt4debugappender/$(am__dirstamp)
-	-$(am__rm_f) qt5debugappender/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) qt5debugappender/$(am__dirstamp)
-	-$(am__rm_f) simpleserver/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) simpleserver/$(am__dirstamp)
-	-$(am__rm_f) src/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) src/$(am__dirstamp)
-	-$(am__rm_f) tests/appender_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/appender_test/$(am__dirstamp)
-	-$(am__rm_f) tests/configandwatch_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/configandwatch_test/$(am__dirstamp)
-	-$(am__rm_f) tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/customloglevel_test/$(am__dirstamp)
-	-$(am__rm_f) tests/fileappender_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/fileappender_test/$(am__dirstamp)
-	-$(am__rm_f) tests/filter_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/filter_test/$(am__dirstamp)
-	-$(am__rm_f) tests/hierarchy_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/hierarchy_test/$(am__dirstamp)
-	-$(am__rm_f) tests/loglog_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/loglog_test/$(am__dirstamp)
-	-$(am__rm_f) tests/ndc_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/ndc_test/$(am__dirstamp)
-	-$(am__rm_f) tests/ostream_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/ostream_test/$(am__dirstamp)
-	-$(am__rm_f) tests/patternlayout_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/patternlayout_test/$(am__dirstamp)
-	-$(am__rm_f) tests/performance_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/performance_test/$(am__dirstamp)
-	-$(am__rm_f) tests/priority_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/priority_test/$(am__dirstamp)
-	-$(am__rm_f) tests/propertyconfig_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/propertyconfig_test/$(am__dirstamp)
-	-$(am__rm_f) tests/socket_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/socket_test/$(am__dirstamp)
-	-$(am__rm_f) tests/thread_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/thread_test/$(am__dirstamp)
-	-$(am__rm_f) tests/timeformat_test/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/timeformat_test/$(am__dirstamp)
-	-$(am__rm_f) tests/unit_tests/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tests/unit_tests/$(am__dirstamp)
+	-rm -f qt4debugappender/$(DEPDIR)/$(am__dirstamp)
+	-rm -f qt4debugappender/$(am__dirstamp)
+	-rm -f qt5debugappender/$(DEPDIR)/$(am__dirstamp)
+	-rm -f qt5debugappender/$(am__dirstamp)
+	-rm -f simpleserver/$(DEPDIR)/$(am__dirstamp)
+	-rm -f simpleserver/$(am__dirstamp)
+	-rm -f src/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/$(am__dirstamp)
+	-rm -f tests/appender_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/appender_test/$(am__dirstamp)
+	-rm -f tests/configandwatch_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/configandwatch_test/$(am__dirstamp)
+	-rm -f tests/customloglevel_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/customloglevel_test/$(am__dirstamp)
+	-rm -f tests/fileappender_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/fileappender_test/$(am__dirstamp)
+	-rm -f tests/filter_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/filter_test/$(am__dirstamp)
+	-rm -f tests/hierarchy_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/hierarchy_test/$(am__dirstamp)
+	-rm -f tests/loglog_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/loglog_test/$(am__dirstamp)
+	-rm -f tests/ndc_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/ndc_test/$(am__dirstamp)
+	-rm -f tests/ostream_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/ostream_test/$(am__dirstamp)
+	-rm -f tests/patternlayout_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/patternlayout_test/$(am__dirstamp)
+	-rm -f tests/performance_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/performance_test/$(am__dirstamp)
+	-rm -f tests/priority_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/priority_test/$(am__dirstamp)
+	-rm -f tests/propertyconfig_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/propertyconfig_test/$(am__dirstamp)
+	-rm -f tests/socket_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/socket_test/$(am__dirstamp)
+	-rm -f tests/thread_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/thread_test/$(am__dirstamp)
+	-rm -f tests/timeformat_test/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/timeformat_test/$(am__dirstamp)
+	-rm -f tests/unit_tests/$(DEPDIR)/$(am__dirstamp)
+	-rm -f tests/unit_tests/$(am__dirstamp)
+	-test -z "$(top_builddir)/catch/extras/$(DEPDIR)/$(am__dirstamp)" || rm -f $(top_builddir)/catch/extras/$(DEPDIR)/$(am__dirstamp)
+	-test -z "$(top_builddir)/catch/extras/$(am__dirstamp)" || rm -f $(top_builddir)/catch/extras/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-	-$(am__rm_f) $(BUILT_SOURCES)
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 @ENABLE_TESTS_FALSE@clean-local:
 clean: clean-recursive
 
@@ -3968,6 +4020,8 @@ clean-am: clean-generic clean-libLTLIBRARIES clean-libtool clean-local \
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
+	-rm -f $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplusU_la-catch_amalgamated.Plo
+	-rm -f $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplus_la-catch_amalgamated.Plo
 	-rm -f ./$(DEPDIR)/_log4cplusU_la-python_wrapU.Plo
 	-rm -f ./$(DEPDIR)/_log4cplus_la-python_wrap.Plo
 	-rm -f qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappenderU_la-qt4debugappender.Plo
@@ -3979,6 +4033,7 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-appender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-asyncappender.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplusU_la-boost_tests.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-callbackappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-clogger.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-configurator.Plo
@@ -4034,6 +4089,7 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-appender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-appenderattachableimpl.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-asyncappender.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplus_la-boost_tests.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-callbackappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-clogger.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-configurator.Plo
@@ -4171,6 +4227,8 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
+	-rm -f $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplusU_la-catch_amalgamated.Plo
+	-rm -f $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplus_la-catch_amalgamated.Plo
 	-rm -f ./$(DEPDIR)/_log4cplusU_la-python_wrapU.Plo
 	-rm -f ./$(DEPDIR)/_log4cplus_la-python_wrap.Plo
 	-rm -f qt4debugappender/$(DEPDIR)/liblog4cplusqt4debugappenderU_la-qt4debugappender.Plo
@@ -4182,6 +4240,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-appender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-asyncappender.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplusU_la-boost_tests.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-callbackappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-clogger.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-configurator.Plo
@@ -4237,6 +4296,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-appender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-appenderattachableimpl.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-asyncappender.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplus_la-boost_tests.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-callbackappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-clogger.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-configurator.Plo
