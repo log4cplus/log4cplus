@@ -12,7 +12,12 @@ endif ()
 set (CMAKE_LEGACY_CYGWIN_WIN32 0)
 
 cmake_minimum_required (VERSION 3.12)
+
 project (log4cplus)
+
+if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.30.0")
+  cmake_policy(SET CMP0167 NEW)
+endif ()
 
 # Use "-fPIC" / "-fPIE" for all targets by default, including static libs.
 set (CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -113,7 +118,8 @@ if (WITH_UNIT_TESTS)
   set (LOG4CPLUS_WITH_UNIT_TESTS 1)
   add_compile_definitions (CATCH_CONFIG_PREFIX_ALL=1)
   if (WIN32)
-    add_compile_definitions (LOG4CPLUS_WITH_UNIT_TESTS=1)
+    add_compile_definitions (LOG4CPLUS_WITH_UNIT_TESTS=1
+      NOMINMAX=1)
   endif (WIN32)
 endif (WITH_UNIT_TESTS)
 
@@ -164,7 +170,7 @@ configure_file(${DEFINES_HXX_CMAKE} ${DEFINES_HXX} @ONLY)
 
 include_directories (${log4cplus_SOURCE_DIR}/include
                      ${log4cplus_SOURCE_DIR}/threadpool
-                     ${log4cplus_SOURCE_DIR}/catch/single_include/catch2
+                     ${log4cplus_SOURCE_DIR}/catch/extras
                      ${log4cplus_BINARY_DIR}/include
                     )
 

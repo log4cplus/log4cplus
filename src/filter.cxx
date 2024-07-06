@@ -29,7 +29,7 @@
 #include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/mdc.h>
-#include <catch.hpp>
+#include <catch_amalgamated.hpp>
 #endif
 
 

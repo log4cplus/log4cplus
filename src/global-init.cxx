@@ -24,7 +24,7 @@
 // Include full Windows.h early for Catch.
 #  include <log4cplus/config/windowsh-inc-full.h>
 #  define CATCH_CONFIG_RUNNER
-#  include <catch.hpp>
+#  include <catch_amalgamated.hpp>
 #endif
 
 #include <log4cplus/initializer.h>

@@ -23,7 +23,7 @@
 #include <log4cplus/thread/threads.h>
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
-#include <catch.hpp>
+#include <catch_amalgamated.hpp>
 #endif
 
 namespace log4cplus::spi {

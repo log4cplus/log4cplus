@@ -25,7 +25,7 @@
 #include <log4cplus/loggingmacros.h>
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
-#include <catch.hpp>
+#include <catch_amalgamated.hpp>
 #endif
 
 

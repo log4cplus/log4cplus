@@ -732,6 +732,8 @@ CXXDEPMODE
 ac_ct_CXX
 CXXFLAGS
 CXX
+ENABLE_UNIT_TESTS_FALSE
+ENABLE_UNIT_TESTS_TRUE
 ENABLE_TESTS_FALSE
 ENABLE_TESTS_TRUE
 BUILD_WITH_WCHAR_T_SUPPORT
@@ -5724,6 +5726,14 @@ then :
 else case e in #(
   e) enable_unit_tests=no ;;
 esac
+fi
+
+ if test "x$enable_unit_tests" = "xyes"; then
+  ENABLE_UNIT_TESTS_TRUE=
+  ENABLE_UNIT_TESTS_FALSE='#'
+else
+  ENABLE_UNIT_TESTS_TRUE='#'
+  ENABLE_UNIT_TESTS_FALSE=
 fi
 
 
@@ -28858,6 +28868,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${ENABLE_TESTS_TRUE}" && test -z "${ENABLE_TESTS_FALSE}"; then
   as_fn_error $? "conditional \"ENABLE_TESTS\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${ENABLE_UNIT_TESTS_TRUE}" && test -z "${ENABLE_UNIT_TESTS_FALSE}"; then
+  as_fn_error $? "conditional \"ENABLE_UNIT_TESTS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then

@@ -29,7 +29,7 @@
 #include <boost/iostreams/device/back_inserter.hpp>
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
-#include <catch.hpp>
+#include <catch_amalgamated.hpp>
 
 
 namespace log4cplus

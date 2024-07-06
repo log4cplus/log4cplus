@@ -1,6 +1,6 @@
 lib_LTLIBRARIES = liblog4cplus.la
 
-SINGLE_THREADED_SRC = \
+LIB_SRC = \
 	%D%/appenderattachableimpl.cxx \
 	%D%/appender.cxx \
 	%D%/asyncappender.cxx \
@@ -56,8 +56,11 @@ SINGLE_THREADED_SRC = \
 	%D%/version.cxx \
 	%D%/win32consoleappender.cxx \
 	%D%/win32debugappender.cxx
-
-LIB_SRC = $(SINGLE_THREADED_SRC)
+if ENABLE_UNIT_TESTS
+LIB_SRC+= \
+	%D%/boost_tests.cxx \
+	$(top_srcdir)/catch/extras/catch_amalgamated.cpp
+endif
 
 common_liblog4cplus_la_cppflags = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
 liblog4cplus_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags)
