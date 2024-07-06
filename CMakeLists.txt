@@ -118,7 +118,8 @@ if (WITH_UNIT_TESTS)
   set (LOG4CPLUS_WITH_UNIT_TESTS 1)
   add_compile_definitions (CATCH_CONFIG_PREFIX_ALL=1)
   if (WIN32)
-    add_compile_definitions (LOG4CPLUS_WITH_UNIT_TESTS=1)
+    add_compile_definitions (LOG4CPLUS_WITH_UNIT_TESTS=1
+      NOMINMAX=1)
   endif (WIN32)
 endif (WITH_UNIT_TESTS)
 
