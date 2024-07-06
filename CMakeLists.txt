@@ -15,7 +15,9 @@ cmake_minimum_required (VERSION 3.12)
 
 project (log4cplus)
 
-cmake_policy(SET CMP0167 NEW)
+if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.30.0")
+  cmake_policy(SET CMP0167 NEW)
+endif ()
 
 # Use "-fPIC" / "-fPIE" for all targets by default, including static libs.
 set (CMAKE_POSITION_INDEPENDENT_CODE ON)
