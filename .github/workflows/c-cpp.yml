@@ -14,6 +14,11 @@ jobs:
         - os: 'ubuntu-24.04'
           cc: 'gcc-14'
           cxx: 'g++-14'
+        - os: 'macos-14-arm64'
+          cc: 'clang'
+          cxx: 'clang++'
+          prereq: |
+            sudo xcode-select -s '/Applications/Xcode_16.0.app/Contents/Developer'
         - os: 'macos-14'
           cc: 'clang'
           cxx: 'clang++'
