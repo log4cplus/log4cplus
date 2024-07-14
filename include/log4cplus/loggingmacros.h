@@ -280,6 +280,12 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     } while (false)                                                     \
     LOG4CPLUS_RESTORE_DOWHILE_WARNING()
 
+/**
+ * \internal
+ * This is the implementation of `LOG4CPLUS_*_FORMAT()` macros.
+ * \endinternal
+ *
+ */
 #define LOG4CPLUS_MACRO_FORMAT_BODY(logger, logLevel, logFormat, ...)   \
     LOG4CPLUS_SUPPRESS_DOWHILE_WARNING()                                \
     do {                                                                \
@@ -329,18 +335,35 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 
 #endif
 
-/**
- * @def LOG4CPLUS_DEBUG(logger, logEvent)  This macro is used to log a
- * DEBUG_LOG_LEVEL message to <code>logger</code>.
- * <code>logEvent</code> will be streamed into an <code>ostream</code>.
- */
 #if !defined(LOG4CPLUS_DISABLE_DEBUG)
+//!
+//! This macro is used to log a `log4cplus::DEBUG_LOG_LEVEL` message to `logger`.
+//! `logEvent` will be streamed into an `std::ostream`.
+//!
 #define LOG4CPLUS_DEBUG(logger, logEvent)                               \
     LOG4CPLUS_MACRO_BODY (logger, logEvent, DEBUG_LOG_LEVEL)
+//!
+//! \copybrief LOG4CPLUS_DEBUG(logger, logEvent)
+//!
+//! `logEvent` is expected to be either a string literal or string-like object.
+//!
 #define LOG4CPLUS_DEBUG_STR(logger, logEvent)                           \
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, DEBUG_LOG_LEVEL)
+//!
+//! \copybrief LOG4CPLUS_DEBUG(logger, logEvent)
+//!
+//! The first parameter after the `logger` parameter is treated as `printf` format string.
+//! The rest of the parameters after that are treated as `printf` format arguments.
+//!
 #define LOG4CPLUS_DEBUG_FMT(logger, ...)                                \
     LOG4CPLUS_MACRO_FMT_BODY (logger, DEBUG_LOG_LEVEL, __VA_ARGS__)
+//!
+//! \copybrief LOG4CPLUS_DEBUG(logger, logEvent)
+//!
+//! The first parameter after the `logger` parameter is treated as the `std::format` format string.
+//! The rest of the parameters are treated as arguments for the `std::format` format string.
+//! \since 3.0.0
+//!
 #define LOG4CPLUS_DEBUG_FORMAT(logger, ...)                             \
     LOG4CPLUS_MACRO_FORMAT_BODY(logger, DEBUG_LOG_LEVEL, __VA_ARGS__)
 
@@ -352,18 +375,33 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 
 #endif
 
-/**
- * @def LOG4CPLUS_INFO(logger, logEvent)  This macro is used to log a
- * INFO_LOG_LEVEL message to <code>logger</code>.
- * <code>logEvent</code> will be streamed into an <code>ostream</code>.
- */
 #if !defined(LOG4CPLUS_DISABLE_INFO)
+//!
+//! This macro is used to log a `log4cplus::INFO_LOG_LEVEL` message to `logger`.
+//!
+//! \copydetails LOG4CPLUS_DEBUG(logger, logEvent)
+//!
 #define LOG4CPLUS_INFO(logger, logEvent)                                \
     LOG4CPLUS_MACRO_BODY (logger, logEvent, INFO_LOG_LEVEL)
+//!
+//! \copybrief LOG4CPLUS_INFO(logger, logEvent)
+//!
+//! \copydetails LOG4CPLUS_DEBUG_STR(logger, logEvent)
+//!
 #define LOG4CPLUS_INFO_STR(logger, logEvent)                            \
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, INFO_LOG_LEVEL)
+//!
+//! \copybrief LOG4CPLUS_INFO(logger, logEvent)
+//!
+//! \copydetails LOG4CPLUS_DEBUG_FMT(logger, ...)
+//!
 #define LOG4CPLUS_INFO_FMT(logger, ...)                                 \
     LOG4CPLUS_MACRO_FMT_BODY (logger, INFO_LOG_LEVEL, __VA_ARGS__)
+//!
+//! \copybrief LOG4CPLUS_INFO(logger, logEvent)
+//!
+//! \copydetails LOG4CPLUS_DEBUG_FORMAT(logger, ...)
+//!
 #define LOG4CPLUS_INFO_FORMAT(logger, ...)                              \
     LOG4CPLUS_MACRO_FORMAT_BODY(logger, INFO_LOG_LEVEL, __VA_ARGS__)
 
@@ -375,18 +413,33 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 
 #endif
 
-/**
- * @def LOG4CPLUS_WARN(logger, logEvent)  This macro is used to log a
- * WARN_LOG_LEVEL message to <code>logger</code>.
- * <code>logEvent</code> will be streamed into an <code>ostream</code>.
- */
 #if !defined(LOG4CPLUS_DISABLE_WARN)
+//!
+//! This macro is used to log a `log4cplus::WARN_LOG_LEVEL` message to `logger`.
+//!
+//! \copydetails LOG4CPLUS_DEBUG(logger, logEvent)
+//!
 #define LOG4CPLUS_WARN(logger, logEvent)                                \
     LOG4CPLUS_MACRO_BODY (logger, logEvent, WARN_LOG_LEVEL)
+//!
+//! \copybrief LOG4CPLUS_WARN(logger, logEvent)
+//!
+//! \copydetails LOG4CPLUS_DEBUG_STR(logger, logEvent)
+//!
 #define LOG4CPLUS_WARN_STR(logger, logEvent)                            \
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, WARN_LOG_LEVEL)
+//!
+//! \copybrief LOG4CPLUS_WARN(logger, logEvent)
+//!
+//! \copydetails LOG4CPLUS_DEBUG_FMT(logger, ...)
+//!
 #define LOG4CPLUS_WARN_FMT(logger, ...)                                 \
     LOG4CPLUS_MACRO_FMT_BODY (logger, WARN_LOG_LEVEL, __VA_ARGS__)
+//!
+//! \copybrief LOG4CPLUS_WARN(logger, logEvent)
+//!
+//! \copydetails LOG4CPLUS_DEBUG_FORMAT(logger, ...)
+//!
 #define LOG4CPLUS_WARN_FORMAT(logger, ...)                              \
     LOG4CPLUS_MACRO_FORMAT_BODY(logger, WARN_LOG_LEVEL, __VA_ARGS__)
 
@@ -398,18 +451,33 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 
 #endif
 
-/**
- * @def LOG4CPLUS_ERROR(logger, logEvent)  This macro is used to log a
- * ERROR_LOG_LEVEL message to <code>logger</code>.
- * <code>logEvent</code> will be streamed into an <code>ostream</code>.
- */
 #if !defined(LOG4CPLUS_DISABLE_ERROR)
+//!
+//! This macro is used to log a `log4cplus::ERROR_LOG_LEVEL` message to `logger`.
+//!
+//! \copydetails LOG4CPLUS_DEBUG(logger, logEvent)
+//!
 #define LOG4CPLUS_ERROR(logger, logEvent)                               \
     LOG4CPLUS_MACRO_BODY (logger, logEvent, ERROR_LOG_LEVEL)
+//!
+//! \copybrief LOG4CPLUS_ERROR(logger, logEvent)
+//!
+//! \copydetails LOG4CPLUS_DEBUG_STR(logger, logEvent)
+//!
 #define LOG4CPLUS_ERROR_STR(logger, logEvent)                           \
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, ERROR_LOG_LEVEL)
+//!
+//! \copybrief LOG4CPLUS_ERROR(logger, logEvent)
+//!
+//! \copydetails LOG4CPLUS_DEBUG_FMT(logger, ...)
+//!
 #define LOG4CPLUS_ERROR_FMT(logger, ...)                                \
     LOG4CPLUS_MACRO_FMT_BODY (logger, ERROR_LOG_LEVEL, __VA_ARGS__)
+//!
+//! \copybrief LOG4CPLUS_ERROR(logger, logEvent)
+//!
+//! \copydetails LOG4CPLUS_DEBUG_FORMAT(logger, ...)
+//!
 #define LOG4CPLUS_ERROR_FORMAT(logger, ...)                             \
     LOG4CPLUS_MACRO_FORMAT_BODY(logger, ERROR_LOG_LEVEL, __VA_ARGS__)
 
@@ -421,18 +489,33 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 
 #endif
 
-/**
- * @def LOG4CPLUS_FATAL(logger, logEvent)  This macro is used to log a
- * FATAL_LOG_LEVEL message to <code>logger</code>.
- * <code>logEvent</code> will be streamed into an <code>ostream</code>.
- */
 #if !defined(LOG4CPLUS_DISABLE_FATAL)
+//!
+//! This macro is used to log a `log4cplus::FATAL_LOG_LEVEL` message to `logger`.
+//!
+//! \copydetails LOG4CPLUS_DEBUG(logger, logEvent)
+//!
 #define LOG4CPLUS_FATAL(logger, logEvent)                               \
     LOG4CPLUS_MACRO_BODY (logger, logEvent, FATAL_LOG_LEVEL)
+//!
+//! \copybrief LOG4CPLUS_FATAL(logger, logEvent)
+//!
+//! \copydetails LOG4CPLUS_DEBUG_STR(logger, logEvent)
+//!
 #define LOG4CPLUS_FATAL_STR(logger, logEvent)                           \
     LOG4CPLUS_MACRO_STR_BODY (logger, logEvent, FATAL_LOG_LEVEL)
+//!
+//! \copybrief LOG4CPLUS_FATAL(logger, logEvent)
+//!
+//! \copydetails LOG4CPLUS_DEBUG_FMT(logger, ...)
+//!
 #define LOG4CPLUS_FATAL_FMT(logger, ...)                                \
     LOG4CPLUS_MACRO_FMT_BODY (logger, FATAL_LOG_LEVEL, __VA_ARGS__)
+//!
+//! \copybrief LOG4CPLUS_FATAL(logger, logEvent)
+//!
+//! \copydetails LOG4CPLUS_DEBUG_FORMAT(logger, ...)
+//!
 #define LOG4CPLUS_FATAL_FORMAT(logger, ...)                             \
     LOG4CPLUS_MACRO_FORMAT_BODY(logger, FATAL_LOG_LEVEL, __VA_ARGS__)
 
