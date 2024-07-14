@@ -17,15 +17,28 @@ environment:
       MSBUILD: "false"
     - PRJ_GEN: "Visual Studio 16 2019"
       APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2019"
-      BDIR: msvc2017
+      BDIR: msvc2019
       PRJ_CFG: Release
       MSBUILD: "false"
     - APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2019"
+      BDIR: msvc2019
       PRJ_CFG: Release
       PRJ_PLATFORM: x64
       MSBUILD: "true"
       PRJ_SUFFIX: ""
     - APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2019"
+      BDIR: msvc2019
+      PRJ_CFG: Release
+      PRJ_PLATFORM: x64
+      MSBUILD: "true"
+      PRJ_SUFFIX: "S"
+    - APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2022"
+      BDIR: msvc2022
+      PRJ_CFG: Release
+      PRJ_PLATFORM: x64
+      MSBUILD: "true"
+    - APPVEYOR_BUILD_WORKER_IMAGE: "Visual Studio 2022"
+      BDIR: msvc2022
       PRJ_CFG: Release
       PRJ_PLATFORM: x64
       MSBUILD: "true"
