@@ -14,7 +14,7 @@ jobs:
         - os: 'ubuntu-24.04'
           cc: 'gcc-14'
           cxx: 'g++-14'
-        - os: 'macos-14-xlarge'
+        - os: 'macos-14'
           cc: 'clang'
           cxx: 'clang++'
           prereq: |
