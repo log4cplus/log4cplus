@@ -1,5 +1,5 @@
 #! /bin/sh
-# Generated from testsuite.at by GNU Autoconf 2.72c.
+# Generated from testsuite.at by GNU Autoconf 2.72.
 #
 # Copyright (C) 2009-2017, 2020-2023 Free Software Foundation, Inc.
 #
@@ -329,7 +329,7 @@ printf "%s\n" X"$as_dir" |
       test -d "$as_dir" && break
     done
     test -z "$as_dirs" || eval "mkdir $as_dirs"
-  } || test -d "$as_dir" || as_fn_error $? "cannot create directory $as_dir"
+  } || test -d "$as_dir" || as_fn_error $? "cannot create directory $as_dir" "$LINENO" 5
 
 
 } # as_fn_mkdir_p
@@ -753,7 +753,7 @@ do
 	auto | tty | if-tty) at_color=auto ;;
 	always | yes | force) at_color=always ;;
 	*) at_optname=`echo " $at_option" | sed 's/^ //; s/=.*//'`
-	   as_fn_error $? "unrecognized argument to $at_optname: $at_optarg" ;;
+	   as_fn_error $? "unrecognized argument to $at_optname: $at_optarg" "$LINENO" 5 ;;
 	esac
 	;;
 
@@ -841,7 +841,7 @@ do
 	fi
 	case $at_jobs in *[!0-9]*)
 	  at_optname=`echo " $at_option" | sed 's/^ //; s/[0-9=].*//'`
-	  as_fn_error $? "non-numeric argument to $at_optname: $at_jobs" ;;
+	  as_fn_error $? "non-numeric argument to $at_optname: $at_jobs" "$LINENO" 5 ;;
 	esac
 	;;
 
@@ -882,7 +882,7 @@ do
 	# Reject names that are not valid shell variable names.
 	case $at_envvar in
 	  '' | [0-9]* | *[!_$as_cr_alnum]* )
-	    as_fn_error $? "invalid variable name: '$at_envvar'" ;;
+	    as_fn_error $? "invalid variable name: '$at_envvar'" "$LINENO" 5 ;;
 	esac
 	at_value=`printf "%s\n" "$at_optarg" | sed "s/'/'\\\\\\\\''/g"`
 	# Export now, but save eval for later and for debug scripts.
@@ -900,7 +900,7 @@ done
 # Verify our last option didn't require an argument
 if test -n "$at_prev"
 then :
-  as_fn_error $? "'$at_prev' requires an argument"
+  as_fn_error $? "'$at_prev' requires an argument" "$LINENO" 5
 fi
 
 # The file containing the suite.
@@ -1063,7 +1063,7 @@ at_banner_text_2="other tests"
 # Take any -C into account.
 if $at_change_dir ; then
   test x != "x$at_dir" && cd "$at_dir" \
-    || as_fn_error $? "unable to change directory"
+    || as_fn_error $? "unable to change directory" "$LINENO" 5
   at_dir=`pwd`
 fi
 
@@ -1071,7 +1071,7 @@ fi
 for at_file in atconfig atlocal
 do
   test -r $at_file || continue
-  . ./$at_file || as_fn_error $? "invalid content: $at_file"
+  . ./$at_file || as_fn_error $? "invalid content: $at_file" "$LINENO" 5
 done
 
 # Autoconf <=2.59b set at_top_builddir instead of at_top_build_prefix:
@@ -1214,9 +1214,6 @@ PATH=$at_new_path
 export PATH
 
 # Setting up the FDs.
-
-
-
 # 5 is the log file.  Not to be overwritten if '-d'.
 if $at_debug_p; then
   at_suite_log=/dev/null
