@@ -1,9 +1,9 @@
 #! /bin/sh
 # Wrapper for compilers which do not understand '-c -o'.
 
-scriptversion=2023-11-23.18; # UTC
+scriptversion=2024-06-19.01; # UTC
 
-# Copyright (C) 1999-2023 Free Software Foundation, Inc.
+# Copyright (C) 1999-2024 Free Software Foundation, Inc.
 # Written by Tom Tromey <tromey@cygnus.com>.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -254,7 +254,7 @@ EOF
     exit $?
     ;;
   -v | --v*)
-    echo "compile $scriptversion"
+    echo "compile (GNU Automake) $scriptversion"
     exit $?
     ;;
   cl | *[/\\]cl | cl.exe | *[/\\]cl.exe | \

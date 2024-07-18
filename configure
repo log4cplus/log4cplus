@@ -3262,7 +3262,7 @@ test -n "$target_alias" &&
   program_prefix=${target_alias}-
 
 
-am__api_version='1.16'
+am__api_version='1.17'
 
 
   # Find a good install program.  We prefer a C program (faster),
@@ -3372,9 +3372,9 @@ then :
 else case e in #(
   e) if sleep 0.001 2>/dev/null
 then :
-  am_cv_sleep_fractional_seconds=true
+  am_cv_sleep_fractional_seconds=yes
 else case e in #(
-  e) am_cv_sleep_fractional_seconds=false ;;
+  e) am_cv_sleep_fractional_seconds=no ;;
 esac
 fi
  ;;
@@ -3392,10 +3392,22 @@ else case e in #(
   e) # Default to the worst case.
 am_cv_filesystem_timestamp_resolution=2
 
-# Only try to go finer than 1s if sleep can do it.
-am_try_resolutions=1
-if $am_cv_sleep_fractional_seconds; then
-  am_try_resolutions="0.001 0.01 0.1 $am_try_resolutions"
+# Only try to go finer than 1 sec if sleep can do it.
+# Don't try 1 sec, because if 0.01 sec and 0.1 sec don't work,
+# - 1 sec is not much of a win compared to 2 sec, and
+# - it takes 2 seconds to perform the test whether 1 sec works.
+#
+# Instead, just use the default 2s on platforms that have 1s resolution,
+# accept the extra 1s delay when using $sleep in the Automake tests, in
+# exchange for not incurring the 2s delay for running the test for all
+# packages.
+#
+am_try_resolutions=
+if test "$am_cv_sleep_fractional_seconds" = yes; then
+  # Even a millisecond often causes a bunch of false positives,
+  # so just try a hundredth of a second. The time saved between .001 and
+  # .01 is not terribly consequential.
+  am_try_resolutions="0.01 0.1 $am_try_resolutions"
 fi
 
 # In order to catch current-generation FAT out, we must *modify* files
@@ -3409,7 +3421,9 @@ rm -f conftest.ts?
 : > conftest.ts3
 
 # Make sure ls -t actually works.  Do 'set' in a subshell so we don't
-# clobber the current shell's arguments.
+# clobber the current shell's arguments. (Outer-level square brackets
+# are removed by m4; they're present so that m4 does not expand
+# <dollar><star>; be careful, easy to get confused.)
 if (
      set X `ls -t conftest.ts[12]` &&
      {
@@ -3425,7 +3439,7 @@ if (
   { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "ls -t produces unexpected output.
-Make sure there is not a broken alias in your environment.
+Make sure there is not a broken ls alias in your environment.
 See 'config.log' for more details" "$LINENO" 5; }
 fi
 
@@ -3446,11 +3460,61 @@ for am_try_res in $am_try_resolutions; do
       test "$2" = conftest.ts3 &&
       test "$3" = conftest.ts2 &&
       test "$4" = conftest.ts1); then
-    am_cv_filesystem_timestamp_resolution=$am_try_res
-    break
+    #
+    # Ok, ls -t worked. If we're at a resolution of 1 second, we're done,
+    # because we don't need to test make.
+    make_ok=true
+    if test $am_try_res != 1; then
+      # But if we've succeeded so far with a subsecond resolution, we
+      # have one more thing to check: make. It can happen that
+      # everything else supports the subsecond mtimes, but make doesn't;
+      # notably on macOS, which ships make 3.81 from 2006 (the last one
+      # released under GPLv2). https://bugs.gnu.org/68808
+      #
+      # We test $MAKE if it is defined in the environment, else "make".
+      # It might get overridden later, but our hope is that in practice
+      # it does not matter: it is the system "make" which is (by far)
+      # the most likely to be broken, whereas if the user overrides it,
+      # probably they did so with a better, or at least not worse, make.
+      # https://lists.gnu.org/archive/html/automake/2024-06/msg00051.html
+      #
+      # Create a Makefile (real tab character here):
+      rm -f conftest.mk
+      echo 'conftest.ts1: conftest.ts2' >conftest.mk
+      echo '	touch conftest.ts2' >>conftest.mk
+      #
+      # Now, running
+      #   touch conftest.ts1; touch conftest.ts2; make
+      # should touch ts1 because ts2 is newer. This could happen by luck,
+      # but most often, it will fail if make's support is insufficient. So
+      # test for several consecutive successes.
+      #
+      # (We reuse conftest.ts[12] because we still want to modify existing
+      # files, not create new ones, per above.)
+      n=0
+      make=${MAKE-make}
+      until test $n -eq 3; do
+        echo one > conftest.ts1
+        sleep $am_try_res
+        echo two > conftest.ts2 # ts2 should now be newer than ts1
+        if $make -f conftest.mk | grep 'up to date' >/dev/null; then
+          make_ok=false
+          break # out of $n loop
+        fi
+        n=`expr $n + 1`
+      done
+    fi
+    #
+    if $make_ok; then
+      # Everything we know to check worked out, so call this resolution good.
+      am_cv_filesystem_timestamp_resolution=$am_try_res
+      break # out of $am_try_res loop
+    fi
+    # Otherwise, we'll go on to check the next resolution.
   fi
 done
 rm -f conftest.ts?
+# (end _am_filesystem_timestamp_resolution)
  ;;
 esac
 fi
@@ -3496,13 +3560,13 @@ for am_try in 1 2; do
     break
   fi
   # Just in case.
-  sleep $am_cv_filesystem_timestamp_resolution
+  sleep "$am_cv_filesystem_timestamp_resolution"
   am_has_slept=yes
 done
 
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $am_build_env_is_sane" >&5
 printf "%s\n" "$am_build_env_is_sane" >&6; }
-if test $am_build_env_is_sane = no; then
+if test "$am_build_env_is_sane" = no; then
   as_fn_error $? "newly created file is older than distributed files!
 Check your system clock" "$LINENO" 5
 fi
@@ -3514,7 +3578,7 @@ if test -e conftest.file || grep 'slept: no' conftest.file >/dev/null 2>&1
 then :
 
 else case e in #(
-  e)   ( sleep $am_cv_filesystem_timestamp_resolution ) &
+  e)   ( sleep "$am_cv_filesystem_timestamp_resolution" ) &
   am_sleep_pid=$!
  ;;
 esac
@@ -5230,7 +5294,7 @@ else case e in #(
       # icc doesn't choke on unknown options, it will just issue warnings
       # or remarks (even with -Werror).  So we grep stderr for any message
       # that says an option was ignored or not supported.
-      # When given -MP, icc 7.0 and 7.1 complain thusly:
+      # When given -MP, icc 7.0 and 7.1 complain thus:
       #   icc: Command line warning: ignoring option '-M'; no argument required
       # The diagnosis changed in icc 8.0:
       #   icc: Command line remark: option '-MP' not supported
@@ -6241,7 +6305,7 @@ else case e in #(
       # icc doesn't choke on unknown options, it will just issue warnings
       # or remarks (even with -Werror).  So we grep stderr for any message
       # that says an option was ignored or not supported.
-      # When given -MP, icc 7.0 and 7.1 complain thusly:
+      # When given -MP, icc 7.0 and 7.1 complain thus:
       #   icc: Command line warning: ignoring option '-M'; no argument required
       # The diagnosis changed in icc 8.0:
       #   icc: Command line remark: option '-MP' not supported
@@ -16235,7 +16299,7 @@ then :
   printf %s "(cached) " >&6
 else case e in #(
   e)
-	for am_cv_pathless_PYTHON in python python3  python3.15 python3.14 python3.13 python3.12 python3.11 python3.10  python3.9 python3.8 python3.7 python3.6 python3.5 python3.4 python3.3  python3.2 python3.1 python3.0  python2  python2.7 python2.6 python2.5 python2.4 python2.3 python2.2 python2.1  python2.0 none; do
+	for am_cv_pathless_PYTHON in python python3  python3.20 python3.19 python3.18 python3.17 python3.16  python3.15 python3.14 python3.13 python3.12 python3.11 python3.10  python3.9 python3.8 python3.7 python3.6 python3.5 python3.4 python3.3  python3.2 python3.1 python3.0  python2  python2.7 python2.6 python2.5 python2.4 python2.3 python2.2 python2.1  python2.0 none; do
 	  test "$am_cv_pathless_PYTHON" = none && break
 	  prog="import sys
 # split strings by '.' and convert to numeric.  Append some zeros
@@ -16506,7 +16570,21 @@ try:
     if python_implementation() == 'CPython' and sys.version[:3] == '2.7':
         can_use_sysconfig = 0
 except ImportError:
-    pass"
+    pass" # end of am_python_setup_sysconfig
+
+  # More repeated code, for figuring out the installation scheme to use.
+  am_python_setup_scheme="if hasattr(sysconfig, 'get_default_scheme'):
+      scheme = sysconfig.get_default_scheme()
+    else:
+      scheme = sysconfig._get_default_scheme()
+    if scheme == 'posix_local':
+      if '$am_py_prefix' == '/usr':
+        scheme = 'deb_system' # should only happen during Debian package builds
+      else:
+        # Debian's default scheme installs to /usr/local/ but we want to
+        # follow the prefix, as we always have.
+        # See bugs#54412, #64837, et al.
+        scheme = 'posix_prefix'" # end of am_python_setup_scheme
 
 
               { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $am_display_PYTHON script directory (pythondir)" >&5
@@ -16523,7 +16601,11 @@ else case e in #(
    am_cv_python_pythondir=`$PYTHON -c "
 $am_python_setup_sysconfig
 if can_use_sysconfig:
-  sitedir = sysconfig.get_path('purelib', vars={'base':'$am_py_prefix'})
+  try:
+    $am_python_setup_scheme
+    sitedir = sysconfig.get_path('purelib', scheme, vars={'base':'$am_py_prefix'})
+  except:
+    sitedir = sysconfig.get_path('purelib', vars={'base':'$am_py_prefix'})
 else:
   from distutils import sysconfig
   sitedir = sysconfig.get_python_lib(0, 0, prefix='$am_py_prefix')
@@ -16553,7 +16635,7 @@ printf "%s\n" "$am_cv_python_pythondir" >&6; }
           pkgpythondir=\${pythondir}/$PACKAGE
 
 
-          { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $am_display_PYTHON extension module directory (pyexecdir)" >&5
+            { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $am_display_PYTHON extension module directory (pyexecdir)" >&5
 printf %s "checking for $am_display_PYTHON extension module directory (pyexecdir)... " >&6; }
 if test ${am_cv_python_pyexecdir+y}
 then :
@@ -16567,7 +16649,11 @@ else case e in #(
    am_cv_python_pyexecdir=`$PYTHON -c "
 $am_python_setup_sysconfig
 if can_use_sysconfig:
-  sitedir = sysconfig.get_path('platlib', vars={'platbase':'$am_py_exec_prefix'})
+  try:
+    $am_python_setup_scheme
+    sitedir = sysconfig.get_path('platlib', scheme, vars={'platbase':'$am_py_exec_prefix'})
+  except:
+    sitedir = sysconfig.get_path('platlib', vars={'platbase':'$am_py_exec_prefix'})
 else:
   from distutils import sysconfig
   sitedir = sysconfig.get_python_lib(1, 0, prefix='$am_py_exec_prefix')

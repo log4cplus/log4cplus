@@ -1,9 +1,11 @@
 #! /bin/sh
 # Common wrapper for a few potentially missing GNU and other programs.
 
-scriptversion=2023-11-23.18; # UTC
+scriptversion=2024-06-07.14; # UTC
 
-# Copyright (C) 1996-2023 Free Software Foundation, Inc.
+# shellcheck disable=SC2006,SC2268 # we must support pre-POSIX shells
+
+# Copyright (C) 1996-2024 Free Software Foundation, Inc.
 # Originally written by Fran,cois Pinard <pinard@iro.umontreal.ca>, 1996.
 
 # This program is free software; you can redistribute it and/or modify
@@ -54,7 +56,7 @@ Options:
   -v, --version   output version information and exit
 
 Supported PROGRAM values:
-aclocal autoconf autogen  autoheader autom4te automake autoreconf 
+aclocal autoconf autogen  autoheader autom4te automake autoreconf
 bison   flex     help2man lex        makeinfo perl     yacc
 
 Version suffixes to PROGRAM as well as the prefixes 'gnu-', 'gnu', and
@@ -67,7 +69,7 @@ General help using GNU software: <https://www.gnu.org/gethelp/>."
     ;;
 
   -v|--v|--ve|--ver|--vers|--versi|--versio|--version)
-    echo "missing $scriptversion (GNU Automake)"
+    echo "missing (GNU Automake) $scriptversion"
     exit $?
     ;;
 
