@@ -101,6 +101,15 @@ LOG4CPLUS_EXPORT int log4cplus_logger_force_log(const log4cplus_char_t *name,
 LOG4CPLUS_EXPORT int log4cplus_logger_force_log_str(const log4cplus_char_t *name,
     log4cplus_loglevel_t ll, const log4cplus_char_t *msg);
 
+LOG4CPLUS_EXPORT int log4cplus_logger(const log4cplus_char_t* name,
+    const char* file, int line, const char* function,
+    log4cplus_loglevel_t ll, const log4cplus_char_t* msgfmt, ...)
+    LOG4CPLUS_FORMAT_ATTRIBUTE(__printf__, 6, 7);
+
+LOG4CPLUS_EXPORT int log4cplus_logger_str(const log4cplus_char_t* name,
+    const char* file, int line, const char* function,
+    log4cplus_loglevel_t ll, const log4cplus_char_t* msg);
+
 //! CallbackAppender callback type.
 typedef void (* log4cplus_log_event_callback_t)(void * cookie,
     log4cplus_char_t const * message, log4cplus_char_t const * loggerName,
