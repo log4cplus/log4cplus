@@ -181,6 +181,7 @@ struct DefaultContext
     spi::LocaleFactoryRegistry locale_factory_registry;
     Hierarchy hierarchy;
     ThreadPoolHolder thread_pool;
+    std::atomic<bool> block_on_full {true};
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     progschj::ThreadPool *
@@ -364,11 +365,29 @@ void
 enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
     spi::InternalLoggingEvent const & event)
 {
-    get_dc ()->get_thread_pool (true)->enqueue (
-        [=] ()
+    DefaultContext * dc = get_dc ();
+    progschj::ThreadPool * tp = dc->get_thread_pool (true);
+    auto func = [=] () {
+        appender->asyncDoAppend (event);
+    };
+    if (dc->block_on_full)
+        tp->enqueue_block (std::move (func));
+    else
+    {
+        std::future<void> future = tp->enqueue (std::move (func));
+        if (future.wait_for (std::chrono::seconds (0)) == std::future_status::ready)
         {
-            appender->asyncDoAppend (event);
-        });
+            try
+            {
+                future.get ();
+            }
+            catch (const progschj::would_block &)
+            {
+                // TODO: Log blocking.
+            }
+
+        }
+    }
 }
 
 #endif
@@ -657,6 +676,11 @@ setThreadPoolSize (std::size_t LOG4CPLUS_THREADED (pool_size))
 #endif
 }
 
+void
+setThreadPoolBlockOnFull (bool block)
+{
+    get_dc ()->block_on_full.store (block);
+}
 
 static
 void
