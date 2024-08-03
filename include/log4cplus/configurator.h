@@ -200,8 +200,16 @@ namespace log4cplus
          *
          * <h3>Global configuration</h3>
          *
-         * Property <pre>log4cplus.threadPoolSize</pre> can be used to adjust
-         * size of log4cplus' internal thread pool.
+         * <ul>
+         * <li>Property <pre>log4cplus.threadPoolSize</pre> can be used to adjust
+         * size of log4cplus' internal thread pool.</li>
+         * <li>Property <pre>log4cplus.threadPoolBlockOnFull</pre> can be
+         * used to change behaviour of the thread pool when its queue is full.
+         * The default value is <pre>true</pre>, to block the thread until
+         * there is a space in the queue. Setting this property to
+         * <pre>false</pre> makes the thread pool not to block when it is full.
+         * The items that could not be inserted are dropped instead.</li>
+         * </ul>
          *
          * <h3>Example</h3>
          *
