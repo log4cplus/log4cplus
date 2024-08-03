@@ -38,7 +38,7 @@ message("-- Generating build for Log4cplus version ${log4cplus_version_str}")
 set (log4cplus_soversion 9)
 set (log4cplus_postfix "")
 if (APPLE)
-  set (log4cplus_macho_current_version 9.0.0)
+  set (log4cplus_macho_current_version 10.0.0)
   set (log4cplus_macho_compatibility_version 9.0.0)
 endif ()
 
