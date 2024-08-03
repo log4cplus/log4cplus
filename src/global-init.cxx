@@ -366,14 +366,11 @@ enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
 {
     DefaultContext * dc = get_dc ();
     progschj::ThreadPool * tp = dc->get_thread_pool (true);
-    auto func = [=] () {
-        appender->asyncDoAppend (event);
-    };
     if (dc->block_on_full)
-        tp->enqueue_block (std::move (func));
+        tp->enqueue_block ([=] () { appender->asyncDoAppend (event); });
     else
     {
-        std::future<void> future = tp->enqueue (std::move (func));
+        std::future<void> future = tp->enqueue ([=] () { appender->asyncDoAppend (event); });
         if (future.wait_for (std::chrono::seconds (0)) == std::future_status::ready)
         {
             try
