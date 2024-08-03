@@ -2,7 +2,7 @@
 
 set -e
 
-THIS_SCRIPT=`basename "$0"`
+THIS_SCRIPT=$(basename "$0")
 
 function usage
 {
@@ -64,7 +64,7 @@ if [[ -z "${TMPDIR}" ]] ; then
 else
     export TMPDIR
 fi
-TMP_DIR=`mktemp -d -t log4cplus.XXXXXXX`
+TMP_DIR=$(mktemp -d -t log4cplus.XXXXXXX)
 pushd "$TMP_DIR"
 
 TAR=${TAR:-$(find_archiver tar)}
@@ -94,7 +94,7 @@ $TAR -c --format=posix --numeric-owner --owner=0 --group=0 -f "$TAR_FILE" "$SRC_
 $XZ -e -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".xz \
 & $BZIP2 -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".bz2 \
 & $GZIP -9 -c "$TAR_FILE" >"$DEST_DIR/$TAR_FILE".gz \
-& $LRZIP -q -o - "$TAR_FILE" |([[ "$LRZIP" = ":" ]] && cat >/dev/null || cat >"$DEST_DIR/$TAR_FILE".lrz)
+& $LRZIP -z -q -o - "$TAR_FILE" |([[ "$LRZIP" = ":" ]] && cat >/dev/null || cat >"$DEST_DIR/$TAR_FILE".lrz)
 
 echo waiting for tarballs...
 wait
