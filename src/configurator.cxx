@@ -200,6 +200,10 @@ PropertyConfigurator::configure()
 
     setThreadPoolSize (thread_pool_size);
 
+    bool block;
+    if (properties.getBool (block, LOG4CPLUS_TEXT ("threadPoolBlockOnFull")))
+        setThreadPoolBlockOnFull (block);
+
     configureAppenders();
     configureLoggers();
     configureAdditivity();
