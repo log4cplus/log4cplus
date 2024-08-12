@@ -10,9 +10,9 @@ if (CMAKE_TOOLCHAIN_FILE)
 endif ()
 # Remove when CMake >= 2.8.4 is required
 set (CMAKE_LEGACY_CYGWIN_WIN32 0)
+cmake_minimum_required (VERSION 3.12)
 
 project (log4cplus)
-cmake_minimum_required (VERSION 3.12)
 
 # Use "-fPIC" / "-fPIE" for all targets by default, including static libs.
 set (CMAKE_POSITION_INDEPENDENT_CODE ON)
