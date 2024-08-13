@@ -153,14 +153,18 @@ instantiate_thread_pool ()
 //! therefore the ThreadPool can only be destroyed after that.
 struct ThreadPoolHolder
 {
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
     std::atomic<progschj::ThreadPool*> thread_pool{};
+#endif
 
     ThreadPoolHolder () = default;
     ThreadPoolHolder (ThreadPoolHolder const&) = delete;
     ~ThreadPoolHolder ()
     {
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
         auto const tp = thread_pool.exchange(nullptr, std::memory_order_release);
         delete tp;
+#endif
     }
 };
 
