@@ -10329,10 +10329,8 @@ else case e in #(
 /* end confdefs.h.  */
 
 
-                    #include <string>
                     struct bar { bar() {} ~bar() {} };
                     bar b __attribute__((init_priority(65535/2)));
-                    static std::string name __attribute__((init_priority(65535/2))) ("test");
 
 int
 main (void)
