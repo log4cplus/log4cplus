@@ -13381,6 +13381,9 @@ printf "%s\n" "no" >&6; }
 		PKG_CONFIG=""
 	fi
 fi
+if test -z "$PKG_CONFIG"; then
+	as_fn_error $? "pkg-config not found" "$LINENO" 5
+fi
 
 
 # Check whether --with-qt was given.
@@ -13398,8 +13401,8 @@ if test "x$with_qt" = "xyes"
 then :
 
 pkg_failed=no
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for QT" >&5
-printf %s "checking for QT... " >&6; }
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for QtCore >= 4.0.0" >&5
+printf %s "checking for QtCore >= 4.0.0... " >&6; }
 
 if test -n "$QT_CFLAGS"; then
     pkg_cv_QT_CFLAGS="$QT_CFLAGS"
@@ -13439,7 +13442,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -13448,14 +13451,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        QT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "QtCore >= 4.0.0" 2>&1`
+                QT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "QtCore >= 4.0.0" 2>&1`
         else
-	        QT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "QtCore >= 4.0.0" 2>&1`
+                QT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "QtCore >= 4.0.0" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$QT_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$QT_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (QtCore >= 4.0.0) were not met:
+        as_fn_error $? "Package requirements (QtCore >= 4.0.0) were not met:
 
 $QT_PKG_ERRORS
 
@@ -13466,9 +13469,9 @@ Alternatively, you may set the environment variables QT_CFLAGS
 and QT_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
-     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -13481,8 +13484,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	QT_CFLAGS=$pkg_cv_QT_CFLAGS
-	QT_LIBS=$pkg_cv_QT_LIBS
+        QT_CFLAGS=$pkg_cv_QT_CFLAGS
+        QT_LIBS=$pkg_cv_QT_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -13520,8 +13523,8 @@ if test "x$with_qt5" = "xyes"
 then :
 
 pkg_failed=no
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for QT5" >&5
-printf %s "checking for QT5... " >&6; }
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for Qt5Core >= 5.0.0" >&5
+printf %s "checking for Qt5Core >= 5.0.0... " >&6; }
 
 if test -n "$QT5_CFLAGS"; then
     pkg_cv_QT5_CFLAGS="$QT5_CFLAGS"
@@ -13561,7 +13564,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -13570,14 +13573,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        QT5_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "Qt5Core >= 5.0.0" 2>&1`
+                QT5_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "Qt5Core >= 5.0.0" 2>&1`
         else
-	        QT5_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "Qt5Core >= 5.0.0" 2>&1`
+                QT5_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "Qt5Core >= 5.0.0" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$QT5_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$QT5_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (Qt5Core >= 5.0.0) were not met:
+        as_fn_error $? "Package requirements (Qt5Core >= 5.0.0) were not met:
 
 $QT5_PKG_ERRORS
 
@@ -13588,9 +13591,9 @@ Alternatively, you may set the environment variables QT5_CFLAGS
 and QT5_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
-     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -13603,8 +13606,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	QT5_CFLAGS=$pkg_cv_QT5_CFLAGS
-	QT5_LIBS=$pkg_cv_QT5_LIBS
+        QT5_CFLAGS=$pkg_cv_QT5_CFLAGS
+        QT5_LIBS=$pkg_cv_QT5_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
