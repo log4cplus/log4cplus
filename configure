@@ -13647,8 +13647,8 @@ fi
 if test "x$with_swig" = "xyes"
 then :
 
-        # Ubuntu has swig 2.0 as /usr/bin/swig2.0
-        for ac_prog in swig swig2.0
+        # Find path to the "swig" executable.
+        for ac_prog in swig swig3.0 swig2.0
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -13701,7 +13701,9 @@ done
 
         if test -z "$SWIG" ; then
                 as_fn_error $? "SWIG is required to build." "$LINENO" 5
-        elif test -n "2.0.0" ; then
+        elif test -z "2.0.0" ; then
+                :
+	else
                 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking SWIG version" >&5
 printf %s "checking SWIG version... " >&6; }
                 swig_version=`$SWIG -version 2>&1 | grep 'SWIG Version' | sed 's/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/g'`
@@ -13714,12 +13716,12 @@ printf "%s\n" "$swig_version" >&6; }
                         if test -z "$required_major" ; then
                                 required_major=0
                         fi
-                        required=`echo $required | sed 's/[0-9]*[^0-9]//'`
+                        required=`echo $required. | sed 's/[0-9]*[^0-9]//'`
                         required_minor=`echo $required | sed 's/[^0-9].*//'`
                         if test -z "$required_minor" ; then
                                 required_minor=0
                         fi
-                        required=`echo $required | sed 's/[0-9]*[^0-9]//'`
+                        required=`echo $required. | sed 's/[0-9]*[^0-9]//'`
                         required_patch=`echo $required | sed 's/[^0-9].*//'`
                         if test -z "$required_patch" ; then
                                 required_patch=0
@@ -13756,7 +13758,7 @@ printf "%s\n" "$as_me: WARNING: SWIG version >= 2.0.0 is required.  You have $sw
                         else
                                 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for SWIG library" >&5
 printf %s "checking for SWIG library... " >&6; }
-                                SWIG_LIB=`$SWIG -swiglib`
+                                SWIG_LIB=`$SWIG -swiglib | tr '\r\n' '  '`
                                 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $SWIG_LIB" >&5
 printf "%s\n" "$SWIG_LIB" >&6; }
                                 :
