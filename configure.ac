@@ -12,6 +12,7 @@ AM_INIT_AUTOMAKE([1.14 no-define no-dist nostdinc foreign subdir-objects -Wall])
 AC_CONFIG_TESTDIR([tests])
 AM_MAINTAINER_MODE([enable])
 AC_SYS_LARGEFILE
+AC_SYS_YEAR2038
 AM_PROG_AR
 
 #

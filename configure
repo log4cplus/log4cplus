@@ -649,7 +649,7 @@ ac_includes_default="\
 #endif"
 
 ac_header_cxx_list=
-enable_year2038=no
+enable_year2038=yes
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
@@ -1576,7 +1576,7 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
-  --enable-year2038       support timestamps after 2038
+  --disable-year2038      don't support timestamps after 2038
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -5503,6 +5503,33 @@ esac
 
 fi
 
+fi
+if test "$enable_year2038,$ac_have_year2038,$cross_compiling" = yes,no,no
+then :
+  # If we're not cross compiling and 'touch' works with a large
+  # timestamp, then we can presume the system supports wider time_t
+  # *somehow* and we just weren't able to detect it.  One common
+  # case that we deliberately *don't* probe for is a system that
+  # supports both 32- and 64-bit ABIs but only the 64-bit ABI offers
+  # wide time_t.  (It would be inappropriate for us to override an
+  # intentional use of -m32.)  Error out, demanding use of
+  # --disable-year2038 if this is intentional.
+  if TZ=UTC0 touch -t 210602070628.15 conftest.time 2>/dev/null
+then :
+  case `TZ=UTC0 LC_ALL=C ls -l conftest.time 2>/dev/null` in #(
+  *'Feb  7  2106'* | *'Feb  7 17:10'*) :
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
+as_fn_error $? "this system appears to support timestamps after
+mid-January 2038, but no mechanism for enabling wide
+'time_t' was detected. Did you mean to build a 64-bit
+binary? (E.g., 'CC=\"${CC} -m64\"'.) To proceed with
+32-bit time_t, configure with '--disable-year2038'.
+See 'config.log' for more details" "$LINENO" 5; } ;; #(
+  *) :
+     ;;
+esac
+fi
 fi
 
   if test -n "$ac_tool_prefix"; then
