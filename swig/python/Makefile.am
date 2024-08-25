@@ -9,7 +9,7 @@ _log4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) $(SWIG_PYTHON_CPPFLAGS) \
   $(PYTHON_CPPFLAGS) -DSWIG_TYPE_TABLE=log4cplus \
   "-Dregister=/*register*/"
 _log4cplus_la_LDFLAGS = -no-undefined -shared -module -avoid-version \
-  $(PYTHON_LDFLAGS) $(AM_LDFLAGS)
+  $(PYTHON_LIBS) $(AM_LDFLAGS)
 _log4cplus_la_LIBADD = $(liblog4cplus_la_file)
 
 $(PYTHON_WRAP_CXX): $(SWIG_SOURCES)
@@ -29,7 +29,7 @@ _log4cplusU_la_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 \
   $(SWIG_PYTHON_CPPFLAGS) $(PYTHON_CPPFLAGS) -DSWIG_TYPE_TABLE=log4cplus \
   "-Dregister=/*register*/"
 _log4cplusU_la_LDFLAGS = -no-undefined -shared -module -avoid-version \
-  $(PYTHON_LDFLAGS) $(AM_LDFLAGS)
+  $(PYTHON_LIBS) $(AM_LDFLAGS)
 _log4cplusU_la_LIBADD = $(liblog4cplusU_la_file)
 
 $(PYTHON_WRAPU_CXX): $(SWIG_SOURCES)
