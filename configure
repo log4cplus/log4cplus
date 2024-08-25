@@ -649,6 +649,7 @@ ac_includes_default="\
 #endif"
 
 ac_header_cxx_list=
+enable_year2038=no
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
@@ -744,6 +745,8 @@ ENABLE_VERSION_INFO_OPTION_TRUE
 LOG4CPLUS_NDEBUG
 LT_RELEASE
 LT_VERSION
+ac_ct_AR
+AR
 am__fastdepCC_FALSE
 am__fastdepCC_TRUE
 CCDEPMODE
@@ -760,8 +763,6 @@ CPPFLAGS
 LDFLAGS
 CFLAGS
 CC
-ac_ct_AR
-AR
 MAINT
 MAINTAINER_MODE_FALSE
 MAINTAINER_MODE_TRUE
@@ -854,6 +855,7 @@ ac_user_opts='
 enable_option_checking
 enable_silent_rules
 enable_maintainer_mode
+enable_largefile
 enable_dependency_tracking
 with_working_locale
 with_working_c_locale
@@ -885,6 +887,7 @@ with_aix_soname
 with_gnu_ld
 with_sysroot
 enable_libtool_lock
+enable_year2038
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1542,6 +1545,7 @@ Optional Features:
   --disable-maintainer-mode
                           disable make rules and dependencies not useful (and
                           sometimes confusing) to the casual installer
+  --disable-largefile     omit support for large files
   --enable-dependency-tracking
                           do not reject slow dependency extractors
   --disable-dependency-tracking
@@ -1572,6 +1576,7 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
+  --enable-year2038       support timestamps after 2038
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -2969,7 +2974,7 @@ as_fn_append ac_header_cxx_list " sys/types.h sys_types_h HAVE_SYS_TYPES_H"
 as_fn_append ac_header_cxx_list " unistd.h unistd_h HAVE_UNISTD_H"
 
 # Auxiliary files required by this configure script.
-ac_aux_files="ltmain.sh compile ar-lib missing install-sh config.guess config.sub"
+ac_aux_files="ltmain.sh ar-lib compile missing install-sh config.guess config.sub"
 
 # Locations in which to look for auxiliary files.
 ac_aux_dir_candidates="${srcdir}${PATH_SEPARATOR}${srcdir}/..${PATH_SEPARATOR}${srcdir}/../.."
@@ -5324,6 +5329,181 @@ fi
 
 
 
+# Check whether --enable-largefile was given.
+if test ${enable_largefile+y}
+then :
+  enableval=$enable_largefile;
+fi
+if test "$enable_largefile,$enable_year2038" != no,no
+then :
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $CC option to enable large file support" >&5
+printf %s "checking for $CC option to enable large file support... " >&6; }
+if test ${ac_cv_sys_largefile_opts+y}
+then :
+  printf %s "(cached) " >&6
+else case e in #(
+  e) ac_save_CC="$CC"
+  ac_opt_found=no
+  for ac_opt in "none needed" "-D_FILE_OFFSET_BITS=64" "-D_LARGE_FILES=1" "-n32"; do
+    if test x"$ac_opt" != x"none needed"
+then :
+  CC="$ac_save_CC $ac_opt"
+fi
+    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include <sys/types.h>
+#ifndef FTYPE
+# define FTYPE off_t
+#endif
+ /* Check that FTYPE can represent 2**63 - 1 correctly.
+    We can't simply define LARGE_FTYPE to be 9223372036854775807,
+    since some C++ compilers masquerading as C compilers
+    incorrectly reject 9223372036854775807.  */
+#define LARGE_FTYPE (((FTYPE) 1 << 31 << 31) - 1 + ((FTYPE) 1 << 31 << 31))
+  int FTYPE_is_large[(LARGE_FTYPE % 2147483629 == 721
+		       && LARGE_FTYPE % 2147483647 == 1)
+		      ? 1 : -1];
+int
+main (void)
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+  if test x"$ac_opt" = x"none needed"
+then :
+  # GNU/Linux s390x and alpha need _FILE_OFFSET_BITS=64 for wide ino_t.
+	 CC="$CC -DFTYPE=ino_t"
+	 if ac_fn_c_try_compile "$LINENO"
+then :
+
+else case e in #(
+  e) CC="$CC -D_FILE_OFFSET_BITS=64"
+	    if ac_fn_c_try_compile "$LINENO"
+then :
+  ac_opt='-D_FILE_OFFSET_BITS=64'
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam ;;
+esac
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam
+fi
+      ac_cv_sys_largefile_opts=$ac_opt
+      ac_opt_found=yes
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+    test $ac_opt_found = no || break
+  done
+  CC="$ac_save_CC"
+
+  test $ac_opt_found = yes || ac_cv_sys_largefile_opts="support not detected" ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_sys_largefile_opts" >&5
+printf "%s\n" "$ac_cv_sys_largefile_opts" >&6; }
+
+ac_have_largefile=yes
+case $ac_cv_sys_largefile_opts in #(
+  "none needed") :
+     ;; #(
+  "supported through gnulib") :
+     ;; #(
+  "support not detected") :
+    ac_have_largefile=no ;; #(
+  "-D_FILE_OFFSET_BITS=64") :
+
+printf "%s\n" "#define _FILE_OFFSET_BITS 64" >>confdefs.h
+ ;; #(
+  "-D_LARGE_FILES=1") :
+
+printf "%s\n" "#define _LARGE_FILES 1" >>confdefs.h
+ ;; #(
+  "-n32") :
+    CC="$CC -n32" ;; #(
+  *) :
+    as_fn_error $? "internal error: bad value for \$ac_cv_sys_largefile_opts" "$LINENO" 5 ;;
+esac
+
+if test "$enable_year2038" != no
+then :
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $CC option for timestamps after 2038" >&5
+printf %s "checking for $CC option for timestamps after 2038... " >&6; }
+if test ${ac_cv_sys_year2038_opts+y}
+then :
+  printf %s "(cached) " >&6
+else case e in #(
+  e) ac_save_CPPFLAGS="$CPPFLAGS"
+  ac_opt_found=no
+  for ac_opt in "none needed" "-D_TIME_BITS=64" "-D__MINGW_USE_VC2005_COMPAT" "-U_USE_32_BIT_TIME_T -D__MINGW_USE_VC2005_COMPAT"; do
+    if test x"$ac_opt" != x"none needed"
+then :
+  CPPFLAGS="$ac_save_CPPFLAGS $ac_opt"
+fi
+    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+  #include <time.h>
+  /* Check that time_t can represent 2**32 - 1 correctly.  */
+  #define LARGE_TIME_T \\
+    ((time_t) (((time_t) 1 << 30) - 1 + 3 * ((time_t) 1 << 30)))
+  int verify_time_t_range[(LARGE_TIME_T / 65537 == 65535
+                           && LARGE_TIME_T % 65537 == 0)
+                          ? 1 : -1];
+
+int
+main (void)
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+  ac_cv_sys_year2038_opts="$ac_opt"
+      ac_opt_found=yes
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+    test $ac_opt_found = no || break
+  done
+  CPPFLAGS="$ac_save_CPPFLAGS"
+  test $ac_opt_found = yes || ac_cv_sys_year2038_opts="support not detected" ;;
+esac
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_sys_year2038_opts" >&5
+printf "%s\n" "$ac_cv_sys_year2038_opts" >&6; }
+
+ac_have_year2038=yes
+case $ac_cv_sys_year2038_opts in #(
+  "none needed") :
+     ;; #(
+  "support not detected") :
+    ac_have_year2038=no ;; #(
+  "-D_TIME_BITS=64") :
+
+printf "%s\n" "#define _TIME_BITS 64" >>confdefs.h
+ ;; #(
+  "-D__MINGW_USE_VC2005_COMPAT") :
+
+printf "%s\n" "#define __MINGW_USE_VC2005_COMPAT 1" >>confdefs.h
+ ;; #(
+  "-U_USE_32_BIT_TIME_T"*) :
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
+as_fn_error $? "the 'time_t' type is currently forced to be 32-bit. It
+will stop working after mid-January 2038. Remove
+_USE_32BIT_TIME_T from the compiler flags.
+See 'config.log' for more details" "$LINENO" 5; } ;; #(
+  *) :
+    as_fn_error $? "internal error: bad value for \$ac_cv_sys_year2038_opts" "$LINENO" 5 ;;
+esac
+
+fi
+
+fi
 
   if test -n "$ac_tool_prefix"; then
   for ac_prog in ar lib "link -lib"
@@ -26649,6 +26829,12 @@ if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
+# Check whether --enable-year2038 was given.
+if test ${enable_year2038+y}
+then :
+  enableval=$enable_year2038;
+fi
+
 if test -z "${ENABLE_VERSION_INFO_OPTION_TRUE}" && test -z "${ENABLE_VERSION_INFO_OPTION_FALSE}"; then
   as_fn_error $? "conditional \"ENABLE_VERSION_INFO_OPTION\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
