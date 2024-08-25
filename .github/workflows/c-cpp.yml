@@ -18,7 +18,7 @@ jobs:
           cc: 'clang'
           cxx: 'clang++'
           prereq: |
-            sudo xcode-select -s '/Applications/Xcode_16.0.app/Contents/Developer'
+            sudo xcode-select -s '/Applications/Xcode_16.1_beta.app/Contents/Developer'
         - os: 'macos-14'
           cc: 'clang'
           cxx: 'clang++'
