@@ -307,6 +307,7 @@ am__objects_5 = src/liblog4cplus_la-appenderattachableimpl.lo \
 	src/liblog4cplus_la-connectorthread.lo \
 	src/liblog4cplus_la-consoleappender.lo \
 	src/liblog4cplus_la-cygwin-win32.lo src/liblog4cplus_la-env.lo \
+	src/liblog4cplus_la-eventcounter.lo \
 	src/liblog4cplus_la-exception.lo \
 	src/liblog4cplus_la-factory.lo \
 	src/liblog4cplus_la-fileappender.lo \
@@ -365,7 +366,9 @@ am__objects_8 = src/liblog4cplusU_la-appenderattachableimpl.lo \
 	src/liblog4cplusU_la-connectorthread.lo \
 	src/liblog4cplusU_la-consoleappender.lo \
 	src/liblog4cplusU_la-cygwin-win32.lo \
-	src/liblog4cplusU_la-env.lo src/liblog4cplusU_la-exception.lo \
+	src/liblog4cplusU_la-env.lo \
+	src/liblog4cplusU_la-eventcounter.lo \
+	src/liblog4cplusU_la-exception.lo \
 	src/liblog4cplusU_la-factory.lo \
 	src/liblog4cplusU_la-fileappender.lo \
 	src/liblog4cplusU_la-fileinfo.lo \
@@ -797,6 +800,7 @@ am__depfiles_remade = $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplusU_la-ca
 	src/$(DEPDIR)/liblog4cplusU_la-consoleappender.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-cygwin-win32.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-env.Plo \
+	src/$(DEPDIR)/liblog4cplusU_la-eventcounter.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-exception.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-factory.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-fileappender.Plo \
@@ -853,6 +857,7 @@ am__depfiles_remade = $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplusU_la-ca
 	src/$(DEPDIR)/liblog4cplus_la-consoleappender.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-cygwin-win32.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-env.Plo \
+	src/$(DEPDIR)/liblog4cplus_la-eventcounter.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-exception.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-factory.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-fileappender.Plo \
@@ -1243,23 +1248,23 @@ LIB_SRC = src/appenderattachableimpl.cxx src/appender.cxx \
 	src/asyncappender.cxx src/callbackappender.cxx src/clogger.cxx \
 	src/configurator.cxx src/connectorthread.cxx \
 	src/consoleappender.cxx src/cygwin-win32.cxx src/env.cxx \
-	src/exception.cxx src/factory.cxx src/fileappender.cxx \
-	src/fileinfo.cxx src/filter.cxx src/global-init.cxx \
-	src/hierarchy.cxx src/hierarchylocker.cxx src/layout.cxx \
-	src/log4judpappender.cxx src/lockfile.cxx src/logger.cxx \
-	src/loggerimpl.cxx src/loggingevent.cxx src/loggingmacros.cxx \
-	src/loglevel.cxx src/loglog.cxx src/mdc.cxx src/ndc.cxx \
-	src/nullappender.cxx src/nteventlogappender.cxx \
-	src/objectregistry.cxx src/patternlayout.cxx src/pointer.cxx \
-	src/property.cxx src/queue.cxx src/rootlogger.cxx \
-	src/snprintf.cxx src/socketappender.cxx src/socketbuffer.cxx \
-	src/socket.cxx src/socket-unix.cxx src/socket-win32.cxx \
-	src/stringhelper.cxx src/stringhelper-clocale.cxx \
-	src/stringhelper-cxxlocale.cxx src/stringhelper-iconv.cxx \
-	src/syncprims.cxx src/syslogappender.cxx src/threads.cxx \
-	src/timehelper.cxx src/tls.cxx src/version.cxx \
-	src/win32consoleappender.cxx src/win32debugappender.cxx \
-	$(am__append_1)
+	src/eventcounter.cxx src/exception.cxx src/factory.cxx \
+	src/fileappender.cxx src/fileinfo.cxx src/filter.cxx \
+	src/global-init.cxx src/hierarchy.cxx src/hierarchylocker.cxx \
+	src/layout.cxx src/log4judpappender.cxx src/lockfile.cxx \
+	src/logger.cxx src/loggerimpl.cxx src/loggingevent.cxx \
+	src/loggingmacros.cxx src/loglevel.cxx src/loglog.cxx \
+	src/mdc.cxx src/ndc.cxx src/nullappender.cxx \
+	src/nteventlogappender.cxx src/objectregistry.cxx \
+	src/patternlayout.cxx src/pointer.cxx src/property.cxx \
+	src/queue.cxx src/rootlogger.cxx src/snprintf.cxx \
+	src/socketappender.cxx src/socketbuffer.cxx src/socket.cxx \
+	src/socket-unix.cxx src/socket-win32.cxx src/stringhelper.cxx \
+	src/stringhelper-clocale.cxx src/stringhelper-cxxlocale.cxx \
+	src/stringhelper-iconv.cxx src/syncprims.cxx \
+	src/syslogappender.cxx src/threads.cxx src/timehelper.cxx \
+	src/tls.cxx src/version.cxx src/win32consoleappender.cxx \
+	src/win32debugappender.cxx $(am__append_1)
 common_liblog4cplus_la_cppflags = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
 liblog4cplus_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags)
 common_liblog4cplus_la_sources = $(LIB_SRC)
@@ -1751,6 +1756,8 @@ src/liblog4cplus_la-cygwin-win32.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-env.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplus_la-eventcounter.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-exception.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-factory.lo: src/$(am__dirstamp) \
@@ -1874,6 +1881,8 @@ src/liblog4cplusU_la-consoleappender.lo: src/$(am__dirstamp) \
 src/liblog4cplusU_la-cygwin-win32.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplusU_la-env.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-eventcounter.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplusU_la-exception.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
@@ -2428,6 +2437,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-consoleappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-cygwin-win32.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-env.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-eventcounter.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-exception.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-factory.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-fileappender.Plo@am__quote@ # am--include-marker
@@ -2484,6 +2494,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-consoleappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-cygwin-win32.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-env.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-eventcounter.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-exception.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-factory.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-fileappender.Plo@am__quote@ # am--include-marker
@@ -2681,6 +2692,13 @@ src/liblog4cplus_la-env.lo: src/env.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/env.cxx' object='src/liblog4cplus_la-env.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-env.lo `test -f 'src/env.cxx' || echo '$(srcdir)/'`src/env.cxx
+
+src/liblog4cplus_la-eventcounter.lo: src/eventcounter.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-eventcounter.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-eventcounter.Tpo -c -o src/liblog4cplus_la-eventcounter.lo `test -f 'src/eventcounter.cxx' || echo '$(srcdir)/'`src/eventcounter.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplus_la-eventcounter.Tpo src/$(DEPDIR)/liblog4cplus_la-eventcounter.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/eventcounter.cxx' object='src/liblog4cplus_la-eventcounter.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-eventcounter.lo `test -f 'src/eventcounter.cxx' || echo '$(srcdir)/'`src/eventcounter.cxx
 
 src/liblog4cplus_la-exception.lo: src/exception.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-exception.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-exception.Tpo -c -o src/liblog4cplus_la-exception.lo `test -f 'src/exception.cxx' || echo '$(srcdir)/'`src/exception.cxx
@@ -3080,6 +3098,13 @@ src/liblog4cplusU_la-env.lo: src/env.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/env.cxx' object='src/liblog4cplusU_la-env.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-env.lo `test -f 'src/env.cxx' || echo '$(srcdir)/'`src/env.cxx
+
+src/liblog4cplusU_la-eventcounter.lo: src/eventcounter.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-eventcounter.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-eventcounter.Tpo -c -o src/liblog4cplusU_la-eventcounter.lo `test -f 'src/eventcounter.cxx' || echo '$(srcdir)/'`src/eventcounter.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-eventcounter.Tpo src/$(DEPDIR)/liblog4cplusU_la-eventcounter.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/eventcounter.cxx' object='src/liblog4cplusU_la-eventcounter.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-eventcounter.lo `test -f 'src/eventcounter.cxx' || echo '$(srcdir)/'`src/eventcounter.cxx
 
 src/liblog4cplusU_la-exception.lo: src/exception.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-exception.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-exception.Tpo -c -o src/liblog4cplusU_la-exception.lo `test -f 'src/exception.cxx' || echo '$(srcdir)/'`src/exception.cxx
@@ -4041,6 +4066,7 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-consoleappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-cygwin-win32.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-env.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplusU_la-eventcounter.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-exception.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-factory.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-fileappender.Plo
@@ -4097,6 +4123,7 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-consoleappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-cygwin-win32.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-env.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplus_la-eventcounter.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-exception.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-factory.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-fileappender.Plo
@@ -4248,6 +4275,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-consoleappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-cygwin-win32.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-env.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplusU_la-eventcounter.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-exception.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-factory.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-fileappender.Plo
@@ -4304,6 +4332,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-consoleappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-cygwin-win32.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-env.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplus_la-eventcounter.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-exception.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-factory.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-fileappender.Plo
