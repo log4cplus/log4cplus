@@ -370,6 +370,8 @@ void
 enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
     spi::InternalLoggingEvent const & event)
 {
+    static helpers::SteadyClockGate gate (helpers::SteadyClockGate::Duration {std::chrono::minutes (5)});
+
     DefaultContext * dc = get_dc ();
     progschj::ThreadPool * tp = dc->get_thread_pool (true);
     if (dc->block_on_full)
@@ -385,7 +387,6 @@ enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
             }
             catch (const progschj::would_block &)
             {
-                static helpers::SteadyClockGate gate (helpers::SteadyClockGate::Duration {std::chrono::seconds (1)});
                 gate.record_event ();
                 helpers::SteadyClockGate::Info info;
                 if (gate.latch_open (info))
