@@ -48,7 +48,6 @@ public:
     SyncGuard (SyncGuard const &) = delete;
     SyncGuard & operator = (SyncGuard const &) = delete;
 
-
     void lock ();
     void unlock ();
     void attach (SyncPrim const &);
@@ -58,6 +57,26 @@ public:
 private:
     SyncPrim const * sp;
 };
+
+
+class LOG4CPLUS_EXPORT SimpleMutex
+{
+public:
+    SimpleMutex ();
+    ~SimpleMutex ();
+    SimpleMutex (SimpleMutex const &) = delete;
+    SimpleMutex & operator = (SimpleMutex const &) = delete;
+
+    void lock () const;
+    bool try_lock () const;
+    void unlock () const;
+
+private:
+    LOG4CPLUS_THREADED (mutable std::mutex mtx;)
+};
+
+
+typedef SyncGuard<SimpleMutex> SimpleMutexGuard;
 
 
 class LOG4CPLUS_EXPORT Mutex

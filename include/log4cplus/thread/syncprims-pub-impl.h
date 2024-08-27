@@ -62,6 +62,48 @@ LOG4CPLUS_EXPORT void LOG4CPLUS_ATTRIBUTE_NORETURN
 //
 
 LOG4CPLUS_INLINE_EXPORT
+SimpleMutex::SimpleMutex ()
+    LOG4CPLUS_THREADED (: mtx ())
+{ }
+
+
+LOG4CPLUS_INLINE_EXPORT
+SimpleMutex::~SimpleMutex ()
+{ }
+
+
+LOG4CPLUS_INLINE_EXPORT
+void
+SimpleMutex::lock () const
+{
+    LOG4CPLUS_THREADED (mtx.lock ());
+}
+
+LOG4CPLUS_INLINE_EXPORT
+bool
+SimpleMutex::try_lock () const
+{
+#if defined (LOG4CPLUS_SINGLE_THREADED)
+    return true;
+#else
+    return mtx.try_lock ();
+#endif
+}
+
+
+LOG4CPLUS_INLINE_EXPORT
+void
+SimpleMutex::unlock () const
+{
+    LOG4CPLUS_THREADED (mtx.unlock ());
+}
+
+
+//
+//
+//
+
+LOG4CPLUS_INLINE_EXPORT
 Mutex::Mutex ()
     LOG4CPLUS_THREADED (: mtx ())
 { }
