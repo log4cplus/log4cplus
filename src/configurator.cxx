@@ -202,6 +202,10 @@ PropertyConfigurator::configure()
     if (properties.getBool (block, LOG4CPLUS_TEXT ("threadPoolBlockOnFull")))
         setThreadPoolBlockOnFull (block);
 
+    unsigned int queue_size_limit;
+    if (properties.getUInt (queue_size_limit, LOG4CPLUS_TEXT ("threadPoolQueueSizeLimit")))
+        setThreadPoolQueueSizeLimit ((std::max) (queue_size_limit, 100u));
+
     configureAppenders();
     configureLoggers();
     configureAdditivity();

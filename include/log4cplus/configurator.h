@@ -209,6 +209,8 @@ namespace log4cplus
          * there is a space in the queue. Setting this property to
          * <pre>false</pre> makes the thread pool not to block when it is full.
          * The items that could not be inserted are dropped instead.</li>
+         * <li>Property <pre>log4cplus.threadPoolQueueSizeLimit</pre> can be used to
+         * set thread pool queue size limit.</li>
          * </ul>
          *
          * <h3>Example</h3>
