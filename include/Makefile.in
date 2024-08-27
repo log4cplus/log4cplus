@@ -386,6 +386,7 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/fstreams.h \
 	log4cplus/helpers/appenderattachableimpl.h \
 	log4cplus/helpers/connectorthread.h \
+	log4cplus/helpers/eventcounter.h \
 	log4cplus/helpers/fileinfo.h \
 	log4cplus/helpers/lockfile.h \
 	log4cplus/helpers/loglog.h \

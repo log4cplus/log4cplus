@@ -11,6 +11,7 @@ SINGLE_THREADED_SRC = \
 	%D%/consoleappender.cxx \
 	%D%/cygwin-win32.cxx \
 	%D%/env.cxx \
+	%D%/eventcounter.cxx \
 	%D%/exception.cxx \
 	%D%/factory.cxx \
 	%D%/fileappender.cxx \

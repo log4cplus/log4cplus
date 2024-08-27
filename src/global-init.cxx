@@ -32,6 +32,7 @@
 #include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/mdc.h>
+#include <log4cplus/helpers/eventcounter.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/internal/customloglevelmanager.h>
 #include <log4cplus/internal/internal.h>
@@ -46,6 +47,7 @@
 #include <cstdio>
 #include <iostream>
 #include <stdexcept>
+#include <chrono>
 
 
 // Forward Declarations
@@ -383,9 +385,20 @@ enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
             }
             catch (const progschj::would_block &)
             {
-                // TODO: Log blocking.
+                static helpers::SteadyClockGate gate (helpers::SteadyClockGate::Duration {std::chrono::seconds (1)});
+                gate.record_event ();
+                helpers::SteadyClockGate::Info info;
+                if (gate.latch_open (info))
+                {
+                    helpers::LogLog & loglog = helpers::getLogLog ();
+                    log4cplus::tostringstream oss;
+                    oss << LOG4CPLUS_TEXT ("Asynchronous logging queue is full. Dropped ")
+                        << info.count << LOG4CPLUS_TEXT (" events in last ")
+                        << std::chrono::duration_cast<std::chrono::seconds> (info.time_span).count ()
+                        << LOG4CPLUS_TEXT (" seconds");
+                    loglog.warn (oss.str ());
+                }
             }
-
         }
     }
 }
