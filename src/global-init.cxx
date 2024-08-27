@@ -676,6 +676,19 @@ setThreadPoolSize (std::size_t LOG4CPLUS_THREADED (pool_size))
 #endif
 }
 
+
+void
+setThreadPoolQueueSizeLimit (std::size_t LOG4CPLUS_THREADED (queue_size_limit))
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    auto const thread_pool = get_dc ()->get_thread_pool (true);
+    if (thread_pool)
+        thread_pool->set_queue_size_limit (queue_size_limit);
+
+#endif
+}
+
+
 void
 setThreadPoolBlockOnFull (bool block)
 {

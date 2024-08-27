@@ -207,6 +207,9 @@ LOG4CPLUS_EXPORT void setThreadPoolSize (std::size_t pool_size);
 //! Set behaviour on full thread pool queue. Default is to block.
 LOG4CPLUS_EXPORT void setThreadPoolBlockOnFull (bool block);
 
+//! Set thread pool queue size limit.
+LOG4CPLUS_EXPORT void setThreadPoolQueueSizeLimit (std::size_t queue_size_limit);
+
 } // namespace log4cplus
 
 #endif
