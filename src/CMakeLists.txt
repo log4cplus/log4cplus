@@ -9,6 +9,7 @@ set (log4cplus_sources
   consoleappender.cxx
   cygwin-win32.cxx
   env.cxx
+  eventcounter.cxx
   exception.cxx
   factory.cxx
   fileappender.cxx
@@ -238,6 +239,7 @@ install(FILES ../include/log4cplus/boost/deviceappender.hxx
 
 install(FILES ../include/log4cplus/helpers/appenderattachableimpl.h
               ../include/log4cplus/helpers/connectorthread.h
+              ../include/log4cplus/helpers/eventcounter.h
               ../include/log4cplus/helpers/fileinfo.h
               ../include/log4cplus/helpers/lockfile.h
               ../include/log4cplus/helpers/loglog.h

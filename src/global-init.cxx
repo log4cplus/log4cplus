@@ -32,6 +32,7 @@
 #include <log4cplus/logger.h>
 #include <log4cplus/ndc.h>
 #include <log4cplus/mdc.h>
+#include <log4cplus/helpers/eventcounter.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/internal/customloglevelmanager.h>
 #include <log4cplus/internal/internal.h>
@@ -46,6 +47,7 @@
 #include <cstdio>
 #include <iostream>
 #include <stdexcept>
+#include <chrono>
 
 
 // Forward Declarations
@@ -185,6 +187,7 @@ struct DefaultContext
     spi::LocaleFactoryRegistry locale_factory_registry;
     Hierarchy hierarchy;
     ThreadPoolHolder thread_pool;
+    std::atomic<bool> block_on_full {true};
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     progschj::ThreadPool *
@@ -368,11 +371,41 @@ void
 enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
     spi::InternalLoggingEvent const & event)
 {
-    get_dc ()->get_thread_pool (true)->enqueue (
-        [=] ()
+    static helpers::SteadyClockGate gate (helpers::SteadyClockGate::Duration {std::chrono::minutes (5)});
+
+    DefaultContext * dc = get_dc ();
+    progschj::ThreadPool * tp = dc->get_thread_pool (true);
+    auto func = [=] () {
+        appender->asyncDoAppend (event);
+    };
+    if (dc->block_on_full)
+        tp->enqueue_block (std::move (func));
+    else
+    {
+        std::future<void> future = tp->enqueue (std::move (func));
+        if (future.wait_for (std::chrono::seconds (0)) == std::future_status::ready)
         {
-            appender->asyncDoAppend (event);
-        });
+            try
+            {
+                future.get ();
+            }
+            catch (const progschj::would_block &)
+            {
+                gate.record_event ();
+                helpers::SteadyClockGate::Info info;
+                if (gate.latch_open (info))
+                {
+                    helpers::LogLog & loglog = helpers::getLogLog ();
+                    log4cplus::tostringstream oss;
+                    oss << LOG4CPLUS_TEXT ("Asynchronous logging queue is full. Dropped ")
+                        << info.count << LOG4CPLUS_TEXT (" events in last ")
+                        << std::chrono::duration_cast<std::chrono::seconds> (info.time_span).count ()
+                        << LOG4CPLUS_TEXT (" seconds");
+                    loglog.warn (oss.str ());
+                }
+            }
+        }
+    }
 }
 
 #endif
@@ -661,6 +694,24 @@ setThreadPoolSize (std::size_t LOG4CPLUS_THREADED (pool_size))
 #endif
 }
 
+
+void
+setThreadPoolQueueSizeLimit (std::size_t LOG4CPLUS_THREADED (queue_size_limit))
+{
+#if ! defined (LOG4CPLUS_SINGLE_THREADED)
+    auto const thread_pool = get_dc ()->get_thread_pool (true);
+    if (thread_pool)
+        thread_pool->set_queue_size_limit (queue_size_limit);
+
+#endif
+}
+
+
+void
+setThreadPoolBlockOnFull (bool block)
+{
+    get_dc ()->block_on_full.store (block);
+}
 
 static
 void
