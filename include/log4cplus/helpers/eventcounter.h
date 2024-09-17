@@ -32,6 +32,7 @@
 #pragma once
 #endif
 
+#include <log4cplus/internal/threadsafetyanalysis.h>
 #include <log4cplus/thread/syncprims.h>
 #include <cstddef>
 #include <atomic>
@@ -78,9 +79,9 @@ public:
 
 private:
     log4cplus::thread::SimpleMutex mtx;
-    Duration const pause_duration;
-    TimePoint timeout_point;
-    TimePoint prev_timeout_point;
+    Duration const pause_duration LOG4CPLUS_TSA_GUARDED_BY (mtx);
+    TimePoint timeout_point LOG4CPLUS_TSA_GUARDED_BY (mtx);
+    TimePoint prev_timeout_point LOG4CPLUS_TSA_GUARDED_BY (mtx);
 };
 
 

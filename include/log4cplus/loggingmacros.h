@@ -530,9 +530,8 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
 //! Helper macro for LOG4CPLUS_ASSERT() macro.
 #define LOG4CPLUS_ASSERT_STRINGIFY(X) #X
 
-//! If the condition given in second parameter evaluates false, this
-//! macro logs it using FATAL log level, including the condition's
-//! source text.
+//! If the `condition` evaluates false, this macro logs it using FATAL
+//! log level, including the `condition`'s source text.
 #define LOG4CPLUS_ASSERT(logger, condition)                             \
     LOG4CPLUS_SUPPRESS_DOWHILE_WARNING()                                \
     do {                                                                \
@@ -544,5 +543,28 @@ LOG4CPLUS_EXPORT void macro_forced_log (log4cplus::Logger const &,
     } while (false)                                                     \
     LOG4CPLUS_RESTORE_DOWHILE_WARNING()
 
+//! If the `condition` evaluates false, this macro logs a message
+//! formatted from `printf` format string passed in 3rd and remaining
+//! arguments.
+#define LOG4CPLUS_ASSERT_FMT(logger, condition, ...)                    \
+    LOG4CPLUS_SUPPRESS_DOWHILE_WARNING()                                \
+    do {                                                                \
+        if (! (condition)) [[unlikely]] {                               \
+            LOG4CPLUS_FATAL_FMT ((logger), __VA_ARGS__);                \
+        }                                                               \
+    } while (false)                                                     \
+    LOG4CPLUS_RESTORE_DOWHILE_WARNING()
+
+//! If the `condition` evaluates false, this macro logs a message
+//! formatted from `std::format` format string passed in 3rd and remaining
+//! arguments.
+#define LOG4CPLUS_ASSERT_FORMAT(logger, condition, ...)                 \
+    LOG4CPLUS_SUPPRESS_DOWHILE_WARNING()                                \
+    do {                                                                \
+        if (! (condition)) [[unlikely]] {                               \
+            LOG4CPLUS_FATAL_FORMAT ((logger), __VA_ARGS__);             \
+        }                                                               \
+    } while (false)                                                     \
+    LOG4CPLUS_RESTORE_DOWHILE_WARNING()
 
 #endif /* LOG4CPLUS_LOGGING_MACROS_HEADER_ */
