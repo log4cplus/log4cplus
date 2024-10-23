@@ -352,6 +352,7 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ClCompile Include="..\src\connectorthread.cxx" />
+    <ClCompile Include="..\src\eventcounter.cxx" />
     <ClCompile Include="..\src\exception.cxx" />
     <ClCompile Include="..\src\fileinfo.cxx" />
     <ClCompile Include="..\src\global-init.cxx">
@@ -913,6 +914,7 @@
     <ClInclude Include="..\include\log4cplus\exception.h" />
     <ClInclude Include="..\include\log4cplus\fstreams.h" />
     <ClInclude Include="..\include\log4cplus\helpers\connectorthread.h" />
+    <ClInclude Include="..\include\log4cplus\helpers\eventcounter.h" />
     <ClInclude Include="..\include\log4cplus\helpers\fileinfo.h" />
     <ClInclude Include="..\include\log4cplus\helpers\lockfile.h" />
     <ClInclude Include="..\include\log4cplus\hierarchy.h" />
