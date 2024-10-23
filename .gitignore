@@ -13,6 +13,7 @@ Win32/
 x64/
 build/
 .vscode/
+.vs/
 
 docs/log4cplus-*/
 docs/webpage_docs-*/
