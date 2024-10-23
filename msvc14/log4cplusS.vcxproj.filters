@@ -193,6 +193,9 @@
     <ClCompile Include="..\src\exception.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\eventcounter.cxx">
+      <Filter>helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\log4cplus\appender.h">
@@ -398,6 +401,9 @@
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\exception.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\log4cplus\helpers\eventcounter.h">
+      <Filter>helpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
