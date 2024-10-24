@@ -1,3 +1,22 @@
+# log4cplus 2.1.2
+
+  **IMPORTANT**: Dropping Visual Studio 2015 compatibility. It is no longer
+  able to compile the thread pool source.
+
+  - Implement `LOG4CPLUS_ASSERT_FMT()` - formats assertion message using C-style
+    format string.
+
+  - Implement `LOG4CPLUS_ASSERT_FORMAT()` - formats assertion message using
+    C++20 `<format>` header facilities.
+
+  - New configuration property: `log4cplus.threadPoolBlockOnFull`. When this
+    property is `true` (default), threads will block when internal thread pool
+    queue is full.
+
+  - Warn about full internal thread pool queue when dropping events due to
+    `log4cplus.threadPoolBlockOnFull` being `false`.
+
+
 # log4cplus 2.1.1
 
   - Add missing source files to MSVC project files.
