@@ -1,3 +1,10 @@
+# log4cplus 2.1.3
+
+  - Remove `LOG4CPLUS_ASSERT_FORMAT()`. It is not implemented in 2.x branch.
+
+  - Fix compilation of Python bindings with Python 3.12+.
+
+
 # log4cplus 2.1.2
 
   **IMPORTANT**: Dropping Visual Studio 2015 compatibility. It is no longer
@@ -6,8 +13,8 @@
   - Implement `LOG4CPLUS_ASSERT_FMT()` - formats assertion message using C-style
     format string.
 
-  - Implement `LOG4CPLUS_ASSERT_FORMAT()` - formats assertion message using
-    C++20 `<format>` header facilities.
+  - ~~Implement `LOG4CPLUS_ASSERT_FORMAT()` - formats assertion message using
+    C++20 `<format>` header facilities.~~
 
   - New configuration property: `log4cplus.threadPoolBlockOnFull`. When this
     property is `true` (default), threads will block when internal thread pool
