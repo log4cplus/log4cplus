@@ -43,7 +43,7 @@ extern LOG4CPLUS_EXPORT SOCKET_TYPE const INVALID_SOCKET_VALUE
 
 AbstractSocket::AbstractSocket()
     : sock(INVALID_SOCKET_VALUE),
-      state(not_opened),
+      state(SocketState::not_opened),
       err(0)
 {
 }
@@ -84,7 +84,7 @@ AbstractSocket::close()
     {
         closeSocket(sock);
         sock = INVALID_SOCKET_VALUE;
-        state = not_opened;
+        state = SocketState::not_opened;
     }
 }
 

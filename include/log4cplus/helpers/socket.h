@@ -40,7 +40,7 @@
 namespace log4cplus {
     namespace helpers {
 
-        enum SocketState { ok,
+        enum class SocketState { ok,
                            not_opened,
                            bad_address,
                            connection_failed,
