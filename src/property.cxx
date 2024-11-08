@@ -379,8 +379,7 @@ Properties::init(tistream& input)
         }
         else
         {
-            tstring::size_type const idx = buffer.find(LOG4CPLUS_TEXT ('='));
-            if (idx != tstring::npos)
+            if (auto const idx = buffer.find(LOG4CPLUS_TEXT ('=')); idx != tstring::npos)
             {
                 tstring key = buffer.substr(0, idx);
                 tstring value = buffer.substr(idx + 1);
@@ -434,8 +433,7 @@ Properties::getProperty(tchar const * key) const
 tstring
 Properties::getProperty(const tstring& key, const tstring& defaultVal) const
 {
-    auto it (data.find (key));
-    if (it == data.end ())
+    if (auto it {data.find (key)}; it == data.end ())
         return defaultVal;
     else
         return it->second;
@@ -543,8 +541,7 @@ template <typename StringType>
 log4cplus::tstring const &
 Properties::get_property_worker (StringType const & key) const
 {
-    auto it (data.find (key));
-    if (it == data.end ())
+    if (auto it {data.find (key)}; it == data.end ())
         return log4cplus::internal::empty_str;
     else
         return it->second;
@@ -564,11 +561,9 @@ Properties::get_type_val_worker (ValType & val, log4cplus::tstring const & key)
     ValType tmp_val;
     tchar ch;
 
-    iss >> tmp_val;
-    if (! iss)
+    if (iss >> tmp_val; ! iss)
         return false;
-    iss >> ch;
-    if (iss)
+    if (iss >> ch; iss)
         return false;
 
     val = tmp_val;

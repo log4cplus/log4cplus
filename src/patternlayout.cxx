@@ -716,8 +716,7 @@ PatternParser::extractOption()
     if (   (pos < pattern.length())
         && (pattern[pos] == LOG4CPLUS_TEXT('{')))
     {
-        tstring::size_type end = pattern.find_first_of(LOG4CPLUS_TEXT('}'), pos);
-        if (end != tstring::npos) {
+        if (auto end = pattern.find_first_of(LOG4CPLUS_TEXT('}'), pos); end != tstring::npos) {
             r.assign (pattern, pos + 1, end - pos - 1);
             pos = end + 1;
             return r;
