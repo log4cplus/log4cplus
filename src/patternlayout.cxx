@@ -647,11 +647,8 @@ log4cplus::pattern::MDCPatternConverter::convert (tstring & result,
         result.clear ();
 
         MappedDiagnosticContextMap const & mdcMap = event.getMDCCopy();
-        for (auto const & kv : mdcMap)
+        for (auto const & [name, value] : mdcMap)
         {
-            tstring const & name = kv.first;
-            tstring const & value = kv.second;
-
             result += LOG4CPLUS_TEXT("{");
             result += name;
             result += LOG4CPLUS_TEXT(", ");
