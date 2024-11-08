@@ -269,7 +269,7 @@ namespace log4cplus
         SharedRollingFileAppenderPtr;
 
 
-    enum DailyRollingFileSchedule { MONTHLY, WEEKLY, DAILY,
+    enum class DailyRollingFileSchedule { MONTHLY, WEEKLY, DAILY,
                                     TWICE_DAILY, HOURLY, MINUTELY};
 
     /**
@@ -312,7 +312,7 @@ namespace log4cplus
     public:
       // Ctors
         DailyRollingFileAppender(const log4cplus::tstring& filename,
-                                 DailyRollingFileSchedule schedule = DAILY,
+                                 DailyRollingFileSchedule schedule = DailyRollingFileSchedule::DAILY,
                                  bool immediateFlush = true,
                                  int maxBackupIndex = 10,
                                  bool createDirs = false,
