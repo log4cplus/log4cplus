@@ -45,14 +45,14 @@ checkFilter(const Filter* filter, const InternalLoggingEvent& event)
     const Filter* currentFilter = filter;
     while(currentFilter) {
         FilterResult result = currentFilter->decide(event);
-        if(result != NEUTRAL) {
+        if(result != FilterResult::NEUTRAL) {
             return result;
         }
 
         currentFilter = currentFilter->next.get();
     }
 
-    return ACCEPT;
+    return FilterResult::ACCEPT;
 }
 
 
@@ -92,7 +92,7 @@ DenyAllFilter::DenyAllFilter (const helpers::Properties&)
 FilterResult
 DenyAllFilter::decide(const InternalLoggingEvent&) const
 {
-    return DENY;
+    return FilterResult::DENY;
 }
 
 
@@ -132,16 +132,16 @@ FilterResult
 LogLevelMatchFilter::decide(const InternalLoggingEvent& event) const
 {
     if(logLevelToMatch == NOT_SET_LOG_LEVEL) {
-        return NEUTRAL;
+        return FilterResult::NEUTRAL;
     }
 
     bool matchOccured = (logLevelToMatch == event.getLogLevel());
 
     if(matchOccured) {
-        return (acceptOnMatch ? ACCEPT : DENY);
+        return (acceptOnMatch ? FilterResult::ACCEPT : FilterResult::DENY);
     }
     else {
-        return NEUTRAL;
+        return FilterResult::NEUTRAL;
     }
 }
 
@@ -189,22 +189,22 @@ LogLevelRangeFilter::decide(const InternalLoggingEvent& event) const
     LogLevel const eventLogLevel = event.getLogLevel ();
     if((logLevelMin != NOT_SET_LOG_LEVEL) && (eventLogLevel < logLevelMin)) {
         // priority of event is less than minimum
-        return DENY;
+        return FilterResult::DENY;
     }
 
     if((logLevelMax != NOT_SET_LOG_LEVEL) && (eventLogLevel > logLevelMax)) {
         // priority of event is greater than maximum
-        return DENY;
+        return FilterResult::DENY;
     }
 
     if(acceptOnMatch) {
         // this filter set up to bypass later filters and always return
         // accept if priority in range
-        return ACCEPT;
+        return FilterResult::ACCEPT;
     }
     else {
         // event is ok for this filter; allow later filters to have a look...
-        return NEUTRAL;
+        return FilterResult::NEUTRAL;
     }
 }
 
@@ -243,14 +243,14 @@ StringMatchFilter::decide(const InternalLoggingEvent& event) const
     const tstring& message = event.getMessage();
 
     if(stringToMatch.empty () || message.empty ()) {
-        return NEUTRAL;
+        return FilterResult::NEUTRAL;
     }
 
     if(message.find(stringToMatch) == tstring::npos) {
-        return NEUTRAL;
+        return FilterResult::NEUTRAL;
     }
     else {  // we've got a match
-        return (acceptOnMatch ? ACCEPT : DENY);
+        return (acceptOnMatch ? FilterResult::ACCEPT : FilterResult::DENY);
     }
 }
 
@@ -301,13 +301,13 @@ FilterResult NDCMatchFilter::decide(const InternalLoggingEvent& event) const
 
     if(neutralOnEmpty && (ndcToMatch.empty () || ndcStr.empty()))
     {
-        return NEUTRAL;
+        return FilterResult::NEUTRAL;
     }
 
     if(ndcStr == ndcToMatch)
-        return (acceptOnMatch ? ACCEPT : DENY);
+        return (acceptOnMatch ? FilterResult::ACCEPT : FilterResult::DENY);
 
-    return (acceptOnMatch ? DENY : ACCEPT);
+    return (acceptOnMatch ? FilterResult::DENY : FilterResult::ACCEPT);
 }
 
 //
@@ -339,17 +339,17 @@ void MDCMatchFilter::init()
 FilterResult MDCMatchFilter::decide(const InternalLoggingEvent& event) const
 {
     if(neutralOnEmpty && (mdcKeyToMatch.empty() || mdcValueToMatch.empty()))
-        return NEUTRAL;
+        return FilterResult::NEUTRAL;
 
     const tstring& mdcStr = event.getMDC(mdcKeyToMatch);
 
     if(neutralOnEmpty && mdcStr.empty())
-        return NEUTRAL;
+        return FilterResult::NEUTRAL;
 
     if(mdcStr == mdcValueToMatch)
-        return (acceptOnMatch ? ACCEPT : DENY);
+        return (acceptOnMatch ? FilterResult::ACCEPT : FilterResult::DENY);
 
-    return (acceptOnMatch ? DENY : ACCEPT);
+    return (acceptOnMatch ? FilterResult::DENY : FilterResult::ACCEPT);
 }
 
 
@@ -380,8 +380,9 @@ CATCH_TEST_CASE ("Filter", "[filter]")
     CATCH_SECTION ("deny all filter")
     {
         filter = new DenyAllFilter;
-        CATCH_REQUIRE (filter->decide (info_ev) == DENY);
-        CATCH_REQUIRE (checkFilter (filter.get (), info_ev) == DENY);
+        CATCH_REQUIRE (filter->decide (info_ev) == FilterResult::DENY);
+        CATCH_REQUIRE (checkFilter (filter.get (), info_ev)
+            == FilterResult::DENY);
     }
 
     CATCH_SECTION ("log level match filter")
@@ -392,8 +393,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
             props.setProperty (LOG4CPLUS_TEXT ("LogLevelToMatch"),
                 LOG4CPLUS_TEXT ("INFO"));
             filter = new LogLevelMatchFilter (props);
-            CATCH_REQUIRE (filter->decide (info_ev) == ACCEPT);
-            CATCH_REQUIRE (filter->decide (error_ev) == NEUTRAL);
+            CATCH_REQUIRE (filter->decide (info_ev) == FilterResult::ACCEPT);
+            CATCH_REQUIRE (filter->decide (error_ev) == FilterResult::NEUTRAL);
         }
 
         CATCH_SECTION ("deny level")
@@ -404,8 +405,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
             props.setProperty (LOG4CPLUS_TEXT ("AcceptOnMatch"),
                 LOG4CPLUS_TEXT ("false"));
             filter = new LogLevelMatchFilter (props);
-            CATCH_REQUIRE (filter->decide (info_ev) == DENY);
-            CATCH_REQUIRE (filter->decide (error_ev) == NEUTRAL);
+            CATCH_REQUIRE (filter->decide (info_ev) == FilterResult::DENY);
+            CATCH_REQUIRE (filter->decide (error_ev) == FilterResult::NEUTRAL);
         }
     }
 
@@ -419,10 +420,10 @@ CATCH_TEST_CASE ("Filter", "[filter]")
             props.setProperty (LOG4CPLUS_TEXT ("LogLevelMax"),
                 LOG4CPLUS_TEXT ("ERROR"));
             filter = new LogLevelRangeFilter (props);
-            CATCH_REQUIRE (filter->decide (info_ev) == DENY);
-            CATCH_REQUIRE (filter->decide (warn_ev) == ACCEPT);
-            CATCH_REQUIRE (filter->decide (error_ev) == ACCEPT);
-            CATCH_REQUIRE (filter->decide (fatal_ev) == DENY);
+            CATCH_REQUIRE (filter->decide (info_ev) == FilterResult::DENY);
+            CATCH_REQUIRE (filter->decide (warn_ev) == FilterResult::ACCEPT);
+            CATCH_REQUIRE (filter->decide (error_ev) == FilterResult::ACCEPT);
+            CATCH_REQUIRE (filter->decide (fatal_ev) == FilterResult::DENY);
         }
 
         CATCH_SECTION ("deny out of range")
@@ -435,10 +436,10 @@ CATCH_TEST_CASE ("Filter", "[filter]")
             props.setProperty (LOG4CPLUS_TEXT ("AcceptOnMatch"),
                 LOG4CPLUS_TEXT ("false"));
             filter = new LogLevelRangeFilter (props);
-            CATCH_REQUIRE (filter->decide (info_ev) == DENY);
-            CATCH_REQUIRE (filter->decide (warn_ev) == NEUTRAL);
-            CATCH_REQUIRE (filter->decide (error_ev) == NEUTRAL);
-            CATCH_REQUIRE (filter->decide (fatal_ev) == DENY);
+            CATCH_REQUIRE (filter->decide (info_ev) == FilterResult::DENY);
+            CATCH_REQUIRE (filter->decide (warn_ev) == FilterResult::NEUTRAL);
+            CATCH_REQUIRE (filter->decide (error_ev) == FilterResult::NEUTRAL);
+            CATCH_REQUIRE (filter->decide (fatal_ev) == FilterResult::DENY);
         }
     }
 
@@ -447,8 +448,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
         CATCH_SECTION ("empty string to match is neutral")
         {
             filter = new StringMatchFilter;
-            CATCH_REQUIRE (filter->decide (info_ev) == NEUTRAL);
-            CATCH_REQUIRE (filter->decide (error_ev) == NEUTRAL);
+            CATCH_REQUIRE (filter->decide (info_ev) == FilterResult::NEUTRAL);
+            CATCH_REQUIRE (filter->decide (error_ev) == FilterResult::NEUTRAL);
         }
 
         CATCH_SECTION ("not found is neutral")
@@ -457,8 +458,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
             props.setProperty (LOG4CPLUS_TEXT ("StringToMatch"),
                 LOG4CPLUS_TEXT ("nonexistent"));
             filter = new StringMatchFilter (props);
-            CATCH_REQUIRE (filter->decide (info_ev) == NEUTRAL);
-            CATCH_REQUIRE (filter->decide (error_ev) == NEUTRAL);
+            CATCH_REQUIRE (filter->decide (info_ev) == FilterResult::NEUTRAL);
+            CATCH_REQUIRE (filter->decide (error_ev) == FilterResult::NEUTRAL);
         }
 
         CATCH_SECTION ("empty event is neutral")
@@ -467,7 +468,7 @@ CATCH_TEST_CASE ("Filter", "[filter]")
             props.setProperty (LOG4CPLUS_TEXT ("StringToMatch"),
                 LOG4CPLUS_TEXT ("message"));
             filter = new StringMatchFilter (props);
-            CATCH_REQUIRE (filter->decide (empty_ev) == NEUTRAL);
+            CATCH_REQUIRE (filter->decide (empty_ev) == FilterResult::NEUTRAL);
         }
 
         CATCH_SECTION ("deny on match")
@@ -478,9 +479,9 @@ CATCH_TEST_CASE ("Filter", "[filter]")
             props.setProperty (LOG4CPLUS_TEXT ("AcceptOnMatch"),
                 LOG4CPLUS_TEXT ("false"));
             filter = new StringMatchFilter (props);
-            CATCH_REQUIRE (filter->decide (empty_ev) == NEUTRAL);
-            CATCH_REQUIRE (filter->decide (info_ev) == DENY);
-            CATCH_REQUIRE (filter->decide (warn_ev) == DENY);
+            CATCH_REQUIRE (filter->decide (empty_ev) == FilterResult::NEUTRAL);
+            CATCH_REQUIRE (filter->decide (info_ev) == FilterResult::DENY);
+            CATCH_REQUIRE (filter->decide (warn_ev) == FilterResult::DENY);
         }
     }
 
@@ -488,10 +489,11 @@ CATCH_TEST_CASE ("Filter", "[filter]")
     {
         filter = new FunctionFilter (
             [](InternalLoggingEvent const & ev) noexcept -> FilterResult {
-                return ev.getLogLevel () >= INFO_LOG_LEVEL ? ACCEPT : DENY;
+                return ev.getLogLevel () >= INFO_LOG_LEVEL
+                    ? FilterResult::ACCEPT : FilterResult::DENY;
             });
-        CATCH_REQUIRE (filter->decide (info_ev) == ACCEPT);
-        CATCH_REQUIRE (filter->decide (debug_ev) == DENY);
+        CATCH_REQUIRE (filter->decide (info_ev) == FilterResult::ACCEPT);
+        CATCH_REQUIRE (filter->decide (debug_ev) == FilterResult::DENY);
     }
 
 
@@ -505,7 +507,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
             CATCH_SECTION ("string to match is empty, is neutral")
             {
                 filter = new NDCMatchFilter;
-                CATCH_REQUIRE (filter->decide (ndc_error_ev) == NEUTRAL);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev)
+                    == FilterResult::NEUTRAL);
             }
 
             CATCH_SECTION ("ndc string empty, is neutral")
@@ -514,7 +517,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                 props.setProperty (LOG4CPLUS_TEXT ("NDCToMatch"),
                     LOG4CPLUS_TEXT ("ndc-match"));
                 filter = new NDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (ndc_error_ev) == NEUTRAL);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev)
+                    == FilterResult::NEUTRAL);
             }
 
             CATCH_SECTION ("ndc string match, is accept")
@@ -524,7 +528,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                 props.setProperty (LOG4CPLUS_TEXT ("NDCToMatch"),
                     LOG4CPLUS_TEXT ("ndc-match"));
                 filter = new NDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (ndc_error_ev) == ACCEPT);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev)
+                    == FilterResult::ACCEPT);
                 log4cplus::NDC().pop_void();
             }
 
@@ -535,7 +540,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                 props.setProperty (LOG4CPLUS_TEXT ("NDCToMatch"),
                     LOG4CPLUS_TEXT ("no-match"));
                 filter = new NDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (ndc_error_ev) == DENY);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev)
+                    == FilterResult::DENY);
                 log4cplus::NDC().pop_void();
             }
 
@@ -549,7 +555,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                 props.setProperty (LOG4CPLUS_TEXT ("AcceptOnMatch"),
                     LOG4CPLUS_TEXT ("False"));
                 filter = new NDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (ndc_error_ev) == DENY);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev)
+                    == FilterResult::DENY);
                 log4cplus::NDC().pop_void();
             }
 
@@ -562,7 +569,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                 props.setProperty (LOG4CPLUS_TEXT ("AcceptOnMatch"),
                     LOG4CPLUS_TEXT ("False"));
                 filter = new NDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (ndc_error_ev) == ACCEPT);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev)
+                    == FilterResult::ACCEPT);
                 log4cplus::NDC().pop_void();
             }
         }
@@ -575,7 +583,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                 props.setProperty (LOG4CPLUS_TEXT ("NeutralOnEmpty"),
                     LOG4CPLUS_TEXT ("False"));
                 filter = new NDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (ndc_error_ev) == ACCEPT);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev)
+                    == FilterResult::ACCEPT);
             }
 
             CATCH_SECTION ("ndc string empty, match not empty is deny")
@@ -586,7 +595,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                 props.setProperty (LOG4CPLUS_TEXT ("NDCToMatch"),
                     LOG4CPLUS_TEXT ("ndc-match"));
                 filter = new NDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (ndc_error_ev) == DENY);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev)
+                    == FilterResult::DENY);
             }
 
             CATCH_SECTION ("ndc string no empty, match empty is deny")
@@ -596,7 +606,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                 props.setProperty (LOG4CPLUS_TEXT ("NeutralOnEmpty"),
                     LOG4CPLUS_TEXT ("False"));
                 filter = new NDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (ndc_error_ev) == DENY);
+                CATCH_REQUIRE (filter->decide (ndc_error_ev)
+                    == FilterResult::DENY);
                 log4cplus::NDC().pop_void();
             }
         }
@@ -615,14 +626,16 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                 props.setProperty (LOG4CPLUS_TEXT ("MDCValueToMatch"),
                     LOG4CPLUS_TEXT ("mdc-match"));
                 filter = new MDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (mdc_error_ev) == NEUTRAL);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev)
+                    == FilterResult::NEUTRAL);
             }
 
             CATCH_SECTION ("MDCValueToMatch empty, is neutral")
             {
                 log4cplus::MDC().put(LOG4CPLUS_TEXT ("KeyToMatch"), LOG4CPLUS_TEXT ("mdc-match"));
                 filter = new MDCMatchFilter;
-                CATCH_REQUIRE (filter->decide (mdc_error_ev) == NEUTRAL);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev)
+                    == FilterResult::NEUTRAL);
                 log4cplus::MDC().clear();
             }
 
@@ -635,7 +648,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                     LOG4CPLUS_TEXT ("KeyToMatch"));
                 log4cplus::MDC().put(LOG4CPLUS_TEXT ("KeyToMatch"), LOG4CPLUS_TEXT ("mdc-match"));
                 filter = new MDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (mdc_error_ev) == ACCEPT);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev)
+                    == FilterResult::ACCEPT);
                 log4cplus::MDC().clear();
             }
 
@@ -648,7 +662,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                     LOG4CPLUS_TEXT ("KeyToMatch"));
                 log4cplus::MDC().put(LOG4CPLUS_TEXT ("KeyToMatch"), LOG4CPLUS_TEXT ("mdc-no-match"));
                 filter = new MDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (mdc_error_ev) == DENY);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev)
+                    == FilterResult::DENY);
                 log4cplus::MDC().clear();
             }
 
@@ -663,7 +678,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                     LOG4CPLUS_TEXT ("KeyToMatch"));
                 log4cplus::MDC().put(LOG4CPLUS_TEXT ("KeyToMatch"), LOG4CPLUS_TEXT ("mdc-match"));
                 filter = new MDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (mdc_error_ev) == DENY);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev)
+                    == FilterResult::DENY);
                 log4cplus::MDC().clear();
             }
 
@@ -678,7 +694,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                     LOG4CPLUS_TEXT ("KeyToMatch"));
                 log4cplus::MDC().put(LOG4CPLUS_TEXT ("KeyToMatch"), LOG4CPLUS_TEXT ("mdc-no-match"));
                 filter = new MDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (mdc_error_ev) == ACCEPT);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev)
+                    == FilterResult::ACCEPT);
                 log4cplus::MDC().clear();
             }
         }
@@ -691,7 +708,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                 props.setProperty (LOG4CPLUS_TEXT ("NeutralOnEmpty"),
                     LOG4CPLUS_TEXT ("False"));
                 filter = new MDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (mdc_error_ev) == ACCEPT);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev)
+                    == FilterResult::ACCEPT);
             }
 
             CATCH_SECTION ("mdc key/value empty, MDC value to match not empty is deny")
@@ -702,7 +720,8 @@ CATCH_TEST_CASE ("Filter", "[filter]")
                 props.setProperty (LOG4CPLUS_TEXT ("MDCValueToMatch"),
                     LOG4CPLUS_TEXT ("mdc-match"));
                 filter = new MDCMatchFilter(props);
-                CATCH_REQUIRE (filter->decide (mdc_error_ev) == DENY);
+                CATCH_REQUIRE (filter->decide (mdc_error_ev)
+                    == FilterResult::DENY);
             }
         }
     }

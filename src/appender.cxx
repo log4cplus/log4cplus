@@ -364,7 +364,7 @@ Appender::syncDoAppend(const log4cplus::spi::InternalLoggingEvent& event)
 
     // Evaluate filters attached to this appender.
 
-    if (checkFilter(filter.get(), event) == spi::DENY)
+    if (checkFilter(filter.get(), event) == spi::FilterResult::DENY)
         return;
 
     // Lock system wide lock.
