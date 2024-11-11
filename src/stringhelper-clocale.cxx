@@ -58,7 +58,7 @@ tostring_internal (std::string & result, wchar_t const * src, std::size_t size)
     while (src_it != src_end_it)
     {
         std::size_t ret = std::wcrtomb (&result_buf[0], *src_it, &mbs);
-        if (ret == static_cast<std::size_t>(-1))
+        if (ret == -1UZ)
         {
             result.push_back ('?');
             clear_mbstate (mbs);
