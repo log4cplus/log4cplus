@@ -41,9 +41,9 @@ namespace log4cplus
 {
 
 #ifndef UNICODE
-    std::size_t const LOG4CPLUS_MAX_MESSAGE_SIZE = 8UZ*1024;
+    std::size_t const LOG4CPLUS_MAX_MESSAGE_SIZE = 8*1024;
 #else
-    std::size_t const LOG4CPLUS_MAX_MESSAGE_SIZE = 2UZ*8*1024;
+    std::size_t const LOG4CPLUS_MAX_MESSAGE_SIZE = 2*8*1024;
 #endif
 
 

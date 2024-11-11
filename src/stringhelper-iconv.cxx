@@ -179,7 +179,7 @@ iconv_conv (std::basic_string<DestType> & result, char const * destenc,
     std::size_t outbytesleft = result_size * sizeof (outbuf_type);
 
     std::size_t res;
-    std::size_t const error_retval = -1UZ;
+    std::size_t const error_retval = static_cast<std::size_t>(-1);
 
     while (inbytesleft != 0)
     {
