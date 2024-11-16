@@ -647,11 +647,8 @@ log4cplus::pattern::MDCPatternConverter::convert (tstring & result,
         result.clear ();
 
         MappedDiagnosticContextMap const & mdcMap = event.getMDCCopy();
-        for (auto const & kv : mdcMap)
+        for (auto const & [name, value] : mdcMap)
         {
-            tstring const & name = kv.first;
-            tstring const & value = kv.second;
-
             result += LOG4CPLUS_TEXT("{");
             result += name;
             result += LOG4CPLUS_TEXT(", ");
@@ -716,8 +713,7 @@ PatternParser::extractOption()
     if (   (pos < pattern.length())
         && (pattern[pos] == LOG4CPLUS_TEXT('{')))
     {
-        tstring::size_type end = pattern.find_first_of(LOG4CPLUS_TEXT('}'), pos);
-        if (end != tstring::npos) {
+        if (auto end = pattern.find_first_of(LOG4CPLUS_TEXT('}'), pos); end != tstring::npos) {
             r.assign (pattern, pos + 1, end - pos - 1);
             pos = end + 1;
             return r;

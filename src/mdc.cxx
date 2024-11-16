@@ -87,13 +87,13 @@ insert_or_assign (Map & map, Key && key, Value && value)
 -> std::optional<typename Map::mapped_type>
 {
     using ValueType = typename Map::mapped_type;
-    auto result = map.emplace (std::forward<Key>(key),
+    auto [it, inserted] = map.emplace (std::forward<Key>(key),
         std::forward<Value> (value));
-    if (result.second)
+    if (inserted)
         return std::optional<ValueType> ();
     else
     {
-        auto & map_value = result.first->second;
+        auto & map_value = it->second;
         ValueType old_value {std::move (map_value)};
         map_value = std::forward<Value> (value);
         return std::optional<ValueType> (std::move (old_value));
@@ -122,8 +122,7 @@ static
 void
 push_to_stack (StackMap & stacks_map, Key && key, Value && value)
 {
-    auto it = stacks_map.find (key);
-    if (it != stacks_map.end ())
+    if (auto it = stacks_map.find (key); it != stacks_map.end ())
     {
         MappedDiagnosticContextStack & stack = it->second;
         stack.emplace_back (std::forward<Value> (value));

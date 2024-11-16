@@ -49,7 +49,7 @@ namespace log4cplus {
     namespace spi {
 
 
-        enum FilterResult { DENY, /**< The log event must be dropped immediately
+        enum class FilterResult { DENY, /**< The log event must be dropped immediately
                                    *  without consulting with the remaining
                                    *  filters, if any, in the chain. */
                             NEUTRAL, /**< This filter is neutral with respect to

@@ -185,7 +185,7 @@ openSocket(tstring const & host, unsigned short port, bool udp, bool ipv6,
     if (::listen(sock_holder.sock, 10))
         return INVALID_SOCKET_VALUE;
 
-    state = ok;
+    state = SocketState::ok;
     return to_log4cplus_socket (sock_holder.detach ());
 }
 
@@ -243,7 +243,7 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
         // No address succeeded.
         return INVALID_SOCKET_VALUE;
 
-    state = ok;
+    state = SocketState::ok;
     return to_log4cplus_socket (sock_holder.detach ());
 }
 
@@ -338,7 +338,7 @@ acceptSocket(SOCKET_TYPE sock, SocketState& state)
         ;
 
     if(clientSock != INVALID_OS_SOCKET_VALUE) {
-        state = ok;
+        state = SocketState::ok;
     }
 
     return to_log4cplus_socket (clientSock);
@@ -556,7 +556,7 @@ ServerSocket::ServerSocket(unsigned short port, bool udp /*= false*/,
 
 error:;
     err = get_last_socket_error ();
-    state = not_opened;
+    state = SocketState::not_opened;
 
     if (sock != INVALID_SOCKET_VALUE)
         closeSocket (sock);
@@ -598,7 +598,7 @@ ServerSocket::accept ()
                 continue;
 
             set_last_socket_error (errno);
-            return Socket (INVALID_SOCKET_VALUE, not_opened, errno);
+            return Socket (INVALID_SOCKET_VALUE, SocketState::not_opened, errno);
 
         // Timeout. This should not happen though.
         case 0:
@@ -624,12 +624,14 @@ ServerSocket::accept ()
                         LOG4CPLUS_TEXT ("ServerSocket::accept- read() failed: ")
                         + helpers::convertIntegerToString (eno));
                     set_last_socket_error (eno);
-                    return Socket (INVALID_SOCKET_VALUE, not_opened, eno);
+                    return Socket (INVALID_SOCKET_VALUE,
+                        SocketState::not_opened, eno);
                 }
 
                 // Return Socket with state set to accept_interrupted.
 
-                return Socket (INVALID_SOCKET_VALUE, accept_interrupted, 0);
+                return Socket (INVALID_SOCKET_VALUE,
+                    SocketState::accept_interrupted, 0);
             }
             else if ((accept_fd.revents & POLLIN) == POLLIN)
             {
@@ -637,7 +639,7 @@ ServerSocket::accept ()
                     LOG4CPLUS_TEXT ("ServerSocket::accept- ")
                     LOG4CPLUS_TEXT ("accepting connection"));
 
-                SocketState st = not_opened;
+                SocketState st = SocketState::not_opened;
                 SOCKET_TYPE clientSock = acceptSocket (sock, st);
                 int eno = 0;
                 if (clientSock == INVALID_SOCKET_VALUE)
@@ -646,7 +648,8 @@ ServerSocket::accept ()
                 return Socket (clientSock, st, eno);
             }
             else
-                return Socket (INVALID_SOCKET_VALUE, not_opened, 0);
+                return Socket (INVALID_SOCKET_VALUE, SocketState::not_opened,
+                    0);
         }
     }
     while (true);

@@ -450,8 +450,7 @@ CustomLogLevelManager::toString (LogLevel ll) const
     std::shared_lock guard (mtx);
 #endif
 
-    auto i = ll2nm.find(ll);
-    if( i != ll2nm.end() )
+    if (auto i = ll2nm.find(ll); i != ll2nm.end())
         return i->second;
 
     return internal::empty_str;
@@ -464,8 +463,7 @@ CustomLogLevelManager::fromString (const log4cplus::tstring_view& nm) const
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
     std::shared_lock guard (mtx);
 #endif
-    auto i = nm2ll.find(nm);
-    if( i != nm2ll.end() )
+    if (auto i = nm2ll.find(nm); i != nm2ll.end())
         return i->second;
 
     return NOT_SET_LOG_LEVEL;

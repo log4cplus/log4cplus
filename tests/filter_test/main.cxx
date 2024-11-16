@@ -53,21 +53,21 @@ test_2 (Logger & root)
                 LOG4CPLUS_TEXT ("function filter: going neutral on event: ")
                 + msg);
 
-            return NEUTRAL;
+            return FilterResult::NEUTRAL;
         }
         else if (msg == LOG4CPLUS_TEXT ("visible"))
         {
             getLogLog ().debug (
                 LOG4CPLUS_TEXT ("function filter: accepting event: ")
                 + msg);
-            return ACCEPT;
+            return FilterResult::ACCEPT;
         }
         else
         {
             getLogLog ().debug (
                 LOG4CPLUS_TEXT ("function filter: denying event: ")
                 + msg);
-            return DENY;
+            return FilterResult::DENY;
         }
     };
 
@@ -93,7 +93,7 @@ test_3 (Logger & root)
             getLogLog ().debug (
                 LOG4CPLUS_TEXT ("function filter: accepting event: ")
                 + event.getMessage ());
-            return ACCEPT;
+            return FilterResult::ACCEPT;
         });
     root.addAppender (std::move (appender));
 }

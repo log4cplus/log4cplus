@@ -211,7 +211,7 @@ openSocket(tstring const & host, unsigned short port, bool udp, bool ipv6,
     if (::listen(sock_holder.sock, 10) != 0)
         goto error;
 
-    state = ok;
+    state = SocketState::ok;
     return to_log4cplus_socket (sock_holder.detach());
 
 error:
@@ -281,7 +281,7 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
         return INVALID_SOCKET_VALUE;
     }
 
-    state = ok;
+    state = SocketState::ok;
     return to_log4cplus_socket (sock_holder.detach());
 }
 
@@ -294,7 +294,7 @@ acceptSocket(SOCKET_TYPE sock, SocketState & state)
     SOCKET connected_socket = ::accept (to_os_socket (sock), nullptr, nullptr);
 
     if (connected_socket != INVALID_OS_SOCKET_VALUE)
-        state = ok;
+        state = SocketState::ok;
     else
         set_last_socket_error (WSAGetLastError ());
 
@@ -637,7 +637,8 @@ ServerSocket::accept ()
 
             // Return Socket with state set to accept_interrupted.
 
-            return Socket (INVALID_SOCKET_VALUE, accept_interrupted, 0);
+            return Socket (INVALID_SOCKET_VALUE,
+                SocketState::accept_interrupted, 0);
         }
 
         // This is accept_ev.
@@ -649,7 +650,7 @@ ServerSocket::accept ()
 
             // Finally, call accept().
 
-            SocketState st = not_opened;
+            SocketState st = SocketState::not_opened;
             SOCKET_TYPE clientSock = acceptSocket (sock, st);
             int eno = 0;
             if (clientSock == INVALID_SOCKET_VALUE)
@@ -682,7 +683,7 @@ error:;
         WSACloseEvent (accept_ev);
 
     set_last_socket_error (eno);
-    return Socket (INVALID_SOCKET_VALUE, not_opened, eno);
+    return Socket (INVALID_SOCKET_VALUE, SocketState::not_opened, eno);
 }
 
 

@@ -279,11 +279,10 @@ Hierarchy::getInstanceImpl(const tstring_view& name,
     spi::LoggerFactory& factory)
 {
     Logger logger;
-    LoggerMap::iterator lm_it;
 
     if (name.empty ())
         logger = root;
-    else if ((lm_it = loggerPtrs.find(name)) != loggerPtrs.end())
+    else if (auto lm_it = loggerPtrs.find(name); lm_it != loggerPtrs.end())
         logger = lm_it->second;
     else
     {
@@ -297,8 +296,7 @@ Hierarchy::getInstanceImpl(const tstring_view& name,
                 true);
         }
 
-        auto pnm_it = provisionNodes.find(name);
-        if (pnm_it != provisionNodes.end())
+        if (auto pnm_it = provisionNodes.find(name); pnm_it != provisionNodes.end())
         {
             updateChildren(pnm_it->second, logger);
             provisionNodes.erase(pnm_it);
@@ -334,18 +332,18 @@ Hierarchy::updateParents(Logger const & logger)
     {
         substr.assign (name, 0, i);
 
-        auto it = loggerPtrs.find(substr);
-        if(it != loggerPtrs.end()) {
+        if (auto it = loggerPtrs.find(substr); it != loggerPtrs.end())
+        {
             parentFound = true;
             logger.value->parent = it->second.value;
             break;  // no need to update the ancestors of the closest ancestor
         }
-        else {
-            auto it2 = provisionNodes.find(substr);
-            if(it2 != provisionNodes.end()) {
+        else
+        {
+            if (auto it2 = provisionNodes.find(substr); it2 != provisionNodes.end())
                 it2->second.push_back(logger);
-            }
-            else {
+            else
+            {
                 ProvisionNode node;
                 node.push_back(logger);
                 std::pair<ProvisionNodeMap::iterator, bool> tmp =

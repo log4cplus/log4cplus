@@ -102,8 +102,7 @@ ObjectRegistryBase::getVal(const tstring& name) const
 {
     thread::MutexGuard guard (mutex);
 
-    auto it (data.find (name));
-    if (it != data.end ())
+    if (auto it {data.find (name)}; it != data.end ())
         return it->second;
     else
         return nullptr;
