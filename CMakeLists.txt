@@ -116,7 +116,8 @@ endif()
 option(WITH_UNIT_TESTS "Enable unit tests" ON)
 if (WITH_UNIT_TESTS)
   set (LOG4CPLUS_WITH_UNIT_TESTS 1)
-  add_compile_definitions (CATCH_CONFIG_PREFIX_ALL=1)
+  add_compile_definitions (CATCH_CONFIG_PREFIX_ALL=1
+    CATCH_AMALGAMATED_CUSTOM_MAIN=1)
   if (WIN32)
     add_compile_definitions (LOG4CPLUS_WITH_UNIT_TESTS=1
       NOMINMAX=1)

@@ -109,51 +109,52 @@ noinst_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2) $(am__EXEEXT_3) \
 @ENABLE_UNIT_TESTS_TRUE@	src/boost_tests.cxx \
 @ENABLE_UNIT_TESTS_TRUE@	$(top_srcdir)/catch/extras/catch_amalgamated.cpp
 
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_2 = liblog4cplusU.la
-@MULTI_THREADED_TRUE@am__append_3 = loggingserver
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_4 = loggingserverU
-@QT_TRUE@am__append_5 = liblog4cplusqt4debugappender.la
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@am__append_6 = liblog4cplusqt4debugappenderU.la
-@QT5_TRUE@am__append_7 = liblog4cplusqt5debugappender.la
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@am__append_8 = liblog4cplusqt5debugappenderU.la
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_9 = $(PYTHON_WRAPU_CXX)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_10 = log4cplusU.py
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_11 = _log4cplusU.la
-@ENABLE_TESTS_TRUE@am__append_12 = tests/testsuite.at $(TESTSUITE) tests/atlocal.in
-@ENABLE_TESTS_TRUE@am__append_13 = appender_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_14 = appender_testU
-@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_15 = configandwatch_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_16 = configandwatch_testU
-@ENABLE_TESTS_TRUE@am__append_17 = customloglevel_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_18 = customloglevel_testU
-@ENABLE_TESTS_TRUE@am__append_19 = fileappender_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_20 = fileappender_testU
-@ENABLE_TESTS_TRUE@am__append_21 = filter_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_22 = filter_testU
-@ENABLE_TESTS_TRUE@am__append_23 = hierarchy_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_24 = hierarchy_testU
-@ENABLE_TESTS_TRUE@am__append_25 = loglog_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_26 = loglog_testU
-@ENABLE_TESTS_TRUE@am__append_27 = ndc_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_28 = ndc_testU
-@ENABLE_TESTS_TRUE@am__append_29 = ostream_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_30 = ostream_testU
-@ENABLE_TESTS_TRUE@am__append_31 = patternlayout_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_32 = patternlayout_testU
-@ENABLE_TESTS_TRUE@am__append_33 = performance_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_34 = performance_testU
-@ENABLE_TESTS_TRUE@am__append_35 = priority_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_36 = priority_testU
-@ENABLE_TESTS_TRUE@am__append_37 = propertyconfig_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_38 = propertyconfig_testU
-@ENABLE_TESTS_TRUE@am__append_39 = socket_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_40 = socket_testU
-@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_41 = thread_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_42 = thread_testU
-@ENABLE_TESTS_TRUE@am__append_43 = timeformat_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_44 = timeformat_testU
-@ENABLE_TESTS_TRUE@am__append_45 = unit_tests
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_46 = unit_testsU
+@ENABLE_UNIT_TESTS_TRUE@am__append_2 = -DCATCH_AMALGAMATED_CUSTOM_MAIN=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@am__append_3 = liblog4cplusU.la
+@MULTI_THREADED_TRUE@am__append_4 = loggingserver
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am__append_5 = loggingserverU
+@QT_TRUE@am__append_6 = liblog4cplusqt4debugappender.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT_TRUE@am__append_7 = liblog4cplusqt4debugappenderU.la
+@QT5_TRUE@am__append_8 = liblog4cplusqt5debugappender.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@QT5_TRUE@am__append_9 = liblog4cplusqt5debugappenderU.la
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_10 = $(PYTHON_WRAPU_CXX)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_11 = log4cplusU.py
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_12 = _log4cplusU.la
+@ENABLE_TESTS_TRUE@am__append_13 = tests/testsuite.at $(TESTSUITE) tests/atlocal.in
+@ENABLE_TESTS_TRUE@am__append_14 = appender_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_15 = appender_testU
+@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_16 = configandwatch_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_17 = configandwatch_testU
+@ENABLE_TESTS_TRUE@am__append_18 = customloglevel_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_19 = customloglevel_testU
+@ENABLE_TESTS_TRUE@am__append_20 = fileappender_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_21 = fileappender_testU
+@ENABLE_TESTS_TRUE@am__append_22 = filter_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_23 = filter_testU
+@ENABLE_TESTS_TRUE@am__append_24 = hierarchy_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_25 = hierarchy_testU
+@ENABLE_TESTS_TRUE@am__append_26 = loglog_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_27 = loglog_testU
+@ENABLE_TESTS_TRUE@am__append_28 = ndc_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_29 = ndc_testU
+@ENABLE_TESTS_TRUE@am__append_30 = ostream_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_31 = ostream_testU
+@ENABLE_TESTS_TRUE@am__append_32 = patternlayout_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_33 = patternlayout_testU
+@ENABLE_TESTS_TRUE@am__append_34 = performance_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_35 = performance_testU
+@ENABLE_TESTS_TRUE@am__append_36 = priority_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_37 = priority_testU
+@ENABLE_TESTS_TRUE@am__append_38 = propertyconfig_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_39 = propertyconfig_testU
+@ENABLE_TESTS_TRUE@am__append_40 = socket_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_41 = socket_testU
+@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_42 = thread_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_43 = thread_testU
+@ENABLE_TESTS_TRUE@am__append_44 = timeformat_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_45 = timeformat_testU
+@ENABLE_TESTS_TRUE@am__append_46 = unit_tests
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_47 = unit_testsU
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -1230,7 +1231,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/include \
 AM_CXXFLAGS = @LOG4CPLUS_PROFILING_CXXFLAGS@ @LOG4CPLUS_LTO_CXXFLAGS@
 AM_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@ @LOG4CPLUS_LTO_LDFLAGS@
 ACLOCAL_AMFLAGS = -I m4
-EXTRA_DIST = ChangeLog log4cplus.pc.in $(am__append_12)
+EXTRA_DIST = ChangeLog log4cplus.pc.in $(am__append_13)
 SUBDIRS = include
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = log4cplus.pc
@@ -1242,8 +1243,8 @@ LOG4CPLUS_VERSION_LT_FLAGS = $(VERSION_INFO_OPTION) $(RELEASE_OPTION)
 INCLUDES_SRC_PATH = $(top_srcdir)/include/log4cplus
 liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_file = $(top_builddir)/liblog4cplusU.la
-lib_LTLIBRARIES = liblog4cplus.la $(am__append_2) $(am__append_5) \
-	$(am__append_6) $(am__append_7) $(am__append_8)
+lib_LTLIBRARIES = liblog4cplus.la $(am__append_3) $(am__append_6) \
+	$(am__append_7) $(am__append_8) $(am__append_9)
 LIB_SRC = src/appenderattachableimpl.cxx src/appender.cxx \
 	src/asyncappender.cxx src/callbackappender.cxx src/clogger.cxx \
 	src/configurator.cxx src/connectorthread.cxx \
@@ -1265,7 +1266,8 @@ LIB_SRC = src/appenderattachableimpl.cxx src/appender.cxx \
 	src/syslogappender.cxx src/threads.cxx src/timehelper.cxx \
 	src/tls.cxx src/version.cxx src/win32consoleappender.cxx \
 	src/win32debugappender.cxx $(am__append_1)
-common_liblog4cplus_la_cppflags = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
+common_liblog4cplus_la_cppflags = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS \
+	$(am__append_2)
 liblog4cplus_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags)
 common_liblog4cplus_la_sources = $(LIB_SRC)
 liblog4cplus_la_SOURCES = $(common_liblog4cplus_la_sources)
@@ -1360,10 +1362,10 @@ liblog4cplus_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
 @WITH_SWIG_TRUE@  swig/loggingevent.swg
 
 @WITH_PYTHON_TRUE@PYTHON_WRAP_CXX = python_wrap.cxx
-@WITH_PYTHON_TRUE@BUILT_SOURCES = $(PYTHON_WRAP_CXX) $(am__append_9)
-@WITH_PYTHON_TRUE@pkgpython_PYTHON = log4cplus.py $(am__append_10)
+@WITH_PYTHON_TRUE@BUILT_SOURCES = $(PYTHON_WRAP_CXX) $(am__append_10)
+@WITH_PYTHON_TRUE@pkgpython_PYTHON = log4cplus.py $(am__append_11)
 @WITH_PYTHON_TRUE@pkgpyexec_LTLIBRARIES = _log4cplus.la \
-@WITH_PYTHON_TRUE@	$(am__append_11)
+@WITH_PYTHON_TRUE@	$(am__append_12)
 @WITH_PYTHON_TRUE@_log4cplus_la_SOURCES = $(PYTHON_WRAP_CXX) $(SWIG_SOURCES)
 @WITH_PYTHON_TRUE@_log4cplus_la_CPPFLAGS = $(AM_CPPFLAGS) $(SWIG_PYTHON_CPPFLAGS) \
 @WITH_PYTHON_TRUE@  $(PYTHON_CPPFLAGS) -DSWIG_TYPE_TABLE=log4cplus \

@@ -64,6 +64,9 @@ LIB_SRC+= \
 endif
 
 common_liblog4cplus_la_cppflags = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
+if ENABLE_UNIT_TESTS
+common_liblog4cplus_la_cppflags+=-DCATCH_AMALGAMATED_CUSTOM_MAIN=1
+endif
 liblog4cplus_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags)
 
 common_liblog4cplus_la_sources = $(LIB_SRC)
