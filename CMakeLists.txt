@@ -21,6 +21,10 @@ endif ()
 
 # Use "-fPIC" / "-fPIE" for all targets by default, including static libs.
 set (CMAKE_POSITION_INDEPENDENT_CODE ON)
+# Enable LTO / IPO by default.
+set (CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE ON)
+set (CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO ON)
+set (CMAKE_INTERPROCEDURAL_OPTIMIZATION_MINSIZEREL ON)
 
 enable_language (CXX)
 if (MSVC)
