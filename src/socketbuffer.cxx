@@ -200,6 +200,7 @@ SocketBuffer::appendByte(unsigned char val)
             LOG4CPLUS_TEXT("SocketBuffer::appendByte()-")
             LOG4CPLUS_TEXT(" Attempt to write beyond end of buffer"),
             true);
+        return;
     }
 
     buffer[pos] = static_cast<char>(val);
@@ -217,6 +218,7 @@ SocketBuffer::appendShort(unsigned short val)
             LOG4CPLUS_TEXT("SocketBuffer::appendShort()-")
             LOG4CPLUS_TEXT("Attempt to write beyond end of buffer"),
             true);
+        return;
     }
 
     unsigned short s = htons(val);
