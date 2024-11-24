@@ -58,7 +58,7 @@
 #include <functional>
 #include <stdexcept>
 #include <memory>
-
+#include <utility>
 
 namespace log4cplus::internal {
 
@@ -340,10 +340,13 @@ get_current_dir ()
             if (eno == ERANGE)
                 buf_size *= 2;
             else
+            {
                 helpers::getLogLog ().error (
                     LOG4CPLUS_TEXT ("getcwd: ")
                     + helpers::convertIntegerToString (eno),
                     true);
+                std::unreachable();
+            }
         }
     }
     while (! ret);

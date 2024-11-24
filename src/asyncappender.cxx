@@ -24,6 +24,8 @@
 #include <log4cplus/config.hxx>
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
+#include <utility>
+
 #include <log4cplus/asyncappender.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/helpers/loglog.h>
@@ -119,6 +121,7 @@ AsyncAppender::AsyncAppender (helpers::Properties const & props)
             LOG4CPLUS_TEXT ("AsyncAppender::AsyncAppender()")
             LOG4CPLUS_TEXT (" - Cannot find AppenderFactory: ")
             + appender_name, true);
+        std::unreachable ();
     }
 
     helpers::Properties appender_props = props.getPropertySubset (

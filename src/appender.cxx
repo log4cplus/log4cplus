@@ -30,6 +30,7 @@
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <memory>
 #include <stdexcept>
+#include <utility>
 
 
 namespace log4cplus
@@ -120,6 +121,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
                 LOG4CPLUS_TEXT("Cannot find LayoutFactory: \"")
                 + factoryName
                 + LOG4CPLUS_TEXT("\""), true);
+            std::unreachable();
         }
 
         helpers::Properties layoutProperties =
@@ -130,6 +132,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
                 helpers::getLogLog().error(
                     LOG4CPLUS_TEXT("Failed to create Layout: ")
                     + factoryName, true);
+                std::unreachable();
             }
             else {
                 layout = std::move(newLayout);
@@ -139,6 +142,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("Error while creating Layout: ")
                 + LOG4CPLUS_C_STR_TO_TSTRING(e.what()), true);
+            std::unreachable();
         }
 
     }
@@ -167,6 +171,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("Appender::ctor()- Cannot find FilterFactory: ")
                 + factoryName, true);
+            std::unreachable();
         }
         spi::FilterPtr tmpFilter = factory->createObject (
             filterProps.getPropertySubset(filterName + LOG4CPLUS_TEXT(".")));
@@ -175,6 +180,7 @@ Appender::Appender(const log4cplus::helpers::Properties & properties)
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("Appender::ctor()- Failed to create filter: ")
                 + filterName, true);
+            std::unreachable();
         }
         addFilter (std::move (tmpFilter));
     }

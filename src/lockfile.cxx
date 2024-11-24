@@ -53,6 +53,7 @@
 #include <cerrno>
 #include <limits>
 #include <cstring>
+#include <utility>
 
 #include <log4cplus/helpers/lockfile.h>
 #include <log4cplus/helpers/stringhelper.h>
@@ -225,16 +226,22 @@ LockFile::open (int open_flags) const
 #  else
 #    error "Neither _tsopen_s() nor _tsopen() is available."
 #  endif
+    {
         getLogLog ().error (tstring (LOG4CPLUS_TEXT("could not open or create file "))
             + lock_file_name, true);
+        std::unreachable ();
+    }
 
 #elif defined (LOG4CPLUS_USE_POSIX_LOCKING)
     data->fd = ::open (LOG4CPLUS_TSTRING_TO_STRING (lock_file_name).c_str (),
         open_flags, OPEN_MODE);
     if (data->fd == -1)
+    {
         getLogLog ().error (
             tstring (LOG4CPLUS_TEXT ("could not open or create file "))
             + lock_file_name, true);
+        std::unreachable ();
+    }
 
 #if ! defined (O_CLOEXEC)
     if (! trySetCloseOnExec (data->fd))
@@ -301,8 +308,11 @@ LockFile::lock () const
         fl.l_len = 0;
         ret = fcntl (data->fd, F_SETLKW, &fl);
         if (ret == -1 && errno != EINTR)
+        {
             getLogLog ().error (tstring (LOG4CPLUS_TEXT("fcntl(F_SETLKW) failed: "))
                 + convertIntegerToString (errno), true);
+            std::unreachable ();
+        }
     }
     while (ret == -1);
 
@@ -354,8 +364,11 @@ void LockFile::unlock () const
     fl.l_len = 0;
     ret = fcntl (data->fd, F_SETLKW, &fl);
     if (ret != 0)
+    {
         getLogLog ().error (tstring (LOG4CPLUS_TEXT("fcntl(F_SETLKW) failed: "))
             + convertIntegerToString (errno), true);
+        std::unreachable ();
+    }
 
 #elif defined (LOG4CPLUS_USE_LOCKF)
     ret = lockf (data->fd, F_ULOCK, 0);

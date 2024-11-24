@@ -27,6 +27,7 @@
 #include <algorithm>
 #include <vector>
 #include <iomanip>
+#include <utility>
 #include <cassert>
 #include <cerrno>
 #if defined (UNICODE)
@@ -304,6 +305,7 @@ getFormattedTime(const log4cplus::tstring& fmt_orig,
                 LogLog::getLogLog ()->error (
                     LOG4CPLUS_TEXT("Error in strftime(): ")
                     + convertIntegerToString (eno), true);
+                std::unreachable();
             }
         }
     }
