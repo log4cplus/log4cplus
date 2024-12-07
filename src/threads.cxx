@@ -135,6 +135,11 @@ get_current_thread_name_alt (log4cplus::tostream * s)
     log4cplus::tostream & os = *s;
 
 #if defined (LOG4CPLUS_USE_PTHREADS) && defined (__linux__) \
+    && defined (LOG4CPLUS_HAVE_GETTID_FUNC)
+    pid_t tid = gettid ();
+    os << tid;
+
+#elif defined (LOG4CPLUS_USE_PTHREADS) && defined (__linux__) \
     && defined (LOG4CPLUS_HAVE_GETTID)
     pid_t tid = syscall (SYS_gettid);
     os << tid;

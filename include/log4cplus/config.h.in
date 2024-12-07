@@ -252,8 +252,11 @@
 /* */
 #undef LOG4CPLUS_HAVE_GETPID
 
-/* */
+/* Define if gettid() Linux syscall is available. */
 #undef LOG4CPLUS_HAVE_GETTID
+
+/* Define if gettid() function is available. */
+#undef LOG4CPLUS_HAVE_GETTID_FUNC
 
 /* */
 #undef LOG4CPLUS_HAVE_GMTIME_R

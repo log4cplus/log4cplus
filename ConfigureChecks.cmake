@@ -88,6 +88,7 @@ check_function_exists(_vsnprintf_s  LOG4CPLUS_HAVE__VSNPRINTF_S )
 check_function_exists(_vsnwprintf_s LOG4CPLUS_HAVE__VSNWPRINTF_S )
 check_function_exists(mbstowcs      LOG4CPLUS_HAVE_MBSTOWCS )
 check_function_exists(wcstombs      LOG4CPLUS_HAVE_WCSTOMBS )
+check_function_exists(gettid        LOG4CPLUS_HAVE_GETTID_FUNC )
 
 
 check_symbol_exists(ENAMETOOLONG          errno.h       LOG4CPLUS_HAVE_ENAMETOOLONG )

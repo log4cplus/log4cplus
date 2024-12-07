@@ -199,8 +199,11 @@
 /* */
 #cmakedefine LOG4CPLUS_HAVE_GETPID 1
 
-/* */
+/* Define if gettid() Linux syscall is available. */
 #cmakedefine LOG4CPLUS_HAVE_GETTID 1
+
+/* Define if gettid() function is available. */
+#cmakedefine LOG4CPLUS_HAVE_GETTID_FUNC 1
 
 /* */
 #cmakedefine LOG4CPLUS_HAVE_GETTIMEOFDAY 1
