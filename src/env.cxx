@@ -129,6 +129,7 @@ get_env_var (tstring & value, tstring const & name)
         helpers::getLogLog().error(
             LOG4CPLUS_TEXT ("_dupenv_s failed. Error: ")
             + helpers::convertIntegerToString (eno), true);
+        std::unreachable ();
     }
 
     return !! buf;
