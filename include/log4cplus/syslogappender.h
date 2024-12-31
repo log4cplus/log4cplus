@@ -103,6 +103,9 @@ namespace log4cplus
             int port = 514, const tstring & facility = tstring (),
             RemoteSyslogType remoteSyslogType = RSTUdp, bool ipv6 = false, bool fqdn = true);
         SysLogAppender(const log4cplus::helpers::Properties & properties);
+        // Disallow copying of instances of this class
+        SysLogAppender(const SysLogAppender&) = delete;
+        SysLogAppender& operator=(const SysLogAppender&) = delete;
 
       // Dtor
         virtual ~SysLogAppender();
@@ -150,10 +153,6 @@ namespace log4cplus
 #endif
 
     private:
-      // Disallow copying of instances of this class
-        SysLogAppender(const SysLogAppender&);
-        SysLogAppender& operator=(const SysLogAppender&);
-
         std::string identStr;
         tstring hostname;
     };

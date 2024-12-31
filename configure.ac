@@ -631,7 +631,18 @@ LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_GETHOSTBYNAME_R],
   [Define if gethostbyname_r() is provided.],
   [test "x$ax_cv_have_gethostbyname_r" = "xyes"], [1])
 
-AC_CACHE_CHECK([for gettid], [ax_cv_have_gettid],
+AC_CACHE_CHECK([for gettid function], [ax_cv_have_gettid_func],
+  [AC_COMPILE_IFELSE(
+    [AC_LANG_PROGRAM([#include <sys/types.h>
+#include <sys/syscall.h>
+#include <unistd.h>], [pid_t rv = gettid();])],
+    [ax_cv_have_gettid_func=yes],
+    [ax_cv_have_gettid_func=no])])
+LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_GETTID_FUNC],
+  [Define if gettid() function is available.],
+  [test "x$ax_cv_have_gettid_func" = "xyes"], [1])
+
+AC_CACHE_CHECK([for gettid syscall], [ax_cv_have_gettid],
   [AC_COMPILE_IFELSE(
     [AC_LANG_PROGRAM([#include <sys/types.h>
 #include <sys/syscall.h>

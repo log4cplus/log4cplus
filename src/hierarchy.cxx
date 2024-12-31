@@ -294,6 +294,7 @@ Hierarchy::getInstanceImpl(const tstring_view& name,
             helpers::getLogLog().error(
                 LOG4CPLUS_TEXT("Hierarchy::getInstanceImpl()- Insert failed"),
                 true);
+            std::unreachable ();
         }
 
         if (auto pnm_it = provisionNodes.find(name); pnm_it != provisionNodes.end())
@@ -352,6 +353,7 @@ Hierarchy::updateParents(Logger const & logger)
                     helpers::getLogLog().error(
                         LOG4CPLUS_TEXT("Hierarchy::updateParents()- Insert failed"),
                         true);
+                    std::unreachable ();
                 }
             }
         } // end if Logger found

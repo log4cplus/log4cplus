@@ -114,6 +114,9 @@ namespace log4cplus
             const log4cplus::tstring& serverName = tstring(),
             bool ipv6 = false);
         SocketAppender(const log4cplus::helpers::Properties & properties);
+        // Disallow copying of instances of this class
+        SocketAppender(const SocketAppender&) = delete;
+        SocketAppender& operator=(const SocketAppender&) = delete;
 
       // Dtor
         ~SocketAppender();
@@ -142,11 +145,6 @@ namespace log4cplus
         volatile bool connected;
         helpers::SharedObjectPtr<helpers::ConnectorThread> connector;
 #endif
-
-    private:
-      // Disallow copying of instances of this class
-        SocketAppender(const SocketAppender&);
-        SocketAppender& operator=(const SocketAppender&);
     };
 
     namespace helpers {

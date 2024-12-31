@@ -43,6 +43,8 @@ class LOG4CPLUS_EXPORT SocketBuffer
 {
 public:
     explicit SocketBuffer(std::size_t max);
+    SocketBuffer(SocketBuffer const & rhs) = delete;
+    SocketBuffer& operator= (SocketBuffer const& rhs) = delete;
     virtual ~SocketBuffer();
 
     char *getBuffer() const { return buffer; }
@@ -68,9 +70,6 @@ private:
     std::size_t size;
     std::size_t pos;
     char *buffer;
-
-    SocketBuffer(SocketBuffer const & rhs);
-    SocketBuffer& operator= (SocketBuffer const& rhs);
 };
 
 } // end namespace helpers

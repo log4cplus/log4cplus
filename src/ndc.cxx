@@ -249,11 +249,11 @@ NDC::push_worker (StringType const & message)
 {
     DiagnosticContextStack* ptr = getPtr();
     if (ptr->empty())
-        ptr->push_back( DiagnosticContext(message, nullptr) );
+        ptr->emplace_back (message, nullptr);
     else
     {
         DiagnosticContext const & dc = ptr->back();
-        ptr->push_back( DiagnosticContext(message, &dc) );
+        ptr->emplace_back (message, &dc);
     }
 }
 

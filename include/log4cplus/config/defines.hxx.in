@@ -219,6 +219,9 @@
 /* Define to 1 if you have Linux style syscall(SYS_gettid). */
 #undef LOG4CPLUS_HAVE_GETTID
 
+/* Define if gettid() function is available. */
+#undef LOG4CPLUS_HAVE_GETTID_FUNC
+
 /* Define when iconv() is available. */
 #undef LOG4CPLUS_WITH_ICONV
 

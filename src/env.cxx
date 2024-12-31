@@ -129,6 +129,7 @@ get_env_var (tstring & value, tstring const & name)
         helpers::getLogLog().error(
             LOG4CPLUS_TEXT ("_dupenv_s failed. Error: ")
             + helpers::convertIntegerToString (eno), true);
+        std::unreachable ();
     }
 
     return !! buf;
@@ -384,7 +385,7 @@ split_into_components(Container & components, tstring const & path,
     while (it != end)
     {
         tstring::const_iterator sep = std::find_if (it, end, is_sep);
-        components.push_back (tstring (it, sep));
+        components.emplace_back (it, sep);
         it = sep;
         if (it != end)
             ++it;

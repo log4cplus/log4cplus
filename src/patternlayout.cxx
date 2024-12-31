@@ -767,9 +767,8 @@ PatternParser::parse()
                     break;
                 default:
                     if(! currentLiteral.empty ()) {
-                        list.push_back
-                            (std::unique_ptr<PatternConverter>(
-                                new LiteralPatternConverter(currentLiteral)));
+                        list.emplace_back (
+                            new LiteralPatternConverter(currentLiteral));
                         //getLogLog().debug("Parsed LITERAL converter: \""
                         //                  +currentLiteral+"\".");
                     }
@@ -850,9 +849,7 @@ PatternParser::parse()
     } // end while
 
     if(! currentLiteral.empty ()) {
-        list.push_back(
-            std::unique_ptr<PatternConverter>(
-                new LiteralPatternConverter(currentLiteral)));
+        list.emplace_back(new LiteralPatternConverter(currentLiteral));
       //getLogLog().debug("Parsed LITERAL converter: \""+currentLiteral+"\".");
     }
 
@@ -1022,7 +1019,7 @@ PatternParser::finalizeConverter(tchar c)
             pc = new LiteralPatternConverter(currentLiteral);
     }
 
-    list.push_back(std::unique_ptr<PatternConverter>(pc));
+    list.emplace_back(pc);
     currentLiteral.resize(0);
     state = LITERAL_STATE;
     formattingInfo.reset();
@@ -1098,10 +1095,9 @@ PatternLayout::init(const tstring& pattern_, unsigned ndcMaxDepth)
     {
         helpers::getLogLog().warn(
             LOG4CPLUS_TEXT("PatternLayout pattern is empty.  Using default..."));
-        parsedPattern.push_back (
-            std::unique_ptr<pattern::PatternConverter>(
+        parsedPattern.emplace_back (
                 new pattern::BasicPatternConverter(pattern::FormattingInfo(),
-                    pattern::BasicPatternConverter::MESSAGE_CONVERTER)));
+                    pattern::BasicPatternConverter::MESSAGE_CONVERTER));
     }
 }
 
