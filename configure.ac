@@ -675,8 +675,7 @@ AC_ARG_WITH([python],
   [AS_VAR_SET([with_python], [no])])
 
 AS_IF([test "x$with_swig" = "xyes"],
-  [AX_PKG_SWIG([2.0.0], [:], [AC_MSG_ERROR([SWIG is required to build.])])
-   AX_SWIG_MULTI_MODULE_SUPPORT])
+  [AX_PKG_SWIG([2.0.0], [:], [AC_MSG_ERROR([SWIG is required to build.])])])
 
 AM_CONDITIONAL([WITH_SWIG], [test "x$with_swig" = "xyes"])
 
