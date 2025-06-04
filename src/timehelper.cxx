@@ -199,7 +199,7 @@ getFormattedTime(const log4cplus::tstring& fmt_orig,
     gft_sp.ret.reserve (fmt_orig_size + fmt_orig_size / 3);
     State state = TEXT;
 
-    // Walk the format string and process all occurences of %q, %Q and %s.
+    // Walk the format string and process all occurrences of %q, %Q and %s.
 
     long const tv_usec = microseconds_part (the_time);
     time_t const tv_sec = to_time_t (the_time);
