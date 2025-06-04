@@ -39,7 +39,7 @@ extern "C"
 {
 #endif
 
-// TODO UNICDE capable
+// TODO UNICODE capable
 
 typedef void * log4cplus_logger_t;
 typedef log4cplus_logger_t logger_t;
