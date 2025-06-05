@@ -26,34 +26,34 @@ main()
 }
 ~~~~
 
-The above code prints `WARN - Hello, World!` on console. Let's dissect it:
+The above code prints `WARN - Hello, World!` on the console. Let's dissect it:
 
 ~~~~{.cpp}
 #include <log4cplus/logger.h>
 ~~~~
 
-We need this header to get `Logger` class which represents a handle to named
-logger.
+We need this header to obtain the `Logger` class, which represents a handle to
+a named logger.
 
 ~~~~{.cpp}
 #include <log4cplus/loggingmacros.h>
 ~~~~
 
-This header declares `LOG4CPLUS_WARN()` logging macro. Beside this one, it also
-declares one for each standard logging level: FATAL, ERROR, WARN, INFO, DEBUG,
-TRACE.
+This header declares the `LOG4CPLUS_WARN()` logging macro.
+Besides this one, it declares a macro for each standard logging level:
+FATAL, ERROR, WARN, INFO, DEBUG, and TRACE.
 
 ~~~~{.cpp}
 #include <log4cplus/configurator.h>
 ~~~~
 
-This header declares `BasicConfigurator` class.
+This header declares the `BasicConfigurator` class.
 
 ~~~~{.cpp}
 #include <log4cplus/initializer.h>
 ~~~~
 
-This header declares `Initializer` class.
+This header declares the `Initializer` class.
 
 ~~~~{.cpp}
 log4cplus::Initializer initializer;
@@ -63,7 +63,7 @@ Instantiating the `Initializer` class internally initializes [log4cplus].
 
 The `Initializer` class also maintains a reference count. The class can be
 instantiated multiple times. When this reference count reaches zero, after the
-last instance of `Initializer` is destroyed, it shuts down [log4cplus]
+last instance of `Initializer` is destroyed, it shuts down the [log4cplus]
 internals. Currently, after [log4cplus] is deinitialized, it cannot be
 re-initialized.
 
@@ -76,7 +76,7 @@ log4cplus::BasicConfigurator config;
 config.configure();
 ~~~~
 
-These two lines configure _root logger_ with `ConsoleAppender` and simple
+These two lines configure _root logger_ with `ConsoleAppender` and a simple
 layout.
 
 ~~~~{.cpp}
@@ -84,7 +84,7 @@ log4cplus::Logger logger = log4cplus::Logger::getInstance(
     LOG4CPLUS_TEXT("main"));
 ~~~~
 
-Here we obtain logger handle to logger named _main_.
+Here we obtain a handle to the logger named _main_.
 
 The `LOG4CPLUS_TEXT()` macro used above has the same function as the `TEXT()`
 or `_T()` macros do on Windows: In case `UNICODE` preprocessor symbol is
@@ -97,34 +97,35 @@ LOG4CPLUS_WARN(logger, LOG4CPLUS_TEXT("Hello, World!"));
 
 Here we invoke the `LOG4CPLUS_WARN()` macro to log the _Hello, World!_ message
 into the _main_ logger. The logged message will be propagated from the _main_
-logger towards the _root logger_ which has a `ConsoleAppender` attached to it
-to print it on console.
+to the _root logger_, which has a `ConsoleAppender` attached
+ to print it on the console.
 
-Internally, this macro uses C++ string stream to format the _Hello, World!_
-message. The consequence of this is that you can use all of the standard C++
-streams manipulators.
+Internally, this macro uses a C++ string stream
+ to format the _Hello, World!_ message.
+This allows you to use all of the standard C++ stream manipulators.
 
 
 ## (De-)Initialization
 
 ### Initialization
 
-In most cases, [log4cplus] is initialized before `main()` is executed. However,
-depending on compiler, platform, run time libraries and how log4cplus is linked
-to, it is possible it will not be initialized automatically. This is why
-initializing [log4cplus] on top of `main()` is a good rule of thumb.
+In most cases, [log4cplus] is initialized before `main()` is executed.
+However, depending on compiler, platform, run time libraries and how
+log4cplus is linked to, it is possible it will not be initialized
+automatically. This is why initializing [log4cplus] on top of `main()` is a
+good rule of thumb.
 
-As the previous code example shows, initialization of [log4cplus] is done by
-instantiation of `log4cplus::Initializer` class. This is true for [log4cplus]
-versions 2.0 and later. In previous versions, instead of instantiating this
-class (the header `log4cplus/initializer.h` and the class do not exist there),
-call to function `log4cplus::initialize()` is used.
+As the previous example shows, [log4cplus] is initialized by instantiating the
+`log4cplus::Initializer` class. This is true for [log4cplus] versions 2.0 and
+later. In previous versions, instead of instantiating this class (the header
+`log4cplus/initializer.h` and the class do not exist there), call to function
+`log4cplus::initialize()` is used.
 
 ### Deinitialization
 
 [log4cplus] tries to deinitialize itself and free all of its allocated
-resources after `main()` exits. However, again, depending on compiler, platform
-and run time libraries, it might not be possible. This is why proper
+resources after `main()` exits. However, again, depending on compiler,
+platform and run time libraries, it might not be possible. This is why proper
 deinitialization is _necessary_.
 
 In version 2.0 and later, it is done by the last instance of
@@ -134,8 +135,8 @@ calling `Logger::shutdown()` was the proper shutdown method.
 ## Logging macros
 
 As we have mentioned earlier, `LOG4CPLUS_WARN()`, `LOG4CPLUS_ERROR()`, etc.,
-macros use C++ string stream under the hood. The following example demonstrates
-how is it possible to use it with the macros.
+macros use C++ string stream under the hood. The following example
+demonstrates how is it possible to use it with the macros.
 
 Beside these macros, there are two more groups of logging macros.
 `LOG4CPLUS_*_STR()` can be used for logging messages that are just plain
@@ -175,7 +176,8 @@ main()
     LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("This is a unsigned short: ")
         << static_cast<unsigned short>(100));
     LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("This is a int: ") << 1000);
-    LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("This is a unsigned int: ") << 1000U);
+    LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("This is a unsigned int: ")
+        << 1000U);
     LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("This is a long(hex): ")
         << std::hex << 100000000L);
     LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("This is a unsigned long: ")
@@ -221,7 +223,7 @@ formatting string.
 ## Log level
 
 This example shows how log messages can be filtered at run time by adjusting
-the _log level threshold_ on `Logger` instance.
+the _log level threshold_ on a `Logger` instance.
 
 ~~~~{.cpp}
 #include <log4cplus/logger.h>
@@ -237,7 +239,7 @@ printMessages(log4cplus::Logger const & logger)
     // Print messages using all common log levels.
     LOG4CPLUS_TRACE (logger, "printMessages()");
     LOG4CPLUS_DEBUG (logger, "This is a DEBUG message");
-    LOG4CPLUS_INFO (logger, "This is a INFO message");
+    LOG4CPLUS_INFO (logger, "This is an INFO message");
     LOG4CPLUS_WARN (logger, "This is a WARN message");
     LOG4CPLUS_ERROR (logger, "This is a ERROR message");
     LOG4CPLUS_FATAL (logger, "This is a FATAL message");
@@ -282,26 +284,26 @@ main()
 ~~~~
 
 The code prints fewer and fewer messages as the log level threshold is being
-risen.
+raised.
 
 ~~~~
 *** calling printMessages() with TRACE set: ***
 TRACE - printMessages()
 DEBUG - This is a DEBUG message
-INFO - This is a INFO message
+INFO - This is an INFO message
 WARN - This is a WARN message
 ERROR - This is a ERROR message
 FATAL - This is a FATAL message
 
 *** calling printMessages() with DEBUG set: ***
 DEBUG - This is a DEBUG message
-INFO - This is a INFO message
+INFO - This is an INFO message
 WARN - This is a WARN message
 ERROR - This is a ERROR message
 FATAL - This is a FATAL message
 
 *** calling printMessages() with INFO set: ***
-INFO - This is a INFO message
+INFO - This is an INFO message
 WARN - This is a WARN message
 ERROR - This is a ERROR message
 FATAL - This is a FATAL message
