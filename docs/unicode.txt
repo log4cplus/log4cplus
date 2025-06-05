@@ -36,7 +36,7 @@ built--in).
 Unicode and file appenders
 --------------------------
 
-Another limitation related to Unicode support is then inability to
+Another limitation related to Unicode support is the inability to
 write `wchar_t` messages that contain national characters that do not
 map to any code point in single byte code page to log files using
 `FileAppender`. This is a problem mainly on Windows. Linux and other
