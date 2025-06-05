@@ -98,7 +98,7 @@ namespace log4cplus {
      *
      * <dt><tt>filters</tt></dt>
      * <dd>This property specifies possibly multiple filters used by
-     * Appender. Each of multple filters and its properties is under a
+     * Appender. Each of multiple filters and its properties is under a
      * numbered subkey of filters key. E.g.:
      * <tt>filters.<em>1</em>=log4cplus::spi::LogLevelMatchFilter</tt>. Filter
      * subkey numbers must be consecutive.</dd>

@@ -45,7 +45,7 @@ namespace log4cplus {
 
         /**
          * This is the central class in the log4cplus package. One of the
-         * distintive features of log4cplus are hierarchical loggers and their
+         * distinctive features of log4cplus are hierarchical loggers and their
          * evaluation.
          */
         class LOG4CPLUS_EXPORT LoggerImpl
@@ -116,7 +116,7 @@ namespace log4cplus {
             void setLogLevel(LogLevel _ll) { this->ll = _ll; }
 
             /**
-             * Return the the {@link Hierarchy} where this <code>Logger</code>
+             * Return the {@link Hierarchy} where this <code>Logger</code>
              * instance is attached.
              */
             virtual Hierarchy& getHierarchy() const;

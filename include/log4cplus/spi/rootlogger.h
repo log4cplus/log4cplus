@@ -36,7 +36,7 @@ namespace log4cplus {
     namespace spi {
 
         /**
-         * RootLogger sits at the top of the logger hierachy. It is a
+         * RootLogger sits at the top of the logger hierarchy. It is a
          * regular logger except that it provides several guarantees.
          *
          * First, it cannot be assigned a <code>NOT_SET_LOG_LEVEL</code>

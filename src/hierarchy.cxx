@@ -326,7 +326,7 @@ Hierarchy::updateParents(Logger const & logger)
     bool parentFound = false;
     tstring substr;
 
-    // if name = "w.x.y.z", loop thourgh "w.x.y", "w.x" and "w", but not "w.x.y.z"
+    // if name = "w.x.y.z", loop through "w.x.y", "w.x" and "w", but not "w.x.y.z"
     for(std::size_t i=name.find_last_of(LOG4CPLUS_TEXT('.'), length-1);
         i != tstring::npos && i > 0;
         i = name.find_last_of(LOG4CPLUS_TEXT('.'), i-1))

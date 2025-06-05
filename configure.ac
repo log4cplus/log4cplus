@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-dnl This version of log4cplus requires the follwing autotools versions:
+dnl This version of log4cplus requires the following autotools versions:
 dnl autoconf-2.69
 dnl automake-1.16.1
 dnl libtool-2.4.6
@@ -487,7 +487,7 @@ LOG4CPLUS_CHECK_HEADER([poll.h], [LOG4CPLUS_HAVE_POLL_H])
 AS_IF([test "x$with_iconv" = "xyes"],
   [LOG4CPLUS_CHECK_HEADER([iconv.h], [LOG4CPLUS_HAVE_ICONV_H])])
 
-dnl Check for the existance of type socklen_t.
+dnl Check for the existence of type socklen_t.
 
 AX_TYPE_SOCKLEN_T
 

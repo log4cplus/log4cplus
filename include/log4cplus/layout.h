@@ -432,7 +432,7 @@ namespace log4cplus {
      *
      * <tr>
      *   <td align=center><b>r</b></td>
-     *   <td>Used to output miliseconds since program start
+     *   <td>Used to output milliseconds since program start
      *   of the logging event.</td>
      * </tr>
      *
@@ -473,7 +473,7 @@ namespace log4cplus {
      *   <td>Used to output the MDC (mapped diagnostic context)
      *   associated with the thread that generated the logging
      *   event. It takes optional key parameter. Without the key
-     *   paramter (%%X), it outputs the whole MDC map. With the key
+     *   parameter (%%X), it outputs the whole MDC map. With the key
      *   (%%X{key}), it outputs just the key's value.
      *   </td>
      * </tr>

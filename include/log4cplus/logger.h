@@ -63,7 +63,7 @@ namespace log4cplus
 
     /**
      * This is the central class in the log4cplus package. One of the
-     * distintive features of log4cplus are hierarchical loggers and their
+     * distinctive features of log4cplus are hierarchical loggers and their
      * evaluation.
      */
     class LOG4CPLUS_EXPORT Logger
@@ -136,7 +136,7 @@ namespace log4cplus
         /**
          * Calling this method will <em>safely</em> close and remove all
          * appenders in all the loggers including root contained in the
-         * default hierachy.
+         * default hierarchy.
          *
          * Some appenders such as SocketAppender need to be closed before the
          * application exits. Otherwise, pending logging events might be
@@ -231,7 +231,7 @@ namespace log4cplus
         void setLogLevel(LogLevel ll);
 
         /**
-         * Return the the {@link Hierarchy} where this <code>Logger</code> instance is
+         * Return the {@link Hierarchy} where this <code>Logger</code> instance is
          * attached.
          */
         Hierarchy& getHierarchy() const;
