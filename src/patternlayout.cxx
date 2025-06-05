@@ -219,7 +219,7 @@ private:
 };
 
 
-//! This pattern is used to format miliseconds since process start.
+//! This pattern is used to format milliseconds since process start.
 class RelativeTimestampConverter: public PatternConverter {
 public:
     explicit RelativeTimestampConverter(const FormattingInfo& info);
@@ -516,7 +516,7 @@ LoggerPatternConverter::convert(tstring & result,
     else {
         auto len = name.length();
 
-        // We substract 1 from 'len' when assigning to 'end' to avoid out of
+        // We subtract 1 from 'len' when assigning to 'end' to avoid out of
         // bounds exception in return r.substring(end+1, len). This can happen
         // if precision is 1 and the logger name ends with a dot.
         auto end = len - 1;

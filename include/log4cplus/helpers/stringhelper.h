@@ -112,7 +112,7 @@ namespace log4cplus {
                 // positive counterpart instead.  Also, in twos
                 // complement arithmetic the smallest negative number
                 // does not have positive counterpart; the range is
-                // asymetric.  That's why we handle the case of value
+                // asymmetric.  That's why we handle the case of value
                 // == min() specially here.
                 if (value == (std::numeric_limits<intType>::min) ()) [[unlikely]]
                 {

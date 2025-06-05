@@ -64,9 +64,9 @@ namespace log4cplus {
      * affect the NDC of the <em>current</em> thread only. NDCs of other
      * threads remain unaffected.
      *
-     * For example, a server can build a per client request NDC
-     * consisting the clients host name and other information contained in
-     * the the request. <em>Cookies</em> are another source of distinctive
+     * For example, a server can build a per-client request NDC
+     * consisting of the client's host name and other information contained in
+     * the request. <em>Cookies</em> are another source of distinctive
      * information. To build an NDC one uses the {@link #push}
      * operation. Simply put,
      *

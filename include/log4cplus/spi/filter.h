@@ -218,7 +218,7 @@ namespace log4cplus {
          * minimum acceptable LogLevel (ie a LogLevel is never rejected for
          * being too "low"/unimportant).  If <code>LogLevelMax</code> is not
          * defined, then there is no maximum acceptable LogLevel (ie a
-         * LogLevel is never rejected for beeing too "high"/important).
+         * LogLevel is never rejected for being too "high"/important).
          *
          * Refer to the {@link
          * Appender#setThreshold setThreshold} method

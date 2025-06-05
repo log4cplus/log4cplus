@@ -126,7 +126,7 @@ if (WITH_UNIT_TESTS)
     add_compile_definitions (LOG4CPLUS_WITH_UNIT_TESTS=1
       NOMINMAX=1)
     if (MSVC AND MSVC_TOOLSET_VERSION VERSION_LESS "143")
-      message (WARNING "Adding /Zc:hiddenFriend- compiler flag to workaround Catch2 complation issue with Visual Studio 2019")
+      message (WARNING "Adding /Zc:hiddenFriend- compiler flag to work around Catch2 compilation issue with Visual Studio 2019")
       add_compile_options (/Zc:hiddenFriend-)
     endif ()
   endif (WIN32)

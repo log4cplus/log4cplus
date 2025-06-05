@@ -299,7 +299,7 @@ namespace log4cplus
      *
      * <dt><tt>DatePattern</tt></dt>
      * <dd>This property specifies filename suffix pattern to use for
-     * periodical backups of the logfile. The patern should be in
+     * periodical backups of the logfile. The pattern should be in
      * format supported by {@link log4cplus::helpers::Time::getFormatterTime()}</code>.
      * Please notice that the format of the pattern is similar but not identical
      * to the one used for this option in the corresponding Log4J class.

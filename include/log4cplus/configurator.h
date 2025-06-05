@@ -136,7 +136,7 @@ namespace log4cplus
          * # Set appender specific options.
          * log4cplus.appender.appenderName.option1=value1
          * ...
-         * log4cplus.appender.appenderName.optionN=valueN
+         * log4cplus.appender.appenderName.option&lt;N&gt;=value&lt;N&gt;
          * </pre>
          *
          * For each named appender you can configure its {@link Layout}. The
@@ -145,7 +145,7 @@ namespace log4cplus
          * log4cplus.appender.appenderName.layout=fully.qualified.name.of.layout.class
          * log4cplus.appender.appenderName.layout.option1=value1
          * ....
-         * log4cplus.appender.appenderName.layout.optionN=valueN
+         * log4cplus.appender.appenderName.layout.option&lt;N&gt;=value&lt;N&gt;
          * </pre>
          *
          * <h3>Configuring loggers</h3>
@@ -232,7 +232,7 @@ namespace log4cplus
          * # milliseconds, followed by the LogLevel of the log request,
          * # followed by the two rightmost components of the logger name,
          * # followed by the callers method name, followed by the line number,
-         * # the nested disgnostic context and finally the message itself.
+         * # the nested diagnostic context and finally the message itself.
          * # Refer to the documentation of {@link PatternLayout} for further information
          * # on the syntax of the ConversionPattern key.
          * log4cplus.appender.A1.layout=log4cplus::PatternLayout

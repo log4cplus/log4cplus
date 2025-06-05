@@ -29,8 +29,8 @@
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /** @file
- * This header contains declaration internal to log4cplus. They must never be
- * visible from user accesible headers or exported in DLL/shared libray.
+ * This header contains declarations internal to log4cplus. They must never be
+ * visible from user accessible headers or exported in a DLL/shared library.
  */
 
 
