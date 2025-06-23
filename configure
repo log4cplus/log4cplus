@@ -701,6 +701,10 @@ WITH_SWIG_TRUE
 SWIG_LIB
 SWIG_FLAGS
 SWIG
+QT6_FALSE
+QT6_TRUE
+QT6_LIBS
+QT6_CFLAGS
 QT5_FALSE
 QT5_TRUE
 QT5_LIBS
@@ -876,6 +880,7 @@ enable_profiling
 enable_threads
 with_qt
 with_qt5
+with_qt6
 with_python
 with_python_sys_prefix
 with_python_prefix
@@ -911,6 +916,8 @@ QT_CFLAGS
 QT_LIBS
 QT5_CFLAGS
 QT5_LIBS
+QT6_CFLAGS
+QT6_LIBS
 SWIG_FLAGS
 PYTHON
 PYTHON_VERSION
@@ -1598,6 +1605,7 @@ Optional Packages:
                           have 'U' suffix. [default=yes]
   --with-qt               Build liblog4cplusqt4debugappender.
   --with-qt5              Build liblog4cplusqt5debugappender.
+  --with-qt6              Build liblog4cplusqt6debugappender.
   --with-python           Build Python/SWIG bindings.
   --with-python-sys-prefix
                           use Python's sys.prefix and sys.exec_prefix values
@@ -1628,6 +1636,8 @@ Some influential environment variables:
   QT_LIBS     linker flags for QT, overriding pkg-config
   QT5_CFLAGS  C compiler flags for QT5, overriding pkg-config
   QT5_LIBS    linker flags for QT5, overriding pkg-config
+  QT6_CFLAGS  C compiler flags for QT6, overriding pkg-config
+  QT6_LIBS    linker flags for QT6, overriding pkg-config
   SWIG_FLAGS  SWIG flags
   PYTHON      the Python interpreter
   PYTHON_VERSION
@@ -16366,6 +16376,128 @@ fi
 
 
 
+
+# Check whether --with-qt6 was given.
+if test ${with_qt6+y}
+then :
+  withval=$with_qt6;
+   log4cplus_check_yesno_func "${withval}" "--with-qt6"
+else case e in #(
+  e) with_qt6=no ;;
+esac
+fi
+
+
+if test "x$with_qt6" = "xyes"
+then :
+
+pkg_failed=no
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for QT6" >&5
+printf %s "checking for QT6... " >&6; }
+
+if test -n "$QT6_CFLAGS"; then
+    pkg_cv_QT6_CFLAGS="$QT6_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"Qt6Core >= 6.0.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "Qt6Core >= 6.0.0") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_QT6_CFLAGS=`$PKG_CONFIG --cflags "Qt6Core >= 6.0.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$QT6_LIBS"; then
+    pkg_cv_QT6_LIBS="$QT6_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"Qt6Core >= 6.0.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "Qt6Core >= 6.0.0") 2>&5
+  ac_status=$?
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_QT6_LIBS=`$PKG_CONFIG --libs "Qt6Core >= 6.0.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        QT6_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "Qt6Core >= 6.0.0" 2>&1`
+        else
+	        QT6_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "Qt6Core >= 6.0.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$QT6_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (Qt6Core >= 6.0.0) were not met:
+
+$QT6_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables QT6_CFLAGS
+and QT6_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables QT6_CFLAGS
+and QT6_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See 'config.log' for more details" "$LINENO" 5; }
+else
+	QT6_CFLAGS=$pkg_cv_QT6_CFLAGS
+	QT6_LIBS=$pkg_cv_QT6_LIBS
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }
+
+fi
+else case e in #(
+  e) QT6_CFLAGS=
+   QT6_LIBS= ;;
+esac
+fi
+ if test "x$with_qt6" = "xyes"; then
+  QT6_TRUE=
+  QT6_FALSE='#'
+else
+  QT6_TRUE='#'
+  QT6_FALSE=
+fi
+
+
+
+
+
 with_swig=no
 
 
@@ -29353,6 +29485,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${QT5_TRUE}" && test -z "${QT5_FALSE}"; then
   as_fn_error $? "conditional \"QT5\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${QT6_TRUE}" && test -z "${QT6_FALSE}"; then
+  as_fn_error $? "conditional \"QT6\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${WITH_SWIG_TRUE}" && test -z "${WITH_SWIG_FALSE}"; then
