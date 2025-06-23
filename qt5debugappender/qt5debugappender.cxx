@@ -5,17 +5,17 @@
 //
 //
 //  Copyright (C) 2013-2017, Vaclav Zeman. All rights reserved.
-//  
+//
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
-//  
+//
 //  1. Redistributions of  source code must  retain the above copyright  notice,
 //     this list of conditions and the following disclaimer.
-//  
+//
 //  2. Redistributions in binary form must reproduce the above copyright notice,
 //     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
-//  
+//
 //  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
 //  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS  FOR A PARTICULAR  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL  THE
@@ -69,7 +69,7 @@ void
 Qt5DebugAppender::append (spi::InternalLoggingEvent const & ev)
 {
     // TODO: Expose log4cplus' internal TLS to use here.
-    tostringstream oss;    
+    tostringstream oss;
     layout->formatAndAppend(oss, ev);
 
     LogLevel const ll = ev.getLogLevel ();
@@ -87,9 +87,11 @@ Qt5DebugAppender::append (spi::InternalLoggingEvent const & ev)
         log_func = &QMessageLogger::critical;
     else if (ll >= WARN_LOG_LEVEL)
         log_func = &QMessageLogger::warning;
+    else if (ll >= INFO_LOG_LEVEL)
+        log_func = &QMessageLogger::info;
     else
         log_func = &QMessageLogger::debug;
-    
+
     (qlogger.*log_func) ("%s",
         LOG4CPLUS_TSTRING_TO_STRING (oss.str ()).c_str ());
 }
@@ -114,12 +116,12 @@ BOOL WINAPI DllMain(LOG4CPLUS_DLLMAIN_HINSTANCE,  // handle to DLL module
                     LPVOID)  // reserved
 {
     // Perform actions based on the reason for calling.
-    switch( fdwReason ) 
-    { 
+    switch( fdwReason )
+    {
     case DLL_PROCESS_ATTACH:
     {
-        // We cannot do this here because it causes the thread to deadlock 
-        // when compiled with Visual Studio due to use of C++11 threading 
+        // We cannot do this here because it causes the thread to deadlock
+        // when compiled with Visual Studio due to use of C++11 threading
         // facilities.
 
         //log4cplus::Qt5DebugAppender::registerAppender ();
