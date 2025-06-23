@@ -87,6 +87,8 @@ Qt6DebugAppender::append (spi::InternalLoggingEvent const & ev)
         log_func = &QMessageLogger::critical;
     else if (ll >= WARN_LOG_LEVEL)
         log_func = &QMessageLogger::warning;
+    else if (ll >= INFO_LOG_LEVEL)
+        log_func = &QMessageLogger::info;
     else
         log_func = &QMessageLogger::debug;
 
