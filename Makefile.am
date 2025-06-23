@@ -51,6 +51,10 @@ if QT5
 include %D%/qt5debugappender/Makefile.am
 endif
 
+if QT6
+include %D%/qt5debugappender/Makefile.am
+endif
+
 include %D%/swig/Makefile.common.am
 include %D%/swig/python/Makefile.am
 
