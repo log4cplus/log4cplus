@@ -49,5 +49,7 @@ install (TARGETS ${qt6debugappender}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
-install (FILES ../include/log4cplus/qt6debugappender.h
+install (FILES
+  ../include/log4cplus/qt6debugappender.h
+  ../include/log4cplus/qt6messagehandler.h
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4cplus)

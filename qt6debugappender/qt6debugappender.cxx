@@ -33,9 +33,11 @@
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggingevent.h>
+#include <log4cplus/logger.h>
 #include <sstream>
 #include <iomanip>
 #include <QtGlobal>
+#include <QString>
 #include <log4cplus/config/windowsh-inc.h>
 
 
@@ -104,6 +106,77 @@ Qt6DebugAppender::registerAppender ()
         = log4cplus::spi::getAppenderFactoryRegistry ();
     LOG4CPLUS_REG_APPENDER (reg, Qt6DebugAppender);
 }
+
+
+//
+// qt6_message_handler definition
+//
+
+namespace
+{
+
+/// @brief Convert Qt message type to log4cplus LogLevel.
+static inline
+LogLevel
+qt_log_level_to_log4cplus (QtMsgType const type)
+{
+    switch (type) {
+    case QtDebugMsg:
+        return DEBUG_LOG_LEVEL;
+    case QtInfoMsg:
+        return INFO_LOG_LEVEL;
+    case QtWarningMsg:
+        return WARN_LOG_LEVEL;
+    case QtCriticalMsg:
+        return ERROR_LOG_LEVEL;
+    case QtFatalMsg:
+        return FATAL_LOG_LEVEL;
+    default:
+        return NOT_SET_LOG_LEVEL; // Should not happen.
+    }
+
+}
+
+/// @brief String conversion utility for Qt strings to log4cplus tstring.
+template <typename T>
+static inline
+std::basic_string<T>
+qt_string_to_tstring (QString const & str)
+{
+    if constexpr (std::is_same_v<T, char>) {
+        // If tchar is char, we can use QString's toStdString directly.
+        return str.toStdString ();
+    } else if constexpr (std::is_same_v<T, wchar_t>) {
+        // If tchar is wchar_t, we need to convert QString to std::wstring.
+        return str.toStdWString ();
+    } else {
+        static_assert(false,
+            "Unsupported tchar type. Only char and wchar_t are supported.");
+    }
+}
+
+} // anonymous namespace
+
+
+void
+qt6_message_handler (QtMsgType const type, QMessageLogContext const & qt_log_context, QString const & message)
+{
+    // Convert the Qt message to a log4cplus logging event.
+    spi::InternalLoggingEvent ev {
+        LOG4CPLUS_TEXT ("QtCore"),
+        qt_log_level_to_log4cplus (type),
+        qt_string_to_tstring<log4cplus::tchar> (message),
+        qt_log_context.file ? qt_log_context.file : "<QtCore>",
+        qt_log_context.line,
+        qt_log_context.function
+    };
+
+    Logger::getInstance(LOG4CPLUS_TEXT("QtCore"))
+        .log (ev);
+}
+
+static_assert (std::is_same_v<decltype(&qt6_message_handler), QtMessageHandler>,
+    "qt6_message_handler must have the same signature as QtMessageHandler.");
 
 
 } // namespace log4cplus
