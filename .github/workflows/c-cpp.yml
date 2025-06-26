@@ -16,7 +16,8 @@ jobs:
           cc: 'gcc-14'
           cxx: 'g++-14'
           prereq: |
-            sudo apt install libboost-iostreams-dev
+            sudo apt install libboost-iostreams-dev qt6-base-dev pkgconf
+          configure_flags: '--with-qt6'
 
         # Enable macOS build by installing Boost via Homebrew
         - os: 'macos-15'
@@ -27,6 +28,7 @@ jobs:
             #brew update
             brew install boost
             sudo xcode-select -s '/Applications/Xcode_16.4.app/Contents/Developer'
+          configure_flags: ''
 
         - os: 'macos-15'
           cc: '$(brew --prefix llvm@18)/bin/clang'
@@ -35,6 +37,7 @@ jobs:
           prereq: |
             brew install boost
             sudo xcode-select -s '/Applications/Xcode_16.4.app/Contents/Developer'
+          configure_flags: ''
 
     runs-on: ${{ matrix.config.os }}
 
@@ -51,7 +54,11 @@ jobs:
         ./scripts/fix-timestamps.sh
         mkdir objdir
         cd objdir
-        ../configure CPPFLAGS="${{ matrix.config.cppflags }}" CC="${{ matrix.config.cc }}" CXX="${{ matrix.config.cxx }}" --enable-shared --enable-unit-tests --with-working-locale
+        ../configure CPPFLAGS="${{ matrix.config.cppflags }}" \
+          CC="${{ matrix.config.cc }}" \
+          CXX="${{ matrix.config.cxx }}" \
+          ${{ matrix.config.configure_flags }} \
+          --enable-shared --enable-unit-tests --with-working-locale
         ./config.status --config
     - name: make
       run: cd objdir ; make
