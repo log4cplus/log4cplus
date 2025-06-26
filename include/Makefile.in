@@ -423,6 +423,7 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/qt4debugappender.h \
 	log4cplus/qt5debugappender.h \
 	log4cplus/qt6debugappender.h \
+	log4cplus/qt6messagehandler.h \
 	log4cplus/socketappender.h \
 	log4cplus/spi/appenderattachable.h \
 	log4cplus/spi/factory.h \

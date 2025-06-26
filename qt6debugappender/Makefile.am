@@ -2,8 +2,8 @@ lib_LTLIBRARIES += liblog4cplusqt6debugappender.la
 
 liblog4cplusqt6debugappender_la_cppflags = \
 	$(AM_CPPFLAGS) \
-	-DINSIDE_LOG4CPLUS_QT5DEBUGAPPENDER \
-	@QT5_CFLAGS@
+	-DINSIDE_LOG4CPLUS_QT6DEBUGAPPENDER \
+	@QT6_CFLAGS@
 liblog4cplusqt6debugappender_la_CPPFLAGS = \
 	$(liblog4cplusqt6debugappender_la_cppflags)
 
@@ -17,7 +17,7 @@ liblog4cplusqt6debugappender_la_LIBADD = $(liblog4cplus_la_file)
 
 liblog4cplusqt6debugappender_la_ldflags = -no-undefined \
 	$(LOG4CPLUS_VERSION_LT_FLAGS) \
-	@QT5_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
+	@QT6_LIBS@ @LOG4CPLUS_PROFILING_LDFLAGS@
 liblog4cplusqt6debugappender_la_LDFLAGS = \
 	$(liblog4cplusqt6debugappender_la_ldflags)
 
