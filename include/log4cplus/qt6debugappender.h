@@ -73,6 +73,12 @@ namespace log4cplus
 {
 
 
+/**
+ * @brief Qt6DebugAppender is a log4cplus appender that outputs log messages to
+ * the Qt6 debug output.
+ *
+ * @since 3.0.0
+ */
 class LOG4CPLUS_QT6DEBUGAPPENDER_EXPORT Qt6DebugAppender
     : public Appender
 {

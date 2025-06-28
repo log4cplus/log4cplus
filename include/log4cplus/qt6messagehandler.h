@@ -1,6 +1,6 @@
 // -*- C++ -*-
 // Module:  Log4cplus
-// File:    qt6debugappender.h
+// File:    qt6messagehandler.h
 // Created: 6/2025
 // Author:  Vaclav Haisman
 //
@@ -42,7 +42,6 @@
 #pragma once
 #endif
 
-#include <log4cplus/appender.h>
 #include <QtCore>
 
 #if defined (_WIN32)
@@ -73,9 +72,13 @@
 namespace log4cplus
 {
 
+using QtMessageHandlerType = std::remove_pointer_t<QtMessageHandler>;
+
 /**
  * qt6_message_handler is a global message handler for Qt6 that logs messages
  * using log4cplus.
+ *
+ * @since 3.0.0
  *
  * @note This handler is intended to be used with Qt6 applications.
  * @note This is a funtion declaration, not a class.
@@ -88,11 +91,19 @@ namespace log4cplus
  *
  *     int main (int argc, char *argv[]) {
  *       log4cplus::Initializer initializer;
- *       auto originalHandler = qInstallMessageHandler (qt6_message_handler);
  *       QApplication app (argc, argv);
+ *       auto originalHandler = qInstallMessageHandler (qt6_message_handler);
+ *       // Your application code here
+ *       // ...
  *     }
  */
-LOG4CPLUS_QT6DEBUGAPPENDER_EXPORT QtMessageHandler qt6_message_handler;
+LOG4CPLUS_QT6DEBUGAPPENDER_EXPORT
+void
+qt6_message_handler (QtMsgType type, QMessageLogContext const & qt_log_context, QString const & message);
+
+static_assert (std::is_same_v<decltype(qt6_message_handler),
+    std::remove_pointer_t<QtMessageHandler>>,
+    "qt6_message_handler must have the same signature as QtMessageHandlerType.");
 
 } // namespace log4cplus
 

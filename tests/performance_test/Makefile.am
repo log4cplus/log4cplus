@@ -7,6 +7,7 @@ performance_test_sources = \
 
 performance_test_SOURCES = $(performance_test_sources)
 
+performance_test_CPPFLAGS = $(AM_CPPFLAGS)
 performance_test_LDADD = $(liblog4cplus_la_file)
 performance_test_LDFLAGS = -no-install
 
@@ -16,4 +17,4 @@ performance_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
 performance_testU_SOURCES = $(performance_test_sources)
 performance_testU_LDADD = $(liblog4cplusU_la_file)
 performance_testU_LDFLAGS = -no-install
-endif
+endif # BUILD_WITH_WCHAR_T_SUPPORT

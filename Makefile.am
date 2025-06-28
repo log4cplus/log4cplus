@@ -101,6 +101,9 @@ if ENABLE_TESTS
 include %D%/tests/propertyconfig_test/Makefile.am
 endif
 if ENABLE_TESTS
+include %D%/tests/qt6messagehandler_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/socket_test/Makefile.am
 endif
 if ENABLE_TESTS

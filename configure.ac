@@ -694,6 +694,8 @@ AS_IF([test "x$with_qt6" = "xyes"],
   [QT6_CFLAGS=
    QT6_LIBS=])
 AM_CONDITIONAL([QT6], [test "x$with_qt6" = "xyes"])
+WITH_QT6="$with_qt6"
+AC_SUBST([WITH_QT6])
 AC_SUBST([QT6_CFLAGS])
 AC_SUBST([QT6_LIBS])
 

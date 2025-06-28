@@ -300,6 +300,7 @@ SWIG = @SWIG@
 SWIG_FLAGS = @SWIG_FLAGS@
 SWIG_LIB = @SWIG_LIB@
 VERSION = @VERSION@
+WITH_QT6 = @WITH_QT6@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@

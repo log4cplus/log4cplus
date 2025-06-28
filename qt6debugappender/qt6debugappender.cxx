@@ -29,6 +29,7 @@
 
 #include <log4cplus/config.hxx>
 #include <log4cplus/qt6debugappender.h>
+#include <log4cplus/qt6messagehandler.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/spi/factory.h>
@@ -159,7 +160,7 @@ qt_string_to_tstring (QString const & str)
 
 
 void
-qt6_message_handler (QtMsgType const type, QMessageLogContext const & qt_log_context, QString const & message)
+qt6_message_handler (QtMsgType type, QMessageLogContext const & qt_log_context, QString const & message)
 {
     // Convert the Qt message to a log4cplus logging event.
     spi::InternalLoggingEvent ev {
@@ -175,8 +176,8 @@ qt6_message_handler (QtMsgType const type, QMessageLogContext const & qt_log_con
         .log (ev);
 }
 
-static_assert (std::is_same_v<decltype(&qt6_message_handler), QtMessageHandler>,
-    "qt6_message_handler must have the same signature as QtMessageHandler.");
+static_assert (std::is_same_v<decltype(qt6_message_handler), QtMessageHandlerType>,
+    "qt6_message_handler must have the same signature as QtMessageHandlerType.");
 
 
 } // namespace log4cplus

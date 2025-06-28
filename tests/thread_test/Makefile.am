@@ -8,6 +8,7 @@ thread_test_sources = \
 
 thread_test_SOURCES = $(thread_test_sources)
 
+thread_test_CPPFLAGS = $(AM_CPPFLAGS)
 thread_test_LDADD = $(liblog4cplus_la_file)
 thread_test_LDFLAGS = -no-install
 
@@ -17,6 +18,6 @@ thread_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
 thread_testU_SOURCES = $(thread_test_sources)
 thread_testU_LDADD = $(liblog4cplusU_la_file)
 thread_testU_LDFLAGS = -no-install
-endif
+endif # BUILD_WITH_WCHAR_T_SUPPORT
 
-endif
+endif # MULTI_THREADED

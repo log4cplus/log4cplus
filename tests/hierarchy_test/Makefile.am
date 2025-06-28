@@ -7,6 +7,7 @@ hierarchy_test_sources = \
 
 hierarchy_test_SOURCES = $(hierarchy_test_sources)
 
+hierarchy_test_CPPFLAGS = $(AM_CPPFLAGS)
 hierarchy_test_LDADD = $(liblog4cplus_la_file)
 hierarchy_test_LDFLAGS = -no-install
 
@@ -16,4 +17,4 @@ hierarchy_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
 hierarchy_testU_SOURCES = $(hierarchy_test_sources)
 hierarchy_testU_LDADD = $(liblog4cplusU_la_file)
 hierarchy_testU_LDFLAGS = -no-install
-endif
+endif # BUILD_WITH_WCHAR_T_SUPPORT
