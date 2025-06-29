@@ -12,3 +12,9 @@ tab_width = 4
 
 [*.md]
 trim_trailing_whitespace = false
+
+[{CMakeLists.txt}]
+indent_size = 2
+
+[*.cmake]
+indent_size = 2

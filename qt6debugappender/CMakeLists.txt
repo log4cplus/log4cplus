@@ -2,7 +2,7 @@ set (qt6debugappender_sources
   qt6debugappender.cxx)
 
 message (STATUS "Configuring Qt6 Debug Appender")
-find_package(Qt6 REQUIRED COMPONENTS Core)#include (${QT_USE_FILE})
+find_package(Qt6 REQUIRED COMPONENTS Core)
 
 set (qt6debugappender log4cplusqt6debugappender${log4cplus_postfix})
 add_library (${qt6debugappender} ${qt6debugappender_sources})
