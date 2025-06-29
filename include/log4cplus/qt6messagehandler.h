@@ -80,6 +80,8 @@ using QtMessageHandlerType = std::remove_pointer_t<QtMessageHandler>;
  *
  * @since 3.0.0
  *
+ * @note This handler will call `std::_Exit(EXIT_FAILURE)` for `QtFatalMsg`
+ * messages.
  * @note This handler is intended to be used with Qt6 applications.
  * @note This is a funtion declaration, not a class.
  *
@@ -99,7 +101,8 @@ using QtMessageHandlerType = std::remove_pointer_t<QtMessageHandler>;
  */
 LOG4CPLUS_QT6DEBUGAPPENDER_EXPORT
 void
-qt6_message_handler (QtMsgType type, QMessageLogContext const & qt_log_context, QString const & message);
+qt6_message_handler (QtMsgType type, QMessageLogContext const & qt_log_context,
+    QString const & message);
 
 static_assert (std::is_same_v<decltype(qt6_message_handler),
     std::remove_pointer_t<QtMessageHandler>>,

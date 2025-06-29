@@ -144,16 +144,15 @@ static inline
 std::basic_string<T>
 qt_string_to_tstring (QString const & str)
 {
-    if constexpr (std::is_same_v<T, char>) {
+    if constexpr (std::is_same_v<T, char>)
         // If tchar is char, we can use QString's toStdString directly.
         return str.toStdString ();
-    } else if constexpr (std::is_same_v<T, wchar_t>) {
+    else if constexpr (std::is_same_v<T, wchar_t>)
         // If tchar is wchar_t, we need to convert QString to std::wstring.
         return str.toStdWString ();
-    } else {
+    else
         static_assert(false,
             "Unsupported tchar type. Only char and wchar_t are supported.");
-    }
 }
 
 } // anonymous namespace
@@ -174,6 +173,11 @@ qt6_message_handler (QtMsgType type, QMessageLogContext const & qt_log_context, 
 
     Logger::getInstance(LOG4CPLUS_TEXT("QtCore"))
         .log (ev);
+
+    if (type == QtFatalMsg)
+        // If the message is fatal, we need to abort the application.
+        // This is similar to how Qt handles fatal messages.
+        std::_Exit(EXIT_FAILURE);
 }
 
 static_assert (std::is_same_v<decltype(qt6_message_handler), QtMessageHandlerType>,
