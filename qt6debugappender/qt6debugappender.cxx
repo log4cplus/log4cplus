@@ -35,6 +35,7 @@
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggingevent.h>
 #include <log4cplus/logger.h>
+#include <cstdlib>
 #include <sstream>
 #include <iomanip>
 #include <QtGlobal>
