@@ -16,9 +16,9 @@ if (${BUILD_SHARED_LIBS})
   target_compile_definitions (${qt4debugappender} PRIVATE ${log4cplus}_EXPORTS)
 endif ()
 target_link_libraries (${qt4debugappender}
-  ${log4cplus}
-  ${QT_LIBRARIES}
-  ${CMAKE_THREAD_LIBS_INIT})
+  PUBLIC ${log4cplus}
+  PRIVATE ${QT_LIBRARIES}
+  PUBLIC ${CMAKE_THREAD_LIBS_INIT})
 
 if (ANDROID)
   # Android does not seem to have SO version support.

@@ -7,6 +7,7 @@ unit_tests_sources = \
 
 unit_tests_SOURCES = $(unit_tests_sources)
 
+unit_tests_CPPFLAGS = $(AM_CPPFLAGS)
 unit_tests_LDADD = $(liblog4cplus_la_file)
 unit_tests_LDFLAGS = -no-install
 
@@ -16,4 +17,4 @@ unit_testsU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
 unit_testsU_SOURCES = $(unit_tests_sources)
 unit_testsU_LDADD = $(liblog4cplusU_la_file)
 unit_testsU_LDFLAGS = -no-install
-endif
+endif # BUILD_WITH_WCHAR_T_SUPPORT

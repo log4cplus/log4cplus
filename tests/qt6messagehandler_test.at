@@ -1,0 +1,12 @@
+AT_SETUP([qt6messagehandler_test])
+AT_KEYWORDS([appenders])
+
+AT_SKIP_IF([set -x; test  "x$WITH_QT6" != xyes])
+
+AT_CHECK([cp -f "${abs_srcdir}/qt6messagehandler_test/expout" .])
+AT_CHECK(["${abs_top_builddir}/qt6messagehandler_test"], [0], [expout])
+ATX_WCHAR_T_TEST([
+  AT_CHECK(["${abs_top_builddir}/qt6messagehandler_testU"], [0], [expout])
+])
+
+AT_CLEANUP

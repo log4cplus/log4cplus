@@ -7,6 +7,7 @@ patternlayout_test_sources = \
 
 patternlayout_test_SOURCES = $(patternlayout_test_sources)
 
+patternlayout_test_CPPFLAGS = $(AM_CPPFLAGS)
 patternlayout_test_LDADD = $(liblog4cplus_la_file)
 patternlayout_test_LDFLAGS = -no-install
 
@@ -16,4 +17,4 @@ patternlayout_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
 patternlayout_testU_SOURCES = $(patternlayout_test_sources)
 patternlayout_testU_LDADD = $(liblog4cplusU_la_file)
 patternlayout_testU_LDFLAGS = -no-install
-endif
+endif # BUILD_WITH_WCHAR_T_SUPPORT

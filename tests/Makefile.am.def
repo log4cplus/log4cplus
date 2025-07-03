@@ -21,3 +21,7 @@ tests = {
        need_threads = 1; };
 tests = { name = timeformat_test; };
 tests = { name = unit_tests; };
+tests = {
+      name = qt6messagehandler_test;
+      need_threads = 1;
+      conditional = QT6; };

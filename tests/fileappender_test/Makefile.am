@@ -7,6 +7,7 @@ fileappender_test_sources = \
 
 fileappender_test_SOURCES = $(fileappender_test_sources)
 
+fileappender_test_CPPFLAGS = $(AM_CPPFLAGS)
 fileappender_test_LDADD = $(liblog4cplus_la_file)
 fileappender_test_LDFLAGS = -no-install
 
@@ -16,4 +17,4 @@ fileappender_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
 fileappender_testU_SOURCES = $(fileappender_test_sources)
 fileappender_testU_LDADD = $(liblog4cplusU_la_file)
 fileappender_testU_LDFLAGS = -no-install
-endif
+endif # BUILD_WITH_WCHAR_T_SUPPORT

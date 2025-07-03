@@ -18,6 +18,7 @@ TESTSUITE_AT = \
 	%D%/performance_test.at \
 	%D%/priority_test.at \
 	%D%/propertyconfig_test.at \
+	%D%/qt6messagehandler_test.at \
 	%D%/testsuite.at \
 	%D%/thread_test.at \
 	%D%/timeformat_test.at \

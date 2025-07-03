@@ -4,5 +4,6 @@ src-dirs = { name = src; };
 src-dirs = { name = simpleserver; };
 src-dirs = { name = qt4debugappender; conditional = QT; };
 src-dirs = { name = qt5debugappender; conditional = QT5; };
+src-dirs = { name = qt6debugappender; conditional = QT6; };
 src-dirs = { name = swig; };
 src-dirs = { name = tests; conditional = ENABLE_TESTS; };

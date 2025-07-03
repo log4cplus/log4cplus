@@ -7,6 +7,7 @@ ostream_test_sources = \
 
 ostream_test_SOURCES = $(ostream_test_sources)
 
+ostream_test_CPPFLAGS = $(AM_CPPFLAGS)
 ostream_test_LDADD = $(liblog4cplus_la_file)
 ostream_test_LDFLAGS = -no-install
 
@@ -16,4 +17,4 @@ ostream_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
 ostream_testU_SOURCES = $(ostream_test_sources)
 ostream_testU_LDADD = $(liblog4cplusU_la_file)
 ostream_testU_LDFLAGS = -no-install
-endif
+endif # BUILD_WITH_WCHAR_T_SUPPORT
