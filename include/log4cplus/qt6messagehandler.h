@@ -43,6 +43,7 @@
 #endif
 
 #include <QtCore>
+#include <type_traits>
 
 #if defined (_WIN32)
   #if defined (log4cplusqt6debugappender_EXPORTS) \
