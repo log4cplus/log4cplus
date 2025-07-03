@@ -31,7 +31,7 @@ else ()
   set_target_properties (${qt6debugappender} PROPERTIES
     SOVERSION "${log4cplus_soversion}")
 endif ()
-target_compile_definitions (${qt6debugappender} PRIVATE INSIDE_LOG4CPLUS_QT5DEBUGAPPENDER)
+target_compile_definitions (${qt6debugappender} PRIVATE INSIDE_LOG4CPLUS_QT6DEBUGAPPENDER)
 
 if (APPLE)
   set_target_properties (${log4cplus} PROPERTIES
