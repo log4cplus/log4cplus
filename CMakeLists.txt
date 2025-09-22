@@ -16,6 +16,12 @@ project (log4cplus)
 
 # Use "-fPIC" / "-fPIE" for all targets by default, including static libs.
 set (CMAKE_POSITION_INDEPENDENT_CODE ON)
+# Enable LTO / IPO by default.
+set (CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE ON)
+set (CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO ON)
+set (CMAKE_INTERPROCEDURAL_OPTIMIZATION_MINSIZEREL ON)
+# Hint to prefer -pthread over -lpthread
+set (THREADS_PREFER_PTHREAD_FLAG ON)
 
 enable_language (CXX)
 if (MSVC)
@@ -52,11 +58,11 @@ endif(LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION)
 
 option(LOG4CPLUS_ENABLE_THREAD_POOL "Instantiate internal thread pool for when AsyncAppend=true" ON)
 if (LOG4CPLUS_ENABLE_THREAD_POOL)
-add_compile_definitions (LOG4CPLUS_ENABLE_THREAD_POOL=1)
+  add_compile_definitions (LOG4CPLUS_ENABLE_THREAD_POOL=1)
 endif()
 
 if(NOT LOG4CPLUS_SINGLE_THREADED)
-  find_package (Threads)
+  find_package (Threads REQUIRED)
   message (STATUS "Threads: ${CMAKE_THREAD_LIBS_INIT}")
 endif(NOT LOG4CPLUS_SINGLE_THREADED)
 
