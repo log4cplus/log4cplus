@@ -1,0 +1,76 @@
+nuget {
+	nuspec {
+		id = log4cplus.unicode.v110.windesktop.msvcstl.static.rt-dyn;
+		version : ${package-version};
+		title: log4cplus;
+		authors: {"log4cplus"};
+		owners: {"log4cplus"};
+		licenseUrl: "https://github.com/log4cplus/log4cplus/blob/master/LICENSE";
+		projectUrl: "https://github.com/log4cplus/log4cplus";
+		iconUrl: "http://log4cplus.sourceforge.net/log4cplus.svg";
+		requireLicenseAcceptance: false;
+		
+		summary:"Log4j functionality in c++.  No Boost required.";
+		
+		description: @"log4cplus is a simple to use C++ logging API providing thread-safe, flexible, and arbitrarily granular control over log management and configuration. It is modelled after the Java log4j API.";
+		
+		releaseNotes: @"https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/1.1.3/ChangeLog-README.txt/download";
+		copyright: "Copyright log4cplus";
+		tags: { native, coapp, c++, log4cplus };
+		language: en-US;
+	};
+	
+	dependencies {
+		packages : {
+			//TODO:  Add dependecies here in [pkg.name]/[version] form per newline		
+			//zlib/1.2.8,
+		};
+	}
+	
+	// the files that go into the content folders
+	files {	
+		#defines {			
+			SDK_ROOT 	 = .\;
+			BIN_ROOT     = ${SDK_ROOT}msvc110\;
+		}
+	
+		nested1Include: {
+            #destination = ${d_include}log4cplus;
+			"${SDK_ROOT}include\log4cplus\**\*.h??",
+        };
+		
+		// Documents that we want to ship with the package. 
+		//docs: {  license.rtf };
+			
+		[x64,Release] {
+			// files in the lib collection are automatically 
+			// added to the AdditionalLibraries in the link stage.
+			lib: {${BIN_ROOT}x64\bin.Release_Unicode\log4cplusSU.lib} ;
+			// files in the symbols collection are added to the 
+			// symbols package
+			symbols: {${BIN_ROOT}x64\bin.Release_Unicode\log4cplussu.c.pdb};
+			
+			// files in the bin directory are put in the redist package
+			// and copied to the output folder at build time.			
+			//bin: {${BIN_ROOT}x64\bin\blah.dll};
+		}
+			
+		[x86,Release] { 
+			// files in the lib collection are automatically 
+			// added to the AdditionalLibraries in the link stage.
+			lib: {${BIN_ROOT}Win32\bin.Release_Unicode\log4cplusSU.lib} ;
+			// files in the symbols collection are added to the 
+			// symbols package
+			symbols: {${BIN_ROOT}Win32\bin.Release_Unicode\log4cplussu.c.pdb};
+			
+			// files in the bin directory are put in the redist package
+			// and copied to the output folder at build time.			
+			//bin: {${BIN_ROOT}Win32\bin\blah.dll};
+		}
+	};
+	
+	targets {
+		// We're trying to be standard about these sorts of thing. (Will help with config.h later :D)
+		Defines += HAS_LOG4CPLUS;
+	};
+}
