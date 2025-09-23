@@ -101,6 +101,13 @@ close $fh2;
         print $line;
     }
 
+    local @ARGV = ("appveyor.yml");
+    while (my $line = <>)
+    {
+        $line =~ s/^(version:\s*)(?:\d+(?:\.\d+(?:\.\d+)?)?)(.*)/$1$version$2/x;
+        print $line;
+    }
+
     local @ARGV = ("CMakeLists.txt");
     while (my $line = <>)
     {
@@ -113,7 +120,7 @@ close $fh2;
     local @ARGV = ("appveyor.yml");
     while (my $line = <>)
     {
-        $line =~ s/^(version:\s+).*$/$1$version.{build}/x;
+        $line =~ s/^(version:\s+).*$/$1$version.{build}-{branch}/x;
         print $line;
     }
 }
