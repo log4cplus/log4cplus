@@ -18,6 +18,7 @@ jobs:
           prereq: |
             sudo apt install libboost-iostreams-dev qt6-base-dev pkgconf
           configure_flags: '--with-qt6'
+          build-type: autotools
 
         # Enable macOS build by installing Boost via Homebrew
         - os: 'macos-15'
@@ -29,6 +30,7 @@ jobs:
             brew install boost
             sudo xcode-select -s '/Applications/Xcode_16.4.app/Contents/Developer'
           configure_flags: ''
+          build-type: autotools
 
         - os: 'macos-15'
           cc: '$(brew --prefix llvm@18)/bin/clang'
@@ -38,6 +40,18 @@ jobs:
             brew install boost
             sudo xcode-select -s '/Applications/Xcode_16.4.app/Contents/Developer'
           configure_flags: ''
+          build-type: autotools
+
+        - os: 'macos-15'
+          cc: 'clang'
+          cxx: 'clang++'
+          cppflags: '-I$(brew --prefix boost)/include'
+          prereq: |
+            #brew update
+            brew install boost
+            sudo xcode-select -s '/Applications/Xcode_16.4.app/Contents/Developer'
+          configure_flags: ''
+          build-type: cmake
 
     runs-on: ${{ matrix.config.os }}
 
@@ -54,13 +68,59 @@ jobs:
         ./scripts/fix-timestamps.sh
         mkdir objdir
         cd objdir
-        ../configure CPPFLAGS="${{ matrix.config.cppflags }}" \
-          CC="${{ matrix.config.cc }}" \
-          CXX="${{ matrix.config.cxx }}" \
-          ${{ matrix.config.configure_flags }} \
-          --enable-shared --enable-unit-tests --with-working-locale
-        ./config.status --config
+        buildtype="${{ matrix.config.build-type }}"
+        case "${buildtype}" in #(
+        autotools)
+            ../configure CPPFLAGS="${{ matrix.config.cppflags }}" \
+                CC="${{ matrix.config.cc }}" \
+                CXX="${{ matrix.config.cxx }}" \
+                ${{ matrix.config.configure_flags }} \
+                --enable-shared --enable-unit-tests --with-working-locale
+            ./config.status --config
+        ;;
+        #(
+        cmake)
+            cmake ${{ matrix.config.configure_flags }} ..
+        ;;
+        #(
+        *) 
+            echo "Unsupported build type: ${buildtype}"
+            exit 1
+        ;;
+        esac
     - name: make
-      run: cd objdir ; make
+      run: |
+        cd objdir
+        buildtype="${{ matrix.config.build-type }}"
+        case "${buildtype}" in #(
+        autotools)
+          make
+        ;;
+        #(
+        cmake)
+          cmake --build .
+        ;;
+        #(
+        *) 
+          echo "Unsupported build type: ${buildtype}"
+          exit 1
+        ;;
+        esac
     - name: make check
-      run: cd objdir ; make check
+      run: |
+        cd objdir
+        buildtype="${{ matrix.config.build-type }}"
+        case "${buildtype}" in #(
+        autotools)
+          make check
+        ;;
+        #(
+        cmake)
+          ctest --test-dir .
+        ;;
+        #(
+        *) 
+          echo "Unsupported build type: ${buildtype}"
+          exit 1
+        ;;
+        esac
