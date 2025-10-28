@@ -337,8 +337,12 @@ void LockFile::unlock () const
 #if defined (LOG4CPLUS_USE_WIN32_LOCKFILEEX)
     HANDLE fh = get_os_HANDLE (data->fd);
 
-    ret = UnlockFile(fh, 0, 0, (std::numeric_limits<DWORD>::max) (),
-        (std::numeric_limits<DWORD>::max) ());
+    OVERLAPPED overlapped;
+    std::memset (&overlapped, 0, sizeof (overlapped));
+    overlapped.hEvent = 0;
+
+    ret = UnlockFileEx(fh, 0, (std::numeric_limits<DWORD>::max) (),
+        (std::numeric_limits<DWORD>::max) (), &overlapped);
     if (! ret)
         getLogLog ().error (tstring (LOG4CPLUS_TEXT ("UnlockFile() failed: "))
             + convertIntegerToString (GetLastError ()), true);
