@@ -33,6 +33,7 @@
 #include <log4cplus/win32debugappender.h>
 #include <log4cplus/win32consoleappender.h>
 #include <log4cplus/log4judpappender.h>
+#include <log4cplus/webhookappender.h>
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -182,6 +183,7 @@ void initializeFactoryRegistry()
     LOG4CPLUS_REG_APPENDER (reg, AsyncAppender);
 #endif
     LOG4CPLUS_REG_APPENDER (reg, Log4jUdpAppender);
+    LOG4CPLUS_REG_APPENDER (reg, WebhookAppender);
 
     spi::LayoutFactoryRegistry& reg2 = spi::getLayoutFactoryRegistry();
     DisableFactoryLocking<spi::LayoutFactoryRegistry> dfl_reg2 (reg2);

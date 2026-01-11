@@ -49,7 +49,8 @@ set (log4cplus_sources
   threads.cxx
   timehelper.cxx
   tls.cxx
-  version.cxx)
+  version.cxx
+  webhookappender.cxx)
 
 #message (STATUS "Type: ${UNIX}|${CYGWIN}|${WIN32}")
 
@@ -159,6 +160,7 @@ if (WIN32)
     DEBUG_POSTFIX "D")
   target_link_libraries (${log4cplus} PRIVATE ws2_32)
   target_link_libraries (${log4cplus} PRIVATE advapi32)
+  target_link_libraries (${log4cplus} PRIVATE winhttp)
 endif ()
 
 ###
@@ -232,6 +234,7 @@ install(FILES ../include/log4cplus/appender.h
               ../include/log4cplus/tracelogger.h
               ../include/log4cplus/tstring.h
               ../include/log4cplus/version.h
+              ../include/log4cplus/webhookappender.h
               ../include/log4cplus/win32debugappender.h
               ../include/log4cplus/win32consoleappender.h
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4cplus )

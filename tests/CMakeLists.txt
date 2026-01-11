@@ -40,6 +40,7 @@ add_subdirectory (propertyconfig_test)
 #add_subdirectory (socket_test) # I don't know how this test is supposed to be executed
 add_subdirectory (thread_test)
 add_subdirectory (timeformat_test)
+add_subdirectory (webhookappender_test)
 if (WITH_UNIT_TESTS)
   add_subdirectory (unit_tests)
 endif (WITH_UNIT_TESTS)
