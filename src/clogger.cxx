@@ -287,7 +287,7 @@ log4cplus_logger_log(const log4cplus_char_t *name, loglevel_t ll,
             }
             while (retval == -1);
 
-            logger.forcedLog(ll, msg, nullptr, -1);
+            logger.log(ll, msg, nullptr, -1);
         }
 
         retval = 0;
@@ -313,7 +313,7 @@ log4cplus_logger_log_str(const log4cplus_char_t *name,
 
         if (logger.isEnabledFor(ll))
         {
-            logger.forcedLog(ll, msg, nullptr, -1);
+            logger.log(ll, msg, nullptr, -1);
         }
 
         retval = 0;
@@ -381,6 +381,65 @@ log4cplus_logger_force_log_str(const log4cplus_char_t *name, loglevel_t ll,
     return retval;
 }
 
+LOG4CPLUS_EXPORT int log4cplus_logger(const log4cplus_char_t* name,
+    const char* file, int line, const char* function,
+    log4cplus_loglevel_t ll, const log4cplus_char_t* msgfmt, ...)
+{
+    int retval = -1;
+
+    try
+    {
+        Logger logger = name ? Logger::getInstance(name) : Logger::getRoot();
+
+        if (logger.isEnabledFor(ll))
+        {
+            const tchar* msg = nullptr;
+            snprintf_buf buf;
+            std::va_list ap;
+
+            do
+            {
+                va_start(ap, msgfmt);
+                retval = buf.print_va_list(msg, msgfmt, ap);
+                va_end(ap);
+            } while (retval == -1);
+
+            logger.log(ll, msg, file, line, function);
+        }
+
+        retval = 0;
+    }
+    catch (std::exception const&)
+    {
+        // Fall through.
+    }
+
+    return retval;
+}
+
+LOG4CPLUS_EXPORT int log4cplus_logger_str(const log4cplus_char_t* name,
+    const char* file, int line, const char* function,
+    log4cplus_loglevel_t ll, const log4cplus_char_t* msg)
+{
+    int retval = -1;
+
+    try
+    {
+        Logger logger = name ? Logger::getInstance(name) : Logger::getRoot();
+
+        if (logger.isEnabledFor(ll))
+        {
+            logger.log(ll, msg, file, line, function);
+        }
+
+        retval = 0;
+    }
+    catch (std::exception const&)
+    {
+        // Fall through.
+    }
+    return retval;
+}
 
 namespace log4cplus::internal {
 
