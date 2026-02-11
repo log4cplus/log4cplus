@@ -16,6 +16,7 @@ jobs:
           cc: 'gcc-14'
           cxx: 'g++-14'
           prereq: |
+            sudo apt update
             sudo apt install libboost-iostreams-dev qt6-base-dev pkgconf
           configure_flags: '--with-qt6'
           build-type: autotools
