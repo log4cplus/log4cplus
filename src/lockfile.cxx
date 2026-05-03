@@ -284,9 +284,11 @@ LockFile::lock () const
     ret = LockFileEx(fh, LOCKFILE_EXCLUSIVE_LOCK, 0,
         (std::numeric_limits<DWORD>::max) (),
         (std::numeric_limits<DWORD>::max) (), &overlapped);
-    if (! ret)
+    if (! ret) {
+        DWORD const eno = GetLastError ();
         getLogLog ().error (tstring (LOG4CPLUS_TEXT ("LockFileEx() failed: "))
-            + convertIntegerToString (GetLastError ()), true);
+            + convertIntegerToString (eno), true);
+    }
 
 #elif defined (LOG4CPLUS_USE_O_EXLOCK)
     open (OPEN_FLAGS | O_EXLOCK);
@@ -343,9 +345,11 @@ void LockFile::unlock () const
 
     ret = UnlockFileEx(fh, 0, (std::numeric_limits<DWORD>::max) (),
         (std::numeric_limits<DWORD>::max) (), &overlapped);
-    if (! ret)
-        getLogLog ().error (tstring (LOG4CPLUS_TEXT ("UnlockFile() failed: "))
-            + convertIntegerToString (GetLastError ()), true);
+    if (! ret) {
+        DWORD const eno = GetLastError ();
+        getLogLog ().error (tstring (LOG4CPLUS_TEXT ("UnlockFileEx() failed: "))
+            + convertIntegerToString (eno), true);
+    }
 
 #elif defined (LOG4CPLUS_USE_O_EXLOCK)
     close ();
