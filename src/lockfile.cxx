@@ -294,8 +294,9 @@ LockFile::lock () const
         (std::numeric_limits<DWORD>::max) (),
         (std::numeric_limits<DWORD>::max) (), &overlapped);
     if (! ret) {
+        DWORD const eno = GetLastError ();
         getLogLog ().error (tstring (LOG4CPLUS_TEXT ("LockFileEx() failed: "))
-            + convertIntegerToString (GetLastError ()), true);
+            + convertIntegerToString (eno), true);
         std::unreachable ();
     }
 
@@ -358,8 +359,9 @@ void LockFile::unlock () const
     ret = UnlockFile(fh, 0, 0, (std::numeric_limits<DWORD>::max) (),
         (std::numeric_limits<DWORD>::max) ());
     if (! ret) {
+        DWORD const eno = GetLastError ();
         getLogLog ().error (tstring (LOG4CPLUS_TEXT ("UnlockFile() failed: "))
-            + convertIntegerToString (GetLastError ()), true);
+            + convertIntegerToString (eno), true);
         std::unreachable ();
     }
 
