@@ -37,12 +37,6 @@ jobs:
           prereq: |
             sudo xcode-select -s '/Applications/Xcode_15.4.app/Contents/Developer'
 
-        - os: 'macos-13'
-          cc: 'clang'
-          cxx: 'clang++'
-          prereq: |
-            sudo xcode-select -s '/Applications/Xcode_15.1.app/Contents/Developer'
-
     runs-on: ${{ matrix.config.os }}
 
     steps:
