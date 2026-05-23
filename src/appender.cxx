@@ -278,7 +278,7 @@ Appender::subtract_in_flight ()
 {
 #if defined (LOG4CPLUS_ENABLE_THREAD_POOL)
     std::size_t const prev = std::atomic_fetch_sub_explicit (&in_flight,
-        std::size_t (1), std::memory_order_acq_rel);
+        1zu, std::memory_order_acq_rel);
     if (prev == 1)
     {
         std::unique_lock<std::mutex> lock (in_flight_mutex);
@@ -304,7 +304,7 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
     {
         event.gatherThreadSpecificData ();
 
-        std::atomic_fetch_add_explicit (&in_flight, std::size_t (1),
+        std::atomic_fetch_add_explicit (&in_flight, 1zu,
             std::memory_order_relaxed);
 
         try
