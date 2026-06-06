@@ -1,0 +1,28 @@
+# Example OpenTelemetry appender configurations. These examples require the
+# optional OpenTelemetry companion library (for example
+# liblog4cplus-opentelemetry.so / log4cplus-opentelemetry.dll) to be linked or
+# loaded by the application. Before loading this configuration, register the
+# appender factory in application code:
+#
+#   #include <log4cplus/opentelemetryappender.h>
+#   log4cplus::OpenTelemetryAppender::registerAppender();
+
+# Use the process-global/application-configured OpenTelemetry LoggerProvider.
+log4cplus.appender.OTEL_GLOBAL=log4cplus::OpenTelemetryAppender
+log4cplus.appender.OTEL_GLOBAL.ProviderMode=Global
+log4cplus.appender.OTEL_GLOBAL.InstrumentationName=log4cplus-example
+log4cplus.appender.OTEL_GLOBAL.IncludeLocation=true
+log4cplus.appender.OTEL_GLOBAL.IncludeMDC=true
+log4cplus.appender.OTEL_GLOBAL.IncludeNDC=true
+log4cplus.appender.OTEL_GLOBAL.UseLayout=false
+
+# Create an appender-owned OTLP logs pipeline. No collector is required to
+# parse this file; endpoint reachability is needed only when the appender emits.
+log4cplus.appender.OTEL_OTLP=log4cplus::OpenTelemetryAppender
+log4cplus.appender.OTEL_OTLP.ProviderMode=Otlp
+log4cplus.appender.OTEL_OTLP.OtlpProtocol=http/protobuf
+log4cplus.appender.OTEL_OTLP.OtlpEndpoint=http://localhost:4318/v1/logs
+log4cplus.appender.OTEL_OTLP.OtlpHeaders=authorization=Bearer example
+log4cplus.appender.OTEL_OTLP.OtlpTimeout=5000
+log4cplus.appender.OTEL_OTLP.ServiceName=log4cplus-example
+log4cplus.appender.OTEL_OTLP.ResourceAttributes=deployment.environment=dev

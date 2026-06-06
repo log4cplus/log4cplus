@@ -55,6 +55,7 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/ndc.h \
 	log4cplus/nteventlogappender.h \
 	log4cplus/nullappender.h \
+	log4cplus/opentelemetryappender.h \
 	log4cplus/qt4debugappender.h \
 	log4cplus/qt5debugappender.h \
 	log4cplus/qt6debugappender.h \

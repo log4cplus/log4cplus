@@ -107,6 +107,11 @@ option (LOG4CPLUS_QT4 "Build with Qt4DebugAppender" OFF)
 option (LOG4CPLUS_QT5 "Build with Qt5DebugAppender" OFF)
 option (LOG4CPLUS_QT6 "Build with Qt6DebugAppender" OFF)
 
+option (LOG4CPLUS_WITH_OPENTELEMETRY
+  "Build optional OpenTelemetry logs appender" OFF)
+option (LOG4CPLUS_OPENTELEMETRY_ENABLE_OTLP
+  "Build OpenTelemetry appender OTLP exporter support" ON)
+
 option(UNICODE "Build with tchar = wchar_t" ${UNICODE_DEFAULT})
 
 option(WITH_ICONV "Use iconv() for char->wchar_t conversion."
@@ -219,6 +224,9 @@ endif (LOG4CPLUS_QT5)
 if (LOG4CPLUS_QT6)
   add_subdirectory (qt6debugappender)
 endif (LOG4CPLUS_QT6)
+if (LOG4CPLUS_WITH_OPENTELEMETRY)
+  add_subdirectory (opentelemetryappender)
+endif (LOG4CPLUS_WITH_OPENTELEMETRY)
 
 
 include(Log4CPlusCPack.cmake)

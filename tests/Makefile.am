@@ -39,5 +39,5 @@ check-local: %D%/atconfig %D%/atlocal $(TESTSUITE)
 clean-local:
 	cd "$(top_builddir)/tests" && (test ! -f "$(abs_top_srcdir)/$(TESTSUITE)" || $(SHELL) "$(abs_top_srcdir)/$(TESTSUITE)" --clean)
 
-EXTRA_DIST += %D%/testsuite.at $(TESTSUITE) %D%/atlocal.in
+EXTRA_DIST += %D%/testsuite.at $(TESTSUITE) %D%/atlocal.in %D%/opentelemetry.properties.in
 

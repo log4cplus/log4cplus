@@ -699,6 +699,31 @@ AC_SUBST([WITH_QT6])
 AC_SUBST([QT6_CFLAGS])
 AC_SUBST([QT6_LIBS])
 
+dnl Optional OpenTelemetry logs appender setup.
+
+LOG4CPLUS_ARG_WITH([opentelemetry],
+  [Build optional OpenTelemetry logs appender.],
+  [with_opentelemetry=no])
+
+LOG4CPLUS_ARG_WITH([opentelemetry-otlp],
+  [Build OpenTelemetry appender OTLP exporter support.],
+  [with_opentelemetry_otlp=yes])
+
+AS_IF([test "x$with_opentelemetry" = "xyes"],
+  [PKG_CHECK_MODULES([OPENTELEMETRY], [opentelemetry-cpp], [],
+     [AC_MSG_ERROR([opentelemetry-cpp pkg-config metadata is required for --with-opentelemetry; alternatively set OPENTELEMETRY_CPPFLAGS and OPENTELEMETRY_LIBS])])
+   OPENTELEMETRY_CPPFLAGS="$OPENTELEMETRY_CFLAGS"
+   AS_IF([test "x$with_opentelemetry_otlp" = "xyes"],
+     [AS_VAR_APPEND([OPENTELEMETRY_CPPFLAGS], [" -DLOG4CPLUS_WITH_OPENTELEMETRY_OTLP=1"])
+      AS_VAR_APPEND([OPENTELEMETRY_CPPFLAGS], [" -DLOG4CPLUS_WITH_OPENTELEMETRY_OTLP_GRPC=1"])
+      AS_VAR_APPEND([OPENTELEMETRY_CPPFLAGS], [" -DLOG4CPLUS_WITH_OPENTELEMETRY_OTLP_HTTP=1"])])],
+  [OPENTELEMETRY_CPPFLAGS=
+   OPENTELEMETRY_LIBS=])
+
+AM_CONDITIONAL([OPENTELEMETRY], [test "x$with_opentelemetry" = "xyes"])
+AC_SUBST([OPENTELEMETRY_CPPFLAGS])
+AC_SUBST([OPENTELEMETRY_LIBS])
+
 dnl SWIG generated bindings related configure machinery is here.
 
 AS_VAR_SET([with_swig], [no])

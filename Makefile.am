@@ -55,6 +55,10 @@ if QT6
 include %D%/qt6debugappender/Makefile.am
 endif
 
+if OPENTELEMETRY
+include %D%/opentelemetryappender/Makefile.am
+endif
+
 include %D%/swig/Makefile.common.am
 include %D%/swig/python/Makefile.am
 
