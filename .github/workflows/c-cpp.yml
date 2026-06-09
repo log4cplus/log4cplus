@@ -21,6 +21,16 @@ jobs:
           configure_flags: '--with-qt6'
           build-type: autotools
 
+
+        - os: 'ubuntu-24.04-arm'
+          cc: 'gcc'
+          cxx: 'g++'
+          prereq: |
+            sudo apt update
+            sudo apt install pkgconf
+          configure_flags: ''
+          build-type: cmake
+
         # Enable macOS build by installing Boost via Homebrew
         - os: 'macos-15'
           cc: 'clang'
@@ -125,3 +135,32 @@ jobs:
           exit 1
         ;;
         esac
+
+  windows-cmake:
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - os: 'windows-2022'
+          arch: 'x64'
+        - os: 'windows-11-arm'
+          arch: 'ARM64'
+
+    runs-on: ${{ matrix.config.os }}
+
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        submodules: recursive
+    - name: configure
+      run: >
+        cmake
+        -S .
+        -B objdir
+        -G "Visual Studio 17 2022"
+        -A ${{ matrix.config.arch }}
+        -DCMAKE_BUILD_TYPE=Release
+    - name: build
+      run: cmake --build objdir --config Release
+    - name: test
+      run: ctest --test-dir objdir --build-config Release --output-on-failure
