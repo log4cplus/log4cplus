@@ -155,7 +155,7 @@ jobs:
         release: ${{ matrix.release }}
         usesh: true
         prepare: |
-          pkg install -y cmake autoconf automake libtool gmake pkgconf
+          pkg install -y cmake autoconf automake libtool gmake pkgconf boost-libs
         run: |
           set -e
           c++ --version
@@ -250,17 +250,19 @@ jobs:
         usesh: true
         prepare: |
           export PKG_PATH="https://cdn.NetBSD.org/pub/pkgsrc/packages/NetBSD/$(uname -p)/$(uname -r | cut -d_ -f1)/All"
-          pkg_add cmake autoconf automake libtool gmake pkgconf
+          pkg_add cmake autoconf automake libtool gmake pkgconf gcc13
         run: |
           set -e
-          c++ --version
+          export CC=gcc13
+          export CXX=g++13
+          ${CXX} --version
           ./scripts/fix-timestamps.sh
           mkdir objdir
           cd objdir
           buildtype="${{ matrix.build-type }}"
           case "${buildtype}" in #(
           autotools)
-              ../configure CC="cc" CXX="c++" \
+              ../configure CC="${CC}" CXX="${CXX}" \
                   --enable-shared --enable-unit-tests --with-working-locale
               ./config.status --config
               gmake
@@ -268,7 +270,7 @@ jobs:
           ;;
           #(
           cmake)
-              cmake ..
+              cmake -DCMAKE_C_COMPILER="${CC}" -DCMAKE_CXX_COMPILER="${CXX}" ..
               cmake --build .
               ctest --test-dir .
           ;;
@@ -296,17 +298,19 @@ jobs:
       with:
         usesh: true
         prepare: |
-          pkg install -y cmake autoconf automake libtool gmake pkgconf
+          pkg install -y cmake autoconf automake libtool gmake pkgconf gcc13
         run: |
           set -e
-          c++ --version
+          export CC=gcc13
+          export CXX=g++13
+          ${CXX} --version
           ./scripts/fix-timestamps.sh
           mkdir objdir
           cd objdir
           buildtype="${{ matrix.build-type }}"
           case "${buildtype}" in #(
           autotools)
-              ../configure CC="cc" CXX="c++" \
+              ../configure CC="${CC}" CXX="${CXX}" \
                   --enable-shared --enable-unit-tests --with-working-locale
               ./config.status --config
               gmake
@@ -314,7 +318,7 @@ jobs:
           ;;
           #(
           cmake)
-              cmake ..
+              cmake -DCMAKE_C_COMPILER="${CC}" -DCMAKE_CXX_COMPILER="${CXX}" ..
               cmake --build .
               ctest --test-dir .
           ;;
