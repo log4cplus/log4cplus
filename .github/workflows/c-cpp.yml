@@ -202,7 +202,7 @@ jobs:
       with:
         usesh: true
         prepare: |
-          pkg_add cmake autoconf automake libtool gmake pkgconf
+          pkg_add cmake autoconf automake libtool gmake pkgconf boost
         run: |
           set -e
           export AUTOCONF_VERSION=2.72
@@ -214,7 +214,8 @@ jobs:
           buildtype="${{ matrix.build-type }}"
           case "${buildtype}" in #(
           autotools)
-              ../configure CC="cc" CXX="c++" \
+              ../configure CPPFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib" \
+                  CC="cc" CXX="c++" \
                   --enable-shared --enable-unit-tests --with-working-locale
               ./config.status --config
               gmake
@@ -251,7 +252,7 @@ jobs:
         usesh: true
         prepare: |
           export PKG_PATH="https://cdn.NetBSD.org/pub/pkgsrc/packages/NetBSD/$(uname -p)/$(uname -r | cut -d_ -f1)/All"
-          pkg_add cmake autoconf automake libtool gmake pkgconf gcc14
+          pkg_add cmake autoconf automake libtool gmake pkgconf boost-headers boost-libs gcc14
         run: |
           set -e
           export CC=/usr/pkg/gcc14/bin/gcc
@@ -263,7 +264,8 @@ jobs:
           buildtype="${{ matrix.build-type }}"
           case "${buildtype}" in #(
           autotools)
-              ../configure CC="${CC}" CXX="${CXX}" \
+              ../configure CPPFLAGS="-I/usr/pkg/include" LDFLAGS="-L/usr/pkg/lib" \
+                  CC="${CC}" CXX="${CXX}" \
                   --enable-shared --enable-unit-tests --with-working-locale
               ./config.status --config
               gmake
