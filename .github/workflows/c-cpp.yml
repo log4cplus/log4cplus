@@ -251,11 +251,11 @@ jobs:
         usesh: true
         prepare: |
           export PKG_PATH="https://cdn.NetBSD.org/pub/pkgsrc/packages/NetBSD/$(uname -p)/$(uname -r | cut -d_ -f1)/All"
-          pkg_add cmake autoconf automake libtool gmake pkgconf gcc13
+          pkg_add cmake autoconf automake libtool gmake pkgconf gcc14
         run: |
           set -e
-          export CC=/usr/pkg/gcc13/bin/gcc
-          export CXX=/usr/pkg/gcc13/bin/g++
+          export CC=/usr/pkg/gcc14/bin/gcc
+          export CXX=/usr/pkg/gcc14/bin/g++
           ${CXX} --version
           ./scripts/fix-timestamps.sh
           mkdir objdir
