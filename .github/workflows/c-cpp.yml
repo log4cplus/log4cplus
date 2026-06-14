@@ -299,11 +299,11 @@ jobs:
       with:
         usesh: true
         prepare: |
-          pkg install -y cmake autoconf automake libtool gmake pkgconf gcc13
+          pkg install -y cmake autoconf automake libtool gmake pkgconf gcc14
         run: |
           set -e
-          export CC=gcc13
-          export CXX=g++13
+          export CC=gcc14
+          export CXX=g++14
           ${CXX} --version
           ./scripts/fix-timestamps.sh
           mkdir objdir
