@@ -301,12 +301,13 @@ jobs:
       with:
         usesh: true
         prepare: |
-          pkg install -y cmake autoconf automake libtool gmake pkgconf gcc14
+          pkg install -y cmake autoconf automake libtool gmake pkgconf boost-all gcc14
         run: |
           set -e
           export CC=gcc14
           export CXX=g++14
-          export LDFLAGS="-Wl,-rpath=/usr/local/lib/gcc14"
+          export CPPFLAGS="-I/usr/local/include"
+          export LDFLAGS="-L/usr/local/lib -Wl,-rpath=/usr/local/lib/gcc14"
           ${CXX} --version
           ./scripts/fix-timestamps.sh
           mkdir objdir
@@ -314,7 +315,7 @@ jobs:
           buildtype="${{ matrix.build-type }}"
           case "${buildtype}" in #(
           autotools)
-              ../configure LDFLAGS="${LDFLAGS}" \
+              ../configure CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" \
                   CC="${CC}" CXX="${CXX}" \
                   --enable-shared --enable-unit-tests --with-working-locale
               ./config.status --config
