@@ -155,7 +155,7 @@ jobs:
         release: ${{ matrix.release }}
         usesh: true
         prepare: |
-          pkg install -y cmake autoconf automake libtool gmake pkgconf boost-libs
+          pkg install -y cmake autoconf automake libtool gmake pkgconf boost-all
         run: |
           set -e
           c++ --version
@@ -165,7 +165,8 @@ jobs:
           buildtype="${{ matrix.build-type }}"
           case "${buildtype}" in #(
           autotools)
-              ../configure CC="cc" CXX="c++" \
+              ../configure CPPFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib" \
+                  CC="cc" CXX="c++" \
                   --enable-shared --enable-unit-tests --with-working-locale
               ./config.status --config
               gmake
@@ -253,8 +254,8 @@ jobs:
           pkg_add cmake autoconf automake libtool gmake pkgconf gcc13
         run: |
           set -e
-          export CC=gcc13
-          export CXX=g++13
+          export CC=/usr/pkg/gcc13/bin/gcc
+          export CXX=/usr/pkg/gcc13/bin/g++
           ${CXX} --version
           ./scripts/fix-timestamps.sh
           mkdir objdir
