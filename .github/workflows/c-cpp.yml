@@ -249,7 +249,8 @@ jobs:
       with:
         usesh: true
         prepare: |
-          pkgin -y install cmake autoconf automake libtool gmake pkgconf
+          export PKG_PATH="https://cdn.NetBSD.org/pub/pkgsrc/packages/NetBSD/$(uname -p)/$(uname -r | cut -d_ -f1)/All"
+          pkg_add cmake autoconf automake libtool gmake pkgconf
         run: |
           set -e
           c++ --version
