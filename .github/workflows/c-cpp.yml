@@ -127,7 +127,7 @@ jobs:
         ;;
         #(
         cmake)
-          ctest --test-dir .
+          ctest --test-dir . --output-on-failure
         ;;
         #(
         *) 
@@ -135,6 +135,207 @@ jobs:
           exit 1
         ;;
         esac
+
+  freebsd:
+    strategy:
+      fail-fast: false
+      matrix:
+        release: ["15.0", "14.4", "13.5"]
+        build-type: [cmake, autotools]
+    runs-on: ubuntu-latest
+    name: ${{ matrix.build-type == 'cmake' && 'CMake' || 'Autotools' }} / FreeBSD ${{ matrix.release }}
+
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        submodules: recursive
+    - name: Build and test on FreeBSD
+      uses: vmactions/freebsd-vm@v1
+      with:
+        release: ${{ matrix.release }}
+        usesh: true
+        prepare: |
+          pkg install -y cmake autoconf automake libtool gmake pkgconf boost-all
+        run: |
+          set -e
+          c++ --version
+          ./scripts/fix-timestamps.sh
+          mkdir objdir
+          cd objdir
+          buildtype="${{ matrix.build-type }}"
+          case "${buildtype}" in #(
+          autotools)
+              ../configure CPPFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib" \
+                  CC="cc" CXX="c++" \
+                  --enable-shared --enable-unit-tests --with-working-locale
+              ./config.status --config
+              gmake
+              gmake check
+          ;;
+          #(
+          cmake)
+              cmake ..
+              cmake --build .
+              ctest --test-dir . --output-on-failure
+          ;;
+          #(
+          *)
+              echo "Unsupported build type: ${buildtype}"
+              exit 1
+          ;;
+          esac
+
+  openbsd:
+    strategy:
+      fail-fast: false
+      matrix:
+        build-type: [cmake, autotools]
+    runs-on: ubuntu-latest
+    name: ${{ matrix.build-type == 'cmake' && 'CMake' || 'Autotools' }} / OpenBSD
+
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        submodules: recursive
+    - name: Build and test on OpenBSD
+      uses: vmactions/openbsd-vm@v1
+      with:
+        usesh: true
+        prepare: |
+          pkg_add cmake autoconf automake libtool gmake pkgconf boost
+        run: |
+          set -e
+          export AUTOCONF_VERSION=2.72
+          export AUTOMAKE_VERSION=1.16
+          c++ --version
+          ./scripts/fix-timestamps.sh
+          mkdir objdir
+          cd objdir
+          buildtype="${{ matrix.build-type }}"
+          case "${buildtype}" in #(
+          autotools)
+              ../configure CPPFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib" \
+                  CC="cc" CXX="c++" \
+                  --enable-shared --enable-unit-tests --with-working-locale
+              ./config.status --config
+              gmake
+              gmake check
+          ;;
+          #(
+          cmake)
+              cmake ..
+              cmake --build .
+              ctest --test-dir . --output-on-failure
+          ;;
+          #(
+          *)
+              echo "Unsupported build type: ${buildtype}"
+              exit 1
+          ;;
+          esac
+
+  netbsd:
+    strategy:
+      fail-fast: false
+      matrix:
+        build-type: [cmake, autotools]
+    runs-on: ubuntu-latest
+    name: ${{ matrix.build-type == 'cmake' && 'CMake' || 'Autotools' }} / NetBSD
+
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        submodules: recursive
+    - name: Build and test on NetBSD
+      uses: vmactions/netbsd-vm@v1
+      with:
+        usesh: true
+        prepare: |
+          export PKG_PATH="https://cdn.NetBSD.org/pub/pkgsrc/packages/NetBSD/$(uname -p)/$(uname -r | cut -d_ -f1)/All"
+          pkg_add cmake autoconf automake libtool gmake pkgconf boost-headers boost-libs gcc14
+        run: |
+          set -e
+          export CC=/usr/pkg/gcc14/bin/gcc
+          export CXX=/usr/pkg/gcc14/bin/g++
+          ${CXX} --version
+          ./scripts/fix-timestamps.sh
+          mkdir objdir
+          cd objdir
+          buildtype="${{ matrix.build-type }}"
+          case "${buildtype}" in #(
+          autotools)
+              ../configure CPPFLAGS="-I/usr/pkg/include" LDFLAGS="-L/usr/pkg/lib" \
+                  CC="${CC}" CXX="${CXX}" \
+                  --enable-shared --enable-unit-tests --with-working-locale
+              ./config.status --config
+              gmake
+              gmake check
+          ;;
+          #(
+          cmake)
+              cmake -DCMAKE_C_COMPILER="${CC}" -DCMAKE_CXX_COMPILER="${CXX}" ..
+              cmake --build .
+              ctest --test-dir . --output-on-failure
+          ;;
+          #(
+          *)
+              echo "Unsupported build type: ${buildtype}"
+              exit 1
+          ;;
+          esac
+
+  dragonflybsd:
+    strategy:
+      fail-fast: false
+      matrix:
+        build-type: [cmake, autotools]
+    runs-on: ubuntu-latest
+    name: ${{ matrix.build-type == 'cmake' && 'CMake' || 'Autotools' }} / DragonFly BSD
+
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        submodules: recursive
+    - name: Build and test on DragonFly BSD
+      uses: vmactions/dragonflybsd-vm@v1
+      with:
+        usesh: true
+        prepare: |
+          pkg install -y cmake autoconf automake libtool gmake pkgconf boost-all gcc14
+        run: |
+          set -e
+          export CC=gcc14
+          export CXX=g++14
+          export CPPFLAGS="-I/usr/local/include"
+          export LDFLAGS="-L/usr/local/lib -Wl,-rpath=/usr/local/lib/gcc14"
+          ${CXX} --version
+          ./scripts/fix-timestamps.sh
+          mkdir objdir
+          cd objdir
+          buildtype="${{ matrix.build-type }}"
+          case "${buildtype}" in #(
+          autotools)
+              ../configure CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" \
+                  CC="${CC}" CXX="${CXX}" \
+                  --enable-shared --enable-unit-tests --with-working-locale
+              ./config.status --config
+              gmake
+              gmake check
+          ;;
+          #(
+          cmake)
+              cmake -DCMAKE_C_COMPILER="${CC}" -DCMAKE_CXX_COMPILER="${CXX}" \
+                  -DCMAKE_EXE_LINKER_FLAGS="${LDFLAGS}" \
+                  -DCMAKE_SHARED_LINKER_FLAGS="${LDFLAGS}" ..
+              cmake --build .
+              ctest --test-dir . --output-on-failure
+          ;;
+          #(
+          *)
+              echo "Unsupported build type: ${buildtype}"
+              exit 1
+          ;;
+          esac
 
   windows-cmake:
     strategy:
