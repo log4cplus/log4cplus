@@ -127,7 +127,7 @@ jobs:
         ;;
         #(
         cmake)
-          ctest --test-dir .
+          ctest --test-dir . --output-on-failure
         ;;
         #(
         *) 
@@ -176,7 +176,7 @@ jobs:
           cmake)
               cmake ..
               cmake --build .
-              ctest --test-dir .
+              ctest --test-dir . --output-on-failure
           ;;
           #(
           *)
@@ -225,7 +225,7 @@ jobs:
           cmake)
               cmake ..
               cmake --build .
-              ctest --test-dir .
+              ctest --test-dir . --output-on-failure
           ;;
           #(
           *)
@@ -275,7 +275,7 @@ jobs:
           cmake)
               cmake -DCMAKE_C_COMPILER="${CC}" -DCMAKE_CXX_COMPILER="${CXX}" ..
               cmake --build .
-              ctest --test-dir .
+              ctest --test-dir . --output-on-failure
           ;;
           #(
           *)
@@ -323,7 +323,7 @@ jobs:
           cmake)
               cmake -DCMAKE_C_COMPILER="${CC}" -DCMAKE_CXX_COMPILER="${CXX}" ..
               cmake --build .
-              ctest --test-dir .
+              ctest --test-dir . --output-on-failure
           ;;
           #(
           *)
