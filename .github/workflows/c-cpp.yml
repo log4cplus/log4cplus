@@ -67,7 +67,7 @@ jobs:
     runs-on: ${{ matrix.config.os }}
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
         submodules: recursive
     - name: install prerequisites
@@ -146,7 +146,7 @@ jobs:
     name: ${{ matrix.build-type == 'cmake' && 'CMake' || 'Autotools' }} / FreeBSD ${{ matrix.release }}
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
         submodules: recursive
     - name: Build and test on FreeBSD
@@ -194,7 +194,7 @@ jobs:
     name: ${{ matrix.build-type == 'cmake' && 'CMake' || 'Autotools' }} / OpenBSD
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
         submodules: recursive
     - name: Build and test on OpenBSD
@@ -243,7 +243,7 @@ jobs:
     name: ${{ matrix.build-type == 'cmake' && 'CMake' || 'Autotools' }} / NetBSD
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
         submodules: recursive
     - name: Build and test on NetBSD
@@ -293,7 +293,7 @@ jobs:
     name: ${{ matrix.build-type == 'cmake' && 'CMake' || 'Autotools' }} / DragonFly BSD
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
         submodules: recursive
     - name: Build and test on DragonFly BSD
@@ -350,7 +350,7 @@ jobs:
     runs-on: ${{ matrix.config.os }}
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
         submodules: recursive
     - name: configure
