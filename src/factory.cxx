@@ -24,6 +24,7 @@
 #include <log4cplus/helpers/thread-config.h>
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/asyncappender.h>
+#include <log4cplus/androidappender.h>
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/fileappender.h>
 #include <log4cplus/nteventlogappender.h>
@@ -163,6 +164,9 @@ void initializeFactoryRegistry()
     spi::AppenderFactoryRegistry& reg = spi::getAppenderFactoryRegistry();
     DisableFactoryLocking<spi::AppenderFactoryRegistry> dfl_reg (reg);
     LOG4CPLUS_REG_APPENDER (reg, ConsoleAppender);
+#if defined (__ANDROID__)
+    LOG4CPLUS_REG_APPENDER (reg, AndroidAppender);
+#endif
     LOG4CPLUS_REG_APPENDER (reg, NullAppender);
     LOG4CPLUS_REG_APPENDER (reg, FileAppender);
     LOG4CPLUS_REG_APPENDER (reg, RollingFileAppender);

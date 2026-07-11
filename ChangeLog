@@ -1,10 +1,46 @@
 # log4cplus 3.0.0
 
+  - **IMPORTANT**: CMake 3.20 or later is now required.
+
+  - **IMPORTANT**: Implementation language is now C++23.
+
   - **IMPORTANT**: File-based appenders on Windows now use a custom
     Win32-backed file stream. Log files can be renamed or deleted while open by
     another process, and file contents are stored as UTF-8.
 
-  - **IMPORTANT**: Implementation language is now C++17.
+  - **IMPORTANT**: Apple embedded-platform builds now use CMake's native iOS
+    support. The legacy custom iOS toolchain, `IOS_PLATFORM`/`CMAKE_IOS_*`
+    variables, and ARMv7/i386 build scripts have been removed. The obsolete
+    Android `LIBRARY_OUTPUT_PATH_ROOT` toolchain integration has also been
+    removed.
+
+  - Added support for native CMake device and Simulator builds for iOS 15 and
+    later. iOS builds default to static libraries with tests and the logging
+    server disabled, and disable interprocedural optimization so that the
+    installed archives can be packaged into an XCFramework.
+
+  - Added the Android-only `log4cplus::AndroidAppender`, which writes formatted
+    events to Logcat through the system `liblog`. Its `Tag` property defaults
+    to `log4cplus`; tags are truncated and long messages are chunked on UTF-8
+    boundaries to remain compatible with older Android releases. Android
+    shared libraries now intentionally depend on the system `liblog.so`.
+
+  - Modernized Android support around the native NDK CMake toolchain, C++23,
+    API level 21, and all four current NDK ABIs. The logging server now
+    defaults to disabled on Android, and `LOG4CPLUS_INFO_FORMAT` is available
+    there.
+
+  - Fixed installed static CMake packages to resolve their threading
+    dependency and provide the canonical `log4cplus::log4cplus` target while
+    retaining the decorated static target. Android static consumers also
+    receive the required system `log` library dependency.
+
+  - Fixed `SocketAppender` and `SysLogAppender` reconnects to preserve the
+    configured IPv6 setting.
+
+  - Improved Apple and iOS socket portability by preventing `SIGPIPE` on
+    socket writes and using native descriptor and size types without narrowing
+    conversions.
 
   - `Win32ConsoleAppender` now supports a `ColorMode` property. The new `vt`
     and `force-vt` modes can emit ANSI SGR color sequences from the existing
@@ -15,4 +51,4 @@
     appender for modern Windows builds with `TraceLoggingProvider.h`. It uses
     a fixed log4cplus provider and emits structured fields from each logging
     event.
-  
+

@@ -187,7 +187,8 @@ SocketAppender::ctcGetSocket ()
 helpers::Socket
 SocketAppender::ctcConnect ()
 {
-    return helpers::Socket (host, static_cast<unsigned short>(port));
+    return helpers::Socket (host, static_cast<unsigned short>(port), false,
+        ipv6);
 }
 
 void

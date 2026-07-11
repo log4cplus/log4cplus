@@ -1,4 +1,5 @@
 set (log4cplus_sources
+  androidappender.cxx
   appenderattachableimpl.cxx
   appender.cxx
   asyncappender.cxx
@@ -132,8 +133,14 @@ endif ()
 if (LOG4CPLUS_WITH_ICONV AND LIBICONV)
   target_link_libraries (${log4cplus} PRIVATE ${LIBICONV})
 endif ()
-if (ANDROID AND WITH_UNIT_TESTS)
-  target_link_libraries (${log4cplus} PRIVATE ${ANDROID_LOG_LIB})
+if (ANDROID)
+  if (BUILD_SHARED_LIBS)
+    target_link_libraries (${log4cplus} PRIVATE ${ANDROID_LOG_LIB})
+  else ()
+    # Static dependencies propagate to consumers. Use the library name rather
+    # than its absolute NDK path to keep installed packages relocatable.
+    target_link_libraries (${log4cplus} PRIVATE log)
+  endif ()
 endif ()
 
 if (ANDROID)
@@ -188,6 +195,16 @@ write_basic_package_version_file(
 )
 
 # Note: variable 'targets_export_name' used
+if (NOT BUILD_SHARED_LIBS AND NOT LOG4CPLUS_SINGLE_THREADED)
+  set (LOG4CPLUS_CONFIG_FIND_THREADS TRUE)
+else ()
+  set (LOG4CPLUS_CONFIG_FIND_THREADS FALSE)
+endif ()
+if (log4cplus STREQUAL "log4cplus")
+  set (LOG4CPLUS_CONFIG_ADD_CANONICAL_TARGET FALSE)
+else ()
+  set (LOG4CPLUS_CONFIG_ADD_CANONICAL_TARGET TRUE)
+endif ()
 configure_file("cmake/Config.cmake.in" "${project_config}" @ONLY)
 
 install(
@@ -208,6 +225,7 @@ install(TARGETS ${log4cplus} EXPORT "${targets_export_name}"
                           RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 install(FILES ../include/log4cplus/appender.h
+              ../include/log4cplus/androidappender.h
               ../include/log4cplus/asyncappender.h
               ../include/log4cplus/callbackappender.h
               ../include/log4cplus/clogger.h

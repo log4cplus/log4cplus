@@ -26,6 +26,7 @@
 #include <vector>
 #include <algorithm>
 #include <cerrno>
+#include <limits>
 #include <log4cplus/internal/socket.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/thread/syncprims-pub-impl.h>
@@ -81,6 +82,25 @@ LOG4CPLUS_PRIVATE bool trySetCloseOnExec (int fd);
 
 namespace
 {
+
+static
+bool
+set_no_sigpipe (os_socket_type sock)
+{
+#if defined (SO_NOSIGPIPE) && ! defined (MSG_NOSIGNAL)
+    int enabled = 1;
+    if (::setsockopt (sock, SOL_SOCKET, SO_NOSIGPIPE, &enabled,
+            sizeof (enabled)) != 0)
+    {
+        set_last_socket_error (errno);
+        return false;
+    }
+#else
+    (void) sock;
+#endif
+
+    return true;
+}
 
 static
 int
@@ -163,6 +183,9 @@ openSocket(tstring const & host, unsigned short port, bool udp, bool ipv6,
     if (sock_holder.sock < 0)
         return INVALID_SOCKET_VALUE;
 
+    if (! set_no_sigpipe (sock_holder.sock))
+        return INVALID_SOCKET_VALUE;
+
 #if ! defined (SOCK_CLOEXEC)
     trySetCloseOnExec (sock_holder.sock);
 #endif
@@ -227,6 +250,9 @@ connectSocket(const tstring& hostn, unsigned short port, bool udp, bool ipv6,
         if (sock_holder.sock < 0)
             continue;
 
+        if (! set_no_sigpipe (sock_holder.sock))
+            continue;
+
 #if ! defined (SOCK_CLOEXEC)
         trySetCloseOnExec (sock_holder.sock);
 #endif
@@ -271,18 +297,16 @@ struct socklen_var<void, U>
 // incompatibility.
 template <typename accept_sockaddr_ptr_type, typename accept_socklen_type>
 static
-SOCKET_TYPE
+os_socket_type
 accept_wrap (
     int (* accept_func) (int, accept_sockaddr_ptr_type, accept_socklen_type *),
-    SOCKET_TYPE sock, struct sockaddr * sa, socklen_t * len)
+    os_socket_type sock, struct sockaddr * sa, socklen_t * len)
 {
     typedef typename socklen_var<accept_socklen_type, socklen_t>::type
         socklen_var_type;
     auto l = static_cast<socklen_var_type>(*len);
-    auto result
-        = static_cast<SOCKET_TYPE>(
-            accept_func (sock, sa,
-                reinterpret_cast<accept_socklen_type *>(&l)));
+    auto result = accept_func (sock, sa,
+        reinterpret_cast<accept_socklen_type *>(&l));
     *len = static_cast<socklen_t>(l);
     return result;
 }
@@ -290,25 +314,23 @@ accept_wrap (
 // Overload for `accept4()`.
 template <typename accept_sockaddr_ptr_type, typename accept_socklen_type>
 static
-SOCKET_TYPE
+os_socket_type
 accept_wrap (
     int (* accept_func) (int, accept_sockaddr_ptr_type, accept_socklen_type *,
         int),
-    SOCKET_TYPE sock, struct sockaddr * sa, socklen_t * len)
+    os_socket_type sock, struct sockaddr * sa, socklen_t * len)
 {
     typedef typename socklen_var<accept_socklen_type, socklen_t>::type
         socklen_var_type;
     auto l = static_cast<socklen_var_type>(*len);
-    auto result
-        = static_cast<SOCKET_TYPE>(
-            accept_func (sock, sa,
-                reinterpret_cast<accept_socklen_type *>(&l),
+    auto result = accept_func (sock, sa,
+        reinterpret_cast<accept_socklen_type *>(&l),
 #if defined (SOCK_CLOEXEC)
-                SOCK_CLOEXEC
+        SOCK_CLOEXEC
 #else
-                0
+        0
 #endif
-                ));
+        );
     *len = static_cast<socklen_t>(l);
     return result;
 }
@@ -322,7 +344,7 @@ acceptSocket(SOCKET_TYPE sock, SocketState& state)
 {
     struct sockaddr_in net_client;
     socklen_t len = sizeof(struct sockaddr);
-    int clientSock;
+    os_socket_type clientSock;
 
     while(
         (clientSock = accept_wrap (
@@ -338,6 +360,11 @@ acceptSocket(SOCKET_TYPE sock, SocketState& state)
         ;
 
     if(clientSock != INVALID_OS_SOCKET_VALUE) {
+        if (! set_no_sigpipe (clientSock))
+        {
+            ::close (clientSock);
+            return INVALID_SOCKET_VALUE;
+        }
         state = SocketState::ok;
     }
 
@@ -424,8 +451,14 @@ write(SOCKET_TYPE sock, std::size_t bufferCount,
     message.msg_control = nullptr;
     message.msg_controllen = 0;
     message.msg_flags = 0;
-    message.msg_iov = &iovecs[0];
-    message.msg_iovlen = iovecs.size ();
+    message.msg_iov = iovecs.data ();
+    using msg_iovlen_type = decltype(message.msg_iovlen);
+    if (iovecs.size () > (std::numeric_limits<msg_iovlen_type>::max) ())
+    {
+        errno = EINVAL;
+        return -1;
+    }
+    message.msg_iovlen = static_cast<msg_iovlen_type>(iovecs.size ());
 
     return sendmsg (to_os_socket (sock), &message, flags);
 }
@@ -500,7 +533,7 @@ setTCPNoDelay (SOCKET_TYPE sock, bool val)
 
     int result;
     int enabled = static_cast<int>(val);
-    if ((result = setsockopt(sock, level, TCP_NODELAY, &enabled,
+    if ((result = setsockopt(to_os_socket (sock), level, TCP_NODELAY, &enabled,
                 sizeof(enabled))) != 0)
         set_last_socket_error (errno);
 
@@ -574,7 +607,7 @@ ServerSocket::accept ()
     struct pollfd pollfds[2];
 
     struct pollfd & interrupt_pipe = pollfds[0];
-    interrupt_pipe.fd = interruptHandles[0];
+    interrupt_pipe.fd = to_os_socket (interruptHandles[0]);
     interrupt_pipe.events = POLLIN;
     interrupt_pipe.revents = 0;
 
@@ -616,8 +649,8 @@ ServerSocket::accept ()
                     LOG4CPLUS_TEXT ("accept() interrupted by other thread"));
 
                 char ch;
-                ret = ::read (interrupt_pipe.fd, &ch, 1);
-                if (ret == -1)
+                ssize_t const read_result = ::read (interrupt_pipe.fd, &ch, 1);
+                if (read_result == -1)
                 {
                     int const eno = errno;
                     helpers::getLogLog ().warn (
@@ -660,11 +693,11 @@ void
 ServerSocket::interruptAccept ()
 {
     char ch = 'I';
-    int ret;
+    ssize_t ret;
 
     do
     {
-        ret = ::write (interruptHandles[1], &ch, 1);
+        ret = ::write (to_os_socket (interruptHandles[1]), &ch, 1);
     }
     while (ret == -1 && errno == EINTR);
 
@@ -681,10 +714,10 @@ ServerSocket::interruptAccept ()
 ServerSocket::~ServerSocket()
 {
     if (interruptHandles[0] != -1)
-        ::close (interruptHandles[0]);
+        ::close (to_os_socket (interruptHandles[0]));
 
     if (interruptHandles[1] != -1)
-        ::close (interruptHandles[1]);
+        ::close (to_os_socket (interruptHandles[1]));
 }
 
 } // namespace log4cplus

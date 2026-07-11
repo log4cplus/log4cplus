@@ -57,7 +57,7 @@ find_library(LIBSOCKET socket)
 find_library(LIBWS2_32 ws2_32)
 if (ANDROID)
   find_library (ANDROID_LOG_LIB log REQUIRED)
-endif (ANDROID)
+endif ()
 
 check_function_exists(gmtime_r      LOG4CPLUS_HAVE_GMTIME_R )
 check_function_exists(localtime_r   LOG4CPLUS_HAVE_LOCALTIME_R )

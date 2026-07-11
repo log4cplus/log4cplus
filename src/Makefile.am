@@ -1,6 +1,7 @@
 lib_LTLIBRARIES = liblog4cplus.la
 
 LIB_SRC = \
+	%D%/androidappender.cxx \
 	%D%/appenderattachableimpl.cxx \
 	%D%/appender.cxx \
 	%D%/asyncappender.cxx \

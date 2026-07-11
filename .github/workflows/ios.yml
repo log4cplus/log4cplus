@@ -1,0 +1,75 @@
+name: iOS CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  cross-compile:
+    runs-on: macos-15
+
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        submodules: recursive
+
+    - name: Select Xcode 16.4
+      run: |
+        sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
+        cmake --version
+        xcodebuild -version
+        xcodebuild -showsdks
+
+    - name: Configure and install iOS device library
+      run: |
+        cmake -S . -B build/ios-device -G Xcode \
+          -DCMAKE_SYSTEM_NAME=iOS \
+          -DCMAKE_OSX_SYSROOT=iphoneos \
+          -DCMAKE_OSX_ARCHITECTURES=arm64 \
+          -DCMAKE_OSX_DEPLOYMENT_TARGET=15.0 \
+          -DCMAKE_CXX_FLAGS=-Werror=shorten-64-to-32 \
+          -DCMAKE_INSTALL_PREFIX="$PWD/staging/ios-device" \
+          -DBUILD_SHARED_LIBS=OFF \
+          -DLOG4CPLUS_BUILD_TESTING=OFF \
+          -DLOG4CPLUS_BUILD_LOGGINGSERVER=OFF
+        cmake --build build/ios-device --config Release --target install
+
+    - name: Configure and install iOS Simulator library
+      run: |
+        cmake -S . -B build/ios-simulator -G Xcode \
+          -DCMAKE_SYSTEM_NAME=iOS \
+          -DCMAKE_OSX_SYSROOT=iphonesimulator \
+          '-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64' \
+          -DCMAKE_OSX_DEPLOYMENT_TARGET=15.0 \
+          -DCMAKE_CXX_FLAGS=-Werror=shorten-64-to-32 \
+          -DCMAKE_INSTALL_PREFIX="$PWD/staging/ios-simulator" \
+          -DBUILD_SHARED_LIBS=OFF \
+          -DLOG4CPLUS_BUILD_TESTING=OFF \
+          -DLOG4CPLUS_BUILD_LOGGINGSERVER=OFF
+        cmake --build build/ios-simulator --config Release --target install
+
+    - name: Validate library architectures
+      run: |
+        lipo staging/ios-device/lib/liblog4cplusS.a -verify_arch arm64
+        lipo staging/ios-simulator/lib/liblog4cplusS.a \
+          -verify_arch arm64 x86_64
+
+    - name: Create and validate XCFramework
+      run: |
+        xcodebuild -create-xcframework \
+          -library staging/ios-device/lib/liblog4cplusS.a \
+          -headers staging/ios-device/include \
+          -library staging/ios-simulator/lib/liblog4cplusS.a \
+          -headers staging/ios-simulator/include \
+          -output staging/log4cplus.xcframework
+
+        metadata=$(/usr/libexec/PlistBuddy \
+          -c 'Print :AvailableLibraries' \
+          staging/log4cplus.xcframework/Info.plist)
+        printf '%s\n' "$metadata"
+        test "$(printf '%s\n' "$metadata" \
+          | grep -c 'SupportedPlatform = ios')" -eq 2
+        printf '%s\n' "$metadata" \
+          | grep -q 'SupportedPlatformVariant = simulator'
