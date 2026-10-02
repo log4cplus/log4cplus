@@ -169,6 +169,16 @@ write_basic_package_version_file(
 )
 
 # Note: variable 'targets_export_name' used
+if (NOT BUILD_SHARED_LIBS AND NOT LOG4CPLUS_SINGLE_THREADED)
+  set (LOG4CPLUS_CONFIG_FIND_THREADS TRUE)
+else ()
+  set (LOG4CPLUS_CONFIG_FIND_THREADS FALSE)
+endif ()
+if (log4cplus STREQUAL "log4cplus")
+  set (LOG4CPLUS_CONFIG_ADD_CANONICAL_TARGET FALSE)
+else ()
+  set (LOG4CPLUS_CONFIG_ADD_CANONICAL_TARGET TRUE)
+endif ()
 configure_file("cmake/Config.cmake.in" "${project_config}" @ONLY)
 
 install(

@@ -62,3 +62,35 @@ jobs:
       run: cd objdir ; make
     - name: make check
       run: cd objdir ; make check
+
+  cmake-package-consumer:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        shared: ['ON', 'OFF']
+        unicode: ['ON', 'OFF']
+
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        submodules: recursive
+    - name: Build and install library
+      run: |
+        cmake -S . -B build/package \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/staging" \
+          -DCMAKE_INSTALL_LIBDIR=lib \
+          -DBUILD_SHARED_LIBS=${{ matrix.shared }} \
+          -DUNICODE=${{ matrix.unicode }} \
+          -DLOG4CPLUS_BUILD_TESTING=OFF \
+          -DLOG4CPLUS_BUILD_LOGGINGSERVER=OFF \
+          -DWITH_UNIT_TESTS=OFF
+        cmake --build build/package --parallel 2
+        cmake --install build/package
+    - name: Build installed-package consumer
+      run: |
+        cmake -S tests/cmake_package_consumer -B build/consumer \
+          -DCMAKE_BUILD_TYPE=Release \
+          -Dlog4cplus_DIR="$GITHUB_WORKSPACE/staging/lib/cmake/log4cplus"
+        cmake --build build/consumer --parallel 2

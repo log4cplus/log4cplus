@@ -1,0 +1,14 @@
+#include <log4cplus/initializer.h>
+#include <log4cplus/logger.h>
+#include <log4cplus/loggingmacros.h>
+
+extern "C" void
+log4cplus_consumer_smoke_test()
+{
+    static log4cplus::Initializer initializer;
+    log4cplus::Logger logger
+        = log4cplus::Logger::getInstance(LOG4CPLUS_TEXT("consumer"));
+
+    LOG4CPLUS_INFO(logger, LOG4CPLUS_TEXT("ordinary log message"));
+    LOG4CPLUS_INFO_FMT(logger, LOG4CPLUS_TEXT("formatted log message: %d"), 23);
+}
