@@ -45,6 +45,12 @@
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
 #include <catch.hpp>
+#include <fstream>
+#if defined (_WIN32)
+#include <direct.h>
+#else
+#include <sys/stat.h>
+#endif
 #endif
 
 
@@ -1433,6 +1439,9 @@ TimeBasedRollingFileAppender::clean(Time time)
 
     Time::duration period = getRolloverPeriodDuration();
     long periods = long(interval.count () / period.count ());
+    // A partial interval can cross an additional archive period boundary.
+    if (interval % period > Time::duration::zero ())
+        ++periods;
 
     helpers::LogLog & loglog = helpers::getLogLog();
     for (long i = 0; i < periods; i++)
@@ -1476,6 +1485,144 @@ TimeBasedRollingFileAppender::calculateNextRolloverTime(const Time& t) const
     return helpers::truncate_fractions (
         log4cplus::calculateNextRolloverTime (t, schedule));
 }
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+CATCH_TEST_CASE ("TimeBasedRollingFileAppender cleanup across partial periods",
+    "[appender]")
+{
+    struct TestDirectory
+    {
+        tstring path;
+        std::vector<tstring> files;
+
+        TestDirectory ()
+        {
+            if ((! internal::get_env_var (path, LOG4CPLUS_TEXT ("TMPDIR"))
+                && ! internal::get_env_var (path, LOG4CPLUS_TEXT ("TEMP"))
+                && ! internal::get_env_var (path, LOG4CPLUS_TEXT ("TMP")))
+                || path.empty ())
+                path = LOG4CPLUS_TEXT (".");
+            path += LOG4CPLUS_TEXT ("/log4cplus-clean-")
+                + LOG4CPLUS_STRING_TO_TSTRING (std::to_string (
+                    internal::get_process_id ()))
+                + LOG4CPLUS_TEXT ("-")
+                + LOG4CPLUS_STRING_TO_TSTRING (std::to_string (
+                    std::chrono::steady_clock::now ().time_since_epoch ().count ()));
+#if defined (_WIN32) && defined (UNICODE)
+            int result = _wmkdir (path.c_str ());
+#elif defined (_WIN32)
+            int result = _mkdir (path.c_str ());
+#else
+            int result = mkdir (LOG4CPLUS_TSTRING_TO_STRING (path).c_str (), 0700);
+#endif
+            if (result != 0)
+                throw std::runtime_error ("Cannot create cleanup test directory");
+        }
+
+        ~TestDirectory ()
+        {
+            for (auto const & file : files)
+                file_remove (file);
+#if defined (_WIN32) && defined (UNICODE)
+            _wrmdir (path.c_str ());
+#elif defined (_WIN32)
+            _rmdir (path.c_str ());
+#else
+            rmdir (LOG4CPLUS_TSTRING_TO_STRING (path).c_str ());
+#endif
+        }
+
+        tstring file (tstring const & name)
+        {
+            tstring result = path + LOG4CPLUS_TEXT ("/") + name;
+            files.push_back (result);
+            return result;
+        }
+    } directory;
+    auto const exists = [] (tstring const & name) -> bool
+    {
+        helpers::FileInfo info;
+        return helpers::getFileInfo (&info, name) == 0;
+    };
+
+    class TestAppender : public TimeBasedRollingFileAppender
+    {
+    public:
+        using TimeBasedRollingFileAppender::TimeBasedRollingFileAppender;
+        using TimeBasedRollingFileAppender::clean;
+        using TimeBasedRollingFileAppender::lastHeartBeat;
+    };
+
+    int previous_seconds = 170; // 12:02:50
+    int current_seconds = 310;  // 12:05:10
+    CATCH_SECTION ("several minute boundaries in a partial interval") {}
+    CATCH_SECTION ("one minute boundary in less than a minute")
+    {
+        previous_seconds = 50;
+        current_seconds = 70;
+    }
+    CATCH_SECTION ("an exact number of elapsed minutes")
+    {
+        previous_seconds = 10;
+        current_seconds = 190;
+    }
+    CATCH_SECTION ("a backwards clock spanning a minute")
+    {
+        current_seconds = 70;
+    }
+
+    std::tm date {};
+    date.tm_year = 124;
+    date.tm_mon = 0;
+    date.tm_mday = 2;
+    date.tm_hour = 12;
+    date.tm_isdst = -1;
+    Time start = helpers::from_time_t (std::mktime (&date));
+    auto const prefix = directory.path + LOG4CPLUS_TEXT ("/");
+    auto const current = directory.file (LOG4CPLUS_TEXT ("current.log"));
+    TestAppender appender (current,
+        prefix + LOG4CPLUS_TEXT ("archive-%d{yyyy-MM-dd_HH-mm}.log"),
+        2, false, true, false, false);
+    auto const archive_name = [&] (int minute)
+    {
+        return prefix + helpers::getFormattedTime (
+            LOG4CPLUS_TEXT ("archive-%Y-%m-%d_%H-%M.log"),
+            start + std::chrono::minutes {minute}, false);
+    };
+    int const first_minute = previous_seconds / 60 - 2;
+    int const last_minute = std::max (previous_seconds, current_seconds) / 60 + 1;
+    for (int i = first_minute; i <= last_minute; ++i)
+    {
+        auto const name = archive_name (i);
+        directory.files.push_back (name);
+        tofstream archive (LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME (name));
+        archive << "archive " << i;
+        CATCH_REQUIRE (archive.good ());
+    }
+    auto const unrelated = directory.file (LOG4CPLUS_TEXT ("unrelated.log"));
+    {
+        tofstream file (LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME (unrelated));
+        file << "unrelated";
+    }
+
+    appender.lastHeartBeat = start + std::chrono::seconds {previous_seconds};
+    Time now = start + std::chrono::seconds {current_seconds};
+    for (int pass = 0; pass < 2; ++pass)
+    {
+        appender.clean (now);
+        CATCH_CHECK (appender.lastHeartBeat == now);
+        for (int i = first_minute; i <= last_minute; ++i)
+        {
+            CATCH_CAPTURE (i, pass, previous_seconds, current_seconds);
+            bool const retained = current_seconds < previous_seconds
+                || i >= current_seconds / 60 - 2;
+            CATCH_CHECK (exists (archive_name (i)) == retained);
+        }
+    }
+    CATCH_CHECK (exists (unrelated));
+    CATCH_CHECK (exists (current));
+}
+#endif
 
 } // namespace log4cplus
 
