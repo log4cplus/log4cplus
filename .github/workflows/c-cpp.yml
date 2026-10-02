@@ -358,7 +358,7 @@ jobs:
         cmake
         -S .
         -B objdir
-        -G "Visual Studio 17 2022"
+        -G "${{ matrix.config.os == 'windows-11-arm' && 'Visual Studio 18 2026' || 'Visual Studio 17 2022' }}"
         -A ${{ matrix.config.arch }}
         -DCMAKE_BUILD_TYPE=Release
     - name: build
