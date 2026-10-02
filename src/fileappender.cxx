@@ -1438,6 +1438,9 @@ TimeBasedRollingFileAppender::clean(Time time)
 
     Time::duration period = getRolloverPeriodDuration();
     long periods = long(interval.count () / period.count ());
+    // A partial interval can cross an additional archive period boundary.
+    if (interval % period > Time::duration::zero ())
+        ++periods;
 
     helpers::LogLog & loglog = helpers::getLogLog();
     for (long i = 0; i < periods; i++)
@@ -1505,6 +1508,102 @@ CATCH_TEST_CASE ("TimeBasedRollingFileAppender", "[appender]")
         CATCH_REQUIRE (schedule == DailyRollingFileSchedule::DAILY);
     }
 
+}
+
+CATCH_TEST_CASE ("TimeBasedRollingFileAppender cleanup across partial periods",
+    "[appender]")
+{
+    struct TestDirectory
+    {
+        std::filesystem::path path = std::filesystem::temp_directory_path ()
+            / ("log4cplus-clean-" + std::to_string (
+                std::chrono::steady_clock::now ().time_since_epoch ().count ()));
+
+        TestDirectory ()
+        {
+            if (! std::filesystem::create_directory (path))
+                throw std::runtime_error ("Cannot create cleanup test directory");
+        }
+
+        ~TestDirectory ()
+        {
+            std::error_code error;
+            std::filesystem::remove_all (path, error);
+        }
+    } directory;
+
+    class TestAppender : public TimeBasedRollingFileAppender
+    {
+    public:
+        using TimeBasedRollingFileAppender::TimeBasedRollingFileAppender;
+        using TimeBasedRollingFileAppender::clean;
+        using TimeBasedRollingFileAppender::lastHeartBeat;
+    };
+
+    int previous_seconds = 170; // 12:02:50
+    int current_seconds = 310;  // 12:05:10
+    CATCH_SECTION ("several minute boundaries in a partial interval") {}
+    CATCH_SECTION ("one minute boundary in less than a minute")
+    {
+        previous_seconds = 50;
+        current_seconds = 70;
+    }
+    CATCH_SECTION ("an exact number of elapsed minutes")
+    {
+        previous_seconds = 10;
+        current_seconds = 190;
+    }
+    CATCH_SECTION ("a backwards clock spanning a minute")
+    {
+        current_seconds = 70;
+    }
+
+    std::tm date {};
+    date.tm_year = 124;
+    date.tm_mon = 0;
+    date.tm_mday = 2;
+    date.tm_hour = 12;
+    date.tm_isdst = -1;
+    Time start = helpers::from_time_t (std::mktime (&date));
+    auto const prefix = LOG4CPLUS_STRING_TO_TSTRING (directory.path.string ())
+        + LOG4CPLUS_TEXT ("/");
+    TestAppender appender (prefix + LOG4CPLUS_TEXT ("current.log"),
+        prefix + LOG4CPLUS_TEXT ("archive-%d{yyyy-MM-dd_HH-mm}.log"),
+        2, false, true, false, false);
+    auto const archive_name = [&] (int minute)
+    {
+        return std::filesystem::path (prefix + helpers::getFormattedTime (
+            LOG4CPLUS_TEXT ("archive-%Y-%m-%d_%H-%M.log"),
+            start + std::chrono::minutes {minute}, false));
+    };
+    int const first_minute = previous_seconds / 60 - 2;
+    int const last_minute = std::max (previous_seconds, current_seconds) / 60 + 1;
+    for (int i = first_minute; i <= last_minute; ++i)
+    {
+        std::ofstream archive (archive_name (i));
+        archive << "archive " << i;
+        CATCH_REQUIRE (archive.good ());
+    }
+    auto const unrelated = directory.path / "unrelated.log";
+    std::ofstream (unrelated) << "unrelated";
+
+    appender.lastHeartBeat = start + std::chrono::seconds {previous_seconds};
+    Time now = start + std::chrono::seconds {current_seconds};
+    for (int pass = 0; pass < 2; ++pass)
+    {
+        appender.clean (now);
+        CATCH_CHECK (appender.lastHeartBeat == now);
+        for (int i = first_minute; i <= last_minute; ++i)
+        {
+            CATCH_CAPTURE (i, pass, previous_seconds, current_seconds);
+            bool const retained = current_seconds < previous_seconds
+                || i >= current_seconds / 60 - 2;
+            CATCH_CHECK (std::filesystem::exists (archive_name (i)) == retained);
+        }
+    }
+    CATCH_CHECK (std::filesystem::exists (unrelated));
+    CATCH_CHECK (std::filesystem::exists (
+        std::filesystem::path (prefix + LOG4CPLUS_TEXT ("current.log"))));
 }
 #endif
 
