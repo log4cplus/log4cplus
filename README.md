@@ -35,13 +35,13 @@ from log4net, log4cxx, log4cpp).
 Platform support
 ================
 
-[log4cplus] version 3.0 and beyond require C++23. [log4cplus] has been
-continuously built and tested by GitHub Actions on these host platforms:
+[log4cplus] version 3.0 and beyond require C++23. GitHub Actions is configured
+to build and test these host platforms:
 
   - Ubuntu 24.04 on AMD64 with GCC 14 and on ARM64 with GCC;
   - macOS 15 on ARM64 with Apple Clang and LLVM 18;
-  - Windows Server 2022 on AMD64 and Windows 11 on ARM64 with Visual Studio
-    2022;
+  - Windows Server 2022 on AMD64 with Visual Studio 2022;
+  - Windows 11 on ARM64 with Visual Studio 2026;
   - FreeBSD 13.5, 14.4 and 15.0, plus current OpenBSD, NetBSD and DragonFly BSD
     runner images, using both CMake and Autotools where supported.
 
