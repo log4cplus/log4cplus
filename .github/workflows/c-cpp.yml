@@ -344,8 +344,10 @@ jobs:
         config:
         - os: 'windows-2022'
           arch: 'x64'
+          generator: 'Visual Studio 17 2022'
         - os: 'windows-11-arm'
           arch: 'ARM64'
+          generator: 'Visual Studio 18 2026'
 
     runs-on: ${{ matrix.config.os }}
 
@@ -358,7 +360,7 @@ jobs:
         cmake
         -S .
         -B objdir
-        -G "Visual Studio 17 2022"
+        -G "${{ matrix.config.generator }}"
         -A ${{ matrix.config.arch }}
         -DCMAKE_BUILD_TYPE=Release
     - name: build
