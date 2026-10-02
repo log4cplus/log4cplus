@@ -63,6 +63,66 @@ jobs:
     - name: make check
       run: cd objdir ; make check
 
+  windows-cmake:
+    name: CMake / Windows / ${{ matrix.toolset }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # v142 preserves the VS 2019 compiler from AppVeyor; v143 matches master.
+        toolset: ['v142', 'v143']
+
+    runs-on: windows-2022
+
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        submodules: recursive
+    - name: configure
+      run: >
+        cmake
+        -S .
+        -B objdir
+        -G "Visual Studio 17 2022"
+        -A x64
+        -T ${{ matrix.toolset }}
+        -DCMAKE_BUILD_TYPE=Release
+    - name: build
+      run: cmake --build objdir --config Release
+    - name: test
+      run: ctest --test-dir objdir --build-config Release --output-on-failure
+
+  windows-msbuild:
+    name: MSBuild / Windows / ${{ matrix.toolset }} / ${{ matrix.project }}
+    strategy:
+      fail-fast: false
+      matrix:
+        toolset: ['v142', 'v143']
+        project: ['log4cplus', 'log4cplusS']
+
+    runs-on: windows-2022
+
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        submodules: recursive
+    - name: build
+      shell: pwsh
+      run: |
+        $msbuild = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" `
+          -latest -products '*' -version '[17.0,18.0)' `
+          -requires Microsoft.Component.MSBuild `
+          -find 'MSBuild\**\Bin\MSBuild.exe' | Select-Object -First 1
+        if (-not $msbuild) {
+          throw 'Visual Studio 2022 MSBuild was not found.'
+        }
+        # Override v140 in the checked-in projects to test VS 2019 or VS 2022.
+        & $msbuild "msvc14\${{ matrix.project }}.vcxproj" `
+          /p:Configuration=Release `
+          /p:Platform=x64 `
+          /p:PlatformToolset=${{ matrix.toolset }} `
+          /p:WindowsTargetPlatformVersion=10.0 `
+          /nologo
+
   cmake-package-consumer:
     runs-on: ubuntu-24.04
     strategy:
