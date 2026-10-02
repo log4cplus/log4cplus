@@ -1590,7 +1590,7 @@ CATCH_TEST_CASE ("TimeBasedRollingFileAppender cleanup across partial periods",
             start + std::chrono::minutes {minute}, false);
     };
     int const first_minute = previous_seconds / 60 - 2;
-    int const last_minute = std::max (previous_seconds, current_seconds) / 60 + 1;
+    int const last_minute = (std::max) (previous_seconds, current_seconds) / 60 + 1;
     for (int i = first_minute; i <= last_minute; ++i)
     {
         auto const name = archive_name (i);
