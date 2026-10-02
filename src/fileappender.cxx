@@ -1590,19 +1590,22 @@ CATCH_TEST_CASE ("TimeBasedRollingFileAppender cleanup across partial periods",
             start + std::chrono::minutes {minute}, false);
     };
     int const first_minute = previous_seconds / 60 - 2;
-    int const last_minute = std::max (previous_seconds, current_seconds) / 60 + 1;
+    int const last_minute = (std::max) (previous_seconds, current_seconds) / 60 + 1;
     for (int i = first_minute; i <= last_minute; ++i)
     {
         auto const name = archive_name (i);
         directory.files.push_back (name);
-        tofstream archive (LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME (name));
+        tofstream archive (LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME (name),
+            std::ios_base::out | std::ios_base::trunc);
         archive << "archive " << i;
         CATCH_REQUIRE (archive.good ());
     }
     auto const unrelated = directory.file (LOG4CPLUS_TEXT ("unrelated.log"));
     {
-        tofstream file (LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME (unrelated));
+        tofstream file (LOG4CPLUS_FSTREAM_PREFERED_FILE_NAME (unrelated),
+            std::ios_base::out | std::ios_base::trunc);
         file << "unrelated";
+        CATCH_REQUIRE (file.good ());
     }
 
     appender.lastHeartBeat = start + std::chrono::seconds {previous_seconds};
