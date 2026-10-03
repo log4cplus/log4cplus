@@ -281,6 +281,9 @@ namespace log4cplus
     enum class DailyRollingFileSchedule { MONTHLY, WEEKLY, DAILY,
                                     TWICE_DAILY, HOURLY, MINUTELY};
 
+    /** Supported first days of a weekly logging period. */
+    enum class FirstDayOfWeek { SUNDAY = 0, MONDAY = 1 };
+
     /**
      * DailyRollingFileAppender extends {@link FileAppender} so that the
      * underlying file is rolled over at a user chosen frequency.
@@ -294,6 +297,15 @@ namespace log4cplus
      * values are <tt>MONTHLY</tt>, <tt>WEEKLY</tt>, <tt>DAILY</tt>,
      * <tt>TWICE_DAILY</tt>, <tt>HOURLY</tt> and
      * <tt>MINUTELY</tt>.</dd>
+     *
+     * <dt><tt>FirstDayOfWeek</tt></dt>
+     * <dd>This property selects the first day of a weekly logging period.
+     * The supported values are <tt>SUNDAY</tt> and <tt>MONDAY</tt>,
+     * case-insensitively. The default is <tt>MONDAY</tt>. Invalid values
+     * produce a warning and fall back to <tt>MONDAY</tt>. This property
+     * affects only <tt>Schedule=WEEKLY</tt>. Rollover occurs on the first
+     * logging event at or after local midnight on the selected day;
+     * <tt>RollOnClose</tt> can also cause rollover upon shutdown.</dd>
      *
      * <dt><tt>MaxBackupIndex</tt></dt>
      * <dd>This property limits how many backup files are kept per
@@ -313,7 +325,13 @@ namespace log4cplus
      * Please notice that the format of the pattern is similar but not identical
      * to the one used for this option in the corresponding Log4J class.
      * If the property isn't specified a reasonable default for a given
-     * schedule type is used.</dd>
+     * schedule type is used. For <tt>WEEKLY</tt>, the default is
+     * <tt>%Y-%U</tt> with <tt>FirstDayOfWeek=SUNDAY</tt> and
+     * <tt>%Y-%W</tt> with <tt>FirstDayOfWeek=MONDAY</tt>. Explicit patterns
+     * retain their standard formatting meaning: use <tt>%U</tt> for a
+     * Sunday-based week number and <tt>%W</tt> for a Monday-based one.
+     * Both use calendar years, with January dates before the year's first
+     * selected weekday belonging to week <tt>00</tt>.</dd>
      *
      * </dl>
      *
@@ -328,7 +346,8 @@ namespace log4cplus
                                  int maxBackupIndex = 10,
                                  bool createDirs = false,
                                  bool rollOnClose = true,
-                                 const log4cplus::tstring& datePattern = log4cplus::tstring());
+                                 const log4cplus::tstring& datePattern = log4cplus::tstring(),
+                                 FirstDayOfWeek firstDayOfWeek = FirstDayOfWeek::MONDAY);
         DailyRollingFileAppender(const log4cplus::helpers::Properties& properties);
 
       // Dtor
@@ -345,6 +364,7 @@ namespace log4cplus
 
       // Data
         DailyRollingFileSchedule schedule;
+        FirstDayOfWeek firstDayOfWeek;
         log4cplus::tstring scheduledFilename;
         log4cplus::helpers::Time nextRolloverTime;
         int maxBackupIndex;
