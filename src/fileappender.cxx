@@ -614,8 +614,9 @@ RollingFileAppender::rollover(bool alreadyLocked)
 DailyRollingFileAppender::DailyRollingFileAppender(
     const tstring& filename_, DailyRollingFileSchedule schedule_,
     bool immediateFlush_, int maxBackupIndex_, bool createDirs_,
-    bool rollOnClose_, const tstring& datePattern_)
+    bool rollOnClose_, const tstring& datePattern_, FirstDayOfWeek firstDayOfWeek_)
     : FileAppender(filename_, std::ios_base::app, immediateFlush_, createDirs_)
+    , firstDayOfWeek(firstDayOfWeek_)
     , maxBackupIndex(maxBackupIndex_)
     , rollOnClose(rollOnClose_)
     , datePattern(datePattern_)
@@ -628,6 +629,7 @@ DailyRollingFileAppender::DailyRollingFileAppender(
 DailyRollingFileAppender::DailyRollingFileAppender(
     const Properties& properties)
     : FileAppender(properties, std::ios_base::app)
+    , firstDayOfWeek(FirstDayOfWeek::MONDAY)
     , maxBackupIndex(10)
     , rollOnClose(true)
 {
@@ -658,6 +660,21 @@ DailyRollingFileAppender::DailyRollingFileAppender(
     properties.getBool (rollOnClose, LOG4CPLUS_TEXT("RollOnClose"));
     properties.getString (datePattern, LOG4CPLUS_TEXT("DatePattern"));
     properties.getInt (maxBackupIndex, LOG4CPLUS_TEXT("MaxBackupIndex"));
+
+    tstring firstDayOfWeekStr;
+    if (properties.getString (firstDayOfWeekStr, LOG4CPLUS_TEXT("FirstDayOfWeek")))
+    {
+        tstring const day = helpers::toUpper (firstDayOfWeekStr);
+        if (day == LOG4CPLUS_TEXT("SUNDAY"))
+            firstDayOfWeek = FirstDayOfWeek::SUNDAY;
+        else if (day == LOG4CPLUS_TEXT("MONDAY"))
+            firstDayOfWeek = FirstDayOfWeek::MONDAY;
+        else
+            helpers::getLogLog().warn (
+                LOG4CPLUS_TEXT("DailyRollingFileAppender::ctor()- ")
+                LOG4CPLUS_TEXT("\"FirstDayOfWeek\" not valid; using MONDAY: ")
+                + firstDayOfWeekStr);
+    }
 
     init(theSchedule);
 }
@@ -718,6 +735,14 @@ void
 DailyRollingFileAppender::init(DailyRollingFileSchedule sch)
 {
     this->schedule = sch;
+    if (firstDayOfWeek != FirstDayOfWeek::SUNDAY
+        && firstDayOfWeek != FirstDayOfWeek::MONDAY)
+    {
+        helpers::getLogLog().warn (
+            LOG4CPLUS_TEXT("DailyRollingFileAppender::init()- ")
+            LOG4CPLUS_TEXT("invalid FirstDayOfWeek; using MONDAY"));
+        firstDayOfWeek = FirstDayOfWeek::MONDAY;
+    }
     Time now = helpers::truncate_fractions (helpers::now ());
     scheduledFilename = getFilename(now);
     nextRolloverTime = calculateNextRolloverTime(now);
@@ -845,7 +870,8 @@ DailyRollingFileAppender::rollover(bool alreadyLocked)
 
 static
 Time
-calculateNextRolloverTime(const Time& t, DailyRollingFileSchedule schedule)
+calculateNextRolloverTime(const Time& t, DailyRollingFileSchedule schedule,
+    FirstDayOfWeek firstDayOfWeek)
 {
     namespace chrono = helpers::chrono;
 
@@ -883,8 +909,10 @@ calculateNextRolloverTime(const Time& t, DailyRollingFileSchedule schedule)
     case DailyRollingFileSchedule::WEEKLY:
     {
         helpers::localTime (&next, t);
-        // Round up to next week
-        next.tm_mday += (7 - next.tm_wday + 1);
+        // Round up to the next selected weekday, strictly after t.
+        int const days = (7 + static_cast<int> (firstDayOfWeek)
+            - next.tm_wday) % 7;
+        next.tm_mday += days == 0 ? 7 : days;
         next.tm_hour = 0;
         next.tm_min = 0;
         next.tm_sec = 0;
@@ -1009,7 +1037,7 @@ Time
 DailyRollingFileAppender::calculateNextRolloverTime(const Time& t) const
 {
     return helpers::truncate_fractions (
-        log4cplus::calculateNextRolloverTime (t, schedule));
+        log4cplus::calculateNextRolloverTime (t, schedule, firstDayOfWeek));
 }
 
 
@@ -1026,7 +1054,8 @@ DailyRollingFileAppender::getFilename(const Time& t) const
             break;
 
         case DailyRollingFileSchedule::WEEKLY:
-            pattern = LOG4CPLUS_TEXT("%Y-%W");
+            pattern = firstDayOfWeek == FirstDayOfWeek::SUNDAY
+                ? LOG4CPLUS_TEXT("%Y-%U") : LOG4CPLUS_TEXT("%Y-%W");
             break;
 
         default:
@@ -1482,11 +1511,390 @@ Time
 TimeBasedRollingFileAppender::calculateNextRolloverTime(const Time& t) const
 {
     return helpers::truncate_fractions (
-        log4cplus::calculateNextRolloverTime (t, schedule));
+        log4cplus::calculateNextRolloverTime (t, schedule, FirstDayOfWeek::MONDAY));
 }
 
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+namespace
+{
+
+Time
+weekly_test_time (int year, int month, int day, int hour = 0,
+    int minute = 0, int second = 0)
+{
+    std::tm date {};
+    date.tm_year = year - 1900;
+    date.tm_mon = month - 1;
+    date.tm_mday = day;
+    date.tm_hour = hour;
+    date.tm_min = minute;
+    date.tm_sec = second;
+    date.tm_isdst = -1;
+    return helpers::from_struct_tm (&date);
+}
+
+struct WeeklyTestDirectory
+{
+    std::filesystem::path path = std::filesystem::temp_directory_path ()
+        / ("log4cplus-weekly-" + std::to_string (
+            std::chrono::steady_clock::now ().time_since_epoch ().count ()));
+
+    WeeklyTestDirectory ()
+    {
+        if (! std::filesystem::create_directory (path))
+            throw std::runtime_error ("Cannot create weekly rollover test directory");
+    }
+
+    ~WeeklyTestDirectory ()
+    {
+        std::error_code error;
+        std::filesystem::remove_all (path, error);
+    }
+
+    tstring filename (char const * name) const
+    {
+        return LOG4CPLUS_STRING_TO_TSTRING ((path / name).string ());
+    }
+};
+
+class WeeklyTestAppender : public DailyRollingFileAppender
+{
+public:
+    using DailyRollingFileAppender::DailyRollingFileAppender;
+    using DailyRollingFileAppender::calculateNextRolloverTime;
+    using DailyRollingFileAppender::getFilename;
+    using DailyRollingFileAppender::firstDayOfWeek;
+    using DailyRollingFileAppender::nextRolloverTime;
+    using DailyRollingFileAppender::scheduledFilename;
+};
+
+struct WeeklyWarningCapture
+{
+    tostringstream output;
+    std::basic_streambuf<tchar> * previous = tcerr.rdbuf (output.rdbuf ());
+
+    ~WeeklyWarningCapture ()
+    {
+        tcerr.rdbuf (previous);
+    }
+};
+
+Properties
+weekly_test_properties (tstring const & filename)
+{
+    Properties properties;
+    properties.setProperty (LOG4CPLUS_TEXT("File"), filename);
+    properties.setProperty (LOG4CPLUS_TEXT("Schedule"), LOG4CPLUS_TEXT("WEEKLY"));
+    properties.setProperty (LOG4CPLUS_TEXT("RollOnClose"), LOG4CPLUS_TEXT("false"));
+    return properties;
+}
+
+} // namespace
+
+CATCH_TEST_CASE ("Weekly rollover from Sunday uses the following Monday",
+    "[appender][weekly]")
+{
+    std::tm date {};
+    date.tm_year = 126;
+    date.tm_mon = 9;
+    date.tm_mday = 4; // Sunday, October 4, 2026.
+    date.tm_hour = 12;
+    date.tm_isdst = -1;
+    Time const sunday = helpers::from_struct_tm (&date);
+    date.tm_mday = 5;
+    date.tm_hour = 0;
+    date.tm_isdst = -1;
+    Time const monday = helpers::from_struct_tm (&date);
+
+    CATCH_CHECK (calculateNextRolloverTime (sunday,
+        DailyRollingFileSchedule::WEEKLY, FirstDayOfWeek::MONDAY) == monday);
+}
+
+CATCH_TEST_CASE ("Weekly rollover selects the next Sunday or Monday",
+    "[appender][weekly]")
+{
+    int const monday_dates[] = {5, 12, 12, 12, 12, 12, 12};
+    for (FirstDayOfWeek first : {FirstDayOfWeek::SUNDAY, FirstDayOfWeek::MONDAY})
+        for (int weekday = 0; weekday < 7; ++weekday)
+            for (int hour : {0, 12})
+            {
+                CATCH_CAPTURE (first, weekday, hour);
+                Time const input = weekly_test_time (2026, 10, 4 + weekday, hour);
+                Time const expected = weekly_test_time (2026, 10,
+                    first == FirstDayOfWeek::SUNDAY ? 11 : monday_dates[weekday]);
+                CATCH_CHECK (calculateNextRolloverTime (input,
+                    DailyRollingFileSchedule::WEEKLY, first) == expected);
+                CATCH_CHECK (expected > input);
+            }
+
+    for (FirstDayOfWeek first : {FirstDayOfWeek::SUNDAY, FirstDayOfWeek::MONDAY})
+    {
+        Time const boundary = weekly_test_time (2026, 10,
+            first == FirstDayOfWeek::SUNDAY ? 4 : 5);
+        CATCH_CHECK (calculateNextRolloverTime (
+            boundary - std::chrono::microseconds {1},
+            DailyRollingFileSchedule::WEEKLY, first) == boundary);
+        CATCH_CHECK (calculateNextRolloverTime (
+            boundary + std::chrono::microseconds {1},
+            DailyRollingFileSchedule::WEEKLY, first)
+            == weekly_test_time (2026, 10,
+                first == FirstDayOfWeek::SUNDAY ? 11 : 12));
+    }
+}
+
+CATCH_TEST_CASE ("Weekly rollover crosses calendar and DST boundaries",
+    "[appender][weekly]")
+{
+    struct Scenario
+    {
+        FirstDayOfWeek first;
+        int year, month, day;
+        int next_year, next_month, next_day;
+    };
+    Scenario const scenarios[] = {
+        {FirstDayOfWeek::SUNDAY, 2024, 2, 25, 2024, 3, 3},
+        {FirstDayOfWeek::MONDAY, 2024, 2, 26, 2024, 3, 4},
+        {FirstDayOfWeek::SUNDAY, 2026, 1, 31, 2026, 2, 1},
+        {FirstDayOfWeek::MONDAY, 2026, 1, 31, 2026, 2, 2},
+        {FirstDayOfWeek::SUNDAY, 2026, 12, 31, 2027, 1, 3},
+        {FirstDayOfWeek::MONDAY, 2026, 12, 31, 2027, 1, 4},
+        // Run in a timezone with European DST rules as well as UTC.
+        {FirstDayOfWeek::SUNDAY, 2026, 3, 29, 2026, 4, 5},
+        {FirstDayOfWeek::MONDAY, 2026, 3, 23, 2026, 3, 30},
+        {FirstDayOfWeek::SUNDAY, 2026, 10, 25, 2026, 11, 1},
+        {FirstDayOfWeek::MONDAY, 2026, 10, 19, 2026, 10, 26},
+    };
+    for (auto const & scenario : scenarios)
+    {
+        CATCH_CAPTURE (scenario.first, scenario.year, scenario.month, scenario.day);
+        CATCH_CHECK (calculateNextRolloverTime (
+            weekly_test_time (scenario.year, scenario.month, scenario.day),
+            DailyRollingFileSchedule::WEEKLY, scenario.first)
+            == weekly_test_time (scenario.next_year, scenario.next_month,
+                scenario.next_day));
+    }
+}
+
+CATCH_TEST_CASE ("Weekly appender properties and constructor select the same weekday",
+    "[appender][weekly]")
+{
+    WeeklyTestDirectory directory;
+    struct Setting
+    {
+        tchar const * name;
+        FirstDayOfWeek first;
+    };
+    Setting const settings[] = {
+        {LOG4CPLUS_TEXT("SUNDAY"), FirstDayOfWeek::SUNDAY},
+        {LOG4CPLUS_TEXT("sUnDaY"), FirstDayOfWeek::SUNDAY},
+        {LOG4CPLUS_TEXT("MONDAY"), FirstDayOfWeek::MONDAY},
+        {LOG4CPLUS_TEXT("monday"), FirstDayOfWeek::MONDAY},
+    };
+    for (auto const & setting : settings)
+    {
+        CATCH_CAPTURE (setting.name);
+        Properties properties = weekly_test_properties (directory.filename ("properties.log"));
+        properties.setProperty (LOG4CPLUS_TEXT("FirstDayOfWeek"), setting.name);
+        WeeklyWarningCapture warnings;
+        WeeklyTestAppender configured (properties);
+        WeeklyTestAppender direct (directory.filename ("direct.log"),
+            DailyRollingFileSchedule::WEEKLY, true, 10, false, false,
+            tstring (), setting.first);
+        CATCH_CHECK (warnings.output.str ().empty ());
+        CATCH_CHECK (configured.firstDayOfWeek == setting.first);
+        CATCH_CHECK (direct.firstDayOfWeek == setting.first);
+        std::tm next;
+        helpers::localTime (&next, configured.nextRolloverTime);
+        CATCH_CHECK (next.tm_wday == static_cast<int> (setting.first));
+        helpers::localTime (&next, direct.nextRolloverTime);
+        CATCH_CHECK (next.tm_wday == static_cast<int> (setting.first));
+        Time const input = weekly_test_time (2026, 10, 4, 12);
+        Time const expected = weekly_test_time (2026, 10,
+            setting.first == FirstDayOfWeek::SUNDAY ? 11 : 5);
+        CATCH_CHECK (configured.calculateNextRolloverTime (input) == expected);
+        CATCH_CHECK (direct.calculateNextRolloverTime (input) == expected);
+        tstring const suffix = setting.first == FirstDayOfWeek::SUNDAY
+            ? LOG4CPLUS_TEXT(".2026-40") : LOG4CPLUS_TEXT(".2026-39");
+        CATCH_CHECK (configured.getFilename (input)
+            == directory.filename ("properties.log") + suffix);
+        CATCH_CHECK (direct.getFilename (input)
+            == directory.filename ("direct.log") + suffix);
+    }
+
+    Properties properties = weekly_test_properties (directory.filename ("default-properties.log"));
+    WeeklyTestAppender configured (properties);
+    // Existing constructor calls can still omit the weekday argument.
+    WeeklyTestAppender direct (directory.filename ("default-direct.log"),
+        DailyRollingFileSchedule::WEEKLY, true, 10, false, false);
+    CATCH_CHECK (configured.firstDayOfWeek == FirstDayOfWeek::MONDAY);
+    CATCH_CHECK (direct.firstDayOfWeek == FirstDayOfWeek::MONDAY);
+}
+
+CATCH_TEST_CASE ("Invalid first weekdays warn and fall back to Monday",
+    "[appender][weekly]")
+{
+    WeeklyTestDirectory directory;
+    for (tchar const * value : {LOG4CPLUS_TEXT("SATURDAY"), LOG4CPLUS_TEXT("SUN"),
+        LOG4CPLUS_TEXT("0"), LOG4CPLUS_TEXT("1"), LOG4CPLUS_TEXT(""),
+        LOG4CPLUS_TEXT("unknown")})
+    {
+        CATCH_CAPTURE (value);
+        Properties properties = weekly_test_properties (directory.filename ("invalid.log"));
+        properties.setProperty (LOG4CPLUS_TEXT("FirstDayOfWeek"), value);
+        WeeklyWarningCapture warnings;
+        WeeklyTestAppender appender (properties);
+        CATCH_CHECK (appender.firstDayOfWeek == FirstDayOfWeek::MONDAY);
+        CATCH_CHECK (appender.calculateNextRolloverTime (weekly_test_time (2026, 10, 4))
+            == weekly_test_time (2026, 10, 5));
+        CATCH_CHECK (appender.getFilename (weekly_test_time (2026, 10, 4))
+            == directory.filename ("invalid.log") + LOG4CPLUS_TEXT(".2026-39"));
+        CATCH_CHECK (warnings.output.str ().find (LOG4CPLUS_TEXT("WARN")) != tstring::npos);
+        CATCH_CHECK (warnings.output.str ().find (LOG4CPLUS_TEXT("FirstDayOfWeek")) != tstring::npos);
+    }
+    for (int value : {-1, 2, 6})
+    {
+        CATCH_CAPTURE (value);
+        WeeklyWarningCapture warnings;
+        WeeklyTestAppender appender (directory.filename ("invalid-enum.log"),
+            DailyRollingFileSchedule::WEEKLY, true, 10, false, false,
+            tstring (), static_cast<FirstDayOfWeek> (value));
+        CATCH_CHECK (appender.firstDayOfWeek == FirstDayOfWeek::MONDAY);
+        CATCH_CHECK (appender.calculateNextRolloverTime (weekly_test_time (2026, 10, 4))
+            == weekly_test_time (2026, 10, 5));
+        CATCH_CHECK (warnings.output.str ().find (LOG4CPLUS_TEXT("WARN")) != tstring::npos);
+    }
+}
+
+CATCH_TEST_CASE ("Weekly archive names follow the configured week numbering",
+    "[appender][weekly]")
+{
+    WeeklyTestDirectory directory;
+    for (FirstDayOfWeek first : {FirstDayOfWeek::SUNDAY, FirstDayOfWeek::MONDAY})
+    {
+        CATCH_CAPTURE (first);
+        auto const filename = directory.filename ("weekly.log");
+        WeeklyTestAppender appender (filename, DailyRollingFileSchedule::WEEKLY,
+            true, 10, false, false, tstring (), first);
+        int const start_day = first == FirstDayOfWeek::SUNDAY ? 4 : 5;
+        for (int offset = 0; offset < 7; ++offset)
+            CATCH_CHECK (appender.getFilename (weekly_test_time (2026, 10,
+                start_day + offset, 12)) == filename + LOG4CPLUS_TEXT(".2026-40"));
+        Time const boundary = weekly_test_time (2026, 10, start_day + 7);
+        CATCH_CHECK (appender.getFilename (boundary - std::chrono::microseconds {1})
+            == filename + LOG4CPLUS_TEXT(".2026-40"));
+        CATCH_CHECK (appender.getFilename (boundary)
+            == filename + LOG4CPLUS_TEXT(".2026-41"));
+        CATCH_CHECK (appender.getFilename (weekly_test_time (2026, 1, 1))
+            == filename + LOG4CPLUS_TEXT(".2026-00"));
+        CATCH_CHECK (appender.getFilename (weekly_test_time (2026, 1, 4))
+            == filename + (first == FirstDayOfWeek::SUNDAY
+                ? LOG4CPLUS_TEXT(".2026-01") : LOG4CPLUS_TEXT(".2026-00")));
+        CATCH_CHECK (appender.getFilename (weekly_test_time (2026, 1, 5))
+            == filename + LOG4CPLUS_TEXT(".2026-01"));
+
+        Properties properties = weekly_test_properties (directory.filename ("custom.log"));
+        properties.setProperty (LOG4CPLUS_TEXT("FirstDayOfWeek"),
+            first == FirstDayOfWeek::SUNDAY ? LOG4CPLUS_TEXT("SUNDAY") : LOG4CPLUS_TEXT("MONDAY"));
+        properties.setProperty (LOG4CPLUS_TEXT("DatePattern"), LOG4CPLUS_TEXT("%Y-%U-%W-%%W"));
+        WeeklyTestAppender custom (properties);
+        CATCH_CHECK (custom.getFilename (weekly_test_time (2026, 10, 4))
+            == directory.filename ("custom.log") + LOG4CPLUS_TEXT(".2026-40-39-%W"));
+    }
+}
+
+CATCH_TEST_CASE ("First weekday does not affect other rollover schedules",
+    "[appender][weekly]")
+{
+    WeeklyTestDirectory directory;
+    Time const input = weekly_test_time (2026, 10, 4, 10, 34, 56);
+    for (auto schedule : {DailyRollingFileSchedule::MONTHLY,
+        DailyRollingFileSchedule::DAILY, DailyRollingFileSchedule::TWICE_DAILY,
+        DailyRollingFileSchedule::HOURLY, DailyRollingFileSchedule::MINUTELY})
+    {
+        CATCH_CAPTURE (schedule);
+        WeeklyTestAppender sunday (directory.filename ("other.log"), schedule,
+            true, 10, false, false, tstring (), FirstDayOfWeek::SUNDAY);
+        WeeklyTestAppender monday (directory.filename ("other.log"), schedule,
+            true, 10, false, false, tstring (), FirstDayOfWeek::MONDAY);
+        CATCH_CHECK (sunday.calculateNextRolloverTime (input)
+            == monday.calculateNextRolloverTime (input));
+        CATCH_CHECK (sunday.getFilename (input) == monday.getFilename (input));
+    }
+}
+
+CATCH_TEST_CASE ("Time-based weekly rollover retains Monday",
+    "[appender][weekly]")
+{
+    class TestAppender : public TimeBasedRollingFileAppender
+    {
+    public:
+        using TimeBasedRollingFileAppender::TimeBasedRollingFileAppender;
+        using TimeBasedRollingFileAppender::calculateNextRolloverTime;
+    };
+    WeeklyTestDirectory directory;
+    TestAppender appender (directory.filename ("current.log"),
+        directory.filename ("archive-%d{yyyy-ww}.log"), 10, false, true, false, false);
+    CATCH_CHECK (appender.calculateNextRolloverTime (weekly_test_time (2026, 10, 4))
+        == weekly_test_time (2026, 10, 5));
+    CATCH_CHECK (appender.calculateNextRolloverTime (weekly_test_time (2026, 10, 5))
+        == weekly_test_time (2026, 10, 12));
+}
+
+CATCH_TEST_CASE ("Weekly appenders rotate on the first event at the deadline",
+    "[appender][weekly]")
+{
+    class TestEvent : public spi::InternalLoggingEvent
+    {
+    public:
+        TestEvent (tchar const * message, Time time)
+            : InternalLoggingEvent (LOG4CPLUS_TEXT("weekly"), INFO_LOG_LEVEL,
+                message, nullptr, 0)
+        {
+            timestamp = time;
+        }
+    };
+    for (FirstDayOfWeek first : {FirstDayOfWeek::SUNDAY, FirstDayOfWeek::MONDAY})
+    {
+        CATCH_CAPTURE (first);
+        WeeklyTestDirectory directory;
+        auto const filename = directory.filename ("current.log");
+        WeeklyTestAppender appender (filename, DailyRollingFileSchedule::WEEKLY,
+            true, 10, false, false, tstring (), first);
+        Time const boundary = weekly_test_time (2024, 1,
+            first == FirstDayOfWeek::SUNDAY ? 7 : 8);
+        Time const before = boundary - std::chrono::microseconds {1};
+        appender.nextRolloverTime = boundary;
+        appender.scheduledFilename = appender.getFilename (before);
+        std::filesystem::path const archive (appender.scheduledFilename);
+        appender.doAppend (TestEvent (LOG4CPLUS_TEXT("before"), before));
+        CATCH_CHECK_FALSE (std::filesystem::exists (archive));
+        appender.doAppend (TestEvent (LOG4CPLUS_TEXT("at"), boundary));
+        CATCH_CHECK (std::filesystem::exists (archive));
+        CATCH_CHECK (appender.nextRolloverTime > helpers::now ());
+        std::tm next;
+        helpers::localTime (&next, appender.nextRolloverTime);
+        CATCH_CHECK (next.tm_wday == static_cast<int> (first));
+        appender.doAppend (TestEvent (LOG4CPLUS_TEXT("after"),
+            boundary + std::chrono::microseconds {1}));
+        appender.close ();
+
+        auto const contents = [] (std::filesystem::path const & path)
+        {
+            std::ifstream file (path);
+            CATCH_REQUIRE (file.good ());
+            std::ostringstream output;
+            output << file.rdbuf ();
+            return output.str ();
+        };
+        CATCH_CHECK (contents (archive) == "INFO - before\n");
+        CATCH_CHECK (contents (std::filesystem::path (filename))
+            == "INFO - at\nINFO - after\n");
+        CATCH_CHECK_FALSE (std::filesystem::exists (
+            std::filesystem::path (archive.string () + ".1")));
+    }
+}
+
 CATCH_TEST_CASE ("TimeBasedRollingFileAppender", "[appender]")
 {
 
