@@ -291,7 +291,7 @@ Appender::subtract_in_flight ()
 
 
 // from global-init.cxx
-void enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
+bool enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
     spi::InternalLoggingEvent const & event);
 
 
@@ -309,7 +309,8 @@ Appender::doAppend(const log4cplus::spi::InternalLoggingEvent& event)
 
         try
         {
-            enqueueAsyncDoAppend (SharedAppenderPtr (this), event);
+            if (! enqueueAsyncDoAppend (SharedAppenderPtr (this), event))
+                subtract_in_flight ();
         }
         catch (...)
         {

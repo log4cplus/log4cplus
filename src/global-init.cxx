@@ -40,6 +40,9 @@
 #include <log4cplus/thread/syncprims-pub-impl.h>
 #include <log4cplus/helpers/loglog.h>
 #include <log4cplus/spi/factory.h>
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#include <log4cplus/spi/loggingevent.h>
+#endif
 #include <log4cplus/hierarchy.h>
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
 #include "ThreadPool.h"
@@ -367,7 +370,7 @@ getMDC ()
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED) \
     && defined (LOG4CPLUS_ENABLE_THREAD_POOL)
-void
+bool
 enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
     spi::InternalLoggingEvent const & event)
 {
@@ -403,9 +406,11 @@ enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
                         << LOG4CPLUS_TEXT (" seconds");
                     loglog.warn (oss.str ());
                 }
+                return false;
             }
         }
     }
+    return true;
 }
 
 #endif
@@ -825,6 +830,157 @@ unit_tests_main (int argc, char * argv[])
 {
     return Catch::Session ().run (argc, argv);
 }
+
+#if ! defined (LOG4CPLUS_SINGLE_THREADED) \
+    && defined (LOG4CPLUS_ENABLE_THREAD_POOL)
+namespace
+{
+
+struct AsyncQueueTestContext
+{
+    DefaultContext * const context = get_dc ();
+    progschj::ThreadPool pool {1};
+    progschj::ThreadPool * const previous_pool;
+    bool const previous_block_on_full;
+
+    explicit AsyncQueueTestContext (bool block_on_full)
+        : previous_pool (context->get_thread_pool (true))
+        , previous_block_on_full (context->block_on_full.exchange (block_on_full))
+    {
+        previous_pool->wait_until_empty ();
+        previous_pool->wait_until_nothing_in_flight ();
+        pool.set_queue_size_limit (1);
+        context->thread_pool.thread_pool.store (&pool);
+    }
+
+    ~AsyncQueueTestContext ()
+    {
+        context->thread_pool.thread_pool.store (previous_pool);
+        context->block_on_full.store (previous_block_on_full);
+    }
+};
+
+struct AsyncQueueTestRelease
+{
+    std::promise<void> promise;
+    bool released = false;
+
+    void release ()
+    {
+        if (! released)
+        {
+            promise.set_value ();
+            released = true;
+        }
+    }
+
+    ~AsyncQueueTestRelease ()
+    {
+        release ();
+    }
+};
+
+class AsyncQueueTestAppender : public Appender
+{
+public:
+    explicit AsyncQueueTestAppender (std::shared_future<void> release_)
+        : release (std::move (release_))
+    {
+        async = true;
+    }
+
+    ~AsyncQueueTestAppender ()
+    {
+        // Let an accounting failure report an assertion instead of hanging
+        // the test runner during destruction.
+        if (pending () == 0)
+            destructorImpl ();
+        else
+            close ();
+    }
+
+    void close () override { closed = true; }
+    std::future<void> startedFuture () { return started.get_future (); }
+    std::size_t pending () const { return in_flight.load (); }
+    std::size_t messages () const { return appended.load (); }
+
+protected:
+    void append (spi::InternalLoggingEvent const &) override
+    {
+        if (appended.fetch_add (1) == 0)
+        {
+            started.set_value ();
+            release.wait ();
+        }
+    }
+
+private:
+    std::promise<void> started;
+    std::shared_future<void> release;
+    std::atomic<std::size_t> appended {0};
+};
+
+} // namespace
+
+CATCH_TEST_CASE ("Dropped async events finish their appender accounting",
+    "[async][queue]")
+{
+    int const dropped = GENERATE (1, 8);
+    AsyncQueueTestContext context (false);
+    AsyncQueueTestRelease release;
+    auto * appender = new AsyncQueueTestAppender (
+        release.promise.get_future ().share ());
+    SharedAppenderPtr appender_ptr (appender);
+    auto started_future = appender->startedFuture ();
+    spi::InternalLoggingEvent event (LOG4CPLUS_TEXT ("async-test"),
+        INFO_LOG_LEVEL, LOG4CPLUS_TEXT ("message"), __FILE__, __LINE__);
+
+    appender->doAppend (event);
+    CATCH_REQUIRE (started_future.wait_for (std::chrono::seconds (10))
+        == std::future_status::ready);
+    appender->doAppend (event);
+    CATCH_REQUIRE (appender->pending () == 2);
+
+    for (int i = 0; i != dropped; ++i)
+        CATCH_CHECK_NOTHROW (appender->doAppend (event));
+    CATCH_CHECK (appender->pending () == 2);
+
+    release.release ();
+    context.pool.wait_until_empty ();
+    context.pool.wait_until_nothing_in_flight ();
+    CATCH_CHECK (appender->messages () == 2);
+    CATCH_REQUIRE (appender->pending () == 0);
+    appender->waitToFinishAsyncLogging ();
+
+    appender->doAppend (event);
+    context.pool.wait_until_empty ();
+    context.pool.wait_until_nothing_in_flight ();
+    CATCH_CHECK (appender->messages () == 3);
+    CATCH_REQUIRE (appender->pending () == 0);
+    appender->waitToFinishAsyncLogging ();
+}
+
+CATCH_TEST_CASE ("Blocking async events finish their appender accounting",
+    "[async][queue]")
+{
+    AsyncQueueTestContext context (true);
+    AsyncQueueTestRelease release;
+    auto * appender = new AsyncQueueTestAppender (
+        release.promise.get_future ().share ());
+    SharedAppenderPtr appender_ptr (appender);
+    spi::InternalLoggingEvent event (LOG4CPLUS_TEXT ("async-test"),
+        INFO_LOG_LEVEL, LOG4CPLUS_TEXT ("message"), __FILE__, __LINE__);
+    release.release ();
+
+    for (int i = 0; i != 12; ++i)
+        CATCH_CHECK_NOTHROW (appender->doAppend (event));
+    context.pool.wait_until_empty ();
+    context.pool.wait_until_nothing_in_flight ();
+    CATCH_CHECK (appender->messages () == 12);
+    CATCH_REQUIRE (appender->pending () == 0);
+    appender->waitToFinishAsyncLogging ();
+}
+#endif
 
 #endif // defined (LOG4CPLUS_WITH_UNIT_TESTS)
 
