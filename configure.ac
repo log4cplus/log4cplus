@@ -700,6 +700,7 @@ AH_BOTTOM([#endif // LOG4CPLUS_CONFIG_H])
 
 AC_CONFIG_HEADERS([include/log4cplus/config.h])
 AC_CONFIG_HEADERS([include/log4cplus/config/defines.hxx])
+AC_SUBST([LOG4CPLUS_PC_LIBNAME], [log4cplus])
 AC_CONFIG_FILES([Makefile
            include/Makefile
            tests/atlocal

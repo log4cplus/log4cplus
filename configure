@@ -643,6 +643,7 @@ LOG4CPLUS_LTO_LDFLAGS
 LOG4CPLUS_PROFILING_CXXFLAGS
 LOG4CPLUS_PROFILING_LDFLAGS
 AUTOM4TE
+LOG4CPLUS_PC_LIBNAME
 LT_SYS_LIBRARY_PATH
 OTOOL64
 OTOOL
@@ -27846,6 +27847,8 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 ac_config_headers="$ac_config_headers include/log4cplus/config.h"
 
 ac_config_headers="$ac_config_headers include/log4cplus/config/defines.hxx"
+
+LOG4CPLUS_PC_LIBNAME=log4cplus
 
 ac_config_files="$ac_config_files Makefile include/Makefile tests/atlocal log4cplus.pc"
 

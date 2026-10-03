@@ -231,6 +231,20 @@ set(exec_prefix "\${prefix}")
 set(libdir "\${prefix}/${CMAKE_INSTALL_LIBDIR}")
 set(includedir "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
 set(VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}")
-configure_file(log4cplus.pc.in ${CMAKE_BINARY_DIR}/lib/pkgconfig/log4cplus.pc @ONLY)
+set(LOG4CPLUS_PC_LIBNAME "$<TARGET_LINKER_FILE_BASE_NAME:${log4cplus}>")
+set(log4cplus_pc "${CMAKE_CURRENT_BINARY_DIR}/lib/pkgconfig/$<CONFIG>/log4cplus.pc")
+configure_file(log4cplus.pc.in
+  "${CMAKE_CURRENT_BINARY_DIR}/lib/pkgconfig/log4cplus.pc.in" @ONLY)
+file(GENERATE OUTPUT "${log4cplus_pc}"
+  INPUT "${CMAKE_CURRENT_BINARY_DIR}/lib/pkgconfig/log4cplus.pc.in")
 
-install(FILES ${CMAKE_BINARY_DIR}/lib/pkgconfig/log4cplus.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/)
+# Per-configuration files can have matching timestamps. Compare contents
+# before installation so switching configurations updates the library name.
+if (IS_ABSOLUTE "${CMAKE_INSTALL_LIBDIR}")
+  set(log4cplus_pc_install_dir "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+else ()
+  set(log4cplus_pc_install_dir "\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+endif ()
+install(CODE "configure_file(\"${log4cplus_pc}\"
+  \"\$ENV{DESTDIR}${log4cplus_pc_install_dir}/log4cplus.pc\" COPYONLY)")
+install(FILES "${log4cplus_pc}" DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
