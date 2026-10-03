@@ -510,7 +510,7 @@ helpers::Socket
 SysLogAppender::ctcConnect ()
 {
     return helpers::Socket (host, static_cast<unsigned short>(port),
-        remoteSyslogType == RSTUdp);
+        remoteSyslogType == RSTUdp, ipv6);
 }
 
 

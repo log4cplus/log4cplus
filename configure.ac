@@ -158,14 +158,6 @@ LOG4CPLUS_ARG_ENABLE([unit-tests],
   [Enable unit tests [default=no]],
   [enable_unit_tests=no])
 
-AS_IF([test "x$enable_unit_tests" = "xyes"],
-  [AS_CASE(["$target_os"],
-    [mingw*], [win32_fstream_tests=yes],
-    [win32_fstream_tests=no])],
-  [win32_fstream_tests=no])
-AM_CONDITIONAL([WIN32_FSTREAM_TESTS],
-  [test "x$win32_fstream_tests" = "xyes"])
-
 LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_WITH_UNIT_TESTS],
   [Defined to enable unit tests.],
   [test "x$enable_unit_tests" = "xyes"], [1])
@@ -708,6 +700,7 @@ AH_BOTTOM([#endif // LOG4CPLUS_CONFIG_H])
 
 AC_CONFIG_HEADERS([include/log4cplus/config.h])
 AC_CONFIG_HEADERS([include/log4cplus/config/defines.hxx])
+AC_SUBST([LOG4CPLUS_PC_LIBNAME], [log4cplus])
 AC_CONFIG_FILES([Makefile
            include/Makefile
            tests/atlocal

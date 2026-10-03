@@ -1,6 +1,7 @@
 lib_LTLIBRARIES = liblog4cplus.la
 
 SINGLE_THREADED_SRC = \
+	%D%/androidappender.cxx \
 	%D%/appenderattachableimpl.cxx \
 	%D%/appender.cxx \
 	%D%/asyncappender.cxx \
@@ -64,12 +65,6 @@ common_liblog4cplus_la_cppflags = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
 liblog4cplus_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags)
 
 common_liblog4cplus_la_sources = $(LIB_SRC)
-if ENABLE_TESTS
-if WIN32_FSTREAM_TESTS
-common_liblog4cplus_la_sources += \
-	tests/unit_tests/win32fstream_tests.cxx
-endif
-endif
 liblog4cplus_la_SOURCES = $(common_liblog4cplus_la_sources)
 
 if USE_LOG4CPLUS_EXPORT_SYMBOLS_REGEX

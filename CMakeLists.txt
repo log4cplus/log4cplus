@@ -1,25 +1,20 @@
-# This block needs to stay before the project (log4cplus) line so that
-#  the output files placed into Android's libs directory.
-if (CMAKE_TOOLCHAIN_FILE)
-  get_filename_component(TOOL_CHAIN_FILE_NAME "${CMAKE_TOOLCHAIN_FILE}" NAME_WE)
-  if("${TOOL_CHAIN_FILE_NAME}" MATCHES "android.toolchain")
-    # Android: set output folder to ${CMAKE_BINARY_DIR}
-    set (LIBRARY_OUTPUT_PATH_ROOT ${CMAKE_BINARY_DIR} CACHE PATH
-      "root for library output, set this to change where Android libs are compiled to")
-  endif()
-endif ()
-# Remove when CMake >= 2.8.4 is required
-set (CMAKE_LEGACY_CYGWIN_WIN32 0)
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required (VERSION 3.20)
 
 project (log4cplus)
 
 # Use "-fPIC" / "-fPIE" for all targets by default, including static libs.
 set (CMAKE_POSITION_INDEPENDENT_CODE ON)
-# Enable LTO / IPO by default.
-set (CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE ON)
-set (CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO ON)
-set (CMAKE_INTERPROCEDURAL_OPTIMIZATION_MINSIZEREL ON)
+# Enable LTO / IPO by default. Keep it disabled for iOS static libraries:
+# xcodebuild -create-xcframework cannot determine the architectures of an
+# archive whose members are LLVM bitcode rather than Mach-O object files.
+if (IOS)
+  set (_LOG4CPLUS_IPO_DEFAULT OFF)
+else ()
+  set (_LOG4CPLUS_IPO_DEFAULT ON)
+endif ()
+set (CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE ${_LOG4CPLUS_IPO_DEFAULT})
+set (CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO ${_LOG4CPLUS_IPO_DEFAULT})
+set (CMAKE_INTERPROCEDURAL_OPTIMIZATION_MINSIZEREL ${_LOG4CPLUS_IPO_DEFAULT})
 # Hint to prefer -pthread over -lpthread
 set (THREADS_PREFER_PTHREAD_FLAG ON)
 
@@ -48,8 +43,24 @@ if (APPLE)
   set (log4cplus_macho_compatibility_version 9.0.0)
 endif ()
 
-option(LOG4CPLUS_BUILD_TESTING "Build the test suite." ON)
-option(LOG4CPLUS_BUILD_LOGGINGSERVER "Build the logging server." ON)
+if (IOS)
+  set (LOG4CPLUS_BUILD_TESTING_DEFAULT OFF)
+  set (LOG4CPLUS_BUILD_LOGGINGSERVER_DEFAULT OFF)
+  set (LOG4CPLUS_BUILD_SHARED_LIBS_DEFAULT OFF)
+elseif (ANDROID)
+  set (LOG4CPLUS_BUILD_TESTING_DEFAULT ON)
+  set (LOG4CPLUS_BUILD_LOGGINGSERVER_DEFAULT OFF)
+  set (LOG4CPLUS_BUILD_SHARED_LIBS_DEFAULT ON)
+else ()
+  set (LOG4CPLUS_BUILD_TESTING_DEFAULT ON)
+  set (LOG4CPLUS_BUILD_LOGGINGSERVER_DEFAULT ON)
+  set (LOG4CPLUS_BUILD_SHARED_LIBS_DEFAULT ON)
+endif ()
+
+option(LOG4CPLUS_BUILD_TESTING "Build the test suite."
+  ${LOG4CPLUS_BUILD_TESTING_DEFAULT})
+option(LOG4CPLUS_BUILD_LOGGINGSERVER "Build the logging server."
+  ${LOG4CPLUS_BUILD_LOGGINGSERVER_DEFAULT})
 
 option(LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION "Require explicit initialization (see log4cplus::Initializer)" OFF)
 if (LOG4CPLUS_REQUIRE_EXPLICIT_INITIALIZATION)
@@ -70,7 +81,8 @@ if(LOG4CPLUS_SINGLE_THREADED AND LOG4CPLUS_BUILD_LOGGINGSERVER)
   message (FATAL_ERROR "The logging server requires the multi-thread capability.")
 endif(LOG4CPLUS_SINGLE_THREADED AND LOG4CPLUS_BUILD_LOGGINGSERVER)
 
-set(BUILD_SHARED_LIBS TRUE CACHE BOOL "If TRUE, log4cplus is built as a shared library, otherwise as a static library")
+set(BUILD_SHARED_LIBS ${LOG4CPLUS_BUILD_SHARED_LIBS_DEFAULT} CACHE BOOL
+  "If TRUE, log4cplus is built as a shared library, otherwise as a static library")
 
 if (WIN32)
   set (UNICODE_DEFAULT ON)
@@ -219,6 +231,20 @@ set(exec_prefix "\${prefix}")
 set(libdir "\${prefix}/${CMAKE_INSTALL_LIBDIR}")
 set(includedir "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
 set(VERSION "${log4cplus_version_major}.${log4cplus_version_minor}.${log4cplus_version_patch}")
-configure_file(log4cplus.pc.in ${CMAKE_BINARY_DIR}/lib/pkgconfig/log4cplus.pc @ONLY)
+set(LOG4CPLUS_PC_LIBNAME "$<TARGET_LINKER_FILE_BASE_NAME:${log4cplus}>")
+set(log4cplus_pc "${CMAKE_CURRENT_BINARY_DIR}/lib/pkgconfig/$<CONFIG>/log4cplus.pc")
+configure_file(log4cplus.pc.in
+  "${CMAKE_CURRENT_BINARY_DIR}/lib/pkgconfig/log4cplus.pc.in" @ONLY)
+file(GENERATE OUTPUT "${log4cplus_pc}"
+  INPUT "${CMAKE_CURRENT_BINARY_DIR}/lib/pkgconfig/log4cplus.pc.in")
 
-install(FILES ${CMAKE_BINARY_DIR}/lib/pkgconfig/log4cplus.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/)
+# Per-configuration files can have matching timestamps. Compare contents
+# before installation so switching configurations updates the library name.
+if (IS_ABSOLUTE "${CMAKE_INSTALL_LIBDIR}")
+  set(log4cplus_pc_install_dir "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+else ()
+  set(log4cplus_pc_install_dir "\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+endif ()
+install(CODE "configure_file(\"${log4cplus_pc}\"
+  \"\$ENV{DESTDIR}${log4cplus_pc_install_dir}/log4cplus.pc\" COPYONLY)")
+install(FILES "${log4cplus_pc}" DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
