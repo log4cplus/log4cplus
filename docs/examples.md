@@ -105,6 +105,53 @@ Internally, this macro uses a C++ string stream
 This allows you to use all of the standard C++ stream manipulators.
 
 
+## Layout line separators
+
+`PatternLayout`, `SimpleLayout`, and `TTCCLayout` accept an `EOL` property.
+The case-insensitive values are `CR`, `LF`, `CRLF`, `NEL`, `LS`, and `PS`;
+the default is `LF`. Empty or invalid values produce a warning and use LF.
+The setting controls `%n` in `PatternLayout` and the final separator in the
+other two layouts. Embedded newlines in messages and literal pattern text
+remain unchanged.
+
+For example, this configuration preserves LF characters inside multiline
+messages and ends each record with CRLF:
+
+```properties
+log4cplus.appender.FILE=log4cplus::FileAppender
+log4cplus.appender.FILE.File=application.log
+log4cplus.appender.FILE.TextMode=Binary
+log4cplus.appender.FILE.layout=log4cplus::PatternLayout
+log4cplus.appender.FILE.layout.ConversionPattern=%m%n
+log4cplus.appender.FILE.layout.EOL=CRLF
+```
+
+`EOL` does not change the appender's `TextMode`. Windows text mode expands
+every LF to CRLF, including the LF within an explicitly selected CRLF.
+Use `TextMode=Binary` for exact LF or CRLF file output on Windows. Existing
+configurations retain their previous behavior: layouts emit LF and the
+destination stream performs any text-mode translation.
+
+NEL, LS, and PS represent U+0085, U+2028, and U+2029 respectively. UNICODE
+builds emit wide characters; narrow builds emit UTF-8 bytes. Narrow output
+must therefore accept UTF-8. Windows narrow file appenders require a UTF-8
+stream locale, selected through `Locale` or `FileAppenderBase::imbue()`.
+Wide Unix file appenders require a locale capable of encoding the selected
+character, such as a UTF-8 locale.
+
+The same setting is available programmatically:
+
+```cpp
+auto layout = std::make_unique<log4cplus::PatternLayout>(LOG4CPLUS_TEXT("%m%n"));
+layout->setEOL(log4cplus::EndOfLine::CRLF);
+appender->setLayout(std::move(layout));
+```
+
+`Layout::getEOL()` returns the selected value. Configure the setting before
+concurrent logging; setters do not provide synchronization. Custom layouts
+can append the protected `eolString` member. Changing a `PatternLayout`'s
+setting updates subsequent `%n` conversions without reparsing its pattern.
+
 ## (De-)Initialization
 
 ### Initialization

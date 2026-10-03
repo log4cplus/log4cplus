@@ -31,6 +31,11 @@
 #include <cstdlib>
 #include <memory>
 
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+#include <catch_amalgamated.hpp>
+#include <sstream>
+#endif
+
 
 namespace
 {
@@ -134,6 +139,26 @@ private:
 };
 
 
+class NewlinePatternConverter : public PatternConverter
+{
+public:
+    NewlinePatternConverter(const FormattingInfo& info,
+        tstring_view const & separator_)
+        : PatternConverter(info)
+        , separator(separator_)
+    { }
+
+    void convert(tstring & result, const spi::InternalLoggingEvent&) override
+    {
+        result.assign(separator);
+    }
+
+private:
+    // Refer to the layout member so setEOL() takes effect without reparsing.
+    tstring_view const & separator;
+};
+
+
 /**
  * This PatternConverter is used to format most of the "simple" fields
  * found in the InternalLoggingEvent object.
@@ -148,7 +173,6 @@ public:
                 LOGLEVEL_CONVERTER,
                 NDC_CONVERTER,
                 MESSAGE_CONVERTER,
-                NEWLINE_CONVERTER,
                 BASENAME_CONVERTER,
                 FILE_CONVERTER,
                 LINE_CONVERTER,
@@ -286,7 +310,8 @@ private:
 class PatternParser
 {
 public:
-    PatternParser(const tstring& pattern, unsigned ndcMaxDepth);
+    PatternParser(const tstring& pattern, unsigned ndcMaxDepth,
+        tstring_view const & separator);
     PatternConverterList parse();
 
 private:
@@ -310,6 +335,7 @@ private:
     tstring::size_type pos;
     tstring currentLiteral;
     unsigned ndcMaxDepth;
+    tstring_view const & separator;
 };
 
 
@@ -441,10 +467,6 @@ BasicPatternConverter::convert(tstring & result,
 
     case MESSAGE_CONVERTER:
         result = event.getMessage();
-        return;
-
-    case NEWLINE_CONVERTER:
-        result = LOG4CPLUS_TEXT("\n");
         return;
 
     case FILE_CONVERTER:
@@ -695,11 +717,13 @@ log4cplus::pattern::NDCPatternConverter::convert (tstring & result,
 ////////////////////////////////////////////////
 
 PatternParser::PatternParser(
-    const tstring& pattern_, unsigned ndcMaxDepth_)
+    const tstring& pattern_, unsigned ndcMaxDepth_,
+    tstring_view const & separator_)
     : pattern(pattern_)
     , state(LITERAL_STATE)
     , pos(0)
     , ndcMaxDepth (ndcMaxDepth_)
+    , separator(separator_)
 {
 }
 
@@ -961,9 +985,7 @@ PatternParser::finalizeConverter(tchar c)
             break;
 
         case LOG4CPLUS_TEXT('n'):
-            pc = new BasicPatternConverter
-                          (formattingInfo,
-                           BasicPatternConverter::NEWLINE_CONVERTER);
+            pc = new NewlinePatternConverter(formattingInfo, separator);
             //getLogLog().debug("MESSAGE converter.");
             //formattingInfo.dump(getLogLog());
             break;
@@ -1043,6 +1065,7 @@ PatternLayout::PatternLayout(const tstring& pattern_)
 
 
 PatternLayout::PatternLayout(const helpers::Properties& properties)
+    : Layout(properties)
 {
     unsigned ndcMaxDepth = 0;
     properties.getUInt (ndcMaxDepth, LOG4CPLUS_TEXT ("NDCMaxDepth"));
@@ -1076,7 +1099,7 @@ void
 PatternLayout::init(const tstring& pattern_, unsigned ndcMaxDepth)
 {
     pattern = pattern_;
-    parsedPattern = pattern::PatternParser(pattern, ndcMaxDepth).parse();
+    parsedPattern = pattern::PatternParser(pattern, ndcMaxDepth, eolString).parse();
 
     // Let's validate that our parser didn't give us any NULLs.  If it did,
     // we will convert them to a valid PatternConverter that does nothing so
@@ -1116,6 +1139,33 @@ PatternLayout::formatAndAppend(tostream& output,
         pc->formatAndAppend(output, event);
     }
 }
+
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+CATCH_TEST_CASE("PatternLayout EOL affects only newline conversions", "[layout][pattern][eol]")
+{
+    spi::InternalLoggingEvent event(LOG4CPLUS_TEXT("logger"), INFO_LOG_LEVEL,
+        LOG4CPLUS_TEXT("a\nb\r\nc\rd"), nullptr, 0);
+    tstring pattern = LOG4CPLUS_TEXT("%n|%n|%%n|%m");
+    tstring expected = LOG4CPLUS_TEXT("\r\n|\r\n|%n|") + event.getMessage();
+    CATCH_SECTION("multiple conversions and an escaped percent") {}
+    CATCH_SECTION("literal newlines without a newline conversion")
+    {
+        pattern = LOG4CPLUS_TEXT("literal\n%m\r\n");
+        expected = LOG4CPLUS_TEXT("literal\n") + event.getMessage() + LOG4CPLUS_TEXT("\r\n");
+    }
+    CATCH_SECTION("padding and truncation")
+    {
+        pattern = LOG4CPLUS_TEXT("%4n|%-4n|%.1n|%.-1n");
+        expected = LOG4CPLUS_TEXT("  \r\n|\r\n  |\n|\r");
+    }
+    PatternLayout layout(pattern);
+    layout.setEOL(EndOfLine::CRLF);
+    tostringstream output;
+    layout.formatAndAppend(output, event);
+    CATCH_CHECK(output.str() == expected);
+}
+#endif
 
 
 } // namespace log4cplus
