@@ -111,7 +111,9 @@ namespace log4cplus
      * <dd>Set this property to <tt>Binary</tt> if the underlying stream should
      * not translate EOLs to OS specific character sequence. The default value
      * is <tt>Text</tt> and the underlying stream will be opened in text
-     * mode.</dd>
+     * mode. This property is independent of the layout's <tt>EOL</tt>
+     * setting. On Windows, use binary mode for an exact LF or CRLF generated
+     * by the layout; text mode expands every LF, even within CRLF.</dd>
      * </dl>
      */
     class LOG4CPLUS_EXPORT FileAppenderBase : public Appender {

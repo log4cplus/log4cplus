@@ -47,6 +47,9 @@
 
 #if defined (LOG4CPLUS_WITH_UNIT_TESTS)
 #include <catch_amalgamated.hpp>
+#include <fstream>
+#include <iterator>
+#include <optional>
 #endif
 
 
@@ -1894,6 +1897,141 @@ CATCH_TEST_CASE ("Weekly appenders rotate on the first event at the deadline",
             std::filesystem::path (archive.string () + ".1")));
     }
 }
+
+
+namespace
+{
+
+void
+check_file_layout_eol(bool unicode_separators)
+{
+    // Some standard libraries only provide the C locale. Require UTF-8
+    // conversion only where the stream's character type makes it necessary.
+    std::optional<std::locale> utf8_locale;
+#if (defined (UNICODE) && !defined (_WIN32)) \
+    || (!defined (UNICODE) && defined (_WIN32))
+    if (unicode_separators)
+    {
+        for (auto name : {".UTF-8", "C.UTF-8", "en_US.UTF-8"})
+        {
+            try
+            {
+                utf8_locale.emplace(name);
+                break;
+            }
+            catch (std::runtime_error const &) { }
+        }
+        if (! utf8_locale)
+            CATCH_SKIP("No UTF-8 stream locale available for Unicode EOL file output");
+    }
+#endif
+
+    bool const binary = GENERATE(false, true);
+    int const kind = GENERATE(0, 1, 2);
+    bool const daily = GENERATE(false, true);
+    CATCH_CAPTURE(binary, kind, daily, unicode_separators);
+
+    struct TestDirectory
+    {
+        std::filesystem::path path = std::filesystem::temp_directory_path()
+            / ("log4cplus-eol-" + std::to_string(
+                std::chrono::steady_clock::now().time_since_epoch().count()));
+        TestDirectory() { std::filesystem::create_directory(path); }
+        ~TestDirectory()
+        {
+            std::error_code error;
+            std::filesystem::remove_all(path, error);
+        }
+    } directory;
+    auto const path = directory.path / "output.log";
+    Properties properties;
+    properties.setProperty(LOG4CPLUS_TEXT("File"), LOG4CPLUS_STRING_TO_TSTRING(path.string()));
+    properties.setProperty(LOG4CPLUS_TEXT("Append"), LOG4CPLUS_TEXT("false"));
+    properties.setProperty(LOG4CPLUS_TEXT("Schedule"), LOG4CPLUS_TEXT("DAILY"));
+    properties.setProperty(LOG4CPLUS_TEXT("RollOnClose"), LOG4CPLUS_TEXT("false"));
+    if (binary)
+        properties.setProperty(LOG4CPLUS_TEXT("TextMode"), LOG4CPLUS_TEXT("Binary"));
+    tchar const * const layouts[] = {
+        LOG4CPLUS_TEXT("log4cplus::SimpleLayout"),
+        LOG4CPLUS_TEXT("log4cplus::TTCCLayout"),
+        LOG4CPLUS_TEXT("log4cplus::PatternLayout"),
+    };
+    properties.setProperty(LOG4CPLUS_TEXT("layout"), layouts[kind]);
+    properties.setProperty(LOG4CPLUS_TEXT("layout.ConversionPattern"), LOG4CPLUS_TEXT("%m%n"));
+    properties.setProperty(LOG4CPLUS_TEXT("layout.DateFormat"), LOG4CPLUS_TEXT("time"));
+    properties.setProperty(LOG4CPLUS_TEXT("layout.ThreadPrinting"), LOG4CPLUS_TEXT("false"));
+    properties.setProperty(LOG4CPLUS_TEXT("layout.CategoryPrefixing"), LOG4CPLUS_TEXT("false"));
+    properties.setProperty(LOG4CPLUS_TEXT("layout.ContextPrinting"), LOG4CPLUS_TEXT("false"));
+    spi::InternalLoggingEvent event(LOG4CPLUS_TEXT("logger"), INFO_LOG_LEVEL,
+        LOG4CPLUS_TEXT("a\nb\r\nc\rd"), nullptr, 0);
+
+    struct
+    {
+        tchar const * name;
+        char const * bytes;
+    } const cases[] = {
+        {nullptr, "\n"},
+        {LOG4CPLUS_TEXT("CR"), "\r"},
+        {LOG4CPLUS_TEXT("LF"), "\n"},
+        {LOG4CPLUS_TEXT("CRLF"), "\r\n"},
+        {LOG4CPLUS_TEXT("NEL"), "\xC2\x85"},
+        {LOG4CPLUS_TEXT("LS"), "\xE2\x80\xA8"},
+        {LOG4CPLUS_TEXT("PS"), "\xE2\x80\xA9"},
+    };
+    for (int index = unicode_separators ? 4 : 0;
+        index < (unicode_separators ? 7 : 4); ++index)
+    {
+        auto const & item = cases[index];
+        CATCH_CAPTURE(index);
+        if (item.name)
+            properties.setProperty(LOG4CPLUS_TEXT("layout.EOL"), item.name);
+        std::unique_ptr<FileAppenderBase> appender;
+        if (daily)
+            appender = std::make_unique<DailyRollingFileAppender>(properties);
+        else
+            appender = std::make_unique<FileAppender>(properties);
+        if (utf8_locale)
+            appender->imbue(*utf8_locale);
+        appender->doAppend(event);
+        appender->close();
+
+        std::ifstream file(path, std::ios_base::binary);
+        CATCH_REQUIRE(file.is_open());
+        std::string const actual((std::istreambuf_iterator<char>(file)),
+            std::istreambuf_iterator<char>());
+        std::string expected = kind == 0 ? "INFO - " : kind == 1 ? "time INFO - " : "";
+        expected += "a\nb\r\nc\rd";
+        expected += item.bytes;
+#if defined (_WIN32)
+        if (! binary)
+        {
+            std::string translated;
+            for (char ch : expected)
+            {
+                if (ch == '\n')
+                    translated += '\r';
+                translated += ch;
+            }
+            expected = std::move(translated);
+        }
+#endif
+        CATCH_CHECK(actual == expected);
+    }
+}
+
+
+} // namespace
+
+CATCH_TEST_CASE("File appenders preserve layout EOL and text-mode behavior", "[appender][layout][eol]")
+{
+    check_file_layout_eol(false);
+}
+
+CATCH_TEST_CASE("File appenders encode Unicode layout separators", "[appender][layout][eol][unicode]")
+{
+    check_file_layout_eol(true);
+}
+
 
 CATCH_TEST_CASE ("TimeBasedRollingFileAppender", "[appender]")
 {
