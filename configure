@@ -717,8 +717,6 @@ CXXDEPMODE
 ac_ct_CXX
 CXXFLAGS
 CXX
-WIN32_FSTREAM_TESTS_FALSE
-WIN32_FSTREAM_TESTS_TRUE
 ENABLE_TESTS_FALSE
 ENABLE_TESTS_TRUE
 BUILD_WITH_WCHAR_T_SUPPORT
@@ -6079,27 +6077,6 @@ then :
 else case e in #(
   e) enable_unit_tests=no ;;
 esac
-fi
-
-
-if test "x$enable_unit_tests" = "xyes"
-then :
-  case "$target_os" in #(
-  mingw*) :
-    win32_fstream_tests=yes ;; #(
-  *) :
-    win32_fstream_tests=no ;;
-esac
-else case e in #(
-  e) win32_fstream_tests=no ;;
-esac
-fi
- if test "x$win32_fstream_tests" = "xyes"; then
-  WIN32_FSTREAM_TESTS_TRUE=
-  WIN32_FSTREAM_TESTS_FALSE='#'
-else
-  WIN32_FSTREAM_TESTS_TRUE='#'
-  WIN32_FSTREAM_TESTS_FALSE=
 fi
 
 
@@ -28019,10 +27996,6 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${ENABLE_TESTS_TRUE}" && test -z "${ENABLE_TESTS_FALSE}"; then
   as_fn_error $? "conditional \"ENABLE_TESTS\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${WIN32_FSTREAM_TESTS_TRUE}" && test -z "${WIN32_FSTREAM_TESTS_FALSE}"; then
-  as_fn_error $? "conditional \"WIN32_FSTREAM_TESTS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then
