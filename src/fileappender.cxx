@@ -50,6 +50,12 @@
 #include <fstream>
 #include <iterator>
 #include <optional>
+#include <vector>
+#if defined (_WIN32)
+#include <direct.h>
+#else
+#include <sys/stat.h>
+#endif
 #endif
 
 
@@ -72,6 +78,20 @@ namespace
 {
 
 long const LOG4CPLUS_FILE_NOT_FOUND = ENOENT;
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+thread_local Time const * timeBasedAppenderTestTime = nullptr;
+#endif
+
+Time
+timeBasedAppenderNow ()
+{
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+    if (timeBasedAppenderTestTime)
+        return *timeBasedAppenderTestTime;
+#endif
+    return helpers::now ();
+}
 
 
 static
@@ -326,8 +346,9 @@ FileAppenderBase::append(const spi::InternalLoggingEvent& event)
 {
     if(!out.good()) {
         if(!reopen()) {
-            getErrorHandler()->error(  LOG4CPLUS_TEXT("file is not open: ")
-                                     + filename);
+            getErrorHandler()->error (filename.empty ()
+                ? LOG4CPLUS_TEXT ("file is not open")
+                : LOG4CPLUS_TEXT ("file is not open: ") + filename);
             return;
         }
         // Resets the error handler to make it
@@ -1354,7 +1375,7 @@ TimeBasedRollingFileAppender::init()
 
     FileAppenderBase::init();
 
-    Time now = helpers::now();
+    Time now = timeBasedAppenderNow ();
     nextRolloverTime = calculateNextRolloverTime(now);
 
     if (cleanHistoryOnStart) [[unlikely]]
@@ -1382,11 +1403,8 @@ TimeBasedRollingFileAppender::append(const spi::InternalLoggingEvent& event)
 void
 TimeBasedRollingFileAppender::open(std::ios_base::openmode mode)
 {
-    scheduledFilename = helpers::getFormattedTime(filenamePattern, helpers::now(), false);
-    if (filename.empty())
-        filename = scheduledFilename;
-
-    tstring currentFilename = filename;
+    scheduledFilename = helpers::getFormattedTime(filenamePattern, timeBasedAppenderNow (), false);
+    tstring currentFilename = filename.empty () ? scheduledFilename : filename;
 
     if (createDirs)
         internal::make_dirs (currentFilename);
@@ -1431,7 +1449,7 @@ TimeBasedRollingFileAppender::rollover(bool alreadyLocked)
     // should remain unchanged on a close
     out.clear();
 
-    if (filename != scheduledFilename)
+    if (! filename.empty () && filename != scheduledFilename)
     {
         helpers::LogLog & loglog = helpers::getLogLog();
         long ret;
@@ -1451,10 +1469,10 @@ TimeBasedRollingFileAppender::rollover(bool alreadyLocked)
         loglog_renaming_result (loglog, filename, scheduledFilename, ret);
     }
 
-    Time now = helpers::now();
+    Time now = timeBasedAppenderNow ();
     clean(now);
 
-    open(std::ios::out | std::ios::trunc);
+    open(std::ios::out | (filename.empty () ? std::ios::app : std::ios::trunc));
 
     nextRolloverTime = calculateNextRolloverTime(now);
 }
@@ -2054,6 +2072,355 @@ CATCH_TEST_CASE ("TimeBasedRollingFileAppender", "[appender]")
         CATCH_REQUIRE (schedule == DailyRollingFileSchedule::DAILY);
     }
 
+}
+
+namespace
+{
+
+Time
+timeBasedTestDate (int day)
+{
+    std::tm date {};
+    date.tm_year = 125;
+    date.tm_mon = 10;
+    date.tm_mday = day;
+    date.tm_hour = 12;
+    date.tm_isdst = -1;
+    return helpers::from_time_t (std::mktime (&date));
+}
+
+struct TimeBasedTestClock
+{
+    Time now = timeBasedTestDate (14);
+    Time const * previous = timeBasedAppenderTestTime;
+
+    TimeBasedTestClock ()
+    {
+        timeBasedAppenderTestTime = &now;
+    }
+
+    ~TimeBasedTestClock ()
+    {
+        timeBasedAppenderTestTime = previous;
+    }
+};
+
+struct TimeBasedTestDirectory
+{
+    tstring path;
+    std::vector<tstring> files;
+    std::vector<tstring> directories;
+
+    TimeBasedTestDirectory ()
+    {
+        if ((! internal::get_env_var (path, LOG4CPLUS_TEXT ("TMPDIR"))
+            && ! internal::get_env_var (path, LOG4CPLUS_TEXT ("TEMP"))
+            && ! internal::get_env_var (path, LOG4CPLUS_TEXT ("TMP")))
+            || path.empty ())
+            path = LOG4CPLUS_TEXT (".");
+        path += LOG4CPLUS_TEXT ("/log4cplus-rollover-")
+            + LOG4CPLUS_STRING_TO_TSTRING (std::to_string (
+                internal::get_process_id ()))
+            + LOG4CPLUS_TEXT ("-")
+            + LOG4CPLUS_STRING_TO_TSTRING (std::to_string (
+                std::chrono::steady_clock::now ().time_since_epoch ().count ()));
+#if defined (_WIN32) && defined (UNICODE)
+        int result = _wmkdir (path.c_str ());
+#elif defined (_WIN32)
+        int result = _mkdir (path.c_str ());
+#else
+        int result = mkdir (LOG4CPLUS_TSTRING_TO_STRING (path).c_str (), 0700);
+#endif
+        CATCH_REQUIRE (result == 0);
+        directories.push_back (path);
+    }
+
+    ~TimeBasedTestDirectory ()
+    {
+        for (auto const & name : files)
+            file_remove (name);
+        for (auto i = directories.rbegin (); i != directories.rend (); ++i)
+        {
+#if defined (_WIN32) && defined (UNICODE)
+            _wrmdir (i->c_str ());
+#elif defined (_WIN32)
+            _rmdir (i->c_str ());
+#else
+            rmdir (LOG4CPLUS_TSTRING_TO_STRING ((*i)).c_str ());
+#endif
+        }
+    }
+
+    tstring file (tstring const & relative)
+    {
+        tstring result = path + LOG4CPLUS_TEXT ("/") + relative;
+        files.push_back (result);
+        for (size_t i = 0; (i = relative.find (LOG4CPLUS_TEXT ('/'), i))
+            != tstring::npos; ++i)
+        {
+            auto const directory = path + LOG4CPLUS_TEXT ("/")
+                + relative.substr (0, i);
+            if (std::find (directories.begin (), directories.end (), directory)
+                == directories.end ())
+                directories.push_back (directory);
+        }
+        return result;
+    }
+
+    static bool exists (tstring const & name)
+    {
+        helpers::FileInfo info;
+        return helpers::getFileInfo (&info, name) == 0;
+    }
+
+    static std::string read (tstring const & name)
+    {
+        std::ifstream input (LOG4CPLUS_TSTRING_TO_STRING (name).c_str ());
+        CATCH_REQUIRE (input.good ());
+        return std::string (std::istreambuf_iterator<char> (input),
+            std::istreambuf_iterator<char> ());
+    }
+
+    static void write (tstring const & name, char const * contents)
+    {
+        std::ofstream output (LOG4CPLUS_TSTRING_TO_STRING (name).c_str ());
+        output << contents;
+        CATCH_REQUIRE (output.good ());
+    }
+};
+
+class TimeBasedTestAppender : public TimeBasedRollingFileAppender
+{
+public:
+    using TimeBasedRollingFileAppender::TimeBasedRollingFileAppender;
+    using TimeBasedRollingFileAppender::close;
+    using TimeBasedRollingFileAppender::rollover;
+
+    void log (tstring const & message, Time time)
+    {
+        spi::InternalLoggingEvent event (LOG4CPLUS_TEXT ("rollover-test"),
+            INFO_LOG_LEVEL, LOG4CPLUS_TEXT (""), MappedDiagnosticContextMap {},
+            message, LOG4CPLUS_TEXT ("thread"), LOG4CPLUS_TEXT (""), time,
+            LOG4CPLUS_TEXT (""), 0);
+        doAppend (event);
+    }
+
+    void failStream ()
+    {
+        out.setstate (std::ios_base::badbit);
+        reopenDelay = 0;
+    }
+};
+
+Properties
+timeBasedTestProperties (tstring const & pattern)
+{
+    Properties properties;
+    properties.setProperty (LOG4CPLUS_TEXT ("FilenamePattern"), pattern);
+    properties.setProperty (LOG4CPLUS_TEXT ("MaxHistory"), LOG4CPLUS_TEXT ("365"));
+    properties.setProperty (LOG4CPLUS_TEXT ("RollOnClose"), LOG4CPLUS_TEXT ("false"));
+    properties.setProperty (LOG4CPLUS_TEXT ("CreateDirs"), LOG4CPLUS_TEXT ("true"));
+    properties.setProperty (LOG4CPLUS_TEXT ("ReopenDelay"), LOG4CPLUS_TEXT ("0"));
+    return properties;
+}
+
+void
+timeBasedTestLayout (TimeBasedTestAppender & appender)
+{
+    appender.setLayout (std::unique_ptr<Layout> (
+        new PatternLayout (LOG4CPLUS_TEXT ("%m%n"))));
+}
+
+class TimeBasedTestErrorHandler : public ErrorHandler
+{
+public:
+    std::vector<tstring> errors;
+
+    void error (tstring const & message) override
+    {
+        errors.push_back (message);
+    }
+
+    void reset () override {}
+};
+
+} // namespace
+
+CATCH_TEST_CASE ("TimeBasedRollingFileAppender preserves both filename modes",
+    "[appender][timebased-rollover]")
+{
+    TimeBasedTestClock clock;
+    TimeBasedTestDirectory directory;
+    auto const pattern = directory.path
+        + LOG4CPLUS_TEXT ("/archive-%d{yyyyMMdd}.log");
+    auto properties = timeBasedTestProperties (pattern);
+    auto const current = directory.file (LOG4CPLUS_TEXT ("current.log"));
+    auto const first = directory.file (LOG4CPLUS_TEXT ("archive-20251114.log"));
+    auto const second = directory.file (LOG4CPLUS_TEXT ("archive-20251115.log"));
+    auto const third = directory.file (LOG4CPLUS_TEXT ("archive-20251116.log"));
+    bool fixed = false;
+    bool direct = false;
+    CATCH_SECTION ("properties without File") {}
+    CATCH_SECTION ("properties with empty File")
+    {
+        properties.setProperty (LOG4CPLUS_TEXT ("File"), LOG4CPLUS_TEXT (""));
+    }
+    CATCH_SECTION ("properties with fixed File") { fixed = true; }
+    CATCH_SECTION ("direct construction without fixed file") { direct = true; }
+    CATCH_SECTION ("direct construction with fixed file")
+    {
+        direct = true;
+        fixed = true;
+    }
+    if (fixed)
+        properties.setProperty (LOG4CPLUS_TEXT ("File"), current);
+    std::unique_ptr<TimeBasedTestAppender> appender;
+    if (direct)
+        appender.reset (new TimeBasedTestAppender (
+            fixed ? current : tstring (), pattern, 365, false, true, true, false));
+    else
+        appender.reset (new TimeBasedTestAppender (properties));
+    timeBasedTestLayout (*appender);
+
+    appender->log (LOG4CPLUS_TEXT ("one"), clock.now);
+    CATCH_CHECK (directory.read (fixed ? current : first) == "one\n");
+    CATCH_CHECK (directory.exists (first) == ! fixed);
+    clock.now = timeBasedTestDate (15);
+    appender->log (LOG4CPLUS_TEXT ("two"), clock.now);
+    CATCH_CHECK (directory.read (first) == "one\n");
+    CATCH_CHECK (directory.read (fixed ? current : second) == "two\n");
+    CATCH_CHECK (directory.exists (second) == ! fixed);
+    clock.now = timeBasedTestDate (16);
+    appender->log (LOG4CPLUS_TEXT ("three"), clock.now);
+    CATCH_CHECK (directory.read (first) == "one\n");
+    CATCH_CHECK (directory.read (second) == "two\n");
+    CATCH_CHECK (directory.read (fixed ? current : third) == "three\n");
+    CATCH_CHECK (directory.exists (third) == ! fixed);
+}
+
+CATCH_TEST_CASE ("TimeBasedRollingFileAppender preserves existing pattern files",
+    "[appender][timebased-rollover]")
+{
+    TimeBasedTestClock clock;
+    TimeBasedTestDirectory directory;
+    auto properties = timeBasedTestProperties (directory.path
+        + LOG4CPLUS_TEXT ("/archive-%d{yyyyMMdd}.log"));
+    properties.setProperty (LOG4CPLUS_TEXT ("RollOnClose"), LOG4CPLUS_TEXT ("true"));
+    auto const first = directory.file (LOG4CPLUS_TEXT ("archive-20251114.log"));
+    auto const second = directory.file (LOG4CPLUS_TEXT ("archive-20251115.log"));
+    TimeBasedTestAppender appender (properties);
+    timeBasedTestLayout (appender);
+    appender.log (LOG4CPLUS_TEXT ("one"), clock.now);
+
+    CATCH_SECTION ("rollover appends to an existing destination")
+    {
+        directory.write (second, "previous\n");
+        clock.now = timeBasedTestDate (15);
+        appender.log (LOG4CPLUS_TEXT ("two"), clock.now);
+        CATCH_CHECK (directory.read (first) == "one\n");
+        CATCH_CHECK (directory.read (second) == "previous\ntwo\n");
+    }
+    CATCH_SECTION ("repeated rollover within the same period")
+    {
+        appender.rollover ();
+        appender.rollover ();
+        appender.log (LOG4CPLUS_TEXT ("two"), clock.now);
+        CATCH_CHECK (directory.read (first) == "one\ntwo\n");
+    }
+    CATCH_SECTION ("RollOnClose preserves the current period")
+    {
+        appender.close ();
+        CATCH_CHECK (directory.read (first) == "one\n");
+    }
+}
+
+CATCH_TEST_CASE ("TimeBasedRollingFileAppender creates dated output directories",
+    "[appender][timebased-rollover]")
+{
+    TimeBasedTestClock clock;
+    TimeBasedTestDirectory directory;
+    auto const first = directory.file (LOG4CPLUS_TEXT ("20251114/app.log"));
+    auto const second = directory.file (LOG4CPLUS_TEXT ("20251115/app.log"));
+    TimeBasedTestAppender appender (timeBasedTestProperties (directory.path
+        + LOG4CPLUS_TEXT ("/%d{yyyyMMdd}/app.log")));
+    timeBasedTestLayout (appender);
+    appender.log (LOG4CPLUS_TEXT ("one"), clock.now);
+    clock.now = timeBasedTestDate (15);
+    appender.log (LOG4CPLUS_TEXT ("two"), clock.now);
+    CATCH_CHECK (directory.read (first) == "one\n");
+    CATCH_CHECK (directory.read (second) == "two\n");
+}
+
+CATCH_TEST_CASE ("TimeBasedRollingFileAppender reopens without losing messages",
+    "[appender][timebased-rollover]")
+{
+    TimeBasedTestClock clock;
+    TimeBasedTestDirectory directory;
+    auto const first = directory.file (LOG4CPLUS_TEXT ("archive-20251114.log"));
+    auto const second = directory.file (LOG4CPLUS_TEXT ("archive-20251115.log"));
+    auto const current = directory.file (LOG4CPLUS_TEXT ("current.log"));
+    auto properties = timeBasedTestProperties (directory.path
+        + LOG4CPLUS_TEXT ("/archive-%d{yyyyMMdd}.log"));
+    bool fixed = false;
+    CATCH_SECTION ("pattern-only file") {}
+    CATCH_SECTION ("fixed file") { fixed = true; }
+    if (fixed)
+        properties.setProperty (LOG4CPLUS_TEXT ("File"), current);
+    TimeBasedTestAppender appender (properties);
+    timeBasedTestLayout (appender);
+    auto * errors = new TimeBasedTestErrorHandler;
+    appender.setErrorHandler (std::unique_ptr<ErrorHandler> (errors));
+    appender.log (LOG4CPLUS_TEXT ("one"), clock.now);
+    appender.failStream ();
+    appender.log (LOG4CPLUS_TEXT ("two"), clock.now);
+    CATCH_CHECK (directory.read (fixed ? current : first) == "one\ntwo\n");
+    clock.now = timeBasedTestDate (15);
+    appender.log (LOG4CPLUS_TEXT ("three"), clock.now);
+    appender.failStream ();
+    appender.log (LOG4CPLUS_TEXT ("four"), clock.now);
+    CATCH_CHECK (directory.read (first) == "one\ntwo\n");
+    CATCH_CHECK (directory.read (fixed ? current : second) == "three\nfour\n");
+    CATCH_CHECK (errors->errors.empty ());
+}
+
+CATCH_TEST_CASE ("TimeBasedRollingFileAppender reports the selected output path",
+    "[appender][timebased-rollover]")
+{
+    TimeBasedTestClock clock;
+    TimeBasedTestDirectory directory;
+    auto const output = directory.file (
+        LOG4CPLUS_TEXT ("missing/archive-20251114.log"));
+    auto properties = timeBasedTestProperties (directory.path
+        + LOG4CPLUS_TEXT ("/missing/archive-%d{yyyyMMdd}.log"));
+    properties.setProperty (LOG4CPLUS_TEXT ("CreateDirs"), LOG4CPLUS_TEXT ("false"));
+    TimeBasedTestAppender appender (properties);
+    auto * errors = new TimeBasedTestErrorHandler;
+    appender.setErrorHandler (std::unique_ptr<ErrorHandler> (errors));
+    appender.log (LOG4CPLUS_TEXT ("one"), clock.now);
+    CATCH_REQUIRE (errors->errors.size () == 2);
+    CATCH_CHECK (errors->errors[0] == LOG4CPLUS_TEXT ("Unable to open file: ")
+        + output);
+    CATCH_CHECK (errors->errors[1] == LOG4CPLUS_TEXT ("file is not open"));
+}
+
+CATCH_TEST_CASE ("TimeBasedRollingFileAppender initially honors Append",
+    "[appender][timebased-rollover]")
+{
+    TimeBasedTestClock clock;
+    TimeBasedTestDirectory directory;
+    auto const output = directory.file (LOG4CPLUS_TEXT ("archive-20251114.log"));
+    directory.write (output, "previous\n");
+    auto properties = timeBasedTestProperties (directory.path
+        + LOG4CPLUS_TEXT ("/archive-%d{yyyyMMdd}.log"));
+    bool append = true;
+    CATCH_SECTION ("Append=true") {}
+    CATCH_SECTION ("Append=false") { append = false; }
+    properties.setProperty (LOG4CPLUS_TEXT ("Append"),
+        append ? LOG4CPLUS_TEXT ("true") : LOG4CPLUS_TEXT ("false"));
+    TimeBasedTestAppender appender (properties);
+    timeBasedTestLayout (appender);
+    appender.log (LOG4CPLUS_TEXT ("one"), clock.now);
+    CATCH_CHECK (directory.read (output) == (append ? "previous\none\n" : "one\n"));
 }
 
 CATCH_TEST_CASE ("TimeBasedRollingFileAppender cleanup across partial periods",
