@@ -56,8 +56,26 @@ ported to and tested on the following platforms:
   - OpenIndiana Hipster 2016.10 with GCC version 4.9.4
 
 The testing on the above listed platforms has been done at some point
-in time with some version of source. Continuous testing is done only
-on Linux platform offered by [Travis CI][11] service.
+in time with some version of source.
+
+GitHub Actions also performs compile and installation validation for these
+cross-compiled targets:
+
+  - Android API 21 or later with NDK Clang for `armeabi-v7a`, `arm64-v8a`,
+    `x86` and `x86_64`. The Android job compiles and links the test suite,
+    validates production installations and links external consumers, but does
+    not execute on an Android device or emulator;
+  - iOS 15 or later for ARM64 devices and ARM64/x86_64 Simulator targets.
+    The iOS job also creates an unsigned static-library XCFramework. It does
+    not execute the test suite on an iOS device or in Simulator.
+
+Other mobile configurations may still work, but are not continuously validated
+on the `2.2.x` branch.
+
+The supported mobile baselines are iOS 15 and Android 5.0 (API 21). There is
+no defined maximum supported iOS or Android version; newer versions are
+expected to work with a compatible toolchain. The CI checks described above
+do not establish device runtime coverage for every OS version.
 
 The oldest Windows version that is supported by 2.x releases is Windows Vista.
 
@@ -233,6 +251,10 @@ autotools based build system or using CMake build system. The
 autotools based build system is considered to be primary for
 Unix--like platforms.
 
+CMake builds require CMake 3.20 or later. Apple embedded platforms, including
+iOS and iOS Simulator, use the Xcode generator and CMake's native platform
+variables. Android builds use the toolchain file supplied by the Android NDK.
+
 On Windows, the primary build system is Visual Studio 2015 solution
 and projects (`msvc14/log4cplus.sln`).
 
@@ -343,19 +365,86 @@ If you are linking your application with DLL variant of [log4cplus], define
 `LOG4CPLUS_EXPORT` symbol to `__declspec(dllimport)`.
 
 
-Android, TLS and CMake
-----------------------
+Android and CMake
+-----------------
 
-[log4cplus] uses thread--local storage (TLS, see "Windows and TLS" for
-details). On the Android platform, when [log4cplus] is being compiled using
-the `android/android.toolchain.cmake`, you might get errors featuring the
-`__emutls` symbol:
+[log4cplus] is distributed as source code for Android. Build it with CMake and
+the toolchain file supplied by the Android NDK so that it uses the same NDK,
+minimum API level, C++ runtime and compiler settings as the rest of the
+application. Continuous integration uses NDK r29 (`29.0.14206865`), C++11 and
+API level 21 as its baseline. It checks the `armeabi-v7a`, `arm64-v8a`, `x86`
+and `x86_64` ABIs.
 
+For example, build and install a shared ARM64 library using the shared C++
+runtime as follows:
 
-    global-init.cxx:268:46: error: log4cplus::internal::__emutls_t._ZN9log4cplus8internal3ptdE causes a section type conflict with log4cplus::internal::ptd
+    $ NDK="$ANDROID_SDK_ROOT/ndk/29.0.14206865"
+    $ cmake -S . -B build/android-arm64-v8a-shared -G Ninja \
+        -DCMAKE_TOOLCHAIN_FILE="$NDK/build/cmake/android.toolchain.cmake" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX="$PWD/build/android-arm64-v8a-shared/install" \
+        -DANDROID_ABI=arm64-v8a \
+        -DANDROID_PLATFORM=android-21 \
+        -DANDROID_STL=c++_shared \
+        -DBUILD_SHARED_LIBS=ON \
+        -DLOG4CPLUS_BUILD_TESTING=OFF \
+        -DWITH_UNIT_TESTS=OFF
+    $ cmake --build build/android-arm64-v8a-shared
+    $ cmake --install build/android-arm64-v8a-shared
 
-To work around this issue, invoke CMake with
-`-DANDROID_FUNCTION_LEVEL_LINKING:BOOL=OFF` option.
+The application or Gradle packaging must include exactly one compatible copy
+of `libc++_shared.so`. [log4cplus] does not distribute that runtime.
+
+Android builds also provide `log4cplus::AndroidAppender`, which writes to the
+main Android Logcat buffer through the NDK `liblog` API. The Logcat tag is
+configurable and defaults to `log4cplus`:
+
+    log4cplus.appender.LOGCAT=log4cplus::AndroidAppender
+    log4cplus.appender.LOGCAT.Tag=MyApplication
+    log4cplus.appender.LOGCAT.layout=log4cplus::PatternLayout
+    log4cplus.appender.LOGCAT.layout.ConversionPattern=%c - %m
+
+The equivalent programmatic setup is:
+
+    #include <log4cplus/androidappender.h>
+
+    log4cplus::SharedAppenderPtr appender (
+        new log4cplus::AndroidAppender (
+            LOG4CPLUS_TEXT ("MyApplication")));
+    logger.addAppender (appender);
+
+For compatibility with Android API levels 21 through 25, tags are limited to
+23 UTF-8 bytes. Formatted messages longer than a Logcat entry are split at
+UTF-8 boundaries. Log levels map to the corresponding Logcat priorities, with
+TRACE using `VERBOSE` and FATAL using `FATAL`.
+
+The shared Android library therefore has an intentional dependency on the
+system-provided `liblog.so`. Static CMake package consumers receive the `log`
+link requirement transitively. Android supplies this library; [log4cplus]
+does not package or distribute it.
+
+Alternatively, build static [log4cplus] and link it into the application's
+final JNI shared library. This permits the final shared library to contain one
+statically linked C++ runtime:
+
+    $ cmake -S . -B build/android-arm64-v8a-static -G Ninja \
+        -DCMAKE_TOOLCHAIN_FILE="$NDK/build/cmake/android.toolchain.cmake" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX="$PWD/build/android-arm64-v8a-static/install" \
+        -DANDROID_ABI=arm64-v8a \
+        -DANDROID_PLATFORM=android-21 \
+        -DANDROID_STL=c++_static \
+        -DBUILD_SHARED_LIBS=OFF \
+        -DLOG4CPLUS_BUILD_TESTING=OFF \
+        -DWITH_UNIT_TESTS=OFF
+    $ cmake --build build/android-arm64-v8a-static
+    $ cmake --install build/android-arm64-v8a-static
+
+Use a separate build directory for every ABI and shared/static runtime choice.
+The Android logging server is disabled by default. The test suite remains
+enabled by default and can be cross-compiled and linked, but it is not executed
+without an Android device or emulator. Android CI does not publish libraries,
+libc++, `liblog` or other Android artifacts.
 
 
 Threads and signals
@@ -555,44 +644,53 @@ is fixed in OpenBSD 5.3 and later. This shows as failing
 iOS support
 -----------
 
-iOS support is based on CMake build. Use the scripts in `iOS` directory. The
-`iOS.cmake` toolchain file was originally taken from [ios-cmake] project.
+iOS builds require macOS, Xcode and CMake 3.20 or later. The minimum supported
+deployment target is iOS 15. Configure device and Simulator builds in separate
+directories so that CMake's SDK-specific feature and dependency checks do not
+leak between the two targets.
 
-To build the library for iOS, being in current folder, perform the steps
-below. For ARMv7 architecture:
+Build and install the ARM64 device library:
 
-    $ ./scripts/cmake_ios_armv7.sh
-    $ cmake --build ./build_armv7 --config "Release"
-    $ cmake --build ./build_armv7 --config "Debug"
+    $ cmake -S . -B build/ios-device -G Xcode \
+        -DCMAKE_SYSTEM_NAME=iOS \
+        -DCMAKE_OSX_SYSROOT=iphoneos \
+        -DCMAKE_OSX_ARCHITECTURES=arm64 \
+        -DCMAKE_OSX_DEPLOYMENT_TARGET=15.0 \
+        -DCMAKE_INSTALL_PREFIX="$PWD/build/ios-device/install" \
+        -DBUILD_SHARED_LIBS=OFF
+    $ cmake --build build/ios-device --config Release --target install
 
-For i386 architecture:
+Build and install a universal Simulator library for Apple Silicon and Intel
+Macs:
 
-    $ ./scripts/cmake_ios_i386.sh
-    $ cmake --build ./build_i386 --config "Release"
-    $ cmake --build ./build_i386 --config "Debug"
+    $ cmake -S . -B build/ios-simulator -G Xcode \
+        -DCMAKE_SYSTEM_NAME=iOS \
+        -DCMAKE_OSX_SYSROOT=iphonesimulator \
+        '-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64' \
+        -DCMAKE_OSX_DEPLOYMENT_TARGET=15.0 \
+        -DCMAKE_INSTALL_PREFIX="$PWD/build/ios-simulator/install" \
+        -DBUILD_SHARED_LIBS=OFF
+    $ cmake --build build/ios-simulator --config Release --target install
 
-Some versions of the iOS and/or its SDK have problems with thread-local storage
-(TLS) and getting through CMake's environment detection phase. To work around
-these issues, make these changes:
+The iOS defaults disable the logging server and executable test suite while
+retaining normal multithreading and thread-local storage detection. Release
+IPO is also disabled so that the static archives contain Mach-O object files
+whose architectures `xcodebuild -create-xcframework` can inspect. These options
+can also be set explicitly with `LOG4CPLUS_BUILD_LOGGINGSERVER` and
+`LOG4CPLUS_BUILD_TESTING`.
 
-Edit the `iOS.cmake` file and add these two lines.
+Package both installed variants as an XCFramework:
 
-    set (CMAKE_CXX_COMPILER_WORKS TRUE)
-    set (CMAKE_C_COMPILER_WORKS TRUE)
+    $ xcodebuild -create-xcframework \
+        -library build/ios-device/install/lib/liblog4cplusS.a \
+        -headers build/ios-device/install/include \
+        -library build/ios-simulator/install/lib/liblog4cplusS.a \
+        -headers build/ios-simulator/install/include \
+        -output build/log4cplus.xcframework
 
-Add these lines. Customize them accordingly:
-
-    set(MACOSX_BUNDLE_GUI_IDENTIFIER com.example)
-    set(CMAKE_MACOSX_BUNDLE YES)
-    set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer")
-    set(IPHONEOS_ARCHS arm64)
-
-If you have issues with TLS, also comment out these lines:
-
-    set(LOG4CPLUS_HAVE_TLS_SUPPORT 1)
-    set(LOG4CPLUS_THREAD_LOCAL_VAR "__thread")
-
-[ios-cmake]: https://code.google.com/p/ios-cmake/
+Device and Simulator libraries are different platform variants even when both
+contain ARM64 code. Do not combine their slices with `lipo`; keep them separate
+and use an XCFramework.
 
 
 `LOG4CPLUS_*_FMT()` and UNICODE
@@ -731,6 +829,13 @@ some form of MinGW64 tool-chain, the CMake build system is considered primary
 and the Autotools based build system is unsupported. Use the `MinGW Makefiles`
 option and build with `mingw-make` (or similar). The `MSYS Makefiles` option is
 untested and unsupported.
+
+For Apple embedded platforms, use CMake with the Xcode generator and CMake's
+native platform variables. Custom iOS toolchain files are not supported.
+
+For Android, use CMake with the toolchain file supplied by the Android NDK.
+Legacy third-party Android toolchain files and their custom variables are not
+supported.
 
 #### Autotools
 

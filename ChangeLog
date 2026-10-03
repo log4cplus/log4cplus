@@ -1,3 +1,35 @@
+# Unreleased (2.2.x)
+
+  - **IMPORTANT**: CMake builds now require CMake 3.20 or later. The
+    implementation language remains C++11.
+
+  - **IMPORTANT**: iOS builds now use CMake's native platform support. The
+    legacy custom iOS toolchain, `IOS_PLATFORM`/`CMAKE_IOS_*` variables, and
+    ARMv7/i386 build scripts have been removed. The obsolete Android
+    `LIBRARY_OUTPUT_PATH_ROOT` toolchain integration has also been removed.
+
+  - Support native CMake device and Simulator builds for iOS 15 and later.
+    iOS builds default to static libraries with tests and the logging server
+    disabled, and disable interprocedural optimization so that installed
+    archives can be packaged into an XCFramework.
+
+  - Add the Android-only `log4cplus::AndroidAppender`, which writes formatted
+    events to Logcat through system `liblog`. Its `Tag` property defaults to
+    `log4cplus`; tags and long message chunks preserve UTF-8 boundaries.
+    Android production builds now link `liblog`, with static CMake consumers
+    receiving the dependency without an absolute NDK path.
+
+  - Modernize Android build and installed-package validation using NDK r29,
+    C++11, API level 21, and all four current NDK ABIs. The logging server now
+    defaults to disabled on Android.
+
+  - Add iOS archive and XCFramework CI validation. Mobile CI checks compilation,
+    linking, installation and packaging, without running device tests.
+
+  - Preserve the configured IPv6 setting when `SocketAppender` and
+    `SysLogAppender` reconnect. Improve Apple socket portability by preventing
+    `SIGPIPE` on socket writes and avoiding descriptor and size narrowing.
+
 # log4cplus 2.2.0.1
 
   This release has the same code and features as 2.2.0, with updated

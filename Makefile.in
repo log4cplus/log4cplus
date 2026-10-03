@@ -295,7 +295,8 @@ _log4cplusU_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@	$(pkgpyexecdir)
 liblog4cplus_la_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
-am__objects_4 = src/liblog4cplus_la-appenderattachableimpl.lo \
+am__objects_4 = src/liblog4cplus_la-androidappender.lo \
+	src/liblog4cplus_la-appenderattachableimpl.lo \
 	src/liblog4cplus_la-appender.lo \
 	src/liblog4cplus_la-asyncappender.lo \
 	src/liblog4cplus_la-callbackappender.lo \
@@ -353,7 +354,8 @@ liblog4cplus_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(liblog4cplus_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
 liblog4cplusU_la_LIBADD =
-am__objects_8 = src/liblog4cplusU_la-appenderattachableimpl.lo \
+am__objects_8 = src/liblog4cplusU_la-androidappender.lo \
+	src/liblog4cplusU_la-appenderattachableimpl.lo \
 	src/liblog4cplusU_la-appender.lo \
 	src/liblog4cplusU_la-asyncappender.lo \
 	src/liblog4cplusU_la-callbackappender.lo \
@@ -786,6 +788,7 @@ am__depfiles_remade = ./$(DEPDIR)/_log4cplusU_la-python_wrapU.Plo \
 	qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappender_la-qt5debugappender.Plo \
 	simpleserver/$(DEPDIR)/loggingserver.Po \
 	simpleserver/$(DEPDIR)/loggingserverU-loggingserver.Po \
+	src/$(DEPDIR)/liblog4cplusU_la-androidappender.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-appender.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-asyncappender.Plo \
@@ -842,6 +845,7 @@ am__depfiles_remade = ./$(DEPDIR)/_log4cplusU_la-python_wrapU.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-version.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-win32consoleappender.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-win32debugappender.Plo \
+	src/$(DEPDIR)/liblog4cplus_la-androidappender.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-appender.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-appenderattachableimpl.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-asyncappender.Plo \
@@ -1245,6 +1249,7 @@ liblog4cplus_la_file = $(top_builddir)/liblog4cplus.la
 lib_LTLIBRARIES = liblog4cplus.la $(am__append_2) $(am__append_5) \
 	$(am__append_6) $(am__append_7) $(am__append_8)
 SINGLE_THREADED_SRC = \
+	src/androidappender.cxx \
 	src/appenderattachableimpl.cxx \
 	src/appender.cxx \
 	src/asyncappender.cxx \
@@ -1777,6 +1782,8 @@ src/$(am__dirstamp):
 src/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/$(DEPDIR)
 	@: >>src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplus_la-androidappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-appenderattachableimpl.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-appender.lo: src/$(am__dirstamp) \
@@ -1901,6 +1908,8 @@ tests/unit_tests/liblog4cplus_la-win32fstream_tests.lo:  \
 
 liblog4cplus.la: $(liblog4cplus_la_OBJECTS) $(liblog4cplus_la_DEPENDENCIES) $(EXTRA_liblog4cplus_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(liblog4cplus_la_LINK) -rpath $(libdir) $(liblog4cplus_la_OBJECTS) $(liblog4cplus_la_LIBADD) $(LIBS)
+src/liblog4cplusU_la-androidappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplusU_la-appenderattachableimpl.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplusU_la-appender.lo: src/$(am__dirstamp) \
@@ -2460,6 +2469,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappender_la-qt5debugappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@simpleserver/$(DEPDIR)/loggingserver.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@simpleserver/$(DEPDIR)/loggingserverU-loggingserver.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-androidappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-appender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-asyncappender.Plo@am__quote@ # am--include-marker
@@ -2516,6 +2526,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-version.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-win32consoleappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-win32debugappender.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-androidappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-appender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-appenderattachableimpl.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-asyncappender.Plo@am__quote@ # am--include-marker
@@ -2658,6 +2669,13 @@ _log4cplusU_la-python_wrapU.lo: python_wrapU.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='python_wrapU.cxx' object='_log4cplusU_la-python_wrapU.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(_log4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o _log4cplusU_la-python_wrapU.lo `test -f 'python_wrapU.cxx' || echo '$(srcdir)/'`python_wrapU.cxx
+
+src/liblog4cplus_la-androidappender.lo: src/androidappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-androidappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-androidappender.Tpo -c -o src/liblog4cplus_la-androidappender.lo `test -f 'src/androidappender.cxx' || echo '$(srcdir)/'`src/androidappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplus_la-androidappender.Tpo src/$(DEPDIR)/liblog4cplus_la-androidappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/androidappender.cxx' object='src/liblog4cplus_la-androidappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-androidappender.lo `test -f 'src/androidappender.cxx' || echo '$(srcdir)/'`src/androidappender.cxx
 
 src/liblog4cplus_la-appenderattachableimpl.lo: src/appenderattachableimpl.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-appenderattachableimpl.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-appenderattachableimpl.Tpo -c -o src/liblog4cplus_la-appenderattachableimpl.lo `test -f 'src/appenderattachableimpl.cxx' || echo '$(srcdir)/'`src/appenderattachableimpl.cxx
@@ -3057,6 +3075,13 @@ tests/unit_tests/liblog4cplus_la-win32fstream_tests.lo: tests/unit_tests/win32fs
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/unit_tests/win32fstream_tests.cxx' object='tests/unit_tests/liblog4cplus_la-win32fstream_tests.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/unit_tests/liblog4cplus_la-win32fstream_tests.lo `test -f 'tests/unit_tests/win32fstream_tests.cxx' || echo '$(srcdir)/'`tests/unit_tests/win32fstream_tests.cxx
+
+src/liblog4cplusU_la-androidappender.lo: src/androidappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-androidappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-androidappender.Tpo -c -o src/liblog4cplusU_la-androidappender.lo `test -f 'src/androidappender.cxx' || echo '$(srcdir)/'`src/androidappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-androidappender.Tpo src/$(DEPDIR)/liblog4cplusU_la-androidappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/androidappender.cxx' object='src/liblog4cplusU_la-androidappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-androidappender.lo `test -f 'src/androidappender.cxx' || echo '$(srcdir)/'`src/androidappender.cxx
 
 src/liblog4cplusU_la-appenderattachableimpl.lo: src/appenderattachableimpl.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-appenderattachableimpl.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Tpo -c -o src/liblog4cplusU_la-appenderattachableimpl.lo `test -f 'src/appenderattachableimpl.cxx' || echo '$(srcdir)/'`src/appenderattachableimpl.cxx
@@ -4063,6 +4088,7 @@ distclean: distclean-recursive
 	-rm -f qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappender_la-qt5debugappender.Plo
 	-rm -f simpleserver/$(DEPDIR)/loggingserver.Po
 	-rm -f simpleserver/$(DEPDIR)/loggingserverU-loggingserver.Po
+	-rm -f src/$(DEPDIR)/liblog4cplusU_la-androidappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-appender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-asyncappender.Plo
@@ -4119,6 +4145,7 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-version.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-win32consoleappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-win32debugappender.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplus_la-androidappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-appender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-appenderattachableimpl.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-asyncappender.Plo
@@ -4272,6 +4299,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f qt5debugappender/$(DEPDIR)/liblog4cplusqt5debugappender_la-qt5debugappender.Plo
 	-rm -f simpleserver/$(DEPDIR)/loggingserver.Po
 	-rm -f simpleserver/$(DEPDIR)/loggingserverU-loggingserver.Po
+	-rm -f src/$(DEPDIR)/liblog4cplusU_la-androidappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-appender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-appenderattachableimpl.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-asyncappender.Plo
@@ -4328,6 +4356,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-version.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-win32consoleappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-win32debugappender.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplus_la-androidappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-appender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-appenderattachableimpl.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-asyncappender.Plo

@@ -2,6 +2,7 @@
 log4cplusincdir = $(includedir)
 
 nobase_log4cplusinc_HEADERS = \
+	log4cplus/androidappender.h \
 	log4cplus/appender.h \
 	log4cplus/asyncappender.h \
 	log4cplus/boost/deviceappender.hxx \
