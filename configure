@@ -30219,6 +30219,91 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
+if test "x$enable_shared" = "xyes"
+then :
+  case "$target_os" in #(
+  mingw*) :
+
+    ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+if test ${LIBS+y}
+then :
+
+  case " $LIBS " in #(
+  *" -lntdll "*) :
+    { { printf '%s\n' "$as_me:${as_lineno-$LINENO}: : LIBS already contains -lntdll"; } >&5
+  (: LIBS already contains -lntdll) 2>&5
+  ac_status=$?
+  printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; } ;; #(
+  *) :
+
+     LIBS="-lntdll $LIBS"
+     { { printf '%s\n' "$as_me:${as_lineno-$LINENO}: : LIBS=\"\$LIBS\""; } >&5
+  (: LIBS="$LIBS") 2>&5
+  ac_status=$?
+  printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+     ;;
+esac
+
+else case e in #(
+  e)
+  LIBS=-lntdll
+  { { printf '%s\n' "$as_me:${as_lineno-$LINENO}: : LIBS=\"\$LIBS\""; } >&5
+  (: LIBS="$LIBS") 2>&5
+  ac_status=$?
+  printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+   ;;
+esac
+fi
+
+    { printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking for RtlDllShutdownInProgress in ntdll" >&5
+printf %s "checking for RtlDllShutdownInProgress in ntdll... " >&6; }
+    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#include <windows.h>
+__declspec(dllimport) BOOLEAN NTAPI RtlDllShutdownInProgress(void);
+
+int
+main (void)
+{
+return RtlDllShutdownInProgress();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"
+then :
+  { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf '%s\n' "yes" >&6; }
+else case e in #(
+  e) { { printf '%s\n' "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+printf '%s\n' "$as_me: error: in '$ac_pwd':" >&2;}
+as_fn_error $? "ntdll with RtlDllShutdownInProgress is required for Windows DLL builds
+See 'config.log' for more details" "$LINENO" 5; } ;;
+esac
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam \
+    conftest$ac_exeext conftest.$ac_ext
+    ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+ ;; #(
+  *) :
+     ;;
+esac
+fi
+
 
 
 

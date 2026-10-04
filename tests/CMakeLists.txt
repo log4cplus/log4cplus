@@ -40,6 +40,10 @@ add_subdirectory (propertyconfig_test)
 #add_subdirectory (socket_test) # I don't know how this test is supposed to be executed
 add_subdirectory (thread_test)
 add_subdirectory (timeformat_test)
+if (WIN32 AND BUILD_SHARED_LIBS AND LOG4CPLUS_ENABLE_THREAD_POOL
+    AND NOT LOG4CPLUS_SINGLE_THREADED)
+  add_subdirectory (windows_shutdown_test)
+endif ()
 if (WITH_UNIT_TESTS)
   add_subdirectory (unit_tests)
 endif (WITH_UNIT_TESTS)
