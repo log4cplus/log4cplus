@@ -1,34 +1,94 @@
 # Unreleased (2.2.x)
 
   - **IMPORTANT**: CMake builds now require CMake 3.20 or later. The
-    implementation language remains C++11.
+    implementation language remains C++11. GitHub PR #698.
 
   - **IMPORTANT**: iOS builds now use CMake's native platform support. The
     legacy custom iOS toolchain, `IOS_PLATFORM`/`CMAKE_IOS_*` variables, and
     ARMv7/i386 build scripts have been removed. The obsolete Android
     `LIBRARY_OUTPUT_PATH_ROOT` toolchain integration has also been removed.
+    GitHub PR #698.
 
-  - Support native CMake device and Simulator builds for iOS 15 and later.
-    iOS builds default to static libraries with tests and the logging server
+  - Fix `TimeBasedRollingFileAppender` archive cleanup when consecutive
+    cleanups cross a partial rollover period, so expired archives are not
+    skipped during sparse logging. GitHub issue #634. GitHub PR #687,
+    backported in #690. (fhgffy)
+
+  - Fix `TimeBasedRollingFileAppender` rollover when `File` is omitted or
+    empty. Keep completed dated files and append to the next `FilenamePattern`
+    destination, preserving existing messages during repeated rollover and
+    `RollOnClose`. Initial opening still honors `Append`. GitHub issue #668.
+    GitHub PR #697.
+
+  - Fix accounting for asynchronous events dropped when the nonblocking thread
+    pool queue is full. Appender shutdown and destruction can now finish after
+    accepted events drain when `log4cplus.threadPoolBlockOnFull=false`. GitHub
+    PR #694.
+
+  - Fix `AsyncAppender::close()` to join its queue worker even after the
+    worker stops running, so `close()` waits for thread-local cleanup after
+    worker failure. Preserve queue draining and the synchronous logging
+    fallback. GitHub PR #705.
+
+  - Update the internal ThreadPool to recover safely from worker creation and
+    pool growth failures, create one worker when a zero size is requested,
+    reclaim retired workers, and wait for complete worker exit during
+    shutdown. GitHub issue #646. GitHub PR #701 and ThreadPool PR
+    log4cplus/ThreadPool#3.
+
+  - Fix Windows DLL cleanup hangs and crashes during process termination
+    through `exit()` or `ExitProcess()`. Skip resource cleanup once Windows
+    has started terminating threads. Pending logging may be lost during
+    process termination; orderly shutdown still drains accepted events. GitHub
+    issue #408. GitHub PR #703.
+
+  - Fix installed CMake packages to discover `Threads` for static
+    multithreaded libraries and provide `log4cplus::log4cplus` for static and
+    Unicode builds with decorated library names. Add installed-package
+    consumer regression coverage for shared/static and narrow/Unicode
+    configurations. GitHub PR #690.
+
+  - Generate CMake pkg-config metadata using the selected library name,
+    including static/Unicode decoration and the Windows Debug postfix. Refresh
+    the installed metadata when switching build configurations. GitHub PR
+    #698.
+
+  - Enable the internal thread pool in the handwritten MSBuild projects,
+    restoring asynchronous logging support in both shared and static builds.
+    GitHub PR #698.
+
+  - Fix Windows archive-cleanup unit-test compilation and fixture creation.
+    Remove an obsolete Win32 stream test source dependency from MinGW
+    Autotools builds. GitHub PR #691 and #698.
+
+  - Move Visual Studio 2019 and 2022 CMake/MSBuild CI builds to GitHub Actions
+    with explicit `v142`/`v143` toolsets. Retain Visual Studio 2017 on
+    AppVeyor and update its CMake installation to satisfy the new minimum
+    version. GitHub PR #691 and #699.
+
+  - Support native CMake device and Simulator builds for iOS 15 and later. iOS
+    builds default to static libraries with tests and the logging server
     disabled, and disable interprocedural optimization so that installed
-    archives can be packaged into an XCFramework.
+    archives can be packaged into an XCFramework. GitHub PR #698.
 
   - Add the Android-only `log4cplus::AndroidAppender`, which writes formatted
     events to Logcat through system `liblog`. Its `Tag` property defaults to
     `log4cplus`; tags and long message chunks preserve UTF-8 boundaries.
     Android production builds now link `liblog`, with static CMake consumers
-    receiving the dependency without an absolute NDK path.
+    receiving the dependency without an absolute NDK path. GitHub PR #698.
 
   - Modernize Android build and installed-package validation using NDK r29,
     C++11, API level 21, and all four current NDK ABIs. The logging server now
-    defaults to disabled on Android.
+    defaults to disabled on Android. GitHub PR #698.
 
-  - Add iOS archive and XCFramework CI validation. Mobile CI checks compilation,
-    linking, installation and packaging, without running device tests.
+  - Add iOS archive and XCFramework CI validation. Mobile CI checks
+    compilation, linking, installation and packaging, without running device
+    tests. GitHub PR #698.
 
   - Preserve the configured IPv6 setting when `SocketAppender` and
     `SysLogAppender` reconnect. Improve Apple socket portability by preventing
     `SIGPIPE` on socket writes and avoiding descriptor and size narrowing.
+    GitHub PR #698.
 
 # log4cplus 2.2.0.1
 
