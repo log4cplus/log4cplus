@@ -31,6 +31,7 @@
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/spi/loggerimpl.h>
 #include <log4cplus/internal/env.h>
+#include <log4cplus/tracelogger.h>
 
 #ifdef LOG4CPLUS_HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -189,6 +190,24 @@ PropertyConfigurator::configure()
     properties.getBool (disable_override, LOG4CPLUS_TEXT ("disableOverride"));
 
     initializeLog4cplus();
+
+    tchar const * const enter_key = LOG4CPLUS_TEXT("traceLogger.enterPrefix");
+    tchar const * const exit_key = LOG4CPLUS_TEXT("traceLogger.exitPrefix");
+    if (properties.exists(enter_key) || properties.exists(exit_key))
+    {
+        auto prefixes = TraceLogger::getDefaultPrefixes();
+        auto const read_prefix = [this](tchar const * key, tstring & prefix) {
+            if (!properties.exists(key))
+                return;
+            prefix = properties.getProperty(key);
+            if (prefix.size() >= 2 && prefix.front() == LOG4CPLUS_TEXT('"')
+                && prefix.back() == LOG4CPLUS_TEXT('"'))
+                prefix = prefix.substr(1, prefix.size() - 2);
+        };
+        read_prefix(enter_key, prefixes.enterPrefix);
+        read_prefix(exit_key, prefixes.exitPrefix);
+        TraceLogger::setDefaultPrefixes(std::move(prefixes));
+    }
 
     unsigned int thread_pool_size;
     if (properties.getUInt (thread_pool_size, LOG4CPLUS_TEXT ("threadPoolSize")))

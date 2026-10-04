@@ -125,6 +125,22 @@ namespace log4cplus
          * <code>key=value</code>. The syntax of different configuration
          * elements are discussed below.
          *
+         * <h3>Method trace prefixes</h3>
+         *
+         * Set <code>log4cplus.traceLogger.enterPrefix</code> and
+         * <code>log4cplus.traceLogger.exitPrefix</code> to change the complete
+         * prefixes used by TraceLogger and LOG4CPLUS_TRACE_METHOD. For example:
+         * <pre>
+         * log4cplus.traceLogger.enterPrefix="==&gt; "
+         * log4cplus.traceLogger.exitPrefix="&lt;== "
+         * </pre>
+         * Matching outer double quotes are removed after variable substitution,
+         * preserving enclosed whitespace. Unquoted values follow normal
+         * properties whitespace trimming. No separators or escapes are added.
+         * Empty values remove the corresponding prefix; missing properties
+         * retain its current value. These defaults apply across hierarchies.
+         * Existing trace objects retain their original prefix pair.
+         *
          * <h3>Appender configuration</h3>
          *
          * Appender configuration syntax is:

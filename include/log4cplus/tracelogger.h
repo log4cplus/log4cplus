@@ -32,6 +32,7 @@
 
 #include <log4cplus/logger.h>
 #include <log4cplus/helpers/source_location.h>
+#include <utility>
 
 
 namespace log4cplus
@@ -43,39 +44,66 @@ namespace log4cplus
  * this class is created, it will log a <code>"ENTER: " + msg</code>
  * log message if TRACE_LOG_LEVEL is enabled for <code>logger</code>.
  * When an instance of this class is destroyed, it will log a
- * <code>"ENTER: " + msg</code> log message if TRACE_LOG_LEVEL is enabled
+ * <code>"EXIT:  " + msg</code> log message if TRACE_LOG_LEVEL is enabled
  * for <code>logger</code>.
+ * The prefixes can be changed with setDefaultPrefixes(). Each instance
+ * captures an immutable prefix pair at construction without copying its
+ * strings, and uses that pair even if the defaults subsequently change.
  * <p>
- * @see LOG4CPLUS_TRACE
+ * @see LOG4CPLUS_TRACE_METHOD
  */
 class TraceLogger
 {
 public:
+    /** Complete prefixes, including any desired separators or whitespace. */
+    struct Prefixes
+    {
+        tstring enterPrefix = LOG4CPLUS_TEXT("ENTER: ");
+        tstring exitPrefix = LOG4CPLUS_TEXT("EXIT:  ");
+    };
+
+    /**
+     * Returns the current immutable pair without copying its strings.
+     * The reference remains valid through later configuration changes,
+     * until the library context is destroyed. Normal library initialization
+     * requirements apply.
+     */
+    static LOG4CPLUS_EXPORT Prefixes const & getDefaultPrefixes();
+
+    /**
+     * Publishes process-wide defaults for subsequent trace instances.
+     * An empty prefix adds no text; Prefixes{} restores the built-in pair.
+     * Changed pairs are retained until library-context teardown to keep
+     * snapshot acquisition free of allocation, locking and reference counting.
+     */
+    static LOG4CPLUS_EXPORT void setDefaultPrefixes(Prefixes prefixes);
+
     TraceLogger(Logger l, log4cplus::tstring _msg,
         log4cplus::helpers::SourceLocation _location
             = log4cplus::helpers::SourceLocation::current ())
         : logger(std::move (l)), msg(std::move (_msg)), file(_location.file_name ()),
-          function(_location.function_name ()), line(_location.line ())
+          function(_location.function_name ()), line(_location.line ()),
+          prefixes(&getDefaultPrefixes())
     {
         if (logger.isEnabledFor(TRACE_LOG_LEVEL))
-            logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg,
+            logger.forcedLog(TRACE_LOG_LEVEL, prefixes->enterPrefix + msg,
                 file, line, function);
     }
 
     TraceLogger(Logger l, log4cplus::tstring _msg,
         const char* _file, int _line, char const * _function)
         : logger(std::move (l)), msg(std::move (_msg)), file(_file),
-          function(_function), line(_line)
+          function(_function), line(_line), prefixes(&getDefaultPrefixes())
     {
         if (logger.isEnabledFor(TRACE_LOG_LEVEL))
-            logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("ENTER: ") + msg,
+            logger.forcedLog(TRACE_LOG_LEVEL, prefixes->enterPrefix + msg,
                 file, line, function);
     }
 
     ~TraceLogger()
     {
         if (logger.isEnabledFor(TRACE_LOG_LEVEL))
-            logger.forcedLog(TRACE_LOG_LEVEL, LOG4CPLUS_TEXT("EXIT:  ") + msg,
+            logger.forcedLog(TRACE_LOG_LEVEL, prefixes->exitPrefix + msg,
                 file, line, function);
     }
 
@@ -90,6 +118,7 @@ private:
     const char* file;
     const char* function;
     int line;
+    Prefixes const * prefixes;
 };
 
 

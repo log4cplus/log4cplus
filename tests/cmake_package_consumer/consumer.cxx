@@ -11,6 +11,10 @@ log4cplus_consumer_smoke_test()
     static log4cplus::Initializer initializer;
     log4cplus::Logger logger
         = log4cplus::Logger::getInstance(LOG4CPLUS_TEXT("consumer"));
+    // Exercise the exported trace-prefix API from an installed-package consumer.
+    auto const & prefixes = log4cplus::TraceLogger::getDefaultPrefixes();
+    log4cplus::TraceLogger::setDefaultPrefixes(prefixes);
+    LOG4CPLUS_TRACE_METHOD(logger, LOG4CPLUS_TEXT("consumer method"));
 
 #if defined (__ANDROID__)
     log4cplus::SharedAppenderPtr appender (
