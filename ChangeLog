@@ -9,6 +9,11 @@
     `LIBRARY_OUTPUT_PATH_ROOT` toolchain integration has also been removed.
     GitHub PR #698.
 
+  - Prevent `DailyRollingFileAppender` process-exit rollover from accessing a
+    destroyed directory separator string when `RollOnClose` is enabled. Keep
+    the separator valid throughout shutdown by using a constant character.
+    GitHub issue #272. GitHub PR #711.
+
   - Fix `TimeBasedRollingFileAppender` archive cleanup when consecutive
     cleanups cross a partial rollover period, so expired archives are not
     skipped during sparse logging. GitHub issue #634. GitHub PR #687,
@@ -38,6 +43,11 @@
     accepted events drain when `log4cplus.threadPoolBlockOnFull=false`. GitHub
     PR #694.
 
+  - Fix asynchronous event accounting when an accepted nonblocking task
+    finishes with an exception before its result is polled. Decrement the
+    pending count only once, preventing unsigned underflow and shutdown hangs
+    after queued work has drained. GitHub PR #716.
+
   - Fix `AsyncAppender::close()` to join its queue worker even after the
     worker stops running, so `close()` waits for thread-local cleanup after
     worker failure. Preserve queue draining and the synchronous logging
@@ -54,6 +64,10 @@
     has started terminating threads. Pending logging may be lost during
     process termination; orderly shutdown still drains accepted events. GitHub
     issue #408. GitHub PR #703.
+
+  - Keep fractional timestamp padding for `%q` and `%Q` valid during startup
+    and shutdown by replacing global strings with constant literal tables.
+    Preserve the existing formatted output. GitHub issue #273. GitHub PR #714.
 
   - Fix installed CMake packages to discover `Threads` for static
     multithreaded libraries and provide `log4cplus::log4cplus` for static and
