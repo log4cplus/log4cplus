@@ -63,9 +63,9 @@
 namespace log4cplus::internal {
 
 #if defined(_WIN32)
-tstring const dir_sep(LOG4CPLUS_TEXT("\\"));
+constexpr tchar dir_sep = LOG4CPLUS_TEXT('\\');
 #else
-tstring const dir_sep(LOG4CPLUS_TEXT("/"));
+constexpr tchar dir_sep = LOG4CPLUS_TEXT('/');
 #endif
 
 
