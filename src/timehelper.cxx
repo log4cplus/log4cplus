@@ -126,21 +126,28 @@ namespace
 {
 
 
-static log4cplus::tstring const padding_zeros[4] =
+struct Padding
 {
-    { LOG4CPLUS_TEXT("000") },
-    { LOG4CPLUS_TEXT("00") },
-    { LOG4CPLUS_TEXT("0") },
-    { }
+    std::size_t length;
+    log4cplus::tchar const * text;
 };
 
 
-static log4cplus::tstring const uc_q_padding_zeros[4] =
+static constexpr Padding padding_zeros[4] =
 {
-    { LOG4CPLUS_TEXT(".000") },
-    { LOG4CPLUS_TEXT(".00") },
-    { LOG4CPLUS_TEXT(".0") },
-    { LOG4CPLUS_TEXT(".") }
+    { 3, LOG4CPLUS_TEXT("000") },
+    { 2, LOG4CPLUS_TEXT("00") },
+    { 1, LOG4CPLUS_TEXT("0") },
+    { 0, LOG4CPLUS_TEXT("") }
+};
+
+
+static constexpr Padding uc_q_padding_zeros[4] =
+{
+    { 4, LOG4CPLUS_TEXT(".000") },
+    { 3, LOG4CPLUS_TEXT(".00") },
+    { 2, LOG4CPLUS_TEXT(".0") },
+    { 1, LOG4CPLUS_TEXT(".") }
 };
 
 
@@ -151,7 +158,7 @@ build_q_value (log4cplus::tstring & q_str, long tv_usec)
     convertIntegerToString(q_str, tv_usec / 1000);
     std::size_t const len = q_str.length();
     if (len <= 2)
-        q_str.insert (0, padding_zeros[q_str.length()]);
+        q_str.insert (0, padding_zeros[len].text, padding_zeros[len].length);
 }
 
 
@@ -164,8 +171,9 @@ build_uc_q_value (log4cplus::tstring & uc_q_str, long tv_usec,
 
     convertIntegerToString(tmp, tv_usec % 1000);
     std::size_t const usecs_len = tmp.length();
-    tmp.insert (0, usecs_len <= 3
-        ? uc_q_padding_zeros[usecs_len] : uc_q_padding_zeros[3]);
+    auto const & padding = usecs_len <= 3
+        ? uc_q_padding_zeros[usecs_len] : uc_q_padding_zeros[3];
+    tmp.insert (0, padding.text, padding.length);
     uc_q_str.append (tmp);
 }
 
