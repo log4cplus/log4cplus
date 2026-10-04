@@ -152,6 +152,9 @@ if (WIN32)
     DEBUG_POSTFIX "D")
   target_link_libraries (${log4cplus} PRIVATE ws2_32)
   target_link_libraries (${log4cplus} PRIVATE advapi32)
+  if (BUILD_SHARED_LIBS)
+    target_link_libraries (${log4cplus} PRIVATE ntdll)
+  endif ()
 endif ()
 
 ###

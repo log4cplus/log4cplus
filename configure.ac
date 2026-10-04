@@ -694,6 +694,21 @@ dnl checks before.
 LT_PREREQ([2.4.2])
 LT_INIT([win32-dll disable-static pic-only])
 
+dnl DLL cleanup must detect process termination before our own DllMain runs.
+dnl Check the actual stdcall import, including its decorated name on Win32.
+AS_IF([test "x$enable_shared" = "xyes"],
+  [AS_CASE(["$target_os"], [mingw*], [
+    AC_LANG_PUSH([C])
+    AX_PREPEND_FLAG([-lntdll], [LIBS])
+    AC_MSG_CHECKING([for RtlDllShutdownInProgress in ntdll])
+    AC_LINK_IFELSE([AC_LANG_PROGRAM([[
+#include <windows.h>
+__declspec(dllimport) BOOLEAN NTAPI RtlDllShutdownInProgress(void);
+]], [[return RtlDllShutdownInProgress();]])],
+      [AC_MSG_RESULT([yes])],
+      [AC_MSG_FAILURE([ntdll with RtlDllShutdownInProgress is required for Windows DLL builds])])
+    AC_LANG_POP([C])])])
+
 AH_TOP([#ifndef LOG4CPLUS_CONFIG_H])
 AH_TOP([#define LOG4CPLUS_CONFIG_H])
 AH_BOTTOM([#endif // LOG4CPLUS_CONFIG_H])
