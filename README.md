@@ -315,6 +315,14 @@ function. [log4cplus] will try to automatically initialize at process startup
 and/or on DLL load, and will not tear down until all `log4cplus:Initializer`
 instances are destroyed.
 
+During Windows process termination, DLL builds abandon logging resources
+instead of destroying them: Windows may already have terminated workers while
+they held locks. This can discard pending logging. Orderly shutdown before
+process termination is still required to ensure that logging completes, and
+before dynamically unloading a DLL that uses [log4cplus].
+
+Static [log4cplus] builds retain their existing behavior.
+
 
 Windows and file Appenders
 --------------------------

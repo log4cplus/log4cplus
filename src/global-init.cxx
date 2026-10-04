@@ -53,6 +53,14 @@
 #include <chrono>
 
 
+#if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL)
+// Not declared by the Windows SDK. Keep this a normal import: resolving it
+// lazily during process termination could acquire a lock left held by a
+// terminated thread.
+extern "C" __declspec(dllimport) BOOLEAN NTAPI RtlDllShutdownInProgress (void);
+#endif
+
+
 // Forward Declarations
 namespace log4cplus
 {
@@ -66,6 +74,24 @@ LOG4CPLUS_EXPORT tostream & tcout = std::cout;
 LOG4CPLUS_EXPORT tostream & tcerr = std::cerr;
 
 #endif // UNICODE
+
+
+namespace {
+
+bool
+process_terminating () noexcept
+{
+#if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL)
+    // A dependent DLL can call us during its teardown, before our DllMain.
+    // Windows has already terminated the other threads; abandon resources
+    // rather than touching locks or the thread runtime they left behind.
+    return RtlDllShutdownInProgress () != FALSE;
+#else
+    return false;
+#endif
+}
+
+} // namespace
 
 
 struct InitializerImpl
@@ -113,6 +139,9 @@ void shutdownThreadPool();
 
 Initializer::~Initializer ()
 {
+    if (process_terminating ())
+        return;
+
     bool destroy = false;
     {
         LOG4CPLUS_THREADED (
@@ -236,7 +265,8 @@ struct destroy_default_context
 {
     ~destroy_default_context ()
     {
-        delete default_context;
+        if (! process_terminating ())
+            delete default_context;
         default_context = nullptr;
         default_context_state = DC_DESTROYED;
     }
@@ -561,6 +591,9 @@ void
 #endif
 ptd_cleanup_func (void * arg)
 {
+    if (process_terminating ())
+        return;
+
     internal::per_thread_data * const arg_ptd
         = static_cast<internal::per_thread_data *>(arg);
     internal::per_thread_data * const ptd = internal::get_ptd (false);
@@ -640,6 +673,9 @@ initialize ()
 void
 deinitialize ()
 {
+    if (process_terminating ())
+        return;
+
     Logger::shutdown ();
     shutdownThreadPool();
 }
@@ -648,6 +684,9 @@ deinitialize ()
 void
 threadCleanup ()
 {
+    if (process_terminating ())
+        return;
+
     // Here we check that we can get CRT's heap handle because if we do not
     // then the following `delete` will fail with access violation in
     // `RtlFreeHeap()`.
@@ -718,6 +757,9 @@ static
 void
 freeTLSSlot ()
 {
+    if (process_terminating ())
+        return;
+
     if (internal::tls_storage_key != thread::impl::tls_key_type ())
     {
         thread::impl::tls_cleanup(internal::tls_storage_key);
@@ -750,8 +792,10 @@ queueLog4cplusInitializationThroughAPC ()
 
 static
 void NTAPI
-thread_callback (LPVOID /*hinstDLL*/, DWORD fdwReason, LPVOID /*lpReserved*/)
+thread_callback (LPVOID /*hinstDLL*/, DWORD fdwReason, LPVOID lpReserved)
 {
+    (void) lpReserved;
+
     // Perform actions based on the reason for calling.
     switch (fdwReason)
     {
@@ -785,6 +829,11 @@ thread_callback (LPVOID /*hinstDLL*/, DWORD fdwReason, LPVOID /*lpReserved*/)
 
     case DLL_PROCESS_DETACH:
     {
+#if defined (LOG4CPLUS_BUILD_DLL)
+        if (lpReserved)
+            return;
+#endif
+
         // Perform any necessary cleanup.
 
         // Do thread-specific cleanup.
