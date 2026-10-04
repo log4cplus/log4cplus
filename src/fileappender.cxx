@@ -138,7 +138,7 @@ file_remove (tstring const & src)
 static
 void
 loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
-    tstring const & target, long ret)
+    tstring const & target, long ret, ErrorHandler * errorHandler = nullptr)
 {
     if (ret == 0)
     {
@@ -148,7 +148,7 @@ loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
             + LOG4CPLUS_TEXT(" to ")
             + target);
     }
-    else if (ret != LOG4CPLUS_FILE_NOT_FOUND)
+    else if (errorHandler || ret != LOG4CPLUS_FILE_NOT_FOUND)
     {
         tostringstream oss;
         oss << LOG4CPLUS_TEXT("Failed to rename file from ")
@@ -157,7 +157,10 @@ loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
             << target
             << LOG4CPLUS_TEXT("; error ")
             << ret;
-        loglog.error (oss.str ());
+        if (errorHandler)
+            errorHandler->error (oss.str ());
+        else
+            loglog.error (oss.str ());
     }
 }
 
@@ -1469,23 +1472,15 @@ TimeBasedRollingFileAppender::rollover(bool alreadyLocked)
             + LOG4CPLUS_TEXT(" to ")
             + scheduledFilename);
         ret = file_rename (filename, scheduledFilename);
+        loglog_renaming_result (loglog, filename, scheduledFilename, ret,
+            getErrorHandler ());
         if (ret != 0)
         {
-            tostringstream oss;
-            oss << LOG4CPLUS_TEXT ("Failed to rename file from ")
-                << filename
-                << LOG4CPLUS_TEXT (" to ")
-                << scheduledFilename
-                << LOG4CPLUS_TEXT ("; error ")
-                << ret;
-            getErrorHandler()->error (oss.str ());
-
             // Preserve the active file and the original archive destination.
             // Leave the deadline unchanged so the next eligible event retries.
             FileAppenderBase::open (std::ios::out | std::ios::app);
             return;
         }
-        loglog_renaming_result (loglog, filename, scheduledFilename, ret);
     }
 
     Time now = timeBasedAppenderNow ();
