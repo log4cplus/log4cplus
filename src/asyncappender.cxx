@@ -24,6 +24,19 @@
 #include <log4cplus/config.hxx>
 #ifndef LOG4CPLUS_SINGLE_THREADED
 
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+// Include full Windows.h early for Catch.
+#include <log4cplus/config/windowsh-inc-full.h>
+#include <catch.hpp>
+#include <atomic>
+#include <chrono>
+#include <future>
+#include <memory>
+#include <stdexcept>
+#include <thread>
+#include <utility>
+#endif
+
 #include <log4cplus/asyncappender.h>
 #include <log4cplus/spi/factory.h>
 #include <log4cplus/helpers/loglog.h>
@@ -159,7 +172,8 @@ AsyncAppender::close ()
                 LOG4CPLUS_TEXT ("Error in AsyncAppender::close"));
     }
 
-    if (queue_thread && queue_thread->isRunning ())
+    // isRunning() becomes false before the worker's thread-exit cleanup ends.
+    if (queue_thread)
         queue_thread->join ();
 
     removeAllAppenders();
@@ -196,6 +210,299 @@ AsyncAppender::append (spi::InternalLoggingEvent const & ev)
         appendLoopOnAppenders (ev);
     }
 }
+
+
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+namespace
+{
+
+struct QueueThreadExitState
+{
+    std::promise<void> entered;
+    std::promise<void> release;
+    std::promise<void> helper_ready;
+    std::promise<void> close_started;
+    std::shared_future<void> release_future = release.get_future ().share ();
+    std::atomic<bool> finished {false};
+    std::atomic<bool> timed_out {false};
+    std::atomic<unsigned> events {0};
+    std::atomic<unsigned> synchronous_events {0};
+    std::atomic<unsigned> destroyed {0};
+    std::thread::id const caller = std::this_thread::get_id ();
+};
+
+
+struct QueueThreadExitGate
+{
+    std::shared_ptr<QueueThreadExitState> state;
+
+    ~QueueThreadExitGate ()
+    {
+        state->entered.set_value ();
+        state->timed_out = state->release_future.wait_for (
+            std::chrono::seconds (10)) != std::future_status::ready;
+        state->finished = true;
+    }
+};
+
+
+class QueueThreadTestAppender : public Appender
+{
+public:
+    QueueThreadTestAppender (std::shared_ptr<QueueThreadExitState> s, bool fail)
+        : state (std::move (s)), fail_first (fail)
+    { }
+
+    ~QueueThreadTestAppender () override { destructorImpl (); }
+    void close () override { closed = true; }
+
+protected:
+    void append (spi::InternalLoggingEvent const &) override
+    {
+        unsigned const previous = state->events.fetch_add (1);
+        if (std::this_thread::get_id () == state->caller)
+            ++state->synchronous_events;
+        if (previous == 0)
+        {
+            thread_local QueueThreadExitGate gate {state};
+            if (fail_first)
+                throw std::runtime_error ("Intentional queue worker failure");
+        }
+    }
+
+private:
+    std::shared_ptr<QueueThreadExitState> state;
+    bool const fail_first;
+};
+
+
+class TestAsyncAppender : public AsyncAppender
+{
+public:
+    TestAsyncAppender (SharedAppenderPtr const & sink,
+        std::shared_ptr<QueueThreadExitState> s)
+        : AsyncAppender (sink, 8), state (std::move (s))
+    { }
+
+    explicit TestAsyncAppender (helpers::Properties const & props)
+        : AsyncAppender (props)
+    { }
+
+    ~TestAsyncAppender () override
+    {
+        if (state)
+            ++state->destroyed;
+    }
+
+    thread::AbstractThreadPtr worker () const { return queue_thread; }
+
+private:
+    std::shared_ptr<QueueThreadExitState> state;
+};
+
+
+struct QueueThreadCloseFixture
+{
+    std::shared_ptr<QueueThreadExitState> state
+        = std::make_shared<QueueThreadExitState> ();
+    helpers::SharedObjectPtr<TestAsyncAppender> appender;
+    thread::AbstractThreadPtr worker;
+    std::future<void> entered = state->entered.get_future ();
+    std::future<void> close_started = state->close_started.get_future ();
+    std::promise<void> close_requested;
+    std::future<void> closing;
+    bool requested = false;
+    bool cleaned = false;
+    bool cleanup_ok = true;
+
+    explicit QueueThreadCloseFixture (bool fail)
+        : appender (new TestAsyncAppender (
+              SharedAppenderPtr (new QueueThreadTestAppender (state, fail)),
+              state))
+        , worker (appender->worker ())
+    {
+        auto app = appender;
+        auto s = state;
+        auto request = close_requested.get_future ().share ();
+        auto ready = state->helper_ready.get_future ();
+        // Start this helper before the worker enters TLS destruction: on
+        // Windows, the loader lock can prevent a new thread from starting then.
+        closing = std::async (std::launch::async, [app, s, request] {
+            s->helper_ready.set_value ();
+            if (request.wait_for (std::chrono::seconds (10))
+                != std::future_status::ready)
+                throw std::runtime_error ("Timed out waiting for close request");
+            s->close_started.set_value ();
+            app->close ();
+        });
+        cleanup_ok = ready.wait_for (std::chrono::seconds (10))
+            == std::future_status::ready;
+    }
+
+    ~QueueThreadCloseFixture () { cleanup (); }
+
+    void append ()
+    {
+        spi::InternalLoggingEvent event (LOG4CPLUS_TEXT ("queue-close-test"),
+            INFO_LOG_LEVEL, LOG4CPLUS_TEXT ("event"), __FILE__, __LINE__);
+        appender->doAppend (event);
+    }
+
+    void start_close ()
+    {
+        if (! requested)
+        {
+            close_requested.set_value ();
+            requested = true;
+        }
+    }
+
+    bool wait_for_exit ()
+    {
+        return entered.wait_for (std::chrono::seconds (10))
+            == std::future_status::ready;
+    }
+
+    bool close_is_pending ()
+    {
+        return close_started.wait_for (std::chrono::seconds (10))
+                == std::future_status::ready
+            && closing.wait_for (std::chrono::milliseconds (100))
+                == std::future_status::timeout;
+    }
+
+    // Release and reap everything before assertions, even with the old close()
+    // that drops its handle without joining an already stopped worker.
+    bool cleanup ()
+    {
+        if (cleaned)
+            return cleanup_ok;
+        state->release.set_value ();
+        start_close ();
+        try
+        {
+            bool const ready = closing.wait_for (std::chrono::seconds (10))
+                == std::future_status::ready;
+            cleanup_ok = cleanup_ok && ready;
+            closing.get ();
+        }
+        catch (...)
+        {
+            cleanup_ok = false;
+        }
+        try
+        {
+            worker->join ();
+        }
+        catch (std::logic_error const &)
+        {
+            // close() has already joined this retained worker handle.
+        }
+        catch (...)
+        {
+            cleanup_ok = false;
+        }
+        worker = nullptr;
+        cleaned = true;
+        cleanup_ok = cleanup_ok && ! state->timed_out;
+        return cleanup_ok;
+    }
+};
+
+} // namespace
+
+
+CATCH_TEST_CASE ("AsyncAppender close waits for failed worker cleanup",
+    "[asyncappender][shutdown]")
+{
+    QueueThreadCloseFixture fixture (true);
+    fixture.append ();
+    bool const entered = fixture.wait_for_exit ();
+    bool const running = fixture.worker->isRunning ();
+    fixture.start_close ();
+    bool const pending = fixture.close_is_pending ();
+    bool const finished = fixture.state->finished;
+    bool const cleaned = fixture.cleanup ();
+
+    CATCH_CHECK (entered);
+    CATCH_CHECK_FALSE (running);
+    CATCH_CHECK (pending);
+    CATCH_CHECK_FALSE (finished);
+    CATCH_CHECK (cleaned);
+    CATCH_CHECK (fixture.state->finished);
+}
+
+
+CATCH_TEST_CASE ("AsyncAppender close drains events and waits for cleanup",
+    "[asyncappender][shutdown]")
+{
+    QueueThreadCloseFixture fixture (false);
+    for (unsigned i = 0; i != 4; ++i)
+        fixture.append ();
+    fixture.start_close ();
+    bool const entered = fixture.wait_for_exit ();
+    bool const pending = fixture.close_is_pending ();
+    unsigned const events = fixture.state->events;
+    bool const cleaned = fixture.cleanup ();
+
+    CATCH_CHECK (entered);
+    CATCH_CHECK (pending);
+    CATCH_CHECK (events == 4);
+    CATCH_CHECK (fixture.state->synchronous_events == 0);
+    CATCH_CHECK (cleaned);
+    CATCH_CHECK (fixture.state->finished);
+}
+
+
+CATCH_TEST_CASE ("AsyncAppender falls back after queue worker failure",
+    "[asyncappender][shutdown]")
+{
+    QueueThreadCloseFixture fixture (true);
+    fixture.append ();
+    bool const entered = fixture.wait_for_exit ();
+    // TLS cleanup starts after isRunning() becomes false. The next append
+    // must therefore reach the wrapped appender on this calling thread.
+    if (entered)
+        fixture.append ();
+    bool const cleaned = fixture.cleanup ();
+
+    CATCH_CHECK (entered);
+    CATCH_CHECK (fixture.state->events == 2);
+    CATCH_CHECK (fixture.state->synchronous_events == 1);
+    CATCH_CHECK (cleaned);
+}
+
+
+CATCH_TEST_CASE ("AsyncAppender can close repeatedly and then be destroyed",
+    "[asyncappender][shutdown]")
+{
+    QueueThreadCloseFixture fixture (false);
+    fixture.append ();
+    fixture.start_close ();
+    bool const entered = fixture.wait_for_exit ();
+    bool const cleaned = fixture.cleanup ();
+
+    CATCH_CHECK (entered);
+    CATCH_CHECK (cleaned);
+    CATCH_CHECK_FALSE (fixture.appender->worker ());
+    CATCH_CHECK_NOTHROW (fixture.appender->close ());
+    fixture.appender = nullptr;
+    CATCH_CHECK (fixture.state->destroyed == 1);
+}
+
+
+CATCH_TEST_CASE ("AsyncAppender can close without a queue worker",
+    "[asyncappender][shutdown]")
+{
+    helpers::Properties props;
+    helpers::SharedObjectPtr<TestAsyncAppender> appender (
+        new TestAsyncAppender (props));
+    CATCH_CHECK_FALSE (appender->worker ());
+    CATCH_CHECK_NOTHROW (appender->close ());
+    CATCH_CHECK_NOTHROW (appender->close ());
+    appender = nullptr;
+}
+#endif // LOG4CPLUS_WITH_UNIT_TESTS
 
 
 } // namespace log4cplus
