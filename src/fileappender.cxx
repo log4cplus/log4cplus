@@ -138,7 +138,7 @@ file_remove (tstring const & src)
 static
 void
 loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
-    tstring const & target, long ret)
+    tstring const & target, long ret, ErrorHandler * errorHandler = nullptr)
 {
     if (ret == 0)
     {
@@ -148,7 +148,7 @@ loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
             + LOG4CPLUS_TEXT(" to ")
             + target);
     }
-    else if (ret != LOG4CPLUS_FILE_NOT_FOUND)
+    else if (errorHandler || ret != LOG4CPLUS_FILE_NOT_FOUND)
     {
         tostringstream oss;
         oss << LOG4CPLUS_TEXT("Failed to rename file from ")
@@ -157,7 +157,10 @@ loglog_renaming_result (helpers::LogLog & loglog, tstring const & src,
             << target
             << LOG4CPLUS_TEXT("; error ")
             << ret;
-        loglog.error (oss.str ());
+        if (errorHandler)
+            errorHandler->error (oss.str ());
+        else
+            loglog.error (oss.str ());
     }
 }
 
@@ -1454,6 +1457,9 @@ TimeBasedRollingFileAppender::rollover(bool alreadyLocked)
         helpers::LogLog & loglog = helpers::getLogLog();
         long ret;
 
+        if (createDirs)
+            internal::make_dirs (scheduledFilename);
+
 #if defined (_WIN32)
         // Try to remove the target first. It seems it is not
         // possible to rename over existing file.
@@ -1466,7 +1472,15 @@ TimeBasedRollingFileAppender::rollover(bool alreadyLocked)
             + LOG4CPLUS_TEXT(" to ")
             + scheduledFilename);
         ret = file_rename (filename, scheduledFilename);
-        loglog_renaming_result (loglog, filename, scheduledFilename, ret);
+        loglog_renaming_result (loglog, filename, scheduledFilename, ret,
+            getErrorHandler ());
+        if (ret != 0)
+        {
+            // Preserve the active file and the original archive destination.
+            // Leave the deadline unchanged so the next eligible event retries.
+            FileAppenderBase::open (std::ios::out | std::ios::app);
+            return;
+        }
     }
 
     Time now = timeBasedAppenderNow ();
@@ -2349,6 +2363,171 @@ CATCH_TEST_CASE ("TimeBasedRollingFileAppender creates dated output directories"
     appender.log (LOG4CPLUS_TEXT ("two"), clock.now);
     CATCH_CHECK (directory.read (first) == "one\n");
     CATCH_CHECK (directory.read (second) == "two\n");
+}
+
+CATCH_TEST_CASE ("TimeBasedRollingFileAppender creates dated archive directories",
+    "[appender][timebased-rollover][timebased-archive-dirs]")
+{
+    bool const direct = GENERATE (false, true);
+    bool const existing = GENERATE (false, true);
+    CATCH_CAPTURE (direct, existing);
+    TimeBasedTestClock clock;
+    TimeBasedTestDirectory directory;
+    auto const current = directory.file (LOG4CPLUS_TEXT ("active/current.log"));
+    auto const first = directory.file (
+        LOG4CPLUS_TEXT ("archive/20251114/MyApplication/log.txt"));
+    auto const second = directory.file (
+        LOG4CPLUS_TEXT ("archive/20251115/MyApplication/log.txt"));
+    auto const third = directory.file (
+        LOG4CPLUS_TEXT ("archive/20251116/MyApplication/log.txt"));
+    auto const pattern = directory.path
+        + LOG4CPLUS_TEXT ("/archive/%d{yyyyMMdd}/MyApplication/log.txt");
+    if (existing)
+    {
+        internal::make_dirs (first);
+        internal::make_dirs (second);
+    }
+    auto properties = timeBasedTestProperties (pattern);
+    properties.setProperty (LOG4CPLUS_TEXT ("File"), current);
+    std::unique_ptr<TimeBasedTestAppender> appender;
+    if (direct)
+        appender.reset (new TimeBasedTestAppender (
+            current, pattern, 365, false, true, true, false));
+    else
+        appender.reset (new TimeBasedTestAppender (properties));
+    timeBasedTestLayout (*appender);
+    auto * errors = new TimeBasedTestErrorHandler;
+    appender->setErrorHandler (std::unique_ptr<ErrorHandler> (errors));
+
+    appender->log (LOG4CPLUS_TEXT ("one"), clock.now);
+    CATCH_CHECK (directory.read (current) == "one\n");
+    CATCH_CHECK (! directory.exists (first));
+    clock.now = timeBasedTestDate (15);
+    appender->log (LOG4CPLUS_TEXT ("two"), clock.now);
+    CATCH_CHECK (directory.read (first) == "one\n");
+    CATCH_CHECK (directory.read (current) == "two\n");
+    CATCH_CHECK (! directory.exists (second));
+    clock.now = timeBasedTestDate (16);
+    appender->log (LOG4CPLUS_TEXT ("three"), clock.now);
+    CATCH_CHECK (directory.read (first) == "one\n");
+    CATCH_CHECK (directory.read (second) == "two\n");
+    CATCH_CHECK (directory.read (current) == "three\n");
+    CATCH_CHECK (! directory.exists (third));
+    CATCH_CHECK (errors->errors.empty ());
+}
+
+CATCH_TEST_CASE ("TimeBasedRollingFileAppender preserves active files after failed archiving",
+    "[appender][timebased-rollover][timebased-archive-dirs]")
+{
+    bool const blocked = GENERATE (false, true);
+    CATCH_CAPTURE (blocked);
+    TimeBasedTestClock clock;
+    TimeBasedTestDirectory directory;
+    auto const current = directory.file (LOG4CPLUS_TEXT ("current.log"));
+    auto const archiveRoot = directory.file (LOG4CPLUS_TEXT ("archive"));
+    auto const first = directory.file (
+        LOG4CPLUS_TEXT ("archive/20251114/MyApplication/log.txt"));
+    auto const second = directory.file (
+        LOG4CPLUS_TEXT ("archive/20251115/MyApplication/log.txt"));
+    if (blocked)
+        directory.write (archiveRoot, "blocks directory creation\n");
+    auto properties = timeBasedTestProperties (directory.path
+        + LOG4CPLUS_TEXT ("/archive/%d{yyyyMMdd}/MyApplication/log.txt"));
+    properties.setProperty (LOG4CPLUS_TEXT ("File"), current);
+    properties.setProperty (LOG4CPLUS_TEXT ("CreateDirs"),
+        blocked ? LOG4CPLUS_TEXT ("true") : LOG4CPLUS_TEXT ("false"));
+    TimeBasedTestAppender appender (properties);
+    timeBasedTestLayout (appender);
+    auto * errors = new TimeBasedTestErrorHandler;
+    appender.setErrorHandler (std::unique_ptr<ErrorHandler> (errors));
+    appender.log (LOG4CPLUS_TEXT ("one"), clock.now);
+    clock.now = timeBasedTestDate (15);
+    appender.log (LOG4CPLUS_TEXT ("two"), clock.now);
+    CATCH_CHECK (directory.read (current) == "one\ntwo\n");
+    CATCH_CHECK (! directory.exists (first));
+    CATCH_CHECK (! directory.exists (second));
+    CATCH_REQUIRE (errors->errors.size () == 1);
+    tstring const errorPrefix = LOG4CPLUS_TEXT ("Failed to rename file from ")
+        + current + LOG4CPLUS_TEXT (" to ") + first
+        + LOG4CPLUS_TEXT ("; error ");
+    CATCH_CHECK (errors->errors[0].find (errorPrefix) == 0);
+    CATCH_CHECK (errors->errors[0].size () > errorPrefix.size ());
+    if (! blocked)
+    {
+        CATCH_CHECK (! directory.exists (archiveRoot));
+        CATCH_CHECK (errors->errors[0] == errorPrefix
+            + helpers::convertIntegerToString (ENOENT));
+    }
+
+    appender.log (LOG4CPLUS_TEXT ("three"), clock.now);
+    CATCH_CHECK (directory.read (current) == "one\ntwo\nthree\n");
+    CATCH_REQUIRE (errors->errors.size () == 2);
+    CATCH_CHECK (errors->errors[1] == errors->errors[0]);
+    if (blocked)
+        CATCH_REQUIRE (file_remove (archiveRoot) == 0);
+    else
+        internal::make_dirs (first);
+
+    // Retry at the same timestamp, still targeting the original period.
+    appender.log (LOG4CPLUS_TEXT ("four"), clock.now);
+    CATCH_CHECK (directory.read (first) == "one\ntwo\nthree\n");
+    CATCH_CHECK (directory.read (current) == "four\n");
+    CATCH_CHECK (! directory.exists (second));
+    CATCH_CHECK (errors->errors.size () == 2);
+    if (! blocked)
+        internal::make_dirs (second);
+    clock.now = timeBasedTestDate (16);
+    appender.log (LOG4CPLUS_TEXT ("five"), clock.now);
+    CATCH_CHECK (directory.read (first) == "one\ntwo\nthree\n");
+    CATCH_CHECK (directory.read (second) == "four\n");
+    CATCH_CHECK (directory.read (current) == "five\n");
+    CATCH_CHECK (errors->errors.size () == 2);
+}
+
+CATCH_TEST_CASE ("TimeBasedRollingFileAppender safely archives dated directories on close",
+    "[appender][timebased-rollover][timebased-archive-dirs]")
+{
+    int const scenario = GENERATE (0, 1, 2);
+    CATCH_CAPTURE (scenario);
+    TimeBasedTestClock clock;
+    TimeBasedTestDirectory directory;
+    auto const current = directory.file (LOG4CPLUS_TEXT ("current.log"));
+    auto const archiveRoot = directory.file (LOG4CPLUS_TEXT ("archive"));
+    auto const archive = directory.file (
+        LOG4CPLUS_TEXT ("archive/20251114/MyApplication/log.txt"));
+    if (scenario == 2)
+        directory.write (archiveRoot, "blocks directory creation\n");
+    auto properties = timeBasedTestProperties (directory.path
+        + LOG4CPLUS_TEXT ("/archive/%d{yyyyMMdd}/MyApplication/log.txt"));
+    properties.setProperty (LOG4CPLUS_TEXT ("File"), current);
+    properties.setProperty (LOG4CPLUS_TEXT ("CreateDirs"),
+        scenario == 1 ? LOG4CPLUS_TEXT ("false") : LOG4CPLUS_TEXT ("true"));
+    properties.setProperty (LOG4CPLUS_TEXT ("RollOnClose"), LOG4CPLUS_TEXT ("true"));
+    TimeBasedTestAppender appender (properties);
+    timeBasedTestLayout (appender);
+    auto * errors = new TimeBasedTestErrorHandler;
+    appender.setErrorHandler (std::unique_ptr<ErrorHandler> (errors));
+    appender.log (LOG4CPLUS_TEXT ("one"), clock.now);
+    CATCH_CHECK (! directory.exists (archive));
+    appender.close ();
+    CATCH_CHECK (appender.isClosed ());
+    if (scenario == 0)
+    {
+        CATCH_CHECK (directory.read (archive) == "one\n");
+        CATCH_CHECK (directory.read (current).empty ());
+        CATCH_CHECK (errors->errors.empty ());
+    }
+    else
+    {
+        CATCH_CHECK (directory.read (current) == "one\n");
+        CATCH_CHECK (! directory.exists (archive));
+        CATCH_REQUIRE (errors->errors.size () == 1);
+        CATCH_CHECK (errors->errors[0].find (
+            LOG4CPLUS_TEXT ("Failed to rename file from ") + current
+            + LOG4CPLUS_TEXT (" to ") + archive + LOG4CPLUS_TEXT ("; error ")) == 0);
+        if (scenario == 1)
+            CATCH_CHECK (! directory.exists (archiveRoot));
+    }
 }
 
 CATCH_TEST_CASE ("TimeBasedRollingFileAppender reopens without losing messages",
