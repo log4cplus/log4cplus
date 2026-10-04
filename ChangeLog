@@ -20,6 +20,19 @@
     `RollOnClose`. Initial opening still honors `Append`. GitHub issue #668.
     GitHub PR #697.
 
+  - Honor `CreateDirs` for dated archive directories in
+    `TimeBasedRollingFileAppender` with a fixed `File`. On rename failure,
+    preserve the active log and retry the original archive destination on the
+    next eligible event instead of truncating the log. Report rename errors
+    through the appender's error handler. GitHub issue #644. GitHub PR #708.
+
+  - Fix `TimeBasedRollingFileAppender` period recovery across sequential
+    process restarts. Use the modification time of a nonempty fixed `File`
+    opened with `Append=true` to select its archive period, and roll over an
+    expired period before writing the first eligible new event. Retain that
+    period through stream reopens and failed rollover retries. GitHub issue
+    #588. GitHub PR #710.
+
   - Fix accounting for asynchronous events dropped when the nonblocking thread
     pool queue is full. Appender shutdown and destruction can now finish after
     accepted events drain when `log4cplus.threadPoolBlockOnFull=false`. GitHub
