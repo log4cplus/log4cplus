@@ -338,14 +338,24 @@ jobs:
           esac
 
   windows-cmake:
+    name: CMake / Windows / MSVC ${{ matrix.config.msvc }} (${{ matrix.config.toolset }}) / ${{ matrix.config.arch }}
     strategy:
       fail-fast: false
       matrix:
         config:
         - os: 'windows-2022'
+          msvc: '2022'
+          toolset: 'v143'
           arch: 'x64'
           generator: 'Visual Studio 17 2022'
+        - os: 'windows-2025-vs2026'
+          msvc: '2026'
+          toolset: 'v145'
+          arch: 'x64'
+          generator: 'Visual Studio 18 2026'
         - os: 'windows-11-arm'
+          msvc: '2026'
+          toolset: 'v145'
           arch: 'ARM64'
           generator: 'Visual Studio 18 2026'
 
@@ -362,8 +372,67 @@ jobs:
         -B objdir
         -G "${{ matrix.config.generator }}"
         -A ${{ matrix.config.arch }}
+        -T ${{ matrix.config.toolset }}
         -DCMAKE_BUILD_TYPE=Release
     - name: build
       run: cmake --build objdir --config Release
     - name: test
       run: ctest --test-dir objdir --build-config Release --output-on-failure
+
+  windows-msbuild:
+    name: MSBuild / Windows / MSVC ${{ matrix.config.msvc }} (${{ matrix.config.toolset }}) / ${{ matrix.project }} / ${{ matrix.configuration }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - os: 'windows-2022'
+          msvc: '2022'
+          toolset: 'v143'
+          vs-version: '[17.0,18.0)'
+        - os: 'windows-2025-vs2026'
+          msvc: '2026'
+          toolset: 'v145'
+          vs-version: '[18.0,19.0)'
+        project: ['log4cplus', 'log4cplusS']
+        configuration: ['Release', 'Release_Unicode']
+
+    runs-on: ${{ matrix.config.os }}
+
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        submodules: recursive
+    - name: build
+      shell: pwsh
+      run: |
+        $msbuild = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" `
+          -latest -products '*' -version '${{ matrix.config.vs-version }}' `
+          -requires Microsoft.Component.MSBuild `
+          -find 'MSBuild\**\Bin\MSBuild.exe' | Select-Object -First 1
+        if (-not $msbuild) {
+          throw 'Visual Studio ${{ matrix.config.msvc }} MSBuild was not found.'
+        }
+        # Override the checked-in toolset so the compiler matches the job name.
+        & $msbuild "msvc14\${{ matrix.project }}.vcxproj" `
+          /p:Configuration=${{ matrix.configuration }} `
+          /p:Platform=x64 `
+          /p:PlatformToolset=${{ matrix.config.toolset }} `
+          /p:WindowsTargetPlatformVersion=10.0 `
+          /nologo
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+        $suffix = if ('${{ matrix.project }}' -eq 'log4cplusS') { 'S' } else { '' }
+        & $msbuild "msvc14\tests\unit_tests${suffix}.vcxproj" `
+          /p:Configuration=${{ matrix.configuration }} `
+          /p:Platform=x64 `
+          /p:PlatformToolset=${{ matrix.config.toolset }} `
+          /p:WindowsTargetPlatformVersion=10.0 `
+          "/p:SolutionDir=${pwd}\msvc14\" `
+          /nologo
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    - name: test
+      shell: pwsh
+      run: |
+        $suffix = if ('${{ matrix.project }}' -eq 'log4cplusS') { 'S' } else { '' }
+        Set-Location 'msvc14\x64\bin.${{ matrix.configuration }}'
+        & ".\unit_tests${suffix}.exe"
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

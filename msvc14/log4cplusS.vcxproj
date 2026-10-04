@@ -314,6 +314,11 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\catch\extras\catch_amalgamated.cpp" />
+    <ClCompile Include="..\src\androidappender.cxx" />
+    <ClCompile Include="..\src\eventcounter.cxx" />
+    <ClCompile Include="..\src\win32fstream.cxx" />
+    <ClCompile Include="..\src\win32traceloggingappender.cxx" />
     <ClCompile Include="..\src\appender.cxx">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug_Unicode|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
