@@ -48,7 +48,10 @@
 #include "ThreadPool.h"
 #endif
 #include <cstdio>
+#include <exception>
+#include <future>
 #include <iostream>
+#include <new>
 #include <stdexcept>
 #include <chrono>
 
@@ -400,6 +403,37 @@ getMDC ()
 
 #if ! defined (LOG4CPLUS_SINGLE_THREADED) \
     && defined (LOG4CPLUS_ENABLE_THREAD_POOL)
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+namespace
+{
+
+struct AsyncEnqueueTestHook;
+thread_local AsyncEnqueueTestHook * async_enqueue_test_hook = nullptr;
+
+struct AsyncEnqueueTestHook
+{
+    AsyncEnqueueTestHook * const previous = async_enqueue_test_hook;
+    bool wait_for_completion = false;
+    bool fail_submission = false;
+    bool completed_before_poll = false;
+
+    AsyncEnqueueTestHook ()
+    {
+        async_enqueue_test_hook = this;
+    }
+
+    ~AsyncEnqueueTestHook ()
+    {
+        async_enqueue_test_hook = previous;
+    }
+
+    AsyncEnqueueTestHook (AsyncEnqueueTestHook const &) = delete;
+    AsyncEnqueueTestHook & operator= (AsyncEnqueueTestHook const &) = delete;
+};
+
+} // namespace
+#endif
+
 bool
 enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
     spi::InternalLoggingEvent const & event)
@@ -408,19 +442,39 @@ enqueueAsyncDoAppend (SharedAppenderPtr const & appender,
 
     DefaultContext * dc = get_dc ();
     progschj::ThreadPool * tp = dc->get_thread_pool (true);
-    auto func = [=] () {
-        appender->asyncDoAppend (event);
+    // Keep task failures separate from the submission failures that
+    // doAppend() must roll back. Accepted tasks own their accounting.
+    auto func = [=] () noexcept -> std::exception_ptr {
+        try
+        {
+            appender->asyncDoAppend (event);
+            return {};
+        }
+        catch (...)
+        {
+            return std::current_exception ();
+        }
     };
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+    if (async_enqueue_test_hook && async_enqueue_test_hook->fail_submission)
+        throw std::bad_alloc ();
+#endif
     if (dc->block_on_full)
         tp->enqueue_block (std::move (func));
     else
     {
-        std::future<void> future = tp->enqueue (std::move (func));
+        std::future<std::exception_ptr> future = tp->enqueue (std::move (func));
+#if defined (LOG4CPLUS_WITH_UNIT_TESTS)
+        if (async_enqueue_test_hook && async_enqueue_test_hook->wait_for_completion)
+            async_enqueue_test_hook->completed_before_poll
+                = future.wait_for (std::chrono::seconds (10))
+                    == std::future_status::ready;
+#endif
         if (future.wait_for (std::chrono::seconds (0)) == std::future_status::ready)
         {
             try
             {
-                future.get ();
+                (void) future.get ();
             }
             catch (const progschj::would_block &)
             {
@@ -929,11 +983,20 @@ struct AsyncQueueTestRelease
     }
 };
 
+enum class AsyncQueueTestException
+{
+    none,
+    runtime_error,
+    non_standard
+};
+
 class AsyncQueueTestAppender : public Appender
 {
 public:
-    explicit AsyncQueueTestAppender (std::shared_future<void> release_)
+    explicit AsyncQueueTestAppender (std::shared_future<void> release_,
+        AsyncQueueTestException exception_ = AsyncQueueTestException::none)
         : release (std::move (release_))
+        , exception (exception_)
     {
         async = true;
     }
@@ -960,12 +1023,22 @@ protected:
         {
             started.set_value ();
             release.wait ();
+            switch (exception)
+            {
+            case AsyncQueueTestException::runtime_error:
+                throw std::runtime_error ("async test appender failure");
+            case AsyncQueueTestException::non_standard:
+                throw 123;
+            case AsyncQueueTestException::none:
+                break;
+            }
         }
     }
 
 private:
     std::promise<void> started;
     std::shared_future<void> release;
+    AsyncQueueTestException const exception;
     std::atomic<std::size_t> appended {0};
 };
 
@@ -1026,6 +1099,109 @@ CATCH_TEST_CASE ("Blocking async events finish their appender accounting",
     context.pool.wait_until_empty ();
     context.pool.wait_until_nothing_in_flight ();
     CATCH_CHECK (appender->messages () == 12);
+    CATCH_REQUIRE (appender->pending () == 0);
+    appender->waitToFinishAsyncLogging ();
+}
+
+CATCH_TEST_CASE ("Accepted async task exceptions finish their appender accounting",
+    "[async][queue][exceptions]")
+{
+    bool const block_on_full = GENERATE (false, true);
+    auto const exception = GENERATE (AsyncQueueTestException::runtime_error,
+        AsyncQueueTestException::non_standard);
+    AsyncQueueTestContext context (block_on_full);
+    AsyncQueueTestRelease release;
+    auto * appender = new AsyncQueueTestAppender (
+        release.promise.get_future ().share (), exception);
+    SharedAppenderPtr appender_ptr (appender);
+    spi::InternalLoggingEvent event (LOG4CPLUS_TEXT ("async-test"),
+        INFO_LOG_LEVEL, LOG4CPLUS_TEXT ("message"), __FILE__, __LINE__);
+    release.release ();
+
+    {
+        AsyncEnqueueTestHook hook;
+        // Force the worker to finish before the nonblocking readiness check.
+        hook.wait_for_completion = ! block_on_full;
+        CATCH_CHECK_NOTHROW (appender->doAppend (event));
+        if (! block_on_full)
+            CATCH_REQUIRE (hook.completed_before_poll);
+    }
+    context.pool.wait_until_empty ();
+    context.pool.wait_until_nothing_in_flight ();
+    CATCH_CHECK (appender->messages () == 1);
+    CATCH_REQUIRE (appender->pending () == 0);
+    appender->waitToFinishAsyncLogging ();
+
+    CATCH_CHECK_NOTHROW (appender->doAppend (event));
+    context.pool.wait_until_empty ();
+    context.pool.wait_until_nothing_in_flight ();
+    CATCH_CHECK (appender->messages () == 2);
+    CATCH_REQUIRE (appender->pending () == 0);
+    appender->waitToFinishAsyncLogging ();
+}
+
+CATCH_TEST_CASE ("Late async task exceptions finish their appender accounting",
+    "[async][queue][exceptions]")
+{
+    auto const exception = GENERATE (AsyncQueueTestException::runtime_error,
+        AsyncQueueTestException::non_standard);
+    AsyncQueueTestContext context (false);
+    AsyncQueueTestRelease release;
+    auto * appender = new AsyncQueueTestAppender (
+        release.promise.get_future ().share (), exception);
+    SharedAppenderPtr appender_ptr (appender);
+    auto started_future = appender->startedFuture ();
+    spi::InternalLoggingEvent event (LOG4CPLUS_TEXT ("async-test"),
+        INFO_LOG_LEVEL, LOG4CPLUS_TEXT ("message"), __FILE__, __LINE__);
+
+    // Keep the worker inside append() until doAppend() has returned.
+    CATCH_CHECK_NOTHROW (appender->doAppend (event));
+    CATCH_REQUIRE (started_future.wait_for (std::chrono::seconds (10))
+        == std::future_status::ready);
+    CATCH_REQUIRE (appender->pending () == 1);
+    release.release ();
+    context.pool.wait_until_empty ();
+    context.pool.wait_until_nothing_in_flight ();
+    CATCH_CHECK (appender->messages () == 1);
+    CATCH_REQUIRE (appender->pending () == 0);
+    appender->waitToFinishAsyncLogging ();
+
+    CATCH_CHECK_NOTHROW (appender->doAppend (event));
+    context.pool.wait_until_empty ();
+    context.pool.wait_until_nothing_in_flight ();
+    CATCH_CHECK (appender->messages () == 2);
+    CATCH_REQUIRE (appender->pending () == 0);
+    appender->waitToFinishAsyncLogging ();
+}
+
+CATCH_TEST_CASE ("Async submission failures finish their appender accounting",
+    "[async][queue][exceptions]")
+{
+    bool const block_on_full = GENERATE (false, true);
+    AsyncQueueTestContext context (block_on_full);
+    AsyncQueueTestRelease release;
+    auto * appender = new AsyncQueueTestAppender (
+        release.promise.get_future ().share ());
+    SharedAppenderPtr appender_ptr (appender);
+    spi::InternalLoggingEvent event (LOG4CPLUS_TEXT ("async-test"),
+        INFO_LOG_LEVEL, LOG4CPLUS_TEXT ("message"), __FILE__, __LINE__);
+    release.release ();
+
+    {
+        AsyncEnqueueTestHook hook;
+        hook.fail_submission = true;
+        CATCH_CHECK_THROWS_AS (appender->doAppend (event), std::bad_alloc);
+    }
+    context.pool.wait_until_empty ();
+    context.pool.wait_until_nothing_in_flight ();
+    CATCH_CHECK (appender->messages () == 0);
+    CATCH_REQUIRE (appender->pending () == 0);
+    appender->waitToFinishAsyncLogging ();
+
+    CATCH_CHECK_NOTHROW (appender->doAppend (event));
+    context.pool.wait_until_empty ();
+    context.pool.wait_until_nothing_in_flight ();
+    CATCH_CHECK (appender->messages () == 1);
     CATCH_REQUIRE (appender->pending () == 0);
     appender->waitToFinishAsyncLogging ();
 }
