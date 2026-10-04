@@ -179,6 +179,48 @@ In version 2.0 and later, it is done by the last instance of
 `log4cplus::Initializer` class and its destructor. In previous versions,
 calling `Logger::shutdown()` was the proper shutdown method.
 
+## Method tracing
+
+`LOG4CPLUS_TRACE_METHOD(logger, LOG4CPLUS_TEXT("method()"))` logs entry and
+exit at TRACE level. Its complete default prefixes are `"ENTER: "` and
+`"EXIT:  "`, including their spaces. To use arrows:
+
+~~~~{.cpp}
+log4cplus::Initializer initializer;
+log4cplus::TraceLogger::setDefaultPrefixes({
+    LOG4CPLUS_TEXT("==> "), LOG4CPLUS_TEXT("<== ")});
+~~~~
+
+The same defaults can be set in a properties file:
+
+~~~~{.properties}
+log4cplus.traceLogger.enterPrefix="==> "
+log4cplus.traceLogger.exitPrefix="<== "
+~~~~
+
+Matching outer double quotes preserve enclosed whitespace and are removed
+after variable substitution. Unquoted values use the usual whitespace
+trimming. No separator is appended and no escape processing is performed.
+An empty value removes that prefix; an omitted property retains its current
+value. The C++ API accepts exact strings, without interpreting quotes.
+`TraceLogger::setDefaultPrefixes({})` restores both built-in defaults.
+
+Defaults apply to all logger hierarchies in one library instance. Each trace
+captures one pointer to an immutable prefix pair at construction, even when
+TRACE is disabled, and retains that pair if configuration changes before
+exit. Snapshot acquisition copies no prefix strings and performs no
+allocation, mutex locking, or reference counting. Message construction still
+occurs when a log event is emitted. `getDefaultPrefixes()` returns the current
+pair by const reference, also without copying strings.
+
+Changed non-default pairs remain alive until library-context teardown;
+repeatedly publishing the current values does not retain another pair.
+References returned by the getter remain valid through reconfiguration.
+Hierarchy reset and shutdown do not reset these defaults. Library initialization
+and lifetime requirements apply to both configuration and returned references.
+The added pointer changes `TraceLogger`'s object layout, so applications must
+rebuild against the updated header.
+
 ## Logging macros
 
 As we have mentioned earlier, `LOG4CPLUS_WARN()`, `LOG4CPLUS_ERROR()`, etc.,

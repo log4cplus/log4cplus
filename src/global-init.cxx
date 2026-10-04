@@ -44,6 +44,7 @@
 #include <log4cplus/spi/loggingevent.h>
 #endif
 #include <log4cplus/hierarchy.h>
+#include <log4cplus/tracelogger.h>
 #if ! defined (LOG4CPLUS_SINGLE_THREADED)
 #include "ThreadPool.h"
 #endif
@@ -54,6 +55,7 @@
 #include <new>
 #include <stdexcept>
 #include <chrono>
+#include <atomic>
 
 
 #if defined (_WIN32) && defined (LOG4CPLUS_BUILD_DLL)
@@ -209,6 +211,13 @@ struct ThreadPoolHolder
 //! Default context.
 struct DefaultContext
 {
+    // Declare these before the hierarchy and other logging facilities so that
+    // captured prefixes remain valid throughout their destruction.
+    TraceLogger::Prefixes const builtin_trace_prefixes;
+    std::vector<std::unique_ptr<TraceLogger::Prefixes const>> trace_prefix_history;
+    std::atomic<TraceLogger::Prefixes const *> trace_prefixes
+        {&builtin_trace_prefixes};
+    log4cplus::thread::Mutex trace_prefix_mutex;
     log4cplus::thread::Mutex console_mutex;
     helpers::LogLog loglog;
     LogLevelManager log_level_manager;
@@ -333,6 +342,38 @@ get_dc (
 
 
 } // namespace
+
+
+TraceLogger::Prefixes const &
+TraceLogger::getDefaultPrefixes()
+{
+    return *get_dc()->trace_prefixes.load(std::memory_order_acquire);
+}
+
+
+void
+TraceLogger::setDefaultPrefixes(Prefixes prefixes)
+{
+    DefaultContext * const dc = get_dc();
+    thread::MutexGuard guard(dc->trace_prefix_mutex);
+    auto const same = [&prefixes](Prefixes const & other) {
+        return prefixes.enterPrefix == other.enterPrefix
+            && prefixes.exitPrefix == other.exitPrefix;
+    };
+    if (same(*dc->trace_prefixes.load(std::memory_order_relaxed)))
+        return;
+
+    Prefixes const * replacement;
+    if (same(dc->builtin_trace_prefixes))
+        replacement = &dc->builtin_trace_prefixes;
+    else
+    {
+        auto owned = std::make_unique<Prefixes const>(std::move(prefixes));
+        replacement = owned.get();
+        dc->trace_prefix_history.push_back(std::move(owned));
+    }
+    dc->trace_prefixes.store(replacement, std::memory_order_release);
+}
 
 
 namespace internal {
