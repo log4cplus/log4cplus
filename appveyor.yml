@@ -1,4 +1,4 @@
-version: 2.2.0.{build}-{branch}
+version: 2.2.1.{build}-{branch}
 
 install:
     # Keep the VS 2017 compiler while updating the runner's older CMake.

@@ -4,7 +4,7 @@ dnl autoconf-2.73
 dnl automake-1.18.1
 dnl libtool-2.5.4
 
-AC_INIT([log4cplus],[2.2.0])
+AC_INIT([log4cplus],[2.2.1])
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/logger.cxx])
 AC_CONFIG_MACRO_DIR([m4])
