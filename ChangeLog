@@ -1,4 +1,4 @@
-# Unreleased (2.2.x)
+# Unreleased (2.2.1)
 
   - **IMPORTANT**: CMake builds now require CMake 3.20 or later. The
     implementation language remains C++11. GitHub PR #698.
