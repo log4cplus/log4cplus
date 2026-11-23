@@ -673,11 +673,9 @@ LOG4CPLUS_ARG_WITH([systemd],
   [Build the libsystemd journal appender.], [with_systemd=no])
 AS_IF([test "x$with_systemd" = "xyes"],
   [PKG_CHECK_MODULES([SYSTEMD], [libsystemd])
-   AC_DEFINE([LOG4CPLUS_WITH_SYSTEMD], [1], [Build the libsystemd journal appender.])
-   LOG4CPLUS_PC_REQUIRES_PRIVATE=libsystemd])
+   AC_DEFINE([LOG4CPLUS_WITH_SYSTEMD], [1], [Build the libsystemd journal appender.])])
 AM_CONDITIONAL([WITH_SYSTEMD], [test "x$with_systemd" = "xyes"])
 AC_SUBST([WITH_SYSTEMD], [$with_systemd])
-AC_SUBST([LOG4CPLUS_PC_REQUIRES_PRIVATE])
 AC_SUBST([LOG4CPLUS_PC_LIBRARY], [log4cplus])
 AC_SUBST([LOG4CPLUS_PC_CPPFLAGS], [])
 
@@ -755,6 +753,10 @@ dnl checks before.
 
 LT_PREREQ([2.4.2])
 LT_INIT([win32-dll disable-static pic-only])
+
+AS_IF([test "x$with_systemd" = xyes && test "x$enable_static" = xyes],
+  [LOG4CPLUS_PC_REQUIRES_PRIVATE=libsystemd])
+AC_SUBST([LOG4CPLUS_PC_REQUIRES_PRIVATE])
 
 dnl DLL cleanup must detect process termination before our own DllMain runs.
 dnl Check the actual stdcall import, including its decorated name on Win32.

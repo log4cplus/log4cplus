@@ -643,6 +643,7 @@ LOG4CPLUS_LTO_LDFLAGS
 LOG4CPLUS_PROFILING_CXXFLAGS
 LOG4CPLUS_PROFILING_LDFLAGS
 AUTOM4TE
+LOG4CPLUS_PC_REQUIRES_PRIVATE
 LT_SYS_LIBRARY_PATH
 OTOOL64
 OTOOL
@@ -700,7 +701,6 @@ QT_LIBS
 QT_CFLAGS
 LOG4CPLUS_PC_CPPFLAGS
 LOG4CPLUS_PC_LIBRARY
-LOG4CPLUS_PC_REQUIRES_PRIVATE
 WITH_SYSTEMD
 WITH_SYSTEMD_FALSE
 WITH_SYSTEMD_TRUE
@@ -16117,7 +16117,6 @@ fi
 
 printf '%s\n' "#define LOG4CPLUS_WITH_SYSTEMD 1" >>confdefs.h
 
-   LOG4CPLUS_PC_REQUIRES_PRIVATE=libsystemd
 fi
  if test "x$with_systemd" = "xyes"; then
   WITH_SYSTEMD_TRUE=
@@ -16128,7 +16127,6 @@ else
 fi
 
 WITH_SYSTEMD=$with_systemd
-
 
 LOG4CPLUS_PC_LIBRARY=log4cplus
 
@@ -30357,6 +30355,12 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 # Only expand once:
 
+
+
+if test "x$with_systemd" = xyes && test "x$enable_static" = xyes
+then :
+  LOG4CPLUS_PC_REQUIRES_PRIVATE=libsystemd
+fi
 
 
 if test "x$enable_shared" = "xyes"
