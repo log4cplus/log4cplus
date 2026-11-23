@@ -6,7 +6,12 @@ endif ()
 
 if (@LOG4CPLUS_WITH_SYSTEMD@ AND NOT @BUILD_SHARED_LIBS@)
   find_dependency(PkgConfig)
-  pkg_check_modules(LOG4CPLUS_SYSTEMD REQUIRED IMPORTED_TARGET libsystemd)
+  pkg_check_modules(LOG4CPLUS_SYSTEMD QUIET IMPORTED_TARGET libsystemd)
+  if (NOT LOG4CPLUS_SYSTEMD_FOUND)
+    set(log4cplus_FOUND FALSE)
+    set(log4cplus_NOT_FOUND_MESSAGE "The static log4cplus library requires libsystemd, but pkg-config could not find it.")
+    return()
+  endif ()
 endif ()
 
 include("${CMAKE_CURRENT_LIST_DIR}/@targets_export_name@.cmake")
