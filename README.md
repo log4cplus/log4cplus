@@ -332,6 +332,49 @@ before dynamically unloading a DLL that uses [log4cplus].
 Static [log4cplus] builds retain their existing behavior.
 
 
+Structured logging to the systemd journal
+----------------------------------------
+
+Enable `log4cplus::JournalAppender` in the main library with
+`-DLOG4CPLUS_WITH_SYSTEMD=ON` (CMake) or `--with-systemd` (configure).
+Both builds default to off. Enabling it requires the `libsystemd`
+development package. The installed header is `<log4cplus/journalappender.h>`
+and the feature macro is `LOG4CPLUS_WITH_SYSTEMD`.
+
+    log4cplus.rootLogger=INFO, JOURNAL
+    log4cplus.appender.JOURNAL=log4cplus::JournalAppender
+    log4cplus.appender.JOURNAL.Identifier=checkout
+    log4cplus.appender.JOURNAL.layout=log4cplus::PatternLayout
+    log4cplus.appender.JOURNAL.layout.ConversionPattern=%p [%X{request.id}] %m
+    log4cplus.appender.JOURNAL.MDCField.request.id=REQUEST_ID
+
+For an MDC value of `r42`, run `journalctl REQUEST_ID=r42` to see the
+formatted message, or add `-o verbose` to inspect every field. Each event
+produces one entry, including for multiline messages. The layout supplies
+`MESSAGE` and preserves trailing whitespace. The default is `SimpleLayout`.
+
+| Journal field | Value |
+| --- | --- |
+| `LOG4CPLUS_MESSAGE`, `LOG4CPLUS_LOGGER` | Original message and logger name |
+| `PRIORITY`, `LOG4CPLUS_LEVEL`, `LOG4CPLUS_LEVEL_VALUE` | Syslog severity, log4cplus level name and numeric value |
+| `LOG4CPLUS_TIMESTAMP_USEC` | Event time in microseconds since the Unix epoch |
+| `CODE_FILE`, `CODE_LINE`, `CODE_FUNC` | Available source location |
+| `LOG4CPLUS_THREAD`, `LOG4CPLUS_THREAD2`, `LOG4CPLUS_NDC` | Available producer thread names and nested diagnostic context |
+| `SYSLOG_IDENTIFIER` | Configured `Identifier`, or libsystemd's default |
+
+Each `MDCField.<key>=FIELD` maps an exact, nonempty MDC key to a unique
+journal field matching `[A-Z][A-Z0-9_]{0,63}`. The fields above and
+`MESSAGE` are reserved by the appender. A missing key omits the field,
+and an empty value produces an empty field.
+
+The appender submits UTF-8. It decodes narrow text using the active
+`LC_CTYPE` locale at appender construction, encodes wide text directly,
+and replaces malformed input with U+FFFD. Set the application locale
+before configuring the appender. Journal submission can block under load.
+Negative libsystemd results go to the appender's error handler. A missing
+journal socket is silently accepted by libsystemd.
+
+
 Windows and file Appenders
 --------------------------
 

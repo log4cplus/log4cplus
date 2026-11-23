@@ -64,6 +64,8 @@ namespace log4cplus {
 
 namespace internal {
 
+LOG4CPLUS_PRIVATE int getSyslogPriority (LogLevel);
+
 
 //! Canonical empty string. It is used when the need to return empty string
 //! by reference arises.

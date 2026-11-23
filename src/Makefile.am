@@ -21,6 +21,7 @@ LIB_SRC = \
 	%D%/global-init.cxx \
 	%D%/hierarchy.cxx \
 	%D%/hierarchylocker.cxx \
+	%D%/journalappender.cxx \
 	%D%/layout.cxx \
 	%D%/log4judpappender.cxx \
 	%D%/lockfile.cxx \
@@ -66,7 +67,7 @@ LIB_SRC+= \
 	$(top_srcdir)/catch/extras/catch_amalgamated.cpp
 endif
 
-common_liblog4cplus_la_cppflags = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS
+common_liblog4cplus_la_cppflags = $(AM_CPPFLAGS) $(SYSTEMD_CFLAGS) -DINSIDE_LOG4CPLUS
 if ENABLE_UNIT_TESTS
 common_liblog4cplus_la_cppflags+=-DCATCH_AMALGAMATED_CUSTOM_MAIN=1
 endif
@@ -87,6 +88,7 @@ common_liblog4cplus_la_ldflags = -no-undefined \
 	$(LOG4CPLUS_LTO_LDFLAGS) \
 	$(LOG4CPLUS_AIX_XLC_LDFLAGS) \
 	$(LOG4CPLUS_EXPORT_SYMBOLS_REGEX)
+liblog4cplus_la_LIBADD = $(SYSTEMD_LIBS)
 liblog4cplus_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
 
 if BUILD_WITH_WCHAR_T_SUPPORT
@@ -96,5 +98,6 @@ liblog4cplusU_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags) -DUNICODE=1 -D_UN
 
 liblog4cplusU_la_SOURCES = $(common_liblog4cplus_la_sources)
 
+liblog4cplusU_la_LIBADD = $(SYSTEMD_LIBS)
 liblog4cplusU_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
 endif

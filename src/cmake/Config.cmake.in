@@ -4,6 +4,11 @@ if (@LOG4CPLUS_CONFIG_FIND_THREADS@)
   find_dependency(Threads)
 endif ()
 
+if (@LOG4CPLUS_WITH_SYSTEMD@ AND NOT @BUILD_SHARED_LIBS@)
+  find_dependency(PkgConfig)
+  pkg_check_modules(LOG4CPLUS_SYSTEMD REQUIRED IMPORTED_TARGET libsystemd)
+endif ()
+
 include("${CMAKE_CURRENT_LIST_DIR}/@targets_export_name@.cmake")
 
 # Static and Unicode library file names can be decorated. Keep their imported

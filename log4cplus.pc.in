@@ -8,6 +8,7 @@ Name: log4cplus
 Version: @VERSION@
 Description: Simple to use, thread-safe C++ logging API
 Requires:
-Libs: -L${libdir} -llog4cplus
+Requires.private: @LOG4CPLUS_PC_REQUIRES_PRIVATE@
+Libs: -L${libdir} -l@LOG4CPLUS_PC_LIBRARY@
 Libs.private: @LIBS@
-Cflags: -I${includedir}
+Cflags: -I${includedir}@LOG4CPLUS_PC_CPPFLAGS@

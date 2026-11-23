@@ -1,0 +1,10 @@
+AT_SETUP([journalappender_test])
+AT_KEYWORDS([appenders journal])
+AT_SKIP_IF([test "x$WITH_SYSTEMD" != xyes])
+
+AT_CHECK(["${abs_top_builddir}/journalappender_test"])
+ATX_WCHAR_T_TEST([
+  AT_CHECK(["${abs_top_builddir}/journalappender_testU"])
+])
+
+AT_CLEANUP

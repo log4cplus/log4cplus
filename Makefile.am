@@ -80,6 +80,9 @@ if ENABLE_TESTS
 include %D%/tests/hierarchy_test/Makefile.am
 endif
 if ENABLE_TESTS
+include %D%/tests/journalappender_test/Makefile.am
+endif
+if ENABLE_TESTS
 include %D%/tests/loglog_test/Makefile.am
 endif
 if ENABLE_TESTS

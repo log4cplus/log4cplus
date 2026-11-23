@@ -17,8 +17,8 @@ jobs:
           cxx: 'g++-14'
           prereq: |
             sudo apt update
-            sudo apt install libboost-iostreams-dev qt6-base-dev pkgconf
-          configure_flags: '--with-qt6'
+            sudo apt install libboost-iostreams-dev qt6-base-dev pkgconf libsystemd-dev
+          configure_flags: '--with-qt6 --with-systemd'
           build-type: autotools
 
 
@@ -27,8 +27,9 @@ jobs:
           cxx: 'g++'
           prereq: |
             sudo apt update
-            sudo apt install pkgconf
-          configure_flags: ''
+            sudo apt install pkgconf libsystemd-dev locales
+            sudo localedef -i en_US -f ISO-8859-1 en_US.ISO-8859-1
+          configure_flags: '-DLOG4CPLUS_WITH_SYSTEMD=ON'
           build-type: cmake
 
         # Enable macOS build by installing Boost via Homebrew

@@ -46,6 +46,7 @@ nobase_log4cplusinc_HEADERS = \
 	log4cplus/internal/internal.h \
 	log4cplus/internal/socket.h \
 	log4cplus/internal/threadsafetyanalysis.h \
+	log4cplus/journalappender.h \
 	log4cplus/layout.h \
 	log4cplus/log4cplus.h \
 	log4cplus/log4judpappender.h \

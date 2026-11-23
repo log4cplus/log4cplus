@@ -19,6 +19,7 @@ set (log4cplus_sources
   global-init.cxx
   hierarchy.cxx
   hierarchylocker.cxx
+  journalappender.cxx
   layout.cxx
   log4judpappender.cxx
   lockfile.cxx
@@ -104,6 +105,10 @@ endif (WIN32)
 
 add_library (${log4cplus} ${log4cplus_sources})
 add_library (log4cplus::log4cplus ALIAS ${log4cplus})
+
+if (LOG4CPLUS_WITH_SYSTEMD)
+  target_link_libraries(${log4cplus} PRIVATE PkgConfig::LOG4CPLUS_SYSTEMD)
+endif ()
 
 if (UNICODE)
   target_compile_definitions (${log4cplus} PUBLIC UNICODE)
@@ -229,6 +234,7 @@ install(TARGETS ${log4cplus} EXPORT "${targets_export_name}"
 
 install(FILES ../include/log4cplus/appender.h
               ../include/log4cplus/androidappender.h
+              ../include/log4cplus/journalappender.h
               ../include/log4cplus/asyncappender.h
               ../include/log4cplus/callbackappender.h
               ../include/log4cplus/clogger.h

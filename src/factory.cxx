@@ -27,6 +27,7 @@
 #include <log4cplus/androidappender.h>
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/fileappender.h>
+#include <log4cplus/journalappender.h>
 #include <log4cplus/nteventlogappender.h>
 #include <log4cplus/nullappender.h>
 #include <log4cplus/socketappender.h>
@@ -186,6 +187,9 @@ void initializeFactoryRegistry()
     LOG4CPLUS_REG_APPENDER (reg, Win32DebugAppender);
 #endif
     LOG4CPLUS_REG_APPENDER (reg, SysLogAppender);
+#if defined (LOG4CPLUS_WITH_SYSTEMD)
+    LOG4CPLUS_REG_APPENDER (reg, JournalAppender);
+#endif
 #ifndef LOG4CPLUS_SINGLE_THREADED
     LOG4CPLUS_REG_APPENDER (reg, AsyncAppender);
 #endif

@@ -10,6 +10,7 @@ TESTSUITE_AT = \
 	%D%/filter_test.at \
 	%D%/headers.at \
 	%D%/hierarchy_test.at \
+	%D%/journalappender_test.at \
 	%D%/local.at \
 	%D%/loglog_test.at \
 	%D%/ndc_test.at \
