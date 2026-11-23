@@ -11,6 +11,7 @@
 #include <iostream>
 #include <map>
 #include <stdexcept>
+#include <string_view>
 #include <sys/uio.h>
 
 using namespace log4cplus;
@@ -78,7 +79,7 @@ void checkMappings ()
     reject (tstring (), LOG4CPLUS_TEXT ("EMPTY_KEY"));
 }
 
-void checkEvent ()
+void checkEvent (tstring const & message, std::string const & expected)
 {
     helpers::Properties props;
     props.setProperty (LOG4CPLUS_TEXT ("log4cplus.rootLogger"), LOG4CPLUS_TEXT ("TRACE, J"));
@@ -106,23 +107,6 @@ void checkEvent ()
     getNDC ().push (LOG4CPLUS_TEXT ("context"));
     thread::setCurrentThreadName (LOG4CPLUS_TEXT ("producer"));
     thread::setCurrentThreadName2 (LOG4CPLUS_TEXT ("alternate"));
-    auto message = tstring (LOG4CPLUS_TEXT ("a\0b\n  "), 6);
-    std::string expected ("a\0b\n  ", 6);
-#ifdef UNICODE
-    message += L"\U0001f60a";
-    message.push_back (static_cast<wchar_t> (0xd800));
-    expected += "\xf0\x9f\x98\x8a\xef\xbf\xbd";
-#else
-    message += "\xf0\x9f\x98\x8a\xffx\xe2\x82";
-    expected += "\xf0\x9f\x98\x8a\xef\xbf\xbdx\xef\xbf\xbd";
-#endif
-    message += LOG4CPLUS_TEXT ("  ");
-    expected += "  ";
-#ifndef UNICODE
-    // An unfinished character at the end consumes the entire remaining prefix.
-    message += "\xe2\x82";
-    expected += "\xef\xbf\xbd";
-#endif
     spi::InternalLoggingEvent event (logger.getName (), INFO_LOG_LEVEL, message, "pay.cxx", 42, "pay");
     logger.log (event);
     getMDC ().clear ();
@@ -181,6 +165,17 @@ int main (int argc, char ** argv)
 try
 {
     Initializer initializer;
+#ifndef UNICODE
+    if (argc == 2 && std::string_view (argv[1]) == "--utf8")
+    {
+        if (!std::setlocale (LC_CTYPE, "C.UTF-8") && !std::setlocale (LC_CTYPE, "en_US.UTF-8"))
+            return 77;
+        // An unfinished character at the end consumes the entire remaining prefix.
+        checkEvent ("\xf0\x9f\x98\x8a\xffx\xe2\x82  \xe2\x82",
+            "\xf0\x9f\x98\x8a\xef\xbf\xbdx\xef\xbf\xbd  \xef\xbf\xbd");
+        return 0;
+    }
+#endif
     if (argc == 2)
     {
         if (!std::setlocale (LC_CTYPE, argv[1]))
@@ -192,10 +187,16 @@ try
         check (fields.at ("LOG4CPLUS_MESSAGE") == "\xc3\xa9", "Latin-1 to UTF-8");
         return 0;
     }
-    check (std::setlocale (LC_CTYPE, "C.UTF-8") || std::setlocale (LC_CTYPE, "en_US.UTF-8"),
-        "test requires a UTF-8 locale");
     checkMappings ();
-    checkEvent ();
+    auto message = tstring (LOG4CPLUS_TEXT ("a\0b\n  "), 6);
+    std::string expected ("a\0b\n  ", 6);
+#ifdef UNICODE
+    message += L"\U0001f60a";
+    message.push_back (static_cast<wchar_t> (0xd800));
+    message += L"  ";
+    expected += "\xf0\x9f\x98\x8a\xef\xbf\xbd  ";
+#endif
+    checkEvent (message, expected);
     checkLayoutsAndErrors ();
     return 0;
 }

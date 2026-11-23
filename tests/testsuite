@@ -670,6 +670,7 @@ at_help_all="1;headers.at:1;separate compilation of log4cplus/appender.h;headers
 77;timeformat_test.at:1;timeformat_test;appenders;
 78;unit_tests.at:1;unit_tests;unit-tests;
 79;journalappender_test.at:1;journalappender_test;appenders journal;
+80;journalappender_test.at:12;journalappender_utf8_test;appenders journal;
 "
 # List of the all the test groups.
 at_groups_all=`printf '%s\n' "$at_help_all" | sed 's/;.*//'`
@@ -683,7 +684,7 @@ at_fn_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 79; then
+    if test $at_value -lt 1 || test $at_value -gt 80; then
       printf '%s\n' "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -7614,3 +7615,33 @@ fi
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
 #AT_STOP_79
+#AT_START_80
+at_fn_group_banner 80 'journalappender_test.at:12' \
+  "journalappender_utf8_test" "                      " 2
+at_xfail=no
+(
+  printf '%s\n' "80. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+printf '%s\n' "journalappender_test.at:14" >"$at_check_line_file"
+(test "x$WITH_SYSTEMD" != xyes) \
+  && at_fn_check_skip 77 "$at_srcdir/journalappender_test.at:14"
+{ set +x
+printf '%s\n' "$at_srcdir/journalappender_test.at:15: \"\${abs_top_builddir}/journalappender_test\" --utf8"
+at_fn_check_prepare_notrace 'a ${...} parameter expansion' "journalappender_test.at:15"
+( $at_check_trace; "${abs_top_builddir}/journalappender_test" --utf8
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+at_fn_diff_devnull "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/journalappender_test.at:15"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_80
