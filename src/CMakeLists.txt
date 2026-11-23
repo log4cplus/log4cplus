@@ -296,6 +296,7 @@ install(FILES ../include/log4cplus/internal/env.h
               ../include/log4cplus/internal/internal.h
               ../include/log4cplus/internal/socket.h
               ../include/log4cplus/internal/threadsafetyanalysis.h
+              ../include/log4cplus/internal/utf8.h
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/log4cplus/internal )
 
 install(FILES ../include/log4cplus/spi/appenderattachable.h

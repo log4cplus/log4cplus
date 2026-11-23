@@ -7,6 +7,7 @@
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/internal/internal.h>
+#include <log4cplus/internal/utf8.h>
 
 #define SD_JOURNAL_SUPPRESS_LOCATION
 #include <systemd/sd-journal.h>
@@ -32,28 +33,12 @@ namespace
 void
 appendUtf8 (std::string & out, std::uint32_t cp)
 {
-    if (cp > 0x10ffff || (cp >= 0xd800 && cp <= 0xdfff))
-        cp = 0xfffd;
+    if (!helpers::detail::is_scalar (cp))
+        cp = helpers::detail::unicode_replacement_character;
 
-    if (cp < 0x80)
-    {
-        out.push_back (static_cast<char> (cp));
-        return;
-    }
-
-    if (cp >= 0x10000)
-    {
-        out.push_back (static_cast<char> (0xf0 | (cp >> 18)));
-        out.push_back (static_cast<char> (0x80 | ((cp >> 12) & 0x3f)));
-    }
-    else if (cp >= 0x800)
-        out.push_back (static_cast<char> (0xe0 | (cp >> 12)));
-    else
-        out.push_back (static_cast<char> (0xc0 | (cp >> 6)));
-
-    if (cp >= 0x800)
-        out.push_back (static_cast<char> (0x80 | ((cp >> 6) & 0x3f)));
-    out.push_back (static_cast<char> (0x80 | (cp & 0x3f)));
+    char bytes[helpers::detail::maximum_utf8_sequence_length];
+    auto const count = helpers::detail::encode_utf8 (bytes, cp);
+    out.append (bytes, count);
 }
 
 #ifndef UNICODE
@@ -102,12 +87,12 @@ public:
             auto count = std::mbrtowc (&cp, value.data (), value.size (), &state);
             if (count == static_cast<std::size_t> (-2))
             {
-                appendUtf8 (out, 0xfffd);
+                appendUtf8 (out, helpers::detail::unicode_replacement_character);
                 break;
             }
             if (count == static_cast<std::size_t> (-1))
             {
-                cp = 0xfffd;
+                cp = helpers::detail::unicode_replacement_character;
                 // Replace the incomplete prefix as a unit and retry the byte
                 // that broke it. A bad initial byte consumes just itself.
                 count = 0;
