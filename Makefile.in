@@ -105,7 +105,8 @@ noinst_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2) $(am__EXEEXT_3) \
 	$(am__EXEEXT_28) $(am__EXEEXT_29) $(am__EXEEXT_30) \
 	$(am__EXEEXT_31) $(am__EXEEXT_32) $(am__EXEEXT_33) \
 	$(am__EXEEXT_34) $(am__EXEEXT_35) $(am__EXEEXT_36) \
-	$(am__EXEEXT_37) $(am__EXEEXT_38)
+	$(am__EXEEXT_37) $(am__EXEEXT_38) $(am__EXEEXT_39) \
+	$(am__EXEEXT_40)
 @ENABLE_UNIT_TESTS_TRUE@am__append_1 = \
 @ENABLE_UNIT_TESTS_TRUE@	src/boost_tests.cxx \
 @ENABLE_UNIT_TESTS_TRUE@	$(top_srcdir)/catch/extras/catch_amalgamated.cpp
@@ -136,30 +137,32 @@ noinst_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2) $(am__EXEEXT_3) \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_25 = filter_testU
 @ENABLE_TESTS_TRUE@am__append_26 = hierarchy_test
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_27 = hierarchy_testU
-@ENABLE_TESTS_TRUE@am__append_28 = loglog_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_29 = loglog_testU
-@ENABLE_TESTS_TRUE@am__append_30 = ndc_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_31 = ndc_testU
-@ENABLE_TESTS_TRUE@am__append_32 = ostream_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_33 = ostream_testU
-@ENABLE_TESTS_TRUE@am__append_34 = patternlayout_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_35 = patternlayout_testU
-@ENABLE_TESTS_TRUE@am__append_36 = performance_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_37 = performance_testU
-@ENABLE_TESTS_TRUE@am__append_38 = priority_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_39 = priority_testU
-@ENABLE_TESTS_TRUE@am__append_40 = propertyconfig_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_41 = propertyconfig_testU
-@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am__append_42 = qt6messagehandler_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am__append_43 = qt6messagehandler_testU
-@ENABLE_TESTS_TRUE@am__append_44 = socket_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_45 = socket_testU
-@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_46 = thread_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_47 = thread_testU
-@ENABLE_TESTS_TRUE@am__append_48 = timeformat_test
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_49 = timeformat_testU
-@ENABLE_TESTS_TRUE@am__append_50 = unit_tests
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_51 = unit_testsU
+@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@am__append_28 = journalappender_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@am__append_29 = journalappender_testU
+@ENABLE_TESTS_TRUE@am__append_30 = loglog_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_31 = loglog_testU
+@ENABLE_TESTS_TRUE@am__append_32 = ndc_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_33 = ndc_testU
+@ENABLE_TESTS_TRUE@am__append_34 = ostream_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_35 = ostream_testU
+@ENABLE_TESTS_TRUE@am__append_36 = patternlayout_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_37 = patternlayout_testU
+@ENABLE_TESTS_TRUE@am__append_38 = performance_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_39 = performance_testU
+@ENABLE_TESTS_TRUE@am__append_40 = priority_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_41 = priority_testU
+@ENABLE_TESTS_TRUE@am__append_42 = propertyconfig_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_43 = propertyconfig_testU
+@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am__append_44 = qt6messagehandler_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am__append_45 = qt6messagehandler_testU
+@ENABLE_TESTS_TRUE@am__append_46 = socket_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_47 = socket_testU
+@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_48 = thread_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_49 = thread_testU
+@ENABLE_TESTS_TRUE@am__append_50 = timeformat_test
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_51 = timeformat_testU
+@ENABLE_TESTS_TRUE@am__append_52 = unit_tests
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_53 = unit_testsU
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -218,31 +221,33 @@ CONFIG_CLEAN_VPATH_FILES =
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_12 = filter_testU$(EXEEXT)
 @ENABLE_TESTS_TRUE@am__EXEEXT_13 = hierarchy_test$(EXEEXT)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_14 = hierarchy_testU$(EXEEXT)
-@ENABLE_TESTS_TRUE@am__EXEEXT_15 = loglog_test$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_16 = loglog_testU$(EXEEXT)
-@ENABLE_TESTS_TRUE@am__EXEEXT_17 = ndc_test$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_18 = ndc_testU$(EXEEXT)
-@ENABLE_TESTS_TRUE@am__EXEEXT_19 = ostream_test$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_20 = ostream_testU$(EXEEXT)
-@ENABLE_TESTS_TRUE@am__EXEEXT_21 = patternlayout_test$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_22 = patternlayout_testU$(EXEEXT)
-@ENABLE_TESTS_TRUE@am__EXEEXT_23 = performance_test$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_24 = performance_testU$(EXEEXT)
-@ENABLE_TESTS_TRUE@am__EXEEXT_25 = priority_test$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_26 = priority_testU$(EXEEXT)
-@ENABLE_TESTS_TRUE@am__EXEEXT_27 = propertyconfig_test$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_28 = propertyconfig_testU$(EXEEXT)
-@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am__EXEEXT_29 = qt6messagehandler_test$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am__EXEEXT_30 = qt6messagehandler_testU$(EXEEXT)
-@ENABLE_TESTS_TRUE@am__EXEEXT_31 = socket_test$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_32 = socket_testU$(EXEEXT)
-@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_33 =  \
+@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@am__EXEEXT_15 = journalappender_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@am__EXEEXT_16 = journalappender_testU$(EXEEXT)
+@ENABLE_TESTS_TRUE@am__EXEEXT_17 = loglog_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_18 = loglog_testU$(EXEEXT)
+@ENABLE_TESTS_TRUE@am__EXEEXT_19 = ndc_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_20 = ndc_testU$(EXEEXT)
+@ENABLE_TESTS_TRUE@am__EXEEXT_21 = ostream_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_22 = ostream_testU$(EXEEXT)
+@ENABLE_TESTS_TRUE@am__EXEEXT_23 = patternlayout_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_24 = patternlayout_testU$(EXEEXT)
+@ENABLE_TESTS_TRUE@am__EXEEXT_25 = performance_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_26 = performance_testU$(EXEEXT)
+@ENABLE_TESTS_TRUE@am__EXEEXT_27 = priority_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_28 = priority_testU$(EXEEXT)
+@ENABLE_TESTS_TRUE@am__EXEEXT_29 = propertyconfig_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_30 = propertyconfig_testU$(EXEEXT)
+@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am__EXEEXT_31 = qt6messagehandler_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am__EXEEXT_32 = qt6messagehandler_testU$(EXEEXT)
+@ENABLE_TESTS_TRUE@am__EXEEXT_33 = socket_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_34 = socket_testU$(EXEEXT)
+@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_35 =  \
 @ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@	thread_test$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_34 = thread_testU$(EXEEXT)
-@ENABLE_TESTS_TRUE@am__EXEEXT_35 = timeformat_test$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_36 = timeformat_testU$(EXEEXT)
-@ENABLE_TESTS_TRUE@am__EXEEXT_37 = unit_tests$(EXEEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_38 = unit_testsU$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__EXEEXT_36 = thread_testU$(EXEEXT)
+@ENABLE_TESTS_TRUE@am__EXEEXT_37 = timeformat_test$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_38 = timeformat_testU$(EXEEXT)
+@ENABLE_TESTS_TRUE@am__EXEEXT_39 = unit_tests$(EXEEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__EXEEXT_40 = unit_testsU$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -301,7 +306,8 @@ _log4cplusU_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__log4cplusU_la_rpath =  \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@	-rpath \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@	$(pkgpyexecdir)
-liblog4cplus_la_LIBADD =
+am__DEPENDENCIES_1 =
+liblog4cplus_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
 am__dirstamp = $(am__leading_dot)dirstamp
 @ENABLE_UNIT_TESTS_TRUE@am__objects_4 =  \
 @ENABLE_UNIT_TESTS_TRUE@	src/liblog4cplus_la-boost_tests.lo \
@@ -324,6 +330,7 @@ am__objects_5 = src/liblog4cplus_la-androidappender.lo \
 	src/liblog4cplus_la-global-init.lo \
 	src/liblog4cplus_la-hierarchy.lo \
 	src/liblog4cplus_la-hierarchylocker.lo \
+	src/liblog4cplus_la-journalappender.lo \
 	src/liblog4cplus_la-layout.lo \
 	src/liblog4cplus_la-log4judpappender.lo \
 	src/liblog4cplus_la-lockfile.lo src/liblog4cplus_la-logger.lo \
@@ -364,7 +371,8 @@ liblog4cplus_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(liblog4cplus_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
-liblog4cplusU_la_LIBADD =
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_DEPENDENCIES =  \
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@	$(am__DEPENDENCIES_1)
 @ENABLE_UNIT_TESTS_TRUE@am__objects_7 =  \
 @ENABLE_UNIT_TESTS_TRUE@	src/liblog4cplusU_la-boost_tests.lo \
 @ENABLE_UNIT_TESTS_TRUE@	$(top_builddir)/catch/extras/liblog4cplusU_la-catch_amalgamated.lo
@@ -388,6 +396,7 @@ am__objects_8 = src/liblog4cplusU_la-androidappender.lo \
 	src/liblog4cplusU_la-global-init.lo \
 	src/liblog4cplusU_la-hierarchy.lo \
 	src/liblog4cplusU_la-hierarchylocker.lo \
+	src/liblog4cplusU_la-journalappender.lo \
 	src/liblog4cplusU_la-layout.lo \
 	src/liblog4cplusU_la-log4judpappender.lo \
 	src/liblog4cplusU_la-lockfile.lo \
@@ -607,64 +616,82 @@ hierarchy_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(hierarchy_testU_LDFLAGS) \
 	$(LDFLAGS) -o $@
-@MULTI_THREADED_TRUE@am__objects_28 =  \
+@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@am__objects_28 = tests/journalappender_test/journalappender_test-main.$(OBJEXT)
+@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@am_journalappender_test_OBJECTS =  \
+@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@	$(am__objects_28)
+journalappender_test_OBJECTS = $(am_journalappender_test_OBJECTS)
+@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@journalappender_test_DEPENDENCIES =  \
+@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@	$(liblog4cplus_la_file)
+journalappender_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(AM_CXXFLAGS) $(CXXFLAGS) $(journalappender_test_LDFLAGS) \
+	$(LDFLAGS) -o $@
+@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@am__objects_29 = tests/journalappender_test/journalappender_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@am_journalappender_testU_OBJECTS = $(am__objects_29)
+journalappender_testU_OBJECTS = $(am_journalappender_testU_OBJECTS)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@journalappender_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
+journalappender_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(AM_CXXFLAGS) $(CXXFLAGS) $(journalappender_testU_LDFLAGS) \
+	$(LDFLAGS) -o $@
+@MULTI_THREADED_TRUE@am__objects_30 =  \
 @MULTI_THREADED_TRUE@	simpleserver/loggingserver.$(OBJEXT)
-@MULTI_THREADED_TRUE@am_loggingserver_OBJECTS = $(am__objects_28)
+@MULTI_THREADED_TRUE@am_loggingserver_OBJECTS = $(am__objects_30)
 loggingserver_OBJECTS = $(am_loggingserver_OBJECTS)
 @MULTI_THREADED_TRUE@loggingserver_DEPENDENCIES =  \
 @MULTI_THREADED_TRUE@	$(liblog4cplus_la_file)
-@MULTI_THREADED_TRUE@am__objects_29 = simpleserver/loggingserverU-loggingserver.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am_loggingserverU_OBJECTS = $(am__objects_29)
+@MULTI_THREADED_TRUE@am__objects_31 = simpleserver/loggingserverU-loggingserver.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@am_loggingserverU_OBJECTS = $(am__objects_31)
 loggingserverU_OBJECTS = $(am_loggingserverU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@MULTI_THREADED_TRUE@loggingserverU_DEPENDENCIES = $(liblog4cplusU_la_file)
-@ENABLE_TESTS_TRUE@am__objects_30 = tests/loglog_test/loglog_test-main.$(OBJEXT)
-@ENABLE_TESTS_TRUE@am_loglog_test_OBJECTS = $(am__objects_30)
+@ENABLE_TESTS_TRUE@am__objects_32 = tests/loglog_test/loglog_test-main.$(OBJEXT)
+@ENABLE_TESTS_TRUE@am_loglog_test_OBJECTS = $(am__objects_32)
 loglog_test_OBJECTS = $(am_loglog_test_OBJECTS)
 @ENABLE_TESTS_TRUE@loglog_test_DEPENDENCIES = $(liblog4cplus_la_file)
 loglog_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(loglog_test_LDFLAGS) $(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_31 = tests/loglog_test/loglog_testU-main.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_loglog_testU_OBJECTS = $(am__objects_31)
+@ENABLE_TESTS_TRUE@am__objects_33 = tests/loglog_test/loglog_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_loglog_testU_OBJECTS = $(am__objects_33)
 loglog_testU_OBJECTS = $(am_loglog_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@loglog_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
 loglog_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(loglog_testU_LDFLAGS) $(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_32 =  \
+@ENABLE_TESTS_TRUE@am__objects_34 =  \
 @ENABLE_TESTS_TRUE@	tests/ndc_test/ndc_test-main.$(OBJEXT)
-@ENABLE_TESTS_TRUE@am_ndc_test_OBJECTS = $(am__objects_32)
+@ENABLE_TESTS_TRUE@am_ndc_test_OBJECTS = $(am__objects_34)
 ndc_test_OBJECTS = $(am_ndc_test_OBJECTS)
 @ENABLE_TESTS_TRUE@ndc_test_DEPENDENCIES = $(liblog4cplus_la_file)
 ndc_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(ndc_test_LDFLAGS) $(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_33 =  \
+@ENABLE_TESTS_TRUE@am__objects_35 =  \
 @ENABLE_TESTS_TRUE@	tests/ndc_test/ndc_testU-main.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_ndc_testU_OBJECTS = $(am__objects_33)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_ndc_testU_OBJECTS = $(am__objects_35)
 ndc_testU_OBJECTS = $(am_ndc_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@ndc_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
 ndc_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(ndc_testU_LDFLAGS) $(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_34 = tests/ostream_test/ostream_test-main.$(OBJEXT)
-@ENABLE_TESTS_TRUE@am_ostream_test_OBJECTS = $(am__objects_34)
+@ENABLE_TESTS_TRUE@am__objects_36 = tests/ostream_test/ostream_test-main.$(OBJEXT)
+@ENABLE_TESTS_TRUE@am_ostream_test_OBJECTS = $(am__objects_36)
 ostream_test_OBJECTS = $(am_ostream_test_OBJECTS)
 @ENABLE_TESTS_TRUE@ostream_test_DEPENDENCIES =  \
 @ENABLE_TESTS_TRUE@	$(liblog4cplus_la_file)
 ostream_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(ostream_test_LDFLAGS) $(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_35 = tests/ostream_test/ostream_testU-main.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_ostream_testU_OBJECTS = $(am__objects_35)
+@ENABLE_TESTS_TRUE@am__objects_37 = tests/ostream_test/ostream_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_ostream_testU_OBJECTS = $(am__objects_37)
 ostream_testU_OBJECTS = $(am_ostream_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@ostream_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
 ostream_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(ostream_testU_LDFLAGS) $(LDFLAGS) \
 	-o $@
-@ENABLE_TESTS_TRUE@am__objects_36 = tests/patternlayout_test/patternlayout_test-main.$(OBJEXT)
-@ENABLE_TESTS_TRUE@am_patternlayout_test_OBJECTS = $(am__objects_36)
+@ENABLE_TESTS_TRUE@am__objects_38 = tests/patternlayout_test/patternlayout_test-main.$(OBJEXT)
+@ENABLE_TESTS_TRUE@am_patternlayout_test_OBJECTS = $(am__objects_38)
 patternlayout_test_OBJECTS = $(am_patternlayout_test_OBJECTS)
 @ENABLE_TESTS_TRUE@patternlayout_test_DEPENDENCIES =  \
 @ENABLE_TESTS_TRUE@	$(liblog4cplus_la_file)
@@ -672,16 +699,16 @@ patternlayout_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(patternlayout_test_LDFLAGS) \
 	$(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_37 = tests/patternlayout_test/patternlayout_testU-main.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_patternlayout_testU_OBJECTS = $(am__objects_37)
+@ENABLE_TESTS_TRUE@am__objects_39 = tests/patternlayout_test/patternlayout_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_patternlayout_testU_OBJECTS = $(am__objects_39)
 patternlayout_testU_OBJECTS = $(am_patternlayout_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@patternlayout_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
 patternlayout_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(patternlayout_testU_LDFLAGS) \
 	$(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_38 = tests/performance_test/performance_test-main.$(OBJEXT)
-@ENABLE_TESTS_TRUE@am_performance_test_OBJECTS = $(am__objects_38)
+@ENABLE_TESTS_TRUE@am__objects_40 = tests/performance_test/performance_test-main.$(OBJEXT)
+@ENABLE_TESTS_TRUE@am_performance_test_OBJECTS = $(am__objects_40)
 performance_test_OBJECTS = $(am_performance_test_OBJECTS)
 @ENABLE_TESTS_TRUE@performance_test_DEPENDENCIES =  \
 @ENABLE_TESTS_TRUE@	$(liblog4cplus_la_file)
@@ -689,17 +716,17 @@ performance_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(performance_test_LDFLAGS) \
 	$(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_39 = tests/performance_test/performance_testU-main.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_performance_testU_OBJECTS = $(am__objects_39)
+@ENABLE_TESTS_TRUE@am__objects_41 = tests/performance_test/performance_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_performance_testU_OBJECTS = $(am__objects_41)
 performance_testU_OBJECTS = $(am_performance_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@performance_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
 performance_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(performance_testU_LDFLAGS) \
 	$(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_40 = tests/priority_test/priority_test-func.$(OBJEXT) \
+@ENABLE_TESTS_TRUE@am__objects_42 = tests/priority_test/priority_test-func.$(OBJEXT) \
 @ENABLE_TESTS_TRUE@	tests/priority_test/priority_test-main.$(OBJEXT)
-@ENABLE_TESTS_TRUE@am_priority_test_OBJECTS = $(am__objects_40)
+@ENABLE_TESTS_TRUE@am_priority_test_OBJECTS = $(am__objects_42)
 priority_test_OBJECTS = $(am_priority_test_OBJECTS)
 @ENABLE_TESTS_TRUE@priority_test_DEPENDENCIES =  \
 @ENABLE_TESTS_TRUE@	$(liblog4cplus_la_file)
@@ -707,17 +734,17 @@ priority_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(priority_test_LDFLAGS) $(LDFLAGS) \
 	-o $@
-@ENABLE_TESTS_TRUE@am__objects_41 = tests/priority_test/priority_testU-func.$(OBJEXT) \
+@ENABLE_TESTS_TRUE@am__objects_43 = tests/priority_test/priority_testU-func.$(OBJEXT) \
 @ENABLE_TESTS_TRUE@	tests/priority_test/priority_testU-main.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_priority_testU_OBJECTS = $(am__objects_41)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_priority_testU_OBJECTS = $(am__objects_43)
 priority_testU_OBJECTS = $(am_priority_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@priority_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
 priority_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(priority_testU_LDFLAGS) \
 	$(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_42 = tests/propertyconfig_test/propertyconfig_test-main.$(OBJEXT)
-@ENABLE_TESTS_TRUE@am_propertyconfig_test_OBJECTS = $(am__objects_42)
+@ENABLE_TESTS_TRUE@am__objects_44 = tests/propertyconfig_test/propertyconfig_test-main.$(OBJEXT)
+@ENABLE_TESTS_TRUE@am_propertyconfig_test_OBJECTS = $(am__objects_44)
 propertyconfig_test_OBJECTS = $(am_propertyconfig_test_OBJECTS)
 @ENABLE_TESTS_TRUE@propertyconfig_test_DEPENDENCIES =  \
 @ENABLE_TESTS_TRUE@	$(liblog4cplus_la_file)
@@ -725,16 +752,16 @@ propertyconfig_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(propertyconfig_test_LDFLAGS) \
 	$(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_43 = tests/propertyconfig_test/propertyconfig_testU-main.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_propertyconfig_testU_OBJECTS = $(am__objects_43)
+@ENABLE_TESTS_TRUE@am__objects_45 = tests/propertyconfig_test/propertyconfig_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_propertyconfig_testU_OBJECTS = $(am__objects_45)
 propertyconfig_testU_OBJECTS = $(am_propertyconfig_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@propertyconfig_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
 propertyconfig_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(propertyconfig_testU_LDFLAGS) \
 	$(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am__objects_44 = tests/qt6messagehandler_test/qt6messagehandler_test-main.$(OBJEXT)
-@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am_qt6messagehandler_test_OBJECTS = $(am__objects_44)
+@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am__objects_46 = tests/qt6messagehandler_test/qt6messagehandler_test-main.$(OBJEXT)
+@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am_qt6messagehandler_test_OBJECTS = $(am__objects_46)
 qt6messagehandler_test_OBJECTS = $(am_qt6messagehandler_test_OBJECTS)
 @ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@qt6messagehandler_test_DEPENDENCIES = $(liblog4cplus_la_file) \
 @ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@	$(top_builddir)/liblog4cplusqt6debugappender.la
@@ -742,8 +769,8 @@ qt6messagehandler_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(qt6messagehandler_test_LDFLAGS) \
 	$(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am__objects_45 = tests/qt6messagehandler_test/qt6messagehandler_testU-main.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am_qt6messagehandler_testU_OBJECTS = $(am__objects_45)
+@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am__objects_47 = tests/qt6messagehandler_test/qt6messagehandler_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@am_qt6messagehandler_testU_OBJECTS = $(am__objects_47)
 qt6messagehandler_testU_OBJECTS =  \
 	$(am_qt6messagehandler_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@@QT6_TRUE@qt6messagehandler_testU_DEPENDENCIES = $(liblog4cplusU_la_file) \
@@ -752,37 +779,37 @@ qt6messagehandler_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(qt6messagehandler_testU_LDFLAGS) \
 	$(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_46 = tests/socket_test/socket_test-main.$(OBJEXT)
-@ENABLE_TESTS_TRUE@am_socket_test_OBJECTS = $(am__objects_46)
+@ENABLE_TESTS_TRUE@am__objects_48 = tests/socket_test/socket_test-main.$(OBJEXT)
+@ENABLE_TESTS_TRUE@am_socket_test_OBJECTS = $(am__objects_48)
 socket_test_OBJECTS = $(am_socket_test_OBJECTS)
 @ENABLE_TESTS_TRUE@socket_test_DEPENDENCIES = $(liblog4cplus_la_file)
 socket_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(socket_test_LDFLAGS) $(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_47 = tests/socket_test/socket_testU-main.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_socket_testU_OBJECTS = $(am__objects_47)
+@ENABLE_TESTS_TRUE@am__objects_49 = tests/socket_test/socket_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_socket_testU_OBJECTS = $(am__objects_49)
 socket_testU_OBJECTS = $(am_socket_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@socket_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
 socket_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(socket_testU_LDFLAGS) $(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__objects_48 = tests/thread_test/thread_test-main.$(OBJEXT)
+@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__objects_50 = tests/thread_test/thread_test-main.$(OBJEXT)
 @ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am_thread_test_OBJECTS =  \
-@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@	$(am__objects_48)
+@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@	$(am__objects_50)
 thread_test_OBJECTS = $(am_thread_test_OBJECTS)
 @ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@thread_test_DEPENDENCIES = $(liblog4cplus_la_file)
 thread_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(thread_test_LDFLAGS) $(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__objects_49 = tests/thread_test/thread_testU-main.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am_thread_testU_OBJECTS = $(am__objects_49)
+@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__objects_51 = tests/thread_test/thread_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am_thread_testU_OBJECTS = $(am__objects_51)
 thread_testU_OBJECTS = $(am_thread_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@thread_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
 thread_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(thread_testU_LDFLAGS) $(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_50 = tests/timeformat_test/timeformat_test-main.$(OBJEXT)
-@ENABLE_TESTS_TRUE@am_timeformat_test_OBJECTS = $(am__objects_50)
+@ENABLE_TESTS_TRUE@am__objects_52 = tests/timeformat_test/timeformat_test-main.$(OBJEXT)
+@ENABLE_TESTS_TRUE@am_timeformat_test_OBJECTS = $(am__objects_52)
 timeformat_test_OBJECTS = $(am_timeformat_test_OBJECTS)
 @ENABLE_TESTS_TRUE@timeformat_test_DEPENDENCIES =  \
 @ENABLE_TESTS_TRUE@	$(liblog4cplus_la_file)
@@ -790,23 +817,23 @@ timeformat_test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(timeformat_test_LDFLAGS) \
 	$(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_51 = tests/timeformat_test/timeformat_testU-main.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_timeformat_testU_OBJECTS = $(am__objects_51)
+@ENABLE_TESTS_TRUE@am__objects_53 = tests/timeformat_test/timeformat_testU-main.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_timeformat_testU_OBJECTS = $(am__objects_53)
 timeformat_testU_OBJECTS = $(am_timeformat_testU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@timeformat_testU_DEPENDENCIES = $(liblog4cplusU_la_file)
 timeformat_testU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(AM_CXXFLAGS) $(CXXFLAGS) $(timeformat_testU_LDFLAGS) \
 	$(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_52 = tests/unit_tests/unit_tests-unit_tests.$(OBJEXT)
-@ENABLE_TESTS_TRUE@am_unit_tests_OBJECTS = $(am__objects_52)
+@ENABLE_TESTS_TRUE@am__objects_54 = tests/unit_tests/unit_tests-unit_tests.$(OBJEXT)
+@ENABLE_TESTS_TRUE@am_unit_tests_OBJECTS = $(am__objects_54)
 unit_tests_OBJECTS = $(am_unit_tests_OBJECTS)
 @ENABLE_TESTS_TRUE@unit_tests_DEPENDENCIES = $(liblog4cplus_la_file)
 unit_tests_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(unit_tests_LDFLAGS) $(LDFLAGS) -o $@
-@ENABLE_TESTS_TRUE@am__objects_53 = tests/unit_tests/unit_testsU-unit_tests.$(OBJEXT)
-@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_unit_testsU_OBJECTS = $(am__objects_53)
+@ENABLE_TESTS_TRUE@am__objects_55 = tests/unit_tests/unit_testsU-unit_tests.$(OBJEXT)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am_unit_testsU_OBJECTS = $(am__objects_55)
 unit_testsU_OBJECTS = $(am_unit_testsU_OBJECTS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@unit_testsU_DEPENDENCIES = $(liblog4cplusU_la_file)
 unit_testsU_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
@@ -860,6 +887,7 @@ am__depfiles_remade = $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplusU_la-ca
 	src/$(DEPDIR)/liblog4cplusU_la-global-init.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-hierarchy.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-hierarchylocker.Plo \
+	src/$(DEPDIR)/liblog4cplusU_la-journalappender.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-layout.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-lockfile.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-log4judpappender.Plo \
@@ -920,6 +948,7 @@ am__depfiles_remade = $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplusU_la-ca
 	src/$(DEPDIR)/liblog4cplus_la-global-init.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-hierarchy.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-hierarchylocker.Plo \
+	src/$(DEPDIR)/liblog4cplus_la-journalappender.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-layout.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-lockfile.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-log4judpappender.Plo \
@@ -973,6 +1002,8 @@ am__depfiles_remade = $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplusU_la-ca
 	tests/filter_test/$(DEPDIR)/filter_testU-main.Po \
 	tests/hierarchy_test/$(DEPDIR)/hierarchy_test-main.Po \
 	tests/hierarchy_test/$(DEPDIR)/hierarchy_testU-main.Po \
+	tests/journalappender_test/$(DEPDIR)/journalappender_test-main.Po \
+	tests/journalappender_test/$(DEPDIR)/journalappender_testU-main.Po \
 	tests/loglog_test/$(DEPDIR)/loglog_test-main.Po \
 	tests/loglog_test/$(DEPDIR)/loglog_testU-main.Po \
 	tests/ndc_test/$(DEPDIR)/ndc_test-main.Po \
@@ -1050,14 +1081,16 @@ SOURCES = $(_log4cplus_la_SOURCES) $(_log4cplusU_la_SOURCES) \
 	$(fileappender_test_SOURCES) $(fileappender_testU_SOURCES) \
 	$(filter_test_SOURCES) $(filter_testU_SOURCES) \
 	$(hierarchy_test_SOURCES) $(hierarchy_testU_SOURCES) \
-	$(loggingserver_SOURCES) $(loggingserverU_SOURCES) \
-	$(loglog_test_SOURCES) $(loglog_testU_SOURCES) \
-	$(ndc_test_SOURCES) $(ndc_testU_SOURCES) \
-	$(ostream_test_SOURCES) $(ostream_testU_SOURCES) \
-	$(patternlayout_test_SOURCES) $(patternlayout_testU_SOURCES) \
-	$(performance_test_SOURCES) $(performance_testU_SOURCES) \
-	$(priority_test_SOURCES) $(priority_testU_SOURCES) \
-	$(propertyconfig_test_SOURCES) $(propertyconfig_testU_SOURCES) \
+	$(journalappender_test_SOURCES) \
+	$(journalappender_testU_SOURCES) $(loggingserver_SOURCES) \
+	$(loggingserverU_SOURCES) $(loglog_test_SOURCES) \
+	$(loglog_testU_SOURCES) $(ndc_test_SOURCES) \
+	$(ndc_testU_SOURCES) $(ostream_test_SOURCES) \
+	$(ostream_testU_SOURCES) $(patternlayout_test_SOURCES) \
+	$(patternlayout_testU_SOURCES) $(performance_test_SOURCES) \
+	$(performance_testU_SOURCES) $(priority_test_SOURCES) \
+	$(priority_testU_SOURCES) $(propertyconfig_test_SOURCES) \
+	$(propertyconfig_testU_SOURCES) \
 	$(qt6messagehandler_test_SOURCES) \
 	$(qt6messagehandler_testU_SOURCES) $(socket_test_SOURCES) \
 	$(socket_testU_SOURCES) $(thread_test_SOURCES) \
@@ -1165,6 +1198,9 @@ LOG4CPLUS_AIX_XLC_LDFLAGS = @LOG4CPLUS_AIX_XLC_LDFLAGS@
 LOG4CPLUS_LTO_CXXFLAGS = @LOG4CPLUS_LTO_CXXFLAGS@
 LOG4CPLUS_LTO_LDFLAGS = @LOG4CPLUS_LTO_LDFLAGS@
 LOG4CPLUS_NDEBUG = @LOG4CPLUS_NDEBUG@
+LOG4CPLUS_PC_CPPFLAGS = @LOG4CPLUS_PC_CPPFLAGS@
+LOG4CPLUS_PC_LIBRARY = @LOG4CPLUS_PC_LIBRARY@
+LOG4CPLUS_PC_REQUIRES_PRIVATE = @LOG4CPLUS_PC_REQUIRES_PRIVATE@
 LOG4CPLUS_PROFILING_CXXFLAGS = @LOG4CPLUS_PROFILING_CXXFLAGS@
 LOG4CPLUS_PROFILING_LDFLAGS = @LOG4CPLUS_PROFILING_LDFLAGS@
 LTLIBOBJS = @LTLIBOBJS@
@@ -1218,8 +1254,11 @@ STRIP = @STRIP@
 SWIG = @SWIG@
 SWIG_FLAGS = @SWIG_FLAGS@
 SWIG_LIB = @SWIG_LIB@
+SYSTEMD_CFLAGS = @SYSTEMD_CFLAGS@
+SYSTEMD_LIBS = @SYSTEMD_LIBS@
 VERSION = @VERSION@
 WITH_QT6 = @WITH_QT6@
+WITH_SYSTEMD = @WITH_SYSTEMD@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -1317,7 +1356,8 @@ LIB_SRC = src/androidappender.cxx src/appenderattachableimpl.cxx \
 	src/cygwin-win32.cxx src/env.cxx src/eventcounter.cxx \
 	src/exception.cxx src/factory.cxx src/fileappender.cxx \
 	src/fileinfo.cxx src/filter.cxx src/global-init.cxx \
-	src/hierarchy.cxx src/hierarchylocker.cxx src/layout.cxx \
+	src/hierarchy.cxx src/hierarchylocker.cxx \
+	src/journalappender.cxx src/layout.cxx \
 	src/log4judpappender.cxx src/lockfile.cxx src/logger.cxx \
 	src/loggerimpl.cxx src/loggingevent.cxx src/loggingmacros.cxx \
 	src/loglevel.cxx src/loglog.cxx src/mdc.cxx src/ndc.cxx \
@@ -1333,8 +1373,8 @@ LIB_SRC = src/androidappender.cxx src/appenderattachableimpl.cxx \
 	src/win32consoleappender.cxx src/win32debugappender.cxx \
 	src/win32traceloggingappender.cxx src/win32fstream.cxx \
 	$(am__append_1)
-common_liblog4cplus_la_cppflags = $(AM_CPPFLAGS) -DINSIDE_LOG4CPLUS \
-	$(am__append_2)
+common_liblog4cplus_la_cppflags = $(AM_CPPFLAGS) $(SYSTEMD_CFLAGS) \
+	-DINSIDE_LOG4CPLUS $(am__append_2)
 liblog4cplus_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags)
 common_liblog4cplus_la_sources = $(LIB_SRC)
 liblog4cplus_la_SOURCES = $(common_liblog4cplus_la_sources)
@@ -1347,9 +1387,11 @@ common_liblog4cplus_la_ldflags = -no-undefined \
 	$(LOG4CPLUS_AIX_XLC_LDFLAGS) \
 	$(LOG4CPLUS_EXPORT_SYMBOLS_REGEX)
 
+liblog4cplus_la_LIBADD = $(SYSTEMD_LIBS)
 liblog4cplus_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_CPPFLAGS = $(common_liblog4cplus_la_cppflags) -DUNICODE=1 -D_UNICODE=1
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_SOURCES = $(common_liblog4cplus_la_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_LIBADD = $(SYSTEMD_LIBS)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@liblog4cplusU_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
 @MULTI_THREADED_TRUE@loggingserver_sources = simpleserver/loggingserver.cxx
 @MULTI_THREADED_TRUE@loggingserver_SOURCES = $(loggingserver_sources)
@@ -1499,6 +1541,7 @@ liblog4cplus_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
 @ENABLE_TESTS_TRUE@	tests/filter_test.at \
 @ENABLE_TESTS_TRUE@	tests/headers.at \
 @ENABLE_TESTS_TRUE@	tests/hierarchy_test.at \
+@ENABLE_TESTS_TRUE@	tests/journalappender_test.at \
 @ENABLE_TESTS_TRUE@	tests/local.at \
 @ENABLE_TESTS_TRUE@	tests/loglog_test.at \
 @ENABLE_TESTS_TRUE@	tests/ndc_test.at \
@@ -1580,6 +1623,17 @@ liblog4cplus_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@hierarchy_testU_SOURCES = $(hierarchy_test_sources)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@hierarchy_testU_LDADD = $(liblog4cplusU_la_file)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@hierarchy_testU_LDFLAGS = -no-install
+@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@journalappender_test_sources = \
+@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@	tests/journalappender_test/main.cxx
+
+@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@journalappender_test_SOURCES = $(journalappender_test_sources)
+@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@journalappender_test_CPPFLAGS = $(AM_CPPFLAGS)
+@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@journalappender_test_LDADD = $(liblog4cplus_la_file)
+@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@journalappender_test_LDFLAGS = -no-install -export-dynamic
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@journalappender_testU_CPPFLAGS = $(AM_CPPFLAGS) -DUNICODE=1 -D_UNICODE=1
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@journalappender_testU_SOURCES = $(journalappender_test_sources)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@journalappender_testU_LDADD = $(liblog4cplusU_la_file)
+@BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@@WITH_SYSTEMD_TRUE@journalappender_testU_LDFLAGS = -no-install -export-dynamic
 @ENABLE_TESTS_TRUE@loglog_test_sources = \
 @ENABLE_TESTS_TRUE@	tests/loglog_test/main.cxx
 
@@ -1735,7 +1789,7 @@ all: $(BUILT_SOURCES)
 .SUFFIXES: .cpp .cxx .lo .o .obj
 am--refresh: Makefile
 	@:
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/qt6debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/qt6messagehandler_test/Makefile.am $(srcdir)/tests/qt6messagehandler_test/Makefile.am.inc $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/src/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/qt6debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/journalappender_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/qt6messagehandler_test/Makefile.am $(srcdir)/tests/qt6messagehandler_test/Makefile.am.inc $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -1757,7 +1811,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__maybe_remake_depfiles)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__maybe_remake_depfiles);; \
 	esac;
-$(srcdir)/src/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/qt6debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/qt6messagehandler_test/Makefile.am $(srcdir)/tests/qt6messagehandler_test/Makefile.am.inc $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(am__empty):
+$(srcdir)/src/Makefile.am $(srcdir)/simpleserver/Makefile.am $(srcdir)/qt4debugappender/Makefile.am $(srcdir)/qt5debugappender/Makefile.am $(srcdir)/qt6debugappender/Makefile.am $(srcdir)/swig/Makefile.common.am $(srcdir)/swig/python/Makefile.am $(srcdir)/tests/Makefile.am $(srcdir)/tests/appender_test/Makefile.am $(srcdir)/tests/configandwatch_test/Makefile.am $(srcdir)/tests/customloglevel_test/Makefile.am $(srcdir)/tests/fileappender_test/Makefile.am $(srcdir)/tests/filter_test/Makefile.am $(srcdir)/tests/hierarchy_test/Makefile.am $(srcdir)/tests/journalappender_test/Makefile.am $(srcdir)/tests/loglog_test/Makefile.am $(srcdir)/tests/ndc_test/Makefile.am $(srcdir)/tests/ostream_test/Makefile.am $(srcdir)/tests/patternlayout_test/Makefile.am $(srcdir)/tests/performance_test/Makefile.am $(srcdir)/tests/priority_test/Makefile.am $(srcdir)/tests/propertyconfig_test/Makefile.am $(srcdir)/tests/qt6messagehandler_test/Makefile.am $(srcdir)/tests/qt6messagehandler_test/Makefile.am.inc $(srcdir)/tests/socket_test/Makefile.am $(srcdir)/tests/thread_test/Makefile.am $(srcdir)/tests/timeformat_test/Makefile.am $(srcdir)/tests/unit_tests/Makefile.am $(am__empty):
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -1926,6 +1980,8 @@ src/liblog4cplus_la-hierarchy.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-hierarchylocker.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplus_la-journalappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-layout.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-log4judpappender.lo: src/$(am__dirstamp) \
@@ -2057,6 +2113,8 @@ src/liblog4cplusU_la-global-init.lo: src/$(am__dirstamp) \
 src/liblog4cplusU_la-hierarchy.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplusU_la-hierarchylocker.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-journalappender.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplusU_la-layout.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
@@ -2324,6 +2382,26 @@ tests/hierarchy_test/hierarchy_testU-main.$(OBJEXT):  \
 hierarchy_testU$(EXEEXT): $(hierarchy_testU_OBJECTS) $(hierarchy_testU_DEPENDENCIES) $(EXTRA_hierarchy_testU_DEPENDENCIES) 
 	@rm -f hierarchy_testU$(EXEEXT)
 	$(AM_V_CXXLD)$(hierarchy_testU_LINK) $(hierarchy_testU_OBJECTS) $(hierarchy_testU_LDADD) $(LIBS)
+tests/journalappender_test/$(am__dirstamp):
+	@$(MKDIR_P) tests/journalappender_test
+	@: >>tests/journalappender_test/$(am__dirstamp)
+tests/journalappender_test/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) tests/journalappender_test/$(DEPDIR)
+	@: >>tests/journalappender_test/$(DEPDIR)/$(am__dirstamp)
+tests/journalappender_test/journalappender_test-main.$(OBJEXT):  \
+	tests/journalappender_test/$(am__dirstamp) \
+	tests/journalappender_test/$(DEPDIR)/$(am__dirstamp)
+
+journalappender_test$(EXEEXT): $(journalappender_test_OBJECTS) $(journalappender_test_DEPENDENCIES) $(EXTRA_journalappender_test_DEPENDENCIES) 
+	@rm -f journalappender_test$(EXEEXT)
+	$(AM_V_CXXLD)$(journalappender_test_LINK) $(journalappender_test_OBJECTS) $(journalappender_test_LDADD) $(LIBS)
+tests/journalappender_test/journalappender_testU-main.$(OBJEXT):  \
+	tests/journalappender_test/$(am__dirstamp) \
+	tests/journalappender_test/$(DEPDIR)/$(am__dirstamp)
+
+journalappender_testU$(EXEEXT): $(journalappender_testU_OBJECTS) $(journalappender_testU_DEPENDENCIES) $(EXTRA_journalappender_testU_DEPENDENCIES) 
+	@rm -f journalappender_testU$(EXEEXT)
+	$(AM_V_CXXLD)$(journalappender_testU_LINK) $(journalappender_testU_OBJECTS) $(journalappender_testU_LDADD) $(LIBS)
 simpleserver/$(am__dirstamp):
 	@$(MKDIR_P) simpleserver
 	@: >>simpleserver/$(am__dirstamp)
@@ -2609,6 +2687,7 @@ mostlyclean-compile:
 	-rm -f tests/fileappender_test/*.$(OBJEXT)
 	-rm -f tests/filter_test/*.$(OBJEXT)
 	-rm -f tests/hierarchy_test/*.$(OBJEXT)
+	-rm -f tests/journalappender_test/*.$(OBJEXT)
 	-rm -f tests/loglog_test/*.$(OBJEXT)
 	-rm -f tests/ndc_test/*.$(OBJEXT)
 	-rm -f tests/ostream_test/*.$(OBJEXT)
@@ -2658,6 +2737,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-global-init.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-hierarchy.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-hierarchylocker.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-journalappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-layout.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-lockfile.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-log4judpappender.Plo@am__quote@ # am--include-marker
@@ -2718,6 +2798,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-global-init.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-hierarchy.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-hierarchylocker.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-journalappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-layout.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-lockfile.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-log4judpappender.Plo@am__quote@ # am--include-marker
@@ -2771,6 +2852,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@tests/filter_test/$(DEPDIR)/filter_testU-main.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/hierarchy_test/$(DEPDIR)/hierarchy_test-main.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/hierarchy_test/$(DEPDIR)/hierarchy_testU-main.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/journalappender_test/$(DEPDIR)/journalappender_test-main.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/journalappender_test/$(DEPDIR)/journalappender_testU-main.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/loglog_test/$(DEPDIR)/loglog_test-main.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/loglog_test/$(DEPDIR)/loglog_testU-main.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/ndc_test/$(DEPDIR)/ndc_test-main.Po@am__quote@ # am--include-marker
@@ -2981,6 +3064,13 @@ src/liblog4cplus_la-hierarchylocker.lo: src/hierarchylocker.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/hierarchylocker.cxx' object='src/liblog4cplus_la-hierarchylocker.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-hierarchylocker.lo `test -f 'src/hierarchylocker.cxx' || echo '$(srcdir)/'`src/hierarchylocker.cxx
+
+src/liblog4cplus_la-journalappender.lo: src/journalappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-journalappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-journalappender.Tpo -c -o src/liblog4cplus_la-journalappender.lo `test -f 'src/journalappender.cxx' || echo '$(srcdir)/'`src/journalappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplus_la-journalappender.Tpo src/$(DEPDIR)/liblog4cplus_la-journalappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/journalappender.cxx' object='src/liblog4cplus_la-journalappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-journalappender.lo `test -f 'src/journalappender.cxx' || echo '$(srcdir)/'`src/journalappender.cxx
 
 src/liblog4cplus_la-layout.lo: src/layout.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-layout.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-layout.Tpo -c -o src/liblog4cplus_la-layout.lo `test -f 'src/layout.cxx' || echo '$(srcdir)/'`src/layout.cxx
@@ -3408,6 +3498,13 @@ src/liblog4cplusU_la-hierarchylocker.lo: src/hierarchylocker.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/hierarchylocker.cxx' object='src/liblog4cplusU_la-hierarchylocker.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-hierarchylocker.lo `test -f 'src/hierarchylocker.cxx' || echo '$(srcdir)/'`src/hierarchylocker.cxx
+
+src/liblog4cplusU_la-journalappender.lo: src/journalappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-journalappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-journalappender.Tpo -c -o src/liblog4cplusU_la-journalappender.lo `test -f 'src/journalappender.cxx' || echo '$(srcdir)/'`src/journalappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-journalappender.Tpo src/$(DEPDIR)/liblog4cplusU_la-journalappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/journalappender.cxx' object='src/liblog4cplusU_la-journalappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-journalappender.lo `test -f 'src/journalappender.cxx' || echo '$(srcdir)/'`src/journalappender.cxx
 
 src/liblog4cplusU_la-layout.lo: src/layout.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-layout.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-layout.Tpo -c -o src/liblog4cplusU_la-layout.lo `test -f 'src/layout.cxx' || echo '$(srcdir)/'`src/layout.cxx
@@ -3933,6 +4030,34 @@ tests/hierarchy_test/hierarchy_testU-main.obj: tests/hierarchy_test/main.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/hierarchy_test/main.cxx' object='tests/hierarchy_test/hierarchy_testU-main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(hierarchy_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/hierarchy_test/hierarchy_testU-main.obj `if test -f 'tests/hierarchy_test/main.cxx'; then $(CYGPATH_W) 'tests/hierarchy_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/hierarchy_test/main.cxx'; fi`
+
+tests/journalappender_test/journalappender_test-main.o: tests/journalappender_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(journalappender_test_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/journalappender_test/journalappender_test-main.o -MD -MP -MF tests/journalappender_test/$(DEPDIR)/journalappender_test-main.Tpo -c -o tests/journalappender_test/journalappender_test-main.o `test -f 'tests/journalappender_test/main.cxx' || echo '$(srcdir)/'`tests/journalappender_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/journalappender_test/$(DEPDIR)/journalappender_test-main.Tpo tests/journalappender_test/$(DEPDIR)/journalappender_test-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/journalappender_test/main.cxx' object='tests/journalappender_test/journalappender_test-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(journalappender_test_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/journalappender_test/journalappender_test-main.o `test -f 'tests/journalappender_test/main.cxx' || echo '$(srcdir)/'`tests/journalappender_test/main.cxx
+
+tests/journalappender_test/journalappender_test-main.obj: tests/journalappender_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(journalappender_test_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/journalappender_test/journalappender_test-main.obj -MD -MP -MF tests/journalappender_test/$(DEPDIR)/journalappender_test-main.Tpo -c -o tests/journalappender_test/journalappender_test-main.obj `if test -f 'tests/journalappender_test/main.cxx'; then $(CYGPATH_W) 'tests/journalappender_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/journalappender_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/journalappender_test/$(DEPDIR)/journalappender_test-main.Tpo tests/journalappender_test/$(DEPDIR)/journalappender_test-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/journalappender_test/main.cxx' object='tests/journalappender_test/journalappender_test-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(journalappender_test_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/journalappender_test/journalappender_test-main.obj `if test -f 'tests/journalappender_test/main.cxx'; then $(CYGPATH_W) 'tests/journalappender_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/journalappender_test/main.cxx'; fi`
+
+tests/journalappender_test/journalappender_testU-main.o: tests/journalappender_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(journalappender_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/journalappender_test/journalappender_testU-main.o -MD -MP -MF tests/journalappender_test/$(DEPDIR)/journalappender_testU-main.Tpo -c -o tests/journalappender_test/journalappender_testU-main.o `test -f 'tests/journalappender_test/main.cxx' || echo '$(srcdir)/'`tests/journalappender_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/journalappender_test/$(DEPDIR)/journalappender_testU-main.Tpo tests/journalappender_test/$(DEPDIR)/journalappender_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/journalappender_test/main.cxx' object='tests/journalappender_test/journalappender_testU-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(journalappender_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/journalappender_test/journalappender_testU-main.o `test -f 'tests/journalappender_test/main.cxx' || echo '$(srcdir)/'`tests/journalappender_test/main.cxx
+
+tests/journalappender_test/journalappender_testU-main.obj: tests/journalappender_test/main.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(journalappender_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT tests/journalappender_test/journalappender_testU-main.obj -MD -MP -MF tests/journalappender_test/$(DEPDIR)/journalappender_testU-main.Tpo -c -o tests/journalappender_test/journalappender_testU-main.obj `if test -f 'tests/journalappender_test/main.cxx'; then $(CYGPATH_W) 'tests/journalappender_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/journalappender_test/main.cxx'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) tests/journalappender_test/$(DEPDIR)/journalappender_testU-main.Tpo tests/journalappender_test/$(DEPDIR)/journalappender_testU-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='tests/journalappender_test/main.cxx' object='tests/journalappender_test/journalappender_testU-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(journalappender_testU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o tests/journalappender_test/journalappender_testU-main.obj `if test -f 'tests/journalappender_test/main.cxx'; then $(CYGPATH_W) 'tests/journalappender_test/main.cxx'; else $(CYGPATH_W) '$(srcdir)/tests/journalappender_test/main.cxx'; fi`
 
 simpleserver/loggingserverU-loggingserver.o: simpleserver/loggingserver.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(loggingserverU_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT simpleserver/loggingserverU-loggingserver.o -MD -MP -MF simpleserver/$(DEPDIR)/loggingserverU-loggingserver.Tpo -c -o simpleserver/loggingserverU-loggingserver.o `test -f 'simpleserver/loggingserver.cxx' || echo '$(srcdir)/'`simpleserver/loggingserver.cxx
@@ -4582,6 +4707,8 @@ distclean-generic:
 	-$(am__rm_f) tests/filter_test/$(am__dirstamp)
 	-$(am__rm_f) tests/hierarchy_test/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) tests/hierarchy_test/$(am__dirstamp)
+	-$(am__rm_f) tests/journalappender_test/$(DEPDIR)/$(am__dirstamp)
+	-$(am__rm_f) tests/journalappender_test/$(am__dirstamp)
 	-$(am__rm_f) tests/loglog_test/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) tests/loglog_test/$(am__dirstamp)
 	-$(am__rm_f) tests/ndc_test/$(DEPDIR)/$(am__dirstamp)
@@ -4652,6 +4779,7 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-global-init.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-hierarchy.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-hierarchylocker.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplusU_la-journalappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-layout.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-lockfile.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-log4judpappender.Plo
@@ -4712,6 +4840,7 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-global-init.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-hierarchy.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-hierarchylocker.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplus_la-journalappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-layout.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-lockfile.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-log4judpappender.Plo
@@ -4765,6 +4894,8 @@ distclean: distclean-recursive
 	-rm -f tests/filter_test/$(DEPDIR)/filter_testU-main.Po
 	-rm -f tests/hierarchy_test/$(DEPDIR)/hierarchy_test-main.Po
 	-rm -f tests/hierarchy_test/$(DEPDIR)/hierarchy_testU-main.Po
+	-rm -f tests/journalappender_test/$(DEPDIR)/journalappender_test-main.Po
+	-rm -f tests/journalappender_test/$(DEPDIR)/journalappender_testU-main.Po
 	-rm -f tests/loglog_test/$(DEPDIR)/loglog_test-main.Po
 	-rm -f tests/loglog_test/$(DEPDIR)/loglog_testU-main.Po
 	-rm -f tests/ndc_test/$(DEPDIR)/ndc_test-main.Po
@@ -4871,6 +5002,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-global-init.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-hierarchy.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-hierarchylocker.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplusU_la-journalappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-layout.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-lockfile.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-log4judpappender.Plo
@@ -4931,6 +5063,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-global-init.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-hierarchy.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-hierarchylocker.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplus_la-journalappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-layout.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-lockfile.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-log4judpappender.Plo
@@ -4984,6 +5117,8 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f tests/filter_test/$(DEPDIR)/filter_testU-main.Po
 	-rm -f tests/hierarchy_test/$(DEPDIR)/hierarchy_test-main.Po
 	-rm -f tests/hierarchy_test/$(DEPDIR)/hierarchy_testU-main.Po
+	-rm -f tests/journalappender_test/$(DEPDIR)/journalappender_test-main.Po
+	-rm -f tests/journalappender_test/$(DEPDIR)/journalappender_testU-main.Po
 	-rm -f tests/loglog_test/$(DEPDIR)/loglog_test-main.Po
 	-rm -f tests/loglog_test/$(DEPDIR)/loglog_testU-main.Po
 	-rm -f tests/ndc_test/$(DEPDIR)/ndc_test-main.Po

@@ -58,6 +58,7 @@
 #include <system_error>
 #include <vector>
 #include <log4cplus/config/windowsh-inc.h>
+#include <log4cplus/internal/utf8.h>
 
 #if (__cplusplus >= 201703L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 201703L)
 #include <filesystem>
@@ -95,10 +96,8 @@ struct win32_open_options {
 
 namespace detail {
 
-constexpr std::uint32_t unicode_replacement_character = 0xfffd;
 constexpr std::uint32_t unicode_byte_order_mark = 0xfeff;
 constexpr std::uint32_t supplementary_code_point_first = 0x10000;
-constexpr std::size_t maximum_utf8_sequence_length = 4;
 constexpr std::size_t default_byte_buffer_size = 8192;
 constexpr std::size_t maximum_decoded_code_units = 8;
 /**
@@ -106,10 +105,6 @@ constexpr std::size_t maximum_decoded_code_units = 8;
  * @see https://learn.microsoft.com/windows/win32/intl/code-page-identifiers
  */
 constexpr unsigned int windows_us_ascii_code_page = 20127;
-constexpr std::uint32_t high_surrogate_first = 0xd800;
-constexpr std::uint32_t high_surrogate_last = 0xdbff;
-constexpr std::uint32_t low_surrogate_first = 0xdc00;
-constexpr std::uint32_t low_surrogate_last = 0xdfff;
 
 /** @brief Creates a system-category error from a Win32 error value. */
 inline std::error_code windows_error (DWORD value = GetLastError ()) {
@@ -137,21 +132,6 @@ LOG4CPLUS_EXPORT bool win32_wide_to_multibyte (
 LOG4CPLUS_EXPORT unsigned char
 win32_code_page_default_char (unsigned int, std::error_code &);
 
-/** @brief Tests whether a code unit is a UTF-16 high surrogate. */
-constexpr bool is_high_surrogate (std::uint32_t c) noexcept {
-    return high_surrogate_first <= c && c <= high_surrogate_last;
-}
-
-/** @brief Tests whether a code unit is a UTF-16 low surrogate. */
-constexpr bool is_low_surrogate (std::uint32_t c) noexcept {
-    return low_surrogate_first <= c && c <= low_surrogate_last;
-}
-
-/** @brief Tests whether a value is a Unicode scalar value. */
-constexpr bool is_scalar (std::uint32_t c) noexcept {
-    return c <= 0x10ffff && !is_high_surrogate (c) && !is_low_surrogate (c);
-}
-
 /** @brief Tests whether a byte is a UTF-8 continuation code unit. */
 constexpr bool is_utf8_continuation (unsigned char c) noexcept {
     return (c & 0xc0) == 0x80;
@@ -164,30 +144,6 @@ constexpr std::uint32_t surrogate_pair_to_scalar (std::uint32_t high,
     return supplementary_code_point_first
            + ((high - high_surrogate_first) << 10)
            + (low - low_surrogate_first);
-}
-
-/** @brief Encodes one Unicode scalar value as UTF-8 bytes. */
-constexpr std::size_t encode_utf8 (char * out, std::uint32_t c) noexcept {
-    // Distribute the scalar's payload bits across UTF-8 code units.
-    if (c <= 0x7f) {
-        out[0] = static_cast<char> (c);
-        return 1;
-    } else if (c <= 0x7ff) {
-        out[0] = static_cast<char> (0xc0 | (c >> 6));
-        out[1] = static_cast<char> (0x80 | (c & 0x3f));
-        return 2;
-    } else if (c <= 0xffff) {
-        out[0] = static_cast<char> (0xe0 | (c >> 12));
-        out[1] = static_cast<char> (0x80 | ((c >> 6) & 0x3f));
-        out[2] = static_cast<char> (0x80 | (c & 0x3f));
-        return 3;
-    } else {
-        out[0] = static_cast<char> (0xf0 | (c >> 18));
-        out[1] = static_cast<char> (0x80 | ((c >> 12) & 0x3f));
-        out[2] = static_cast<char> (0x80 | ((c >> 6) & 0x3f));
-        out[3] = static_cast<char> (0x80 | (c & 0x3f));
-        return 4;
-    }
 }
 
 /** @brief Returns the length indicated by a valid UTF-8 leading byte. */

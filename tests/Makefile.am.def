@@ -8,6 +8,10 @@ tests = { name = customloglevel_test; };
 tests = { name = fileappender_test; };
 tests = { name = filter_test; };
 tests = { name = hierarchy_test; };
+tests = {
+      name = journalappender_test;
+      conditional = WITH_SYSTEMD;
+      ldflags = "-export-dynamic"; };
 tests = { name = loglog_test; };
 tests = { name = ndc_test; };
 tests = { name = ostream_test; };

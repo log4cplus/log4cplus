@@ -21,5 +21,6 @@ qt6messagehandler_testU_LDADD = $(liblog4cplusU_la_file)
 qt6messagehandler_testU_LDFLAGS = -no-install
 endif # BUILD_WITH_WCHAR_T_SUPPORT
 include %D%/Makefile.am.inc
-endif # MULTI_THREADED
 endif # QT6
+
+endif # MULTI_THREADED

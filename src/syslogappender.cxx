@@ -364,6 +364,13 @@ SysLogAppender::close()
 int
 SysLogAppender::getSysLogLevel(const LogLevel& ll) const
 {
+    return internal::getSyslogPriority (ll);
+}
+
+
+int
+internal::getSyslogPriority (LogLevel ll)
+{
     if(ll < INFO_LOG_LEVEL /* || ll < DEBUG_LOG_LEVEL*/) {
         return LOG_DEBUG;
     }

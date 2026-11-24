@@ -643,6 +643,7 @@ LOG4CPLUS_LTO_LDFLAGS
 LOG4CPLUS_PROFILING_CXXFLAGS
 LOG4CPLUS_PROFILING_LDFLAGS
 AUTOM4TE
+LOG4CPLUS_PC_REQUIRES_PRIVATE
 LT_SYS_LIBRARY_PATH
 OTOOL64
 OTOOL
@@ -698,6 +699,13 @@ QT_FALSE
 QT_TRUE
 QT_LIBS
 QT_CFLAGS
+LOG4CPLUS_PC_CPPFLAGS
+LOG4CPLUS_PC_LIBRARY
+WITH_SYSTEMD
+WITH_SYSTEMD_FALSE
+WITH_SYSTEMD_TRUE
+SYSTEMD_LIBS
+SYSTEMD_CFLAGS
 PKG_CONFIG_LIBDIR
 PKG_CONFIG_PATH
 PKG_CONFIG
@@ -863,6 +871,7 @@ enable_unit_tests
 enable_lto
 enable_profiling
 enable_threads
+with_systemd
 with_qt
 with_qt5
 with_qt6
@@ -897,6 +906,8 @@ CXXCPP
 PKG_CONFIG
 PKG_CONFIG_PATH
 PKG_CONFIG_LIBDIR
+SYSTEMD_CFLAGS
+SYSTEMD_LIBS
 QT_CFLAGS
 QT_LIBS
 QT5_CFLAGS
@@ -1588,6 +1599,7 @@ Optional Packages:
   --with-wchar_t-support  Additionally, produce binaries with log4cplus::tchar
                           as wchar_t. The additional produced binaries will
                           have 'U' suffix. [default=yes]
+  --with-systemd          Build the libsystemd journal appender.
   --with-qt               Build liblog4cplusqt4debugappender.
   --with-qt5              Build liblog4cplusqt5debugappender.
   --with-qt6              Build liblog4cplusqt6debugappender.
@@ -1617,6 +1629,10 @@ Some influential environment variables:
               directories to add to pkg-config's search path
   PKG_CONFIG_LIBDIR
               path overriding pkg-config's built-in search path
+  SYSTEMD_CFLAGS
+              C compiler flags for SYSTEMD, overriding pkg-config
+  SYSTEMD_LIBS
+              linker flags for SYSTEMD, overriding pkg-config
   QT_CFLAGS   C compiler flags for QT, overriding pkg-config
   QT_LIBS     linker flags for QT, overriding pkg-config
   QT5_CFLAGS  C compiler flags for QT5, overriding pkg-config
@@ -15868,7 +15884,6 @@ fi
 
 
 
-
 if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
 	if test -n "$ac_tool_prefix"; then
   # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
@@ -15994,6 +16009,129 @@ printf '%s\n' "no" >&6; }
 		PKG_CONFIG=""
 	fi
 fi
+
+
+# Check whether --with-systemd was given.
+if test ${with_systemd+y}
+then :
+  withval=$with_systemd;
+   log4cplus_check_yesno_func "${withval}" "--with-systemd"
+else case e in #(
+  e) with_systemd=no ;;
+esac
+fi
+
+if test "x$with_systemd" = "xyes"
+then :
+
+pkg_failed=no
+{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking for SYSTEMD" >&5
+printf %s "checking for SYSTEMD... " >&6; }
+
+if test -n "$SYSTEMD_CFLAGS"; then
+    pkg_cv_SYSTEMD_CFLAGS="$SYSTEMD_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libsystemd\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libsystemd") 2>&5
+  ac_status=$?
+  printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_SYSTEMD_CFLAGS=`$PKG_CONFIG --cflags "libsystemd" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$SYSTEMD_LIBS"; then
+    pkg_cv_SYSTEMD_LIBS="$SYSTEMD_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libsystemd\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "libsystemd") 2>&5
+  ac_status=$?
+  printf '%s\n' "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_SYSTEMD_LIBS=`$PKG_CONFIG --libs "libsystemd" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf '%s\n' "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        SYSTEMD_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libsystemd" 2>&1`
+        else
+	        SYSTEMD_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libsystemd" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$SYSTEMD_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (libsystemd) were not met:
+
+$SYSTEMD_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables SYSTEMD_CFLAGS
+and SYSTEMD_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf '%s\n' "no" >&6; }
+	{ { printf '%s\n' "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+printf '%s\n' "$as_me: error: in '$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables SYSTEMD_CFLAGS
+and SYSTEMD_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See 'config.log' for more details" "$LINENO" 5; }
+else
+	SYSTEMD_CFLAGS=$pkg_cv_SYSTEMD_CFLAGS
+	SYSTEMD_LIBS=$pkg_cv_SYSTEMD_LIBS
+        { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf '%s\n' "yes" >&6; }
+
+fi
+
+printf '%s\n' "#define LOG4CPLUS_WITH_SYSTEMD 1" >>confdefs.h
+
+fi
+ if test "x$with_systemd" = "xyes"; then
+  WITH_SYSTEMD_TRUE=
+  WITH_SYSTEMD_FALSE='#'
+else
+  WITH_SYSTEMD_TRUE='#'
+  WITH_SYSTEMD_FALSE=
+fi
+
+WITH_SYSTEMD=$with_systemd
+
+LOG4CPLUS_PC_LIBRARY=log4cplus
+
+
+
 
 
 # Check whether --with-qt was given.
@@ -30219,6 +30357,12 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
+if test "x$with_systemd" = xyes && test "x$enable_static" = xyes
+then :
+  LOG4CPLUS_PC_REQUIRES_PRIVATE=libsystemd
+fi
+
+
 if test "x$enable_shared" = "xyes"
 then :
   case "$target_os" in #(
@@ -30477,6 +30621,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${MULTI_THREADED_TRUE}" && test -z "${MULTI_THREADED_FALSE}"; then
   as_fn_error $? "conditional \"MULTI_THREADED\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${WITH_SYSTEMD_TRUE}" && test -z "${WITH_SYSTEMD_FALSE}"; then
+  as_fn_error $? "conditional \"WITH_SYSTEMD\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${QT_TRUE}" && test -z "${QT_FALSE}"; then
