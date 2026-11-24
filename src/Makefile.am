@@ -36,8 +36,10 @@ LIB_SRC = \
 	%D%/nullappender.cxx \
 	%D%/nteventlogappender.cxx \
 	%D%/objectregistry.cxx \
+	%D%/oslogappender.cxx \
 	%D%/patternlayout.cxx \
 	%D%/pointer.cxx \
+	%D%/posixutf8.h \
 	%D%/property.cxx \
 	%D%/queue.cxx \
 	%D%/rootlogger.cxx \

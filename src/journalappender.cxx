@@ -7,113 +7,24 @@
 #include <log4cplus/helpers/property.h>
 #include <log4cplus/helpers/stringhelper.h>
 #include <log4cplus/internal/internal.h>
-#include <log4cplus/internal/utf8.h>
+#include "posixutf8.h"
 
 #define SD_JOURNAL_SUPPRESS_LOCATION
 #include <systemd/sd-journal.h>
 
 #include <algorithm>
 #include <cerrno>
-#include <cstdint>
-#include <cwchar>
-#include <locale.h>
 #include <set>
 #include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
-#include <system_error>
 #include <sys/uio.h>
 
 namespace log4cplus
 {
 namespace
 {
-
-void
-appendUtf8 (std::string & out, std::uint32_t cp)
-{
-    if (!helpers::detail::is_scalar (cp))
-        cp = helpers::detail::unicode_replacement_character;
-
-    char bytes[helpers::detail::maximum_utf8_sequence_length];
-    auto const count = helpers::detail::encode_utf8 (bytes, cp);
-    out.append (bytes, count);
-}
-
-#ifndef UNICODE
-// Only the conversion runs under the saved locale. Layouts, level callbacks
-// and error handlers continue to use their caller's locale.
-struct ScopedLocale
-{
-    explicit ScopedLocale (locale_t loc) : previous (uselocale (loc))
-    {
-        if (!previous)
-            throw std::system_error (errno, std::generic_category (), "uselocale");
-    }
-    ~ScopedLocale () { uselocale (previous); }
-    locale_t previous;
-};
-#endif
-
-class Encoder
-{
-public:
-#ifndef UNICODE
-    Encoder () : locale (duplocale (uselocale (nullptr)))
-    {
-        if (!locale)
-            throw std::system_error (errno, std::generic_category (), "duplocale");
-    }
-    ~Encoder () { freelocale (locale); }
-    Encoder (Encoder const &) = delete;
-    Encoder & operator= (Encoder const &) = delete;
-#endif
-
-    std::string utf8 (tstring_view value) const
-    {
-        std::string out;
-        out.reserve (value.size ());
-#ifdef UNICODE
-        for (wchar_t cp : value)
-            appendUtf8 (out, cp);
-#else
-        ScopedLocale guard (locale);
-        std::mbstate_t state {};
-        while (!value.empty ())
-        {
-            wchar_t cp {};
-            auto initial = state;
-            auto count = std::mbrtowc (&cp, value.data (), value.size (), &state);
-            if (count == static_cast<std::size_t> (-2))
-            {
-                appendUtf8 (out, helpers::detail::unicode_replacement_character);
-                break;
-            }
-            if (count == static_cast<std::size_t> (-1))
-            {
-                cp = helpers::detail::unicode_replacement_character;
-                // Replace the incomplete prefix as a unit and retry the byte
-                // that broke it. A bad initial byte consumes just itself.
-                count = 0;
-                while (count < value.size ()
-                    && std::mbrtowc (nullptr, value.data () + count, 1, &initial)
-                        == static_cast<std::size_t> (-2))
-                    ++count;
-                state = {};
-            }
-            appendUtf8 (out, cp);
-            value.remove_prefix (count ? count : 1);
-        }
-#endif
-        return out;
-    }
-
-#ifndef UNICODE
-private:
-    locale_t locale;
-#endif
-};
 
 bool
 validFieldName (tstring_view name)
@@ -129,7 +40,7 @@ validFieldName (tstring_view name)
 
 struct JournalAppender::Options
 {
-    Encoder encoder;
+    internal::PosixUtf8Encoder encoder;
     std::string identifier;
     std::vector<std::pair<tstring, std::string>> mappings;
 

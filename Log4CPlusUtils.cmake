@@ -15,3 +15,25 @@ macro(log4cplus_get_version _include_PATH vmajor vminor vpatch)
     list(GET _log4clpus_VER_LIST 4 ${vpatch})
   endif()
 endmacro()
+
+function(log4cplus_check_os_log)
+  include(CheckCXXSourceCompiles)
+  # Link even when a cross toolchain defaults its configure checks to archives.
+  set(CMAKE_TRY_COMPILE_TARGET_TYPE EXECUTABLE)
+  # The SDK and deployment target can change in an existing build tree.
+  unset(LOG4CPLUS_OS_LOG_LINKS CACHE)
+  check_cxx_source_compiles([[
+    #include <TargetConditionals.h>
+    #include <os/log.h>
+    #if !TARGET_OS_OSX || __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ < 101200
+    #error macOS 10.12 or newer required
+    #endif
+    int main() {
+      os_log_t log = os_log_create("org.log4cplus", "configure");
+      if (os_log_type_enabled(log, OS_LOG_TYPE_DEFAULT))
+        os_log_with_type(log, OS_LOG_TYPE_DEFAULT, "%{public}s", "probe");
+      os_release(log);
+    }
+  ]] LOG4CPLUS_OS_LOG_LINKS)
+  set(LOG4CPLUS_HAVE_OS_LOG ${LOG4CPLUS_OS_LOG_LINKS} PARENT_SCOPE)
+endfunction()

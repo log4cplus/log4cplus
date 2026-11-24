@@ -706,6 +706,7 @@ WITH_SYSTEMD_FALSE
 WITH_SYSTEMD_TRUE
 SYSTEMD_LIBS
 SYSTEMD_CFLAGS
+RUN_OS_LOG_TEST
 PKG_CONFIG_LIBDIR
 PKG_CONFIG_PATH
 PKG_CONFIG
@@ -871,6 +872,7 @@ enable_unit_tests
 enable_lto
 enable_profiling
 enable_threads
+with_oslog
 with_systemd
 with_qt
 with_qt5
@@ -1599,6 +1601,9 @@ Optional Packages:
   --with-wchar_t-support  Additionally, produce binaries with log4cplus::tchar
                           as wchar_t. The additional produced binaries will
                           have 'U' suffix. [default=yes]
+  --with-oslog=auto|yes|no
+                          Build the macOS Unified Logging appender (default:
+                          auto).
   --with-systemd          Build the libsystemd journal appender.
   --with-qt               Build liblog4cplusqt4debugappender.
   --with-qt5              Build liblog4cplusqt5debugappender.
@@ -16009,6 +16014,84 @@ printf '%s\n' "no" >&6; }
 		PKG_CONFIG=""
 	fi
 fi
+
+
+# Check whether --with-oslog was given.
+if test ${with_oslog+y}
+then :
+  withval=$with_oslog; case "$withval" in #(
+  auto|yes|no) :
+     ;; #(
+  *) :
+    as_fn_error $? "bad value \"$withval\" for \"--with-oslog\" (expected auto|yes|no)" "$LINENO" 5 ;;
+esac
+else case e in #(
+  e) with_oslog=auto ;;
+esac
+fi
+
+have_os_log=no
+case $host_os in #(
+  darwin*) :
+
+  if test "x$with_oslog" != xno
+then :
+
+    { printf '%s\n' "$as_me:${as_lineno-$LINENO}: checking for macOS Unified Logging" >&5
+printf %s "checking for macOS Unified Logging... " >&6; }
+    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#include <TargetConditionals.h>
+#include <os/log.h>
+#if !TARGET_OS_OSX || __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ < 101200
+#error macOS 10.12 or newer required
+#endif
+
+int
+main (void)
+{
+
+      os_log_t log = os_log_create("org.log4cplus", "configure");
+      if (os_log_type_enabled(log, OS_LOG_TYPE_DEFAULT))
+        os_log_with_type(log, OS_LOG_TYPE_DEFAULT, "%{public}s", "probe");
+      os_release(log);
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"
+then :
+  have_os_log=yes
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam \
+    conftest$ac_exeext conftest.$ac_ext
+    { printf '%s\n' "$as_me:${as_lineno-$LINENO}: result: $have_os_log" >&5
+printf '%s\n' "$have_os_log" >&6; }
+
+fi
+ ;; #(
+  *) :
+     ;;
+esac
+if test "x$have_os_log" = xyes
+then :
+
+printf '%s\n' "#define LOG4CPLUS_HAVE_OS_LOG 1" >>confdefs.h
+
+elif test "x$with_oslog" = xyes
+then :
+  as_fn_error $? "--with-oslog requires a macOS 10.12+ deployment target and a working os/log.h API" "$LINENO" 5
+fi
+if test "x$cross_compiling" = xno
+then :
+  RUN_OS_LOG_TEST=$have_os_log
+else case e in #(
+  e) RUN_OS_LOG_TEST=no ;;
+esac
+fi
+
 
 
 # Check whether --with-systemd was given.

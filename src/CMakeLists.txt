@@ -32,6 +32,7 @@ set (log4cplus_sources
   mdc.cxx
   ndc.cxx
   nullappender.cxx
+  oslogappender.cxx
   objectregistry.cxx
   patternlayout.cxx
   pointer.cxx
@@ -257,6 +258,7 @@ install(FILES ../include/log4cplus/appender.h
               ../include/log4cplus/ndc.h
               ../include/log4cplus/nteventlogappender.h
               ../include/log4cplus/nullappender.h
+              ../include/log4cplus/oslogappender.h
               ../include/log4cplus/socketappender.h
               ../include/log4cplus/streams.h
               ../include/log4cplus/syslogappender.h

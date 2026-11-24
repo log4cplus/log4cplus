@@ -51,6 +51,7 @@
 #include <log4cplus/consoleappender.h>
 #include <log4cplus/fileappender.h>
 #include <log4cplus/journalappender.h>
+#include <log4cplus/oslogappender.h>
 #include <log4cplus/socketappender.h>
 #include <log4cplus/syslogappender.h>
 #include <log4cplus/nullappender.h>

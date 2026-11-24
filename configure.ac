@@ -669,6 +669,35 @@ LOG4CPLUS_DEFINE_MACRO_IF([LOG4CPLUS_HAVE_GETTID],
 
 PKG_PROG_PKG_CONFIG
 
+LOG4CPLUS_ARG_WITH([oslog],
+  [Build the macOS Unified Logging appender (default: auto).],
+  [with_oslog=auto], [auto|yes|no])
+have_os_log=no
+AS_CASE([$host_os], [darwin*], [
+  AS_IF([test "x$with_oslog" != xno], [
+    AC_MSG_CHECKING([for macOS Unified Logging])
+    AC_LINK_IFELSE([AC_LANG_PROGRAM([[
+#include <TargetConditionals.h>
+#include <os/log.h>
+#if !TARGET_OS_OSX || __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ < 101200
+#error macOS 10.12 or newer required
+#endif
+]], [[
+      os_log_t log = os_log_create("org.log4cplus", "configure");
+      if (os_log_type_enabled(log, OS_LOG_TYPE_DEFAULT))
+        os_log_with_type(log, OS_LOG_TYPE_DEFAULT, "%{public}s", "probe");
+      os_release(log);
+]])], [have_os_log=yes])
+    AC_MSG_RESULT([$have_os_log])
+  ])
+])
+AS_IF([test "x$have_os_log" = xyes],
+  [AC_DEFINE([LOG4CPLUS_HAVE_OS_LOG], [1], [Define when macOS Unified Logging is enabled.])],
+  [test "x$with_oslog" = xyes],
+  [AC_MSG_ERROR([--with-oslog requires a macOS 10.12+ deployment target and a working os/log.h API])])
+AS_IF([test "x$cross_compiling" = xno], [RUN_OS_LOG_TEST=$have_os_log], [RUN_OS_LOG_TEST=no])
+AC_SUBST([RUN_OS_LOG_TEST])
+
 LOG4CPLUS_ARG_WITH([systemd],
   [Build the libsystemd journal appender.], [with_systemd=no])
 AS_IF([test "x$with_systemd" = "xyes"],

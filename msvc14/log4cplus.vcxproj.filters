@@ -82,6 +82,9 @@
     <ClCompile Include="..\src\nteventlogappender.cxx">
       <Filter>Appenders</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\oslogappender.cxx">
+      <Filter>Appenders</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\nullappender.cxx">
       <Filter>Appenders</Filter>
     </ClCompile>
@@ -259,6 +262,9 @@
       <Filter>Appenders</Filter>
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\nteventlogappender.h">
+      <Filter>Appenders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\log4cplus\oslogappender.h">
       <Filter>Appenders</Filter>
     </ClInclude>
     <ClInclude Include="..\include\log4cplus\nullappender.h">
