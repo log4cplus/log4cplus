@@ -38,11 +38,16 @@ AC_DEFUN([LOG4CPLUS_CXXFLAGS_ADD_IF_NO_OPTIMIZATION],
      [],
      [AX_CXXFLAGS_GCC_OPTION([$1])])])
 
-dnl Declare --with-foo.
+dnl LOG4CPLUS_ARG_WITH(name, help, action-if-absent, [allowed-values])
+dnl By default, accept yes or no. Supply literal choices separated by |
+dnl to show them in --help and validate against that list instead.
 AC_DEFUN([LOG4CPLUS_ARG_WITH],
   [AC_ARG_WITH([$1],
-     [AS_HELP_STRING([--with-$1], [$2])],
-     [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-$1])],
+     [AS_HELP_STRING([--with-$1]m4_ifval([$4], [=$4]), [$2])],
+     [m4_ifval([$4],
+        [AS_CASE(["$withval"], [$4], [],
+           [AC_MSG_ERROR([bad value "$withval" for "--with-$1" (expected $4)])])],
+        [LOG4CPLUS_CHECK_YESNO([${withval}], [--with-$1])])],
      [$3])])
 
 dnl Declare --enable-bar.

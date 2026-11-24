@@ -375,6 +375,42 @@ Negative libsystemd results go to the appender's error handler. A missing
 journal socket is silently accepted by libsystemd.
 
 
+macOS Unified Logging
+---------------------
+
+`log4cplus::OSLogAppender` sends each layout-formatted event to Apple's
+Unified Logging system. Autotools and CMake enable it automatically when
+the compiler and SDK support the API for a macOS 10.12 or newer deployment
+target. Use `--with-oslog=yes` or `-DLOG4CPLUS_WITH_OSLOG=ON` to require
+it, and `--without-oslog` or `-DLOG4CPLUS_WITH_OSLOG=OFF` to disable it.
+The installed header is `<log4cplus/oslogappender.h>` and the feature
+macro is `LOG4CPLUS_HAVE_OS_LOG`.
+
+    log4cplus.rootLogger=INFO, OS
+    log4cplus.appender.OS=log4cplus::OSLogAppender
+    log4cplus.appender.OS.Subsystem=com.example.checkout
+    log4cplus.appender.OS.Category=payments
+    log4cplus.appender.OS.Privacy=private
+    log4cplus.appender.OS.layout=log4cplus::PatternLayout
+    log4cplus.appender.OS.layout.ConversionPattern=%p [%c] %m
+
+`Subsystem` defaults to `org.log4cplus` and `Category` to `default`.
+`Privacy=private` marks the complete formatted message as private.
+Use `Privacy=public` to make the text visible in Console or in
+`log show --last 5m --predicate 'subsystem == "com.example.checkout"'`.
+Subsystem and category remain visible in either mode.
+
+TRACE and DEBUG map to debug, INFO to info, WARN to default, ERROR to
+error, and FATAL to fault. Custom levels use the same numeric thresholds.
+The appender checks whether the native level is enabled before running
+the layout. It converts wide text directly to UTF-8 and decodes narrow
+text using the `LC_CTYPE` locale active at construction. Invalid sequences
+become U+FFFD and embedded NULs in messages appear as `\0`.
+
+On macOS, `make check` and CTest use `log show` to check
+that a public test message reaches the system log store.
+
+
 Windows and file Appenders
 --------------------------
 

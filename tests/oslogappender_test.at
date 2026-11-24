@@ -1,0 +1,10 @@
+AT_SETUP([macOS Unified Logging delivery])
+AT_KEYWORDS([appenders oslog])
+AT_SKIP_IF([test "x$RUN_OS_LOG_TEST" != xyes])
+AT_CHECK([sh "$abs_srcdir/oslogappender_test.sh" "$abs_top_builddir/propertyconfig_test"],
+  [0], [stdout], [stderr])
+ATX_WCHAR_T_TEST([
+  AT_CHECK([sh "$abs_srcdir/oslogappender_test.sh" "$abs_top_builddir/propertyconfig_testU"],
+    [0], [stdout], [stderr])
+])
+AT_CLEANUP

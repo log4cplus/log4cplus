@@ -124,7 +124,9 @@ noinst_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2) $(am__EXEEXT_3) \
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_12 = $(PYTHON_WRAPU_CXX)
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_13 = log4cplusU.py
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@WITH_PYTHON_TRUE@am__append_14 = _log4cplusU.la
-@ENABLE_TESTS_TRUE@am__append_15 = tests/testsuite.at $(TESTSUITE) tests/atlocal.in
+@ENABLE_TESTS_TRUE@am__append_15 = tests/testsuite.at $(TESTSUITE) \
+@ENABLE_TESTS_TRUE@	tests/atlocal.in \
+@ENABLE_TESTS_TRUE@	tests/oslogappender_test.sh
 @ENABLE_TESTS_TRUE@am__append_16 = appender_test
 @BUILD_WITH_WCHAR_T_SUPPORT_TRUE@@ENABLE_TESTS_TRUE@am__append_17 = appender_testU
 @ENABLE_TESTS_TRUE@@MULTI_THREADED_TRUE@am__append_18 = configandwatch_test
@@ -342,6 +344,7 @@ am__objects_5 = src/liblog4cplus_la-androidappender.lo \
 	src/liblog4cplus_la-nullappender.lo \
 	src/liblog4cplus_la-nteventlogappender.lo \
 	src/liblog4cplus_la-objectregistry.lo \
+	src/liblog4cplus_la-oslogappender.lo \
 	src/liblog4cplus_la-patternlayout.lo \
 	src/liblog4cplus_la-pointer.lo src/liblog4cplus_la-property.lo \
 	src/liblog4cplus_la-queue.lo src/liblog4cplus_la-rootlogger.lo \
@@ -410,6 +413,7 @@ am__objects_8 = src/liblog4cplusU_la-androidappender.lo \
 	src/liblog4cplusU_la-nullappender.lo \
 	src/liblog4cplusU_la-nteventlogappender.lo \
 	src/liblog4cplusU_la-objectregistry.lo \
+	src/liblog4cplusU_la-oslogappender.lo \
 	src/liblog4cplusU_la-patternlayout.lo \
 	src/liblog4cplusU_la-pointer.lo \
 	src/liblog4cplusU_la-property.lo src/liblog4cplusU_la-queue.lo \
@@ -902,6 +906,7 @@ am__depfiles_remade = $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplusU_la-ca
 	src/$(DEPDIR)/liblog4cplusU_la-nteventlogappender.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-nullappender.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-objectregistry.Plo \
+	src/$(DEPDIR)/liblog4cplusU_la-oslogappender.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-patternlayout.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-pointer.Plo \
 	src/$(DEPDIR)/liblog4cplusU_la-property.Plo \
@@ -963,6 +968,7 @@ am__depfiles_remade = $(top_builddir)/catch/extras/$(DEPDIR)/liblog4cplusU_la-ca
 	src/$(DEPDIR)/liblog4cplus_la-nteventlogappender.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-nullappender.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-objectregistry.Plo \
+	src/$(DEPDIR)/liblog4cplus_la-oslogappender.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-patternlayout.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-pointer.Plo \
 	src/$(DEPDIR)/liblog4cplus_la-property.Plo \
@@ -1247,6 +1253,7 @@ QT6_LIBS = @QT6_LIBS@
 QT_CFLAGS = @QT_CFLAGS@
 QT_LIBS = @QT_LIBS@
 RANLIB = @RANLIB@
+RUN_OS_LOG_TEST = @RUN_OS_LOG_TEST@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
@@ -1362,7 +1369,8 @@ LIB_SRC = src/androidappender.cxx src/appenderattachableimpl.cxx \
 	src/loggerimpl.cxx src/loggingevent.cxx src/loggingmacros.cxx \
 	src/loglevel.cxx src/loglog.cxx src/mdc.cxx src/ndc.cxx \
 	src/nullappender.cxx src/nteventlogappender.cxx \
-	src/objectregistry.cxx src/patternlayout.cxx src/pointer.cxx \
+	src/objectregistry.cxx src/oslogappender.cxx \
+	src/patternlayout.cxx src/pointer.cxx src/posixutf8.h \
 	src/property.cxx src/queue.cxx src/rootlogger.cxx \
 	src/snprintf.cxx src/socketappender.cxx src/socketbuffer.cxx \
 	src/socket.cxx src/socket-unix.cxx src/socket-win32.cxx \
@@ -1545,6 +1553,7 @@ liblog4cplus_la_LDFLAGS = $(common_liblog4cplus_la_ldflags)
 @ENABLE_TESTS_TRUE@	tests/local.at \
 @ENABLE_TESTS_TRUE@	tests/loglog_test.at \
 @ENABLE_TESTS_TRUE@	tests/ndc_test.at \
+@ENABLE_TESTS_TRUE@	tests/oslogappender_test.at \
 @ENABLE_TESTS_TRUE@	tests/ostream_test.at \
 @ENABLE_TESTS_TRUE@	tests/patternlayout_test.at \
 @ENABLE_TESTS_TRUE@	tests/performance_test.at \
@@ -2010,6 +2019,8 @@ src/liblog4cplus_la-nteventlogappender.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-objectregistry.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplus_la-oslogappender.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-patternlayout.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplus_la-pointer.lo: src/$(am__dirstamp) \
@@ -2143,6 +2154,8 @@ src/liblog4cplusU_la-nullappender.lo: src/$(am__dirstamp) \
 src/liblog4cplusU_la-nteventlogappender.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplusU_la-objectregistry.lo: src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/liblog4cplusU_la-oslogappender.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/liblog4cplusU_la-patternlayout.lo: src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
@@ -2752,6 +2765,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-nteventlogappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-nullappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-objectregistry.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-oslogappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-patternlayout.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-pointer.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplusU_la-property.Plo@am__quote@ # am--include-marker
@@ -2813,6 +2827,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-nteventlogappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-nullappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-objectregistry.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-oslogappender.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-patternlayout.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-pointer.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/liblog4cplus_la-property.Plo@am__quote@ # am--include-marker
@@ -3169,6 +3184,13 @@ src/liblog4cplus_la-objectregistry.lo: src/objectregistry.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/objectregistry.cxx' object='src/liblog4cplus_la-objectregistry.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-objectregistry.lo `test -f 'src/objectregistry.cxx' || echo '$(srcdir)/'`src/objectregistry.cxx
+
+src/liblog4cplus_la-oslogappender.lo: src/oslogappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-oslogappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-oslogappender.Tpo -c -o src/liblog4cplus_la-oslogappender.lo `test -f 'src/oslogappender.cxx' || echo '$(srcdir)/'`src/oslogappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplus_la-oslogappender.Tpo src/$(DEPDIR)/liblog4cplus_la-oslogappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/oslogappender.cxx' object='src/liblog4cplus_la-oslogappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplus_la-oslogappender.lo `test -f 'src/oslogappender.cxx' || echo '$(srcdir)/'`src/oslogappender.cxx
 
 src/liblog4cplus_la-patternlayout.lo: src/patternlayout.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplus_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplus_la-patternlayout.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplus_la-patternlayout.Tpo -c -o src/liblog4cplus_la-patternlayout.lo `test -f 'src/patternlayout.cxx' || echo '$(srcdir)/'`src/patternlayout.cxx
@@ -3603,6 +3625,13 @@ src/liblog4cplusU_la-objectregistry.lo: src/objectregistry.cxx
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/objectregistry.cxx' object='src/liblog4cplusU_la-objectregistry.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-objectregistry.lo `test -f 'src/objectregistry.cxx' || echo '$(srcdir)/'`src/objectregistry.cxx
+
+src/liblog4cplusU_la-oslogappender.lo: src/oslogappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-oslogappender.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-oslogappender.Tpo -c -o src/liblog4cplusU_la-oslogappender.lo `test -f 'src/oslogappender.cxx' || echo '$(srcdir)/'`src/oslogappender.cxx
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/$(DEPDIR)/liblog4cplusU_la-oslogappender.Tpo src/$(DEPDIR)/liblog4cplusU_la-oslogappender.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/oslogappender.cxx' object='src/liblog4cplusU_la-oslogappender.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/liblog4cplusU_la-oslogappender.lo `test -f 'src/oslogappender.cxx' || echo '$(srcdir)/'`src/oslogappender.cxx
 
 src/liblog4cplusU_la-patternlayout.lo: src/patternlayout.cxx
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblog4cplusU_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/liblog4cplusU_la-patternlayout.lo -MD -MP -MF src/$(DEPDIR)/liblog4cplusU_la-patternlayout.Tpo -c -o src/liblog4cplusU_la-patternlayout.lo `test -f 'src/patternlayout.cxx' || echo '$(srcdir)/'`src/patternlayout.cxx
@@ -4794,6 +4823,7 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-nteventlogappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-nullappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-objectregistry.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplusU_la-oslogappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-patternlayout.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-pointer.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-property.Plo
@@ -4855,6 +4885,7 @@ distclean: distclean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-nteventlogappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-nullappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-objectregistry.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplus_la-oslogappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-patternlayout.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-pointer.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-property.Plo
@@ -5017,6 +5048,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-nteventlogappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-nullappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-objectregistry.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplusU_la-oslogappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-patternlayout.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-pointer.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplusU_la-property.Plo
@@ -5078,6 +5110,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-nteventlogappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-nullappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-objectregistry.Plo
+	-rm -f src/$(DEPDIR)/liblog4cplus_la-oslogappender.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-patternlayout.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-pointer.Plo
 	-rm -f src/$(DEPDIR)/liblog4cplus_la-property.Plo

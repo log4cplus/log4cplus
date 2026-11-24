@@ -30,6 +30,7 @@
 #include <log4cplus/journalappender.h>
 #include <log4cplus/nteventlogappender.h>
 #include <log4cplus/nullappender.h>
+#include <log4cplus/oslogappender.h>
 #include <log4cplus/socketappender.h>
 #include <log4cplus/syslogappender.h>
 #include <log4cplus/win32debugappender.h>
@@ -37,6 +38,9 @@
 #include <log4cplus/win32traceloggingappender.h>
 #include <log4cplus/log4judpappender.h>
 
+#ifdef LOG4CPLUS_WITH_UNIT_TESTS
+#include <catch_amalgamated.hpp>
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 // LOCAL file class definitions
@@ -187,6 +191,9 @@ void initializeFactoryRegistry()
     LOG4CPLUS_REG_APPENDER (reg, Win32DebugAppender);
 #endif
     LOG4CPLUS_REG_APPENDER (reg, SysLogAppender);
+#ifdef LOG4CPLUS_HAVE_OS_LOG
+    LOG4CPLUS_REG_APPENDER (reg, OSLogAppender);
+#endif
 #if defined (LOG4CPLUS_WITH_SYSTEMD)
     LOG4CPLUS_REG_APPENDER (reg, JournalAppender);
 #endif
@@ -218,5 +225,18 @@ void initializeFactoryRegistry()
     LOG4CPLUS_REG_LOCALE (reg4, LOG4CPLUS_TEXT("CLASSIC"), spi::ClassicLocale);
 }
 
+
+#ifdef LOG4CPLUS_WITH_UNIT_TESTS
+CATCH_TEST_CASE ("OSLogAppender factory registration", "[oslog][appender]")
+{
+    auto const registered = spi::getAppenderFactoryRegistry ().exists (
+        LOG4CPLUS_TEXT ("log4cplus::OSLogAppender"));
+#ifdef LOG4CPLUS_HAVE_OS_LOG
+    CATCH_CHECK (registered);
+#else
+    CATCH_CHECK_FALSE (registered);
+#endif
+}
+#endif
 
 } // namespace log4cplus

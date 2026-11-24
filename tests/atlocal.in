@@ -10,3 +10,4 @@ CPPFLAGS="-I$abs_top_builddir/include -I$abs_top_srcdir/include @CPPFLAGS@"
 : ${SED='@SED@'}
 : ${WITH_QT6='@WITH_QT6@'}
 : ${WITH_SYSTEMD='@WITH_SYSTEMD@'}
+: ${RUN_OS_LOG_TEST='@RUN_OS_LOG_TEST@'}

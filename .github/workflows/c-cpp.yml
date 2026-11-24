@@ -41,7 +41,7 @@ jobs:
             #brew update
             brew install boost
             sudo xcode-select -s '/Applications/Xcode_16.4.app/Contents/Developer'
-          configure_flags: ''
+          configure_flags: '--with-oslog=yes'
           build-type: autotools
 
         - os: 'macos-15'
@@ -62,7 +62,7 @@ jobs:
             #brew update
             brew install boost
             sudo xcode-select -s '/Applications/Xcode_16.4.app/Contents/Developer'
-          configure_flags: ''
+          configure_flags: '-DLOG4CPLUS_WITH_OSLOG=ON'
           build-type: cmake
 
     runs-on: ${{ matrix.config.os }}
@@ -89,6 +89,9 @@ jobs:
                 ${{ matrix.config.configure_flags }} \
                 --enable-shared --enable-unit-tests --with-working-locale
             ./config.status --config
+            if [ "${{ runner.os }}" = macOS ]; then
+              grep -qx '#define LOG4CPLUS_HAVE_OS_LOG 1' include/log4cplus/config/defines.hxx
+            fi
         ;;
         #(
         cmake)
@@ -136,6 +139,16 @@ jobs:
           exit 1
         ;;
         esac
+
+    - name: Verify explicit OSLog disablement
+      if: runner.os == 'macOS' && matrix.config.build-type == 'cmake'
+      run: |
+        cmake -S . -B objdir -DLOG4CPLUS_WITH_OSLOG=OFF
+        cmake --build objdir --target unit_tests
+        objdir/bin/unit_tests '[oslog]'
+        if grep -q '^#define LOG4CPLUS_HAVE_OS_LOG' objdir/include/log4cplus/config/defines.hxx; then
+          exit 1
+        fi
 
   freebsd:
     strategy:

@@ -14,6 +14,7 @@ TESTSUITE_AT = \
 	%D%/local.at \
 	%D%/loglog_test.at \
 	%D%/ndc_test.at \
+	%D%/oslogappender_test.at \
 	%D%/ostream_test.at \
 	%D%/patternlayout_test.at \
 	%D%/performance_test.at \
@@ -41,4 +42,5 @@ clean-local:
 	cd "$(top_builddir)/tests" && (test ! -f "$(abs_top_srcdir)/$(TESTSUITE)" || $(SHELL) "$(abs_top_srcdir)/$(TESTSUITE)" --clean)
 
 EXTRA_DIST += %D%/testsuite.at $(TESTSUITE) %D%/atlocal.in
+EXTRA_DIST += %D%/oslogappender_test.sh
 

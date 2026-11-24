@@ -1,6 +1,9 @@
 #ifndef LOG4CPLUS_CONFIG_DEFINES_HXX
 #define LOG4CPLUS_CONFIG_DEFINES_HXX
 
+/* Define when macOS Unified Logging is enabled. */
+#undef LOG4CPLUS_HAVE_OS_LOG
+
 /* Build the libsystemd journal appender. */
 #undef LOG4CPLUS_WITH_SYSTEMD
 

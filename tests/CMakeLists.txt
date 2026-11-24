@@ -37,6 +37,11 @@ add_subdirectory (patternlayout_test)
 add_subdirectory (performance_test)
 add_subdirectory (priority_test)
 add_subdirectory (propertyconfig_test)
+if (LOG4CPLUS_HAVE_OS_LOG AND NOT CMAKE_CROSSCOMPILING)
+  add_test(NAME oslogappender_test
+    COMMAND sh "${CMAKE_CURRENT_SOURCE_DIR}/oslogappender_test.sh"
+            $<TARGET_FILE:propertyconfig_test>)
+endif ()
 #add_subdirectory (socket_test) # I don't know how this test is supposed to be executed
 add_subdirectory (thread_test)
 add_subdirectory (timeformat_test)
